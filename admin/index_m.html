@@ -59,44 +59,111 @@
 			});
 			callback(obj);
 		}
+
+		$(function () {
+			// New Row in Nav
+			$("#addNewNav").click(function () {
+				$("#table_nav>thead").append(`<tr>
+								<td><input type="text" class="nav nav-id "> </td>
+								<td><input type="text" class="nav nav-value "> </td>
+								<td style="width: 5%;"><a
+										class="delete btn-floating btn-small waves-effect waves-light red"><i
+											class="material-icons">delete</i></a>
+								</td>
+							</tr>`)
+			})
+			// Eventhandler for deleting row in Nav
+			$("#table_nav").on("click", ".delete", function () {
+				$(this).parent().parent().remove()
+				generateNav()
+			})
+			// Eventhandler for save change 
+
+			$("#table_nav").on("change", ".nav", function () {
+
+				generateNav()
+			})
+		})
+		function generateNav() {
+			navigation = {}
+			let ids = []
+			let nav = []
+			$(".nav-id").each((key, element) => {
+				ids.push(element.value)
+			})
+			$(".nav-value").each((key, element) => {
+				nav.push(element.value)
+			})
+			ids.forEach((element, key) => {
+				let arrayRows = []
+				let arrayItems = nav[key].split(":")
+				arrayItems.forEach((e) => {
+					arrayRows.push([e])
+				})
+				let arrayNew = []
+				arrayRows.forEach((element, k) => {
+					arrayNew.push([element[0].split(",")])
+				})
+				navigation[element] = { nav: [arrayNew] }
+			});
+		}
 	</script>
 
 </head>
 
 <body>
-
 	<div class="m adapter-container">
-
 		<div class="row">
 			<div class="col s12 m4 l2">
 				<img src="telegram-menu.png" class="logo">
 			</div>
 		</div>
 
-		<!-- Put your content here -->
 		<div class="row">
-			<a class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
-			<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></a>
+			<div class="col s12">
+				<ul class="tabs">
 
-
-		</div>
-
-		<!-- For example columns with settings: -->
-		<div class="row">
-
-
-			<div class="col s6 input-field">
-				<input type="text" class="value" id="option2" />
-				<label for="option2" class="translate">optionneu</label>
-			</div>
-			<div class="col s6 input-field">
-				<input type="text" class="value" id="option1" />
-				<label for="option2" class="translate">optionneu</label>
+					<li class="tab col s3"><a class="active" href="#navigation">Navigation</a></li>
+					<li class="tab col s3"><a href="#todo">Todo</a></li>
+				</ul>
 			</div>
 		</div>
+		<div class="row">
+			<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
+				title="Add new Navigation"><i class="material-icons">add</i></a>
+		</div>
 
+		<div class="row">
+			<div id="navigation" class="col s12">
+				<div class="row" id="elementsNav">
+
+
+				</div>
+				<div class="table-values-div">
+					<table id="table_nav" class="table-values" style="width: 100%;">
+						<thead>
+							<tr>
+								<th id="rooms_col_1" data-name="name" style="width: 20%; background: #64b5f6 "
+									class="translate">ID</th>
+								<th id="rooms_col_3" data-name="WaitForTempIfWindowOpen" data-type="number"
+									style="background: #64b5f6">Navigation</th>
+								<th style="background: #64b5f6"></th>
+							</tr>
+							<!-- <tr>
+								<td><input type="text"> </td>
+								<td><input type="text"> </td>
+								<td style="width: 5%;"><a
+										class="delete btn-floating btn-small waves-effect waves-light red"><i
+											class="material-icons">delete</i></a>
+								</td>
+							</tr> -->
+
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
-
 </body>
 
 </html>
