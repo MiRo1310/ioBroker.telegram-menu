@@ -48,6 +48,7 @@
 		"main": "main.js",
 		"icon": "telegram-menu.png",
 		"enabled": true,
+		"messagebox": true,
 		"extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
 		"readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
 		"loglevel": "info",
@@ -71,8 +72,10 @@
 		]
 	},
 	"native": {
-		"option1": false,
-		"option2": "40"
+		"devices": null,
+		"table_nav": null,
+		"nav_entry": null,
+		"users": null
 	},
 	"objects": [],
 	"instanceObjects": [
@@ -94,6 +97,19 @@
 				"read": true,
 				"write": false,
 				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "navigation",
+			"type": "state",
+			"common": {
+				"role": "value",
+				"name": "Navigation",
+				"type": "json",
+				"read": true,
+				"write": false,
+				"def": {}
 			},
 			"native": {}
 		}

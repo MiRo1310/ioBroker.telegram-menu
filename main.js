@@ -23,7 +23,7 @@ class TelegramMenu extends utils.Adapter {
 		this.on("ready", this.onReady.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
 		// this.on("objectChange", this.onObjectChange.bind(this));
-		// this.on("message", this.onMessage.bind(this));
+		this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
 
@@ -38,8 +38,9 @@ class TelegramMenu extends utils.Adapter {
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		this.log.info("config option1: " + this.config.option1);
-		this.log.info("config option2: " + this.config.option2);
+		// this.log.info("config option1: " + this.config.option1);
+		// this.log.info("config option  22: " + this.config.option2);
+		this.log.info("test");
 
 		/*
 		For every state in the system there has to be also an object of type state
@@ -143,17 +144,18 @@ class TelegramMenu extends utils.Adapter {
 	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
 	//  * @param {ioBroker.Message} obj
 	//  */
-	// onMessage(obj) {
-	// 	if (typeof obj === "object" && obj.message) {
-	// 		if (obj.command === "send") {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info("send command");
+	onMessage(obj) {
+		this.log.debug(obj);
+		if (typeof obj === "object" && obj.message) {
+			if (obj.command === "send") {
+				// e.g. send email or pushover or whatever
+				this.log.info("send command");
 
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-	// 		}
-	// 	}
-	// }
+				// Send response in callback if required
+				if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
+			}
+		}
+	}
 }
 
 if (require.main !== module) {

@@ -8,6 +8,7 @@
 
 	<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+	<script type="text/javscript" src="./js/main.js"></script>
 
 	<script type="text/javascript" src="../../js/translate.js"></script>
 	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
@@ -18,10 +19,14 @@
 	<script type="text/javascript" src="words.js"></script>
 
 	<script type="text/javascript">
+		let _onChange
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
+			_onChange = onChange
+			fillTable("navigation", settings.nav, navTableElement)
+
 			$('.value').each(function () {
 				var $key = $(this);
 				var id = $key.attr('id');
@@ -38,6 +43,7 @@
 						;
 				}
 			});
+
 			onChange(false);
 			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
@@ -57,35 +63,115 @@
 					obj[$this.attr('id')] = $this.val();
 				}
 			});
-			callback(obj);
+			const tableDevices = table2values("navigation");
+			if (checkStringNotEmty()) {
+				obj.nav = tableDevices;
+				callback(obj);
+			}
 		}
 
-		$(function () {
-			// New Row in Nav
-			$("#addNewNav").click(function () {
-				$("#table_nav>thead").append(`<tr>
-								<td><input type="text" class="nav nav-id "> </td>
-								<td><input type="text" class="nav nav-value "> </td>
+		let navTableElement = `<tr>
+					<td><input type="text" data-name="id" class="nav nav-id"></td>
+								<td><input type="text" data-name="nav" class="nav nav-value"></td>
 								<td style="width: 5%;"><a
 										class="delete btn-floating btn-small waves-effect waves-light red"><i
 											class="material-icons">delete</i></a>
 								</td>
-							</tr>`)
+							</tr>`
+
+		$(function () {
+			// New Row in Nav
+			$("#addNewNav").click(function () {
+				$("#table_entry").append(navTableElement)
+			})
+			// New User
+			$("#username").keyup(function () {
+				console.log("test")
+				if ($(this).val() !== "") {
+					$("#addNewUser").removeClass("disabled")
+				} else $("#addNewUser").addClass("disabled")
+			})
+			// Eventhander click add User
+			$("#addNewUser").click(() => {
+				let newUser = $("#username").val()
+
+				$("#user-list").append(`<li class="tab col s1 bg-nav-user"><a name="${newUser}" class="click-user" href="#">${newUser}</a></li>`)
+				$("#username").val("")
+				$("#addNewUser").addClass("disabled")
+				$(".adapter-container").append(`		<div id="tab-nav-user-${newUser}" class="page">		
+			
+			<div class="row">
+				<div id="navigation" class="col s12">
+					<div class="row">
+				<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
+					title="Add new Navigation"><i class="material-icons">add</i></a>
+			</div>
+					<div class="table-values-div" id="${newUser}Navigation" class="value">
+						<table id="table_nav" class="" style="width: 100%;">
+							<thead>
+								<tr>
+									<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">ID
+									</th>
+									<th data-name="Nav" data-type="number" style="background: #64b5f6">
+										Navigation</th>
+									<th style="background: #64b5f6"></th>
+								</tr>
+							</thead>
+							<tbody id="table_entry" class="value table-lines table-values">
+							</tbody>
+						</table>
+					</div>
+				</div>				
+			</div>
+		</div> 
+		<div id="tab-todo-user-${newUser}" class="page">
+			<div class=" row">
+				<div class="col s12">
+					<h1>todo</h1>
+				</div>
+			</div>
+		</div>`)
+
 			})
 			// Eventhandler for deleting row in Nav
 			$("#table_nav").on("click", ".delete", function () {
 				$(this).parent().parent().remove()
+				_onChange()
 				generateNav()
 			})
 			// Eventhandler for save change 
-
-			$("#table_nav").on("change", ".nav", function () {
-
-				generateNav()
+			let activeUser = "all"
+			$("#user-list").on("click", ".click-user", function () {
+				activeUser = $(this).attr("name")
+				$("#btn-nav").attr("href", `#tab-nav-user-${activeUser}`)
+				$("#btn-todo").attr("href", `#tab-todo-user-${activeUser}`)
+				$("adapter-container").load(`#tab-nav-user-${activeUser}`)
 			})
 		})
+		function fillTable(id, data, tableElement) {
+			data.forEach((element, key) => {
+				$(`#${id} tbody`).append(tableElement)
+				if (data[key].id) $(`#${id} tbody tr input.nav-id`)[key].value = data[key].id
+				if (data[key].nav) $(`#${id} tbody tr input.nav-value`)[key].value = data[key].nav
+			})
+
+		}
+		function checkStringNotEmty() {
+			let allOk;
+			$(".nav").each((key, element) => {
+				if (element.value == "") {
+					$(element).parent().addClass("bg-error")
+					allOk = false
+				} else {
+					$(element).parent().removeClass("bg-error")
+					allOk = true
+				}
+			})
+			return allOk
+
+		}
 		function generateNav() {
-			navigation = {}
+			let navigationArray = {}
 			let ids = []
 			let nav = []
 			$(".nav-id").each((key, element) => {
@@ -104,9 +190,17 @@
 				arrayRows.forEach((element, k) => {
 					arrayNew.push([element[0].split(",")])
 				})
-				navigation[element] = { nav: [arrayNew] }
+				navigationArray[element] = { nav: [arrayNew] }
+				return navigationArray
+
+
+				// sendTo(instance, "send", navigationArray, function (result) {
+				// 	console.log(result)
+				// })
+
 			});
 		}
+
 	</script>
 
 </head>
@@ -118,50 +212,67 @@
 				<img src="telegram-menu.png" class="logo">
 			</div>
 		</div>
-
+		<div class="row">
+			<a class="btn-add btn-floating btn-small waves-effect waves-light blue " id="addNewUser"
+				title="Add new User"><i class="material-icons">add</i></a>
+			<div class="col s3">
+				<input id="username" type="text" placeholder="Add new UserName">
+			</div>
+		</div>
 		<div class="row">
 			<div class="col s12">
-				<ul class="tabs">
-
-					<li class="tab col s3"><a class="active" href="#navigation">Navigation</a></li>
-					<li class="tab col s3"><a href="#todo">Todo</a></li>
+				<ul class="tabs" id="user-list">
+					<li class="tab col s1 bg-nav-user"><a class="active click-user" href="#" name="all">All User</a>
+					</li>
 				</ul>
 			</div>
 		</div>
 		<div class="row">
-			<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
-				title="Add new Navigation"><i class="material-icons">add</i></a>
+			<div class="col s12">
+				<ul class="tabs">
+					<li class="tab col s3"><a class="active" id="btn-nav" href="#tab-nav-user-all">Navigation</a></li>
+					<li class="tab col s3"><a id="btn-todo" href="#tab-todo-user-all">Todo</a></li>
+				</ul>
+			</div>
 		</div>
-
-		<div class="row">
-			<div id="navigation" class="col s12">
-				<div class="row" id="elementsNav">
-
-
-				</div>
-				<div class="table-values-div">
-					<table id="table_nav" class="table-values" style="width: 100%;">
-						<thead>
-							<tr>
-								<th id="rooms_col_1" data-name="name" style="width: 20%; background: #64b5f6 "
-									class="translate">ID</th>
-								<th id="rooms_col_3" data-name="WaitForTempIfWindowOpen" data-type="number"
-									style="background: #64b5f6">Navigation</th>
-								<th style="background: #64b5f6"></th>
-							</tr>
-							<!-- <tr>
-								<td><input type="text"> </td>
-								<td><input type="text"> </td>
-								<td style="width: 5%;"><a
-										class="delete btn-floating btn-small waves-effect waves-light red"><i
-											class="material-icons">delete</i></a>
-								</td>
-							</tr> -->
-
-						</thead>
-					</table>
+		<div id="tab-nav-user-all" class="page">
+			<div class="row">
+				<div class="col s12">
+					<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
+						title="Add new Navigation"><i class="material-icons">add</i></a>
 				</div>
 			</div>
+			<div class="row"></div>
+			<div class="row">
+				<div class="col s12">
+					<div class="table-values-div" id="navigation" class="value">
+						<table id="table_nav" class="" style="width: 100%;">
+							<thead>
+								<tr>
+									<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">ID
+									</th>
+									<th data-name="Nav" data-type="number" style="background: #64b5f6">
+										Navigation</th>
+									<th style="background: #64b5f6"></th>
+								</tr>
+							</thead>
+							<tbody id="table_entry" class="value table-lines table-values">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div id="tab-todo-user-all" class="page">
+			<div class=" row">
+				<div class="col s12">
+					<h1>todo</h1>
+
+				</div>
+			</div>
+
 		</div>
 	</div>
 </body>
