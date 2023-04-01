@@ -26,12 +26,15 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: ioBroker/testing-action-check@v2
-              with:
-                  node-version: "16.x"
-                  # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-                  # install-command: 'npm install'
-                  lint: true
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+
+      - name: Install Dependencies
+        run: npm ci
 
     # Runs adapter tests on all supported node versions and OSes
     adapter-tests:
@@ -44,10 +47,17 @@ jobs:
                 os: [ubuntu-latest, windows-latest, macos-latest]
 
         steps:
-            - uses: ioBroker/testing-action-adapter@v2
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  os: ${{ matrix.os }}
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run local tests
+        run: npm test
                   # Uncomment the following line if your adapter cannot be installed using 'npm ci'
                   # install-command: 'npm install'
 # TODO: To enable automatic npm releases, create a token on npmjs.org
