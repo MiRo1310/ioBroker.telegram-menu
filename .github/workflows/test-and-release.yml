@@ -26,15 +26,12 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-
-      - name: Install Dependencies
-        run: npm ci
+            - uses: ioBroker/testing-action-check@v1
+              with:
+                  node-version: "16.x"
+                  # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+                  # install-command: 'npm install'
+                  lint: true
 
     # Runs adapter tests on all supported node versions and OSes
     adapter-tests:
@@ -47,17 +44,10 @@ jobs:
                 os: [ubuntu-latest, windows-latest, macos-latest]
 
         steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Run local tests
-        run: npm test
+            - uses: ioBroker/testing-action-adapter@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  os: ${{ matrix.os }}
                   # Uncomment the following line if your adapter cannot be installed using 'npm ci'
                   # install-command: 'npm install'
 # TODO: To enable automatic npm releases, create a token on npmjs.org
@@ -95,7 +85,7 @@ jobs:
 #          # Then uncomment and customize the following block:
 #          sentry: true
 #          sentry-token: ${{ secrets.SENTRY_AUTH_TOKEN }}
-#          sentry-project: "iobroker-telegram-menu"
-#          sentry-version-prefix: "iobroker.telegram-menu"
+#          sentry-project: "iobroker-template"
+#          sentry-version-prefix: "iobroker.template"
 #          # If your sentry project is linked to a GitHub repository, you can enable the following option
 #          # sentry-github-integration: true
