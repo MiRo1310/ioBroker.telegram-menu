@@ -19,9 +19,9 @@ function isStringEmty(classes) {
 }
 
 function generateNav() {
-	let navigationArray = {};
-	let ids = [];
-	let nav = [];
+	const navigationArray = {};
+	const ids = [];
+	const nav = [];
 	$(".nav-id").each((key, element) => {
 		ids.push(element.value);
 	});
@@ -29,12 +29,12 @@ function generateNav() {
 		nav.push(element.value);
 	});
 	ids.forEach((element, key) => {
-		let arrayRows = [];
-		let arrayItems = nav[key].split(":");
+		const arrayRows = [];
+		const arrayItems = nav[key].split(":");
 		arrayItems.forEach((e) => {
 			arrayRows.push([e]);
 		});
-		let arrayNew = [];
+		const arrayNew = [];
 		arrayRows.forEach((element, k) => {
 			arrayNew.push([element[0].split(",")]);
 		});
@@ -61,20 +61,20 @@ function createNav(id, user) {
 	$(id).append(navElement(user));
 }
 function table2Values(id) {
-	let $div = $(id);
-	let $tbodys = $div.find("tbody");
-	let object = {};
+	const $div = $(id);
+	const $tbodys = $div.find("tbody");
+	const object = {};
 
 	$tbodys.each(function () {
-		let nav = [];
-		let $tbody = $(this);
-		let $trs = $tbody.find("tr");
+		const nav = [];
+		const $tbody = $(this);
+		const $trs = $tbody.find("tr");
 		let user;
 		$trs.each(function () {
 			user = $tbody.attr("id");
-			let call = $(this).find("td input[data-name='call']").val();
-			let value = $(this).find("td input[data-name='value']").val();
-			let text = $(this).find("td input[data-name='text']").val();
+			const call = $(this).find("td input[data-name='call']").val();
+			const value = $(this).find("td input[data-name='value']").val();
+			const text = $(this).find("td input[data-name='text']").val();
 			let radio;
 			if ($(this).find("td input.nav-radio:radio:checked").val()) radio = true;
 			else radio = false;
