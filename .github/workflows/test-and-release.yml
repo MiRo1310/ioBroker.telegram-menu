@@ -1,56 +1,88 @@
+
+Skip to content
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+@MiRo1310
+ioBroker /
+ioBroker.example
+Public
+
+Fork your own copy of ioBroker/ioBroker.example
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+
+    Insights
+
+ioBroker.example/JavaScript/.github/workflows/test-and-release.yml
+@AlCalzone
+AlCalzone Update templates to creator version v2.2.0
+Latest commit 7d04827 Aug 27, 2022
+History
+1 contributor
+92 lines (82 sloc) 3.11 KB
 name: Test and Release
 
 # Run this job on all pushes and pull requests
 # as well as tags with a semantic version
 on:
-    push:
-        branches:
-            - "main"
-        tags:
-            # normal versions
-            - "v[0-9]+.[0-9]+.[0-9]+"
-            # pre-releases
-            - "v[0-9]+.[0-9]+.[0-9]+-**"
-    pull_request: {}
+  push:
+    branches:
+      - "main"
+    tags:
+      # normal versions
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      # pre-releases
+      - "v[0-9]+.[0-9]+.[0-9]+-**"
+  pull_request: {}
 
 # Cancel previous PR/branch runs when a new commit is pushed
 concurrency:
-    group: ${{ github.ref }}
-    cancel-in-progress: true
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    # Performs quick checks before the expensive test runs
-    check-and-lint:
-        if: contains(github.event.head_commit.message, '[skip ci]') == false
+  # Performs quick checks before the expensive test runs
+  check-and-lint:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
 
-        runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: ioBroker/testing-action-check@v1
-              with:
-                  node-version: "16.x"
-                  # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-                  # install-command: 'npm install'
-                  lint: true
+    steps:
+      - uses: ioBroker/testing-action-check@v1
+        with:
+          node-version: '16.x'
+          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+          # install-command: 'npm install'
+          lint: true
 
-    # Runs adapter tests on all supported node versions and OSes
-    adapter-tests:
-        if: contains(github.event.head_commit.message, '[skip ci]') == false
+  # Runs adapter tests on all supported node versions and OSes
+  adapter-tests:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
 
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                node-version: [14.x, 16.x, 18.x]
-                os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-        steps:
-            - uses: ioBroker/testing-action-adapter@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  os: ${{ matrix.os }}
-                  # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-                  # install-command: 'npm install'
-# TODO: To enable automatic npm releases, create a token on npmjs.org
+    steps:
+      - uses: ioBroker/testing-action-adapter@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          os: ${{ matrix.os }}
+          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+          # install-command: 'npm install'
+
+# TODO: To enable automatic npm releases, create a token on npmjs.org 
 # Enter this token as a GitHub secret (with name NPM_TOKEN) in the repository options
 # Then uncomment the following block:
 
@@ -89,3 +121,20 @@ jobs:
 #          sentry-version-prefix: "iobroker.template"
 #          # If your sentry project is linked to a GitHub repository, you can enable the following option
 #          # sentry-github-integration: true
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+ioBroker.example/test-and-release.yml at master · ioBroker/ioBroker.example
