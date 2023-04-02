@@ -39,4 +39,24 @@ label > i[title] {
 
 	margin-right: 20px !important;
 }
+#user_list .tab {
+	text-transform: none;
+}
+h1 {
+	font-size: x-large !important;
+	text-decoration: underline;
+	margin-top: 10px !important;
+}
+#popup {
+	background-color: bisque;
+	width: 95%;
+	height: 400px;
+	z-index: 100;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	display: none;
+}
 /* Add your styles here */

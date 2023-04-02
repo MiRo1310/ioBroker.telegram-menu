@@ -1,14 +1,14 @@
 <html>
 
 <head>
-
 	<!-- Load ioBroker scripts and styles-->
 	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
 	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
 	<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
-	<script type="text/javscript" src="./js/main.js"></script>
+	<script type="text/javascript" src="./js/main.js"></script>
+	<script type="text/javascript" src="./js/component.js"></script>
 
 	<script type="text/javascript" src="../../js/translate.js"></script>
 	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
@@ -20,12 +20,19 @@
 
 	<script type="text/javascript">
 		let _onChange
+		let users = []
+		let activeUser;
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
 			_onChange = onChange
-			fillTable("navigation", settings.nav, navTableElement)
+			users = settings.users
+			activeUser = settings.users[0]
+			createUser("#user_list", settings.users)
+			fillTable("#navigation", settings.nav, newTableRow, users)
+			showHideNav(activeUser)
+			setCheckbox(settings.checkbox)
 
 			$('.value').each(function () {
 				var $key = $(this);
@@ -53,86 +60,82 @@
 		function save(callback) {
 			// example: select elements with class=value and build settings object
 			var obj = {};
+			obj.checkbox = []
 			$('.value').each(function () {
 				var $this = $(this);
 				if ($this.attr('type') === 'checkbox') {
 					obj[$this.attr('id')] = $this.prop('checked');
 				} else if ($this.attr('type') === 'number') {
 					obj[$this.attr('id')] = parseFloat($this.val());
-				} else {
+				} else if (!$this.attr("data-nosave")) {
 					obj[$this.attr('id')] = $this.val();
+
 				}
 			});
-			const tableDevices = table2values("navigation");
-			if (checkStringNotEmty()) {
+			$(".valCheckbox").each(function () {
+				var $this = $(this);
+				if ($this.attr('type') === 'checkbox') {
+					obj.checkbox.push({ [$this.attr('id')]: $this.prop('checked') });
+				}
+
+			})
+			const tableDevices = table2Values("#navigation");
+			console.log(tableDevices)
+
+			if (isStringEmty(".isString")) {
+				console.log(isStringEmty(".isString"))
 				obj.nav = tableDevices;
+				obj.users = users
+
+				console.log(obj)
 				callback(obj);
 			}
 		}
 
-		let navTableElement = `<tr>
-					<td><input type="text" data-name="id" class="nav nav-id"></td>
-								<td><input type="text" data-name="nav" class="nav nav-value"></td>
-								<td style="width: 5%;"><a
-										class="delete btn-floating btn-small waves-effect waves-light red"><i
-											class="material-icons">delete</i></a>
-								</td>
-							</tr>`
+
 
 		$(function () {
-			// New Row in Nav
-			$("#addNewNav").click(function () {
-				$("#table_entry").append(navTableElement)
-			})
-			// New User
+			// New User Show Button
 			$("#username").keyup(function () {
-				console.log("test")
-				if ($(this).val() !== "") {
+				if ($(this).val() !== "" && users.indexOf($("#username").val()) == -1) {
 					$("#addNewUser").removeClass("disabled")
 				} else $("#addNewUser").addClass("disabled")
 			})
 			// Eventhander click add User
+
 			$("#addNewUser").click(() => {
 				let newUser = $("#username").val()
 
-				$("#user-list").append(`<li class="tab col s1 bg-nav-user"><a name="${newUser}" class="click-user" href="#">${newUser}</a></li>`)
-				$("#username").val("")
-				$("#addNewUser").addClass("disabled")
-				$(".adapter-container").append(`		<div id="tab-nav-user-${newUser}" class="page">		
-			
-			<div class="row">
-				<div id="navigation" class="col s12">
-					<div class="row">
-				<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
-					title="Add new Navigation"><i class="material-icons">add</i></a>
-			</div>
-					<div class="table-values-div" id="${newUser}Navigation" class="value">
-						<table id="table_nav" class="" style="width: 100%;">
-							<thead>
-								<tr>
-									<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">ID
-									</th>
-									<th data-name="Nav" data-type="number" style="background: #64b5f6">
-										Navigation</th>
-									<th style="background: #64b5f6"></th>
-								</tr>
-							</thead>
-							<tbody id="table_entry" class="value table-lines table-values">
-							</tbody>
-						</table>
-					</div>
-				</div>				
-			</div>
-		</div> 
-		<div id="tab-todo-user-${newUser}" class="page">
-			<div class=" row">
-				<div class="col s12">
-					<h1>todo</h1>
-				</div>
-			</div>
-		</div>`)
+				if (users.indexOf(newUser) == -1) {
+					users.push(newUser)
+					createUser("#user_list", [newUser])
+					_onChange()
+					$("#username").val("")
+					$("#addNewUser").addClass("disabled")
+				}
+			})
+			// Delete User
+			$("#user_menu").on("click", "#deleteUser", function () {
+				let userdelete = $("#user_list .active").attr("name")
+				users.splice(users.indexOf(userdelete), 1)
+				$("#user_list .active").parent().remove()
+				$(`#tabel_nav tbody[name="${userdelete}"]`)
+				$(`#${userdelete}`).remove()
+				_onChange()
 
 			})
+			// Click User, Show Navigation
+			$("#user_list").on("click", ".click_user", function () {
+				console.log("test")
+				activeUser = $(this).attr("name")
+				showHideNav(activeUser)
+			})
+			// New Row in UserNavigation
+			$("#addNewNav").click(function () {
+				$(`#${activeUser}`).append(newTableRow(activeUser, users))
+			})
+
+
 			// Eventhandler for deleting row in Nav
 			$("#table_nav").on("click", ".delete", function () {
 				$(this).parent().parent().remove()
@@ -140,67 +143,35 @@
 				generateNav()
 			})
 			// Eventhandler for save change 
-			let activeUser = "all"
-			$("#user-list").on("click", ".click-user", function () {
+
+			$("#user_list").on("click", ".click-user", function () {
 				activeUser = $(this).attr("name")
 				$("#btn-nav").attr("href", `#tab-nav-user-${activeUser}`)
 				$("#btn-todo").attr("href", `#tab-todo-user-${activeUser}`)
 				$("adapter-container").load(`#tab-nav-user-${activeUser}`)
 			})
+			// update
+			$("#navigation").change(".value", function () {
+				_onChange()
+			})
+			$(".valCheckbox").change(function () {
+				_onChange()
+			})
+
+
 		})
-		function fillTable(id, data, tableElement) {
-			data.forEach((element, key) => {
-				$(`#${id} tbody`).append(tableElement)
-				if (data[key].id) $(`#${id} tbody tr input.nav-id`)[key].value = data[key].id
-				if (data[key].nav) $(`#${id} tbody tr input.nav-value`)[key].value = data[key].nav
-			})
-
-		}
-		function checkStringNotEmty() {
-			let allOk;
-			$(".nav").each((key, element) => {
-				if (element.value == "") {
-					$(element).parent().addClass("bg-error")
-					allOk = false
-				} else {
-					$(element).parent().removeClass("bg-error")
-					allOk = true
-				}
-			})
-			return allOk
-
-		}
-		function generateNav() {
-			let navigationArray = {}
-			let ids = []
-			let nav = []
-			$(".nav-id").each((key, element) => {
-				ids.push(element.value)
-			})
-			$(".nav-value").each((key, element) => {
-				nav.push(element.value)
-			})
-			ids.forEach((element, key) => {
-				let arrayRows = []
-				let arrayItems = nav[key].split(":")
-				arrayItems.forEach((e) => {
-					arrayRows.push([e])
+		function fillTable(id, data, newTableRow, users) {
+			for (const name in data) {
+				const nav = data[name].nav
+				nav.forEach(function (element, key) {
+					$(`#${name}`).append(newTableRow(name, users))
+					if (element.call) $(`#${name} tr input.nav-call`)[key].value = element.call
+					if (element.value) $(`#${name} tr input.nav-value`)[key].value = element.value
+					if (element.text) $(`#${name}  tr input.nav-text`)[key].value = element.text
+					if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio
 				})
-				let arrayNew = []
-				arrayRows.forEach((element, k) => {
-					arrayNew.push([element[0].split(",")])
-				})
-				navigationArray[element] = { nav: [arrayNew] }
-				return navigationArray
-
-
-				// sendTo(instance, "send", navigationArray, function (result) {
-				// 	console.log(result)
-				// })
-
-			});
-		}
-
+			}
+		}		
 	</script>
 
 </head>
@@ -213,52 +184,66 @@
 			</div>
 		</div>
 		<div class="row">
-			<a class="btn-add btn-floating btn-small waves-effect waves-light blue " id="addNewUser"
+			<div class="col s12">
+				<ul class="tabs">
+					<li class="tab col s3"><a class="active" id="btn-nav" href="#tab-nav">Navigation</a></li>
+					<li class="tab col s3"><a id="btn-todo" href="#tab-todo-user-all">Action</a></li>
+					<li class="tab col s3"><a id="btn-settings" href="#tab-settings">Settings</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<div id="popup">
+					<p>Test</p>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="user_menu">
+			<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled " id="addNewUser"
 				title="Add new User"><i class="material-icons">add</i></a>
+			<a class="delete btn-floating btn-small waves-effect waves-light red" id="deleteUser"><i
+					class="material-icons">delete</i></a>
 			<div class="col s3">
 				<input id="username" type="text" placeholder="Add new UserName">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col s12">
-				<ul class="tabs" id="user-list">
-					<li class="tab col s1 bg-nav-user"><a class="active click-user" href="#" name="all">All User</a>
-					</li>
+				<ul class="tabs" id="user_list">
 				</ul>
 			</div>
 		</div>
+
+
 		<div class="row">
 			<div class="col s12">
-				<ul class="tabs">
-					<li class="tab col s3"><a class="active" id="btn-nav" href="#tab-nav-user-all">Navigation</a></li>
-					<li class="tab col s3"><a id="btn-todo" href="#tab-todo-user-all">Todo</a></li>
-				</ul>
+				<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
+					title="Add new Navigation"><i class="material-icons">add</i></a>
 			</div>
 		</div>
-		<div id="tab-nav-user-all" class="page">
-			<div class="row">
-				<div class="col s12">
-					<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
-						title="Add new Navigation"><i class="material-icons">add</i></a>
-				</div>
-			</div>
-			<div class="row"></div>
+		<div id="tab-nav" class="page">
 			<div class="row">
 				<div class="col s12">
 					<div class="table-values-div" id="navigation" class="value">
 						<table id="table_nav" class="" style="width: 100%;">
 							<thead>
 								<tr>
-									<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">ID
+									<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">Call
+										Text
 									</th>
-									<th data-name="Nav" data-type="number" style="background: #64b5f6">
+									<th data-name="nav" data-type="string" style="background: #64b5f6">
 										Navigation</th>
-									<th style="background: #64b5f6"></th>
+									<th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
+										Text</th>
+									<th data-name="startside" data-type="string"
+										style="background: #64b5f6 ; width: 5%;">
+										Startside</th>
+									<th style="background: #64b5f6; width: 5%;"></th>
 								</tr>
 							</thead>
-							<tbody id="table_entry" class="value table-lines table-values">
-
-							</tbody>
+							<!-- <tbody id="" class="table_entry value table-lines table-values">
+							</tbody> -->
 						</table>
 					</div>
 				</div>
@@ -268,13 +253,62 @@
 		<div id="tab-todo-user-all" class="page">
 			<div class=" row">
 				<div class="col s12">
-					<h1>todo</h1>
-
+					<table id="table_todo" class="" style="width: 100%;">
+						<thead>
+							<tr>
+								<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">Action
+								</th>
+								<th data-name="nav" data-type="string" style="background: #64b5f6">
+									Navigation</th>
+								<th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
+									Text</th>
+								<th data-name="startside" data-type="string" style="background: #64b5f6 ; width: 5%;">
+									Startside</th>
+								<th style="background: #64b5f6; width: 5%;"></th>
+							</tr>
+						</thead>
+					</table>
 				</div>
 			</div>
 
+
 		</div>
-	</div>
+
+		<div id="tab-settings" class="page">
+			<div class=" row">
+				<div class="col s12">
+					<h1>Settings</h1>
+					<div class="row">
+						<div class="input-field col s2">
+							<input placeholder="," id="sepBtn" type="text" class="validate center-align value">
+							<label for="sepBtn">Separation buttons</label>
+						</div>
+						<div class="input-field col s2">
+							<input placeholder="%%" id="sepRow" type="text" class="validate center-align value">
+							<label for="sepRow">Separation Row</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s3">
+							<label>
+								<input id="resKey" type="checkbox" class="filled-in valCheckbox" checked />
+								<span>Resize Keyboard</span>
+							</label>
+						</div>
+						<div class="input-field col s3">
+							<label>
+								<input id="oneTiKey" class="filled-in valCheckbox" type="checkbox" checked>
+								<span>One Time Keyboard</span>
+							</label>
+
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
 </body>
 
 </html>
