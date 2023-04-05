@@ -1,34 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
-@MiRo1310
-ioBroker /
-ioBroker.example
-Public
-
-Fork your own copy of ioBroker/ioBroker.example
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-
-    Insights
-
-ioBroker.example/JavaScript/.github/workflows/test-and-release.yml
-@AlCalzone
-AlCalzone Update templates to creator version v2.2.0
-Latest commit 7d04827 Aug 27, 2022
-History
-1 contributor
-92 lines (82 sloc) 3.11 KB
 name: Test and Release
 
 # Run this job on all pushes and pull requests
