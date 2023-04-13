@@ -120,7 +120,7 @@ function actionElement(user) {
                       ID</th>
                     <th data-name="value" data-type="string" >
                       Value</th>
-                    <th data-name="switch" data-type="string" style="width: 5%;">
+                    <th data-name="switch" data-type="string" style="width: 2%;">
                       Switch</th>
                     <th data-name="edit" style="width: 2%;">
                     </th>
@@ -156,7 +156,7 @@ function newTableRow_Action(action, result) {
     ${editButton}
             </tr>`;
 }
-const actionDeleteButton = `<td style="width: 5%;"><a class="btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>`;
+const actionDeleteButton = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>`;
 const editButton = `<td><a class="btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
 
 function insertVal(result, entry) {

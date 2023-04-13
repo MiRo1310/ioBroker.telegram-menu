@@ -175,7 +175,7 @@
 
 
 			//Delete Row
-			$(".adapter-container").on("click", ".deleteRow", function () {
+			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
 				_onChange()
 				generateNav()
@@ -281,10 +281,11 @@
 				}
 				generatActionRow(activeUser, action, result)
 				_onChange()
-
-
+				resetModal()
 			})
-			// Reset Input Field
+			// Reset Modal Input Fields
+			$("#btn_action_close").on("click", function () { resetModal() })
+
 
 			// Edit entrys
 		})
@@ -323,7 +324,7 @@
 				<div class="modal-content">
 					<div class="row">
 						<div class="input-field col s3">
-							<select id="select_action">
+							<select id="select_action" class="reset">
 								<option value="" disabled selected>Choose your option</option>
 								<option value="get">GetState</option>
 								<option value="set">SetState</option>
@@ -331,7 +332,7 @@
 							<label>What is to do?</label>
 						</div>
 						<div class="input-field col s3">
-							<select id="select_trigger" class="materialSelect">
+							<select id="select_trigger" class="materialSelect reset">
 								<option value="" disabled selected>Choose your option</option>
 							</select>
 							<label>Trigger</label>
@@ -339,11 +340,11 @@
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<a class="btn-floating btn-small waves-effect waves-light blue" id="btn_action_newRow"
-								title="Add new Line"><i class="material-icons">add</i></a>
+							<a class="resetHide btn-floating btn-small waves-effect waves-light blue"
+								id="btn_action_newRow" title="Add new Line"><i class="material-icons">add</i></a>
 						</div>
 					</div>
-					<table id="tab_set">
+					<table id="tab_set" class="resetHide">
 						<thead>
 							<tr>
 								<th style="width: 30%; background: #64b5f6 ">ID</th>
@@ -355,15 +356,15 @@
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
-								<td> <input class="set_id" type="text">
+								<td> <input class="set_id resetInput" type="text">
 								</td>
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>
 								<td>
-									<input class="set_value" type="text">
+									<input class="set_value resetInput" type="text">
 								</td>
 								<td>
-									<input type="checkbox" class="filled-in switch_checkbox" />
+									<input type="checkbox" class="filled-in switch_checkbox " />
 									<span></span>
 								</td>
 								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
@@ -372,7 +373,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<table id="tab_get">
+					<table id="tab_get" class="resetHide">
 						<thead>
 							<tr>
 								<th style="width: 30%;">ID</th>
@@ -384,12 +385,12 @@
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
-								<td> <input class="get_id" type="text">
+								<td> <input class="get_id resetInput" type="text">
 								</td>
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>
 								<td>
-									<input class="get_text" type="text">
+									<input class="get_text resetInput" type="text">
 								</td>
 								<td><label>
 										<input type="checkbox" class="filled-in newline_checkbox" checked />

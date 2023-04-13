@@ -104,14 +104,10 @@ function table2Values(id) {
 			}
 			if (actionSet) {
 				object.action[saveName].set.push(actionSet);
-				console.log(actionSet);
-				console.log(object);
 			}
-			console.log(object);
+
 			if (actionGet) {
-				console.log(actionGet);
 				object.action[saveName].get.push(actionGet);
-				console.log(object);
 			}
 		});
 	});
@@ -209,4 +205,18 @@ function fillTableAction(data) {
 
 function generatActionRow(user, action, result) {
 	$(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
+}
+
+function resetModal() {
+	$(".reset").each(function () {
+		$(this).val("");
+		$(this).select();
+	});
+
+	$(".resetInput").each(function () {
+		$(this).val("");
+	});
+	$(".resetHide").each(function () {
+		$(this).hide();
+	});
 }
