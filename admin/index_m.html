@@ -40,6 +40,8 @@
 			activeUser = settings.users[0]
 			createUser("#user_list", settings.users)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
+			fillTableAction(settings.data.action)
+
 			showHideUserEntry(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
@@ -75,13 +77,17 @@
 				var $this = $(this);
 				if ($this.attr('type') === 'checkbox') {
 					obj[$this.attr('id')] = $this.prop('checked');
+
 				} else if ($this.attr('type') === 'number') {
 					obj[$this.attr('id')] = parseFloat($this.val());
+
 				} else if (!$this.attr("data-nosave")) {
+					console.log($this)
 					obj[$this.attr('id')] = $this.val();
 
 				}
 			});
+
 			$(".valCheckbox").each(function () {
 				var $this = $(this);
 				if ($this.attr('type') === 'checkbox') {
@@ -89,6 +95,7 @@
 				}
 
 			})
+
 
 			const tableDevices = table2Values(".saveTable");
 
@@ -259,7 +266,6 @@
 					$($table).find(`input.switch_checkbox`).each(function () {
 						result.checkboxes.push($(this).is(":checked"))
 					})
-
 				}
 
 				if (action === "get") {
@@ -270,12 +276,9 @@
 						result.text.push($(this).val())
 					})
 					$($table).find(`input.newline_checkbox`).each(function () {
-						console.log(this)
 						result.checkboxes.push($(this).is(":checked"))
 					})
-
 				}
-				console.log(result)
 				generatActionRow(activeUser, action, result)
 				_onChange()
 
@@ -352,7 +355,7 @@
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
-								<td> <input placeholder="ID" class="set_id" type="text">
+								<td> <input class="set_id" type="text">
 								</td>
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>
@@ -381,7 +384,7 @@
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
-								<td> <input placeholder="ID" class="get_id" type="text">
+								<td> <input class="get_id" type="text">
 								</td>
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>

@@ -52,7 +52,7 @@ function createSelectTrigger(list) {
 function newTrInAction(val) {
 	if (val === "get")
 		return /*html*/ `<tr>
-  <td> <input placeholder="ID" class="get_id" type="text">
+  <td> <input  class="get_id" type="text">
   </td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
     title="Get ID"><i class="material-icons">edit</i></a></td>
@@ -61,7 +61,7 @@ function newTrInAction(val) {
   </td>
   <td><label>
       <input type="checkbox" class="filled-in newline_checkbox" checked />
-      <span>Newline</span>
+      <span></span>
     </label></td>
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i
 											class="material-icons">delete</i></a></td>
@@ -69,7 +69,7 @@ function newTrInAction(val) {
 </tr>`;
 	if (val === "set")
 		return /*html*/ `<tr>
-  <td> <input placeholder="ID" class="set_id" type="text">
+  <td> <input  class="set_id" type="text">
   </td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
       title="Get ID"><i class="material-icons">edit</i></a></td>
@@ -77,7 +77,8 @@ function newTrInAction(val) {
     <input class="set_value" type="text">
   </td>
   <td><label>
-      <input type="checkbox" class="filled-in switch_checkbox" />      
+      <input type="checkbox" class="filled-in switch_checkbox" /> 
+      <span></span>     
     </label></td>
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i
 											class="material-icons">delete</i></a></td>
@@ -88,7 +89,7 @@ function newTrInAction(val) {
 function actionElement(user) {
 	return /*html*/ `<div class="row user_${user} saveTable">
           <div class="col s12">
-            <div>
+            <div >
               <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>GetState</p>
               <table style="display: none;" class="text-small">
                 <thead>
@@ -161,7 +162,7 @@ const editButton = `<td><a class="btn-floating btn-small waves-effect waves-ligh
 function insertVal(result, entry) {
 	let newEntry = "";
 	result[entry].forEach(function (element) {
-		newEntry += /*html*/ `<p class="value" data-name=${entry}> ${element}</p>`;
+		newEntry += /*html*/ `<p data-name=${entry}> ${element}</p>`;
 	});
 	return newEntry;
 }

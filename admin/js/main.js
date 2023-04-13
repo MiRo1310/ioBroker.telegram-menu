@@ -56,15 +56,25 @@ function createUser(id, users) {
 
 function table2Values(id) {
 	const $tbodys = $(id).find("tbody");
-	const object = { nav: {}, action: {} };
+	const object = {
+		nav: {},
+		action: {},
+	};
+	// console.log("Anzahl Tables " + $tbodys.length);
+	let i = 0;
 	$tbodys.each(function () {
-		const nav = [],
-			action = [];
+		const nav = [];
+		let actionSet, actionGet;
 		const $tbody = $(this);
+
 		const $trs = $tbody.find("tr");
 		let saveName;
+		saveName = $tbody.attr("name");
+		if (i == 0) {
+			object.action[saveName] = { set: [], get: [] };
+		}
+		i++;
 		$trs.each(function () {
-			saveName = $tbody.attr("name");
 			const dataName = $tbody.attr("data-name");
 			if (dataName === "nav") {
 				nav.push({
@@ -75,38 +85,54 @@ function table2Values(id) {
 				});
 				object.nav[saveName] = nav;
 			}
-			let id = [];
 
-			//TODO - Function Global machen
-			$(this)
-				.find("p[data-name='IDs']")
-				.each(function () {
-					id.push($(this).html());
-				});
-			console.log(id);
-			if (dataName === "set" || dataName === "get")
-				action.push({
-					id: $(this).find("p[data-name='IDs']").html(),
-					checkbox: $(this).find("p[data-name='checkboxes']").is(":checked"),
-					trigger: $(this).find("td[data-name='trigger']").html(),
-				});
 			if (dataName === "set") {
-				action[0].value = $(this).find("p[data-name='values']").html();
-				object.action[saveName] = { set: action };
+				actionSet = {
+					IDs: dataToArray(this, "p[data-name='IDs']"),
+					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
+					trigger: dataToArray(this, "td[data-name='trigger']"),
+					values: dataToArray(this, "p[data-name='values']"),
+				};
 			}
 			if (dataName === "get") {
-				action[0].text = $(this).find("p[data-name='text']").html();
-				object.action[saveName] = { get: action };
+				actionGet = {
+					IDs: dataToArray(this, "p[data-name='IDs']"),
+					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
+					trigger: dataToArray(this, "td[data-name='trigger']"),
+					text: dataToArray(this, "p[data-name='text']"),
+				};
+			}
+			if (actionSet) {
+				object.action[saveName].set.push(actionSet);
+				console.log(actionSet);
+				console.log(object);
+			}
+			console.log(object);
+			if (actionGet) {
+				console.log(actionGet);
+				object.action[saveName].get.push(actionGet);
+				console.log(object);
 			}
 		});
-
-		if (action.length > 1) {
-		}
 	});
 	return object;
 }
+/**
+ *
+ * @param {*} _this
+ * @param {string} selector
+ * @returns
+ */
 function dataToArray(_this, selector) {
 	let val = [];
+	if (selector.indexOf("checkboxes") >= 0) {
+		$(_this)
+			.find(selector)
+			.each(function () {
+				val.push($(this).is(":checked"));
+			});
+		return val;
+	}
 	$(_this)
 		.find(selector)
 		.each(function () {
@@ -168,7 +194,19 @@ function fillTable(id, data, newTableRow_Nav, users) {
 	}
 }
 
-//TODO - Anpassen
+function fillTableAction(data) {
+	console.log(data);
+	if (data) {
+		for (const name in data) {
+			for (const todo in data[name]) {
+				data[name][todo].forEach(function (element) {
+					generatActionRow(name, todo, element);
+				});
+			}
+		}
+	}
+}
+
 function generatActionRow(user, action, result) {
 	$(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
