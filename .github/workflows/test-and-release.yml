@@ -90,20 +90,3 @@ jobs:
 #          sentry-version-prefix: "iobroker.template"
 #          # If your sentry project is linked to a GitHub repository, you can enable the following option
 #          # sentry-github-integration: true
-Footer
-© 2023 GitHub, Inc.
-Footer navigation
-
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-ioBroker.example/test-and-release.yml at master · ioBroker/ioBroker.example
