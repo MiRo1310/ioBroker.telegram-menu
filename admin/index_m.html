@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
 	<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+
 	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 	<script type="text/javascript" src="./js/component.js"></script>
@@ -13,6 +14,14 @@
 	<script type="text/javascript" src="../../js/translate.js"></script>
 	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
 	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+	<link type="text/css" rel="stylesheet" href="../../lib/css/themes/jquery-ui/default/jquery-ui.min.css">
+	<link type="text/css" rel="stylesheet" href="../../lib/css/fancytree/ui.fancytree.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../lib/css/iob/selectID.css" />
+
+	<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+	<script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
+	<script type="text/javascript" src="../../lib/js/selectID.js"></script>
 
 	<!-- Load our own files -->
 	<link rel="stylesheet" type="text/css" href="style.css" />
@@ -30,9 +39,10 @@
 			users = settings.users
 			activeUser = settings.users[0]
 			createUser("#user_list", settings.users)
-			fillTable("#navigation", settings.nav, newTableRow, users)
-			showHideNav(activeUser)
+			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
+			showHideUserEntry(activeUser)
 			setCheckbox(settings.checkbox)
+			generateSelectTrigger(activeUser)
 
 			$('.value').each(function () {
 				var $key = $(this);
@@ -79,13 +89,14 @@
 				}
 
 			})
-			const tableDevices = table2Values("#navigation");
-			console.log(tableDevices)
+
+			const tableDevices = table2Values(".saveTable");
 
 			if (isStringEmty(".isString")) {
-				console.log(isStringEmty(".isString"))
-				obj.nav = tableDevices;
+				obj.data = tableDevices;
 				obj.users = users
+				generateSelectTrigger(activeUser)
+
 
 				console.log(obj)
 				callback(obj);
@@ -101,8 +112,8 @@
 					$("#addNewUser").removeClass("disabled")
 				} else $("#addNewUser").addClass("disabled")
 			})
-			// Eventhander click add User
 
+			// Eventhander click add User
 			$("#addNewUser").click(() => {
 				let newUser = $("#username").val()
 
@@ -124,20 +135,40 @@
 				_onChange()
 
 			})
-			// Click User, Show Navigation
+			// Click User, Show User Navigation, Action
 			$("#user_list").on("click", ".click_user", function () {
-				console.log("test")
 				activeUser = $(this).attr("name")
-				showHideNav(activeUser)
+				showHideUserEntry(activeUser)
 			})
-			// New Row in UserNavigation
-			$("#addNewNav").click(function () {
-				$(`#${activeUser}`).append(newTableRow(activeUser, users))
+			// Click Nav Buttons
+			let activeBtn = "nav"
+			$("header ul").on("click", ".btn_nav", function () {
+				activeBtn = $(this).attr("name")
+				if (activeBtn === "nav") {
+					$("#btn_add")
+						.attr("title", "Add new Navigation")
+						.attr("name", "nav")
+						.attr("data-target", "")
+						.show()
+				} else if (activeBtn === "action") {
+					$("#btn_add")
+						.attr("title", "Add new Action")
+						.attr("name", "action")
+						.attr("data-target", "tab_action")
+						.addClass("modal-trigger")
+						.show()
+				}
+				else $("#btn_add").hide().attr("name", "settings")
+			})
+			// Add Button New Row 
+			$("#btn_add").click(function () {
+				if (activeBtn === "nav") $(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
+				if (activeBtn === "action") $("#tab_action").show()
 			})
 
 
-			// Eventhandler for deleting row in Nav
-			$("#table_nav").on("click", ".delete", function () {
+			//Delete Row
+			$(".adapter-container").on("click", ".deleteRow", function () {
 				$(this).parent().parent().remove()
 				_onChange()
 				generateNav()
@@ -147,7 +178,7 @@
 			$("#user_list").on("click", ".click-user", function () {
 				activeUser = $(this).attr("name")
 				$("#btn-nav").attr("href", `#tab-nav-user-${activeUser}`)
-				$("#btn-todo").attr("href", `#tab-todo-user-${activeUser}`)
+				$("#btn_action").attr("href", `#tab-todo-user-${activeUser}`)
 				$("adapter-container").load(`#tab-nav-user-${activeUser}`)
 			})
 			// update
@@ -157,112 +188,256 @@
 			$(".valCheckbox").change(function () {
 				_onChange()
 			})
-
-
-		})
-		function fillTable(id, data, newTableRow, users) {
-			for (const name in data) {
-				const nav = data[name].nav
-				nav.forEach(function (element, key) {
-					$(`#${name}`).append(newTableRow(name, users))
-					if (element.call) $(`#${name} tr input.nav-call`)[key].value = element.call
-					if (element.value) $(`#${name} tr input.nav-value`)[key].value = element.value
-					if (element.text) $(`#${name}  tr input.nav-text`)[key].value = element.text
-					if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio
+			//ID Dialog
+			$(".adapter-container").on("click", ".btn_getID", function () {
+				let $element = $(this).parent().prev().children("input")
+				showSelectIdDialog($element.val(), function (newID) {
+					$element.val(newID)
 				})
-			}
-		}
-
-		var selectId;
-		function initSelectId(callback) {
-			if (selectId) {
-				return callback(selectId);
-			}
-			socket.emit('getObjects', function (err, objs) {
-				selectId = $('#dialog-select-member').selectId('init', {
-					noMultiselect: true,
-					objects: objs,
-					imgPath: '../../lib/css/fancytree/',
-					filter: { type: 'state' },
-					name: 'scenes-select-state',
-					texts: {
-						select: _('Select'),
-						cancel: _('Cancel'),
-						all: _('All'),
-						id: _('ID'),
-						name: _('Name'),
-						role: _('Role'),
-						room: _('Room'),
-						value: _('Value'),
-						selectid: _('Select ID'),
-						from: _('From'),
-						lc: _('Last changed'),
-						ts: _('Time stamp'),
-						wait: _('Processing...'),
-						ack: _('Acknowledged'),
-						selectAll: _('Select all'),
-						unselectAll: _('Deselect all'),
-						invertSelection: _('Invert selection')
-					},
-					columns: ['image', 'name', 'role', 'room']
-				});
-				callback(selectId);
 			});
-		}
+
+			//Modal
+			$('.modal').modal()
+
+			// Select Inizializieren
+			$("select").select();
+			// Select Updaten
+			$('select').on('DOMSubtreeModified', function () {
+				$(this).select();
+			});
+
+			// Tables in Action Verstecken und Button new Row
+			$(".modal-content table").hide()
+			$("#btn_action_newRow").hide()
+
+			// Bei Änderungen von Select in Action Table anzeigen
+			$("#select_action").on("change", function () {
+				$("#btn_action_newRow").show()
+				$(".modal-content table").hide()
+				$(`#tab_${$(this).val()}`).show()
+			})
+			// New Row in Action 
+			$("#btn_action_newRow").on("click", function () {
+				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val()))
+
+			})
+			// Global delete Hide Table
+			$("div.adapter-container").on("DOMSubtreeModified", "table tbody", function () {
+				if ($(this).children("tr").length > 1) {
+					$(this).find($("a.deleteRow")).removeAttr("disabled")
+				} else $(this).find($("a.deleteRow")).attr("disabled", "disabled")
+			})
+
+			// Show Hide Tbody
+			$(".adapter-container").on("click", ".showHideMenu", function () {
+				$(this).siblings("table").toggle()
+				if ($(this).siblings("table").attr("style") === "display: none;") {
+					$(this).find("i").html("chevron_right")
+				} else $(this).find("i").html("expand_more")
+			})
+			// Save from Action Input Field
+			$("#btn_action_set").on("click", function () {
+				let action = $("#select_action").val()
+				let $table = $(`#tab_${action} tbody`)
+				let result = {
+					IDs: [],
+					values: [],
+					checkboxes: [],
+					text: [],
+					trigger: $("#select_trigger").val(),
+					action: action
+
+				}
+
+				if (action === "set") {
+					$($table).find(`input.set_id`).each(function () {
+						result.IDs.push($(this).val())
+					})
+					$($table).find(`input.set_value`).each(function () {
+						result.values.push($(this).val())
+					})
+					$($table).find(`input.switch_checkbox`).each(function () {
+						result.checkboxes.push($(this).is(":checked"))
+					})
+
+				}
+
+				if (action === "get") {
+					$($table).find(`input.get_id`).each(function () {
+						result.IDs.push($(this).val())
+					})
+					$($table).find(`input.get_text`).each(function () {
+						result.text.push($(this).val())
+					})
+					$($table).find(`input.newline_checkbox`).each(function () {
+						console.log(this)
+						result.checkboxes.push($(this).is(":checked"))
+					})
+
+				}
+				console.log(result)
+				generatActionRow(activeUser, action, result)
+				_onChange()
+
+
+			})
+			// Reset Input Field
+
+			// Edit entrys
+		})
+
+
 	</script>
 
 </head>
 
-<body>
+<body id="body">
 	<div class="m adapter-container">
-		<div class="row">
-			<div class="col s12 m4 l2">
-				<img src="telegram-menu.png" class="logo">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12">
-				<ul class="tabs">
-					<li class="tab col s3"><a class="active" id="btn-nav" href="#tab-nav">Navigation</a></li>
-					<li class="tab col s3"><a id="btn-todo" href="#tab-todo-user-all">Action</a></li>
-					<li class="tab col s3"><a id="btn-settings" href="#tab-settings">Settings</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12">
-				<div id="popup">
-					<p>Test</p>
+		<header class="row">
+			<div class="row">
+				<div class="col s12 m4 l2">
+					<img src="telegram-menu.png" class="logo">
 				</div>
 			</div>
-		</div>
-		<div class="row" id="user_menu">
-			<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled " id="addNewUser"
-				title="Add new User"><i class="material-icons">add</i></a>
-			<a class="delete btn-floating btn-small waves-effect waves-light red" id="deleteUser"><i
-					class="material-icons">delete</i></a>
-			<div class="col s3">
-				<input id="username" type="text" placeholder="Add new UserName">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12">
-				<ul class="tabs" id="user_list">
-				</ul>
-			</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col s12">
-				<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="addNewNav"
-					title="Add new Navigation"><i class="material-icons">add</i></a>
-			</div>
-		</div>
-		<div id="tab-nav" class="page">
 			<div class="row">
 				<div class="col s12">
-					<div class="table-values-div" id="navigation" class="value">
+					<ul class="tabs">
+						<li class="tab col s3"><a class="active btn_nav" name="nav" id="btn-nav"
+								href="#tab-nav">Navigation</a>
+						</li>
+						<li class="tab col s3"><a class="btn_nav" name="action" id="btn_action"
+								href="#tab-action">Action</a>
+						</li>
+						<li class="tab col s3"><a class="btn_nav" name="set" id="btn_settings"
+								href="#tab-settings">Settings</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="tab_action" class="modal modal-fixed-footer">
+				<div class="modal-header">
+				</div>
+				<div class="modal-content">
+					<div class="row">
+						<div class="input-field col s3">
+							<select id="select_action">
+								<option value="" disabled selected>Choose your option</option>
+								<option value="get">GetState</option>
+								<option value="set">SetState</option>
+							</select>
+							<label>What is to do?</label>
+						</div>
+						<div class="input-field col s3">
+							<select id="select_trigger" class="materialSelect">
+								<option value="" disabled selected>Choose your option</option>
+							</select>
+							<label>Trigger</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<a class="btn-floating btn-small waves-effect waves-light blue" id="btn_action_newRow"
+								title="Add new Line"><i class="material-icons">add</i></a>
+						</div>
+					</div>
+					<table id="tab_set">
+						<thead>
+							<tr>
+								<th style="width: 30%; background: #64b5f6 ">ID</th>
+								<th style="width: 5%; background: #64b5f6 "></th>
+								<th style="background: #64b5f6 ">Value</th>
+								<th style="width: 8%; background: #64b5f6 ">Switch</th>
+								<th style="width: 3%; background: #64b5f6 "></th>
+							</tr>
+						</thead>
+						<tbody class="table-lines table-values">
+							<tr>
+								<td> <input placeholder="ID" class="set_id" type="text">
+								</td>
+								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
+										title="Get ID"><i class="material-icons">edit</i></a></td>
+								<td>
+									<input class="set_value" type="text">
+								</td>
+								<td>
+									<input type="checkbox" class="filled-in switch_checkbox" />
+									<span></span>
+								</td>
+								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
+											class="material-icons" disabled>delete</i></a></td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table id="tab_get">
+						<thead>
+							<tr>
+								<th style="width: 30%;">ID</th>
+								<th style="width: 5%;"></th>
+								<th>Text</th>
+								<th style="width: 8%;">Newline</th>
+								<th style="width: 3%;"></th>
+							</tr>
+						</thead>
+						<tbody class="table-lines table-values">
+							<tr>
+								<td> <input placeholder="ID" class="get_id" type="text">
+								</td>
+								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
+										title="Get ID"><i class="material-icons">edit</i></a></td>
+								<td>
+									<input class="get_text" type="text">
+								</td>
+								<td><label>
+										<input type="checkbox" class="filled-in newline_checkbox" checked />
+										<span></span>
+									</label></td>
+
+								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
+											class="material-icons">delete</i></a></td>
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<a class="modal-action modal-close waves-effect waves-green btn btn-set" id="btn_action_set"><i
+							class="large material-icons left">check</i><span class="translate">Select</span></a>
+					<a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
+							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+				</div>
+
+			</div>
+			<div class="row" id="user_menu">
+				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled " id="addNewUser"
+					title="Add new User"><i class="material-icons">add</i></a>
+				<a class="delete btn-floating btn-small waves-effect waves-light red" id="deleteUser"><i
+						class="material-icons">delete</i></a>
+				<div class="col s3">
+					<input id="username" type="text" placeholder="Add new UserName">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12">
+					<ul class="tabs" id="user_list">
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col s12">
+					<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="btn_add"
+						title="Add new Navigation"><i class="material-icons">add</i></a>
+				</div>
+			</div>
+		</header>
+		<div id="tab-nav" class="">
+			<div class="row">
+				<div class="col s12">
+					<div class="table-values-div saveTable" id="navigation">
 						<table id="table_nav" class="" style="width: 100%;">
 							<thead>
 								<tr>
@@ -279,51 +454,34 @@
 									<th style="background: #64b5f6; width: 5%;"></th>
 								</tr>
 							</thead>
-							<!-- <tbody id="" class="table_entry value table-lines table-values">
-							</tbody> -->
 						</table>
 					</div>
 				</div>
 
 			</div>
 		</div>
-		<div id="tab-todo-user-all" class="page">
-			<div class=" row">
-				<div class="col s12">
-					<table id="table_todo" class="" style="width: 100%;">
-						<thead>
-							<tr>
-								<th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">Action
-								</th>
-								<th data-name="nav" data-type="string" style="background: #64b5f6">
-									Navigation</th>
-								<th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
-									Text</th>
-								<th data-name="startside" data-type="string" style="background: #64b5f6 ; width: 5%;">
-									Startside</th>
-								<th style="background: #64b5f6; width: 5%;"></th>
-							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-
+		<div id="tab-action">
 
 		</div>
 
-		<div id="tab-settings" class="page">
+		<div id="tab-settings">
 			<div class=" row">
 				<div class="col s12">
 					<h1>Settings</h1>
 					<div class="row">
-						<div class="input-field col s2">
+						<!-- <div class="input-field col s2">
 							<input placeholder="," id="sepBtn" type="text" class="validate center-align value">
 							<label for="sepBtn">Separation buttons</label>
 						</div>
-						<div class="input-field col s2">
-							<input placeholder="%%" id="sepRow" type="text" class="validate center-align value">
+						<div class="input-field col s2 offset-s2">
+							<input placeholder="&&" id="sepRow" type="text" class="validate center-align value">
 							<label for="sepRow">Separation Row</label>
-						</div>
+						</div> -->
+						<!-- <div class="input-field col s2 offset-s2">
+							<input placeholder="%%" id="placeholder_text" type="text"
+								class="validate center-align value">
+							<label for="sepRow">Placeholder Send Text</label>
+						</div> -->
 					</div>
 					<div class="row">
 						<div class="input-field col s3">
@@ -345,6 +503,28 @@
 				</div>
 
 			</div>
+		</div>
+		<div class="m material-dialogs">
+			<div id="dialog-select-member" class="modal modal-fixed-footer">
+				<div class="modal-content">
+					<div class="row">
+						<div class="col s12 title"></div>
+					</div>
+					<div class="row">
+						<div class="col s12 dialog-content">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+							class="large material-icons left">check</i><span class="translate">Select</span></a>
+					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 </body>
 
