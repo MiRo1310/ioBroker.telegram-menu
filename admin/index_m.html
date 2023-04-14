@@ -352,13 +352,13 @@
 			<div class="row">
 				<div class="col s12">
 					<ul class="tabs">
-						<li class="tab col s3"><a class="active btn_nav" name="nav" id="btn-nav"
+						<li class="tab col s3"><a class="active btn_nav translate" name="nav" id="btn-nav"
 								href="#tab-nav">Navigation</a>
 						</li>
-						<li class="tab col s3"><a class="btn_nav" name="action" id="btn_action"
+						<li class="tab col s3"><a class="btn_nav translate" name="action" id="btn_action"
 								href="#tab-action">Action</a>
 						</li>
-						<li class="tab col s3"><a class="btn_nav" name="set" id="btn_settings"
+						<li class="tab col s3"><a class="btn_nav translate" name="set" id="btn_settings"
 								href="#tab-settings">Settings</a>
 						</li>
 					</ul>
@@ -455,9 +455,9 @@
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set" id="btn_action_set"
-						disabled><i class="large material-icons left">check</i><span class="translate">Select</span></a>
+						disabled><i class="large material-icons left">check</i><span class="translate">Save</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
-							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 
 			</div>
@@ -468,8 +468,10 @@
 						class="material-icons">delete</i></a>
 				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled" id="addGlobalUser"
 					title="Add Global User"><i class="material-icons">group_add</i></a>
-				<div class="col s3">
-					<input id="username" type="text" placeholder="Add new UserName">
+
+				<div class="input-field col s3">
+					<input id="username" type="text" class="validate">
+					<label for="username" class="translate">Add new Username</label>
 				</div>
 			</div>
 			<div class="row">
@@ -484,18 +486,18 @@
 				<div class="col s12">
 					<div class="col s2">
 						<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="btn_add"
-							title="Add new Navigation"><i class="material-icons">add</i></a>
+							title="Add new Navigation"><i class="material-icons translate">add</i></a>
 					</div>
 					<div class="col s6">
 						<label class="showGlobal">
-							<input id="usersForGlobal" type="text" placeholder="Add UserNames" class="value">
-							All User from Telegram, seprate with ","
+							<input id="usersForGlobal" type="text" class="value">
+							<span class="translate">All User from Telegram, seperate with</span><span> ","</span>
 						</label>
 					</div>
 					<div class="col s3">
 						<label class="showGlobal">
 							<input id="globalUserActiv" type="checkbox" class="filled-in valCheckbox" checked />
-							<span>Global User Activ</span>
+							<span class="translate">Global User activ</span>
 						</label>
 					</div>
 
@@ -532,7 +534,7 @@
 		<div id="tab-settings">
 			<div class=" row">
 				<div class="col s12">
-					<h1>Settings</h1>
+					<h1 class="translate">Settings</h1>
 					<div class="row">
 						<!-- <div class="input-field col s2">
 							<input placeholder="," id="sepBtn" type="text" class="validate center-align value">
