@@ -170,7 +170,7 @@
 			// Add Button New Row 
 			$("#btn_add").click(function () {
 				if (activeBtn === "nav") $(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
-				if (activeBtn === "action") $("#tab_action").show()
+				// if (activeBtn === "action") showModal()
 			})
 
 
@@ -226,7 +226,7 @@
 			// New Row in Action 
 			$("#btn_action_newRow").on("click", function () {
 				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val()))
-
+				$("#btn_action_set").attr("disabled", "disabled")
 			})
 			// Global delete Hide Table
 			$("div.adapter-container").on("DOMSubtreeModified", "table tbody", function () {
@@ -284,10 +284,40 @@
 				resetModal()
 			})
 			// Reset Modal Input Fields
-			$("#btn_action_close").on("click", function () { resetModal() })
-
-
+			$("#btn_action_close").on("click", function () {
+				resetModal()
+			})
+			// Save Button erst anzeigen wenn alles ausgefüllt ist
+			// Select Check if is selected
+			let showTrigger = false
+			let show
+			$("#select_trigger").on("change", function () {
+				showTrigger = true
+				if ($(this).val() == null) showTrigger = false
+				showSelectModal(showTrigger, show)
+			})
+			// Inputs if its not ""
+			$(".modal-content").on("input", function () {
+				show = true
+				$(".checkValue").each(function () {
+					const act = $("#select_action").val()
+					$(`table#tab_${act} .checkValue`).each(function () {
+						if ($(this).val() == "") {
+							show = false
+						}
+					})
+				})
+				showSelectModal(showTrigger, show)
+			})
 			// Edit entrys
+			$(".adapter-container").on("click", ".editEntry", function () {
+				let action = $(this).parents("tbody").attr("data-name")
+				$("#select_action").val(action).select()
+				$(`#tab_${action}`).show()
+				// Trigger	
+				$("#select_trigger").val($(this).parent().siblings("[data-name='trigger']").html()).select()
+				insertEditValues(action, this)
+			})
 		})
 
 
@@ -332,7 +362,7 @@
 							<label>What is to do?</label>
 						</div>
 						<div class="input-field col s3">
-							<select id="select_trigger" class="materialSelect reset">
+							<select id="select_trigger" class="materialSelect reset checkValue">
 								<option value="" disabled selected>Choose your option</option>
 							</select>
 							<label>Trigger</label>
@@ -356,12 +386,12 @@
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
-								<td> <input class="set_id resetInput" type="text">
+								<td> <input class="set_id resetInput checkValue" type="text">
 								</td>
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>
 								<td>
-									<input class="set_value resetInput" type="text">
+									<input class="set_value resetInput checkValue" type="text">
 								</td>
 								<td>
 									<input type="checkbox" class="filled-in switch_checkbox " />
@@ -385,12 +415,12 @@
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
-								<td> <input class="get_id resetInput" type="text">
+								<td> <input class="get_id resetInput checkValue" type="text">
 								</td>
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>
 								<td>
-									<input class="get_text resetInput" type="text">
+									<input class="get_text resetInput checkValue" type="text">
 								</td>
 								<td><label>
 										<input type="checkbox" class="filled-in newline_checkbox" checked />
@@ -407,8 +437,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<a class="modal-action modal-close waves-effect waves-green btn btn-set" id="btn_action_set"><i
-							class="large material-icons left">check</i><span class="translate">Select</span></a>
+					<a class="modal-action modal-close waves-effect waves-green btn btn-set" id="btn_action_set"
+						disabled><i class="large material-icons left">check</i><span class="translate">Select</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>

@@ -121,14 +121,6 @@ function table2Values(id) {
  */
 function dataToArray(_this, selector) {
 	let val = [];
-	if (selector.indexOf("checkboxes") >= 0) {
-		$(_this)
-			.find(selector)
-			.each(function () {
-				val.push($(this).is(":checked"));
-			});
-		return val;
-	}
 	$(_this)
 		.find(selector)
 		.each(function () {
@@ -191,7 +183,6 @@ function fillTable(id, data, newTableRow_Nav, users) {
 }
 
 function fillTableAction(data) {
-	console.log(data);
 	if (data) {
 		for (const name in data) {
 			for (const todo in data[name]) {
@@ -219,4 +210,73 @@ function resetModal() {
 	$(".resetHide").each(function () {
 		$(this).hide();
 	});
+	$(".onResetDelete").each(function () {
+		$(this).remove();
+	});
 }
+
+/**
+ * Show and Hide Select Button in Modal
+ * @param {boolean} showTrigger
+ * @param {boolean} show
+ */
+function showSelectModal(showTrigger, show) {
+	if (show && showTrigger) $("#btn_action_set").removeAttr("disabled");
+	else $("#btn_action_set").attr("disabled", "disabled");
+}
+
+function insertEditValues(action, $this) {
+	let IDs = valuesToArray($this, "p[data-name='IDs']");
+	let newline, switchs, values, texts;
+
+	if (action == "set") {
+		switchs = valuesToArray($this, "p[data-name='checkboxes']");
+		values = valuesToArray($this, "p[data-name='values']");
+	}
+	if (action == "get") {
+		newline = valuesToArray($this, "p[data-name='checkboxes']");
+		texts = valuesToArray($this, "p[data-name='text']");
+	}
+	IDs.forEach(function (element, key) {
+		if (key == 0) {
+			$(`#tab_${action} tbody input.set_id`).val(IDs[0]);
+			$(`#tab_${action} tbody input.get_id`).val(IDs[0]);
+			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0]);
+			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0]);
+
+			if (switchs && switchs[0].trim() == "true") {
+				$(`#tab_${action} tbody input.switch_checkbox`).attr("checked", "checked");
+			} else $(`#tab_${action} tbody input.switch_checkbox`).removeAttr("checked");
+
+			if (newline && newline[0].trim() == "true")
+				$(`#tab_${action} tbody input.newline_checkbox`).attr("checked", "checked");
+			else $(`#tab_${action} tbody input.newline_checkbox`).removeAttr("checked");
+		} else {
+			let _newline = "",
+				_switch = "",
+				_values = "",
+				_texts = "";
+
+			if (newline && newline[key].trim() == "true") _newline = "checked";
+			if (switchs && switchs[key].trim() == "true") _switch = "checked";
+			if (values) _values = values[key];
+			if (texts) _texts = texts[key];
+			const array = [IDs[key], _texts, newline, _values, _switch];
+			$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), array));
+		}
+	});
+}
+function valuesToArray($this, selector) {
+	let val = [];
+	$($this)
+		.parent()
+		.siblings()
+		.find(selector)
+		.each(function () {
+			val.push($(this).html());
+		});
+	return val;
+}
+// function showModal() {
+// 	$("#tab_action").show();
+// }
