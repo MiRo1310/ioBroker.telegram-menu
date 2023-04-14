@@ -28,7 +28,6 @@ var newUserBtn = function (user) {
 	return /*html*/ `<li class="tab col s2 bg-nav-user"><a name="${user}" class="click_user" href="#">${user}</a></li>`;
 };
 
-//TODO - id durch name ersetzen
 /**
  *
  * @param {string} user User Name
@@ -49,18 +48,21 @@ function createSelectTrigger(list) {
 }
 
 // Row in Action Popup
-function newTrInAction(val) {
+function newTrInAction(val, array) {
+	if (!array) {
+		array = ["", "", "checked", "", ""];
+	}
 	if (val === "get")
-		return /*html*/ `<tr>
-  <td> <input  class="get_id" type="text">
+		return /*html*/ `<tr class="onResetDelete">
+  <td> <input  class="get_id checkValue" value="${array[0]}" type="text">
   </td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
     title="Get ID"><i class="material-icons">edit</i></a></td>
   <td>
-    <input class="get_text" type="text">
+    <input class="get_text checkValue" type="text" value="${array[1]}">
   </td>
   <td><label>
-      <input type="checkbox" class="filled-in newline_checkbox" checked />
+      <input type="checkbox" class="filled-in newline_checkbox" ${array[2]} />
       <span></span>
     </label></td>
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i
@@ -68,16 +70,16 @@ function newTrInAction(val) {
 								</td>
 </tr>`;
 	if (val === "set")
-		return /*html*/ `<tr>
-  <td> <input  class="set_id" type="text">
+		return /*html*/ `<tr class="onResetDelete">
+  <td> <input  class="set_id checkValue" type="text" value="${array[0]}">
   </td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
       title="Get ID"><i class="material-icons">edit</i></a></td>
   <td>
-    <input class="set_value" type="text">
+    <input class="set_value checkValue" type="text" value="${array[3]}">
   </td>
   <td><label>
-      <input type="checkbox" class="filled-in switch_checkbox" /> 
+      <input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/> 
       <span></span>     
     </label></td>
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i
@@ -157,7 +159,7 @@ function newTableRow_Action(action, result) {
             </tr>`;
 }
 const actionDeleteButton = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>`;
-const editButton = `<td><a class="btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
+const editButton = `<td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
 
 function insertVal(result, entry) {
 	let newEntry = "";
