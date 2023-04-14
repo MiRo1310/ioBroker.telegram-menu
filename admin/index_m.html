@@ -29,7 +29,7 @@
 
 	<script type="text/javascript">
 		let _onChange
-		let users = []
+		var users;
 		let activeUser;
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
@@ -37,11 +37,12 @@
 			if (!settings) return;
 			_onChange = onChange
 			users = settings.users
+			console.log(users)
 			activeUser = settings.users[0]
 			createUser("#user_list", settings.users)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
 			fillTableAction(settings.data.action)
-
+			showAddGlobalUser(users)
 			showHideUserEntry(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
@@ -127,10 +128,10 @@
 
 				if (users.indexOf(newUser) == -1) {
 					users.push(newUser)
-					createUser("#user_list", [newUser])
-					_onChange()
-					$("#username").val("")
-					$("#addNewUser").addClass("disabled")
+					createUser("#user_list", [newUser]);
+					_onChange();
+					$("#username").val("");
+					$("#addNewUser").addClass("disabled");
 				}
 			})
 			// Delete User
@@ -313,8 +314,10 @@
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {
 				rowToUpdate = $(this).parents("tr")
+				showTrigger = true;
 				// Select Button Aktivieren
 				$("#btn_action_set").removeAttr("disabled")
+				$("#btn_action_newRow").show()
 				let action = $(this).parents("tbody").attr("data-name")
 				$("#select_action").val(action).select()
 				$(`#tab_${action}`).show()
@@ -322,6 +325,13 @@
 				$("#select_trigger").val($(this).parent().siblings("[data-name='trigger']").html()).select()
 				insertEditValues(action, this)
 			})
+			// Global User Button
+			$("#addGlobalUser").click(function () {
+				$(this).addClass("disabled")
+				addNewUser("Global", _onChange)
+				addSpecialMenu()
+			})
+
 		})
 
 
@@ -352,6 +362,7 @@
 					</ul>
 				</div>
 			</div>
+			<!-- Action Popup -->
 			<div id="tab_action" class="modal modal-fixed-footer">
 				<div class="modal-header">
 				</div>
@@ -450,9 +461,11 @@
 			</div>
 			<div class="row" id="user_menu">
 				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled " id="addNewUser"
-					title="Add new User"><i class="material-icons">add</i></a>
+					title="Add new User"><i class="material-icons">person_add</i></a>
 				<a class="delete btn-floating btn-small waves-effect waves-light red" id="deleteUser"><i
 						class="material-icons">delete</i></a>
+				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled" id="addGlobalUser"
+					title="Add Global User"><i class="material-icons">group_add</i></a>
 				<div class="col s3">
 					<input id="username" type="text" placeholder="Add new UserName">
 				</div>
@@ -486,9 +499,6 @@
 										Navigation</th>
 									<th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
 										Text</th>
-									<th data-name="startside" data-type="string"
-										style="background: #64b5f6 ; width: 5%;">
-										Startside</th>
 									<th style="background: #64b5f6; width: 5%;"></th>
 								</tr>
 							</thead>

@@ -172,7 +172,8 @@ function fillTable(id, data, newTableRow_Nav, users) {
 		for (const name in data) {
 			const nav = data[name];
 			nav.forEach(function (element, key) {
-				$(`#${name}`).append(newTableRow_Nav(name, users));
+				// Erst bei Key 1 starten, da eine Row statisch ist
+				if (key != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
 				if (element.call) $(`#${name} tr input.nav-call`)[key].value = element.call;
 				if (element.value) $(`#${name} tr input.nav-value`)[key].value = element.value;
 				if (element.text) $(`#${name}  tr input.nav-text`)[key].value = element.text;
@@ -241,10 +242,10 @@ function insertEditValues(action, $this) {
 	}
 	IDs.forEach(function (element, key) {
 		if (key == 0) {
-			$(`#tab_${action} tbody input.set_id`).val(IDs[0]);
-			$(`#tab_${action} tbody input.get_id`).val(IDs[0]);
-			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0]);
-			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0]);
+			$(`#tab_${action} tbody input.set_id`).val(IDs[0].trim());
+			$(`#tab_${action} tbody input.get_id`).val(IDs[0].trim());
+			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0].trim());
+			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].trim());
 
 			if (switchs && switchs[0].trim() == "true") {
 				$(`#tab_${action} tbody input.switch_checkbox`).attr("checked", "checked");
@@ -261,9 +262,9 @@ function insertEditValues(action, $this) {
 
 			if (newline && newline[key].trim() == "true") _newline = "checked";
 			if (switchs && switchs[key].trim() == "true") _switch = "checked";
-			if (values) _values = values[key];
-			if (texts) _texts = texts[key];
-			const array = [IDs[key], _texts, newline, _values, _switch];
+			if (values) _values = values[key].trim();
+			if (texts) _texts = texts[key].trim();
+			const array = [IDs[key].trim(), _texts, _newline, _values, _switch];
 			$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), array));
 		}
 	});
@@ -279,6 +280,15 @@ function valuesToArray($this, selector) {
 		});
 	return val;
 }
-// function showModal() {
-// 	$("#tab_action").show();
-// }
+function showAddGlobalUser(users) {
+	if (users.indexOf("globalUser") == -1) {
+		$("#addGlobalUser").removeClass("disabled");
+	}
+}
+function addNewUser(newUser, _onChange) {
+	createUser("#user_list", [newUser]);
+	_onChange();
+	$("#username").val("");
+	$("#addNewUser").addClass("disabled");
+}
+function addSpecialMenu() {}

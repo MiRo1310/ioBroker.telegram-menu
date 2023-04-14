@@ -94,3 +94,6 @@ table th {
 .text-small {
 	font-size: 0.75rem;
 }
+.startRow {
+	background-color: rgb(150, 209, 90);
+}

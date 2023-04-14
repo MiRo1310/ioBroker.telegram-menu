@@ -8,13 +8,7 @@ var newTableRow_Nav = function (activuser, users) {
 	return /*html*/ `<tr>
     <td><input type="text" data-name="call" class="isString nav-call "></td>
     <td><input type="text" data-name="value" class="isString nav-value "></td>
-    <td><input type="text" data-name="text" class="isString nav-text "></td>
-    <td><p>
-    <label>
-      <input name="group${userIndex}" type="radio" class="nav-radio" />
-      <span></span>
-    </label>
-  </p></td>
+    <td><input type="text" data-name="text" class="isString nav-text "></td>    
     <td style="width: 5%;"><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
             </tr>`;
 };
@@ -34,7 +28,14 @@ var newUserBtn = function (user) {
  * @returns HTML Element
  */
 function navElement(user) {
-	return /*html*/ `<tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values">
+	return /*html*/ `<tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values" style="display:none">
+  <tr class="startRow">
+    <td><input type="text" data-name="call" class="isString nav-call " value="_start"></td>
+    <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
+    <td><input type="text" data-name="text" class="isString nav-text" value="Wählen Sie eine Aktion"></td>
+    
+    <td style="width: 5%;"></td>
+            </tr>
 							</tbody>`;
 }
 
