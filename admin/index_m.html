@@ -44,6 +44,7 @@
 			fillTableAction(settings.data.action)
 			showAddGlobalUser(users)
 			showHideUserEntry(activeUser)
+			showGlobalUserSettings(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
 
@@ -133,6 +134,7 @@
 			// Delete User
 			$("#user_menu").on("click", "#deleteUser", function () {
 				let userdelete = $("#user_list .active").attr("name")
+				if (userdelete == "Global") $(".showGlobal").hide()
 				users.splice(users.indexOf(userdelete), 1)
 				$("#user_list .active").parent().remove()
 				$(`#tabel_nav tbody[name="${userdelete}"]`)
@@ -145,6 +147,7 @@
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
 				showHideUserEntry(activeUser)
+				showGlobalUserSettings(activeUser)
 			})
 			// Click Nav Buttons
 			let activeBtn = "nav"
@@ -325,9 +328,9 @@
 			// Global User Button
 			$("#addGlobalUser").click(function () {
 				$(this).addClass("disabled")
-
+				$("#usersForGlobal").val("")
 				addNewUser(users, "Global", _onChange)
-				// addSpecialMenu()
+
 
 			})
 
@@ -479,8 +482,23 @@
 
 			<div class="row">
 				<div class="col s12">
-					<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="btn_add"
-						title="Add new Navigation"><i class="material-icons">add</i></a>
+					<div class="col s2">
+						<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="btn_add"
+							title="Add new Navigation"><i class="material-icons">add</i></a>
+					</div>
+					<div class="col s6">
+						<label class="showGlobal">
+							<input id="usersForGlobal" type="text" placeholder="Add UserNames" class="value">
+							All User from Telegram, seprate with ","
+						</label>
+					</div>
+					<div class="col s3">
+						<label class="showGlobal">
+							<input id="globalUserActiv" type="checkbox" class="filled-in valCheckbox" checked />
+							<span>Global User Activ</span>
+						</label>
+					</div>
+
 				</div>
 			</div>
 		</header>

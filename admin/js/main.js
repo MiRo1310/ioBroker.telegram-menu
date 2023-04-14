@@ -4,14 +4,13 @@
  * @returns boolean True Everything is ok
  */
 function isStringEmty(classes) {
-	let allOk;
+	let allOk = true;
 	$(classes).each(function (key, element) {
 		if (element.value == "") {
 			$(element).parent().addClass("bg-error");
 			allOk = false;
 		} else {
 			$(element).parent().removeClass("bg-error");
-			allOk = true;
 		}
 	});
 	return allOk;
@@ -292,4 +291,8 @@ function addNewUser(users, newUser, _onChange) {
 	$("#username").val("");
 	$("#addNewUser").addClass("disabled");
 }
-function addSpecialMenu() {}
+function showGlobalUserSettings(activeUser) {
+	console.log(activeUser);
+	if (activeUser == "Global") $(".showGlobal").show();
+	else $(".showGlobal").hide();
+}
