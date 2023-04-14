@@ -194,8 +194,10 @@ function fillTableAction(data) {
 	}
 }
 
-function generatActionRow(user, action, result) {
-	$(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
+function generatActionRow(user, action, result, rowToUpdate) {
+	if (rowToUpdate) {
+		$(rowToUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
+	} else $(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
 
 function resetModal() {

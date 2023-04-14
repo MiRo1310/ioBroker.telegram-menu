@@ -113,6 +113,7 @@
 
 
 		$(function () {
+			let rowToUpdate;
 			// New User Show Button
 			$("#username").keyup(function () {
 				if ($(this).val() !== "" && users.indexOf($("#username").val()) == -1) {
@@ -170,7 +171,7 @@
 			// Add Button New Row 
 			$("#btn_add").click(function () {
 				if (activeBtn === "nav") $(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
-				// if (activeBtn === "action") showModal()
+				if (activeBtn === "action") rowToUpdate = null
 			})
 
 
@@ -279,7 +280,7 @@
 						result.checkboxes.push($(this).is(":checked"))
 					})
 				}
-				generatActionRow(activeUser, action, result)
+				generatActionRow(activeUser, action, result, rowToUpdate)
 				_onChange()
 				resetModal()
 			})
@@ -311,6 +312,9 @@
 			})
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {
+				rowToUpdate = $(this).parents("tr")
+				// Select Button Aktivieren
+				$("#btn_action_set").removeAttr("disabled")
 				let action = $(this).parents("tbody").attr("data-name")
 				$("#select_action").val(action).select()
 				$(`#tab_${action}`).show()
