@@ -281,11 +281,12 @@ function valuesToArray($this, selector) {
 	return val;
 }
 function showAddGlobalUser(users) {
-	if (users.indexOf("globalUser") == -1) {
+	if (users.indexOf("Global") == -1) {
 		$("#addGlobalUser").removeClass("disabled");
 	}
 }
-function addNewUser(newUser, _onChange) {
+function addNewUser(users, newUser, _onChange) {
+	users.push(newUser);
 	createUser("#user_list", [newUser]);
 	_onChange();
 	$("#username").val("");
