@@ -122,16 +122,12 @@
 				} else $("#addNewUser").addClass("disabled")
 			})
 
-			// Eventhander click add User
+			// Add new User
 			$("#addNewUser").click(() => {
 				let newUser = $("#username").val()
 
 				if (users.indexOf(newUser) == -1) {
-					users.push(newUser)
-					createUser("#user_list", [newUser]);
-					_onChange();
-					$("#username").val("");
-					$("#addNewUser").addClass("disabled");
+					addNewUser(users, newUser, _onChange)
 				}
 			})
 			// Delete User
@@ -141,6 +137,7 @@
 				$("#user_list .active").parent().remove()
 				$(`#tabel_nav tbody[name="${userdelete}"]`)
 				$(`#${userdelete}`).remove()
+				showAddGlobalUser(users)
 				_onChange()
 
 			})
@@ -328,8 +325,10 @@
 			// Global User Button
 			$("#addGlobalUser").click(function () {
 				$(this).addClass("disabled")
-				addNewUser("Global", _onChange)
-				addSpecialMenu()
+
+				addNewUser(users, "Global", _onChange)
+				// addSpecialMenu()
+
 			})
 
 		})
