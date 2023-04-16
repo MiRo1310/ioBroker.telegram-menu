@@ -1,9 +1,9 @@
-/*global*/
 /**
  *
  * @param {string} activuser Active User
  * @param {array} users List of Users
  */
+/*global*/
 function newTableRow_Nav(activuser, users) {
 	const userIndex = users.indexOf(activuser);
 	return /*html*/ `<tr>
