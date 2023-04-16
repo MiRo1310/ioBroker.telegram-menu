@@ -17,14 +17,12 @@ Easily create Telegram Menus
 
 ## Changelog
 
-# test
-
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.0.1 (16.04.2023)
 
 -   (MiRo1310) initial release
 
