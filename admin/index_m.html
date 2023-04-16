@@ -39,14 +39,14 @@
 			users = settings.users
 			console.log(users)
 			activeUser = settings.users[0]
-			createUser("#user_list", settings.users)
-			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
-			fillTableAction(settings.data.action)
+			funcCreateUser("#user_list", settings.users)
+			funcFillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
+			funcFillTableAction(settings.data.action)
 			showAddGlobalUser(users)
-			showHideUserEntry(activeUser)
+			funcShowHideUserEntry(activeUser)
 			showGlobalUserSettings(activeUser)
-			setCheckbox(settings.checkbox)
-			generateSelectTrigger(activeUser)
+			funcSetCheckbox(settings.checkbox)
+			funcGenerateSelectTrigger(activeUser)
 
 
 			$('.value').each(function () {
@@ -101,13 +101,13 @@
 			})
 
 
-			const tableDevices = table2Values(".saveTable");
+			const tableDevices = funcTable2Values(".saveTable");
 
 			if (funcIsStringEmty(".isString")) {
 				obj.data = tableDevices;
 				obj.users = users
 				obj.startsides = generateStartside(users)
-				generateSelectTrigger(activeUser)
+				funcGenerateSelectTrigger(activeUser)
 
 				console.log(obj)
 				callback(obj);
@@ -152,7 +152,7 @@
 			// Click User, Show User Navigation, Action
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
-				showHideUserEntry(activeUser)
+				funcShowHideUserEntry(activeUser)
 				showGlobalUserSettings(activeUser)
 			})
 			// Click Nav Buttons
@@ -287,13 +287,13 @@
 						result.checkboxes.push($(this).is(":checked"))
 					})
 				}
-				generatActionRow(activeUser, action, result, rowToUpdate)
+				funcGeneratActionRow(activeUser, action, result, rowToUpdate)
 				_onChange()
-				resetModal()
+				funcResetModal()
 			})
 			// Reset Modal Input Fields
 			$("#btn_action_close").on("click", function () {
-				resetModal()
+				funcResetModal()
 			})
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
 			// Select Check if is selected
@@ -302,7 +302,7 @@
 			$("#select_trigger").on("change", function () {
 				showTrigger = true
 				if ($(this).val() == null) showTrigger = false
-				showSelectModal(showTrigger, show)
+				funcShowSelectModal(showTrigger, show)
 			})
 			// Inputs if its not ""
 			$(".modal-content").on("input", function () {
@@ -315,7 +315,7 @@
 						}
 					})
 				})
-				showSelectModal(showTrigger, show)
+				funcShowSelectModal(showTrigger, show)
 			})
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {

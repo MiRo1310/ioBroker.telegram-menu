@@ -1,4 +1,5 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "func" }]*/
+/*global someFunction, $*/
 /**
  *
  * @param {string} classes Class to browse for empty String
@@ -47,7 +48,7 @@ function funcGenerateNav() {
  * @param {string} id Where to create
  * @param {Array} users Array of Users
  */
-function createUser(id, users) {
+function funcCreateUser(id, users) {
 	users.forEach((user) => {
 		$(id).append(newUserBtn(user));
 		$("#table_nav").append(navElement(user));
@@ -55,7 +56,7 @@ function createUser(id, users) {
 	});
 }
 
-function table2Values(id) {
+function funcTable2Values(id) {
 	const $tbodys = $(id).find("tbody");
 	const object = {
 		nav: {},
@@ -88,18 +89,18 @@ function table2Values(id) {
 
 			if (dataName === "set") {
 				actionSet = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-					values: dataToArray(this, "p[data-name='values']"),
+					IDs: funcDataToArray(this, "p[data-name='IDs']"),
+					checkboxes: funcDataToArray(this, "p[data-name='checkboxes']"),
+					trigger: funcDataToArray(this, "td[data-name='trigger']"),
+					values: funcDataToArray(this, "p[data-name='values']"),
 				};
 			}
 			if (dataName === "get") {
 				actionGet = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-					text: dataToArray(this, "p[data-name='text']"),
+					IDs: funcDataToArray(this, "p[data-name='IDs']"),
+					checkboxes: funcDataToArray(this, "p[data-name='checkboxes']"),
+					trigger: funcDataToArray(this, "td[data-name='trigger']"),
+					text: funcDataToArray(this, "p[data-name='text']"),
 				};
 			}
 			if (actionSet) {
@@ -120,7 +121,7 @@ function table2Values(id) {
  * @param {string} selector
  * @returns
  */
-function dataToArray(_this, selector) {
+function funcDataToArray(_this, selector) {
 	const val = [];
 	$(_this)
 		.find(selector)
@@ -129,7 +130,7 @@ function dataToArray(_this, selector) {
 		});
 	return val;
 }
-function showHideUserEntry(activeUser) {
+function funcShowHideUserEntry(activeUser) {
 	$("tbody.table_switch_user").hide();
 	$("#tab-action>div").hide();
 	$(`tbody.table_switch_user.user_${activeUser}`).show();
@@ -140,7 +141,7 @@ function showHideUserEntry(activeUser) {
  *
  * @param {Array} checkbox Entrys with Checkbox Values
  */
-function setCheckbox(checkbox) {
+function funcSetCheckbox(checkbox) {
 	checkbox.forEach((element) => {
 		for (const id in element) {
 			if (element[id]) {
@@ -150,7 +151,7 @@ function setCheckbox(checkbox) {
 	});
 }
 
-function splitTextInArray(activeUser) {
+function funcSplitTextInArray(activeUser) {
 	const value_list = [];
 	$(`#${activeUser} input[data-name="value"]`).each(function () {
 		let value = $(this).val();
@@ -165,13 +166,13 @@ function splitTextInArray(activeUser) {
 	return value_list;
 }
 
-function generateSelectTrigger(activeUser) {
-	const list = splitTextInArray(activeUser);
+function funcGenerateSelectTrigger(activeUser) {
+	const list = funcSplitTextInArray(activeUser);
 	// HTML Elemente löschen und neu aufbauen
 	$("#select_trigger").empty().append(createSelectTrigger(list));
 }
 
-function fillTable(id, data, newTableRow_Nav, users) {
+function funcFillTable(id, data, newTableRow_Nav, users) {
 	if (data) {
 		for (const name in data) {
 			const nav = data[name];
@@ -187,25 +188,25 @@ function fillTable(id, data, newTableRow_Nav, users) {
 	}
 }
 
-function fillTableAction(data) {
+function funcFillTableAction(data) {
 	if (data) {
 		for (const name in data) {
 			for (const todo in data[name]) {
 				data[name][todo].forEach(function (element) {
-					generatActionRow(name, todo, element);
+					funcGeneratActionRow(name, todo, element);
 				});
 			}
 		}
 	}
 }
 
-function generatActionRow(user, action, result, rowToUpdate) {
+function funcGeneratActionRow(user, action, result, rowToUpdate) {
 	if (rowToUpdate) {
 		$(rowToUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
 	} else $(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
 
-function resetModal() {
+function funcResetModal() {
 	$(".reset").each(function () {
 		$(this).val("");
 		$(this).select();
@@ -227,22 +228,22 @@ function resetModal() {
  * @param {boolean} showTrigger
  * @param {boolean} show
  */
-function showSelectModal(showTrigger, show) {
+function funcShowSelectModal(showTrigger, show) {
 	if (show && showTrigger) $("#btn_action_set").removeAttr("disabled");
 	else $("#btn_action_set").attr("disabled", "disabled");
 }
 
 function insertEditValues(action, $this) {
-	const IDs = valuesToArray($this, "p[data-name='IDs']");
+	const IDs = funcValuesToArray($this, "p[data-name='IDs']");
 	let newline, switchs, values, texts;
 
 	if (action == "set") {
-		switchs = valuesToArray($this, "p[data-name='checkboxes']");
-		values = valuesToArray($this, "p[data-name='values']");
+		switchs = funcValuesToArray($this, "p[data-name='checkboxes']");
+		values = funcValuesToArray($this, "p[data-name='values']");
 	}
 	if (action == "get") {
-		newline = valuesToArray($this, "p[data-name='checkboxes']");
-		texts = valuesToArray($this, "p[data-name='text']");
+		newline = funcValuesToArray($this, "p[data-name='checkboxes']");
+		texts = funcValuesToArray($this, "p[data-name='text']");
 	}
 	IDs.forEach(function (element, key) {
 		if (key == 0) {
@@ -274,7 +275,7 @@ function insertEditValues(action, $this) {
 	});
 }
 
-function valuesToArray($this, selector) {
+function funcValuesToArray($this, selector) {
 	const val = [];
 	$($this)
 		.parent()
@@ -294,7 +295,7 @@ function showAddGlobalUser(users) {
 
 function addNewUser(users, newUser, _onChange) {
 	users.push(newUser);
-	createUser("#user_list", [newUser]);
+	funcCreateUser("#user_list", [newUser]);
 	_onChange();
 	$("#username").val("");
 	$("#addNewUser").addClass("disabled");
