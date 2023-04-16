@@ -48,6 +48,7 @@
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
 
+
 			$('.value').each(function () {
 				var $key = $(this);
 				var id = $key.attr('id');
@@ -68,6 +69,7 @@
 			onChange(false);
 			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
+
 		}
 
 		// This will be called by the admin adapter when the user presses the save button
@@ -104,8 +106,8 @@
 			if (isStringEmty(".isString")) {
 				obj.data = tableDevices;
 				obj.users = users
+				obj.startsides = generateStartside(users)
 				generateSelectTrigger(activeUser)
-
 
 				console.log(obj)
 				callback(obj);
@@ -134,7 +136,11 @@
 			// Delete User
 			$("#user_menu").on("click", "#deleteUser", function () {
 				let userdelete = $("#user_list .active").attr("name")
-				if (userdelete == "Global") $(".showGlobal").hide()
+				if (userdelete == "Global") {
+					$(".showGlobal").hide()
+					$("#globalUserActiv").prop("checked", false)
+					console.log($("#globalUserActiv").is(":checked"))
+				}
 				users.splice(users.indexOf(userdelete), 1)
 				$("#user_list .active").parent().remove()
 				$(`#tabel_nav tbody[name="${userdelete}"]`)
@@ -330,8 +336,6 @@
 				$(this).addClass("disabled")
 				$("#usersForGlobal").val("")
 				addNewUser(users, "Global", _onChange)
-
-
 			})
 
 		})
@@ -486,7 +490,7 @@
 				<div class="col s12">
 					<div class="col s2">
 						<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="btn_add"
-							title="Add new Navigation"><i class="material-icons translate">add</i></a>
+							title="Add new Navigation"><i class="material-icons translate translateT">add</i></a>
 					</div>
 					<div class="col s6">
 						<label class="showGlobal">
@@ -536,6 +540,12 @@
 				<div class="col s12">
 					<h1 class="translate">Settings</h1>
 					<div class="row">
+						<div class="col s2">
+							<label>
+								<input id="instance" type="text" class="value" value="telegram.0">
+								<span class="translate">Instanze</span>
+							</label>
+						</div>
 						<!-- <div class="input-field col s2">
 							<input placeholder="," id="sepBtn" type="text" class="validate center-align value">
 							<label for="sepBtn">Separation buttons</label>
@@ -549,6 +559,7 @@
 								class="validate center-align value">
 							<label for="sepRow">Placeholder Send Text</label>
 						</div> -->
+
 					</div>
 					<div class="row">
 						<div class="input-field col s3">
