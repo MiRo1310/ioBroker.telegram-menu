@@ -1,5 +1,5 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "is|gen|create"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generateNav|create|set|fill|reset|add|show"}]*/
 /**
  *
  * @param {string} classes Class to browse for empty String
