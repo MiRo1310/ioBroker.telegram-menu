@@ -1,6 +1,6 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "is"}]*/
-/* exported isStringEmty */
+
+/* exported isStringEmty, generateNav */
 /**
  *
  * @param {string} classes Class to browse for empty String
@@ -19,7 +19,7 @@ const isStringEmty = function (classes) {
 	return allOk;
 };
 
-function generateNav() {
+const generateNav = function () {
 	const navigationArray = {};
 	const ids = [];
 	const nav = [];
@@ -42,7 +42,7 @@ function generateNav() {
 		navigationArray[element] = { nav: [arrayNew] };
 		return navigationArray;
 	});
-}
+};
 
 /**
  *
