@@ -5,7 +5,7 @@
  * @param {string} classes Class to browse for empty String
  * @returns boolean True Everything is ok
  */
-function isStringEmty(classes) {
+const isStringEmty = function (classes) {
 	let allOk = true;
 	$(classes).each(function (key, element) {
 		if (element.value == "") {
@@ -16,7 +16,7 @@ function isStringEmty(classes) {
 		}
 	});
 	return allOk;
-}
+};
 
 function generateNav() {
 	const navigationArray = {};
@@ -35,7 +35,7 @@ function generateNav() {
 			arrayRows.push([e]);
 		});
 		const arrayNew = [];
-		arrayRows.forEach((element, k) => {
+		arrayRows.forEach((element) => {
 			arrayNew.push([element[0].split(",")]);
 		});
 		navigationArray[element] = { nav: [arrayNew] };
