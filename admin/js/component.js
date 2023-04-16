@@ -30,7 +30,7 @@ var newUserBtn = function (user) {
 function navElement(user) {
 	return /*html*/ `<tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values" style="display:none">
   <tr class="startRow">
-    <td><input type="text" data-name="call" class="isString nav-call " value="_start"></td>
+    <td><input type="text" data-name="call" class="isString nav-call translateV startside" value="Startside" ></td>
     <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
     <td><input type="text" data-name="text" class="isString nav-text" value="Wählen Sie eine Aktion"></td>
     
