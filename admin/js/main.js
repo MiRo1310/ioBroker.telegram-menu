@@ -1,4 +1,5 @@
 /*global newUserBtn,navElement ,actionElement, $*/
+/* exported isStringEmty,  generateNav*/
 /**
  *
  * @param {string} classes Class to browse for empty String
