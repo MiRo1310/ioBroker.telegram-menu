@@ -1,3 +1,4 @@
+/*global*/
 /**
  *
  * @param {string} classes Class to browse for empty String
@@ -15,7 +16,7 @@ function isStringEmty(classes) {
 	});
 	return allOk;
 }
-
+/*global*/
 function generateNav() {
 	const navigationArray = {};
 	const ids = [];
@@ -40,6 +41,7 @@ function generateNav() {
 		return navigationArray;
 	});
 }
+/*global*/
 /**
  *
  * @param {string} id Where to create
@@ -52,7 +54,7 @@ function createUser(id, users) {
 		$("#tab-action").append(actionElement(user));
 	});
 }
-
+/*global*/
 function table2Values(id) {
 	const $tbodys = $(id).find("tbody");
 	const object = {
@@ -112,6 +114,7 @@ function table2Values(id) {
 	});
 	return object;
 }
+/*global*/
 /**
  *
  * @param {*} _this
@@ -133,6 +136,7 @@ function showHideUserEntry(activeUser) {
 	$(`tbody.table_switch_user.user_${activeUser}`).show();
 	$(`#tab-action>div.user_${activeUser}`).show();
 }
+/*global*/
 /**
  *
  * @param {Array} checkbox Entrys with Checkbox Values
@@ -146,7 +150,7 @@ function setCheckbox(checkbox) {
 		}
 	});
 }
-
+/*global*/
 function splitTextInArray(activeUser) {
 	let value_list = [];
 	$(`#${activeUser} input[data-name="value"]`).each(function () {
@@ -161,11 +165,13 @@ function splitTextInArray(activeUser) {
 	});
 	return value_list;
 }
+/*global*/
 function generateSelectTrigger(activeUser) {
 	let list = splitTextInArray(activeUser);
 	// HTML Elemente löschen und neu aufbauen
 	$("#select_trigger").empty().append(createSelectTrigger(list));
 }
+/*global*/
 function fillTable(id, data, newTableRow_Nav, users) {
 	if (data) {
 		for (const name in data) {
@@ -181,7 +187,7 @@ function fillTable(id, data, newTableRow_Nav, users) {
 		}
 	}
 }
-
+/*global*/
 function fillTableAction(data) {
 	if (data) {
 		for (const name in data) {
@@ -193,13 +199,13 @@ function fillTableAction(data) {
 		}
 	}
 }
-
+/*global*/
 function generatActionRow(user, action, result, rowToUpdate) {
 	if (rowToUpdate) {
 		$(rowToUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
 	} else $(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
-
+/*global*/
 function resetModal() {
 	$(".reset").each(function () {
 		$(this).val("");
@@ -216,7 +222,7 @@ function resetModal() {
 		$(this).remove();
 	});
 }
-
+/*global*/
 /**
  * Show and Hide Select Button in Modal
  * @param {boolean} showTrigger
@@ -226,7 +232,7 @@ function showSelectModal(showTrigger, show) {
 	if (show && showTrigger) $("#btn_action_set").removeAttr("disabled");
 	else $("#btn_action_set").attr("disabled", "disabled");
 }
-
+/*global*/
 function insertEditValues(action, $this) {
 	let IDs = valuesToArray($this, "p[data-name='IDs']");
 	let newline, switchs, values, texts;
@@ -268,6 +274,7 @@ function insertEditValues(action, $this) {
 		}
 	});
 }
+/*global*/
 function valuesToArray($this, selector) {
 	let val = [];
 	$($this)
@@ -279,11 +286,13 @@ function valuesToArray($this, selector) {
 		});
 	return val;
 }
+/*global*/
 function showAddGlobalUser(users) {
 	if (users.indexOf("Global") == -1) {
 		$("#addGlobalUser").removeClass("disabled");
 	}
 }
+/*global*/
 function addNewUser(users, newUser, _onChange) {
 	users.push(newUser);
 	createUser("#user_list", [newUser]);
@@ -291,11 +300,12 @@ function addNewUser(users, newUser, _onChange) {
 	$("#username").val("");
 	$("#addNewUser").addClass("disabled");
 }
+/*global*/
 function showGlobalUserSettings(activeUser) {
 	if (activeUser == "Global") $(".showGlobal").show();
 	else $(".showGlobal").hide();
 }
-
+/*global*/
 /**
  *
  * @param {array} users Array of Users
