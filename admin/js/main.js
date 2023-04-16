@@ -80,7 +80,7 @@ function table2Values(id) {
 					call: $(this).find("td input[data-name='call']").val(),
 					value: $(this).find("td input[data-name='value']").val(),
 					text: $(this).find("td input[data-name='text']").val(),
-					radio: $(this).find("td input.nav-radio").is(":checked"),
+					// radio: $(this).find("td input.nav-radio").is(":checked"),
 				});
 				object.nav[saveName] = nav;
 			}
@@ -123,7 +123,7 @@ function dataToArray(_this, selector) {
 	$(_this)
 		.find(selector)
 		.each(function () {
-			val.push($(this).html());
+			val.push($(this).html().trim());
 		});
 	return val;
 }
@@ -292,7 +292,34 @@ function addNewUser(users, newUser, _onChange) {
 	$("#addNewUser").addClass("disabled");
 }
 function showGlobalUserSettings(activeUser) {
-	console.log(activeUser);
 	if (activeUser == "Global") $(".showGlobal").show();
 	else $(".showGlobal").hide();
 }
+
+/**
+ *
+ * @param {array} users Array of Users
+ */
+function generateStartside(users) {
+	let obj = {};
+	users.forEach(function (user) {
+		obj[user] = $(`#${user} input.startside`).val();
+	});
+	return obj;
+}
+
+// function getAllHistoryInstances(value) {
+// 	socket.emit('getObjectView', 'system', 'instance', {startkey: 'system.adapter.', endkey: 'system.adapter.\u9999'}, function (err, doc) {
+// 		if (!err && doc.rows.length) {
+// 			var $select = $('#history');
+// 			for (var i = 0; i < doc.rows.length; i++) {
+// 				if (doc.rows[i].value && doc.rows[i].value.common && doc.rows[i].value.common.getHistory) {
+// 					var id = doc.rows[i].id.replace(/^system\.adapter\./, '');
+// 					$select.append('<option value="' + id + '">' + id + '</option>');
+// 				}
+// 			}
+// 		}
+// 		$select.val(value || '');
+// 		$select.select();
+// 	});
+// }
