@@ -1,4 +1,4 @@
-/*global newUserBtn,navElement ,actionElement, $*/
+/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, $*/
 /* exported isStringEmty,  generateNav*/
 /**
  *
