@@ -1,10 +1,10 @@
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[f]unction" }]*
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[f]unction" }]*/
+
 /**
  *
  * @param {string} activuser Active User
  * @param {array} users List of Users
  */
-/*global newTableRow_Nav, a*/
 function newTableRow_Nav(activuser, users) {
 	const userIndex = users.indexOf(activuser);
 	return /*html*/ `<tr>

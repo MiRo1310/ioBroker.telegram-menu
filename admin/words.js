@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "systemDictionary" }]*
 /*global systemDictionary:true */
 /*
 +===================== DO NOT MODIFY ======================+
