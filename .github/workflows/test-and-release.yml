@@ -47,9 +47,7 @@ jobs:
       - uses: ioBroker/testing-action-adapter@v1
         with:
           node-version: ${{ matrix.node-version }}
-          os: ${{ matrix.os }}
-          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-          # install-command: 'npm install'
+          os: ${{ matrix.os }}         
  deploy:
    needs: [check-and-lint, adapter-tests]
 
