@@ -4,7 +4,7 @@
  * @param {string} activuser Active User
  * @param {array} users List of Users
  */
-/* exported newTableRow_Nav */
+/*global newTableRow_Nav, a*/
 function newTableRow_Nav(activuser, users) {
 	const userIndex = users.indexOf(activuser);
 	return /*html*/ `<tr>
