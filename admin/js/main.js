@@ -1,12 +1,11 @@
-/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,isStringEmty, $*/
-
-/* exported isStringEmty, generateNav */
+/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, $*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "is"}]*/
 /**
  *
  * @param {string} classes Class to browse for empty String
  * @returns boolean True Everything is ok
  */
-const isStringEmty = function (classes) {
+function isStringEmty(classes) {
 	let allOk = true;
 	$(classes).each(function (key, element) {
 		if (element.value == "") {
@@ -17,9 +16,9 @@ const isStringEmty = function (classes) {
 		}
 	});
 	return allOk;
-};
+}
 
-const generateNav = function () {
+function generateNav() {
 	const navigationArray = {};
 	const ids = [];
 	const nav = [];
@@ -42,7 +41,7 @@ const generateNav = function () {
 		navigationArray[element] = { nav: [arrayNew] };
 		return navigationArray;
 	});
-};
+}
 
 /**
  *
