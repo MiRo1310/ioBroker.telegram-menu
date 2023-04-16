@@ -103,7 +103,7 @@
 
 			const tableDevices = table2Values(".saveTable");
 
-			if (isStringEmty(".isString")) {
+			if (funcIsStringEmty(".isString")) {
 				obj.data = tableDevices;
 				obj.users = users
 				obj.startsides = generateStartside(users)
@@ -186,7 +186,7 @@
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
 				_onChange()
-				generateNav()
+				funcGenerateNav()
 			})
 			// Eventhandler for save change 
 
