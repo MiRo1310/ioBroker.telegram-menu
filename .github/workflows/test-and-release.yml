@@ -50,8 +50,6 @@ jobs:
           os: ${{ matrix.os }}
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
           # install-command: 'npm install'
-
-
  deploy:
    needs: [check-and-lint, adapter-tests]
 
