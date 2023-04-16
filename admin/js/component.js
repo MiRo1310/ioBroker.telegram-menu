@@ -13,7 +13,7 @@ function newTableRow_Nav(activuser, users) {
     <td style="width: 5%;"><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
             </tr>`;
 }
-
+/*global*/
 /**
  *
  * @param {string} user User Name
@@ -22,7 +22,7 @@ function newTableRow_Nav(activuser, users) {
 function newUserBtn(user) {
 	return /*html*/ `<li class="tab col s2 bg-nav-user"><a name="${user}" class="click_user" href="#">${user}</a></li>`;
 }
-
+/*global*/
 /**
  *
  * @param {string} user User Name
@@ -40,6 +40,7 @@ function navElement(user) {
 							</tbody>`;
 }
 
+/*global*/
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected>Choose a trigger</option>';
 	list.forEach(function (e) {
@@ -48,7 +49,7 @@ function createSelectTrigger(list) {
 	});
 	return element;
 }
-
+/*global*/
 // Row in Action Popup
 function newTrInAction(val, array) {
 	if (!array) {
@@ -89,7 +90,7 @@ function newTrInAction(val, array) {
 								</td>
 </tr>`;
 }
-
+/*global*/
 function actionElement(user) {
 	return /*html*/ `<div class="row user_${user} saveTable">
           <div class="col s12">
@@ -139,6 +140,7 @@ function actionElement(user) {
           </div>
         </div>`;
 }
+/*global*/
 function newTableRow_Action(action, result) {
 	if (action === "get") {
 		return /*html*/ `<tr>
@@ -162,7 +164,7 @@ function newTableRow_Action(action, result) {
 }
 const actionDeleteButton = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>`;
 const editButton = `<td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
-
+/*global*/
 function insertVal(result, entry) {
 	let newEntry = "";
 	result[entry].forEach(function (element) {
