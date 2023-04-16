@@ -1,4 +1,4 @@
-/*global someFunction, $*/
+/*global isStringEmty, generateNav, $*/
 /**
  *
  * @param {string} classes Class to browse for empty String
