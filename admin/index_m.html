@@ -42,9 +42,9 @@
 			funcCreateUser("#user_list", settings.users)
 			funcFillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
 			funcFillTableAction(settings.data.action)
-			showAddGlobalUser(users)
+			funcShowAddGlobalUser(users)
 			funcShowHideUserEntry(activeUser)
-			showGlobalUserSettings(activeUser)
+			funcShowGlobalUserSettings(activeUser)
 			funcSetCheckbox(settings.checkbox)
 			funcGenerateSelectTrigger(activeUser)
 
@@ -106,7 +106,7 @@
 			if (funcIsStringEmty(".isString")) {
 				obj.data = tableDevices;
 				obj.users = users
-				obj.startsides = generateStartside(users)
+				obj.startsides = funcGenerateStartside(users)
 				funcGenerateSelectTrigger(activeUser)
 
 				console.log(obj)
@@ -130,7 +130,7 @@
 				let newUser = $("#username").val()
 
 				if (users.indexOf(newUser) == -1) {
-					addNewUser(users, newUser, _onChange)
+					funcAddNewUser(users, newUser, _onChange)
 				}
 			})
 			// Delete User
@@ -145,7 +145,7 @@
 				$("#user_list .active").parent().remove()
 				$(`#tabel_nav tbody[name="${userdelete}"]`)
 				$(`#${userdelete}`).remove()
-				showAddGlobalUser(users)
+				funcShowAddGlobalUser(users)
 				_onChange()
 
 			})
@@ -153,7 +153,7 @@
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
 				funcShowHideUserEntry(activeUser)
-				showGlobalUserSettings(activeUser)
+				funcShowGlobalUserSettings(activeUser)
 			})
 			// Click Nav Buttons
 			let activeBtn = "nav"
@@ -335,7 +335,7 @@
 			$("#addGlobalUser").click(function () {
 				$(this).addClass("disabled")
 				$("#usersForGlobal").val("")
-				addNewUser(users, "Global", _onChange)
+				funcAddNewUser(users, "Global", _onChange)
 			})
 
 		})

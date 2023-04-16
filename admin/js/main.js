@@ -287,13 +287,13 @@ function funcValuesToArray($this, selector) {
 	return val;
 }
 
-function showAddGlobalUser(users) {
+function funcShowAddGlobalUser(users) {
 	if (users.indexOf("Global") == -1) {
 		$("#addGlobalUser").removeClass("disabled");
 	}
 }
 
-function addNewUser(users, newUser, _onChange) {
+function funcAddNewUser(users, newUser, _onChange) {
 	users.push(newUser);
 	funcCreateUser("#user_list", [newUser]);
 	_onChange();
@@ -301,7 +301,7 @@ function addNewUser(users, newUser, _onChange) {
 	$("#addNewUser").addClass("disabled");
 }
 
-function showGlobalUserSettings(activeUser) {
+function funcShowGlobalUserSettings(activeUser) {
 	if (activeUser == "Global") $(".showGlobal").show();
 	else $(".showGlobal").hide();
 }
@@ -310,7 +310,7 @@ function showGlobalUserSettings(activeUser) {
  *
  * @param {array} users Array of Users
  */
-function generateStartside(users) {
+function funcGenerateStartside(users) {
 	const obj = {};
 	users.forEach(function (user) {
 		obj[user] = $(`#${user} input.startside`).val();
