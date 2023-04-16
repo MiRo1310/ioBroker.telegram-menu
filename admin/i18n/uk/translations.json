@@ -1,13 +1,18 @@
 {
     "Action": "Дія",
+    "Add": "додати",
     "Add new Navigation": "Додати нову навігацію",
     "Add new Username": "Додайте нове ім'я користувача",
     "All User from Telegram, seperate with": "Всі користувачі з Telegram, окремо від",
+    "Call": "Телефонуйте",
     "Cancel": "Скасувати",
     "Close": "Закрити",
     "Global User activ": "Глобальна активність користувачів",
+    "Instanze": "Instanze",
     "Navigation": "Навігація",
     "Save": "зберегти",
+    "Select": "Виберіть",
     "Settings": "Налаштування",
+    "Startside": "Стартова сторона",
     "telegram-menu adapter settings": "Налаштування адаптера для telegram-меню"
 }

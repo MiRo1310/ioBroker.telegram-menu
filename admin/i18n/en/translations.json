@@ -1,13 +1,18 @@
 {
     "Action": "Action",
+    "Add": "add",
     "Add new Navigation": "Add new Navigation",
     "Add new Username": "Add new Username",
     "All User from Telegram, seperate with": "All User from Telegram, seperate with",
+    "Call": "Call",
     "Cancel": "Cancel",
     "Close": "Close",
     "Global User activ": "Global user activ",
+    "Instanze": "Instanze",
     "Navigation": "Navigation",
     "Save": "Save",
+    "Select": "Select",
     "Settings": "Settings",
+    "Startside": "Startside",
     "telegram-menu adapter settings": "Adapter settings for telegram-menu"
 }

@@ -1,13 +1,18 @@
 {
     "Action": "Action",
+    "Add": "ajouter",
     "Add new Navigation": "Ajouter une nouvelle navigation",
     "Add new Username": "Ajouter un nouveau nom d'utilisateur",
     "All User from Telegram, seperate with": "Tous les utilisateurs de Telegram, séparés par",
+    "Call": "Appel",
     "Cancel": "Annuler",
     "Close": "Fermer",
     "Global User activ": "Activation globale de l'utilisateur",
+    "Instanze": "Instantané",
     "Navigation": "La navigation",
     "Save": "Sauvegarder",
+    "Select": "Sélectionner",
     "Settings": "Paramètres",
+    "Startside": "Côté départ",
     "telegram-menu adapter settings": "Paramètres de l'adaptateur pour le menu télégramme"
 }
