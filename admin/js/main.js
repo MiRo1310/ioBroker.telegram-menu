@@ -34,7 +34,7 @@ function generateNav() {
 			arrayRows.push([e]);
 		});
 		const arrayNew = [];
-		arrayRows.forEach((element, k) => {
+		arrayRows.forEach((element) => {
 			arrayNew.push([element[0].split(",")]);
 		});
 		navigationArray[element] = { nav: [arrayNew] };
