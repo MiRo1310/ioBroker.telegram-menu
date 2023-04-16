@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[f]unction" }]*
 /**
  *
  * @param {string} activuser Active User
