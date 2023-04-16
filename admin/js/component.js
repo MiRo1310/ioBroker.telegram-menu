@@ -1,3 +1,4 @@
+/*global*/
 /**
  *
  * @param {string} activuser Active User
@@ -42,7 +43,7 @@ function navElement(user) {
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected>Choose a trigger</option>';
 	list.forEach(function (e) {
-		let dynamicChild = `<option value="${e}" >${e}</option>`;
+		const dynamicChild = `<option value="${e}" >${e}</option>`;
 		element += dynamicChild;
 	});
 	return element;
