@@ -16,7 +16,7 @@ function isStringEmty(classes) {
 	});
 	return allOk;
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "generate" }]*/
 function generateNav() {
 	const navigationArray = {};
 	const ids = [];
@@ -41,7 +41,7 @@ function generateNav() {
 		return navigationArray;
 	});
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "func" }]*/
 /**
  *
  * @param {string} id Where to create
