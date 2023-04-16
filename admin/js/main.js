@@ -41,7 +41,7 @@ function generateNav() {
 		return navigationArray;
 	});
 }
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "func" }]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "create" }]*/
 /**
  *
  * @param {string} id Where to create
@@ -54,7 +54,7 @@ function createUser(id, users) {
 		$("#tab-action").append(actionElement(user));
 	});
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "table" }]*/
 function table2Values(id) {
 	const $tbodys = $(id).find("tbody");
 	const object = {
@@ -113,7 +113,7 @@ function table2Values(id) {
 	});
 	return object;
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "data" }]*/
 /**
  *
  * @param {*} _this
@@ -129,13 +129,14 @@ function dataToArray(_this, selector) {
 		});
 	return val;
 }
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "show" }]*/
 function showHideUserEntry(activeUser) {
 	$("tbody.table_switch_user").hide();
 	$("#tab-action>div").hide();
 	$(`tbody.table_switch_user.user_${activeUser}`).show();
 	$(`#tab-action>div.user_${activeUser}`).show();
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "set" }]*/
 /**
  *
  * @param {Array} checkbox Entrys with Checkbox Values
@@ -149,7 +150,7 @@ function setCheckbox(checkbox) {
 		}
 	});
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "split" }]*/
 function splitTextInArray(activeUser) {
 	const value_list = [];
 	$(`#${activeUser} input[data-name="value"]`).each(function () {
@@ -164,13 +165,13 @@ function splitTextInArray(activeUser) {
 	});
 	return value_list;
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "gene" }]*/
 function generateSelectTrigger(activeUser) {
 	const list = splitTextInArray(activeUser);
 	// HTML Elemente löschen und neu aufbauen
 	$("#select_trigger").empty().append(createSelectTrigger(list));
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "fill" }]*/
 function fillTable(id, data, newTableRow_Nav, users) {
 	if (data) {
 		for (const name in data) {
@@ -204,7 +205,7 @@ function generatActionRow(user, action, result, rowToUpdate) {
 		$(rowToUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
 	} else $(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "res" }]*/
 function resetModal() {
 	$(".reset").each(function () {
 		$(this).val("");
@@ -221,7 +222,7 @@ function resetModal() {
 		$(this).remove();
 	});
 }
-
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "show" }]*/
 /**
  * Show and Hide Select Button in Modal
  * @param {boolean} showTrigger
