@@ -22,8 +22,6 @@ Easily create Telegram Menus
 	### **WORK IN PROGRESS**
 -->
 
-### 0.0.1 (16.04.2023)
-
 -   (MiRo1310) initial release
 
 ## License
