@@ -39,14 +39,14 @@
 			users = settings.users
 			console.log(users)
 			activeUser = settings.users[0]
-			funcCreateUser("#user_list", settings.users)
-			funcFillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
-			funcFillTableAction(settings.data.action)
-			funcShowAddGlobalUser(users)
-			funcShowHideUserEntry(activeUser)
-			funcShowGlobalUserSettings(activeUser)
-			funcSetCheckbox(settings.checkbox)
-			funcGenerateSelectTrigger(activeUser)
+			createUser("#user_list", settings.users)
+			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
+			fillTableAction(settings.data.action)
+			showAddGlobalUser(users)
+			showHideUserEntry(activeUser)
+			showGlobalUserSettings(activeUser)
+			setCheckbox(settings.checkbox)
+			generateSelectTrigger(activeUser)
 
 
 			$('.value').each(function () {
@@ -101,13 +101,13 @@
 			})
 
 
-			const tableDevices = funcTable2Values(".saveTable");
+			const tableDevices = table2Values(".saveTable");
 
-			if (funcIsStringEmty(".isString")) {
+			if (isStringEmty(".isString")) {
 				obj.data = tableDevices;
 				obj.users = users
-				obj.startsides = funcGenerateStartside(users)
-				funcGenerateSelectTrigger(activeUser)
+				obj.startsides = generateStartside(users)
+				generateSelectTrigger(activeUser)
 
 				console.log(obj)
 				callback(obj);
@@ -130,7 +130,7 @@
 				let newUser = $("#username").val()
 
 				if (users.indexOf(newUser) == -1) {
-					funcAddNewUser(users, newUser, _onChange)
+					addNewUser(users, newUser, _onChange)
 				}
 			})
 			// Delete User
@@ -145,15 +145,15 @@
 				$("#user_list .active").parent().remove()
 				$(`#tabel_nav tbody[name="${userdelete}"]`)
 				$(`#${userdelete}`).remove()
-				funcShowAddGlobalUser(users)
+				showAddGlobalUser(users)
 				_onChange()
 
 			})
 			// Click User, Show User Navigation, Action
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
-				funcShowHideUserEntry(activeUser)
-				funcShowGlobalUserSettings(activeUser)
+				showHideUserEntry(activeUser)
+				showGlobalUserSettings(activeUser)
 			})
 			// Click Nav Buttons
 			let activeBtn = "nav"
@@ -186,7 +186,7 @@
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
 				_onChange()
-				funcGenerateNav()
+				generateNav()
 			})
 			// Eventhandler for save change 
 
@@ -287,13 +287,13 @@
 						result.checkboxes.push($(this).is(":checked"))
 					})
 				}
-				funcGeneratActionRow(activeUser, action, result, rowToUpdate)
+				generatActionRow(activeUser, action, result, rowToUpdate)
 				_onChange()
-				funcResetModal()
+				resetModal()
 			})
 			// Reset Modal Input Fields
 			$("#btn_action_close").on("click", function () {
-				funcResetModal()
+				resetModal()
 			})
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
 			// Select Check if is selected
@@ -302,7 +302,7 @@
 			$("#select_trigger").on("change", function () {
 				showTrigger = true
 				if ($(this).val() == null) showTrigger = false
-				funcShowSelectModal(showTrigger, show)
+				showSelectModal(showTrigger, show)
 			})
 			// Inputs if its not ""
 			$(".modal-content").on("input", function () {
@@ -315,7 +315,7 @@
 						}
 					})
 				})
-				funcShowSelectModal(showTrigger, show)
+				showSelectModal(showTrigger, show)
 			})
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {
@@ -335,7 +335,7 @@
 			$("#addGlobalUser").click(function () {
 				$(this).addClass("disabled")
 				$("#usersForGlobal").val("")
-				funcAddNewUser(users, "Global", _onChange)
+				addNewUser(users, "Global", _onChange)
 			})
 
 		})
