@@ -3,7 +3,7 @@
  * @param {string} activuser Active User
  * @param {array} users List of Users
  */
-var newTableRow_Nav = function (activuser, users) {
+function newTableRow_Nav(activuser, users) {
 	const userIndex = users.indexOf(activuser);
 	return /*html*/ `<tr>
     <td><input type="text" data-name="call" class="isString nav-call "></td>
@@ -11,16 +11,16 @@ var newTableRow_Nav = function (activuser, users) {
     <td><input type="text" data-name="text" class="isString nav-text "></td>    
     <td style="width: 5%;"><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
             </tr>`;
-};
+}
 
 /**
  *
  * @param {string} user User Name
  * @returns HTML Element
  */
-var newUserBtn = function (user) {
+function newUserBtn(user) {
 	return /*html*/ `<li class="tab col s2 bg-nav-user"><a name="${user}" class="click_user" href="#">${user}</a></li>`;
-};
+}
 
 /**
  *
