@@ -42,6 +42,7 @@ class TelegramMenu extends utils.Adapter {
 	async onReady() {
 		this.setState("info.connection", false, true);
 		let datapoint = `${this.config.instance}.info.connection`;
+		let instanceTelegram = this.config.instance;
 		this.log.debug("Datapoint " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
@@ -85,13 +86,16 @@ class TelegramMenu extends utils.Adapter {
 					}
 					let checkbox = this.config.checkbox;
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
-
 					let globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
+					let one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
+					let resize_keyboard = this.config.checkbox[1]["resKey"];
+
 					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
 					let userList = this.config.users;
 					let globalUserList = this.config.usersForGlobal.split(",");
 					this.log.debug("Global User List: " + JSON.stringify(globalUserList));
 					let startsides = this.config.startsides;
+
 					if (globalUserActiv) {
 						this.log.debug("Global Users sendto ");
 						globalUserList.forEach((user) => {
@@ -106,6 +110,9 @@ class TelegramMenu extends utils.Adapter {
 									user,
 									menu.data.Global[startside].text,
 									menu.data.Global[startside].nav,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
 								);
 						});
 					} else {
@@ -117,6 +124,9 @@ class TelegramMenu extends utils.Adapter {
 									user,
 									menu.data[user][startside].text,
 									menu.data[user][startside].nav,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
 								);
 						});
 					}
@@ -148,7 +158,16 @@ class TelegramMenu extends utils.Adapter {
 									this.log.debug("User to send: " + JSON.stringify(userToSend));
 									this.log.debug("Todo " + JSON.stringify(toDo));
 									this.log.debug("Part.nav: " + JSON.stringify(part.nav));
-									if (userToSend) sendToTelegram(this, userToSend, part.text, part.nav);
+									if (userToSend)
+										sendToTelegram(
+											this,
+											userToSend,
+											part.text,
+											part.nav,
+											instanceTelegram,
+											resize_keyboard,
+											one_time_keyboard,
+										);
 								}
 								// Schalten
 								if (part.switch) {
@@ -201,7 +220,8 @@ class TelegramMenu extends utils.Adapter {
 									}
 								}
 							} else {
-								sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden! ");
+								if (typeof userToSend == "string")
+									sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
 							}
 						}
 					});
