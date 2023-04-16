@@ -11,10 +11,10 @@ const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
 const generateActions = require("./lib/js/action").generateActions;
-const lichtAn = require("./lib/js/action").lichtAn;
-const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
+// const lichtAn = require("./lib/js/action").lichtAn;
+// const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
 
-let telegramID = "telegram.0.communicate.request";
+const telegramID = "telegram.0.communicate.request";
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -41,8 +41,8 @@ class TelegramMenu extends utils.Adapter {
 
 	async onReady() {
 		this.setState("info.connection", false, true);
-		let datapoint = `${this.config.instance}.info.connection`;
-		let instanceTelegram = this.config.instance;
+		const datapoint = `${this.config.instance}.info.connection`;
+		const instanceTelegram = this.config.instance;
 		this.log.debug("Datapoint " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
@@ -65,16 +65,16 @@ class TelegramMenu extends utils.Adapter {
 					const menu = {
 						data: {},
 					};
-					let _this = this;
+					const _this = this;
 					const data = this.config.data;
-					let nav = data["nav"];
-					let action = data["action"];
+					const nav = data["nav"];
+					const action = data["action"];
 					this.log.debug("Navigation " + JSON.stringify(nav));
 					this.log.debug("Action " + JSON.stringify(action));
 					try {
 						for (const name in nav) {
 							this.log.debug("Name " + JSON.stringify(name));
-							let value = await editArrayButtons(nav[name], this);
+							const value = await editArrayButtons(nav[name], this);
 							// this.log.debug("Return " + JSON.stringify(value));
 							menu.data[name] = await generateNewObjectStructure(_this, value);
 							menu.data[name] = generateActions(_this, action[name], menu.data[name]);
@@ -84,22 +84,22 @@ class TelegramMenu extends utils.Adapter {
 					} catch (error) {
 						this.log.error("Error: " + JSON.stringify(error));
 					}
-					let checkbox = this.config.checkbox;
+					const checkbox = this.config.checkbox;
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
-					let globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
-					let one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
-					let resize_keyboard = this.config.checkbox[1]["resKey"];
+					const globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
+					const one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
+					const resize_keyboard = this.config.checkbox[1]["resKey"];
 
 					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
-					let userList = this.config.users;
-					let globalUserList = this.config.usersForGlobal.split(",");
+					const userList = this.config.users;
+					const globalUserList = this.config.usersForGlobal.split(",");
 					this.log.debug("Global User List: " + JSON.stringify(globalUserList));
-					let startsides = this.config.startsides;
+					const startsides = this.config.startsides;
 
 					if (globalUserActiv) {
 						this.log.debug("Global Users sendto ");
 						globalUserList.forEach((user) => {
-							let startside = [startsides["Global"]].toString();
+							const startside = [startsides["Global"]].toString();
 
 							if (startside && typeof startside == "string")
 								this.log.debug("Text Global " + JSON.stringify(menu));
@@ -117,7 +117,7 @@ class TelegramMenu extends utils.Adapter {
 						});
 					} else {
 						userList.forEach(function (user) {
-							let startside = [startsides[user]].toString();
+							const startside = [startsides[user]].toString();
 							if (user != "Global")
 								sendToTelegram(
 									_this,
@@ -133,9 +133,9 @@ class TelegramMenu extends utils.Adapter {
 
 					this.on("stateChange", async (id, state) => {
 						if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
-							let value = state.val;
-							let user = value.slice(1, value.indexOf("]"));
-							let toDo = value.slice(value.indexOf("]") + 1, value.length);
+							const value = state.val;
+							const user = value.slice(1, value.indexOf("]"));
+							const toDo = value.slice(value.indexOf("]") + 1, value.length);
 							this.log.debug("Value: " + JSON.stringify(value));
 							this.log.debug("User: " + JSON.stringify(user));
 							this.log.debug("Todo: " + JSON.stringify(toDo));
@@ -174,7 +174,6 @@ class TelegramMenu extends utils.Adapter {
 									try {
 										part.switch.forEach(
 											(/** @type {{ id: string; value: boolean; toggle:boolean }} */ element) => {
-												let value;
 												this.log.debug("Element to set " + JSON.stringify(element));
 
 												if (element.toggle) {

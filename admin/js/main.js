@@ -69,8 +69,7 @@ function table2Values(id) {
 		const $tbody = $(this);
 
 		const $trs = $tbody.find("tr");
-		let saveName;
-		saveName = $tbody.attr("name");
+		const saveName = $tbody.attr("name");
 		if (i == 0) {
 			object.action[saveName] = { set: [], get: [] };
 		}
@@ -122,7 +121,7 @@ function table2Values(id) {
  * @returns
  */
 function dataToArray(_this, selector) {
-	let val = [];
+	const val = [];
 	$(_this)
 		.find(selector)
 		.each(function () {
@@ -152,12 +151,12 @@ function setCheckbox(checkbox) {
 }
 
 function splitTextInArray(activeUser) {
-	let value_list = [];
+	const value_list = [];
 	$(`#${activeUser} input[data-name="value"]`).each(function () {
 		let value = $(this).val();
 		if (typeof value == "string") {
 			value = value.replace(/&&/g, ",");
-			let array = value.split(",");
+			const array = value.split(",");
 			array.forEach((element) => {
 				value_list.push(element.trim());
 			});
@@ -167,7 +166,7 @@ function splitTextInArray(activeUser) {
 }
 
 function generateSelectTrigger(activeUser) {
-	let list = splitTextInArray(activeUser);
+	const list = splitTextInArray(activeUser);
 	// HTML Elemente löschen und neu aufbauen
 	$("#select_trigger").empty().append(createSelectTrigger(list));
 }
@@ -234,7 +233,7 @@ function showSelectModal(showTrigger, show) {
 }
 
 function insertEditValues(action, $this) {
-	let IDs = valuesToArray($this, "p[data-name='IDs']");
+	const IDs = valuesToArray($this, "p[data-name='IDs']");
 	let newline, switchs, values, texts;
 
 	if (action == "set") {
@@ -276,7 +275,7 @@ function insertEditValues(action, $this) {
 }
 
 function valuesToArray($this, selector) {
-	let val = [];
+	const val = [];
 	$($this)
 		.parent()
 		.siblings()
@@ -311,7 +310,7 @@ function showGlobalUserSettings(activeUser) {
  * @param {array} users Array of Users
  */
 function generateStartside(users) {
-	let obj = {};
+	const obj = {};
 	users.forEach(function (user) {
 		obj[user] = $(`#${user} input.startside`).val();
 	});
