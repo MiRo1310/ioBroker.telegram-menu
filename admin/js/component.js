@@ -1,4 +1,5 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[f]unction" }]*/
+/*global someFunction, function*/
 
 /**
  *
