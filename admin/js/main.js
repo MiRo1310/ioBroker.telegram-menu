@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[f]unction" }]*
 /**
  *
  * @param {string} classes Class to browse for empty String
