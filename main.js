@@ -7,6 +7,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
+const { debug } = require("console");
 const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
@@ -186,7 +187,10 @@ class TelegramMenu extends utils.Adapter {
 														.catch((e) => {
 															console.log(e);
 														});
-												} else this.setForeignStateAsync(element.id, element.value);
+												} else {
+													this.log.debug("Value " + JSON.stringify(element.value));
+													this.setForeignStateAsync(element.id, element.value);
+												}
 											},
 										);
 									} catch (error) {
@@ -196,24 +200,34 @@ class TelegramMenu extends utils.Adapter {
 								if (part.getData) {
 									try {
 										let text = "";
-										let i = 0;
-										part.getData.forEach((/** @type {{ id: string; text:string}} */ element) => {
-											this.getForeignStateAsync(element.id).then((value) => {
-												if (value && value.val && typeof value.val == "string") {
-													this.log.debug("GetValue " + JSON.stringify(value.val));
-													this.log.debug("Element.text " + JSON.stringify(element.text));
-													if (element.text) {
-														if (element.text.indexOf("&&") != -1)
-															text += `${element.text.replace("&&", value.val)}`;
-														else text += element.text + " " + value.val;
-													} else text += `${value.val} `;
-													i++;
-													if (i === part.getData.length && userToSend) {
-														sendToTelegram(this, userToSend, text);
+										let i = 1;
+										part.getData.forEach(
+											(/** @type {{ id: string; text:string, newline:Boolean}} */ element) => {
+												this.getForeignStateAsync(element.id).then((value) => {
+													if (value && value.val && typeof value.val == "string") {
+														this.log.debug("GetValue " + JSON.stringify(value.val));
+														this.log.debug("Element.text " + JSON.stringify(element.text));
+														let newline = "";
+														if (element.newline) {
+															this.log.debug("true");
+															newline = "\n";
+														}
+														if (element.text) {
+															if (element.text.indexOf("&&") != -1)
+																text += `${element.text.replace(
+																	"&&",
+																	value.val,
+																)}${newline}`;
+															else text += element.text + " " + value.val + newline;
+														} else text += `${value.val} ${newline}`;
+														this.log.debug("Text " + JSON.stringify(text));
 													}
-												}
-											});
-										});
+													if (userToSend && i == part.getData.length)
+														sendToTelegram(this, userToSend, text);
+													i++;
+												});
+											},
+										);
 									} catch (error) {
 										this.log.error("Error: " + JSON.stringify(error));
 									}

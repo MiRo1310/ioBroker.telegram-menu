@@ -62,7 +62,6 @@ function table2Values(id) {
 		nav: {},
 		action: {},
 	};
-	// console.log("Anzahl Tables " + $tbodys.length);
 	let i = 0;
 	$tbodys.each(function () {
 		const nav = [];
