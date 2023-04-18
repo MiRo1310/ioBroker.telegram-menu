@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "news": {
+      "0.0.4": {
+        "en": "Fixed SetState and GetState\nTranslate",
+        "de": "Fixed SetState und GetState\nÜbersetzung",
+        "ru": "Фиксированный SetState и GetState\nПеревести",
+        "pt": "Fixo SetState e GetState\nTraduzir",
+        "nl": "Vertaling:\nVertaling:",
+        "fr": "Fixed SetState and GetState\nTraduire",
+        "it": "Set fissoState e GetState\nTraduttore",
+        "es": "SetState y GetState\nTraducir",
+        "pl": "Fixe SetState and GetState (ang.)\nTranslat",
+        "uk": "Фіксований SetState і GetState\nПереклад",
+        "zh-cn": "B. 固定的国家和国\n笔译"
+      },
       "0.0.3": {
         "en": "Fixed SetState and GetState\nTranslate",
         "de": "Fixed SetState und GetState\nÜbersetzung",
