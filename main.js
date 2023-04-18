@@ -241,7 +241,6 @@ class TelegramMenu extends utils.Adapter {
 				}
 			}
 		});
-
 		// let users = this.config.users;
 
 		// }
