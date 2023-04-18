@@ -7,7 +7,6 @@
 */
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "system"}]*/
 "use strict";
-
 systemDictionary = {
 	Action: {
 		en: "Action",
