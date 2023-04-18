@@ -118,7 +118,7 @@
 
 		$(function () {
 			let rowToUpdate;
-			// New User Show Button
+			// New User Show Button			
 			$("#username").keyup(function () {
 				if ($(this).val() !== "" && users.indexOf($("#username").val()) == -1) {
 					$("#addNewUser").removeClass("disabled")
@@ -159,26 +159,26 @@
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
 				activeBtn = $(this).attr("name")
+				console.log(activeBtn)
 				if (activeBtn === "nav") {
-					$("#btn_add")
-						.attr("title", "Add new Navigation")
-						.attr("name", "nav")
-						.attr("data-target", "")
-						.show()
+					$("#btn_add_nav").show()
+					$("#btn_add_action").hide()
 				} else if (activeBtn === "action") {
-					$("#btn_add")
-						.attr("title", "Add new Action")
-						.attr("name", "action")
-						.attr("data-target", "tab_action")
-						.addClass("modal-trigger")
-						.show()
+					$("#btn_add_nav").hide()
+					$("#btn_add_action").show()
 				}
-				else $("#btn_add").hide().attr("name", "settings")
+				else {
+					$("#btn_add_nav").hide()
+					$("#btn_add_action").hide()
+				}
+
 			})
 			// Add Button New Row 
-			$("#btn_add").click(function () {
-				if (activeBtn === "nav") $(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
-				if (activeBtn === "action") rowToUpdate = null
+			$("#btn_add_nav").click(function () {
+				$(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
+			})
+			$("#btn_add_action").click(function () {
+				rowToUpdate = null
 			})
 
 
@@ -466,12 +466,12 @@
 
 			</div>
 			<div class="row" id="user_menu">
-				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled " id="addNewUser"
-					title="Add new User"><i class="material-icons">person_add</i></a>
-				<a class="delete btn-floating btn-small waves-effect waves-light red" id="deleteUser"><i
-						class="material-icons">delete</i></a>
-				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled" id="addGlobalUser"
-					title="Add Global User"><i class="material-icons">group_add</i></a>
+				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled translateT"
+					id="addNewUser" title="Add new User"><i class="material-icons">person_add</i></a>
+				<a class="delete btn-floating btn-small waves-effect waves-light red translateT" id="deleteUser"
+					title="Delete User"><i class="material-icons">delete</i></a>
+				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled translateT"
+					id="addGlobalUser" title="Add Global User"><i class="material-icons">group_add</i></a>
 
 				<div class="input-field col s3">
 					<input id="username" type="text" class="validate">
@@ -489,8 +489,12 @@
 			<div class="row">
 				<div class="col s12">
 					<div class="col s2">
-						<a class="btn-add btn-floating btn-small waves-effect waves-light blue" id="btn_add"
-							title="Add new Navigation"><i class="material-icons translate translateT">add</i></a>
+						<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT"
+							id="btn_add_nav" name="nav" title="Add new Navigation"><i
+								class="material-icons translate ">add</i></a>
+						<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT modal-trigger"
+							id="btn_add_action" name="action" title="Add new Action" data-target="tab_action"
+							style="display: none;"><i class="material-icons translate ">add</i></a>
 					</div>
 					<div class="col s6">
 						<label class="showGlobal">
