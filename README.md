@@ -35,7 +35,8 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 0.0.5 (2023-04-18)
+
+### **WORK IN PROGRESS**
 
 -   Fixed SetState and GetState
 -   Translate
