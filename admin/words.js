@@ -6,7 +6,6 @@
 +===================== DO NOT MODIFY ======================+
 */
 "use strict";
-/* eslint-disable */
 systemDictionary = {
 	Action: {
 		en: "Action",
@@ -269,4 +268,3 @@ systemDictionary = {
 		"zh-cn": "添加新用户",
 	},
 };
-/* eslint-enable */
