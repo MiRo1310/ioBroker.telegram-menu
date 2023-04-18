@@ -1,4 +1,3 @@
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "systemDictionary"}]*/
 /*global systemDictionary:true */
 /*
 +===================== DO NOT MODIFY ======================+
@@ -6,6 +5,7 @@
 | `translate-adapter adminLanguages2words` to update it.   |
 +===================== DO NOT MODIFY ======================+
 */
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "system"}]*/
 "use strict";
 
 systemDictionary = {
