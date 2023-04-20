@@ -337,10 +337,10 @@ async function getAllTelegramInstances(socket, _this) {
 					for (let i = 0; i < doc.rows.length; i++) {
 						console.log(doc.rows[i].value);
 						if (
-							(doc.rows[i].value &&
-								doc.rows[i].value.common &&
-								doc.rows[i].value.common.titleLang.en == "Telegram") ||
-							doc.rows[i].value.common.title == "Telegram"
+							doc.rows[i].value &&
+							doc.rows[i].value.common &&
+							(doc.rows[i].value.common.titleLang.en == "Telegram" ||
+								doc.rows[i].value.common.title == "Telegram")
 						) {
 							id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
 							if (i == doc.rows.length - 1) {
