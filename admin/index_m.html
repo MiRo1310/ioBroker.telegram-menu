@@ -337,6 +337,14 @@
 				$("#usersForGlobal").val("")
 				addNewUser(users, "Global", _onChange)
 			})
+			$(".modal-content").on("change", ".switch_checkbox", function () {
+
+				if ($(this).is(":checked")) {
+					console.log("checked")
+					$(this).parent().parent().find("td input.set_value").attr("disabled", "disabled")
+
+				} else $(this).parent().parent().find("td input.set_value").removeAttr("disabled")
+			})
 
 		})
 
@@ -415,7 +423,7 @@
 									<input class="set_value resetInput checkValue" type="text">
 								</td>
 								<td>
-									<input type="checkbox" class="filled-in switch_checkbox " />
+									<input id="switch_checkbox" type="checkbox" class="filled-in switch_checkbox " />
 									<span></span>
 								</td>
 								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
@@ -504,7 +512,7 @@
 					</div>
 					<div class="col s3">
 						<label class="showGlobal">
-							<input id="globalUserActiv" type="checkbox" class="filled-in valCheckbox" checked />
+							<input id="globalUserActiv" type="checkbox" class="filled-in valCheckbox" />
 							<span class="translate">Global User activ</span>
 						</label>
 					</div>
