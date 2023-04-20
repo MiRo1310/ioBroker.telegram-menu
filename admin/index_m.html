@@ -46,7 +46,8 @@
 			showGlobalUserSettings(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
-			$("#select_instance").val(settings.instance)
+			if (settings.instance.indexOf("telegram") == -1) $("#select_instance").val("telegram.0")
+			else $("#select_instance").val(settings.instance)
 
 
 			$('.value').each(function () {

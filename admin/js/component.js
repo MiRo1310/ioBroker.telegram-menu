@@ -173,8 +173,5 @@ function insertVal(result, entry) {
 	return newEntry;
 }
 function newSelectInstanceRow(id, key) {
-	let selected = "";
-	if ((key = 0)) selected = "selected";
-	else selected = "";
-	return `<option value="${id}" ${selected}>${id}</option>`;
+	return `<option value="${id}"}>${id}</option>`;
 }

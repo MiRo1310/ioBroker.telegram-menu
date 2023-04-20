@@ -337,7 +337,10 @@ async function getAllTelegramInstances(socket, _this) {
 						if (
 							doc.rows[i].value &&
 							doc.rows[i].value.common &&
-							doc.rows[i].value.common.title == "Telegram"
+							doc.rows[i].value.common.titleLang &&
+							doc.rows[i].value.common.titleLang.en &&
+							doc.rows[i].value.common.titleLang.en == "Telegram"
+							// doc.rows[i].value.common.title == "Telegram"
 						) {
 							console.log("Telegram found");
 							console.log(doc.rows[i].id.replace(/^system\.adapter\./, ""));
@@ -353,6 +356,7 @@ async function getAllTelegramInstances(socket, _this) {
 						}
 						if (i == doc.rows.length - 1) {
 							id.forEach((id, key) => {
+								console.log(key);
 								$("#select_instance").append(newSelectInstanceRow(id, key));
 							});
 						}
