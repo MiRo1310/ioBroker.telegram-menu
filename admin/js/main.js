@@ -346,7 +346,9 @@ async function getAllTelegramInstances(socket, _this) {
 							console.log("Telegram found");
 							console.log(doc.rows[i].id.replace(/^system\.adapter\./, ""));
 							id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
+							console.log(i);
 							if (i == doc.rows.length - 1) {
+								console.log("id " + id);
 								id.forEach((id) => {
 									$("#select_instance").append(newSelectInstanceRow(id));
 								});
