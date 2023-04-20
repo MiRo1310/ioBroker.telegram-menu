@@ -31,7 +31,7 @@
 		let _onChange
 		var users;
 		let activeUser;
-		let instance = ""
+		let instanceTeleGram = ""
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -47,7 +47,7 @@
 			showGlobalUserSettings(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
-			if (settings.instance) instance = settings.instance
+			if (settings.instance) instanceTeleGram = settings.instance
 
 
 
@@ -120,7 +120,7 @@
 
 
 		$(function () {
-			if (instance.indexOf("telegram") > -1) $("#select_instance").val(settings.instance)
+			if (instanceTeleGram.indexOf("telegram") > -1) $("#select_instance").val(settings.instance)
 			else {
 				$("#select_instance").val("telegram.0")
 				_onChange()
