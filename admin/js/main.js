@@ -333,6 +333,7 @@ async function getAllTelegramInstances(socket, _this) {
 			{ startkey: "system.adapter.", endkey: "system.adapter.\u9999" },
 			function (err, doc) {
 				if (!err && doc.rows.length) {
+					console.log("docs row " + doc.rows.length);
 					for (let i = 0; i < doc.rows.length; i++) {
 						console.log(doc.rows[i].value);
 						if (
