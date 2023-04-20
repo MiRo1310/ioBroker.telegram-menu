@@ -333,15 +333,13 @@ async function getAllTelegramInstances(socket, _this) {
 			{ startkey: "system.adapter.", endkey: "system.adapter.\u9999" },
 			function (err, doc) {
 				if (!err && doc.rows.length) {
-					console.log("docs row " + doc.rows.length);
 					for (let i = 0; i < doc.rows.length; i++) {
-						console.log(doc.rows[i].value);
-						console.log(doc.rows[i].value.common.title);
-						console.log(doc.rows[i].value.common.title == "Telegram");
 						if (
 							doc.rows[i].value &&
 							doc.rows[i].value.common &&
-							doc.rows[i].value.common.title == "Telegram"
+							(doc.rows[i].value.common.title == "Telegram" ||
+								(doc.rows[i].value.common.titleLang.en &&
+									doc.rows[i].value.common.titleLang.en == "Telegram"))
 						) {
 							console.log("Telegram found");
 							console.log(doc.rows[i].id.replace(/^system\.adapter\./, ""));
