@@ -323,32 +323,36 @@ function generateStartside(users) {
  * @param {*} socket
  * @returns
  */
-async function getAllHistoryInstances(socket) {
+async function getAllTelegramInstances(socket, _this) {
 	const id = [];
-	await socket.emit(
-		"getObjectView",
-		"system",
-		"instance",
-		{ startkey: "system.adapter.", endkey: "system.adapter.\u9999" },
-		function (err, doc) {
-			if (!err && doc.rows.length) {
-				for (let i = 0; i < doc.rows.length; i++) {
-					console.log(doc.rows[i].value);
-					if (
-						doc.rows[i].value &&
-						doc.rows[i].value.common &&
-						doc.rows[i].value.common.titleLang.en == "Telegram"
-					) {
-						id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
-						if (i == doc.rows.length - 1) {
-							console.log(id);
-							id.forEach((id) => {
-								$("#select_instance").append(newSelectInstanceRow(id));
-							});
+	try {
+		await socket.emit(
+			"getObjectView",
+			"system",
+			"instance",
+			{ startkey: "system.adapter.", endkey: "system.adapter.\u9999" },
+			function (err, doc) {
+				if (!err && doc.rows.length) {
+					for (let i = 0; i < doc.rows.length; i++) {
+						console.log(doc.rows[i].value);
+						if (
+							(doc.rows[i].value &&
+								doc.rows[i].value.common &&
+								doc.rows[i].value.common.titleLang.en == "Telegram") ||
+							doc.rows[i].value.common.title == "Telegram"
+						) {
+							id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
+							if (i == doc.rows.length - 1) {
+								id.forEach((id) => {
+									$("#select_instance").append(newSelectInstanceRow(id));
+								});
+							}
 						}
 					}
 				}
-			}
-		},
-	);
+			},
+		);
+	} catch (err) {
+		_this.log.debug("Error: " + JSON.stringify(err));
+	}
 }

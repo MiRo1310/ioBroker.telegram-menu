@@ -37,7 +37,6 @@
 			if (!settings) return;
 			_onChange = onChange
 			users = settings.users
-			console.log(users)
 			activeUser = settings.users[0]
 			createUser("#user_list", settings.users)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
@@ -88,7 +87,6 @@
 					obj[$this.attr('id')] = parseFloat($this.val());
 
 				} else if (!$this.attr("data-nosave")) {
-					console.log($this)
 					obj[$this.attr('id')] = $this.val();
 
 				}
@@ -112,7 +110,7 @@
 				obj.startsides = generateStartside(users)
 				generateSelectTrigger(activeUser)
 
-				console.log(obj)
+				// console.log(obj)
 				callback(obj);
 			}
 		}
@@ -143,7 +141,7 @@
 				if (userdelete == "Global") {
 					$(".showGlobal").hide()
 					$("#globalUserActiv").prop("checked", false)
-					console.log($("#globalUserActiv").is(":checked"))
+					// console.log($("#globalUserActiv").is(":checked"))
 				}
 				users.splice(users.indexOf(userdelete), 1)
 				$("#user_list .active").parent().remove()
@@ -163,7 +161,7 @@
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
 				activeBtn = $(this).attr("name")
-				console.log(activeBtn)
+
 				if (activeBtn === "nav") {
 					$("#btn_add_nav").show()
 					$("#btn_add_action").hide()
@@ -220,7 +218,7 @@
 
 
 			// Select Instance			
-			getAllHistoryInstances(socket)
+			getAllTelegramInstances(socket)
 			$("#select_instance").on('change', function () {
 
 				_onChange()
@@ -355,7 +353,6 @@
 			$(".modal-content").on("change", ".switch_checkbox", function () {
 
 				if ($(this).is(":checked")) {
-					console.log("checked")
 					$(this).parent().parent().find("td input.set_value").attr("disabled", "disabled")
 
 				} else $(this).parent().parent().find("td input.set_value").removeAttr("disabled")
