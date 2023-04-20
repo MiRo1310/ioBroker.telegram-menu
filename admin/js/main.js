@@ -350,8 +350,8 @@ async function getAllTelegramInstances(socket, _this) {
 						}
 						if (i == doc.rows.length - 1) {
 							console.log("id " + id);
-							id.forEach((id) => {
-								$("#select_instance").append(newSelectInstanceRow(id));
+							id.forEach((id, key) => {
+								$("#select_instance").append(newSelectInstanceRow(id, key));
 							});
 						}
 					}

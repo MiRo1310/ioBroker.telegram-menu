@@ -172,7 +172,9 @@ function insertVal(result, entry) {
 	});
 	return newEntry;
 }
-function newSelectInstanceRow(id) {
-	console.log(id);
-	return `<option value="${id}">${id}</option>`;
+function newSelectInstanceRow(id, key) {
+	let selected = "";
+	if ((key = 0)) selected = "selected";
+	else selected = "";
+	return `<option value="${id}" ${selected}>${id}</option>`;
 }
