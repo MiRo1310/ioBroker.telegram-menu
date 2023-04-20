@@ -336,6 +336,8 @@ async function getAllTelegramInstances(socket, _this) {
 					console.log("docs row " + doc.rows.length);
 					for (let i = 0; i < doc.rows.length; i++) {
 						console.log(doc.rows[i].value);
+						console.log(doc.rows[i].value.common.title);
+						console.log(doc.rows[i].value.common.title == "Telegram");
 						if (
 							doc.rows[i].value &&
 							doc.rows[i].value.common &&
