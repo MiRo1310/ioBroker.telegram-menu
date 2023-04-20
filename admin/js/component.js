@@ -172,6 +172,6 @@ function insertVal(result, entry) {
 	});
 	return newEntry;
 }
-function newSelectInstanceRow(id, key) {
-	return `<option value="${id}"}>${id}</option>`;
+function newSelectInstanceRow(id) {
+	return `<option value="${id}">${id}</option>`;
 }

@@ -360,6 +360,10 @@
 
 				} else $(this).parent().parent().find("td input.set_value").removeAttr("disabled")
 			})
+			if (instanceTeleGram && instanceTeleGram == "") {
+				$("#select_instance").val("telegram.0")
+				_onChange()
+			} else $("#select_instance").val(instanceTeleGram)
 
 		})
 

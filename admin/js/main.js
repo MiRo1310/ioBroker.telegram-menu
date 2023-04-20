@@ -347,17 +347,10 @@ async function getAllTelegramInstances(socket, _this) {
 							id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
 							console.log(i);
 						}
-						if (
-							doc.rows[i].value.common.titleLang &&
-							doc.rows[i].value.common.titleLang.en &&
-							doc.rows[i].value.common.titleLang.en == "Telegram"
-						) {
-							console.log("check");
-						}
 						if (i == doc.rows.length - 1) {
 							id.forEach((id, key) => {
 								console.log(key);
-								$("#select_instance").append(newSelectInstanceRow(id, key));
+								$("#select_instance").append(newSelectInstanceRow(id));
 							});
 						}
 					}
