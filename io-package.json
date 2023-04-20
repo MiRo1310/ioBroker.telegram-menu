@@ -131,19 +131,6 @@
 				"def": false
 			},
 			"native": {}
-		},
-		{
-			"_id": "navigation",
-			"type": "state",
-			"common": {
-				"role": "value",
-				"name": "Navigation",
-				"type": "json",
-				"read": true,
-				"write": false,
-				"def": {}
-			},
-			"native": {}
 		}
 	]
 }
