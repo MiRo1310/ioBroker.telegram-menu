@@ -47,6 +47,7 @@
 			showGlobalUserSettings(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
+			$("#select_instance").val(settings.instance)
 
 
 			$('.value').each(function () {
@@ -74,6 +75,7 @@
 
 		// This will be called by the admin adapter when the user presses the save button
 		function save(callback) {
+
 			// example: select elements with class=value and build settings object
 			var obj = {};
 			obj.checkbox = []
@@ -104,6 +106,7 @@
 			const tableDevices = table2Values(".saveTable");
 
 			if (isStringEmty(".isString")) {
+				obj.instance = $("#select_instance").val()
 				obj.data = tableDevices;
 				obj.users = users
 				obj.startsides = generateStartside(users)
@@ -117,6 +120,7 @@
 
 
 		$(function () {
+
 			let rowToUpdate;
 			// New User Show Button			
 			$("#username").keyup(function () {
@@ -214,12 +218,23 @@
 			//Modal
 			$('.modal').modal()
 
+
+			// Select Instance			
+			getAllHistoryInstances(socket)
+			$("#select_instance").on('change', function () {
+
+				_onChange()
+			})
+
+
 			// Select Inizializieren
 			$("select").select();
 			// Select Updaten
 			$('select').on('DOMSubtreeModified', function () {
 				$(this).select();
 			});
+
+
 
 			// Tables in Action Verstecken und Button new Row
 			$(".modal-content table").hide()
@@ -347,6 +362,7 @@
 			})
 
 		})
+
 
 
 	</script>
@@ -552,12 +568,17 @@
 				<div class="col s12">
 					<h1 class="translate">Settings</h1>
 					<div class="row">
-						<div class="col s2">
+						<div class="input-field col s3">
+							<select id="select_instance" class="materialSelect reset checkValue">
+							</select>
+							<label>Instance</label>
+						</div>
+						<!-- <div class="col s2">
 							<label>
 								<input id="instance" type="text" class="value" value="telegram.0">
 								<span class="translate">Instanze</span>
 							</label>
-						</div>
+						</div> -->
 						<!-- <div class="input-field col s2">
 							<input placeholder="," id="sepBtn" type="text" class="validate center-align value">
 							<label for="sepBtn">Separation buttons</label>

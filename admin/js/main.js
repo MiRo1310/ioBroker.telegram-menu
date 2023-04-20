@@ -1,5 +1,6 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|getAllHistoryInstances"}]*/
+
 /**
  *
  * @param {string} classes Class to browse for empty String
@@ -317,18 +318,37 @@ function generateStartside(users) {
 	return obj;
 }
 
-// function getAllHistoryInstances(value) {
-// 	socket.emit('getObjectView', 'system', 'instance', {startkey: 'system.adapter.', endkey: 'system.adapter.\u9999'}, function (err, doc) {
-// 		if (!err && doc.rows.length) {
-// 			var $select = $('#history');
-// 			for (var i = 0; i < doc.rows.length; i++) {
-// 				if (doc.rows[i].value && doc.rows[i].value.common && doc.rows[i].value.common.getHistory) {
-// 					var id = doc.rows[i].id.replace(/^system\.adapter\./, '');
-// 					$select.append('<option value="' + id + '">' + id + '</option>');
-// 				}
-// 			}
-// 		}
-// 		$select.val(value || '');
-// 		$select.select();
-// 	});
-// }
+/**
+ *
+ * @param {*} socket
+ * @returns
+ */
+async function getAllHistoryInstances(socket) {
+	let id = [];
+	await socket.emit(
+		"getObjectView",
+		"system",
+		"instance",
+		{ startkey: "system.adapter.", endkey: "system.adapter.\u9999" },
+		function (err, doc) {
+			if (!err && doc.rows.length) {
+				for (let i = 0; i < doc.rows.length; i++) {
+					console.log(doc.rows[i].value);
+					if (
+						doc.rows[i].value &&
+						doc.rows[i].value.common &&
+						doc.rows[i].value.common.titleLang.en == "Telegram"
+					) {
+						id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
+						if (i == doc.rows.length - 1) {
+							console.log(id);
+							id.forEach((id) => {
+								$("#select_instance").append(newSelectInstanceRow(id));
+							});
+						}
+					}
+				}
+			}
+		},
+	);
+}
