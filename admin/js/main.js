@@ -1,5 +1,5 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new"}]*/
 
 /**
  *
