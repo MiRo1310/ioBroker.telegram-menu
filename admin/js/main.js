@@ -324,7 +324,7 @@ function generateStartside(users) {
  * @returns
  */
 async function getAllHistoryInstances(socket) {
-	let id = [];
+	const id = [];
 	await socket.emit(
 		"getObjectView",
 		"system",
