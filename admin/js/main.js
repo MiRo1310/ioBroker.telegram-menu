@@ -338,7 +338,8 @@ async function getAllTelegramInstances(socket, _this) {
 							doc.rows[i].value &&
 							doc.rows[i].value.common &&
 							(doc.rows[i].value.common.title == "Telegram" ||
-								(doc.rows[i].value.common.titleLang.en &&
+								(doc.rows[i].value.common.titleLang &&
+									doc.rows[i].value.common.titleLang.en &&
 									doc.rows[i].value.common.titleLang.en == "Telegram"))
 						) {
 							console.log("Telegram found");
