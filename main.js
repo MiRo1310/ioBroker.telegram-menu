@@ -43,6 +43,7 @@ class TelegramMenu extends utils.Adapter {
 		this.setState("info.connection", false, true);
 		const datapoint = `${this.config.instance}.info.connection`;
 		const instanceTelegram = this.config.instance;
+		this.log.debug("Instance " + JSON.stringify(instanceTelegram));
 		this.log.debug("Datapoint " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
