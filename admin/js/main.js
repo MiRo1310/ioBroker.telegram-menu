@@ -362,6 +362,7 @@ function showUser(activeUser) {
 	showGlobalUserSettings(activeUser);
 	$("#user_list li a").each(function () {
 		$(this).removeClass("active");
+		console.log("remove");
 	});
 	$(`#user_list li a[name=${activeUser}]`).addClass("active");
 }
