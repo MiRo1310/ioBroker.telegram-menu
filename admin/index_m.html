@@ -31,6 +31,7 @@
 		let _onChange
 		var users;
 		let activeUser;
+		let telegramInstance
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -46,8 +47,9 @@
 			showGlobalUserSettings(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
-			if (settings.instance) $("#select_instance").val(settings.instance).select()
-			else $("#select_instance").val("telegram.0").select()
+			console.log(settings.instance)
+			if (settings.instance) telegramInstance = settings.instance
+			else telegramInstance = "telegram.0"
 
 
 
@@ -108,6 +110,7 @@
 
 			if (isStringEmty(".isString")) {
 				console.log($("#select_instance").val())
+
 				obj.instance = $("#select_instance").val()
 				obj.data = tableDevices;
 				obj.users = users
@@ -225,6 +228,7 @@
 
 			// Select Instance			
 			getAllTelegramInstances(socket, this)
+			$("#select_instance").val(telegramInstance).select()
 			$("#select_instance").on('change', function () {
 
 				_onChange()
