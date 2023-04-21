@@ -136,6 +136,7 @@
 
 				if (users.indexOf(newUser) == -1) {
 					addNewUser(users, newUser, _onChange)
+					showUser(newUser)
 				}
 			})
 			// Delete User
@@ -157,8 +158,7 @@
 			// Click User, Show User Navigation, Action
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
-				showHideUserEntry(activeUser)
-				showGlobalUserSettings(activeUser)
+				showUser(activeUser)
 			})
 			// Click Nav Buttons
 			let activeBtn = "nav"

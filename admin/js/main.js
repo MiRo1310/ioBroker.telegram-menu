@@ -1,5 +1,5 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show"}]*/
 
 /**
  *
@@ -360,4 +360,12 @@ async function getAllTelegramInstances(socket, _this) {
 	} catch (err) {
 		_this.log.debug("Error: " + JSON.stringify(err));
 	}
+}
+function showUser(activeUser) {
+	showHideUserEntry(activeUser);
+	showGlobalUserSettings(activeUser);
+	$("#user_list li a").each(function () {
+		$(this).removeClass("active");
+	});
+	$(`#user_list li a[name=${activeUser}]`).addClass("active");
 }
