@@ -336,10 +336,10 @@ function generateStartside(users) {
  * @param {*} socket
  * @returns
  */
-async function getAllTelegramInstances(socket, _this) {
+function getAllTelegramInstances(socket, _this, telegramInstance) {
 	const id = [];
 	try {
-		await socket.emit(
+		socket.emit(
 			"getObjectView",
 			"system",
 			"instance",
@@ -361,6 +361,7 @@ async function getAllTelegramInstances(socket, _this) {
 							id.forEach((id) => {
 								$("#select_instance").append(newSelectInstanceRow(id));
 							});
+							$("#select_instance").val(telegramInstance).select();
 						}
 					}
 				}
