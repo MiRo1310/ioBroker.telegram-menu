@@ -31,7 +31,6 @@
 		let _onChange
 		var users;
 		let activeUser;
-		let instanceTeleGram = ""
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -47,7 +46,7 @@
 			showGlobalUserSettings(activeUser)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
-			if (settings.instance) instanceTeleGram = settings.instance
+
 
 
 
@@ -361,10 +360,6 @@
 
 				} else $(this).parent().parent().find("td input.set_value").removeAttr("disabled")
 			})
-			if (instanceTeleGram && instanceTeleGram == "") {
-				$("#select_instance").val("telegram.0")
-				_onChange()
-			} else $("#select_instance").val(instanceTeleGram)
 
 		})
 
