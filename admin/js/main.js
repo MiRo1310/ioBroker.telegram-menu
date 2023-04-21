@@ -361,7 +361,6 @@ function getAllTelegramInstances(socket, _this, telegramInstance) {
 							id.forEach((id) => {
 								$("#select_instance").append(newSelectInstanceRow(id));
 							});
-							$("#select_instance").val(telegramInstance).select();
 						}
 					}
 				}

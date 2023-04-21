@@ -230,6 +230,8 @@
 			getAllTelegramInstances(socket, this, telegramInstance)
 			console.log(telegramInstance)
 			$("#select_instance").on('change', function () {
+				console.log(telegramInstance);
+				$("#select_instance").val(telegramInstance).select();
 				_onChange()
 			})
 
