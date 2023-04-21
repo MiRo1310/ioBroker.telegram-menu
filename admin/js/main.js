@@ -63,8 +63,9 @@ function table2Values(id) {
 		nav: {},
 		action: {},
 	};
-	let i = 0;
+
 	$tbodys.each(function () {
+		let i = 0;
 		const nav = [];
 		let actionSet, actionGet;
 		const $tbody = $(this);
