@@ -336,7 +336,7 @@ function generateStartside(users) {
  * @param {*} socket
  * @returns
  */
-function getAllTelegramInstances(socket, _this, telegramInstance) {
+function getAllTelegramInstances(socket, _this) {
 	const id = [];
 	try {
 		socket.emit(
