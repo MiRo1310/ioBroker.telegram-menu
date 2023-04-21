@@ -77,7 +77,7 @@ class TelegramMenu extends utils.Adapter {
 							const value = await editArrayButtons(nav[name], this);
 							// this.log.debug("Return " + JSON.stringify(value));
 							menu.data[name] = await generateNewObjectStructure(_this, value);
-							menu.data[name] = generateActions(_this, action[name], menu.data[name]);
+							menu.data[name] = await generateActions(_this, action[name], menu.data[name]);
 						}
 
 						this.log.debug("Resume " + JSON.stringify(menu.data));
