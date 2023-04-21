@@ -72,7 +72,9 @@ function table2Values(id) {
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
 		if (i == 0) {
+			console.log("anlegen");
 			object.action[saveName] = { set: [], get: [] };
+			console.log(object.action);
 		}
 		i++;
 		$trs.each(function () {
