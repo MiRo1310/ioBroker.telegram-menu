@@ -203,7 +203,8 @@ class TelegramMenu extends utils.Adapter {
 										part.getData.forEach(
 											(/** @type {{ id: string; text:string, newline:Boolean}} */ element) => {
 												this.getForeignStateAsync(element.id).then((value) => {
-													if (value && value.val && typeof value.val == "string") {
+													if (value && value.val) {
+														const val = JSON.stringify(value.val);
 														this.log.debug("GetValue " + JSON.stringify(value.val));
 														this.log.debug("Element.text " + JSON.stringify(element.text));
 														let newline = "";
@@ -213,12 +214,9 @@ class TelegramMenu extends utils.Adapter {
 														}
 														if (element.text) {
 															if (element.text.indexOf("&&") != -1)
-																text += `${element.text.replace(
-																	"&&",
-																	value.val,
-																)}${newline}`;
-															else text += element.text + " " + value.val + newline;
-														} else text += `${value.val} ${newline}`;
+																text += `${element.text.replace("&&", val)}${newline}`;
+															else text += element.text + " " + val + newline;
+														} else text += `${val} ${newline}`;
 														this.log.debug("Text " + JSON.stringify(text));
 													}
 													if (userToSend && i == part.getData.length)
