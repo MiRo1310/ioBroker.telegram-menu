@@ -358,7 +358,7 @@ async function getAllTelegramInstances(socket, _this) {
 			},
 		);
 	} catch (err) {
-		_this.log.debug("Error: " + JSON.stringify(err));
+		_this.log.debug("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
 }
 function showUser(activeUser) {

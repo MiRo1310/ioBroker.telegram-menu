@@ -81,8 +81,8 @@ class TelegramMenu extends utils.Adapter {
 						}
 
 						this.log.debug("Resume " + JSON.stringify(menu.data));
-					} catch (error) {
-						this.log.error("Error: " + JSON.stringify(error));
+					} catch (err) {
+						this.log.error("Error generateNav: " + JSON.stringify(err));
 					}
 					const checkbox = this.config.checkbox;
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
@@ -193,7 +193,7 @@ class TelegramMenu extends utils.Adapter {
 											},
 										);
 									} catch (error) {
-										this.log.error("" + JSON.stringify(error));
+										this.log.error("Error Switch" + JSON.stringify(error));
 									}
 								}
 								if (part.getData) {
@@ -226,7 +226,7 @@ class TelegramMenu extends utils.Adapter {
 											},
 										);
 									} catch (error) {
-										this.log.error("Error: " + JSON.stringify(error));
+										this.log.error("Error Getdata: " + JSON.stringify(error));
 									}
 								}
 							} else {
