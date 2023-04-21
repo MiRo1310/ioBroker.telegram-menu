@@ -63,21 +63,29 @@ function table2Values(id) {
 		nav: {},
 		action: {},
 	};
-
+	console.log($tbodys.length);
+	let i = 0;
+	let obj;
 	$tbodys.each(function () {
-		let i = 0;
+		// console.log(this);
+
 		const nav = [];
 		let actionSet, actionGet;
 		const $tbody = $(this);
 
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
+
+		console.log("i " + i);
 		if (i == 0) {
-			console.log("anlegen");
-			object.action[saveName] = { set: [], get: [] };
-			console.log(object.action);
+			obj = {
+				get: [],
+				set: [],
+			};
 		}
 		i++;
+		actionSet = {};
+		actionGet = {};
 		$trs.each(function () {
 			const dataName = $tbody.attr("data-name");
 			if (dataName === "nav") {
@@ -98,6 +106,8 @@ function table2Values(id) {
 					values: dataToArray(this, "p[data-name='values']"),
 				};
 			}
+
+			console.log(obj);
 			if (dataName === "get") {
 				actionGet = {
 					IDs: dataToArray(this, "p[data-name='IDs']"),
@@ -106,14 +116,14 @@ function table2Values(id) {
 					text: dataToArray(this, "p[data-name='text']"),
 				};
 			}
-			if (actionSet) {
-				object.action[saveName].set.push(actionSet);
+			if (actionSet && actionSet.IDs) {
+				obj.set.push(actionSet);
 			}
-
-			if (actionGet) {
-				object.action[saveName].get.push(actionGet);
+			if (actionGet && actionGet.IDs) {
+				obj.get.push(actionGet);
 			}
 		});
+		object.action[saveName] = obj;
 	});
 	return object;
 }
