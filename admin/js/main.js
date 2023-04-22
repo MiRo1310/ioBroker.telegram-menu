@@ -63,7 +63,7 @@ function table2Values(id) {
 		nav: {},
 		action: {},
 	};
-	console.log($tbodys.length);
+
 	let i = 0;
 	let obj;
 	$tbodys.each(function () {
@@ -76,7 +76,6 @@ function table2Values(id) {
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
 
-		console.log("i " + i);
 		if (i == 0) {
 			obj = {
 				get: [],
@@ -107,7 +106,6 @@ function table2Values(id) {
 				};
 			}
 
-			console.log(obj);
 			if (dataName === "get") {
 				actionGet = {
 					IDs: dataToArray(this, "p[data-name='IDs']"),
