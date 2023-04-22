@@ -91,9 +91,10 @@ class TelegramMenu extends utils.Adapter {
 					const one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
 					const resize_keyboard = this.config.checkbox[1]["resKey"];
 
-					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
 					const userList = this.config.users;
 					const globalUserList = this.config.usersForGlobal.split(",");
+					this.log.debug("UserList: " + JSON.stringify(userList));
+					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
 					this.log.debug("Global User List: " + JSON.stringify(globalUserList));
 					const startsides = this.config.startsides;
 
@@ -117,19 +118,23 @@ class TelegramMenu extends utils.Adapter {
 								);
 						});
 					} else {
-						userList.forEach(function (user) {
-							const startside = [startsides[user]].toString();
-							if (user != "Global")
-								sendToTelegram(
-									_this,
-									user,
-									menu.data[user][startside].text,
-									menu.data[user][startside].nav,
-									instanceTelegram,
-									resize_keyboard,
-									one_time_keyboard,
-								);
-						});
+						try {
+							userList.forEach(function (user) {
+								const startside = [startsides[user]].toString();
+								if (user != "Global")
+									sendToTelegram(
+										_this,
+										user,
+										menu.data[user][startside].text,
+										menu.data[user][startside].nav,
+										instanceTelegram,
+										resize_keyboard,
+										one_time_keyboard,
+									);
+							});
+						} catch (error) {
+							console.log("Error read UserList" + error);
+						}
 					}
 
 					this.on("stateChange", async (id, state) => {
