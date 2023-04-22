@@ -10,7 +10,7 @@ function newTableRow_Nav(activuser, users) {
 	return /*html*/ `<tr>
     <td><input type="text" data-name="call" class="isString nav-call "></td>
     <td><input type="text" data-name="value" class="isString nav-value "></td>
-    <td><input type="text" data-name="text" class="isString nav-text "></td>    
+    <td><input type="text" data-name="text" class="isString nav-text " value="Wähle eine Aktion"></td>    
     <td style="width: 5%;"><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
             </tr>`;
 }
