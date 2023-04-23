@@ -79,7 +79,7 @@ function newTrInAction(val, array) {
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
       title="Get ID"><i class="material-icons">edit</i></a></td>
   <td>
-    <input class="set_value checkValue" type="text" value="${array[3]}">
+    <input class="set_value checkValueSwitch" type="text" value="${array[3]}">
   </td>
   <td><label>
       <input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/> 

@@ -1,5 +1,5 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal"}]*/
 
 /**
  *
@@ -380,4 +380,30 @@ function showUser(activeUser) {
 		console.log("remove");
 	});
 	$(`#user_list li a[name=${activeUser}]`).addClass("active");
+}
+function checkValueModal(showTrigger) {
+	let show = true;
+	$(".checkValue").each(function () {
+		const action = $("#select_action").val();
+		$(`table#tab_${action} .checkValue`).each(function () {
+			if ($(this).val() == "") {
+				show = false;
+				console.log("auf false");
+			}
+		});
+	});
+
+	$("#tab_set tbody tr").each(function () {
+		if (
+			!(
+				($(this).find(".checkValueSwitch").val() != "" &&
+					$(this).find(".checkValueSwitch").val() != undefined) ||
+				$(this).find(".switch_checkbox").is(":checked")
+			)
+		) {
+			console.log("auf false hier");
+			show = false;
+		}
+	});
+	showSelectModal(showTrigger, show);
 }

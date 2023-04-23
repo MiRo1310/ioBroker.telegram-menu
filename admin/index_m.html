@@ -324,25 +324,19 @@
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
 			// Select Check if is selected
 			let showTrigger = false
-			let show
 			$("#select_trigger").on("change", function () {
 				showTrigger = true
 				if ($(this).val() == null) showTrigger = false
 				showSelectModal(showTrigger, show)
 			})
 			// Inputs if its not ""
-			$(".modal-content").on("input", function () {
-				show = true
-				$(".checkValue").each(function () {
-					const act = $("#select_action").val()
-					$(`table#tab_${act} .checkValue`).each(function () {
-						if ($(this).val() == "") {
-							show = false
-						}
-					})
-				})
-				showSelectModal(showTrigger, show)
+			$(".modal-content").on("input change", function () {
+				checkValueModal(showTrigger)
 			})
+			// $(".modal-content").on("change", "input.switch_checkbox", function () {
+			// 	checkValueModal(showTrigger)
+			// })
+
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {
 				rowToUpdate = $(this).parents("tr")
@@ -363,6 +357,9 @@
 				$("#usersForGlobal").val("")
 				addNewUser(users, "Global", _onChange)
 			})
+
+			// Value deaktivieren wenn Switch checked
+
 			$(".modal-content").on("change", ".switch_checkbox", function () {
 
 				if ($(this).is(":checked")) {
@@ -446,7 +443,7 @@
 								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 										title="Get ID"><i class="material-icons">edit</i></a></td>
 								<td>
-									<input class="set_value resetInput checkValue" type="text">
+									<input class="set_value resetInput checkValueSwitch" type="text" value="">
 								</td>
 								<td>
 									<input id="switch_checkbox" type="checkbox" class="filled-in switch_checkbox " />
@@ -492,8 +489,9 @@
 
 				</div>
 				<div class="modal-footer">
-					<a class="modal-action modal-close waves-effect waves-green btn btn-set" id="btn_action_set"
-						disabled><i class="large material-icons left">check</i><span class="translate">Save</span></a>
+					<a class="modal-action modal-close waves-effect waves-green btn btn-set" disabled
+						id="btn_action_set" disabled><i class="large material-icons left">check</i><span
+							class="translate">Save</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
@@ -542,7 +540,11 @@
 							<span class="translate">Global User activ</span>
 						</label>
 					</div>
-
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12 ">
+					<p class="translate infoText">!!! Each entry may only occur once in the complete navigation !!!</p>
 				</div>
 			</div>
 		</header>

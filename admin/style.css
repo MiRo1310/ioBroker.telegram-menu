@@ -97,3 +97,10 @@ table th {
 .startRow {
 	background-color: rgb(150, 209, 90);
 }
+
+.infoText {
+	text-align: center;
+	color: #ce3a3a;
+	margin: 0;
+	text-decoration: underline;
+}
