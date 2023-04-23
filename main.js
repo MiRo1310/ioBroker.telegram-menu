@@ -55,7 +55,6 @@ class TelegramMenu extends utils.Adapter {
 			} else {
 				// Datenpunkt wurde gefunden
 				telegramState = await this.getForeignStateAsync(datapoint);
-				this.log.debug("Datapoint " + JSON.stringify(datapoint));
 				telegramAktiv = telegramState?.val;
 				if (!telegramAktiv) {
 					this.log.info("Telegram was found, but is not runnig. Please start!");
