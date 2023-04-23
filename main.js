@@ -81,8 +81,6 @@ class TelegramMenu extends utils.Adapter {
 							menu.data[name] = await generateActions(_this, action[name], menu.data[name]);
 							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
 						}
-
-						this.log.debug("Resume " + JSON.stringify(menu.data));
 					} catch (err) {
 						this.log.error("Error generateNav: " + JSON.stringify(err));
 					}
