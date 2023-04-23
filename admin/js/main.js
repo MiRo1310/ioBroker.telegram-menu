@@ -58,6 +58,7 @@ function createUser(id, users) {
 }
 
 function table2Values(id) {
+	let oldName;
 	const $tbodys = $(id).find("tbody");
 	const object = {
 		nav: {},
@@ -75,7 +76,10 @@ function table2Values(id) {
 
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
-
+		if (oldName != "" && saveName != oldName) {
+			i = 0;
+		}
+		oldName = saveName;
 		if (i == 0) {
 			obj = {
 				get: [],

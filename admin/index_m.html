@@ -151,13 +151,16 @@
 				if (userdelete == "Global") {
 					$(".showGlobal").hide()
 					$("#globalUserActiv").prop("checked", false)
-					// console.log($("#globalUserActiv").is(":checked"))
+
 				}
 				users.splice(users.indexOf(userdelete), 1)
 				$("#user_list .active").parent().remove()
-				$(`#tabel_nav tbody[name="${userdelete}"]`)
+				$(`#tab-nav tbody[name="${userdelete}"]`).remove()
+				$(`#tab-action tbody[name="${userdelete}"]`).remove()
 				$(`#${userdelete}`).remove()
 				showAddGlobalUser(users)
+
+				//TODO - beim löschen einen neuen User aktiv setzen
 				_onChange()
 
 			})
