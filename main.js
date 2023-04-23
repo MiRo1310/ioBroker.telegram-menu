@@ -207,9 +207,12 @@ class TelegramMenu extends utils.Adapter {
 										let i = 1;
 										part.getData.forEach(
 											(/** @type {{ id: string; text:string, newline:Boolean}} */ element) => {
-												console.log(id);
+												this.log.debug("Get Value ID " + JSON.stringify(element.id));
 												this.getForeignStateAsync(element.id).then((value) => {
-													if (value && value.val) {
+													if (value) {
+														this.log.debug("Value " + JSON.stringify(value));
+													}
+													if (value) {
 														const val = JSON.stringify(value.val);
 														this.log.debug("GetValue " + JSON.stringify(value.val));
 														this.log.debug("Element.text " + JSON.stringify(element.text));
