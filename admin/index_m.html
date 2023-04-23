@@ -245,8 +245,6 @@
 				$(this).select();
 			});
 
-
-
 			// Tables in Action Verstecken und Button new Row
 			$(".modal-content table").hide()
 			$("#btn_action_newRow").hide()
@@ -278,6 +276,8 @@
 			})
 			// Save from Action Input Field
 			$("#btn_action_set").on("click", function () {
+				// Wieder sichtbar machen, wenn du edit disabled gesetzt wurde
+				$("#select_action").removeAttr("disabled")
 				let action = $("#select_action").val()
 				let $table = $(`#tab_${action} tbody`)
 				let result = {
@@ -319,6 +319,7 @@
 			})
 			// Reset Modal Input Fields
 			$("#btn_action_close").on("click", function () {
+				$("#select_action").removeAttr("disabled")
 				resetModal()
 			})
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
@@ -330,17 +331,19 @@
 				showSelectModal(showTrigger, show)
 			})
 			// Inputs if its not ""
-			$(".modal-content").on("input change", function () {
+			$(".modal-content").on("input ", function () {
 				checkValueModal(showTrigger)
 			})
-			// $(".modal-content").on("change", "input.switch_checkbox", function () {
-			// 	checkValueModal(showTrigger)
-			// })
+			$(".modal-content").on("change", "#tab_set input.switch_checkbox", function () {
+				checkValueModal(showTrigger)
+			})
 
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {
 				rowToUpdate = $(this).parents("tr")
 				showTrigger = true;
+				// Select_action deaktivieren
+				$("#select_action").attr("disabled", "disabled")
 				// Select Button Aktivieren
 				$("#btn_action_set").removeAttr("disabled")
 				$("#btn_action_newRow").show()
@@ -359,7 +362,6 @@
 			})
 
 			// Value deaktivieren wenn Switch checked
-
 			$(".modal-content").on("change", ".switch_checkbox", function () {
 
 				if ($(this).is(":checked")) {

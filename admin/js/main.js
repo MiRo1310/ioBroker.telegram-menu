@@ -392,18 +392,20 @@ function checkValueModal(showTrigger) {
 			}
 		});
 	});
+	if ($("#select_action").val() == "set") {
+		$("#tab_set tbody tr").each(function () {
+			if (
+				!(
+					($(this).find(".checkValueSwitch").val() != "" &&
+						$(this).find(".checkValueSwitch").val() != undefined) ||
+					$(this).find(".switch_checkbox").is(":checked")
+				)
+			) {
+				console.log("auf false hier");
+				show = false;
+			}
+		});
+	}
 
-	$("#tab_set tbody tr").each(function () {
-		if (
-			!(
-				($(this).find(".checkValueSwitch").val() != "" &&
-					$(this).find(".checkValueSwitch").val() != undefined) ||
-				$(this).find(".switch_checkbox").is(":checked")
-			)
-		) {
-			console.log("auf false hier");
-			show = false;
-		}
-	});
 	showSelectModal(showTrigger, show);
 }
