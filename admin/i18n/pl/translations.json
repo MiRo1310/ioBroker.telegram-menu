@@ -1,6 +1,8 @@
 {
     "Action": "Działanie",
     "Add": "dodać",
+    "Add && as a placeholder for the value in the text": "Dodaj && jako symbol zastępczy wartości w tekście",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Dodaj && jako symbol zastępczy wartości w tekście",
     "Add Global User": "Dodaj użytkownika globalnego",
     "Add new Action": "Dodaj nową akcję",
     "Add new Navigation": "Dodaj nową Nawigację",
@@ -10,6 +12,8 @@
     "Call": "Dzwonić",
     "Call Text": "Tekst połączenia",
     "Cancel": "Anulować",
+    "Choose a trigger": "Wybierz wyzwalacz",
+    "Choose your option": "Wybierz swoją opcję",
     "Close": "Zamknąć",
     "Delete User": "Usuń użytkownika",
     "Each entry may only occur once in the complete navigation": "Każdy wpis może wystąpić tylko raz w całej nawigacji",
@@ -20,5 +24,8 @@
     "Select": "Wybierać",
     "Settings": "Ustawienia",
     "Startside": "Strona startowa",
+    "Trigger": "Spust",
+    "Value": "Wartość",
+    "What is to do?": "Co robić?",
     "telegram-menu adapter settings": "Ustawienia adaptera dla menu telegramu"
 }

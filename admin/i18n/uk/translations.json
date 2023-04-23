@@ -1,6 +1,8 @@
 {
     "Action": "Дія",
     "Add": "додати",
+    "Add && as a placeholder for the value in the text": "Додайте && як заповнювач для значення в тексті",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Додайте && як заповнювач для значення в тексті",
     "Add Global User": "Додати глобального користувача",
     "Add new Action": "Додати нову дію",
     "Add new Navigation": "Додати нову навігацію",
@@ -10,6 +12,8 @@
     "Call": "Телефонуйте",
     "Call Text": "Текст виклику",
     "Cancel": "Скасувати",
+    "Choose a trigger": "Виберіть тригер",
+    "Choose your option": "Виберіть свій варіант",
     "Close": "Закрити",
     "Delete User": "Видалити користувача",
     "Each entry may only occur once in the complete navigation": "Кожен запис може з’являтися лише один раз у повній навігації",
@@ -20,5 +24,8 @@
     "Select": "Виберіть",
     "Settings": "Налаштування",
     "Startside": "Стартова сторона",
+    "Trigger": "Тригер",
+    "Value": "Значення",
+    "What is to do?": "Що робити?",
     "telegram-menu adapter settings": "Налаштування адаптера для telegram-меню"
 }

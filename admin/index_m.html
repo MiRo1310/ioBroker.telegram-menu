@@ -200,6 +200,7 @@
 			})
 			$("#btn_add_action").click(function () {
 				rowToUpdate = null
+				translateAll()
 			})
 
 
@@ -377,6 +378,7 @@
 				} else $(this).parent().parent().find("td input.set_value").removeAttr("disabled")
 			})
 
+
 		})
 
 
@@ -415,18 +417,23 @@
 				<div class="modal-content">
 					<div class="row">
 						<div class="input-field col s3">
-							<select id="select_action" class="reset">
-								<option value="" disabled selected>Choose your option</option>
+							<select id="select_action" class="reset ">
+								<option value="" disabled selected class="translate">Choose your option</option>
 								<option value="get">GetState</option>
 								<option value="set">SetState</option>
 							</select>
-							<label>What is to do?</label>
+							<label class="translate">What is to do?</label>
 						</div>
 						<div class="input-field col s3">
-							<select id="select_trigger" class="materialSelect reset checkValue">
-								<option value="" disabled selected>Choose your option</option>
+							<select id="select_trigger" class="materialSelect reset checkValue ">
+								<option value="" disabled selected class="translate">Choose your option</option>
 							</select>
-							<label>Trigger</label>
+							<label class="translate">Trigger</label>
+						</div>
+						<div class="col offset-s1 s5">
+							<h5>GetState</h5>
+							<p class="translate">Add && as a placeholder for the value in the text</p>
+
 						</div>
 					</div>
 					<div class="row">
@@ -440,7 +447,7 @@
 							<tr>
 								<th style="width: 30%; background: #64b5f6 ">ID</th>
 								<th style="width: 5%; background: #64b5f6 "></th>
-								<th style="background: #64b5f6 ">Value</th>
+								<th style="background: #64b5f6 " class="translate">Value</th>
 								<th style="width: 8%; background: #64b5f6 ">Switch</th>
 								<th style="width: 3%; background: #64b5f6 "></th>
 							</tr>
@@ -475,6 +482,7 @@
 							</tr>
 						</thead>
 						<tbody class="table-lines table-values">
+
 							<tr>
 								<td> <input class="get_id resetInput checkValue" type="text">
 								</td>
@@ -494,6 +502,7 @@
 
 							</tr>
 						</tbody>
+
 					</table>
 
 				</div>

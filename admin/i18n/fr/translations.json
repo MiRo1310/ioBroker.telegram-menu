@@ -1,6 +1,8 @@
 {
     "Action": "Action",
     "Add": "ajouter",
+    "Add && as a placeholder for the value in the text": "Ajouter && comme espace réservé pour la valeur dans le texte",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Ajouter && comme espace réservé pour la valeur dans le texte",
     "Add Global User": "Ajouter un utilisateur global",
     "Add new Action": "Ajouter une nouvelle action",
     "Add new Navigation": "Ajouter une nouvelle navigation",
@@ -10,6 +12,8 @@
     "Call": "Appel",
     "Call Text": "Texte d'appel",
     "Cancel": "Annuler",
+    "Choose a trigger": "Choisissez un déclencheur",
+    "Choose your option": "Choisissez votre option",
     "Close": "Fermer",
     "Delete User": "Supprimer l'utilisateur",
     "Each entry may only occur once in the complete navigation": "Chaque entrée ne peut apparaître qu'une seule fois dans la navigation complète",
@@ -20,5 +24,8 @@
     "Select": "Sélectionner",
     "Settings": "Paramètres",
     "Startside": "Côté départ",
+    "Trigger": "Déclencher",
+    "Value": "Valeur",
+    "What is to do?": "Que faire ?",
     "telegram-menu adapter settings": "Paramètres de l'adaptateur pour le menu télégramme"
 }

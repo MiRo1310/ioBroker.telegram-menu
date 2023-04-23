@@ -1,6 +1,8 @@
 {
     "Action": "Action",
     "Add": "add",
+    "Add && as a placeholder for the value in the text": "Add && as a placeholder for the value in the text",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Add &amp;&amp; as a placeholder for the value in the text",
     "Add Global User": "Add Global User",
     "Add new Action": "Add new Action",
     "Add new Navigation": "Add new Navigation",
@@ -10,6 +12,8 @@
     "Call": "Call",
     "Call Text": "Call Text",
     "Cancel": "Cancel",
+    "Choose a trigger": "Choose a trigger",
+    "Choose your option": "Choose your option",
     "Close": "Close",
     "Delete User": "Delete User",
     "Each entry may only occur once in the complete navigation": "Each entry may only occur once in the complete navigation",
@@ -20,5 +24,8 @@
     "Select": "Select",
     "Settings": "Settings",
     "Startside": "Startside",
+    "Trigger": "Trigger",
+    "Value": "Value",
+    "What is to do?": "What is to do?",
     "telegram-menu adapter settings": "Adapter settings for telegram-menu"
 }

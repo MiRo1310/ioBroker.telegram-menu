@@ -1,6 +1,8 @@
 {
     "Action": "Azione",
     "Add": "aggiungere",
+    "Add && as a placeholder for the value in the text": "Aggiungi && come segnaposto per il valore nel testo",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Aggiungi && come segnaposto per il valore nel testo",
     "Add Global User": "Aggiungi utente globale",
     "Add new Action": "Aggiungi nuova azione",
     "Add new Navigation": "Aggiungi nuova navigazione",
@@ -10,6 +12,8 @@
     "Call": "Chiamata",
     "Call Text": "Chiama il testo",
     "Cancel": "Annulla",
+    "Choose a trigger": "Scegli un trigger",
+    "Choose your option": "Scegli la tua opzione",
     "Close": "Vicino",
     "Delete User": "Elimina utente",
     "Each entry may only occur once in the complete navigation": "Ogni voce può comparire una sola volta nella navigazione completa",
@@ -20,5 +24,8 @@
     "Select": "Selezionare",
     "Settings": "Impostazioni",
     "Startside": "Lato iniziale",
+    "Trigger": "Grilletto",
+    "Value": "Valore",
+    "What is to do?": "Cosa fare?",
     "telegram-menu adapter settings": "Impostazioni dell'adattatore per il menu del telegramma"
 }

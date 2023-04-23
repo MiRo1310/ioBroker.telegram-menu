@@ -42,7 +42,7 @@ function navElement(user) {
 }
 
 function createSelectTrigger(list) {
-	let element = '<option value="" disabled selected>Choose a trigger</option>';
+	let element = '<option value="" disabled selected class="translate">Choose a trigger</option>';
 	list.forEach(function (e) {
 		const dynamicChild = `<option value="${e}" >${e}</option>`;
 		element += dynamicChild;

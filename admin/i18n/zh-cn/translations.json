@@ -1,6 +1,8 @@
 {
     "Action": "行动",
     "Add": "添加",
+    "Add && as a placeholder for the value in the text": "添加 && 作为文本中值的占位符",
+    "Add &amp;&amp; as a placeholder for the value in the text": "添加 && 作为文本中值的占位符",
     "Add Global User": "添加全局用户",
     "Add new Action": "添加新动作",
     "Add new Navigation": "添加新导航",
@@ -10,6 +12,8 @@
     "Call": "称呼",
     "Call Text": "通话文字",
     "Cancel": "取消",
+    "Choose a trigger": "选择触发器",
+    "Choose your option": "选择你的选项",
     "Close": "关闭",
     "Delete User": "删除用户",
     "Each entry may only occur once in the complete navigation": "每个条目在完整导航中只能出现一次",
@@ -20,5 +24,8 @@
     "Select": "选择",
     "Settings": "设置",
     "Startside": "起跑线",
+    "Trigger": "扳机",
+    "Value": "价值",
+    "What is to do?": "怎么办？",
     "telegram-menu adapter settings": "电报菜单的适配器设置"
 }

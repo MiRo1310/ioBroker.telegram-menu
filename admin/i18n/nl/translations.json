@@ -1,6 +1,8 @@
 {
     "Action": "Actie",
     "Add": "toevoegen",
+    "Add && as a placeholder for the value in the text": "Voeg && toe als tijdelijke aanduiding voor de waarde in de tekst",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Voeg && toe als tijdelijke aanduiding voor de waarde in de tekst",
     "Add Global User": "Globale gebruiker toevoegen",
     "Add new Action": "Nieuwe actie toevoegen",
     "Add new Navigation": "Nieuwe navigatie toevoegen",
@@ -10,6 +12,8 @@
     "Call": "Telefoongesprek",
     "Call Text": "Bel tekst",
     "Cancel": "Annuleren",
+    "Choose a trigger": "Kies een trekker",
+    "Choose your option": "Kies uw optie",
     "Close": "Dichtbij",
     "Delete User": "Verwijder gebruiker",
     "Each entry may only occur once in the complete navigation": "Elke invoer mag slechts één keer voorkomen in de volledige navigatie",
@@ -20,5 +24,8 @@
     "Select": "Selecteer",
     "Settings": "Instellingen",
     "Startside": "Startzijde",
+    "Trigger": "Trekker",
+    "Value": "Waarde",
+    "What is to do?": "Wat is er te doen?",
     "telegram-menu adapter settings": "Adapterinstellingen voor telegrammenu"
 }

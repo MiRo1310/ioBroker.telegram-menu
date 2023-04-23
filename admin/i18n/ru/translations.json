@@ -1,6 +1,8 @@
 {
     "Action": "Действие",
     "Add": "добавлять",
+    "Add && as a placeholder for the value in the text": "Добавьте && в качестве заполнителя для значения в тексте",
+    "Add &amp;&amp; as a placeholder for the value in the text": "Добавьте && в качестве заполнителя для значения в тексте",
     "Add Global User": "Добавить глобального пользователя",
     "Add new Action": "Добавить новое действие",
     "Add new Navigation": "Добавить новую навигацию",
@@ -10,6 +12,8 @@
     "Call": "Вызов",
     "Call Text": "Текст вызова",
     "Cancel": "Отмена",
+    "Choose a trigger": "Выберите триггер",
+    "Choose your option": "Выберите свой вариант",
     "Close": "Закрывать",
     "Delete User": "Удалить пользователя",
     "Each entry may only occur once in the complete navigation": "Каждая запись может встречаться только один раз за всю навигацию.",
@@ -20,5 +24,8 @@
     "Select": "Выбирать",
     "Settings": "Настройки",
     "Startside": "Стартовая сторона",
+    "Trigger": "Курок",
+    "Value": "Ценить",
+    "What is to do?": "Что делать?",
     "telegram-menu adapter settings": "Настройки адаптера для телеграм-меню"
 }
