@@ -92,11 +92,11 @@ function newTrInAction(val, array) {
 }
 
 function actionElement(user) {
-	return /*html*/ `<div class="row user_${user} saveTable">
+	return /*html*/ `<div class="row user_${user}">
           <div class="col s12">
             <div >
               <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>GetState</p>
-              <table style="display: none;" class="text-small">
+              <table style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
                     <th style="width: 10%">Trigger</th>                      
@@ -117,7 +117,7 @@ function actionElement(user) {
             </div>
             <div >
             <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>SetState</p>
-              <table  style="display: none;" class="text-small">
+              <table  style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
                   <th data-name="trigger" style="width: 10%">Trigger</th>    
