@@ -104,6 +104,9 @@ function table2Values(id) {
 					trigger: dataToArray(this, "td[data-name='trigger']"),
 					values: dataToArray(this, "p[data-name='values']"),
 				};
+				if (actionSet && actionSet.IDs) {
+					obj.set.push(actionSet);
+				}
 			}
 
 			if (dataName === "get") {
@@ -113,12 +116,9 @@ function table2Values(id) {
 					trigger: dataToArray(this, "td[data-name='trigger']"),
 					text: dataToArray(this, "p[data-name='text']"),
 				};
-			}
-			if (actionSet && actionSet.IDs) {
-				obj.set.push(actionSet);
-			}
-			if (actionGet && actionGet.IDs) {
-				obj.get.push(actionGet);
+				if (actionGet && actionGet.IDs) {
+					obj.get.push(actionGet);
+				}
 			}
 		});
 		object.action[saveName] = obj;
