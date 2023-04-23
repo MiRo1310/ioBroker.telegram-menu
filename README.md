@@ -35,6 +35,12 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   Bugs fixed
+-   Translate
+
 ### 0.0.6 (2023-04-18)
 
 -   Fixed SetState and GetState
