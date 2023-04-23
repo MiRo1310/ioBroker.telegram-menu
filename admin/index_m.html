@@ -159,6 +159,13 @@
 				$(`#tab-action tbody[name="${userdelete}"]`).remove()
 				$(`#${userdelete}`).remove()
 				showAddGlobalUser(users)
+				// Nach dem Löschen den ersten User aktivieren
+				if (users.length > 0) {
+					activeUser = users[0]
+					showUser(activeUser)
+				}
+
+
 
 				//TODO - beim löschen einen neuen User aktiv setzen
 				_onChange()
