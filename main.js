@@ -205,35 +205,38 @@ class TelegramMenu extends utils.Adapter {
 									try {
 										let text = "";
 										let i = 1;
-										part.getData.forEach(
-											(/** @type {{ id: string; text:string, newline:Boolean}} */ element) => {
-												this.log.debug("Get Value ID " + JSON.stringify(element.id));
-												this.getForeignStateAsync(element.id).then((value) => {
-													if (value) {
-														this.log.debug("Value " + JSON.stringify(value));
+										part.getData.forEach((element) => {
+											this.log.debug("Get Value ID " + JSON.stringify(element.id));
+											this.getForeignStateAsync(element.id).then((value) => {
+												if (value) {
+													this.log.debug("Value " + JSON.stringify(value));
+												}
+												if (value) {
+													const val = JSON.stringify(value.val);
+													this.log.debug("GetValue " + JSON.stringify(value.val));
+													this.log.debug("Element.text " + JSON.stringify(element.text));
+													let newline = "";
+													if (element.newline) {
+														newline = "\n";
 													}
-													if (value) {
-														const val = JSON.stringify(value.val);
-														this.log.debug("GetValue " + JSON.stringify(value.val));
-														this.log.debug("Element.text " + JSON.stringify(element.text));
-														let newline = "";
-														if (element.newline) {
-															this.log.debug("true");
-															newline = "\n";
-														}
-														if (element.text) {
-															if (element.text.indexOf("&&") != -1)
-																text += `${element.text.replace("&&", val)}${newline}`;
-															else text += element.text + " " + val + newline;
-														} else text += `${val} ${newline}`;
-														this.log.debug("Text " + JSON.stringify(text));
-													}
-													if (userToSend && i == part.getData.length)
-														sendToTelegram(this, userToSend, text);
-													i++;
-												});
-											},
-										);
+													if (element.text) {
+														if (element.text.indexOf("&&") != -1)
+															text += `${element.text.replace("&&", val)}${newline}`;
+														else text += element.text + " " + val + newline;
+													} else text += `${val} ${newline}`;
+													this.log.debug("Text " + JSON.stringify(text));
+												}
+												this.log.debug(
+													"Length & i: " +
+														JSON.stringify({ length: part.getData.length, i: i }),
+												);
+												if (i == part.getData.length) {
+													this.log.debug("User to send: " + JSON.stringify(userToSend));
+													if (userToSend) sendToTelegram(this, userToSend, text);
+												}
+												i++;
+											});
+										});
 									} catch (error) {
 										this.log.error("Error Getdata: " + JSON.stringify(error));
 									}
