@@ -34,7 +34,7 @@ function navElement(user) {
   <tr class="startRow">
     <td><input type="text" data-name="call" class="isString nav-call translateV startside" value="Startside" ></td>
     <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
-    <td><input type="text" data-name="text" class="isString nav-text" value="Wählen Sie eine Aktion"></td>
+    <td><input type="text" data-name="text" class="isString nav-text" value="Wähle eine Aktion"></td>
     
     <td style="width: 5%;"></td>
             </tr>
