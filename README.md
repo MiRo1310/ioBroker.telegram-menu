@@ -11,23 +11,17 @@
 
 **Tests:** ![Test and Release](https://github.com/MiRo1310/ioBroker.telegram-menu/workflows/Test%20and%20Release/badge.svg)
 
-## telegram-menu adapter for ioBroker
+## ioBroker telegram-menu adapter
 
 Easily create Telegram Menus
 
 You can create a separate menu for each user, or you can use the global user to generate the same menu for all users.
 
-### Navigation
+## Documentation
 
--   The call text is called by the button, both must have the same name
--   Buttons should be seperate by , and rows by &&
--   All users must be spelled exactly as they are created in telegram
+[🇺🇸 Documentation](./docs/en/README.md)
 
-### SetState
-
-### GetState
-
--   You can place the Value in the Text with the Placeholder of &&
+[🇩🇪 Dokumentation](./docs/de/README.md)
 
 ## Changelog
 
@@ -35,6 +29,7 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
 ### 0.0.7 (2023-04-23)
 
 -   Bugs fixed
