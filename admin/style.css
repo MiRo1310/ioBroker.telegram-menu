@@ -102,5 +102,13 @@ table th {
 	text-align: center;
 	color: #ce3a3a;
 	margin: 0;
+	margin-bottom: 5px;
 	text-decoration: underline;
+}
+
+header {
+	margin: 0 !important;
+}
+.row {
+	margin-bottom: 5px !important;
 }
