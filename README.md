@@ -30,6 +30,10 @@ You can create a separate menu for each user, or you can use the global user to 
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   Send Grafana Diagrams
+
 ### 0.0.7 (2023-04-23)
 
 -   Bugs fixed
