@@ -249,15 +249,14 @@ class TelegramMenu extends utils.Adapter {
 									part.sendPic.forEach((element) => {
 										this.log.debug("elelmet " + JSON.stringify(element));
 										token = token.trim();
-
+										const url = element.id;
+										const newUrl = url.replace(/&amp;/g, "&");
 										exec(
-											`curl -H "Authorisation: Bearer ${token}" "${element.id.trim()}" > ${directoryPicture}`,
+											`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}`,
 										);
 										this.log.debug(
 											"url " +
-												`curl -H "Authorisation: Bearer ${token}" "${element.id
-													.trim()
-													.replace(/"&amp"/g, "&")}" > ${directoryPicture}`,
+												`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}`,
 										);
 										timeoutKey += 1;
 										const timeout = setTimeout(async () => {
