@@ -7,6 +7,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
+const { exec } = require("child_process");
 const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
@@ -15,6 +16,8 @@ const generateActions = require("./lib/js/action").generateActions;
 // const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
 
 const telegramID = "telegram.0.communicate.request";
+let timeouts = [];
+let timeoutKey = 0;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -34,11 +37,6 @@ class TelegramMenu extends utils.Adapter {
 		this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
-
-	/**
-	 * Is called when databases are connected and adapter received configuration.
-	 */
-
 	async onReady() {
 		this.setState("info.connection", false, true);
 		const datapoint = `${this.config.instance}.info.connection`;
@@ -73,29 +71,33 @@ class TelegramMenu extends utils.Adapter {
 					this.log.debug("Action " + JSON.stringify(action));
 					try {
 						for (const name in nav) {
-							this.log.debug("Name " + JSON.stringify(name));
 							const value = await editArrayButtons(nav[name], this);
-							this.log.debug("Array Buttons: " + JSON.stringify(value));
 							menu.data[name] = await generateNewObjectStructure(_this, value);
 							this.log.debug("New Structure: " + JSON.stringify(menu.data[name]));
 							menu.data[name] = await generateActions(_this, action[name], menu.data[name]);
+							this.log.debug("Name " + JSON.stringify(name));
+							this.log.debug("Array Buttons: " + JSON.stringify(value));
+
 							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
 						}
 					} catch (err) {
 						this.log.error("Error generateNav: " + JSON.stringify(err));
 					}
+
 					const checkbox = this.config.checkbox;
-					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 					const globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
 					const one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
 					const resize_keyboard = this.config.checkbox[1]["resKey"];
-
 					const userList = this.config.users;
 					const globalUserList = this.config.usersForGlobal.split(",");
+					const startsides = this.config.startsides;
+					let token = this.config.tokenGrafana;
+					const directoryPicture = this.config.directory;
+
+					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 					this.log.debug("UserList: " + JSON.stringify(userList));
 					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
 					this.log.debug("Global User List: " + JSON.stringify(globalUserList));
-					const startsides = this.config.startsides;
 
 					if (globalUserActiv) {
 						this.log.debug("Global Users sendto ");
@@ -241,6 +243,34 @@ class TelegramMenu extends utils.Adapter {
 										this.log.error("Error Getdata: " + JSON.stringify(error));
 									}
 								}
+								if (part.sendPic) {
+									this.log.debug("Send Picture");
+
+									part.sendPic.forEach((element) => {
+										this.log.debug("elelmet " + JSON.stringify(element));
+										if (!token) token = "";
+										exec(
+											`curl -H "Authorisation: Bearer" "${token} ${element.id}" > ${directoryPicture}`,
+										);
+										timeoutKey += 1;
+										const timeout = setTimeout(async () => {
+											this.sendTo(
+												"telegram",
+												directoryPicture,
+
+												function (res) {
+													console.log("Sent to " + res + " users!");
+												},
+											);
+
+											let timeoutToClear = {};
+											timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+											clearTimeout(timeoutToClear.timeout);
+											timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+										}, element.delay);
+										timeouts.push({ key: timeoutKey, timeout: timeout });
+									});
+								}
 							} else {
 								if (typeof userToSend == "string")
 									sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
@@ -313,7 +343,9 @@ class TelegramMenu extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
+			timeouts.forEach((element) => {
+				clearTimeout(element.timeout);
+			});
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
