@@ -259,10 +259,11 @@ class TelegramMenu extends utils.Adapter {
 												`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
 										);
 										timeoutKey += 1;
+										const path = `${directoryPicture}${element.fileName}`;
 										const timeout = setTimeout(async () => {
 											this.sendTo(
 												"telegram",
-												directoryPicture,
+												path,
 
 												function (res) {
 													console.log("Sent to " + res + " users!");
