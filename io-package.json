@@ -1,151 +1,169 @@
 {
-	"common": {
-		"name": "telegram-menu",
-		"version": "0.0.7",
-		"news": {
-			"0.0.7": {
-				"en": "Bugs fixed\nTranslate",
-				"de": "Fehler behoben\nÜbersetzung",
-				"ru": "Баги фиксированные\nПеревести",
-				"pt": "Bugs corrigidos\nTraduzir",
-				"nl": "Bugs gemaakt\nVertaling:",
-				"fr": "Bugs corrigés\nTraduire",
-				"it": "Bug fissi\nTraduttore",
-				"es": "Errores fijos\nTraducir",
-				"pl": "Bug\nTranslat",
-				"uk": "Виправлені помилки\nПереклад",
-				"zh-cn": "固定的黑体\n笔译"
-			},
-			"0.0.6": {
-				"en": "Fixed SetState and GetState\nTranslate",
-				"de": "Fixed SetState und GetState\nÜbersetzung",
-				"ru": "Фиксированный SetState и GetState\nПеревести",
-				"pt": "Fixo SetState e GetState\nTraduzir",
-				"nl": "Vertaling:\nVertaling:",
-				"fr": "Fixed SetState and GetState\nTraduire",
-				"it": "Set fissoState e GetState\nTraduttore",
-				"es": "SetState y GetState\nTraducir",
-				"pl": "Fixe SetState and GetState (ang.)\nTranslat",
-				"uk": "Фіксований SetState і GetState\nПереклад",
-				"zh-cn": "B. 固定的国家和国\n笔译"
-			},
-			"0.0.2": {
-				"en": "initial release",
-				"de": "erstausstrahlung",
-				"ru": "начальный выпуск",
-				"pt": "lançamento inicial",
-				"nl": "niet",
-				"fr": "initial release",
-				"it": "rilascio iniziale",
-				"es": "liberación inicial",
-				"pl": "pierwsze wydanie",
-				"uk": "початковий реліз",
-				"zh-cn": "初步释放"
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版",
-				"uk": "початковий випуск"
-			}
-		},
-		"titleLang": {
-			"en": "Telegram Menu",
-			"de": "Telegramm-Menü",
-			"ru": "Меню телеграммы",
-			"pt": "Menu Telegram",
-			"nl": "Telegram-menu",
-			"fr": "Menu Télégramme",
-			"it": "Menù telegramma",
-			"es": "Menú de telegramas",
-			"pl": "menu telegramu",
-			"zh-cn": "电报菜单",
-			"uk": "Меню Telegram"
-		},
-		"desc": {
-			"en": "Easily create Telegram Menus",
-			"de": "Erstellen Sie ganz einfach Telegrammmenüs",
-			"ru": "Легко создавать меню Telegram",
-			"pt": "Crie facilmente menus de telegrama",
-			"nl": "Maak eenvoudig Telegram-menu's",
-			"fr": "Créez facilement des menus de télégramme",
-			"it": "Crea facilmente menu di Telegram",
-			"es": "Crea fácilmente menús de Telegram",
-			"pl": "Z łatwością twórz menu telegramu",
-			"zh-cn": "轻松创建电报菜单",
-			"uk": "Легко створюйте меню Telegram"
-		},
-		"authors": ["MiRo1310 <michael.roling@gmx.de>"],
-		"keywords": ["telegram", "menu"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "telegram-menu.png",
-		"enabled": true,
-		"messagebox": true,
-		"extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-		"readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "messaging",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "materialize"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=5.0.0",
-				"telegram": ">=1.15.0"
-			}
-		]
-	},
-	"native": {
-		"nav": {},
-		"instance": "",
-		"data": {},
-		"checkbox": [],
-		"usersForGlobal": "",
-		"users": [],
-		"startsides": [],
-		"tokenGrafana": "",
-		"directory": ""
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "telegram-menu",
+    "version": "0.0.8",
+    "news": {
+      "0.0.8": {
+        "en": "Send Grafana Diagrams",
+        "de": "Grafana-Diagramme senden",
+        "ru": "Отправить Grafana Диаграммы",
+        "pt": "Enviar Diagramas de Grafana",
+        "nl": "Stuur Grafana Diagram",
+        "fr": "Envoyer Diagrammes de Grafana",
+        "it": "Invia diagrammi Grafana",
+        "es": "Enviar diagramas de Grafana",
+        "pl": "Senna Diagram",
+        "uk": "Відправити граматику Grafana",
+        "zh-cn": "Send Grafana Diagram"
+      },
+      "0.0.7": {
+        "en": "Bugs fixed\nTranslate",
+        "de": "Fehler behoben\nÜbersetzung",
+        "ru": "Баги фиксированные\nПеревести",
+        "pt": "Bugs corrigidos\nTraduzir",
+        "nl": "Bugs gemaakt\nVertaling:",
+        "fr": "Bugs corrigés\nTraduire",
+        "it": "Bug fissi\nTraduttore",
+        "es": "Errores fijos\nTraducir",
+        "pl": "Bug\nTranslat",
+        "uk": "Виправлені помилки\nПереклад",
+        "zh-cn": "固定的黑体\n笔译"
+      },
+      "0.0.6": {
+        "en": "Fixed SetState and GetState\nTranslate",
+        "de": "Fixed SetState und GetState\nÜbersetzung",
+        "ru": "Фиксированный SetState и GetState\nПеревести",
+        "pt": "Fixo SetState e GetState\nTraduzir",
+        "nl": "Vertaling:\nVertaling:",
+        "fr": "Fixed SetState and GetState\nTraduire",
+        "it": "Set fissoState e GetState\nTraduttore",
+        "es": "SetState y GetState\nTraducir",
+        "pl": "Fixe SetState and GetState (ang.)\nTranslat",
+        "uk": "Фіксований SetState і GetState\nПереклад",
+        "zh-cn": "B. 固定的国家和国\n笔译"
+      },
+      "0.0.2": {
+        "en": "initial release",
+        "de": "erstausstrahlung",
+        "ru": "начальный выпуск",
+        "pt": "lançamento inicial",
+        "nl": "niet",
+        "fr": "initial release",
+        "it": "rilascio iniziale",
+        "es": "liberación inicial",
+        "pl": "pierwsze wydanie",
+        "uk": "початковий реліз",
+        "zh-cn": "初步释放"
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版",
+        "uk": "початковий випуск"
+      }
+    },
+    "titleLang": {
+      "en": "Telegram Menu",
+      "de": "Telegramm-Menü",
+      "ru": "Меню телеграммы",
+      "pt": "Menu Telegram",
+      "nl": "Telegram-menu",
+      "fr": "Menu Télégramme",
+      "it": "Menù telegramma",
+      "es": "Menú de telegramas",
+      "pl": "menu telegramu",
+      "zh-cn": "电报菜单",
+      "uk": "Меню Telegram"
+    },
+    "desc": {
+      "en": "Easily create Telegram Menus",
+      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+      "ru": "Легко создавать меню Telegram",
+      "pt": "Crie facilmente menus de telegrama",
+      "nl": "Maak eenvoudig Telegram-menu's",
+      "fr": "Créez facilement des menus de télégramme",
+      "it": "Crea facilmente menu di Telegram",
+      "es": "Crea fácilmente menús de Telegram",
+      "pl": "Z łatwością twórz menu telegramu",
+      "zh-cn": "轻松创建电报菜单",
+      "uk": "Легко створюйте меню Telegram"
+    },
+    "authors": [
+      "MiRo1310 <michael.roling@gmx.de>"
+    ],
+    "keywords": [
+      "telegram",
+      "menu"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "telegram-menu.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0",
+        "telegram": ">=1.15.0"
+      }
+    ]
+  },
+  "native": {
+    "nav": {},
+    "instance": "",
+    "data": {},
+    "checkbox": [],
+    "usersForGlobal": "",
+    "users": [],
+    "startsides": [],
+    "tokenGrafana": "",
+    "directory": ""
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

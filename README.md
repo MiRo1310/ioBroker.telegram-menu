@@ -29,8 +29,7 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.0.8 (2023-05-01)
 
 -   Send Grafana Diagrams
 
