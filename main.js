@@ -255,7 +255,9 @@ class TelegramMenu extends utils.Adapter {
 										);
 										this.log.debug(
 											"url " +
-												`curl -H "Authorisation: Bearer ${token}" "${element.id.trim()}" > ${directoryPicture}`,
+												`curl -H "Authorisation: Bearer ${token}" "${element.id
+													.trim()
+													.replace(/"&amp"/g, "&")}" > ${directoryPicture}`,
 										);
 										timeoutKey += 1;
 										const timeout = setTimeout(async () => {
