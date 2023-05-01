@@ -32,4 +32,5 @@ You can create a separate menu for each user, or you can use the global user to 
 -   In action you have to specify the rendering URL, this can be found in Grafana on the diagram -> share -> (take out the time range lock so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file names must be different, otherwise the images will overwrite each other
 -   Delay the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
-    ![Grafana](../pic/grafana.png)
+
+![Grafana](../pic/grafana.png)

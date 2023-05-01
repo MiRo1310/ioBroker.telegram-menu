@@ -32,4 +32,5 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 -   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
 -   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
 -   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
-    ![Grafana](../pic/grafana.png)
+
+![Grafana](../pic/grafana.png)
