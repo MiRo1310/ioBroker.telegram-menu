@@ -252,11 +252,11 @@ class TelegramMenu extends utils.Adapter {
 										const url = element.id;
 										const newUrl = url.replace(/&amp;/g, "&");
 										exec(
-											`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}`,
+											`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.Filename}`,
 										);
 										this.log.debug(
 											"url " +
-												`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}`,
+												`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.Filename}`,
 										);
 										timeoutKey += 1;
 										const timeout = setTimeout(async () => {

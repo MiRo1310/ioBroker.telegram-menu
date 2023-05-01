@@ -56,7 +56,7 @@ function createUser(id, users) {
 		$("#tab-action").append(actionElement(user));
 	});
 }
-
+//SECTION - Save 5 Save to Object
 function table2Values(id) {
 	let oldName;
 	const $tbodys = $(id).find("tbody");
@@ -130,6 +130,7 @@ function table2Values(id) {
 				actionPic = {
 					IDs: dataToArray(this, "p[data-name='IDs']"),
 					picSendDelay: dataToArray(this, "p[data-name='picSendDelay']"),
+					fileName: dataToArray(this, "p[data-name='fileName']"),
 					trigger: dataToArray(this, "td[data-name='trigger']"),
 				};
 				if (actionPic && actionPic.IDs) {
@@ -259,10 +260,10 @@ function showSelectModal(showTrigger, show) {
 	if (show && showTrigger) $("#btn_action_set").removeAttr("disabled");
 	else $("#btn_action_set").attr("disabled", "disabled");
 }
-
+//SECTION - Save 4 edit Values
 function insertEditValues(action, $this) {
 	const IDs = valuesToArray($this, "p[data-name='IDs']");
-	let newline, switchs, values, texts, picSendDelay;
+	let newline, switchs, values, texts, picSendDelay, fileName;
 
 	if (action == "set") {
 		switchs = valuesToArray($this, "p[data-name='checkboxes']");
@@ -274,6 +275,7 @@ function insertEditValues(action, $this) {
 	}
 	if (action == "pic") {
 		picSendDelay = valuesToArray($this, "p[data-name='picSendDelay']");
+		fileName = valuesToArray($this, "p[data-name='fileName']");
 	}
 	IDs.forEach(function (element, key) {
 		if (key == 0) {
@@ -283,6 +285,7 @@ function insertEditValues(action, $this) {
 			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0].trim());
 			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].trim());
 			if (picSendDelay) $(`#tab_${action} tbody input.pic_picSendDelay`).val(picSendDelay[0].trim());
+			if (fileName) $(`#tab_${action} tbody input.pic_fileName`).val(fileName[0].trim());
 
 			if (switchs && switchs[0].trim() == "true") {
 				$(`#tab_${action} tbody input.switch_checkbox`).attr("checked", "checked");
@@ -296,14 +299,16 @@ function insertEditValues(action, $this) {
 				_switch = "",
 				_values = "",
 				_texts = "",
-				_picSendDelay = "";
+				_picSendDelay = "",
+				_fileName = "";
 
 			if (newline && newline[key].trim() == "true") _newline = "checked";
 			if (switchs && switchs[key].trim() == "true") _switch = "checked";
 			if (values) _values = values[key].trim();
 			if (texts) _texts = texts[key].trim();
 			if (picSendDelay) _picSendDelay = picSendDelay[key].trim();
-			const array = [IDs[key].trim(), _texts, _newline, _values, _switch, _picSendDelay];
+			if (fileName) _fileName = fileName[key].trim();
+			const array = [IDs[key].trim(), _texts, _newline, _values, _switch, _picSendDelay, _fileName];
 			$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), array));
 		}
 	});

@@ -51,58 +51,37 @@ function createSelectTrigger(list) {
 }
 
 // Row in Action Popup
-function newTrInAction(val, array) {
+function newTrInAction(val, array, rows) {
 	if (!array) {
-		array = ["", "", "checked", "", "", 5000];
+		array = ["", "", "checked", "", "", 5000, `grafana${rows + 1}.png`];
 	}
 	if (val === "get")
 		return /*html*/ `<tr class="onResetDelete">
-  <td> <input  class="get_id checkValue" value="${array[0]}" type="text">
-  </td>
-  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
-    title="Get ID"><i class="material-icons">edit</i></a></td>
-  <td>
-    <input class="get_text checkValue" type="text" value="${array[1]}">
-  </td>
-  <td><label>
-      <input type="checkbox" class="filled-in newline_checkbox" ${array[2]} />
-      <span></span>
-    </label></td>
-    <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i
-											class="material-icons">delete</i></a></td>
-								</td>
+  <td> <input  class="get_id checkValue" value="${array[0]}" type="text"></td>
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
+  <td><input class="get_text checkValue" type="text" value="${array[1]}"></td>
+  <td><label><input type="checkbox" class="filled-in newline_checkbox" ${array[2]} /><span></span></label></td>
+  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i class="material-icons">delete</i></a></td>								
 </tr>`;
 	if (val === "set")
 		return /*html*/ `<tr class="onResetDelete">
-  <td> <input  class="set_id checkValue" type="text" value="${array[0]}">
-  </td>
-  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
-      title="Get ID"><i class="material-icons">edit</i></a></td>
-  <td>
-    <input class="set_value checkValueSwitch" type="text" value="${array[3]}">
-  </td>
-  <td><label>
-      <input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/> 
-      <span></span>     
-    </label></td>
-    <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i
-											class="material-icons">delete</i></a></td>
-								</td>
+  <td> <input  class="set_id checkValue" type="text" value="${array[0]}"></td>
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
+  <td><input class="set_value checkValueSwitch" type="text" value="${array[3]}"></td>
+  <td><label><input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/><span></span></label></td>
+  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+								
 </tr>`;
 	if (val === "pic")
 		return /*html*/ `<tr class="onResetDelete">
-  <td> <input class="pic_IDs  checkValue" type="text" value="${array[0]}">
-  </td>
-  <td>
-    <input class="pic_picSendDelay " type="text" placeholder="5000"
-    value="${array[5]}">
-  </td>
-  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
-        class="material-icons">delete</i></a></td>
-  </td>
+  <td><input class="pic_IDs  checkValue" type="text" value="${array[0]}"></td>
+  <td><input class="pic_fileName checkValue" type="text" placeholder="grafanaX.png" value="${array[6]}"></td>
+  <td><input class="pic_picSendDelay " type="text" placeholder="5000" value="${array[5]}"></td>
+  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i class="material-icons">delete</i></a></td>
+  
 </tr>`;
 }
-
+//SECTION - Save 2
 function actionElement(user) {
 	return /*html*/ `<div class="row user_${user}">
           <div class="col s12">
@@ -157,9 +136,10 @@ function actionElement(user) {
                     <th style="width: 10%">Trigger</th>                      
                     <th data-name="IDs" data-type="string">
                     Rendering url</th>
+                    <th data-name="fileName" data-type="string" class="translate" style="width: 10%">Filename</th>
                     <!-- <th data-name="value" data-type="string" >
                       Text</th> -->                    
-                    <th style="width: 10%">Delay</th>
+                    <th style="width: 8%">Delay</th>
                     <th style="width: 2%"></th>
                     <th data-name="delete" style="width: 2%;">
                     </th>
@@ -174,7 +154,7 @@ function actionElement(user) {
           </div>
         </div>`;
 }
-
+//SECTION - Save 3
 function newTableRow_Action(action, result) {
 	console.log("ACTION " + action);
 	if (action === "get") {
@@ -200,6 +180,7 @@ function newTableRow_Action(action, result) {
 		return /*html*/ `<tr>
     <td data-name="trigger">${result.trigger}</td>
     <td>${insertVal(result, "IDs")}</td>
+    <td>${insertVal(result, "fileName")}</td>
     <td>${insertVal(result, "picSendDelay")}</td>    
     ${actionDeleteButton}
     ${editButton}

@@ -29,5 +29,7 @@
 	"Value": "Value",
 	"What is to do?": "What is to do?",
 	"telegram-menu adapter settings": "Adapter settings for telegram-menu",
-	"Directory": "Directory"
+	"Directory": "Directory",
+	"Filename": "Filename",
+	"Delay (ms)": "Delay (ms)"
 }

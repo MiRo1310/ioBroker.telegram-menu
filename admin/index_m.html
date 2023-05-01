@@ -265,7 +265,8 @@
 			})
 			// New Row in Action 
 			$("#btn_action_newRow").on("click", function () {
-				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val()))
+				const rows = $("#tab_pic tbody tr").length
+				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), undefined, rows))
 				$("#btn_action_set").attr("disabled", "disabled")
 			})
 			// Global delete Hide Table
@@ -283,6 +284,7 @@
 				} else $(this).find("i").html("expand_more")
 			})
 			// Save from Action Input Field
+			//SECTION - Save 1
 			$("#btn_action_set").on("click", function () {
 				// Wieder sichtbar machen, wenn du edit disabled gesetzt wurde
 				$("#select_action").removeAttr("disabled")
@@ -292,6 +294,7 @@
 					IDs: [],
 					picSendDelay: [],
 					values: [],
+					fileName: [],
 					checkboxes: [],
 					text: [],
 					trigger: $("#select_trigger").val(),
@@ -325,6 +328,9 @@
 				if (action === "pic") {
 					$($table).find(`input.pic_IDs`).each(function () {
 						result.IDs.push($(this).val())
+					})
+					$($table).find(`input.pic_fileName`).each(function () {
+						result.fileName.push($(this).val())
 					})
 					$($table).find(`input.pic_picSendDelay`).each(function () {
 						result.picSendDelay.push($(this).val())
@@ -516,13 +522,17 @@
 						<thead>
 							<tr>
 								<th>Rendering url</th>
-								<th style="width: 10%;">Delay(ms)</th>
+								<th style="width: 15%;" class="translate">Filename</th>
+								<th style="width: 8%;" class="translate">Delay (ms)</th>
 								<th style="width: 3%;"></th>
 							</tr>
 						</thead>
 						<tbody class="table-lines table-values">
 							<tr>
 								<td> <input class="pic_IDs resetInput checkValue" type="text">
+								</td>
+								<td> <input class="pic_fileName resetInput checkValue" type="text"
+										placeholder="grafana1.png" value="grafana1.png">
 								</td>
 								<td>
 									<input class="pic_picSendDelay resetInput" type="text" placeholder="5000"
@@ -668,8 +678,7 @@
 						</div>
 						<div class="input-field col s4">
 							<input id="directory" type="text" class="validate value"
-								placeholder="/opt/iobroker/grafana/grafana.png"
-								value="/opt/iobroker/grafana/grafana.png">
+								placeholder="/opt/iobroker/grafana/" value="/opt/iobroker/grafana/">
 							<label for="directory" class="translate">Directory</label>
 						</div>
 					</div>
