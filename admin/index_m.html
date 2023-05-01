@@ -290,6 +290,7 @@
 				let $table = $(`#tab_${action} tbody`)
 				let result = {
 					IDs: [],
+					picSendDelay: [],
 					values: [],
 					checkboxes: [],
 					text: [],
@@ -321,6 +322,14 @@
 						result.checkboxes.push($(this).is(":checked"))
 					})
 				}
+				if (action === "pic") {
+					$($table).find(`input.pic_IDs`).each(function () {
+						result.IDs.push($(this).val())
+					})
+					$($table).find(`input.pic_picSendDelay`).each(function () {
+						result.picSendDelay.push($(this).val())
+					})
+				}
 				generatActionRow(activeUser, action, result, rowToUpdate)
 				_onChange()
 				resetModal()
@@ -336,7 +345,7 @@
 			$("#select_trigger").on("change", function () {
 				showTrigger = true
 				if ($(this).val() == null) showTrigger = false
-				showSelectModal(showTrigger, show)
+				showSelectModal(showTrigger, true)
 			})
 			// Inputs if its not ""
 			$(".modal-content").on("input ", function () {
@@ -352,7 +361,7 @@
 				showTrigger = true;
 				// Select_action deaktivieren
 				$("#select_action").attr("disabled", "disabled")
-				// Select Button Aktivieren
+				// Select Button Aktivieren 
 				$("#btn_action_set").removeAttr("disabled")
 				$("#btn_action_newRow").show()
 				let action = $(this).parents("tbody").attr("data-name")
@@ -421,6 +430,7 @@
 								<option value="" disabled selected class="translate">Choose your option</option>
 								<option value="get">GetState</option>
 								<option value="set">SetState</option>
+								<option value="pic">Send Picture</option>
 							</select>
 							<label class="translate">What is to do?</label>
 						</div>
@@ -499,12 +509,31 @@
 								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
 											class="material-icons">delete</i></a></td>
 								</td>
-
 							</tr>
 						</tbody>
-
 					</table>
-
+					<table id="tab_pic" class="resetHide">
+						<thead>
+							<tr>
+								<th>Rendering url</th>
+								<th style="width: 10%;">Delay(ms)</th>
+								<th style="width: 3%;"></th>
+							</tr>
+						</thead>
+						<tbody class="table-lines table-values">
+							<tr>
+								<td> <input class="pic_IDs resetInput checkValue" type="text">
+								</td>
+								<td>
+									<input class="pic_picSendDelay resetInput" type="text" placeholder="5000"
+										value="5000">
+								</td>
+								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
+											class="material-icons">delete</i></a></td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set" disabled
@@ -513,7 +542,6 @@
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
-
 			</div>
 			<div class="row" id="user_menu">
 				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled translateT"
@@ -522,7 +550,6 @@
 					title="Delete User"><i class="material-icons">delete</i></a>
 				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled translateT"
 					id="addGlobalUser" title="Add Global User"><i class="material-icons">group_add</i></a>
-
 				<div class="input-field col s3">
 					<input id="username" type="text" class="validate">
 					<label for="username" class="translate">Add new Username</label>
@@ -534,8 +561,6 @@
 					</ul>
 				</div>
 			</div>
-
-
 			<div class="row">
 				<div class="col s12">
 					<div class="col s2">
@@ -565,9 +590,7 @@
 			<div class="row">
 				<div class="col s12 ">
 					<p class=" infoText translate">Each entry may only occur once in the complete navigation</p>
-
 					<p class="infoText translate">Please Save the Nav Settings before you go to the aktions !!!</p>
-
 				</div>
 				<div class="col s12">
 					<div class="table-values-div saveTable" id="navigation">
@@ -590,10 +613,7 @@
 
 			</div>
 		</div>
-		<div id="tab-action">
-
-		</div>
-
+		<div id="tab-action"></div>
 		<div id="tab-settings">
 			<div class=" row">
 				<div class="col s12">
@@ -638,6 +658,19 @@
 								<span>One Time Keyboard</span>
 							</label>
 
+						</div>
+					</div>
+
+					<div class="row distance">
+						<div class="input-field col s6">
+							<input id="tokenGrafana" type="text" class="validate value">
+							<label for="tokenGrafana">Token Grafana</label>
+						</div>
+						<div class="input-field col s4">
+							<input id="directory" type="text" class="validate value"
+								placeholder="/opt/iobroker/grafana/grafana.png"
+								value="/opt/iobroker/grafana/grafana.png">
+							<label for="directory" class="translate">Directory</label>
 						</div>
 					</div>
 
