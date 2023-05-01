@@ -53,7 +53,7 @@ function createSelectTrigger(list) {
 // Row in Action Popup
 function newTrInAction(val, array) {
 	if (!array) {
-		array = ["", "", "checked", "", ""];
+		array = ["", "", "checked", "", "", 5000];
 	}
 	if (val === "get")
 		return /*html*/ `<tr class="onResetDelete">
@@ -88,6 +88,18 @@ function newTrInAction(val, array) {
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i
 											class="material-icons">delete</i></a></td>
 								</td>
+</tr>`;
+	if (val === "pic")
+		return /*html*/ `<tr class="onResetDelete">
+  <td> <input class="pic_IDs  checkValue" type="text" value="${array[0]}">
+  </td>
+  <td>
+    <input class="pic_picSendDelay " type="text" placeholder="5000"
+    value="${array[5]}">
+  </td>
+  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
+        class="material-icons">delete</i></a></td>
+  </td>
 </tr>`;
 }
 
@@ -137,11 +149,34 @@ function actionElement(user) {
                 </tbody>
               </table>
             </div>
+            <div>
+              <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>Send Picture</p>
+              <table style="display: none;" class="text-small saveTable">
+                <thead>
+                  <tr>
+                    <th style="width: 10%">Trigger</th>                      
+                    <th data-name="IDs" data-type="string">
+                    Rendering url</th>
+                    <!-- <th data-name="value" data-type="string" >
+                      Text</th> -->                    
+                    <th style="width: 10%">Delay</th>
+                    <th style="width: 2%"></th>
+                    <th data-name="delete" style="width: 2%;">
+                    </th>
+                  </tr>
+                </thead>
+                <tbody name=${user} data-name="pic" class="table_pic table-lines table-values">                 
+                </tbody> 
+              </table>
+            </div>
+            <div >
+            </div>
           </div>
         </div>`;
 }
 
 function newTableRow_Action(action, result) {
+	console.log("ACTION " + action);
 	if (action === "get") {
 		return /*html*/ `<tr>
     <td data-name="trigger">${result.trigger}</td>    
@@ -158,6 +193,14 @@ function newTableRow_Action(action, result) {
     <td>${insertVal(result, "IDs")}</td>
     <td>${insertVal(result, "values")}</td>
     <td>${insertVal(result, "checkboxes")}</td>
+    ${actionDeleteButton}
+    ${editButton}
+            </tr>`;
+	if (action === "pic")
+		return /*html*/ `<tr>
+    <td data-name="trigger">${result.trigger}</td>
+    <td>${insertVal(result, "IDs")}</td>
+    <td>${insertVal(result, "picSendDelay")}</td>    
     ${actionDeleteButton}
     ${editButton}
             </tr>`;
