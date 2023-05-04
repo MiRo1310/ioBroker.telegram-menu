@@ -120,7 +120,9 @@ class TelegramMenu extends utils.Adapter {
 						});
 					} else {
 						try {
-							userList.forEach(function (user) {
+							this.log.debug("UserList " + JSON.stringify(userList));
+							userList.forEach((user) => {
+								this.log.debug("User " + JSON.stringify(user));
 								const startside = [startsides[user]].toString();
 								if (user != "Global")
 									sendToTelegram(
