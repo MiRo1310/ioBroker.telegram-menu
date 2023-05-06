@@ -107,8 +107,10 @@ function table2Values(id) {
 				actionSet = {
 					IDs: dataToArray(this, "p[data-name='IDs']"),
 					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
+					confirm: dataToArray(this, "p[data-name='confirm']"),
 					trigger: dataToArray(this, "td[data-name='trigger']"),
 					values: dataToArray(this, "p[data-name='values']"),
+					returnText: dataToArray(this, "p[data-name='returnText']"),
 				};
 				if (actionSet && actionSet.IDs) {
 					obj.set.push(actionSet);
@@ -249,6 +251,9 @@ function resetModal() {
 	$(".onResetDelete").each(function () {
 		$(this).remove();
 	});
+	$(".resetCheckbox").each(function () {
+		$(this).removeAttr("checked");
+	});
 }
 
 /**
@@ -263,11 +268,13 @@ function showSelectModal(showTrigger, show) {
 //SECTION - Save 4 edit Values
 function insertEditValues(action, $this) {
 	const IDs = valuesToArray($this, "p[data-name='IDs']");
-	let newline, switchs, values, texts, picSendDelay, fileName;
+	let newline, switchs, confirm, returnText, values, texts, picSendDelay, fileName;
 
 	if (action == "set") {
 		switchs = valuesToArray($this, "p[data-name='checkboxes']");
 		values = valuesToArray($this, "p[data-name='values']");
+		confirm = valuesToArray($this, "p[data-name='confirm']");
+		returnText = valuesToArray($this, "p[data-name='returnText']");
 	}
 	if (action == "get") {
 		newline = valuesToArray($this, "p[data-name='checkboxes']");
@@ -283,6 +290,7 @@ function insertEditValues(action, $this) {
 			$(`#tab_${action} tbody input.get_id`).val(IDs[0].trim());
 			$(`#tab_${action} tbody input.pic_IDs`).val(IDs[0].trim());
 			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0].trim());
+			if (returnText) $(`#tab_${action} tbody input.returnText`).val(returnText[0].trim());
 			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].trim());
 			if (picSendDelay) $(`#tab_${action} tbody input.pic_picSendDelay`).val(picSendDelay[0].trim());
 			if (fileName) $(`#tab_${action} tbody input.pic_fileName`).val(fileName[0].trim());
@@ -291,6 +299,10 @@ function insertEditValues(action, $this) {
 				$(`#tab_${action} tbody input.switch_checkbox`).attr("checked", "checked");
 			} else $(`#tab_${action} tbody input.switch_checkbox`).removeAttr("checked");
 
+			if (confirm && confirm[0].trim() == "true") {
+				$(`#tab_${action} tbody input.confirm_checkbox`).attr("checked", "checked");
+			} else $(`#tab_${action} tbody input.confirm_checkbox`).removeAttr("checked");
+
 			if (newline && newline[0].trim() == "true")
 				$(`#tab_${action} tbody input.newline_checkbox`).attr("checked", "checked");
 			else $(`#tab_${action} tbody input.newline_checkbox`).removeAttr("checked");
@@ -298,17 +310,31 @@ function insertEditValues(action, $this) {
 			let _newline = "",
 				_switch = "",
 				_values = "",
+				_confirm = "",
+				_returnText = "",
 				_texts = "",
 				_picSendDelay = "",
 				_fileName = "";
 
 			if (newline && newline[key].trim() == "true") _newline = "checked";
 			if (switchs && switchs[key].trim() == "true") _switch = "checked";
+			if (confirm && confirm[key].trim() == "true") _confirm = "checked";
 			if (values) _values = values[key].trim();
+			if (returnText) _returnText = returnText[key].trim();
 			if (texts) _texts = texts[key].trim();
 			if (picSendDelay) _picSendDelay = picSendDelay[key].trim();
 			if (fileName) _fileName = fileName[key].trim();
-			const array = [IDs[key].trim(), _texts, _newline, _values, _switch, _picSendDelay, _fileName];
+			const array = [
+				IDs[key].trim(),
+				_texts,
+				_newline,
+				_values,
+				_switch,
+				_picSendDelay,
+				_fileName,
+				_confirm,
+				_returnText,
+			];
 			$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), array));
 		}
 	});

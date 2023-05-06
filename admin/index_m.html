@@ -164,10 +164,6 @@
 					activeUser = users[0]
 					showUser(activeUser)
 				}
-
-
-
-				//TODO - beim löschen einen neuen User aktiv setzen
 				_onChange()
 
 			})
@@ -192,7 +188,7 @@
 					$("#btn_add_nav").hide()
 					$("#btn_add_action").hide()
 				}
-
+				translateAll()
 			})
 			// Add Button New Row 
 			$("#btn_add_nav").click(function () {
@@ -296,6 +292,8 @@
 					values: [],
 					fileName: [],
 					checkboxes: [],
+					confirm: [],
+					returnText: [],
 					text: [],
 					trigger: $("#select_trigger").val(),
 					action: action
@@ -309,8 +307,14 @@
 					$($table).find(`input.set_value`).each(function () {
 						result.values.push($(this).val())
 					})
+					$($table).find(`input.returnText`).each(function () {
+						result.returnText.push($(this).val())
+					})
 					$($table).find(`input.switch_checkbox`).each(function () {
 						result.checkboxes.push($(this).is(":checked"))
+					})
+					$($table).find(`input.confirm_checkbox`).each(function () {
+						result.confirm.push($(this).is(":checked"))
 					})
 				}
 
@@ -461,11 +465,13 @@
 					<table id="tab_set" class="resetHide">
 						<thead>
 							<tr>
-								<th style="width: 30%; background: #64b5f6 ">ID</th>
-								<th style="width: 5%; background: #64b5f6 "></th>
-								<th style="background: #64b5f6 " class="translate">Value</th>
-								<th style="width: 8%; background: #64b5f6 ">Switch</th>
-								<th style="width: 3%; background: #64b5f6 "></th>
+								<th style="width: 20%; background: #64b5f6 ">ID</th>
+								<th style="width: 1%; background: #64b5f6 "></th>
+								<th style="width: 5%; background: #64b5f6 " class="translate">Value</th>
+								<th style="width: 15%; background: #64b5f6 " class="translate">Return text</th>
+								<th style="width: 1%; background: #64b5f6 " class="text-xsm translate">Confirm</th>
+								<th style="width: 1%; background: #64b5f6 " class="text-xsm translate">Switch</th>
+								<th style="width: 1%; background: #64b5f6 "></th>
 							</tr>
 						</thead>
 						<tbody class="table-lines table-values">
@@ -478,7 +484,15 @@
 									<input class="set_value resetInput checkValueSwitch" type="text" value="">
 								</td>
 								<td>
-									<input id="switch_checkbox" type="checkbox" class="filled-in switch_checkbox " />
+									<input class="returnText resetInput " type="text" value="">
+								</td>
+								<td>
+									<input type="checkbox" class="filled-in confirm_checkbox resetCheckbox" />
+									<span></span>
+								</td>
+								<td>
+									<input id="switch_checkbox" type="checkbox"
+										class="filled-in switch_checkbox resetCheckbox" />
 									<span></span>
 								</td>
 								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i

@@ -12,12 +12,17 @@ const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
 const generateActions = require("./lib/js/action").generateActions;
+const setstate = require("./lib/js/setstate").setstate;
+const getstate = require("./lib/js/getstate").getstate;
+
 // const lichtAn = require("./lib/js/action").lichtAn;
 // const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
 
 const telegramID = "telegram.0.communicate.request";
 let timeouts = [];
 let timeoutKey = 0;
+let setStateIds;
+let setStateIdsToListenTo;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -74,10 +79,13 @@ class TelegramMenu extends utils.Adapter {
 							const value = await editArrayButtons(nav[name], this);
 							menu.data[name] = await generateNewObjectStructure(_this, value);
 							this.log.debug("New Structure: " + JSON.stringify(menu.data[name]));
-							menu.data[name] = await generateActions(_this, action[name], menu.data[name]);
+							const returnValue = generateActions(_this, action[name], menu.data[name]);
+							menu.data[name] = returnValue?.obj;
+							setStateIds = returnValue?.ids;
+							if (setStateIds && setStateIds?.length > 0) _setForeignStatesAsync(setStateIds, _this);
+							this.log.debug("SetForeignStates: " + JSON.stringify(setStateIds));
 							this.log.debug("Name " + JSON.stringify(name));
 							this.log.debug("Array Buttons: " + JSON.stringify(value));
-
 							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
 						}
 					} catch (err) {
@@ -141,6 +149,7 @@ class TelegramMenu extends utils.Adapter {
 					}
 
 					this.on("stateChange", async (id, state) => {
+						let userToSend;
 						if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
 							const value = state.val;
 							const user = value.slice(1, value.indexOf("]"));
@@ -149,7 +158,7 @@ class TelegramMenu extends utils.Adapter {
 							this.log.debug("User: " + JSON.stringify(user));
 							this.log.debug("Todo: " + JSON.stringify(toDo));
 							let nav;
-							let userToSend = null;
+							userToSend = null;
 							if (globalUserActiv) {
 								nav = menu.data["Global"];
 								if (globalUserList.indexOf(user) != -1) userToSend = user;
@@ -180,122 +189,70 @@ class TelegramMenu extends utils.Adapter {
 								}
 								// Schalten
 								if (part.switch) {
-									try {
-										part.switch.forEach(
-											(/** @type {{ id: string; value: boolean; toggle:boolean }} */ element) => {
-												this.log.debug("Element to set " + JSON.stringify(element));
-
-												if (element.toggle) {
-													if (element.toggle) this.log.debug("Toggle");
-													this.getForeignStateAsync(element.id)
-														.then((val) => {
-															this.log.debug("Value " + JSON.stringify(val));
-															if (val) this.setForeignStateAsync(element.id, !val.val);
-														})
-														.catch((e) => {
-															console.log(e);
-														});
-												} else {
-													this.log.debug("Value " + JSON.stringify(element.value));
-													this.setForeignStateAsync(element.id, element.value);
-												}
-											},
-										);
-									} catch (error) {
-										this.log.error("Error Switch" + JSON.stringify(error));
-									}
+									setStateIdsToListenTo = setstate(_this, part, userToSend);
 								}
 								if (part.getData) {
-									try {
-										let text = "";
-										let i = 1;
-										part.getData.forEach((element) => {
-											this.log.debug("Get Value ID " + JSON.stringify(element.id));
-											this.getForeignStateAsync(element.id).then((value) => {
-												if (value) {
-													this.log.debug("Value " + JSON.stringify(value));
-												}
-												if (value) {
-													const val = JSON.stringify(value.val);
-													this.log.debug("GetValue " + JSON.stringify(value.val));
-													this.log.debug("Element.text " + JSON.stringify(element.text));
-													let newline = "";
-													if (element.newline) {
-														newline = "\n";
-													}
-													if (element.text) {
-														if (element.text.indexOf("&&") != -1)
-															text += `${element.text.replace("&&", val)}${newline}`;
-														else text += element.text + " " + val + newline;
-													} else text += `${val} ${newline}`;
-													this.log.debug("Text " + JSON.stringify(text));
-												}
-												this.log.debug(
-													"Length & i: " +
-														JSON.stringify({ length: part.getData.length, i: i }),
-												);
-												if (i == part.getData.length) {
-													this.log.debug("User to send: " + JSON.stringify(userToSend));
-													if (userToSend) sendToTelegram(this, userToSend, text);
-												}
-												i++;
-											});
-										});
-									} catch (error) {
-										this.log.error("Error Getdata: " + JSON.stringify(error));
-									}
+									getstate(_this, part, userToSend);
 								}
 								if (part.sendPic) {
-									this.log.debug("Send Picture");
+									try {
+										this.log.debug("Send Picture");
 
-									part.sendPic.forEach((element) => {
-										// this.log.debug("Element " + JSON.stringify(element));
-										token = token.trim();
-										const url = element.id;
-										const newUrl = url.replace(/&amp;/g, "&");
-										exec(
-											`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-										);
-										this.log.debug(
-											"url " +
+										part.sendPic.forEach((element) => {
+											// this.log.debug("Element " + JSON.stringify(element));
+											token = token.trim();
+											const url = element.id;
+											const newUrl = url.replace(/&amp;/g, "&");
+											exec(
 												`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-										);
-										timeoutKey += 1;
-										const path = `${directoryPicture}${element.fileName}`;
-										const timeout = setTimeout(async () => {
-											this.sendTo(
-												"telegram",
-												path,
-
-												function (res) {
-													console.log("Sent to " + res + " users!");
-												},
 											);
+											this.log.debug(
+												"url " +
+													`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+											);
+											timeoutKey += 1;
+											const path = `${directoryPicture}${element.fileName}`;
+											const timeout = setTimeout(async () => {
+												sendToTelegram(_this, userToSend, path);
 
-											let timeoutToClear = {};
-											timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-											clearTimeout(timeoutToClear.timeout);
-											timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-										}, element.delay);
-										timeouts.push({ key: timeoutKey, timeout: timeout });
-									});
+												let timeoutToClear = {};
+												timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+												clearTimeout(timeoutToClear.timeout);
+												timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+											}, element.delay);
+											timeouts.push({ key: timeoutKey, timeout: timeout });
+										});
+									} catch (e) {
+										this.log.error("Error :" + JSON.stringify(e));
+									}
 								}
 							} else {
 								if (typeof userToSend == "string")
 									sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
 							}
+							// Auf Setstate reagieren und Wert schicken
+						} else if (state && setStateIdsToListenTo.find((element) => element.id == id)) {
+							this.log.debug("State, which is listen to was changed " + JSON.stringify(id));
+							setStateIdsToListenTo.forEach((element, key) => {
+								if (element.id == id) {
+									this.log.debug("Send Value " + JSON.stringify(element));
+									if (element.confirm != "false") {
+										this.log.debug("User " + JSON.stringify(element.userToSend));
+										let textToSend = element.returnText;
+										textToSend.indexOf("&&") != -1
+											? textToSend.replace("&&", state.val)
+											: (textToSend += " " + state.val);
+										sendToTelegram(this, element.userToSend, textToSend);
+										// Die Elemente auf die Reagiert wurde entfernen
+										setStateIdsToListenTo.splice(key, 1);
+									}
+								}
+							});
 						}
 					});
 				}
 			}
 		});
-		// let users = this.config.users;
-
-		// }
-		// this.log.info(JSON.stringify(this.config.usersForGlobal));
-		// this.log.info(JSON.stringify(this.config.checkbox));
-
-		// this.log.info(JSON.stringify(this.config.users));
 
 		/*
 		For every state in the system there has to be also an object of type state
@@ -319,8 +276,19 @@ class TelegramMenu extends utils.Adapter {
 		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
 		// this.subscribeStates("lights.*");
 		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
+		/**
+		 *
+		 * @param {Array} array
+		 * @param {*} _this
+		 */
+		function _setForeignStatesAsync(array, _this) {
+			array.forEach((element) => {
+				_this.subscribeForeignStatesAsync(element);
+			});
+		}
 		this.subscribeForeignStatesAsync("telegram.0.info.connection");
 		this.subscribeForeignStatesAsync("telegram.0.communicate.request");
+
 		this.subscribeStates(telegramID);
 
 		/*
@@ -355,9 +323,6 @@ class TelegramMenu extends utils.Adapter {
 			timeouts.forEach((element) => {
 				clearTimeout(element.timeout);
 			});
-			// clearTimeout(timeout2);
-			// ...
-			// clearInterval(interval1);
 
 			callback();
 		} catch (e) {

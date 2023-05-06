@@ -55,7 +55,7 @@ h1 {
 #tab_action {
 	background-color: white;
 	border: 5px solid #64b5f6;
-	width: 90% !important;
+	width: 99% !important;
 }
 
 .page-footer {
@@ -94,6 +94,9 @@ table th {
 .text-small {
 	font-size: 0.75rem;
 }
+.text-xsm {
+	font-size: 0.6rem;
+}
 .startRow {
 	background-color: rgb(150, 209, 90);
 }
@@ -114,4 +117,8 @@ header {
 }
 .distance {
 	margin-top: 30px !important;
+}
+.text-vertical {
+	writing-mode: vertical-lr;
+	text-orientation: upright;
 }

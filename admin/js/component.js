@@ -49,7 +49,7 @@ function createSelectTrigger(list) {
 	});
 	return element;
 }
-
+//SECTION - Save
 // Row in Action Popup
 function newTrInAction(val, array, rows) {
 	if (!array) {
@@ -68,6 +68,8 @@ function newTrInAction(val, array, rows) {
   <td> <input  class="set_id checkValue" type="text" value="${array[0]}"></td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
   <td><input class="set_value checkValueSwitch" type="text" value="${array[3]}"></td>
+  <td><input class="returnText resetInput " type="text" value="${array[8]}"></td>
+	<td><label><input type="checkbox" class="filled-in confirm_checkbox" ${array[7]}/><span></span></label></td>
   <td><label><input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
 								
@@ -90,7 +92,7 @@ function actionElement(user) {
               <table style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
-                    <th style="width: 10%">Trigger</th>                      
+                    <th style="width: 10%" class="translate">Trigger</th>                      
                     <th data-name="id" data-type="string" style="width: 25%;">
                       ID</th>
                     <th data-name="value" data-type="string" >
@@ -111,13 +113,13 @@ function actionElement(user) {
               <table  style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
-                  <th data-name="trigger" style="width: 10%">Trigger</th>    
+                  <th data-name="trigger" style="width: 10%" class="translate">Trigger</th>    
                     <th data-name="id" data-type="string" style="width: 25%;">
                       ID</th>
-                    <th data-name="value" data-type="string" >
-                      Value</th>
-                    <th data-name="switch" data-type="string" style="width: 2%;">
-                      Switch</th>
+                    <th data-name="value" data-type="string" class="translate">Value</th>
+                    <th data-name="returnText" data-type="string" class="translate">Return text</th>
+                    <th data-name="confirm" data-type="string" style="width: 2%;" class="translate">Confirm</th>
+                      <th data-name="switch" data-type="string" style="width: 2%;" class="translate">Switch</th>
                     <th data-name="edit" style="width: 2%;">
                     </th>
                     <th data-name="delete" style="width: 2%;">
@@ -133,13 +135,12 @@ function actionElement(user) {
               <table style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
-                    <th style="width: 10%">Trigger</th>                      
-                    <th data-name="IDs" data-type="string">
-                    Rendering url</th>
+                    <th style="width: 10%" class="translate">Trigger</th>                      
+                    <th data-name="IDs" data-type="string" class="translate">Rendering url</th>
                     <th data-name="fileName" data-type="string" class="translate" style="width: 10%">Filename</th>
                     <!-- <th data-name="value" data-type="string" >
                       Text</th> -->                    
-                    <th style="width: 8%">Delay</th>
+                    <th style="width: 8%" class="translate">Delay</th>
                     <th style="width: 2%"></th>
                     <th data-name="delete" style="width: 2%;">
                     </th>
@@ -172,6 +173,8 @@ function newTableRow_Action(action, result) {
     <td data-name="trigger">${result.trigger}</td>
     <td>${insertVal(result, "IDs")}</td>
     <td>${insertVal(result, "values")}</td>
+    <td>${insertVal(result, "returnText")}</td>
+    <td>${insertVal(result, "confirm")}</td>
     <td>${insertVal(result, "checkboxes")}</td>
     ${actionDeleteButton}
     ${editButton}
