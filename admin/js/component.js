@@ -194,9 +194,13 @@ const editButton = `<td><a data-target="tab_action" class="editEntry modal-trigg
 
 function insertVal(result, entry) {
 	let newEntry = "";
-	result[entry].forEach(function (element) {
-		newEntry += /*html*/ `<p data-name=${entry}> ${element}</p>`;
-	});
+	if (result[entry]) {
+		result[entry].forEach(function (element) {
+			newEntry += /*html*/ `<p data-name=${entry}> ${element}</p>`;
+		});
+	} else {
+		newEntry += /*html*/ `<p data-name=${entry}></p>`;
+	}
 	return newEntry;
 }
 function newSelectInstanceRow(id) {
