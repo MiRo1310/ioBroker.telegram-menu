@@ -30,6 +30,9 @@ You can create a separate menu for each user, or you can use the global user to 
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   Confirmation, that the value has been set
 -   Second User Menu fixed
 
 ### 0.0.8 (2023-05-01)
