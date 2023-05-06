@@ -15,11 +15,13 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 -   Schaltflächen müssen durch ein , und Zeilen durch && getrennt sein
 -   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden
 -   Jeder Button darf nur einmal vorkommen
+-   Mit dem Globalen User kann man mehreren Usern das gleiche Menu geben, diese müssen dort angegeben werden mit einem Komma getrennt
 
 ### SetState
 
 -   Switch schaltet nur Booleans, von true auf false auf true usw.
 -   Wenn man einen Wert angibt kann man diesen setzen
+-   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, Platzhalter für den Wert ist &&
 
 ### GetState
 

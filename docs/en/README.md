@@ -15,11 +15,13 @@ You can create a separate menu for each user, or you can use the global user to 
 -   Buttons must be separated by , and lines by &&
 -   All users must be spelled exactly as they were created in Telegram
 -   Each button may only appear once
+-   With the global user you can give several users the same menu, they must be specified there separated by a comma
 
 ### SetState
 
 -   Switch only toggles booleans, from true to false to true etc.
 -   If you specify a value, you can set it
+-   It is possible to have the setting of the value confirmed, placeholder for the value is &&
 
 ### GetState
 
