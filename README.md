@@ -33,6 +33,11 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   ID by Selector, get all Values of this Selector
+
 ### 0.1.0 (2023-05-07)
 
 -   Fixes
