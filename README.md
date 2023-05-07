@@ -17,6 +17,10 @@ Easily create Telegram Menus
 
 You can create a separate menu for each user, or you can use the global user to generate the same menu for all users.
 
+**If you like it, please consider a donation:**
+
+[![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=7QGL5CXJCUSCE)
+
 ## Documentation
 
 [🇺🇸 Documentation](./docs/en/README.md)
