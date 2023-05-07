@@ -297,7 +297,7 @@ function insertEditValues(action, $this) {
 			$(`#tab_${action} tbody input.pic_IDs`).val(IDs[0].trim());
 			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0].trim());
 			if (returnText) $(`#tab_${action} tbody input.returnText`).val(returnText[0].trim());
-			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].trim());
+			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].trim().replace(/&amp;/g, "&"));
 			if (picSendDelay) $(`#tab_${action} tbody input.pic_picSendDelay`).val(picSendDelay[0].trim());
 			if (fileName) $(`#tab_${action} tbody input.pic_fileName`).val(fileName[0].trim());
 
