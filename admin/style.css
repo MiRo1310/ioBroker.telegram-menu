@@ -33,9 +33,11 @@ label > i[title] {
 	/* Don't wrap text in dropdowns */
 	white-space: nowrap;
 }
+/* Button */
 .btn-add {
 	margin-left: 20px;
 }
+/* Background */
 .bg-error {
 	background-color: rgb(243, 96, 96);
 }
@@ -121,4 +123,47 @@ header {
 .text-vertical {
 	writing-mode: vertical-lr;
 	text-orientation: upright;
+}
+.marginTop {
+	margin-top: 10px !important;
+}
+.bg--header {
+	background-color: rgb(51, 153, 204) !important;
+	margin-bottom: 5px !important;
+}
+.noMargin {
+	margin: 0 !important;
+}
+
+.tab {
+	background-color: #eee;
+	margin-right: 5px !important;
+	border: 3px solid #999;
+	border-radius: 10px;
+}
+.tab:hover {
+	background-color: #fff;
+	border-color: #0e1072;
+}
+li.tab:has(.active) {
+	background-color: #fff !important;
+	border-color: #477da8 !important;
+}
+p[data-name="confirm"],
+p[data-name="checkboxes"] {
+	padding: 2px 2px;
+}
+.checkFalse {
+	/* background-color: #f75555; */
+	border: 2px solid #f75555;
+}
+.checkTrue {
+	/* background-color: #34e251; */
+	border: 2px solid #34e251;
+}
+#tab-action p {
+	margin: 2px 0 !important;
+}
+#tab-action td {
+	padding: 0 3px !important;
 }

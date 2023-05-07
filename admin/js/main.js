@@ -1,5 +1,5 @@
 /*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable"}]*/
 
 /**
  *
@@ -49,12 +49,17 @@ function generateNav() {
  * @param {string} id Where to create
  * @param {Array} users Array of Users
  */
-function createUser(id, users) {
+function createUser(id, users, activeUser, userActiveCheckbox) {
 	users.forEach((user) => {
 		$(id).append(newUserBtn(user));
 		$("#table_nav").append(navElement(user));
 		$("#tab-action").append(actionElement(user));
+		let val;
+		if (userActiveCheckbox && userActiveCheckbox[user] != undefined) val = userActiveCheckbox[user];
+		else val = "";
+		if (user != "Global") $("#user_active_checkbox").append(userActivCheckbox(user, val));
 	});
+	if (activeUser) $(`#user_active_checkbox div.${activeUser}`).show();
 }
 //SECTION - Save 5 Save to Object
 function table2Values(id) {
@@ -254,6 +259,7 @@ function resetModal() {
 	$(".resetCheckbox").each(function () {
 		$(this).removeAttr("checked");
 	});
+	$("#btn_action_set").attr("disabled", "disabled");
 }
 
 /**
@@ -347,7 +353,7 @@ function valuesToArray($this, selector) {
 		.siblings()
 		.find(selector)
 		.each(function () {
-			val.push($(this).html());
+			val.push($(this).html().trim() != "-" ? $(this).html() : "");
 		});
 	return val;
 }
@@ -360,7 +366,7 @@ function showAddGlobalUser(users) {
 
 function addNewUser(users, newUser, _onChange) {
 	users.push(newUser);
-	createUser("#user_list", [newUser]);
+	createUser("#user_list", [newUser], null, null);
 	_onChange();
 	$("#username").val("");
 	$("#addNewUser").addClass("disabled");
@@ -422,14 +428,14 @@ function getAllTelegramInstances(socket, _this) {
 		_this.log.debug("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
 }
-function showUser(activeUser) {
+function showUser(activeUser, showHideUserCheckbox) {
 	showHideUserEntry(activeUser);
 	showGlobalUserSettings(activeUser);
 	$("#user_list li a").each(function () {
 		$(this).removeClass("active");
-		console.log("remove");
 	});
 	$(`#user_list li a[name=${activeUser}]`).addClass("active");
+	showHideUserCheckbox(activeUser);
 }
 function checkValueModal(showTrigger) {
 	let show = true;
@@ -458,4 +464,11 @@ function checkValueModal(showTrigger) {
 	}
 
 	showSelectModal(showTrigger, show);
+}
+function disableValueInput() {
+	$(".switch_checkbox").each(function () {
+		if ($(this).is(":checked")) {
+			$(this).parent().parent().parent().find("td input.set_value").attr("disabled", "disabled");
+		} else $(this).parent().parent().parent().find("td input.set_value").removeAttr("disabled");
+	});
 }

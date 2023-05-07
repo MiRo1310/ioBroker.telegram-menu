@@ -23,6 +23,13 @@ function newTableRow_Nav(activuser, users) {
 function newUserBtn(user) {
 	return /*html*/ `<li class="tab col s2 bg-nav-user"><a name="${user}" class="click_user" href="#">${user}</a></li>`;
 }
+function userActivCheckbox(user, val) {
+	let checked = "";
+	if (val || val == "") checked = "checked";
+	return /*html*/ `<div class="${user}" style="display:none"><input type="checkbox" class="filled-in userActiveCheckbox" ${checked} data-name="${user}"/>
+  <span class="translate marginTop">${user} <span> </span><span class="translate">activ</span>
+  </span></div> `;
+}
 
 /**
  *
@@ -53,7 +60,7 @@ function createSelectTrigger(list) {
 // Row in Action Popup
 function newTrInAction(val, array, rows) {
 	if (!array) {
-		array = ["", "", "checked", "", "", 5000, `grafana${rows + 1}.png`];
+		array = ["", "", "checked", "", "", 5000, `grafana${rows + 1}.png`, "", ""];
 	}
 	if (val === "get")
 		return /*html*/ `<tr class="onResetDelete">
@@ -157,7 +164,7 @@ function actionElement(user) {
 }
 //SECTION - Save 3
 function newTableRow_Action(action, result) {
-	console.log("ACTION " + action);
+	// console.log("ACTION " + action);
 	if (action === "get") {
 		return /*html*/ `<tr>
     <td data-name="trigger">${result.trigger}</td>    
@@ -196,7 +203,12 @@ function insertVal(result, entry) {
 	let newEntry = "";
 	if (result[entry]) {
 		result[entry].forEach(function (element) {
-			newEntry += /*html*/ `<p data-name=${entry}> ${element}</p>`;
+			let classVal = "";
+
+			if (element == "false" || element == false) classVal = "class='checkFalse'";
+			else if (element == "true" || element == true) classVal = "class='checkTrue'";
+
+			newEntry += /*html*/ `<p data-name=${entry} ${classVal}>${element}</p>`;
 		});
 	} else {
 		newEntry += /*html*/ `<p data-name=${entry}></p>`;

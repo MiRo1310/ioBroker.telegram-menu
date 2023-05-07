@@ -44,8 +44,9 @@ class TelegramMenu extends utils.Adapter {
 	}
 	async onReady() {
 		this.setState("info.connection", false, true);
-		const datapoint = `${this.config.instance}.info.connection`;
-		const instanceTelegram = this.config.instance;
+		let instanceTelegram = this.config.instance;
+		if (instanceTelegram.length == 0) instanceTelegram = "telegram.0";
+		const datapoint = `${instanceTelegram}.info.connection`;
 		this.log.debug("Instance " + JSON.stringify(instanceTelegram));
 		this.log.debug("Datapoint " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
@@ -101,6 +102,7 @@ class TelegramMenu extends utils.Adapter {
 					const startsides = this.config.startsides;
 					let token = this.config.tokenGrafana;
 					const directoryPicture = this.config.directory;
+					const userActiveCheckbox = this.config.userActiveCheckbox;
 
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 					this.log.debug("UserList: " + JSON.stringify(userList));
@@ -132,7 +134,7 @@ class TelegramMenu extends utils.Adapter {
 							userList.forEach((user) => {
 								this.log.debug("User " + JSON.stringify(user));
 								const startside = [startsides[user]].toString();
-								if (user != "Global")
+								if (user != "Global" && userActiveCheckbox[user])
 									sendToTelegram(
 										_this,
 										user,
@@ -168,7 +170,7 @@ class TelegramMenu extends utils.Adapter {
 							}
 							this.log.debug("Nav " + JSON.stringify(nav));
 							this.log.debug("Menu " + JSON.stringify(menu.data));
-							if (nav[toDo]) {
+							if (nav[toDo] && userToSend && userActiveCheckbox[userToSend]) {
 								const part = nav[toDo];
 								this.log.debug("Part " + JSON.stringify(part));
 								// Navigation
@@ -239,8 +241,8 @@ class TelegramMenu extends utils.Adapter {
 									if (element.confirm != "false") {
 										this.log.debug("User " + JSON.stringify(element.userToSend));
 										let textToSend = element.returnText;
-										textToSend.indexOf("&&") != -1
-											? textToSend.replace("&&", state.val)
+										textToSend.indexOf("&amp;$amp;") != -1
+											? textToSend.replace("&amp;$amp;", state.val)
 											: (textToSend += " " + state.val);
 										sendToTelegram(this, element.userToSend, textToSend);
 										// Die Elemente auf die Reagiert wurde entfernen

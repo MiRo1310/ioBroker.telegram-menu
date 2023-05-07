@@ -32,6 +32,8 @@ You can create a separate menu for each user, or you can use the global user to 
 
 ### **WORK IN PROGRESS**
 
+-   Fixes
+-   Style
 -   Confirmation, that the value has been set
 -   Second User Menu fixed
 

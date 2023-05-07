@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="./js/main.js"></script>
 	<script type="text/javascript" src="./js/component.js"></script>
 
+
 	<script type="text/javascript" src="../../js/translate.js"></script>
 	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
 	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
@@ -31,7 +32,8 @@
 		let _onChange
 		var users;
 		let activeUser;
-		let telegramInstance
+		let telegramInstance;
+		let userActiveCheckbox;
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -39,7 +41,8 @@
 			_onChange = onChange
 			users = settings.users
 			activeUser = settings.users[0]
-			createUser("#user_list", settings.users)
+			userActiveCheckbox = settings.userActiveCheckbox
+			createUser("#user_list", settings.users, activeUser, userActiveCheckbox)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
 			fillTableAction(settings.data.action)
 			showAddGlobalUser(users)
@@ -104,74 +107,78 @@
 				}
 
 			})
-
-
+			const checkboxes = {}
+			$("#user_active_checkbox input").each(function () {
+				const user = $(this).attr("data-name")
+				checkboxes[user] = $(this).is(":checked")
+			})
+			obj.userActiveCheckbox = checkboxes
 			const tableDevices = table2Values(".saveTable");
-
 			if (isStringEmty(".isString")) {
-				console.log($("#select_instance").val())
 
 				obj.instance = $("#select_instance").val()
 				obj.data = tableDevices;
 				obj.users = users
 				obj.startsides = generateStartside(users)
 				generateSelectTrigger(activeUser)
-
 				console.log(obj)
 				callback(obj);
 			}
 		}
 
-
-
 		$(function () {
-
-
 			let rowToUpdate;
+
+			// User ------------------------------------------------------------------------------
 			// New User Show Button			
 			$("#username").keyup(function () {
 				if ($(this).val() !== "" && users.indexOf($("#username").val()) == -1) {
 					$("#addNewUser").removeClass("disabled")
 				} else $("#addNewUser").addClass("disabled")
 			})
-
 			// Add new User
 			$("#addNewUser").click(() => {
 				let newUser = $("#username").val()
-
 				if (users.indexOf(newUser) == -1) {
 					addNewUser(users, newUser, _onChange)
 					activeUser = newUser
 					showUser(newUser)
 				}
 			})
+			function showHideUserCheckbox(activeUser) {
+				$("#user_active_checkbox div").hide()
+				$(`#user_active_checkbox div.${activeUser}`).show()
+			}
 			// Delete User
 			$("#user_menu").on("click", "#deleteUser", function () {
 				let userdelete = $("#user_list .active").attr("name")
 				if (userdelete == "Global") {
 					$(".showGlobal").hide()
 					$("#globalUserActiv").prop("checked", false)
-
 				}
 				users.splice(users.indexOf(userdelete), 1)
 				$("#user_list .active").parent().remove()
 				$(`#tab-nav tbody[name="${userdelete}"]`).remove()
 				$(`#tab-action tbody[name="${userdelete}"]`).remove()
+				$(`#user_active_checkbox div.${userdelete}`).remove()
 				$(`#${userdelete}`).remove()
 				showAddGlobalUser(users)
 				// Nach dem Löschen den ersten User aktivieren
 				if (users.length > 0) {
 					activeUser = users[0]
-					showUser(activeUser)
+					showUser(activeUser, showHideUserCheckbox)
 				}
 				_onChange()
-
 			})
 			// Click User, Show User Navigation, Action
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
-				showUser(activeUser)
+				showUser(activeUser, showHideUserCheckbox)
+				// User active Button zeigen
+				showHideUserCheckbox(activeUser)
 			})
+
+			// Navigation -----------------------------------------------------------------------------------
 			// Click Nav Buttons
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
@@ -180,16 +187,20 @@
 				if (activeBtn === "nav") {
 					$("#btn_add_nav").show()
 					$("#btn_add_action").hide()
+					$("#infoNav").show()
 				} else if (activeBtn === "action") {
 					$("#btn_add_nav").hide()
 					$("#btn_add_action").show()
+					$("#infoNav").hide()
 				}
 				else {
 					$("#btn_add_nav").hide()
 					$("#btn_add_action").hide()
+					$("#infoNav").hide()
 				}
 				translateAll()
 			})
+			// ------------------------------------------------------------------------------------------------------
 			// Add Button New Row 
 			$("#btn_add_nav").click(function () {
 				$(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
@@ -198,16 +209,16 @@
 				rowToUpdate = null
 				translateAll()
 			})
-
-
 			//Delete Row
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
 				_onChange()
 				generateNav()
 			})
-			// Eventhandler for save change 
 
+
+			// Change Events --------------------------------------------------------------------------------------
+			// Eventhandler for save change 
 			$("#user_list").on("click", ".click-user", function () {
 				activeUser = $(this).attr("name")
 				$("#btn-nav").attr("href", `#tab-nav-user-${activeUser}`)
@@ -221,7 +232,9 @@
 			$(".valCheckbox").change(function () {
 				_onChange()
 			})
-			//ID Dialog
+
+
+			//Dialog get ID Iobroker ------------------------------------------------------------------------------
 			$(".adapter-container").on("click", ".btn_getID", function () {
 				let $element = $(this).parent().prev().children("input")
 				showSelectIdDialog($element.val(), function (newID) {
@@ -229,43 +242,47 @@
 				})
 			});
 
+			// ----------------------------------------------------------------------------------------------------
 			//Modal
 			$('.modal').modal()
+			// Tables in Action Verstecken und Button new Row
+			$(".modal-content table").hide()
+			$("#btn_action_newRow").hide()
+			// Reset Modal Input Fields
+			$("#btn_action_close").on("click", function () {
+				$("#select_action").removeAttr("disabled")
+				resetModal()
+			})
 
-
+			// Telegram Instances in Select -----------------------------------------------------------------------
 			// Select Instance			
 			getAllTelegramInstances(socket, this, telegramInstance)
 			$("#select_instance").val(telegramInstance).select();
 			$("#select_instance").on('change', function () {
-
 				_onChange()
 			})
-
-
 			// Select Inizializieren
 			$("select").select();
 			// Select Updaten
 			$('select').on('DOMSubtreeModified', function () {
 				$(this).select();
 			});
-
-			// Tables in Action Verstecken und Button new Row
-			$(".modal-content table").hide()
-			$("#btn_action_newRow").hide()
-
 			// Bei Änderungen von Select in Action Table anzeigen
 			$("#select_action").on("change", function () {
 				$("#btn_action_newRow").show()
 				$(".modal-content table").hide()
 				$(`#tab_${$(this).val()}`).show()
 			})
+
+			// Action Side --------------------------------------------------------------------
 			// New Row in Action 
 			$("#btn_action_newRow").on("click", function () {
 				const rows = $("#tab_pic tbody tr").length
 				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), undefined, rows))
 				$("#btn_action_set").attr("disabled", "disabled")
 			})
-			// Global delete Hide Table
+			// --------------------------------------------------------------------------------
+			// Global Disable delete Button in Tables
 			$("div.adapter-container").on("DOMSubtreeModified", "table tbody", function () {
 				if ($(this).children("tr").length > 1) {
 					$(this).find($("a.deleteRow")).removeAttr("disabled")
@@ -297,18 +314,16 @@
 					text: [],
 					trigger: $("#select_trigger").val(),
 					action: action
-
 				}
-
 				if (action === "set") {
 					$($table).find(`input.set_id`).each(function () {
 						result.IDs.push($(this).val())
 					})
 					$($table).find(`input.set_value`).each(function () {
-						result.values.push($(this).val())
+						result.values.push($(this).val() != "" ? $(this).val() : "-")
 					})
 					$($table).find(`input.returnText`).each(function () {
-						result.returnText.push($(this).val())
+						result.returnText.push($(this).val() != "" ? $(this).val() : "-")
 					})
 					$($table).find(`input.switch_checkbox`).each(function () {
 						result.checkboxes.push($(this).is(":checked"))
@@ -317,7 +332,6 @@
 						result.confirm.push($(this).is(":checked"))
 					})
 				}
-
 				if (action === "get") {
 					$($table).find(`input.get_id`).each(function () {
 						result.IDs.push($(this).val())
@@ -344,11 +358,7 @@
 				_onChange()
 				resetModal()
 			})
-			// Reset Modal Input Fields
-			$("#btn_action_close").on("click", function () {
-				$("#select_action").removeAttr("disabled")
-				resetModal()
-			})
+
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
 			// Select Check if is selected
 			let showTrigger = false
@@ -380,6 +390,7 @@
 				// Trigger	
 				$("#select_trigger").val($(this).parent().siblings("[data-name='trigger']").html()).select()
 				insertEditValues(action, this)
+				disableValueInput()
 			})
 			// Global User Button
 			$("#addGlobalUser").click(function () {
@@ -390,12 +401,14 @@
 
 			// Value deaktivieren wenn Switch checked
 			$(".modal-content").on("change", ".switch_checkbox", function () {
+				disableValueInput()
 
-				if ($(this).is(":checked")) {
-					$(this).parent().parent().find("td input.set_value").attr("disabled", "disabled")
-
-				} else $(this).parent().parent().find("td input.set_value").removeAttr("disabled")
 			})
+			// Active User clicken und Speichern sichtbar machen
+			$("#user_active_checkbox").on("change", "input", function () {
+				_onChange()
+			})
+
 
 
 		})
@@ -409,15 +422,15 @@
 <body id="body">
 	<div class="m adapter-container">
 		<header class="row">
-			<div class="row">
-				<div class="col s12 m4 l2">
+			<div class="row bg--header noMargin">
+				<div class="col s12 m4 l2 ">
 					<img src="telegram-menu.png" class="logo">
 				</div>
 			</div>
-			<div class="row">
+			<div class="row bg--header">
 				<div class="col s12">
-					<ul class="tabs">
-						<li class="tab col s3"><a class="active btn_nav translate" name="nav" id="btn-nav"
+					<ul class="tabs bg--header">
+						<li class="tab col s3 "><a class="active btn_nav translate" name="nav" id="btn-nav"
 								href="#tab-nav">Navigation</a>
 						</li>
 						<li class="tab col s3"><a class="btn_nav translate" name="action" id="btn_action"
@@ -491,9 +504,9 @@
 									<span></span>
 								</td>
 								<td>
-									<input id="switch_checkbox" type="checkbox"
-										class="filled-in switch_checkbox resetCheckbox" />
-									<span></span>
+									<label><input id="switch_checkbox" type="checkbox"
+											class="filled-in switch_checkbox resetCheckbox" />
+										<span></span></label>
 								</td>
 								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
 											class="material-icons" disabled>delete</i></a></td>
@@ -561,13 +574,13 @@
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set" disabled
-						id="btn_action_set" disabled><i class="large material-icons left">check</i><span
+						id="btn_action_set"><i class="large material-icons left">check</i><span
 							class="translate">Save</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
-			<div class="row" id="user_menu">
+			<div class="row " id="user_menu">
 				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled translateT"
 					id="addNewUser" title="Add new User"><i class="material-icons">person_add</i></a>
 				<a class="delete btn-floating btn-small waves-effect waves-light red translateT" id="deleteUser"
@@ -579,7 +592,7 @@
 					<label for="username" class="translate">Add new Username</label>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row ">
 				<div class="col s12">
 					<ul class="tabs" id="user_list">
 					</ul>
@@ -594,6 +607,18 @@
 						<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT modal-trigger"
 							id="btn_add_action" name="action" title="Add new Action" data-target="tab_action"
 							style="display: none;"><i class="material-icons translate ">add</i></a>
+					</div>
+					<div class="col s2" id="user_active_checkbox">
+						<!-- <input type="checkbox" class="filled-in value " checked />
+						<span class="translate marginTop">Michael <span> </span><span class="translate">activ</span>
+						</span> -->
+
+					</div>
+					<div id="infoNav" class="col s8">
+						<p class=" infoText translate ">Each entry may only occur once in the complete
+							navigation</p>
+						<p class="infoText translate ">Please Save the Nav Settings before you go to the
+							aktions !!!</p>
 					</div>
 					<div class="col s6">
 						<label class="showGlobal">
@@ -612,10 +637,7 @@
 		</header>
 		<div id="tab-nav" class="">
 			<div class="row">
-				<div class="col s12 ">
-					<p class=" infoText translate">Each entry may only occur once in the complete navigation</p>
-					<p class="infoText translate">Please Save the Nav Settings before you go to the aktions !!!</p>
-				</div>
+
 				<div class="col s12">
 					<div class="table-values-div saveTable" id="navigation">
 						<table id="table_nav" class="" style="width: 100%;">
