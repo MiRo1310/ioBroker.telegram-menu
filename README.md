@@ -33,8 +33,7 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.1.0 (2023-05-07)
 
 -   Fixes
 -   Style
