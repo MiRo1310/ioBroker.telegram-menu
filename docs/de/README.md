@@ -27,6 +27,12 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 
 -   Mit && als Platzhalter kannst du den Wert im Text platzieren
 
+## Werte aus erstellten Funktionen
+
+-   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
+-   Wenn man im Ausgabe Text den Namen des Datenpunkts haben möchte trägt man einfach an der gewünschten Position im Text {common.name} ein
+    ![Navigation](../pic/functions.png)
+
 ### Send Picture
 
 -   In den Einstellungen kann man ein Token für Grafana einfügen

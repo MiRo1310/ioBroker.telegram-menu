@@ -27,6 +27,13 @@ You can create a separate menu for each user, or you can use the global user to 
 
 -   You can place the Value in the Text with && as placeholder
 
+## Values ​​from created functions
+
+-   In order to get all the values ​​of the adjustable functions, you simply have to write functions=light e.g. instead of the ID.
+-   If you want the name of the data point in the output text, simply enter {common.name} at the desired position in the text
+
+![Navigation](../pic/functions.png)
+
 ### Send Picture
 
 -   in the settings you can add a token for Grafana
