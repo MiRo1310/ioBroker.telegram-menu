@@ -31,7 +31,8 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 
 -   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
 -   Wenn man im Ausgabe Text den Namen des Datenpunkts haben möchte trägt man einfach an der gewünschten Position im Text {common.name} ein
-    ![Navigation](../pic/functions.png)
+
+![functions](../pic/functions.png)
 
 ### Send Picture
 
