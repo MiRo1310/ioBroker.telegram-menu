@@ -50,7 +50,20 @@ class TelegramMenu extends utils.Adapter {
 		this.log.debug("Instance " + JSON.stringify(instanceTelegram));
 		this.log.debug("Datapoint " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
-
+		const checkbox = this.config.checkbox;
+		const globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
+		const one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
+		const resize_keyboard = this.config.checkbox[1]["resKey"];
+		const userList = this.config.users;
+		const globalUserList = this.config.usersForGlobal.split(",");
+		const startsides = this.config.startsides;
+		let token = this.config.tokenGrafana;
+		const directoryPicture = this.config.directory;
+		const userActiveCheckbox = this.config.userActiveCheckbox;
+		const menu = {
+			data: {},
+		};
+		const _this = this;
 		this.getForeignObject(datapoint, async (err, obj) => {
 			if (err || obj == null) {
 				// Error
@@ -58,7 +71,11 @@ class TelegramMenu extends utils.Adapter {
 				this.log.error(`The State ${datapoint} was not found!`);
 			} else {
 				// Datenpunkt wurde gefunden
-				telegramState = await this.getForeignStateAsync(datapoint);
+				try {
+					telegramState = await this.getForeignStateAsync(datapoint);
+				} catch (e) {
+					this.log.debug("Error " + JSON.stringify(e));
+				}
 				telegramAktiv = telegramState?.val;
 				if (!telegramAktiv) {
 					this.log.info("Telegram was found, but is not runnig. Please start!");
@@ -66,10 +83,7 @@ class TelegramMenu extends utils.Adapter {
 				if (telegramAktiv) {
 					this.log.info("Telegram was found");
 					this.setState("info.connection", true, true);
-					const menu = {
-						data: {},
-					};
-					const _this = this;
+
 					const data = this.config.data;
 					const nav = data["nav"];
 					const action = data["action"];
@@ -92,17 +106,6 @@ class TelegramMenu extends utils.Adapter {
 					} catch (err) {
 						this.log.error("Error generateNav: " + JSON.stringify(err));
 					}
-
-					const checkbox = this.config.checkbox;
-					const globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
-					const one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
-					const resize_keyboard = this.config.checkbox[1]["resKey"];
-					const userList = this.config.users;
-					const globalUserList = this.config.usersForGlobal.split(",");
-					const startsides = this.config.startsides;
-					let token = this.config.tokenGrafana;
-					const directoryPicture = this.config.directory;
-					const userActiveCheckbox = this.config.userActiveCheckbox;
 
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 					this.log.debug("UserList: " + JSON.stringify(userList));
@@ -149,9 +152,12 @@ class TelegramMenu extends utils.Adapter {
 							console.log("Error read UserList" + error);
 						}
 					}
-
-					this.on("stateChange", async (id, state) => {
-						let userToSend;
+				}
+				//TODO - heraus nehmen damit auf den connection state reagiert wird
+				let oldValue;
+				this.on("stateChange", async (id, state) => {
+					let userToSend;
+					if (telegramAktiv) {
 						if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
 							const value = state.val;
 							const user = value.slice(1, value.indexOf("]"));
@@ -233,7 +239,11 @@ class TelegramMenu extends utils.Adapter {
 									sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
 							}
 							// Auf Setstate reagieren und Wert schicken
-						} else if (state && setStateIdsToListenTo.find((element) => element.id == id)) {
+						} else if (
+							state &&
+							setStateIdsToListenTo &&
+							setStateIdsToListenTo.find((element) => element.id == id)
+						) {
 							this.log.debug("State, which is listen to was changed " + JSON.stringify(id));
 							setStateIdsToListenTo.forEach((element, key) => {
 								if (element.id == id) {
@@ -251,8 +261,18 @@ class TelegramMenu extends utils.Adapter {
 								}
 							});
 						}
-					});
-				}
+					}
+
+					if (state && id == `${instanceTelegram}.info.connection`) {
+						this.log.debug("Oldvalue " + JSON.stringify(oldValue));
+						if (!oldValue) {
+							this.log.debug("Restart Adapter Telegram Menu");
+							this.restart();
+						}
+						oldValue = state.val;
+						if (!state.val) telegramAktiv = false;
+					}
+				});
 			}
 		});
 
@@ -290,8 +310,8 @@ class TelegramMenu extends utils.Adapter {
 		}
 		this.subscribeForeignStatesAsync("telegram.0.info.connection");
 		this.subscribeForeignStatesAsync("telegram.0.communicate.request");
-
-		this.subscribeStates(telegramID);
+		this.subscribeForeignStatesAsync(telegramID);
+		this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
 
 		/*
 			setState examples
@@ -356,6 +376,7 @@ class TelegramMenu extends utils.Adapter {
 	//  */
 	// onStateChange(id, state) {
 	// 	if (state) {
+
 	// 		// The state was changed
 	// 		this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 	// 	} else {
