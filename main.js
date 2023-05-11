@@ -52,7 +52,7 @@ class TelegramMenu extends utils.Adapter {
 		let telegramAktiv, telegramState;
 		const checkbox = this.config.checkbox;
 		let globalUserActiv;
-		if (this.config.checkbox[0]["globalUserActiv"]) globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
+		// if (this.config.checkbox[0]["globalUserActiv"]) globalUserActiv = this.config.checkbox[0]["globalUserActiv"];
 		const one_time_keyboard = this.config.checkbox[2]["oneTiKey"];
 		const resize_keyboard = this.config.checkbox[1]["resKey"];
 		const userList = this.config.users;
