@@ -156,121 +156,125 @@ class TelegramMenu extends utils.Adapter {
 				//TODO - heraus nehmen damit auf den connection state reagiert wird
 				let oldValue;
 				this.on("stateChange", async (id, state) => {
-					let userToSend;
-					if (telegramAktiv) {
-						if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
-							const value = state.val;
-							const user = value.slice(1, value.indexOf("]"));
-							const toDo = value.slice(value.indexOf("]") + 1, value.length);
-							this.log.debug("Value: " + JSON.stringify(value));
-							this.log.debug("User: " + JSON.stringify(user));
-							this.log.debug("Todo: " + JSON.stringify(toDo));
-							let nav;
-							userToSend = null;
-							if (globalUserActiv) {
-								nav = menu.data["Global"];
-								if (globalUserList.indexOf(user) != -1) userToSend = user;
-							} else {
-								nav = menu.data[user];
-								userToSend = user;
-							}
-							this.log.debug("Nav " + JSON.stringify(nav));
-							this.log.debug("Menu " + JSON.stringify(menu.data));
-							if (nav[toDo] && userToSend && userActiveCheckbox[userToSend]) {
-								const part = nav[toDo];
-								this.log.debug("Part " + JSON.stringify(part));
-								// Navigation
-								if (part.nav) {
-									this.log.debug("User to send: " + JSON.stringify(userToSend));
-									this.log.debug("Todo " + JSON.stringify(toDo));
-									this.log.debug("Part.nav: " + JSON.stringify(part.nav));
-									if (userToSend)
-										sendToTelegram(
-											this,
-											userToSend,
-											part.text,
-											part.nav,
-											instanceTelegram,
-											resize_keyboard,
-											one_time_keyboard,
-										);
+					try {
+						let userToSend;
+						if (telegramAktiv) {
+							if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
+								const value = state.val;
+								const user = value.slice(1, value.indexOf("]"));
+								const toDo = value.slice(value.indexOf("]") + 1, value.length);
+								this.log.debug("Value: " + JSON.stringify(value));
+								this.log.debug("User: " + JSON.stringify(user));
+								this.log.debug("Todo: " + JSON.stringify(toDo));
+								let nav;
+								userToSend = null;
+								if (globalUserActiv) {
+									nav = menu.data["Global"];
+									if (globalUserList.indexOf(user) != -1) userToSend = user;
+								} else {
+									nav = menu.data[user];
+									userToSend = user;
 								}
-								// Schalten
-								if (part.switch) {
-									setStateIdsToListenTo = setstate(_this, part, userToSend);
-								}
-								if (part.getData) {
-									getstate(_this, part, userToSend);
-								}
-								if (part.sendPic) {
-									try {
-										this.log.debug("Send Picture");
-
-										part.sendPic.forEach((element) => {
-											// this.log.debug("Element " + JSON.stringify(element));
-											token = token.trim();
-											const url = element.id;
-											const newUrl = url.replace(/&amp;/g, "&");
-											exec(
-												`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+								this.log.debug("Nav " + JSON.stringify(nav));
+								this.log.debug("Menu " + JSON.stringify(menu.data));
+								if (nav[toDo] && userToSend && userActiveCheckbox[userToSend]) {
+									const part = nav[toDo];
+									this.log.debug("Part " + JSON.stringify(part));
+									// Navigation
+									if (part.nav) {
+										this.log.debug("User to send: " + JSON.stringify(userToSend));
+										this.log.debug("Todo " + JSON.stringify(toDo));
+										this.log.debug("Part.nav: " + JSON.stringify(part.nav));
+										if (userToSend)
+											sendToTelegram(
+												this,
+												userToSend,
+												part.text,
+												part.nav,
+												instanceTelegram,
+												resize_keyboard,
+												one_time_keyboard,
 											);
-											this.log.debug(
-												"url " +
+									}
+									// Schalten
+									if (part.switch) {
+										setStateIdsToListenTo = setstate(_this, part, userToSend);
+									}
+									if (part.getData) {
+										getstate(_this, part, userToSend);
+									}
+									if (part.sendPic) {
+										try {
+											this.log.debug("Send Picture");
+
+											part.sendPic.forEach((element) => {
+												// this.log.debug("Element " + JSON.stringify(element));
+												token = token.trim();
+												const url = element.id;
+												const newUrl = url.replace(/&amp;/g, "&");
+												exec(
 													`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-											);
-											timeoutKey += 1;
-											const path = `${directoryPicture}${element.fileName}`;
-											const timeout = setTimeout(async () => {
-												sendToTelegram(_this, userToSend, path);
+												);
+												this.log.debug(
+													"url " +
+														`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+												);
+												timeoutKey += 1;
+												const path = `${directoryPicture}${element.fileName}`;
+												const timeout = setTimeout(async () => {
+													sendToTelegram(_this, userToSend, path);
 
-												let timeoutToClear = {};
-												timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-												clearTimeout(timeoutToClear.timeout);
-												timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-											}, element.delay);
-											timeouts.push({ key: timeoutKey, timeout: timeout });
-										});
-									} catch (e) {
-										this.log.error("Error :" + JSON.stringify(e));
+													let timeoutToClear = {};
+													timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+													clearTimeout(timeoutToClear.timeout);
+													timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+												}, element.delay);
+												timeouts.push({ key: timeoutKey, timeout: timeout });
+											});
+										} catch (e) {
+											this.log.error("Error :" + JSON.stringify(e));
+										}
 									}
+								} else {
+									if (typeof userToSend == "string")
+										sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
 								}
-							} else {
-								if (typeof userToSend == "string")
-									sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
+								// Auf Setstate reagieren und Wert schicken
+							} else if (
+								state &&
+								setStateIdsToListenTo &&
+								setStateIdsToListenTo.find((element) => element.id == id)
+							) {
+								this.log.debug("State, which is listen to was changed " + JSON.stringify(id));
+								setStateIdsToListenTo.forEach((element, key) => {
+									if (element.id == id) {
+										this.log.debug("Send Value " + JSON.stringify(element));
+										if (element.confirm != "false") {
+											this.log.debug("User " + JSON.stringify(element.userToSend));
+											let textToSend = element.returnText;
+											textToSend.indexOf("&amp;$amp;") != -1
+												? textToSend.replace("&amp;$amp;", state.val)
+												: (textToSend += " " + state.val);
+											sendToTelegram(this, element.userToSend, textToSend);
+											// Die Elemente auf die Reagiert wurde entfernen
+											setStateIdsToListenTo.splice(key, 1);
+										}
+									}
+								});
 							}
-							// Auf Setstate reagieren und Wert schicken
-						} else if (
-							state &&
-							setStateIdsToListenTo &&
-							setStateIdsToListenTo.find((element) => element.id == id)
-						) {
-							this.log.debug("State, which is listen to was changed " + JSON.stringify(id));
-							setStateIdsToListenTo.forEach((element, key) => {
-								if (element.id == id) {
-									this.log.debug("Send Value " + JSON.stringify(element));
-									if (element.confirm != "false") {
-										this.log.debug("User " + JSON.stringify(element.userToSend));
-										let textToSend = element.returnText;
-										textToSend.indexOf("&amp;$amp;") != -1
-											? textToSend.replace("&amp;$amp;", state.val)
-											: (textToSend += " " + state.val);
-										sendToTelegram(this, element.userToSend, textToSend);
-										// Die Elemente auf die Reagiert wurde entfernen
-										setStateIdsToListenTo.splice(key, 1);
-									}
-								}
-							});
 						}
-					}
 
-					if (state && id == `${instanceTelegram}.info.connection`) {
-						this.log.debug("Oldvalue " + JSON.stringify(oldValue));
-						if (!oldValue) {
-							this.log.debug("Restart Adapter Telegram Menu");
-							this.restart();
+						if (state && id == `${instanceTelegram}.info.connection`) {
+							this.log.debug("Oldvalue " + JSON.stringify(oldValue));
+							if (!oldValue) {
+								this.log.debug("Restart Adapter Telegram Menu");
+								this.restart();
+							}
+							oldValue = state.val;
+							if (!state.val) telegramAktiv = false;
 						}
-						oldValue = state.val;
-						if (!state.val) telegramAktiv = false;
+					} catch (e) {
+						this.log.debug("Error " + JSON.stringify(e));
 					}
 				});
 			}
