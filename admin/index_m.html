@@ -103,8 +103,10 @@
 			$(".valCheckbox").each(function () {
 				var $this = $(this);
 				if ($this.attr('type') === 'checkbox') {
-					obj.checkbox.push({ [$this.attr('id')]: $this.prop('checked') });
-				}
+					// obj.checkbox.push({ [$this.attr('id')]: $this.prop('checked') });
+					obj.checkbox[$this.attr('id')] = $this.prop('checked')
+				};
+
 
 			})
 			const checkboxes = {}
