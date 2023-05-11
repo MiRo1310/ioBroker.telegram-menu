@@ -214,9 +214,10 @@ function fillTable(id, data, newTableRow_Nav, users) {
 			nav.forEach(function (element, key) {
 				// Erst bei Key 1 starten, da eine Row statisch ist
 				if (key != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
-				if (element.call) $(`#${name} tr input.nav-call`)[key].value = element.call;
-				if (element.value) $(`#${name} tr input.nav-value`)[key].value = element.value;
-				if (element.text) $(`#${name}  tr input.nav-text`)[key].value = element.text;
+				if (element.call) $(`#${name} tr input.nav-call:eq(${key})`).val(element.call);
+				console.log($(`#${name} tr input.nav-call:eq(${key})`));
+				if (element.value) $(`#${name} tr input.nav-value:eq(${key})`).val(element.value);
+				if (element.text) $(`#${name}  tr input.nav-text:eq(${key})`).val(element.text);
 				// if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio;
 			});
 		}

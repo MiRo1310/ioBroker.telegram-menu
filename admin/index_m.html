@@ -157,6 +157,7 @@
 				if (userdelete == "Global") {
 					$(".showGlobal").hide()
 					$("#globalUserActiv").prop("checked", false)
+					$(".user_Global").hide()
 				}
 				users.splice(users.indexOf(userdelete), 1)
 				$("#user_list .active").parent().remove()

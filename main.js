@@ -23,6 +23,7 @@ let timeouts = [];
 let timeoutKey = 0;
 let setStateIds;
 let setStateIdsToListenTo;
+let restartAdapter = false;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -116,45 +117,48 @@ class TelegramMenu extends utils.Adapter {
 					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
 					this.log.debug("Global User List: " + JSON.stringify(globalUserList));
 
-					if (globalUserActiv) {
-						this.log.debug("Global Users sendto ");
-						globalUserList.forEach((user) => {
-							const startside = [startsides["Global"]].toString();
+					if (!restartAdapter) {
+						if (globalUserActiv) {
+							this.log.debug("Global Users sendto ");
+							globalUserList.forEach((user) => {
+								const startside = [startsides["Global"]].toString();
 
-							if (startside && typeof startside == "string")
-								this.log.debug("Text Global " + JSON.stringify(menu));
+								if (startside && typeof startside == "string")
+									this.log.debug("Text Global " + JSON.stringify(menu));
 
-							if (startside && typeof startside == "string")
-								sendToTelegram(
-									this,
-									user,
-									menu.data.Global[startside].text,
-									menu.data.Global[startside].nav,
-									instanceTelegram,
-									resize_keyboard,
-									one_time_keyboard,
-								);
-						});
-					} else {
-						try {
-							this.log.debug("UserList " + JSON.stringify(userList));
-							userList.forEach((user) => {
-								this.log.debug("User " + JSON.stringify(user));
-								const startside = [startsides[user]].toString();
-								if (user != "Global" && userActiveCheckbox[user])
+								if (startside && typeof startside == "string")
 									sendToTelegram(
-										_this,
+										this,
 										user,
-										menu.data[user][startside].text,
-										menu.data[user][startside].nav,
+										menu.data.Global[startside].text,
+										menu.data.Global[startside].nav,
 										instanceTelegram,
 										resize_keyboard,
 										one_time_keyboard,
 									);
 							});
-						} catch (error) {
-							console.log("Error read UserList" + error);
+						} else {
+							try {
+								this.log.debug("UserList " + JSON.stringify(userList));
+								userList.forEach((user) => {
+									this.log.debug("User " + JSON.stringify(user));
+									const startside = [startsides[user]].toString();
+									if (user != "Global" && userActiveCheckbox[user])
+										sendToTelegram(
+											_this,
+											user,
+											menu.data[user][startside].text,
+											menu.data[user][startside].nav,
+											instanceTelegram,
+											resize_keyboard,
+											one_time_keyboard,
+										);
+								});
+							} catch (error) {
+								console.log("Error read UserList" + error);
+							}
 						}
+						restartAdapter = false;
 					}
 				}
 				//TODO - heraus nehmen damit auf den connection state reagiert wird
@@ -272,6 +276,7 @@ class TelegramMenu extends utils.Adapter {
 							this.log.debug("Oldvalue " + JSON.stringify(oldValue));
 							if (!oldValue) {
 								this.log.debug("Restart Adapter Telegram Menu");
+								restartAdapter = true;
 								this.restart();
 							}
 							oldValue = state.val;
