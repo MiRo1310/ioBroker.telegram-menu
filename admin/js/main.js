@@ -217,7 +217,7 @@ function fillTable(id, data, newTableRow_Nav, users) {
 				if (element.call) $(`#${name} tr input.nav-call`)[key].value = element.call;
 				if (element.value) $(`#${name} tr input.nav-value`)[key].value = element.value;
 				if (element.text) $(`#${name}  tr input.nav-text`)[key].value = element.text;
-				if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio;
+				// if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio;
 			});
 		}
 	}
@@ -435,7 +435,7 @@ function showUser(activeUser, showHideUserCheckbox) {
 		$(this).removeClass("active");
 	});
 	$(`#user_list li a[name=${activeUser}]`).addClass("active");
-	showHideUserCheckbox(activeUser);
+	if (showHideUserCheckbox) showHideUserCheckbox(activeUser);
 }
 function checkValueModal(showTrigger) {
 	let show = true;

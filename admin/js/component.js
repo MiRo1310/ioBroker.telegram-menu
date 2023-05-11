@@ -205,7 +205,7 @@ function insertVal(result, entry) {
 		result[entry].forEach(function (element) {
 			let classVal = "";
 
-			if (element == "false" || element == false) classVal = "class='checkFalse'";
+			if (element === "false" || element === false) classVal = "class='checkFalse'";
 			else if (element == "true" || element == true) classVal = "class='checkTrue'";
 
 			newEntry += /*html*/ `<p data-name=${entry} ${classVal}>${element}</p>`;
