@@ -177,12 +177,13 @@ function showHideUserEntry(activeUser) {
  * @param {Array} checkbox Entrys with Checkbox Values
  */
 function setCheckbox(checkbox) {
-	checkbox.forEach((element) => {
-		for (const id in element) {
-			if (element[id]) {
-				$(`#${id}`).prop("checked", true);
-			} else $(`#${id}`).prop("checked", false);
-		}
+	console.log("SetCHeckbox");
+	console.log(checkbox);
+	Object.keys(checkbox).forEach((key) => {
+		console.log(key);
+		if (checkbox[key]) {
+			$(`#${key}`).prop("checked", true);
+		} else $(`#${key}`).prop("checked", false);
 	});
 }
 
@@ -215,7 +216,6 @@ function fillTable(id, data, newTableRow_Nav, users) {
 				// Erst bei Key 1 starten, da eine Row statisch ist
 				if (key != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
 				if (element.call) $(`#${name} tr input.nav-call:eq(${key})`).val(element.call);
-				console.log($(`#${name} tr input.nav-call:eq(${key})`));
 				if (element.value) $(`#${name} tr input.nav-value:eq(${key})`).val(element.value);
 				if (element.text) $(`#${name}  tr input.nav-text:eq(${key})`).val(element.text);
 				// if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio;

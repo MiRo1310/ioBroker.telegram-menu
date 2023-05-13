@@ -48,6 +48,7 @@
 			showAddGlobalUser(users)
 			showHideUserEntry(activeUser)
 			showGlobalUserSettings(activeUser)
+			console.log(settings.checkbox)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
 			// console.log(settings.instance)
@@ -85,7 +86,7 @@
 
 			// example: select elements with class=value and build settings object
 			var obj = {};
-			obj.checkbox = []
+			obj.checkbox = {}
 			$('.value').each(function () {
 				var $this = $(this);
 				if ($this.attr('type') === 'checkbox') {
