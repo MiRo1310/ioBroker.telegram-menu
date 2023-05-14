@@ -151,7 +151,8 @@ li.tab:has(.active) {
 	border-color: #477da8 !important;
 }
 p[data-name="confirm"],
-p[data-name="checkboxes"] {
+p[data-name="switch_checkbox"],
+p[data-name="newline_checkbox"] {
 	padding: 2px 2px;
 }
 .checkFalse {

@@ -48,7 +48,6 @@
 			showAddGlobalUser(users)
 			showHideUserEntry(activeUser)
 			showGlobalUserSettings(activeUser)
-			console.log(settings.checkbox)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
 			// console.log(settings.instance)
@@ -313,7 +312,9 @@
 					picSendDelay: [],
 					values: [],
 					fileName: [],
-					checkboxes: [],
+					// checkboxes: [],
+					switch_checkbox: [],
+					newline_checkbox: [],
 					confirm: [],
 					returnText: [],
 					text: [],
@@ -331,7 +332,7 @@
 						result.returnText.push($(this).val() != "" ? $(this).val() : "-")
 					})
 					$($table).find(`input.switch_checkbox`).each(function () {
-						result.checkboxes.push($(this).is(":checked"))
+						result.switch_checkbox.push($(this).is(":checked"))
 					})
 					$($table).find(`input.confirm_checkbox`).each(function () {
 						result.confirm.push($(this).is(":checked"))
@@ -345,7 +346,7 @@
 						result.text.push($(this).val())
 					})
 					$($table).find(`input.newline_checkbox`).each(function () {
-						result.checkboxes.push($(this).is(":checked"))
+						result.newline_checkbox.push($(this).is(":checked"))
 					})
 				}
 				if (action === "pic") {
