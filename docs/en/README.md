@@ -21,7 +21,7 @@ You can create a separate menu for each user, or you can use the global user to 
 
 -   Switch only toggles booleans, from true to false to true etc.
 -   If you specify a value, you can set it
--   It is possible to have the setting of the value confirmed, placeholder for the value is &&. If you do not want the set value to be sent, simply enter {novalue} in the return text
+-   It is possible to have the setting of the value confirmed, placeholder for the value is &&. If you do not want the set value to be sent, simply enter `{novalue}` in the return text
 
 ### GetState
 
@@ -30,7 +30,7 @@ You can create a separate menu for each user, or you can use the global user to 
 #### Values ​​from created functions
 
 -   In order to get all the values ​​of the adjustable functions, you simply have to write functions=light e.g. instead of the ID.
--   If you want the name of the data point in the output text, simply enter {common.name} at the desired position in the text
+-   If you want the name of the data point in the output text, simply enter `{common.name}` at the desired position in the text
 
 ![functions](../pic/functions.png)
 
