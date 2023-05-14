@@ -228,6 +228,8 @@ function fillTable(id, data, newTableRow_Nav, users) {
 				// Erst bei Key 1 starten, da eine Row statisch ist
 				if (pos != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
 				Object.keys(element).forEach((key) => {
+					console.log(element);
+					console.log(key);
 					if (element[key]) $(`#${name} tr input.nav-call:eq(${pos})`).val(element[key]);
 				});
 			});
