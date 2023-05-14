@@ -21,13 +21,13 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 
 -   Switch schaltet nur Booleans, von true auf false auf true usw.
 -   Wenn man einen Wert angibt kann man diesen setzen
--   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, Platzhalter für den Wert ist &&
+-   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, Platzhalter für den Wert ist &&. Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach {novalue} ein
 
 ### GetState
 
 -   Mit && als Platzhalter kannst du den Wert im Text platzieren
 
-## Werte aus erstellten Funktionen
+#### Werte aus erstellten Funktionen
 
 -   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
 -   Wenn man im Ausgabe Text den Namen des Datenpunkts haben möchte trägt man einfach an der gewünschten Position im Text {common.name} ein
