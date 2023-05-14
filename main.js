@@ -260,9 +260,15 @@ class TelegramMenu extends utils.Adapter {
 										if (element.confirm != "false") {
 											this.log.debug("User " + JSON.stringify(element.userToSend));
 											let textToSend = element.returnText;
-											textToSend.indexOf("&amp;$amp;") != -1
-												? textToSend.replace("&amp;$amp;", state.val)
-												: (textToSend += " " + state.val);
+											// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
+											let value;
+											textToSend?.toString().includes("{novalue}")
+												? (value = "")
+												: (value = state.val);
+											textToSend = textToSend.replace("{novalue}", "");
+											textToSend.indexOf("&amp;&amp;") != -1
+												? (textToSend = textToSend.replace("&amp;&amp;", value))
+												: (textToSend += " " + value);
 											sendToTelegram(this, element.userToSend, textToSend);
 											// Die Elemente auf die Reagiert wurde entfernen
 											setStateIdsToListenTo.splice(key, 1);
