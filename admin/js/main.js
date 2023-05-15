@@ -99,39 +99,46 @@ function table2Values(id) {
 		$trs.each(function () {
 			const dataName = $tbody.attr("data-name");
 			if (dataName === "nav") {
-				console.log(this);
 				let obj = {};
-				// $(this)
-				// 	.find("td")
-				// 	.each(function () {
-				// 		let key = $(this).find("input").attr("data-name");
-
-				// 		console.log(key);
-				// 		console.log($(this).find(`input[data-name='${key}']`).val());
-				// 		obj[key] = $(this).find(`input[data-name='${key}']`).val();
-				// 	});
-				// console.log(obj);
-				// nav.push({
-				// 	obj,
-				// });
-				nav.push({
-					call: $(this).find("td input[data-name='call']").val(),
-					value: $(this).find("td input[data-name='value']").val(),
-					text: $(this).find("td input[data-name='text']").val(),
-					// radio: $(this).find("td input.nav-radio").is(":checked"),
-				});
+				$(this)
+					.find("td")
+					.each(function () {
+						let key = $(this).find("input").attr("data-name");
+						if (key) {
+							obj[key] = $(this).find(`input[data-name='${key}']`).val();
+						}
+					});
+				nav.push(obj);
 				object.nav[saveName] = nav;
 			}
 
 			if (dataName === "set") {
-				actionSet = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					switch_checkbox: dataToArray(this, "p[data-name='switch_checkbox']"),
-					confirm: dataToArray(this, "p[data-name='confirm']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-					values: dataToArray(this, "p[data-name='values']"),
-					returnText: dataToArray(this, "p[data-name='returnText']"),
-				};
+				$(this).each(function () {
+					let $tr = $(this);
+					$(this)
+						.find("td")
+						.each(function () {
+							if ($(this).attr("data-name") != undefined) {
+								let key = $(this).attr("data-name");
+								if (key) actionSet[key] = dataToArray($tr, `[data-name='${key}']`);
+							} else {
+								let key = $(this).find("p").attr("data-name");
+								if (key) {
+									actionSet[key] = dataToArray(this, `td p[data-name='${key}']`);
+								}
+							}
+							// console.log(actionSet);
+						});
+				});
+
+				// actionSet = {
+				// 	IDs: dataToArray(this, "p[data-name='IDs']"),
+				// 	switch_checkbox: dataToArray(this, "p[data-name='switch_checkbox']"),
+				// 	confirm: dataToArray(this, "p[data-name='confirm']"),
+				// 	trigger: dataToArray(this, "td[data-name='trigger']"),
+				// 	values: dataToArray(this, "p[data-name='values']"),
+				// 	returnText: dataToArray(this, "p[data-name='returnText']"),
+				// };
 				if (actionSet && actionSet.IDs) {
 					obj.set.push(actionSet);
 				}
@@ -228,9 +235,7 @@ function fillTable(id, data, newTableRow_Nav, users) {
 				// Erst bei Key 1 starten, da eine Row statisch ist
 				if (pos != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
 				Object.keys(element).forEach((key) => {
-					console.log(element);
-					console.log(key);
-					if (element[key]) $(`#${name} tr input.nav-call:eq(${pos})`).val(element[key]);
+					if (element[key]) $(`#${name} tr input.nav-${key}:eq(${pos})`).val(element[key]);
 				});
 			});
 		}
