@@ -36,6 +36,10 @@ You can create a separate menu for each user, or you can use the global user to 
 
 ### **WORK IN PROGRESS**
 
+-   shift rows
+-   small fixes
+-   Darkmode fixed
+-   option, return text without value
 -   get all Values of functions
 
 ### 0.1.0 (2023-05-07)
