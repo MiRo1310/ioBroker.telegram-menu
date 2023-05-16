@@ -1,5 +1,5 @@
-/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,checkUpAndDownArrowBtn, $*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable"}]*/
+/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn"}]*/
 
 /**
  *
@@ -19,7 +19,7 @@ function isStringEmty(classes) {
 	return allOk;
 }
 function checkUpAndDownArrowBtn(activeuser) {
-	let lengthOfNavList = $(`tbody#${activeuser}.visibilityArrowBtn tr`).length - 1;
+	const lengthOfNavList = $(`tbody#${activeuser}.visibilityArrowBtn tr`).length - 1;
 	$(`tbody#${activeuser}.visibilityArrowBtn tr`).each(function (key) {
 		$(this).attr("data-key", key);
 		key == 1
