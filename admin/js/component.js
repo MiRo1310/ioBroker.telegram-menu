@@ -1,18 +1,40 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "e" }]*/
 
+// Navigation----------------------------------------------------
 /**
- *
+ * Nav Component & Startrow in Nav
+ * @param {string} user User Name
+ * @returns HTML Element
+ */
+function navElement(user) {
+	return /*html*/ `
+  <tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values visibilityArrowBtn" style="display:none">
+    <tr class="startRow">
+      <td><input type="text" data-name="call" class="isString nav-call translateV startside" value="Startside" ></td>
+      <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
+      <td><input type="text" data-name="text" class="isString nav-text" value="Wähle eine Aktion"></td>
+      <td ></td>
+      <td ></td>    
+      <td ></td>
+    </tr>
+	</tbody>`;
+}
+/**
+ * New Navigation Row
  * @param {string} activuser Active User
  * @param {array} users List of Users
  */
 function newTableRow_Nav(activuser, users) {
 	const userIndex = users.indexOf(activuser);
-	return /*html*/ `<tr>
+	return /*html*/ `
+  <tr>
     <td><input type="text" data-name="call" class="isString nav-call "></td>
     <td><input type="text" data-name="value" class="isString nav-value "></td>
     <td><input type="text" data-name="text" class="isString nav-text " value="Wähle eine Aktion"></td>    
-    <td style="width: 5%;"><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
-            </tr>`;
+    <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+    <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+    <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
+  </tr>`;
 }
 
 /**
@@ -29,23 +51,6 @@ function userActivCheckbox(user, val) {
 	return /*html*/ `<div class="${user}" style="display:none"><input type="checkbox" class="filled-in userActiveCheckbox" ${checked} data-name="${user}"/>
   <span class="translate marginTop">${user} <span> </span><span class="translate">activ</span>
   </span></div> `;
-}
-
-/**
- *
- * @param {string} user User Name
- * @returns HTML Element
- */
-function navElement(user) {
-	return /*html*/ `<tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values" style="display:none">
-  <tr class="startRow">
-    <td><input type="text" data-name="call" class="isString nav-call translateV startside" value="Startside" ></td>
-    <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
-    <td><input type="text" data-name="text" class="isString nav-text" value="Wähle eine Aktion"></td>
-    
-    <td style="width: 5%;"></td>
-            </tr>
-							</tbody>`;
 }
 
 function createSelectTrigger(list) {

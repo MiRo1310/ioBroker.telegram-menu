@@ -51,6 +51,7 @@
 			console.log(settings.checkbox)
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
+			checkUpAndDownArrowBtn(activeUser)
 			// console.log(settings.instance)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
@@ -205,11 +206,15 @@
 				}
 				translateAll()
 			})
-			// ------------------------------------------------------------------------------------------------------
-			// Add Button New Row 
 			$("#btn_add_nav").click(function () {
 				$(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
+				checkUpAndDownArrowBtn(activeUser)
 			})
+
+
+			// ------------------------------------------------------------------------------------------------------
+			// Add Button New Row 
+
 			$("#btn_add_action").click(function () {
 				rowToUpdate = null
 				translateAll()
@@ -217,6 +222,7 @@
 			//Delete Row
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
+				checkUpAndDownArrowBtn(activeUser)
 				_onChange()
 				generateNav()
 			})
@@ -411,6 +417,17 @@
 			})
 			// Active User clicken und Speichern sichtbar machen
 			$("#user_active_checkbox").on("change", "input", function () {
+				_onChange()
+			})
+			$(".adapter-container").on("click", ".btn_up", function () {
+				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
+				checkUpAndDownArrowBtn(activeUser)
+				_onChange()
+			})
+			$(".adapter-container").on("click", ".btn_down", function (key) {
+				console.log("klick")
+				$(this).parent().parent().insertAfter($(this).parent().parent().next())
+				checkUpAndDownArrowBtn(activeUser)
 				_onChange()
 			})
 
@@ -655,7 +672,9 @@
 										Navigation</th>
 									<th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
 										Text</th>
-									<th style="background: #64b5f6; width: 5%;"></th>
+									<th style="background: #64b5f6; width: 40.4px;"></th>
+									<th style="background: #64b5f6; width: 40.4px;"></th>
+									<th style="background: #64b5f6; width: 40.4px;"></th>
 								</tr>
 							</thead>
 						</table>

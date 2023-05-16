@@ -1,4 +1,4 @@
-/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox $*/
+/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,checkUpAndDownArrowBtn, $*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable"}]*/
 
 /**
@@ -17,6 +17,18 @@ function isStringEmty(classes) {
 		}
 	});
 	return allOk;
+}
+function checkUpAndDownArrowBtn(activeuser) {
+	let lengthOfNavList = $(`tbody#${activeuser}.visibilityArrowBtn tr`).length - 1;
+	$(`tbody#${activeuser}.visibilityArrowBtn tr`).each(function (key) {
+		$(this).attr("data-key", key);
+		key == 1
+			? $(this).find("a i[name='up']").parent().attr("disabled", "disabled")
+			: $(this).find("a i[name='up']").parent().removeAttr("disabled");
+		key == lengthOfNavList
+			? $(this).find("a i[name='down']").parent().attr("disabled", "disabled")
+			: $(this).find("a i[name='down']").parent().removeAttr("disabled");
+	});
 }
 
 function generateNav() {
@@ -177,10 +189,7 @@ function showHideUserEntry(activeUser) {
  * @param {Array} checkbox Entrys with Checkbox Values
  */
 function setCheckbox(checkbox) {
-	console.log("SetCHeckbox");
-	console.log(checkbox);
 	Object.keys(checkbox).forEach((key) => {
-		console.log(key);
 		if (checkbox[key]) {
 			$(`#${key}`).prop("checked", true);
 		} else $(`#${key}`).prop("checked", false);
