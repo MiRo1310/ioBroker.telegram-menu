@@ -78,9 +78,19 @@ function table2Values(id) {
 		const nav = [];
 		let actionSet, actionGet, actionPic;
 		const $tbody = $(this);
-
+		const dataName = $(this).attr("data-name");
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
+		const keyList = [];
+		// $(this)
+		// 	.find("tr:eq(0) td")
+		// 	.each(function () {
+		// 		if ($(this).attr("data-name") != undefined) {
+		// 			keyList.push($(this).attr("data-name"));
+		// 		} else if ($(this).find("p:eq(0)").attr("data-name") != undefined) {
+		// 			keyList.push($(this).find("p:eq(0)").attr("data-name"));
+		// 		}
+		// 	});
 		if (oldName != "" && saveName != oldName) {
 			i = 0;
 		}
@@ -96,8 +106,9 @@ function table2Values(id) {
 		actionSet = {};
 		actionGet = {};
 		actionPic = {};
+
 		$trs.each(function () {
-			const dataName = $tbody.attr("data-name");
+			let $tr = $(this);
 			if (dataName === "nav") {
 				let obj = {};
 				$(this)
@@ -113,31 +124,48 @@ function table2Values(id) {
 			}
 
 			if (dataName === "set") {
-				$(this).each(function () {
-					let $tr = $(this);
-					$(this)
-						.find("td")
-						.each(function () {
-							if ($(this).attr("data-name") != undefined) {
-								let key = $(this).attr("data-name");
-								if (key) actionSet[key] = dataToArray($tr, `[data-name='${key}']`);
-							} else {
-								let key = $(this).find("p").attr("data-name");
-								if (key) {
-									actionSet[key] = dataToArray(this, `td p[data-name='${key}']`);
-								}
-							}
-							// console.log(actionSet);
-						});
-				});
+				let obj = {};
+				let i = 0;
+				$tr.find("[data-name]").each(function () {
+					const naming = $(this).attr("data-name");
+					console.log(naming);
+					// console.log(obj);
+					// if (naming) obj[naming] = dataToArray($tr, `[data-name="${naming}"]`);
+					if (naming && naming == "IDs") obj[naming] = "test " + 1;
 
+					if (naming) obj[i] = "test " + i;
+					i++;
+					console.log(i);
+					console.log(obj);
+				});
+				// .each(function () {
+				// 	let key;
+				// 	console.log(actionSet);
+				// 	if ($(this).attr("data-name") != undefined) {
+				// 		key = $(this).attr("data-name");
+				// 		if (key) actionSet[key] = dataToArray($tr, `[data-name="${key}"]`);
+				// 	} else if ($(this).find("p:eq(0)").attr("data-name") != undefined) {
+				// 		key = $(this).find("p:eq(0)").attr("data-name");
+				// 		if (key) actionSet[key] = dataToArray($tr, `[data-name="${key}"]`);
+				// 	}
+				// 	console.log(actionSet);
+				// });
+				// keyList.forEach(function (element) {
+				// 	console.log("Element " + element);
+				// 	// 	actionSet[element] = dataToArray($tr, `[data-name="${element}"]`);
+				// 	let test = dataToArray($tr, `[data-name="${element}"]`);
+				// 	console.log("test " + test);
+				// 	actionSet[element] = test;
+				// 	console.log(actionSet);
+				// });
+				// console.log("es geht weiter");
 				// actionSet = {
-				// 	IDs: dataToArray(this, "p[data-name='IDs']"),
-				// 	switch_checkbox: dataToArray(this, "p[data-name='switch_checkbox']"),
-				// 	confirm: dataToArray(this, "p[data-name='confirm']"),
-				// 	trigger: dataToArray(this, "td[data-name='trigger']"),
-				// 	values: dataToArray(this, "p[data-name='values']"),
-				// 	returnText: dataToArray(this, "p[data-name='returnText']"),
+				// 	IDs: dataToArray($tr, "[data-name='IDs']"),
+				// 	switch_checkbox: dataToArray($tr, "[data-name='switch_checkbox']"),
+				// 	confirm: dataToArray($tr, "[data-name='confirm']"),
+				// 	trigger: dataToArray($tr, "[data-name='trigger']"),
+				// 	values: dataToArray($tr, "[data-name='values']"),
+				// 	returnText: dataToArray($tr, "[data-name='returnText']"),
 				// };
 				if (actionSet && actionSet.IDs) {
 					obj.set.push(actionSet);
@@ -463,7 +491,6 @@ function checkValueModal(showTrigger) {
 		$(`table#tab_${action} .checkValue`).each(function () {
 			if ($(this).val() == "") {
 				show = false;
-				console.log("auf false");
 			}
 		});
 	});
@@ -476,7 +503,6 @@ function checkValueModal(showTrigger) {
 					$(this).find(".switch_checkbox").is(":checked")
 				)
 			) {
-				console.log("auf false hier");
 				show = false;
 			}
 		});
