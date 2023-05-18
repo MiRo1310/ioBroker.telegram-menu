@@ -88,9 +88,8 @@ function table2Values(id) {
 		// console.log(this);
 
 		const nav = [];
-		let actionSet, actionGet, actionPic;
 		const $tbody = $(this);
-
+		const dataName = $(this).attr("data-name");
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
 		if (oldName != "" && saveName != oldName) {
@@ -105,55 +104,39 @@ function table2Values(id) {
 			};
 		}
 		i++;
-		actionSet = {};
-		actionGet = {};
-		actionPic = {};
+
 		$trs.each(function () {
-			const dataName = $tbody.attr("data-name");
+			let $tr = $(this);
 			if (dataName === "nav") {
-				nav.push({
-					call: $(this).find("td input[data-name='call']").val(),
-					value: $(this).find("td input[data-name='value']").val(),
-					text: $(this).find("td input[data-name='text']").val(),
-					// radio: $(this).find("td input.nav-radio").is(":checked"),
-				});
+				let obj = {};
+				$(this)
+					.find("td")
+					.each(function () {
+						let key = $(this).find("input").attr("data-name");
+						if (key) {
+							obj[key] = $(this).find(`input[data-name='${key}']`).val();
+						}
+					});
+				nav.push(obj);
 				object.nav[saveName] = nav;
 			}
 
-			if (dataName === "set") {
-				actionSet = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
-					confirm: dataToArray(this, "p[data-name='confirm']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-					values: dataToArray(this, "p[data-name='values']"),
-					returnText: dataToArray(this, "p[data-name='returnText']"),
-				};
-				if (actionSet && actionSet.IDs) {
-					obj.set.push(actionSet);
-				}
-			}
-
-			if (dataName === "get") {
-				actionGet = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					checkboxes: dataToArray(this, "p[data-name='checkboxes']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-					text: dataToArray(this, "p[data-name='text']"),
-				};
-				if (actionGet && actionGet.IDs) {
-					obj.get.push(actionGet);
-				}
-			}
-			if (dataName === "pic") {
-				actionPic = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					picSendDelay: dataToArray(this, "p[data-name='picSendDelay']"),
-					fileName: dataToArray(this, "p[data-name='fileName']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-				};
-				if (actionPic && actionPic.IDs) {
-					obj.pic.push(actionPic);
+			const actionObj = {};
+			$($tr)
+				.find("[data-name]")
+				.each(function () {
+					const naming = $(this).attr("data-name");
+					if (naming) {
+						actionObj[naming] = dataToArray($tr, `[data-name="${naming}"]`);
+					}
+				});
+			if (actionObj && actionObj.IDs) {
+				if (dataName === "set") {
+					obj.set.push(actionObj);
+				} else if (dataName === "get") {
+					obj.get.push(actionObj);
+				} else if (dataName === "pic") {
+					obj.pic.push(actionObj);
 				}
 			}
 		});
@@ -221,13 +204,12 @@ function fillTable(id, data, newTableRow_Nav, users) {
 	if (data) {
 		for (const name in data) {
 			const nav = data[name];
-			nav.forEach(function (element, key) {
+			nav.forEach(function (element, pos) {
 				// Erst bei Key 1 starten, da eine Row statisch ist
-				if (key != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
-				if (element.call) $(`#${name} tr input.nav-call:eq(${key})`).val(element.call);
-				if (element.value) $(`#${name} tr input.nav-value:eq(${key})`).val(element.value);
-				if (element.text) $(`#${name}  tr input.nav-text:eq(${key})`).val(element.text);
-				// if (element.radio) $(`#${name} tr input.nav-radio:radio`)[key].checked = element.radio;
+				if (pos != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
+				Object.keys(element).forEach((key) => {
+					if (element[key]) $(`#${name} tr input.nav-${key}:eq(${pos})`).val(element[key]);
+				});
 			});
 		}
 	}
@@ -245,9 +227,9 @@ function fillTableAction(data) {
 	}
 }
 
-function generatActionRow(user, action, result, rowToUpdate) {
-	if (rowToUpdate) {
-		$(rowToUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
+function generatActionRow(user, action, result, editedRowUpdate) {
+	if (editedRowUpdate) {
+		$(editedRowUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
 	} else $(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
 
@@ -287,13 +269,13 @@ function insertEditValues(action, $this) {
 	let newline, switchs, confirm, returnText, values, texts, picSendDelay, fileName;
 
 	if (action == "set") {
-		switchs = valuesToArray($this, "p[data-name='checkboxes']");
+		switchs = valuesToArray($this, "p[data-name='switch_checkbox']");
 		values = valuesToArray($this, "p[data-name='values']");
 		confirm = valuesToArray($this, "p[data-name='confirm']");
 		returnText = valuesToArray($this, "p[data-name='returnText']");
 	}
 	if (action == "get") {
-		newline = valuesToArray($this, "p[data-name='checkboxes']");
+		newline = valuesToArray($this, "p[data-name='newline_checkbox']");
 		texts = valuesToArray($this, "p[data-name='text']");
 	}
 	if (action == "pic") {
@@ -454,7 +436,6 @@ function checkValueModal(showTrigger) {
 		$(`table#tab_${action} .checkValue`).each(function () {
 			if ($(this).val() == "") {
 				show = false;
-				console.log("auf false");
 			}
 		});
 	});
@@ -467,7 +448,6 @@ function checkValueModal(showTrigger) {
 					$(this).find(".switch_checkbox").is(":checked")
 				)
 			) {
-				console.log("auf false hier");
 				show = false;
 			}
 		});
