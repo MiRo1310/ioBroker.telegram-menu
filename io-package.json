@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "news": {
+      "0.1.1": {
+        "en": "shift rows\nsmall fixes\nDarkmode fixed\noption, return text without value\nget all Values of functions",
+        "de": "schaltreihen\nkleine fixierungen\nDarkmode fest\noption, text ohne wert zurückgeben\nalle Werte der Funktionen",
+        "ru": "сменные строки\nнебольшие исправления\nDarkmode фиксированный\nвариант, обратный текст без значения\nполучить все значения функций",
+        "pt": "turnos\npequenas correções\nDarkmode corrigido\nopção, retornar texto sem valor\nobter todos os valores das funções",
+        "nl": "quality over quantity (qoq) releases vertaling:\nkleine fixes\nDarkmode gemaakt\noptie, terugkeren zonder waarde\nalle functies krijgen",
+        "fr": "lignes de quart\npetites corrections\nDarkmode fixed\noption, texte de retour sans valeur\nobtenir toutes les valeurs des fonctions",
+        "it": "spostare le righe\npiccole correzioni\nDarkmode fisso\nopzione, restituire il testo senza valore\nottenere tutti i valori delle funzioni",
+        "es": "turno de filas\npequeños accesorios\nModo oscuro fijo\nopción, devolver texto sin valor\nobtener todos los Valores de las funciones",
+        "pl": "rzędy zwrotne\ndrobne rozwiązanie\nDarkmode fixed\nopcja zwrotu tekstu bez wartości\nuzyskuje wszystkie funkcje",
+        "uk": "зсувні рядки\nмаленькі кріплення\nDarkmode фіксований\nваріант, повернення тексту без значення\nотримувати всі значення функцій",
+        "zh-cn": "更替\n小型配件\n达库姆固定\n备选案文:不附加价值的返回案文\n获得所有职能的价值"
+      },
       "0.1.0": {
         "en": "Fixes\nStyle\nConfirmation, that the value has been set\nSecond User Menu fixed",
         "de": "Behebungen\nStil\nBestätigung, dass der Wert festgelegt wurde\nZweiter Benutzer Menü fix",
