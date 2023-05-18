@@ -76,21 +76,10 @@ function table2Values(id) {
 		// console.log(this);
 
 		const nav = [];
-		let actionSet, actionGet, actionPic;
 		const $tbody = $(this);
 		const dataName = $(this).attr("data-name");
 		const $trs = $tbody.find("tr");
 		const saveName = $tbody.attr("name");
-		const keyList = [];
-		// $(this)
-		// 	.find("tr:eq(0) td")
-		// 	.each(function () {
-		// 		if ($(this).attr("data-name") != undefined) {
-		// 			keyList.push($(this).attr("data-name"));
-		// 		} else if ($(this).find("p:eq(0)").attr("data-name") != undefined) {
-		// 			keyList.push($(this).find("p:eq(0)").attr("data-name"));
-		// 		}
-		// 	});
 		if (oldName != "" && saveName != oldName) {
 			i = 0;
 		}
@@ -103,9 +92,6 @@ function table2Values(id) {
 			};
 		}
 		i++;
-		actionSet = {};
-		actionGet = {};
-		actionPic = {};
 
 		$trs.each(function () {
 			let $tr = $(this);
@@ -123,75 +109,22 @@ function table2Values(id) {
 				object.nav[saveName] = nav;
 			}
 
-			if (dataName === "set") {
-				let obj = {};
-				let i = 0;
-				$tr.find("[data-name]").each(function () {
+			const actionObj = {};
+			$($tr)
+				.find("[data-name]")
+				.each(function () {
 					const naming = $(this).attr("data-name");
-					console.log(naming);
-					// console.log(obj);
-					// if (naming) obj[naming] = dataToArray($tr, `[data-name="${naming}"]`);
-					if (naming && naming == "IDs") obj[naming] = "test " + 1;
-
-					if (naming) obj[i] = "test " + i;
-					i++;
-					console.log(i);
-					console.log(obj);
+					if (naming) {
+						actionObj[naming] = dataToArray($tr, `[data-name="${naming}"]`);
+					}
 				});
-				// .each(function () {
-				// 	let key;
-				// 	console.log(actionSet);
-				// 	if ($(this).attr("data-name") != undefined) {
-				// 		key = $(this).attr("data-name");
-				// 		if (key) actionSet[key] = dataToArray($tr, `[data-name="${key}"]`);
-				// 	} else if ($(this).find("p:eq(0)").attr("data-name") != undefined) {
-				// 		key = $(this).find("p:eq(0)").attr("data-name");
-				// 		if (key) actionSet[key] = dataToArray($tr, `[data-name="${key}"]`);
-				// 	}
-				// 	console.log(actionSet);
-				// });
-				// keyList.forEach(function (element) {
-				// 	console.log("Element " + element);
-				// 	// 	actionSet[element] = dataToArray($tr, `[data-name="${element}"]`);
-				// 	let test = dataToArray($tr, `[data-name="${element}"]`);
-				// 	console.log("test " + test);
-				// 	actionSet[element] = test;
-				// 	console.log(actionSet);
-				// });
-				// console.log("es geht weiter");
-				// actionSet = {
-				// 	IDs: dataToArray($tr, "[data-name='IDs']"),
-				// 	switch_checkbox: dataToArray($tr, "[data-name='switch_checkbox']"),
-				// 	confirm: dataToArray($tr, "[data-name='confirm']"),
-				// 	trigger: dataToArray($tr, "[data-name='trigger']"),
-				// 	values: dataToArray($tr, "[data-name='values']"),
-				// 	returnText: dataToArray($tr, "[data-name='returnText']"),
-				// };
-				if (actionSet && actionSet.IDs) {
-					obj.set.push(actionSet);
-				}
-			}
-
-			if (dataName === "get") {
-				actionGet = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					newline_checkbox: dataToArray(this, "p[data-name='newline_checkbox']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-					text: dataToArray(this, "p[data-name='text']"),
-				};
-				if (actionGet && actionGet.IDs) {
-					obj.get.push(actionGet);
-				}
-			}
-			if (dataName === "pic") {
-				actionPic = {
-					IDs: dataToArray(this, "p[data-name='IDs']"),
-					picSendDelay: dataToArray(this, "p[data-name='picSendDelay']"),
-					fileName: dataToArray(this, "p[data-name='fileName']"),
-					trigger: dataToArray(this, "td[data-name='trigger']"),
-				};
-				if (actionPic && actionPic.IDs) {
-					obj.pic.push(actionPic);
+			if (actionObj && actionObj.IDs) {
+				if (dataName === "set") {
+					obj.set.push(actionObj);
+				} else if (dataName === "get") {
+					obj.get.push(actionObj);
+				} else if (dataName === "pic") {
+					obj.pic.push(actionObj);
 				}
 			}
 		});

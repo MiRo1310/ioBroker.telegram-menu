@@ -206,7 +206,7 @@ function insertVal(result, entry, action) {
 	}
 
 	let newEntry = "";
-	if (result[entry]) {
+	if (result[entry] && typeof result[entry] != "string") {
 		result[entry].forEach(function (element) {
 			let classVal = "";
 
