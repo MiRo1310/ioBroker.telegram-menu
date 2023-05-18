@@ -106,13 +106,13 @@ function table2Values(id) {
 		i++;
 
 		$trs.each(function () {
-			let $tr = $(this);
+			const $tr = $(this);
 			if (dataName === "nav") {
-				let obj = {};
+				const obj = {};
 				$(this)
 					.find("td")
 					.each(function () {
-						let key = $(this).find("input").attr("data-name");
+						const key = $(this).find("input").attr("data-name");
 						if (key) {
 							obj[key] = $(this).find(`input[data-name='${key}']`).val();
 						}

@@ -187,7 +187,7 @@ function newTableRow_Action(action, result) {
     <td>${insertVal(result, "values")}</td>
     <td>${insertVal(result, "returnText")}</td>
     <td>${insertVal(result, "confirm")}</td>
-    <td>${insertVal(result, "switch_checkbox", "set")}</td>
+    <td>${insertVal(result, "switch_checkbox")}</td>
     ${actionDeleteButton}
     ${editButton}
             </tr>`;
@@ -204,7 +204,7 @@ function newTableRow_Action(action, result) {
 const actionDeleteButton = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>`;
 const editButton = `<td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
 
-function insertVal(result, entry, action) {
+function insertVal(result, entry) {
 	// Übernahme alter Daten in das neue Format
 	if (entry == "switch_checkbox" || entry == "newline_checkbox") {
 		if (result["checkboxes"]) result[entry] = result["checkboxes"];
