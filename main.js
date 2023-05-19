@@ -229,7 +229,7 @@ class TelegramMenu extends utils.Adapter {
 												);
 												timeoutKey += 1;
 												const path = `${directoryPicture}${element.fileName}`;
-												const timeout = setTimeout(async () => {
+												const timeout = this.setTimeout(async () => {
 													sendToTelegram(_this, userToSend, path);
 
 													let timeoutToClear = {};
