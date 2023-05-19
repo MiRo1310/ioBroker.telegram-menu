@@ -11,7 +11,7 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 ![Navigation](../pic/nav.png)
 
 -   Die Navigation muss gespeichert werden, damit die Trigger in Aktionen aktualisiert werden
--   Der calltext wird über die Schaltfläche aufgerufen, beide müssen den gleichen Namen haben
+-   Der Calltext wird über die Schaltfläche aufgerufen, beide müssen den gleichen Namen haben
 -   Schaltflächen müssen durch ein `,` und Zeilen durch `&&` getrennt sein
 -   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden
 -   Jeder Button darf nur einmal vorkommen
@@ -25,7 +25,7 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 
 ### GetState
 
--   Mit && als Platzhalter kannst du den Wert im Text platzieren
+-   Mit && als Platzhalter kann man den Wert im Text platzieren
 
 #### Werte aus erstellten Funktionen
 

@@ -182,13 +182,18 @@
 				// User active Button zeigen
 				showHideUserCheckbox(activeUser)
 			})
+			// Global User Button
+			$("#addGlobalUser").click(function () {
+				$(this).addClass("disabled")
+				$("#usersForGlobal").val("")
+				addNewUser(users, "Global", _onChange)
+			})
 
 			// Navigation -----------------------------------------------------------------------------------
 			// Click Nav Buttons
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
 				activeBtn = $(this).attr("name")
-
 				if (activeBtn === "nav") {
 					$("#btn_add_nav").show()
 					$("#btn_add_action").hide()
@@ -404,12 +409,7 @@
 				insertEditValues(action, this)
 				disableValueInput()
 			})
-			// Global User Button
-			$("#addGlobalUser").click(function () {
-				$(this).addClass("disabled")
-				$("#usersForGlobal").val("")
-				addNewUser(users, "Global", _onChange)
-			})
+
 
 			// Value deaktivieren wenn Switch checked
 			$(".modal-content").on("change", ".switch_checkbox", function () {
@@ -420,6 +420,7 @@
 			$("#user_active_checkbox").on("change", "input", function () {
 				_onChange()
 			})
+			// Button Row up and down
 			$(".adapter-container").on("click", ".btn_up", function () {
 				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
 				checkUpAndDownArrowBtn(activeUser)
@@ -431,15 +432,8 @@
 				checkUpAndDownArrowBtn(activeUser)
 				_onChange()
 			})
-
-
-
 		})
-
-
-
 	</script>
-
 </head>
 
 <body id="body">
@@ -450,6 +444,7 @@
 					<img src="telegram-menu.png" class="logo">
 				</div>
 			</div>
+			<!-- Header -->
 			<div class="row bg--header">
 				<div class="col s12">
 					<ul class="tabs bg--header">
@@ -548,7 +543,6 @@
 							</tr>
 						</thead>
 						<tbody class="table-lines table-values">
-
 							<tr>
 								<td> <input class="get_id resetInput checkValue" type="text">
 								</td>
@@ -632,16 +626,10 @@
 							style="display: none;"><i class="material-icons translate ">add</i></a>
 					</div>
 					<div class="col s2" id="user_active_checkbox">
-						<!-- <input type="checkbox" class="filled-in value " checked />
-						<span class="translate marginTop">Michael <span> </span><span class="translate">activ</span>
-						</span> -->
-
 					</div>
 					<div id="infoNav" class="col s8">
-						<p class=" infoText translate ">Each entry may only occur once in the complete
-							navigation</p>
-						<p class="infoText translate ">Please Save the Nav Settings before you go to the
-							aktions !!!</p>
+						<p class="infoText translate ">Each entry may only occur once in the complete navigation</p>
+						<p class="infoText translate ">Please Save the Nav Settings before you go to the aktions !!!</p>
 					</div>
 					<div class="col s6">
 						<label class="showGlobal">
@@ -660,7 +648,6 @@
 		</header>
 		<div id="tab-nav" class="">
 			<div class="row">
-
 				<div class="col s12">
 					<div class="table-values-div saveTable" id="navigation">
 						<table id="table_nav" class="" style="width: 100%;">
@@ -681,7 +668,6 @@
 						</table>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		<div id="tab-action"></div>
@@ -695,26 +681,6 @@
 							</select>
 							<label>Instance</label>
 						</div>
-						<!-- <div class="col s2">
-							<label>
-								<input id="instance" type="text" class="value" value="telegram.0">
-								<span class="translate">Instanze</span>
-							</label>
-						</div> -->
-						<!-- <div class="input-field col s2">
-							<input placeholder="," id="sepBtn" type="text" class="validate center-align value">
-							<label for="sepBtn">Separation buttons</label>
-						</div>
-						<div class="input-field col s2 offset-s2">
-							<input placeholder="&&" id="sepRow" type="text" class="validate center-align value">
-							<label for="sepRow">Separation Row</label>
-						</div> -->
-						<!-- <div class="input-field col s2 offset-s2">
-							<input placeholder="%%" id="placeholder_text" type="text"
-								class="validate center-align value">
-							<label for="sepRow">Placeholder Send Text</label>
-						</div> -->
-
 					</div>
 					<div class="row">
 						<div class="input-field col s3">
@@ -728,10 +694,8 @@
 								<input id="oneTiKey" class="filled-in valCheckbox" type="checkbox">
 								<span>One Time Keyboard</span>
 							</label>
-
 						</div>
 					</div>
-
 					<div class="row distance">
 						<div class="input-field col s6">
 							<input id="tokenGrafana" type="text" class="validate value">
@@ -743,10 +707,7 @@
 							<label for="directory" class="translate">Directory</label>
 						</div>
 					</div>
-
-
 				</div>
-
 			</div>
 		</div>
 		<div class="m material-dialogs">
@@ -769,8 +730,6 @@
 			</div>
 		</div>
 	</div>
-
-
 </body>
 
 </html>
