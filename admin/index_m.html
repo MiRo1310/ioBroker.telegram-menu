@@ -30,7 +30,7 @@
 
 	<script type="text/javascript">
 		let _onChange
-		var users;
+		let users;
 		let activeUser;
 		let telegramInstance;
 		let userActiveCheckbox;
@@ -51,6 +51,7 @@
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeUser)
 			checkUpAndDownArrowBtn(activeUser)
+			showHideEditUser(activeUser)
 			// console.log(settings.instance)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
@@ -147,6 +148,7 @@
 					activeUser = newUser
 					showUser(newUser)
 				}
+				showHideEditUser(activeUser)
 			})
 			function showHideUserCheckbox(activeUser) {
 				$("#user_active_checkbox div").hide()
@@ -168,16 +170,19 @@
 				$(`#${userdelete}`).remove()
 				$(`.user_${userdelete}`).remove()
 				showAddGlobalUser(users)
+
 				// Nach dem Löschen den ersten User aktivieren
 				if (users.length > 0) {
 					activeUser = users[0]
 					showUser(activeUser, showHideUserCheckbox)
 				}
+				showHideEditUser(activeUser)
 				_onChange()
 			})
 			// Click User, Show User Navigation, Action
 			$("#user_list").on("click", ".click_user", function () {
 				activeUser = $(this).attr("name")
+				showHideEditUser(activeUser)
 				showUser(activeUser, showHideUserCheckbox)
 				// User active Button zeigen
 				showHideUserCheckbox(activeUser)
@@ -188,6 +193,38 @@
 				$("#usersForGlobal").val("")
 				addNewUser(users, "Global", _onChange)
 			})
+
+			// Edit User
+			$("#editUser").click(function () {
+				$("#dialog-change-username").show()
+				$("#inputEditUser").val(activeUser)
+			})
+			// Check Group doesn´t exist
+			$("#inputEditUser").keyup(function () {
+				if (users.includes($("#inputEditUser").val())) $("#dialog-change-username .btn-set").attr("disabled", "disabled")
+				else $("#dialog-change-username .btn-set").removeAttr("disabled")
+			})
+			// Save Edit User
+			$("#dialog-change-username .btn-set").click(function () {
+				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
+				users = users.filter(function (element) {
+					return element != activeUser
+				})
+				let renamedUser = $("#inputEditUser").val()
+				$(`#user_list li a[name="${activeUser}"]`).html(renamedUser).attr("name", renamedUser)
+				$(`#table_nav tbody#${activeUser}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeUser}`).addClass(`user_${renamedUser}`)
+				console.log($(`#tab-action div.user_${activeUser}`))
+				$(`#tab-action div.user_${activeUser}`).removeClass(`user_${activeUser}`).addClass(`user_${renamedUser}`)
+				users.push(renamedUser)
+				activeUser = renamedUser
+				$("#dialog-change-username").hide()
+				_onChange()
+			})
+			// Abort Edit Username
+			$("#dialog-change-username .btn-close").click(function () {
+				$("#dialog-change-username").hide()
+			})
+
 
 			// Navigation -----------------------------------------------------------------------------------
 			// Click Nav Buttons
@@ -602,6 +639,8 @@
 					id="addNewUser" title="Add new User"><i class="material-icons">person_add</i></a>
 				<a class="delete btn-floating btn-small waves-effect waves-light red translateT" id="deleteUser"
 					title="Delete User"><i class="material-icons">delete</i></a>
+				<a class="btn-floating btn-small waves-effect waves-light blue translateT" id="editUser"
+					title="Edit User"><i class="material-icons">edit</i></a>
 				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled translateT"
 					id="addGlobalUser" title="Add Global User"><i class="material-icons">group_add</i></a>
 				<div class="input-field col s3">
@@ -728,7 +767,31 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<div id="dialog-change-username" class="modal modal-fixed-footer">
+				<div class="modal-content">
+					<div class="row">
+						<div class="col s12 title"></div>
+					</div>
+					<div class="row">
+						<div class="col s12 dialog-content">
+							<div class=" col s12">
+								<input id="inputEditUser" type="text">
+								<label for="inputEditUser" class="translate">Edit Username</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+							class="large material-icons left">check</i><span class="translate">Select</span></a>
+					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+				</div>
+			</div>
 		</div>
+
+
+
 	</div>
 </body>
 
