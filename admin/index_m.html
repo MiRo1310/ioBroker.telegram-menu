@@ -214,8 +214,12 @@
 				let renamedUser = $("#inputEditUser").val()
 				$(`#group_list li a[name="${activeGroup}"]`).html(renamedUser).attr("name", renamedUser)
 				$(`#table_nav tbody#${activeGroup}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
-				console.log($(`#tab-action div.user_${activeGroup}`))
 				$(`#tab-action div.user_${activeGroup}`).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
+				$(`#group_UserInput div.${activeGroup}`).removeClass(activeGroup).addClass(renamedUser)
+				$(`#group_UserInput input[name="${activeGroup}"]`).attr("name", renamedUser)
+				$(`#group_active_checkbox div.${activeGroup}>span`).html(renamedUser + ' <span class="translate">activ</span>')
+				$(`#group_active_checkbox div.${activeGroup}`).removeClass(activeGroup).addClass(renamedUser)
+				$(`#group_active_checkbox input[data-name="${activeGroup}"]`).attr("data-name", renamedUser)
 				users.push(renamedUser)
 				activeGroup = renamedUser
 				$("#dialog-change-groupname").hide()
@@ -777,7 +781,7 @@
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
-							class="large material-icons left">check</i><span class="translate">Select</span></a>
+							class="large material-icons left">check</i><span class="translate">Ok</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
