@@ -288,6 +288,10 @@
 			$(".valCheckbox").change(function () {
 				_onChange()
 			})
+			$("#group_UserInput").on("keyup", "input", function () {
+				console.log("test")
+				_onChange()
+			})
 
 
 			//Dialog get ID Iobroker ------------------------------------------------------------------------------
