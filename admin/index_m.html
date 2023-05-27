@@ -31,28 +31,26 @@
 	<script type="text/javascript">
 		let _onChange
 		let users;
-		let activeUser;
+		let activeGroup;
 		let telegramInstance;
 		let userActiveCheckbox;
+		let usersInGroup;
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
 			_onChange = onChange
 			users = settings.users
-			activeUser = settings.users[0]
+			activeGroup = settings.users[0]
 			userActiveCheckbox = settings.userActiveCheckbox
-			createUser("#user_list", settings.users, activeUser, userActiveCheckbox)
+			usersInGroup = settings.usersInGroup
+			createGroup("#group_list", settings.users, activeGroup, userActiveCheckbox, usersInGroup)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
 			fillTableAction(settings.data.action)
-			showAddGlobalUser(users)
-			showHideUserEntry(activeUser)
-			showGlobalUserSettings(activeUser)
+			showHideUserEntry(activeGroup)
 			setCheckbox(settings.checkbox)
-			generateSelectTrigger(activeUser)
-			checkUpAndDownArrowBtn(activeUser)
-			showHideEditUser(activeUser)
-			// console.log(settings.instance)
+			generateSelectTrigger(activeGroup)
+			checkUpAndDownArrowBtn(activeGroup)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
 
@@ -111,8 +109,14 @@
 
 
 			})
+			const usersInGroup = {}
+			$("#group_UserInput input").each(function () {
+				const user = $(this).attr("name")
+				usersInGroup[user] = $(this).val()
+			})
+			obj.usersInGroup = usersInGroup
 			const checkboxes = {}
-			$("#user_active_checkbox input").each(function () {
+			$("#group_active_checkbox input").each(function () {
 				const user = $(this).attr("data-name")
 				checkboxes[user] = $(this).is(":checked")
 			})
@@ -124,7 +128,7 @@
 				obj.data = tableDevices;
 				obj.users = users
 				obj.startsides = generateStartside(users)
-				generateSelectTrigger(activeUser)
+				generateSelectTrigger(activeGroup)
 				console.log(obj)
 				callback(obj);
 			}
@@ -135,94 +139,91 @@
 
 			// User ------------------------------------------------------------------------------
 			// New User Show Button			
-			$("#username").keyup(function () {
-				if ($(this).val() !== "" && users.indexOf($("#username").val()) == -1) {
-					$("#addNewUser").removeClass("disabled")
-				} else $("#addNewUser").addClass("disabled")
+			$("#groupname").keyup(function () {
+				if ($(this).val() !== "" && users.indexOf($("#groupname").val()) == -1) {
+					$("#addNewGroup").removeClass("disabled")
+				} else $("#addNewGroup").addClass("disabled")
 			})
 			// Add new User
-			$("#addNewUser").click(() => {
-				let newUser = $("#username").val()
+			$("#addNewGroup").click(() => {
+				let newUser = $("#groupname").val()
 				if (users.indexOf(newUser) == -1) {
-					addNewUser(users, newUser, _onChange)
-					activeUser = newUser
+					addNewGroup(users, newUser, _onChange)
+					activeGroup = newUser
 					showUser(newUser)
 				}
-				showHideEditUser(activeUser)
 			})
-			function showHideUserCheckbox(activeUser) {
-				$("#user_active_checkbox div").hide()
-				$(`#user_active_checkbox div.${activeUser}`).show()
+			function showHideUserCheckbox(activeGroup) {
+				$("#group_active_checkbox div").hide()
+				$(`#group_active_checkbox div.${activeGroup}`).show()
 			}
-			// Delete User
-			$("#user_menu").on("click", "#deleteUser", function () {
-				let userdelete = $("#user_list .active").attr("name")
-				if (userdelete == "Global") {
-					$(".showGlobal").hide()
-					$("#globalUserActiv").prop("checked", false)
+			// Delete User			
+			$("#group_menu").on("click", "#deleteUser", function () {
+				$("#dialog-confirm").show()
+			})
+			// Auf Confirm Group Ok reagieren
+			$("#dialog-confirm a.btn-set").on("click", function () {
+				let userdelete = $("#group_list .active").attr("name")
 
-				}
 				users.splice(users.indexOf(userdelete), 1)
-				$("#user_list .active").parent().remove()
+				$("#group_list .active").parent().remove()
 				$(`#tab-nav tbody[name="${userdelete}"]`).remove()
 				$(`#tab-action tbody[name="${userdelete}"]`).remove()
-				$(`#user_active_checkbox div.${userdelete}`).remove()
+				$(`#group_active_checkbox div.${userdelete}`).remove()
+				$(`#group_UserInput div.${userdelete}`).remove()
 				$(`#${userdelete}`).remove()
 				$(`.user_${userdelete}`).remove()
-				showAddGlobalUser(users)
 
 				// Nach dem Löschen den ersten User aktivieren
 				if (users.length > 0) {
-					activeUser = users[0]
-					showUser(activeUser, showHideUserCheckbox)
+					activeGroup = users[0]
+					showUser(activeGroup, showHideUserCheckbox)
 				}
-				showHideEditUser(activeUser)
+
 				_onChange()
+				$("#dialog-confirm").hide()
+			})
+			$("#dialog-confirm a.btn-close").on("click", function () {
+				$("#dialog-confirm").hide()
 			})
 			// Click User, Show User Navigation, Action
-			$("#user_list").on("click", ".click_user", function () {
-				activeUser = $(this).attr("name")
-				showHideEditUser(activeUser)
-				showUser(activeUser, showHideUserCheckbox)
+			$("#group_list").on("click", ".click_user", function () {
+				activeGroup = $(this).attr("name")
+
+				showUser(activeGroup, showHideUserCheckbox)
 				// User active Button zeigen
-				showHideUserCheckbox(activeUser)
-			})
-			// Global User Button
-			$("#addGlobalUser").click(function () {
-				$(this).addClass("disabled")
-				$("#usersForGlobal").val("")
-				addNewUser(users, "Global", _onChange)
+				showHideUserCheckbox(activeGroup)
 			})
 
 			// Edit User
 			$("#editUser").click(function () {
-				$("#dialog-change-username").show()
-				$("#inputEditUser").val(activeUser)
+				$("#dialog-change-groupname").show()
+				$("#inputEditUser").val(activeGroup)
 			})
 			// Check Group doesn´t exist
 			$("#inputEditUser").keyup(function () {
-				if (users.includes($("#inputEditUser").val())) $("#dialog-change-username .btn-set").attr("disabled", "disabled")
-				else $("#dialog-change-username .btn-set").removeAttr("disabled")
+				if (users.includes($("#inputEditUser").val())) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
+				else $("#dialog-change-groupname .btn-set").removeAttr("disabled")
 			})
 			// Save Edit User
-			$("#dialog-change-username .btn-set").click(function () {
+			$("#dialog-change-groupname .btn-set").click(function () {
 				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
 				users = users.filter(function (element) {
-					return element != activeUser
+					return element != activeGroup
 				})
 				let renamedUser = $("#inputEditUser").val()
-				$(`#user_list li a[name="${activeUser}"]`).html(renamedUser).attr("name", renamedUser)
-				$(`#table_nav tbody#${activeUser}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeUser}`).addClass(`user_${renamedUser}`)
-				console.log($(`#tab-action div.user_${activeUser}`))
-				$(`#tab-action div.user_${activeUser}`).removeClass(`user_${activeUser}`).addClass(`user_${renamedUser}`)
+				$(`#group_list li a[name="${activeGroup}"]`).html(renamedUser).attr("name", renamedUser)
+				$(`#table_nav tbody#${activeGroup}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
+				console.log($(`#tab-action div.user_${activeGroup}`))
+				$(`#tab-action div.user_${activeGroup}`).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
 				users.push(renamedUser)
-				activeUser = renamedUser
-				$("#dialog-change-username").hide()
+				activeGroup = renamedUser
+				$("#dialog-change-groupname").hide()
 				_onChange()
 			})
 			// Abort Edit Username
-			$("#dialog-change-username .btn-close").click(function () {
-				$("#dialog-change-username").hide()
+			$("#dialog-change-groupname .btn-close").click(function () {
+				$("#dialog-change-groupname").hide()
 			})
 
 
@@ -235,21 +236,24 @@
 					$("#btn_add_nav").show()
 					$("#btn_add_action").hide()
 					$("#infoNav").show()
+					$("#group_menu").show()
 				} else if (activeBtn === "action") {
 					$("#btn_add_nav").hide()
 					$("#btn_add_action").show()
 					$("#infoNav").hide()
+					$("#group_menu").show()
 				}
 				else {
 					$("#btn_add_nav").hide()
 					$("#btn_add_action").hide()
 					$("#infoNav").hide()
+					$("#group_menu").hide()
 				}
 				translateAll()
 			})
 			$("#btn_add_nav").click(function () {
-				$(`#${activeUser}`).append(newTableRow_Nav(activeUser, users))
-				checkUpAndDownArrowBtn(activeUser)
+				$(`#${activeGroup}`).append(newTableRow_Nav(activeGroup, users))
+				checkUpAndDownArrowBtn(activeGroup)
 			})
 
 
@@ -263,7 +267,7 @@
 			//Delete Row
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
-				checkUpAndDownArrowBtn(activeUser)
+				checkUpAndDownArrowBtn(activeGroup)
 				_onChange()
 				generateNav()
 			})
@@ -271,11 +275,11 @@
 
 			// Change Events --------------------------------------------------------------------------------------
 			// Eventhandler for save change 
-			$("#user_list").on("click", ".click-user", function () {
-				activeUser = $(this).attr("name")
-				$("#btn-nav").attr("href", `#tab-nav-user-${activeUser}`)
-				$("#btn_action").attr("href", `#tab-todo-user-${activeUser}`)
-				$("adapter-container").load(`#tab-nav-user-${activeUser}`)
+			$("#group_list").on("click", ".click-user", function () {
+				activeGroup = $(this).attr("name")
+				$("#btn-nav").attr("href", `#tab-nav-user-${activeGroup}`)
+				$("#btn_action").attr("href", `#tab-todo-user-${activeGroup}`)
+				$("adapter-container").load(`#tab-nav-user-${activeGroup}`)
 			})
 			// update
 			$("#navigation").change(".value", function () {
@@ -408,7 +412,7 @@
 						result.picSendDelay.push($(this).val())
 					})
 				}
-				generatActionRow(activeUser, action, result, rowToUpdate)
+				generatActionRow(activeGroup, action, result, rowToUpdate)
 				_onChange()
 				resetModal()
 			})
@@ -454,19 +458,19 @@
 
 			})
 			// Active User clicken und Speichern sichtbar machen
-			$("#user_active_checkbox").on("change", "input", function () {
+			$("#group_active_checkbox").on("change", "input", function () {
 				_onChange()
 			})
 			// Button Row up and down
 			$(".adapter-container").on("click", ".btn_up", function () {
 				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
-				checkUpAndDownArrowBtn(activeUser)
+				checkUpAndDownArrowBtn(activeGroup)
 				_onChange()
 			})
 			$(".adapter-container").on("click", ".btn_down", function (key) {
 				console.log("klick")
 				$(this).parent().parent().insertAfter($(this).parent().parent().next())
-				checkUpAndDownArrowBtn(activeUser)
+				checkUpAndDownArrowBtn(activeGroup)
 				_onChange()
 			})
 		})
@@ -592,7 +596,6 @@
 										<input type="checkbox" class="filled-in newline_checkbox" checked />
 										<span></span>
 									</label></td>
-
 								<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i
 											class="material-icons">delete</i></a></td>
 								</td>
@@ -634,56 +637,43 @@
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
-			<div class="row " id="user_menu">
-				<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled translateT"
-					id="addNewUser" title="Add new User"><i class="material-icons">person_add</i></a>
-				<a class="delete btn-floating btn-small waves-effect waves-light red translateT" id="deleteUser"
-					title="Delete User"><i class="material-icons">delete</i></a>
-				<a class="btn-floating btn-small waves-effect waves-light blue translateT" id="editUser"
-					title="Edit User"><i class="material-icons">edit</i></a>
-				<a class="btn-add btn-floating btn-large waves-effect waves-light blue disabled translateT"
-					id="addGlobalUser" title="Add Global User"><i class="material-icons">group_add</i></a>
-				<div class="input-field col s3">
-					<input id="username" type="text" class="validate">
-					<label for="username" class="translate">Add new Username</label>
-				</div>
-			</div>
-			<div class="row ">
-				<div class="col s12">
-					<ul class="tabs" id="user_list">
-					</ul>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s12">
-					<div class="col s2">
-						<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT"
-							id="btn_add_nav" name="nav" title="Add new Navigation"><i
-								class="material-icons translate ">add</i></a>
-						<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT modal-trigger"
-							id="btn_add_action" name="action" title="Add new Action" data-target="tab_action"
-							style="display: none;"><i class="material-icons translate ">add</i></a>
-					</div>
-					<div class="col s2" id="user_active_checkbox">
-					</div>
-					<div id="infoNav" class="col s8">
-						<p class="infoText translate ">Each entry may only occur once in the complete navigation</p>
-						<p class="infoText translate ">Please Save the Nav Settings before you go to the aktions !!!</p>
-					</div>
-					<div class="col s6">
-						<label class="showGlobal">
-							<input id="usersForGlobal" type="text" class="value">
-							<span class="translate">All User from Telegram, seperate with</span><span> ","</span>
-						</label>
-					</div>
-					<div class="col s3">
-						<label class="showGlobal">
-							<input id="globalUserActiv" type="checkbox" class="filled-in valCheckbox" />
-							<span class="translate">Global User activ</span>
-						</label>
+			<div class="row " id="group_menu">
+				<div>
+					<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled translateT"
+						id="addNewGroup" title="Add new User"><i class="material-icons">group_add</i></a>
+					<a class="btn-delete delete btn-floating btn-small waves-effect waves-light red translateT"
+						id="deleteUser" title="Delete User"><i class="material-icons">delete</i></a>
+					<a class="btn-edit btn-floating btn-small waves-effect waves-light blue translateT" id="editUser"
+						title="Edit User"><i class="material-icons">edit</i></a>
+					<div class="input-field col s4">
+						<input id="groupname" type="text" class="validate">
+						<label for="groupname" class="translate">Add new Groupname</label>
 					</div>
 				</div>
-			</div>
+				<div class="row ">
+					<div class="col s12">
+						<ul class="tabs" id="group_list">
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div class="col">
+							<a class="btn-add btn-floating btn-large waves-effect waves-light green translateT modal-trigger"
+								id="btn_add_action" name="action" title="Add new Action" data-target="tab_action"
+								style="display: none;"><i class="material-icons translate ">add</i></a>
+							<a class="btn-add btn-floating btn-large waves-effect waves-light green translateT"
+								id="btn_add_nav" name="nav" title="Add new Navigation"><i
+									class="material-icons translate ">add</i></a>
+						</div>
+						<div class="col s8" id="group_UserInput">
+						</div>
+						<div class="col s2" id="group_active_checkbox">
+						</div>
+
+
+					</div>
+				</div>
 		</header>
 		<div id="tab-nav" class="">
 			<div class="row">
@@ -767,7 +757,7 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
-			<div id="dialog-change-username" class="modal modal-fixed-footer">
+			<div id="dialog-change-groupname" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
 						<div class="col s12 title"></div>
@@ -784,6 +774,22 @@
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
 							class="large material-icons left">check</i><span class="translate">Select</span></a>
+					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+				</div>
+			</div>
+			<div id="dialog-confirm" class="modal modal-fixed-footer">
+				<div class="modal-content">
+					<div class="row">
+						<div class="col s12">
+							<p class="translate center-align">Do you really want to delete the group?</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+							class="large material-icons left">check</i><span class="translate">Ok</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>

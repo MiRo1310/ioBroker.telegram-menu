@@ -36,6 +36,11 @@ label > i[title] {
 /* Button */
 .btn-add {
 	margin-left: 20px;
+	margin-top: 7px;
+}
+.btn-delete,
+.btn-edit {
+	margin-top: 7px;
 }
 /* Background */
 .bg-error {
@@ -46,7 +51,7 @@ label > i[title] {
 
 	margin-right: 20px !important;
 } */
-#user_list .tab {
+#group_list .tab {
 	text-transform: none;
 }
 h1 {
@@ -78,6 +83,25 @@ h1 {
 	overflow: visible !important;
 	top: 100px !important;
 	z-index: 100;
+}
+#dialog-change-groupname {
+	min-width: 400px !important;
+	width: 30% !important;
+	height: 30% !important;
+	overflow: visible !important;
+	top: 100px !important;
+	z-index: 100;
+}
+#dialog-confirm {
+	min-width: 400px !important;
+	width: 30% !important;
+	height: 25% !important;
+	overflow: visible !important;
+	top: 100px !important;
+	z-index: 100;
+}
+#dialog-confirm div.modal-content {
+	width: 100% !important;
 }
 
 .showHideMenu {

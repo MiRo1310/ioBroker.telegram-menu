@@ -1,6 +1,14 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "e" }]*/
 
 // Navigation----------------------------------------------------
+function groupUserInput(user, val) {
+	return /*html*/ `<div class="${user}">
+  <label >
+    <input name="${user}" type="text" value="${val}" >
+    <span class="translate">Users for this Group, seperate with</span><span> ","</span>
+  </label>
+</div>`;
+}
 /**
  * Nav Component & Startrow in Nav
  * @param {string} user User Name

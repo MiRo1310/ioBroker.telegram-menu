@@ -61,7 +61,7 @@ function generateNav() {
  * @param {string} id Where to create
  * @param {Array} users Array of Users
  */
-function createUser(id, users, activeUser, userActiveCheckbox) {
+function createGroup(id, users, activeGroup, userActiveCheckbox, usersInGroup) {
 	users.forEach((user) => {
 		$(id).append(newUserBtn(user));
 		$("#table_nav").append(navElement(user));
@@ -69,9 +69,12 @@ function createUser(id, users, activeUser, userActiveCheckbox) {
 		let val;
 		if (userActiveCheckbox && userActiveCheckbox[user] != undefined) val = userActiveCheckbox[user];
 		else val = "";
-		if (user != "Global") $("#user_active_checkbox").append(userActivCheckbox(user, val));
+		$("#group_active_checkbox").append(userActivCheckbox(user, val));
+		if (usersInGroup && usersInGroup[user] != undefined) val = usersInGroup[user];
+		else val = "";
+		$("#group_UserInput").append(groupUserInput(user, val));
 	});
-	if (activeUser) $(`#user_active_checkbox div.${activeUser}`).show();
+	if (activeGroup) $(`#group_active_checkbox div.${activeGroup}`).show();
 }
 //SECTION - Save 5 Save to Object
 function table2Values(id) {
@@ -160,11 +163,13 @@ function dataToArray(_this, selector) {
 		});
 	return val;
 }
-function showHideUserEntry(activeUser) {
+function showHideUserEntry(activeGroup) {
 	$("tbody.table_switch_user").hide();
 	$("#tab-action>div").hide();
-	$(`tbody.table_switch_user.user_${activeUser}`).show();
-	$(`#tab-action>div.user_${activeUser}`).show();
+	$("#group_UserInput div").hide();
+	$(`tbody.table_switch_user.user_${activeGroup}`).show();
+	$(`#tab-action>div.user_${activeGroup}`).show();
+	$(`#group_UserInput div.${activeGroup}`).show();
 }
 
 /**
@@ -179,9 +184,9 @@ function setCheckbox(checkbox) {
 	});
 }
 
-function splitTextInArray(activeUser) {
+function splitTextInArray(activeGroup) {
 	const value_list = [];
-	$(`#${activeUser} input[data-name="value"]`).each(function () {
+	$(`#${activeGroup} input[data-name="value"]`).each(function () {
 		let value = $(this).val();
 		if (typeof value == "string") {
 			value = value.replace(/&&/g, ",");
@@ -194,8 +199,8 @@ function splitTextInArray(activeUser) {
 	return value_list;
 }
 
-function generateSelectTrigger(activeUser) {
-	const list = splitTextInArray(activeUser);
+function generateSelectTrigger(activeGroup) {
+	const list = splitTextInArray(activeGroup);
 	// HTML Elemente löschen und neu aufbauen
 	$("#select_trigger").empty().append(createSelectTrigger(list));
 }
@@ -350,23 +355,12 @@ function valuesToArray($this, selector) {
 	return val;
 }
 
-function showAddGlobalUser(users) {
-	if (users.indexOf("Global") == -1) {
-		$("#addGlobalUser").removeClass("disabled");
-	}
-}
-
-function addNewUser(users, newUser, _onChange) {
+function addNewGroup(users, newUser, _onChange) {
 	users.push(newUser);
-	createUser("#user_list", [newUser], null, null);
+	createGroup("#group_list", [newUser], null, null, null);
 	_onChange();
-	$("#username").val("");
-	$("#addNewUser").addClass("disabled");
-}
-
-function showGlobalUserSettings(activeUser) {
-	if (activeUser == "Global") $(".showGlobal").show();
-	else $(".showGlobal").hide();
+	$("#groupname").val("");
+	$("#addNewGroup").addClass("disabled");
 }
 
 /**
@@ -420,14 +414,14 @@ function getAllTelegramInstances(socket, _this) {
 		_this.log.debug("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
 }
-function showUser(activeUser, showHideUserCheckbox) {
-	showHideUserEntry(activeUser);
-	showGlobalUserSettings(activeUser);
-	$("#user_list li a").each(function () {
+function showUser(activeGroup, showHideUserCheckbox) {
+	showHideUserEntry(activeGroup);
+
+	$("#group_list li a").each(function () {
 		$(this).removeClass("active");
 	});
-	$(`#user_list li a[name=${activeUser}]`).addClass("active");
-	if (showHideUserCheckbox) showHideUserCheckbox(activeUser);
+	$(`#group_list li a[name=${activeGroup}]`).addClass("active");
+	if (showHideUserCheckbox) showHideUserCheckbox(activeGroup);
 }
 function checkValueModal(showTrigger) {
 	let show = true;
