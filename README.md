@@ -33,6 +33,12 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   rename button
+-   create groups with users
+
 ### 0.1.1 (2023-05-18)
 
 -   shift rows
