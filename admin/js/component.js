@@ -57,7 +57,7 @@ function userActivCheckbox(user, val) {
 	let checked = "";
 	if (val || val == "") checked = "checked";
 	return /*html*/ `<div class="${user}" style="display:none"><input type="checkbox" class="filled-in userActiveCheckbox" ${checked} data-name="${user}"/>
-  <span class="marginTop">${user} <span class="translate">active</span>
+  <span class="marginTop">${user} <span> </span><span class="translate">active</span>
   </span></div> `;
 }
 
