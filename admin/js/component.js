@@ -5,7 +5,7 @@ function groupUserInput(user, val) {
 	return /*html*/ `<div class="${user}">
   <label >
     <input name="${user}" type="text" value="${val}" >
-    <span class="translate">Users for this Group, seperate with</span><span> ",".</span><span class="translate"> No entry, send to all Users.</span>
+    <span class="translate">Users for this Group, seperate with</span><span> ",".</span>
   </label>
 </div>`;
 }
