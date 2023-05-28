@@ -209,11 +209,11 @@ function fillTable(id, data, newTableRow_Nav, users) {
 	if (data) {
 		for (const name in data) {
 			const nav = data[name];
-			nav.forEach(function (element, pos) {
+			nav.forEach(function (navElement, pos) {
 				// Erst bei Key 1 starten, da eine Row statisch ist
 				if (pos != 0) $(`#${name}`).append(newTableRow_Nav(name, users));
-				Object.keys(element).forEach((key) => {
-					if (element[key]) $(`#${name} tr input.nav-${key}:eq(${pos})`).val(element[key]);
+				Object.keys(navElement).forEach((key) => {
+					if (navElement[key]) $(`#${name} tr input.nav-${key}:eq(${pos})`).val(navElement[key]);
 				});
 			});
 		}

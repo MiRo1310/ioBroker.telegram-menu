@@ -51,6 +51,8 @@
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeGroup)
 			checkUpAndDownArrowBtn(activeGroup)
+			// When import from old Version import Username
+			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
 
