@@ -55,6 +55,7 @@
 			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
+			translateAll()
 
 
 
@@ -157,8 +158,10 @@
 				if (users.indexOf(newUser) == -1) {
 					addNewGroup(users, newUser, _onChange)
 					activeGroup = newUser
-					showUser(newUser)
+					showUser(newUser, showHideUserCheckbox)
+					translateAll()
 				}
+
 			})
 			function showHideUserCheckbox(activeGroup) {
 				$("#group_active_checkbox div").hide()

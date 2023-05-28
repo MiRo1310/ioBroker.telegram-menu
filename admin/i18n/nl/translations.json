@@ -1,10 +1,12 @@
 {
+    " No entry, send to all Users.": "Geen invoer, verzenden naar alle gebruikers.",
     "Action": "Actie",
     "Add": "toevoegen",
     "Add && as a placeholder for the value in the text": "Voeg && toe als tijdelijke aanduiding voor de waarde in de tekst",
     "Add &amp;&amp; as a placeholder for the value in the text": "Voeg && toe als tijdelijke aanduiding voor de waarde in de tekst",
     "Add Global User": "Globale gebruiker toevoegen",
     "Add new Action": "Nieuwe actie toevoegen",
+    "Add new Groupname": "Nieuwe groepsnaam toevoegen",
     "Add new Navigation": "Nieuwe navigatie toevoegen",
     "Add new User": "Voeg een nieuwe gebruiker toe",
     "Add new Username": "Nieuwe gebruikersnaam toevoegen",
@@ -20,7 +22,9 @@
     "Delay (ms)": "Vertraging (ms)",
     "Delete User": "Verwijder gebruiker",
     "Directory": "Gids",
+    "Do you really want to delete the group?": "Wilt u de groep echt verwijderen?",
     "Each entry may only occur once in the complete navigation": "Elke invoer mag slechts één keer voorkomen in de volledige navigatie",
+    "Edit Username": "Gebruikersnaam bewerken",
     "Filename": "Bestandsnaam",
     "Global User activ": "Globale gebruiker actief",
     "Instanze": "Instanze",
@@ -35,7 +39,9 @@
     "Startside": "Startzijde",
     "Switch": "Schakelaar",
     "Trigger": "Trekker",
+    "Users for this Group, seperate with": "Gebruikers voor deze groep, scheid met",
     "Value": "Waarde",
     "What is to do?": "Wat is er te doen?",
+    "active": "actief",
     "telegram-menu adapter settings": "Adapterinstellingen voor telegrammenu"
 }

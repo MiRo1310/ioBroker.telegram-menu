@@ -1,10 +1,12 @@
 {
+    " No entry, send to all Users.": " No entry, send to all Users.",
     "Action": "Action",
     "Add": "add",
     "Add && as a placeholder for the value in the text": "Add && as a placeholder for the value in the text",
     "Add &amp;&amp; as a placeholder for the value in the text": "Add &amp;&amp; as a placeholder for the value in the text",
     "Add Global User": "Add Global User",
     "Add new Action": "Add new Action",
+    "Add new Groupname": "Add new Groupname",
     "Add new Navigation": "Add new Navigation",
     "Add new User": "Add new User",
     "Add new Username": "Add new Username",
@@ -20,7 +22,9 @@
     "Delay (ms)": "Delay (ms)",
     "Delete User": "Delete User",
     "Directory": "Directory",
+    "Do you really want to delete the group?": "Do you really want to delete the group?",
     "Each entry may only occur once in the complete navigation": "Each entry may only occur once in the complete navigation",
+    "Edit Username": "Edit Username",
     "Filename": "Filename",
     "Global User activ": "Global user activ",
     "Instanze": "Instanze",
@@ -35,7 +39,9 @@
     "Startside": "Startside",
     "Switch": "Switch",
     "Trigger": "Trigger",
+    "Users for this Group, seperate with": "Users for this Group, seperate with",
     "Value": "Value",
     "What is to do?": "What is to do?",
+    "active": "active",
     "telegram-menu adapter settings": "Adapter settings for telegram-menu"
 }

@@ -1,10 +1,12 @@
 {
+    " No entry, send to all Users.": "没有条目，发送给所有用户。",
     "Action": "行动",
     "Add": "添加",
     "Add && as a placeholder for the value in the text": "添加 && 作为文本中值的占位符",
     "Add &amp;&amp; as a placeholder for the value in the text": "添加 && 作为文本中值的占位符",
     "Add Global User": "添加全局用户",
     "Add new Action": "添加新动作",
+    "Add new Groupname": "添加新组名",
     "Add new Navigation": "添加新导航",
     "Add new User": "添加新用户",
     "Add new Username": "添加新用户名",
@@ -20,7 +22,9 @@
     "Delay (ms)": "延迟（毫秒）",
     "Delete User": "删除用户",
     "Directory": "目录",
+    "Do you really want to delete the group?": "您真的要删除该组吗？",
     "Each entry may only occur once in the complete navigation": "每个条目在完整导航中只能出现一次",
+    "Edit Username": "修改用户名",
     "Filename": "文件名",
     "Global User activ": "全球用户活跃度",
     "Instanze": "瞬间",
@@ -35,7 +39,9 @@
     "Startside": "起跑线",
     "Switch": "转变",
     "Trigger": "扳机",
+    "Users for this Group, seperate with": "该组的用户，与",
     "Value": "价值",
     "What is to do?": "怎么办？",
+    "active": "积极的",
     "telegram-menu adapter settings": "电报菜单的适配器设置"
 }

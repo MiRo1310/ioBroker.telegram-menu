@@ -1,10 +1,12 @@
 {
+    " No entry, send to all Users.": "Нет записи, отправить всем пользователям.",
     "Action": "Действие",
     "Add": "добавлять",
     "Add && as a placeholder for the value in the text": "Добавьте && в качестве заполнителя для значения в тексте",
     "Add &amp;&amp; as a placeholder for the value in the text": "Добавьте && в качестве заполнителя для значения в тексте",
     "Add Global User": "Добавить глобального пользователя",
     "Add new Action": "Добавить новое действие",
+    "Add new Groupname": "Добавить новое имя группы",
     "Add new Navigation": "Добавить новую навигацию",
     "Add new User": "Добавить нового пользователя",
     "Add new Username": "Добавить новое имя пользователя",
@@ -20,7 +22,9 @@
     "Delay (ms)": "Задержка (мс)",
     "Delete User": "Удалить пользователя",
     "Directory": "Каталог",
+    "Do you really want to delete the group?": "Вы действительно хотите удалить группу?",
     "Each entry may only occur once in the complete navigation": "Каждая запись может встречаться только один раз за всю навигацию.",
+    "Edit Username": "Изменить имя пользователя",
     "Filename": "Имя файла",
     "Global User activ": "Активность глобального пользователя",
     "Instanze": "Инстанц",
@@ -35,7 +39,9 @@
     "Startside": "Стартовая сторона",
     "Switch": "Выключатель",
     "Trigger": "Курок",
+    "Users for this Group, seperate with": "Пользователи для этой группы, отдельно с",
     "Value": "Ценить",
     "What is to do?": "Что делать?",
+    "active": "активный",
     "telegram-menu adapter settings": "Настройки адаптера для телеграм-меню"
 }

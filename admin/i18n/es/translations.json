@@ -1,10 +1,12 @@
 {
+    " No entry, send to all Users.": "Sin entrada, enviar a todos los usuarios.",
     "Action": "Acción",
     "Add": "agregar",
     "Add && as a placeholder for the value in the text": "Agregue && como marcador de posición para el valor en el texto",
     "Add &amp;&amp; as a placeholder for the value in the text": "Agregue && como marcador de posición para el valor en el texto",
     "Add Global User": "Agregar usuario global",
     "Add new Action": "Agregar nueva acción",
+    "Add new Groupname": "Agregar nuevo nombre de grupo",
     "Add new Navigation": "Agregar nueva navegación",
     "Add new User": "Añadir nuevo usuario",
     "Add new Username": "Agregar nuevo nombre de usuario",
@@ -20,7 +22,9 @@
     "Delay (ms)": "Retardo (ms)",
     "Delete User": "Borrar usuario",
     "Directory": "Directorio",
+    "Do you really want to delete the group?": "¿Realmente quieres eliminar el grupo?",
     "Each entry may only occur once in the complete navigation": "Cada entrada solo puede ocurrir una vez en la navegación completa",
+    "Edit Username": "Editar nombre de usuario",
     "Filename": "Nombre del archivo",
     "Global User activ": "Actividad de usuario global",
     "Instanze": "Instancia",
@@ -35,7 +39,9 @@
     "Startside": "Lado de salida",
     "Switch": "Cambiar",
     "Trigger": "Desencadenar",
+    "Users for this Group, seperate with": "Usuarios para este Grupo, separe con",
     "Value": "Valor",
     "What is to do?": "¿Qué hay que hacer?",
+    "active": "activo",
     "telegram-menu adapter settings": "Configuración del adaptador para el menú de telegramas"
 }
