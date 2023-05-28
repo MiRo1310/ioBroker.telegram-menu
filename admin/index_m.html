@@ -142,13 +142,18 @@
 			// User ------------------------------------------------------------------------------
 			// New User Show Button			
 			$("#groupname").keyup(function () {
-				if ($(this).val() !== "" && users.indexOf($("#groupname").val()) == -1) {
+				let userInput = $(this).val()
+				let gefundenerName = users.find(function (name) {
+					return name.toLowerCase() === userInput.toLowerCase();
+				});
+				console.log(gefundenerName)
+				if ($(this).val() !== "" && !gefundenerName) {
 					$("#addNewGroup").removeClass("disabled")
 				} else $("#addNewGroup").addClass("disabled")
 			})
 			// Add new User
 			$("#addNewGroup").click(() => {
-				let newUser = $("#groupname").val()
+				let newUser = $("#groupname").val().replace(" ", "_")
 				if (users.indexOf(newUser) == -1) {
 					addNewGroup(users, newUser, _onChange)
 					activeGroup = newUser
@@ -204,7 +209,10 @@
 			})
 			// Check Group doesn´t exist
 			$("#inputEditUser").keyup(function () {
-				if (users.includes($("#inputEditUser").val())) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
+				let gefundenerName = users.find(function (name) {
+					return name.toLowerCase() === $("#inputEditUser").val().toLowerCase();
+				});
+				if (gefundenerName) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
 				else $("#dialog-change-groupname .btn-set").removeAttr("disabled")
 			})
 			// Save Edit User
@@ -213,7 +221,7 @@
 				users = users.filter(function (element) {
 					return element != activeGroup
 				})
-				let renamedUser = $("#inputEditUser").val()
+				let renamedUser = $("#inputEditUser").val().replace(" ", "_")
 				$(`#group_list li a[name="${activeGroup}"]`).html(renamedUser).attr("name", renamedUser)
 				$(`#table_nav tbody#${activeGroup}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
 				$(`#tab-action div.user_${activeGroup}`).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
