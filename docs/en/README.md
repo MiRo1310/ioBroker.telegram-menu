@@ -4,7 +4,7 @@
 
 Easily create Telegram Menus
 
-You can create a separate menu for each user, or you can use the global user to generate the same menu for all users.
+You can create different groups with separate menus, and then assign users to them.
 
 ### Navigation
 
@@ -15,7 +15,6 @@ You can create a separate menu for each user, or you can use the global user to 
 -   Buttons must be separated by `,` and lines by `&&`
 -   All users must be spelled exactly as they were created in Telegram
 -   Each button may only appear once
--   With the global user you can give several users the same menu, they must be specified there separated by a comma
 
 ### SetState
 

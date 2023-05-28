@@ -4,7 +4,7 @@
 
 Erstelle ganz einfach Telegrammmenüs
 
-Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Benutzer verwenden, um dasselbe Menü für alle eingestellten Benutzer zu generieren.
+Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Benutzer zuordnen.
 
 ### Navigation
 
@@ -15,7 +15,6 @@ Du kannst für jeden Benutzer ein separates Menü erstellen oder den globalen Be
 -   Schaltflächen müssen durch ein `,` und Zeilen durch `&&` getrennt sein
 -   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden
 -   Jeder Button darf nur einmal vorkommen
--   Mit dem Globalen User kann man mehreren Usern das gleiche Menu geben, diese müssen dort angegeben werden mit einem Komma getrennt
 
 ### SetState
 
