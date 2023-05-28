@@ -1,4 +1,4 @@
-/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$*/
+/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn"}]*/
 
 /**

@@ -56,11 +56,9 @@ class TelegramMenu extends utils.Adapter {
 		 * @type {{}}
 		 */
 		const checkbox = this.config.checkbox;
-		const globalUserActiv = checkbox["globalUserActiv"];
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const userList = this.config.users;
-		const globalUserList = this.config.usersForGlobal.split(",");
 		const startsides = this.config.startsides;
 		let token = this.config.tokenGrafana;
 		const directoryPicture = this.config.directory;
@@ -152,7 +150,7 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Value: " + JSON.stringify(value));
 								this.log.debug("User: " + JSON.stringify(user));
 								this.log.debug("Todo: " + JSON.stringify(toDo));
-								let nav;
+
 								userToSend = null;
 
 								this.log.debug("user in group" + JSON.stringify(usersInGroup));
@@ -160,7 +158,7 @@ class TelegramMenu extends utils.Adapter {
 									usersInGroup[key].includes(user),
 								);
 								this.log.debug("Group with User " + JSON.stringify(groupWithUser));
-								nav = menu.data[groupWithUser];
+								const nav = menu.data[groupWithUser];
 								userToSend = user;
 
 								this.log.debug("Nav " + JSON.stringify(nav));
