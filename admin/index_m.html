@@ -233,6 +233,7 @@
 				$(`#group_active_checkbox div.${activeGroup}>span`).html(renamedUser + ' <span class="translate">activ</span>')
 				$(`#group_active_checkbox div.${activeGroup}`).removeClass(activeGroup).addClass(renamedUser)
 				$(`#group_active_checkbox input[data-name="${activeGroup}"]`).attr("data-name", renamedUser)
+				$(`tbody[name="${activeGroup}"]`).attr("name", renamedUser)
 				users.push(renamedUser)
 				activeGroup = renamedUser
 				$("#dialog-change-groupname").hide()
