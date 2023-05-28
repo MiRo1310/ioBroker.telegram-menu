@@ -65,6 +65,7 @@ class TelegramMenu extends utils.Adapter {
 		let token = this.config.tokenGrafana;
 		const directoryPicture = this.config.directory;
 		const userActiveCheckbox = this.config.userActiveCheckbox;
+		const usersInGroup = this.config.usersInGroup;
 		const menu = {
 			data: {},
 		};
@@ -111,52 +112,29 @@ class TelegramMenu extends utils.Adapter {
 					} catch (err) {
 						this.log.error("Error generateNav: " + JSON.stringify(err));
 					}
-
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
-					this.log.debug("UserList: " + JSON.stringify(userList));
-					this.log.debug("Global User Activ: " + JSON.stringify(globalUserActiv));
-					this.log.debug("Global User List: " + JSON.stringify(globalUserList));
 
 					if (!restartAdapter) {
-						if (globalUserActiv) {
-							this.log.debug("Global Users sendto ");
-							globalUserList.forEach((user) => {
-								const startside = [startsides["Global"]].toString();
-
-								if (startside && typeof startside == "string")
-									this.log.debug("Text Global " + JSON.stringify(menu));
-
-								if (startside && typeof startside == "string")
-									sendToTelegram(
-										this,
-										user,
-										menu.data.Global[startside].text,
-										menu.data.Global[startside].nav,
-										instanceTelegram,
-										resize_keyboard,
-										one_time_keyboard,
-									);
-							});
-						} else {
-							try {
-								this.log.debug("UserList " + JSON.stringify(userList));
-								userList.forEach((user) => {
-									this.log.debug("User " + JSON.stringify(user));
-									const startside = [startsides[user]].toString();
-									if (user != "Global" && userActiveCheckbox[user])
+						try {
+							this.log.debug("GroupList " + JSON.stringify(userList));
+							userList.forEach((group) => {
+								this.log.debug("Group " + JSON.stringify(group));
+								const startside = [startsides[group]].toString();
+								if (userActiveCheckbox[group])
+									usersInGroup[group].forEach((user) => {
 										sendToTelegram(
 											_this,
 											user,
-											menu.data[user][startside].text,
-											menu.data[user][startside].nav,
+											menu.data[group][startside].text,
+											menu.data[group][startside].nav,
 											instanceTelegram,
 											resize_keyboard,
 											one_time_keyboard,
 										);
-								});
-							} catch (error) {
-								console.log("Error read UserList" + error);
-							}
+									});
+							});
+						} catch (error) {
+							console.log("Error read UserList" + error);
 						}
 						restartAdapter = false;
 					}
@@ -176,16 +154,18 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Todo: " + JSON.stringify(toDo));
 								let nav;
 								userToSend = null;
-								if (globalUserActiv) {
-									nav = menu.data["Global"];
-									if (globalUserList.indexOf(user) != -1) userToSend = user;
-								} else {
-									nav = menu.data[user];
-									userToSend = user;
-								}
+
+								this.log.debug("user in group" + JSON.stringify(usersInGroup));
+								const groupWithUser = Object.keys(usersInGroup).find((key) =>
+									usersInGroup[key].includes(user),
+								);
+								this.log.debug("Group with User " + JSON.stringify(groupWithUser));
+								nav = menu.data[groupWithUser];
+								userToSend = user;
+
 								this.log.debug("Nav " + JSON.stringify(nav));
 								this.log.debug("Menu " + JSON.stringify(menu.data));
-								if (nav[toDo] && userToSend && userActiveCheckbox[userToSend]) {
+								if (nav[toDo] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
 									const part = nav[toDo];
 									this.log.debug("Part " + JSON.stringify(part));
 									// Navigation

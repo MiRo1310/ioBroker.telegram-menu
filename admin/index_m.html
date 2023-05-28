@@ -112,7 +112,7 @@
 			const usersInGroup = {}
 			$("#group_UserInput input").each(function () {
 				const user = $(this).attr("name")
-				usersInGroup[user] = $(this).val()
+				usersInGroup[user] = $(this).val().split(",").map(item => item.trim())
 			})
 			obj.usersInGroup = usersInGroup
 			const checkboxes = {}
