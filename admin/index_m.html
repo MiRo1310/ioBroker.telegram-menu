@@ -498,53 +498,48 @@
 
 			// Copy Data
 			$("#btn_copy_nav").click(function () {
-
 				$("#dialog-copy-data").show()
 			})
 			$("#select-copy-data").on("change", function () {
 				$("#copyData").empty()
 				if ($(this).val() == 1) {
-					const $bodys = $("#tab-nav tbody").map((index, tbody) => {
-						if ($(tbody).attr("name") != activeGroup) return tbody
-					})
-					let newContent = $()
-					$bodys.each(function (index, $body) {
-						$($body).find("tr").each(function (index, row) {
-							let value = $()
-							$(row).find("input").each(function (index, element) {
-								let val = $()
-								value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
-							})
-							let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
-							value = value.add($("<td>").append(checkbox))
-							newContent = newContent.add($("<tr>").append(value))
-						})
-					})
-					newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
-					$("#copyData").html(newContent)
+					findElementsToCopy("#tab-nav tbody")
+					// let newContent = $()
+					// $bodys.each(function (index, $body) {
+					// 	$($body).find("tr").each(function (index, row) {
+					// 		let value = $()
+					// 		$(row).find("input").each(function (index, element) {
+					// 			let val = $()
+					// 			value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
+					// 		})
+					// 		let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
+					// 		value = value.add($("<td>").append(checkbox))
+					// 		newContent = newContent.add($("<tr>").append(value))
+					// 	})
+					// })
+					// newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
+					// $("#copyData").html(newContent)
 				}
 				else if ($(this).val() == 2) {
-					const $bodys = $("#tab-action tbody[data-name='set']").map((index, tbody) => {
-						if ($(tbody).attr("name") != activeGroup) return tbody
-					})
-					let newContent = $()
-					$bodys.each(function (index, $body) {
-						$($body).find("tr").each(function (index, row) {
-							let value = $()
-							$(row).find("p").each(function (index, element) {
-								let val = $()
-								value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
-							})
-							let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
-							value = value.add($("<td>").append(checkbox))
-							newContent = newContent.add($("<tr>").append(value))
-						})
-					})
-					newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
-					$("#copyData").html(newContent)
+					findElementsToCopy("#tab-action tbody[data-name='set']")
 				}
 			})
-
+			function findElementsToCopy(selektor) {
+				const $bodys = $(selektor).map((index, tbody) => {
+					if ($(tbody).attr("name") != activeGroup) return tbody
+				})
+				$bodys.each(function (index, $body) {
+					$($body).find("tr").each(function () {
+						let newData = $(this).clone().removeClass("startRow")
+						newData.find("a").remove()
+						let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
+						newData = newData.append($("<td>").append(checkbox))
+						newData = $("<table>").addClass("striped").append($("<tbody>").append(newData))
+						$("#copyData").append(newData)
+					})
+				})
+			}
+			// Save new Rows
 			$("#dialog-copy-data .btn-set").click(function () {
 				$("#dialog-copy-data tr").each(function () {
 					let checkboxes = $(this).find("input[type='checkbox']").filter(":checked")
@@ -560,12 +555,17 @@
 
 					})
 				})
-				$("#dialog-copy-data").hide()
+				resetSelect()
 				_onChange()
 			})
 			$("#dialog-copy-data .btn-close").click(function () {
-				$("#dialog-copy-data").hide()
+				resetSelect()
 			})
+			function resetSelect() {
+				$("#copyData").empty()
+				$("#select-copy-data").val("").select()
+				$("#dialog-copy-data").hide()
+			}
 
 		})
 	</script>
