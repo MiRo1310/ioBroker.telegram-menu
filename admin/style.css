@@ -103,7 +103,10 @@ h1 {
 #dialog-confirm div.modal-content {
 	width: 100% !important;
 }
-
+#dialog-copy-data {
+	width: 99% !important;
+	top: 100px !important;
+}
 .showHideMenu {
 	height: 28px;
 	font-size: 1rem;

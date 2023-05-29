@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 	<script type="text/javascript" src="./js/component.js"></script>
+	<script type="text/javascript" src="./js/groupJQ.js"></script>
 
 
 	<script type="text/javascript" src="../../js/translate.js"></script>
@@ -147,7 +148,6 @@
 				let gefundenerName = users.find(function (name) {
 					return name.toLowerCase() === userInput.toLowerCase();
 				});
-				console.log(gefundenerName)
 				if ($(this).val() !== "" && !gefundenerName) {
 					$("#addNewGroup").removeClass("disabled")
 				} else $("#addNewGroup").addClass("disabled")
@@ -205,7 +205,7 @@
 				showHideUserCheckbox(activeGroup)
 			})
 
-			// Edit User
+			// Edit Group
 			$("#editUser").click(function () {
 				$("#dialog-change-groupname").show()
 				$("#inputEditUser").val(activeGroup)
@@ -218,7 +218,7 @@
 				if (gefundenerName) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
 				else $("#dialog-change-groupname .btn-set").removeAttr("disabled")
 			})
-			// Save Edit User
+			// Save Edit Group
 			$("#dialog-change-groupname .btn-set").click(function () {
 				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
 				users = users.filter(function (element) {
@@ -495,6 +495,55 @@
 				checkUpAndDownArrowBtn(activeGroup)
 				_onChange()
 			})
+
+			// Copy Data
+			$("#btn_copy_nav").click(function () {
+				$("#dialog-copy-data div.modal-content div.col").empty()
+
+				const $bodys = $("#table_nav tbody").map((index, tbody) => {
+					if ($(tbody).attr("id") != activeGroup) return tbody
+				})
+
+				let newContent = $()
+				$bodys.each(function (index, $body) {
+					$($body).find("tr").each(function (index, row) {
+						let value = $()
+						$(row).find("input").each(function (index, element) {
+							let val = $()
+							value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
+						})
+						let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
+						value = value.add($("<td>").append(checkbox))
+						newContent = newContent.add($("<tr>").append(value))
+					})
+				})
+				newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
+				$("#dialog-copy-data div.modal-content div.col").html(newContent)
+				$("#dialog-copy-data").show()
+			})
+			$("#dialog-copy-data .btn-set").click(function () {
+				$("#dialog-copy-data tr").each(function () {
+					let checkboxes = $(this).find("input[type='checkbox']").filter(":checked")
+					checkboxes.each(function () {
+						$(this).parents().eq(2).each(function () {
+							let arrayTexts = []
+							$(this).find("p").each(function () {
+								arrayTexts.push($(this).text())
+							})
+							$(`#${activeGroup}`).append(newTableRow_Nav(activeGroup, users, arrayTexts))
+						})
+
+					})
+				})
+
+
+
+				$("#dialog-copy-data").hide()
+			})
+			$("#dialog-copy-data .btn-close").click(function () {
+				$("#dialog-copy-data").hide()
+			})
+
 		})
 	</script>
 </head>
@@ -823,7 +872,7 @@
 				<div class="modal-content">
 					<div class="row">
 						<div class="col s12">
-							<p class="translate center-align">Copy data</p>
+
 						</div>
 					</div>
 
