@@ -33,7 +33,6 @@ function navElement(user) {
  * @param {array} users List of Users
  */
 function newTableRow_Nav(activuser, users, array) {
-	console.log("New Row", activuser, users, array);
 	const userIndex = users.indexOf(activuser);
 	let call, value, text;
 	if (array) {

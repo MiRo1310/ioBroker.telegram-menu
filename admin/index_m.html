@@ -498,29 +498,53 @@
 
 			// Copy Data
 			$("#btn_copy_nav").click(function () {
-				$("#dialog-copy-data div.modal-content div.col").empty()
 
-				const $bodys = $("#table_nav tbody").map((index, tbody) => {
-					if ($(tbody).attr("id") != activeGroup) return tbody
-				})
-
-				let newContent = $()
-				$bodys.each(function (index, $body) {
-					$($body).find("tr").each(function (index, row) {
-						let value = $()
-						$(row).find("input").each(function (index, element) {
-							let val = $()
-							value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
-						})
-						let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
-						value = value.add($("<td>").append(checkbox))
-						newContent = newContent.add($("<tr>").append(value))
-					})
-				})
-				newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
-				$("#dialog-copy-data div.modal-content div.col").html(newContent)
 				$("#dialog-copy-data").show()
 			})
+			$("#select-copy-data").on("change", function () {
+				$("#copyData").empty()
+				if ($(this).val() == 1) {
+					const $bodys = $("#tab-nav tbody").map((index, tbody) => {
+						if ($(tbody).attr("name") != activeGroup) return tbody
+					})
+					let newContent = $()
+					$bodys.each(function (index, $body) {
+						$($body).find("tr").each(function (index, row) {
+							let value = $()
+							$(row).find("input").each(function (index, element) {
+								let val = $()
+								value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
+							})
+							let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
+							value = value.add($("<td>").append(checkbox))
+							newContent = newContent.add($("<tr>").append(value))
+						})
+					})
+					newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
+					$("#copyData").html(newContent)
+				}
+				else if ($(this).val() == 2) {
+					const $bodys = $("#tab-action tbody[data-name='set']").map((index, tbody) => {
+						if ($(tbody).attr("name") != activeGroup) return tbody
+					})
+					let newContent = $()
+					$bodys.each(function (index, $body) {
+						$($body).find("tr").each(function (index, row) {
+							let value = $()
+							$(row).find("p").each(function (index, element) {
+								let val = $()
+								value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
+							})
+							let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
+							value = value.add($("<td>").append(checkbox))
+							newContent = newContent.add($("<tr>").append(value))
+						})
+					})
+					newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
+					$("#copyData").html(newContent)
+				}
+			})
+
 			$("#dialog-copy-data .btn-set").click(function () {
 				$("#dialog-copy-data tr").each(function () {
 					let checkboxes = $(this).find("input[type='checkbox']").filter(":checked")
@@ -531,14 +555,13 @@
 								arrayTexts.push($(this).text())
 							})
 							$(`#${activeGroup}`).append(newTableRow_Nav(activeGroup, users, arrayTexts))
+							checkUpAndDownArrowBtn(activeGroup)
 						})
 
 					})
 				})
-
-
-
 				$("#dialog-copy-data").hide()
+				_onChange()
 			})
 			$("#dialog-copy-data .btn-close").click(function () {
 				$("#dialog-copy-data").hide()
@@ -871,7 +894,19 @@
 			<div id="dialog-copy-data" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
-						<div class="col s12">
+						<div class="input-field col s3">
+							<select id="select-copy-data">
+								<option value="" disabled selected>Choose your option</option>
+								<option value="1">Navigation</option>
+								<option value="2">SetState</option>
+								<option value="3">GetState</option>
+								<option value="4">Send Picture</option>
+							</select>
+							<label class="translate">Copy Data</label>
+						</div>
+					</div>
+					<div class="row">
+						<div id="copyData" class="col s12 ">
 
 						</div>
 					</div>
