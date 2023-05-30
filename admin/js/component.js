@@ -21,9 +21,9 @@ function navElement(user) {
       <td><input type="text" data-name="call" class="isString nav-call translateV startside" value="Startside" ></td>
       <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
       <td><input type="text" data-name="text" class="isString nav-text" value="Wähle eine Aktion"></td>
-      <td ></td>
-      <td ></td>    
-      <td ></td>
+      <td></td>
+      <td></td>    
+      <td></td>
     </tr>
 	</tbody>`;
 }
@@ -36,9 +36,13 @@ function newTableRow_Nav(activuser, users, array) {
 	const userIndex = users.indexOf(activuser);
 	let call, value, text;
 	if (array) {
-		array[0] ? (call = array[0]) : (call = "");
-		array[1] ? (value = array[1]) : (value = "");
-		array[2] ? (text = array[2]) : (text = "Wähle eine Aktion");
+		if (array[0]) call = array[0];
+		if (array[1]) value = array[1];
+		if (array[2]) text = array[2];
+	} else {
+		call = "";
+		value = "";
+		text = "Wähle eine Aktion";
 	}
 	return /*html*/ `
   <tr>
