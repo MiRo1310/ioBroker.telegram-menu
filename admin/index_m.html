@@ -502,64 +502,65 @@
 			})
 			$("#select-copy-data").on("change", function () {
 				$("#copyData").empty()
-				if ($(this).val() == 1) {
-					findElementsToCopy("#tab-nav tbody")
-					// let newContent = $()
-					// $bodys.each(function (index, $body) {
-					// 	$($body).find("tr").each(function (index, row) {
-					// 		let value = $()
-					// 		$(row).find("input").each(function (index, element) {
-					// 			let val = $()
-					// 			value = value.add(val.add($("<td>")).append($("<p>").text($(element).val())))
-					// 		})
-					// 		let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
-					// 		value = value.add($("<td>").append(checkbox))
-					// 		newContent = newContent.add($("<tr>").append(value))
-					// 	})
-					// })
-					// newContent = $("<table>").addClass("striped").append($("<tbody>").append(newContent))
-					// $("#copyData").html(newContent)
+				//TODO - 
+				if ($(this).val() == "nav") {
+					findElementsToCopy("#tab-nav tbody", "nav")
 				}
-				else if ($(this).val() == 2) {
-					findElementsToCopy("#tab-action tbody[data-name='set']")
-				}
+				else findElementsToCopy(`#tab-action tbody[data-name='${$(this).val()}']`, $(this).val())
+
+				// if ($(this).val() == "set") {
+				// 	)
+				// }
+				// else if ($(this).val() == "get") {
+				// 	findElementsToCopy("#tab-action tbody[data-name='get']", "get")
+				// }
+				// else if ($(this).val() == "pic") {
+				// 	findElementsToCopy("#tab-action tbody[data-name='pic']", "pic")
+				// }
 			})
-			function findElementsToCopy(selektor) {
+			function findElementsToCopy(selektor, toDo) {
 				const $bodys = $(selektor).map((index, tbody) => {
 					if ($(tbody).attr("name") != activeGroup) return tbody
 				})
+				let tbody = $("<tbody>")
 				$bodys.each(function (index, $body) {
 					$($body).find("tr").each(function () {
 						let newData = $(this).clone().removeClass("startRow")
-						newData.find("a").remove()
-						let checkbox = $("<label>").append($("<input>").attr("type", "checkbox").addClass("checkboxCopyData, filled-in")).append($("<span>"))
+						newData.find("a").parent().remove()
+						newData.find("td:empty").remove()
+						let checkbox = $("<a>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxCopyData `).append($("<i>").addClass("material-icons").text("add"))
 						newData = newData.append($("<td>").append(checkbox))
-						newData = $("<table>").addClass("striped").append($("<tbody>").append(newData))
-						$("#copyData").append(newData)
+						tbody.append(newData)
 					})
 				})
+				$("#copyData").append($("<table>").addClass("striped").append(tbody))
 			}
 			// Save new Rows
-			$("#dialog-copy-data .btn-set").click(function () {
-				$("#dialog-copy-data tr").each(function () {
-					let checkboxes = $(this).find("input[type='checkbox']").filter(":checked")
-					checkboxes.each(function () {
-						$(this).parents().eq(2).each(function () {
-							let arrayTexts = []
-							$(this).find("p").each(function () {
-								arrayTexts.push($(this).text())
-							})
-							$(`#${activeGroup}`).append(newTableRow_Nav(activeGroup, users, arrayTexts))
-							checkUpAndDownArrowBtn(activeGroup)
-						})
+			$("#dialog-copy-data").on("click", ".checkboxCopyData", function () {
+				const action = $("#select-copy-data").val()
 
-					})
-				})
-				resetSelect()
-				_onChange()
+				const rowToCopy = $(this).parents().eq(1)
+				// Add Button entfernen 
+				rowToCopy.find("a").parent().remove()
+				const buttonsNav = `<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+    								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+   									<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>`
+				const buttonsAction = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+										   <td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
+				if (action == "nav") {
+					rowToCopy.append(buttonsNav)
+					$(`#${activeGroup}`).append(rowToCopy)
+					checkUpAndDownArrowBtn(activeGroup)
+				}
+				else {
+					rowToCopy.append(buttonsAction)
+					$(`#tab-action tbody[name="${activeGroup}"][data-name="${action}"]`).append(rowToCopy)
+				}
 			})
+
 			$("#dialog-copy-data .btn-close").click(function () {
 				resetSelect()
+				_onChange()
 			})
 			function resetSelect() {
 				$("#copyData").empty()
@@ -897,26 +898,22 @@
 						<div class="input-field col s3">
 							<select id="select-copy-data">
 								<option value="" disabled selected>Choose your option</option>
-								<option value="1">Navigation</option>
-								<option value="2">SetState</option>
-								<option value="3">GetState</option>
-								<option value="4">Send Picture</option>
+								<option value="nav">Navigation</option>
+								<option value="set">SetState</option>
+								<option value="get">GetState</option>
+								<option value="pic">Send Picture</option>
 							</select>
 							<label class="translate">Copy Data</label>
 						</div>
 					</div>
 					<div class="row">
 						<div id="copyData" class="col s12 ">
-
 						</div>
 					</div>
-
 				</div>
 				<div class="modal-footer">
-					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
-							class="large material-icons left">check</i><span class="translate">Ok</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
-							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
 		</div>
