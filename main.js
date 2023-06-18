@@ -64,6 +64,7 @@ class TelegramMenu extends utils.Adapter {
 		const directoryPicture = this.config.directory;
 		const userActiveCheckbox = this.config.userActiveCheckbox;
 		const usersInGroup = this.config.usersInGroup;
+		const textNoEntryFound = this.config.textNoEntry;
 		const menu = {
 			data: {},
 		};
@@ -223,7 +224,7 @@ class TelegramMenu extends utils.Adapter {
 									}
 								} else {
 									if (typeof userToSend == "string")
-										sendToTelegram(this, userToSend, "Eintrag wurde nicht gefunden!");
+										sendToTelegram(this, userToSend, textNoEntryFound);
 								}
 								// Auf Setstate reagieren und Wert schicken
 							} else if (
