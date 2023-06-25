@@ -8,6 +8,7 @@
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const { exec } = require("child_process");
+const { debug } = require("console");
 const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
@@ -241,10 +242,25 @@ class TelegramMenu extends utils.Adapter {
 											let textToSend = element.returnText;
 											// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
 											let value;
+											// Change set value in another Value, like true => on, false => off
+											let objChangeValue = {};
+											let valueChange = "";
+											if (textToSend.toString().includes("change{")) {
+												let startindex = textToSend.indexOf("change{");
+
+												const match = textToSend.substring(
+													startindex + "change".length + 1,
+													textToSend.indexOf("}", startindex),
+												);
+												objChangeValue = JSON.parse("{" + match + "}");
+												valueChange = objChangeValue[String(state.val)];
+												textToSend = textToSend.substring(0, startindex);
+											}
 											textToSend?.toString().includes("{novalue}")
 												? (value = "")
 												: (value = state.val);
 											textToSend = textToSend.replace("{novalue}", "");
+											valueChange ? (value = valueChange) : value;
 											textToSend.indexOf("&amp;&amp;") != -1
 												? (textToSend = textToSend.replace("&amp;&amp;", value))
 												: (textToSend += " " + value);
