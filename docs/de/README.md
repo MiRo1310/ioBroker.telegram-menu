@@ -21,6 +21,7 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 -   Switch schaltet nur Booleans, es wechselt zwischen true und false
 -   Wenn man einen Wert angibt kann man diesen setzen
 -   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, Platzhalter für den Wert ist &&. Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach `{novalue}` ein
+-   Um Values zu ändern , z.B. von true zu an und false zu aus , im Text `change{"true":"an", "false":"aus"}` eingeben
 
 ### GetState
 

@@ -21,6 +21,7 @@ You can create different groups with separate menus, and then assign users to th
 -   Switch only toggles booleans, it switch between true and false
 -   If you specify a value, you can set it
 -   It is possible to have the setting of the value confirmed, placeholder for the value is &&. If you do not want the set value to be sent, simply enter `{novalue}` in the return text
+-   If you want to change values like true to on and false to off , write this in the Text `change{"true":"an", "false":"aus"}`
 
 ### GetState
 
