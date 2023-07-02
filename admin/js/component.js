@@ -21,9 +21,9 @@ function navElement(user) {
       <td><input type="text" data-name="call" class="isString nav-call translateV startside" value="Startside" ></td>
       <td><input type="text" data-name="value" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
       <td><input type="text" data-name="text" class="isString nav-text" value="Wähle eine Aktion"></td>
-      <td ></td>
-      <td ></td>    
-      <td ></td>
+      <td></td>
+      <td></td>    
+      <td></td>
     </tr>
 	</tbody>`;
 }
@@ -32,13 +32,23 @@ function navElement(user) {
  * @param {string} activuser Active User
  * @param {array} users List of Users
  */
-function newTableRow_Nav(activuser, users) {
+function newTableRow_Nav(activuser, users, array) {
 	const userIndex = users.indexOf(activuser);
+	let call, value, text;
+	if (array) {
+		if (array[0]) call = array[0];
+		if (array[1]) value = array[1];
+		if (array[2]) text = array[2];
+	} else {
+		call = "";
+		value = "";
+		text = "Wähle eine Aktion";
+	}
 	return /*html*/ `
   <tr>
-    <td><input type="text" data-name="call" class="isString nav-call "></td>
-    <td><input type="text" data-name="value" class="isString nav-value "></td>
-    <td><input type="text" data-name="text" class="isString nav-text " value="Wähle eine Aktion"></td>    
+    <td><input type="text" data-name="call" class="isString nav-call" value="${call}"></td>
+    <td><input type="text" data-name="value" class="isString nav-value" value="${value}"></td>
+    <td><input type="text" data-name="text" class="isString nav-text" value="${text}"></td>    
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>

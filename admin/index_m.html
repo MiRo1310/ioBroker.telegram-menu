@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 	<script type="text/javascript" src="./js/component.js"></script>
+	<script type="text/javascript" src="./js/groupJQ.js"></script>
 
 
 	<script type="text/javascript" src="../../js/translate.js"></script>
@@ -147,7 +148,6 @@
 				let gefundenerName = users.find(function (name) {
 					return name.toLowerCase() === userInput.toLowerCase();
 				});
-				console.log(gefundenerName)
 				if ($(this).val() !== "" && !gefundenerName) {
 					$("#addNewGroup").removeClass("disabled")
 				} else $("#addNewGroup").addClass("disabled")
@@ -205,7 +205,7 @@
 				showHideUserCheckbox(activeGroup)
 			})
 
-			// Edit User
+			// Edit Group
 			$("#editUser").click(function () {
 				$("#dialog-change-groupname").show()
 				$("#inputEditUser").val(activeGroup)
@@ -218,7 +218,7 @@
 				if (gefundenerName) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
 				else $("#dialog-change-groupname .btn-set").removeAttr("disabled")
 			})
-			// Save Edit User
+			// Save Edit Group
 			$("#dialog-change-groupname .btn-set").click(function () {
 				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
 				users = users.filter(function (element) {
@@ -495,6 +495,79 @@
 				checkUpAndDownArrowBtn(activeGroup)
 				_onChange()
 			})
+
+			// Copy Data
+			$("#btn_copy_nav").click(function () {
+				$("#dialog-copy-data").show()
+			})
+			$("#select-copy-data").on("change", function () {
+				$("#copyData").empty()
+				//TODO - 
+				if ($(this).val() == "nav") {
+					findElementsToCopy("#tab-nav tbody", "nav")
+				}
+				else findElementsToCopy(`#tab-action tbody[data-name='${$(this).val()}']`, $(this).val())
+
+				// if ($(this).val() == "set") {
+				// 	)
+				// }
+				// else if ($(this).val() == "get") {
+				// 	findElementsToCopy("#tab-action tbody[data-name='get']", "get")
+				// }
+				// else if ($(this).val() == "pic") {
+				// 	findElementsToCopy("#tab-action tbody[data-name='pic']", "pic")
+				// }
+			})
+			function findElementsToCopy(selektor, toDo) {
+				const $bodys = $(selektor).map((index, tbody) => {
+					if ($(tbody).attr("name") != activeGroup) return tbody
+				})
+				let tbody = $("<tbody>")
+				$bodys.each(function (index, $body) {
+					$($body).find("tr").each(function () {
+						let newData = $(this).clone().removeClass("startRow")
+						newData.find("a").parent().remove()
+						newData.find("td:empty").remove()
+						let checkbox = $("<a>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxCopyData `).append($("<i>").addClass("material-icons").text("add"))
+						newData = newData.append($("<td>").append(checkbox))
+						tbody.append(newData)
+					})
+				})
+				$("#copyData").append($("<table>").addClass("striped").append(tbody))
+			}
+			// Save new Rows
+			$("#dialog-copy-data").on("click", ".checkboxCopyData", function () {
+				const action = $("#select-copy-data").val()
+
+				const rowToCopy = $(this).parents().eq(1)
+				// Add Button entfernen 
+				rowToCopy.find("a").parent().remove()
+				const buttonsNav = `<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+    								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+   									<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>`
+				const buttonsAction = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+										   <td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
+				if (action == "nav") {
+					rowToCopy.append(buttonsNav)
+					$(`#${activeGroup}`).append(rowToCopy)
+					checkUpAndDownArrowBtn(activeGroup)
+				}
+				else {
+					rowToCopy.append(buttonsAction)
+					$(`#tab-action tbody[name="${activeGroup}"][data-name="${action}"]`).append(rowToCopy)
+				}
+			})
+
+			$("#dialog-copy-data .btn-close").click(function () {
+				resetSelect()
+				_onChange()
+			})
+			function resetSelect() {
+				$("#copyData").empty()
+				$("#select-copy-data").val("").select()
+				$("#dialog-copy-data").hide()
+			}
+
 		})
 	</script>
 </head>
@@ -688,6 +761,9 @@
 							<a class="btn-add btn-floating btn-large waves-effect waves-light green translateT"
 								id="btn_add_nav" name="nav" title="Add new Navigation"><i
 									class="material-icons translate ">add</i></a>
+							<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT"
+								id="btn_copy_nav" name="nav" title="Copy Elementes from other Groups"><i
+									class="material-icons translate ">content_copy</i></a>
 						</div>
 						<div class="col s8" id="group_UserInput">
 						</div>
@@ -821,6 +897,30 @@
 							class="large material-icons left">check</i><span class="translate">Ok</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+				</div>
+			</div>
+			<div id="dialog-copy-data" class="modal modal-fixed-footer">
+				<div class="modal-content">
+					<div class="row">
+						<div class="input-field col s3">
+							<select id="select-copy-data">
+								<option value="" disabled selected>Choose your option</option>
+								<option value="nav">Navigation</option>
+								<option value="set">SetState</option>
+								<option value="get">GetState</option>
+								<option value="pic">Send Picture</option>
+							</select>
+							<label class="translate">Copy Data</label>
+						</div>
+					</div>
+					<div class="row">
+						<div id="copyData" class="col s12 ">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
 		</div>
