@@ -142,7 +142,7 @@ class TelegramMenu extends utils.Adapter {
 				this.on("stateChange", async (id, state) => {
 					try {
 						let userToSend;
-						if (telegramAktiv) {
+						if (telegramAktiv && state?.ack) {
 							if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
 								const value = state.val;
 								const user = value.slice(1, value.indexOf("]"));

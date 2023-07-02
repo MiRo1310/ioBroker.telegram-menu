@@ -22,6 +22,7 @@ You can create different groups with separate menus, and then assign users to th
 -   If you specify a value, you can set it
 -   It is possible to have the setting of the value confirmed, placeholder for the value is &&. If you do not want the set value to be sent, simply enter `{novalue}` in the return text
 -   If you want to change values like true to on and false to off , write this in the Text `change{"true":"on", "false":"off"}`
+-   Basically, all states are set with `ack:true`, but if you want to set `ack:false`, you simply enter this in the return text. A confirmation only occurs when the addressed adapter has set the value to `ack:true`
 
 ### GetState
 
