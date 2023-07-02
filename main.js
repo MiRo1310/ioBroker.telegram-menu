@@ -18,7 +18,6 @@ const getstate = require("./lib/js/getstate").getstate;
 // const lichtAn = require("./lib/js/action").lichtAn;
 // const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
 
-const telegramID = "telegram.0.communicate.request";
 let timeouts = [];
 let timeoutKey = 0;
 let setStateIds;
@@ -46,6 +45,7 @@ class TelegramMenu extends utils.Adapter {
 	async onReady() {
 		this.setState("info.connection", false, true);
 		let instanceTelegram = this.config.instance;
+		const telegramID = `${instanceTelegram}.communicate.request`;
 		if (instanceTelegram.length == 0) instanceTelegram = "telegram.0";
 		const datapoint = `${instanceTelegram}.info.connection`;
 		this.log.debug("Instance " + JSON.stringify(instanceTelegram));
@@ -138,7 +138,6 @@ class TelegramMenu extends utils.Adapter {
 						restartAdapter = false;
 					}
 				}
-				//TODO - heraus nehmen damit auf den connection state reagiert wird
 				let oldValue;
 				this.on("stateChange", async (id, state) => {
 					try {
