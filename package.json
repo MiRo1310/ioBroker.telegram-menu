@@ -1,6 +1,6 @@
 {
   "name": "iobroker.telegram-menu",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Easily create Telegram Menus",
   "author": {
     "name": "MiRo1310",
