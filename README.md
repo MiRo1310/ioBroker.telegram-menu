@@ -33,6 +33,17 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   add ack Flag
+-   Copy-Button to copy User-elements to activ User
+
+### 0.2.0 (2023-05-28)
+
+-   rename button
+-   create groups with users
+
 ### 0.1.1 (2023-05-18)
 
 -   shift rows
