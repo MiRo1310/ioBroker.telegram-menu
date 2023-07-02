@@ -138,7 +138,7 @@ function actionElement(user) {
                       ID</th>
                     <th data-name="value" data-type="string" class="translate">Value</th>
                     <th data-name="returnText" data-type="string" class="translate">Return text</th>
-                    <th data-name="confirm" data-type="string" style="width: 2%;" class="translate">Confirm</th>
+                    <th data-name="confirm" data-type="string" style="width: 8%;" class="translate">Confirm set value</th>
                       <th data-name="switch" data-type="string" style="width: 2%;" class="translate">Switch</th>
                     <th data-name="edit" style="width: 2%;">
                     </th>
