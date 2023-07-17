@@ -1,6 +1,16 @@
-/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn"}]*/
-
+/*global newUserBtn ,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
+import {
+	newUserBtn,
+	navElement,
+	actionElement,
+	userActivCheckbox,
+	groupUserInput,
+	createSelectTrigger,
+	newTableRow_Action,
+	newTrInAction,
+	newSelectInstanceRow,
+} from "./component.js";
 /**
  *
  * @param {string} classes Class to browse for empty String
