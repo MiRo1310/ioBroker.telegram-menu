@@ -247,3 +247,15 @@ function insertVal(result, entry) {
 function newSelectInstanceRow(id) {
 	return `<option value="${id}">${id}</option>`;
 }
+
+export {
+	newUserBtn,
+	navElement,
+	actionElement,
+	userActivCheckbox,
+	groupUserInput,
+	createSelectTrigger,
+	newTableRow_Action,
+	newTrInAction,
+	newSelectInstanceRow,
+};
