@@ -1,8 +1,5 @@
 "use strict";
 
-import { specialMenu } from "./lib/js/subMenu";
-import { sendToTelegramSubmenu } from "./lib/js/telegram";
-
 /*
  * Created with @iobroker/create-adapter v2.3.0
  */
@@ -17,7 +14,8 @@ const generateNewObjectStructure = require("./lib/js/action").generateNewObjectS
 const generateActions = require("./lib/js/action").generateActions;
 const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
-
+const subMenu = require("./lib/js/subMenu").subMenu;
+const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
 // const lichtAn = require("./lib/js/action").lichtAn;
 // const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
 
@@ -141,7 +139,7 @@ class TelegramMenu extends utils.Adapter {
 						restartAdapter = false;
 					}
 				}
-				let oldValue;
+				let oldValue, lastDeviceCalled;
 				this.on("stateChange", async (id, state) => {
 					try {
 						let userToSend;
@@ -149,10 +147,10 @@ class TelegramMenu extends utils.Adapter {
 							if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
 								const value = state.val;
 								const user = value.slice(1, value.indexOf("]"));
-								const toDo = value.slice(value.indexOf("]") + 1, value.length);
+								const calledValue = value.slice(value.indexOf("]") + 1, value.length);
 								this.log.debug("Value: " + JSON.stringify(value));
 								this.log.debug("User: " + JSON.stringify(user));
-								this.log.debug("Todo: " + JSON.stringify(toDo));
+								this.log.debug("Todo: " + JSON.stringify(calledValue));
 
 								userToSend = null;
 
@@ -161,38 +159,46 @@ class TelegramMenu extends utils.Adapter {
 									usersInGroup[key].includes(user),
 								);
 								this.log.debug("Group with User " + JSON.stringify(groupWithUser));
-								const nav = menu.data[groupWithUser];
+								const groupData = menu.data[groupWithUser];
 								userToSend = user;
 
-								this.log.debug("Nav " + JSON.stringify(nav));
+								this.log.debug("Nav " + JSON.stringify(groupData));
 								this.log.debug("Menu " + JSON.stringify(menu.data));
-								if (nav[toDo] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
-									const part = nav[toDo];
+								if (
+									groupData[calledValue] &&
+									userToSend &&
+									groupWithUser &&
+									userActiveCheckbox[groupWithUser]
+								) {
+									const part = groupData[calledValue];
 									this.log.debug("Part " + JSON.stringify(part));
 									// Navigation
 									if (part.nav) {
 										this.log.debug("User to send: " + JSON.stringify(userToSend));
-										this.log.debug("Todo " + JSON.stringify(toDo));
+										this.log.debug("Todo " + JSON.stringify(calledValue));
 										this.log.debug("Part.nav: " + JSON.stringify(part.nav));
-										if (userToSend)
-											sendToTelegram(
-												this,
-												userToSend,
-												part.text,
-												part.nav,
-												instanceTelegram,
-												resize_keyboard,
-												one_time_keyboard,
-											);
+										//TODO -
+										if (JSON.stringify(part.nav).includes("menu")) {
+											callSubMenu(this, part.nav, groupData, userToSend);
+										} else {
+											if (userToSend)
+												sendToTelegram(
+													this,
+													userToSend,
+													part.text,
+													part.nav,
+													instanceTelegram,
+													resize_keyboard,
+													one_time_keyboard,
+												);
+										}
 									}
 									// Schalten
-									if (part.switch) {
+									else if (part.switch) {
 										setStateIdsToListenTo = setstate(_this, part, userToSend);
-									}
-									if (part.getData) {
+									} else if (part.getData) {
 										getstate(_this, part, userToSend);
-									}
-									if (part.sendPic) {
+									} else if (part.sendPic) {
 										try {
 											this.log.debug("Send Picture");
 
@@ -224,11 +230,8 @@ class TelegramMenu extends utils.Adapter {
 											this.log.error("Error :" + JSON.stringify(e));
 										}
 									}
-								} else if (toDo == "menu") {
-									//TODO -
-									let newData = specialMenu(toDo);
-									if (newData && newData[0])
-										sendToTelegramSubmenu(this, userToSend, newData[0], newData[1]);
+								} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
+									callSubMenu(this, calledValue, groupData, userToSend);
 								} else {
 									if (typeof userToSend == "string")
 										sendToTelegram(this, userToSend, textNoEntryFound);
@@ -294,6 +297,18 @@ class TelegramMenu extends utils.Adapter {
 				});
 			}
 		});
+		/**
+		 *
+		 * @param {*} _this
+		 * @param {*} part
+		 * @param {*} groupData
+		 * @param {string} userToSend
+		 */
+		function callSubMenu(_this, part, groupData, userToSend) {
+			let subMenuData = subMenu(_this, part, groupData, userToSend);
+			_this.log.debug("SubMenuData " + JSON.stringify(subMenuData));
+			if (subMenuData && subMenuData[0]) sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1]);
+		}
 
 		/**
 		 *

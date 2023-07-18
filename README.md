@@ -15,7 +15,7 @@
 
 Easily create Telegram Menus
 
-You can create a separate menu for each user, or you can use the global user to generate the same menu for all users.
+You can create different groups with separate menus, and then assign users to them.
 
 **If you like it, please consider a donation:**
 
@@ -33,6 +33,11 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+**WORK IN PROGRESS**
+
+-   adding Submenus
+
 ### 0.3.0 (2023-07-02)
 
 -   add ack Flag

@@ -1,23 +1,15 @@
 /*global newUserBtn ,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
-import {
-	newUserBtn,
-	navElement,
-	actionElement,
-	userActivCheckbox,
-	groupUserInput,
-	createSelectTrigger,
-	newTableRow_Action,
-	newTrInAction,
-	newSelectInstanceRow,
-} from "./component.js";
+
 /**
  *
  * @param {string} classes Class to browse for empty String
  * @returns boolean True Everything is ok
  */
+// @ts-ignore
 function isStringEmty(classes) {
 	let allOk = true;
+	// @ts-ignore
 	$(classes).each(function (key, element) {
 		if (element.value == "") {
 			$(element).parent().addClass("bg-error");
@@ -28,6 +20,7 @@ function isStringEmty(classes) {
 	});
 	return allOk;
 }
+// @ts-ignore
 function checkUpAndDownArrowBtn(activeuser) {
 	const lengthOfNavList = $(`tbody#${activeuser}.visibilityArrowBtn tr`).length - 1;
 	$(`tbody#${activeuser}.visibilityArrowBtn tr`).each(function (key) {
@@ -41,13 +34,16 @@ function checkUpAndDownArrowBtn(activeuser) {
 	});
 }
 
+// @ts-ignore
 function generateNav() {
 	const navigationArray = {};
 	const ids = [];
 	const nav = [];
+	// @ts-ignore
 	$(".nav-id").each((key, element) => {
 		ids.push(element.value);
 	});
+	// @ts-ignore
 	$(".nav-value").each((key, element) => {
 		nav.push(element.value);
 	});
@@ -73,20 +69,26 @@ function generateNav() {
  */
 function createGroup(id, users, activeGroup, userActiveCheckbox, usersInGroup) {
 	users.forEach((user) => {
+		// @ts-ignore
 		$(id).append(newUserBtn(user));
+		// @ts-ignore
 		$("#table_nav").append(navElement(user));
+		// @ts-ignore
 		$("#tab-action").append(actionElement(user));
 		let val;
 		if (userActiveCheckbox && userActiveCheckbox[user] != undefined) val = userActiveCheckbox[user];
 		else val = "";
+		// @ts-ignore
 		$("#group_active_checkbox").append(userActivCheckbox(user, val));
 		if (usersInGroup && usersInGroup[user] != undefined) val = usersInGroup[user];
 		else val = "";
+		// @ts-ignore
 		$("#group_UserInput").append(groupUserInput(user, val));
 	});
 	if (activeGroup) $(`#group_active_checkbox div.${activeGroup}`).show();
 }
 //SECTION - Save 5 Save to Object
+// @ts-ignore
 function table2Values(id) {
 	let oldName;
 	const $tbodys = $(id).find("tbody");
@@ -186,6 +188,7 @@ function showHideUserEntry(activeGroup) {
  *
  * @param {Array} checkbox Entrys with Checkbox Values
  */
+// @ts-ignore
 function setCheckbox(checkbox) {
 	Object.keys(checkbox).forEach((key) => {
 		if (checkbox[key]) {
@@ -209,12 +212,15 @@ function splitTextInArray(activeGroup) {
 	return value_list;
 }
 
+// @ts-ignore
 function generateSelectTrigger(activeGroup) {
 	const list = splitTextInArray(activeGroup);
 	// HTML Elemente löschen und neu aufbauen
+	// @ts-ignore
 	$("#select_trigger").empty().append(createSelectTrigger(list));
 }
 
+// @ts-ignore
 function fillTable(id, data, newTableRow_Nav, users) {
 	if (data) {
 		for (const name in data) {
@@ -230,6 +236,7 @@ function fillTable(id, data, newTableRow_Nav, users) {
 	}
 }
 
+// @ts-ignore
 function fillTableAction(data) {
 	if (data) {
 		for (const name in data) {
@@ -244,10 +251,13 @@ function fillTableAction(data) {
 
 function generatActionRow(user, action, result, editedRowUpdate) {
 	if (editedRowUpdate) {
+		// @ts-ignore
 		$(editedRowUpdate).empty().html(newTableRow_Action(action, result)?.replace("<tr>", "").replace("</tr>", ""));
+		// @ts-ignore
 	} else $(`.user_${user} .table_${action}`).append(newTableRow_Action(action, result));
 }
 
+// @ts-ignore
 function resetModal() {
 	$(".reset").each(function () {
 		$(this).val("");
@@ -279,6 +289,7 @@ function showSelectModal(showTrigger, show) {
 	else $("#btn_action_set").attr("disabled", "disabled");
 }
 //SECTION - Save 4 edit Values
+// @ts-ignore
 function insertEditValues(action, $this) {
 	const IDs = valuesToArray($this, "p[data-name='IDs']");
 	let newline, switchs, confirm, returnText, values, texts, picSendDelay, fileName;
@@ -297,6 +308,7 @@ function insertEditValues(action, $this) {
 		picSendDelay = valuesToArray($this, "p[data-name='picSendDelay']");
 		fileName = valuesToArray($this, "p[data-name='fileName']");
 	}
+	// @ts-ignore
 	IDs.forEach(function (element, key) {
 		if (key == 0) {
 			$(`#tab_${action} tbody input.set_id`).val(IDs[0].trim());
@@ -348,6 +360,7 @@ function insertEditValues(action, $this) {
 				_confirm,
 				_returnText,
 			];
+			// @ts-ignore
 			$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), array));
 		}
 	});
@@ -365,6 +378,7 @@ function valuesToArray($this, selector) {
 	return val;
 }
 
+// @ts-ignore
 function addNewGroup(users, newUser, _onChange) {
 	users.push(newUser);
 	createGroup("#group_list", [newUser], null, null, null);
@@ -377,6 +391,7 @@ function addNewGroup(users, newUser, _onChange) {
  *
  * @param {array} users Array of Users
  */
+// @ts-ignore
 function generateStartside(users) {
 	const obj = {};
 	users.forEach(function (user) {
@@ -390,6 +405,7 @@ function generateStartside(users) {
  * @param {*} socket
  * @returns
  */
+// @ts-ignore
 function getAllTelegramInstances(socket, _this) {
 	const id = [];
 	try {
@@ -413,6 +429,7 @@ function getAllTelegramInstances(socket, _this) {
 						}
 						if (i == doc.rows.length - 1) {
 							id.forEach((id) => {
+								// @ts-ignore
 								$("#select_instance").append(newSelectInstanceRow(id));
 							});
 						}
@@ -424,6 +441,7 @@ function getAllTelegramInstances(socket, _this) {
 		_this.log.debug("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
 }
+// @ts-ignore
 function showUser(activeGroup, showHideUserCheckbox) {
 	showHideUserEntry(activeGroup);
 
@@ -433,6 +451,7 @@ function showUser(activeGroup, showHideUserCheckbox) {
 	$(`#group_list li a[name=${activeGroup}]`).addClass("active");
 	if (showHideUserCheckbox) showHideUserCheckbox(activeGroup);
 }
+// @ts-ignore
 function checkValueModal(showTrigger) {
 	let show = true;
 	$(".checkValue").each(function () {
@@ -459,6 +478,7 @@ function checkValueModal(showTrigger) {
 
 	showSelectModal(showTrigger, show);
 }
+// @ts-ignore
 function disableValueInput() {
 	$(".switch_checkbox").each(function () {
 		if ($(this).is(":checked")) {

@@ -74,6 +74,8 @@ function userActivCheckbox(user, val) {
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected class="translate">Choose a trigger</option>';
 	list.forEach(function (e) {
+		//FIXME -
+		if (e.includes("menu:")) e = e.split(":")[2];
 		const dynamicChild = `<option value="${e}" >${e}</option>`;
 		element += dynamicChild;
 	});
@@ -247,15 +249,3 @@ function insertVal(result, entry) {
 function newSelectInstanceRow(id) {
 	return `<option value="${id}">${id}</option>`;
 }
-
-export {
-	newUserBtn,
-	navElement,
-	actionElement,
-	userActivCheckbox,
-	groupUserInput,
-	createSelectTrigger,
-	newTableRow_Action,
-	newTrInAction,
-	newSelectInstanceRow,
-};
