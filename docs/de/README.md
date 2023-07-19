@@ -51,7 +51,6 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 
 -   `menu:on-off:name:`
 -   `menu:yes-no:name:`
--   `menu:percent10:name:`
--   `menu:percent20:name:`
+-   `menu:percent10:name:` Die 10 gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
 
 ![Grafana](../pic/grafana.png)

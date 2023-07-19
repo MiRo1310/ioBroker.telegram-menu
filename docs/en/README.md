@@ -51,7 +51,6 @@ You can create different groups with separate menus, and then assign users to th
 
 -   `menu:on-off:name:`
 -   `menu:yes-no:name:`
--   `menu:percent10:name:`
--   `menu:percent20:name:`
+-   `menu:percent10:name:` The 10 indicates the steps, this can simply be replaced by another number.
 
 ![Grafana](../pic/grafana.png)
