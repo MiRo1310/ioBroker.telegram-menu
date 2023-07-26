@@ -22,7 +22,6 @@ let timeouts = [];
 let timeoutKey = 0;
 let setStateIds;
 let setStateIdsToListenTo;
-let restartAdapter = false;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -113,29 +112,26 @@ class TelegramMenu extends utils.Adapter {
 					}
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
-					if (!restartAdapter) {
-						try {
-							this.log.debug("GroupList " + JSON.stringify(userList));
-							userList.forEach((group) => {
-								this.log.debug("Group " + JSON.stringify(group));
-								const startside = [startsides[group]].toString();
-								if (userActiveCheckbox[group])
-									usersInGroup[group].forEach((user) => {
-										sendToTelegram(
-											_this,
-											user,
-											menu.data[group][startside].text,
-											menu.data[group][startside].nav,
-											instanceTelegram,
-											resize_keyboard,
-											one_time_keyboard,
-										);
-									});
-							});
-						} catch (error) {
-							console.log("Error read UserList" + error);
-						}
-						restartAdapter = false;
+					try {
+						this.log.debug("GroupList " + JSON.stringify(userList));
+						userList.forEach((group) => {
+							this.log.debug("Group " + JSON.stringify(group));
+							const startside = [startsides[group]].toString();
+							if (userActiveCheckbox[group])
+								usersInGroup[group].forEach((user) => {
+									sendToTelegram(
+										_this,
+										user,
+										menu.data[group][startside].text,
+										menu.data[group][startside].nav,
+										instanceTelegram,
+										resize_keyboard,
+										one_time_keyboard,
+									);
+								});
+						});
+					} catch (error) {
+						console.log("Error read UserList" + error);
 					}
 				}
 				let oldValue;
@@ -272,11 +268,6 @@ class TelegramMenu extends utils.Adapter {
 
 						if (state && id == `${instanceTelegram}.info.connection`) {
 							this.log.debug("Oldvalue " + JSON.stringify(oldValue));
-							if (!oldValue) {
-								this.log.debug("Restart Adapter Telegram Menu");
-								restartAdapter = true;
-								this.restart();
-							}
 							oldValue = state.val;
 							if (!state.val) telegramAktiv = false;
 						}
