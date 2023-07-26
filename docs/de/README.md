@@ -21,8 +21,9 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 -   Switch schaltet nur Booleans, es wechselt zwischen true und false
 -   Wenn man einen Wert angibt kann man diesen setzen
 -   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, Platzhalter für den Wert ist &&. Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach `{novalue}` ein
--   Um Values zu ändern , z.B. von true zu an und false zu aus , im Text `change{"true":"an", "false":"aus"}` eingeben
--   Grundsätzlich werde alle states mit `ack:true` gesetzt , möchte man aber `ack:false` setzen, dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte, trägt man dieses einfach in den Rückgabetext ein. Eine Bestätigung erfolgt dann erst wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat.
+-   Um Values zu ändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus , im Text `change{"true":"an", "false":"aus"}` eingeben
+-   Änderung!!!
+    -   Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte, wenn man aber `ack:false` setzen möchte, trägt man dieses einfach in den Rückgabetext ein. Eine Bestätigung erfolgt dann erst wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat.
 
 ### GetState
 
