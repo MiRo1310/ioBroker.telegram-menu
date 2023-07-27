@@ -1,6 +1,7 @@
 {
     " No entry, send to all Users.": "Нет записи, отправить всем пользователям.",
     "Action": "Действие",
+    "Active": "Активный",
     "Add": "добавлять",
     "Add && as a placeholder for the value in the text": "Добавьте && в качестве заполнителя для значения в тексте",
     "Add &amp;&amp; as a placeholder for the value in the text": "Добавьте && в качестве заполнителя для значения в тексте",

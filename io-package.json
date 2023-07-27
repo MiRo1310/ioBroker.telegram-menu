@@ -1,198 +1,193 @@
 {
-  "common": {
-    "name": "telegram-menu",
-    "version": "0.3.0",
-    "news": {
-      "0.3.0": {
-        "en": "add ack Flag\nCopy-Button to copy User-elements to activ User",
-        "de": "eine Seite hinzufügen\nCopy-Button zu kopieren Benutzerelemente zum Aktivieren",
-        "ru": "добавить ack Флаг\nCopy-Button для копирования Пользователи для активного пользователя",
-        "pt": "adicionar ack Flag\nCopiar botão para copiar Elementos de usuário para agir",
-        "nl": "ack Flag\nBegrepen. User-elements om User te acteren",
-        "fr": "ajouter le drapeau\nCopy-Button to copy Utilisateurs pour activer Utilisateur",
-        "it": "aggiungi una bandiera\nCopia pulsante per copiare Selezione utente per attivare l'Utente",
-        "es": "añadir ack Bandera\nCopiar-Button para copiar Elementos de usuario para activ Usuario",
-        "pl": "dodać flagę\nCopy-Button do kopienia Użytkowniki do aktywowania Użytkownicy",
-        "uk": "додати ack Прапор\nКопіювати кнопку Користувачі-елементи для активації Користувача",
-        "zh-cn": "增加包装滞后\n印本 使用器操作器"
-      },
-      "0.2.0": {
-        "en": "rename button\ncreate groups with users",
-        "de": "rename taste\ngruppen mit benutzern erstellen",
-        "ru": "переименовать кнопку\nсоздавать группы с пользователями",
-        "pt": "botão de renome\ncriar grupos com usuários",
-        "nl": "knoop\nvertaling:",
-        "fr": "renommer le bouton\ncréer des groupes avec des utilisateurs",
-        "it": "rinominare il pulsante\ncreare gruppi con utenti",
-        "es": "botón de renombre\ncrear grupos con usuarios",
-        "pl": "rename\ntworzenie grup dla użytkowników",
-        "uk": "кнопка перейменування\nстворювати групи з користувачами",
-        "zh-cn": "重新命名\n与用户建立团体"
-      },
-      "0.1.1": {
-        "en": "shift rows\nsmall fixes\nDarkmode fixed\noption, return text without value\nget all Values of functions",
-        "de": "schaltreihen\nkleine fixierungen\nDarkmode fest\noption, text ohne wert zurückgeben\nalle Werte der Funktionen",
-        "ru": "сменные строки\nнебольшие исправления\nDarkmode фиксированный\nвариант, обратный текст без значения\nполучить все значения функций",
-        "pt": "turnos\npequenas correções\nDarkmode corrigido\nopção, retornar texto sem valor\nobter todos os valores das funções",
-        "nl": "quality over quantity (qoq) releases vertaling:\nkleine fixes\nDarkmode gemaakt\noptie, terugkeren zonder waarde\nalle functies krijgen",
-        "fr": "lignes de quart\npetites corrections\nDarkmode fixed\noption, texte de retour sans valeur\nobtenir toutes les valeurs des fonctions",
-        "it": "spostare le righe\npiccole correzioni\nDarkmode fisso\nopzione, restituire il testo senza valore\nottenere tutti i valori delle funzioni",
-        "es": "turno de filas\npequeños accesorios\nModo oscuro fijo\nopción, devolver texto sin valor\nobtener todos los Valores de las funciones",
-        "pl": "rzędy zwrotne\ndrobne rozwiązanie\nDarkmode fixed\nopcja zwrotu tekstu bez wartości\nuzyskuje wszystkie funkcje",
-        "uk": "зсувні рядки\nмаленькі кріплення\nDarkmode фіксований\nваріант, повернення тексту без значення\nотримувати всі значення функцій",
-        "zh-cn": "更替\n小型配件\n达库姆固定\n备选案文:不附加价值的返回案文\n获得所有职能的价值"
-      },
-      "0.1.0": {
-        "en": "Fixes\nStyle\nConfirmation, that the value has been set\nSecond User Menu fixed",
-        "de": "Behebungen\nStil\nBestätigung, dass der Wert festgelegt wurde\nZweiter Benutzer Menü fix",
-        "ru": "Исправления\nСтиль\nПодтверждение, что стоимость была установлена\nВторой пользователь Меню фиксированное",
-        "pt": "Correções\nEstilo\nConfirmação, que o valor foi definido\nSegundo usuário Menu fixo",
-        "nl": "Vertaling:\nStyle\nBevestiging, dat de waarde is opgezet\nTweede Uer Menu gemaakt",
-        "fr": "Fixes\nStyle\nConfirmation, que la valeur a été déterminée\nSecond User Menu fixe",
-        "it": "Fissi\nStile\nConferma, che il valore è stato impostato\nSecondo utente Menu fisso",
-        "es": "Arreglos\nEstilo\nConfirmación, que se ha fijado el valor\nSegundo Usuario Menú fijo",
-        "pl": "Fix\nStyl\nTwierdzenie, że wartość została ustalona\nSecond User (ang.). Menutr",
-        "uk": "Фіксатори\nСтиль\nПідтвердження вартості\nДругий Користувач Меню фіксована",
-        "zh-cn": "固定\n评 注\n确认已确定价值\n第二个用户 男子固定"
-      },
-      "0.0.8": {
-        "en": "Send Grafana Diagrams",
-        "de": "Grafana-Diagramme senden",
-        "ru": "Отправить Grafana Диаграммы",
-        "pt": "Enviar Diagramas de Grafana",
-        "nl": "Stuur Grafana Diagram",
-        "fr": "Envoyer Diagrammes de Grafana",
-        "it": "Invia diagrammi Grafana",
-        "es": "Enviar diagramas de Grafana",
-        "pl": "Senna Diagram",
-        "uk": "Відправити граматику Grafana",
-        "zh-cn": "Send Grafana Diagram"
-      },
-      "0.0.7": {
-        "en": "Bugs fixed\nTranslate",
-        "de": "Fehler behoben\nÜbersetzung",
-        "ru": "Баги фиксированные\nПеревести",
-        "pt": "Bugs corrigidos\nTraduzir",
-        "nl": "Bugs gemaakt\nVertaling:",
-        "fr": "Bugs corrigés\nTraduire",
-        "it": "Bug fissi\nTraduttore",
-        "es": "Errores fijos\nTraducir",
-        "pl": "Bug\nTranslat",
-        "uk": "Виправлені помилки\nПереклад",
-        "zh-cn": "固定的黑体\n笔译"
-      },
-      "0.0.6": {
-        "en": "Fixed SetState and GetState\nTranslate",
-        "de": "Fixed SetState und GetState\nÜbersetzung",
-        "ru": "Фиксированный SetState и GetState\nПеревести",
-        "pt": "Fixo SetState e GetState\nTraduzir",
-        "nl": "Vertaling:\nVertaling:",
-        "fr": "Fixed SetState and GetState\nTraduire",
-        "it": "Set fissoState e GetState\nTraduttore",
-        "es": "SetState y GetState\nTraducir",
-        "pl": "Fixe SetState and GetState (ang.)\nTranslat",
-        "uk": "Фіксований SetState і GetState\nПереклад",
-        "zh-cn": "B. 固定的国家和国\n笔译"
-      }
-    },
-    "titleLang": {
-      "en": "Telegram Menu",
-      "de": "Telegramm-Menü",
-      "ru": "Меню телеграммы",
-      "pt": "Menu Telegram",
-      "nl": "Telegram-menu",
-      "fr": "Menu Télégramme",
-      "it": "Menù telegramma",
-      "es": "Menú de telegramas",
-      "pl": "menu telegramu",
-      "zh-cn": "电报菜单",
-      "uk": "Меню Telegram"
-    },
-    "desc": {
-      "en": "Easily create Telegram Menus",
-      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
-      "ru": "Легко создавать меню Telegram",
-      "pt": "Crie facilmente menus de telegrama",
-      "nl": "Maak eenvoudig Telegram-menu's",
-      "fr": "Créez facilement des menus de télégramme",
-      "it": "Crea facilmente menu di Telegram",
-      "es": "Crea fácilmente menús de Telegram",
-      "pl": "Z łatwością twórz menu telegramu",
-      "zh-cn": "轻松创建电报菜单",
-      "uk": "Легко створюйте меню Telegram"
-    },
-    "authors": [
-      "MiRo1310 <michael.roling@gmx.de>"
-    ],
-    "keywords": [
-      "telegram",
-      "menu"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "telegram-menu.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "messaging",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "materialize"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=3.3.22"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0",
-        "telegram": ">=1.15.0"
-      }
-    ]
-  },
-  "native": {
-    "nav": {},
-    "instance": "",
-    "data": {},
-    "checkbox": [],
-    "usersForGlobal": "",
-    "users": [],
-    "startsides": [],
-    "tokenGrafana": "",
-    "directory": "",
-    "userActiveCheckbox": [],
-    "usersInGroup": {},
-    "textNoEntry": ""
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+	"common": {
+		"name": "telegram-menu",
+		"version": "0.3.0",
+		"news": {
+			"0.3.0": {
+				"en": "add ack Flag\nCopy-Button to copy User-elements to activ User",
+				"de": "eine Seite hinzufügen\nCopy-Button zu kopieren Benutzerelemente zum Aktivieren",
+				"ru": "добавить ack Флаг\nCopy-Button для копирования Пользователи для активного пользователя",
+				"pt": "adicionar ack Flag\nCopiar botão para copiar Elementos de usuário para agir",
+				"nl": "ack Flag\nBegrepen. User-elements om User te acteren",
+				"fr": "ajouter le drapeau\nCopy-Button to copy Utilisateurs pour activer Utilisateur",
+				"it": "aggiungi una bandiera\nCopia pulsante per copiare Selezione utente per attivare l'Utente",
+				"es": "añadir ack Bandera\nCopiar-Button para copiar Elementos de usuario para activ Usuario",
+				"pl": "dodać flagę\nCopy-Button do kopienia Użytkowniki do aktywowania Użytkownicy",
+				"uk": "додати ack Прапор\nКопіювати кнопку Користувачі-елементи для активації Користувача",
+				"zh-cn": "增加包装滞后\n印本 使用器操作器"
+			},
+			"0.2.0": {
+				"en": "rename button\ncreate groups with users",
+				"de": "rename taste\ngruppen mit benutzern erstellen",
+				"ru": "переименовать кнопку\nсоздавать группы с пользователями",
+				"pt": "botão de renome\ncriar grupos com usuários",
+				"nl": "knoop\nvertaling:",
+				"fr": "renommer le bouton\ncréer des groupes avec des utilisateurs",
+				"it": "rinominare il pulsante\ncreare gruppi con utenti",
+				"es": "botón de renombre\ncrear grupos con usuarios",
+				"pl": "rename\ntworzenie grup dla użytkowników",
+				"uk": "кнопка перейменування\nстворювати групи з користувачами",
+				"zh-cn": "重新命名\n与用户建立团体"
+			},
+			"0.1.1": {
+				"en": "shift rows\nsmall fixes\nDarkmode fixed\noption, return text without value\nget all Values of functions",
+				"de": "schaltreihen\nkleine fixierungen\nDarkmode fest\noption, text ohne wert zurückgeben\nalle Werte der Funktionen",
+				"ru": "сменные строки\nнебольшие исправления\nDarkmode фиксированный\nвариант, обратный текст без значения\nполучить все значения функций",
+				"pt": "turnos\npequenas correções\nDarkmode corrigido\nopção, retornar texto sem valor\nobter todos os valores das funções",
+				"nl": "quality over quantity (qoq) releases vertaling:\nkleine fixes\nDarkmode gemaakt\noptie, terugkeren zonder waarde\nalle functies krijgen",
+				"fr": "lignes de quart\npetites corrections\nDarkmode fixed\noption, texte de retour sans valeur\nobtenir toutes les valeurs des fonctions",
+				"it": "spostare le righe\npiccole correzioni\nDarkmode fisso\nopzione, restituire il testo senza valore\nottenere tutti i valori delle funzioni",
+				"es": "turno de filas\npequeños accesorios\nModo oscuro fijo\nopción, devolver texto sin valor\nobtener todos los Valores de las funciones",
+				"pl": "rzędy zwrotne\ndrobne rozwiązanie\nDarkmode fixed\nopcja zwrotu tekstu bez wartości\nuzyskuje wszystkie funkcje",
+				"uk": "зсувні рядки\nмаленькі кріплення\nDarkmode фіксований\nваріант, повернення тексту без значення\nотримувати всі значення функцій",
+				"zh-cn": "更替\n小型配件\n达库姆固定\n备选案文:不附加价值的返回案文\n获得所有职能的价值"
+			},
+			"0.1.0": {
+				"en": "Fixes\nStyle\nConfirmation, that the value has been set\nSecond User Menu fixed",
+				"de": "Behebungen\nStil\nBestätigung, dass der Wert festgelegt wurde\nZweiter Benutzer Menü fix",
+				"ru": "Исправления\nСтиль\nПодтверждение, что стоимость была установлена\nВторой пользователь Меню фиксированное",
+				"pt": "Correções\nEstilo\nConfirmação, que o valor foi definido\nSegundo usuário Menu fixo",
+				"nl": "Vertaling:\nStyle\nBevestiging, dat de waarde is opgezet\nTweede Uer Menu gemaakt",
+				"fr": "Fixes\nStyle\nConfirmation, que la valeur a été déterminée\nSecond User Menu fixe",
+				"it": "Fissi\nStile\nConferma, che il valore è stato impostato\nSecondo utente Menu fisso",
+				"es": "Arreglos\nEstilo\nConfirmación, que se ha fijado el valor\nSegundo Usuario Menú fijo",
+				"pl": "Fix\nStyl\nTwierdzenie, że wartość została ustalona\nSecond User (ang.). Menutr",
+				"uk": "Фіксатори\nСтиль\nПідтвердження вартості\nДругий Користувач Меню фіксована",
+				"zh-cn": "固定\n评 注\n确认已确定价值\n第二个用户 男子固定"
+			},
+			"0.0.8": {
+				"en": "Send Grafana Diagrams",
+				"de": "Grafana-Diagramme senden",
+				"ru": "Отправить Grafana Диаграммы",
+				"pt": "Enviar Diagramas de Grafana",
+				"nl": "Stuur Grafana Diagram",
+				"fr": "Envoyer Diagrammes de Grafana",
+				"it": "Invia diagrammi Grafana",
+				"es": "Enviar diagramas de Grafana",
+				"pl": "Senna Diagram",
+				"uk": "Відправити граматику Grafana",
+				"zh-cn": "Send Grafana Diagram"
+			},
+			"0.0.7": {
+				"en": "Bugs fixed\nTranslate",
+				"de": "Fehler behoben\nÜbersetzung",
+				"ru": "Баги фиксированные\nПеревести",
+				"pt": "Bugs corrigidos\nTraduzir",
+				"nl": "Bugs gemaakt\nVertaling:",
+				"fr": "Bugs corrigés\nTraduire",
+				"it": "Bug fissi\nTraduttore",
+				"es": "Errores fijos\nTraducir",
+				"pl": "Bug\nTranslat",
+				"uk": "Виправлені помилки\nПереклад",
+				"zh-cn": "固定的黑体\n笔译"
+			},
+			"0.0.6": {
+				"en": "Fixed SetState and GetState\nTranslate",
+				"de": "Fixed SetState und GetState\nÜbersetzung",
+				"ru": "Фиксированный SetState и GetState\nПеревести",
+				"pt": "Fixo SetState e GetState\nTraduzir",
+				"nl": "Vertaling:\nVertaling:",
+				"fr": "Fixed SetState and GetState\nTraduire",
+				"it": "Set fissoState e GetState\nTraduttore",
+				"es": "SetState y GetState\nTraducir",
+				"pl": "Fixe SetState and GetState (ang.)\nTranslat",
+				"uk": "Фіксований SetState і GetState\nПереклад",
+				"zh-cn": "B. 固定的国家和国\n笔译"
+			}
+		},
+		"titleLang": {
+			"en": "Telegram Menu",
+			"de": "Telegramm-Menü",
+			"ru": "Меню телеграммы",
+			"pt": "Menu Telegram",
+			"nl": "Telegram-menu",
+			"fr": "Menu Télégramme",
+			"it": "Menù telegramma",
+			"es": "Menú de telegramas",
+			"pl": "menu telegramu",
+			"zh-cn": "电报菜单",
+			"uk": "Меню Telegram"
+		},
+		"desc": {
+			"en": "Easily create Telegram Menus",
+			"de": "Erstellen Sie ganz einfach Telegrammmenüs",
+			"ru": "Легко создавать меню Telegram",
+			"pt": "Crie facilmente menus de telegrama",
+			"nl": "Maak eenvoudig Telegram-menu's",
+			"fr": "Créez facilement des menus de télégramme",
+			"it": "Crea facilmente menu di Telegram",
+			"es": "Crea fácilmente menús de Telegram",
+			"pl": "Z łatwością twórz menu telegramu",
+			"zh-cn": "轻松创建电报菜单",
+			"uk": "Легко створюйте меню Telegram"
+		},
+		"authors": ["MiRo1310 <michael.roling@gmx.de>"],
+		"keywords": ["telegram", "menu"],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "telegram-menu.png",
+		"enabled": true,
+		"messagebox": true,
+		"extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+		"readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "messaging",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "materialize"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.0.0",
+				"telegram": ">=1.15.0"
+			}
+		]
+	},
+	"native": {
+		"nav": {},
+		"instance": "",
+		"data": {},
+		"checkbox": [],
+		"usersForGlobal": "",
+		"users": [],
+		"startsides": [],
+		"tokenGrafana": "",
+		"directory": "",
+		"userActiveCheckbox": [],
+		"usersInGroup": {},
+		"textNoEntry": ""
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
 }
