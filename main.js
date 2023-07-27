@@ -138,7 +138,7 @@ class TelegramMenu extends utils.Adapter {
 						console.log("Error read UserList" + error);
 					}
 				}
-				let oldValue, lastDeviceCalled;
+				let oldValue;
 				this.on("stateChange", async (id, state) => {
 					try {
 						let userToSend;
@@ -300,7 +300,7 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {string} userToSend
 		 */
 		function callSubMenu(_this, part, groupData, userToSend) {
-			let subMenuData = subMenu(_this, part, groupData, userToSend);
+			const subMenuData = subMenu(_this, part, groupData, userToSend);
 			_this.log.debug("SubMenuData " + JSON.stringify(subMenuData));
 			if (subMenuData && subMenuData[0]) sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1]);
 		}
