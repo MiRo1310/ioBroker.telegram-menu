@@ -179,6 +179,7 @@ class TelegramMenu extends utils.Adapter {
 										this.log.debug("Part.nav: " + JSON.stringify(part.nav));
 										//TODO -
 										if (JSON.stringify(part.nav).includes("menu")) {
+											this.log.debug("Submenu");
 											callSubMenu(this, part.nav, groupData, userToSend);
 										} else {
 											if (userToSend)
