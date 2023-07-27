@@ -49,8 +49,9 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 
 ### Submenus
 
--   `menu:on-off:name:`
+-   `menu:on-off:name:` Der name muss immer ein einzigartiger Name sein, dieser wird als Trigger in Aktion eingesetzt.
 -   `menu:yes-no:name:`
--   `menu:percent10:name:` Die 10 gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
+-   `menu:percent10:name:` Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
+-   `menu:number1-20-2-unit:name:` Die 1,20 ist variabel und gibt die Spanne an, die 2 die Schritte, und Unit die Einheit
 
 ![Grafana](../pic/grafana.png)

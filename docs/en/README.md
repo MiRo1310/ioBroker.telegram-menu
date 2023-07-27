@@ -49,8 +49,9 @@ You can create different groups with separate menus, and then assign users to th
 
 ### Submenus
 
--   `menu:on-off:name:`
+-   `menu:on-off:name:` The name must always be a unique name, this is used as a trigger in action.
 -   `menu:yes-no:name:`
 -   `menu:percent10:name:` The 10 indicates the steps, this can simply be replaced by another number.
+-   `menu:number1-20-2-unit:name:` The 1-20 is variable and indicates the span, the 2 the steps, and unit the unit
 
 ![Grafana](../pic/grafana.png)
