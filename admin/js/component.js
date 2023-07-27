@@ -70,10 +70,11 @@ function userActivCheckbox(user, val) {
   <span class="marginTop">${user} <span> </span><span class="translate">active</span>
   </span></div> `;
 }
-
+//SECTION - Trigger
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected class="translate">Choose a trigger</option>';
 	list.forEach(function (e) {
+		if (e.includes("menu:")) e = e.split(":")[2];
 		const dynamicChild = `<option value="${e}" >${e}</option>`;
 		element += dynamicChild;
 	});

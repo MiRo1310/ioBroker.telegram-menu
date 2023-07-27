@@ -15,6 +15,10 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 -   Schaltflächen müssen durch ein `,` und Zeilen durch `&&` getrennt sein
 -   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden
 -   Jeder Button darf nur einmal vorkommen
+-   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , yes-no oder Prozent für z.B. die Rolladensteuerung
+    -   Als erstes legt man ganz normal einen Button an in der Navigation
+    -   Dann eine neue Zeile mit dem Namen des Buttons als Call-Text und in die Navigationsspalte schreibt man z.B. `menu:on-off:name:` oder `menu:percent10:name:`. **name** muss ersetzt werden durch einen eindeutigen einmal vorkommenden namen, z.B. Rollo1, danach speichern
+    -   Durch das speichern wird in den Aktionen ein neuer Trigger erstellt , diesen muss man bei SetState auswählen und dann sucht man die passende ID raus die gesetzt werden soll, als Wert einfach ein `!` rein
 
 ### SetState
 
@@ -44,5 +48,12 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 -   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
 -   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
 -   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
+
+### Submenus
+
+-   `menu:on-off:name:` Der name muss immer ein einzigartiger Name sein, dieser wird als Trigger in Aktion eingesetzt.
+-   `menu:yes-no:name:`
+-   `menu:percent10:name:` Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
+-   `menu:number1-20-2-unit:name:` Die 1,20 ist variabel und gibt die Spanne an, die 2 die Schritte, und Unit die Einheit
 
 ![Grafana](../pic/grafana.png)

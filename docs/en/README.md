@@ -15,6 +15,10 @@ You can create different groups with separate menus, and then assign users to th
 -   Buttons must be separated by `,` and lines by `&&`
 -   All users must be spelled exactly as they were created in Telegram
 -   Each button may only appear once
+-   Various predefined submenus can be used, e.g. on-off , yes-no or percentage for e.g. the shutter control
+    -   First you create a button in the navigation as usual
+    -   Then a new line with the name of the button as call text and in the navigation column you write e.g. `menu:on-off:name:` or `menu:percent10:name:`. **name** must be replaced with a unique name, e.g. shutter1, then save
+    -   By saving, a new trigger is created in the actions, you have to select this at SetState and then you look for the appropriate ID that should be set, simply enter a `!` as a value
 
 ### SetState
 
@@ -43,5 +47,12 @@ You can create different groups with separate menus, and then assign users to th
 -   In action you have to specify the rendering URL, this can be found in Grafana on the diagram -> share -> (take out the time range lock so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file names must be different, otherwise the images will overwrite each other
 -   Delay the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
+
+### Submenus
+
+-   `menu:on-off:name:` The name must always be a unique name, this is used as a trigger in action.
+-   `menu:yes-no:name:`
+-   `menu:percent10:name:` The 10 indicates the steps, this can simply be replaced by another number.
+-   `menu:number1-20-2-unit:name:` The 1-20 is variable and indicates the span, the 2 the steps, and unit the unit
 
 ![Grafana](../pic/grafana.png)

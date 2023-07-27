@@ -1,5 +1,5 @@
-/*global newUserBtn,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn"}]*/
+/*global newUserBtn ,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
 /**
  *
@@ -16,9 +16,10 @@ function disableEnableInputField(checkbox, inputfield) {
  * @param {string} classes Class to browse for empty String
  * @returns boolean True Everything is ok
  */
-
+// @ts-ignore
 function isStringEmty(classes) {
 	let allOk = true;
+	// @ts-ignore
 	$(classes).each(function (key, element) {
 		if (element.value == "") {
 			$(element).parent().addClass("bg-error");
@@ -29,6 +30,7 @@ function isStringEmty(classes) {
 	});
 	return allOk;
 }
+// @ts-ignore
 function checkUpAndDownArrowBtn(activeuser) {
 	const lengthOfNavList = $(`tbody#${activeuser}.visibilityArrowBtn tr`).length - 1;
 	$(`tbody#${activeuser}.visibilityArrowBtn tr`).each(function (key) {
@@ -42,10 +44,12 @@ function checkUpAndDownArrowBtn(activeuser) {
 	});
 }
 
+// @ts-ignore
 function generateNav() {
 	const navigationArray = {};
 	const ids = [];
 	const nav = [];
+	// @ts-ignore
 	$(".nav-id").each((key, element) => {
 		ids.push(element.value);
 	});
