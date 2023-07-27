@@ -12,6 +12,7 @@ const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
 const generateActions = require("./lib/js/action").generateActions;
+const replaceValues = require("./lib/js/action").replaceValues;
 const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 
@@ -102,7 +103,8 @@ class TelegramMenu extends utils.Adapter {
 							const returnValue = generateActions(_this, action[name], menu.data[name]);
 							menu.data[name] = returnValue?.obj;
 							setStateIds = returnValue?.ids;
-							if (setStateIds && setStateIds?.length > 0) _setForeignStatesAsync(setStateIds, _this);
+							if (setStateIds && setStateIds?.length > 0)
+								_subscribeForeignStatesAsync(setStateIds, _this);
 							this.log.debug("SetForeignStates: " + JSON.stringify(setStateIds));
 							this.log.debug("Name " + JSON.stringify(name));
 							this.log.debug("Array Buttons: " + JSON.stringify(value));
@@ -234,28 +236,28 @@ class TelegramMenu extends utils.Adapter {
 										this.log.debug("Send Value " + JSON.stringify(element));
 										if (element.confirm != "false") {
 											this.log.debug("User " + JSON.stringify(element.userToSend));
-											let textToSend = element.returnText;
+
+											let textToSend = "";
+											textToSend = element.returnText;
 											// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
-											let value;
+											let value = "";
 											// Change set value in another Value, like true => on, false => off
-											let objChangeValue = {};
+											let result = {};
 											let valueChange = "";
 											if (textToSend.toString().includes("change{")) {
-												const startindex = textToSend.indexOf("change{");
-												const match = textToSend.substring(
-													startindex + "change".length + 1,
-													textToSend.indexOf("}", startindex),
-												);
-												objChangeValue = JSON.parse("{" + match + "}");
-												valueChange = objChangeValue[String(state.val)];
-												textToSend = textToSend.substring(0, startindex);
+												result = replaceValues(textToSend, state.val, this);
+												if (result) {
+													textToSend = result["textToSend"];
+													valueChange = result["valueChange"];
+												}
 											}
-											textToSend?.toString().includes("{novalue}")
-												? (value = "")
-												: (value = state.val);
-											textToSend = textToSend.replace("{novalue}", "");
+											if (textToSend?.toString().includes("{novalue}")) {
+												value = "";
+												textToSend = textToSend.replace("{novalue}", "");
+											} else if (state.val || state.val == false) value = state.val?.toString();
+
 											valueChange ? (value = valueChange) : value;
-											textToSend.indexOf("&amp;&amp;") != -1
+											textToSend.toString().indexOf("&amp;&amp;") != -1
 												? (textToSend = textToSend.replace("&amp;&amp;", value))
 												: (textToSend += " " + value);
 											sendToTelegram(this, element.userToSend, textToSend);
@@ -306,8 +308,9 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {Array} array
 		 * @param {*} _this
 		 */
-		function _setForeignStatesAsync(array, _this) {
+		function _subscribeForeignStatesAsync(array, _this) {
 			array.forEach((element) => {
+				_this.log.debug("Subscribe " + JSON.stringify(element));
 				_this.subscribeForeignStatesAsync(element);
 			});
 		}
