@@ -20,14 +20,14 @@ You can create different groups with separate menus, and then assign users to th
 
 -   Switch only toggles booleans, it switch between true and false
 -   If you specify a value, you can set it
--   It is possible to have the setting of the value confirmed, placeholder for the value is &&. If you do not want the set value to be sent, simply enter `{novalue}` in the return text
+-   It is possible to have the setting of the value confirmed, **as soon as `ack:true` is set**.A placeholder for the value is &&. If you do not want the set value to be sent, simply enter `{novalue}` in the return text
 -   Changed!!!
     -   To change values which will be ​​sent as return text, like true to on and false to off , write this in the text `change{"true":"on", "false":"off"}`
 -   Basically, all states are set with `ack:false`,this is basically necessary if you want to control adapters with it. But if you want to set `ack:true`, you simply enter this in the return text. A confirmation only occurs when the addressed adapter has set the value to ack:true.
 
 ### GetState
 
--   You can place the Value in the Text with `&&` as placeholder
+-   You can place the Value in the Text with `&&` as placeholder. You can influence the value with `change{"true":"on", "false":"off"}`, the same as setState
 
 #### Values ​​from created functions
 

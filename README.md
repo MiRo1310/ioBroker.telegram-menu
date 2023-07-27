@@ -33,6 +33,15 @@ You can create a separate menu for each user, or you can use the global user to 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-       change output value for getState
+-   checkbox to disbale Text No Entry found in the settings #34
+-   submenu
+-   **changed!!!**, states are always set with ack false
+-   adapter does not restart when telegram restarts #35
+
 ### 0.3.0 (2023-07-02)
 
 -   add ack Flag
