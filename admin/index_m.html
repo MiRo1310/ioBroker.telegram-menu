@@ -52,6 +52,7 @@
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeGroup)
 			checkUpAndDownArrowBtn(activeGroup)
+			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username
 			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
 			if (settings.instance) telegramInstance = settings.instance
@@ -359,6 +360,13 @@
 				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), undefined, rows))
 				$("#btn_action_set").attr("disabled", "disabled")
 			})
+
+			// Settings--------------------------------------------------------------------
+			$("#tab-settings").on("change", "#checkboxNoValueFound", function () {
+				disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
+
+			})
+
 			// --------------------------------------------------------------------------------
 			// Global Disable delete Button in Tables
 			$("div.adapter-container").on("DOMSubtreeModified", "table tbody", function () {
@@ -507,16 +515,6 @@
 					findElementsToCopy("#tab-nav tbody", "nav")
 				}
 				else findElementsToCopy(`#tab-action tbody[data-name='${$(this).val()}']`, $(this).val())
-
-				// if ($(this).val() == "set") {
-				// 	)
-				// }
-				// else if ($(this).val() == "get") {
-				// 	findElementsToCopy("#tab-action tbody[data-name='get']", "get")
-				// }
-				// else if ($(this).val() == "pic") {
-				// 	findElementsToCopy("#tab-action tbody[data-name='pic']", "pic")
-				// }
 			})
 			function findElementsToCopy(selektor, toDo) {
 				const $bodys = $(selektor).map((index, tbody) => {
@@ -799,6 +797,7 @@
 			</div>
 		</div>
 		<div id="tab-action"></div>
+		<!-- //SECTION - Settings -->
 		<div id="tab-settings">
 			<div class=" row">
 				<div class="col s12">
@@ -814,6 +813,13 @@
 						<div class="col s3">
 							<input id="textNoEntry" type="text" class="value translateV" value="Entry not found!">
 							<label for="textNoEntry" class="translate">Text will be send if no entry was found!</label>
+						</div>
+						<div class="input-field col s3">
+							<label>
+								<input id="checkboxNoValueFound" type="checkbox" class="filled-in valCheckbox"
+									checked />
+								<span class="translate">Active</span>
+							</label>
 						</div>
 					</div>
 					<div class="row">

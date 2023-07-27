@@ -57,6 +57,7 @@ class TelegramMenu extends utils.Adapter {
 		const checkbox = this.config.checkbox;
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
+		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
 		const userList = this.config.users;
 		const startsides = this.config.startsides;
 		let token = this.config.tokenGrafana;
@@ -219,7 +220,7 @@ class TelegramMenu extends utils.Adapter {
 									}
 								} else {
 									if (typeof userToSend == "string")
-										sendToTelegram(this, userToSend, textNoEntryFound);
+										if (checkboxNoEntryFound) sendToTelegram(this, userToSend, textNoEntryFound);
 								}
 								// Auf Setstate reagieren und Wert schicken
 							} else if (
