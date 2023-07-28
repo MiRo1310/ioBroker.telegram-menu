@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.4.0 (2023-07-28)
 
 -   change output value for getState
 -   checkbox to disbale Text No Entry found in the settings #34
