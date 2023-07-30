@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.4.2 (2023-07-30)
 
 -   menu switch ersetzt menu yes-no, on-off, it is possible to customize text and value with this menu
 

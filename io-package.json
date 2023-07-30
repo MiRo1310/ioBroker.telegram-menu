@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "news": {
+      "0.4.2": {
+        "en": "menu switch ersetzt menu yes-no, on-off, it is possible to customize text and value with this menu",
+        "de": "menüschalter ersetzen ja-nein, on-off, es ist möglich, text und wert mit diesem menü anpassen",
+        "ru": "меню переключатель ersetzt меню yes-no, on-off, можно настроить текст и значение с этим меню",
+        "pt": "menu switch ersetzt menu sim-no, on-off, é possível personalizar texto e valor com este menu",
+        "nl": "menu wisselen van ersetzt menu ja-op-off, het is mogelijk om tekst en waarde te gebruiken met deze menukaart",
+        "fr": "menu switch ersetzt menu oui-non, off-off, il est possible de personnaliser le texte et la valeur avec ce menu",
+        "it": "menu switch ersetzt menu yes-no, on-off, è possibile personalizzare testo e valore con questo menu",
+        "es": "menu switch ersetzt menu yes-no, on-off, es posible personalizar texto y valor con este menú",
+        "pl": "menu przełącza ersetzt menu yes-no, on-off, jest możliwe do dostosowania tekstu i wartości z tymi menu",
+        "uk": "меню переключення ersetzt меню так-но, on-off, можна налаштувати текст та значення з цим меню",
+        "zh-cn": "男性转化的男性是双赢的,有可能使文本和价值与这一男人定制。"
+      },
       "0.4.1": {
         "en": "Return text for submenus adjusted",
         "de": "Rückgabetext für submenus angepasst",
@@ -80,19 +93,6 @@
         "pl": "Fix\nStyl\nTwierdzenie, że wartość została ustalona\nSecond User (ang.). Menutr",
         "uk": "Фіксатори\nСтиль\nПідтвердження вартості\nДругий Користувач Меню фіксована",
         "zh-cn": "固定\n评 注\n确认已确定价值\n第二个用户 男子固定"
-      },
-      "0.0.8": {
-        "en": "Send Grafana Diagrams",
-        "de": "Grafana-Diagramme senden",
-        "ru": "Отправить Grafana Диаграммы",
-        "pt": "Enviar Diagramas de Grafana",
-        "nl": "Stuur Grafana Diagram",
-        "fr": "Envoyer Diagrammes de Grafana",
-        "it": "Invia diagrammi Grafana",
-        "es": "Enviar diagramas de Grafana",
-        "pl": "Senna Diagram",
-        "uk": "Відправити граматику Grafana",
-        "zh-cn": "Send Grafana Diagram"
       }
     },
     "titleLang": {
