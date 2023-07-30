@@ -49,11 +49,12 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 -   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
 -   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
 
+    <img src="../pic/grafana.png" width="50%">
+
 ### Submenus
 
 -   `menu:on-off:name:` Der name muss immer ein einzigartiger Name sein, dieser wird als Trigger in Aktion eingesetzt.
 -   `menu:yes-no:name:`
 -   `menu:percent10:name:` Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
 -   `menu:number1-20-2-unit:name:` Die 1,20 ist variabel und gibt die Spanne an, die 2 die Schritte, und Unit die Einheit
-
-![Grafana](../pic/grafana.png)
+    <a href="../pic/submenu_nav.png" rel="some text"><img src="../pic/submenu_nav.png" width="300" alt="" /></a>
