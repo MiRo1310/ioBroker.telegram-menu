@@ -1,5 +1,9 @@
 "use strict";
 
+let setStateIdsToListenTo;
+function sendIdToOtherFile(Ids) {
+	setStateIdsToListenTo = Ids;
+}
 /*
  * Created with @iobroker/create-adapter v2.3.0
  */
@@ -22,8 +26,7 @@ const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu
 
 let timeouts = [];
 let timeoutKey = 0;
-let setStateIds;
-let setStateIdsToListenTo;
+let subscribeForeignStateIds;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -103,10 +106,10 @@ class TelegramMenu extends utils.Adapter {
 							this.log.debug("New Structure: " + JSON.stringify(menu.data[name]));
 							const returnValue = generateActions(_this, action[name], menu.data[name]);
 							menu.data[name] = returnValue?.obj;
-							setStateIds = returnValue?.ids;
-							if (setStateIds && setStateIds?.length > 0)
-								_subscribeForeignStatesAsync(setStateIds, _this);
-							this.log.debug("SetForeignStates: " + JSON.stringify(setStateIds));
+							subscribeForeignStateIds = returnValue?.ids;
+							if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0)
+								_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
+							this.log.debug("SetForeignStates: " + JSON.stringify(subscribeForeignStateIds));
 							this.log.debug("Name " + JSON.stringify(name));
 							this.log.debug("Array Buttons: " + JSON.stringify(value));
 							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
@@ -278,6 +281,9 @@ class TelegramMenu extends utils.Adapter {
 										}
 									}
 								});
+							} else {
+								this.log.debug("else " + JSON.stringify(id));
+								this.log.debug("else " + JSON.stringify(setStateIdsToListenTo));
 							}
 						}
 
@@ -287,11 +293,12 @@ class TelegramMenu extends utils.Adapter {
 							if (!state.val) telegramAktiv = false;
 						}
 					} catch (e) {
-						this.log.debug("Error " + JSON.stringify(e));
+						this.log.debug("Error1 " + JSON.stringify(e));
 					}
 				});
 			}
 		});
+
 		/**
 		 *
 		 * @param {*} _this
@@ -301,6 +308,8 @@ class TelegramMenu extends utils.Adapter {
 		 */
 		function callSubMenu(_this, part, groupData, userToSend) {
 			const subMenuData = subMenu(_this, part, groupData, userToSend);
+			if (subMenuData && subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
+
 			_this.log.debug("SubMenuData " + JSON.stringify(subMenuData));
 			if (subMenuData && subMenuData[0]) sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1]);
 		}
@@ -353,6 +362,7 @@ class TelegramMenu extends utils.Adapter {
 	}
 }
 
+module.exports = { sendIdToOtherFile };
 if (require.main !== module) {
 	// Export the constructor in compact mode
 	/**
