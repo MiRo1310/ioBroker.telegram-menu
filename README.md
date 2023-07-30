@@ -34,6 +34,10 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   Return text for submenus adjusted
+
 ### 0.4.0 (2023-07-28)
 
 -   change output value for getState
