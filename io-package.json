@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "news": {
+      "0.4.1": {
+        "en": "Return text for submenus adjusted",
+        "de": "Rückgabetext für submenus angepasst",
+        "ru": "Вернуться текст для подменю скорректирован",
+        "pt": "Texto de retorno para submenus ajustado",
+        "nl": "Een terugkeer sms voor submenus aangepast",
+        "fr": "Texte de retour pour les sous-menus ajustés",
+        "it": "Testo di ritorno per submenus regolato",
+        "es": "Texto de retorno para submenú ajustado",
+        "pl": "Powtórne teksty do podmenu poprawiły",
+        "uk": "Повернення тексту для підменю",
+        "zh-cn": "调整的分遣案文"
+      },
       "0.4.0": {
         "en": "change output value for getState\ncheckbox to disbale Text No Entry found in the settings #34\nsubmenu\n**changed!!!**, states are always set with ack false\nadapter does not restart when telegram restarts #35",
         "de": "ausgabewert ändern für getState\ncheckbox zum Ausbalieren Text Kein Eintrag gefunden in den Einstellungen #34\nunterpositionen\ngeändert! zustände werden immer mit ack false gesetzt\nadapter startet nicht neu, wenn telegramm neu gestartet #35",
@@ -80,19 +93,6 @@
         "pl": "Senna Diagram",
         "uk": "Відправити граматику Grafana",
         "zh-cn": "Send Grafana Diagram"
-      },
-      "0.0.7": {
-        "en": "Bugs fixed\nTranslate",
-        "de": "Fehler behoben\nÜbersetzung",
-        "ru": "Баги фиксированные\nПеревести",
-        "pt": "Bugs corrigidos\nTraduzir",
-        "nl": "Bugs gemaakt\nVertaling:",
-        "fr": "Bugs corrigés\nTraduire",
-        "it": "Bug fissi\nTraduttore",
-        "es": "Errores fijos\nTraducir",
-        "pl": "Bug\nTranslat",
-        "uk": "Виправлені помилки\nПереклад",
-        "zh-cn": "固定的黑体\n笔译"
       }
     },
     "titleLang": {
