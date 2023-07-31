@@ -79,5 +79,7 @@ menu:back
 ```
 
 -   Wechselt zur letzten aufgerufenen Seite zurück
+
+    <br>
     <img src="../pic/submenu_nav.png" width="400"/> <img src="../pic/menu_percent10_r2.png" width="400"/>
     <img src="../pic/submenu_setstate.png" width="600"/>
