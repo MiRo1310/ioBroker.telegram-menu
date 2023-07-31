@@ -52,8 +52,8 @@ class TelegramMenu extends utils.Adapter {
 		const telegramID = `${instanceTelegram}.communicate.request`;
 		if (instanceTelegram.length == 0) instanceTelegram = "telegram.0";
 		const datapoint = `${instanceTelegram}.info.connection`;
-		this.log.debug("Instance " + JSON.stringify(instanceTelegram));
-		this.log.debug("Datapoint " + JSON.stringify(datapoint));
+		this.log.debug("Instance: " + JSON.stringify(instanceTelegram));
+		this.log.debug("Datapoint: " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
 		/**
@@ -109,7 +109,7 @@ class TelegramMenu extends utils.Adapter {
 							subscribeForeignStateIds = returnValue?.ids;
 							if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0)
 								_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
-							this.log.debug("SetForeignStates: " + JSON.stringify(subscribeForeignStateIds));
+							this.log.debug("SubscribeForeignStates: " + JSON.stringify(subscribeForeignStateIds));
 							this.log.debug("Name " + JSON.stringify(name));
 							this.log.debug("Array Buttons: " + JSON.stringify(value));
 							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
@@ -281,9 +281,6 @@ class TelegramMenu extends utils.Adapter {
 										}
 									}
 								});
-							} else {
-								this.log.debug("else " + JSON.stringify(id));
-								this.log.debug("else " + JSON.stringify(setStateIdsToListenTo));
 							}
 						}
 
@@ -321,7 +318,6 @@ class TelegramMenu extends utils.Adapter {
 		 */
 		function _subscribeForeignStatesAsync(array, _this) {
 			array.forEach((element) => {
-				_this.log.debug("Subscribe " + JSON.stringify(element));
 				_this.subscribeForeignStatesAsync(element);
 			});
 		}
