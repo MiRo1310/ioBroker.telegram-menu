@@ -53,12 +53,26 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 
 ### Submenus
 
-    -   Die Menus werden in die Navigation eingetragen um sie aufzurufen
-    -   Der name muss immer ein einzigartiger Name sein, darf also immer nur einmal vorkommen und verweist dann auf den Trigger in Aktion, wo die ID angegeben wird.
+-   Die Menus werden in die Navigation eingetragen um sie aufzurufen
+-   Der name muss immer ein einzigartiger Name sein, darf also immer nur einmal vorkommen und verweist dann auf den Trigger in Aktion, wo die ID angegeben wird.
 
--   `menu:switch-on.true-off.false:name:` Es kann jeder Wert ersetzt werden, on und off sind die Buttons, true und false werden automatisch zu booleans gewandelt, kann aber auch durch Text ersetzt werden
--   `menu:percent10:name:` Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
--   `menu:number1-20-2-unit:name:` Die 1,20 gibt die Spanne an, die 2 die Schritte, und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
+```
+ menu:switch-on.true-off.false:name:
+```
+
+-   Es kann jeder Wert ersetzt werden, on und off sind die Buttons, true und false werden automatisch zu booleans gewandelt, kann aber auch durch Text ersetzt werden
+
+```
+menu:percent10:name:
+```
+
+-   Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
+
+```
+menu:number1-20-2-unit:name:
+```
+
+-   Die 1,20 gibt die Spanne an, die 2 die Schritte, und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
 
     <img src="../pic/submenu_nav.png" width="400"/> <img src="../pic/menu_percent10_r2.png" width="400"/>
     <img src="../pic/submenu_setstate.png" width="600"/>
