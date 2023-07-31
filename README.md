@@ -34,6 +34,7 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
+-   no spellcheck for input fields
 -   menu go back to last Side
 
 ### 0.4.2 (2023-07-30)
