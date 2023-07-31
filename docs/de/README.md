@@ -74,5 +74,10 @@ menu:number1-20-2-unit:name:
 
 -   Die 1,20 gibt die Spanne an, die 2 die Schritte, und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
 
+```
+menu:back
+```
+
+-   Wechselt zur letzten aufgerufenen Seite zurück
     <img src="../pic/submenu_nav.png" width="400"/> <img src="../pic/menu_percent10_r2.png" width="400"/>
     <img src="../pic/submenu_setstate.png" width="600"/>

@@ -20,6 +20,7 @@ const replaceValues = require("./lib/js/action").replaceValues;
 const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 const subMenu = require("./lib/js/subMenu").subMenu;
+const backMenuFuc = require("./lib/js/subMenu").backMenuFuc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
 // const lichtAn = require("./lib/js/action").lichtAn;
 // const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
@@ -126,6 +127,7 @@ class TelegramMenu extends utils.Adapter {
 							const startside = [startsides[group]].toString();
 							if (userActiveCheckbox[group])
 								usersInGroup[group].forEach((user) => {
+									backMenuFuc(this, startside, null, user);
 									sendToTelegram(
 										_this,
 										user,
@@ -179,12 +181,13 @@ class TelegramMenu extends utils.Adapter {
 										this.log.debug("User to send: " + JSON.stringify(userToSend));
 										this.log.debug("Todo " + JSON.stringify(calledValue));
 										this.log.debug("Part.nav: " + JSON.stringify(part.nav));
-										//TODO -
+										backMenuFuc(this, calledValue, part.nav, userToSend);
 										if (JSON.stringify(part.nav).includes("menu")) {
 											this.log.debug("Submenu");
 											callSubMenu(this, part.nav, groupData, userToSend);
 										} else {
-											if (userToSend)
+											if (userToSend) {
+												this.log.debug("Send Nav to Telegram");
 												sendToTelegram(
 													this,
 													userToSend,
@@ -194,6 +197,7 @@ class TelegramMenu extends utils.Adapter {
 													resize_keyboard,
 													one_time_keyboard,
 												);
+											}
 										}
 									}
 									// Schalten
@@ -220,6 +224,7 @@ class TelegramMenu extends utils.Adapter {
 												timeoutKey += 1;
 												const path = `${directoryPicture}${element.fileName}`;
 												const timeout = this.setTimeout(async () => {
+													this.log.debug("Send Pic to Telegram");
 													sendToTelegram(_this, userToSend, path);
 
 													let timeoutToClear = {};
@@ -236,8 +241,8 @@ class TelegramMenu extends utils.Adapter {
 								} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
 									callSubMenu(this, calledValue, groupData, userToSend);
 								} else {
-									if (typeof userToSend == "string")
-										if (checkboxNoEntryFound) sendToTelegram(this, userToSend, textNoEntryFound);
+									if (typeof userToSend == "string") this.log.debug("Send No Entry to Telegram");
+									if (checkboxNoEntryFound) sendToTelegram(this, userToSend, textNoEntryFound);
 								}
 								// Auf Setstate reagieren und Wert schicken
 							} else if (
@@ -275,6 +280,7 @@ class TelegramMenu extends utils.Adapter {
 											textToSend.toString().indexOf("&amp;&amp;") != -1
 												? (textToSend = textToSend.replace("&amp;&amp;", value))
 												: (textToSend += " " + value);
+											this.log.debug("Send Set to Telegram");
 											sendToTelegram(this, element.userToSend, textToSend);
 											// Die Elemente auf die Reagiert wurde entfernen
 											setStateIdsToListenTo.splice(key, 1);
@@ -304,7 +310,15 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {string} userToSend
 		 */
 		function callSubMenu(_this, part, groupData, userToSend) {
-			const subMenuData = subMenu(_this, part, groupData, userToSend);
+			const subMenuData = subMenu(
+				_this,
+				part,
+				groupData,
+				userToSend,
+				instanceTelegram,
+				resize_keyboard,
+				one_time_keyboard,
+			);
 			if (subMenuData && subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
 
 			_this.log.debug("SubMenuData " + JSON.stringify(subMenuData));
