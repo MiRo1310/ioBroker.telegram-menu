@@ -4,7 +4,7 @@
 function groupUserInput(user, val) {
 	return /*html*/ `<div class="${user}">
   <label >
-    <input name="${user}" type="text" value="${val}" >
+    <input name="${user}" spellcheck="false" type="text" value="${val}" >
     <span class="translate">Users for this Group, seperate with</span><span> ",".</span>
   </label>
 </div>`;
@@ -46,9 +46,9 @@ function newTableRow_Nav(activuser, users, array) {
 	}
 	return /*html*/ `
   <tr>
-    <td><input type="text" data-name="call" class="isString nav-call" value="${call}"></td>
-    <td><input type="text" data-name="value" class="isString nav-value" value="${value}"></td>
-    <td><input type="text" data-name="text" class="isString nav-text" value="${text}"></td>    
+    <td><input type="text" data-name="call" spellcheck="false" class="isString nav-call" value="${call}"></td>
+    <td><input type="text" data-name="value" spellcheck="false" class="isString nav-value" value="${value}"></td>
+    <td><input type="text" data-name="text" spellcheck="false" class="isString nav-text" value="${text}"></td>    
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
@@ -70,7 +70,7 @@ function userActivCheckbox(user, val) {
   <span class="marginTop">${user} <span> </span><span class="translate">active</span>
   </span></div> `;
 }
-//SECTION - Trigger
+//SECTION -  - Trigger
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected class="translate">Choose a trigger</option>';
 	list.forEach(function (e) {
@@ -88,18 +88,18 @@ function newTrInAction(val, array, rows) {
 	}
 	if (val === "get")
 		return /*html*/ `<tr class="onResetDelete">
-  <td> <input  class="get_id checkValue" value="${array[0]}" type="text"></td>
+  <td> <input  class="get_id checkValue" spellcheck="false" value="${array[0]}" type="text"></td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
-  <td><input class="get_text checkValue" type="text" value="${array[1]}"></td>
+  <td><input class="get_text checkValue" spellcheck="false" type="text" value="${array[1]}"></td>
   <td><label><input type="checkbox" class="filled-in newline_checkbox" ${array[2]} /><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i class="material-icons">delete</i></a></td>								
 </tr>`;
 	if (val === "set")
 		return /*html*/ `<tr class="onResetDelete">
-  <td> <input  class="set_id checkValue" type="text" value="${array[0]}"></td>
+  <td> <input  class="set_id checkValue" spellcheck="false" type="text" value="${array[0]}"></td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
-  <td><input class="set_value checkValueSwitch" type="text" value="${array[3]}"></td>
-  <td><input class="returnText resetInput " type="text" value="${array[8]}"></td>
+  <td><input class="set_value checkValueSwitch" spellcheck="false" type="text" value="${array[3]}"></td>
+  <td><input class="returnText resetInput " spellcheck="false" type="text" value="${array[8]}"></td>
 	<td><label><input type="checkbox" class="filled-in confirm_checkbox" ${array[7]}/><span></span></label></td>
   <td><label><input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
@@ -107,11 +107,10 @@ function newTrInAction(val, array, rows) {
 </tr>`;
 	if (val === "pic")
 		return /*html*/ `<tr class="onResetDelete">
-  <td><input class="pic_IDs  checkValue" type="text" value="${array[0]}"></td>
-  <td><input class="pic_fileName checkValue" type="text" placeholder="grafanaX.png" value="${array[6]}"></td>
-  <td><input class="pic_picSendDelay " type="text" placeholder="5000" value="${array[5]}"></td>
-  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i class="material-icons">delete</i></a></td>
-  
+  <td><input class="pic_IDs  checkValue" spellcheck="false" type="text" value="${array[0]}"></td>
+  <td><input class="pic_fileName checkValue" spellcheck="false" type="text" placeholder="grafanaX.png" value="${array[6]}"></td>
+  <td><input class="pic_picSendDelay " spellcheck="false" type="number" placeholder="5000" value="${array[5]}"></td>
+  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i class="material-icons">delete</i></a></td>  
 </tr>`;
 }
 //SECTION - Save 2
