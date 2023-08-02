@@ -326,7 +326,7 @@ function insertEditValues(action, $this) {
 			$(`#tab_${action} tbody input.pic_IDs`).val(IDs[0].trim());
 			if (values) $(`#tab_${action} tbody input.set_value`).val(values[0].trim());
 			if (returnText) $(`#tab_${action} tbody input.returnText`).val(returnText[0].trim().replace(/&amp;/g, "&"));
-			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].trim().replace(/&amp;/g, "&"));
+			if (texts) $(`#tab_${action} tbody input.get_text`).val(texts[0].replace(/&amp;/g, "&"));
 			if (picSendDelay) $(`#tab_${action} tbody input.pic_picSendDelay`).val(picSendDelay[0].trim());
 			if (fileName) $(`#tab_${action} tbody input.pic_fileName`).val(fileName[0].trim());
 
@@ -356,7 +356,7 @@ function insertEditValues(action, $this) {
 			if (confirm && confirm[key].trim() == "true") _confirm = "checked";
 			if (values) _values = values[key].trim();
 			if (returnText) _returnText = returnText[key].trim();
-			if (texts) _texts = texts[key].trim();
+			if (texts) _texts = texts[key];
 			if (picSendDelay) _picSendDelay = picSendDelay[key].trim();
 			if (fileName) _fileName = fileName[key].trim();
 			const array = [
