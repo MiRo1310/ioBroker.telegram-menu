@@ -33,6 +33,7 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
 ### GetState
 
 -   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beinflussen mit `change{"true":"an", "false":"aus"}`.
+-   Value umrechnen `{math:/10}` zum Beispiel wird hier durch 10 geteilt
 
 #### Werte aus erstellten Funktionen
 
