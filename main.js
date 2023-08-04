@@ -143,7 +143,6 @@ class TelegramMenu extends utils.Adapter {
 						console.log("Error read UserList" + error);
 					}
 				}
-				let oldValue;
 				this.on("stateChange", async (id, state) => {
 					try {
 						let userToSend;
@@ -291,9 +290,12 @@ class TelegramMenu extends utils.Adapter {
 						}
 
 						if (state && id == `${instanceTelegram}.info.connection`) {
-							this.log.debug("Oldvalue " + JSON.stringify(oldValue));
-							oldValue = state.val;
-							if (!state.val) telegramAktiv = false;
+							if (!state.val) {
+								telegramAktiv = false;
+								this.setState("info.connection", false, true);
+							} else {
+								this.setState("info.connection", true, true);
+							}
 						}
 					} catch (e) {
 						this.log.debug("Error1 " + JSON.stringify(e));
