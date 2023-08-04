@@ -295,6 +295,7 @@ class TelegramMenu extends utils.Adapter {
 								this.setState("info.connection", false, true);
 							} else {
 								this.setState("info.connection", true, true);
+								telegramAktiv = true;
 							}
 						}
 					} catch (e) {
