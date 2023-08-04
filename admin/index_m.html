@@ -57,6 +57,8 @@
 			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
+			console.log("Telegram Instance: " + settings.instance)
+			setInstanceSelect(telegramInstance)
 			translateAll()
 
 

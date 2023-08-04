@@ -1,6 +1,9 @@
 /*global newUserBtn ,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction, newSelectInstanceRow,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
+function setInstanceSelect(instance) {
+	$("#select_instance").val(instance);
+}
 /**
  *
  * @param {string} checkbox ID of the checkbox
@@ -223,6 +226,7 @@ function splitTextInArray(activeGroup) {
 }
 
 //ANCHOR - Trigger erstellen
+//TODO -
 // @ts-ignore
 function generateSelectTrigger(activeGroup) {
 	const list = splitTextInArray(activeGroup);
