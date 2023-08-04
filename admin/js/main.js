@@ -222,6 +222,7 @@ function splitTextInArray(activeGroup) {
 	return value_list;
 }
 
+//ANCHOR - Trigger erstellen
 // @ts-ignore
 function generateSelectTrigger(activeGroup) {
 	const list = splitTextInArray(activeGroup);
