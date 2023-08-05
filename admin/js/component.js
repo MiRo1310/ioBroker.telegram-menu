@@ -18,11 +18,12 @@ function navElement(user) {
 	return /*html*/ `
   <tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values visibilityArrowBtn" style="display:none">
     <tr class="startRow">
-      <td><input type="text" data-name="call" spellcheck="false" class="isString nav-call translateV startside" value="Startside" ></td>
-      <td><input type="text" data-name="value" spellcheck="false" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
+      <td><input type="text" data-name="call" spellcheck="false" class="nav-call translateV startside" value="Startside" ></td>
+      <td><input type="text" data-name="value" spellcheck="false" class="nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
       <td><input type="text" data-name="text" spellcheck="false" class="isString nav-text" value="Wähle eine Aktion"></td>
       <td></td>
       <td></td>    
+      <td></td>
       <td></td>
     </tr>
 	</tbody>`;
@@ -52,6 +53,7 @@ function newTableRow_Nav(activuser, users, array) {
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
+    <td><a class="btn-floating btn-small waves-effect waves-light green btn_add_row"><i class="material-icons">add</i></a></td>
   </tr>`;
 }
 

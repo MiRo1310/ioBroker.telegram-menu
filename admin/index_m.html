@@ -255,26 +255,24 @@
 			$("header ul").on("click", ".btn_nav", function () {
 				activeBtn = $(this).attr("name")
 				if (activeBtn === "nav") {
-					$("#btn_add_nav").show()
 					$("#btn_add_action").hide()
 					$("#infoNav").show()
 					$("#group_menu").show()
 				} else if (activeBtn === "action") {
-					$("#btn_add_nav").hide()
 					$("#btn_add_action").show()
 					$("#infoNav").hide()
 					$("#group_menu").show()
 				}
 				else {
-					$("#btn_add_nav").hide()
 					$("#btn_add_action").hide()
 					$("#infoNav").hide()
 					$("#group_menu").hide()
 				}
 				translateAll()
 			})
-			$("#btn_add_nav").click(function () {
-				$(`#${activeGroup}`).append(newTableRow_Nav(activeGroup, users))
+			//FIXME - 
+			$(".adapter-container").on("click", ".btn_add_row", function () {
+				$(this).parent().parent().before(newTableRow_Nav(activeGroup, users))
 				checkUpAndDownArrowBtn(activeGroup)
 			})
 
@@ -760,9 +758,6 @@
 							<a class="btn-add btn-floating btn-large waves-effect waves-light green translateT modal-trigger"
 								id="btn_add_action" name="action" title="Add new Action" data-target="tab_action"
 								style="display: none;"><i class="material-icons translate ">add</i></a>
-							<a class="btn-add btn-floating btn-large waves-effect waves-light green translateT"
-								id="btn_add_nav" name="nav" title="Add new Navigation"><i
-									class="material-icons translate ">add</i></a>
 							<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT"
 								id="btn_copy_nav" name="nav" title="Copy Elementes from other Groups"><i
 									class="material-icons translate ">content_copy</i></a>
@@ -791,6 +786,7 @@
 										Navigation</th>
 									<th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
 										Text</th>
+									<th style="background: #64b5f6; width: 40.4px;"></th>
 									<th style="background: #64b5f6; width: 40.4px;"></th>
 									<th style="background: #64b5f6; width: 40.4px;"></th>
 									<th style="background: #64b5f6; width: 40.4px;"></th>

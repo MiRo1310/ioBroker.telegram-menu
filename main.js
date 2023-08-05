@@ -63,7 +63,7 @@ class TelegramMenu extends utils.Adapter {
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
-		const userList = this.config.users;
+		const listofGroups = this.config.users;
 		const startsides = this.config.startsides;
 		let token = this.config.tokenGrafana;
 		const directoryPicture = this.config.directory;
@@ -120,23 +120,24 @@ class TelegramMenu extends utils.Adapter {
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
 					try {
-						this.log.debug("GroupList: " + JSON.stringify(userList));
-						userList.forEach((group) => {
+						this.log.debug("GroupList: " + JSON.stringify(listofGroups));
+						listofGroups.forEach((group) => {
 							this.log.debug("Group: " + JSON.stringify(group));
 							const startside = [startsides[group]].toString();
-							if (userActiveCheckbox[group])
-								groupsWithUsers[group].forEach((user) => {
-									backMenuFuc(this, startside, null, user);
-									sendToTelegram(
-										_this,
-										user,
-										menu.data[group][startside].text,
-										menu.data[group][startside].nav,
-										instanceTelegram,
-										resize_keyboard,
-										one_time_keyboard,
-									);
-								});
+							if (userActiveCheckbox[group] && startside != "")
+								this.log.debug("Startseite: " + JSON.stringify(startside));
+							groupsWithUsers[group].forEach((user) => {
+								backMenuFuc(this, startside, null, user);
+								sendToTelegram(
+									_this,
+									user,
+									menu.data[group][startside].text,
+									menu.data[group][startside].nav,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
+								);
+							});
 						});
 					} catch (error) {
 						console.log("Error read UserList" + error);
@@ -159,94 +160,24 @@ class TelegramMenu extends utils.Adapter {
 									}),
 								);
 								userToSend = user;
-
-								const groupWithUser = Object.keys(groupsWithUsers).find((key) =>
-									groupsWithUsers[key].includes(user),
-								);
-								this.log.debug("Group with User " + JSON.stringify(groupWithUser));
-								const groupData = menu.data[groupWithUser];
-
-								this.log.debug("Nav " + JSON.stringify(groupData));
-								this.log.debug("Menu " + JSON.stringify(menu.data));
-								if (
-									groupData[calledValue] &&
-									userToSend &&
-									groupWithUser &&
-									userActiveCheckbox[groupWithUser]
-								) {
-									const part = groupData[calledValue];
-									// Navigation
-									if (part.nav) {
-										this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
-										backMenuFuc(this, calledValue, part.nav, userToSend);
-										if (JSON.stringify(part.nav).includes("menu")) {
-											callSubMenu(this, part.nav, groupData, userToSend);
-										} else {
-											if (userToSend) {
-												this.log.debug("Send Nav to Telegram");
-												sendToTelegram(
-													this,
-													userToSend,
-													part.text,
-													part.nav,
-													instanceTelegram,
-													resize_keyboard,
-													one_time_keyboard,
-												);
-											}
-										}
+								const groups = [];
+								for (const key in groupsWithUsers) {
+									this.log.debug("key " + JSON.stringify(key));
+									if (groupsWithUsers[key].includes(user)) {
+										groups.push(key);
 									}
-									// Schalten
-									else if (part.switch) {
-										setStateIdsToListenTo = setstate(_this, part, userToSend);
-									} else if (part.getData) {
-										getstate(_this, part, userToSend, instanceTelegram);
-									} else if (part.sendPic) {
-										try {
-											this.log.debug("Send Picture");
-
-											part.sendPic.forEach((element) => {
-												// this.log.debug("Element " + JSON.stringify(element));
-												token = token.trim();
-												const url = element.id;
-												const newUrl = url.replace(/&amp;/g, "&");
-												exec(
-													`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-												);
-												this.log.debug(
-													"url " +
-														`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-												);
-												timeoutKey += 1;
-												const path = `${directoryPicture}${element.fileName}`;
-												const timeout = this.setTimeout(async () => {
-													this.log.debug("Send Pic to Telegram");
-													sendToTelegram(
-														_this,
-														userToSend,
-														path,
-														undefined,
-														instanceTelegram,
-													);
-
-													let timeoutToClear = {};
-													timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-													clearTimeout(timeoutToClear.timeout);
-													timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-												}, element.delay);
-												timeouts.push({ key: timeoutKey, timeout: timeout });
-											});
-										} catch (e) {
-											this.log.error("Error :" + JSON.stringify(e));
-										}
-									}
-								} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
-									callSubMenu(this, calledValue, groupData, userToSend);
-								} else {
-									if (typeof userToSend == "string") this.log.debug("Send No Entry to Telegram");
-									if (checkboxNoEntryFound)
-										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram);
 								}
+								this.log.debug("Groups with User " + JSON.stringify(groups));
+								for (const group of groups) {
+									const groupData = menu.data[group];
+									this.log.debug("Nav " + JSON.stringify(groupData));
+									this.log.debug("Menu " + JSON.stringify(menu.data));
+									this.log.debug("group	" + JSON.stringify(group));
+									if (processData(this, groupData, calledValue, userToSend, group)) {
+										break;
+									} else continue;
+								}
+
 								// Auf Setstate reagieren und Wert schicken
 							} else if (
 								state &&
@@ -314,7 +245,79 @@ class TelegramMenu extends utils.Adapter {
 				});
 			}
 		});
+		function processData(_this, groupData, calledValue, userToSend, groupWithUser) {
+			if (groupData[calledValue] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
+				const part = groupData[calledValue];
+				// Navigation
+				if (part.nav) {
+					_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
+					backMenuFuc(_this, calledValue, part.nav, userToSend);
+					if (JSON.stringify(part.nav).includes("menu")) {
+						callSubMenu(_this, part.nav, groupData, userToSend);
+					} else {
+						if (userToSend) {
+							_this.log.debug("Send Nav to Telegram");
+							sendToTelegram(
+								_this,
+								userToSend,
+								part.text,
+								part.nav,
+								instanceTelegram,
+								resize_keyboard,
+								one_time_keyboard,
+							);
+							return true;
+						}
+					}
+				}
+				// Schalten
+				else if (part.switch) {
+					setStateIdsToListenTo = setstate(_this, part, userToSend);
+					return true;
+				} else if (part.getData) {
+					getstate(_this, part, userToSend, instanceTelegram);
+					return true;
+				} else if (part.sendPic) {
+					try {
+						_this.log.debug("Send Picture");
 
+						part.sendPic.forEach((element) => {
+							// this.log.debug("Element " + JSON.stringify(element));
+							token = token.trim();
+							const url = element.id;
+							const newUrl = url.replace(/&amp;/g, "&");
+							exec(
+								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+							);
+							_this.log.debug(
+								"url " +
+									`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+							);
+							timeoutKey += 1;
+							const path = `${directoryPicture}${element.fileName}`;
+							const timeout = _this.setTimeout(async () => {
+								_this.log.debug("Send Pic to Telegram");
+								sendToTelegram(_this, userToSend, path, undefined, instanceTelegram);
+
+								let timeoutToClear = {};
+								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+								clearTimeout(timeoutToClear.timeout);
+								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+							}, element.delay);
+							timeouts.push({ key: timeoutKey, timeout: timeout });
+						});
+						return true;
+					} catch (e) {
+						_this.log.error("Error :" + JSON.stringify(e));
+					}
+				}
+			} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
+				callSubMenu(_this, calledValue, groupData, userToSend);
+				return true;
+			} else {
+				return false;
+			}
+		}
 		/**
 		 *
 		 * @param {*} _this
