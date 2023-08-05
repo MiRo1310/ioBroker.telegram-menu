@@ -32,6 +32,7 @@ You can create different groups with separate menus, and then assign users to th
 ### GetState
 
 -   You can place the Value in the Text with `&&` as placeholder. You can influence the value with `change{"true":"on", "false":"off"}`, the same as setState
+-   Convert value `{math:/10}` for example this shows you to divide by 10
 
 #### Values ​​from created functions
 
@@ -48,11 +49,37 @@ You can create different groups with separate menus, and then assign users to th
 -   If you send several diagrams, the file names must be different, otherwise the images will overwrite each other
 -   Delay the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
 
+![Grafana](../pic/grafana.png)
+
 ### Submenus
 
--   `menu:on-off:name:` The name must always be a unique name, this is used as a trigger in action.
--   `menu:yes-no:name:`
--   `menu:percent10:name:` The 10 indicates the steps, this can simply be replaced by another number.
--   `menu:number1-20-2-unit:name:` The 1-20 is variable and indicates the span, the 2 the steps, and unit the unit
+-   The menus are entered in the navigation in order to call them up
+-   The name must always be a unique name, so it can only appear once and then refers to the trigger in action, where the ID is specified.
 
-![Grafana](../pic/grafana.png)
+```
+ menu:switch-on.true-off.false:name:
+```
+
+-   Any value can be replaced, on and off are the buttons, true and false are automatically converted to booleans, but can also be replaced by text
+
+```
+menu:percent10:name:
+```
+
+-   The 10 is variable and indicates the steps, this can simply be replaced by another number.
+
+```
+menu:number1-20-2-unit:name:
+```
+
+-   The 1.20 indicates the span, the 2 the steps, and unit the unit, everything is variably replaceable. e.g. `menu:number16-36-4-°C:temperaturXY:`
+
+```
+menu:back
+```
+
+-   Goes back to the last page viewed
+
+    <br>
+    <img src="../pic/submenu_nav.png" width="400"/> <img src="../pic/menu_percent10_r2.png" width="400"/>
+    <img src="../pic/submenu_setstate.png" width="600"/>
