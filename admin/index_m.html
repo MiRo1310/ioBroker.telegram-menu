@@ -270,9 +270,9 @@
 				}
 				translateAll()
 			})
-			//FIXME - 
+			//ANCHOR - New Row in Navigation
 			$(".adapter-container").on("click", ".btn_add_row", function () {
-				$(this).parent().parent().before(newTableRow_Nav(activeGroup, users))
+				$(this).parent().parent().after(newTableRow_Nav(activeGroup, users))
 				checkUpAndDownArrowBtn(activeGroup)
 			})
 

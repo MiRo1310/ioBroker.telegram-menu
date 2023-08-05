@@ -24,7 +24,7 @@ function navElement(user) {
       <td></td>
       <td></td>    
       <td></td>
-      <td></td>
+      <td><a class="btn-floating btn-small waves-effect waves-light green btn_add_row"><i class="material-icons">add</i></a></td>
     </tr>
 	</tbody>`;
 }
