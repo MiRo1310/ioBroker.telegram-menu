@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   sent to the wrong instance, fixed
+
 ### 0.5.0 (2023-08-05)
 
 -   trigger avoid duplicate entries and sort alphabetical
