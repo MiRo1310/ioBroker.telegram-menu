@@ -232,6 +232,7 @@ function generateSelectTrigger(activeGroup) {
 	let list = [];
 	list = splitTextInArray(activeGroup);
 	list = deleteDoubleEntrysInArray(list);
+	list = deleteUnnessesaryElements(list);
 	list = sortArray(list);
 	// HTML Elemente löschen und neu aufbauen
 	// @ts-ignore
@@ -241,9 +242,20 @@ function generateSelectTrigger(activeGroup) {
 function deleteDoubleEntrysInArray(arr) {
 	return arr.filter((item, index) => arr.indexOf(item) === index);
 }
+function deleteUnnessesaryElements(list) {
+	let newlist = [];
+	list.forEach(function (e) {
+		if (e != "menu:back" && e != "-") {
+			if (e.includes("menu:")) e = e.split(":")[2];
+
+			newlist.push(e);
+		}
+	});
+	return newlist;
+}
 /**
  *
- * @param {[]} arr
+ * @param {any[]} arr
  * @returns Sorted Array
  */
 function sortArray(arr) {
@@ -257,7 +269,7 @@ function sortArray(arr) {
 		if (lowerCaseA > lowerCaseB) return 1;
 		return 0;
 	});
-
+	console.log(arr);
 	return arr;
 }
 
