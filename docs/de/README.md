@@ -3,37 +3,53 @@
 ## ioBroker telegram-menu adapter
 
 Erstelle ganz einfach Telegrammmenüs
+Der Adapter dient dazu per Telegrammenu mit dem Iobroker kommunizieren, Datenpunkt zu schalten oder Werte von Datenpunkte abzufragen. Hierzu kann man verschiedene Gruppen erstellen in denen man Menus erstellen kann. Diese kann man dann Benutzer zuordnen.
 
-Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Benutzer zuordnen.
+Let´s get started!
 
 ### Navigation
 
 ![Navigation](../pic/nav.png)
+Hier sieht man den Anfang der Navigation, Zeile 1 (grün) ist die Startnavigation, diese wird gesendet wenn der Adapter gestartet bzw. neu gestartet wird.
+Ab Zeile 2 sind dann aufrufbare Menus. Der Text auf der rechten Seite "Wähle eine Aktion" ist frei wählbar darf aber nicht leer sein.
+Wie man sieht werden die Buttons in einer Reihe mit einem `Komma` getrennt, um eine neue Zeile mit Buttons zu füllen nutzt man das `&&` als Trenner.
 
--   Die Navigation muss gespeichert werden, damit die Trigger in Aktionen aktualisiert werden
--   Der Calltext wird über die Schaltfläche aufgerufen, beide müssen den gleichen Namen haben
--   Schaltflächen müssen durch ein `,` und Zeilen durch `&&` getrennt sein
--   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden
--   Jeder Button darf nur einmal vorkommen
--   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , yes-no oder Prozent für z.B. die Rolladensteuerung
-    -   Als erstes legt man ganz normal einen Button an in der Navigation
-    -   Dann eine neue Zeile mit dem Namen des Buttons als Call-Text und in die Navigationsspalte schreibt man z.B. `menu:on-off:name:` oder `menu:percent10:name:`. **name** muss ersetzt werden durch einen eindeutigen einmal vorkommenden namen, z.B. Rollo1, danach speichern
-    -   Durch das speichern wird in den Aktionen ein neuer Trigger erstellt , diesen muss man bei SetState auswählen und dann sucht man die passende ID raus die gesetzt werden soll, als Wert einfach ein `!` rein
+![Buttons in Telegram](../pic/image-1.png)
+Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wird "Heizung" als Text an den Adapter gesendet, dieser sucht nach dem passenden Call Text, dieser muss genau so geschrieben sein, siehe im oberen Bild.
+**Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss einzigartg sein**
+
+![Benutzername](../pic/image.png)
+
+-   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden. User werden durch ein `,` getrennt. **Es ist zwingend notwenig das hier ein Name eingetragen wird.**
+
+-   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladensteuerung, hierzu wird in den Aktionen automatosch ein neuer Trigger erstellt, aber dazu unten mehr.
+
+-   Man kann von einem Menu in ein anderes menu springen. Macht Sinn wenn ein zwei Personen Menu 1 zusammen haben, aber User1 ein weiteres Menu bekommen soll, auf welches User2 keinen Zugriff haben soll. Bei beiden wäre dieser entsprechende Button zu sehen, nur bei User1 mit einer Funktion. Hierzu muss in beiden Gruppen der entsprechende User angegeben sein.
+    ![Menu1](../pic/image7.png)
+    Das ist das erste Menu, hier wird das Menu beim Adapterstart gesendet
+    ![Menu2](../pic/image8.png)
+    Das ist das zweite Menu, damit dieses funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses kann man erreichen indem man einfach ein `-` einträgt.
+    Jetzt kann User Michael von Menu1 auf Menu2 zugreifen indem er auf Button Licht drückt, über den neu erscheinenden Button Startseite kommt man ins Menu1 zurück. **Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!** Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
 
 ### SetState
 
--   Switch schaltet nur Booleans, es wechselt zwischen true und false
--   Wenn man einen Wert angibt kann man diesen setzen
--   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, **sobald `ack:true`gesetzt wurde**. Platzhalter für den Wert ist &&. Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach
-    `{novalue}` ein
--   Um Values zu ändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus , im Text `change{"true":"an", "false":"aus"}` eingeben
--   Änderung!!!
-    -   Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte, wenn man aber `ack:false` setzen möchte, trägt man dieses einfach in den Rückgabetext ein. Eine Bestätigung erfolgt dann erst wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat.
+![SetState](../pic/image3.png)!
+
+-   Die Checkbox Schalten rechts, schaltet nur booleans, es wechselt zwischen true und false beim aufrufen des Auslösers. Der Auslöser hat genau den Namen, wie der Button der die Aktion triggern soll.
+-   Unter Wert kann man andere Werte eintragen, damit diese gesetzt werden, für jeden Wert muss ein seperates Setstate erstellt werden
+-   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, **sobald `ack:true`gesetzt wurde**. Platzhalter für den Wert ist &&. Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat. Möchte man aber `ack:true` manuell setzen, trägt man dieses einfach in den Rückgabetext ein.
+    ![ack:true](../pic/image4.png)
+    Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach `{novalue}` ein
+    ![novalue](../pic/image5.png)
+-   Möchte man Values verändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus ,trägtman im Text `change{"true":"an", "false":"aus"}` ein.
+    ![change](../pic/image6.png)
 
 ### GetState
 
 -   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beinflussen mit `change{"true":"an", "false":"aus"}`.
--   Value umrechnen `{math:/10}` zum Beispiel wird hier durch 10 geteilt
+-   Wenn ich einen Wert aus einem Datenpunkt auslesen möchte, das Value aber umrechnen muss, kann ich in den Rückgabetext `{math:/10}` zum Beispiel wird hier durch 10 geteilt
+    ![math](../pic/image9.png)
+-   Wenn man gleichzeitig mit einer Abfrage mehrere Werte abrufen möchte, kann man die Checkbox Newline aktivieren um für jede Abfrage den Rückgabetext in einer neuen Zeile angezeigt zu bekommen.
 
 #### Werte aus erstellten Funktionen
 
@@ -53,6 +69,8 @@ Man kann verschiedene Gruppen erstellen mit separaten Menüs, und diesen dann Be
     <img src="../pic/grafana.png" width="400">
 
 ### Submenus
+
+![Submenus](../pic/image10.png)
 
 -   Die Menus werden in die Navigation eingetragen um sie aufzurufen
 -   Der name muss immer ein einzigartiger Name sein, darf also immer nur einmal vorkommen und verweist dann auf den Trigger in Aktion, wo die ID angegeben wird.
@@ -79,8 +97,8 @@ menu:number1-20-2-unit:name:
 menu:back
 ```
 
--   Wechselt zur letzten aufgerufenen Seite zurück
+-   Wechselt zur jeweils davor aufgerufenen Seite zurück, es können maximal 20 Seiten zurück gegangen werden
 
     <br>
-    <img src="../pic/submenu_nav.png" width="400"/> <img src="../pic/menu_percent10_r2.png" width="400"/>
-    <img src="../pic/submenu_setstate.png" width="600"/>
+    <img src="../pic/menu_percent10_r2.png" width="800"/>
+    <img src="../pic/submenu_setstate.png" width="800"/>

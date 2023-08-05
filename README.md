@@ -33,6 +33,14 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   small fixes
+-   Add Row Button in Nav for every Row
+-   More Groups with the same User
+-   Trigger generates without saving
+
 ### 0.5.1 (2023-08-05)
 
 -   sent to the wrong instance, fixed
