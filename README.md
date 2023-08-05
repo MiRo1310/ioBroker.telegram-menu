@@ -34,7 +34,7 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
--   trigger avoid duplicate entries
+-   trigger avoid duplicate entries and sort alphabetical
 -   adapter stops responding after some time, fixed #42
 -   generate Trigger in Action, fixed
 -   math value for getstate
