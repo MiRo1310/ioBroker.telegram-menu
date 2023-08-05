@@ -16,7 +16,7 @@ const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
 const generateActions = require("./lib/js/action").generateActions;
-const replaceValues = require("./lib/js/action").replaceValues;
+const exchangeValue = require("./lib/js/action").exchangeValue;
 const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 const subMenu = require("./lib/js/subMenu").subMenu;
@@ -50,10 +50,9 @@ class TelegramMenu extends utils.Adapter {
 	async onReady() {
 		this.setState("info.connection", false, true);
 		let instanceTelegram = this.config.instance;
-		const telegramID = `${instanceTelegram}.communicate.request`;
 		if (instanceTelegram.length == 0) instanceTelegram = "telegram.0";
+		const telegramID = `${instanceTelegram}.communicate.request`;
 		const datapoint = `${instanceTelegram}.info.connection`;
-		this.log.debug("Instance: " + JSON.stringify(instanceTelegram));
 		this.log.debug("Datapoint: " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
@@ -69,7 +68,7 @@ class TelegramMenu extends utils.Adapter {
 		let token = this.config.tokenGrafana;
 		const directoryPicture = this.config.directory;
 		const userActiveCheckbox = this.config.userActiveCheckbox;
-		const usersInGroup = this.config.usersInGroup;
+		const groupsWithUsers = this.config.usersInGroup;
 		const textNoEntryFound = this.config.textNoEntry;
 		const menu = {
 			data: {},
@@ -121,12 +120,12 @@ class TelegramMenu extends utils.Adapter {
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
 					try {
-						this.log.debug("GroupList " + JSON.stringify(userList));
+						this.log.debug("GroupList: " + JSON.stringify(userList));
 						userList.forEach((group) => {
-							this.log.debug("Group " + JSON.stringify(group));
+							this.log.debug("Group: " + JSON.stringify(group));
 							const startside = [startsides[group]].toString();
 							if (userActiveCheckbox[group])
-								usersInGroup[group].forEach((user) => {
+								groupsWithUsers[group].forEach((user) => {
 									backMenuFuc(this, startside, null, user);
 									sendToTelegram(
 										_this,
@@ -151,19 +150,21 @@ class TelegramMenu extends utils.Adapter {
 								const value = state.val;
 								const user = value.slice(1, value.indexOf("]"));
 								const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-								this.log.debug("Value: " + JSON.stringify(value));
-								this.log.debug("User: " + JSON.stringify(user));
-								this.log.debug("Todo: " + JSON.stringify(calledValue));
+								this.log.debug(
+									JSON.stringify({
+										Value: value,
+										User: user,
+										Todo: calledValue,
+										groups: groupsWithUsers,
+									}),
+								);
+								userToSend = user;
 
-								userToSend = null;
-
-								this.log.debug("user in group" + JSON.stringify(usersInGroup));
-								const groupWithUser = Object.keys(usersInGroup).find((key) =>
-									usersInGroup[key].includes(user),
+								const groupWithUser = Object.keys(groupsWithUsers).find((key) =>
+									groupsWithUsers[key].includes(user),
 								);
 								this.log.debug("Group with User " + JSON.stringify(groupWithUser));
 								const groupData = menu.data[groupWithUser];
-								userToSend = user;
 
 								this.log.debug("Nav " + JSON.stringify(groupData));
 								this.log.debug("Menu " + JSON.stringify(menu.data));
@@ -174,15 +175,11 @@ class TelegramMenu extends utils.Adapter {
 									userActiveCheckbox[groupWithUser]
 								) {
 									const part = groupData[calledValue];
-									this.log.debug("Part " + JSON.stringify(part));
 									// Navigation
 									if (part.nav) {
-										this.log.debug("User to send: " + JSON.stringify(userToSend));
-										this.log.debug("Todo " + JSON.stringify(calledValue));
-										this.log.debug("Part.nav: " + JSON.stringify(part.nav));
+										this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
 										backMenuFuc(this, calledValue, part.nav, userToSend);
 										if (JSON.stringify(part.nav).includes("menu")) {
-											this.log.debug("Submenu");
 											callSubMenu(this, part.nav, groupData, userToSend);
 										} else {
 											if (userToSend) {
@@ -264,7 +261,7 @@ class TelegramMenu extends utils.Adapter {
 											let result = {};
 											let valueChange = "";
 											if (textToSend.toString().includes("change{")) {
-												result = replaceValues(textToSend, state.val, this);
+												result = exchangeValue(textToSend, state.val, this);
 												if (result) {
 													textToSend = result["textToSend"];
 													valueChange = result["valueChange"];
