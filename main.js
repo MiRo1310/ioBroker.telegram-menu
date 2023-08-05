@@ -124,20 +124,21 @@ class TelegramMenu extends utils.Adapter {
 						listofGroups.forEach((group) => {
 							this.log.debug("Group: " + JSON.stringify(group));
 							const startside = [startsides[group]].toString();
-							if (userActiveCheckbox[group] && startside != "")
+							if (userActiveCheckbox[group] && startside != "-") {
 								this.log.debug("Startseite: " + JSON.stringify(startside));
-							groupsWithUsers[group].forEach((user) => {
-								backMenuFuc(this, startside, null, user);
-								sendToTelegram(
-									_this,
-									user,
-									menu.data[group][startside].text,
-									menu.data[group][startside].nav,
-									instanceTelegram,
-									resize_keyboard,
-									one_time_keyboard,
-								);
-							});
+								groupsWithUsers[group].forEach((user) => {
+									backMenuFuc(this, startside, null, user);
+									sendToTelegram(
+										_this,
+										user,
+										menu.data[group][startside].text,
+										menu.data[group][startside].nav,
+										instanceTelegram,
+										resize_keyboard,
+										one_time_keyboard,
+									);
+								});
+							}
 						});
 					} catch (error) {
 						console.log("Error read UserList" + error);
@@ -168,14 +169,20 @@ class TelegramMenu extends utils.Adapter {
 									}
 								}
 								this.log.debug("Groups with User " + JSON.stringify(groups));
+								let dataFound = false;
 								for (const group of groups) {
 									const groupData = menu.data[group];
 									this.log.debug("Nav " + JSON.stringify(groupData));
 									this.log.debug("Menu " + JSON.stringify(menu.data));
 									this.log.debug("group	" + JSON.stringify(group));
+
 									if (processData(this, groupData, calledValue, userToSend, group)) {
+										dataFound = true;
 										break;
 									} else continue;
+								}
+								if (!dataFound && checkboxNoEntryFound) {
+									sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram);
 								}
 
 								// Auf Setstate reagieren und Wert schicken
