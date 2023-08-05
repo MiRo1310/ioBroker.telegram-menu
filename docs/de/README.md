@@ -25,7 +25,7 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
 -   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladensteuerung, hierzu wird in den Aktionen automatosch ein neuer Trigger erstellt, aber dazu unten mehr.
 
 -   Man kann von einem Menu in ein anderes menu springen. Macht Sinn wenn ein zwei Personen Menu 1 zusammen haben, aber User1 ein weiteres Menu bekommen soll, auf welches User2 keinen Zugriff haben soll. Bei beiden wäre dieser entsprechende Button zu sehen, nur bei User1 mit einer Funktion. Hierzu muss in beiden Gruppen der entsprechende User angegeben sein.
-    ![Menu1](../pic/image7.png)
+    ![Menu1](../pic/image7.png)<br>
     Das ist das erste Menu, hier wird das Menu beim Adapterstart gesendet
     ![Menu2](../pic/image8.png)
     Das ist das zweite Menu, damit dieses funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses kann man erreichen indem man einfach ein `-` einträgt.
