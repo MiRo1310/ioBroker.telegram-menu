@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "news": {
+      "0.5.1": {
+        "en": "sent to the wrong instance, fixed",
+        "de": "an die falsche instanz gesendet, fixiert",
+        "ru": "отправлено в неправильный экземпляр, исправлено",
+        "pt": "enviado para a instância errada, corrigido",
+        "nl": "verzonden naar de verkeerde instantie",
+        "fr": "envoyé à la mauvaise instance, fixe",
+        "it": "inviato all'istanza sbagliata, fisso",
+        "es": "enviado al caso equivocado, fijo",
+        "pl": "wysłany do niewłaściwej instancji, ustalony",
+        "uk": "відправлений на неправильний екземпляр, фіксований",
+        "zh-cn": "向错误案件发出的固定通知"
+      },
       "0.5.0": {
         "en": "trigger avoid duplicate entries and sort alphabetical\nadapter stops responding after some time, fixed #42\ngenerate Trigger in Action, fixed\nmath value for getstate\nsettings instance #41, menus, fixed\nno spellcheck for input fields\nmenu go back to last Sides",
         "de": "trigger vermeiden doppelte einträge und sortieren alphabetisch\nadapter stoppt nach einiger zeit, fixiert #42\ntrigger in Aktion generieren, fixiert\nmath wert für getstate\neinstellungen instanz #41, menüs, fixiert\nkeine rechtschreibprüfung für eingabefelder\nmenü zurück zu den letzten Seiten",
@@ -80,19 +93,6 @@
         "pl": "rename\ntworzenie grup dla użytkowników",
         "uk": "кнопка перейменування\nстворювати групи з користувачами",
         "zh-cn": "重新命名\n与用户建立团体"
-      },
-      "0.1.1": {
-        "en": "shift rows\nsmall fixes\nDarkmode fixed\noption, return text without value\nget all Values of functions",
-        "de": "schaltreihen\nkleine fixierungen\nDarkmode fest\noption, text ohne wert zurückgeben\nalle Werte der Funktionen",
-        "ru": "сменные строки\nнебольшие исправления\nDarkmode фиксированный\nвариант, обратный текст без значения\nполучить все значения функций",
-        "pt": "turnos\npequenas correções\nDarkmode corrigido\nopção, retornar texto sem valor\nobter todos os valores das funções",
-        "nl": "quality over quantity (qoq) releases vertaling:\nkleine fixes\nDarkmode gemaakt\noptie, terugkeren zonder waarde\nalle functies krijgen",
-        "fr": "lignes de quart\npetites corrections\nDarkmode fixed\noption, texte de retour sans valeur\nobtenir toutes les valeurs des fonctions",
-        "it": "spostare le righe\npiccole correzioni\nDarkmode fisso\nopzione, restituire il testo senza valore\nottenere tutti i valori delle funzioni",
-        "es": "turno de filas\npequeños accesorios\nModo oscuro fijo\nopción, devolver texto sin valor\nobtener todos los Valores de las funciones",
-        "pl": "rzędy zwrotne\ndrobne rozwiązanie\nDarkmode fixed\nopcja zwrotu tekstu bez wartości\nuzyskuje wszystkie funkcje",
-        "uk": "зсувні рядки\nмаленькі кріплення\nDarkmode фіксований\nваріант, повернення тексту без значення\nотримувати всі значення функцій",
-        "zh-cn": "更替\n小型配件\n达库姆固定\n备选案文:不附加价值的返回案文\n获得所有职能的价值"
       }
     },
     "titleLang": {
