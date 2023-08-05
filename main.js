@@ -200,7 +200,7 @@ class TelegramMenu extends utils.Adapter {
 									else if (part.switch) {
 										setStateIdsToListenTo = setstate(_this, part, userToSend);
 									} else if (part.getData) {
-										getstate(_this, part, userToSend);
+										getstate(_this, part, userToSend, instanceTelegram);
 									} else if (part.sendPic) {
 										try {
 											this.log.debug("Send Picture");
@@ -221,7 +221,13 @@ class TelegramMenu extends utils.Adapter {
 												const path = `${directoryPicture}${element.fileName}`;
 												const timeout = this.setTimeout(async () => {
 													this.log.debug("Send Pic to Telegram");
-													sendToTelegram(_this, userToSend, path);
+													sendToTelegram(
+														_this,
+														userToSend,
+														path,
+														undefined,
+														instanceTelegram,
+													);
 
 													let timeoutToClear = {};
 													timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
@@ -238,7 +244,8 @@ class TelegramMenu extends utils.Adapter {
 									callSubMenu(this, calledValue, groupData, userToSend);
 								} else {
 									if (typeof userToSend == "string") this.log.debug("Send No Entry to Telegram");
-									if (checkboxNoEntryFound) sendToTelegram(this, userToSend, textNoEntryFound);
+									if (checkboxNoEntryFound)
+										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram);
 								}
 								// Auf Setstate reagieren und Wert schicken
 							} else if (
@@ -277,7 +284,13 @@ class TelegramMenu extends utils.Adapter {
 												? (textToSend = textToSend.replace("&amp;&amp;", value))
 												: (textToSend += " " + value);
 											this.log.debug("Send Set to Telegram");
-											sendToTelegram(this, element.userToSend, textToSend);
+											sendToTelegram(
+												this,
+												element.userToSend,
+												textToSend,
+												undefined,
+												instanceTelegram,
+											);
 											// Die Elemente auf die Reagiert wurde entfernen
 											setStateIdsToListenTo.splice(key, 1);
 										}
@@ -322,7 +335,8 @@ class TelegramMenu extends utils.Adapter {
 			if (subMenuData && subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
 
 			_this.log.debug("SubMenuData " + JSON.stringify(subMenuData));
-			if (subMenuData && subMenuData[0]) sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1]);
+			if (subMenuData && subMenuData[0])
+				sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram);
 		}
 
 		/**
