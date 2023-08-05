@@ -229,10 +229,37 @@ function splitTextInArray(activeGroup) {
 //TODO -
 // @ts-ignore
 function generateSelectTrigger(activeGroup) {
-	const list = splitTextInArray(activeGroup);
+	let list = [];
+	list = splitTextInArray(activeGroup);
+	list = deleteDoubleEntrysInArray(list);
+	list = sortArray(list);
 	// HTML Elemente löschen und neu aufbauen
 	// @ts-ignore
 	$("#select_trigger").empty().append(createSelectTrigger(list));
+}
+
+function deleteDoubleEntrysInArray(arr) {
+	return arr.filter((item, index) => arr.indexOf(item) === index);
+	return arr;
+}
+/**
+ *
+ * @param {[]} arr
+ * @returns Sorted Array
+ */
+function sortArray(arr) {
+	arr.sort((a, b) => {
+		// @ts-ignore
+		const lowerCaseA = a.toLowerCase();
+		// @ts-ignore
+		const lowerCaseB = b.toLowerCase();
+
+		if (lowerCaseA < lowerCaseB) return -1;
+		if (lowerCaseA > lowerCaseB) return 1;
+		return 0;
+	});
+
+	return arr;
 }
 
 // @ts-ignore
