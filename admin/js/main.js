@@ -243,7 +243,7 @@ function deleteDoubleEntrysInArray(arr) {
 	return arr.filter((item, index) => arr.indexOf(item) === index);
 }
 function deleteUnnessesaryElements(list) {
-	let newlist = [];
+	const newlist = [];
 	list.forEach(function (e) {
 		if (e != "menu:back" && e != "-") {
 			if (e.includes("menu:")) e = e.split(":")[2];
