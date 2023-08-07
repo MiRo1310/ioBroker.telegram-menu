@@ -46,11 +46,7 @@ label > i[title] {
 .bg-error {
 	background-color: rgb(243, 96, 96);
 }
-/* .bg-nav-user {
-	background-color: #ddd;
 
-	margin-right: 20px !important;
-} */
 #group_list .tab {
 	text-transform: none;
 }
@@ -140,6 +136,11 @@ div#infoNav .infoText {
 
 header {
 	margin: 0 !important;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: white;
+	z-index: 100;
 }
 .row {
 	margin-bottom: 5px !important;
@@ -167,6 +168,13 @@ header {
 	margin-right: 5px !important;
 	border: 3px solid #999;
 	border-radius: 10px;
+}
+#tab-nav,
+#tab-action {
+	margin-top: 350px;
+}
+#tab-settings {
+	margin-top: 120px;
 }
 
 .tab:hover {
@@ -199,12 +207,14 @@ p[data-name="newline_checkbox"] {
 .m.react-dark .tab {
 	background-color: #575757;
 }
-.m.react-dark .tabs {
+.m.react-dark .tabs,
+.m.react-dark header {
 	background-color: #2a2a2a;
 }
 .m.react-blue .tab {
 	background-color: #575757;
 }
-.m.react-blue .tabs {
+.m.react-blue .tabs,
+.m.react-blue header {
 	background-color: #2d3438;
 }
