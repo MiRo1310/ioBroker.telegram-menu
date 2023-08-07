@@ -69,7 +69,8 @@
     "check": "tsc --noEmit -p tsconfig.check.json",
     "lint": "eslint .",
     "translate": "translate-adapter",
-    "release": "release-script"
+    "release": "release-script",
+    "lint:fix": "eslint . --fix"
   },
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
