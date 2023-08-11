@@ -183,9 +183,12 @@ p[data-name="newline_checkbox"] {
 	margin: 2px 0 !important;
 }
 #tab-action p.name {
-	margin: 2px 0 !important;
+	margin: 1px 0 !important;
 	border-bottom: 2px solid white;
 }
 #tab-action td {
 	padding: 0 3px !important;
+}
+.m #tab_action .modal-content {
+	height: calc(100% - 50px) !important;
 }

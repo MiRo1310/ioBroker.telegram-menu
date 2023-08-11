@@ -628,104 +628,111 @@
 								id="btn_action_newRow" title="Add new Line"><i class="material-icons">add</i></a>
 						</div>
 					</div>
-					<div class="table_wrapper action_popup">
-						<table id="tab_set" class="resetHide">
-							<thead>
-								<tr>
-									<th style="width: 25%; background: #64b5f6 ">ID</th>
-									<th style="width: 1%; background: #64b5f6 "></th>
-									<th style="width: 4%; background: #64b5f6 " class="translate">Value</th>
-									<th style="background: #64b5f6 " class="translate">Return text</th>
-									<th style="width: 1%; background: #64b5f6 " class="text-xsm 
+					<div class="resizeFull">
+						<div class="table_wrapper action_popup">
+							<table id="tab_set" class="resetHide">
+								<thead>
+									<tr>
+										<th style="width: 25%; background: #64b5f6 ">ID</th>
+										<th style="width: 1%; background: #64b5f6 "></th>
+										<th style="width: 4%; background: #64b5f6 " class="translate">Value</th>
+										<th style="background: #64b5f6 " class="translate">Return text</th>
+										<th style="width: 1%; background: #64b5f6 " class="text-xsm 
 								translate">Confirm set value</th>
-									<th style="width: 1%; background: #64b5f6 " class="text-xsm translate">Switch</th>
-									<th style="width: 1%; background: #64b5f6 "></th>
-								</tr>
-							</thead>
-							<tbody class="table-lines table-values">
-								<tr>
-									<td> <input class="set_id resetInput checkValue" spellcheck="false" type="text">
-									</td>
-									<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
-											title="Get ID"><i class="material-icons">edit</i></a></td>
-									<td>
-										<input class="set_value resetInput checkValueSwitch" spellcheck="false"
-											type="text" value="">
-									</td>
-									<td>
-										<input class="returnText resetInput " spellcheck="false" type="text" value="">
-									</td>
-									<td>
-										<input type="checkbox" class="filled-in confirm_checkbox resetCheckbox" />
-										<span></span>
-									</td>
-									<td>
-										<label><input id="switch_checkbox" type="checkbox"
-												class="filled-in switch_checkbox resetCheckbox" />
-											<span></span></label>
-									</td>
-									<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
-											disabled><i class="material-icons" disabled>delete</i></a></td>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<table id="tab_get" class="resetHide">
-							<thead>
-								<tr>
-									<th style="width: 30%;">ID</th>
-									<th style="width: 5%;"></th>
-									<th>Text</th>
-									<th style="width: 8%;">Newline</th>
-									<th style="width: 3%;"></th>
-								</tr>
-							</thead>
-							<tbody class="table-lines table-values">
-								<tr>
-									<td> <input class="get_id resetInput checkValue" spellcheck="false" type="text">
-									</td>
-									<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
-											title="Get ID"><i class="material-icons">edit</i></a></td>
-									<td>
-										<input class="get_text resetInput checkValue" spellcheck="false" type="text">
-									</td>
-									<td><label>
-											<input type="checkbox" class="filled-in newline_checkbox" checked />
+										<th style="width: 1%; background: #64b5f6 " class="text-xsm translate">Switch
+										</th>
+										<th style="width: 1%; background: #64b5f6 "></th>
+									</tr>
+								</thead>
+								<tbody class="table-lines table-values">
+									<tr>
+										<td> <input class="set_id resetInput checkValue" spellcheck="false" type="text">
+										</td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
+												title="Get ID"><i class="material-icons">edit</i></a></td>
+										<td>
+											<input class="set_value resetInput checkValueSwitch" spellcheck="false"
+												type="text" value="">
+										</td>
+										<td>
+											<input class="returnText resetInput " spellcheck="false" type="text"
+												value="">
+										</td>
+										<td>
+											<input type="checkbox" class="filled-in confirm_checkbox resetCheckbox" />
 											<span></span>
-										</label></td>
-									<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
-											disabled><i class="material-icons">delete</i></a></td>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<table id="tab_pic" class="resetHide">
-							<thead>
-								<tr>
-									<th>Rendering url</th>
-									<th style="width: 15%;" class="translate">Filename</th>
-									<th style="width: 8%;" class="translate">Delay (ms)</th>
-									<th style="width: 3%;"></th>
-								</tr>
-							</thead>
-							<tbody class="table-lines table-values">
-								<tr>
-									<td> <input class="pic_IDs resetInput checkValue" spellcheck="false" type="text">
-									</td>
-									<td> <input class="pic_fileName resetInput checkValue" spellcheck="false"
-											type="text" placeholder="grafana1.png" value="grafana1.png">
-									</td>
-									<td>
-										<input class="pic_picSendDelay resetInput" type="text" spellcheck="false"
-											placeholder="5000" value="5000">
-									</td>
-									<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
-											disabled><i class="material-icons">delete</i></a></td>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+										</td>
+										<td>
+											<label><input id="switch_checkbox" type="checkbox"
+													class="filled-in switch_checkbox resetCheckbox" />
+												<span></span></label>
+										</td>
+										<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
+												disabled><i class="material-icons" disabled>delete</i></a></td>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table id="tab_get" class="resetHide">
+								<thead>
+									<tr>
+										<th style="width: 30%;">ID</th>
+										<th style="width: 5%;"></th>
+										<th>Text</th>
+										<th style="width: 8%;">Newline</th>
+										<th style="width: 3%;"></th>
+									</tr>
+								</thead>
+								<tbody class="table-lines table-values">
+									<tr>
+										<td> <input class="get_id resetInput checkValue" spellcheck="false" type="text">
+										</td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
+												title="Get ID"><i class="material-icons">edit</i></a></td>
+										<td>
+											<input class="get_text resetInput checkValue" spellcheck="false"
+												type="text">
+										</td>
+										<td><label>
+												<input type="checkbox" class="filled-in newline_checkbox" checked />
+												<span></span>
+											</label></td>
+										<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
+												disabled><i class="material-icons">delete</i></a></td>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table id="tab_pic" class="resetHide">
+								<thead>
+									<tr>
+										<th>Rendering url</th>
+										<th style="width: 15%;" class="translate">Filename</th>
+										<th style="width: 8%;" class="translate">Delay (ms)</th>
+										<th style="width: 3%;"></th>
+									</tr>
+								</thead>
+								<tbody class="table-lines table-values">
+									<tr>
+										<td> <input class="pic_IDs resetInput checkValue" spellcheck="false"
+												type="text">
+										</td>
+										<td> <input class="pic_fileName resetInput checkValue" spellcheck="false"
+												type="text" placeholder="grafana1.png" value="grafana1.png">
+										</td>
+										<td>
+											<input class="pic_picSendDelay resetInput" type="text" spellcheck="false"
+												placeholder="5000" value="5000">
+										</td>
+										<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
+												disabled><i class="material-icons">delete</i></a></td>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
+
 
 				</div>
 				<div class="modal-footer">
@@ -775,10 +782,10 @@
 				</div>
 		</header>
 		<!-- //SECTION - Navigation -->
-		<div id="tab-nav">
+		<div id="tab-nav" class="resizeFull">
 			<div class="row">
-				<div class="col s12">
-					<div class="table-values-div saveTable table_wrapper nav" id="navigation">
+				<div class="col s12 table_wrapper ">
+					<div class="table-values-div saveTable nav" id="navigation">
 						<table id="table_nav" class="" style="width: 100%;">
 							<thead>
 								<tr>
@@ -800,7 +807,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="tab-action"></div>
+		<div id="tab-action" class="resizeFull"></div>
 		<!-- //SECTION - Settings -->
 		<div id="tab-settings">
 			<div class=" row">

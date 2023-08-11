@@ -1,52 +1,53 @@
 /* Table scrollen */
 
 /* Aktion */
-#tab-action {
+.resizeFull {
 	position: relative;
 	top: 0;
 	flex-grow: 1; /* Nimmt den verbleibenden vertikalen Platz ein */
-	display: inline-block;
-	box-sizing: border-box;
 	width: 100%;
+	display: flex; /* Füge eine Flexbox-Anzeige hinzu */
+	flex-direction: column; /* Setze die Ausrichtung auf Spalten */
 }
 /* Table Wrapper Allgemein */
 .table_wrapper {
 	overflow-y: auto;
 }
-.table_wrapper .name {
+#tab-action .table_wrapper .name {
 	position: sticky;
 	top: 0;
 	z-index: 5;
 	padding-bottom: 10px;
 }
-.table_wrapper th {
+#tab-action .table_wrapper th {
 	position: sticky;
 	top: 28;
 	z-index: 5;
 	padding-bottom: 10px;
 }
+.table_wrapper #table_nav th {
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	padding-bottom: 10px;
+}
 
 /* Table Wrapper Nav */
-.table_wrapper.nav {
-	max-height: 45%;
+#tab-nav .table_wrapper,
+.table_wrapper.action {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
 }
+
 /* Table Wrapper Action Popup */
 .table_wrapper.action_popup {
 	position: relative;
 	max-height: 280px;
 }
-.table_wrapper.action {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-}
 
 /* Popup */
 #tab_action div.modal-content {
 	padding-bottom: 0 !important;
-}
-
-/* Footer */
-.modal-footer {
-	z-index: 5;
 }
