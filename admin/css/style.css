@@ -4,6 +4,7 @@
 }
 #body {
 	height: 99% !important;
+	min-height: 99vh;
 }
 .m {
 	/* Don't cut off dropdowns! */
@@ -12,10 +13,12 @@
 .m.adapter-container,
 .m.adapter-container > div.App {
 	/* Fix layout/scrolling issues with tabs */
-	height: 100% !important;
+	height: 99% !important;
 	width: 100%;
 	position: relative;
 	overflow: auto;
+	display: flex;
+	flex-direction: column;
 }
 
 .m .select-wrapper + label {
@@ -115,6 +118,8 @@ h1 {
 }
 table th {
 	background-color: #64b5f6;
+	padding: 0.4rem !important;
+	border-radius: 0 !important;
 }
 .text-small {
 	font-size: 0.75rem;
@@ -134,14 +139,6 @@ div#infoNav .infoText {
 	text-decoration: underline;
 }
 
-header {
-	margin: 0 !important;
-	position: fixed;
-	top: 0;
-	width: 100%;
-	background-color: white;
-	z-index: 100;
-}
 .row {
 	margin-bottom: 5px !important;
 }
@@ -169,20 +166,11 @@ header {
 	border: 3px solid #999;
 	border-radius: 10px;
 }
-#tab-nav,
-#tab-action {
-	margin-top: 350px;
-}
-#tab-settings {
-	margin-top: 120px;
-}
-
 .tab:hover {
 	background-color: #fff;
 	border-color: #0e1072;
 }
 li.tab:has(.active) {
-	/* background-color: #fff !important; */
 	border-color: #477da8 !important;
 }
 p[data-name="confirm"],
@@ -190,31 +178,14 @@ p[data-name="switch_checkbox"],
 p[data-name="newline_checkbox"] {
 	padding: 2px 2px;
 }
-.checkFalse {
-	border: 2px solid #f75555;
-}
-.checkTrue {
-	border: 2px solid #34e251;
-}
+
 #tab-action p {
 	margin: 2px 0 !important;
 }
+#tab-action p.name {
+	margin: 2px 0 !important;
+	border-bottom: 2px solid white;
+}
 #tab-action td {
 	padding: 0 3px !important;
-}
-
-/* DarkMode */
-.m.react-dark .tab {
-	background-color: #575757;
-}
-.m.react-dark .tabs,
-.m.react-dark header {
-	background-color: #2a2a2a;
-}
-.m.react-blue .tab {
-	background-color: #575757;
-}
-.m.react-blue .tabs,
-.m.react-blue header {
-	background-color: #2d3438;
 }

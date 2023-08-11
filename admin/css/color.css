@@ -1,0 +1,28 @@
+.checkFalse {
+	border: 2px solid #f75555;
+}
+.checkTrue {
+	border: 2px solid #34e251;
+}
+
+/* DarkMode */
+.m.react-dark .tab {
+	background-color: #575757;
+}
+.m.react-dark .tabs,
+.m.react-dark header {
+	background-color: #2a2a2a;
+}
+.m.react-blue .tab {
+	background-color: #575757;
+}
+.m.react-blue .tabs,
+.m.react-blue header {
+	background-color: #2d3438;
+}
+.m.react-dark #tab-action p.name {
+	border-bottom: 2px solid #2a2a2a;
+}
+.m.react-blue #tab-action p.name {
+	border-bottom: 2px solid #575757;
+}
