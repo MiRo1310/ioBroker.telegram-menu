@@ -117,9 +117,9 @@ function newTrInAction(val, array, rows) {
 //SECTION - Save 2
 function actionElement(user) {
 	return /*html*/ `<div class="row user_${user}">
-          <div class="col s12">
+          <div class="col s12 table_wrapper action">
             <div >
-              <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>GetState</p>
+              <p class="showHideMenu name" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>GetState</p>
               <table style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
@@ -140,7 +140,7 @@ function actionElement(user) {
               </table>
             </div>
             <div >
-            <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>SetState</p>
+            <p class="showHideMenu name" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>SetState</p>
               <table  style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
@@ -162,7 +162,7 @@ function actionElement(user) {
               </table>
             </div>
             <div>
-              <p class="showHideMenu" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>Send Picture</p>
+              <p class="showHideMenu name" style="width: 100%; background: #64b5f6"><i class="material-icons">chevron_right</i>Send Picture</p>
               <table style="display: none;" class="text-small saveTable">
                 <thead>
                   <tr>
