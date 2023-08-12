@@ -351,6 +351,7 @@
 			$("#select_action").on("change", function () {
 				$("#btn_action_newRow").show()
 				$(".modal-content table").hide()
+				$(".modal-content table").hide()
 				$(`#tab_${$(this).val()}`).show()
 			})
 
@@ -752,8 +753,6 @@
 							</table>
 						</div>
 					</div>
-
-
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set" disabled
@@ -765,13 +764,13 @@
 			</div>
 			<div class="row group_menu" id="group_menu">
 				<div>
-					<div class="col s1">
+					<div class="col s4 m2 l1">
 						<p><i class="material-icons" id="btn_expand">expand_more</i><br> Activ Menu: <br><span
-								id="activMenuOutput"></span></p>
+								class="border" id="activMenuOutput"></span></p>
 						<ul id="group_list" class="showMenu">
 						</ul>
 					</div>
-					<div class="col s5 border">
+					<div class="col s10 m8 l8 border">
 						<div class="col s5 input-field ">
 							<input id="groupname" spellcheck="false" type="text" class="validate">
 							<label for="groupname" class="translate">Add new Menu Name</label>
@@ -784,14 +783,11 @@
 								title="Delete User"><i class="material-icons">delete</i>Delete</a>
 							<a class="waves-effect waves-light btn blue translateT" id="editUser" title="Edit User"><i
 									class="material-icons">edit</i>Edit</a>
+							<a class="waves-effect waves-light btn green translateT" id="btn_copy_nav" name="nav"
+								title="Copy Elementes from other Groups"><i
+									class="material-icons translate ">content_copy</i>Copy</a>
 						</div>
 					</div>
-					<div class="col s2">
-						<a class="waves-effect waves-light btn blue translateT" id="btn_copy_nav" name="nav"
-							title="Copy Elementes from other Groups"><i
-								class="material-icons translate ">content_copy</i>Copy Content</a>
-					</div>
-
 				</div>
 			</div>
 			<div class="row group_menu">
@@ -800,7 +796,6 @@
 						name="action" title="Add new Action" data-target="tab_action" style="display: none;"><i
 							class="material-icons translate ">add</i>Add new Aktion</a>
 				</div>
-
 				<div class="col s7" id="group_UserInput">
 				</div>
 				<div class="col s2" id="group_active_checkbox">
@@ -968,9 +963,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
 	</div>
 </body>
 

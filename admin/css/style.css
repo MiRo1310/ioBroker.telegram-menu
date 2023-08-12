@@ -38,8 +38,10 @@ label > i[title] {
 }
 /* Button */
 .btn {
-	margin-left: 10px;
-	margin-top: 20px;
+	margin: 10px 5px;
+}
+#group_menu .btn {
+	width: 110px;
 }
 
 /* Background */
@@ -213,4 +215,8 @@ p[data-name="newline_checkbox"] {
 }
 .showMenu {
 	display: none;
+}
+#activMenuOutput {
+	padding: 5px;
+	border-color: #96d15a;
 }
