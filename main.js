@@ -293,7 +293,14 @@ class TelegramMenu extends utils.Adapter {
 							const newUrl = url.replace(/&amp;/g, "&");
 							exec(
 								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+								(error, stdout, stderr) => {
+									if (error) {
+										_this.log.debug("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+										return;
+									}
+								},
 							);
+
 							_this.log.debug(
 								"url " +
 									`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
