@@ -37,14 +37,11 @@ label > i[title] {
 	white-space: nowrap;
 }
 /* Button */
-.btn-add {
-	margin-left: 20px;
-	margin-top: 7px;
+.btn {
+	margin-left: 10px;
+	margin-top: 20px;
 }
-.btn-delete,
-.btn-edit {
-	margin-top: 7px;
-}
+
 /* Background */
 .bg-error {
 	background-color: rgb(243, 96, 96);
@@ -52,6 +49,10 @@ label > i[title] {
 
 #group_list .tab {
 	text-transform: none;
+}
+#group_list .tab a {
+	display: inline-block;
+	width: 100%;
 }
 h1 {
 	font-size: x-large !important;
@@ -127,9 +128,6 @@ table th {
 .text-xsm {
 	font-size: 0.6rem;
 }
-.startRow {
-	background-color: rgb(150, 209, 90);
-}
 
 div#infoNav .infoText {
 	text-align: center;
@@ -191,4 +189,28 @@ p[data-name="newline_checkbox"] {
 }
 .m #tab_action .modal-content {
 	height: calc(100% - 50px) !important;
+}
+
+/* Menu Liste */
+
+#btn_expand {
+	width: 29px;
+	height: 29px;
+	border: 2px solid white;
+	border-radius: 5px;
+}
+#group_list {
+	position: absolute;
+	top: 25;
+	z-index: 10;
+	width: 200px;
+	padding: 10px;
+	border-radius: 10px;
+}
+#group_list li {
+	margin: 10px;
+	text-align: center;
+}
+.showMenu {
+	display: none;
 }

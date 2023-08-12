@@ -53,6 +53,7 @@
 			setCheckbox(settings.checkbox)
 			generateSelectTrigger(activeGroup)
 			checkUpAndDownArrowBtn(activeGroup)
+			menuToSpan(activeGroup)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username
 			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
@@ -568,7 +569,29 @@
 				$("#select-copy-data").val("").select()
 				$("#dialog-copy-data").hide()
 			}
-
+			// Menu Popup
+			$("#btn_expand").on("click", function () {
+				$("#group_list").toggleClass("showMenu")
+			})
+			let var1, var2
+			$("#btn_expand").on("mouseover", function () {
+				$("#group_list").css("display", "block")
+				var1 = true
+			})
+				.on("mouseleave", function () {
+					var1 = false
+				})
+			$("#group_list").on("mouseover", function () {
+				var2 = true
+			}).on("mouseleave", function () {
+				var2 = false
+			})
+			$(".adapter-container").on("mouseover", function () {
+				if (!var2 && !var1) $("#group_list").css("display", "none")
+			})
+			$(".adapter-container").on("click", ".click_user", function () {
+				$("#group_list").css("display", "none")
+			})
 		})
 	</script>
 </head>
@@ -745,41 +768,47 @@
 			</div>
 			<div class="row " id="group_menu">
 				<div>
-					<a class="btn-add btn-floating btn-small waves-effect waves-light blue disabled translateT"
-						id="addNewGroup" title="Add new Group"><i class="material-icons">group_add</i></a>
-					<a class="btn-delete delete btn-floating btn-small waves-effect waves-light red translateT"
-						id="deleteUser" title="Delete User"><i class="material-icons">delete</i></a>
-					<a class="btn-edit btn-floating btn-small waves-effect waves-light blue translateT" id="editUser"
-						title="Edit User"><i class="material-icons">edit</i></a>
-					<div class="input-field col s4">
-						<input id="groupname" spellcheck="false" type="text" class="validate">
-						<label for="groupname" class="translate">Add new Groupname</label>
-					</div>
-				</div>
-				<div class="row ">
-					<div class="col s12">
-						<ul class="tabs" id="group_list">
+					<div class="col s1">
+						<p><i class="material-icons" id="btn_expand">expand_more</i><br> Activ Menu: <br><span
+								id="activMenuOutput"></span></p>
+						<ul id="group_list" class="showMenu">
 						</ul>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<div class="col">
-							<a class="btn-add btn-floating btn-large waves-effect waves-light green translateT modal-trigger"
-								id="btn_add_action" name="action" title="Add new Action" data-target="tab_action"
-								style="display: none;"><i class="material-icons translate ">add</i></a>
-							<a class="btn-add btn-floating btn-small waves-effect waves-light blue translateT"
-								id="btn_copy_nav" name="nav" title="Copy Elementes from other Groups"><i
-									class="material-icons translate ">content_copy</i></a>
+					<div class="col s5 border">
+						<div class="col s5 input-field ">
+							<input id="groupname" spellcheck="false" type="text" class="validate">
+							<label for="groupname" class="translate">Add new Menu Name</label>
 						</div>
-						<div class="col s8" id="group_UserInput">
+						<div class="col s6">
+							<a class="waves-effect waves-light btn disabled translateT" id="addNewGroup"
+								title="Add new Group"><i class="material-icons">group_add</i> Add
+							</a>
+							<a class="waves-effect waves-light btn red translateT" id="deleteUser"
+								title="Delete User"><i class="material-icons">delete</i>Delete</a>
+							<a class="waves-effect waves-light btn blue translateT" id="editUser" title="Edit User"><i
+									class="material-icons">edit</i>Edit</a>
 						</div>
-						<div class="col s2" id="group_active_checkbox">
-						</div>
-
-
 					</div>
+					<div class="col s2">
+						<a class="waves-effect waves-light btn blue translateT" id="btn_copy_nav" name="nav"
+							title="Copy Elementes from other Groups"><i
+								class="material-icons translate ">content_copy</i>Copy Content</a>
+					</div>
+
 				</div>
+			</div>
+			<div class="row">
+				<div class="col s2">
+					<a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
+						name="action" title="Add new Action" data-target="tab_action" style="display: none;"><i
+							class="material-icons translate ">add</i>Add new Aktion</a>
+				</div>
+
+				<div class="col s7" id="group_UserInput">
+				</div>
+				<div class="col s2" id="group_active_checkbox">
+				</div>
+			</div>
 		</header>
 		<!-- //SECTION - Navigation -->
 		<div id="tab-nav" class="resizeFull">

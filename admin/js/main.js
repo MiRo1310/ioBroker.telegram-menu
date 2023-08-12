@@ -495,8 +495,12 @@ function getAllTelegramInstances(socket, _this) {
 	}
 }
 // @ts-ignore
+function menuToSpan(activeGroup) {
+	$("#activMenuOutput").text(activeGroup);
+}
 function showUser(activeGroup, showHideUserCheckbox) {
 	showHideUserEntry(activeGroup);
+	menuToSpan(activeGroup);
 
 	$("#group_list li a").each(function () {
 		$(this).removeClass("active");

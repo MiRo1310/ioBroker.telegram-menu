@@ -1,8 +1,15 @@
+/* Color and Border */
+.border {
+	border: 2px solid white;
+}
 .checkFalse {
 	border: 2px solid #f75555;
 }
 .checkTrue {
 	border: 2px solid #34e251;
+}
+.startRow {
+	background-color: rgb(150, 209, 90);
 }
 
 /* DarkMode */
@@ -25,4 +32,17 @@
 }
 .m.react-blue #tab-action p.name {
 	border-bottom: 2px solid #575757;
+}
+
+/* Popup MenuListe */
+#group_list {
+	background-color: white;
+	border: 3px solid #575757;
+}
+.m.react-dark #group_list {
+	background-color: #2a2a2a;
+}
+.m.react-blue #group_list {
+	background-color: #575757;
+	border-color: #2a2a2a;
 }

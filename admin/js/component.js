@@ -63,7 +63,7 @@ function newTableRow_Nav(activuser, users, array) {
  * @returns HTML Element
  */
 function newUserBtn(user) {
-	return /*html*/ `<li class="tab col s2 bg-nav-user"><a name="${user}" class="click_user" href="#">${user}</a></li>`;
+	return /*html*/ `<li class="tab bg-nav-user"><a name="${user}" class="click_user" href="#">${user}</a></li>`;
 }
 function userActivCheckbox(user, val) {
 	let checked = "";
