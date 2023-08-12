@@ -22,8 +22,6 @@ const getstate = require("./lib/js/getstate").getstate;
 const subMenu = require("./lib/js/subMenu").subMenu;
 const backMenuFuc = require("./lib/js/subMenu").backMenuFuc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
-// const lichtAn = require("./lib/js/action").lichtAn;
-// const wertUebermitteln = require("./lib/js/action").wertUebermitteln;
 
 let timeouts = [];
 let timeoutKey = 0;
