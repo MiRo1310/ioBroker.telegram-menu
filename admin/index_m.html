@@ -116,11 +116,8 @@
 			$(".valCheckbox").each(function () {
 				var $this = $(this);
 				if ($this.attr('type') === 'checkbox') {
-					// obj.checkbox.push({ [$this.attr('id')]: $this.prop('checked') });
 					obj.checkbox[$this.attr('id')] = $this.prop('checked')
 				};
-
-
 			})
 
 			const usersInGroup = {}
@@ -138,7 +135,6 @@
 			obj.userActiveCheckbox = checkboxes
 			const tableDevices = table2Values(".saveTable");
 			if (isStringEmty(".isString")) {
-
 				obj.instance = $("#select_instance").val()
 				obj.data = tableDevices;
 				obj.users = menus
@@ -171,12 +167,11 @@
 					addNewGroup(menus, newUser, _onChange)
 					activeGroup = newUser
 					showUser(newUser, showHideUserCheckbox)
-
 					buildUserSelection(valUserFromTelegram, [newUser], usersInGroup)
 					translateAll()
 				}
 			})
-			//REVIEW - 	
+
 			$(".adapter-container").on("change", ".userSelection", function () {
 				_onChange()
 			})
