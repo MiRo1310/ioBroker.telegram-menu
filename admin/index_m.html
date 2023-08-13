@@ -59,6 +59,7 @@
 			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
+			getUsersFromTelegram(socket, this, telegramInstance)
 			console.log("Telegram Instance: " + settings.instance)
 			setInstanceSelect(telegramInstance)
 			translateAll()
@@ -142,6 +143,7 @@
 				callback(obj);
 			}
 		}
+
 
 		$(function () {
 			let rowToUpdate;
@@ -334,9 +336,11 @@
 				resetModal()
 			})
 
-			// Telegram Instances in Select -----------------------------------------------------------------------
+
+
+			// Telegram Instances in Select -----------------------------------------------------------------------			
 			// Select Instance			
-			getAllTelegramInstances(socket, this, telegramInstance)
+			getAllTelegramInstances(socket, this)
 			$("#select_instance").val(telegramInstance).select();
 			$("#select_instance").on('change', function () {
 				_onChange()
@@ -764,8 +768,8 @@
 			</div>
 			<div class="row group_menu" id="group_menu">
 				<div>
-					<div class="col s4 m2 l1">
-						<p><i class="material-icons" id="btn_expand">expand_more</i><br> Activ Menu: <br><span
+					<div class="col s4 m2 l2">
+						<p><i class="material-icons" id="btn_expand">expand_more</i><br> Active Menu: <br><span
 								class="border" id="activMenuOutput"></span></p>
 						<ul id="group_list" class="showMenu">
 						</ul>
