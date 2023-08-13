@@ -1,6 +1,7 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "e" }]*/
 
 // Navigation----------------------------------------------------
+//FIXME - Remove
 function groupUserInput(user, val) {
 	return /*html*/ `<div class="${user}">
   <label >
@@ -8,6 +9,10 @@ function groupUserInput(user, val) {
     <span class="translate">Users for this Group, seperate with</span><span> ",".</span>
   </label>
 </div>`;
+}
+function userSelectionTelegram(user) {
+	return /*html*/ `<p>${user}</p><label><input type="checkbox" class="filled-in" /><span></span></label>
+  `;
 }
 /**
  * Nav Component & Startrow in Nav
@@ -73,10 +78,6 @@ function userActivCheckbox(user, val) {
   </span></div> `;
 }
 
-function userSelectionTelegram(user) {
-	return /*html*/ `<p>${user}</p><label><input type="checkbox" class="filled-in" /><span></span></label>
-  `;
-}
 //SECTION -  - Trigger
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected class="translate">Choose a trigger</option>';

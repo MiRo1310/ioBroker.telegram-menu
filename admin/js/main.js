@@ -95,6 +95,7 @@ function createGroup(id, users, activeGroup, userActiveCheckbox, usersInGroup) {
 		$("#group_active_checkbox").append(userActivCheckbox(user, val));
 		if (usersInGroup && usersInGroup[user] != undefined) val = usersInGroup[user];
 		else val = "";
+		//TODO -
 		// @ts-ignore
 		$("#group_UserInput").append(groupUserInput(user, val));
 	});

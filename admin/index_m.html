@@ -47,6 +47,10 @@
 			activeGroup = settings.users[0]
 			userActiveCheckbox = settings.userActiveCheckbox
 			usersInGroup = settings.usersInGroup
+			if (settings.instance) telegramInstance = settings.instance
+			else telegramInstance = "telegram.0"
+			console.log("Telegram Instance: " + settings.instance)
+			// getUsersFromTelegram(socket, this, telegramInstance, usersInGroup)
 			createGroup("#group_list", settings.users, activeGroup, userActiveCheckbox, usersInGroup)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
 			fillTableAction(settings.data.action)
@@ -57,10 +61,7 @@
 			menuToSpan(activeGroup)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username			
-			if (settings.instance) telegramInstance = settings.instance
-			else telegramInstance = "telegram.0"
-			getUsersFromTelegram(socket, this, telegramInstance, usersInGroup)
-			console.log("Telegram Instance: " + settings.instance)
+
 			setInstanceSelect(telegramInstance)
 			translateAll()
 
