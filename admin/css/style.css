@@ -140,7 +140,7 @@ div#infoNav .infoText {
 }
 
 .row {
-	margin-bottom: 5px !important;
+	margin-bottom: 3px !important;
 }
 .distance {
 	margin-top: 30px !important;
@@ -219,4 +219,22 @@ p[data-name="newline_checkbox"] {
 #activMenuOutput {
 	padding: 5px;
 	border-color: #96d15a;
+}
+
+/*User Selektion  */
+#group_UserInput p {
+	margin-top: 0;
+	padding: 0 10px;
+	display: inline-block;
+}
+.m [type="checkbox"] + span:not(.lever) {
+	margin-top: 10px !important;
+	height: 15px;
+}
+
+.m p.description {
+	margin: 0;
+	font-size: small;
+	text-decoration: underline;
+	color: #96d15a !important;
 }
