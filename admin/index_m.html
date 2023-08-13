@@ -348,10 +348,7 @@
 			})
 			// Select Inizializieren
 			$("select").select();
-			// Select Updaten
-			$('select').on('DOMSubtreeModified', function () {
-				$(this).select();
-			});
+
 			// Bei Änderungen von Select in Action Table anzeigen
 			$("#select_action").on("change", function () {
 				$("#btn_action_newRow").show()
@@ -376,7 +373,7 @@
 
 			// --------------------------------------------------------------------------------
 			// Global Disable delete Button in Tables
-			$("div.adapter-container").on("DOMSubtreeModified", "table tbody", function () {
+			$("div.adapter-container").on("click", "a.deleteRow", function () {
 				if ($(this).children("tr").length > 1) {
 					$(this).find($("a.deleteRow")).removeAttr("disabled")
 				} else $(this).find($("a.deleteRow")).attr("disabled", "disabled")

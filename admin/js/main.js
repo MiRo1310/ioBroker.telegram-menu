@@ -237,6 +237,7 @@ function generateSelectTrigger(activeGroup) {
 	// HTML Elemente löschen und neu aufbauen
 	// @ts-ignore
 	$("#select_trigger").empty().append(createSelectTrigger(list));
+	$("select").select();
 }
 
 function deleteDoubleEntrysInArray(arr) {
