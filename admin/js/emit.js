@@ -1,3 +1,5 @@
+/*global $, userSelectionTelegram, newSelectInstanceRow*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "get"}]*/
 async function getUsersFromTelegram(socket, _this, telegramInstance, usersInGroup) {
 	try {
 		socket.emit("getState", telegramInstance + ".communicate.users", (err, state) => {

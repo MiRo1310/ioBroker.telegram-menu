@@ -294,8 +294,14 @@ class TelegramMenu extends utils.Adapter {
 							exec(
 								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
 								(error, stdout, stderr) => {
+									if (stdout) {
+										_this.log.debug("Stdout: " + JSON.stringify(stdout));
+									}
+									if (stderr) {
+										_this.log.debug("Stderr: " + JSON.stringify(stderr));
+									}
 									if (error) {
-										_this.log.debug("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+										_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
 										return;
 									}
 								},
