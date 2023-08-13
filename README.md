@@ -36,6 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   checkbox for Telegram Users
+-   styling
 -   small fixes
 -   Add Row Button in Nav for every Row
 -   More Groups with the same User
