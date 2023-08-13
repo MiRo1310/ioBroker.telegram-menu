@@ -56,17 +56,13 @@
 			checkUpAndDownArrowBtn(activeGroup)
 			menuToSpan(activeGroup)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
-			// When import from old Version import Username
-			if (settings.usersForGlobal) $("#group_UserInput input[name='Global']").val(settings.usersForGlobal)
+			// When import from old Version import Username			
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
-			getUsersFromTelegram(socket, this, telegramInstance)
+			getUsersFromTelegram(socket, this, telegramInstance, usersInGroup)
 			console.log("Telegram Instance: " + settings.instance)
 			setInstanceSelect(telegramInstance)
 			translateAll()
-
-
-
 
 			$('.value').each(function () {
 				var $key = $(this);
@@ -312,7 +308,6 @@
 				_onChange()
 			})
 			$("#group_UserInput").on("keyup", "input", function () {
-				console.log("test")
 				_onChange()
 			})
 
@@ -779,14 +774,13 @@
 						</div>
 						<div class="col s6">
 							<a class="waves-effect waves-light btn disabled translateT" id="addNewGroup"
-								title="Add new Group"><i class="material-icons">group_add</i> Add
-							</a>
+								title="Add new Menu Name"><i class="material-icons">group_add</i>Add</a>
 							<a class="waves-effect waves-light btn red translateT" id="deleteUser"
-								title="Delete User"><i class="material-icons">delete</i>Delete</a>
-							<a class="waves-effect waves-light btn blue translateT" id="editUser" title="Edit User"><i
+								title="Delete Menu"><i class="material-icons">delete</i>Delete</a>
+							<a class="waves-effect waves-light btn blue translateT" id="editUser" title="Edit Menu"><i
 									class="material-icons">edit</i>Edit</a>
 							<a class="waves-effect waves-light btn green translateT" id="btn_copy_nav" name="nav"
-								title="Copy Elementes from other Groups"><i
+								title="Copy Elements from other Menus"><i
 									class="material-icons translate ">content_copy</i>Copy</a>
 						</div>
 					</div>
@@ -798,8 +792,14 @@
 						name="action" title="Add new Action" data-target="tab_action" style="display: none;"><i
 							class="material-icons translate ">add</i>Add new Aktion</a>
 				</div>
-				<div class="col s7" id="group_UserInput">
+				<div class="col s2" id="group_UserInput">
 				</div>
+				<div class="col s6">
+
+					<!-- <p>Michael</p><label><input type="checkbox" class="filled-in" /><span></span></label> -->
+
+				</div>
+
 				<div class="col s2" id="group_active_checkbox">
 				</div>
 			</div>

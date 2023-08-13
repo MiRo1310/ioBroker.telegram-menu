@@ -1,4 +1,4 @@
-function getUsersFromTelegram(socket, _this, telegramInstance) {
+async function getUsersFromTelegram(socket, _this, telegramInstance, usersInGroup) {
 	try {
 		socket.emit("getState", telegramInstance + ".communicate.users", (err, state) => {
 			if (state && !err) {
@@ -7,7 +7,17 @@ function getUsersFromTelegram(socket, _this, telegramInstance) {
 				for (const user in usersInTelegram) {
 					userListe.push(usersInTelegram[user]["firstName"]);
 				}
-				return userListe;
+				const groupList = Object.keys(usersInGroup);
+				console.log(groupList);
+				console.log(usersInGroup);
+				$(groupList).each(function (key, group) {
+					$(userListe).each(function (key, user) {
+						console.log("hha");
+						console.log(group, user);
+						// @ts-ignore
+						$(`#group_UserInput .${group}`).append(userSelectionTelegram(user));
+					});
+				});
 			} else if (err) _this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
 		});
 	} catch (err) {

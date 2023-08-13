@@ -72,6 +72,11 @@ function userActivCheckbox(user, val) {
   <span class="marginTop">${user} <span> </span><span class="translate">active</span>
   </span></div> `;
 }
+
+function userSelectionTelegram(user) {
+	return /*html*/ `<p>${user}</p><label><input type="checkbox" class="filled-in" /><span></span></label>
+  `;
+}
 //SECTION -  - Trigger
 function createSelectTrigger(list) {
 	let element = '<option value="" disabled selected class="translate">Choose a trigger</option>';
