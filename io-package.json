@@ -1,198 +1,198 @@
 {
-  "common": {
-    "name": "telegram-menu",
-    "version": "0.5.1",
-    "news": {
-      "0.5.1": {
-        "en": "sent to the wrong instance, fixed",
-        "de": "an die falsche instanz gesendet, fixiert",
-        "ru": "отправлено в неправильный экземпляр, исправлено",
-        "pt": "enviado para a instância errada, corrigido",
-        "nl": "verzonden naar de verkeerde instantie",
-        "fr": "envoyé à la mauvaise instance, fixe",
-        "it": "inviato all'istanza sbagliata, fisso",
-        "es": "enviado al caso equivocado, fijo",
-        "pl": "wysłany do niewłaściwej instancji, ustalony",
-        "uk": "відправлений на неправильний екземпляр, фіксований",
-        "zh-cn": "向错误案件发出的固定通知"
-      },
-      "0.5.0": {
-        "en": "trigger avoid duplicate entries and sort alphabetical\nadapter stops responding after some time, fixed #42\ngenerate Trigger in Action, fixed\nmath value for getstate\nsettings instance #41, menus, fixed\nno spellcheck for input fields\nmenu go back to last Sides",
-        "de": "trigger vermeiden doppelte einträge und sortieren alphabetisch\nadapter stoppt nach einiger zeit, fixiert #42\ntrigger in Aktion generieren, fixiert\nmath wert für getstate\neinstellungen instanz #41, menüs, fixiert\nkeine rechtschreibprüfung für eingabefelder\nmenü zurück zu den letzten Seiten",
-        "ru": "триггер избегает дублирования записей и сортировать алфавитный\nадаптер останавливается после некоторого времени, фиксированный #42\nгенерировать триггер в действии, фиксированный\nматематическое значение для getstate\nнастройки экземпляра #41, меню, фиксированные\nбез орфографии для входящих полей\nменю вернуться к последним Сторонам",
-        "pt": "gatilho evitar entradas duplicadas e classificar alfabético\nadaptador pára de responder após algum tempo, fixo #42\ngerar gatilho em Ação, fixo\nvalor de matemática para getstate\nsetting instance #41, menus, fixo\nsem verificação ortográfica para campos de entrada\nmenu voltar para os últimos lados",
-        "nl": "de trekker ontwijkt duplicaat en alfabetische\nadapter stopt met reageren na enige tijd, gerepareerd #42\ngenereerde Trigger in Actie, gerepareerd\nwiskunde waarde voor onroerend goed\nvertaling:\ngeen spellcheck voor input velden\nmenu gaat terug naar de laatste Sides",
-        "fr": "déclencheur éviter les doubles entrées et trier alphabétique\nadaptateur s'arrête après un certain temps, fixe #42\ngénérer Trigger en action, fixe\nmath value for getstate\nparamètres instance #41, menus, fixe\npas de sortcheck pour les champs d'entrée\nmenu retourner aux derniers côtés",
-        "it": "trigger evitare voci duplicate e ordinare alfabetico\nadattatore smette di rispondere dopo qualche tempo, fisso #42\ngenerare Trigger in Azione, fisso\nvalore matematico per getstate\nimpostazioni istanza #41, menu, fisso\nnessun spellcheck per i campi di input\nmenu torna all'ultimo lato",
-        "es": "gatillo evitar entradas duplicadas y ordenar entradas alfabéticas\nadaptador deja de responder después de algún tiempo, fijo #42\ngenerar Trigger en Acción, fijo\nvalor matemático para getstate\nconfiguración instancia #41, menús, fijo\nno hechizo para campos de entrada\nmenu go back to last Sides",
-        "pl": "wykorzystywanie wyjściowe unikanie duplikacji wpisów i alfabetyzacji\npo pewnym czasie przerwy reagują na stałe #42\ngeneruje Triggera w akcji\nwartość matrycowa\nna przykład #41, menus, ustawiony\nzaklęcie dla pól wejściowych\nmenu wraca do ostatniej strony",
-        "uk": "уникнути дублікатів записів і сортування алфавіту\nадаптер припиняє реагувати на деякий час, фіксований #42\nгенерувати Трігер в дії, фіксований\nматематичне значення для getstate\nзамість налаштувань #41, меню, фіксовані\nвідсутність орцепції для вхідних полів\nім'я користувача",
-        "zh-cn": "2. 避免重复物品和名称\n适应者在一段时间后停止作出反应,固定的编号为42\na. 行动的三倍,固定\n获取国产值\n例如第41号、男性、固定地点\n没有对投入领域进行明确的检查\n男子回到最后的Sides。"
-      },
-      "0.4.2": {
-        "en": "menu switch ersetzt menu yes-no, on-off, it is possible to customize text and value with this menu",
-        "de": "menüschalter ersetzen ja-nein, on-off, es ist möglich, text und wert mit diesem menü anpassen",
-        "ru": "меню переключатель ersetzt меню yes-no, on-off, можно настроить текст и значение с этим меню",
-        "pt": "menu switch ersetzt menu sim-no, on-off, é possível personalizar texto e valor com este menu",
-        "nl": "menu wisselen van ersetzt menu ja-op-off, het is mogelijk om tekst en waarde te gebruiken met deze menukaart",
-        "fr": "menu switch ersetzt menu oui-non, off-off, il est possible de personnaliser le texte et la valeur avec ce menu",
-        "it": "menu switch ersetzt menu yes-no, on-off, è possibile personalizzare testo e valore con questo menu",
-        "es": "menu switch ersetzt menu yes-no, on-off, es posible personalizar texto y valor con este menú",
-        "pl": "menu przełącza ersetzt menu yes-no, on-off, jest możliwe do dostosowania tekstu i wartości z tymi menu",
-        "uk": "меню переключення ersetzt меню так-но, on-off, можна налаштувати текст та значення з цим меню",
-        "zh-cn": "男性转化的男性是双赢的,有可能使文本和价值与这一男人定制。"
-      },
-      "0.4.1": {
-        "en": "Return text for submenus adjusted",
-        "de": "Rückgabetext für submenus angepasst",
-        "ru": "Вернуться текст для подменю скорректирован",
-        "pt": "Texto de retorno para submenus ajustado",
-        "nl": "Een terugkeer sms voor submenus aangepast",
-        "fr": "Texte de retour pour les sous-menus ajustés",
-        "it": "Testo di ritorno per submenus regolato",
-        "es": "Texto de retorno para submenú ajustado",
-        "pl": "Powtórne teksty do podmenu poprawiły",
-        "uk": "Повернення тексту для підменю",
-        "zh-cn": "调整的分遣案文"
-      },
-      "0.4.0": {
-        "en": "change output value for getState\ncheckbox to disbale Text No Entry found in the settings #34\nsubmenu\n**changed!!!**, states are always set with ack false\nadapter does not restart when telegram restarts #35",
-        "de": "ausgabewert ändern für getState\ncheckbox zum Ausbalieren Text Kein Eintrag gefunden in den Einstellungen #34\nunterpositionen\ngeändert! zustände werden immer mit ack false gesetzt\nadapter startet nicht neu, wenn telegramm neu gestartet #35",
-        "ru": "изменить значение вывода для getState\ncheckbox на disbale Текст Не найдено записей в настройках #34\nподменю\nизменено! государства всегда установлены с ack false\nадаптер не перезапускается при перезагрузке телеграмм #35",
-        "pt": "mudar o valor de saída para getState\ncaixa de seleção para debalar Texto Nenhuma entrada encontrada nas configurações #34\nsubmenu\nmudou! estados são sempre definidos com ack false\nadaptador não reinicia quando o telegrama reinicia #35",
-        "nl": "veranderingswaarde voor het krijgen van\ncontrolebox om te disbaliseren Sms No Entry gevonden in de settings 34\nsubmenu\nverander. er zijn altijd valse staten\n#355",
-        "fr": "valeur de sortie de changement pour getState\ncheckbox to disbale Texte Aucune entrée trouvée dans les paramètres #34\nsous-menu\nchangé ! les états sont toujours fixés avec ack false\nadaptateur ne redémarre pas lorsque le télégramme redémarre #35",
-        "it": "cambio valore di uscita per getState\ncasella di controllo per sbilanciare Testo Nessuna Entrata trovata nelle impostazioni #34\nsottomenu\ncambiato! stati sono sempre impostati con ack falso\nadattatore non riavvia quando il telegramma riavvia #35",
-        "es": "cambio de valor de salida para getState\ncheckbox to disbale Texto No Entrada encontrada en la configuración #34\nsubmenú\n¡cambiado! estados siempre están establecidos con ack falso\nadaptador no se reinicia cuando el telegrama se reinicia #35",
-        "pl": "zmiana wartości wyjściowej\nskrzynia kontrolna Tekst No Entry znalazł się w ustawieniach #34\nsubmenu\nzmieniło się! wszystkie stany są zawsze ustawione jako fałszywe\nadaptacja nie rozpoczęła się, gdy telegram wznowił #35",
-        "uk": "змінити вихідне значення для getState\nчекбокс на дискбаль Текст No Entry знайдено в налаштуваннях #34\nсубмену\nзмінено! держави завжди встановлюються з невірним\nперехідник не перезавантажує при перезапусках телеграм #35",
-        "zh-cn": "b. 国家产出价值的变化\n核对箱 第34号活动\n分项\n改为: 各州总是有假肢。\n变通器在电图包中装有第35条时不会再接再厉。"
-      },
-      "0.3.0": {
-        "en": "add ack Flag\nCopy-Button to copy User-elements to activ User",
-        "de": "eine Seite hinzufügen\nCopy-Button zu kopieren Benutzerelemente zum Aktivieren",
-        "ru": "добавить ack Флаг\nCopy-Button для копирования Пользователи для активного пользователя",
-        "pt": "adicionar ack Flag\nCopiar botão para copiar Elementos de usuário para agir",
-        "nl": "ack Flag\nBegrepen. User-elements om User te acteren",
-        "fr": "ajouter le drapeau\nCopy-Button to copy Utilisateurs pour activer Utilisateur",
-        "it": "aggiungi una bandiera\nCopia pulsante per copiare Selezione utente per attivare l'Utente",
-        "es": "añadir ack Bandera\nCopiar-Button para copiar Elementos de usuario para activ Usuario",
-        "pl": "dodać flagę\nCopy-Button do kopienia Użytkowniki do aktywowania Użytkownicy",
-        "uk": "додати ack Прапор\nКопіювати кнопку Користувачі-елементи для активації Користувача",
-        "zh-cn": "增加包装滞后\n印本 使用器操作器"
-      },
-      "0.2.0": {
-        "en": "rename button\ncreate groups with users",
-        "de": "rename taste\ngruppen mit benutzern erstellen",
-        "ru": "переименовать кнопку\nсоздавать группы с пользователями",
-        "pt": "botão de renome\ncriar grupos com usuários",
-        "nl": "knoop\nvertaling:",
-        "fr": "renommer le bouton\ncréer des groupes avec des utilisateurs",
-        "it": "rinominare il pulsante\ncreare gruppi con utenti",
-        "es": "botón de renombre\ncrear grupos con usuarios",
-        "pl": "rename\ntworzenie grup dla użytkowników",
-        "uk": "кнопка перейменування\nстворювати групи з користувачами",
-        "zh-cn": "重新命名\n与用户建立团体"
-      }
+    "common": {
+        "name": "telegram-menu",
+        "version": "0.5.1",
+        "news": {
+            "0.5.1": {
+                "en": "sent to the wrong instance, fixed",
+                "de": "an die falsche instanz gesendet, fixiert",
+                "ru": "отправлено в неправильный экземпляр, исправлено",
+                "pt": "enviado para a instância errada, corrigido",
+                "nl": "verzonden naar de verkeerde instantie",
+                "fr": "envoyé à la mauvaise instance, fixe",
+                "it": "inviato all'istanza sbagliata, fisso",
+                "es": "enviado al caso equivocado, fijo",
+                "pl": "wysłany do niewłaściwej instancji, ustalony",
+                "uk": "відправлений на неправильний екземпляр, фіксований",
+                "zh-cn": "向错误案件发出的固定通知"
+            },
+            "0.5.0": {
+                "en": "trigger avoid duplicate entries and sort alphabetical\nadapter stops responding after some time, fixed #42\ngenerate Trigger in Action, fixed\nmath value for getstate\nsettings instance #41, menus, fixed\nno spellcheck for input fields\nmenu go back to last Sides",
+                "de": "trigger vermeiden doppelte einträge und sortieren alphabetisch\nadapter stoppt nach einiger zeit, fixiert #42\ntrigger in Aktion generieren, fixiert\nmath wert für getstate\neinstellungen instanz #41, menüs, fixiert\nkeine rechtschreibprüfung für eingabefelder\nmenü zurück zu den letzten Seiten",
+                "ru": "триггер избегает дублирования записей и сортировать алфавитный\nадаптер останавливается после некоторого времени, фиксированный #42\nгенерировать триггер в действии, фиксированный\nматематическое значение для getstate\nнастройки экземпляра #41, меню, фиксированные\nбез орфографии для входящих полей\nменю вернуться к последним Сторонам",
+                "pt": "gatilho evitar entradas duplicadas e classificar alfabético\nadaptador pára de responder após algum tempo, fixo #42\ngerar gatilho em Ação, fixo\nvalor de matemática para getstate\nsetting instance #41, menus, fixo\nsem verificação ortográfica para campos de entrada\nmenu voltar para os últimos lados",
+                "nl": "de trekker ontwijkt duplicaat en alfabetische\nadapter stopt met reageren na enige tijd, gerepareerd #42\ngenereerde Trigger in Actie, gerepareerd\nwiskunde waarde voor onroerend goed\nvertaling:\ngeen spellcheck voor input velden\nmenu gaat terug naar de laatste Sides",
+                "fr": "déclencheur éviter les doubles entrées et trier alphabétique\nadaptateur s'arrête après un certain temps, fixe #42\ngénérer Trigger en action, fixe\nmath value for getstate\nparamètres instance #41, menus, fixe\npas de sortcheck pour les champs d'entrée\nmenu retourner aux derniers côtés",
+                "it": "trigger evitare voci duplicate e ordinare alfabetico\nadattatore smette di rispondere dopo qualche tempo, fisso #42\ngenerare Trigger in Azione, fisso\nvalore matematico per getstate\nimpostazioni istanza #41, menu, fisso\nnessun spellcheck per i campi di input\nmenu torna all'ultimo lato",
+                "es": "gatillo evitar entradas duplicadas y ordenar entradas alfabéticas\nadaptador deja de responder después de algún tiempo, fijo #42\ngenerar Trigger en Acción, fijo\nvalor matemático para getstate\nconfiguración instancia #41, menús, fijo\nno hechizo para campos de entrada\nmenu go back to last Sides",
+                "pl": "wykorzystywanie wyjściowe unikanie duplikacji wpisów i alfabetyzacji\npo pewnym czasie przerwy reagują na stałe #42\ngeneruje Triggera w akcji\nwartość matrycowa\nna przykład #41, menus, ustawiony\nzaklęcie dla pól wejściowych\nmenu wraca do ostatniej strony",
+                "uk": "уникнути дублікатів записів і сортування алфавіту\nадаптер припиняє реагувати на деякий час, фіксований #42\nгенерувати Трігер в дії, фіксований\nматематичне значення для getstate\nзамість налаштувань #41, меню, фіксовані\nвідсутність орцепції для вхідних полів\nім'я користувача",
+                "zh-cn": "2. 避免重复物品和名称\n适应者在一段时间后停止作出反应,固定的编号为42\na. 行动的三倍,固定\n获取国产值\n例如第41号、男性、固定地点\n没有对投入领域进行明确的检查\n男子回到最后的Sides。"
+            },
+            "0.4.2": {
+                "en": "menu switch ersetzt menu yes-no, on-off, it is possible to customize text and value with this menu",
+                "de": "menüschalter ersetzen ja-nein, on-off, es ist möglich, text und wert mit diesem menü anpassen",
+                "ru": "меню переключатель ersetzt меню yes-no, on-off, можно настроить текст и значение с этим меню",
+                "pt": "menu switch ersetzt menu sim-no, on-off, é possível personalizar texto e valor com este menu",
+                "nl": "menu wisselen van ersetzt menu ja-op-off, het is mogelijk om tekst en waarde te gebruiken met deze menukaart",
+                "fr": "menu switch ersetzt menu oui-non, off-off, il est possible de personnaliser le texte et la valeur avec ce menu",
+                "it": "menu switch ersetzt menu yes-no, on-off, è possibile personalizzare testo e valore con questo menu",
+                "es": "menu switch ersetzt menu yes-no, on-off, es posible personalizar texto y valor con este menú",
+                "pl": "menu przełącza ersetzt menu yes-no, on-off, jest możliwe do dostosowania tekstu i wartości z tymi menu",
+                "uk": "меню переключення ersetzt меню так-но, on-off, можна налаштувати текст та значення з цим меню",
+                "zh-cn": "男性转化的男性是双赢的,有可能使文本和价值与这一男人定制。"
+            },
+            "0.4.1": {
+                "en": "Return text for submenus adjusted",
+                "de": "Rückgabetext für submenus angepasst",
+                "ru": "Вернуться текст для подменю скорректирован",
+                "pt": "Texto de retorno para submenus ajustado",
+                "nl": "Een terugkeer sms voor submenus aangepast",
+                "fr": "Texte de retour pour les sous-menus ajustés",
+                "it": "Testo di ritorno per submenus regolato",
+                "es": "Texto de retorno para submenú ajustado",
+                "pl": "Powtórne teksty do podmenu poprawiły",
+                "uk": "Повернення тексту для підменю",
+                "zh-cn": "调整的分遣案文"
+            },
+            "0.4.0": {
+                "en": "change output value for getState\ncheckbox to disbale Text No Entry found in the settings #34\nsubmenu\n**changed!!!**, states are always set with ack false\nadapter does not restart when telegram restarts #35",
+                "de": "ausgabewert ändern für getState\ncheckbox zum Ausbalieren Text Kein Eintrag gefunden in den Einstellungen #34\nunterpositionen\ngeändert! zustände werden immer mit ack false gesetzt\nadapter startet nicht neu, wenn telegramm neu gestartet #35",
+                "ru": "изменить значение вывода для getState\ncheckbox на disbale Текст Не найдено записей в настройках #34\nподменю\nизменено! государства всегда установлены с ack false\nадаптер не перезапускается при перезагрузке телеграмм #35",
+                "pt": "mudar o valor de saída para getState\ncaixa de seleção para debalar Texto Nenhuma entrada encontrada nas configurações #34\nsubmenu\nmudou! estados são sempre definidos com ack false\nadaptador não reinicia quando o telegrama reinicia #35",
+                "nl": "veranderingswaarde voor het krijgen van\ncontrolebox om te disbaliseren Sms No Entry gevonden in de settings 34\nsubmenu\nverander. er zijn altijd valse staten\n#355",
+                "fr": "valeur de sortie de changement pour getState\ncheckbox to disbale Texte Aucune entrée trouvée dans les paramètres #34\nsous-menu\nchangé ! les états sont toujours fixés avec ack false\nadaptateur ne redémarre pas lorsque le télégramme redémarre #35",
+                "it": "cambio valore di uscita per getState\ncasella di controllo per sbilanciare Testo Nessuna Entrata trovata nelle impostazioni #34\nsottomenu\ncambiato! stati sono sempre impostati con ack falso\nadattatore non riavvia quando il telegramma riavvia #35",
+                "es": "cambio de valor de salida para getState\ncheckbox to disbale Texto No Entrada encontrada en la configuración #34\nsubmenú\n¡cambiado! estados siempre están establecidos con ack falso\nadaptador no se reinicia cuando el telegrama se reinicia #35",
+                "pl": "zmiana wartości wyjściowej\nskrzynia kontrolna Tekst No Entry znalazł się w ustawieniach #34\nsubmenu\nzmieniło się! wszystkie stany są zawsze ustawione jako fałszywe\nadaptacja nie rozpoczęła się, gdy telegram wznowił #35",
+                "uk": "змінити вихідне значення для getState\nчекбокс на дискбаль Текст No Entry знайдено в налаштуваннях #34\nсубмену\nзмінено! держави завжди встановлюються з невірним\nперехідник не перезавантажує при перезапусках телеграм #35",
+                "zh-cn": "b. 国家产出价值的变化\n核对箱 第34号活动\n分项\n改为: 各州总是有假肢。\n变通器在电图包中装有第35条时不会再接再厉。"
+            },
+            "0.3.0": {
+                "en": "add ack Flag\nCopy-Button to copy User-elements to activ User",
+                "de": "eine Seite hinzufügen\nCopy-Button zu kopieren Benutzerelemente zum Aktivieren",
+                "ru": "добавить ack Флаг\nCopy-Button для копирования Пользователи для активного пользователя",
+                "pt": "adicionar ack Flag\nCopiar botão para copiar Elementos de usuário para agir",
+                "nl": "ack Flag\nBegrepen. User-elements om User te acteren",
+                "fr": "ajouter le drapeau\nCopy-Button to copy Utilisateurs pour activer Utilisateur",
+                "it": "aggiungi una bandiera\nCopia pulsante per copiare Selezione utente per attivare l'Utente",
+                "es": "añadir ack Bandera\nCopiar-Button para copiar Elementos de usuario para activ Usuario",
+                "pl": "dodać flagę\nCopy-Button do kopienia Użytkowniki do aktywowania Użytkownicy",
+                "uk": "додати ack Прапор\nКопіювати кнопку Користувачі-елементи для активації Користувача",
+                "zh-cn": "增加包装滞后\n印本 使用器操作器"
+            },
+            "0.2.0": {
+                "en": "rename button\ncreate groups with users",
+                "de": "rename taste\ngruppen mit benutzern erstellen",
+                "ru": "переименовать кнопку\nсоздавать группы с пользователями",
+                "pt": "botão de renome\ncriar grupos com usuários",
+                "nl": "knoop\nvertaling:",
+                "fr": "renommer le bouton\ncréer des groupes avec des utilisateurs",
+                "it": "rinominare il pulsante\ncreare gruppi con utenti",
+                "es": "botón de renombre\ncrear grupos con usuarios",
+                "pl": "rename\ntworzenie grup dla użytkowników",
+                "uk": "кнопка перейменування\nстворювати групи з користувачами",
+                "zh-cn": "重新命名\n与用户建立团体"
+            }
+        },
+        "titleLang": {
+            "en": "Telegram Menu",
+            "de": "Telegramm-Menü",
+            "ru": "Меню телеграммы",
+            "pt": "Menu Telegram",
+            "nl": "Telegram-menu",
+            "fr": "Menu Télégramme",
+            "it": "Menù telegramma",
+            "es": "Menú de telegramas",
+            "pl": "menu telegramu",
+            "zh-cn": "电报菜单",
+            "uk": "Меню Telegram"
+        },
+        "desc": {
+            "en": "Easily create Telegram Menus",
+            "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+            "ru": "Легко создавать меню Telegram",
+            "pt": "Crie facilmente menus de telegrama",
+            "nl": "Maak eenvoudig Telegram-menu's",
+            "fr": "Créez facilement des menus de télégramme",
+            "it": "Crea facilmente menu di Telegram",
+            "es": "Crea fácilmente menús de Telegram",
+            "pl": "Z łatwością twórz menu telegramu",
+            "zh-cn": "轻松创建电报菜单",
+            "uk": "Легко створюйте меню Telegram"
+        },
+        "authors": [
+            "MiRo1310 <michael.roling@gmx.de>"
+        ],
+        "keywords": [
+            "telegram",
+            "menu"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "telegram-menu.png",
+        "enabled": true,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+        "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "messaging",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "materialize"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=3.3.22"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0",
+                "telegram": ">=1.15.0"
+            }
+        ]
     },
-    "titleLang": {
-      "en": "Telegram Menu",
-      "de": "Telegramm-Menü",
-      "ru": "Меню телеграммы",
-      "pt": "Menu Telegram",
-      "nl": "Telegram-menu",
-      "fr": "Menu Télégramme",
-      "it": "Menù telegramma",
-      "es": "Menú de telegramas",
-      "pl": "menu telegramu",
-      "zh-cn": "电报菜单",
-      "uk": "Меню Telegram"
+    "native": {
+        "nav": {},
+        "instance": "",
+        "data": {},
+        "checkbox": [],
+        "usersForGlobal": "",
+        "users": [],
+        "startsides": [],
+        "tokenGrafana": "",
+        "directory": "",
+        "userActiveCheckbox": [],
+        "usersInGroup": {},
+        "textNoEntry": ""
     },
-    "desc": {
-      "en": "Easily create Telegram Menus",
-      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
-      "ru": "Легко создавать меню Telegram",
-      "pt": "Crie facilmente menus de telegrama",
-      "nl": "Maak eenvoudig Telegram-menu's",
-      "fr": "Créez facilement des menus de télégramme",
-      "it": "Crea facilmente menu di Telegram",
-      "es": "Crea fácilmente menús de Telegram",
-      "pl": "Z łatwością twórz menu telegramu",
-      "zh-cn": "轻松创建电报菜单",
-      "uk": "Легко створюйте меню Telegram"
-    },
-    "authors": [
-      "MiRo1310 <michael.roling@gmx.de>"
-    ],
-    "keywords": [
-      "telegram",
-      "menu"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "telegram-menu.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "messaging",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "materialize"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=3.3.22"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0",
-        "telegram": ">=1.15.0"
-      }
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "nav": {},
-    "instance": "",
-    "data": {},
-    "checkbox": [],
-    "usersForGlobal": "",
-    "users": [],
-    "startsides": [],
-    "tokenGrafana": "",
-    "directory": "",
-    "userActiveCheckbox": [],
-    "usersInGroup": {},
-    "textNoEntry": ""
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
 }
