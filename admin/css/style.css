@@ -233,8 +233,13 @@ p[data-name="newline_checkbox"] {
 }
 
 .m p.description {
+	width: 100%;
 	margin: 0;
 	font-size: small;
 	text-decoration: underline;
 	color: #96d15a !important;
+}
+
+#group_UserInput div {
+	display: inline-block;
 }
