@@ -1,18 +1,21 @@
+/*global $*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "e" }]*/
 
 // Navigation----------------------------------------------------
 //FIXME - Remove
-function groupUserInput(user, val) {
-	return /*html*/ `<div class="${user}">
-  <label >
-    <input name="${user}" spellcheck="false" type="text" value="${val}" class="isString" >
+function groupUserInput(menu, val) {
+	return /*html*/ `<div data-name="group" data-menu="${menu}" class="${menu} ">
+  <!-- <label >
+    <input name="${menu}" spellcheck="false" type="text" value="${val}" class="isString" >
     <span class="translate">Users for this Group, seperate with</span><span> ",".</span>
-  </label>
+  </label> -->
+  
 </div>`;
 }
-function userSelectionTelegram(user) {
-	return /*html*/ `<p>${user}</p><label><input type="checkbox" class="filled-in" /><span></span></label>
-  `;
+function userSelectionTelegram(user, menu) {
+	$(`#group_UserInput .${menu}`)
+		.append(/*html*/ `<div data-name="${user}"><p>${user}</p><label><input data-menu="${user}" type="checkbox" class="filled-in userSelection" /><span></span></label></div>
+  `);
 }
 /**
  * Nav Component & Startrow in Nav
@@ -73,9 +76,9 @@ function newUserBtn(user) {
 function userActivCheckbox(user, val) {
 	let checked = "";
 	if (val || val == "") checked = "checked";
-	return /*html*/ `<div class="${user}" style="display:none"><input type="checkbox" class="filled-in userActiveCheckbox" ${checked} data-name="${user}"/>
+	return /*html*/ `<div class="${user}" style="display:none"><label> <input type="checkbox" class="filled-in userActiveCheckbox" ${checked} data-name="${user}"/>
   <span class="marginTop">${user} <span> </span><span class="translate">active</span>
-  </span></div> `;
+  </span></label></div> `;
 }
 
 //SECTION -  - Trigger

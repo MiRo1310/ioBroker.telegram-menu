@@ -1,26 +1,18 @@
-/*global $, userSelectionTelegram, newSelectInstanceRow*/
+/*global $,newSelectInstanceRow */
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "get"}]*/
-async function getUsersFromTelegram(socket, _this, telegramInstance, usersInGroup) {
+function getUsersFromTelegram(socket, _this, telegramInstance) {
 	try {
-		socket.emit("getState", telegramInstance + ".communicate.users", (err, state) => {
-			if (state && !err) {
-				const usersInTelegram = JSON.parse(state.val);
-				const userListe = [];
-				for (const user in usersInTelegram) {
-					userListe.push(usersInTelegram[user]["firstName"]);
+		return new Promise((resolve, reject) => {
+			// Hier rufst du socket.emit auf und wartest auf die Antwort
+			// Z.B.: socket.emit('someEvent', data, (response) => resolve(response));
+			socket.emit("getState", telegramInstance + ".communicate.users", (err, state) => {
+				if (state && !err) {
+					resolve(state);
+				} else if (err) {
+					reject(err);
+					_this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
 				}
-				const groupList = Object.keys(usersInGroup);
-				console.log(groupList);
-				console.log(usersInGroup);
-				$(groupList).each(function (key, group) {
-					$(userListe).each(function (key, user) {
-						console.log("hha");
-						console.log(group, user);
-						// @ts-ignore
-						$(`#group_UserInput .${group}`).append(userSelectionTelegram(user));
-					});
-				});
-			} else if (err) _this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
+			});
 		});
 	} catch (err) {
 		_this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));

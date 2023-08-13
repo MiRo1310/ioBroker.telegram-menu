@@ -33,26 +33,28 @@
 
 	<script type="text/javascript">
 		let _onChange
-		let users;
+		let menus;
 		let activeGroup;
 		let telegramInstance;
 		let userActiveCheckbox;
 		let usersInGroup;
+		let valUserFromTelegram
 		// This will be called by the admin adapter when the settings page loads
-		function load(settings, onChange) {
+		async function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
 			if (!settings) return;
 			_onChange = onChange
-			users = settings.users
+			menus = settings.users
 			activeGroup = settings.users[0]
 			userActiveCheckbox = settings.userActiveCheckbox
 			usersInGroup = settings.usersInGroup
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
 			console.log("Telegram Instance: " + settings.instance)
-			// getUsersFromTelegram(socket, this, telegramInstance, usersInGroup)
+			valUserFromTelegram = await getUsersFromTelegram(socket, this, telegramInstance, usersInGroup)
+
 			createGroup("#group_list", settings.users, activeGroup, userActiveCheckbox, usersInGroup)
-			fillTable("#navigation", settings.data.nav, newTableRow_Nav, users)
+			fillTable("#navigation", settings.data.nav, newTableRow_Nav, menus)
 			fillTableAction(settings.data.action)
 			showHideUserEntry(activeGroup)
 			setCheckbox(settings.checkbox)
@@ -61,7 +63,7 @@
 			menuToSpan(activeGroup)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username			
-
+			buildUserSelection(valUserFromTelegram, menus, usersInGroup)
 			setInstanceSelect(telegramInstance)
 			translateAll()
 
@@ -85,6 +87,9 @@
 			onChange(false);
 			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
+
+		}
+		async function loadData() {
 
 		}
 
@@ -117,10 +122,12 @@
 
 
 			})
+
 			const usersInGroup = {}
-			$("#group_UserInput input").each(function () {
-				const user = $(this).attr("name")
-				usersInGroup[user] = $(this).val().split(",").map(item => item.trim())
+			$("#group_UserInput input[type='checkbox']").each(function () {
+				const menu = $(this).parents().eq(2).attr("data-menu")
+				if (!usersInGroup[menu]) usersInGroup[menu] = []
+				if ($(this).prop("checked")) usersInGroup[menu].push($(this).attr("data-Menu"))
 			})
 			obj.usersInGroup = usersInGroup
 			const checkboxes = {}
@@ -134,8 +141,8 @@
 
 				obj.instance = $("#select_instance").val()
 				obj.data = tableDevices;
-				obj.users = users
-				obj.startsides = generateStartside(users)
+				obj.users = menus
+				obj.startsides = generateStartside(menus)
 				generateSelectTrigger(activeGroup)
 				console.log(obj)
 				callback(obj);
@@ -150,7 +157,7 @@
 			// New User Show Button			
 			$("#groupname").keyup(function () {
 				let userInput = $(this).val()
-				let gefundenerName = users.find(function (name) {
+				let gefundenerName = menus.find(function (name) {
 					return name.toLowerCase() === userInput.toLowerCase();
 				});
 				if ($(this).val() !== "" && !gefundenerName) {
@@ -160,16 +167,21 @@
 			// Add new User
 			$("#addNewGroup").click(() => {
 				let newUser = $("#groupname").val().replace(" ", "_")
-				if (users.indexOf(newUser) == -1) {
-					addNewGroup(users, newUser, _onChange)
+				if (menus.indexOf(newUser) == -1) {
+					addNewGroup(menus, newUser, _onChange)
 					activeGroup = newUser
 					showUser(newUser, showHideUserCheckbox)
+
+					buildUserSelection(valUserFromTelegram, [newUser], usersInGroup)
 					translateAll()
 				}
-
+			})
+			//REVIEW - 	
+			$(".adapter-container").on("change", ".userSelection", function () {
+				_onChange()
 			})
 			function showHideUserCheckbox(activeGroup) {
-				$("#group_active_checkbox div").hide()
+				$("#group_active_checkbox>div").hide()
 				$(`#group_active_checkbox div.${activeGroup}`).show()
 			}
 			// Delete User			
@@ -180,7 +192,7 @@
 			$("#dialog-confirm a.btn-set").on("click", function () {
 				let userdelete = $("#group_list .active").attr("name")
 
-				users.splice(users.indexOf(userdelete), 1)
+				menus.splice(menus.indexOf(userdelete), 1)
 				$("#group_list .active").parent().remove()
 				$(`#tab-nav tbody[name="${userdelete}"]`).remove()
 				$(`#tab-action tbody[name="${userdelete}"]`).remove()
@@ -190,8 +202,8 @@
 				$(`.user_${userdelete}`).remove()
 
 				// Nach dem Löschen den ersten User aktivieren
-				if (users.length > 0) {
-					activeGroup = users[0]
+				if (menus.length > 0) {
+					activeGroup = menus[0]
 					showUser(activeGroup, showHideUserCheckbox)
 				}
 
@@ -218,7 +230,7 @@
 			})
 			// Check Group doesn´t exist
 			$("#inputEditUser").keyup(function () {
-				let gefundenerName = users.find(function (name) {
+				let gefundenerName = menus.find(function (name) {
 					return name.toLowerCase() === $("#inputEditUser").val().toLowerCase();
 				});
 				if (gefundenerName) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
@@ -227,7 +239,7 @@
 			// Save Edit Group
 			$("#dialog-change-groupname .btn-set").click(function () {
 				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
-				users = users.filter(function (element) {
+				menus = menus.filter(function (element) {
 					return element != activeGroup
 				})
 				let renamedUser = $("#inputEditUser").val().replace(" ", "_")
@@ -240,7 +252,7 @@
 				$(`#group_active_checkbox div.${activeGroup}`).removeClass(activeGroup).addClass(renamedUser)
 				$(`#group_active_checkbox input[data-name="${activeGroup}"]`).attr("data-name", renamedUser)
 				$(`tbody[name="${activeGroup}"]`).attr("name", renamedUser)
-				users.push(renamedUser)
+				menus.push(renamedUser)
 				activeGroup = renamedUser
 				$("#dialog-change-groupname").hide()
 				_onChange()
@@ -272,7 +284,7 @@
 			})
 			//ANCHOR - New Row in Navigation
 			$(".adapter-container").on("click", ".btn_add_row", function () {
-				$(this).parent().parent().after(newTableRow_Nav(activeGroup, users))
+				$(this).parent().parent().after(newTableRow_Nav(activeGroup, menus))
 				checkUpAndDownArrowBtn(activeGroup)
 			})
 
@@ -510,7 +522,6 @@
 			})
 			$("#select-copy-data").on("change", function () {
 				$("#copyData").empty()
-				//TODO - 
 				if ($(this).val() == "nav") {
 					findElementsToCopy("#tab-nav tbody", "nav")
 				}
@@ -763,8 +774,10 @@
 			<div class="row group_menu" id="group_menu">
 				<div>
 					<div class="col s4 m2 l2">
-						<p><i class="material-icons" id="btn_expand">expand_more</i><br> Active Menu: <br><span
-								class="border" id="activMenuOutput"></span></p>
+						<p><i class="material-icons" id="btn_expand">expand_more</i>
+							<br><span class="translate">Active Menu:</span><br><span class="border"
+								id="activMenuOutput"></span>
+						</p>
 						<ul id="group_list" class="showMenu">
 						</ul>
 					</div>
@@ -788,17 +801,17 @@
 				</div>
 			</div>
 			<div class="row group_menu">
-				<div class="col s2">
+				<div class="col s4 m2 l2">
 					<a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
 						name="action" title="Add new Action" data-target="tab_action" style="display: none;"><i
 							class="material-icons translate ">add</i>Add new Aktion</a>
 				</div>
-				<div class="col s2" id="group_UserInput">
+				<div class="col s8 border" id="group_UserInput">
+					<p class="translate description">Users from Telegram</p>
 				</div>
-				<div class="col s6">
 
+				<div class="col s2">
 					<!-- <p>Michael</p><label><input type="checkbox" class="filled-in" /><span></span></label> -->
-
 				</div>
 
 				<div class="col s2" id="group_active_checkbox">

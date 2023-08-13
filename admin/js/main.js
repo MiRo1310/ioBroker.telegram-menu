@@ -1,4 +1,4 @@
-/*global newUserBtn, ,navElement ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
+/*global newUserBtn, ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
 function setInstanceSelect(instance) {
@@ -78,28 +78,57 @@ function generateNav() {
 /**
  *
  * @param {string} id Where to create
- * @param {Array} users Array of Users
+ * @param {Array} menu Array of Menus
  */
-function createGroup(id, users, activeGroup, userActiveCheckbox, usersInGroup) {
-	users.forEach((user) => {
+function createGroup(id, menu, activeGroup, userActiveCheckbox, usersInGroup) {
+	menu.forEach((menu) => {
 		// @ts-ignore
-		$(id).append(newUserBtn(user));
+		$(id).append(newUserBtn(menu));
 		// @ts-ignore
-		$("#table_nav").append(navElement(user));
+		$("#table_nav").append(navElement(menu));
 		// @ts-ignore
-		$("#tab-action").append(actionElement(user));
+		$("#tab-action").append(actionElement(menu));
 		let val;
-		if (userActiveCheckbox && userActiveCheckbox[user] != undefined) val = userActiveCheckbox[user];
+		if (userActiveCheckbox && userActiveCheckbox[menu] != undefined) val = userActiveCheckbox[menu];
 		else val = "";
 		// @ts-ignore
-		$("#group_active_checkbox").append(userActivCheckbox(user, val));
-		if (usersInGroup && usersInGroup[user] != undefined) val = usersInGroup[user];
+		$("#group_active_checkbox").append(userActivCheckbox(menu, val));
+		if (usersInGroup && usersInGroup[menu] != undefined) val = usersInGroup[menu];
 		else val = "";
-		//TODO -
+
 		// @ts-ignore
-		$("#group_UserInput").append(groupUserInput(user, val));
+		$("#group_UserInput").append(groupUserInput(menu, val));
 	});
 	if (activeGroup) $(`#group_active_checkbox div.${activeGroup}`).show();
+}
+//ANCHOR - User von Telegram mit Checkbox
+function buildUserSelection(state, menus, userinGroup) {
+	console.log("test");
+	const usersInTelegram = JSON.parse(state.val);
+	const userListe = [];
+	console.log(state);
+	console.log(menus);
+	for (const user in usersInTelegram) {
+		userListe.push(usersInTelegram[user]["firstName"]);
+	}
+
+	$(menus).each(function (key, menu) {
+		$(userListe).each(function (key, user) {
+			console.log(user, menu);
+			// @ts-ignore
+			userSelectionTelegram(user, menu);
+		});
+		checkCheckbox(menu, userListe, userinGroup);
+	});
+}
+//TODO - Function checkbox User Telegram
+function checkCheckbox(menu, userList, userinGroup) {
+	console.log(userinGroup);
+	$(userList).each(function (index, user) {
+		if (userinGroup[menu].includes(user)) {
+			$(`#group_UserInput div.${menu} div[data-name="${user}"] input`).prop("checked", true);
+		}
+	});
 }
 //SECTION - Save 5 Save to Object
 // @ts-ignore
@@ -192,7 +221,7 @@ function dataToArray(_this, selector) {
 function showHideUserEntry(activeGroup) {
 	$("tbody.table_switch_user").hide();
 	$("#tab-action>div").hide();
-	$("#group_UserInput div").hide();
+	$("#group_UserInput div[data-name='group'").hide();
 	$(`tbody.table_switch_user.user_${activeGroup}`).show();
 	$(`#tab-action>div.user_${activeGroup}`).show();
 	$(`#group_UserInput div.${activeGroup}`).show();
@@ -227,7 +256,6 @@ function splitTextInArray(activeGroup) {
 }
 
 //ANCHOR - Trigger erstellen
-//TODO -
 // @ts-ignore
 function generateSelectTrigger(activeGroup) {
 	let list = [];
