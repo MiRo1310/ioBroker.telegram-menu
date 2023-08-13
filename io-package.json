@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "news": {
+      "0.6.1": {
+        "en": "bug  fixed style",
+        "de": "fehler behoben stil",
+        "ru": "баг фиксированный стиль",
+        "pt": "bug estilo fixo",
+        "nl": "quality over quantity (qoq) releases vertaling:",
+        "fr": "bug fixed style",
+        "it": "bug stile fisso",
+        "es": "estilo fijo",
+        "pl": "styl gry",
+        "uk": "виправлений стиль помилок",
+        "zh-cn": "b 固定格式"
+      },
       "0.6.0": {
         "en": "checkbox for Telegram Users\nstyling\nsmall fixes\nAdd Row Button in Nav for every Row\nMore Groups with the same User\nTrigger generates without saving",
         "de": "checkbox für Telegram-Benutzer\nstyling\nkleine fixierungen\nFügen Sie Row Button in Nav für jede Row\nWeitere Gruppen mit demselben Benutzer\nTrigger erzeugt ohne Speicher",
@@ -80,19 +93,6 @@
         "pl": "zmiana wartości wyjściowej\nskrzynia kontrolna Tekst No Entry znalazł się w ustawieniach #34\nsubmenu\nzmieniło się! wszystkie stany są zawsze ustawione jako fałszywe\nadaptacja nie rozpoczęła się, gdy telegram wznowił #35",
         "uk": "змінити вихідне значення для getState\nчекбокс на дискбаль Текст No Entry знайдено в налаштуваннях #34\nсубмену\nзмінено! держави завжди встановлюються з невірним\nперехідник не перезавантажує при перезапусках телеграм #35",
         "zh-cn": "b. 国家产出价值的变化\n核对箱 第34号活动\n分项\n改为: 各州总是有假肢。\n变通器在电图包中装有第35条时不会再接再厉。"
-      },
-      "0.3.0": {
-        "en": "add ack Flag\nCopy-Button to copy User-elements to activ User",
-        "de": "eine Seite hinzufügen\nCopy-Button zu kopieren Benutzerelemente zum Aktivieren",
-        "ru": "добавить ack Флаг\nCopy-Button для копирования Пользователи для активного пользователя",
-        "pt": "adicionar ack Flag\nCopiar botão para copiar Elementos de usuário para agir",
-        "nl": "ack Flag\nBegrepen. User-elements om User te acteren",
-        "fr": "ajouter le drapeau\nCopy-Button to copy Utilisateurs pour activer Utilisateur",
-        "it": "aggiungi una bandiera\nCopia pulsante per copiare Selezione utente per attivare l'Utente",
-        "es": "añadir ack Bandera\nCopiar-Button para copiar Elementos de usuario para activ Usuario",
-        "pl": "dodać flagę\nCopy-Button do kopienia Użytkowniki do aktywowania Użytkownicy",
-        "uk": "додати ack Прапор\nКопіювати кнопку Користувачі-елементи для активації Користувача",
-        "zh-cn": "增加包装滞后\n印本 使用器操作器"
       }
     },
     "titleLang": {
