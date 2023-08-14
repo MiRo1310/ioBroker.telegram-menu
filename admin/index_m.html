@@ -182,22 +182,21 @@
 			})
 			// Auf Confirm Group Ok reagieren
 			$("#dialog-confirm a.btn-set").on("click", function () {
-				let userdelete = $("#group_list .active").attr("name")
 
-				menus.splice(menus.indexOf(userdelete), 1)
+				menus.splice(menus.indexOf(activeMenu), 1)
 				$("#group_list .active").parent().remove()
-				$(`#tab-nav tbody[name="${userdelete}"]`).remove()
-				$(`#tab-action tbody[name="${userdelete}"]`).remove()
-				$(`#group_active_checkbox div.${userdelete}`).remove()
-				$(`#group_UserInput div.${userdelete}`).remove()
-				$(`#${userdelete}`).remove()
-				$(`.user_${userdelete}`).remove()
+				$(`#tab-nav tbody[name="${activeMenu}"]`).remove()
+				$(`#tab-action tbody[name="${activeMenu}"]`).remove()
+				$(`#group_active_checkbox div.${activeMenu}`).remove()
+				$(`#group_UserInput div.${activeMenu}`).remove()
+				$(`#${activeMenu}`).remove()
+				$(`.user_${activeMenu}`).remove()
 
 				// Nach dem Löschen den ersten User aktivieren
 				if (menus.length > 0) {
 					activeMenu = menus[0]
 					showUser(activeMenu, showHideUserCheckbox)
-				}
+				} else menuToSpan("No User");
 
 				_onChange()
 				$("#dialog-confirm").hide()
