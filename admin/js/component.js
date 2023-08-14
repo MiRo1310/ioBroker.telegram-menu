@@ -4,13 +4,7 @@
 // Navigation----------------------------------------------------
 //FIXME - Remove
 function groupUserInput(menu, val) {
-	return /*html*/ `<div data-name="group" data-menu="${menu}" class="${menu} ">
-  <!-- <label >
-    <input name="${menu}" spellcheck="false" type="text" value="${val}" class="isString" >
-    <span class="translate">Users for this Group, seperate with</span><span> ",".</span>
-  </label> -->
-  
-</div>`;
+	return /*html*/ `<div data-name="group" data-menu="${menu}" class="${menu} "></div>`;
 }
 function userSelectionTelegram(user, menu) {
 	$(`#group_UserInput .${menu}`)

@@ -34,10 +34,10 @@
 	<script type="text/javascript">
 		let _onChange
 		let menus;
-		let activeGroup;
+		let activeMenu;
 		let telegramInstance;
 		let userActiveCheckbox;
-		let usersInGroup;
+		let usersInMenus = {}
 		let valUserFromTelegram
 		// This will be called by the admin adapter when the settings page loads
 		async function load(settings, onChange) {
@@ -45,25 +45,25 @@
 			if (!settings) return;
 			_onChange = onChange
 			menus = settings.users
-			activeGroup = settings.users[0]
+			activeMenu = settings.users[0]
 			userActiveCheckbox = settings.userActiveCheckbox
-			usersInGroup = settings.usersInGroup
+			if (settings.usersInGroup) usersInMenus = settings.usersInGroup
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
 			console.log("Telegram Instance: " + settings.instance)
-			valUserFromTelegram = await getUsersFromTelegram(socket, this, telegramInstance, usersInGroup)
+			valUserFromTelegram = await getUsersFromTelegram(socket, this, telegramInstance, usersInMenus)
 
-			createGroup("#group_list", settings.users, activeGroup, userActiveCheckbox, usersInGroup)
+			createGroup("#group_list", settings.users, activeMenu, userActiveCheckbox, usersInMenus)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, menus)
 			fillTableAction(settings.data.action)
-			showHideUserEntry(activeGroup)
+			showHideUserEntry(activeMenu)
 			setCheckbox(settings.checkbox)
-			generateSelectTrigger(activeGroup)
-			checkUpAndDownArrowBtn(activeGroup)
-			menuToSpan(activeGroup)
+			generateSelectTrigger(activeMenu)
+			checkUpAndDownArrowBtn(activeMenu)
+			menuToSpan(activeMenu)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username			
-			buildUserSelection(valUserFromTelegram, menus, usersInGroup)
+			buildUserSelection(valUserFromTelegram, menus, usersInMenus)
 			setInstanceSelect(telegramInstance)
 			translateAll()
 
@@ -119,14 +119,10 @@
 					obj.checkbox[$this.attr('id')] = $this.prop('checked')
 				};
 			})
+			usersInMenus = {}
+			usersInMenus = getUserInMenus()
+			obj.usersInGroup = usersInMenus
 
-			const usersInGroup = {}
-			$("#group_UserInput input[type='checkbox']").each(function () {
-				const menu = $(this).parents().eq(2).attr("data-menu")
-				if (!usersInGroup[menu]) usersInGroup[menu] = []
-				if ($(this).prop("checked")) usersInGroup[menu].push($(this).attr("data-Menu"))
-			})
-			obj.usersInGroup = usersInGroup
 			const checkboxes = {}
 			$("#group_active_checkbox input").each(function () {
 				const user = $(this).attr("data-name")
@@ -139,7 +135,7 @@
 				obj.data = tableDevices;
 				obj.users = menus
 				obj.startsides = generateStartside(menus)
-				generateSelectTrigger(activeGroup)
+				generateSelectTrigger(activeMenu)
 				console.log(obj)
 				callback(obj);
 			}
@@ -165,9 +161,10 @@
 				let newUser = $("#groupname").val().replace(" ", "_")
 				if (menus.indexOf(newUser) == -1) {
 					addNewGroup(menus, newUser, _onChange)
-					activeGroup = newUser
+					activeMenu = newUser
 					showUser(newUser, showHideUserCheckbox)
-					buildUserSelection(valUserFromTelegram, [newUser], usersInGroup)
+					console.log(valUserFromTelegram)
+					buildUserSelection(valUserFromTelegram, [newUser], usersInMenus)
 					translateAll()
 				}
 			})
@@ -198,8 +195,8 @@
 
 				// Nach dem Löschen den ersten User aktivieren
 				if (menus.length > 0) {
-					activeGroup = menus[0]
-					showUser(activeGroup, showHideUserCheckbox)
+					activeMenu = menus[0]
+					showUser(activeMenu, showHideUserCheckbox)
 				}
 
 				_onChange()
@@ -210,18 +207,18 @@
 			})
 			// Click User, Show User Navigation, Action
 			$("#group_list").on("click", ".click_user", function () {
-				activeGroup = $(this).attr("name")
+				activeMenu = $(this).attr("name")
 
-				showUser(activeGroup, showHideUserCheckbox)
+				showUser(activeMenu, showHideUserCheckbox)
 				// User active Button zeigen
-				showHideUserCheckbox(activeGroup)
-				generateSelectTrigger(activeGroup)
+				showHideUserCheckbox(activeMenu)
+				generateSelectTrigger(activeMenu)
 			})
 
 			// Edit Group
 			$("#editUser").click(function () {
 				$("#dialog-change-groupname").show()
-				$("#inputEditUser").val(activeGroup)
+				$("#inputEditUser").val(activeMenu)
 			})
 			// Check Group doesn´t exist
 			$("#inputEditUser").keyup(function () {
@@ -235,20 +232,20 @@
 			$("#dialog-change-groupname .btn-set").click(function () {
 				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
 				menus = menus.filter(function (element) {
-					return element != activeGroup
+					return element != activeMenu
 				})
 				let renamedUser = $("#inputEditUser").val().replace(" ", "_")
-				$(`#group_list li a[name="${activeGroup}"]`).html(renamedUser).attr("name", renamedUser)
-				$(`#table_nav tbody#${activeGroup}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
-				$(`#tab-action div.user_${activeGroup}`).removeClass(`user_${activeGroup}`).addClass(`user_${renamedUser}`)
-				$(`#group_UserInput div.${activeGroup}`).removeClass(activeGroup).addClass(renamedUser)
-				$(`#group_UserInput input[name="${activeGroup}"]`).attr("name", renamedUser)
-				$(`#group_active_checkbox div.${activeGroup}>span`).html(renamedUser + ' <span class="translate">activ</span>')
-				$(`#group_active_checkbox div.${activeGroup}`).removeClass(activeGroup).addClass(renamedUser)
-				$(`#group_active_checkbox input[data-name="${activeGroup}"]`).attr("data-name", renamedUser)
-				$(`tbody[name="${activeGroup}"]`).attr("name", renamedUser)
+				$(`#group_list li a[name="${activeMenu}"]`).html(renamedUser).attr("name", renamedUser)
+				$(`#table_nav tbody#${activeMenu}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeMenu}`).addClass(`user_${renamedUser}`)
+				$(`#tab-action div.user_${activeMenu}`).removeClass(`user_${activeMenu}`).addClass(`user_${renamedUser}`)
+				$(`#group_UserInput div.${activeMenu}`).removeClass(activeMenu).addClass(renamedUser)
+				$(`#group_UserInput input[name="${activeMenu}"]`).attr("name", renamedUser)
+				$(`#group_active_checkbox div.${activeMenu}>span`).html(renamedUser + ' <span class="translate">activ</span>')
+				$(`#group_active_checkbox div.${activeMenu}`).removeClass(activeMenu).addClass(renamedUser)
+				$(`#group_active_checkbox input[data-name="${activeMenu}"]`).attr("data-name", renamedUser)
+				$(`tbody[name="${activeMenu}"]`).attr("name", renamedUser)
 				menus.push(renamedUser)
-				activeGroup = renamedUser
+				activeMenu = renamedUser
 				$("#dialog-change-groupname").hide()
 				_onChange()
 			})
@@ -269,7 +266,7 @@
 				} else if (activeBtn === "action") {
 					$("#btn_add_action").show()
 					$(".group_menu").show()
-					generateSelectTrigger(activeGroup)
+					generateSelectTrigger(activeMenu)
 				}
 				else {
 					$("#btn_add_action").hide()
@@ -279,8 +276,8 @@
 			})
 			//ANCHOR - New Row in Navigation
 			$(".adapter-container").on("click", ".btn_add_row", function () {
-				$(this).parent().parent().after(newTableRow_Nav(activeGroup, menus))
-				checkUpAndDownArrowBtn(activeGroup)
+				$(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
+				checkUpAndDownArrowBtn(activeMenu)
 			})
 
 
@@ -294,7 +291,7 @@
 			//Delete Row
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
-				checkUpAndDownArrowBtn(activeGroup)
+				checkUpAndDownArrowBtn(activeMenu)
 				_onChange()
 				generateNav()
 			})
@@ -303,10 +300,10 @@
 			// Change Events --------------------------------------------------------------------------------------
 			// Eventhandler for save change 
 			$("#group_list").on("click", ".click-user", function () {
-				activeGroup = $(this).attr("name")
-				$("#btn-nav").attr("href", `#tab-nav-user-${activeGroup}`)
-				$("#btn_action").attr("href", `#tab-todo-user-${activeGroup}`)
-				$("adapter-container").load(`#tab-nav-user-${activeGroup}`)
+				activeMenu = $(this).attr("name")
+				$("#btn-nav").attr("href", `#tab-nav-user-${activeMenu}`)
+				$("#btn_action").attr("href", `#tab-todo-user-${activeMenu}`)
+				$("adapter-container").load(`#tab-nav-user-${activeMenu}`)
 			})
 			// update
 			$("#navigation").change(".value", function () {
@@ -449,7 +446,7 @@
 						result.picSendDelay.push($(this).val())
 					})
 				}
-				generatActionRow(activeGroup, action, result, rowToUpdate)
+				generatActionRow(activeMenu, action, result, rowToUpdate)
 				_onChange()
 				resetModal()
 			})
@@ -501,13 +498,13 @@
 			// Button Row up and down
 			$(".adapter-container").on("click", ".btn_up", function () {
 				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
-				checkUpAndDownArrowBtn(activeGroup)
+				checkUpAndDownArrowBtn(activeMenu)
 				_onChange()
 			})
 			$(".adapter-container").on("click", ".btn_down", function (key) {
 				console.log("klick")
 				$(this).parent().parent().insertAfter($(this).parent().parent().next())
-				checkUpAndDownArrowBtn(activeGroup)
+				checkUpAndDownArrowBtn(activeMenu)
 				_onChange()
 			})
 
@@ -524,7 +521,7 @@
 			})
 			function findElementsToCopy(selektor, toDo) {
 				const $bodys = $(selektor).map((index, tbody) => {
-					if ($(tbody).attr("name") != activeGroup) return tbody
+					if ($(tbody).attr("name") != activeMenu) return tbody
 				})
 				let tbody = $("<tbody>")
 				$bodys.each(function (index, $body) {
@@ -553,12 +550,12 @@
 										   <td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
 				if (action == "nav") {
 					rowToCopy.append(buttonsNav)
-					$(`#${activeGroup}`).append(rowToCopy)
-					checkUpAndDownArrowBtn(activeGroup)
+					$(`#${activeMenu}`).append(rowToCopy)
+					checkUpAndDownArrowBtn(activeMenu)
 				}
 				else {
 					rowToCopy.append(buttonsAction)
-					$(`#tab-action tbody[name="${activeGroup}"][data-name="${action}"]`).append(rowToCopy)
+					$(`#tab-action tbody[name="${activeMenu}"][data-name="${action}"]`).append(rowToCopy)
 				}
 			})
 
@@ -593,6 +590,10 @@
 			})
 			$(".adapter-container").on("click", ".click_user", function () {
 				$("#group_list").css("display", "none")
+			})
+			$(".adapter-container").on("change", "#select_instance", function () {
+				getNewValues(socket, this, $(this).val(), usersInMenus, menus)
+				_onChange()
 			})
 		})
 	</script>
