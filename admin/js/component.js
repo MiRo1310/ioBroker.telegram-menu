@@ -3,7 +3,7 @@
 
 // Navigation----------------------------------------------------
 //FIXME - Remove
-function groupUserInput(menu, val) {
+function groupUserInput(menu) {
 	return /*html*/ `<div data-name="group" data-menu="${menu}" class="${menu} "></div>`;
 }
 function userSelectionTelegram(user, menu) {

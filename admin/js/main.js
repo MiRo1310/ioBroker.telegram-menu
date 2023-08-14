@@ -1,4 +1,4 @@
-/*global newUserBtn, ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
+/*global newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
 function getUserInMenus() {
@@ -127,7 +127,7 @@ function createGroup(id, menu, activeGroup, userActiveCheckbox, usersInGroup) {
 	if (activeGroup) $(`#group_active_checkbox div.${activeGroup}`).show();
 }
 //ANCHOR - User von Telegram mit Checkbox
-function buildUserSelection(state, menus, userinGroup, activeMenu) {
+function buildUserSelection(state, menus, userinGroup) {
 	const usersInTelegram = JSON.parse(state.val);
 	const userListe = [];
 	for (const user in usersInTelegram) {
