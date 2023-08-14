@@ -33,9 +33,15 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+    ### **WORK IN PROGRESS**
+
+-   Active Menu Output fixed
+-   change instance, user will be load from new instance
+
 ### 0.6.1 (2023-08-13)
 
--   bug  fixed style
+-   bug fixed style
 
 ### 0.6.0 (2023-08-13)
 

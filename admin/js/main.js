@@ -1,6 +1,31 @@
 /*global newUserBtn, ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
+function getUserInMenus() {
+	const usersInMenus = {};
+	$("#group_UserInput input[type='checkbox']").each(function () {
+		let menu;
+		if (typeof $(this).parents().eq(2).attr("data-menu") === "string" && $(this).parents().eq(2).attr("data-menu"))
+			menu = $(this).parents().eq(2).attr("data-menu");
+		if (typeof menu == "string") {
+			if (!usersInMenus[menu]) usersInMenus[menu] = [];
+			if ($(this).prop("checked")) usersInMenus[menu].push($(this).attr("data-Menu"));
+			console.log(usersInMenus);
+		}
+	});
+	return usersInMenus;
+}
+async function getNewValues(socket, _this, telegramInstance, usersInGroup, menus) {
+	$(menus).each(function (key, menu) {
+		console.log(menu);
+		$(`#group_UserInput div[data-menu="${menu}"]`).empty();
+	});
+	// @ts-ignore
+	const valUserFromTelegram = await getUsersFromTelegram(socket, _this, telegramInstance, usersInGroup);
+
+	const usersInMenus = getUserInMenus();
+	buildUserSelection(valUserFromTelegram, menus, usersInMenus);
+}
 function setInstanceSelect(instance) {
 	$("#select_instance").val(instance);
 }
@@ -102,19 +127,14 @@ function createGroup(id, menu, activeGroup, userActiveCheckbox, usersInGroup) {
 	if (activeGroup) $(`#group_active_checkbox div.${activeGroup}`).show();
 }
 //ANCHOR - User von Telegram mit Checkbox
-function buildUserSelection(state, menus, userinGroup) {
-	console.log("test");
+function buildUserSelection(state, menus, userinGroup, activeMenu) {
 	const usersInTelegram = JSON.parse(state.val);
 	const userListe = [];
-	console.log(state);
-	console.log(menus);
 	for (const user in usersInTelegram) {
 		userListe.push(usersInTelegram[user]["firstName"]);
 	}
-
 	$(menus).each(function (key, menu) {
 		$(userListe).each(function (key, user) {
-			console.log(user, menu);
 			// @ts-ignore
 			userSelectionTelegram(user, menu);
 		});
@@ -125,7 +145,7 @@ function buildUserSelection(state, menus, userinGroup) {
 function checkCheckbox(menu, userList, userinGroup) {
 	console.log(userinGroup);
 	$(userList).each(function (index, user) {
-		if (userinGroup[menu].includes(user)) {
+		if (userinGroup[menu] && userinGroup[menu].includes(user)) {
 			$(`#group_UserInput div.${menu} div[data-name="${user}"] input`).prop("checked", true);
 		}
 	});
