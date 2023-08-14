@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "news": {
+      "0.6.2": {
+        "en": "Active Menu Output fixed\nchange instance, user will be load from new instance",
+        "de": "Aktive Menüausgabe fest\nänderungsinstanz, benutzer wird aus neuer instanz geladen",
+        "ru": "Активное меню Выход фиксированный\nизменить пример, пользователь будет загружаться из нового экземпляра",
+        "pt": "Saída do menu ativo fixo\ninstância de mudança, o usuário será carregado de nova instância",
+        "nl": "Active Menu Output gerepareerd\nverandering instance, gebruiker zal worden geladen van nieuwe instanties",
+        "fr": "Active Menu Sortie fixe\nchangement d'instance, l'utilisateur sera chargé de la nouvelle instance",
+        "it": "Uscita menu attivo fisso\ncambiamento istanza, l'utente verrà caricato da nuova istanza",
+        "es": "Juego de menú activo\ninstancia de cambio, el usuario será cargado desde nueva instancia",
+        "pl": "Aktywny Menu Output\nna przykład, użytkownik może być obciążony nowymi instancjami",
+        "uk": "Активне меню Вихід фіксований\nзміна екземпляра, користувач буде завантажуватися з нового екземпляра",
+        "zh-cn": "积极产出\n例如,用户将从新情况中负荷"
+      },
       "0.6.1": {
         "en": "bug  fixed style",
         "de": "fehler behoben stil",
@@ -80,19 +93,6 @@
         "pl": "Powtórne teksty do podmenu poprawiły",
         "uk": "Повернення тексту для підменю",
         "zh-cn": "调整的分遣案文"
-      },
-      "0.4.0": {
-        "en": "change output value for getState\ncheckbox to disbale Text No Entry found in the settings #34\nsubmenu\n**changed!!!**, states are always set with ack false\nadapter does not restart when telegram restarts #35",
-        "de": "ausgabewert ändern für getState\ncheckbox zum Ausbalieren Text Kein Eintrag gefunden in den Einstellungen #34\nunterpositionen\ngeändert! zustände werden immer mit ack false gesetzt\nadapter startet nicht neu, wenn telegramm neu gestartet #35",
-        "ru": "изменить значение вывода для getState\ncheckbox на disbale Текст Не найдено записей в настройках #34\nподменю\nизменено! государства всегда установлены с ack false\nадаптер не перезапускается при перезагрузке телеграмм #35",
-        "pt": "mudar o valor de saída para getState\ncaixa de seleção para debalar Texto Nenhuma entrada encontrada nas configurações #34\nsubmenu\nmudou! estados são sempre definidos com ack false\nadaptador não reinicia quando o telegrama reinicia #35",
-        "nl": "veranderingswaarde voor het krijgen van\ncontrolebox om te disbaliseren Sms No Entry gevonden in de settings 34\nsubmenu\nverander. er zijn altijd valse staten\n#355",
-        "fr": "valeur de sortie de changement pour getState\ncheckbox to disbale Texte Aucune entrée trouvée dans les paramètres #34\nsous-menu\nchangé ! les états sont toujours fixés avec ack false\nadaptateur ne redémarre pas lorsque le télégramme redémarre #35",
-        "it": "cambio valore di uscita per getState\ncasella di controllo per sbilanciare Testo Nessuna Entrata trovata nelle impostazioni #34\nsottomenu\ncambiato! stati sono sempre impostati con ack falso\nadattatore non riavvia quando il telegramma riavvia #35",
-        "es": "cambio de valor de salida para getState\ncheckbox to disbale Texto No Entrada encontrada en la configuración #34\nsubmenú\n¡cambiado! estados siempre están establecidos con ack falso\nadaptador no se reinicia cuando el telegrama se reinicia #35",
-        "pl": "zmiana wartości wyjściowej\nskrzynia kontrolna Tekst No Entry znalazł się w ustawieniach #34\nsubmenu\nzmieniło się! wszystkie stany są zawsze ustawione jako fałszywe\nadaptacja nie rozpoczęła się, gdy telegram wznowił #35",
-        "uk": "змінити вихідне значення для getState\nчекбокс на дискбаль Текст No Entry знайдено в налаштуваннях #34\nсубмену\nзмінено! держави завжди встановлюються з невірним\nперехідник не перезавантажує при перезапусках телеграм #35",
-        "zh-cn": "b. 国家产出价值的变化\n核对箱 第34号活动\n分项\n改为: 各州总是有假肢。\n变通器在电图包中装有第35条时不会再接再厉。"
       }
     },
     "titleLang": {
