@@ -35,7 +35,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### 0.6.1 (2023-08-13)
 
--       bug  fixed style
+-   bug  fixed style
 
 ### 0.6.0 (2023-08-13)
 
