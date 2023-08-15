@@ -33,6 +33,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+-       user check, least one user must be checked
+
 ### 0.6.2 (2023-08-14)
 
 -   Active Menu Output fixed
