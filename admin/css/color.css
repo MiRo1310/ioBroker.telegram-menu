@@ -1,4 +1,10 @@
 /* Color and Border */
+.m .border:has(p.warning) {
+	border-color: #f75555;
+}
+.m p.warning {
+	color: #f75555 !important;
+}
 .border {
 	border: 2px solid white;
 }
