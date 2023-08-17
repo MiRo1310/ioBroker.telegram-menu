@@ -213,7 +213,7 @@ p[data-name="newline_checkbox"] {
 	margin: 10px;
 	text-align: center;
 }
-.showMenu {
+.hide {
 	display: none;
 }
 #activMenuOutput {
@@ -242,4 +242,7 @@ p[data-name="newline_checkbox"] {
 
 #group_UserInput div {
 	display: inline-block;
+}
+.warning {
+	text-align: center;
 }

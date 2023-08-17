@@ -116,6 +116,7 @@
 					obj.checkbox[$this.attr('id')] = $this.prop('checked')
 				};
 			})
+			if (!isUserChecked(activeMenu)) return
 			usersInMenus = {}
 			usersInMenus = getUserInMenus()
 			obj.usersInGroup = usersInMenus
@@ -264,18 +265,28 @@
 			// Click Nav Buttons
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
+				if (!isUserChecked(activeMenu)) return
 				activeBtn = $(this).attr("name")
 				if (activeBtn === "nav") {
 					$("#btn_add_action").hide()
 					$(".group_menu").show()
+					$("#tab-nav").css("display", "block")
+					$("#tab-action").hide()
+					$("#tab-settings").hide()
 				} else if (activeBtn === "action") {
 					$("#btn_add_action").show()
 					$(".group_menu").show()
+					$("#tab-action").css("display", "block")
+					$("#tab-nav").hide()
+					$("#tab-settings").hide()
 					generateSelectTrigger(activeMenu)
 				}
 				else {
 					$("#btn_add_action").hide()
 					$(".group_menu").hide()
+					$("#tab-nav").hide()
+					$("#tab-action").hide()
+					$("#tab-settings").css("display", "block")
 				}
 				translateAll()
 			})
@@ -596,7 +607,7 @@
 
 			// Menu Popup
 			$("#btn_expand").on("click", function () {
-				$("#group_list").toggleClass("showMenu")
+				$("#group_list").toggleClass("hide")
 			})
 			let var1, var2
 			$("#btn_expand").on("mouseover", function () {
@@ -638,13 +649,13 @@
 				<div class="col s12">
 					<ul class="tabs bg--header">
 						<li class="tab col s3 "><a class="active btn_nav translate" name="nav" id="btn-nav"
-								href="#tab-nav">Navigation</a>
+								href="#">Navigation</a>
 						</li>
 						<li class="tab col s3"><a class="btn_nav translate" name="action" id="btn_action"
-								href="#tab-action">Action</a>
+								href="#">Action</a>
 						</li>
 						<li class="tab col s3"><a class="btn_nav translate" name="set" id="btn_settings"
-								href="#tab-settings">Settings</a>
+								href="#">Settings</a>
 						</li>
 					</ul>
 				</div>
@@ -800,7 +811,7 @@
 							<br><span class="translate">Active Menu:</span><br><span class="border"
 								id="activMenuOutput"></span>
 						</p>
-						<ul id="group_list" class="showMenu">
+						<ul id="group_list" class="hide">
 						</ul>
 					</div>
 					<div class="col s10 m8 l8 border">
@@ -822,6 +833,16 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div id="userSelection" class="col s8 offset-s2 border hide">
+					<p class="translate warning">At least one user must be checked, or the menu must be deactivated.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
+					<p class="translate warning">The trigger is allready in use.</p>
+				</div>
+			</div>
 			<div class="row group_menu">
 				<div class="col s4 m2 l2">
 					<a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
@@ -841,7 +862,7 @@
 			</div>
 		</header>
 		<!-- //SECTION - Navigation -->
-		<div id="tab-nav" class="resizeFull">
+		<div id="tab-nav" class="resizeFull" style="display: block;">
 			<div class="row">
 				<div class="col s12 table_wrapper ">
 					<div class="table-values-div saveTable nav" id="navigation">
@@ -866,9 +887,9 @@
 				</div>
 			</div>
 		</div>
-		<div id="tab-action" class="resizeFull"></div>
+		<div id="tab-action" class="resizeFull" style="display: none;"></div>
 		<!-- //SECTION - Settings -->
-		<div id="tab-settings">
+		<div id="tab-settings" style="display: none;">
 			<div class=" row">
 				<div class="col s12">
 					<h1 class="translate">Settings</h1>

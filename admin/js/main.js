@@ -1,5 +1,18 @@
 /*global newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
+function isUserChecked(activeMenu) {
+	let checked = false;
+	$(`#group_UserInput div[data-menu="${activeMenu}"] input`).each(function () {
+		if ($(this).prop("checked")) checked = true;
+	});
+	if (!$(`#group_active_checkbox div.${activeMenu} input`).prop("checked") || checked) {
+		$("#userSelection").addClass("hide");
+		return true;
+	} else {
+		$("#userSelection").removeClass("hide");
+		return false;
+	}
+}
 
 function resetSelect() {
 	$("#copyData").empty();
