@@ -34,7 +34,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
--       user check, least one user must be checked
+### **WORK IN PROGRESS**
+
+-         user check, least one user must be checked
 
 ### 0.6.2 (2023-08-14)
 
