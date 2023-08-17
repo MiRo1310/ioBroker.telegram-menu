@@ -1,6 +1,15 @@
 /*global newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
+function resetSelect() {
+	$("#copyData").empty();
+	$("#select-copy-data").val("").select();
+	$("#dialog-copy-data").hide();
+}
+function showHideUserCheckbox(activeGroup) {
+	$("#group_active_checkbox>div").hide();
+	$(`#group_active_checkbox div.${activeGroup}`).show();
+}
 function getUserInMenus() {
 	const usersInMenus = {};
 	$("#group_UserInput input[type='checkbox']").each(function () {

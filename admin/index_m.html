@@ -11,8 +11,6 @@
 	<script type="text/javascript" src="./js/main.js"></script>
 	<script type="text/javascript" src="./js/component.js"></script>
 	<script type="text/javascript" src="./js/emit.js"></script>
-
-
 	<script type="text/javascript" src="../../js/translate.js"></script>
 	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
 	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
@@ -25,7 +23,6 @@
 	<script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
 	<script type="text/javascript" src="../../lib/js/selectID.js"></script>
 
-	<!-- Load our own files -->
 	<link rel="stylesheet" type="text/css" href="./css/style.css" />
 	<link rel="stylesheet" type="text/css" href="./css/color.css" />
 	<link rel="stylesheet" type="text/css" href="./css/scrolling.css" />
@@ -144,45 +141,63 @@
 
 		$(function () {
 			let rowToUpdate;
+			// ----------------------------------------//
+			// Menu                                    //
+			//-----------------------------------------//  
 
-			// User ------------------------------------------------------------------------------
-			// New User Show Button			
+			// Menu-input , disable-enable Add Btn     //			
 			$("#groupname").keyup(function () {
-				let userInput = $(this).val()
-				let gefundenerName = menus.find(function (name) {
-					return name.toLowerCase() === userInput.toLowerCase();
+				let valInputField = $(this).val()
+				let menuNameFound = menus.find(function (name) {
+					return name.toLowerCase() === valInputField.toLowerCase();
 				});
-				if ($(this).val() !== "" && !gefundenerName) {
+				if (valInputField !== "" && !menuNameFound) {
 					$("#addNewGroup").removeClass("disabled")
 				} else $("#addNewGroup").addClass("disabled")
 			})
-			// Add new User
+			// Add Btn new Menu
 			$("#addNewGroup").click(() => {
-				let newUser = $("#groupname").val().replace(" ", "_")
-				if (menus.indexOf(newUser) == -1) {
-					addNewGroup(menus, newUser, _onChange)
-					activeMenu = newUser
-					showUser(newUser, showHideUserCheckbox)
-					console.log(valUserFromTelegram)
-					buildUserSelection(valUserFromTelegram, [newUser], usersInMenus)
+				let newMenu = $("#groupname").val().replace(" ", "_")
+				if (menus.indexOf(newMenu) == -1) {
+					addNewGroup(menus, newMenu, _onChange)
+					activeMenu = newMenu
+					showUser(newMenu, showHideUserCheckbox)
+					buildUserSelection(valUserFromTelegram, [newMenu], usersInMenus)
 					translateAll()
 				}
 			})
-
-			$(".adapter-container").on("change", ".userSelection", function () {
-				_onChange()
-			})
-			function showHideUserCheckbox(activeGroup) {
-				$("#group_active_checkbox>div").hide()
-				$(`#group_active_checkbox div.${activeGroup}`).show()
-			}
-			// Delete User			
+			// Delete Btn, open popup		
 			$("#group_menu").on("click", "#deleteUser", function () {
 				$("#dialog-confirm").show()
 			})
-			// Auf Confirm Group Ok reagieren
-			$("#dialog-confirm a.btn-set").on("click", function () {
+			// Edit Btn Menu
+			$("#editUser").click(function () {
+				$("#dialog-change-groupname").show()
+				$("#inputEditUser").val(activeMenu)
+			})
 
+			// ----------------------------------------//
+			// Popup Menu Liste                        //
+			//-----------------------------------------// 
+
+			// Click Menu, Show Menu Navigation or Action
+			$("#group_list").on("click", ".click_user", function () {
+				activeMenu = $(this).attr("name")
+				$("#btn-nav").attr("href", `#tab-nav-user-${activeMenu}`)
+				$("#btn_action").attr("href", `#tab-todo-user-${activeMenu}`)
+				$("adapter-container").load(`#tab-nav-user-${activeMenu}`)
+				showUser(activeMenu, showHideUserCheckbox)
+				// Menu active Button show
+				showHideUserCheckbox(activeMenu)
+				generateSelectTrigger(activeMenu)
+			})
+
+			// ----------------------------------------//
+			// Popup Confirm Delete Menu               //
+			//-----------------------------------------// 
+
+			// Confirm Dialog Btn OK
+			$("#dialog-confirm a.btn-set").on("click", function () {
 				menus.splice(menus.indexOf(activeMenu), 1)
 				$("#group_list .active").parent().remove()
 				$(`#tab-nav tbody[name="${activeMenu}"]`).remove()
@@ -197,29 +212,18 @@
 					activeMenu = menus[0]
 					showUser(activeMenu, showHideUserCheckbox)
 				} else menuToSpan("No User");
-
 				_onChange()
 				$("#dialog-confirm").hide()
 			})
+			// Confirm Dialog Btn Abort
 			$("#dialog-confirm a.btn-close").on("click", function () {
 				$("#dialog-confirm").hide()
 			})
-			// Click User, Show User Navigation, Action
-			$("#group_list").on("click", ".click_user", function () {
-				activeMenu = $(this).attr("name")
+			// ----------------------------------------//
+			// Popup Edit Menu                         //
+			//-----------------------------------------// 
 
-				showUser(activeMenu, showHideUserCheckbox)
-				// User active Button zeigen
-				showHideUserCheckbox(activeMenu)
-				generateSelectTrigger(activeMenu)
-			})
-
-			// Edit Group
-			$("#editUser").click(function () {
-				$("#dialog-change-groupname").show()
-				$("#inputEditUser").val(activeMenu)
-			})
-			// Check Group doesn´t exist
+			// Check Menu doesn´t exist
 			$("#inputEditUser").keyup(function () {
 				let gefundenerName = menus.find(function (name) {
 					return name.toLowerCase() === $("#inputEditUser").val().toLowerCase();
@@ -227,9 +231,9 @@
 				if (gefundenerName) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
 				else $("#dialog-change-groupname .btn-set").removeAttr("disabled")
 			})
-			// Save Edit Group
+			// Save Edit Menu
 			$("#dialog-change-groupname .btn-set").click(function () {
-				// ActiveUser aus der User List enfernen und die Änderung hinzufügen				
+				// ActiveMenu aus der User List enfernen und die Änderung hinzufügen				
 				menus = menus.filter(function (element) {
 					return element != activeMenu
 				})
@@ -253,8 +257,10 @@
 				$("#dialog-change-groupname").hide()
 			})
 
+			// ----------------------------------------//
+			// Navigation                              //
+			//-----------------------------------------// 
 
-			// Navigation -----------------------------------------------------------------------------------
 			// Click Nav Buttons
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
@@ -273,16 +279,31 @@
 				}
 				translateAll()
 			})
-			//ANCHOR - New Row in Navigation
+			// Btns new Row in Navigation
 			$(".adapter-container").on("click", ".btn_add_row", function () {
 				$(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
 				checkUpAndDownArrowBtn(activeMenu)
 			})
 
+			// Button Row up 
+			$(".adapter-container").on("click", ".btn_up", function () {
+				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
+				checkUpAndDownArrowBtn(activeMenu)
+				_onChange()
+			})
+			// Btn Row down
+			$(".adapter-container").on("click", ".btn_down", function (key) {
+				console.log("klick")
+				$(this).parent().parent().insertAfter($(this).parent().parent().next())
+				checkUpAndDownArrowBtn(activeMenu)
+				_onChange()
+			})
 
-			// ------------------------------------------------------------------------------------------------------
-			// Add Button New Row 
+			// ----------------------------------------//
+			// Action                                  //
+			//-----------------------------------------// 
 
+			// Add Button in Action opens Action Popup
 			$("#btn_add_action").click(function () {
 				rowToUpdate = null
 				translateAll()
@@ -295,15 +316,10 @@
 				generateNav()
 			})
 
+			// ----------------------------------------//
+			// Change Events                           //
+			//-----------------------------------------// 			 
 
-			// Change Events --------------------------------------------------------------------------------------
-			// Eventhandler for save change 
-			$("#group_list").on("click", ".click-user", function () {
-				activeMenu = $(this).attr("name")
-				$("#btn-nav").attr("href", `#tab-nav-user-${activeMenu}`)
-				$("#btn_action").attr("href", `#tab-todo-user-${activeMenu}`)
-				$("adapter-container").load(`#tab-nav-user-${activeMenu}`)
-			})
 			// update
 			$("#navigation").change(".value", function () {
 				_onChange()
@@ -314,9 +330,21 @@
 			$("#group_UserInput").on("keyup", "input", function () {
 				_onChange()
 			})
+			$(".adapter-container").on("change", ".userSelection", function () {
+				_onChange()
+			})
+			$("#select_instance").on('change', function () {
+				_onChange()
+			})
+			// Active User clicken und Speichern sichtbar machen
+			$("#group_active_checkbox").on("change", "input", function () {
+				_onChange()
+			})
 
+			// ----------------------------------------//
+			// Dialog get ID Iobroker                  //
+			//-----------------------------------------// 	
 
-			//Dialog get ID Iobroker ------------------------------------------------------------------------------
 			$(".adapter-container").on("click", ".btn_getID", function () {
 				let $element = $(this).parent().prev().children("input")
 				showSelectIdDialog($element.val(), function (newID) {
@@ -324,8 +352,10 @@
 				})
 			});
 
-			// ----------------------------------------------------------------------------------------------------
-			//Modal
+			// ----------------------------------------//
+			// Modal                                   //
+			//-----------------------------------------// 	
+
 			$('.modal').modal()
 			// Tables in Action Verstecken und Button new Row
 			$(".modal-content table").hide()
@@ -336,15 +366,14 @@
 				resetModal()
 			})
 
+			// ----------------------------------------//
+			// Telegram Instances in Select Input      //
+			//-----------------------------------------// 	
 
-
-			// Telegram Instances in Select -----------------------------------------------------------------------			
 			// Select Instance			
 			getAllTelegramInstances(socket, this)
 			$("#select_instance").val(telegramInstance).select();
-			$("#select_instance").on('change', function () {
-				_onChange()
-			})
+
 			// Select Inizializieren
 			$("select").select();
 
@@ -356,22 +385,51 @@
 				$(`#tab_${$(this).val()}`).show()
 			})
 
-			// Action Side --------------------------------------------------------------------
+			// ----------------------------------------//
+			// Action Popup                            //
+			//-----------------------------------------// 	
+
 			// New Row in Action 
 			$("#btn_action_newRow").on("click", function () {
 				const rows = $("#tab_pic tbody tr").length
 				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), undefined, rows))
 				$("#btn_action_set").attr("disabled", "disabled")
 			})
-
-			// Settings--------------------------------------------------------------------
-			$("#tab-settings").on("change", "#checkboxNoValueFound", function () {
-				disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
-
+			// Edit entrys
+			$(".adapter-container").on("click", ".editEntry", function () {
+				rowToUpdate = $(this).parents("tr")
+				showTrigger = true;
+				// Select_action deaktivieren
+				$("#select_action").attr("disabled", "disabled")
+				// Select Button Aktivieren 
+				$("#btn_action_set").removeAttr("disabled")
+				$("#btn_action_newRow").show()
+				let action = $(this).parents("tbody").attr("data-name")
+				$("#select_action").val(action).select()
+				$(`#tab_${action}`).show()
+				// Trigger	
+				$("#select_trigger").val($(this).parent().siblings("[data-name='trigger']").html()).select()
+				insertEditValues(action, this)
+				disableValueInput()
+			})
+			// Value deaktivieren wenn Switch checked
+			$(".modal-content").on("change", ".switch_checkbox", function () {
+				disableValueInput()
 			})
 
-			// --------------------------------------------------------------------------------
-			// Global Disable delete Button in Tables
+			// ----------------------------------------//
+			// Settings                                //
+			//-----------------------------------------// 	
+
+			$("#tab-settings").on("change", "#checkboxNoValueFound", function () {
+				disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
+			})
+
+			// ----------------------------------------//
+			// Global                                  //
+			//-----------------------------------------// 	
+
+			// Disable delete Button in Tables
 			$("div.adapter-container").on("click", "a.deleteRow", function () {
 				if ($(this).children("tr").length > 1) {
 					$(this).find($("a.deleteRow")).removeAttr("disabled")
@@ -385,6 +443,18 @@
 					$(this).find("i").html("chevron_right")
 				} else $(this).find("i").html("expand_more")
 			})
+
+			// Inputs if its not ""
+			$(".modal-content").on("input ", function () {
+				checkValueModal(showTrigger)
+			})
+			$(".modal-content").on("change", "#tab_set input.switch_checkbox", function () {
+				checkValueModal(showTrigger)
+			})
+
+			// ----------------------------------------//
+			// Save                                    //
+			//-----------------------------------------// 	
 			// Save from Action Input Field
 			//SECTION - Save 1
 			$("#btn_action_set").on("click", function () {
@@ -458,59 +528,17 @@
 				if ($(this).val() == null) showTrigger = false
 				showSelectModal(showTrigger, true)
 			})
-			// Inputs if its not ""
-			$(".modal-content").on("input ", function () {
-				checkValueModal(showTrigger)
-			})
-			$(".modal-content").on("change", "#tab_set input.switch_checkbox", function () {
-				checkValueModal(showTrigger)
-			})
 
-			// Edit entrys
-			$(".adapter-container").on("click", ".editEntry", function () {
-				rowToUpdate = $(this).parents("tr")
-				showTrigger = true;
-				// Select_action deaktivieren
-				$("#select_action").attr("disabled", "disabled")
-				// Select Button Aktivieren 
-				$("#btn_action_set").removeAttr("disabled")
-				$("#btn_action_newRow").show()
-				let action = $(this).parents("tbody").attr("data-name")
-				$("#select_action").val(action).select()
-				$(`#tab_${action}`).show()
-				// Trigger	
-				$("#select_trigger").val($(this).parent().siblings("[data-name='trigger']").html()).select()
-				insertEditValues(action, this)
-				disableValueInput()
-			})
+			// ----------------------------------------//
+			// Copy Data Popup                         //
+			//-----------------------------------------//
 
-
-			// Value deaktivieren wenn Switch checked
-			$(".modal-content").on("change", ".switch_checkbox", function () {
-				disableValueInput()
-
-			})
-			// Active User clicken und Speichern sichtbar machen
-			$("#group_active_checkbox").on("change", "input", function () {
-				_onChange()
-			})
-			// Button Row up and down
-			$(".adapter-container").on("click", ".btn_up", function () {
-				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
-				checkUpAndDownArrowBtn(activeMenu)
-				_onChange()
-			})
-			$(".adapter-container").on("click", ".btn_down", function (key) {
-				console.log("klick")
-				$(this).parent().parent().insertAfter($(this).parent().parent().next())
-				checkUpAndDownArrowBtn(activeMenu)
-				_onChange()
-			})
-
-			// Copy Data
+			// Open Popup
 			$("#btn_copy_nav").click(function () {
 				$("#dialog-copy-data").show()
 			})
+
+			// Select choose
 			$("#select-copy-data").on("change", function () {
 				$("#copyData").empty()
 				if ($(this).val() == "nav") {
@@ -557,16 +585,15 @@
 					$(`#tab-action tbody[name="${activeMenu}"][data-name="${action}"]`).append(rowToCopy)
 				}
 			})
-
+			// Close Copy Data Popup
 			$("#dialog-copy-data .btn-close").click(function () {
 				resetSelect()
 				_onChange()
 			})
-			function resetSelect() {
-				$("#copyData").empty()
-				$("#select-copy-data").val("").select()
-				$("#dialog-copy-data").hide()
-			}
+			// ----------------------------------------//
+			// Menu Navigation                         //
+			//-----------------------------------------// 
+
 			// Menu Popup
 			$("#btn_expand").on("click", function () {
 				$("#group_list").toggleClass("showMenu")
