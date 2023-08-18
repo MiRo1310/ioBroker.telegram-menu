@@ -35,7 +35,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### 0.6.3 (2023-08-17)
 
--           user check, least one user must be checked
+-   user check, least one user must be checked
 
 ### 0.6.2 (2023-08-14)
 
