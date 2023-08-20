@@ -223,16 +223,20 @@ function createGroup(id, menu, activeGroup, userActiveCheckbox, usersInGroup) {
 function buildUserSelection(state, menus, userinGroup) {
 	const usersInTelegram = JSON.parse(state.val);
 	const userListe = [];
+	const userListWithChatID = [];
 	for (const user in usersInTelegram) {
 		userListe.push(usersInTelegram[user]["firstName"]);
+		userListWithChatID.push({ name: usersInTelegram[user]["firstName"], chatID: user });
 	}
 	$(menus).each(function (key, menu) {
-		$(userListe).each(function (key, user) {
+		$(userListWithChatID).each(function (key, user) {
+			console.log(user);
 			// @ts-ignore
-			userSelectionTelegram(user, menu);
+			userSelectionTelegram(user.name, menu, user.chatID);
 		});
 		checkCheckbox(menu, userListe, userinGroup);
 	});
+	return userListWithChatID;
 }
 
 function checkCheckbox(menu, userList, userinGroup) {

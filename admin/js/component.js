@@ -6,9 +6,9 @@
 function groupUserInput(menu) {
 	return /*html*/ `<div data-name="group" data-menu="${menu}" class="${menu} "></div>`;
 }
-function userSelectionTelegram(user, menu) {
+function userSelectionTelegram(user, menu, chatID) {
 	$(`#group_UserInput .${menu}`)
-		.append(/*html*/ `<div data-name="${user}"><p>${user}</p><label><input data-menu="${user}" type="checkbox" class="filled-in userSelection" /><span></span></label></div>
+		.append(/*html*/ `<div data-name="${user}" data-id="${chatID}"><p>${user}</p><label><input data-menu="${user}" type="checkbox" class="filled-in userSelection" /><span></span></label></div>
   `);
 }
 /**

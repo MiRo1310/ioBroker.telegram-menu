@@ -38,6 +38,7 @@
 		let valUserFromTelegram
 		let usedTrigger = []
 		let inputFieldWithDoubleCall = false
+		let userListWithChatID = []
 		// This will be called by the admin adapter when the settings page loads
 		async function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -50,9 +51,8 @@
 			if (settings.instance) telegramInstance = settings.instance
 			else telegramInstance = "telegram.0"
 			console.log("Telegram Instance: " + settings.instance)
-			valUserFromTelegram = await getUsersFromTelegram(socket, this, telegramInstance, usersInMenus)
-
-			createGroup("#group_list", settings.users, activeMenu, userActiveCheckbox, usersInMenus)
+			valUserFromTelegram = await getUsersFromTelegram(socket, this, telegramInstance)
+			createGroup("#group_list", settings.users, activeMenu, userActiveCheckbox)
 			fillTable("#navigation", settings.data.nav, newTableRow_Nav, menus)
 			fillTableAction(settings.data.action)
 			showHideUserEntry(activeMenu)
@@ -62,7 +62,7 @@
 			menuToSpan(activeMenu)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username			
-			buildUserSelection(valUserFromTelegram, menus, usersInMenus)
+			userListWithChatID = buildUserSelection(valUserFromTelegram, menus, usersInMenus)
 			setInstanceSelect(telegramInstance)
 			translateAll()
 
@@ -123,6 +123,8 @@
 			usersInMenus = {}
 			usersInMenus = getUserInMenus()
 			obj.usersInGroup = usersInMenus
+			console.log(userListWithChatID)
+			obj.userListWithChatID = userListWithChatID
 
 			const checkboxes = {}
 			$("#group_active_checkbox input").each(function () {
@@ -166,7 +168,7 @@
 					addNewGroup(menus, newMenu, _onChange)
 					activeMenu = newMenu
 					showUser(newMenu, showHideUserCheckbox)
-					buildUserSelection(valUserFromTelegram, [newMenu], usersInMenus)
+					userListWithChatID = buildUserSelection(valUserFromTelegram, [newMenu], usersInMenus)
 					translateAll()
 				}
 			})

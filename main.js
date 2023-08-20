@@ -68,6 +68,7 @@ class TelegramMenu extends utils.Adapter {
 		const userActiveCheckbox = this.config.userActiveCheckbox;
 		const groupsWithUsers = this.config.usersInGroup;
 		const textNoEntryFound = this.config.textNoEntry;
+		const userListWithChatID = this.config.userListWithChatID;
 		const menu = {
 			data: {},
 		};
