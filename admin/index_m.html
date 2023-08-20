@@ -36,6 +36,7 @@
 		let userActiveCheckbox;
 		let usersInMenus = {}
 		let valUserFromTelegram
+		let usedTrigger = []
 		// This will be called by the admin adapter when the settings page loads
 		async function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -55,7 +56,7 @@
 			fillTableAction(settings.data.action)
 			showHideUserEntry(activeMenu)
 			setCheckbox(settings.checkbox)
-			generateSelectTrigger(activeMenu)
+			usedTrigger = generateSelectTrigger(activeMenu)
 			checkUpAndDownArrowBtn(activeMenu)
 			menuToSpan(activeMenu)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
@@ -133,7 +134,7 @@
 				obj.data = tableDevices;
 				obj.users = menus
 				obj.startsides = generateStartside(menus)
-				generateSelectTrigger(activeMenu)
+				usedTrigger = generateSelectTrigger(activeMenu)
 				console.log(obj)
 				callback(obj);
 			}
@@ -177,6 +178,11 @@
 				$("#inputEditUser").val(activeMenu)
 			})
 
+			$("#group_UserInput, #group_active_checkbox").on("change", "input", function () {
+				isUserChecked(activeMenu)
+				_onChange()
+			})
+
 			// ----------------------------------------//
 			// Popup Menu Liste                        //
 			//-----------------------------------------// 
@@ -190,7 +196,7 @@
 				showUser(activeMenu, showHideUserCheckbox)
 				// Menu active Button show
 				showHideUserCheckbox(activeMenu)
-				generateSelectTrigger(activeMenu)
+				usedTrigger = generateSelectTrigger(activeMenu)
 			})
 
 			// ----------------------------------------//
@@ -279,7 +285,7 @@
 					$("#tab-action").css("display", "block")
 					$("#tab-nav").hide()
 					$("#tab-settings").hide()
-					generateSelectTrigger(activeMenu)
+					usedTrigger = generateSelectTrigger(activeMenu)
 				}
 				else {
 					$("#btn_add_action").hide()
@@ -338,17 +344,10 @@
 			$(".valCheckbox").change(function () {
 				_onChange()
 			})
-			$("#group_UserInput").on("keyup", "input", function () {
-				_onChange()
-			})
 			$(".adapter-container").on("change", ".userSelection", function () {
 				_onChange()
 			})
 			$("#select_instance").on('change', function () {
-				_onChange()
-			})
-			// Active User clicken und Speichern sichtbar machen
-			$("#group_active_checkbox").on("change", "input", function () {
 				_onChange()
 			})
 
@@ -463,12 +462,26 @@
 				checkValueModal(showTrigger)
 			})
 
+
+			//TODO - Trigger müssen noch in anderes Menu übertragen werden
+			$(".adapter-container").on("input", "input[data-name='call']", function () {
+
+				if (usedTrigger.includes($(this).val())) {
+					$(this).parent().addClass("bg-error")
+					$("#triggerAllreadyInUser").removeClass("hide")
+				}
+				else {
+					$(this).parent().removeClass("bg-error")
+					$("#triggerAllreadyInUser").addClass("hide")
+				}
+			})
 			// ----------------------------------------//
 			// Save                                    //
 			//-----------------------------------------// 	
 			// Save from Action Input Field
 			//SECTION - Save 1
 			$("#btn_action_set").on("click", function () {
+
 				// Wieder sichtbar machen, wenn du edit disabled gesetzt wurde
 				$("#select_action").removeAttr("disabled")
 				let action = $("#select_action").val()
@@ -527,6 +540,7 @@
 					})
 				}
 				generatActionRow(activeMenu, action, result, rowToUpdate)
+				usedTrigger = generateSelectTrigger(activeMenu)
 				_onChange()
 				resetModal()
 			})
@@ -633,6 +647,7 @@
 				_onChange()
 			})
 		})
+
 	</script>
 </head>
 
@@ -833,16 +848,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div id="userSelection" class="col s8 offset-s2 border hide">
-					<p class="translate warning">At least one user must be checked, or the menu must be deactivated.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
-					<p class="translate warning">The trigger is allready in use.</p>
-				</div>
-			</div>
 			<div class="row group_menu">
 				<div class="col s4 m2 l2">
 					<a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
@@ -860,6 +865,19 @@
 				<div class="col s2" id="group_active_checkbox">
 				</div>
 			</div>
+			<!-- //SECTION -  - Warnings -->
+
+			<div class="row">
+				<div id="userSelection" class="col s8 offset-s2 border hide">
+					<p class="translate warning">At least one user must be checked, or the menu must be deactivated.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
+					<p class="translate warning">The trigger is allready in use.</p>
+				</div>
+			</div>
+			<!-- //!SECTION -->
 		</header>
 		<!-- //SECTION - Navigation -->
 		<div id="tab-nav" class="resizeFull" style="display: block;">
