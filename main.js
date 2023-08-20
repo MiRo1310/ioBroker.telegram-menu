@@ -1,7 +1,5 @@
 "use strict";
 
-import { on } from "events";
-
 let setStateIdsToListenTo;
 function sendIdToOtherFile(Ids) {
 	setStateIdsToListenTo = Ids;
