@@ -1,4 +1,8 @@
 /* Color and Border */
+.bg-error,
+.bg-error-doubleUser {
+	background-color: #f75555;
+}
 .m .border:has(p.warning) {
 	border-color: #f75555;
 }
@@ -17,11 +21,43 @@
 .startRow {
 	background-color: #96d15a;
 }
-
-/* DarkMode */
+#tab_action {
+	background-color: white;
+	border: 5px solid #64b5f6;
+}
+table th {
+	background-color: #64b5f6;
+}
+.bg--header {
+	background-color: #3399cc !important;
+}
+#tab-action p.name {
+	border-bottom: 2px solid white;
+}
+#activMenuOutput {
+	border-color: #96d15a;
+}
+.m p.description {
+	color: #96d15a !important;
+}
+#btn_expand {
+	border: 2px solid white;
+}
+.tab {
+	background-color: #eee;
+	border: 3px solid #999;
+}
+.tab:hover {
+	background-color: #fff;
+	border-color: #0e1072;
+}
+li.tab:has(.active) {
+	border-color: #477da8 !important;
+}
 .m.react-dark .tab {
 	background-color: #575757;
 }
+/* DarkMode */
 .m.react-dark .tabs,
 .m.react-dark header {
 	background-color: #2a2a2a;

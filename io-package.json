@@ -1,198 +1,198 @@
 {
-  "common": {
-    "name": "telegram-menu",
-    "version": "0.6.3",
-    "news": {
-      "0.6.3": {
-        "en": "user check, least one user must be checked",
-        "de": "benutzerüberprüfung, mindestens ein benutzer muss überprüft werden",
-        "ru": "проверка пользователя, хотя бы один пользователь должен быть проверен",
-        "pt": "verificação do usuário, pelo menos um usuário deve ser verificado",
-        "nl": "eén gebruiker moet gecontroleerd worden",
-        "fr": "contrôle utilisateur, le moins d'un utilisateur doit être vérifié",
-        "it": "controllo utente, almeno un utente deve essere controllato",
-        "es": "control de usuario, al menos un usuario debe ser revisado",
-        "pl": "wskaźnik użytkownika musi być sprawdzany przynajmniej jeden użytkownik",
-        "uk": "перевірка користувачів, принаймні один користувач повинен перевіряти",
-        "zh-cn": "用户检查,至少必须检查一名用户。"
-      },
-      "0.6.2": {
-        "en": "Active Menu Output fixed\nchange instance, user will be load from new instance",
-        "de": "Aktive Menüausgabe fest\nänderungsinstanz, benutzer wird aus neuer instanz geladen",
-        "ru": "Активное меню Выход фиксированный\nизменить пример, пользователь будет загружаться из нового экземпляра",
-        "pt": "Saída do menu ativo fixo\ninstância de mudança, o usuário será carregado de nova instância",
-        "nl": "Active Menu Output gerepareerd\nverandering instance, gebruiker zal worden geladen van nieuwe instanties",
-        "fr": "Active Menu Sortie fixe\nchangement d'instance, l'utilisateur sera chargé de la nouvelle instance",
-        "it": "Uscita menu attivo fisso\ncambiamento istanza, l'utente verrà caricato da nuova istanza",
-        "es": "Juego de menú activo\ninstancia de cambio, el usuario será cargado desde nueva instancia",
-        "pl": "Aktywny Menu Output\nna przykład, użytkownik może być obciążony nowymi instancjami",
-        "uk": "Активне меню Вихід фіксований\nзміна екземпляра, користувач буде завантажуватися з нового екземпляра",
-        "zh-cn": "积极产出\n例如,用户将从新情况中负荷"
-      },
-      "0.6.1": {
-        "en": "bug  fixed style",
-        "de": "fehler behoben stil",
-        "ru": "баг фиксированный стиль",
-        "pt": "bug estilo fixo",
-        "nl": "quality over quantity (qoq) releases vertaling:",
-        "fr": "bug fixed style",
-        "it": "bug stile fisso",
-        "es": "estilo fijo",
-        "pl": "styl gry",
-        "uk": "виправлений стиль помилок",
-        "zh-cn": "b 固定格式"
-      },
-      "0.6.0": {
-        "en": "checkbox for Telegram Users\nstyling\nsmall fixes\nAdd Row Button in Nav for every Row\nMore Groups with the same User\nTrigger generates without saving",
-        "de": "checkbox für Telegram-Benutzer\nstyling\nkleine fixierungen\nFügen Sie Row Button in Nav für jede Row\nWeitere Gruppen mit demselben Benutzer\nTrigger erzeugt ohne Speicher",
-        "ru": "checkbox для пользователей Telegram\nстайлинг\nнебольшие исправления\nДобавьте Row Button в Nav для каждого Row\nБольше групп с тем же пользователем\nTrigger генерирует без экономии",
-        "pt": "caixa de seleção para Usuários de Telegram\nestilo\npequenas correções\nAdicionar botão de linha em Nav para cada linha\nMais Grupos com o mesmo Usuário\nTrigger gera sem salvar",
-        "nl": "controlebox van Telegram Users\nstyling\nkleine fixes\nAdd Row Button voor elke Row\nMeer groepen met dezelfde User\nTrigger genereert zonder spaargeld",
-        "fr": "case à cocher pour les utilisateurs de télégramme\nstyling\npetites corrections\nAjouter Row Button en Nav pour chaque Row\nPlus de groupes avec le même Utilisateur\nTrigger génère sans sauver",
-        "it": "casella di controllo per utenti Telegram\nstile\npiccole correzioni\nAggiungi pulsante di riga in Nav per ogni riga\nAltri gruppi con lo stesso utente\nTrigger genera senza salvare",
-        "es": "checkbox for Telegram Users\nstyling\npequeños accesorios\nAñadir Row Button en Nav para cada fila\nMás Grupos con el mismo Usuario\nTrigger genera sin salvar",
-        "pl": "okładka\nstylistyka\ndrobne rozwiązanie\nAdd Row Button (ang.)\nWięcej grup z tymi samymi grupami User\nTrigger generuje bez oszczędzania",
-        "uk": "поштова скринька для користувачів Telegram\nстрахування\nмаленькі кріплення\nДодати кнопку Row в Nav для кожного рядка\nБільше груп з тим самим Користувачем\nТригер генерує без збереження",
-        "zh-cn": "电报用户检查箱\n处理\n小型配件\n增加纳维州的Row Button\n与同一用户的更多集团\n不节约的漏洞"
-      },
-      "0.5.1": {
-        "en": "sent to the wrong instance, fixed",
-        "de": "an die falsche instanz gesendet, fixiert",
-        "ru": "отправлено в неправильный экземпляр, исправлено",
-        "pt": "enviado para a instância errada, corrigido",
-        "nl": "verzonden naar de verkeerde instantie",
-        "fr": "envoyé à la mauvaise instance, fixe",
-        "it": "inviato all'istanza sbagliata, fisso",
-        "es": "enviado al caso equivocado, fijo",
-        "pl": "wysłany do niewłaściwej instancji, ustalony",
-        "uk": "відправлений на неправильний екземпляр, фіксований",
-        "zh-cn": "向错误案件发出的固定通知"
-      },
-      "0.5.0": {
-        "en": "trigger avoid duplicate entries and sort alphabetical\nadapter stops responding after some time, fixed #42\ngenerate Trigger in Action, fixed\nmath value for getstate\nsettings instance #41, menus, fixed\nno spellcheck for input fields\nmenu go back to last Sides",
-        "de": "trigger vermeiden doppelte einträge und sortieren alphabetisch\nadapter stoppt nach einiger zeit, fixiert #42\ntrigger in Aktion generieren, fixiert\nmath wert für getstate\neinstellungen instanz #41, menüs, fixiert\nkeine rechtschreibprüfung für eingabefelder\nmenü zurück zu den letzten Seiten",
-        "ru": "триггер избегает дублирования записей и сортировать алфавитный\nадаптер останавливается после некоторого времени, фиксированный #42\nгенерировать триггер в действии, фиксированный\nматематическое значение для getstate\nнастройки экземпляра #41, меню, фиксированные\nбез орфографии для входящих полей\nменю вернуться к последним Сторонам",
-        "pt": "gatilho evitar entradas duplicadas e classificar alfabético\nadaptador pára de responder após algum tempo, fixo #42\ngerar gatilho em Ação, fixo\nvalor de matemática para getstate\nsetting instance #41, menus, fixo\nsem verificação ortográfica para campos de entrada\nmenu voltar para os últimos lados",
-        "nl": "de trekker ontwijkt duplicaat en alfabetische\nadapter stopt met reageren na enige tijd, gerepareerd #42\ngenereerde Trigger in Actie, gerepareerd\nwiskunde waarde voor onroerend goed\nvertaling:\ngeen spellcheck voor input velden\nmenu gaat terug naar de laatste Sides",
-        "fr": "déclencheur éviter les doubles entrées et trier alphabétique\nadaptateur s'arrête après un certain temps, fixe #42\ngénérer Trigger en action, fixe\nmath value for getstate\nparamètres instance #41, menus, fixe\npas de sortcheck pour les champs d'entrée\nmenu retourner aux derniers côtés",
-        "it": "trigger evitare voci duplicate e ordinare alfabetico\nadattatore smette di rispondere dopo qualche tempo, fisso #42\ngenerare Trigger in Azione, fisso\nvalore matematico per getstate\nimpostazioni istanza #41, menu, fisso\nnessun spellcheck per i campi di input\nmenu torna all'ultimo lato",
-        "es": "gatillo evitar entradas duplicadas y ordenar entradas alfabéticas\nadaptador deja de responder después de algún tiempo, fijo #42\ngenerar Trigger en Acción, fijo\nvalor matemático para getstate\nconfiguración instancia #41, menús, fijo\nno hechizo para campos de entrada\nmenu go back to last Sides",
-        "pl": "wykorzystywanie wyjściowe unikanie duplikacji wpisów i alfabetyzacji\npo pewnym czasie przerwy reagują na stałe #42\ngeneruje Triggera w akcji\nwartość matrycowa\nna przykład #41, menus, ustawiony\nzaklęcie dla pól wejściowych\nmenu wraca do ostatniej strony",
-        "uk": "уникнути дублікатів записів і сортування алфавіту\nадаптер припиняє реагувати на деякий час, фіксований #42\nгенерувати Трігер в дії, фіксований\nматематичне значення для getstate\nзамість налаштувань #41, меню, фіксовані\nвідсутність орцепції для вхідних полів\nім'я користувача",
-        "zh-cn": "2. 避免重复物品和名称\n适应者在一段时间后停止作出反应,固定的编号为42\na. 行动的三倍,固定\n获取国产值\n例如第41号、男性、固定地点\n没有对投入领域进行明确的检查\n男子回到最后的Sides。"
-      },
-      "0.4.2": {
-        "en": "menu switch ersetzt menu yes-no, on-off, it is possible to customize text and value with this menu",
-        "de": "menüschalter ersetzen ja-nein, on-off, es ist möglich, text und wert mit diesem menü anpassen",
-        "ru": "меню переключатель ersetzt меню yes-no, on-off, можно настроить текст и значение с этим меню",
-        "pt": "menu switch ersetzt menu sim-no, on-off, é possível personalizar texto e valor com este menu",
-        "nl": "menu wisselen van ersetzt menu ja-op-off, het is mogelijk om tekst en waarde te gebruiken met deze menukaart",
-        "fr": "menu switch ersetzt menu oui-non, off-off, il est possible de personnaliser le texte et la valeur avec ce menu",
-        "it": "menu switch ersetzt menu yes-no, on-off, è possibile personalizzare testo e valore con questo menu",
-        "es": "menu switch ersetzt menu yes-no, on-off, es posible personalizar texto y valor con este menú",
-        "pl": "menu przełącza ersetzt menu yes-no, on-off, jest możliwe do dostosowania tekstu i wartości z tymi menu",
-        "uk": "меню переключення ersetzt меню так-но, on-off, можна налаштувати текст та значення з цим меню",
-        "zh-cn": "男性转化的男性是双赢的,有可能使文本和价值与这一男人定制。"
-      }
+    "common": {
+        "name": "telegram-menu",
+        "version": "0.6.3",
+        "news": {
+            "0.6.3": {
+                "en": "user check, least one user must be checked",
+                "de": "benutzerüberprüfung, mindestens ein benutzer muss überprüft werden",
+                "ru": "проверка пользователя, хотя бы один пользователь должен быть проверен",
+                "pt": "verificação do usuário, pelo menos um usuário deve ser verificado",
+                "nl": "eén gebruiker moet gecontroleerd worden",
+                "fr": "contrôle utilisateur, le moins d'un utilisateur doit être vérifié",
+                "it": "controllo utente, almeno un utente deve essere controllato",
+                "es": "control de usuario, al menos un usuario debe ser revisado",
+                "pl": "wskaźnik użytkownika musi być sprawdzany przynajmniej jeden użytkownik",
+                "uk": "перевірка користувачів, принаймні один користувач повинен перевіряти",
+                "zh-cn": "用户检查,至少必须检查一名用户。"
+            },
+            "0.6.2": {
+                "en": "Active Menu Output fixed\nchange instance, user will be load from new instance",
+                "de": "Aktive Menüausgabe fest\nänderungsinstanz, benutzer wird aus neuer instanz geladen",
+                "ru": "Активное меню Выход фиксированный\nизменить пример, пользователь будет загружаться из нового экземпляра",
+                "pt": "Saída do menu ativo fixo\ninstância de mudança, o usuário será carregado de nova instância",
+                "nl": "Active Menu Output gerepareerd\nverandering instance, gebruiker zal worden geladen van nieuwe instanties",
+                "fr": "Active Menu Sortie fixe\nchangement d'instance, l'utilisateur sera chargé de la nouvelle instance",
+                "it": "Uscita menu attivo fisso\ncambiamento istanza, l'utente verrà caricato da nuova istanza",
+                "es": "Juego de menú activo\ninstancia de cambio, el usuario será cargado desde nueva instancia",
+                "pl": "Aktywny Menu Output\nna przykład, użytkownik może być obciążony nowymi instancjami",
+                "uk": "Активне меню Вихід фіксований\nзміна екземпляра, користувач буде завантажуватися з нового екземпляра",
+                "zh-cn": "积极产出\n例如,用户将从新情况中负荷"
+            },
+            "0.6.1": {
+                "en": "bug  fixed style",
+                "de": "fehler behoben stil",
+                "ru": "баг фиксированный стиль",
+                "pt": "bug estilo fixo",
+                "nl": "quality over quantity (qoq) releases vertaling:",
+                "fr": "bug fixed style",
+                "it": "bug stile fisso",
+                "es": "estilo fijo",
+                "pl": "styl gry",
+                "uk": "виправлений стиль помилок",
+                "zh-cn": "b 固定格式"
+            },
+            "0.6.0": {
+                "en": "checkbox for Telegram Users\nstyling\nsmall fixes\nAdd Row Button in Nav for every Row\nMore Groups with the same User\nTrigger generates without saving",
+                "de": "checkbox für Telegram-Benutzer\nstyling\nkleine fixierungen\nFügen Sie Row Button in Nav für jede Row\nWeitere Gruppen mit demselben Benutzer\nTrigger erzeugt ohne Speicher",
+                "ru": "checkbox для пользователей Telegram\nстайлинг\nнебольшие исправления\nДобавьте Row Button в Nav для каждого Row\nБольше групп с тем же пользователем\nTrigger генерирует без экономии",
+                "pt": "caixa de seleção para Usuários de Telegram\nestilo\npequenas correções\nAdicionar botão de linha em Nav para cada linha\nMais Grupos com o mesmo Usuário\nTrigger gera sem salvar",
+                "nl": "controlebox van Telegram Users\nstyling\nkleine fixes\nAdd Row Button voor elke Row\nMeer groepen met dezelfde User\nTrigger genereert zonder spaargeld",
+                "fr": "case à cocher pour les utilisateurs de télégramme\nstyling\npetites corrections\nAjouter Row Button en Nav pour chaque Row\nPlus de groupes avec le même Utilisateur\nTrigger génère sans sauver",
+                "it": "casella di controllo per utenti Telegram\nstile\npiccole correzioni\nAggiungi pulsante di riga in Nav per ogni riga\nAltri gruppi con lo stesso utente\nTrigger genera senza salvare",
+                "es": "checkbox for Telegram Users\nstyling\npequeños accesorios\nAñadir Row Button en Nav para cada fila\nMás Grupos con el mismo Usuario\nTrigger genera sin salvar",
+                "pl": "okładka\nstylistyka\ndrobne rozwiązanie\nAdd Row Button (ang.)\nWięcej grup z tymi samymi grupami User\nTrigger generuje bez oszczędzania",
+                "uk": "поштова скринька для користувачів Telegram\nстрахування\nмаленькі кріплення\nДодати кнопку Row в Nav для кожного рядка\nБільше груп з тим самим Користувачем\nТригер генерує без збереження",
+                "zh-cn": "电报用户检查箱\n处理\n小型配件\n增加纳维州的Row Button\n与同一用户的更多集团\n不节约的漏洞"
+            },
+            "0.5.1": {
+                "en": "sent to the wrong instance, fixed",
+                "de": "an die falsche instanz gesendet, fixiert",
+                "ru": "отправлено в неправильный экземпляр, исправлено",
+                "pt": "enviado para a instância errada, corrigido",
+                "nl": "verzonden naar de verkeerde instantie",
+                "fr": "envoyé à la mauvaise instance, fixe",
+                "it": "inviato all'istanza sbagliata, fisso",
+                "es": "enviado al caso equivocado, fijo",
+                "pl": "wysłany do niewłaściwej instancji, ustalony",
+                "uk": "відправлений на неправильний екземпляр, фіксований",
+                "zh-cn": "向错误案件发出的固定通知"
+            },
+            "0.5.0": {
+                "en": "trigger avoid duplicate entries and sort alphabetical\nadapter stops responding after some time, fixed #42\ngenerate Trigger in Action, fixed\nmath value for getstate\nsettings instance #41, menus, fixed\nno spellcheck for input fields\nmenu go back to last Sides",
+                "de": "trigger vermeiden doppelte einträge und sortieren alphabetisch\nadapter stoppt nach einiger zeit, fixiert #42\ntrigger in Aktion generieren, fixiert\nmath wert für getstate\neinstellungen instanz #41, menüs, fixiert\nkeine rechtschreibprüfung für eingabefelder\nmenü zurück zu den letzten Seiten",
+                "ru": "триггер избегает дублирования записей и сортировать алфавитный\nадаптер останавливается после некоторого времени, фиксированный #42\nгенерировать триггер в действии, фиксированный\nматематическое значение для getstate\nнастройки экземпляра #41, меню, фиксированные\nбез орфографии для входящих полей\nменю вернуться к последним Сторонам",
+                "pt": "gatilho evitar entradas duplicadas e classificar alfabético\nadaptador pára de responder após algum tempo, fixo #42\ngerar gatilho em Ação, fixo\nvalor de matemática para getstate\nsetting instance #41, menus, fixo\nsem verificação ortográfica para campos de entrada\nmenu voltar para os últimos lados",
+                "nl": "de trekker ontwijkt duplicaat en alfabetische\nadapter stopt met reageren na enige tijd, gerepareerd #42\ngenereerde Trigger in Actie, gerepareerd\nwiskunde waarde voor onroerend goed\nvertaling:\ngeen spellcheck voor input velden\nmenu gaat terug naar de laatste Sides",
+                "fr": "déclencheur éviter les doubles entrées et trier alphabétique\nadaptateur s'arrête après un certain temps, fixe #42\ngénérer Trigger en action, fixe\nmath value for getstate\nparamètres instance #41, menus, fixe\npas de sortcheck pour les champs d'entrée\nmenu retourner aux derniers côtés",
+                "it": "trigger evitare voci duplicate e ordinare alfabetico\nadattatore smette di rispondere dopo qualche tempo, fisso #42\ngenerare Trigger in Azione, fisso\nvalore matematico per getstate\nimpostazioni istanza #41, menu, fisso\nnessun spellcheck per i campi di input\nmenu torna all'ultimo lato",
+                "es": "gatillo evitar entradas duplicadas y ordenar entradas alfabéticas\nadaptador deja de responder después de algún tiempo, fijo #42\ngenerar Trigger en Acción, fijo\nvalor matemático para getstate\nconfiguración instancia #41, menús, fijo\nno hechizo para campos de entrada\nmenu go back to last Sides",
+                "pl": "wykorzystywanie wyjściowe unikanie duplikacji wpisów i alfabetyzacji\npo pewnym czasie przerwy reagują na stałe #42\ngeneruje Triggera w akcji\nwartość matrycowa\nna przykład #41, menus, ustawiony\nzaklęcie dla pól wejściowych\nmenu wraca do ostatniej strony",
+                "uk": "уникнути дублікатів записів і сортування алфавіту\nадаптер припиняє реагувати на деякий час, фіксований #42\nгенерувати Трігер в дії, фіксований\nматематичне значення для getstate\nзамість налаштувань #41, меню, фіксовані\nвідсутність орцепції для вхідних полів\nім'я користувача",
+                "zh-cn": "2. 避免重复物品和名称\n适应者在一段时间后停止作出反应,固定的编号为42\na. 行动的三倍,固定\n获取国产值\n例如第41号、男性、固定地点\n没有对投入领域进行明确的检查\n男子回到最后的Sides。"
+            },
+            "0.4.2": {
+                "en": "menu switch ersetzt menu yes-no, on-off, it is possible to customize text and value with this menu",
+                "de": "menüschalter ersetzen ja-nein, on-off, es ist möglich, text und wert mit diesem menü anpassen",
+                "ru": "меню переключатель ersetzt меню yes-no, on-off, можно настроить текст и значение с этим меню",
+                "pt": "menu switch ersetzt menu sim-no, on-off, é possível personalizar texto e valor com este menu",
+                "nl": "menu wisselen van ersetzt menu ja-op-off, het is mogelijk om tekst en waarde te gebruiken met deze menukaart",
+                "fr": "menu switch ersetzt menu oui-non, off-off, il est possible de personnaliser le texte et la valeur avec ce menu",
+                "it": "menu switch ersetzt menu yes-no, on-off, è possibile personalizzare testo e valore con questo menu",
+                "es": "menu switch ersetzt menu yes-no, on-off, es posible personalizar texto y valor con este menú",
+                "pl": "menu przełącza ersetzt menu yes-no, on-off, jest możliwe do dostosowania tekstu i wartości z tymi menu",
+                "uk": "меню переключення ersetzt меню так-но, on-off, можна налаштувати текст та значення з цим меню",
+                "zh-cn": "男性转化的男性是双赢的,有可能使文本和价值与这一男人定制。"
+            }
+        },
+        "titleLang": {
+            "en": "Telegram Menu",
+            "de": "Telegramm-Menü",
+            "ru": "Меню телеграммы",
+            "pt": "Menu Telegram",
+            "nl": "Telegram-menu",
+            "fr": "Menu Télégramme",
+            "it": "Menù telegramma",
+            "es": "Menú de telegramas",
+            "pl": "menu telegramu",
+            "zh-cn": "电报菜单",
+            "uk": "Меню Telegram"
+        },
+        "desc": {
+            "en": "Easily create Telegram Menus",
+            "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+            "ru": "Легко создавать меню Telegram",
+            "pt": "Crie facilmente menus de telegrama",
+            "nl": "Maak eenvoudig Telegram-menu's",
+            "fr": "Créez facilement des menus de télégramme",
+            "it": "Crea facilmente menu di Telegram",
+            "es": "Crea fácilmente menús de Telegram",
+            "pl": "Z łatwością twórz menu telegramu",
+            "zh-cn": "轻松创建电报菜单",
+            "uk": "Легко створюйте меню Telegram"
+        },
+        "authors": [
+            "MiRo1310 <michael.roling@gmx.de>"
+        ],
+        "keywords": [
+            "telegram",
+            "menu"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "telegram-menu.png",
+        "enabled": true,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+        "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "messaging",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "materialize"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=3.3.22"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0",
+                "telegram": ">=1.15.0"
+            }
+        ]
     },
-    "titleLang": {
-      "en": "Telegram Menu",
-      "de": "Telegramm-Menü",
-      "ru": "Меню телеграммы",
-      "pt": "Menu Telegram",
-      "nl": "Telegram-menu",
-      "fr": "Menu Télégramme",
-      "it": "Menù telegramma",
-      "es": "Menú de telegramas",
-      "pl": "menu telegramu",
-      "zh-cn": "电报菜单",
-      "uk": "Меню Telegram"
+    "native": {
+        "nav": {},
+        "instance": "",
+        "data": {},
+        "checkbox": [],
+        "usersForGlobal": "",
+        "users": [],
+        "startsides": [],
+        "tokenGrafana": "",
+        "directory": "",
+        "userActiveCheckbox": [],
+        "usersInGroup": {},
+        "textNoEntry": ""
     },
-    "desc": {
-      "en": "Easily create Telegram Menus",
-      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
-      "ru": "Легко создавать меню Telegram",
-      "pt": "Crie facilmente menus de telegrama",
-      "nl": "Maak eenvoudig Telegram-menu's",
-      "fr": "Créez facilement des menus de télégramme",
-      "it": "Crea facilmente menu di Telegram",
-      "es": "Crea fácilmente menús de Telegram",
-      "pl": "Z łatwością twórz menu telegramu",
-      "zh-cn": "轻松创建电报菜单",
-      "uk": "Легко створюйте меню Telegram"
-    },
-    "authors": [
-      "MiRo1310 <michael.roling@gmx.de>"
-    ],
-    "keywords": [
-      "telegram",
-      "menu"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "telegram-menu.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "messaging",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "materialize"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=3.3.22"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0",
-        "telegram": ">=1.15.0"
-      }
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "nav": {},
-    "instance": "",
-    "data": {},
-    "checkbox": [],
-    "usersForGlobal": "",
-    "users": [],
-    "startsides": [],
-    "tokenGrafana": "",
-    "directory": "",
-    "userActiveCheckbox": [],
-    "usersInGroup": {},
-    "textNoEntry": ""
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
 }

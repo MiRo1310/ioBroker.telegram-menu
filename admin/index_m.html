@@ -36,6 +36,8 @@
 		let userActiveCheckbox;
 		let usersInMenus = {}
 		let valUserFromTelegram
+		let usedTrigger = []
+		let inputFieldWithDoubleCall = false
 		// This will be called by the admin adapter when the settings page loads
 		async function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -55,7 +57,7 @@
 			fillTableAction(settings.data.action)
 			showHideUserEntry(activeMenu)
 			setCheckbox(settings.checkbox)
-			generateSelectTrigger(activeMenu)
+			usedTrigger = generateSelectTrigger(activeMenu, menus)
 			checkUpAndDownArrowBtn(activeMenu)
 			menuToSpan(activeMenu)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
@@ -116,6 +118,7 @@
 					obj.checkbox[$this.attr('id')] = $this.prop('checked')
 				};
 			})
+			if (inputFieldWithDoubleCall) return
 			if (!isUserChecked(activeMenu)) return
 			usersInMenus = {}
 			usersInMenus = getUserInMenus()
@@ -128,15 +131,15 @@
 			})
 			obj.userActiveCheckbox = checkboxes
 			const tableDevices = table2Values(".saveTable");
-			if (isStringEmty(".isString")) {
-				obj.instance = $("#select_instance").val()
-				obj.data = tableDevices;
-				obj.users = menus
-				obj.startsides = generateStartside(menus)
-				generateSelectTrigger(activeMenu)
-				console.log(obj)
-				callback(obj);
-			}
+			if (!isStringEmty(".isString")) return
+
+			obj.instance = $("#select_instance").val()
+			obj.data = tableDevices;
+			obj.users = menus
+			obj.startsides = generateStartside(menus)
+			usedTrigger = generateSelectTrigger(activeMenu, menus)
+			console.log(obj)
+			callback(obj);
 		}
 
 
@@ -177,6 +180,11 @@
 				$("#inputEditUser").val(activeMenu)
 			})
 
+			$("#group_UserInput, #group_active_checkbox").on("change", "input", function () {
+				isUserChecked(activeMenu)
+				_onChange()
+			})
+
 			// ----------------------------------------//
 			// Popup Menu Liste                        //
 			//-----------------------------------------// 
@@ -190,7 +198,7 @@
 				showUser(activeMenu, showHideUserCheckbox)
 				// Menu active Button show
 				showHideUserCheckbox(activeMenu)
-				generateSelectTrigger(activeMenu)
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
 			})
 
 			// ----------------------------------------//
@@ -266,34 +274,15 @@
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
 				if (!isUserChecked(activeMenu)) return
-				activeBtn = $(this).attr("name")
-				if (activeBtn === "nav") {
-					$("#btn_add_action").hide()
-					$(".group_menu").show()
-					$("#tab-nav").css("display", "block")
-					$("#tab-action").hide()
-					$("#tab-settings").hide()
-				} else if (activeBtn === "action") {
-					$("#btn_add_action").show()
-					$(".group_menu").show()
-					$("#tab-action").css("display", "block")
-					$("#tab-nav").hide()
-					$("#tab-settings").hide()
-					generateSelectTrigger(activeMenu)
-				}
-				else {
-					$("#btn_add_action").hide()
-					$(".group_menu").hide()
-					$("#tab-nav").hide()
-					$("#tab-action").hide()
-					$("#tab-settings").css("display", "block")
-				}
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
+				activeBtn = displayCards(activeBtn, this)
 				translateAll()
 			})
 			// Btns new Row in Navigation
 			$(".adapter-container").on("click", ".btn_add_row", function () {
 				$(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
 				checkUpAndDownArrowBtn(activeMenu)
+				isStringEmty(".isString")
 			})
 
 			// Button Row up 
@@ -308,6 +297,9 @@
 				$(this).parent().parent().insertAfter($(this).parent().parent().next())
 				checkUpAndDownArrowBtn(activeMenu)
 				_onChange()
+			})
+			$(".adapter-container").on("input", ".isString", function () {
+				isStringEmty(".isString")
 			})
 
 			// ----------------------------------------//
@@ -338,17 +330,10 @@
 			$(".valCheckbox").change(function () {
 				_onChange()
 			})
-			$("#group_UserInput").on("keyup", "input", function () {
-				_onChange()
-			})
 			$(".adapter-container").on("change", ".userSelection", function () {
 				_onChange()
 			})
 			$("#select_instance").on('change', function () {
-				_onChange()
-			})
-			// Active User clicken und Speichern sichtbar machen
-			$("#group_active_checkbox").on("change", "input", function () {
 				_onChange()
 			})
 
@@ -463,12 +448,27 @@
 				checkValueModal(showTrigger)
 			})
 
+
+			//TODO - Trigger müssen noch in anderes Menu übertragen werden
+			$(".adapter-container").on("input", "input[data-name='call']", function () {
+				if (usedTrigger.includes($(this).val())) {
+					inputFieldWithDoubleCall = true
+					$(this).parent().addClass("bg-error-doubleUser")
+					$("#triggerAllreadyInUser").removeClass("hide")
+				}
+				else {
+					inputFieldWithDoubleCall = false
+					$(this).parent().removeClass("bg-error-doubleUser")
+					$("#triggerAllreadyInUser").addClass("hide")
+				}
+			})
 			// ----------------------------------------//
 			// Save                                    //
 			//-----------------------------------------// 	
 			// Save from Action Input Field
 			//SECTION - Save 1
 			$("#btn_action_set").on("click", function () {
+
 				// Wieder sichtbar machen, wenn du edit disabled gesetzt wurde
 				$("#select_action").removeAttr("disabled")
 				let action = $("#select_action").val()
@@ -527,10 +527,11 @@
 					})
 				}
 				generatActionRow(activeMenu, action, result, rowToUpdate)
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
 				_onChange()
 				resetModal()
 			})
-
+			//!SECTION
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
 			// Select Check if is selected
 			let showTrigger = false
@@ -633,8 +634,10 @@
 				_onChange()
 			})
 		})
+
 	</script>
 </head>
+<!-- //SECTION - HTML -->
 
 <body id="body">
 	<div class="m adapter-container">
@@ -660,6 +663,7 @@
 					</ul>
 				</div>
 			</div>
+			<!-- //!SECTION -->
 			<!--//SECTION Action Popup -->
 			<div id="tab_action" class="modal modal-fixed-footer">
 				<div class="modal-content noscroll">
@@ -804,6 +808,8 @@
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Menu List, Btns -->
 			<div class="row group_menu" id="group_menu">
 				<div>
 					<div class="col s4 m2 l2">
@@ -833,16 +839,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div id="userSelection" class="col s8 offset-s2 border hide">
-					<p class="translate warning">At least one user must be checked, or the menu must be deactivated.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
-					<p class="translate warning">The trigger is allready in use.</p>
-				</div>
-			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Row checkboxes User -->
 			<div class="row group_menu">
 				<div class="col s4 m2 l2">
 					<a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
@@ -852,14 +850,32 @@
 				<div class="col s8 border" id="group_UserInput">
 					<p class="translate description">Users from Telegram</p>
 				</div>
-
-				<div class="col s2">
-					<!-- <p>Michael</p><label><input type="checkbox" class="filled-in" /><span></span></label> -->
-				</div>
-
 				<div class="col s2" id="group_active_checkbox">
 				</div>
 			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION -  Warnings -->
+
+			<div class="row">
+				<div id="userSelection" class="col s8 offset-s2 border hide">
+					<p class="translate warning">At least one user must be checked, or the menu must be deactivated.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="doubleTriggerInSubmenu" class="col s8 offset-s2 border hide">
+					<p class="translate warning">There are doubled used Triggers:</p>
+					<p id="doubleUsedTrigger"></p>
+					<p class="translate">Please check the triggers, save, and reopen this menu to close the error!</p>
+
+
+				</div>
+			</div>
+			<div class="row">
+				<div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
+					<p class="translate warning">This triggers are used multiple times</p>
+				</div>
+			</div>
+			<!-- //!SECTION -->
 		</header>
 		<!-- //SECTION - Navigation -->
 		<div id="tab-nav" class="resizeFull" style="display: block;">
@@ -887,7 +903,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- //!SECTION -->
+		<!-- //SECTION - Tab-action -->
 		<div id="tab-action" class="resizeFull" style="display: none;"></div>
+		<!-- //!SECTION -->
 		<!-- //SECTION - Settings -->
 		<div id="tab-settings" style="display: none;">
 			<div class=" row">
@@ -942,7 +961,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- //!SECTION -->
+		<!-- //SECTION - Popups -->
 		<div class="m material-dialogs">
+			<!-- //SECTION - ID Selektion Iobroker -->
 			<div id="dialog-select-member" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -960,6 +982,7 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
 			<div id="dialog-change-groupname" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -981,6 +1004,7 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<!-- //SECTION - Popup Delete Menu confirm -->
 			<div id="dialog-confirm" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -988,7 +1012,6 @@
 							<p class="translate center-align">Do you really want to delete the group?</p>
 						</div>
 					</div>
-
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
@@ -997,6 +1020,8 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Copy Data -->
 			<div id="dialog-copy-data" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -1021,7 +1046,10 @@
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+
 		</div>
+		<!-- //!SECTION -->
 	</div>
 </body>
 

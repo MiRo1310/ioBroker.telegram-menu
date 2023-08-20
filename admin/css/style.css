@@ -45,10 +45,6 @@ label > i[title] {
 }
 
 /* Background */
-.bg-error {
-	background-color: rgb(243, 96, 96);
-}
-
 #group_list .tab {
 	text-transform: none;
 }
@@ -62,8 +58,6 @@ h1 {
 	margin-top: 10px !important;
 }
 #tab_action {
-	background-color: white;
-	border: 5px solid #64b5f6;
 	width: 99% !important;
 }
 
@@ -120,7 +114,6 @@ h1 {
 	vertical-align: -5px;
 }
 table th {
-	background-color: #64b5f6;
 	padding: 0.4rem !important;
 	border-radius: 0 !important;
 }
@@ -129,14 +122,6 @@ table th {
 }
 .text-xsm {
 	font-size: 0.6rem;
-}
-
-div#infoNav .infoText {
-	text-align: center;
-	color: #ce3a3a !important;
-	margin: 0;
-	margin-bottom: 5px;
-	text-decoration: underline;
 }
 
 .row {
@@ -153,25 +138,21 @@ div#infoNav .infoText {
 	margin-top: 10px !important;
 }
 .bg--header {
-	background-color: rgb(51, 153, 204) !important;
 	margin-bottom: 5px !important;
 }
 .noMargin {
 	margin: 0 !important;
 }
-
+#doubleTriggerInSubmenu {
+	text-align: center;
+}
+#doubleTriggerInSubmenu p,
+#doubleTriggerInSubmenu div {
+	display: inline-block;
+}
 .tab {
-	background-color: #eee;
 	margin-right: 5px !important;
-	border: 3px solid #999;
 	border-radius: 10px;
-}
-.tab:hover {
-	background-color: #fff;
-	border-color: #0e1072;
-}
-li.tab:has(.active) {
-	border-color: #477da8 !important;
 }
 p[data-name="confirm"],
 p[data-name="switch_checkbox"],
@@ -184,7 +165,6 @@ p[data-name="newline_checkbox"] {
 }
 #tab-action p.name {
 	margin: 1px 0 !important;
-	border-bottom: 2px solid white;
 }
 #tab-action td {
 	padding: 0 3px !important;
@@ -198,7 +178,6 @@ p[data-name="newline_checkbox"] {
 #btn_expand {
 	width: 29px;
 	height: 29px;
-	border: 2px solid white;
 	border-radius: 5px;
 }
 #group_list {
@@ -218,7 +197,6 @@ p[data-name="newline_checkbox"] {
 }
 #activMenuOutput {
 	padding: 5px;
-	border-color: #96d15a;
 }
 
 /*User Selektion  */
@@ -237,7 +215,6 @@ p[data-name="newline_checkbox"] {
 	margin: 0;
 	font-size: small;
 	text-decoration: underline;
-	color: #96d15a !important;
 }
 
 #group_UserInput div {
