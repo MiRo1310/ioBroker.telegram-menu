@@ -1,5 +1,7 @@
 "use strict";
 
+import { on } from "events";
+
 let setStateIdsToListenTo;
 function sendIdToOtherFile(Ids) {
 	setStateIdsToListenTo = Ids;
@@ -127,6 +129,7 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Startseite: " + JSON.stringify(startside));
 								groupsWithUsers[group].forEach((user) => {
 									backMenuFuc(this, startside, null, user);
+									this.log.debug("User List " + JSON.stringify(userListWithChatID));
 									sendToTelegram(
 										_this,
 										user,
@@ -135,6 +138,7 @@ class TelegramMenu extends utils.Adapter {
 										instanceTelegram,
 										resize_keyboard,
 										one_time_keyboard,
+										userListWithChatID,
 									);
 								});
 							}
@@ -181,7 +185,16 @@ class TelegramMenu extends utils.Adapter {
 									} else continue;
 								}
 								if (!dataFound && checkboxNoEntryFound) {
-									sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram);
+									sendToTelegram(
+										this,
+										userToSend,
+										textNoEntryFound,
+										undefined,
+										instanceTelegram,
+										resize_keyboard,
+										one_time_keyboard,
+										userListWithChatID,
+									);
 								}
 
 								// Auf Setstate reagieren und Wert schicken
@@ -227,6 +240,9 @@ class TelegramMenu extends utils.Adapter {
 												textToSend,
 												undefined,
 												instanceTelegram,
+												resize_keyboard,
+												one_time_keyboard,
+												userListWithChatID,
 											);
 											// Die Elemente auf die Reagiert wurde entfernen
 											setStateIdsToListenTo.splice(key, 1);
@@ -271,6 +287,7 @@ class TelegramMenu extends utils.Adapter {
 								instanceTelegram,
 								resize_keyboard,
 								one_time_keyboard,
+								userListWithChatID,
 							);
 							return true;
 						}
@@ -316,7 +333,16 @@ class TelegramMenu extends utils.Adapter {
 							const path = `${directoryPicture}${element.fileName}`;
 							const timeout = _this.setTimeout(async () => {
 								_this.log.debug("Send Pic to Telegram");
-								sendToTelegram(_this, userToSend, path, undefined, instanceTelegram);
+								sendToTelegram(
+									_this,
+									userToSend,
+									path,
+									undefined,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
+									userListWithChatID,
+								);
 
 								let timeoutToClear = {};
 								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
@@ -353,6 +379,7 @@ class TelegramMenu extends utils.Adapter {
 				instanceTelegram,
 				resize_keyboard,
 				one_time_keyboard,
+				userListWithChatID,
 			);
 			if (subMenuData && subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
 
