@@ -37,6 +37,7 @@
 		let usersInMenus = {}
 		let valUserFromTelegram
 		let usedTrigger = []
+		let inputFieldWithDoubleCall = false
 		// This will be called by the admin adapter when the settings page loads
 		async function load(settings, onChange) {
 			// example: select elements with id=key and class=value and insert value
@@ -117,6 +118,7 @@
 					obj.checkbox[$this.attr('id')] = $this.prop('checked')
 				};
 			})
+			if (inputFieldWithDoubleCall) return
 			if (!isUserChecked(activeMenu)) return
 			usersInMenus = {}
 			usersInMenus = getUserInMenus()
@@ -129,15 +131,15 @@
 			})
 			obj.userActiveCheckbox = checkboxes
 			const tableDevices = table2Values(".saveTable");
-			if (isStringEmty(".isString")) {
-				obj.instance = $("#select_instance").val()
-				obj.data = tableDevices;
-				obj.users = menus
-				obj.startsides = generateStartside(menus)
-				usedTrigger = generateSelectTrigger(activeMenu)
-				console.log(obj)
-				callback(obj);
-			}
+			if (!isStringEmty(".isString")) return
+
+			obj.instance = $("#select_instance").val()
+			obj.data = tableDevices;
+			obj.users = menus
+			obj.startsides = generateStartside(menus)
+			usedTrigger = generateSelectTrigger(activeMenu)
+			console.log(obj)
+			callback(obj);
 		}
 
 
@@ -300,6 +302,7 @@
 			$(".adapter-container").on("click", ".btn_add_row", function () {
 				$(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
 				checkUpAndDownArrowBtn(activeMenu)
+				isStringEmty(".isString")
 			})
 
 			// Button Row up 
@@ -314,6 +317,9 @@
 				$(this).parent().parent().insertAfter($(this).parent().parent().next())
 				checkUpAndDownArrowBtn(activeMenu)
 				_onChange()
+			})
+			$(".adapter-container").on("input", ".isString", function () {
+				isStringEmty(".isString")
 			})
 
 			// ----------------------------------------//
@@ -465,13 +471,14 @@
 
 			//TODO - Trigger müssen noch in anderes Menu übertragen werden
 			$(".adapter-container").on("input", "input[data-name='call']", function () {
-
 				if (usedTrigger.includes($(this).val())) {
-					$(this).parent().addClass("bg-error")
+					inputFieldWithDoubleCall = true
+					$(this).parent().addClass("bg-error-doubleUser")
 					$("#triggerAllreadyInUser").removeClass("hide")
 				}
 				else {
-					$(this).parent().removeClass("bg-error")
+					inputFieldWithDoubleCall = false
+					$(this).parent().removeClass("bg-error-doubleUser")
 					$("#triggerAllreadyInUser").addClass("hide")
 				}
 			})
@@ -544,7 +551,7 @@
 				_onChange()
 				resetModal()
 			})
-
+			//!SECTION
 			// Save Button erst anzeigen wenn alles ausgefüllt ist
 			// Select Check if is selected
 			let showTrigger = false
@@ -650,6 +657,7 @@
 
 	</script>
 </head>
+<!-- //SECTION - HTML -->
 
 <body id="body">
 	<div class="m adapter-container">
@@ -675,6 +683,7 @@
 					</ul>
 				</div>
 			</div>
+			<!-- //!SECTION -->
 			<!--//SECTION Action Popup -->
 			<div id="tab_action" class="modal modal-fixed-footer">
 				<div class="modal-content noscroll">
@@ -819,6 +828,8 @@
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Menu List, Btns -->
 			<div class="row group_menu" id="group_menu">
 				<div>
 					<div class="col s4 m2 l2">
@@ -848,6 +859,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Row checkboxes User -->
 			<div class="row group_menu">
 				<div class="col s4 m2 l2">
 					<a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
@@ -857,15 +870,11 @@
 				<div class="col s8 border" id="group_UserInput">
 					<p class="translate description">Users from Telegram</p>
 				</div>
-
-				<div class="col s2">
-					<!-- <p>Michael</p><label><input type="checkbox" class="filled-in" /><span></span></label> -->
-				</div>
-
 				<div class="col s2" id="group_active_checkbox">
 				</div>
 			</div>
-			<!-- //SECTION -  - Warnings -->
+			<!-- //!SECTION -->
+			<!-- //SECTION -  Warnings -->
 
 			<div class="row">
 				<div id="userSelection" class="col s8 offset-s2 border hide">
@@ -905,7 +914,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- //!SECTION -->
+		<!-- //SECTION - Tab-action -->
 		<div id="tab-action" class="resizeFull" style="display: none;"></div>
+		<!-- //!SECTION -->
 		<!-- //SECTION - Settings -->
 		<div id="tab-settings" style="display: none;">
 			<div class=" row">
@@ -960,7 +972,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- //!SECTION -->
+		<!-- //SECTION - Popups -->
 		<div class="m material-dialogs">
+			<!-- //SECTION - ID Selektion Iobroker -->
 			<div id="dialog-select-member" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -978,6 +993,7 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
 			<div id="dialog-change-groupname" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -999,6 +1015,7 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<!-- //SECTION - Popup Delete Menu confirm -->
 			<div id="dialog-confirm" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -1006,7 +1023,6 @@
 							<p class="translate center-align">Do you really want to delete the group?</p>
 						</div>
 					</div>
-
 				</div>
 				<div class="modal-footer">
 					<a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
@@ -1015,6 +1031,8 @@
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Copy Data -->
 			<div id="dialog-copy-data" class="modal modal-fixed-footer">
 				<div class="modal-content">
 					<div class="row">
@@ -1039,7 +1057,10 @@
 							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
+			<!-- //!SECTION -->
+
 		</div>
+		<!-- //!SECTION -->
 	</div>
 </body>
 

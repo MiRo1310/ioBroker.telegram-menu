@@ -45,7 +45,8 @@ label > i[title] {
 }
 
 /* Background */
-.bg-error {
+.bg-error,
+.bg-error-doubleUser {
 	background-color: rgb(243, 96, 96);
 }
 

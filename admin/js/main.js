@@ -207,7 +207,7 @@ function buildUserSelection(state, menus, userinGroup) {
 		checkCheckbox(menu, userListe, userinGroup);
 	});
 }
-//TODO - Function checkbox User Telegram
+
 function checkCheckbox(menu, userList, userinGroup) {
 	$(userList).each(function (index, user) {
 		if (userinGroup[menu] && userinGroup[menu].includes(user)) {
