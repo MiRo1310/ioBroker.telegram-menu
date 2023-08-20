@@ -143,7 +143,13 @@ table th {
 .noMargin {
 	margin: 0 !important;
 }
-
+#doubleTriggerInSubmenu {
+	text-align: center;
+}
+#doubleTriggerInSubmenu p,
+#doubleTriggerInSubmenu div {
+	display: inline-block;
+}
 .tab {
 	margin-right: 5px !important;
 	border-radius: 10px;

@@ -1,6 +1,33 @@
 /*global newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
+function checkSubMenu(activeMenu) {
+	if ($(`#table_nav tbody#${activeMenu} tr.startRow input[data-name="call"]`).val() === "-") {
+		return true;
+	} else return false;
+}
+function displayCards(activeBtn, _this) {
+	activeBtn = $(_this).attr("name");
+	if (activeBtn === "nav") {
+		$("#btn_add_action").hide();
+		$(".group_menu").show();
+		$("#tab-nav").css("display", "block");
+		$("#tab-action").hide();
+		$("#tab-settings").hide();
+	} else if (activeBtn === "action") {
+		$("#btn_add_action").show();
+		$(".group_menu").show();
+		$("#tab-action").css("display", "block");
+		$("#tab-nav").hide();
+		$("#tab-settings").hide();
+	} else {
+		$("#btn_add_action").hide();
+		$(".group_menu").hide();
+		$("#tab-nav").hide();
+		$("#tab-action").hide();
+		$("#tab-settings").css("display", "block");
+	}
+}
 /**
  *
  * @param {string[]} triggers
@@ -8,7 +35,7 @@
  * @returns
  */
 function removeUsedTrigger(triggers, activemenu) {
-	let usedTriggers = [];
+	const usedTriggers = [];
 	const list = [
 		{
 			list: "#table_nav ",
@@ -337,17 +364,68 @@ function splitTextInArray(activeGroup) {
 	});
 	return value_list;
 }
+function getAllCheckedUserInMenu(activemenu) {
+	const activeUserList = [];
+	$(`#group_UserInput div[data-menu="${activemenu}"] input`).each(function () {
+		if ($(this).prop("checked")) {
+			activeUserList.push($(this).attr("data-menu"));
+		}
+	});
+	return activeUserList;
+}
 
+//TODO - Submenu Trigger
 //ANCHOR - Trigger erstellen
 // @ts-ignore
-function generateSelectTrigger(activeMenu) {
+
+function generateSelectTrigger(activeMenu, menus) {
+	const submenu = checkSubMenu(activeMenu);
 	let list = [];
-	list = splitTextInArray(activeMenu);
+	if (submenu) {
+		const activeUserList = getAllCheckedUserInMenu(activeMenu);
+		const menuListWithUser = [];
+		activeUserList.forEach(function (user) {
+			menus.forEach(function (menu) {
+				if (getAllCheckedUserInMenu(menu).includes(user)) {
+					if (!menuListWithUser.includes(menu)) menuListWithUser.push(menu);
+				}
+			});
+		});
+		let usedTriggers = [];
+		let triggerInUse = false;
+		const errorTriggerList = [];
+		menuListWithUser.forEach(function (menu) {
+			list = list.concat(splitTextInArray(menu));
+			list = deleteDoubleEntrysInArray(list);
+			list = deleteUnnessesaryElements(list);
+			const usedAndNotUsedTrigger = removeUsedTrigger(list, menu);
+			list = usedAndNotUsedTrigger.triggers;
+			usedAndNotUsedTrigger.usedTriggers.forEach(function (element) {
+				if (usedTriggers.includes(element)) {
+					errorTriggerList.push(element);
+					triggerInUse = true;
+				}
+			});
+
+			if (!triggerInUse) {
+				console.log(usedTriggers);
+				if (usedTriggers.length != 0) usedTriggers.concat(usedAndNotUsedTrigger.usedTriggers);
+				else usedTriggers = usedAndNotUsedTrigger.usedTriggers;
+
+				$("#doubleTriggerInSubmenu").addClass("hide");
+			} else {
+				$("#doubleUsedTrigger").text(JSON.stringify(errorTriggerList));
+				$("#doubleTriggerInSubmenu").removeClass("hide");
+			}
+		});
+	} else list = splitTextInArray(activeMenu);
+
 	list = deleteDoubleEntrysInArray(list);
 	list = deleteUnnessesaryElements(list);
-	list = sortArray(list);
 	const usedAndNotUsedTrigger = removeUsedTrigger(list, activeMenu);
 	list = usedAndNotUsedTrigger.triggers;
+
+	list = sortArray(list);
 	// HTML Elemente löschen und neu aufbauen
 	// @ts-ignore
 	$("#select_trigger").empty().append(createSelectTrigger(list));

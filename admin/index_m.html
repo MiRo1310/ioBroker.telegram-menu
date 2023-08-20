@@ -57,7 +57,7 @@
 			fillTableAction(settings.data.action)
 			showHideUserEntry(activeMenu)
 			setCheckbox(settings.checkbox)
-			usedTrigger = generateSelectTrigger(activeMenu)
+			usedTrigger = generateSelectTrigger(activeMenu, menus)
 			checkUpAndDownArrowBtn(activeMenu)
 			menuToSpan(activeMenu)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
@@ -137,7 +137,7 @@
 			obj.data = tableDevices;
 			obj.users = menus
 			obj.startsides = generateStartside(menus)
-			usedTrigger = generateSelectTrigger(activeMenu)
+			usedTrigger = generateSelectTrigger(activeMenu, menus)
 			console.log(obj)
 			callback(obj);
 		}
@@ -198,7 +198,7 @@
 				showUser(activeMenu, showHideUserCheckbox)
 				// Menu active Button show
 				showHideUserCheckbox(activeMenu)
-				usedTrigger = generateSelectTrigger(activeMenu)
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
 			})
 
 			// ----------------------------------------//
@@ -274,28 +274,8 @@
 			let activeBtn = "nav"
 			$("header ul").on("click", ".btn_nav", function () {
 				if (!isUserChecked(activeMenu)) return
-				activeBtn = $(this).attr("name")
-				if (activeBtn === "nav") {
-					$("#btn_add_action").hide()
-					$(".group_menu").show()
-					$("#tab-nav").css("display", "block")
-					$("#tab-action").hide()
-					$("#tab-settings").hide()
-				} else if (activeBtn === "action") {
-					$("#btn_add_action").show()
-					$(".group_menu").show()
-					$("#tab-action").css("display", "block")
-					$("#tab-nav").hide()
-					$("#tab-settings").hide()
-					usedTrigger = generateSelectTrigger(activeMenu)
-				}
-				else {
-					$("#btn_add_action").hide()
-					$(".group_menu").hide()
-					$("#tab-nav").hide()
-					$("#tab-action").hide()
-					$("#tab-settings").css("display", "block")
-				}
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
+				activeBtn = displayCards(activeBtn, this)
 				translateAll()
 			})
 			// Btns new Row in Navigation
@@ -547,7 +527,7 @@
 					})
 				}
 				generatActionRow(activeMenu, action, result, rowToUpdate)
-				usedTrigger = generateSelectTrigger(activeMenu)
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
 				_onChange()
 				resetModal()
 			})
@@ -882,8 +862,17 @@
 				</div>
 			</div>
 			<div class="row">
+				<div id="doubleTriggerInSubmenu" class="col s8 offset-s2 border hide">
+					<p class="translate warning">There are doubled used Triggers:</p>
+					<p id="doubleUsedTrigger"></p>
+					<p class="translate">Please check the triggers, save, and reopen this menu to close the error!</p>
+
+
+				</div>
+			</div>
+			<div class="row">
 				<div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
-					<p class="translate warning">The trigger is allready in use.</p>
+					<p class="translate warning">This triggers are used multiple times</p>
 				</div>
 			</div>
 			<!-- //!SECTION -->
