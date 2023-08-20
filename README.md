@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   Trigger check, used triggers are no longer available in action, in nav it is visualized that the trigger is already in use
+
 ### 0.6.3 (2023-08-17)
 
 -   user check, least one user must be checked
