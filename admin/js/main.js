@@ -43,7 +43,7 @@ function displayCards(activeBtn, _this) {
  * @param {string} activemenu
  * @returns
  */
-function removeUsedTrigger(triggers, activemenu) {
+function splitUsedUnusedTrigger(triggers, activemenu) {
 	const usedTriggers = [];
 	const list = [
 		{
@@ -73,9 +73,9 @@ function removeUsedTrigger(triggers, activemenu) {
 			if ($(e).val()) value = $(e).val();
 			else if ($(e).text()) value = $(e).text();
 			if (typeof value == "string") value = value.trim();
+			usedTriggers.push(value);
 			if (typeof value === "string" && triggers.includes(value)) {
 				triggers.splice(triggers.indexOf(value), 1);
-				usedTriggers.push(value);
 			}
 		});
 	});
@@ -411,7 +411,7 @@ function generateSelectTrigger(activeMenu, menus) {
 		const errorTriggerList = [];
 		menuListWithUser.forEach(function (menu) {
 			list = list.concat(splitTextInArray(menu));
-			const usedAndNotUsedTrigger = removeUsedTrigger(list, menu);
+			const usedAndNotUsedTrigger = splitUsedUnusedTrigger(list, menu);
 			list = usedAndNotUsedTrigger.triggers;
 			list = deleteDoubleEntrysInArray(list);
 			list = deleteUnnessesaryElements(list);
@@ -436,7 +436,7 @@ function generateSelectTrigger(activeMenu, menus) {
 	} else {
 		list = splitTextInArray(activeMenu);
 		console.log(list);
-		usedAndNotUsedTrigger = removeUsedTrigger(list, activeMenu);
+		usedAndNotUsedTrigger = splitUsedUnusedTrigger(list, activeMenu);
 		list = usedAndNotUsedTrigger.triggers;
 		list = deleteDoubleEntrysInArray(list);
 		list = deleteUnnessesaryElements(list);
