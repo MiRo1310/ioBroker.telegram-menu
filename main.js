@@ -151,7 +151,19 @@ class TelegramMenu extends utils.Adapter {
 						if (telegramAktiv && state?.ack) {
 							if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
 								const value = state.val;
-								const user = value.slice(1, value.indexOf("]"));
+								const chatID = await this.getForeignStateAsync(
+									`${instanceTelegram}.communicate.requestChatId`,
+								);
+								let user;
+								if (chatID) {
+									this.log.debug("ChatID: " + JSON.stringify(chatID.val));
+									userListWithChatID.forEach((element) => {
+										this.log.debug("element " + JSON.stringify(element));
+										if (element.chatID == chatID.val) user = element.name;
+										this.log.debug("user " + JSON.stringify(user));
+									});
+								}
+
 								const calledValue = value.slice(value.indexOf("]") + 1, value.length);
 								this.log.debug(
 									JSON.stringify({
@@ -296,7 +308,15 @@ class TelegramMenu extends utils.Adapter {
 					setStateIdsToListenTo = setstate(_this, part, userToSend);
 					return true;
 				} else if (part.getData) {
-					getstate(_this, part, userToSend, instanceTelegram);
+					getstate(
+						_this,
+						part,
+						userToSend,
+						instanceTelegram,
+						one_time_keyboard,
+						resize_keyboard,
+						userListWithChatID,
+					);
 					return true;
 				} else if (part.sendPic) {
 					try {
