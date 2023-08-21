@@ -225,8 +225,8 @@ function buildUserSelection(state, menus, userinGroup) {
 	const userListe = [];
 	const userListWithChatID = [];
 	for (const user in usersInTelegram) {
-		userListe.push(usersInTelegram[user]["firstName"]);
-		userListWithChatID.push({ name: usersInTelegram[user]["firstName"], chatID: user });
+		userListe.push(usersInTelegram[user]["userName"]);
+		userListWithChatID.push({ name: usersInTelegram[user]["userName"], chatID: user });
 	}
 	$(menus).each(function (key, menu) {
 		$(userListWithChatID).each(function (key, user) {
