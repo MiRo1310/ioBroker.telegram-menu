@@ -122,9 +122,7 @@
 			if (!isUserChecked(activeMenu)) return
 			usersInMenus = {}
 			usersInMenus = getUserInMenus()
-			console.log(usersInMenus)
 			obj.usersInGroup = usersInMenus
-			console.log(userListWithChatID)
 			obj.userListWithChatID = userListWithChatID
 
 			const checkboxes = {}
@@ -296,7 +294,6 @@
 			})
 			// Btn Row down
 			$(".adapter-container").on("click", ".btn_down", function (key) {
-				console.log("klick")
 				$(this).parent().parent().insertAfter($(this).parent().parent().next())
 				checkUpAndDownArrowBtn(activeMenu)
 				_onChange()
@@ -452,17 +449,8 @@
 				checkValueModal(showTrigger)
 			})
 
-
-			//TODO - Trigger müssen noch in anderes Menu übertragen werden
 			$(".adapter-container").on("input", "input[data-name='call']", function () {
-
-				// if (usedTrigger.includes($(this).val())) {
-				// 	inputFieldWithDoubleCall = true
-				// 	$(this).parent().addClass("bg-error-doubleUser")
-				// 	$("#triggerAllreadyInUser").removeClass("hide")
-				// }
 				usedTrigger = generateSelectTrigger(activeMenu, menus)
-				console.log(usedTrigger)
 				if (countOccurrences(usedTrigger, $(this).val()) == 2) {
 					inputFieldWithDoubleCall = true
 					$(this).parent().addClass("bg-error-doubleUser")

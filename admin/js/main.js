@@ -240,7 +240,6 @@ function buildUserSelection(state, menus, userinGroup) {
 	}
 	$(menus).each(function (key, menu) {
 		$(userListWithChatID).each(function (key, user) {
-			console.log(user);
 			// @ts-ignore
 			userSelectionTelegram(user.name, menu, user.chatID);
 		});
@@ -388,10 +387,7 @@ function getAllCheckedUserInMenu(activemenu) {
 	return activeUserList;
 }
 
-//TODO - Submenu Trigger
 //ANCHOR - Trigger erstellen
-// @ts-ignore
-
 function generateSelectTrigger(activeMenu, menus) {
 	const submenu = checkSubMenu(activeMenu);
 	let list = [];
@@ -423,7 +419,6 @@ function generateSelectTrigger(activeMenu, menus) {
 			});
 
 			if (!triggerInUse) {
-				console.log(usedTriggers);
 				if (usedTriggers.length != 0) usedTriggers.concat(usedAndNotUsedTrigger.usedTriggers);
 				else usedTriggers = usedAndNotUsedTrigger.usedTriggers;
 
@@ -435,7 +430,6 @@ function generateSelectTrigger(activeMenu, menus) {
 		});
 	} else {
 		list = splitTextInArray(activeMenu);
-		console.log(list);
 		usedAndNotUsedTrigger = splitUsedUnusedTrigger(list, activeMenu);
 		list = usedAndNotUsedTrigger.triggers;
 		list = deleteDoubleEntrysInArray(list);
