@@ -1,6 +1,11 @@
 /*global newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
-
+/**
+ * Counts how often an element is present in the array
+ * @param {[]} arr
+ * @param {"string"} searchValue
+ * @returns
+ */
 function countOccurrences(arr, searchValue) {
 	let count = 0;
 	for (let i = 0; i < arr.length; i++) {
