@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="./js/main.js"></script>
 	<script type="text/javascript" src="./js/component.js"></script>
 	<script type="text/javascript" src="./js/emit.js"></script>
+	<script type="text/javascript" src="./js/global.js"></script>
 	<script type="text/javascript" src="../../js/translate.js"></script>
 	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
 	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
@@ -132,7 +133,7 @@
 			})
 			obj.userActiveCheckbox = checkboxes
 			const tableDevices = table2Values(".saveTable");
-			if (!isStringEmty(".isString")) return
+			if (!isInputFieldEmty(".isString")) return
 
 			obj.instance = $("#select_instance").val()
 			obj.data = tableDevices;
@@ -283,7 +284,7 @@
 			$(".adapter-container").on("click", ".btn_add_row", function () {
 				$(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
 				checkUpAndDownArrowBtn(activeMenu)
-				isStringEmty(".isString")
+				isInputFieldEmty(".isString")
 			})
 
 			// Button Row up 
@@ -300,7 +301,7 @@
 			})
 			// Input check if it is not empty
 			$(".adapter-container").on("input", ".isString", function () {
-				isStringEmty(".isString")
+				isInputFieldEmty(".isString")
 			})
 
 			// ----------------------------------------//
