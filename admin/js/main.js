@@ -1,15 +1,6 @@
-/*global newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
+/*global deleteDoubleEntrysInArray,sortArray,newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
-function countOccurrences(arr, searchValue) {
-	let count = 0;
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i] === searchValue) {
-			count++;
-		}
-	}
-	return count;
-}
 function checkSubMenu(activeMenu) {
 	if ($(`#table_nav tbody#${activeMenu} tr.startRow input[data-name="call"]`).val() === "-") {
 		return true;
@@ -141,25 +132,6 @@ function disableEnableInputField(checkbox, inputfield) {
 	const active = $(checkbox).is(":checked");
 	if (active) $(inputfield).removeAttr("disabled");
 	else $(inputfield).attr("disabled", "disabled");
-}
-/**
- *
- * @param {string} classes Class to browse for empty String
- * @returns boolean True Everything is ok
- */
-// @ts-ignore
-function isStringEmty(classes) {
-	let allOk = true;
-	// @ts-ignore
-	$(classes).each(function (key, element) {
-		if (element.value == "") {
-			$(element).parent().addClass("bg-error");
-			allOk = false;
-		} else {
-			$(element).parent().removeClass("bg-error");
-		}
-	});
-	return allOk;
 }
 // @ts-ignore
 function checkUpAndDownArrowBtn(activeuser) {
@@ -352,12 +324,12 @@ function showHideUserEntry(activeGroup) {
 
 /**
  *
- * @param {Array} checkbox Entrys with Checkbox Values
+ * @param {Array} checkboxes Entrys with Checkbox Values
  */
 // @ts-ignore
-function setCheckbox(checkbox) {
-	Object.keys(checkbox).forEach((key) => {
-		if (checkbox[key]) {
+function setCheckbox(checkboxes) {
+	Object.keys(checkboxes).forEach((key) => {
+		if (checkboxes[key]) {
 			$(`#${key}`).prop("checked", true);
 		} else $(`#${key}`).prop("checked", false);
 	});
@@ -409,6 +381,7 @@ function generateSelectTrigger(activeMenu, menus) {
 			list = list.concat(splitTextInArray(menu));
 			const usedAndNotUsedTrigger = splitUsedUnusedTrigger(list, menu);
 			list = usedAndNotUsedTrigger.triggers;
+			// @ts-ignore
 			list = deleteDoubleEntrysInArray(list);
 			list = deleteUnnessesaryElements(list);
 			usedAndNotUsedTrigger.usedTriggers.forEach(function (element) {
@@ -432,9 +405,11 @@ function generateSelectTrigger(activeMenu, menus) {
 		list = splitTextInArray(activeMenu);
 		usedAndNotUsedTrigger = splitUsedUnusedTrigger(list, activeMenu);
 		list = usedAndNotUsedTrigger.triggers;
+		// @ts-ignore
 		list = deleteDoubleEntrysInArray(list);
 		list = deleteUnnessesaryElements(list);
 	}
+	// @ts-ignore
 	list = sortArray(list);
 	// HTML Elemente löschen und neu aufbauen
 	// @ts-ignore
@@ -443,37 +418,15 @@ function generateSelectTrigger(activeMenu, menus) {
 	return usedAndNotUsedTrigger.usedTriggers;
 }
 
-function deleteDoubleEntrysInArray(arr) {
-	return arr.filter((item, index) => arr.indexOf(item) === index);
-}
 function deleteUnnessesaryElements(list) {
 	const newlist = [];
 	list.forEach(function (e) {
 		if (e != "menu:back" && e != "-") {
 			if (e.includes("menu:")) e = e.split(":")[2];
-
 			newlist.push(e);
 		}
 	});
 	return newlist;
-}
-/**
- *
- * @param {any[]} arr
- * @returns Sorted Array
- */
-function sortArray(arr) {
-	arr.sort((a, b) => {
-		// @ts-ignore
-		const lowerCaseA = a.toLowerCase();
-		// @ts-ignore
-		const lowerCaseB = b.toLowerCase();
-
-		if (lowerCaseA < lowerCaseB) return -1;
-		if (lowerCaseA > lowerCaseB) return 1;
-		return 0;
-	});
-	return arr;
 }
 
 // @ts-ignore
