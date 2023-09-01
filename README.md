@@ -34,9 +34,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.6.5 (2023-09-01)
 
--       get user by chatID and send back to this chatID
+-   get user by chatID and send back to this chatID
 
 ### 0.6.4 (2023-08-20)
 
