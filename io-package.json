@@ -1,194 +1,199 @@
 {
-	"common": {
-		"name": "telegram-menu",
-		"version": "0.6.5",
-		"news": {
-			"0.6.5": {
-				"en": "get user by chatID and send back to this chatID",
-				"de": "benutzer per chatID ermitteln und  zurück senden an diese chatID",
-				"ru": "получить пользователя по чатID и отправить обратно в этот чатID",
-				"pt": "obter usuário por chatID e enviar de volta para este chatID",
-				"nl": "haal gebruiker van chatID en stuur terug naar dit chatID",
-				"fr": "obtenir utilisateur par chatID et renvoyer à ce chatID",
-				"it": "ottenere l'utente da chatID e tornare a questo chatID",
-				"es": "obtener usuario por chatID y enviar de nuevo a este chatID",
-				"pl": "użytkowanie przez czat i wysyłane do tego czatID",
-				"uk": "отримати користувач по chatID і відправити назад в цей чатID",
-				"zh-cn": "被混乱者利用,然后再送给这一混乱的裁研所。"
-			},
-			"0.6.4": {
-				"en": "Trigger check, used triggers are no longer available in action, in nav it is visualized that the trigger is already in use",
-				"de": "Trigger-Check, verwendete Trigger sind nicht mehr in Aktion, in nav wird visualisiert, dass der Trigger bereits im Einsatz ist",
-				"ru": "Проверка Trigger, используемые триггеры больше не доступны в действии, в nav визуализируется, что триггер уже используется",
-				"pt": "Verificação de gatilho, gatilhos usados não estão mais disponíveis em ação, nav é visualizado que o gatilho já está em uso",
-				"nl": "Trigger controle, gebruikte triggers zijn niet meer beschikbaar in actie, in Nav is het gevisualiseerd dat de trekker al gebruikt is",
-				"fr": "Trigger check, triggers utilisés ne sont plus disponibles en action, dans nav il est visualisé que le trigger est déjà en service",
-				"it": "Controllo del trigger, i trigger utilizzati non sono più disponibili in azione, in nav è visualizzato che il trigger è già in uso",
-				"es": "Comprobación del desencadenante, los disparadores usados ya no están disponibles en acción, en nav se visualiza que el gatillo ya está en uso",
-				"pl": "Kontrola Triggera nie jest już dostępna w akcji, w nav jest wizualizowana, że wyzwalanie jest już w użyciu",
-				"uk": "Перевірка тригера, використовувані тригери більше не доступні в дії, в нав він візуалізований, що тригер вже в використанні",
-				"zh-cn": "突然的检查不再可供采取行动,在无知的情况下,触发者已经使用。"
-			},
-			"0.6.3": {
-				"en": "user check, least one user must be checked",
-				"de": "benutzerüberprüfung, mindestens ein benutzer muss überprüft werden",
-				"ru": "проверка пользователя, хотя бы один пользователь должен быть проверен",
-				"pt": "verificação do usuário, pelo menos um usuário deve ser verificado",
-				"nl": "eén gebruiker moet gecontroleerd worden",
-				"fr": "contrôle utilisateur, le moins d'un utilisateur doit être vérifié",
-				"it": "controllo utente, almeno un utente deve essere controllato",
-				"es": "control de usuario, al menos un usuario debe ser revisado",
-				"pl": "wskaźnik użytkownika musi być sprawdzany przynajmniej jeden użytkownik",
-				"uk": "перевірка користувачів, принаймні один користувач повинен перевіряти",
-				"zh-cn": "用户检查,至少必须检查一名用户。"
-			},
-			"0.6.2": {
-				"en": "Active Menu Output fixed\nchange instance, user will be load from new instance",
-				"de": "Aktive Menüausgabe fest\nänderungsinstanz, benutzer wird aus neuer instanz geladen",
-				"ru": "Активное меню Выход фиксированный\nизменить пример, пользователь будет загружаться из нового экземпляра",
-				"pt": "Saída do menu ativo fixo\ninstância de mudança, o usuário será carregado de nova instância",
-				"nl": "Active Menu Output gerepareerd\nverandering instance, gebruiker zal worden geladen van nieuwe instanties",
-				"fr": "Active Menu Sortie fixe\nchangement d'instance, l'utilisateur sera chargé de la nouvelle instance",
-				"it": "Uscita menu attivo fisso\ncambiamento istanza, l'utente verrà caricato da nuova istanza",
-				"es": "Juego de menú activo\ninstancia de cambio, el usuario será cargado desde nueva instancia",
-				"pl": "Aktywny Menu Output\nna przykład, użytkownik może być obciążony nowymi instancjami",
-				"uk": "Активне меню Вихід фіксований\nзміна екземпляра, користувач буде завантажуватися з нового екземпляра",
-				"zh-cn": "积极产出\n例如,用户将从新情况中负荷"
-			},
-			"0.6.1": {
-				"en": "bug  fixed style",
-				"de": "fehler behoben stil",
-				"ru": "баг фиксированный стиль",
-				"pt": "bug estilo fixo",
-				"nl": "quality over quantity (qoq) releases vertaling:",
-				"fr": "bug fixed style",
-				"it": "bug stile fisso",
-				"es": "estilo fijo",
-				"pl": "styl gry",
-				"uk": "виправлений стиль помилок",
-				"zh-cn": "b 固定格式"
-			},
-			"0.6.0": {
-				"en": "checkbox for Telegram Users\nstyling\nsmall fixes\nAdd Row Button in Nav for every Row\nMore Groups with the same User\nTrigger generates without saving",
-				"de": "checkbox für Telegram-Benutzer\nstyling\nkleine fixierungen\nFügen Sie Row Button in Nav für jede Row\nWeitere Gruppen mit demselben Benutzer\nTrigger erzeugt ohne Speicher",
-				"ru": "checkbox для пользователей Telegram\nстайлинг\nнебольшие исправления\nДобавьте Row Button в Nav для каждого Row\nБольше групп с тем же пользователем\nTrigger генерирует без экономии",
-				"pt": "caixa de seleção para Usuários de Telegram\nestilo\npequenas correções\nAdicionar botão de linha em Nav para cada linha\nMais Grupos com o mesmo Usuário\nTrigger gera sem salvar",
-				"nl": "controlebox van Telegram Users\nstyling\nkleine fixes\nAdd Row Button voor elke Row\nMeer groepen met dezelfde User\nTrigger genereert zonder spaargeld",
-				"fr": "case à cocher pour les utilisateurs de télégramme\nstyling\npetites corrections\nAjouter Row Button en Nav pour chaque Row\nPlus de groupes avec le même Utilisateur\nTrigger génère sans sauver",
-				"it": "casella di controllo per utenti Telegram\nstile\npiccole correzioni\nAggiungi pulsante di riga in Nav per ogni riga\nAltri gruppi con lo stesso utente\nTrigger genera senza salvare",
-				"es": "checkbox for Telegram Users\nstyling\npequeños accesorios\nAñadir Row Button en Nav para cada fila\nMás Grupos con el mismo Usuario\nTrigger genera sin salvar",
-				"pl": "okładka\nstylistyka\ndrobne rozwiązanie\nAdd Row Button (ang.)\nWięcej grup z tymi samymi grupami User\nTrigger generuje bez oszczędzania",
-				"uk": "поштова скринька для користувачів Telegram\nстрахування\nмаленькі кріплення\nДодати кнопку Row в Nav для кожного рядка\nБільше груп з тим самим Користувачем\nТригер генерує без збереження",
-				"zh-cn": "电报用户检查箱\n处理\n小型配件\n增加纳维州的Row Button\n与同一用户的更多集团\n不节约的漏洞"
-			},
-			"0.5.1": {
-				"en": "sent to the wrong instance, fixed",
-				"de": "an die falsche instanz gesendet, fixiert",
-				"ru": "отправлено в неправильный экземпляр, исправлено",
-				"pt": "enviado para a instância errada, corrigido",
-				"nl": "verzonden naar de verkeerde instantie",
-				"fr": "envoyé à la mauvaise instance, fixe",
-				"it": "inviato all'istanza sbagliata, fisso",
-				"es": "enviado al caso equivocado, fijo",
-				"pl": "wysłany do niewłaściwej instancji, ustalony",
-				"uk": "відправлений на неправильний екземпляр, фіксований",
-				"zh-cn": "向错误案件发出的固定通知"
-			}
-		},
-		"titleLang": {
-			"en": "Telegram Menu",
-			"de": "Telegramm-Menü",
-			"ru": "Меню телеграммы",
-			"pt": "Menu Telegram",
-			"nl": "Telegram-menu",
-			"fr": "Menu Télégramme",
-			"it": "Menù telegramma",
-			"es": "Menú de telegramas",
-			"pl": "menu telegramu",
-			"zh-cn": "电报菜单",
-			"uk": "Меню Telegram"
-		},
-		"desc": {
-			"en": "Easily create Telegram Menus",
-			"de": "Erstellen Sie ganz einfach Telegrammmenüs",
-			"ru": "Легко создавать меню Telegram",
-			"pt": "Crie facilmente menus de telegrama",
-			"nl": "Maak eenvoudig Telegram-menu's",
-			"fr": "Créez facilement des menus de télégramme",
-			"it": "Crea facilmente menu di Telegram",
-			"es": "Crea fácilmente menús de Telegram",
-			"pl": "Z łatwością twórz menu telegramu",
-			"zh-cn": "轻松创建电报菜单",
-			"uk": "Легко створюйте меню Telegram"
-		},
-		"authors": ["MiRo1310 <michael.roling@gmx.de>"],
-		"keywords": ["telegram", "menu"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "telegram-menu.png",
-		"enabled": true,
-		"messagebox": true,
-		"extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-		"readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "messaging",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "materialize"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=5.0.0",
-				"telegram": ">=1.15.0"
-			}
-		]
-	},
-	"native": {
-		"nav": {},
-		"instance": "",
-		"data": {},
-		"checkbox": [],
-		"usersForGlobal": "",
-		"users": [],
-		"startsides": [],
-		"tokenGrafana": "",
-		"directory": "",
-		"userActiveCheckbox": [],
-		"usersInGroup": {},
-		"textNoEntry": "",
-		"userListWithChatID": []
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "telegram-menu",
+    "version": "0.6.6",
+    "news": {
+      "0.6.6": {
+        "en": "add info-big.png",
+        "de": "info-big.png",
+        "ru": "добавить info-big.png",
+        "pt": "adicionar info-big.png",
+        "nl": "voeg info-big toe",
+        "fr": "ajouter info-big.png",
+        "it": "aggiungere info-big.png",
+        "es": "añadir info-big.png",
+        "pl": "info-big.png",
+        "uk": "javascript licenses api веб-сайт go1.13.8",
+        "zh-cn": "增 编"
+      },
+      "0.6.5": {
+        "en": "get user by chatID and send back to this chatID",
+        "de": "benutzer per chatID ermitteln und  zurück senden an diese chatID",
+        "ru": "получить пользователя по чатID и отправить обратно в этот чатID",
+        "pt": "obter usuário por chatID e enviar de volta para este chatID",
+        "nl": "haal gebruiker van chatID en stuur terug naar dit chatID",
+        "fr": "obtenir utilisateur par chatID et renvoyer à ce chatID",
+        "it": "ottenere l'utente da chatID e tornare a questo chatID",
+        "es": "obtener usuario por chatID y enviar de nuevo a este chatID",
+        "pl": "użytkowanie przez czat i wysyłane do tego czatID",
+        "uk": "отримати користувач по chatID і відправити назад в цей чатID",
+        "zh-cn": "被混乱者利用,然后再送给这一混乱的裁研所。"
+      },
+      "0.6.4": {
+        "en": "Trigger check, used triggers are no longer available in action, in nav it is visualized that the trigger is already in use",
+        "de": "Trigger-Check, verwendete Trigger sind nicht mehr in Aktion, in nav wird visualisiert, dass der Trigger bereits im Einsatz ist",
+        "ru": "Проверка Trigger, используемые триггеры больше не доступны в действии, в nav визуализируется, что триггер уже используется",
+        "pt": "Verificação de gatilho, gatilhos usados não estão mais disponíveis em ação, nav é visualizado que o gatilho já está em uso",
+        "nl": "Trigger controle, gebruikte triggers zijn niet meer beschikbaar in actie, in Nav is het gevisualiseerd dat de trekker al gebruikt is",
+        "fr": "Trigger check, triggers utilisés ne sont plus disponibles en action, dans nav il est visualisé que le trigger est déjà en service",
+        "it": "Controllo del trigger, i trigger utilizzati non sono più disponibili in azione, in nav è visualizzato che il trigger è già in uso",
+        "es": "Comprobación del desencadenante, los disparadores usados ya no están disponibles en acción, en nav se visualiza que el gatillo ya está en uso",
+        "pl": "Kontrola Triggera nie jest już dostępna w akcji, w nav jest wizualizowana, że wyzwalanie jest już w użyciu",
+        "uk": "Перевірка тригера, використовувані тригери більше не доступні в дії, в нав він візуалізований, що тригер вже в використанні",
+        "zh-cn": "突然的检查不再可供采取行动,在无知的情况下,触发者已经使用。"
+      },
+      "0.6.3": {
+        "en": "user check, least one user must be checked",
+        "de": "benutzerüberprüfung, mindestens ein benutzer muss überprüft werden",
+        "ru": "проверка пользователя, хотя бы один пользователь должен быть проверен",
+        "pt": "verificação do usuário, pelo menos um usuário deve ser verificado",
+        "nl": "eén gebruiker moet gecontroleerd worden",
+        "fr": "contrôle utilisateur, le moins d'un utilisateur doit être vérifié",
+        "it": "controllo utente, almeno un utente deve essere controllato",
+        "es": "control de usuario, al menos un usuario debe ser revisado",
+        "pl": "wskaźnik użytkownika musi być sprawdzany przynajmniej jeden użytkownik",
+        "uk": "перевірка користувачів, принаймні один користувач повинен перевіряти",
+        "zh-cn": "用户检查,至少必须检查一名用户。"
+      },
+      "0.6.2": {
+        "en": "Active Menu Output fixed\nchange instance, user will be load from new instance",
+        "de": "Aktive Menüausgabe fest\nänderungsinstanz, benutzer wird aus neuer instanz geladen",
+        "ru": "Активное меню Выход фиксированный\nизменить пример, пользователь будет загружаться из нового экземпляра",
+        "pt": "Saída do menu ativo fixo\ninstância de mudança, o usuário será carregado de nova instância",
+        "nl": "Active Menu Output gerepareerd\nverandering instance, gebruiker zal worden geladen van nieuwe instanties",
+        "fr": "Active Menu Sortie fixe\nchangement d'instance, l'utilisateur sera chargé de la nouvelle instance",
+        "it": "Uscita menu attivo fisso\ncambiamento istanza, l'utente verrà caricato da nuova istanza",
+        "es": "Juego de menú activo\ninstancia de cambio, el usuario será cargado desde nueva instancia",
+        "pl": "Aktywny Menu Output\nna przykład, użytkownik może być obciążony nowymi instancjami",
+        "uk": "Активне меню Вихід фіксований\nзміна екземпляра, користувач буде завантажуватися з нового екземпляра",
+        "zh-cn": "积极产出\n例如,用户将从新情况中负荷"
+      },
+      "0.6.1": {
+        "en": "bug  fixed style",
+        "de": "fehler behoben stil",
+        "ru": "баг фиксированный стиль",
+        "pt": "bug estilo fixo",
+        "nl": "quality over quantity (qoq) releases vertaling:",
+        "fr": "bug fixed style",
+        "it": "bug stile fisso",
+        "es": "estilo fijo",
+        "pl": "styl gry",
+        "uk": "виправлений стиль помилок",
+        "zh-cn": "b 固定格式"
+      },
+      "0.6.0": {
+        "en": "checkbox for Telegram Users\nstyling\nsmall fixes\nAdd Row Button in Nav for every Row\nMore Groups with the same User\nTrigger generates without saving",
+        "de": "checkbox für Telegram-Benutzer\nstyling\nkleine fixierungen\nFügen Sie Row Button in Nav für jede Row\nWeitere Gruppen mit demselben Benutzer\nTrigger erzeugt ohne Speicher",
+        "ru": "checkbox для пользователей Telegram\nстайлинг\nнебольшие исправления\nДобавьте Row Button в Nav для каждого Row\nБольше групп с тем же пользователем\nTrigger генерирует без экономии",
+        "pt": "caixa de seleção para Usuários de Telegram\nestilo\npequenas correções\nAdicionar botão de linha em Nav para cada linha\nMais Grupos com o mesmo Usuário\nTrigger gera sem salvar",
+        "nl": "controlebox van Telegram Users\nstyling\nkleine fixes\nAdd Row Button voor elke Row\nMeer groepen met dezelfde User\nTrigger genereert zonder spaargeld",
+        "fr": "case à cocher pour les utilisateurs de télégramme\nstyling\npetites corrections\nAjouter Row Button en Nav pour chaque Row\nPlus de groupes avec le même Utilisateur\nTrigger génère sans sauver",
+        "it": "casella di controllo per utenti Telegram\nstile\npiccole correzioni\nAggiungi pulsante di riga in Nav per ogni riga\nAltri gruppi con lo stesso utente\nTrigger genera senza salvare",
+        "es": "checkbox for Telegram Users\nstyling\npequeños accesorios\nAñadir Row Button en Nav para cada fila\nMás Grupos con el mismo Usuario\nTrigger genera sin salvar",
+        "pl": "okładka\nstylistyka\ndrobne rozwiązanie\nAdd Row Button (ang.)\nWięcej grup z tymi samymi grupami User\nTrigger generuje bez oszczędzania",
+        "uk": "поштова скринька для користувачів Telegram\nстрахування\nмаленькі кріплення\nДодати кнопку Row в Nav для кожного рядка\nБільше груп з тим самим Користувачем\nТригер генерує без збереження",
+        "zh-cn": "电报用户检查箱\n处理\n小型配件\n增加纳维州的Row Button\n与同一用户的更多集团\n不节约的漏洞"
+      }
+    },
+    "titleLang": {
+      "en": "Telegram Menu",
+      "de": "Telegramm-Menü",
+      "ru": "Меню телеграммы",
+      "pt": "Menu Telegram",
+      "nl": "Telegram-menu",
+      "fr": "Menu Télégramme",
+      "it": "Menù telegramma",
+      "es": "Menú de telegramas",
+      "pl": "menu telegramu",
+      "zh-cn": "电报菜单",
+      "uk": "Меню Telegram"
+    },
+    "desc": {
+      "en": "Easily create Telegram Menus",
+      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+      "ru": "Легко создавать меню Telegram",
+      "pt": "Crie facilmente menus de telegrama",
+      "nl": "Maak eenvoudig Telegram-menu's",
+      "fr": "Créez facilement des menus de télégramme",
+      "it": "Crea facilmente menu di Telegram",
+      "es": "Crea fácilmente menús de Telegram",
+      "pl": "Z łatwością twórz menu telegramu",
+      "zh-cn": "轻松创建电报菜单",
+      "uk": "Легко створюйте меню Telegram"
+    },
+    "authors": [
+      "MiRo1310 <michael.roling@gmx.de>"
+    ],
+    "keywords": [
+      "telegram",
+      "menu"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "telegram-menu.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0",
+        "telegram": ">=1.15.0"
+      }
+    ]
+  },
+  "native": {
+    "nav": {},
+    "instance": "",
+    "data": {},
+    "checkbox": [],
+    "usersForGlobal": "",
+    "users": [],
+    "startsides": [],
+    "tokenGrafana": "",
+    "directory": "",
+    "userActiveCheckbox": [],
+    "usersInGroup": {},
+    "textNoEntry": "",
+    "userListWithChatID": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
