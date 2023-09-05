@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   fixed, send menu with error
+
 ### 0.6.6 (2023-09-03)
 
 -   add info-big.png

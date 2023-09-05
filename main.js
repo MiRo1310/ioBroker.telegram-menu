@@ -399,11 +399,19 @@ class TelegramMenu extends utils.Adapter {
 				one_time_keyboard,
 				userListWithChatID,
 			);
+
 			if (subMenuData && subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
 
-			_this.log.debug("SubMenuData " + JSON.stringify(subMenuData));
-			if (subMenuData && subMenuData[0])
-				sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram);
+			if (subMenuData && subMenuData[0]) {
+				sendToTelegramSubmenu(
+					_this,
+					userToSend,
+					subMenuData[0],
+					subMenuData[1],
+					instanceTelegram,
+					userListWithChatID,
+				);
+			}
 		}
 
 		/**
