@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.6.6",
+    "version": "0.6.7",
     "news": {
+      "0.6.7": {
+        "en": "fixed, send menu with error",
+        "de": "fest, menü mit fehler senden",
+        "ru": "фиксированное, отправить меню с ошибкой",
+        "pt": "fixo, enviar menu com erro",
+        "nl": "vertaling:",
+        "fr": "fixe, envoyer le menu avec erreur",
+        "it": "fisso, inviare menu con errore",
+        "es": "fijo, enviar menú con error",
+        "pl": "zastosowano menu z błędem",
+        "uk": "виправлено, відправте меню з помилкою",
+        "zh-cn": "a. 固定状态,向男子发出错误的通知"
+      },
       "0.6.6": {
         "en": "add info-big.png",
         "de": "info-big.png",
@@ -80,19 +93,6 @@
         "pl": "styl gry",
         "uk": "виправлений стиль помилок",
         "zh-cn": "b 固定格式"
-      },
-      "0.6.0": {
-        "en": "checkbox for Telegram Users\nstyling\nsmall fixes\nAdd Row Button in Nav for every Row\nMore Groups with the same User\nTrigger generates without saving",
-        "de": "checkbox für Telegram-Benutzer\nstyling\nkleine fixierungen\nFügen Sie Row Button in Nav für jede Row\nWeitere Gruppen mit demselben Benutzer\nTrigger erzeugt ohne Speicher",
-        "ru": "checkbox для пользователей Telegram\nстайлинг\nнебольшие исправления\nДобавьте Row Button в Nav для каждого Row\nБольше групп с тем же пользователем\nTrigger генерирует без экономии",
-        "pt": "caixa de seleção para Usuários de Telegram\nestilo\npequenas correções\nAdicionar botão de linha em Nav para cada linha\nMais Grupos com o mesmo Usuário\nTrigger gera sem salvar",
-        "nl": "controlebox van Telegram Users\nstyling\nkleine fixes\nAdd Row Button voor elke Row\nMeer groepen met dezelfde User\nTrigger genereert zonder spaargeld",
-        "fr": "case à cocher pour les utilisateurs de télégramme\nstyling\npetites corrections\nAjouter Row Button en Nav pour chaque Row\nPlus de groupes avec le même Utilisateur\nTrigger génère sans sauver",
-        "it": "casella di controllo per utenti Telegram\nstile\npiccole correzioni\nAggiungi pulsante di riga in Nav per ogni riga\nAltri gruppi con lo stesso utente\nTrigger genera senza salvare",
-        "es": "checkbox for Telegram Users\nstyling\npequeños accesorios\nAñadir Row Button en Nav para cada fila\nMás Grupos con el mismo Usuario\nTrigger genera sin salvar",
-        "pl": "okładka\nstylistyka\ndrobne rozwiązanie\nAdd Row Button (ang.)\nWięcej grup z tymi samymi grupami User\nTrigger generuje bez oszczędzania",
-        "uk": "поштова скринька для користувачів Telegram\nстрахування\nмаленькі кріплення\nДодати кнопку Row в Nav для кожного рядка\nБільше груп з тим самим Користувачем\nТригер генерує без збереження",
-        "zh-cn": "电报用户检查箱\n处理\n小型配件\n增加纳维州的Row Button\n与同一用户的更多集团\n不节约的漏洞"
       }
     },
     "titleLang": {
