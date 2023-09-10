@@ -201,9 +201,10 @@ p[data-name="newline_checkbox"] {
 
 /*User Selektion  */
 #group_UserInput p {
-	margin-top: 0;
+	margin: 0;
 	padding: 0 10px;
 	display: inline-block;
+	line-height: 20px;
 }
 .m [type="checkbox"] + span:not(.lever) {
 	margin-top: 10px !important;
@@ -219,6 +220,11 @@ p[data-name="newline_checkbox"] {
 
 #group_UserInput div {
 	display: inline-block;
+}
+#group_UserInput .info-text {
+	font-size: 0.7rem;
+	line-height: 18px;
+	display: block;
 }
 .warning {
 	text-align: center;
