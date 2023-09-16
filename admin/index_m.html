@@ -362,6 +362,7 @@
 			$("#btn_action_close").on("click", function () {
 				$("#select_action").removeAttr("disabled")
 				resetModal()
+				usedTrigger = generateSelectTrigger(activeMenu, menus)
 			})
 
 			// ----------------------------------------//
@@ -406,7 +407,9 @@
 				$("#select_action").val(action).select()
 				$(`#tab_${action}`).show()
 				// Trigger	
-				$("#select_trigger").val($(this).parent().siblings("[data-name='trigger']").html()).select()
+				const trigger = $(this).parent().siblings("[data-name='trigger']").html()
+				$("#select_trigger").append(`<option value="${trigger}">${trigger}</option>}`)
+				$("#select_trigger").val(trigger).select()
 				insertEditValues(action, this)
 				disableValueInput()
 			})
