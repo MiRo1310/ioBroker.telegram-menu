@@ -94,7 +94,7 @@ function newTrInAction(val, array, rows) {
 		return /*html*/ `<tr class="onResetDelete">
   <td> <input  class="get_id checkValue" spellcheck="false" value="${array[0]}" type="text"></td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
-  <td><input class="get_text checkValue" spellcheck="false" type="text" value="${array[1]}"></td>
+  <td><input class="get_text" spellcheck="false" type="text" value="${array[1]}"></td>
   <td><label><input type="checkbox" class="filled-in newline_checkbox" ${array[2]} /><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i class="material-icons">delete</i></a></td>								
 </tr>`;

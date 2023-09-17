@@ -154,34 +154,35 @@ class TelegramMenu extends utils.Adapter {
 								const chatID = await this.getForeignStateAsync(
 									`${instanceTelegram}.communicate.requestChatId`,
 								);
-								let user;
+
 								if (chatID) {
-									this.log.debug("ChatID: " + JSON.stringify(chatID.val));
+									this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
 									userListWithChatID.forEach((element) => {
-										this.log.debug("element " + JSON.stringify(element));
-										if (element.chatID == chatID.val) user = element.name;
-										this.log.debug("user " + JSON.stringify(user));
+										this.log.debug("User and ChatID: " + JSON.stringify(element));
+										if (element.chatID == chatID.val) userToSend = element.name;
+										this.log.debug("User " + JSON.stringify(userToSend));
 									});
+								} else {
+									this.log.debug("ChatID not found");
 								}
 
 								const calledValue = value.slice(value.indexOf("]") + 1, value.length);
 								this.log.debug(
 									JSON.stringify({
 										Value: value,
-										User: user,
+										User: userToSend,
 										Todo: calledValue,
 										groups: groupsWithUsers,
 									}),
 								);
-								userToSend = user;
 								const groups = [];
 								for (const key in groupsWithUsers) {
-									this.log.debug("key " + JSON.stringify(key));
-									if (groupsWithUsers[key].includes(user)) {
+									this.log.debug("Groups " + JSON.stringify(key));
+									if (groupsWithUsers[key].includes(userToSend)) {
 										groups.push(key);
 									}
 								}
-								this.log.debug("Groups with User " + JSON.stringify(groups));
+								this.log.debug("Groups with searched User " + JSON.stringify(groups));
 								let dataFound = false;
 								for (const group of groups) {
 									const groupData = menu.data[group];
@@ -277,7 +278,16 @@ class TelegramMenu extends utils.Adapter {
 				});
 			}
 		});
-		function processData(_this, groupData, calledValue, userToSend, groupWithUser) {
+		/**
+		 *
+		 * @param {*} _this
+		 * @param {{}} groupData Data of the Group
+		 * @param {string} calledValue Value, which was called
+		 * @param {string} userToSend  User, which should get the message
+		 * @param {string} groupWithUser  Group with the User
+		 * @returns true, if data was found, else false
+		 */
+		function processData(_this, groupData, calledValue, userToSend = "", groupWithUser) {
 			if (groupData[calledValue] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
 				const part = groupData[calledValue];
 				// Navigation
