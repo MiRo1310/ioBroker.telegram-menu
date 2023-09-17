@@ -28,6 +28,8 @@ You can create different groups with separate menus, and then assign users to th
 -   Changed!!!
     -   To change values which will be ​​sent as return text, like true to on and false to off , write this in the text `change{"true":"on", "false":"off"}`
 -   Basically, all states are set with `ack:false`,this is basically necessary if you want to control adapters with it. But if you want to set `ack:true`, you simply enter this in the return text. A confirmation only occurs when the addressed adapter has set the value to ack:true.
+-   If you want to set a state, but you want to get the change of another state, you should put this `{"id":"id","text":"Wert wurde gesetzt:"}` in the return text. Replace ID with the wanted ID , and you can also modify the text.
+    However, the change is only sent if the state was set to ack:true
 
 ### GetState
 

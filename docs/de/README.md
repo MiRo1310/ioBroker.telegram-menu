@@ -43,6 +43,8 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
     ![novalue](../pic/image5.png)<br>
 -   Möchte man Values verändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus ,trägtman im Text `change{"true":"an", "false":"aus"}` ein.<br>
     ![change](../pic/image6.png)<br>
+-   Möchte man einen State setzen, aber die Änderung eines anderen States danach erhalten, fügt man `{"id":"id","text":"Wert wurde gesetzt:"}` in den Rückgabetext ein. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
+    Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
 
 ### GetState
 

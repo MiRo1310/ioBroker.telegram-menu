@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+-   when calling up the submenu, Text was send no entry found, fixed
+-   bug switch menu, fixed
+-   set a state, and receive the change of another state
+
 ### 0.6.8 (2023-09-16)
 
 -   chatId in UI
