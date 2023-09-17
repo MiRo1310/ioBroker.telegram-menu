@@ -1,9 +1,6 @@
 "use strict";
 
 let setStateIdsToListenTo;
-function sendIdToOtherFile(Ids) {
-	setStateIdsToListenTo = Ids;
-}
 /*
  * Created with @iobroker/create-adapter v2.3.0
  */
@@ -410,9 +407,13 @@ class TelegramMenu extends utils.Adapter {
 				one_time_keyboard,
 				userListWithChatID,
 			);
+			_this.log.debug("Submenu data " + JSON.stringify(subMenuData));
 
-			if (subMenuData && subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
-
+			if (subMenuData && subMenuData[3]) {
+				_this.log.debug("SubmenuData3" + JSON.stringify(subMenuData[3]));
+				setStateIdsToListenTo = subMenuData[3];
+				_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
+			}
 			if (subMenuData && subMenuData[0]) {
 				sendToTelegramSubmenu(
 					_this,
@@ -432,9 +433,30 @@ class TelegramMenu extends utils.Adapter {
 		 */
 		function _subscribeForeignStatesAsync(array, _this) {
 			array.forEach((element) => {
-				_this.subscribeForeignStatesAsync(element);
+				_this.log.debug("Subscribe State" + JSON.stringify(element.id));
+				_this.subscribeForeignStatesAsync(element.id);
 			});
 		}
+		/**
+		 *
+		 * @param {} array
+		 * @param {*} _this
+		 * @param {boolean} subscribe If true, then subscribe, else unsubscribe
+		 */
+		function _subscribeAndUnSubscribeForeignStatesAsync(array, _this, subscribe) {
+			if (subscribe) {
+				array.forEach((element) => {
+					_this.log.debug("Element " + JSON.stringify(element));
+					_this.log.debug("ID to subscribe " + JSON.stringify(element["id"]));
+					_this.subscribeForeignStatesAsync(element["id"]);
+				});
+			} else {
+				array.forEach((element) => {
+					_this.subscribeForeignStatesAsync(element["id"]);
+				});
+			}
+		}
+
 		this.subscribeForeignStatesAsync("telegram.0.info.connection");
 		this.subscribeForeignStatesAsync("telegram.0.communicate.request");
 		this.subscribeForeignStatesAsync(telegramID);
@@ -472,7 +494,6 @@ class TelegramMenu extends utils.Adapter {
 	}
 }
 
-module.exports = { sendIdToOtherFile };
 if (require.main !== module) {
 	// Export the constructor in compact mode
 	/**
