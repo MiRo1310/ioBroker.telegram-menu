@@ -296,6 +296,7 @@ class TelegramMenu extends utils.Adapter {
 					backMenuFuc(_this, calledValue, part.nav, userToSend);
 					if (JSON.stringify(part.nav).includes("menu")) {
 						callSubMenu(_this, part.nav, groupData, userToSend);
+						return true;
 					} else {
 						if (userToSend) {
 							_this.log.debug("Send Nav to Telegram");
