@@ -411,7 +411,7 @@ class TelegramMenu extends utils.Adapter {
 
 			if (subMenuData && subMenuData[3]) {
 				_this.log.debug("SubmenuData3" + JSON.stringify(subMenuData[3]));
-				setStateIdsToListenTo = subMenuData[3];
+				if (subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
 				_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
 			}
 			if (subMenuData && subMenuData[0]) {
@@ -439,7 +439,7 @@ class TelegramMenu extends utils.Adapter {
 		}
 		/**
 		 *
-		 * @param {} array
+		 * @param {[]} array
 		 * @param {*} _this
 		 * @param {boolean} subscribe If true, then subscribe, else unsubscribe
 		 */
