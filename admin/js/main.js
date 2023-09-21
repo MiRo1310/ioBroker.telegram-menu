@@ -1,5 +1,5 @@
-/*global deleteDoubleEntrysInArray,checkDeleteBtn,sortArray,newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
+/*global deleteDoubleEntrysInArray,sortArray,newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "checkDeleteBtn,disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
 function checkSubMenu(activeMenu) {
 	if ($(`#table_nav tbody#${activeMenu} tr.startRow input[data-name="call"]`).val() === "-") {
