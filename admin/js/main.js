@@ -1,4 +1,4 @@
-/*global deleteDoubleEntrysInArray,sortArray,newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
+/*global deleteDoubleEntrysInArray,checkDeleteBtn,sortArray,newUserBtn,getUsersFromTelegram ,navElement, userSelectionTelegram ,actionElement,createSelectTrigger,newTableRow_Action,newTableRow_Action,newTrInAction,userActivCheckbox,$, groupUserInput*/
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "disableEnableInputField|isStringEmty|generate|create|set|fill|reset|add|show|ins|table|get|new|show|checkValueModal|disable|checkUpAndDownArrowBtn|"}]*/
 
 function checkSubMenu(activeMenu) {
@@ -134,16 +134,42 @@ function disableEnableInputField(checkbox, inputfield) {
 	else $(inputfield).attr("disabled", "disabled");
 }
 // @ts-ignore
-function checkUpAndDownArrowBtn(activeuser) {
-	const lengthOfNavList = $(`tbody#${activeuser}.visibilityArrowBtn tr`).length - 1;
-	$(`tbody#${activeuser}.visibilityArrowBtn tr`).each(function (key) {
-		$(this).attr("data-key", key);
-		key == 1
-			? $(this).find("a i[name='up']").parent().attr("disabled", "disabled")
-			: $(this).find("a i[name='up']").parent().removeAttr("disabled");
-		key == lengthOfNavList
-			? $(this).find("a i[name='down']").parent().attr("disabled", "disabled")
-			: $(this).find("a i[name='down']").parent().removeAttr("disabled");
+function checkUpAndDownArrowBtn() {
+	const $tbodys = $(`tbody.visibilityArrowBtn`);
+	$tbodys.each(function () {
+		const lengthOfNavList = $(this).find("tr").length - 1;
+		let downStartAtZero = 1;
+		if ($(this).hasClass("arrow_downwartStartAtZero")) downStartAtZero = 0;
+		$(this)
+			.find("tr")
+			.each(function (key) {
+				$(this).attr("data-key", key);
+				key == downStartAtZero
+					? $(this).find("a i[name='up']").parent().attr("disabled", "disabled")
+					: $(this).find("a i[name='up']").parent().removeAttr("disabled");
+				key == lengthOfNavList
+					? $(this).find("a i[name='down']").parent().attr("disabled", "disabled")
+					: $(this).find("a i[name='down']").parent().removeAttr("disabled");
+			});
+	});
+}
+function checkDeleteBtn() {
+	const $tbodys = $("tbody.visibilityDeleteBtn");
+	console.log($tbodys.length);
+	$tbodys.each(function () {
+		const lengthOfNavList = $(this).find("tr").length;
+		console.log(lengthOfNavList);
+		$(this)
+			.find("tr")
+			.each(function (key) {
+				$(this).attr("data-key", key);
+				key == 0 && lengthOfNavList == 1
+					? $(this).find("a.deleteRow").attr("disabled", "disabled")
+					: $(this).find("a.deleteRow").removeAttr("disabled");
+				key == lengthOfNavList
+					? $(this).find("a.deleteRow").attr("disabled", "disabled")
+					: $(this).find("a.deleteRow").removeAttr("disabled");
+			});
 	});
 }
 

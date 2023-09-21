@@ -59,7 +59,7 @@
 			showHideUserEntry(activeMenu)
 			setCheckbox(settings.checkbox)
 			usedTrigger = generateSelectTrigger(activeMenu, menus)
-			checkUpAndDownArrowBtn(activeMenu)
+			checkUpAndDownArrowBtn()
 			menuToSpan(activeMenu)
 			disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
 			// When import from old Version import Username			
@@ -283,20 +283,20 @@
 			// Btns new Row in Navigation
 			$(".adapter-container").on("click", ".btn_add_row", function () {
 				$(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
-				checkUpAndDownArrowBtn(activeMenu)
+				checkUpAndDownArrowBtn()
 				isInputFieldEmty(".isString")
 			})
 
 			// Button Row up 
 			$(".adapter-container").on("click", ".btn_up", function () {
 				$(this).parent().parent().insertBefore($(this).parent().parent().prev())
-				checkUpAndDownArrowBtn(activeMenu)
+				checkUpAndDownArrowBtn()
 				_onChange()
 			})
 			// Btn Row down
 			$(".adapter-container").on("click", ".btn_down", function (key) {
 				$(this).parent().parent().insertAfter($(this).parent().parent().next())
-				checkUpAndDownArrowBtn(activeMenu)
+				checkUpAndDownArrowBtn()
 				_onChange()
 			})
 			// Input check if it is not empty
@@ -316,7 +316,7 @@
 			//Delete Row
 			$(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
 				$(this).parent().parent().remove()
-				checkUpAndDownArrowBtn(activeMenu)
+				checkUpAndDownArrowBtn()
 				_onChange()
 				generateNav()
 			})
@@ -393,6 +393,9 @@
 				const rows = $("#tab_pic tbody tr").length
 				$(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), undefined, rows))
 				$("#btn_action_set").attr("disabled", "disabled")
+				checkUpAndDownArrowBtn()
+				checkDeleteBtn()
+
 			})
 			// Edit entrys
 			$(".adapter-container").on("click", ".editEntry", function () {
@@ -412,6 +415,7 @@
 				$("#select_trigger").val(trigger).select()
 				insertEditValues(action, this)
 				disableValueInput()
+				checkUpAndDownArrowBtn()
 			})
 			// Value deaktivieren wenn Switch checked
 			$(".modal-content").on("change", ".switch_checkbox", function () {
@@ -432,10 +436,9 @@
 
 			// Disable delete Button in Tables
 			$("div.adapter-container").on("click", "a.deleteRow", function () {
-				if ($(this).children("tr").length > 1) {
-					$(this).find($("a.deleteRow")).removeAttr("disabled")
-				} else $(this).find($("a.deleteRow")).attr("disabled", "disabled")
+				checkDeleteBtn()
 			})
+
 
 			// Show Hide Tbody
 			$(".adapter-container").on("click", ".showHideMenu", function () {
@@ -594,7 +597,7 @@
 				if (action == "nav") {
 					rowToCopy.append(buttonsNav)
 					$(`#${activeMenu}`).append(rowToCopy)
-					checkUpAndDownArrowBtn(activeMenu)
+					checkUpAndDownArrowBtn()
 				}
 				else {
 					rowToCopy.append(buttonsAction)
@@ -712,10 +715,13 @@
 								translate">Confirm set value</th>
 										<th style="width: 1%; background: #64b5f6 " class="text-xsm translate">Switch
 										</th>
-										<th style="width: 1%; background: #64b5f6 "></th>
+										<th style="width: 2%; background: #64b5f6 "></th>
+										<th style="width: 2%; background: #64b5f6 "></th>
+										<th style="width: 2%; background: #64b5f6 "></th>
 									</tr>
 								</thead>
-								<tbody class="table-lines table-values">
+								<tbody
+									class="table-lines table-values visibilityArrowBtn visibilityDeleteBtn arrow_downwartStartAtZero">
 									<tr>
 										<td> <input class="set_id resetInput checkValue" spellcheck="false" type="text">
 										</td>
@@ -741,6 +747,10 @@
 										<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
 												disabled><i class="material-icons" disabled>delete</i></a></td>
 										</td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i
+													class="material-icons" name="down">arrow_downward</i></a></td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i
+													class="material-icons" name="up">arrow_upward</i></a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -751,10 +761,13 @@
 										<th style="width: 5%;"></th>
 										<th>Text</th>
 										<th style="width: 8%;">Newline</th>
-										<th style="width: 3%;"></th>
+										<th style="width: 2%;"></th>
+										<th style="width: 2%;"></th>
+										<th style="width: 2%;"></th>
 									</tr>
 								</thead>
-								<tbody class="table-lines table-values">
+								<tbody
+									class="table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero visibilityDeleteBtn">
 									<tr>
 										<td> <input class="get_id resetInput checkValue" spellcheck="false" type="text">
 										</td>
@@ -771,6 +784,10 @@
 										<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
 												disabled><i class="material-icons">delete</i></a></td>
 										</td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i
+													class="material-icons" name="down">arrow_downward</i></a></td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i
+													class="material-icons" name="up">arrow_upward</i></a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -780,10 +797,13 @@
 										<th>Rendering url</th>
 										<th style="width: 15%;" class="translate">Filename</th>
 										<th style="width: 8%;" class="translate">Delay (ms)</th>
-										<th style="width: 3%;"></th>
+										<th style="width: 2%;"></th>
+										<th style="width: 2%;"></th>
+										<th style="width: 2%;"></th>
 									</tr>
 								</thead>
-								<tbody class="table-lines table-values">
+								<tbody
+									class="table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero visibilityDeleteBtn">
 									<tr>
 										<td> <input class="pic_IDs resetInput checkValue" spellcheck="false"
 												type="text">
@@ -798,6 +818,10 @@
 										<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
 												disabled><i class="material-icons">delete</i></a></td>
 										</td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i
+													class="material-icons" name="down">arrow_downward</i></a></td>
+										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i
+													class="material-icons" name="up">arrow_upward</i></a></td>
 									</tr>
 								</tbody>
 							</table>

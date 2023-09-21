@@ -96,7 +96,9 @@ function newTrInAction(val, array, rows) {
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
   <td><input class="get_text" spellcheck="false" type="text" value="${array[1]}"></td>
   <td><label><input type="checkbox" class="filled-in newline_checkbox" ${array[2]} /><span></span></label></td>
-  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i class="material-icons">delete</i></a></td>								
+  <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i class="material-icons">delete</i></a></td>	
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>							
 </tr>`;
 	if (val === "set")
 		return /*html*/ `<tr class="onResetDelete">
@@ -107,6 +109,8 @@ function newTrInAction(val, array, rows) {
 	<td><label><input type="checkbox" class="filled-in confirm_checkbox" ${array[7]}/><span></span></label></td>
   <td><label><input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
 								
 </tr>`;
 	if (val === "pic")
@@ -115,6 +119,8 @@ function newTrInAction(val, array, rows) {
   <td><input class="pic_fileName checkValue" spellcheck="false" type="text" placeholder="grafanaX.png" value="${array[6]}"></td>
   <td><input class="pic_picSendDelay " spellcheck="false" type="number" placeholder="5000" value="${array[5]}"></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" disabled><i class="material-icons">delete</i></a></td>  
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+  <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
 </tr>`;
 }
 //SECTION - Save 2
@@ -135,10 +141,12 @@ function actionElement(user) {
                     </th>
                     <th style="width: 2%"></th>
                     <th data-name="delete" style="width: 2%;">
+                    <th data-name="up" style="width: 2%;">
+                    <th data-name="down" style="width: 2%;">
                     </th>
                   </tr>
                 </thead>
-                <tbody name=${user} data-name="get" class="table_get table-lines table-values">                
+                <tbody name=${user} data-name="get" class="table_get table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero">                
                 </tbody>
               </table>
             </div>
@@ -157,10 +165,12 @@ function actionElement(user) {
                     <th data-name="edit" style="width: 2%;">
                     </th>
                     <th data-name="delete" style="width: 2%;">
+                    <th data-name="up" style="width: 2%;">
+                    <th data-name="down" style="width: 2%;">
                     </th>
                   </tr>
                 </thead>
-                <tbody name=${user} data-name="set" class="table_set table-lines table-values">                
+                <tbody name=${user} data-name="set" class="table_set table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero">                
                 </tbody>
               </table>
             </div>
@@ -177,10 +187,12 @@ function actionElement(user) {
                     <th style="width: 8%" class="translate">Delay</th>
                     <th style="width: 2%"></th>
                     <th data-name="delete" style="width: 2%;">
+                    <th data-name="up" style="width: 2%;">
+                    <th data-name="down" style="width: 2%;">
                     </th>
                   </tr>
                 </thead>
-                <tbody name=${user} data-name="pic" class="table_pic table-lines table-values">                 
+                <tbody name=${user} data-name="pic" class="table_pic table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero">                 
                 </tbody> 
               </table>
             </div>
@@ -199,7 +211,9 @@ function newTableRow_Action(action, result) {
     <td>${insertVal(result, "text")}</td>
     <td>${insertVal(result, "newline_checkbox")}</td>    
     ${actionDeleteButton}
-    ${editButton}
+    ${editButton} 
+    ${upButton}
+    ${downButton}
             </tr>`;
 	}
 	if (action === "set")
@@ -212,6 +226,8 @@ function newTableRow_Action(action, result) {
     <td>${insertVal(result, "switch_checkbox")}</td>
     ${actionDeleteButton}
     ${editButton}
+    ${upButton}
+    ${downButton}
             </tr>`;
 	if (action === "pic")
 		return /*html*/ `<tr>
@@ -221,10 +237,14 @@ function newTableRow_Action(action, result) {
     <td>${insertVal(result, "picSendDelay")}</td>    
     ${actionDeleteButton}
     ${editButton}
+    ${upButton}
+    ${downButton}
             </tr>`;
 }
 const actionDeleteButton = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>`;
 const editButton = `<td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>`;
+const upButton = `<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>`;
+const downButton = `<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>`;
 
 function insertVal(result, entry) {
 	// Übernahme alter Daten in das neue Format
