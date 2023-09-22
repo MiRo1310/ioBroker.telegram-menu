@@ -166,9 +166,9 @@ function checkDeleteBtn() {
 				key == 0 && lengthOfNavList == 1
 					? $(this).find("a.deleteRow").attr("disabled", "disabled")
 					: $(this).find("a.deleteRow").removeAttr("disabled");
-				key == lengthOfNavList
-					? $(this).find("a.deleteRow").attr("disabled", "disabled")
-					: $(this).find("a.deleteRow").removeAttr("disabled");
+				// key == lengthOfNavList
+				// 	? $(this).find("a.deleteRow").attr("disabled", "disabled")
+				// 	: $(this).find("a.deleteRow").removeAttr("disabled");
 			});
 	});
 }

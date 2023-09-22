@@ -319,7 +319,13 @@
 				checkUpAndDownArrowBtn()
 				_onChange()
 				generateNav()
+				checkDeleteBtn()
+				console.log("click")
 			})
+			// Disable delete Button in Tables
+			// $("div.adapter-container").on("click", "a.deleteRow", function () {
+			// 	checkDeleteBtn()
+			// })
 
 			// ----------------------------------------//
 			// Change Events                           //
@@ -434,10 +440,7 @@
 			// Global                                  //
 			//-----------------------------------------// 	
 
-			// Disable delete Button in Tables
-			$("div.adapter-container").on("click", "a.deleteRow", function () {
-				checkDeleteBtn()
-			})
+
 
 
 			// Show Hide Tbody
