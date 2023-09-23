@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.6.8",
+    "version": "0.6.9",
     "news": {
+      "0.6.9": {
+        "en": "Rearranging listed actions #49\nwhen calling up the submenu, Text was send no entry found, fixed\nbug switch menu, fixed\nset a state, and receive the change of another state",
+        "de": "Rearrangieren von aufgelisteten Aktionen #49\nbeim Aufruf des Untermenüs, Text wurde nicht gefunden, behoben\nbugschalter-menü, fixiert\neinen zustand einstellen und die änderung eines anderen zustands empfangen",
+        "ru": "Организация перечисленных действий #49\nпри вызове подменю, текст не был отправлен не найден, исправлен\nменю переключателя баг, исправлено\nустановить состояние, и получить изменение другого государства",
+        "pt": "Reorganizar ações listadas #49\nao chamar o submenu, Texto não foi enviado nenhuma entrada encontrada, corrigido\nmenu de interruptor de bug, fixo\ndefinir um estado, e receber a mudança de outro estado",
+        "nl": "Vertaling:\ntoen ik de submenu belde, stuurde Text geen ingang gevonden\nvertaling:\nstel een staat voor en ontvang de verandering van een andere staat",
+        "fr": "Rearranging listed actions #49\nlorsque vous appelez le sous-menu, Texte n'a pas été envoyé trouvé, fixe\nmenu de commutation de bugs, fixe\ndéfinir un état, et recevoir le changement d'un autre état",
+        "it": "Rearrange azioni quotate #49\nquando si chiama il submenu, Testo non è stato inviato alcun elemento trovato, fisso\nmenu interruttore bug, fisso\nimpostare uno stato, e ricevere il cambiamento di un altro stato",
+        "es": "Reorganización de acciones enumeradas #49\nal llamar al submenú, Texto no fue enviado ninguna entrada encontrado, fijo\nmenú de conmutación de errores, fijo\nestablecer un estado, y recibir el cambio de otro estado",
+        "pl": "Rearrangacja #49\nkiedy wzywamy do podmenu, tekst nie został znaleziony, ustalony\nbug switch menu\nustanowiono państwo i otrzymało zmianę innego państwa",
+        "uk": "Залучення зазначених дій #49\nпри виклику підменю текст не був знайдений, фіксований\nменю вимикача, фіксована\nоберіть стан, і отримайте зміни іншої держави",
+        "zh-cn": "B. 安排所列行动 49\n在呼吁分包时,案文没有出入境,即固定。\nbugion menu,固定\na. 建立国家,并接受另一国的改变"
+      },
       "0.6.8": {
         "en": "chatId in UI\ntrigger is not displayed when editing, fixed",
         "de": "chatten Id in UI\ntrigger wird bei der bearbeitung nicht angezeigt, behoben",
@@ -80,19 +93,6 @@
         "pl": "wskaźnik użytkownika musi być sprawdzany przynajmniej jeden użytkownik",
         "uk": "перевірка користувачів, принаймні один користувач повинен перевіряти",
         "zh-cn": "用户检查,至少必须检查一名用户。"
-      },
-      "0.6.2": {
-        "en": "Active Menu Output fixed\nchange instance, user will be load from new instance",
-        "de": "Aktive Menüausgabe fest\nänderungsinstanz, benutzer wird aus neuer instanz geladen",
-        "ru": "Активное меню Выход фиксированный\nизменить пример, пользователь будет загружаться из нового экземпляра",
-        "pt": "Saída do menu ativo fixo\ninstância de mudança, o usuário será carregado de nova instância",
-        "nl": "Active Menu Output gerepareerd\nverandering instance, gebruiker zal worden geladen van nieuwe instanties",
-        "fr": "Active Menu Sortie fixe\nchangement d'instance, l'utilisateur sera chargé de la nouvelle instance",
-        "it": "Uscita menu attivo fisso\ncambiamento istanza, l'utente verrà caricato da nuova istanza",
-        "es": "Juego de menú activo\ninstancia de cambio, el usuario será cargado desde nueva instancia",
-        "pl": "Aktywny Menu Output\nna przykład, użytkownik może być obciążony nowymi instancjami",
-        "uk": "Активне меню Вихід фіксований\nзміна екземпляра, користувач буде завантажуватися з нового екземпляра",
-        "zh-cn": "积极产出\n例如,用户将从新情况中负荷"
       }
     },
     "titleLang": {
