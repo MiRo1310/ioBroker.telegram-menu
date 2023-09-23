@@ -93,6 +93,7 @@ class TelegramMenu extends utils.Adapter {
 					const data = this.config.data;
 					const nav = data["nav"];
 					const action = data["action"];
+					this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
 					this.log.debug("Navigation " + JSON.stringify(nav));
 					this.log.debug("Action " + JSON.stringify(action));
 					try {
@@ -106,7 +107,7 @@ class TelegramMenu extends utils.Adapter {
 							if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0)
 								_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
 							this.log.debug("SubscribeForeignStates: " + JSON.stringify(subscribeForeignStateIds));
-							this.log.debug("Name " + JSON.stringify(name));
+							this.log.debug("Menu: " + JSON.stringify(name));
 							this.log.debug("Array Buttons: " + JSON.stringify(value));
 							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
 						}
@@ -116,9 +117,9 @@ class TelegramMenu extends utils.Adapter {
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
 					try {
-						this.log.debug("GroupList: " + JSON.stringify(listofGroups));
+						this.log.debug("MenuList: " + JSON.stringify(listofGroups));
 						listofGroups.forEach((group) => {
-							this.log.debug("Group: " + JSON.stringify(group));
+							this.log.debug("Menu: " + JSON.stringify(group));
 							const startside = [startsides[group]].toString();
 							if (userActiveCheckbox[group] && startside != "-") {
 								this.log.debug("Startseite: " + JSON.stringify(startside));
@@ -183,9 +184,9 @@ class TelegramMenu extends utils.Adapter {
 								let dataFound = false;
 								for (const group of groups) {
 									const groupData = menu.data[group];
-									this.log.debug("Nav " + JSON.stringify(groupData));
-									this.log.debug("Menu " + JSON.stringify(menu.data));
-									this.log.debug("group	" + JSON.stringify(group));
+									this.log.debug("Nav: " + JSON.stringify(groupData));
+									this.log.debug("Menu: " + JSON.stringify(menu.data));
+									this.log.debug("Group: " + JSON.stringify(group));
 
 									if (processData(this, groupData, calledValue, userToSend, group)) {
 										dataFound = true;
@@ -433,7 +434,7 @@ class TelegramMenu extends utils.Adapter {
 		 */
 		function _subscribeForeignStatesAsync(array, _this) {
 			array.forEach((element) => {
-				_this.log.debug("Subscribe State" + JSON.stringify(element.id));
+				if (element.id) _this.log.debug("Subscribe State" + JSON.stringify(element.id));
 				_this.subscribeForeignStatesAsync(element.id);
 			});
 		}
