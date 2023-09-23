@@ -34,6 +34,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   Rearranging listed actions #49
 -   when calling up the submenu, Text was send no entry found, fixed
 -   bug switch menu, fixed
 -   set a state, and receive the change of another state
