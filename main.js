@@ -338,27 +338,31 @@ class TelegramMenu extends utils.Adapter {
 						// if (element.id != "-") {
 						const url = element.id;
 						const newUrl = url.replace(/&amp;/g, "&");
-						exec(
-							`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-							(error, stdout, stderr) => {
-								if (stdout) {
-									_this.log.debug("Stdout: " + JSON.stringify(stdout));
-								}
-								if (stderr) {
-									_this.log.debug("Stderr: " + JSON.stringify(stderr));
-								}
-								if (error) {
-									_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-									return;
-								}
-							},
-						);
+						try {
+							exec(
+								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+								(error, stdout, stderr) => {
+									if (stdout) {
+										_this.log.debug("Stdout: " + JSON.stringify(stdout));
+									}
+									if (stderr) {
+										_this.log.debug("Stderr: " + JSON.stringify(stderr));
+									}
+									if (error) {
+										_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+										return;
+									}
+								},
+							);
+						} catch (e) {
+							_this.log.error("Error :" + JSON.stringify(e));
+						}
 						// _this.log.debug(
 						// 	"url: " +
 						// 		`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
 						// );
 						// }
-
+						_this.log.debug("Delay Time " + JSON.stringify(element.delay));
 						timeoutKey += 1;
 						const path = `${directoryPicture}${element.fileName}`;
 						const timeout = _this.setTimeout(async () => {
@@ -382,6 +386,7 @@ class TelegramMenu extends utils.Adapter {
 						timeouts.push({ key: timeoutKey, timeout: timeout });
 					});
 					_this.log.debug("Picture sended");
+
 					return true;
 				}
 			} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
