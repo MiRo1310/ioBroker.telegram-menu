@@ -384,6 +384,7 @@ class TelegramMenu extends utils.Adapter {
 								clearTimeout(timeoutToClear.timeout);
 								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
 							}, element.delay);
+							_this.log.debug("Timeout add");
 							timeouts.push({ key: timeoutKey, timeout: timeout });
 						} catch (e) {
 							_this.log.error("Error: " + JSON.stringify(e));
