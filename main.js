@@ -365,26 +365,31 @@ class TelegramMenu extends utils.Adapter {
 						_this.log.debug("Delay Time " + JSON.stringify(element.delay));
 						timeoutKey += 1;
 						const path = `${directoryPicture}${element.fileName}`;
-						const timeout = _this.setTimeout(async () => {
-							_this.log.debug("Send Pic to Telegram");
-							sendToTelegram(
-								_this,
-								userToSend,
-								path,
-								undefined,
-								instanceTelegram,
-								resize_keyboard,
-								one_time_keyboard,
-								userListWithChatID,
-							);
+						try {
+							const timeout = _this.setTimeout(async () => {
+								_this.log.debug("Send Pic to Telegram");
+								sendToTelegram(
+									_this,
+									userToSend,
+									path,
+									undefined,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
+									userListWithChatID,
+								);
 
-							let timeoutToClear = {};
-							timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-							clearTimeout(timeoutToClear.timeout);
-							timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-						}, element.delay);
-						timeouts.push({ key: timeoutKey, timeout: timeout });
+								let timeoutToClear = {};
+								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+								clearTimeout(timeoutToClear.timeout);
+								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+							}, element.delay);
+							timeouts.push({ key: timeoutKey, timeout: timeout });
+						} catch (e) {
+							_this.log.error("Error: " + JSON.stringify(e));
+						}
 					});
+
 					_this.log.debug("Picture sended");
 
 					return true;
