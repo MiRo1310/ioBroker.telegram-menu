@@ -168,9 +168,10 @@
 					addNewGroup(menus, newMenu, _onChange)
 					activeMenu = newMenu
 					showUser(newMenu, showHideUserCheckbox)
-					userListWithChatID = buildUserSelection(valUserFromTelegram, newMenu, usersInMenus)
+					userListWithChatID = buildUserSelection(valUserFromTelegram, [newMenu], usersInMenus)
 					translateAll()
 				}
+
 			})
 			// Delete Btn, open popup		
 			$("#group_menu").on("click", "#deleteUser", function () {
