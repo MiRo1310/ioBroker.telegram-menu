@@ -338,28 +338,30 @@ class TelegramMenu extends utils.Adapter {
 						part.sendPic.forEach((element) => {
 							// this.log.debug("Element " + JSON.stringify(element));
 							token = token.trim();
-							const url = element.id;
-							const newUrl = url.replace(/&amp;/g, "&");
-							exec(
-								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-								(error, stdout, stderr) => {
-									if (stdout) {
-										_this.log.debug("Stdout: " + JSON.stringify(stdout));
-									}
-									if (stderr) {
-										_this.log.debug("Stderr: " + JSON.stringify(stderr));
-									}
-									if (error) {
-										_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-										return;
-									}
-								},
-							);
-
-							_this.log.debug(
-								"url " +
+							if (element.id != "-") {
+								const url = element.id;
+								const newUrl = url.replace(/&amp;/g, "&");
+								exec(
 									`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-							);
+									(error, stdout, stderr) => {
+										if (stdout) {
+											_this.log.debug("Stdout: " + JSON.stringify(stdout));
+										}
+										if (stderr) {
+											_this.log.debug("Stderr: " + JSON.stringify(stderr));
+										}
+										if (error) {
+											_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+											return;
+										}
+									},
+								);
+								_this.log.debug(
+									"url " +
+										`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+								);
+							}
+
 							timeoutKey += 1;
 							const path = `${directoryPicture}${element.fileName}`;
 							const timeout = _this.setTimeout(async () => {
