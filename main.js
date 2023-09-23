@@ -383,7 +383,7 @@ class TelegramMenu extends utils.Adapter {
 								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
 								clearTimeout(timeoutToClear.timeout);
 								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-							}, 15000);
+							}, parseInt(element.delay));
 							_this.log.debug("Timeout add");
 							timeouts.push({ key: timeoutKey, timeout: timeout });
 						} catch (e) {
