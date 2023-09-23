@@ -368,21 +368,21 @@ class TelegramMenu extends utils.Adapter {
 						try {
 							const timeout = _this.setTimeout(async () => {
 								_this.log.debug("Send Pic to Telegram");
-								sendToTelegram(
-									_this,
-									userToSend,
-									path,
-									undefined,
-									instanceTelegram,
-									resize_keyboard,
-									one_time_keyboard,
-									userListWithChatID,
-								);
+								// sendToTelegram(
+								// 	_this,
+								// 	userToSend,
+								// 	path,
+								// 	undefined,
+								// 	instanceTelegram,
+								// 	resize_keyboard,
+								// 	one_time_keyboard,
+								// 	userListWithChatID,
+								// );
 
-								let timeoutToClear = {};
-								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-								clearTimeout(timeoutToClear.timeout);
-								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+								// let timeoutToClear = {};
+								// timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+								// clearTimeout(timeoutToClear.timeout);
+								// timeouts = timeouts.filter((item) => item.key !== timeoutKey);
 							}, element.delay);
 							_this.log.debug("Timeout add");
 							timeouts.push({ key: timeoutKey, timeout: timeout });
