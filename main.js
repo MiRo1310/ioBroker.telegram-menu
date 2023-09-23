@@ -335,36 +335,38 @@ class TelegramMenu extends utils.Adapter {
 
 					part.sendPic.forEach((element) => {
 						token = token.trim();
-						// if (element.id != "-") {
-						const url = element.id;
-						const newUrl = url.replace(/&amp;/g, "&");
-						try {
-							exec(
-								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-								(error, stdout, stderr) => {
-									if (stdout) {
-										_this.log.debug("Stdout: " + JSON.stringify(stdout));
-									}
-									if (stderr) {
-										_this.log.debug("Stderr: " + JSON.stringify(stderr));
-									}
-									if (error) {
-										_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-										return;
-									}
-								},
-							);
-						} catch (e) {
-							_this.log.error("Error :" + JSON.stringify(e));
-						}
-						// _this.log.debug(
-						// 	"url: " +
-						// 		`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-						// );
-						// }
-						_this.log.debug("Delay Time " + JSON.stringify(element.delay));
-						timeoutKey += 1;
-						const path = `${directoryPicture}${element.fileName}`;
+						let path = "";
+						if (element.id != "-") {
+							const url = element.id;
+							const newUrl = url.replace(/&amp;/g, "&");
+							try {
+								exec(
+									`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+									(error, stdout, stderr) => {
+										if (stdout) {
+											_this.log.debug("Stdout: " + JSON.stringify(stdout));
+										}
+										if (stderr) {
+											_this.log.debug("Stderr: " + JSON.stringify(stderr));
+										}
+										if (error) {
+											_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+											return;
+										}
+									},
+								);
+							} catch (e) {
+								_this.log.error("Error :" + JSON.stringify(e));
+							}
+							// _this.log.debug(
+							// 	"url: " +
+							// 		`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+							// );
+
+							_this.log.debug("Delay Time " + JSON.stringify(element.delay));
+							timeoutKey += 1;
+							path = `${directoryPicture}${element.fileName}`;
+						} else path = element.fileName;
 						try {
 							const timeout = _this.setTimeout(async () => {
 								_this.log.debug("Send Pic to Telegram");
