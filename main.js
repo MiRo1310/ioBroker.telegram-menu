@@ -331,61 +331,57 @@ class TelegramMenu extends utils.Adapter {
 					);
 					return true;
 				} else if (part.sendPic) {
-					try {
-						_this.log.debug("Send Picture");
+					_this.log.debug("Send Picture");
 
-						part.sendPic.forEach((element) => {
-							token = token.trim();
-							// if (element.id != "-") {
-							const url = element.id;
-							const newUrl = url.replace(/&amp;/g, "&");
-							exec(
-								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-								(error, stdout, stderr) => {
-									if (stdout) {
-										_this.log.debug("Stdout: " + JSON.stringify(stdout));
-									}
-									if (stderr) {
-										_this.log.debug("Stderr: " + JSON.stringify(stderr));
-									}
-									if (error) {
-										_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-										return;
-									}
-								},
+					part.sendPic.forEach((element) => {
+						token = token.trim();
+						// if (element.id != "-") {
+						const url = element.id;
+						const newUrl = url.replace(/&amp;/g, "&");
+						exec(
+							`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+							(error, stdout, stderr) => {
+								if (stdout) {
+									_this.log.debug("Stdout: " + JSON.stringify(stdout));
+								}
+								if (stderr) {
+									_this.log.debug("Stderr: " + JSON.stringify(stderr));
+								}
+								if (error) {
+									_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+									return;
+								}
+							},
+						);
+						// _this.log.debug(
+						// 	"url: " +
+						// 		`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+						// );
+						// }
+
+						timeoutKey += 1;
+						const path = `${directoryPicture}${element.fileName}`;
+						const timeout = _this.setTimeout(async () => {
+							_this.log.debug("Send Pic to Telegram");
+							sendToTelegram(
+								_this,
+								userToSend,
+								path,
+								undefined,
+								instanceTelegram,
+								resize_keyboard,
+								one_time_keyboard,
+								userListWithChatID,
 							);
-							_this.log.debug(
-								"url: " +
-									`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-							);
-							// }
 
-							timeoutKey += 1;
-							const path = `${directoryPicture}${element.fileName}`;
-							const timeout = _this.setTimeout(async () => {
-								_this.log.debug("Send Pic to Telegram");
-								sendToTelegram(
-									_this,
-									userToSend,
-									path,
-									undefined,
-									instanceTelegram,
-									resize_keyboard,
-									one_time_keyboard,
-									userListWithChatID,
-								);
-
-								let timeoutToClear = {};
-								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-								clearTimeout(timeoutToClear.timeout);
-								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-							}, element.delay);
-							timeouts.push({ key: timeoutKey, timeout: timeout });
-						});
-						_this.log.debug("Picture sended");
-					} catch (e) {
-						_this.log.error("Error :" + JSON.stringify(e));
-					}
+							let timeoutToClear = {};
+							timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+							clearTimeout(timeoutToClear.timeout);
+							timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+						}, element.delay);
+						timeouts.push({ key: timeoutKey, timeout: timeout });
+					});
+					_this.log.debug("Picture sended");
 					return true;
 				}
 			} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
