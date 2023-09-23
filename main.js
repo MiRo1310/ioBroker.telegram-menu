@@ -139,7 +139,7 @@ class TelegramMenu extends utils.Adapter {
 							}
 						});
 					} catch (error) {
-						console.log("Error read UserList" + error);
+						this.log.error("Error read UserList" + error);
 					}
 				}
 				this.on("stateChange", async (id, state) => {
