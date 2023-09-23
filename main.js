@@ -383,10 +383,10 @@ class TelegramMenu extends utils.Adapter {
 							timeouts.push({ key: timeoutKey, timeout: timeout });
 						});
 						_this.log.debug("Picture sended");
-						return true;
 					} catch (e) {
 						_this.log.error("Error :" + JSON.stringify(e));
 					}
+					return true;
 				}
 			} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
 				callSubMenu(_this, calledValue, groupData, userToSend);
