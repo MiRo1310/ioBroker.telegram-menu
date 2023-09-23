@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.6.9",
+    "version": "0.6.10",
     "news": {
+      "0.6.10": {
+        "en": "bug fix",
+        "de": "fehlerbehebung",
+        "ru": "исправление ошибки",
+        "pt": "correção de bugs",
+        "nl": "insecten",
+        "fr": "bug fix",
+        "it": "correzione bug",
+        "es": "bug",
+        "pl": "błąd",
+        "uk": "виправлення помилок",
+        "zh-cn": "bug fix"
+      },
       "0.6.9": {
         "en": "Rearranging listed actions #49\nwhen calling up the submenu, Text was send no entry found, fixed\nbug switch menu, fixed\nset a state, and receive the change of another state",
         "de": "Rearrangieren von aufgelisteten Aktionen #49\nbeim Aufruf des Untermenüs, Text wurde nicht gefunden, behoben\nbugschalter-menü, fixiert\neinen zustand einstellen und die änderung eines anderen zustands empfangen",
@@ -80,19 +93,6 @@
         "pl": "Kontrola Triggera nie jest już dostępna w akcji, w nav jest wizualizowana, że wyzwalanie jest już w użyciu",
         "uk": "Перевірка тригера, використовувані тригери більше не доступні в дії, в нав він візуалізований, що тригер вже в використанні",
         "zh-cn": "突然的检查不再可供采取行动,在无知的情况下,触发者已经使用。"
-      },
-      "0.6.3": {
-        "en": "user check, least one user must be checked",
-        "de": "benutzerüberprüfung, mindestens ein benutzer muss überprüft werden",
-        "ru": "проверка пользователя, хотя бы один пользователь должен быть проверен",
-        "pt": "verificação do usuário, pelo menos um usuário deve ser verificado",
-        "nl": "eén gebruiker moet gecontroleerd worden",
-        "fr": "contrôle utilisateur, le moins d'un utilisateur doit être vérifié",
-        "it": "controllo utente, almeno un utente deve essere controllato",
-        "es": "control de usuario, al menos un usuario debe ser revisado",
-        "pl": "wskaźnik użytkownika musi być sprawdzany przynajmniej jeden użytkownik",
-        "uk": "перевірка користувачів, принаймні один користувач повинен перевіряти",
-        "zh-cn": "用户检查,至少必须检查一名用户。"
       }
     },
     "titleLang": {
