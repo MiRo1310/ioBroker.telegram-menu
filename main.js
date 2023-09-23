@@ -72,7 +72,6 @@ class TelegramMenu extends utils.Adapter {
 		const _this = this;
 		this.getForeignObject(datapoint, async (err, obj) => {
 			if (err || obj == null) {
-				// Error
 				this.log.error(JSON.stringify(err));
 				this.log.error(`The State ${datapoint} was not found!`);
 			} else {
@@ -80,7 +79,7 @@ class TelegramMenu extends utils.Adapter {
 				try {
 					telegramState = await this.getForeignStateAsync(datapoint);
 				} catch (e) {
-					this.log.debug("Error " + JSON.stringify(e));
+					this.log.error("Error getForeignState: " + JSON.stringify(e));
 				}
 				telegramAktiv = telegramState?.val;
 				if (!telegramAktiv) {
@@ -336,7 +335,6 @@ class TelegramMenu extends utils.Adapter {
 						_this.log.debug("Send Picture");
 
 						part.sendPic.forEach((element) => {
-							// this.log.debug("Element " + JSON.stringify(element));
 							token = token.trim();
 							if (element.id != "-") {
 								const url = element.id;
