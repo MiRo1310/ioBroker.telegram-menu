@@ -336,29 +336,29 @@ class TelegramMenu extends utils.Adapter {
 
 						part.sendPic.forEach((element) => {
 							token = token.trim();
-							if (element.id != "-") {
-								const url = element.id;
-								const newUrl = url.replace(/&amp;/g, "&");
-								exec(
+							// if (element.id != "-") {
+							const url = element.id;
+							const newUrl = url.replace(/&amp;/g, "&");
+							exec(
+								`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+								(error, stdout, stderr) => {
+									if (stdout) {
+										_this.log.debug("Stdout: " + JSON.stringify(stdout));
+									}
+									if (stderr) {
+										_this.log.debug("Stderr: " + JSON.stringify(stderr));
+									}
+									if (error) {
+										_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+										return;
+									}
+								},
+							);
+							_this.log.debug(
+								"url: " +
 									`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-									(error, stdout, stderr) => {
-										if (stdout) {
-											_this.log.debug("Stdout: " + JSON.stringify(stdout));
-										}
-										if (stderr) {
-											_this.log.debug("Stderr: " + JSON.stringify(stderr));
-										}
-										if (error) {
-											_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-											return;
-										}
-									},
-								);
-								_this.log.debug(
-									"url " +
-										`curl -H "Authorisation: Bearer ${token}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
-								);
-							}
+							);
+							// }
 
 							timeoutKey += 1;
 							const path = `${directoryPicture}${element.fileName}`;
@@ -382,6 +382,7 @@ class TelegramMenu extends utils.Adapter {
 							}, element.delay);
 							timeouts.push({ key: timeoutKey, timeout: timeout });
 						});
+						_this.log.debug("Picture sended");
 						return true;
 					} catch (e) {
 						_this.log.error("Error :" + JSON.stringify(e));
