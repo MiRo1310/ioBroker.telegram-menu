@@ -315,6 +315,10 @@ class TelegramMenu extends utils.Adapter {
 				// Schalten
 				else if (part.switch) {
 					setStateIdsToListenTo = setstate(_this, part, userToSend);
+
+					_this.log.debug("SubmenuData3" + JSON.stringify(setStateIdsToListenTo));
+					if (Array.isArray(setStateIdsToListenTo))
+						_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
 					return true;
 				} else if (part.getData) {
 					getstate(
@@ -429,18 +433,28 @@ class TelegramMenu extends utils.Adapter {
 
 		/**
 		 *
-		 * @param {Array} array
+		 * @param {*} array
 		 * @param {*} _this
 		 */
 		function _subscribeForeignStatesAsync(array, _this) {
+			array = deleteDoubleEntrysInArray(array);
+			_this.log.debug("array " + JSON.stringify(array));
 			array.forEach((element) => {
-				if (element.id) _this.log.debug("Subscribe State" + JSON.stringify(element.id));
-				_this.subscribeForeignStatesAsync(element.id);
+				_this.log.debug("Subscribe State: " + JSON.stringify(element));
+				_this.subscribeForeignStatesAsync(element);
 			});
 		}
 		/**
+		 * Removes duplicate entries and saves the result
+		 * @param {[]} arr Array
+		 * @returns Array with unique entrys
+		 */
+		function deleteDoubleEntrysInArray(arr) {
+			return arr.filter((item, index) => arr.indexOf(item) === index);
+		}
+		/**
 		 *
-		 * @param {[]} array
+		 * @param {any[]} array
 		 * @param {*} _this
 		 * @param {boolean} subscribe If true, then subscribe, else unsubscribe
 		 */
