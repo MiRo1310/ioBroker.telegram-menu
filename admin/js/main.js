@@ -155,10 +155,8 @@ function checkUpAndDownArrowBtn() {
 }
 function checkDeleteBtn() {
 	const $tbodys = $("tbody.visibilityDeleteBtn");
-	console.log($tbodys.length);
 	$tbodys.each(function () {
 		const lengthOfNavList = $(this).find("tr").length;
-		console.log(lengthOfNavList);
 		$(this)
 			.find("tr")
 			.each(function (key) {
@@ -166,9 +164,6 @@ function checkDeleteBtn() {
 				key == 0 && lengthOfNavList == 1
 					? $(this).find("a.deleteRow").attr("disabled", "disabled")
 					: $(this).find("a.deleteRow").removeAttr("disabled");
-				// key == lengthOfNavList
-				// 	? $(this).find("a.deleteRow").attr("disabled", "disabled")
-				// 	: $(this).find("a.deleteRow").removeAttr("disabled");
 			});
 	});
 }
@@ -293,7 +288,9 @@ function table2Values(id) {
 					.each(function () {
 						const key = $(this).find("input").attr("data-name");
 						if (key) {
-							obj[key] = $(this).find(`input[data-name='${key}']`).val();
+							let val = $(this).find(`input[data-name='${key}']`).val();
+							if (typeof val == "string") val = val.trim();
+							obj[key] = val;
 						}
 					});
 				nav.push(obj);

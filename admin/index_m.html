@@ -168,7 +168,7 @@
 					addNewGroup(menus, newMenu, _onChange)
 					activeMenu = newMenu
 					showUser(newMenu, showHideUserCheckbox)
-					userListWithChatID = buildUserSelection(valUserFromTelegram, [newMenu], usersInMenus)
+					userListWithChatID = buildUserSelection(valUserFromTelegram, newMenu, usersInMenus)
 					translateAll()
 				}
 			})
@@ -320,12 +320,8 @@
 				_onChange()
 				generateNav()
 				checkDeleteBtn()
-				console.log("click")
 			})
-			// Disable delete Button in Tables
-			// $("div.adapter-container").on("click", "a.deleteRow", function () {
-			// 	checkDeleteBtn()
-			// })
+
 
 			// ----------------------------------------//
 			// Change Events                           //
