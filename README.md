@@ -36,9 +36,9 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
--       #53
--       #52
--       #51
+-   #53
+-   #52
+-   #51
 
 ### 0.6.10 (2023-09-23)
 
