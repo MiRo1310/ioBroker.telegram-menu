@@ -36,9 +36,9 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
--   #53
--   #52
--   #51
+-   #53 feature: sendPicture von server-path
+-   #52 icons are missing, copy data
+-   #51 by creating a new Menu, the Users are not shown
 
 ### 0.6.10 (2023-09-23)
 
