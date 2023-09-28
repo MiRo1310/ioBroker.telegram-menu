@@ -55,7 +55,7 @@ class TelegramMenu extends utils.Adapter {
 		/**
 		 * @type {{}}
 		 */
-		const checkbox = this.config.checkbox;
+		let checkbox = this.config.checkbox;
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
