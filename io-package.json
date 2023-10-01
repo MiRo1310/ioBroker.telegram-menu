@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.6.10",
+    "version": "0.7.0",
     "news": {
+      "0.7.0": {
+        "en": "#53 feature: sendPicture von server-path\n#52 icons are missing, copy data\n#51 by creating a new Menu, the Users are not shown",
+        "de": "#53 Feature: sendPicture von server-path\n#52 symbole fehlen, kopierdaten\n#51 durch Erstellen eines neuen Menüs, die Benutzer werden nicht angezeigt",
+        "ru": "#53 функция: sendPicture von server-path\n#52 иконки отсутствуют, копирование данных\n#51, создавая новое меню, Пользователи не отображаются",
+        "pt": "Característica #53: sendPicture von server-path\n#52 ícones estão faltando, copiar dados\n#51 criando um novo Menu, os Usuários não são mostrados",
+        "nl": "Vertaling:\n52 iconen ontbreken\nQuality over Quantity (QoQ) Releases Vertaling:",
+        "fr": "#53 fonction: sendPicture von server-path\n#52 icônes sont manquantes, données de copie\n#51 en créant un nouveau menu, les Utilisateurs ne sont pas affichés",
+        "it": "#53 caratteristica: sendPicture von server-path\n#52 icone mancanti, copia dati\n#51 creando un nuovo menu, gli utenti non vengono mostrati",
+        "es": "función #53: sendPicture von server-path\n#52 iconos faltan, copiar datos\n#51 mediante la creación de un nuevo Menú, los Usuarios no se muestran",
+        "pl": "#53: Wysyłanie serwera\nzaginęło 52 ikony\n#51 poprzez stworzenie nowego Menu, Użytkownicy nie zostali przedstawieni",
+        "uk": "#53 Функція: sendPicture фон сервер-path\n#52 іконки відсутні, копіювання даних\n#51 шляхом створення нового меню Користувачі не показані",
+        "zh-cn": "#53 特色:寄电器\n第52条 遗漏,复印数据\n第51号活动是创建一个新的男子,用户没有证明。"
+      },
       "0.6.10": {
         "en": "bug fix",
         "de": "fehlerbehebung",
@@ -80,19 +93,6 @@
         "pl": "użytkowanie przez czat i wysyłane do tego czatID",
         "uk": "отримати користувач по chatID і відправити назад в цей чатID",
         "zh-cn": "被混乱者利用,然后再送给这一混乱的裁研所。"
-      },
-      "0.6.4": {
-        "en": "Trigger check, used triggers are no longer available in action, in nav it is visualized that the trigger is already in use",
-        "de": "Trigger-Check, verwendete Trigger sind nicht mehr in Aktion, in nav wird visualisiert, dass der Trigger bereits im Einsatz ist",
-        "ru": "Проверка Trigger, используемые триггеры больше не доступны в действии, в nav визуализируется, что триггер уже используется",
-        "pt": "Verificação de gatilho, gatilhos usados não estão mais disponíveis em ação, nav é visualizado que o gatilho já está em uso",
-        "nl": "Trigger controle, gebruikte triggers zijn niet meer beschikbaar in actie, in Nav is het gevisualiseerd dat de trekker al gebruikt is",
-        "fr": "Trigger check, triggers utilisés ne sont plus disponibles en action, dans nav il est visualisé que le trigger est déjà en service",
-        "it": "Controllo del trigger, i trigger utilizzati non sono più disponibili in azione, in nav è visualizzato che il trigger è già in uso",
-        "es": "Comprobación del desencadenante, los disparadores usados ya no están disponibles en acción, en nav se visualiza que el gatillo ya está en uso",
-        "pl": "Kontrola Triggera nie jest już dostępna w akcji, w nav jest wizualizowana, że wyzwalanie jest już w użyciu",
-        "uk": "Перевірка тригера, використовувані тригери більше не доступні в дії, в нав він візуалізований, що тригер вже в використанні",
-        "zh-cn": "突然的检查不再可供采取行动,在无知的情况下,触发者已经使用。"
       }
     },
     "titleLang": {
