@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   bugfix, Error read UserListTypeError: Cannot read properties of undefined
+
 ### 0.7.0 (2023-10-01)
 
 -   #53 feature: sendPicture von server-path
