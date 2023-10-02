@@ -72,7 +72,8 @@
     "lint": "eslint .",
     "translate": "translate-adapter",
     "release": "release-script",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "checker": "node skript.mjs"
   },
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
