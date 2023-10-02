@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "news": {
+      "0.7.1": {
+        "en": "bugfix, Error read UserListTypeError: Cannot read properties of undefined",
+        "de": "bugfix, Fehler lesen UserListType Fehler: Nicht zu lesen Eigenschaften von undefiniert",
+        "ru": "bugfix, Ошибка читать UserListType Ошибка: Не смогите прочитать свойства неопределенного",
+        "pt": "bugfix, Erro lido UserListType Erro: Não é possível ler propriedades indefinidas",
+        "nl": "error las UserListType Error: Kan niet onbepaalde eigenschappen lezen",
+        "fr": "bugfix, Erreur lire UserListType Erreur: Cannot read properties of undefined",
+        "it": "bugfix, Error read UserListType Errore: Proprietà di lettura non definite",
+        "es": "bugfix, Error leer UserListType Error: No se pueden leer propiedades indefinidas",
+        "pl": "error przeczytał UserListType Error: Cannot czytał właściwości nieokreślone",
+        "uk": "javaScript licenses API Веб-сайт Go1.13.8 Помилка: Не можна прочитати властивості невизначених",
+        "zh-cn": "bugfix, Error读者 rror: 评 注"
+      },
       "0.7.0": {
         "en": "#53 feature: sendPicture von server-path\n#52 icons are missing, copy data\n#51 by creating a new Menu, the Users are not shown",
         "de": "#53 Feature: sendPicture von server-path\n#52 symbole fehlen, kopierdaten\n#51 durch Erstellen eines neuen Menüs, die Benutzer werden nicht angezeigt",
@@ -80,19 +93,6 @@
         "pl": "info-big.png",
         "uk": "javascript licenses api веб-сайт go1.13.8",
         "zh-cn": "增 编"
-      },
-      "0.6.5": {
-        "en": "get user by chatID and send back to this chatID",
-        "de": "benutzer per chatID ermitteln und  zurück senden an diese chatID",
-        "ru": "получить пользователя по чатID и отправить обратно в этот чатID",
-        "pt": "obter usuário por chatID e enviar de volta para este chatID",
-        "nl": "haal gebruiker van chatID en stuur terug naar dit chatID",
-        "fr": "obtenir utilisateur par chatID et renvoyer à ce chatID",
-        "it": "ottenere l'utente da chatID e tornare a questo chatID",
-        "es": "obtener usuario por chatID y enviar de nuevo a este chatID",
-        "pl": "użytkowanie przez czat i wysyłane do tego czatID",
-        "uk": "отримати користувач по chatID і відправити назад в цей чатID",
-        "zh-cn": "被混乱者利用,然后再送给这一混乱的裁研所。"
       }
     },
     "titleLang": {
