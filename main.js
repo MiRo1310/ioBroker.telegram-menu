@@ -67,7 +67,7 @@ class TelegramMenu extends utils.Adapter {
 		const groupsWithUsers = this.config.usersInGroup;
 		const textNoEntryFound = this.config.textNoEntry;
 		const userListWithChatID = this.config.userListWithChatID;
-		const menu = {
+		const menuData = {
 			data: {},
 		};
 		const _this = this;
@@ -99,10 +99,10 @@ class TelegramMenu extends utils.Adapter {
 					try {
 						for (const name in nav) {
 							const value = await editArrayButtons(nav[name], this);
-							if (value) menu.data[name] = await generateNewObjectStructure(_this, value);
-							this.log.debug("New Structure: " + JSON.stringify(menu.data[name]));
-							const returnValue = generateActions(_this, action[name], menu.data[name]);
-							menu.data[name] = returnValue?.obj;
+							if (value) menuData.data[name] = await generateNewObjectStructure(_this, value);
+							this.log.debug("New Structure: " + JSON.stringify(menuData.data[name]));
+							const returnValue = generateActions(_this, action[name], menuData.data[name]);
+							menuData.data[name] = returnValue?.obj;
 							subscribeForeignStateIds = returnValue?.ids;
 							this.log.debug("SubscribeForeignStates: " + JSON.stringify(subscribeForeignStateIds));
 							if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
@@ -110,7 +110,7 @@ class TelegramMenu extends utils.Adapter {
 							} else this.log.debug("Nothing to Subscribe!");
 							this.log.debug("Menu: " + JSON.stringify(name));
 							this.log.debug("Array Buttons: " + JSON.stringify(value));
-							this.log.debug("Gen. Actions: " + JSON.stringify(menu.data[name]));
+							this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
 						}
 					} catch (err) {
 						this.log.error("Error generateNav: " + JSON.stringify(err));
@@ -127,11 +127,12 @@ class TelegramMenu extends utils.Adapter {
 								groupsWithUsers[menu].forEach((user) => {
 									backMenuFuc(this, startside, null, user);
 									this.log.debug("User List " + JSON.stringify(userListWithChatID));
+
 									sendToTelegram(
 										_this,
 										user,
-										menu.data[menu][startside].text,
-										menu.data[menu][startside].nav,
+										menuData.data[menu][startside].text,
+										menuData.data[menu][startside].nav,
 										instanceTelegram,
 										resize_keyboard,
 										one_time_keyboard,
@@ -188,9 +189,9 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Groups with searched User " + JSON.stringify(groups));
 								let dataFound = false;
 								for (const group of groups) {
-									const groupData = menu.data[group];
+									const groupData = menuData.data[group];
 									this.log.debug("Nav: " + JSON.stringify(groupData));
-									this.log.debug("Menu: " + JSON.stringify(menu.data));
+									this.log.debug("Menu: " + JSON.stringify(menuData.data));
 									this.log.debug("Group: " + JSON.stringify(group));
 
 									if (processData(this, groupData, calledValue, userToSend, group)) {
