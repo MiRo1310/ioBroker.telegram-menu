@@ -320,7 +320,17 @@ class TelegramMenu extends utils.Adapter {
 				}
 				// Schalten
 				else if (part.switch) {
-					setStateIdsToListenTo = setstate(_this, part, userToSend, 0, false);
+					setStateIdsToListenTo = setstate(
+						_this,
+						part,
+						userToSend,
+						0,
+						false,
+						instanceTelegram,
+						resize_keyboard,
+						one_time_keyboard,
+						userListWithChatID,
+					);
 
 					_this.log.debug("SubmenuData3" + JSON.stringify(setStateIdsToListenTo));
 					if (Array.isArray(setStateIdsToListenTo))

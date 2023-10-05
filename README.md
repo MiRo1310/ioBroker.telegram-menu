@@ -33,6 +33,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+-   setstate and get result of another state with text adjusted
+
 ### 0.7.1 (2023-10-02)
 
 -   bugfix, Error read UserListTypeError: Cannot read properties of undefined
