@@ -35,6 +35,8 @@ You can create different groups with separate menus, and then assign users to th
 
 -   You can place the Value in the Text with `&&` as placeholder. You can influence the value with `change{"true":"on", "false":"off"}`, the same as setState
 -   Convert value `{math:/10}` for example this shows you to divide by 10
+-   If you want to retrieve several values ​​at the same time with one query, you can activate the Newline checkbox to have the return text displayed in a new line for each query.
+-   If you want to convert a value from a state with a Unix timestamp to a local time and have it sent, insert `{time}` into the return text at the desired location
 
 #### Values ​​from created functions
 
