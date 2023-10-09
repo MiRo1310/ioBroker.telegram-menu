@@ -39,12 +39,12 @@ function getAllTelegramInstances(socket, _this) {
 					for (let i = 0; i < doc.rows.length; i++) {
 						console.log(doc.rows[i]);
 						if (
-							// (doc.rows[i].value &&
-							// 	doc.rows[i].value.common &&
-							// 	doc.rows[i].value.common.titleLang &&
-							// 	doc.rows[i].value.common.titleLang.en &&
-							// 	doc.rows[i].value.common.titleLang.en == "Telegram") ||
-							doc.rows[i].value.common.name == "telegram"
+							(doc.rows[i].value &&
+								doc.rows[i].value.common &&
+								doc.rows[i].value.common.titleLang &&
+								doc.rows[i].value.common.titleLang.en &&
+								doc.rows[i].value.common.titleLang.en == "Telegram") ||
+							doc.rows[i].value.common.title == "Telegram"
 						) {
 							console.log("Instance Name: " + doc.rows[i].value.common.titleLang.en);
 							id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
