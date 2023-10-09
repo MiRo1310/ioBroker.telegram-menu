@@ -26,6 +26,7 @@ function getUsersFromTelegram(socket, _this, telegramInstance) {
  */
 // @ts-ignore
 function getAllTelegramInstances(socket, _this) {
+	console.log("getAllTelegramInstances");
 	const id = [];
 	try {
 		socket.emit(
@@ -36,6 +37,7 @@ function getAllTelegramInstances(socket, _this) {
 			function (err, doc) {
 				if (!err && doc.rows.length) {
 					for (let i = 0; i < doc.rows.length; i++) {
+						console.log("Instance Name: " + doc.rows[i].value.common.titleLang.en);
 						if (
 							doc.rows[i].value &&
 							doc.rows[i].value.common &&
