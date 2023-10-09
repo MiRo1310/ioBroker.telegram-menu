@@ -46,7 +46,6 @@ function getAllTelegramInstances(socket, _this) {
 								doc.rows[i].value.common.titleLang.en == "Telegram") ||
 							doc.rows[i].value.common.title == "Telegram"
 						) {
-							console.log("Instance Name: " + doc.rows[i].value.common.titleLang.en);
 							id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
 						}
 						if (i == doc.rows.length - 1) {
