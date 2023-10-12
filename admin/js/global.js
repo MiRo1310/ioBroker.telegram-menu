@@ -1,5 +1,5 @@
 /*global $,  */
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isInputFieldEmpty|countOccurrences|deleteDoubleEntrysInArray|replaceAll"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isInputFieldEmpty|countOccurrences|deleteDoubleEntrysInArray|replaceAll|isInputFieldEmty|sortArray"}]*/
 /**
  * Counts how often an element is present in the array
  * @param {[]} arr The array which should be checked
