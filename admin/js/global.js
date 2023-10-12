@@ -1,5 +1,5 @@
 /*global $,  */
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isInputFieldEmpty|countOccurrences|deleteDoubleEntrysInArray|"}]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "isInputFieldEmpty|countOccurrences|deleteDoubleEntrysInArray|replaceAll"}]*/
 /**
  * Counts how often an element is present in the array
  * @param {[]} arr The array which should be checked
@@ -56,4 +56,8 @@ function sortArray(arr) {
 		return 0;
 	});
 	return arr;
+}
+
+function replaceAll(text, searchValue, replaceValue) {
+	return text.replace(new RegExp(searchValue, "g"), replaceValue);
 }

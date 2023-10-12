@@ -535,6 +535,7 @@ function insertEditValues(action, $this) {
 	if (action == "get") {
 		newline = valuesToArray($this, "p[data-name='newline_checkbox']");
 		texts = valuesToArray($this, "p[data-name='text']");
+		console.log(texts);
 	}
 	if (action == "pic") {
 		picSendDelay = valuesToArray($this, "p[data-name='picSendDelay']");
@@ -605,7 +606,8 @@ function valuesToArray($this, selector) {
 		.siblings()
 		.find(selector)
 		.each(function () {
-			val.push($(this).html().trim() != "-" ? $(this).html() : "");
+			// #63 - Bugfix
+			val.push($(this).html().trim() != "-" ? $(this).html().replaceAll('"', "'") : "");
 		});
 	return val;
 }
