@@ -194,7 +194,19 @@ class TelegramMenu extends utils.Adapter {
 									this.log.debug("Menu: " + JSON.stringify(menuData.data));
 									this.log.debug("Group: " + JSON.stringify(group));
 
-									if (processData(this, groupData, calledValue, userToSend, group)) {
+									if (
+										processData(
+											this,
+											groupData,
+											calledValue,
+											userToSend,
+											group,
+											instanceTelegram,
+											resize_keyboard,
+											one_time_keyboard,
+											userListWithChatID,
+										)
+									) {
 										dataFound = true;
 										break;
 									} else continue;
@@ -291,7 +303,17 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {string} groupWithUser  Group with the User
 		 * @returns true, if data was found, else false
 		 */
-		function processData(_this, groupData, calledValue, userToSend = "", groupWithUser) {
+		function processData(
+			_this,
+			groupData,
+			calledValue,
+			userToSend = "",
+			groupWithUser,
+			instanceTelegram,
+			resize_keyboard,
+			one_time_keyboard,
+			userListWithChatID,
+		) {
 			if (groupData[calledValue] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
 				const part = groupData[calledValue];
 				// Navigation
@@ -299,7 +321,16 @@ class TelegramMenu extends utils.Adapter {
 					_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
 					backMenuFuc(_this, calledValue, part.nav, userToSend);
 					if (JSON.stringify(part.nav).includes("menu")) {
-						callSubMenu(_this, JSON.stringify(part.nav), groupData, userToSend);
+						callSubMenu(
+							_this,
+							JSON.stringify(part.nav),
+							groupData,
+							userToSend,
+							instanceTelegram,
+							resize_keyboard,
+							one_time_keyboard,
+							userListWithChatID,
+						);
 						return true;
 					} else {
 						if (userToSend) {
@@ -416,7 +447,17 @@ class TelegramMenu extends utils.Adapter {
 					return true;
 				}
 			} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
-				callSubMenu(_this, calledValue, groupData, userToSend);
+				_this.log.debug("Call Submenu");
+				callSubMenu(
+					_this,
+					calledValue,
+					groupData,
+					userToSend,
+					instanceTelegram,
+					resize_keyboard,
+					one_time_keyboard,
+					userListWithChatID,
+				);
 				return true;
 			} else {
 				return false;
@@ -429,7 +470,16 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {{}} groupData
 		 * @param {string} userToSend
 		 */
-		function callSubMenu(_this, part, groupData, userToSend) {
+		function callSubMenu(
+			_this,
+			part,
+			groupData,
+			userToSend,
+			instanceTelegram,
+			resize_keyboard,
+			one_time_keyboard,
+			userListWithChatID,
+		) {
 			const subMenuData = subMenu(
 				_this,
 				part,
