@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "news": {
+      "0.7.2": {
+        "en": "submenu Number fixed\ntext is lost when editing #63\nconvert milliseconds value to a local time specification\nsetstate and get result of another state with text adjusted",
+        "de": "unterpositionen Anzahl fest\ntext wird beim editieren von #63 verloren\nmillisekunden-wert in eine lokale zeitvorgabe umwandeln\nsetstate und erhalten ergebnis eines anderen staates mit text angepasst",
+        "ru": "подменю Номер фиксированный\nтекст теряется при редактировании #63\nконвертировать миллисекундное значение в местную спецификацию времени\nsetstate и получить результат другого государства с текстом скорректирован",
+        "pt": "submenu Número fixo\ntexto é perdido ao editar #63\nconverter valor de milissegundos para uma especificação de tempo local\nsetstate e obter resultado de outro estado com texto ajustado",
+        "nl": "submenu Nummer gerepareerd\nsms is verloren als editing 63\nverbergt milliseconden waarde voor een plaatselijke tijd specifiek\nvertaling:",
+        "fr": "sous-menu Nombre fixe\ntexte est perdu lors de l'édition #63\nconvertir la valeur millisecondes à une spécification locale\nsetstate and get result of another state with text adjusted",
+        "it": "sottomenu Numero fisso\ntesto si perde quando si modifica #63\nconvertire il valore di millisecondi in una specifica dell'ora locale\nsetstate e ottenere il risultato di un altro stato con testo regolato",
+        "es": "submenú Número fijo\ntexto se pierde cuando se edita #63\nconvertir el valor de milisegundos a una especificación de tiempo local\nsetstate y obtener resultado de otro estado con texto ajustado",
+        "pl": "submenu liczba stała\ntekst został utracony podczas edycji #63\nwartość zwrotu milisekund do specyfikacji czasu lokalnego\nzbiór i dostaniemy rezultat innego stanu z tekstem dostosowywanym",
+        "uk": "субмену Номер фіксований\nтекст втрачено при редагування #63\nконвертувати значення мілісекундів в локальну специфікацію часу\nsetstate і отримати результат іншої держави з текстом",
+        "zh-cn": "分项 固定人数\n编辑第63号\n当地时间的具体化肥价值\na. 一国和另一国由于经调整案文"
+      },
       "0.7.1": {
         "en": "bugfix, Error read UserListTypeError: Cannot read properties of undefined",
         "de": "bugfix, Fehler lesen UserListType Fehler: Nicht zu lesen Eigenschaften von undefiniert",
@@ -80,19 +93,6 @@
         "pl": "zastosowano menu z błędem",
         "uk": "виправлено, відправте меню з помилкою",
         "zh-cn": "a. 固定状态,向男子发出错误的通知"
-      },
-      "0.6.6": {
-        "en": "add info-big.png",
-        "de": "info-big.png",
-        "ru": "добавить info-big.png",
-        "pt": "adicionar info-big.png",
-        "nl": "voeg info-big toe",
-        "fr": "ajouter info-big.png",
-        "it": "aggiungere info-big.png",
-        "es": "añadir info-big.png",
-        "pl": "info-big.png",
-        "uk": "javascript licenses api веб-сайт go1.13.8",
-        "zh-cn": "增 编"
       }
     },
     "titleLang": {
