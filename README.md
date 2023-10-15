@@ -36,8 +36,9 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   submenu Number fixed
 -   text is lost when editing #63
--   Convert milliseconds value to a local time specification
+-   convert milliseconds value to a local time specification
 -   setstate and get result of another state with text adjusted
 
 ### 0.7.1 (2023-10-02)
