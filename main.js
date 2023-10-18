@@ -80,7 +80,7 @@ class TelegramMenu extends utils.Adapter {
 				try {
 					telegramState = await this.getForeignStateAsync(datapoint);
 				} catch (e) {
-					this.log.error("Error getForeignState: " + JSON.stringify(e));
+					this.log.error("Error getForeignState: " + JSON.stringify(e.message));
 				}
 				telegramAktiv = telegramState?.val;
 				if (!telegramAktiv) {
@@ -113,7 +113,7 @@ class TelegramMenu extends utils.Adapter {
 							this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
 						}
 					} catch (err) {
-						this.log.error("Error generateNav: " + JSON.stringify(err));
+						this.log.error("Error generateNav: " + JSON.stringify(err.message));
 					}
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
@@ -146,7 +146,7 @@ class TelegramMenu extends utils.Adapter {
 								);
 						});
 					} catch (error) {
-						this.log.error("Error read UserList" + error);
+						this.log.error("Error read UserList" + error.message);
 					}
 				}
 				this.on("stateChange", async (id, state) => {
@@ -289,7 +289,7 @@ class TelegramMenu extends utils.Adapter {
 							}
 						}
 					} catch (e) {
-						this.log.debug("Error1 " + JSON.stringify(e));
+						this.log.debug("Error1 " + JSON.stringify(e.message));
 					}
 				});
 			}
@@ -405,7 +405,7 @@ class TelegramMenu extends utils.Adapter {
 									},
 								);
 							} catch (e) {
-								_this.log.error("Error :" + JSON.stringify(e));
+								_this.log.error("Error :" + JSON.stringify(e.message));
 							}
 
 							_this.log.debug("Delay Time " + JSON.stringify(element.delay));
@@ -432,13 +432,13 @@ class TelegramMenu extends utils.Adapter {
 									clearTimeout(timeoutToClear.timeout);
 									timeouts = timeouts.filter((item) => item.key !== timeoutKey);
 								} catch (e) {
-									_this.log.error("Error: " + JSON.stringify(e));
+									_this.log.error("Error: " + JSON.stringify(e.message));
 								}
 							}, parseInt(element.delay));
 							_this.log.debug("Timeout add");
 							timeouts.push({ key: timeoutKey, timeout: timeout });
 						} catch (e) {
-							_this.log.error("Error: " + JSON.stringify(e));
+							_this.log.error("Error: " + JSON.stringify(e.message));
 						}
 					});
 
