@@ -33,6 +33,12 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   get status
+-   small fixes
+
 ### 0.7.2 (2023-10-15)
 
 -   submenu Number fixed

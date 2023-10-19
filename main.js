@@ -15,7 +15,7 @@ const generateNewObjectStructure = require("./lib/js/action").generateNewObjectS
 const generateActions = require("./lib/js/action").generateActions;
 const exchangeValue = require("./lib/js/action").exchangeValue;
 const setstate = require("./lib/js/setstate").setstate;
-const getstate = require("./lib/js/getstate").getstate;
+const getValues = require("./lib/js/getstate");
 const subMenu = require("./lib/js/subMenu").subMenu;
 const backMenuFuc = require("./lib/js/subMenu").backMenuFuc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
@@ -195,7 +195,7 @@ class TelegramMenu extends utils.Adapter {
 									this.log.debug("Group: " + JSON.stringify(group));
 
 									if (
-										processData(
+										await processData(
 											this,
 											groupData,
 											calledValue,
@@ -303,7 +303,7 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {string} groupWithUser  Group with the User
 		 * @returns true, if data was found, else false
 		 */
-		function processData(
+		async function processData(
 			_this,
 			groupData,
 			calledValue,
@@ -314,8 +314,9 @@ class TelegramMenu extends utils.Adapter {
 			one_time_keyboard,
 			userListWithChatID,
 		) {
+			let part;
 			if (groupData[calledValue] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
-				const part = groupData[calledValue];
+				part = groupData[calledValue];
 				// Navigation
 				if (part.nav) {
 					_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
@@ -331,11 +332,13 @@ class TelegramMenu extends utils.Adapter {
 							resize_keyboard,
 							one_time_keyboard,
 							userListWithChatID,
+							part,
 						);
 						return true;
 					} else {
 						if (userToSend) {
 							_this.log.debug("Send Nav to Telegram");
+							part.text = await getValues.checkStatusInfo(_this, part.text);
 							sendToTelegram(
 								_this,
 								userToSend,
@@ -369,7 +372,7 @@ class TelegramMenu extends utils.Adapter {
 						_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
 					return true;
 				} else if (part.getData) {
-					getstate(
+					getValues.getstate(
 						_this,
 						part,
 						userToSend,
@@ -458,38 +461,42 @@ class TelegramMenu extends utils.Adapter {
 					resize_keyboard,
 					one_time_keyboard,
 					userListWithChatID,
+					part,
 				);
 				return true;
 			} else {
 				return false;
 			}
 		}
+
 		/**
 		 *
 		 * @param {*} _this
-		 * @param {string} part
+		 * @param {*} calledValue
 		 * @param {{}} groupData
 		 * @param {string} userToSend
 		 */
-		function callSubMenu(
+		async function callSubMenu(
 			_this,
-			part,
+			calledValue,
 			groupData,
 			userToSend,
 			instanceTelegram,
 			resize_keyboard,
 			one_time_keyboard,
 			userListWithChatID,
+			part,
 		) {
-			const subMenuData = subMenu(
+			const subMenuData = await subMenu(
 				_this,
-				part,
+				calledValue,
 				groupData,
 				userToSend,
 				instanceTelegram,
 				resize_keyboard,
 				one_time_keyboard,
 				userListWithChatID,
+				part,
 			);
 			_this.log.debug("Submenu data " + JSON.stringify(subMenuData));
 
