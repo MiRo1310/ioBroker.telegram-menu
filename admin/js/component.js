@@ -21,8 +21,8 @@ function navElement(user) {
   <tbody id="${user}"name="${user}" data-name="nav" data-nosave="true" class="user_${user} table_switch_user table_entry value table-lines table-values visibilityArrowBtn" style="display:none">
     <tr class="startRow">
       <td><input type="text" data-name="call" spellcheck="false" class="isString nav-call translateV startside" value="Startside" ></td>
-      <td><input type="text" data-name="value" spellcheck="false" class="isString nav-value " value="Licht, Steckdose && Iobroker, Heizung"></td>
-      <td><input type="text" data-name="text" spellcheck="false" class="isString nav-text" value="Wähle eine Aktion"></td>
+      <td><input type="text" data-name="value" spellcheck="false" class="isString nav-value add-text" value="Licht, Steckdose && Iobroker, Heizung"><a class="btn-addNavText waves-effect waves-light blue"><i	class="material-icons">add_circle</i></a></td>
+      <td><input type="text" data-name="text" spellcheck="false" class="isString nav-text add-text" value="Wähle eine Aktion"><a class="btn-addText waves-effect waves-light blue"><i	class="material-icons">add_circle</i></a></td>
       <td></td>
       <td></td>    
       <td></td>
@@ -50,8 +50,8 @@ function newTableRow_Nav(activuser, users, array) {
 	return /*html*/ `
   <tr>
     <td><input type="text" data-name="call" spellcheck="false" class="isString nav-call" value="${call}"></td>
-    <td><input type="text" data-name="value" spellcheck="false" class="isString nav-value" value="${value}"></td>
-    <td><input type="text" data-name="text" spellcheck="false" class="isString nav-text" value="${text}"></td>    
+    <td><input type="text" data-name="value" spellcheck="false" class="isString nav-value add-text" value="${value}"><a class="btn-addNavText waves-effect waves-light blue"><i	class="material-icons">add_circle</i></a></td>
+    <td><input type="text" data-name="text" spellcheck="false" class="isString nav-text add-text" value="${text}"><a class="btn-addText waves-effect waves-light blue"><i	class="material-icons">add_circle</i></a></td>    
     <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
     <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
@@ -85,7 +85,7 @@ function createSelectTrigger(list) {
 	return element;
 }
 //SECTION - Save
-// Row in Action Popup
+// Since Second Row in Action Popup
 function newTrInAction(val, array, rows) {
 	if (!array) {
 		array = ["", "", "checked", "", "", 5000, `grafana${rows + 1}.png`, "", ""];
@@ -94,7 +94,7 @@ function newTrInAction(val, array, rows) {
 		return /*html*/ `<tr class="onResetDelete">
   <td> <input  class="get_id checkValue" spellcheck="false" value="${array[0]}" type="text"></td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
-  <td><input class="get_text" spellcheck="false" type="text" value="${array[1]}"></td>
+  <td><input class="get_text add-text" spellcheck="false" type="text" value="${array[1]}"><a class="btn-addGetText waves-effect waves-light blue"><i	class="material-icons">add_circle</i></a></td>
   <td><label><input type="checkbox" class="filled-in newline_checkbox" ${array[2]} /><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red" ><i class="material-icons">delete</i></a></td>	
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
@@ -105,7 +105,7 @@ function newTrInAction(val, array, rows) {
   <td> <input  class="set_id checkValue" spellcheck="false" type="text" value="${array[0]}"></td>
   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"><i class="material-icons">edit</i></a></td>
   <td><input class="set_value checkValueSwitch" spellcheck="false" type="text" value="${array[3]}"></td>
-  <td><input class="returnText resetInput " spellcheck="false" type="text" value="${array[8]}"></td>
+  <td><input class="returnText resetInput add-text" spellcheck="false" type="text" value="${array[8]}"><a class="btn-addSetText waves-effect waves-light blue"><i	class="material-icons">add_circle</i></a></td>
 	<td><label><input type="checkbox" class="filled-in confirm_checkbox" ${array[7]}/><span></span></label></td>
   <td><label><input type="checkbox" class="filled-in switch_checkbox" ${array[4]}/><span></span></label></td>
   <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>

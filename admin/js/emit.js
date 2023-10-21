@@ -37,7 +37,7 @@ function getAllTelegramInstances(socket, _this) {
 			function (err, doc) {
 				if (!err && doc.rows.length) {
 					for (let i = 0; i < doc.rows.length; i++) {
-						console.log(doc.rows[i]);
+						// console.log(doc.rows[i]);
 						if (
 							(doc.rows[i].value &&
 								doc.rows[i].value.common &&

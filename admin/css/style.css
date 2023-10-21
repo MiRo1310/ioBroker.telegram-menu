@@ -96,6 +96,14 @@ h1 {
 	top: 100px !important;
 	z-index: 100;
 }
+#dialog-add-textToInput {
+	min-width: 400px !important;
+	width: 30% !important;
+	height: 25% !important;
+	overflow: visible !important;
+	top: 100px !important;
+	z-index: 100;
+}
 #dialog-confirm div.modal-content {
 	width: 100% !important;
 }
@@ -228,4 +236,19 @@ p[data-name="newline_checkbox"] {
 }
 .warning {
 	text-align: center;
+}
+.btn-addText,
+.btn-addNavText {
+	display: inline-block;
+	width: 20px;
+	margin: 0 1px 0 3px;
+}
+.add-text ~ a i {
+	font-size: 1.2rem;
+	margin: 1px 0 0 0;
+}
+.add-text {
+	display: inline-block;
+	width: calc(100% - 26px) !important;
+	margin: 0 1px !important;
 }

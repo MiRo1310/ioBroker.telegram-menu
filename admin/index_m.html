@@ -644,6 +644,14 @@
 				getNewValues(socket, this, $(this).val(), usersInMenus, menus)
 				_onChange()
 			})
+
+			// ----------------------------------------//
+			// Popup add Text                          //
+			//-----------------------------------------//
+
+			$(".adapter-container").on("click", (".btn-addText"), function () {
+				$("#dialog-add-textToInput").show()
+			})
 		})
 
 	</script>
@@ -736,8 +744,10 @@
 												type="text" value="">
 										</td>
 										<td>
-											<input class="returnText resetInput " spellcheck="false" type="text"
-												value="">
+											<input class="returnText resetInput add-text " spellcheck="false"
+												type="text" value=""><a
+												class="btn-addSetText waves-effect waves-light blue"><i
+													class="material-icons">add_circle</i></a>
 										</td>
 										<td>
 											<input type="checkbox" class="filled-in confirm_checkbox resetCheckbox" />
@@ -778,8 +788,9 @@
 										<td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
 												title="Get ID"><i class="material-icons">edit</i></a></td>
 										<td>
-											<input class="get_text resetInput checkValue" spellcheck="false"
-												type="text">
+											<input class="get_text resetInput checkValue add-text" spellcheck="false"
+												type="text"><a class="btn-addGetText waves-effect waves-light blue"><i
+													class="material-icons">add_circle</i></a>
 										</td>
 										<td><label>
 												<input type="checkbox" class="filled-in newline_checkbox" checked />
@@ -1049,6 +1060,23 @@
 							class="large material-icons left">check</i><span class="translate">Ok</span></a>
 					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
 							class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+				</div>
+			</div>
+			<!-- //!SECTION -->
+			<!-- //SECTION - Popup Add Text to Input Field -->
+			<div id="dialog-add-textToInput" class="modal modal-fixed-footer">
+				<div class="modal-content">
+					<div class="row">
+						<div class="col s12">
+							<p class="translate center-align">Add Text</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+							class="large material-icons left">check</i><span class="translate">Ok</span></a> -->
+					<a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+							class="large material-icons left ">close</i><span class="translate">Close</span></a>
 				</div>
 			</div>
 			<!-- //!SECTION -->
