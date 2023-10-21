@@ -81,6 +81,7 @@ class TelegramMenu extends utils.Adapter {
 					telegramState = await this.getForeignStateAsync(datapoint);
 				} catch (e) {
 					this.log.error("Error getForeignState: " + JSON.stringify(e.message));
+					this.log.error(JSON.stringify(e.stack));
 				}
 				telegramAktiv = telegramState?.val;
 				if (!telegramAktiv) {
@@ -114,6 +115,7 @@ class TelegramMenu extends utils.Adapter {
 						}
 					} catch (err) {
 						this.log.error("Error generateNav: " + JSON.stringify(err.message));
+						this.log.error(JSON.stringify(err.stack));
 					}
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
@@ -146,7 +148,8 @@ class TelegramMenu extends utils.Adapter {
 								);
 						});
 					} catch (error) {
-						this.log.error("Error read UserList" + error.message);
+						this.log.error("Error read UserList" + JSON.stringify(error.message));
+						this.log.error(JSON.stringify(error.stack));
 					}
 				}
 				this.on("stateChange", async (id, state) => {
@@ -289,7 +292,8 @@ class TelegramMenu extends utils.Adapter {
 							}
 						}
 					} catch (e) {
-						this.log.debug("Error1 " + JSON.stringify(e.message));
+						this.log.error("Error StateChange " + JSON.stringify(e.message));
+						this.log.error(JSON.stringify(e.stack));
 					}
 				});
 			}
@@ -410,6 +414,7 @@ class TelegramMenu extends utils.Adapter {
 								);
 							} catch (e) {
 								_this.log.error("Error :" + JSON.stringify(e.message));
+								_this.log.error(JSON.stringify(e.stack));
 							}
 
 							_this.log.debug("Delay Time " + JSON.stringify(element.delay));
@@ -418,31 +423,27 @@ class TelegramMenu extends utils.Adapter {
 						} else path = element.fileName;
 						try {
 							const timeout = _this.setTimeout(async () => {
-								try {
-									_this.log.debug("Send Pic to Telegram");
-									sendToTelegram(
-										_this,
-										userToSend,
-										path,
-										undefined,
-										instanceTelegram,
-										resize_keyboard,
-										one_time_keyboard,
-										userListWithChatID,
-									);
-
-									let timeoutToClear = {};
-									timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-									clearTimeout(timeoutToClear.timeout);
-									timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-								} catch (e) {
-									_this.log.error("Error: " + JSON.stringify(e.message));
-								}
+								_this.log.debug("Send Pic to Telegram");
+								sendToTelegram(
+									_this,
+									userToSend,
+									path,
+									undefined,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
+									userListWithChatID,
+								);
+								let timeoutToClear = {};
+								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+								clearTimeout(timeoutToClear.timeout);
+								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
 							}, parseInt(element.delay));
 							_this.log.debug("Timeout add");
 							timeouts.push({ key: timeoutKey, timeout: timeout });
 						} catch (e) {
 							_this.log.error("Error: " + JSON.stringify(e.message));
+							_this.log.error(JSON.stringify(e.stack));
 						}
 					});
 
