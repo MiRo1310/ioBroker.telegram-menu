@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   text in submenus is now editable in the textfield in the navigation
 -   get status
 -   small fixes
 
