@@ -338,11 +338,11 @@ class TelegramMenu extends utils.Adapter {
 					} else {
 						if (userToSend) {
 							_this.log.debug("Send Nav to Telegram");
-							part.text = await getValues.checkStatusInfo(_this, part.text);
+							const text = await getValues.checkStatusInfo(_this, part.text);
 							sendToTelegram(
 								_this,
 								userToSend,
-								part.text,
+								text,
 								part.nav,
 								instanceTelegram,
 								resize_keyboard,
