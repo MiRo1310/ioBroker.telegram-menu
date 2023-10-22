@@ -1,5 +1,8 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "helperText"}]*/
+
 const globalText = {
 	text1: "TRIGGER durch einen eindeutigen Wert ersetzen.",
+	textID: "",
 };
 const helperText = {
 	nav: [
