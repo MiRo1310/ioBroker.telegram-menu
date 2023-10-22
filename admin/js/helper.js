@@ -2,7 +2,7 @@
 
 const globalText = {
 	text1: "TRIGGER durch einen eindeutigen Wert ersetzen.",
-	textID: "",
+	textID: "Um eine ID einzufügen, einfach erst den Block einfügen, ID auswählen diese wird dann automatisch an der passenden Stelle eingefügt, auch wenn die ID geändert werden soll. Wenn der Code den Block nicht erkennt, wird die ID am Ende angehängt.",
 };
 const helperText = {
 	nav: [
@@ -36,6 +36,7 @@ const helperText = {
 			text: "{set:'id':'ID',val,ack}",
 			info: "Setzt den Wert der ID auf den val, mit ack(bestätigt)",
 		},
+		{ text: "", info: globalText.textID },
 	],
 	getText: [
 		{ text: "{math:/10}", info: "Rechnet den Wert um, /10 kann ersetzt werden" },
@@ -55,5 +56,6 @@ const helperText = {
 			text: "{'id':'ID','text':'Wert wurde gesetzt:'}",
 			info: "Wenn man die Änderung eines anderen Datenpunkts mitgeteilt bekommmen möchte nachdem man den Datenpunkt im ID Input Feld gesetzt hat. Die Änderung wird nur dann mit geteilt wenn diese mit ack:true gesetzt wird. Es muss zwingend ein Text ausserhalb der {} angegeben werden, ansonsten wird dieser automatisch hinzugefügt.",
 		},
+		{ text: "", info: globalText.textID },
 	],
 };
