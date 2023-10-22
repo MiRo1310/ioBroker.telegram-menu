@@ -26,11 +26,11 @@ const helperText = {
 	],
 	navText: [
 		{
-			text: "{status:ID}",
+			text: "{status:'id':'ID'}",
 			info: "Fragt den Wert der ID ab, und wird dann durch den Wert ersetzt, so kann Text runtherum geschrieben werden.",
 		},
 		{
-			text: "{set:ID,val,ack}",
+			text: "{set:'id':'ID',val,ack}",
 			info: "Setzt den Wert der ID auf den val, mit ack(bestätigt)",
 		},
 	],
@@ -48,5 +48,9 @@ const helperText = {
 			info: "Ändert den Wert in dem RückgabeText, in diesem Fall von true zu an und false zu aus",
 		},
 		{ text: "&&", info: "Platzhalter für das Value" },
+		{
+			text: "{'id':'ID','text':'Wert wurde gesetzt:'}",
+			info: "Wenn man die Änderung eines anderen Datenpunkts mitgeteilt bekommmen möchte nachdem man den Datenpunkt im ID Input Feld gesetzt hat. Die Änderung wird nur dann mit geteilt wenn diese mit ack:true gesetzt wird. Es muss zwingend ein Text ausserhalb der {} angegeben werden, ansonsten wird dieser automatisch hinzugefügt.",
+		},
 	],
 };
