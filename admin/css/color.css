@@ -88,3 +88,6 @@ li.tab:has(.active) {
 	background-color: #575757;
 	border-color: #2a2a2a;
 }
+#newText {
+	border-top: 3px solid white;
+}

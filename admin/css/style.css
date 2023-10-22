@@ -98,10 +98,11 @@ h1 {
 }
 #dialog-add-textToInput {
 	min-width: 400px !important;
-	width: 30% !important;
-	height: 25% !important;
+	width: 70% !important;
+	height: 90% !important;
+	max-height: 90% !important;
 	overflow: visible !important;
-	top: 100px !important;
+	top: 0px !important;
 	z-index: 100;
 }
 #dialog-confirm div.modal-content {
@@ -237,8 +238,13 @@ p[data-name="newline_checkbox"] {
 .warning {
 	text-align: center;
 }
-.btn-addText,
-.btn-addNavText {
+/* Btn add Text to Input */
+.add-text {
+	display: inline-block;
+	width: calc(100% - 26px) !important;
+	margin: 0 1px !important;
+}
+.add-Text ~ a {
 	display: inline-block;
 	width: 20px;
 	margin: 0 1px 0 3px;
@@ -246,9 +252,21 @@ p[data-name="newline_checkbox"] {
 .add-text ~ a i {
 	font-size: 1.2rem;
 	margin: 1px 0 0 0;
+	color: white;
 }
-.add-text {
-	display: inline-block;
-	width: calc(100% - 26px) !important;
-	margin: 0 1px !important;
+/* Popup add Text to input field */
+#editedTextRow {
+	position: relative;
+	bottom: -40px;
+}
+.btn-addText {
+	margin: 0.3rem;
+}
+#dialog-add-textToInput .info-text {
+	font-size: 0.8rem;
+}
+#link-github {
+	font-size: 1rem;
+	margin: 0.9rem;
+	text-decoration: underline;
 }
