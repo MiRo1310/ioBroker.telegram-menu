@@ -340,12 +340,31 @@
 			// ----------------------------------------//
 			// Dialog get ID Iobroker                  //
 			//-----------------------------------------// 	
-
+			//ANCHOR - Dialog get ID Iobroker in Action
 			$(".adapter-container").on("click", ".btn_getID", function () {
-				let $element = $(this).parent().prev().children("input")
+				let $element
+				let replaceStringWhitIdOrAddIt = false
+				if ($(this).prev().hasClass("getId")) {
+					$element = $(this).prev()
+					replaceStringWhitIdOrAddIt = true
+				} else {
+					$element = $(this).parent().prev().children("input")
+
+				}
 				showSelectIdDialog($element.val(), function (newID) {
-					$element.val(newID)
+					if (replaceStringWhitIdOrAddIt) {
+						if ($element.val().includes("id':'")) {
+							const startindex = $element.val().indexOf("id':'") + 5
+							const endindex = $element.val().indexOf("'", startindex)
+							const elementToChange = $element.val().substring(startindex, endindex)
+
+							$element.val($element.val().replace(elementToChange, newID))
+						}
+						else $element.val($element.val() + newID)
+					}
+					else $element.val(newID)
 				})
+
 			});
 
 			// ----------------------------------------//
@@ -653,7 +672,10 @@
 				$("#dialog-add-textToInput table").show()
 				$("#dialog-add-textToInput tbody").empty()
 				const inputGroup = $(this).data("name")
-				console.log(helperText[inputGroup])
+
+				if (inputGroup === "navText" || inputGroup === "setText") {
+					$("#newText").addClass("getId")
+				} else $("#newText").removeClass("getId")
 				$htmlElement = $(this).prev()
 				helperText[inputGroup].forEach(element => {
 					$("#dialog-add-textToInput tbody").append(addTextToInputField(element))
@@ -665,8 +687,9 @@
 				// $($htmlElement).val($("#newText").val())
 			})
 			$(".btn-setText").on("click", function () {
-				$($htmlElement).val($("#newText").val())
+				$($htmlElement).val($("#newText").val().trim())
 				$(this).parent().parent().hide()
+				_onChange()
 			})
 
 		})
@@ -1114,7 +1137,9 @@
 					</div>
 					<div class="row" id="editedTextRow">
 						<div class="col12">
-							<input id="newText" spellcheck="false" type="text" class="validate">
+							<input id="newText" class="getId" spellcheck="false" type="text" class="validate"><a
+								class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"
+								style="display: none;"><i class="material-icons">edit</i></a>
 							<label for="newText">Editable Text</label>
 						</div>
 					</div>
