@@ -15,7 +15,8 @@ const generateNewObjectStructure = require("./lib/js/action").generateNewObjectS
 const generateActions = require("./lib/js/action").generateActions;
 const exchangeValue = require("./lib/js/action").exchangeValue;
 const setstate = require("./lib/js/setstate").setstate;
-const getValues = require("./lib/js/getstate");
+const getstate = require("./lib/js/getstate").getstate;
+const utilities = require("./lib/js/utilities");
 const subMenu = require("./lib/js/subMenu").subMenu;
 const backMenuFuc = require("./lib/js/subMenu").backMenuFuc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
@@ -342,7 +343,7 @@ class TelegramMenu extends utils.Adapter {
 					} else {
 						if (userToSend) {
 							_this.log.debug("Send Nav to Telegram");
-							const text = await getValues.checkStatusInfo(_this, part.text);
+							const text = await utilities.checkStatusInfo(_this, part.text);
 							sendToTelegram(
 								_this,
 								userToSend,
@@ -376,7 +377,7 @@ class TelegramMenu extends utils.Adapter {
 						_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
 					return true;
 				} else if (part.getData) {
-					getValues.getstate(
+					getstate(
 						_this,
 						part,
 						userToSend,
