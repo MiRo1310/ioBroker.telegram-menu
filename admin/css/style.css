@@ -270,3 +270,10 @@ p[data-name="newline_checkbox"] {
 	margin: 0.9rem;
 	text-decoration: underline;
 }
+.getId {
+	width: 95% !important;
+}
+.getId ~ a {
+	width: 5%;
+	display: inline-block !important;
+}
