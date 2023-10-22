@@ -36,7 +36,9 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   text blocks created as a selection list, including the selection of the ID
 -   text in submenus is now editable in the textfield in the navigation
+-   set ID by open a menu
 -   get status
 -   small fixes
 
