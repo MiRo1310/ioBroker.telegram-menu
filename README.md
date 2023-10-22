@@ -31,8 +31,13 @@ You can create different groups with separate menus, and then assign users to th
 
 <!--
 	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
+
 -->
+
+### **WORK IN PROGRESS**
+
+-   fix {status:...}
+
 ### 0.8.1 (2023-10-22)
 
 -   hotfix, submenu switch
