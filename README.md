@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.8.0 (2023-10-22)
 
 -   text blocks created as a selection list, including the selection of the ID
 -   text in submenus is now editable in the textfield in the navigation

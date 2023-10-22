@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.7.2",
+    "version": "0.8.0",
     "news": {
+      "0.8.0": {
+        "en": "text blocks created as a selection list, including the selection of the ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nget status\nsmall fixes",
+        "de": "als Auswahlliste erstellte Textblöcke, einschließlich der Auswahl der ID\ntext in untermenü ist nun im textfeld in der navigation editierbar\niD durch Menü öffnen\nstatus\nkleine fixierungen",
+        "ru": "текстовые блоки, созданные как список отбора, включая подбор ID\nтекст в подменю теперь редактируем в текстовом поле в навигации\nустановите ID, откройте меню\nполучить статус\nнебольшие исправления",
+        "pt": "blocos de texto criados como uma lista de seleção, incluindo a seleção do ID\ntexto no submenus agora é editável no campo de texto na navegação\nset ID por abrir um menu\nobter status\npequenas correções",
+        "nl": "vertaling:\nsms in submenus is nu editabel in het sms in de navigatie\niD van een menukaart\nsta op\nkleine fixes",
+        "fr": "blocs texte créés comme liste de sélection, y compris la sélection de l'ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nobtenir le statut\npetites corrections",
+        "it": "blocchi di testo creati come elenco di selezione, inclusa la selezione dell'ID\ntesto in submenus è ora modificabile nel campo di testo nella navigazione\nset ID per aprire un menu\nottenere stato\npiccole correzioni",
+        "es": "bloques de texto creados como lista de selección, incluyendo la selección del ID\ntexto en submenú es ahora editable en el campo de texto en la navegación\nestablecer ID por abrir un menú\nobtener el estado\npequeños accesorios",
+        "pl": "bloki tekstowe tworzone jako lista wyborcza, w tym wybór ID\ntekst w podmenu jest obecnie edytowany w polu tekstowym w nawigacji\nzademonstrowany przez otwarte menu\nmieć status\ndrobne rozwiązanie",
+        "uk": "текстові блоки, створені в списку вибору, включаючи вибір ID\nтекст в підменю тепер редагований в текстовому полі на навігацію\nвстановіть ID за допомогою меню\nотримати статус\nмаленькі кріплення",
+        "zh-cn": "选择名单,包括选择裁研所的案文\n导航场案文现在可归入。\n开 门\n身份\n小型配件"
+      },
       "0.7.2": {
         "en": "submenu Number fixed\ntext is lost when editing #63\nconvert milliseconds value to a local time specification\nsetstate and get result of another state with text adjusted",
         "de": "unterpositionen Anzahl fest\ntext wird beim editieren von #63 verloren\nmillisekunden-wert in eine lokale zeitvorgabe umwandeln\nsetstate und erhalten ergebnis eines anderen staates mit text angepasst",
@@ -80,19 +93,6 @@
         "pl": "chat Id w UI\nwykorzystywanie nie jest wyświetlane, gdy edytacja się poprawnie",
         "uk": "увійти Id в УІ\nтригер не відображається при монтажі, фіксованому",
         "zh-cn": "混乱 Id\n在编辑、固定固定的固定编辑时,没有出现引擎。"
-      },
-      "0.6.7": {
-        "en": "fixed, send menu with error",
-        "de": "fest, menü mit fehler senden",
-        "ru": "фиксированное, отправить меню с ошибкой",
-        "pt": "fixo, enviar menu com erro",
-        "nl": "vertaling:",
-        "fr": "fixe, envoyer le menu avec erreur",
-        "it": "fisso, inviare menu con errore",
-        "es": "fijo, enviar menú con error",
-        "pl": "zastosowano menu z błędem",
-        "uk": "виправлено, відправте меню з помилкою",
-        "zh-cn": "a. 固定状态,向男子发出错误的通知"
       }
     },
     "titleLang": {
