@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "news": {
+      "0.8.1": {
+        "en": "hotfix, submenu switch",
+        "de": "hotfix, untermenüschalter",
+        "ru": "hotfix, подменю переключатель",
+        "pt": "hotfix, interruptor submenu",
+        "nl": "quality over quantity (qoq) releases vertaling:",
+        "fr": "hotfix, commutateur sous-menu",
+        "it": "hotfix, commutatore submenu",
+        "es": "hotfix, interruptor submenu",
+        "pl": "hotfix, submenu switch",
+        "uk": "hotfix, перемикач підменю",
+        "zh-cn": "热fix,分门转换"
+      },
       "0.8.0": {
         "en": "text blocks created as a selection list, including the selection of the ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nget status\nsmall fixes",
         "de": "als Auswahlliste erstellte Textblöcke, einschließlich der Auswahl der ID\ntext in untermenü ist nun im textfeld in der navigation editierbar\niD durch Menü öffnen\nstatus\nkleine fixierungen",
@@ -80,19 +93,6 @@
         "pl": "Rearrangacja #49\nkiedy wzywamy do podmenu, tekst nie został znaleziony, ustalony\nbug switch menu\nustanowiono państwo i otrzymało zmianę innego państwa",
         "uk": "Залучення зазначених дій #49\nпри виклику підменю текст не був знайдений, фіксований\nменю вимикача, фіксована\nоберіть стан, і отримайте зміни іншої держави",
         "zh-cn": "B. 安排所列行动 49\n在呼吁分包时,案文没有出入境,即固定。\nbugion menu,固定\na. 建立国家,并接受另一国的改变"
-      },
-      "0.6.8": {
-        "en": "chatId in UI\ntrigger is not displayed when editing, fixed",
-        "de": "chatten Id in UI\ntrigger wird bei der bearbeitung nicht angezeigt, behoben",
-        "ru": "чат Идент в UI\nтриггер не отображается при редактировании, исправлены",
-        "pt": "chat Id em UI\no gatilho não é exibido ao editar, fixo",
-        "nl": "chat In UI\nde trekker wordt niet getoond als het editen, gemaakt",
-        "fr": "chat Id in UI\ndéclencheur n'est pas affiché lors de l'édition, fixe",
-        "it": "chat chat chat chat Id in UI\nil trigger non viene visualizzato durante la modifica, fisso",
-        "es": "chat Id en UI\ngatillo no se muestra al editar",
-        "pl": "chat Id w UI\nwykorzystywanie nie jest wyświetlane, gdy edytacja się poprawnie",
-        "uk": "увійти Id в УІ\nтригер не відображається при монтажі, фіксованому",
-        "zh-cn": "混乱 Id\n在编辑、固定固定的固定编辑时,没有出现引擎。"
       }
     },
     "titleLang": {
