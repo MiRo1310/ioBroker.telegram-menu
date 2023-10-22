@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "news": {
+      "0.8.2": {
+        "en": "fix {status:...}",
+        "de": "fix {status.}:",
+        "ru": "исправить {status.}:",
+        "pt": "correção",
+        "nl": "maak status",
+        "fr": "correction {status.}:",
+        "it": "correggere {status.}:",
+        "es": "arréglalo",
+        "pl": "refix {status.}",
+        "uk": "фіксація {status.}:",
+        "zh-cn": "fixstatus:]"
+      },
       "0.8.1": {
         "en": "hotfix, submenu switch",
         "de": "hotfix, untermenüschalter",
@@ -80,19 +93,6 @@
         "pl": "błąd",
         "uk": "виправлення помилок",
         "zh-cn": "bug fix"
-      },
-      "0.6.9": {
-        "en": "Rearranging listed actions #49\nwhen calling up the submenu, Text was send no entry found, fixed\nbug switch menu, fixed\nset a state, and receive the change of another state",
-        "de": "Rearrangieren von aufgelisteten Aktionen #49\nbeim Aufruf des Untermenüs, Text wurde nicht gefunden, behoben\nbugschalter-menü, fixiert\neinen zustand einstellen und die änderung eines anderen zustands empfangen",
-        "ru": "Организация перечисленных действий #49\nпри вызове подменю, текст не был отправлен не найден, исправлен\nменю переключателя баг, исправлено\nустановить состояние, и получить изменение другого государства",
-        "pt": "Reorganizar ações listadas #49\nao chamar o submenu, Texto não foi enviado nenhuma entrada encontrada, corrigido\nmenu de interruptor de bug, fixo\ndefinir um estado, e receber a mudança de outro estado",
-        "nl": "Vertaling:\ntoen ik de submenu belde, stuurde Text geen ingang gevonden\nvertaling:\nstel een staat voor en ontvang de verandering van een andere staat",
-        "fr": "Rearranging listed actions #49\nlorsque vous appelez le sous-menu, Texte n'a pas été envoyé trouvé, fixe\nmenu de commutation de bugs, fixe\ndéfinir un état, et recevoir le changement d'un autre état",
-        "it": "Rearrange azioni quotate #49\nquando si chiama il submenu, Testo non è stato inviato alcun elemento trovato, fisso\nmenu interruttore bug, fisso\nimpostare uno stato, e ricevere il cambiamento di un altro stato",
-        "es": "Reorganización de acciones enumeradas #49\nal llamar al submenú, Texto no fue enviado ninguna entrada encontrado, fijo\nmenú de conmutación de errores, fijo\nestablecer un estado, y recibir el cambio de otro estado",
-        "pl": "Rearrangacja #49\nkiedy wzywamy do podmenu, tekst nie został znaleziony, ustalony\nbug switch menu\nustanowiono państwo i otrzymało zmianę innego państwa",
-        "uk": "Залучення зазначених дій #49\nпри виклику підменю текст не був знайдений, фіксований\nменю вимикача, фіксована\nоберіть стан, і отримайте зміни іншої держави",
-        "zh-cn": "B. 安排所列行动 49\n在呼吁分包时,案文没有出入境,即固定。\nbugion menu,固定\na. 建立国家,并接受另一国的改变"
       }
     },
     "titleLang": {
