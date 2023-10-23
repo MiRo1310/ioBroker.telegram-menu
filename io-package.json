@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.8.2",
+    "version": "0.8.3",
     "news": {
+      "0.8.3": {
+        "en": "fix, step smaller than 1 in submenu number and percent\ngloabl fixes in submenu",
+        "de": "fix, schritt kleiner als 1 in untermenünummer und prozent\ngloabl fixes in submenu",
+        "ru": "исправить, шаг меньше 1 в подменю номер и процент\ngloabl исправляет в подменю",
+        "pt": "corrigir, passo menor que 1 no número submenu e por cento\ngloabl correções em submenu",
+        "nl": "vertaling:\ngloabel in submenu",
+        "fr": "fixer, faire plus petit que 1 dans le numéro de sous-menu et pour cent\ngloabl corrige dans le sous-menu",
+        "it": "correzione, passo più piccolo di 1 in numero submenu e per cento\nguaabl fissa in submenu",
+        "es": "fijado, paso más pequeño que 1 en submenú número y porcentaje\ngloabl fijados en submenu",
+        "pl": "metoda ta jest mniejsza niż 1 w liczbie submenu i 1%\nustalenie w podmenu",
+        "uk": "фіксація, крок менше 1 в субмену кількість і відсотків\nглобл закріплює в підменю",
+        "zh-cn": "fix 小于1级和4%\n分项abl f"
+      },
       "0.8.2": {
         "en": "fix {status:...}",
         "de": "fix {status.}:",
@@ -80,19 +93,6 @@
         "pl": "#53: Wysyłanie serwera\nzaginęło 52 ikony\n#51 poprzez stworzenie nowego Menu, Użytkownicy nie zostali przedstawieni",
         "uk": "#53 Функція: sendPicture фон сервер-path\n#52 іконки відсутні, копіювання даних\n#51 шляхом створення нового меню Користувачі не показані",
         "zh-cn": "#53 特色:寄电器\n第52条 遗漏,复印数据\n第51号活动是创建一个新的男子,用户没有证明。"
-      },
-      "0.6.10": {
-        "en": "bug fix",
-        "de": "fehlerbehebung",
-        "ru": "исправление ошибки",
-        "pt": "correção de bugs",
-        "nl": "insecten",
-        "fr": "bug fix",
-        "it": "correzione bug",
-        "es": "bug",
-        "pl": "błąd",
-        "uk": "виправлення помилок",
-        "zh-cn": "bug fix"
       }
     },
     "titleLang": {

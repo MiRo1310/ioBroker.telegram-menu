@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.8.3 (2023-10-23)
 
 -   fix, step smaller than 1 in submenu number and percent
 -   gloabl fixes in submenu
