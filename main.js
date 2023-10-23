@@ -18,7 +18,7 @@ const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 const utilities = require("./lib/js/utilities");
 const subMenu = require("./lib/js/subMenu").subMenu;
-const backMenuFuc = require("./lib/js/subMenu").backMenuFuc;
+const backMenuFunc = require("./lib/js/subMenu").backMenuFuc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
 const Utils = require("./lib/js/global");
 
@@ -128,7 +128,7 @@ class TelegramMenu extends utils.Adapter {
 							if (userActiveCheckbox[menu] && startside != "-") {
 								this.log.debug("Startseite: " + JSON.stringify(startside));
 								groupsWithUsers[menu].forEach((user) => {
-									backMenuFuc(this, startside, null, user);
+									backMenuFunc(this, startside, null, user);
 									this.log.debug("User List " + JSON.stringify(userListWithChatID));
 
 									sendToTelegram(
@@ -325,7 +325,7 @@ class TelegramMenu extends utils.Adapter {
 				// Navigation
 				if (part.nav) {
 					_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
-					backMenuFuc(_this, calledValue, part.nav, userToSend);
+					backMenuFunc(_this, calledValue, part.nav, userToSend);
 					if (JSON.stringify(part.nav).includes("menu:")) {
 						_this.log.debug("Submenu");
 						callSubMenu(
