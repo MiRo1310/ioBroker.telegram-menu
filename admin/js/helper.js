@@ -16,7 +16,7 @@ const helperText = {
 		{
 			text: "menu:number0-6-1-UNIT:TRIGGER:",
 			info:
-				"<strong>Submenu Number</strong><br> Die Zahlen können komplett ausgetauscht werden. 0-6 gibt die Spanne an, und 1 die Schrittweite, UNIT wird durch eine Einheit ersetzt, kann aber auch leer bleiben. " +
+				"<strong>Submenu Number</strong><br> Die Zahlen können komplett ausgetauscht werden. 0-6 gibt die Spanne an, und 1 die Schrittweite, Schritte im zehntel Bereich werden so geschrieben (0.2), UNIT wird durch eine Einheit ersetzt, kann aber auch leer bleiben. " +
 				globalText.text1,
 		},
 		{
