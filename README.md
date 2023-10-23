@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 ### **WORK IN PROGRESS**
 
 -   fix, step smaller than 1 in submenu number and percent
+-   gloabl fixes in submenu
 
 ### 0.8.2 (2023-10-22)
 
