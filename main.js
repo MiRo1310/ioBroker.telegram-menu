@@ -18,7 +18,7 @@ const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 const utilities = require("./lib/js/utilities");
 const subMenu = require("./lib/js/subMenu").subMenu;
-const backMenuFunc = require("./lib/js/subMenu").backMenuFuc;
+const backMenuFunc = require("./lib/js/subMenu").backMenuFunc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
 const Utils = require("./lib/js/global");
 
