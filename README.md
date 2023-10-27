@@ -33,10 +33,16 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-       fixed calling submenus in subordinate menus
+-   convert type values to type of target ID
+
 ### 0.8.3 (2023-10-23)
 
 -   fix, step smaller than 1 in submenu number and percent
--   gloabl fixes in submenu
+-   global fixes in submenu
 
 ### 0.8.2 (2023-10-22)
 
