@@ -18,16 +18,13 @@ const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 const utilities = require("./lib/js/utilities");
 const subMenu = require("./lib/js/subMenu").subMenu;
-const backMenuFunc = require("./lib/js/subMenu").backMenuFuc;
+const backMenuFunc = require("./lib/js/subMenu").backMenuFunc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
 const Utils = require("./lib/js/global");
 
 let timeouts = [];
 let timeoutKey = 0;
 let subscribeForeignStateIds;
-
-// Load your modules here, e.g.:
-// const fs = require("fs");
 
 class TelegramMenu extends utils.Adapter {
 	/**
@@ -320,12 +317,21 @@ class TelegramMenu extends utils.Adapter {
 			userListWithChatID,
 		) {
 			let part;
-			if (groupData[calledValue] && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
-				part = groupData[calledValue];
+			let call;
+			if (calledValue.includes("menu")) call = calledValue.split(":")[2];
+			else call = calledValue;
+			if (
+				groupData[call] &&
+				!calledValue.includes("menu") &&
+				userToSend &&
+				groupWithUser &&
+				userActiveCheckbox[groupWithUser]
+			) {
+				part = groupData[call];
 				// Navigation
 				if (part.nav) {
 					_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
-					backMenuFunc(_this, calledValue, part.nav, userToSend);
+					backMenuFunc(_this, call, part.nav, userToSend);
 					if (JSON.stringify(part.nav).includes("menu:")) {
 						_this.log.debug("Submenu");
 						callSubMenu(
@@ -452,7 +458,7 @@ class TelegramMenu extends utils.Adapter {
 
 					return true;
 				}
-			} else if (calledValue.startsWith("menu") || calledValue.startsWith("submenu")) {
+			} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
 				_this.log.debug("Call Submenu");
 				callSubMenu(
 					_this,
