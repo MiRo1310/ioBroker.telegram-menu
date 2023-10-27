@@ -36,7 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
--       fixed calling submenus in subordinate menus
+-   fixed, rename menuname
+-   fixed calling submenus in subordinate menus
 -   convert type values to type of target ID
 
 ### 0.8.3 (2023-10-23)

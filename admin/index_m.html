@@ -260,6 +260,7 @@
 				$(`tbody[name="${activeMenu}"]`).attr("name", renamedUser)
 				menus.push(renamedUser)
 				activeMenu = renamedUser
+				$("#activMenuOutput").text(renamedUser)
 				$("#dialog-change-groupname").hide()
 				_onChange()
 			})
