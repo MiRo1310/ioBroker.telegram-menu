@@ -275,7 +275,7 @@ function newSelectInstanceRow(id) {
 function addTextToInputField(element) {
 	let btn = "";
 	if (element.text != "")
-		btn = /*html*/ `<a class="btn-floating btn-small waves-effect waves-light blue btn-addText"><i class="material-icons">add</i></a>`;
+		btn = /*html*/ `<a title="Copy Data"class="btn-floating btn-small waves-effect waves-light blue btn-addText translateT"><i class="material-icons">add</i></a>`;
 	return /*html*/ `<tr>
                       <td class="data-text"><p >${element.text}</p></td>
                       <td><p class="info-text">${element.info}</p></td>

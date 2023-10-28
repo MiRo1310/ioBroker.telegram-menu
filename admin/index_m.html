@@ -580,6 +580,7 @@
 				$("#copyData").empty()
 				if ($(this).val() == "nav") {
 					findElementsToCopy("#tab-nav tbody", "nav")
+
 				}
 				else findElementsToCopy(`#tab-action tbody[data-name='${$(this).val()}']`, $(this).val())
 			})
@@ -593,14 +594,15 @@
 						let newData = $(this).clone().removeClass("startRow")
 						newData.find("a").parent().remove()
 						newData.find("td:empty").remove()
-						let checkbox = $("<a title='Copy Data'>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxCopyData `).append($("<i>").addClass("material-icons").text("add"))
-						// let checkboxMove = $("<a title='Move Data'>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxMoveData `).append($("<i>").addClass("material-icons").text("trending_flat"))
+						let checkbox = $("<a title='Copy Data'>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxCopyData translateT`).append($("<i>").addClass("material-icons").text("add"))
+						let checkboxMove = $("<a title='Move Data'>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxMoveData `).append($("<i>").addClass("material-icons").text("trending_flat"))
 						// newData = newData.append($("<td style='width: 2%'>").append(checkbox)).append($("<td style='width: 2%'>").append(checkboxMove))
 						newData = newData.append($("<td style='width: 2%'>").append(checkbox))
 						tbody.append(newData)
 					})
 				})
 				$("#copyData").append($("<table>").addClass("striped").append(tbody))
+				translateAll()
 			}
 			// Save new Rows
 			$("#dialog-copy-data").on("click", ".checkboxCopyData", function () {
@@ -684,6 +686,8 @@
 					$("#dialog-add-textToInput tbody").append(addTextToInputField(element))
 				});
 				$("#newText").val($($htmlElement).val())
+				translateAll()
+
 			})
 			$(".adapter-container").on("click", (".btn-addText"), function () {
 				$("#newText").val($("#newText").val() + " " + $(this).parent().prevAll(".data-text").children().html())
@@ -1162,7 +1166,7 @@
 						<div class="input-field col s3">
 							<select id="select-copy-data">
 								<option value="" disabled selected>Choose your option</option>
-								<option value="nav">Navigation</option>
+								<!-- <option value="nav">Navigation</option> -->
 								<option value="set">SetState</option>
 								<option value="get">GetState</option>
 								<option value="pic">Send Picture</option>
