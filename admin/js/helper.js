@@ -1,60 +1,66 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "helperText"}]*/
 
 const globalText = {
-	text1: "TRIGGER durch einen eindeutigen Wert ersetzen.",
-	textID: "Um eine ID einzufügen, einfach erst den Block einfügen, ID auswählen diese wird dann automatisch an der passenden Stelle eingefügt, auch wenn die ID geändert werden soll. Wenn der Code den Block nicht erkennt, wird die ID am Ende angehängt.",
+	text1: "<span class='translate'>Replace TRIGGER with a unique value.</span>",
+	textID: "<span class='translate'>To insert an ID, simply insert the block first, select the ID. This will then be automatically inserted in the appropriate place, even if the ID is to be changed. If the code does not recognize the block, the ID is appended to the end.</span>",
 };
+
 const helperText = {
 	nav: [
 		{
 			text: "menu:percent10:TRIGGER:",
 			info:
-				"<strong>Submenu Prozent</strong><br> 10 kann ersetzt werden und gibt die Schrittweite an 0%, 10%, 20%...! " +
+				"<strong>Submenu Percent</strong><br> <span class='translate'>10 can be replaced and indicates the step size 0%, 10%, 20%...!</span> " +
+				// @ts-ignore
 				globalText.text1 +
-				" Dieser wird in Aktion unter SetState genutzt. Die gewünschte ID eintragen. Unter Wert ein ! einfügen",
+				" " +
+				"<span class='translate'>This is used in action under SetState. Enter the desired ID. Below value! insert</span>",
 		},
 		{
 			text: "menu:number0-6-1-UNIT:TRIGGER:",
 			info:
-				"<strong>Submenu Number</strong><br> Die Zahlen können komplett ausgetauscht werden. 0-6 gibt die Spanne an, und 1 die Schrittweite, UNIT wird durch eine Einheit ersetzt, kann aber auch leer bleiben. " +
+				"<strong>Submenu Number</strong><br><span class='translate'>The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.</span>  " +
 				globalText.text1,
 		},
 		{
 			text: "menu:switch-ein.true-aus.false:TRIGGER:",
 			info:
-				"<strong>Submenu Switch</strong><br> Generiert zwei Buttons, in diesem Fall ein und aus mit den jeweiligen Werten true und false. " +
+				"<strong>Submenu Switch</strong><br> <span class='translate'>Generates two buttons, in this case on and off with the respective values ​​true and false.</span> " +
 				globalText.text1,
 		},
-		{ text: "menu:back", info: "Beim Betätigen springt man in das vorherige Menu zurück." },
+		{
+			text: "menu:back",
+			info: " <span class='translate'>When pressed, you jump back to the previous menu</span> ",
+		},
 	],
 	navText: [
 		{
 			text: "{status:'id':'ID'}",
-			info: "Fragt den Wert der ID ab, und wird dann durch den Wert ersetzt, so kann Text runtherum geschrieben werden.",
+			info: "<span class='translate'>Queries the value of the ID and then replaces it with the value, so text can be written around it</span>",
 		},
 		{
 			text: "{set:'id':'ID',val,ack}",
-			info: "Setzt den Wert der ID auf den val, mit ack(bestätigt)",
+			info: "<span class='translate'>Sets the value of the ID to the val, with ack(confirmed)</span>",
 		},
 		{ text: "", info: globalText.textID },
 	],
 	getText: [
-		{ text: "{math:/10}", info: "Rechnet den Wert um, /10 kann ersetzt werden" },
-		{ text: "{time}", info: "Wandelt einen Unix-Zeitstempel zu einer lokalen Zeit um" },
-		{ text: "{common.name}", info: "Gibt den Namen des Datenpunkts aus" },
-		{ text: "&&", info: "Platzhalter für das Value" },
+		{ text: "{math:/10}", info: " <span class='translate'>Converts the value, /10 can be replaced</span>  " },
+		{ text: "{time}", info: "<span class='translate'>Converts a Unix timestamp to a local time</span> " },
+		{ text: "{common.name}", info: " <span class='translate'>Outputs the name of the data point</span> " },
+		{ text: "&&", info: "<span class='translate'>Placeholder for the value</span>" },
 	],
 	setText: [
-		{ text: "{novalue}", info: "Das Value wird im Rückgabetext nicht angegeben" },
-		{ text: "ack:true", info: "Bestätigt den Wert" },
+		{ text: "{novalue}", info: "<span class='translate'>The Value is not specified in the return text</span>" },
+		{ text: "ack:true", info: " <span class='translate'>Confirms the value</span> " },
 		{
 			text: 'change{"true":"an","false":"aus"}',
-			info: "Ändert den Wert in dem RückgabeText, in diesem Fall von true zu an und false zu aus",
+			info: "<span class='translate'>Changes the value in the return text, in this case from true to on and false to off</span>",
 		},
-		{ text: "&&", info: "Platzhalter für das Value" },
+		{ text: "&&", info: "<span class='translate'>Placeholder for the value</span>" },
 		{
-			text: "{'id':'ID','text':'Wert wurde gesetzt:'}",
-			info: "Wenn man die Änderung eines anderen Datenpunkts mitgeteilt bekommmen möchte nachdem man den Datenpunkt im ID Input Feld gesetzt hat. Die Änderung wird nur dann mit geteilt wenn diese mit ack:true gesetzt wird. Es muss zwingend ein Text ausserhalb der {} angegeben werden, ansonsten wird dieser automatisch hinzugefügt.",
+			text: "{'id':'ID','text':'Your Text'}",
+			info: "<span class='translate'>If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.</span>",
 		},
 		{ text: "", info: globalText.textID },
 	],
