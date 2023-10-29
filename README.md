@@ -36,6 +36,10 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   round values in getState
+
+### **WORK IN PROGRESS**
+
 -   fixed, rename menuname
 -   fixed calling submenus in subordinate menus
 -   convert type values to type of target ID
