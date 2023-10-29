@@ -56,6 +56,7 @@
     "Rendering url": "URL-адреса візуалізації",
     "Replace TRIGGER with a unique value.": "Замініть TRIGGER на унікальне значення.",
     "Return text": "Повернути текст",
+    "Rounds the value for example to 2 decimal places": "Округлює значення, наприклад, до 2 знаків після коми",
     "Save": "зберегти",
     "Select": "Виберіть",
     "Sets the value of the ID to the val, with ack(confirmed)": "Встановлює значення ідентифікатора як val з ack(confirmed)",

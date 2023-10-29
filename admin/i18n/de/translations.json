@@ -56,6 +56,7 @@
     "Rendering url": "Rendering-URL",
     "Replace TRIGGER with a unique value.": "TRIGGER durch einen eindeutigen Wert ersetzen.",
     "Return text": "Rückgabetext",
+    "Rounds the value for example to 2 decimal places": "Rundet den Wert beispielsweise auf 2 Dezimalstellen",
     "Save": "Speichern",
     "Select": "Wählen",
     "Sets the value of the ID to the val, with ack(confirmed)": "Setzt den Wert der ID auf den Wert, mit ack(bestätigt)",

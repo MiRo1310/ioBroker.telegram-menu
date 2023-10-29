@@ -56,6 +56,7 @@
     "Rendering url": "URL weergeven",
     "Replace TRIGGER with a unique value.": "Vervang TRIGGER door een unieke waarde.",
     "Return text": "Retour tekst",
+    "Rounds the value for example to 2 decimal places": "Rondt de waarde bijvoorbeeld af op 2 decimalen",
     "Save": "Redden",
     "Select": "Selecteer",
     "Sets the value of the ID to the val, with ack(confirmed)": "Stelt de waarde van de ID in op val, met ack(confirmed)",

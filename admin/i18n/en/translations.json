@@ -56,6 +56,7 @@
     "Rendering url": "Rendering url",
     "Replace TRIGGER with a unique value.": "Replace TRIGGER with a unique value.",
     "Return text": "Return text",
+    "Rounds the value for example to 2 decimal places": "Rounds the value for example to 2 decimal places",
     "Save": "Save",
     "Select": "Select",
     "Sets the value of the ID to the val, with ack(confirmed)": "Sets the value of the ID to the val, with ack(confirmed)",

@@ -56,6 +56,7 @@
     "Rendering url": "Отображение URL",
     "Replace TRIGGER with a unique value.": "Замените TRIGGER уникальным значением.",
     "Return text": "Возвращаемый текст",
+    "Rounds the value for example to 2 decimal places": "Округляет значение, например, до 2 десятичных знаков.",
     "Save": "Сохранять",
     "Select": "Выбирать",
     "Sets the value of the ID to the val, with ack(confirmed)": "Устанавливает значение идентификатора val с подтверждением (подтверждено).",

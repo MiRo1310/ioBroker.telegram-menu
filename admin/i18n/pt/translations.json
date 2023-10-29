@@ -56,6 +56,7 @@
     "Rendering url": "URL de renderização",
     "Replace TRIGGER with a unique value.": "Substitua TRIGGER por um valor exclusivo.",
     "Return text": "Texto de retorno",
+    "Rounds the value for example to 2 decimal places": "Arredonda o valor, por exemplo, para 2 casas decimais",
     "Save": "Salvar",
     "Select": "Selecione",
     "Sets the value of the ID to the val, with ack(confirmed)": "Define o valor do ID para val, com ack(confirmado)",
