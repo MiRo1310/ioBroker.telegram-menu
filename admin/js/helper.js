@@ -49,6 +49,7 @@ const helperText = {
 		{ text: "{time}", info: "<span class='translate'>Converts a Unix timestamp to a local time</span> " },
 		{ text: "{common.name}", info: " <span class='translate'>Outputs the name of the data point</span> " },
 		{ text: "&&", info: "<span class='translate'>Placeholder for the value</span>" },
+		{ text: "{round:2}", info: "<span class='translate'>Rounds the value for example to 2 decimal places</span>" },
 	],
 	setText: [
 		{ text: "{novalue}", info: "<span class='translate'>The Value is not specified in the return text</span>" },
