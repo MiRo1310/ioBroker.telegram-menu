@@ -316,164 +316,169 @@ class TelegramMenu extends utils.Adapter {
 			one_time_keyboard,
 			userListWithChatID,
 		) {
-			let part;
-			let call;
-			if (calledValue.includes("menu")) call = calledValue.split(":")[2];
-			else call = calledValue;
-			if (
-				groupData[call] &&
-				!calledValue.includes("menu") &&
-				userToSend &&
-				groupWithUser &&
-				userActiveCheckbox[groupWithUser]
-			) {
-				part = groupData[call];
-				// Navigation
-				if (part.nav) {
-					_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
-					backMenuFunc(_this, call, part.nav, userToSend);
-					if (JSON.stringify(part.nav).includes("menu:")) {
-						_this.log.debug("Submenu");
-						callSubMenu(
-							_this,
-							JSON.stringify(part.nav),
-							groupData,
-							userToSend,
-							instanceTelegram,
-							resize_keyboard,
-							one_time_keyboard,
-							userListWithChatID,
-							part,
-						);
-						return true;
-					} else {
-						if (userToSend) {
-							_this.log.debug("Send Nav to Telegram");
-							const text = await utilities.checkStatusInfo(_this, part.text);
-							sendToTelegram(
+			try {
+				let part;
+				let call;
+				if (calledValue.includes("menu")) call = calledValue.split(":")[2];
+				else call = calledValue;
+				if (
+					groupData[call] &&
+					!calledValue.includes("menu") &&
+					userToSend &&
+					groupWithUser &&
+					userActiveCheckbox[groupWithUser]
+				) {
+					part = groupData[call];
+					// Navigation
+					if (part.nav) {
+						_this.log.debug("Menu to Send: " + JSON.stringify(part.nav));
+						backMenuFunc(_this, call, part.nav, userToSend);
+						if (JSON.stringify(part.nav).includes("menu:")) {
+							_this.log.debug("Submenu");
+							callSubMenu(
 								_this,
+								JSON.stringify(part.nav),
+								groupData,
 								userToSend,
-								text,
-								part.nav,
 								instanceTelegram,
 								resize_keyboard,
 								one_time_keyboard,
 								userListWithChatID,
+								part,
 							);
 							return true;
-						}
-					}
-				}
-				// Schalten
-				else if (part.switch) {
-					setStateIdsToListenTo = await setstate(
-						_this,
-						part,
-						userToSend,
-						0,
-						false,
-						instanceTelegram,
-						resize_keyboard,
-						one_time_keyboard,
-						userListWithChatID,
-					);
-
-					_this.log.debug("SubmenuData3" + JSON.stringify(setStateIdsToListenTo));
-					if (Array.isArray(setStateIdsToListenTo))
-						_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
-					return true;
-				} else if (part.getData) {
-					getstate(
-						_this,
-						part,
-						userToSend,
-						instanceTelegram,
-						one_time_keyboard,
-						resize_keyboard,
-						userListWithChatID,
-					);
-					return true;
-				} else if (part.sendPic) {
-					_this.log.debug("Send Picture");
-
-					part.sendPic.forEach((element) => {
-						let path = "";
-						if (element.id != "-") {
-							const url = element.id;
-							const newUrl = Utils.replaceAll(url, "&amp;", "&");
-							try {
-								exec(
-									`curl -H "Authorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${
-										element.fileName
-									}`,
-									(error, stdout, stderr) => {
-										if (stdout) {
-											_this.log.debug("Stdout: " + JSON.stringify(stdout));
-										}
-										if (stderr) {
-											_this.log.debug("Stderr: " + JSON.stringify(stderr));
-										}
-										if (error) {
-											_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-											return;
-										}
-									},
-								);
-							} catch (e) {
-								_this.log.error("Error :" + JSON.stringify(e.message));
-								_this.log.error(JSON.stringify(e.stack));
-							}
-
-							_this.log.debug("Delay Time " + JSON.stringify(element.delay));
-							timeoutKey += 1;
-							path = `${directoryPicture}${element.fileName}`;
-						} else path = element.fileName;
-						try {
-							const timeout = _this.setTimeout(async () => {
-								_this.log.debug("Send Pic to Telegram");
+						} else {
+							if (userToSend) {
+								_this.log.debug("Send Nav to Telegram");
+								const text = await utilities.checkStatusInfo(_this, part.text);
 								sendToTelegram(
 									_this,
 									userToSend,
-									path,
-									undefined,
+									text,
+									part.nav,
 									instanceTelegram,
 									resize_keyboard,
 									one_time_keyboard,
 									userListWithChatID,
 								);
-								let timeoutToClear = {};
-								timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-								clearTimeout(timeoutToClear.timeout);
-								timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-							}, parseInt(element.delay));
-							_this.log.debug("Timeout add");
-							timeouts.push({ key: timeoutKey, timeout: timeout });
-						} catch (e) {
-							_this.log.error("Error: " + JSON.stringify(e.message));
-							_this.log.error(JSON.stringify(e.stack));
+								return true;
+							}
 						}
-					});
+					}
+					// Schalten
+					else if (part.switch) {
+						setStateIdsToListenTo = await setstate(
+							_this,
+							part,
+							userToSend,
+							0,
+							false,
+							instanceTelegram,
+							resize_keyboard,
+							one_time_keyboard,
+							userListWithChatID,
+						);
 
-					_this.log.debug("Picture sended");
+						_this.log.debug("SubmenuData3" + JSON.stringify(setStateIdsToListenTo));
+						if (Array.isArray(setStateIdsToListenTo))
+							_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
+						return true;
+					} else if (part.getData) {
+						getstate(
+							_this,
+							part,
+							userToSend,
+							instanceTelegram,
+							one_time_keyboard,
+							resize_keyboard,
+							userListWithChatID,
+						);
+						return true;
+					} else if (part.sendPic) {
+						_this.log.debug("Send Picture");
 
+						part.sendPic.forEach((element) => {
+							let path = "";
+							if (element.id != "-") {
+								const url = element.id;
+								const newUrl = Utils.replaceAll(url, "&amp;", "&");
+								try {
+									exec(
+										`curl -H "Authorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${
+											element.fileName
+										}`,
+										(error, stdout, stderr) => {
+											if (stdout) {
+												_this.log.debug("Stdout: " + JSON.stringify(stdout));
+											}
+											if (stderr) {
+												_this.log.debug("Stderr: " + JSON.stringify(stderr));
+											}
+											if (error) {
+												_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+												return;
+											}
+										},
+									);
+								} catch (e) {
+									_this.log.error("Error :" + JSON.stringify(e.message));
+									_this.log.error(JSON.stringify(e.stack));
+								}
+
+								_this.log.debug("Delay Time " + JSON.stringify(element.delay));
+								timeoutKey += 1;
+								path = `${directoryPicture}${element.fileName}`;
+							} else path = element.fileName;
+							try {
+								const timeout = _this.setTimeout(async () => {
+									_this.log.debug("Send Pic to Telegram");
+									sendToTelegram(
+										_this,
+										userToSend,
+										path,
+										undefined,
+										instanceTelegram,
+										resize_keyboard,
+										one_time_keyboard,
+										userListWithChatID,
+									);
+									let timeoutToClear = {};
+									timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+									clearTimeout(timeoutToClear.timeout);
+									timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+								}, parseInt(element.delay));
+								_this.log.debug("Timeout add");
+								timeouts.push({ key: timeoutKey, timeout: timeout });
+							} catch (e) {
+								_this.log.error("Error: " + JSON.stringify(e.message));
+								_this.log.error(JSON.stringify(e.stack));
+							}
+						});
+
+						_this.log.debug("Picture sended");
+
+						return true;
+					}
+				} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
+					_this.log.debug("Call Submenu");
+					callSubMenu(
+						_this,
+						calledValue,
+						groupData,
+						userToSend,
+						instanceTelegram,
+						resize_keyboard,
+						one_time_keyboard,
+						userListWithChatID,
+						part,
+					);
 					return true;
+				} else {
+					return false;
 				}
-			} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
-				_this.log.debug("Call Submenu");
-				callSubMenu(
-					_this,
-					calledValue,
-					groupData,
-					userToSend,
-					instanceTelegram,
-					resize_keyboard,
-					one_time_keyboard,
-					userListWithChatID,
-					part,
-				);
-				return true;
-			} else {
-				return false;
+			} catch (e) {
+				_this.log.error("Error processData: " + JSON.stringify(e.message));
+				_this.log.error(JSON.stringify(e.stack));
 			}
 		}
 
@@ -495,33 +500,38 @@ class TelegramMenu extends utils.Adapter {
 			userListWithChatID,
 			part,
 		) {
-			const subMenuData = await subMenu(
-				_this,
-				calledValue,
-				groupData,
-				userToSend,
-				instanceTelegram,
-				resize_keyboard,
-				one_time_keyboard,
-				userListWithChatID,
-				part,
-			);
-			_this.log.debug("Submenu data " + JSON.stringify(subMenuData));
-
-			if (subMenuData && subMenuData[3]) {
-				_this.log.debug("SubmenuData3" + JSON.stringify(subMenuData[3]));
-				if (subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
-				_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
-			}
-			if (subMenuData && typeof subMenuData[0] == "string") {
-				sendToTelegramSubmenu(
+			try {
+				const subMenuData = await subMenu(
 					_this,
+					calledValue,
+					groupData,
 					userToSend,
-					subMenuData[0],
-					subMenuData[1],
 					instanceTelegram,
+					resize_keyboard,
+					one_time_keyboard,
 					userListWithChatID,
+					part,
 				);
+				_this.log.debug("Submenu data " + JSON.stringify(subMenuData));
+
+				if (subMenuData && subMenuData[3]) {
+					_this.log.debug("SubmenuData3" + JSON.stringify(subMenuData[3]));
+					if (subMenuData[3]) setStateIdsToListenTo = subMenuData[3];
+					_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
+				}
+				if (subMenuData && typeof subMenuData[0] == "string") {
+					sendToTelegramSubmenu(
+						_this,
+						userToSend,
+						subMenuData[0],
+						subMenuData[1],
+						instanceTelegram,
+						userListWithChatID,
+					);
+				}
+			} catch (e) {
+				_this.log.error("Error callSubMenu: " + JSON.stringify(e.message));
+				_this.log.error(JSON.stringify(e.stack));
 			}
 		}
 
