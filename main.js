@@ -366,7 +366,7 @@ class TelegramMenu extends utils.Adapter {
 				}
 				// Schalten
 				else if (part.switch) {
-					setStateIdsToListenTo = setstate(
+					setStateIdsToListenTo = await setstate(
 						_this,
 						part,
 						userToSend,
