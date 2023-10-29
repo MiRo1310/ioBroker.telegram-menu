@@ -1,0 +1,1194 @@
+<html>
+
+<head>
+    <!-- Load ioBroker scripts and styles-->
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/component.js"></script>
+    <script type="text/javascript" src="./js/emit.js"></script>
+    <script type="text/javascript" src="./js/global.js"></script>
+    <script type="text/javascript" src="./js/helper.js"></script>
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="../../lib/css/themes/jquery-ui/default/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="../../lib/css/fancytree/ui.fancytree.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/iob/selectID.css" />
+
+    <script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/selectID.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/color.css" />
+    <link rel="stylesheet" type="text/css" href="./css/scrolling.css" />
+    <script type="text/javascript" src="words.js"></script>
+
+    <script type="text/javascript">
+        let _onChange
+        let menus;
+        let activeMenu;
+        let telegramInstance;
+        let userActiveCheckbox;
+        let usersInMenus = {}
+        let valUserFromTelegram
+        let usedTrigger = []
+        let inputFieldWithDoubleCall = false
+        let userListWithChatID = []
+        // This will be called by the admin adapter when the settings page loads
+        async function load(settings, onChange) {
+            // example: select elements with id=key and class=value and insert value
+            if (!settings) return;
+            _onChange = onChange
+            menus = settings.users
+            activeMenu = settings.users[0]
+            userActiveCheckbox = settings.userActiveCheckbox
+            if (settings.usersInGroup) usersInMenus = settings.usersInGroup
+            if (settings.instance) telegramInstance = settings.instance
+            else telegramInstance = "telegram.0"
+            console.log("Telegram Instance: " + settings.instance)
+            valUserFromTelegram = await getUsersFromTelegram(socket, this, telegramInstance)
+            createGroup("#group_list", settings.users, activeMenu, userActiveCheckbox)
+            fillTable("#navigation", settings.data.nav, newTableRow_Nav, menus)
+            fillTableAction(settings.data.action)
+            showHideUserEntry(activeMenu)
+            setCheckbox(settings.checkbox)
+            usedTrigger = generateSelectTrigger(activeMenu, menus)
+            checkUpAndDownArrowBtn()
+            menuToSpan(activeMenu)
+            disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
+            // When import from old Version import Username			
+            userListWithChatID = buildUserSelection(valUserFromTelegram, menus, usersInMenus)
+            setInstanceSelect(telegramInstance)
+            translateAll()
+
+            $('.value').each(function () {
+                var $key = $(this);
+                var id = $key.attr('id');
+                if ($key.attr('type') === 'checkbox') {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.prop('checked', settings[id])
+                        .on('change', () => onChange())
+                        ;
+                } else {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.val(settings[id])
+                        .on('change', () => onChange())
+                        .on('keyup', () => onChange())
+                        ;
+                }
+            });
+
+            onChange(false);
+            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+            if (M) M.updateTextFields();
+
+        }
+        async function loadData() {
+
+        }
+
+        // This will be called by the admin adapter when the user presses the save button
+        function save(callback) {
+
+            // example: select elements with class=value and build settings object
+            var obj = {};
+            obj.checkbox = {}
+            $('.value').each(function () {
+                var $this = $(this);
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+
+                } else if ($this.attr('type') === 'number') {
+                    obj[$this.attr('id')] = parseFloat($this.val());
+
+                } else if (!$this.attr("data-nosave")) {
+                    obj[$this.attr('id')] = $this.val();
+
+                }
+            });
+
+            $(".valCheckbox").each(function () {
+                var $this = $(this);
+                if ($this.attr('type') === 'checkbox') {
+                    obj.checkbox[$this.attr('id')] = $this.prop('checked')
+                };
+            })
+            if (inputFieldWithDoubleCall) return
+            if (!isUserChecked(activeMenu)) return
+            usersInMenus = {}
+            usersInMenus = getUserInMenus()
+            obj.usersInGroup = usersInMenus
+            obj.userListWithChatID = userListWithChatID
+
+            const checkboxes = {}
+            $("#group_active_checkbox input").each(function () {
+                const user = $(this).attr("data-name")
+                checkboxes[user] = $(this).is(":checked")
+            })
+            obj.userActiveCheckbox = checkboxes
+            const tableDevices = table2Values(".saveTable");
+            if (!isInputFieldEmty(".isString")) return
+
+            obj.instance = $("#select_instance").val()
+            obj.data = tableDevices;
+            obj.users = menus
+            obj.startsides = generateStartside(menus)
+            usedTrigger = generateSelectTrigger(activeMenu, menus)
+            console.log(obj)
+            callback(obj);
+        }
+
+
+        $(function () {
+            let rowToUpdate;
+            // ----------------------------------------//
+            // Menu                                    //
+            //-----------------------------------------//  
+
+            // Menu-input , disable-enable Add Btn     //			
+            $("#groupname").keyup(function () {
+                let valInputField = $(this).val()
+                let menuNameFound = menus.find(function (name) {
+                    return name.toLowerCase() === valInputField.toLowerCase();
+                });
+                if (valInputField !== "" && !menuNameFound) {
+                    $("#addNewGroup").removeClass("disabled")
+                } else $("#addNewGroup").addClass("disabled")
+            })
+            // Add Btn new Menu
+            $("#addNewGroup").click(() => {
+                let newMenu = $("#groupname").val().replace(" ", "_")
+                if (menus.indexOf(newMenu) == -1) {
+                    addNewGroup(menus, newMenu, _onChange)
+                    activeMenu = newMenu
+                    showUser(newMenu, showHideUserCheckbox)
+                    userListWithChatID = buildUserSelection(valUserFromTelegram, [newMenu], usersInMenus)
+                    translateAll()
+                }
+
+            })
+            // Delete Btn, open popup		
+            $("#group_menu").on("click", "#deleteUser", function () {
+                $("#dialog-confirm").show()
+            })
+            // Edit Btn Menu
+            $("#editUser").click(function () {
+                $("#dialog-change-groupname").show()
+                $("#inputEditUser").val(activeMenu)
+            })
+
+            $("#group_UserInput, #group_active_checkbox").on("change", "input", function () {
+                isUserChecked(activeMenu)
+                _onChange()
+            })
+
+            // ----------------------------------------//
+            // Popup Menu Liste                        //
+            //-----------------------------------------// 
+
+            // Click Menu, Show Menu Navigation or Action
+            $("#group_list").on("click", ".click_user", function () {
+                activeMenu = $(this).attr("name")
+                $("#btn-nav").attr("href", `#tab-nav-user-${activeMenu}`)
+                $("#btn_action").attr("href", `#tab-todo-user-${activeMenu}`)
+                $("adapter-container").load(`#tab-nav-user-${activeMenu}`)
+                showUser(activeMenu, showHideUserCheckbox)
+                // Menu active Button show
+                showHideUserCheckbox(activeMenu)
+                usedTrigger = generateSelectTrigger(activeMenu, menus)
+            })
+
+            // ----------------------------------------//
+            // Popup Confirm Delete Menu               //
+            //-----------------------------------------// 
+
+            // Confirm Dialog Btn OK
+            $("#dialog-confirm a.btn-set").on("click", function () {
+                menus.splice(menus.indexOf(activeMenu), 1)
+                $("#group_list .active").parent().remove()
+                $(`#tab-nav tbody[name="${activeMenu}"]`).remove()
+                $(`#tab-action tbody[name="${activeMenu}"]`).remove()
+                $(`#group_active_checkbox div.${activeMenu}`).remove()
+                $(`#group_UserInput div.${activeMenu}`).remove()
+                $(`#${activeMenu}`).remove()
+                $(`.user_${activeMenu}`).remove()
+
+                // Nach dem Löschen den ersten User aktivieren
+                if (menus.length > 0) {
+                    activeMenu = menus[0]
+                    showUser(activeMenu, showHideUserCheckbox)
+                } else menuToSpan("No User");
+                _onChange()
+                $("#dialog-confirm").hide()
+            })
+
+
+            // ----------------------------------------//
+            // Popup Edit Menu                         //
+            //-----------------------------------------// 
+
+            // Check Menu doesn´t exist
+            $("#inputEditUser").keyup(function () {
+                let gefundenerName = menus.find(function (name) {
+                    return name.toLowerCase() === $("#inputEditUser").val().toLowerCase();
+                });
+                if (gefundenerName) $("#dialog-change-groupname .btn-set").attr("disabled", "disabled")
+                else $("#dialog-change-groupname .btn-set").removeAttr("disabled")
+            })
+            // Save Edit Menu
+            $("#dialog-change-groupname .btn-set").click(function () {
+                // ActiveMenu aus der User List enfernen und die Änderung hinzufügen				
+                menus = menus.filter(function (element) {
+                    return element != activeMenu
+                })
+                let renamedUser = $("#inputEditUser").val().replace(" ", "_")
+                $(`#group_list li a[name="${activeMenu}"]`).html(renamedUser).attr("name", renamedUser)
+                $(`#table_nav tbody#${activeMenu}`).attr("id", renamedUser).attr("name", renamedUser).removeClass(`user_${activeMenu}`).addClass(`user_${renamedUser}`)
+                $(`#tab-action div.user_${activeMenu}`).removeClass(`user_${activeMenu}`).addClass(`user_${renamedUser}`)
+                $(`#group_UserInput div.${activeMenu}`).removeClass(activeMenu).addClass(renamedUser)
+                $(`#group_UserInput input[name="${activeMenu}"]`).attr("name", renamedUser)
+                $(`#group_active_checkbox div.${activeMenu}>span`).html(renamedUser + ' <span class="translate">activ</span>')
+                $(`#group_active_checkbox div.${activeMenu}`).removeClass(activeMenu).addClass(renamedUser)
+                $(`#group_active_checkbox input[data-name="${activeMenu}"]`).attr("data-name", renamedUser)
+                $(`tbody[name="${activeMenu}"]`).attr("name", renamedUser)
+                menus.push(renamedUser)
+                activeMenu = renamedUser
+                $("#activMenuOutput").text(renamedUser)
+                $("#dialog-change-groupname").hide()
+                _onChange()
+            })
+
+            // ----------------------------------------//
+            // Navigation                              //
+            //-----------------------------------------// 
+
+            // Click Nav Buttons
+            let activeBtn = "nav"
+            $("header ul").on("click", ".btn_nav", function () {
+                isUserChecked(activeMenu)
+                usedTrigger = generateSelectTrigger(activeMenu, menus)
+                activeBtn = displayCards(activeBtn, this)
+                translateAll()
+            })
+            // Btns new Row in Navigation
+            $(".adapter-container").on("click", ".btn_add_row", function () {
+                $(this).parent().parent().after(newTableRow_Nav(activeMenu, menus))
+                checkUpAndDownArrowBtn()
+                isInputFieldEmty(".isString")
+            })
+
+            // Button Row up 
+            $(".adapter-container").on("click", ".btn_up", function () {
+                $(this).parent().parent().insertBefore($(this).parent().parent().prev())
+                checkUpAndDownArrowBtn()
+                _onChange()
+            })
+            // Btn Row down
+            $(".adapter-container").on("click", ".btn_down", function (key) {
+                $(this).parent().parent().insertAfter($(this).parent().parent().next())
+                checkUpAndDownArrowBtn()
+                _onChange()
+            })
+            // Input check if it is not empty
+            $(".adapter-container").on("input", ".isString", function () {
+                isInputFieldEmty(".isString")
+            })
+
+            // ----------------------------------------//
+            // Action                                  //
+            //-----------------------------------------// 
+
+            // Add Button in Action opens Action Popup
+            $("#btn_add_action").click(function () {
+                rowToUpdate = null
+                translateAll()
+            })
+            //Delete Row
+            $(".adapter-container").on("click", ".deleteRow, .deleteEveryRow", function () {
+                $(this).parent().parent().remove()
+                checkUpAndDownArrowBtn()
+                _onChange()
+                generateNav()
+                checkDeleteBtn()
+            })
+
+
+            // ----------------------------------------//
+            // Change Events                           //
+            //-----------------------------------------// 			 
+
+            // update
+            $("#navigation").change(".value", function () {
+                _onChange()
+            })
+            $(".valCheckbox").change(function () {
+                _onChange()
+            })
+            $(".adapter-container").on("change", ".userSelection", function () {
+                _onChange()
+            })
+            $("#select_instance").on('change', function () {
+                _onChange()
+            })
+
+            // ----------------------------------------//
+            // Dialog get ID Iobroker                  //
+            //-----------------------------------------// 	
+            //ANCHOR - Dialog get ID Iobroker in Action
+            $(".adapter-container").on("click", ".btn_getID", function () {
+                let $element
+                let replaceStringWhitIdOrAddIt = false
+                if ($(this).prev().hasClass("getId")) {
+                    $element = $(this).prev()
+                    replaceStringWhitIdOrAddIt = true
+                } else {
+                    $element = $(this).parent().prev().children("input")
+
+                }
+                showSelectIdDialog($element.val(), function (newID) {
+                    if (replaceStringWhitIdOrAddIt) {
+                        if ($element.val().includes("id':'")) {
+                            const startindex = $element.val().indexOf("id':'") + 5
+                            const endindex = $element.val().indexOf("'", startindex)
+                            const elementToChange = $element.val().substring(startindex, endindex)
+
+                            $element.val($element.val().replace(elementToChange, newID))
+                        }
+                        else $element.val($element.val() + newID)
+                    }
+                    else $element.val(newID)
+                })
+
+            });
+
+            // ----------------------------------------//
+            // Modal                                   //
+            //-----------------------------------------// 	
+
+            $('.modal').modal()
+            // Tables in Action Verstecken und Button new Row
+            $(".modal-content table").hide()
+            $("#btn_action_newRow").hide()
+            // Reset Modal Input Fields
+            $("#btn_action_close").on("click", function () {
+                $("#select_action").removeAttr("disabled")
+                resetModal()
+                usedTrigger = generateSelectTrigger(activeMenu, menus)
+            })
+
+            // ----------------------------------------//
+            // Telegram Instances in Select Input      //
+            //-----------------------------------------// 	
+
+            // Select Instance			
+            getAllTelegramInstances(socket, this)
+            $("#select_instance").val(telegramInstance).select();
+
+            // Select Inizializieren
+            $("select").select();
+
+            // Bei Änderungen von Select in Action Table anzeigen
+            $("#select_action").on("change", function () {
+                $("#btn_action_newRow").show()
+                $(".modal-content table").hide()
+                $(".modal-content table").hide()
+                $(`#tab_${$(this).val()}`).show()
+            })
+
+            // ----------------------------------------//
+            // Action Popup                            //
+            //-----------------------------------------// 	
+
+            // New Row in Action 
+            $("#btn_action_newRow").on("click", function () {
+                const rows = $("#tab_pic tbody tr").length
+                $(`#tab_${$("#select_action").val()} tbody`).append(newTrInAction($("#select_action").val(), undefined, rows))
+                $("#btn_action_set").attr("disabled", "disabled")
+                checkUpAndDownArrowBtn()
+                checkDeleteBtn()
+
+            })
+            // Edit entrys
+            $(".adapter-container").on("click", ".editEntry", function () {
+                rowToUpdate = $(this).parents("tr")
+                showTrigger = true;
+                // Select_action deaktivieren
+                $("#select_action").attr("disabled", "disabled")
+                // Select Button Aktivieren 
+                $("#btn_action_set").removeAttr("disabled")
+                $("#btn_action_newRow").show()
+                let action = $(this).parents("tbody").attr("data-name")
+                $("#select_action").val(action).select()
+                $(`#tab_${action}`).show()
+                // Trigger	
+                const trigger = $(this).parent().siblings("[data-name='trigger']").html()
+                $("#select_trigger").append(`<option value="${trigger}">${trigger}</option>}`)
+                $("#select_trigger").val(trigger).select()
+                insertEditValues(action, this)
+                disableValueInput()
+                checkUpAndDownArrowBtn()
+            })
+            // Value deaktivieren wenn Switch checked
+            $(".modal-content").on("change", ".switch_checkbox", function () {
+                disableValueInput()
+            })
+
+            // ----------------------------------------//
+            // Settings                                //
+            //-----------------------------------------// 	
+
+            $("#tab-settings").on("change", "#checkboxNoValueFound", function () {
+                disableEnableInputField("#checkboxNoValueFound", "#textNoEntry")
+            })
+
+            // ----------------------------------------//
+            // Global                                  //
+            //-----------------------------------------// 	
+            //  btn-close			
+            $(".btn-close").on("click", function () {
+                $(this).parent().parent().hide()
+            })
+
+
+
+            // Show Hide Tbody
+            $(".adapter-container").on("click", ".showHideMenu", function () {
+                $(this).siblings("table").toggle()
+                if ($(this).siblings("table").attr("style") === "display: none;") {
+                    $(this).find("i").html("chevron_right")
+                } else $(this).find("i").html("expand_more")
+            })
+
+            // Inputs if its not ""
+            $(".modal-content").on("input ", function () {
+                checkValueModal(showTrigger)
+            })
+            $(".modal-content").on("change", "#tab_set input.switch_checkbox", function () {
+                checkValueModal(showTrigger)
+            })
+
+            $(".adapter-container").on("input", "input[data-name='call']", function () {
+                usedTrigger = generateSelectTrigger(activeMenu, menus)
+                if (countOccurrences(usedTrigger, $(this).val()) == 2) {
+                    inputFieldWithDoubleCall = true
+                    $(this).parent().addClass("bg-error-doubleUser")
+                    $("#triggerAllreadyInUser").removeClass("hide")
+                }
+                else {
+                    inputFieldWithDoubleCall = false
+                    $(this).parent().removeClass("bg-error-doubleUser")
+                    $("#triggerAllreadyInUser").addClass("hide")
+                }
+            })
+            // ----------------------------------------//
+            // Save                                    //
+            //-----------------------------------------// 	
+            // Save from Action Input Field
+            //SECTION - Save 1
+            $("#btn_action_set").on("click", function () {
+
+                // Wieder sichtbar machen, wenn du edit disabled gesetzt wurde
+                $("#select_action").removeAttr("disabled")
+                let action = $("#select_action").val()
+                let $table = $(`#tab_${action} tbody`)
+                let result = {
+                    IDs: [],
+                    picSendDelay: [],
+                    values: [],
+                    fileName: [],
+                    // checkboxes: [],
+                    switch_checkbox: [],
+                    newline_checkbox: [],
+                    confirm: [],
+                    returnText: [],
+                    text: [],
+                    trigger: $("#select_trigger").val(),
+                    action: action
+                }
+                if (action === "set") {
+                    $($table).find(`input.set_id`).each(function () {
+                        result.IDs.push($(this).val())
+                    })
+                    $($table).find(`input.set_value`).each(function () {
+                        result.values.push($(this).val() != "" ? $(this).val() : "-")
+                    })
+                    $($table).find(`input.returnText`).each(function () {
+                        result.returnText.push($(this).val() != "" ? $(this).val() : "-")
+                    })
+                    $($table).find(`input.switch_checkbox`).each(function () {
+                        result.switch_checkbox.push($(this).is(":checked"))
+                    })
+                    $($table).find(`input.confirm_checkbox`).each(function () {
+                        result.confirm.push($(this).is(":checked"))
+                    })
+                }
+                if (action === "get") {
+                    $($table).find(`input.get_id`).each(function () {
+                        result.IDs.push($(this).val())
+                    })
+                    $($table).find(`input.get_text`).each(function () {
+                        result.text.push($(this).val())
+                    })
+                    $($table).find(`input.newline_checkbox`).each(function () {
+                        result.newline_checkbox.push($(this).is(":checked"))
+                    })
+                }
+                if (action === "pic") {
+                    $($table).find(`input.pic_IDs`).each(function () {
+                        result.IDs.push($(this).val())
+                    })
+                    $($table).find(`input.pic_fileName`).each(function () {
+                        result.fileName.push($(this).val())
+                    })
+                    $($table).find(`input.pic_picSendDelay`).each(function () {
+                        result.picSendDelay.push($(this).val())
+                    })
+                }
+                generatActionRow(activeMenu, action, result, rowToUpdate)
+                usedTrigger = generateSelectTrigger(activeMenu, menus)
+                _onChange()
+                resetModal()
+            })
+            //!SECTION
+            // Save Button erst anzeigen wenn alles ausgefüllt ist
+            // Select Check if is selected
+            let showTrigger = false
+            $("#select_trigger").on("change", function () {
+                showTrigger = true
+                if ($(this).val() == null) showTrigger = false
+                showSelectModal(showTrigger, true)
+            })
+
+            // ----------------------------------------//
+            // Copy Data Popup                         //
+            //-----------------------------------------//
+
+            // Open Popup
+            $("#btn_copy_nav").click(function () {
+                $("#dialog-copy-data").show()
+            })
+
+            // Select choose
+            $("#select-copy-data").on("change", function () {
+                $("#copyData").empty()
+                if ($(this).val() == "nav") {
+                    findElementsToCopy("#tab-nav tbody", "nav")
+
+                }
+                else findElementsToCopy(`#tab-action tbody[data-name='${$(this).val()}']`, $(this).val())
+            })
+            function findElementsToCopy(selektor, toDo) {
+                const $bodys = $(selektor).map((index, tbody) => {
+                    if ($(tbody).attr("name") != activeMenu) return tbody
+                })
+                let tbody = $("<tbody>")
+                $bodys.each(function (index, $body) {
+                    $($body).find("tr").each(function () {
+                        let newData = $(this).clone().removeClass("startRow")
+                        newData.find("a").parent().remove()
+                        newData.find("td:empty").remove()
+                        let checkbox = $("<a title='Copy Data'>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxCopyData translateT`).append($("<i>").addClass("material-icons").text("add"))
+                        let checkboxMove = $("<a title='Move Data'>").addClass(`btn-floating btn-small waves-effect waves-light blue ${toDo} checkboxMoveData `).append($("<i>").addClass("material-icons").text("trending_flat"))
+                        // newData = newData.append($("<td style='width: 2%'>").append(checkbox)).append($("<td style='width: 2%'>").append(checkboxMove))
+                        newData = newData.append($("<td style='width: 2%'>").append(checkbox))
+                        tbody.append(newData)
+                    })
+                })
+                $("#copyData").append($("<table>").addClass("striped").append(tbody))
+                translateAll()
+            }
+            // Save new Rows
+            $("#dialog-copy-data").on("click", ".checkboxCopyData", function () {
+                const action = $("#select-copy-data").val()
+
+                const rowToCopy = $(this).parents().eq(1)
+                // Add Button entfernen 
+                rowToCopy.find("a").parent().remove()
+                const buttonsNav = `<td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+    								<td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+   									<td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>
+									   <td><a class="btn-floating btn-small waves-effect waves-light green btn_add_row"><i class="material-icons">add</i></a></td>`
+                const buttonsAction = `<td><a class="deleteEveryRow btn-floating btn-small waves-effect waves-light red"><i	class="material-icons">delete</i></a></td>
+										   <td><a data-target="tab_action" class="editEntry modal-trigger btn-floating btn-small waves-effect waves-light green"><i class="material-icons">edit</i></a></td>
+										   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i	class="material-icons" name="down">arrow_downward</i></a></td>
+										   <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i	class="material-icons" name="up">arrow_upward</i></a></td>							   `;
+
+                if (action == "nav") {
+                    rowToCopy.append(buttonsNav)
+                    $(`#${activeMenu}`).append(rowToCopy)
+                    checkUpAndDownArrowBtn()
+                }
+                else {
+                    rowToCopy.append(buttonsAction)
+                    $(`#tab-action tbody[name="${activeMenu}"][data-name="${action}"]`).append(rowToCopy)
+                }
+            })
+            // Close Copy Data Popup
+            $("#dialog-copy-data .btn-close").click(function () {
+                resetSelect()
+                _onChange()
+            })
+            // ----------------------------------------//
+            // Menu Navigation                         //
+            //-----------------------------------------// 
+
+            // Menu Popup
+            $("#btn_expand").on("click", function () {
+                $("#group_list").toggleClass("hide")
+            })
+            let var1, var2
+            $("#btn_expand").on("mouseover", function () {
+                $("#group_list").css("display", "block")
+                var1 = true
+            })
+                .on("mouseleave", function () {
+                    var1 = false
+                })
+            $("#group_list").on("mouseover", function () {
+                var2 = true
+            }).on("mouseleave", function () {
+                var2 = false
+            })
+            $(".adapter-container").on("mouseover", function () {
+                if (!var2 && !var1) $("#group_list").css("display", "none")
+            })
+            $(".adapter-container").on("click", ".click_user", function () {
+                $("#group_list").css("display", "none")
+            })
+            $(".adapter-container").on("change", "#select_instance", function () {
+                getNewValues(socket, this, $(this).val(), usersInMenus, menus)
+                _onChange()
+            })
+
+            // ----------------------------------------//
+            // Popup add Text                          //
+            //-----------------------------------------//
+            //TODO - Add Text
+            let $htmlElement;
+            $(".adapter-container").on("click", (".add-text ~ a"), function () {
+                $("#dialog-add-textToInput").show()
+                $("#dialog-add-textToInput table").show()
+                $("#dialog-add-textToInput tbody").empty()
+                const inputGroup = $(this).data("name")
+
+                if (inputGroup === "navText" || inputGroup === "setText") {
+                    $("#newText").addClass("getId")
+                } else $("#newText").removeClass("getId")
+                $htmlElement = $(this).prev()
+                helperText[inputGroup].forEach(element => {
+                    $("#dialog-add-textToInput tbody").append(addTextToInputField(element))
+                });
+                $("#newText").val($($htmlElement).val())
+                translateAll()
+
+            })
+            $(".adapter-container").on("click", (".btn-addText"), function () {
+                $("#newText").val($("#newText").val() + " " + $(this).parent().prevAll(".data-text").children().html())
+                // $($htmlElement).val($("#newText").val())
+            })
+            $(".btn-setText").on("click", function () {
+                $($htmlElement).val($("#newText").val().trim())
+                $(this).parent().parent().hide()
+                _onChange()
+            })
+
+        })
+
+    </script>
+</head>
+<!-- //SECTION - HTML -->
+
+<body id="body">
+    <div class="m adapter-container">
+        <header class="row header">
+            <div class="row bg--header noMargin">
+                <div class="col s12 m4 l2 ">
+                    <img src="telegram-menu.png" class="logo">
+                </div>
+            </div>
+            <!--//SECTION Header -->
+            <div class="row bg--header">
+                <div class="col s12">
+                    <ul class="tabs bg--header">
+                        <li class="tab col s3 "><a class="active btn_nav translate" name="nav" id="btn-nav"
+                                href="#">Navigation</a>
+                        </li>
+                        <li class="tab col s3"><a class="btn_nav translate" name="action" id="btn_action"
+                                href="#">Action</a>
+                        </li>
+                        <li class="tab col s3"><a class="btn_nav translate" name="set" id="btn_settings"
+                                href="#">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <!--//SECTION Action Popup -->
+            <div id="tab_action" class="modal modal-fixed-footer">
+                <div class="modal-content noscroll">
+                    <div class="row header_action">
+                        <div class="input-field col s3">
+                            <select id="select_action" class="reset ">
+                                <option value="" disabled selected class="translate">Choose your option</option>
+                                <option value="get">GetState</option>
+                                <option value="set">SetState</option>
+                                <option value="pic">Send Picture</option>
+                            </select>
+                            <label class="translate">What is to do?</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select id="select_trigger" class="materialSelect reset checkValue ">
+                                <option value="" disabled selected class="translate">Choose your option</option>
+                            </select>
+                            <label class="translate">Trigger</label>
+                        </div>
+                        <div class="col offset-s1 s5">
+                            <h5>GetState</h5>
+                            <p class="translate">Add && as a placeholder for the value in the text</p>
+
+                        </div>
+                    </div>
+                    <div class="row add_btn_action">
+                        <div class="col s12">
+                            <a class="resetHide btn-floating btn-small waves-effect waves-light blue"
+                                id="btn_action_newRow" title="Add new Line"><i class="material-icons">add</i></a>
+                        </div>
+                    </div>
+                    <div class="resizeFull">
+                        <div class="table_wrapper action_popup">
+                            <table id="tab_set" class="resetHide">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; background: #64b5f6 ">ID</th>
+                                        <th style="width: 1%; background: #64b5f6 "></th>
+                                        <th style="width: 4%; background: #64b5f6 " class="translate">Value</th>
+                                        <th style="background: #64b5f6 " class="translate">Return text</th>
+                                        <th style="width: 1%; background: #64b5f6 " class="text-xsm 
+								translate">Confirm set value</th>
+                                        <th style="width: 1%; background: #64b5f6 " class="text-xsm translate">Switch
+                                        </th>
+                                        <th style="width: 2%; background: #64b5f6 "></th>
+                                        <th style="width: 2%; background: #64b5f6 "></th>
+                                        <th style="width: 2%; background: #64b5f6 "></th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="table-lines table-values visibilityArrowBtn visibilityDeleteBtn arrow_downwartStartAtZero">
+                                    <tr>
+                                        <td> <input class="set_id resetInput checkValue" spellcheck="false" type="text">
+                                        </td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
+                                                title="Get ID"><i class="material-icons">edit</i></a></td>
+                                        <td>
+                                            <input class="set_value resetInput checkValueSwitch" spellcheck="false"
+                                                type="text" value="">
+                                        </td>
+                                        <td>
+                                            <input class="returnText resetInput add-text " spellcheck="false"
+                                                type="text" value=""><a data-name="setText"
+                                                class="waves-effect waves-light blue"><i
+                                                    class="material-icons">add_circle</i></a>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="filled-in confirm_checkbox resetCheckbox" />
+                                            <span></span>
+                                        </td>
+                                        <td>
+                                            <label><input id="switch_checkbox" type="checkbox"
+                                                    class="filled-in switch_checkbox resetCheckbox" />
+                                                <span></span></label>
+                                        </td>
+                                        <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
+                                                disabled><i class="material-icons" disabled>delete</i></a></td>
+                                        </td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i
+                                                    class="material-icons" name="down">arrow_downward</i></a></td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i
+                                                    class="material-icons" name="up">arrow_upward</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table id="tab_get" class="resetHide">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%;">ID</th>
+                                        <th style="width: 5%;"></th>
+                                        <th>Text</th>
+                                        <th style="width: 8%;">Newline</th>
+                                        <th style="width: 2%;"></th>
+                                        <th style="width: 2%;"></th>
+                                        <th style="width: 2%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero visibilityDeleteBtn">
+                                    <tr>
+                                        <td> <input class="get_id resetInput checkValue" spellcheck="false" type="text">
+                                        </td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_getID"
+                                                title="Get ID"><i class="material-icons">edit</i></a></td>
+                                        <td>
+                                            <input class="get_text resetInput checkValue add-text" spellcheck="false"
+                                                type="text"><a data-name="getText"
+                                                class="waves-effect waves-light blue"><i
+                                                    class="material-icons">add_circle</i></a>
+                                        </td>
+                                        <td><label>
+                                                <input type="checkbox" class="filled-in newline_checkbox" checked />
+                                                <span></span>
+                                            </label></td>
+                                        <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
+                                                disabled><i class="material-icons">delete</i></a></td>
+                                        </td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i
+                                                    class="material-icons" name="down">arrow_downward</i></a></td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i
+                                                    class="material-icons" name="up">arrow_upward</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table id="tab_pic" class="resetHide">
+                                <thead>
+                                    <tr>
+                                        <th>Rendering url</th>
+                                        <th style="width: 15%;" class="translate">Filename</th>
+                                        <th style="width: 8%;" class="translate">Delay (ms)</th>
+                                        <th style="width: 2%;"></th>
+                                        <th style="width: 2%;"></th>
+                                        <th style="width: 2%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="table-lines table-values visibilityArrowBtn arrow_downwartStartAtZero visibilityDeleteBtn">
+                                    <tr>
+                                        <td> <input class="pic_IDs resetInput checkValue" spellcheck="false"
+                                                type="text">
+                                        </td>
+                                        <td> <input class="pic_fileName resetInput checkValue" spellcheck="false"
+                                                type="text" placeholder="grafana1.png" value="grafana1.png">
+                                        </td>
+                                        <td>
+                                            <input class="pic_picSendDelay resetInput" type="text" spellcheck="false"
+                                                placeholder="5000" value="5000">
+                                        </td>
+                                        <td><a class="deleteRow btn-floating btn-small waves-effect waves-light red"
+                                                disabled><i class="material-icons">delete</i></a></td>
+                                        </td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_down"><i
+                                                    class="material-icons" name="down">arrow_downward</i></a></td>
+                                        <td><a class="btn-floating btn-small waves-effect waves-light blue btn_up"><i
+                                                    class="material-icons" name="up">arrow_upward</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-set" disabled
+                        id="btn_action_set"><i class="large material-icons left">check</i><span
+                            class="translate">Save</span></a>
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-close" id="btn_action_close"><i
+                            class="large material-icons left ">close</i><span class="translate">Close</span></a>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <!-- //SECTION - Menu List, Btns -->
+            <div class="row group_menu" id="group_menu">
+                <div>
+                    <div class="col s4 m2 l2">
+                        <p><i class="material-icons" id="btn_expand">expand_more</i>
+                            <br><span class="translate">Active Menu:</span><br><span class="border"
+                                id="activMenuOutput"></span>
+                        </p>
+                        <ul id="group_list" class="hide">
+                        </ul>
+                    </div>
+                    <div class="col s10 m8 l8 border">
+                        <div class="col s5 input-field ">
+                            <input id="groupname" spellcheck="false" type="text" class="validate">
+                            <label for="groupname" class="translate">Add new Menu Name</label>
+                        </div>
+                        <div class="col s6">
+                            <a class="waves-effect waves-light btn disabled translateT" id="addNewGroup"
+                                title="Add new Menu Name"><i class="material-icons">group_add</i>Add</a>
+                            <a class="waves-effect waves-light btn red translateT" id="deleteUser"
+                                title="Delete Menu"><i class="material-icons">delete</i>Delete</a>
+                            <a class="waves-effect waves-light btn blue translateT" id="editUser" title="Edit Menu"><i
+                                    class="material-icons">edit</i>Edit</a>
+                            <a class="waves-effect waves-light btn green translateT" id="btn_copy_nav" name="nav"
+                                title="Copy Elements from other Menus"><i
+                                    class="material-icons translate ">content_copy</i>Copy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <!-- //SECTION - Row checkboxes User -->
+            <div class="row group_menu">
+                <div class="col s4 m2 l2">
+                    <a class="waves-effect waves-light btn-large green translateT modal-trigger" id="btn_add_action"
+                        name="action" title="Add new Action" data-target="tab_action" style="display: none;"><i
+                            class="material-icons translate ">add</i>Add new Aktion</a>
+                </div>
+                <div class="col s8 border" id="group_UserInput">
+                    <p class="translate description">Users from Telegram</p>
+                </div>
+                <div class="col s2" id="group_active_checkbox">
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <!-- //SECTION -  Warnings -->
+            <div class="row">
+                <div id="userSelection" class="col s8 offset-s2 border hide">
+                    <p class="translate warning">At least one user must be checked, or the menu must be deactivated.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div id="doubleTriggerInSubmenu" class="col s8 offset-s2 border hide">
+                    <p class="translate warning">There are doubled used Triggers:</p>
+                    <p id="doubleUsedTrigger"></p>
+                    <p class="translate">Please check the triggers, save, and reopen this menu to close the error!</p>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div id="triggerAllreadyInUser" class="col s8 offset-s2 border hide">
+                    <p class="translate warning">This triggers are used multiple times</p>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+        </header>
+        <!-- //SECTION - Navigation -->
+        <div id="tab-nav" class="resizeFull" style="display: block;">
+            <div class="row">
+                <div class="col s12 table_wrapper ">
+                    <div class="table-values-div saveTable nav" id="navigation">
+                        <table id="table_nav" class="" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th data-name="name" style="width: 20%; background: #64b5f6 " class="translate">Call
+                                        Text
+                                    </th>
+                                    <th data-name="nav" data-type="string" style="background: #64b5f6">
+                                        Navigation</th>
+                                    <th data-name="text" data-type="string" style="background: #64b5f6; width: 20%;">
+                                        Text</th>
+                                    <th style="background: #64b5f6; width: 40.4px;"></th>
+                                    <th style="background: #64b5f6; width: 40.4px;"></th>
+                                    <th style="background: #64b5f6; width: 40.4px;"></th>
+                                    <th style="background: #64b5f6; width: 40.4px;"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //!SECTION -->
+        <!-- //SECTION - Tab-action -->
+        <div id="tab-action" class="resizeFull" style="display: none;"></div>
+        <!-- //!SECTION -->
+        <!-- //SECTION - Settings -->
+        <div id="tab-settings" style="display: none;">
+            <div class=" row">
+                <div class="col s12">
+                    <h1 class="translate">Settings</h1>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <select id="select_instance" class="materialSelect checkValue">
+                            </select>
+                            <label>Instance</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">
+                            <input id="textNoEntry" spellcheck="false" type="text" class="value translateV"
+                                value="Entry not found!">
+                            <label for="textNoEntry" class="translate">Text will be send if no entry was found!</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <label>
+                                <input id="checkboxNoValueFound" type="checkbox" class="filled-in valCheckbox"
+                                    checked />
+                                <span class="translate">Active</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <label>
+                                <input id="resKey" type="checkbox" class="filled-in valCheckbox" checked />
+                                <span>Resize Keyboard</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s3">
+                            <label>
+                                <input id="oneTiKey" class="filled-in valCheckbox" type="checkbox">
+                                <span>One Time Keyboard</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row distance">
+                        <div class="input-field col s6">
+                            <input id="tokenGrafana" spellcheck="false" type="text" class="validate value">
+                            <label for="tokenGrafana">Token Grafana</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="directory" spellcheck="false" type="text" class="validate value"
+                                placeholder="/opt/iobroker/grafana/" value="/opt/iobroker/grafana/">
+                            <label for="directory" class="translate">Directory</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //!SECTION -->
+        <!-- //SECTION - Popups -->
+        <div class="m material-dialogs">
+            <!-- //SECTION - ID Selektion Iobroker -->
+            <div id="dialog-select-member" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 title"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 dialog-content">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+                            class="large material-icons left">check</i><span class="translate">Select</span></a>
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+                            class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <div id="dialog-change-groupname" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12 title"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 dialog-content">
+                            <div class=" col s12">
+                                <input id="inputEditUser" spellcheck="false" type="text">
+                                <label for="inputEditUser" class="translate">Edit Username</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+                            class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+                            class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+                </div>
+            </div>
+            <!-- //SECTION - Popup Delete Menu confirm -->
+            <div id="dialog-confirm" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12">
+                            <p class="translate center-align">Do you really want to delete the group?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i
+                            class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+                            class="large material-icons left ">close</i><span class="translate">Close</span></a>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <!-- //SECTION - Popup Add Text to Input Field -->
+            <div id="dialog-add-textToInput" class="modal modal-fixed-footer">
+                <div class="modal-content ">
+                    <div class="row">
+                        <div class="col12">
+                            <h5 class="translate center-align">Add text to input field!</h5>
+                            <a id="link-github" href="https://github.com/MiRo1310/ioBroker.telegram-menu/tree/main"
+                                target="_blank">Weitere
+                                Information!</a><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50%;">
+                                            <p>Text</p>
+                                        </th>
+                                        <th>
+                                            <p>Info</p>
+                                        </th>
+                                        <th style="width: 3%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-lines table-values">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" id="editedTextRow">
+                        <div class="col12">
+                            <input id="newText" class="getId" spellcheck="false" type="text" class="validate"><a
+                                class="btn-floating btn-small waves-effect waves-light blue btn_getID" title="Get ID"
+                                style="display: none;"><i class="material-icons">edit</i></a>
+                            <label for="newText">Editable Text</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-setText"><i
+                            class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+                            class="large material-icons left ">close</i><span class="translate">Close</span></a>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+            <!-- //SECTION - Copy Data -->
+            <div id="dialog-copy-data" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <select id="select-copy-data">
+                                <option value="" disabled selected>Choose your option</option>
+                                <!-- <option value="nav">Navigation</option> -->
+                                <option value="set">SetState</option>
+                                <option value="get">GetState</option>
+                                <option value="pic">Send Picture</option>
+                            </select>
+                            <label class="translate">Copy Data</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="copyData" class="col s12 ">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i
+                            class="large material-icons left ">close</i><span class="translate">Close</span></a>
+                </div>
+            </div>
+            <!-- //!SECTION -->
+
+        </div>
+        <!-- //!SECTION -->
+    </div>
+</body>
+
+</html>

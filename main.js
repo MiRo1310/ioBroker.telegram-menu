@@ -116,7 +116,9 @@ class TelegramMenu extends utils.Adapter {
 						this.log.error(JSON.stringify(err.stack));
 					}
 					this.log.debug("Checkbox " + JSON.stringify(checkbox));
-
+					this.config.test = "test";
+					this.config.allData = menuData;
+					this.log.debug("MenuData: " + JSON.stringify(this.config.allData));
 					try {
 						this.log.debug("MenuList: " + JSON.stringify(listofMenus));
 						listofMenus.forEach((menu) => {
