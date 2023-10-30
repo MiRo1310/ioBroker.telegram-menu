@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/style.css"],
+  "sourcesContent": [".input {\r\n\tcolor: blue;\r\n\tbackground-color: aquamarine;\r\n\twidth: 200px;\r\n}\r\n"],
+  "mappings": "AAAA,OACC,WACA,yBACA",
+  "names": []
+}
