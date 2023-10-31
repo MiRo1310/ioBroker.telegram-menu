@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { onClickButton } from "../lib/action";
+import { onEvent } from "../lib/action";
 
 class Button extends Component {
 	constructor(props) {
@@ -10,8 +10,8 @@ class Button extends Component {
 		this.eventOnclickButton = this.eventOnclickButton.bind(this);
 	}
 
-	eventOnclickButton = () => {
-		onClickButton(this.props.events, this.props.onchange);
+	eventOnclickButton = (event) => {
+		onEvent(event, this.props.callback, this.props.item);
 	};
 
 	render() {

@@ -2,33 +2,18 @@ import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 
 import Button from "./Button";
+import BtnSmallEdit from "./btn/btn-small-edit";
+import BtnSmallRemove from "./btn/btn-small-remove";
+import BtnSmallAdd from "./btn/btn-small-add";
+import BtnSmallUp from "./btn/btn-small-up";
+import BtnSmallDown from "./btn/btn-small-down";
 
 function createData(call, nav, text) {
-	const remove = (
-		<Button b_color="red" color="white" title="Delete" small="true" round="true">
-			<i className="material-icons">delete</i>Delete
-		</Button>
-	);
-	const add = (
-		<Button b_color="#ddd" title="Add" small="true" round="true">
-			<i className="material-icons">group_add</i>
-		</Button>
-	);
-	const edit = (
-		<Button b_color="green" color="white" title="Edit" small="true" round="true">
-			<i className="material-icons">edit</i>
-		</Button>
-	);
-	const up = (
-		<Button b_color="blue" color="white" title="Move down" small="true" round="true">
-			<i className="material-icons">arrow_upward</i>
-		</Button>
-	);
-	const down = (
-		<Button b_color="blue" color="white" title="Move Up" small="true" round="true">
-			<i className="material-icons">arrow_downwardy</i>
-		</Button>
-	);
+	const remove = <BtnSmallRemove />;
+	const add = <BtnSmallAdd />;
+	const edit = <BtnSmallEdit />;
+	const up = <BtnSmallUp />;
+	const down = <BtnSmallDown />;
 
 	return { call, nav, text, remove, add, edit, up, down };
 }

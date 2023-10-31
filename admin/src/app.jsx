@@ -102,7 +102,7 @@ class App extends GenericApp {
 					</Grid>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
-							<MenuHeader active={this.state.activeMenu} showCard={this.state.showMenu} onchange={{ setState: this.setState, state: this.state }}></MenuHeader>
+							<MenuHeader active={this.state.activeMenu} showCard={this.state.showMenu} callback={{ setState: this.setState, state: this.state }}></MenuHeader>
 						</Grid>
 						<Item>
 							<Box sx={{ width: "100%", typography: "body1" }}>
