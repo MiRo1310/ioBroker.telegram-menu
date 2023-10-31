@@ -56,6 +56,14 @@ input[type="checkbox"] {
 	height: 20px;
 	margin-top: 20px;
 }
+.Select span {
+	display: block;
+	margin-left: 5px;
+}
+.Select select {
+	margin: 5px;
+	font-size: 16px;
+}
 
 /* Popup */
 .menuPopup {

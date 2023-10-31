@@ -10,6 +10,7 @@ import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
 import MenuNavigation from "./components/navigation";
+import getIobrokerData from "./lib/socket";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -57,6 +58,7 @@ class App extends GenericApp {
 			tab: "1",
 			activeMenu: "",
 			showMenu: false,
+			instances: [],
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -64,14 +66,10 @@ class App extends GenericApp {
 
 	onConnectionReady() {
 		// executed when connection is ready
-		try {
-			this.socket.getObjectViewCustom("custom", "telegram", "", "\u9999").then((objects) => {
-				console.log(objects);
-				Object.keys(objects).forEach((obj) => console.log(obj._id));
-			});
-		} catch (err) {
-			console.log(err);
-		}
+		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
+			console.log(data);
+			this.setState({ instances: data });
+		});
 
 		if (this.state.native.data) {
 			const newData = JSON.parse(JSON.stringify(this.state.native.data));
@@ -136,7 +134,15 @@ class App extends GenericApp {
 									</TabPanel>
 									<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
 									<TabPanel value="3" className={this.props.classes.tab}>
-										<Settings></Settings>
+										<Settings
+											instances={this.state.instances}
+											data={{
+												instanceSelect: this.state.native.instance,
+												setState: this.setState,
+												state: this.state,
+												updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+											}}
+										></Settings>
 									</TabPanel>
 								</TabContext>
 							</Box>

@@ -21,7 +21,15 @@ class Settings extends Component {
 				<h1>{I18n.t("Settings")}</h1>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
-						<Select options={this.state.options} placeholder="--Please choose an option--" label="Instance" name="instance"></Select>
+						<Select
+							options={this.props.instances}
+							placeholder="--Please choose a instance--"
+							label="Instance"
+							name="instance"
+							selected={this.props.data.instanceSelect}
+							id="instanceSelect"
+							data={this.props.data}
+						></Select>
 					</Grid>
 					<Grid item xs={6}>
 						<Input label="Text will be send, when nothing found!" placeholder="No entry found" onChangeValue={this.onChangeValue} />
