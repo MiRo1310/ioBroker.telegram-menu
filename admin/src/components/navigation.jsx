@@ -49,7 +49,6 @@ class MenuNavigation extends Component {
 								</TableCell>
 								<TableCell align="right">{row.nav}</TableCell>
 								<TableCell align="right">{row.text}</TableCell>
-
 								<TableCell align="center" className="cellIcon">
 									<BtnSmallAdd />
 								</TableCell>

@@ -59,3 +59,11 @@ input:focus {
 	display: inline-block;
 	width: 24px;
 }
+.HeaderThirdRow-ButtonAction {
+	display: inline-block;
+	width: 200px;
+}
+.TeleGrammUsers {
+	display: inline-block;
+	width: 200px;
+}

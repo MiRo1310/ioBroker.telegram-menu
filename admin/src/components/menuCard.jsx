@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-class MenuCard extends Component {
+class MenuPopupCard extends Component {
 	render() {
 		return <div className="menuPopup"></div>;
 	}
 }
-export default MenuCard;
+export default MenuPopupCard;

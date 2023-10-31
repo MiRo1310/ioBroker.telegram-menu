@@ -24,7 +24,7 @@ class Button extends Component {
 			display: "inline-block",
 			fontSize: "16px",
 			border: this.props.border ? this.props.border : "none",
-			width: this.props.small === "true" ? "30px" : "80%",
+			width: this.props.small === "true" ? "30px" : "80%" || this.props.width ? this.props.width : "80%",
 			minWidth: this.props.small === "true" ? "30px" : "60px",
 			height: this.props.small === "true" ? "30px" : "50px",
 			margin: this.props.margin || "0px 0px 0px 0px",

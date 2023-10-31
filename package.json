@@ -24,8 +24,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@iobroker/adapter-core": "^3.0.3",
-    "@mui/lab": "^5.0.0-alpha.150",
-    "@mui/styled-engine-sc": "^6.0.0-alpha.3",
+    
     "styled-components": "^6.1.0"
   },
   "devDependencies": {
@@ -40,6 +39,8 @@
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
     "@mui/styles": "^5.14.15",
+    "@mui/lab": "^5.0.0-alpha.150",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.3",
     "@tsconfig/node16": "^16.1.0",
     "@types/chai": "^4.3.5",
     "@types/chai-as-promised": "^7.1.5",
