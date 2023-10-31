@@ -43,6 +43,7 @@ class TelegramMenu extends utils.Adapter {
 	}
 	async onReady() {
 		this.setState("info.connection", false, true);
+		// @ts-ignore
 		let instanceTelegram = this.config.instance;
 		if (!instanceTelegram || instanceTelegram.length == 0) instanceTelegram = "telegram.0";
 		const telegramID = `${instanceTelegram}.communicate.request`;
@@ -53,17 +54,26 @@ class TelegramMenu extends utils.Adapter {
 		/**
 		 * @type {{}}
 		 */
+		// @ts-ignore
 		const checkbox = this.config.checkbox;
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
+		// @ts-ignore
 		const listofMenus = this.config.users;
+		// @ts-ignore
 		const startsides = this.config.startsides;
+		// @ts-ignore
 		const token = this.config.tokenGrafana;
+		// @ts-ignore
 		const directoryPicture = this.config.directory;
+		// @ts-ignore
 		const userActiveCheckbox = this.config.userActiveCheckbox;
+		// @ts-ignore
 		const groupsWithUsers = this.config.usersInGroup;
+		// @ts-ignore
 		const textNoEntryFound = this.config.textNoEntry;
+		// @ts-ignore
 		const userListWithChatID = this.config.userListWithChatID;
 		const menuData = {
 			data: {},
@@ -89,6 +99,7 @@ class TelegramMenu extends utils.Adapter {
 					this.log.info("Telegram was found");
 					this.setState("info.connection", true, true);
 
+					// @ts-ignore
 					const data = this.config.data;
 					const nav = data["nav"];
 					const action = data["action"];
