@@ -14,7 +14,7 @@ class HeaderThirdRow extends Component {
 			<Grid container spacing={2}>
 				<Grid item xs={2}>
 					<div className="HeaderThirdRow-ButtonAction">
-						<Button b_color="#96d15a" title="Add new Action" width="200px" margin="0 18px">
+						<Button b_color="#96d15a" title="Add new Action" width="200px" margin="0 18px" height="50px">
 							<i className="material-icons translate">add</i>Add new Aktion
 						</Button>
 					</div>

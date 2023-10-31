@@ -65,9 +65,14 @@ class App extends GenericApp {
 
 	onConnectionReady() {
 		// executed when connection is ready
-		// this.socket.getObjectViewCustom("instance", "startKey", "endKey").then((objects) => {
-		// 	Object.keys(objects).forEach((obj) => console.log(obj._id));
-		// });
+		try {
+			this.socket.getObjectViewCustom("telegram", "state", "", "\u9999").then((objects) => {
+				console.log(objects);
+				Object.keys(objects).forEach((obj) => console.log(obj._id));
+			});
+		} catch (err) {
+			console.log(err);
+		}
 
 		if (this.state.native.data) {
 			const newData = JSON.parse(JSON.stringify(this.state.native.data));

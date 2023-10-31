@@ -18,15 +18,15 @@ class Button extends Component {
 		const buttonStyle = {
 			backgroundColor: this.props.b_color || "#ddd",
 			color: this.props.color || "black",
-			padding: this.props.small === "true" ? "2px" : "8px 32px",
+			padding: this.props.small === "true" ? "2px" : "8px 32px" || this.props.padding ? this.props.padding : "8px 32px",
 			textAlign: "center",
 			textDecoration: "none",
 			display: "inline-block",
-			fontSize: "16px",
+			fontSize: this.props.fontSize ? this.props.fontSize : "12px",
 			border: this.props.border ? this.props.border : "none",
 			width: this.props.small === "true" ? "30px" : "80%" || this.props.width ? this.props.width : "80%",
 			minWidth: this.props.small === "true" ? "30px" : "60px",
-			height: this.props.small === "true" ? "30px" : "50px",
+			height: this.props.small === "true" ? "30px" : "50px" || this.props.height ? this.props.height : "50px",
 			margin: this.props.margin || "0px 0px 0px 0px",
 			borderRadius: this.props.round === "true" ? "50%" : "0px" || this.props.round ? this.props.round : "0px",
 		};
