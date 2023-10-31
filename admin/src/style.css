@@ -14,7 +14,7 @@
 	padding: 0px !important;
 }
 .cellIcon {
-	padding: 0px !important;
+	padding: 1px !important;
 }
 
 .MenuHeader-ActiveMenu {
@@ -31,8 +31,13 @@ button {
 	cursor: pointer;
 }
 
-input {
-	margin-left: 5pxpx !important;
+input,
+input ~ p {
+	margin-left: 5px !important;
+}
+input ~ p {
+	margin-top: 0px !important;
+	display: inline-block;
 }
 input:focus {
 	outline: none;
@@ -43,17 +48,23 @@ input:focus {
 .odd {
 	background-color: #fff;
 }
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	margin-top: 20px;
+}
 
 /* Popup */
 .menuPopup {
 	display: inline-block;
 	width: 180px;
-	height: 250px;
 	background-color: #ddd;
 	position: absolute;
 	z-index: 5;
 	top: 98px;
 	left: 20px;
+	border: 1px solid #333;
+	border-radius: 4px;
 }
 .MenuHeader-menuPopupCard {
 	display: inline-block;
@@ -66,4 +77,9 @@ input:focus {
 .TeleGrammUsers {
 	display: inline-block;
 	width: 200px;
+}
+
+/* Settings */
+.Settings h1 {
+	margin: 0px;
 }
