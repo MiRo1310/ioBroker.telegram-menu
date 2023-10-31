@@ -3,11 +3,13 @@ import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
 import Setting from "./components/settings_alt";
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
-import MenuHeader from "./components/menuHeader";
+import MenuHeader from "./components/HeaderMenu";
 import MenuNavigation from "./components/navigation";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
 import { withStyles } from "@mui/styles";
+import getIobrokerData from "./lib/emit";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -33,17 +35,17 @@ class App extends GenericApp {
 			...props,
 			encryptedFields: [],
 			translations: {
-				en: require("./i18n/en.json"),
-				de: require("./i18n/de.json"),
-				ru: require("./i18n/ru.json"),
-				pt: require("./i18n/pt.json"),
-				nl: require("./i18n/nl.json"),
-				fr: require("./i18n/fr.json"),
-				it: require("./i18n/it.json"),
-				es: require("./i18n/es.json"),
-				pl: require("./i18n/pl.json"),
-				uk: require("./i18n/uk.json"),
-				"zh-cn": require("./i18n/zh-cn.json"),
+				en: require("../../admin/i18n/en/translations.json"),
+				de: require("../../admin/i18n/de/translations.json"),
+				ru: require("../../admin/i18n/ru/translations.json"),
+				pt: require("../../admin/i18n/pt/translations.json"),
+				nl: require("../../admin/i18n/nl/translations.json"),
+				fr: require("../../admin/i18n/fr/translations.json"),
+				it: require("../../admin/i18n/it/translations.json"),
+				es: require("../../admin/i18n/es/translations.json"),
+				pl: require("../../admin/i18n/pl/translations.json"),
+				uk: require("../../admin/i18n/uk/translations.json"),
+				"zh-cn": require("../../admin/i18n/zh-cn/translations.json"),
 			},
 		};
 		super(props, extendedProps);
@@ -61,6 +63,55 @@ class App extends GenericApp {
 
 	onConnectionReady() {
 		// executed when connection is ready
+		// this.socket
+		// 	.getSystemConfig()
+		// 	.then((systemConfig) => {
+		// 		newState.systemConfig = systemConfig;
+		// 		return this.readConfig();
+		// 	})
+		// 	.then((config) => {
+		// 		console.log(config);
+		// 		// newState.config = config || false;
+		// 		// newState.ready = true;
+		// 		// this.setState(newState);
+		// 		// if (config.language !== I18n.getLanguage() && config.language) {
+		// 		// 	I18n.setLanguage(config.language);
+		// 		// }
+		// 	})
+		// 	.catch((e) => this.showError(e));
+
+		// this.socket.emit("getState", "telegram.0" + ".communicate.users", (err, state) => {
+		// 	if (state && !err) {
+		// 		resolve(state);
+		// 	} else if (err) {
+		// 		reject(err);
+		// 		_this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
+		// 	}
+		// });
+		// this.props.socket._socket.emit("getObjectView", "system", "instance", { startkey: "system.adapter.", endkey: "system.adapter.\u9999" }, function (err, doc) {
+		// 	if (!err && doc.rows.length) {
+		// 		for (let i = 0; i < doc.rows.length; i++) {
+		// 			console.log(doc.rows[i]);
+		// 			if (
+		// 				(doc.rows[i].value &&
+		// 					doc.rows[i].value.common &&
+		// 					doc.rows[i].value.common.titleLang &&
+		// 					doc.rows[i].value.common.titleLang.en &&
+		// 					doc.rows[i].value.common.titleLang.en == "Telegram") ||
+		// 				doc.rows[i].value.common.title == "Telegram"
+		// 			) {
+		// 				id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
+		// 			}
+		// 			if (i == doc.rows.length - 1) {
+		// 				id.forEach((id) => {
+		// 					// @ts-ignore
+		// 					// $("#select_instance").append(newSelectInstanceRow(id));
+		// 				});
+		// 				console.log("Instancen: " + id);
+		// 			}
+		// 		}
+		// 	} else if (err) _this.log.debug("Error all Telegram Users: " + JSON.stringify(err));
+		// });
 
 		if (this.state.native.data) {
 			const newData = JSON.parse(JSON.stringify(this.state.native.data));
@@ -81,6 +132,9 @@ class App extends GenericApp {
 			return super.render();
 		}
 
+		const { translations } = this.props;
+		console.log(translations);
+
 		return (
 			<div className="App row">
 				<Grid container spacing={1}>
@@ -98,6 +152,10 @@ class App extends GenericApp {
 								changed={this.state.changed}
 								onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
 							></HeaderIconBar>
+							<p>---</p>
+							<p>{I18n.t("Add")}</p>
+
+							<br></br>
 						</Item>
 					</Grid>
 					<Grid item xs={12}>
