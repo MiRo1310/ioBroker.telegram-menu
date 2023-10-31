@@ -9,22 +9,22 @@ class BtnCard extends Component {
 				<Grid item xs={4}>
 					<Input label="Add new Menu Name" width="80%"></Input>
 				</Grid>
-				<Grid item xs={2}>
+				<Grid item xs={1}>
 					<Button b_color="#ddd" margin="10px">
 						<i className="material-icons">group_add</i>Add
 					</Button>
 				</Grid>
-				<Grid item xs={2}>
+				<Grid item xs={1}>
 					<Button b_color="red" color="white" margin="10px">
 						<i className="material-icons">delete</i>Delete
 					</Button>
 				</Grid>
-				<Grid item xs={2}>
+				<Grid item xs={1}>
 					<Button b_color="blue" color="white" margin="10px">
 						<i className="material-icons">edit</i>Edit
 					</Button>
 				</Grid>
-				<Grid item xs={2}>
+				<Grid item xs={1}>
 					<Button b_color="green" color="white" margin="10px">
 						<i className="material-icons translate ">content_copy</i>Copy
 					</Button>
