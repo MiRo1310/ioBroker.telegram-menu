@@ -3,12 +3,14 @@ import Input from "./btn-Input/input";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "./btn-Input/checkbox";
 import { I18n } from "@iobroker/adapter-react-v5";
+import Select from "./btn-Input/select";
 
 class Settings extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			value: "/opt/iobroker/grafana/",
+			options: ["One", "Two", "Three"],
 		};
 		this.onChangeValue = this.onChangeValue.bind(this);
 	}
@@ -19,7 +21,7 @@ class Settings extends Component {
 				<h1>{I18n.t("Settings")}</h1>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
-						<p>1</p>
+						<Select options={this.state.options} placeholder="--Please choose an option--" label="Instance" name="instance"></Select>
 					</Grid>
 					<Grid item xs={6}>
 						<Input label="Text will be send, when nothing found!" placeholder="No entry found" onChangeValue={this.onChangeValue} />

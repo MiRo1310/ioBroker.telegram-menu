@@ -23,8 +23,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@iobroker/adapter-core": "^3.0.3",
-    
+    "@iobroker/adapter-core": "^3.0.3",    
     "styled-components": "^6.1.0"
   },
   "devDependencies": {

@@ -1,16 +1,15 @@
 import React from "react";
 import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
-import Setting from "./components/settings_alt";
+import { TabList, TabPanel, TabContext } from "@mui/lab";
+import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
+import { withStyles } from "@mui/styles";
+import { I18n } from "@iobroker/adapter-react-v5";
+import { AdminConnection } from "@iobroker/adapter-react-v5";
+
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
 import MenuNavigation from "./components/navigation";
-import { TabList, TabPanel, TabContext } from "@mui/lab";
-import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
-import { withStyles } from "@mui/styles";
-import getIobrokerData from "./lib/emit";
-import { I18n } from "@iobroker/adapter-react-v5";
-import { AdminConnection } from "@iobroker/adapter-react-v5";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -66,7 +65,7 @@ class App extends GenericApp {
 	onConnectionReady() {
 		// executed when connection is ready
 		try {
-			this.socket.getObjectViewCustom("telegram", "state", "", "\u9999").then((objects) => {
+			this.socket.getObjectViewCustom("custom", "telegram", "", "\u9999").then((objects) => {
 				console.log(objects);
 				Object.keys(objects).forEach((obj) => console.log(obj._id));
 			});

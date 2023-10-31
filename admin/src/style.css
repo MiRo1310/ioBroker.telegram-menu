@@ -7,6 +7,9 @@
 	height: 40px;
 	/* background-color: black !important; */
 }
+.Tab-Header button {
+	margin-left: 5px;
+}
 
 /* NavigationMenu */
 
