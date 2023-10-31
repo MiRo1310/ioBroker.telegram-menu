@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TelegramUserCard from "./TelegramUserCard";
-import Button from "./Button";
+import Button from "./btn-Input/Button";
 import Grid from "@material-ui/core/Grid";
 
 class HeaderThirdRow extends Component {

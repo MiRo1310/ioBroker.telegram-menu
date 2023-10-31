@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { onEvent } from "../lib/action";
+import { onEvent } from "../../lib/action";
 
 class Button extends Component {
 	constructor(props) {

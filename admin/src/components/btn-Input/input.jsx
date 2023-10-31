@@ -14,17 +14,17 @@ const styles = (_theme) => ({
 		borderBottom: "1px solid #ccc",
 	},
 });
-class InputField extends Component {
+class Input extends Component {
 	render() {
 		return (
 			<div className="InputField">
 				<label>
 					<input type="text" className={this.props.classes.input} placeholder={this.props.placeholder} value={this.props.value} />
-					{this.props.label}
+					<p>{this.props.label}</p>
 				</label>
 			</div>
 		);
 	}
 }
 
-export default withStyles(styles)(InputField);
+export default withStyles(styles)(Input);

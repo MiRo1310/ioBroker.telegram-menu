@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+import { I18n } from "@iobroker/adapter-react-v5";
 
-import Button from "./Button";
-import BtnSmallEdit from "./btn/btn-small-edit";
-import BtnSmallRemove from "./btn/btn-small-remove";
-import BtnSmallAdd from "./btn/btn-small-add";
-import BtnSmallUp from "./btn/btn-small-up";
-import BtnSmallDown from "./btn/btn-small-down";
+import BtnSmallEdit from "./btn-Input/btn-small-edit";
+import BtnSmallRemove from "./btn-Input/btn-small-remove";
+import BtnSmallAdd from "./btn-Input/btn-small-add";
+import BtnSmallUp from "./btn-Input/btn-small-up";
+import BtnSmallDown from "./btn-Input/btn-small-down";
 
 function createData(call, nav, text) {
 	return { call, nav, text };
@@ -31,9 +31,9 @@ class MenuNavigation extends Component {
 				<Table sx={{ minWidth: "250px", width: "99%", overflow: "hidden" }} aria-label="simple table">
 					<TableHead>
 						<TableRow>
-							<TableCell align="left">Call</TableCell>
-							<TableCell align="right">Navigation</TableCell>
-							<TableCell align="right">Text</TableCell>
+							<TableCell align="left">{I18n.t("Trigger")}</TableCell>
+							<TableCell align="right">{I18n.t("Navigation")}</TableCell>
+							<TableCell align="right">{I18n.t("Text")}</TableCell>
 							<TableCell align="center" className="cellIcon"></TableCell>
 							<TableCell align="center" className="cellIcon"></TableCell>
 							<TableCell align="center" className="cellIcon"></TableCell>

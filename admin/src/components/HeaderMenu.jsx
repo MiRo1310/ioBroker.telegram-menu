@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
-import Button from "./Button";
+import Button from "./btn-Input/Button";
 import BtnCard from "./btnCard";
-import MenuPopupCard from "./menuCard";
+import MenuPopupCard from "./menuPopupCard";
 import { onEvent } from "../lib/action";
 import HeaderThirdRow from "./HeaderThirdRow";
 
-class MenuHeader extends Component {
+class HeaderMenu extends Component {
 	eventOnMouse = (event) => {
 		onEvent(event, this.props.callback, "menuCard");
 	};
@@ -18,7 +18,7 @@ class MenuHeader extends Component {
 						<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" item="menuCard" callback={this.props.callback}>
 							<i className="material-icons">expand_more</i>
 						</Button>
-						{this.props.showCard ? <MenuPopupCard></MenuPopupCard> : null}
+						{this.props.showCard ? <MenuPopupCard usersInGroup={this.props.usersInGroup}></MenuPopupCard> : null}
 					</div>
 					<div className="MenuHeader-ActiveMenu">
 						<p className="translate">Active Menu:</p>
@@ -37,4 +37,4 @@ class MenuHeader extends Component {
 	}
 }
 
-export default MenuHeader;
+export default HeaderMenu;

@@ -3,13 +3,14 @@ import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
 import Setting from "./components/settings_alt";
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
-import MenuHeader from "./components/HeaderMenu";
+import HeaderMenu from "./components/HeaderMenu";
 import MenuNavigation from "./components/navigation";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import getIobrokerData from "./lib/emit";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { AdminConnection } from "@iobroker/adapter-react-v5";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -34,6 +35,7 @@ class App extends GenericApp {
 		const extendedProps = {
 			...props,
 			encryptedFields: [],
+			Connection: AdminConnection,
 			translations: {
 				en: require("../../admin/i18n/en/translations.json"),
 				de: require("../../admin/i18n/de/translations.json"),
@@ -63,60 +65,14 @@ class App extends GenericApp {
 
 	onConnectionReady() {
 		// executed when connection is ready
-		// this.socket
-		// 	.getSystemConfig()
-		// 	.then((systemConfig) => {
-		// 		newState.systemConfig = systemConfig;
-		// 		return this.readConfig();
-		// 	})
-		// 	.then((config) => {
-		// 		console.log(config);
-		// 		// newState.config = config || false;
-		// 		// newState.ready = true;
-		// 		// this.setState(newState);
-		// 		// if (config.language !== I18n.getLanguage() && config.language) {
-		// 		// 	I18n.setLanguage(config.language);
-		// 		// }
-		// 	})
-		// 	.catch((e) => this.showError(e));
-
-		// this.socket.emit("getState", "telegram.0" + ".communicate.users", (err, state) => {
-		// 	if (state && !err) {
-		// 		resolve(state);
-		// 	} else if (err) {
-		// 		reject(err);
-		// 		_this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
-		// 	}
-		// });
-		// this.props.socket._socket.emit("getObjectView", "system", "instance", { startkey: "system.adapter.", endkey: "system.adapter.\u9999" }, function (err, doc) {
-		// 	if (!err && doc.rows.length) {
-		// 		for (let i = 0; i < doc.rows.length; i++) {
-		// 			console.log(doc.rows[i]);
-		// 			if (
-		// 				(doc.rows[i].value &&
-		// 					doc.rows[i].value.common &&
-		// 					doc.rows[i].value.common.titleLang &&
-		// 					doc.rows[i].value.common.titleLang.en &&
-		// 					doc.rows[i].value.common.titleLang.en == "Telegram") ||
-		// 				doc.rows[i].value.common.title == "Telegram"
-		// 			) {
-		// 				id.push(doc.rows[i].id.replace(/^system\.adapter\./, ""));
-		// 			}
-		// 			if (i == doc.rows.length - 1) {
-		// 				id.forEach((id) => {
-		// 					// @ts-ignore
-		// 					// $("#select_instance").append(newSelectInstanceRow(id));
-		// 				});
-		// 				console.log("Instancen: " + id);
-		// 			}
-		// 		}
-		// 	} else if (err) _this.log.debug("Error all Telegram Users: " + JSON.stringify(err));
+		// this.socket.getObjectViewCustom("instance", "startKey", "endKey").then((objects) => {
+		// 	Object.keys(objects).forEach((obj) => console.log(obj._id));
 		// });
 
 		if (this.state.native.data) {
 			const newData = JSON.parse(JSON.stringify(this.state.native.data));
 			this.setState({ data: newData }, () => {
-				console.log(this.state.data);
+				console.log(this.state.native);
 				const firstKey = Object.keys(this.state.data.nav)[0];
 				this.setState({ activeMenu: firstKey });
 			});
@@ -131,9 +87,6 @@ class App extends GenericApp {
 		if (!this.state.loaded) {
 			return super.render();
 		}
-
-		const { translations } = this.props;
-		console.log(translations);
 
 		return (
 			<div className="App row">
@@ -152,15 +105,17 @@ class App extends GenericApp {
 								changed={this.state.changed}
 								onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
 							></HeaderIconBar>
-							<p>---</p>
-							<p>{I18n.t("Add")}</p>
-
-							<br></br>
 						</Item>
 					</Grid>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
-							<MenuHeader active={this.state.activeMenu} showCard={this.state.showMenu} callback={{ setState: this.setState, state: this.state }}></MenuHeader>
+							{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
+							<HeaderMenu
+								active={this.state.activeMenu}
+								showCard={this.state.showMenu}
+								callback={{ setState: this.setState, state: this.state }}
+								usersInGroup={this.state.native.usersInGroup}
+							></HeaderMenu>
 						</Grid>
 						<Item>
 							<Box sx={{ width: "100%", typography: "body1" }}>
