@@ -8,12 +8,12 @@ class MenuHeader extends Component {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={2}>
-					<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" events="menuCard">
+					<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" events="menuCard" onchange={this.props.onchange}>
 						<i className="material-icons" id="btn_expand">
 							expand_more
 						</i>
 					</Button>
-					{/* {this.props.menuCard ? <MenuCard></MenuCard> : null} */}
+					{this.props.showCard ? <MenuCard></MenuCard> : null}
 
 					<div className="MenuHeader-ActiveMenu">
 						<p className="translate">Active Menu:</p>

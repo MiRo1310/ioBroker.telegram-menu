@@ -8,7 +8,6 @@ import MenuNavigation from "./components/navigation";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
 import { withStyles } from "@mui/styles";
-import MenuCard from "./components/menuCard";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -16,7 +15,7 @@ import MenuCard from "./components/menuCard";
 const styles = (_theme) => ({
 	root: {},
 	tab: {
-		height: "calc(100vh - 100px)",
+		height: "calc(100vh - 355px)",
 		overflow: "auto",
 	},
 });
@@ -27,11 +26,6 @@ const Item = styled(Paper)(({ theme }) => ({
 	textAlign: "left",
 	color: theme.palette.text.secondary,
 }));
-export function onClickButton(event) {
-	console.log(event);
-	if (event === "menuCard") {
-	}
-}
 
 class App extends GenericApp {
 	constructor(props) {
@@ -77,7 +71,6 @@ class App extends GenericApp {
 			});
 		}
 	}
-	setState() {}
 
 	handleChange(event, val) {
 		this.setState({ tab: val });
@@ -109,7 +102,7 @@ class App extends GenericApp {
 					</Grid>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
-							<MenuHeader active={this.state.activeMenu} menuCard={this.state.showMenu}></MenuHeader>
+							<MenuHeader active={this.state.activeMenu} showCard={this.state.showMenu} onchange={{ setState: this.setState, state: this.state }}></MenuHeader>
 						</Grid>
 						<Item>
 							<Box sx={{ width: "100%", typography: "body1" }}>
@@ -144,3 +137,4 @@ class App extends GenericApp {
 }
 
 export default withStyles(styles)(App);
+export { App };

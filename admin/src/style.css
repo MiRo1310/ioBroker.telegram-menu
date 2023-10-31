@@ -37,6 +37,14 @@ input {
 input:focus {
 	outline: none;
 }
+.even {
+	background-color: #eee;
+}
+.odd {
+	background-color: #fff;
+}
+
+/* Popup */
 .menuPopup {
 	display: inline-block;
 	width: 180px;

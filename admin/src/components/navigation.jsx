@@ -33,8 +33,8 @@ function createData(call, nav, text) {
 	return { call, nav, text, remove, add, edit, up, down };
 }
 let rows = [];
-
 function getRows(element) {
+	rows = [];
 	for (let entry of element) {
 		rows.push(createData(entry.call, entry.value, entry.text));
 	}
@@ -48,13 +48,12 @@ class MenuNavigation extends Component {
 		if (this.props.nav) getRows(this.props.nav.Gruppe_1);
 		return (
 			<TableContainer component={Paper}>
-				<Table sx={{ minWidth: 250 }} aria-label="simple table">
+				<Table sx={{ minWidth: "250px", width: "99%", overflow: "hidden" }} aria-label="simple table">
 					<TableHead>
 						<TableRow>
 							<TableCell align="left">Call</TableCell>
 							<TableCell align="right">Navigation</TableCell>
 							<TableCell align="right">Text</TableCell>
-
 							<TableCell align="center" className="cellIcon"></TableCell>
 							<TableCell align="center" className="cellIcon"></TableCell>
 							<TableCell align="center" className="cellIcon"></TableCell>
@@ -64,7 +63,7 @@ class MenuNavigation extends Component {
 					</TableHead>
 					<TableBody>
 						{rows.map((row, index) => (
-							<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 1 } }}>
+							<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} className={index % 2 === 0 ? "even" : "odd"}>
 								<TableCell component="th" scope="row">
 									{row.call}
 								</TableCell>
