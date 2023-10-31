@@ -8,6 +8,7 @@ import MenuNavigation from "./components/navigation";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
 import { withStyles } from "@mui/styles";
+import MenuCard from "./components/menuCard";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -26,6 +27,11 @@ const Item = styled(Paper)(({ theme }) => ({
 	textAlign: "left",
 	color: theme.palette.text.secondary,
 }));
+export function onClickButton(event) {
+	console.log(event);
+	if (event === "menuCard") {
+	}
+}
 
 class App extends GenericApp {
 	constructor(props) {
@@ -52,13 +58,27 @@ class App extends GenericApp {
 			native: {},
 			data: {},
 			tab: "1",
+			activeMenu: "",
+			showMenu: false,
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.setState = this.setState.bind(this);
 	}
 
 	onConnectionReady() {
 		// executed when connection is ready
+
+		if (this.state.native.data) {
+			const newData = JSON.parse(JSON.stringify(this.state.native.data));
+			this.setState({ data: newData }, () => {
+				console.log(this.state.data);
+				const firstKey = Object.keys(this.state.data.nav)[0];
+				this.setState({ activeMenu: firstKey });
+			});
+		}
 	}
+	setState() {}
+
 	handleChange(event, val) {
 		this.setState({ tab: val });
 	}
@@ -67,7 +87,6 @@ class App extends GenericApp {
 		if (!this.state.loaded) {
 			return super.render();
 		}
-		console.log(this.state.native);
 
 		return (
 			<div className="App row">
@@ -90,7 +109,7 @@ class App extends GenericApp {
 					</Grid>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
-							<MenuHeader></MenuHeader>
+							<MenuHeader active={this.state.activeMenu} menuCard={this.state.showMenu}></MenuHeader>
 						</Grid>
 						<Item>
 							<Box sx={{ width: "100%", typography: "body1" }}>
@@ -103,11 +122,9 @@ class App extends GenericApp {
 										</TabList>
 									</Box>
 									<TabPanel value="1" className={this.props.classes.tab}>
-										<MenuNavigation nav={this.state.native.data.nav}></MenuNavigation>
+										<MenuNavigation nav={this.state.data.nav}></MenuNavigation>
 									</TabPanel>
-									<TabPanel value="2" className={this.props.classes.tab}>
-										Item Two
-									</TabPanel>
+									<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
 									<TabPanel value="3" className={this.props.classes.tab}>
 										<Settings></Settings>
 									</TabPanel>

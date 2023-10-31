@@ -2,24 +2,28 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "./Button";
 import BtnCard from "./btnCard";
+import MenuCard from "./menuCard";
 class MenuHeader extends Component {
 	render() {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={2}>
-					<p>
-						<Button b_color="#ddd" small="true" margin="0 5px 0 20px">
-							<i className="material-icons" id="btn_expand">
-								expand_more
-							</i>
-						</Button>
+					<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" events="menuCard">
+						<i className="material-icons" id="btn_expand">
+							expand_more
+						</i>
+					</Button>
+					{/* {this.props.menuCard ? <MenuCard></MenuCard> : null} */}
 
-						<span className="translate">Active Menu:</span>
-						<span className="border" id="activMenuOutput"></span>
-					</p>
+					<div className="MenuHeader-ActiveMenu">
+						<p className="translate">Active Menu:</p>
+						<span className="MenuHeader-borderActiveMenu">{this.props.active}</span>
+					</div>
 					<ul id="group_list" className="hide"></ul>
 				</Grid>
-				<BtnCard />
+				<Grid item xs={10}>
+					<BtnCard />
+				</Grid>
 			</Grid>
 		);
 	}

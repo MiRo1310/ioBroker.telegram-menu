@@ -16,4 +16,34 @@
 .cellIcon {
 	padding: 0px !important;
 }
-/* Zezszd */
+
+.MenuHeader-ActiveMenu {
+	margin-left: 19px;
+}
+
+.MenuHeader-borderActiveMenu {
+	border: 3px solid #96d15a;
+	padding: 2px 3px;
+}
+
+/* Allgemein */
+button {
+	cursor: pointer;
+}
+
+input {
+	margin-left: 5pxpx !important;
+}
+input:focus {
+	outline: none;
+}
+.menuPopup {
+	display: inline-block;
+	width: 180px;
+	height: 250px;
+	background-color: #ddd;
+	position: absolute;
+	z-index: 5;
+	top: 100px;
+	left: 20px;
+}

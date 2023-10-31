@@ -3,7 +3,7 @@ import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper
 
 import Button from "./Button";
 
-function createData(call, nav, text, index) {
+function createData(call, nav, text) {
 	const remove = (
 		<Button b_color="red" color="white" title="Delete" small="true" round="true">
 			<i className="material-icons">delete</i>Delete
@@ -30,16 +30,13 @@ function createData(call, nav, text, index) {
 		</Button>
 	);
 
-	return { call, nav, text, remove, add, edit, up, down, index };
+	return { call, nav, text, remove, add, edit, up, down };
 }
 let rows = [];
-let index = 0;
+
 function getRows(element) {
-	index = 0;
 	for (let entry of element) {
-		index += 1;
-		console.log(index);
-		rows.push(createData(entry.call, entry.value, entry.text, index));
+		rows.push(createData(entry.call, entry.value, entry.text));
 	}
 }
 class MenuNavigation extends Component {
@@ -48,7 +45,7 @@ class MenuNavigation extends Component {
 		this.state = {};
 	}
 	render() {
-		getRows(this.props.nav.Gruppe_1);
+		if (this.props.nav) getRows(this.props.nav.Gruppe_1);
 		return (
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 250 }} aria-label="simple table">
