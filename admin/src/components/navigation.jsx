@@ -9,14 +9,9 @@ import BtnSmallUp from "./btn/btn-small-up";
 import BtnSmallDown from "./btn/btn-small-down";
 
 function createData(call, nav, text) {
-	const remove = <BtnSmallRemove />;
-	const add = <BtnSmallAdd />;
-	const edit = <BtnSmallEdit />;
-	const up = <BtnSmallUp />;
-	const down = <BtnSmallDown />;
-
-	return { call, nav, text, remove, add, edit, up, down };
+	return { call, nav, text };
 }
+
 let rows = [];
 function getRows(element) {
 	rows = [];
@@ -56,19 +51,19 @@ class MenuNavigation extends Component {
 								<TableCell align="right">{row.text}</TableCell>
 
 								<TableCell align="center" className="cellIcon">
-									{row.add}
+									<BtnSmallAdd />
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{row.edit}
+									<BtnSmallEdit />
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{row.up}
+									<BtnSmallUp />
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{row.down}
+									<BtnSmallDown />
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{row.remove}
+									<BtnSmallRemove />
 								</TableCell>
 							</TableRow>
 						))}
