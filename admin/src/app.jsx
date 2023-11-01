@@ -10,7 +10,9 @@ import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
 import MenuNavigation from "./components/navigation";
+
 import getIobrokerData from "./lib/socket";
+import helperFunction from "./lib/Utilis";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -69,9 +71,6 @@ class App extends GenericApp {
 
 	onConnectionReady() {
 		// executed when connection is ready
-		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
-			console.log(data);
-		});
 
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
@@ -83,6 +82,11 @@ class App extends GenericApp {
 				console.log(this.state.native);
 				const firstKey = Object.keys(this.state.data.nav)[0];
 				this.setState({ activeMenu: firstKey });
+			});
+		}
+		if (this.state.native.instance) {
+			getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
+				this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
 			});
 		}
 	}

@@ -5,6 +5,7 @@ function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb) {
 			// socket.getObject(`system.adapter.admin.0.guiSettings`).then((obj) => {
 			// 	console.log(obj);
 			// });
+			console.log(telegramInstance);
 			socket.getState(telegramInstance + ".communicate.users").then((state, err) => {
 				if (state && state.val && !err) {
 					resolve(cb(state.val));
