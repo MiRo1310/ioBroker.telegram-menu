@@ -26,7 +26,7 @@ class Settings extends Component {
 							placeholder="--Please choose a instance--"
 							label="Instance"
 							name="instance"
-							selected={this.props.data.instanceSelect}
+							selected={this.props.data.native.instance}
 							id="instanceSelect"
 							data={this.props.data}
 						></Select>
@@ -35,27 +35,26 @@ class Settings extends Component {
 						<Input
 							label="Text will be send, when nothing found!"
 							placeholder="No entry found"
-							onChangeValue={this.onChangeValue}
 							data={this.props.data}
 							id="noEntry"
-							value={this.props.data.textNoEntry}
+							value={this.props.data.native.textNoEntry}
 						/>
 					</Grid>
 					<Grid item xs={6}>
-						<Checkbox label={I18n.t("Active")} />
+						<Checkbox label={I18n.t("Active")} id="checkboxNoValueFound" checked={this.props.data.native.checkbox.checkboxNoValueFound} data={this.props.data} />
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="Resize Keyboard" />
+						<Checkbox label="Resize Keyboard" id="checkboxResKey" checked={this.props.data.native.checkbox.resKey} data={this.props.data} />
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="One Time Keyboard" />
+						<Checkbox label="One Time Keyboard" id="checkboxOneTiKey" checked={this.props.data.native.checkbox.oneTiKey} data={this.props.data} />
 					</Grid>
 					<Grid item xs={6}></Grid>
 					<Grid item xs={6}>
-						<Input label="Token Grafana" placeholder="Token Grafana" onChangeValue={this.onChangeValue} />
+						<Input label="Token Grafana" placeholder="Token Grafana" data={this.props.data} id="tokenGrafana" value={this.props.data.native.tokenGrafana} />
 					</Grid>
 					<Grid item xs={4}>
-						<Input label="Directory" placeholder="/opt/iobroker/grafana/" onChangeValue={this.onChangeValue} />
+						<Input label="Directory" placeholder="/opt/iobroker/grafana/" data={this.props.data} id="directory" value={this.props.data.native.directory} />
 					</Grid>
 				</Grid>
 			</div>

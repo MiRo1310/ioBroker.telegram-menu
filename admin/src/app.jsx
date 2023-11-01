@@ -137,11 +137,10 @@ class App extends GenericApp {
 										<Settings
 											instances={this.state.instances}
 											data={{
-												instanceSelect: this.state.native.instance,
+												native: this.state.native,
 												setState: this.setState,
 												state: this.state,
 												updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-												textNoEntry: this.state.native.textNoEntry,
 											}}
 										></Settings>
 									</TabPanel>
