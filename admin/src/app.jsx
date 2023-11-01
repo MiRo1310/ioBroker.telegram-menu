@@ -18,8 +18,11 @@ import getIobrokerData from "./lib/socket";
 const styles = (_theme) => ({
 	root: {},
 	tab: {
-		height: "calc(100vh - 447px)",
+		// height: "calc(100vh - 447px)",
 		overflow: "auto",
+		flexGrow: 1,
+		flexShrink: 1,
+		flexBasis: "auto",
 	},
 });
 const Item = styled(Paper)(({ theme }) => ({
@@ -109,48 +112,47 @@ class App extends GenericApp {
 							></HeaderIconBar>
 						</Item>
 					</Grid>
-					<Grid item xs={12}>
-						<Item>
-							<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box">
-								<TabContext value={this.state.tab}>
-									<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-										<TabList onChange={this.handleChange} aria-label="lab API tabs example">
-											<Tab label="Navigation" value="1" />
-											<Tab label="Action" value="2" />
-											<Tab label="Settings" value="3" />
-										</TabList>
-									</Box>
-									<Grid container spacing={1} className="Grid-HeaderMenu ">
-										<Grid item xs={12}>
-											{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
-											{this.state.tab != "3" ? (
-												<HeaderMenu
-													active={this.state.activeMenu}
-													showCard={this.state.showMenu}
-													callback={{ setState: this.setState, state: this.state }}
-													usersInGroup={this.state.native.usersInGroup}
-												></HeaderMenu>
-											) : null}
-										</Grid>
+					<Grid item xs={12} style={{ height: "calc(100vh - 122px)" }} className="main-content">
+						<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 122px)" }}>
+							<TabContext value={this.state.tab}>
+								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+									<TabList onChange={this.handleChange} aria-label="lab API tabs example">
+										<Tab label="Navigation" value="1" />
+										<Tab label="Action" value="2" />
+										<Tab label="Settings" value="3" />
+									</TabList>
+								</Box>
+								<Grid container spacing={1} className="Grid-HeaderMenu ">
+									<Grid item xs={12}>
+										{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
+										{this.state.tab != "3" ? (
+											<HeaderMenu
+												active={this.state.activeMenu}
+												showCard={this.state.showMenu}
+												callback={{ setState: this.setState, state: this.state }}
+												usersInGroup={this.state.native.usersInGroup}
+											></HeaderMenu>
+										) : null}
 									</Grid>
-									<TabPanel value="1" className={this.props.classes.tab}>
-										<MenuNavigation nav={this.state.data.nav}></MenuNavigation>
-									</TabPanel>
-									<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
-									<TabPanel value="3" className={this.props.classes.tab}>
-										<Settings
-											instances={this.state.instances}
-											data={{
-												native: this.state.native,
-												setState: this.setState,
-												state: this.state,
-												updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-											}}
-										></Settings>
-									</TabPanel>
-								</TabContext>
-							</Box>
-						</Item>
+								</Grid>
+
+								<TabPanel value="1" className={this.props.classes.tab}>
+									<MenuNavigation nav={this.state.data.nav}></MenuNavigation>
+								</TabPanel>
+								<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
+								<TabPanel value="3" className={this.props.classes.tab}>
+									<Settings
+										instances={this.state.instances}
+										data={{
+											native: this.state.native,
+											setState: this.setState,
+											state: this.state,
+											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+										}}
+									></Settings>
+								</TabPanel>
+							</TabContext>
+						</Box>
 					</Grid>
 				</Grid>
 
