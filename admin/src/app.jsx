@@ -117,9 +117,9 @@ class App extends GenericApp {
 							<TabContext value={this.state.tab}>
 								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 									<TabList onChange={this.handleChange} aria-label="lab API tabs example">
-										<Tab label="Navigation" value="1" />
-										<Tab label="Action" value="2" />
-										<Tab label="Settings" value="3" />
+										<Tab label={I18n.t("Navigation")} value="1" />
+										<Tab label={I18n.t("Action")} value="2" />
+										<Tab label={I18n.t("Settings")} value="3" />
 									</TabList>
 								</Box>
 								<Grid container spacing={1} className="Grid-HeaderMenu ">

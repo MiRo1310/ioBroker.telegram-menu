@@ -5,6 +5,7 @@ import BtnCard from "./btnCard";
 import MenuPopupCard from "./menuPopupCard";
 import { onEvent } from "../lib/action";
 import HeaderThirdRow from "./HeaderThirdRow";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 class HeaderMenu extends Component {
 	eventOnMouse = (event) => {
@@ -21,10 +22,9 @@ class HeaderMenu extends Component {
 						{this.props.showCard ? <MenuPopupCard usersInGroup={this.props.usersInGroup}></MenuPopupCard> : null}
 					</div>
 					<div className="MenuHeader-ActiveMenu">
-						<p className="translate">Active Menu:</p>
+						<p>{I18n.t("Active Menu:")}</p>
 						<span className="MenuHeader-borderActiveMenu">{this.props.active}</span>
 					</div>
-					<ul id="group_list" className="hide"></ul>
 				</Grid>
 				<Grid item xs={10}>
 					<BtnCard />

@@ -20,12 +20,11 @@ class Input extends Component {
 	onChangeHandler = (event) => {
 		onEvent(event, this.props.data, this.props.id);
 	};
-
 	render() {
 		return (
 			<div className="InputField">
 				<label>
-					<input type="text" className={this.props.classes.input} placeholder={I18n.t("No entry found")} value={this.props.value} onChange={this.onChangeHandler} />
+					<input type="text" className={this.props.classes.input} placeholder={this.placeholder} value={I18n.t(this.props.placeholder)} onChange={this.onChangeHandler} />
 					<p>{this.props.label}</p>
 				</label>
 			</div>
