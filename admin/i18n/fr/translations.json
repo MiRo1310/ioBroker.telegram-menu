@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Aucune entrée, envoyer à tous les utilisateurs.",
+    "--Please choose a telegram instance--": "--Veuillez choisir une instance de télégramme--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 peut être remplacé et indique la taille du pas 0%, 10%, 20%... !",
     "Action": "Action",
     "Active": "Actif",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Génère deux boutons, en l'occurrence on et off avec les valeurs respectives vrai et faux.",
     "Global User activ": "Activation globale de l'utilisateur",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "Si vous souhaitez être informé de la modification d'un autre point de données après avoir défini le point de données dans le champ de saisie ID. La modification ne sera partagée que si elle est définie avec ack:true. Il est obligatoire de préciser un texte en dehors du {}, sinon il sera ajouté automatiquement.",
+    "Instance": "Exemple",
     "Instanze": "Instantané",
     "Navigation": "La navigation",
     "New Row": "Nouvelle ligne",
@@ -63,6 +65,7 @@
     "Settings": "Paramètres",
     "Startside": "Côté départ",
     "Switch": "Changer",
+    "Telegram Instance": "Instance de télégramme",
     "Text will be send if no entry was found!": "Le texte sera envoyé si aucune entrée n'a été trouvée !",
     "The Value is not specified in the return text": "La valeur n'est pas spécifiée dans le texte de retour",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "Les numéros peuvent être entièrement échangés. 0-6 indique la plage et 1 la taille du pas, UNIT est remplacé par une unité, mais peut également être laissé vide.",

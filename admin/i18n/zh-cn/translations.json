@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "没有条目，发送给所有用户。",
+    "--Please choose a telegram instance--": "--请选择一个电报实例--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10可以替换，表示步长0%、10%、20%...！",
     "Action": "行动",
     "Active": "积极的",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "生成两个按钮，在本例中为打开和关闭，其值分别为 true 和 false。",
     "Global User activ": "全球用户活跃度",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "如果您希望在 ID 输入字段中设置数据点后收到另一个数据点更改的通知。仅当设置了 ack:true 时，更改才会被共享。必须在 {} 之外指定文本，否则将自动添加。",
+    "Instance": "实例",
     "Instanze": "瞬间",
     "Navigation": "导航",
     "New Row": "新行",
@@ -63,6 +65,7 @@
     "Settings": "设置",
     "Startside": "开始边",
     "Switch": "转变",
+    "Telegram Instance": "电报实例",
     "Text will be send if no entry was found!": "如果未找到条目，将发送文本！",
     "The Value is not specified in the return text": "返回文本中未指定值",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "号码可以完全互换。 0-6表示范围，1表示步长，UNIT用单位代替，但也可以留空。",

@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Geen invoer, verzenden naar alle gebruikers.",
+    "--Please choose a telegram instance--": "--Kies een telegraminstantie--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 kan vervangen worden en geeft de stapgrootte aan 0%, 10%, 20%...!",
     "Action": "Actie",
     "Active": "Actief",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Genereert twee knoppen, in dit geval aan en uit met de respectievelijke waarden waar en onwaar.",
     "Global User activ": "Globale gebruiker actief",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "Als u op de hoogte wilt worden gesteld van de wijziging van een ander datapunt nadat u het datapunt in het ID-invoerveld hebt ingesteld. De wijziging wordt alleen gedeeld als deze is ingesteld met ack:true. Het is verplicht om een ​​tekst buiten de {} op te geven, anders wordt deze automatisch toegevoegd.",
+    "Instance": "Voorbeeld",
     "Instanze": "Instanze",
     "Navigation": "Navigatie",
     "New Row": "Nieuwe rij",
@@ -63,6 +65,7 @@
     "Settings": "Instellingen",
     "Startside": "Startzijde",
     "Switch": "Schakelaar",
+    "Telegram Instance": "Telegram-instantie",
     "Text will be send if no entry was found!": "Er wordt een tekst verzonden als er geen item is gevonden!",
     "The Value is not specified in the return text": "De waarde is niet gespecificeerd in de retourtekst",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "De nummers zijn volledig uitwisselbaar. 0-6 geeft het bereik aan, en 1 de stapgrootte, UNIT wordt vervangen door een eenheid, maar kan ook leeg gelaten worden.",

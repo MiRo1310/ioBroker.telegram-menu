@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Заборонено, відправити всім користувачам.",
+    "--Please choose a telegram instance--": "--Будь ласка, виберіть екземпляр телеграми--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 можна замінити і вказує на розмір кроку 0%, 10%, 20%...!",
     "Action": "Дія",
     "Active": "Активний",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Генерує дві кнопки, у цьому випадку увімкнути та вимкнути з відповідними значеннями true та false.",
     "Global User activ": "Глобальна активність користувачів",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "Якщо ви хочете отримувати сповіщення про зміну іншої точки даних після того, як ви встановили точку даних у полі введення ідентифікатора. Зміну буде надано спільний доступ, лише якщо для неї встановлено ack:true. Обов’язково вказувати текст поза {}, інакше він буде додано автоматично.",
+    "Instance": "Екземпляр",
     "Instanze": "Instanze",
     "Navigation": "Навігація",
     "New Row": "Новий рядок",
@@ -63,6 +65,7 @@
     "Settings": "Налаштування",
     "Startside": "Стартова сторона",
     "Switch": "Перемикач",
+    "Telegram Instance": "Примірник Telegram",
     "Text will be send if no entry was found!": "Текст буде надіслано, якщо запис не знайдено!",
     "The Value is not specified in the return text": "Значення не вказано в тексті повернення",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "Номери можна повністю поміняти. 0-6 вказує на діапазон, а 1 — на розмір кроку, UNIT замінюється одиницею, але його можна залишити пустим.",

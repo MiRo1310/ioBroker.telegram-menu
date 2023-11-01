@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Sin entrada, enviar a todos los usuarios.",
+    "--Please choose a telegram instance--": "--Por favor elija una instancia de telegrama--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "¡10 se puede reemplazar e indica el tamaño del paso 0%, 10%, 20%...!",
     "Action": "Acción",
     "Active": "Activo",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Genera dos botones, en este caso encendido y apagado con los respectivos valores verdadero y falso.",
     "Global User activ": "Actividad de usuario global",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "Si desea recibir una notificación sobre el cambio de otro punto de datos después de haber configurado el punto de datos en el campo de entrada de ID. El cambio solo se compartirá si se establece con ack:true. Es obligatorio especificar un texto fuera del {}, de lo contrario se agregará automáticamente.",
+    "Instance": "Instancia",
     "Instanze": "Instancia",
     "Navigation": "Navegación",
     "New Row": "Fila nueva",
@@ -63,6 +65,7 @@
     "Settings": "Ajustes",
     "Startside": "Lado de salida",
     "Switch": "Cambiar",
+    "Telegram Instance": "Instancia de telegrama",
     "Text will be send if no entry was found!": "¡Se enviará texto si no se encontró ninguna entrada!",
     "The Value is not specified in the return text": "El valor no está especificado en el texto de retorno.",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "Los números se pueden intercambiar completamente. 0-6 indica el rango y 1 el tamaño del paso, UNIT se reemplaza por una unidad, pero también se puede dejar vacío.",

@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Brak wpisu, wyślij do wszystkich Użytkowników.",
+    "--Please choose a telegram instance--": "--Proszę wybrać instancję telegramu--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 można wymienić i wskazuje wielkość kroku 0%, 10%, 20%...!",
     "Action": "Działanie",
     "Active": "Aktywny",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Generuje dwa przyciski, w tym przypadku włączające i wyłączające z odpowiednimi wartościami prawda i fałsz.",
     "Global User activ": "Globalna aktywność użytkowników",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "Jeśli chcesz otrzymać powiadomienie o zmianie innego punktu danych po ustawieniu punktu danych w polu wprowadzania ID. Zmiana zostanie udostępniona tylko wtedy, gdy zostanie ustawiona opcja ack:true. Obowiązkowe jest podanie tekstu poza {}, w przeciwnym razie zostanie on dodany automatycznie.",
+    "Instance": "Instancja",
     "Instanze": "Instancja",
     "Navigation": "Nawigacja",
     "New Row": "Nowy rząd",
@@ -63,6 +65,7 @@
     "Settings": "Ustawienia",
     "Startside": "Strona startowa",
     "Switch": "Przełącznik",
+    "Telegram Instance": "Instancja telegramu",
     "Text will be send if no entry was found!": "Tekst zostanie wysłany, jeśli nie znaleziono żadnego wpisu!",
     "The Value is not specified in the return text": "Wartość nie jest określona w tekście zwracanym",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "Numery można całkowicie wymieniać. 0-6 oznacza zakres, a 1 wielkość kroku. UNIT jest zastępowany przez jednostkę, ale może też pozostać pusty.",

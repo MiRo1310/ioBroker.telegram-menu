@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Nessuna voce, invia a tutti gli utenti.",
+    "--Please choose a telegram instance--": "--Scegli un'istanza di Telegram--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 può essere sostituito e indica la dimensione del passo 0%, 10%, 20%...!",
     "Action": "Azione",
     "Active": "Attivo",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Genera due pulsanti, in questo caso on e off con i rispettivi valori true e false.",
     "Global User activ": "Utente globale attivo",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "Se desideri essere avvisato della modifica di un altro punto dati dopo aver impostato il punto dati nel campo di immissione ID. La modifica verrà condivisa solo se è impostata con ack:true. È obbligatorio specificare un testo fuori dal {}, altrimenti verrà aggiunto automaticamente.",
+    "Instance": "Esempio",
     "Instanze": "Istanza",
     "Navigation": "Navigazione",
     "New Row": "Nuova fila",
@@ -63,6 +65,7 @@
     "Settings": "Impostazioni",
     "Startside": "Lato iniziale",
     "Switch": "Interruttore",
+    "Telegram Instance": "Istanza di Telegramma",
     "Text will be send if no entry was found!": "Il testo verrà inviato se non è stata trovata alcuna voce!",
     "The Value is not specified in the return text": "Il valore non è specificato nel testo restituito",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "I numeri possono essere completamente scambiati. 0-6 indica l'intervallo e 1 la dimensione del passo, UNIT è sostituito da un'unità, ma può anche essere lasciato vuoto.",

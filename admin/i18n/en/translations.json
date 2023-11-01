@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": " No entry, send to all Users.",
+    "--Please choose a telegram instance--": "--Please choose a telegram instance--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 can be replaced and indicates the step size 0%, 10%, 20%...!",
     "Action": "Action",
     "Active": "Active",
@@ -44,6 +45,7 @@
     "Generates two buttons, in this case on and off with the respective values ​​true and false.": "Generates two buttons, in this case on and off with the respective values ​​true and false.",
     "Global User activ": "Global user activ",
     "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.": "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.",
+    "Instance": "Instance",
     "Instanze": "Instanze",
     "Navigation": "Navigation",
     "New Row": "New Row",
@@ -63,6 +65,7 @@
     "Settings": "Settings",
     "Startside": "Startside",
     "Switch": "Switch",
+    "Telegram Instance": "Telegram Instance",
     "Text will be send if no entry was found!": "Text will be send if no entry was found!",
     "The Value is not specified in the return text": "The Value is not specified in the return text",
     "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.": "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty.",
