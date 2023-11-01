@@ -1,3 +1,7 @@
+body {
+	height: 100vh;
+}
+
 /* IconBar */
 .Logo2-logo-2 {
 	padding: 0px !important;
@@ -27,6 +31,9 @@
 .MenuHeader-borderActiveMenu {
 	border: 3px solid #96d15a;
 	padding: 2px 3px;
+}
+.Grid-HeaderMenu {
+	margin-top: 5px !important;
 }
 
 /* Allgemein */
@@ -92,5 +99,9 @@ input[type="checkbox"] {
 
 /* Settings */
 .Settings h1 {
-	margin: 0px;
+	margin: 1px;
 }
+/* Tab-Box */
+/* .Tab-Box {
+	height: (100vh - 138px);
+} */
