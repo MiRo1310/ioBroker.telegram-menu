@@ -1,19 +1,21 @@
-function getUsersFromTelegram(socket, _this, telegramInstance) {
+function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb) {
 	try {
-		return new Promise((resolve, reject) => {
-			// Hier rufst du socket.emit auf und wartest auf die Antwort
-			// Z.B.: socket.emit('someEvent', data, (response) => resolve(response));
-			socket.emit("getState", telegramInstance + ".communicate.users", (err, state) => {
-				if (state && !err) {
-					resolve(state);
+		new Promise((resolve, reject) => {
+			// Beispiel für getObjekt
+			// socket.getObject(`system.adapter.admin.0.guiSettings`).then((obj) => {
+			// 	console.log(obj);
+			// });
+			socket.getState(telegramInstance + ".communicate.users").then((state, err) => {
+				if (state && state.val && !err) {
+					resolve(cb(state.val));
 				} else if (err) {
 					reject(err);
-					_this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
+					console.error("Error get Users vom Telegram: " + JSON.stringify(err));
 				}
 			});
 		});
 	} catch (err) {
-		_this.log.debug("Error get Users vom Telegram: " + JSON.stringify(err));
+		console.error("Error get Users vom Telegram: " + JSON.stringify(err));
 	}
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { onEvent } from "../../lib/action";
+import { onEvent } from "../../lib/onChangeHandler";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 /**

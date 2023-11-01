@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
-import { onEvent } from "../../lib/action";
+import { onEvent } from "../../lib/onChangeHandler";
 import { I18n } from "@iobroker/adapter-react-v5";
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -24,7 +24,7 @@ class Input extends Component {
 		return (
 			<div className="InputField">
 				<label>
-					<input type="text" className={this.props.classes.input} placeholder={this.placeholder} value={I18n.t(this.props.placeholder)} onChange={this.onChangeHandler} />
+					<input type="text" className={this.props.classes.input} placeholder={I18n.t(this.props.placeholder)} value={this.props.value} onChange={this.onChangeHandler} />
 					<p>{this.props.label}</p>
 				</label>
 			</div>

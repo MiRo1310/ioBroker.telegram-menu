@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { onEvent } from "../../lib/action";
+import { onEvent } from "../../lib/onChangeHandler";
 
 class Checkbox extends Component {
 	onChangeHandler = (event) => {
