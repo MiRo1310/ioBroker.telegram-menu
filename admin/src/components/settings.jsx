@@ -23,8 +23,8 @@ class Settings extends Component {
 					<Grid item xs={12}>
 						<Select
 							options={this.props.instances}
-							placeholder="--Please choose a instance--"
-							label="Instance"
+							placeholder="--Please choose a telegram instance--"
+							label={I18n.t("Telegram Instance")}
 							name="instance"
 							selected={this.props.data.native.instance}
 							id="instanceSelect"
@@ -33,7 +33,7 @@ class Settings extends Component {
 					</Grid>
 					<Grid item xs={6}>
 						<Input
-							label="Text will be send, when nothing found!"
+							label={I18n.t("Text will be send if no entry was found!")}
 							placeholder="No entry found"
 							data={this.props.data}
 							id="noEntry"
@@ -51,10 +51,10 @@ class Settings extends Component {
 					</Grid>
 					<Grid item xs={6}></Grid>
 					<Grid item xs={6}>
-						<Input label="Token Grafana" placeholder="Token Grafana" data={this.props.data} id="tokenGrafana" value={this.props.data.native.tokenGrafana} />
+						<Input label={I18n.t("Token Grafana")} placeholder="Token Grafana" data={this.props.data} id="tokenGrafana" value={this.props.data.native.tokenGrafana} />
 					</Grid>
 					<Grid item xs={4}>
-						<Input label="Directory" placeholder="/opt/iobroker/grafana/" data={this.props.data} id="directory" value={this.props.data.native.directory} />
+						<Input label={I18n.t("Directory")} placeholder="/opt/iobroker/grafana/" data={this.props.data} id="directory" value={this.props.data.native.directory} />
 					</Grid>
 				</Grid>
 			</div>
