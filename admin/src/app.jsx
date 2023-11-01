@@ -18,7 +18,7 @@ import getIobrokerData from "./lib/socket";
 const styles = (_theme) => ({
 	root: {},
 	tab: {
-		height: "calc(100vh - 355px)",
+		height: "calc(100vh - 447px)",
 		overflow: "auto",
 	},
 });
@@ -110,17 +110,8 @@ class App extends GenericApp {
 						</Item>
 					</Grid>
 					<Grid item xs={12}>
-						<Grid item xs={12}>
-							{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
-							<HeaderMenu
-								active={this.state.activeMenu}
-								showCard={this.state.showMenu}
-								callback={{ setState: this.setState, state: this.state }}
-								usersInGroup={this.state.native.usersInGroup}
-							></HeaderMenu>
-						</Grid>
 						<Item>
-							<Box sx={{ width: "100%", typography: "body1" }}>
+							<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box">
 								<TabContext value={this.state.tab}>
 									<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 										<TabList onChange={this.handleChange} aria-label="lab API tabs example">
@@ -129,6 +120,19 @@ class App extends GenericApp {
 											<Tab label="Settings" value="3" />
 										</TabList>
 									</Box>
+									<Grid container spacing={1} className="Grid-HeaderMenu ">
+										<Grid item xs={12}>
+											{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
+											{this.state.tab != "3" ? (
+												<HeaderMenu
+													active={this.state.activeMenu}
+													showCard={this.state.showMenu}
+													callback={{ setState: this.setState, state: this.state }}
+													usersInGroup={this.state.native.usersInGroup}
+												></HeaderMenu>
+											) : null}
+										</Grid>
+									</Grid>
 									<TabPanel value="1" className={this.props.classes.tab}>
 										<MenuNavigation nav={this.state.data.nav}></MenuNavigation>
 									</TabPanel>
