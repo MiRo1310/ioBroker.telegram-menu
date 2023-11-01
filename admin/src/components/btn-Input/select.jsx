@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { onEvent } from "../../lib/action";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
@@ -12,7 +13,7 @@ class Select extends Component {
 	render() {
 		return (
 			<label className="Select">
-				<span>{this.props.label}</span>
+				<span>{I18n.t(this.props.label)}</span>
 				<select name={this.props.name} value={this.props.selected} onChange={this.onChangeHandler}>
 					<option value="">{this.props.placeholder}</option>
 					{this.props.options.map((option, index) => {

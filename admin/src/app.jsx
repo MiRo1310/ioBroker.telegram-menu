@@ -67,7 +67,6 @@ class App extends GenericApp {
 	onConnectionReady() {
 		// executed when connection is ready
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
-			console.log(data);
 			this.setState({ instances: data });
 		});
 
@@ -75,6 +74,7 @@ class App extends GenericApp {
 			const newData = JSON.parse(JSON.stringify(this.state.native.data));
 			this.setState({ data: newData }, () => {
 				console.log(this.state.native);
+				console.log(this.state.native.textNoEntry);
 				const firstKey = Object.keys(this.state.data.nav)[0];
 				this.setState({ activeMenu: firstKey });
 			});
@@ -141,6 +141,7 @@ class App extends GenericApp {
 												setState: this.setState,
 												state: this.state,
 												updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+												textNoEntry: this.state.native.textNoEntry,
 											}}
 										></Settings>
 									</TabPanel>

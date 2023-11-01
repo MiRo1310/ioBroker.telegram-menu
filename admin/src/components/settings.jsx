@@ -32,7 +32,14 @@ class Settings extends Component {
 						></Select>
 					</Grid>
 					<Grid item xs={6}>
-						<Input label="Text will be send, when nothing found!" placeholder="No entry found" onChangeValue={this.onChangeValue} />
+						<Input
+							label="Text will be send, when nothing found!"
+							placeholder="No entry found"
+							onChangeValue={this.onChangeValue}
+							data={this.props.data}
+							id="noEntry"
+							value={this.props.data.textNoEntry}
+						/>
 					</Grid>
 					<Grid item xs={6}>
 						<Checkbox label={I18n.t("Active")} />

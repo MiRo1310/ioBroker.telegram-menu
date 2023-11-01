@@ -14,11 +14,8 @@ export function onEvent(event, callback, item) {
 	} else if (item === "menuCard" && event.type === "mouseleave") {
 		callback.setState({ showMenu: false });
 	} else if (item === "instanceSelect" && event.type === "change") {
-		const value = event.target.value;
-		console.log(value);
-		console.log(callback);
-		callback.updateNative("instance", value, () => {
-			console.log("set");
-		});
+		callback.updateNative("instance", event.target.value);
+	} else if (item === "noEntry" && event.type === "change") {
+		callback.updateNative("textNoEntry", event.target.value);
 	}
 }
