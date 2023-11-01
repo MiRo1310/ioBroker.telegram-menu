@@ -15,7 +15,9 @@ class Select extends Component {
 			<label className="Select">
 				<span>{I18n.t(this.props.label)}</span>
 				<select name={this.props.name} value={this.props.selected} onChange={this.onChangeHandler}>
-					<option value="">{this.props.placeholder}</option>
+					<option value="" disabled>
+						{this.props.placeholder}
+					</option>
 					{this.props.options.map((option, index) => {
 						return (
 							<option key={index} value={option.toLowerCase()}>
