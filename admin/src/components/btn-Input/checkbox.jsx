@@ -7,7 +7,7 @@ class Checkbox extends Component {
 	};
 	render() {
 		return (
-			<div className="Checkbox">
+			<div className="Checkbox" style={{ display: "inline" }}>
 				<label>
 					<input type="checkbox" checked={this.props.checked} onChange={this.onChangeHandler} />
 					<p>{this.props.label}</p>

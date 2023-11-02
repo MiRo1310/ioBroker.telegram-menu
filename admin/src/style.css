@@ -61,8 +61,10 @@ input:focus {
 input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
-	margin-top: 20px;
+	margin-bottom: 0;
+	vertical-align: text-bottom;
 }
+
 .Select span {
 	display: block;
 	margin-left: 5px;
@@ -101,7 +103,30 @@ input[type="checkbox"] {
 .Settings h1 {
 	margin: 1px;
 }
-/* Tab-Box */
-/* .Tab-Box {
-	height: (100vh - 138px);
-} */
+.TeleGrammUserCard-content {
+	width: 100%;
+	background-color: #eee;
+	padding: 0.1rem 1rem;
+	margin: 0;
+}
+.TeleGrammUserCard-content p {
+	margin: 0;
+}
+.TelegramUserCard-description {
+	color: #96d15a;
+	font-size: 12px;
+	text-decoration: underline;
+}
+.TelegramUserCard-User {
+	margin-top: 5px;
+}
+.TelegramUserCard-name,
+.TelegramUserCard-content > div.Checkbox {
+	display: inline !important;
+}
+.TelegramUserCard-checkbox input[type="checkbox"] {
+	margin-bottom: 0px;
+}
+.TelegramUserCard-ChatID {
+	font-size: 0.7rem;
+}

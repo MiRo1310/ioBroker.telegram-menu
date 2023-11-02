@@ -10,6 +10,7 @@ import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
 import MenuNavigation from "./components/navigation";
+import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
 
 import getIobrokerData from "./lib/socket";
 import helperFunction from "./lib/Utilis";
@@ -20,7 +21,6 @@ import helperFunction from "./lib/Utilis";
 const styles = (_theme) => ({
 	root: {},
 	tab: {
-		// height: "calc(100vh - 447px)",
 		overflow: "auto",
 		flexGrow: 1,
 		flexShrink: 1,
@@ -140,6 +140,9 @@ class App extends GenericApp {
 												usersInGroup={this.state.native.usersInGroup}
 											></HeaderMenu>
 										) : null}
+									</Grid>
+									<Grid item xs={12}>
+										<HeaderTelegramUsers userListWithChatID={this.state.native.userListWithChatID}></HeaderTelegramUsers>
 									</Grid>
 								</Grid>
 

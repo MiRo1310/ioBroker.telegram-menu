@@ -4,7 +4,6 @@ import Button from "./btn-Input/Button";
 import BtnCard from "./btnCard";
 import MenuPopupCard from "./menuPopupCard";
 import { onEvent } from "../lib/onChangeHandler";
-import HeaderThirdRow from "./HeaderThirdRow";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 class HeaderMenu extends Component {
@@ -28,9 +27,6 @@ class HeaderMenu extends Component {
 				</Grid>
 				<Grid item xs={10}>
 					<BtnCard />
-				</Grid>
-				<Grid item xs={12}>
-					<HeaderThirdRow />
 				</Grid>
 			</Grid>
 		);

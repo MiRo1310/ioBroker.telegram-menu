@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Button from "./btn-Input/Button";
+import { I18n } from "@iobroker/adapter-react-v5";
+import Checkbox from "./btn-Input/checkbox";
 
 class TelegramUserCard extends Component {
 	constructor(props) {
@@ -9,11 +11,15 @@ class TelegramUserCard extends Component {
 
 	render() {
 		return (
-			<div className="TeleGrammUsers">
-				<div className="col s8 border" id="group_UserInput">
-					<p className="translate description">Users from Telegram</p>
+			<div className="TeleGrammUserCard-content">
+				<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
+				<div className="TelegramUserCard-User">
+					<p className="TelegramUserCard-name">{this.props.name}</p>
+					<Checkbox className="TelegramUserCard-checkbox"></Checkbox>
 				</div>
-				<div className="col s2" id="group_active_checkbox"></div>
+				<p className="TelegramUserCard-ChatID">
+					ChatID :<span className="TelegramUserCard-ChatID">{this.props.chatID}</span>
+				</p>
 			</div>
 		);
 	}
