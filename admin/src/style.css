@@ -103,11 +103,15 @@ input[type="checkbox"] {
 .Settings h1 {
 	margin: 1px;
 }
-.TeleGrammUserCard-content {
+.HeaderTelegramUsers-TelegramUserCard {
 	width: 100%;
 	background-color: #eee;
+}
+.TeleGrammUserCard-content {
 	padding: 0.1rem 1rem;
 	margin: 0;
+	width: 100px;
+	display: inline-block;
 }
 .TeleGrammUserCard-content p {
 	margin: 0;
@@ -116,6 +120,8 @@ input[type="checkbox"] {
 	color: #96d15a;
 	font-size: 12px;
 	text-decoration: underline;
+	padding: 5px 0 0 16px;
+	margin-bottom: 4px;
 }
 .TelegramUserCard-User {
 	margin-top: 5px;

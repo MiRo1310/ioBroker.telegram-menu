@@ -12,7 +12,6 @@ class TelegramUserCard extends Component {
 	render() {
 		return (
 			<div className="TeleGrammUserCard-content">
-				<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
 				<div className="TelegramUserCard-User">
 					<p className="TelegramUserCard-name">{this.props.name}</p>
 					<Checkbox className="TelegramUserCard-checkbox"></Checkbox>

@@ -21,11 +21,13 @@ class HeaderTelegramUsers extends Component {
 						</Button>
 					</div>
 				</Grid>
-
 				<Grid item lg={8} md={8} xs={5}>
-					{this.props.userListWithChatID.map((user) => {
-						return <TelegramUserCard name={user.name} chatID={user.chatID}></TelegramUserCard>;
-					})}
+					<div className="HeaderTelegramUsers-TelegramUserCard">
+						<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
+						{this.props.userListWithChatID.map((user, key) => {
+							return <TelegramUserCard name={user.name} chatID={user.chatID} key={key}></TelegramUserCard>;
+						})}
+					</div>
 				</Grid>
 			</Grid>
 		);
