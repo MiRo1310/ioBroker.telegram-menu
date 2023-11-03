@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, Component } from "react";
 import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
@@ -69,8 +69,12 @@ class App extends GenericApp {
 		this.setState = this.setState.bind(this);
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
+	}
 	onConnectionReady() {
 		// executed when connection is ready
+		this.getUsersFromTelegram();
 
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
@@ -84,11 +88,11 @@ class App extends GenericApp {
 				this.setState({ activeMenu: firstKey });
 			});
 		}
-		if (this.state.native.instance) {
-			getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
-				this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
-			});
-		}
+	}
+	getUsersFromTelegram() {
+		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
+			this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
+		});
 	}
 
 	handleChange(event, val) {
