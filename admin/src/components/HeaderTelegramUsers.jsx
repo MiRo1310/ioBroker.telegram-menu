@@ -45,7 +45,7 @@ class HeaderTelegramUsers extends Component {
 	render() {
 		return (
 			<Grid container spacing={2}>
-				<Grid item lg={3} md={4} xs={4}>
+				<Grid item lg={2} md={3} xs={4}>
 					{this.props.tab === "2" ? (
 						<div className="HeaderThirdRow-ButtonAction">
 							<Button b_color="#96d15a" title="Add new Action" width="100%" margin="0 18px" height="50px">
@@ -55,7 +55,7 @@ class HeaderTelegramUsers extends Component {
 						</div>
 					) : null}
 				</Grid>
-				<Grid item lg={8} md={8} xs={5}>
+				<Grid item lg={8} md={7} xs={5}>
 					<div className={this.props.classes.container}>
 						<div className={this.props.classes.btnExpand}>
 							<Button
@@ -82,7 +82,7 @@ class HeaderTelegramUsers extends Component {
 					</div>
 				</Grid>
 
-				<Grid item lg={1} md={1} xs={3}>
+				<Grid item lg={1} md={1} xs={1}>
 					{this.state.menuOpen ? <Checkbox label={this.state.labelCheckbox} id="checkboxActiveMenu" checked={true} callback={this.props.callback} /> : null}
 				</Grid>
 			</Grid>
