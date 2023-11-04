@@ -9,7 +9,7 @@ import { AdminConnection } from "@iobroker/adapter-react-v5";
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
-import MenuNavigation from "./components/navigation";
+import MenuNavigation from "./components/menuNavigation";
 import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
 
 import getIobrokerData from "./lib/socket";
@@ -97,6 +97,7 @@ class App extends GenericApp {
 
 	handleChange(event, val) {
 		this.setState({ tab: val });
+		console.log(val);
 	}
 
 	render() {
@@ -146,12 +147,24 @@ class App extends GenericApp {
 										) : null}
 									</Grid>
 									<Grid item xs={12}>
-										<HeaderTelegramUsers userListWithChatID={this.state.native.userListWithChatID}></HeaderTelegramUsers>
+										{this.state.tab != "3" ? (
+											<HeaderTelegramUsers
+												userListWithChatID={this.state.native.userListWithChatID}
+												tab={this.state.tab}
+												activeMenu={this.state.activeMenu}
+												data={{
+													native: this.state.native,
+													setState: this.setState,
+													state: this.state,
+													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+												}}
+											></HeaderTelegramUsers>
+										) : null}
 									</Grid>
 								</Grid>
 
 								<TabPanel value="1" className={this.props.classes.tab}>
-									<MenuNavigation nav={this.state.data.nav}></MenuNavigation>
+									<MenuNavigation nav={this.state.data.nav} activeMenu={this.state.activeMenu}></MenuNavigation>
 								</TabPanel>
 								<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
 								<TabPanel value="3" className={this.props.classes.tab}>

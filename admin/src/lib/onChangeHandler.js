@@ -11,6 +11,9 @@ export function onEvent(event, callback, item) {
 		if (item === "menuCard") {
 			callback.setState({ showMenu: !callback.state.showMenu });
 		}
+		if (item === "expandTelegramusers") {
+			callback();
+		}
 	} else if (event.type === "change") {
 		// Input
 		if (item === "instanceSelect") {
