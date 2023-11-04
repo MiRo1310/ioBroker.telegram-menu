@@ -62,8 +62,9 @@ class App extends GenericApp {
 			data: {},
 			tab: "1",
 			activeMenu: "",
-			showMenu: false,
+			showPopupMenuList: false,
 			instances: [],
+			popupMenuOpen: false,
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -140,7 +141,7 @@ class App extends GenericApp {
 										{this.state.tab != "3" ? (
 											<HeaderMenu
 												active={this.state.activeMenu}
-												showCard={this.state.showMenu}
+												showPopupMenuList={this.state.showPopupMenuList}
 												callback={{
 													native: this.state.native,
 													setState: this.setState,
@@ -163,6 +164,7 @@ class App extends GenericApp {
 													state: this.state,
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 												}}
+												menuPopupOpen={this.state.popupMenuOpen}
 											></HeaderTelegramUsers>
 										) : null}
 									</Grid>

@@ -15,6 +15,7 @@ export function onEvent(event, callback, item) {
 			callback();
 		} else if (item === "menuPopupBtn") {
 			callback.setState({ activeMenu: event.target.innerText });
+			callback.setState({ showPopupMenuList: false });
 		}
 	} else if (event.type === "change") {
 		// Input
@@ -37,11 +38,11 @@ export function onEvent(event, callback, item) {
 		}
 	} else if (event.type === "mouseenter") {
 		if (item === "menuCard") {
-			callback.setState({ showMenu: true });
+			callback.setState({ showPopupMenuList: true });
 		}
 	} else if (event.type === "mouseleave") {
 		if (item === "menuCard") {
-			callback.setState({ showMenu: false });
+			callback.setState({ showPopupMenuList: false });
 		}
 	}
 }

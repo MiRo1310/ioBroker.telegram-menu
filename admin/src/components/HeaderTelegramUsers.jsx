@@ -19,8 +19,6 @@ const styles = (_theme) => ({
 	},
 });
 const createLabel = (activeMenu, text) => {
-	console.log("Test");
-	console.log(activeMenu, text);
 	return `${activeMenu} ${I18n.t(text)}`;
 };
 
@@ -29,11 +27,13 @@ class HeaderTelegramUsers extends Component {
 		super(props);
 		this.state = {
 			menuOpen: true,
+			labelCheckbox: createLabel(this.props.activeMenu, "active"),
 		};
 	}
+
 	componentDidUpdate(prevProps) {
 		if (prevProps.activeMenu !== this.props.activeMenu) {
-			this.labelCheckbox = createLabel(this.props.activeMenu, "active");
+			this.setState({ labelCheckbox: createLabel(this.props.activeMenu, "active") });
 		}
 	}
 
@@ -83,7 +83,7 @@ class HeaderTelegramUsers extends Component {
 				</Grid>
 
 				<Grid item lg={1} md={1} xs={3}>
-					{this.state.menuOpen ? <Checkbox label={this.labelCheckbox} id="checkboxActiveMenu" checked={true} callback={this.props.callback} /> : null}
+					{this.state.menuOpen ? <Checkbox label={this.state.labelCheckbox} id="checkboxActiveMenu" checked={true} callback={this.props.callback} /> : null}
 				</Grid>
 			</Grid>
 		);
