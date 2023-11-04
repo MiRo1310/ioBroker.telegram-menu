@@ -149,6 +149,7 @@ class App extends GenericApp {
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 												}}
 												usersInGroup={this.state.native.usersInGroup}
+												newMenuName={this.state.newMenuName}
 											></HeaderMenu>
 										) : null}
 									</Grid>

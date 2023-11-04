@@ -18,13 +18,20 @@ const styles = (_theme) => ({
 });
 class Input extends Component {
 	onChangeHandler = (event) => {
-		onEvent(event, this.props.data, this.props.id);
+		onEvent(event, this.props.callback, this.props.id);
 	};
 	render() {
 		return (
 			<div className="InputField">
 				<label>
-					<input type="text" className={this.props.classes.input} placeholder={I18n.t(this.props.placeholder)} value={this.props.value} onChange={this.onChangeHandler} />
+					<input
+						type="text"
+						className={this.props.classes.input}
+						placeholder={I18n.t(this.props.placeholder)}
+						value={this.props.value}
+						onChange={this.onChangeHandler}
+						spellCheck={this.props.spellCheck ? this.props.spellcheck : false}
+					/>
 					<p>{this.props.label}</p>
 				</label>
 			</div>

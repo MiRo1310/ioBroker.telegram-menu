@@ -5,9 +5,7 @@
  * @param {string} item Item
  */
 export function onEvent(event, callback, item) {
-	console.log(event.type);
-	console.log(item);
-	console.log(event);
+	console.log({ type: event.type, item: item, callback: callback, event: event });
 	if (event.type === "click") {
 		if (item === "menuCard") {
 			callback.setState({ showMenu: !callback.state.showMenu });
@@ -16,6 +14,8 @@ export function onEvent(event, callback, item) {
 		} else if (item === "menuPopupBtn") {
 			callback.setState({ activeMenu: event.target.innerText });
 			callback.setState({ showPopupMenuList: false });
+		} else if (item === "addNewMenu") {
+			callback();
 		}
 	} else if (event.type === "change") {
 		// Input
@@ -27,6 +27,8 @@ export function onEvent(event, callback, item) {
 			callback.updateNative("tokenGrafana", event.target.value);
 		} else if (item === "directory") {
 			callback.updateNative("directory", event.target.value);
+		} else if (item === "inputNewMenuName") {
+			callback({ newMenuName: event.target.value });
 		}
 		// Checkboxes
 		else if (item === "checkboxNoValueFound") {

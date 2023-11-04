@@ -11,7 +11,7 @@ class Button extends Component {
 	}
 
 	eventOnclickButton = (event) => {
-		onEvent(event, this.props.callback, this.props.item);
+		onEvent(event, this.props.callback, this.props.id);
 	};
 
 	render() {
@@ -32,7 +32,7 @@ class Button extends Component {
 		};
 
 		return (
-			<button style={buttonStyle} onClick={this.eventOnclickButton} title={this.props.title}>
+			<button style={buttonStyle} onClick={this.eventOnclickButton} title={this.props.title} ref={true} disabled={this.props.disabled}>
 				<span>{this.props.children}</span>
 			</button>
 		);

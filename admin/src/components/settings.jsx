@@ -35,7 +35,7 @@ class Settings extends Component {
 						<Input
 							label={I18n.t("Text will be send if no entry was found!")}
 							placeholder="No entry found"
-							data={this.props.callback}
+							callback={this.props.callback}
 							id="noEntry"
 							value={this.props.callback.native.textNoEntry}
 						/>
@@ -45,21 +45,21 @@ class Settings extends Component {
 							label={I18n.t("Active")}
 							id="checkboxNoValueFound"
 							checked={this.props.callback.native.checkbox.checkboxNoValueFound}
-							data={this.props.callback}
+							callback={this.props.callback}
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="Resize Keyboard" id="checkboxResKey" checked={this.props.callback.native.checkbox.resKey} data={this.props.callback} />
+						<Checkbox label="Resize Keyboard" id="checkboxResKey" checked={this.props.callback.native.checkbox.resKey} callback={this.props.callback} />
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="One Time Keyboard" id="checkboxOneTiKey" checked={this.props.callback.native.checkbox.oneTiKey} data={this.props.callback} />
+						<Checkbox label="One Time Keyboard" id="checkboxOneTiKey" checked={this.props.callback.native.checkbox.oneTiKey} callback={this.props.callback} />
 					</Grid>
 					<Grid item xs={6}></Grid>
 					<Grid item xs={6}>
 						<Input
 							label={I18n.t("Token Grafana")}
 							placeholder="Token Grafana"
-							data={this.props.callback}
+							callback={this.props.callback}
 							id="tokenGrafana"
 							value={this.props.callback.native.tokenGrafana}
 						/>
@@ -68,7 +68,7 @@ class Settings extends Component {
 						<Input
 							label={I18n.t("Directory")}
 							placeholder="/opt/iobroker/grafana/"
-							data={this.props.callback}
+							callback={this.props.callback}
 							id="directory"
 							value={this.props.callback.native.directory}
 						/>
