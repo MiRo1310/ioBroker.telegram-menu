@@ -13,9 +13,11 @@ function createData(call, nav, text) {
 }
 
 let rows = [];
-function getRows(element) {
+function getRows(nav, activeMenu) {
+	let elemente = nav[activeMenu];
 	rows = [];
-	for (let entry of element) {
+	if (elemente === undefined) return;
+	for (let entry of elemente) {
 		rows.push(createData(entry.call, entry.value, entry.text));
 	}
 }
@@ -24,8 +26,13 @@ class MenuNavigation extends Component {
 		super(props);
 		this.state = {};
 	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.activeMenu !== this.props.activeMenu || prevProps.nav !== this.props.nav) {
+			getRows(this.props.nav, this.props.activeMenu);
+		}
+	}
 	render() {
-		if (this.props.nav) getRows(this.props.nav.Gruppe_1);
+		if (this.props.nav) getRows(this.props.nav, this.props.activeMenu);
 		return (
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: "250px", width: "99%", overflow: "hidden" }} aria-label="simple table">
