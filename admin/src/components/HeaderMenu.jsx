@@ -27,7 +27,7 @@ class HeaderMenu extends Component {
 					</div>
 				</Grid>
 				<Grid item xs={10}>
-					<BtnCard newMenuName={this.props.newMenuName} callback={this.props.callback} />
+					<BtnCard newMenuName={this.props.newMenuName} callback={this.props.callback} usersInGroup={this.props.usersInGroup} />
 				</Grid>
 			</Grid>
 		);
