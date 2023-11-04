@@ -8,7 +8,7 @@ import { I18n } from "@iobroker/adapter-react-v5";
 
 class Select extends Component {
 	onChangeHandler = (event) => {
-		onEvent(event, this.props.data, this.props.id);
+		onEvent(event, this.props.callback, this.props.id);
 	};
 	render() {
 		return (

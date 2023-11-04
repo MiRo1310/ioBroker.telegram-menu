@@ -75,7 +75,7 @@ class HeaderTelegramUsers extends Component {
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
 								{this.props.userListWithChatID.map((user, key) => {
-									return <TelegramUserCard name={user.name} chatID={user.chatID} key={key}></TelegramUserCard>;
+									return <TelegramUserCard name={user.name} chatID={user.chatID} key={key} callback={this.props.callback}></TelegramUserCard>;
 								})}
 							</div>
 						) : null}
@@ -83,7 +83,7 @@ class HeaderTelegramUsers extends Component {
 				</Grid>
 
 				<Grid item lg={1} md={1} xs={3}>
-					{this.state.menuOpen ? <Checkbox label={this.labelCheckbox} id="checkboxActiveMenu" checked={true} data={this.props.data} /> : null}
+					{this.state.menuOpen ? <Checkbox label={this.labelCheckbox} id="checkboxActiveMenu" checked={true} callback={this.props.callback} /> : null}
 				</Grid>
 			</Grid>
 		);

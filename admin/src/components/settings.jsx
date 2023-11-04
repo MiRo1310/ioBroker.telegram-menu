@@ -26,35 +26,52 @@ class Settings extends Component {
 							placeholder="--Please choose a telegram instance--"
 							label={I18n.t("Telegram Instance")}
 							name="instance"
-							selected={this.props.data.native.instance}
+							selected={this.props.callback.native.instance}
 							id="instanceSelect"
-							data={this.props.data}
+							callback={this.props.callback}
 						></Select>
 					</Grid>
 					<Grid item xs={6}>
 						<Input
 							label={I18n.t("Text will be send if no entry was found!")}
 							placeholder="No entry found"
-							data={this.props.data}
+							data={this.props.callback}
 							id="noEntry"
-							value={this.props.data.native.textNoEntry}
+							value={this.props.callback.native.textNoEntry}
 						/>
 					</Grid>
 					<Grid item xs={6}>
-						<Checkbox label={I18n.t("Active")} id="checkboxNoValueFound" checked={this.props.data.native.checkbox.checkboxNoValueFound} data={this.props.data} />
+						<Checkbox
+							label={I18n.t("Active")}
+							id="checkboxNoValueFound"
+							checked={this.props.callback.native.checkbox.checkboxNoValueFound}
+							data={this.props.callback}
+						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="Resize Keyboard" id="checkboxResKey" checked={this.props.data.native.checkbox.resKey} data={this.props.data} />
+						<Checkbox label="Resize Keyboard" id="checkboxResKey" checked={this.props.callback.native.checkbox.resKey} data={this.props.callback} />
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="One Time Keyboard" id="checkboxOneTiKey" checked={this.props.data.native.checkbox.oneTiKey} data={this.props.data} />
+						<Checkbox label="One Time Keyboard" id="checkboxOneTiKey" checked={this.props.callback.native.checkbox.oneTiKey} data={this.props.callback} />
 					</Grid>
 					<Grid item xs={6}></Grid>
 					<Grid item xs={6}>
-						<Input label={I18n.t("Token Grafana")} placeholder="Token Grafana" data={this.props.data} id="tokenGrafana" value={this.props.data.native.tokenGrafana} />
+						<Input
+							label={I18n.t("Token Grafana")}
+							placeholder="Token Grafana"
+							data={this.props.callback}
+							id="tokenGrafana"
+							value={this.props.callback.native.tokenGrafana}
+						/>
 					</Grid>
 					<Grid item xs={4}>
-						<Input label={I18n.t("Directory")} placeholder="/opt/iobroker/grafana/" data={this.props.data} id="directory" value={this.props.data.native.directory} />
+						<Input
+							label={I18n.t("Directory")}
+							placeholder="/opt/iobroker/grafana/"
+							data={this.props.callback}
+							id="directory"
+							value={this.props.callback.native.directory}
+						/>
 					</Grid>
 				</Grid>
 			</div>

@@ -7,12 +7,14 @@
 export function onEvent(event, callback, item) {
 	console.log(event.type);
 	console.log(item);
+	console.log(event);
 	if (event.type === "click") {
 		if (item === "menuCard") {
 			callback.setState({ showMenu: !callback.state.showMenu });
-		}
-		if (item === "expandTelegramusers") {
+		} else if (item === "expandTelegramusers") {
 			callback();
+		} else if (item === "menuPopupBtn") {
+			callback.setState({ activeMenu: event.target.innerText });
 		}
 	} else if (event.type === "change") {
 		// Input

@@ -18,7 +18,7 @@ class HeaderMenu extends Component {
 						<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" item="menuCard" callback={this.props.callback}>
 							<i className="material-icons">expand_more</i>
 						</Button>
-						{this.props.showCard ? <MenuPopupCard usersInGroup={this.props.usersInGroup}></MenuPopupCard> : null}
+						{this.props.showCard ? <MenuPopupCard usersInGroup={this.props.usersInGroup} callback={this.props.callback}></MenuPopupCard> : null}
 					</div>
 					<div className="MenuHeader-ActiveMenu">
 						<p>{I18n.t("Active Menu:")}</p>

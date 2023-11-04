@@ -3,7 +3,7 @@ import { onEvent } from "../../lib/onChangeHandler";
 
 class Checkbox extends Component {
 	onChangeHandler = (event) => {
-		onEvent(event, this.props.data, this.props.id);
+		onEvent(event, this.props.callback, this.props.id);
 	};
 	render() {
 		return (

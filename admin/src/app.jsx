@@ -141,7 +141,12 @@ class App extends GenericApp {
 											<HeaderMenu
 												active={this.state.activeMenu}
 												showCard={this.state.showMenu}
-												callback={{ setState: this.setState, state: this.state }}
+												callback={{
+													native: this.state.native,
+													setState: this.setState,
+													state: this.state,
+													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+												}}
 												usersInGroup={this.state.native.usersInGroup}
 											></HeaderMenu>
 										) : null}
@@ -152,7 +157,7 @@ class App extends GenericApp {
 												userListWithChatID={this.state.native.userListWithChatID}
 												tab={this.state.tab}
 												activeMenu={this.state.activeMenu}
-												data={{
+												callback={{
 													native: this.state.native,
 													setState: this.setState,
 													state: this.state,
@@ -170,7 +175,7 @@ class App extends GenericApp {
 								<TabPanel value="3" className={this.props.classes.tab}>
 									<Settings
 										instances={this.state.instances}
-										data={{
+										callback={{
 											native: this.state.native,
 											setState: this.setState,
 											state: this.state,
