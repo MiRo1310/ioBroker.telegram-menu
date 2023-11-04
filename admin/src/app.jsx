@@ -87,6 +87,7 @@ class App extends GenericApp {
 				console.log(this.state.native);
 				const firstKey = Object.keys(this.state.data.nav)[0];
 				this.setState({ activeMenu: firstKey });
+				console.log(this.updateNativeValue);
 			});
 		}
 	}
@@ -172,7 +173,7 @@ class App extends GenericApp {
 								</Grid>
 
 								<TabPanel value="1" className={this.props.classes.tab}>
-									<MenuNavigation nav={this.state.data.nav} activeMenu={this.state.activeMenu}></MenuNavigation>
+									<MenuNavigation nav={this.state.native.data.nav} activeMenu={this.state.activeMenu}></MenuNavigation>
 								</TabPanel>
 								<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
 								<TabPanel value="3" className={this.props.classes.tab}>

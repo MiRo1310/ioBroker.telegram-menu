@@ -15,7 +15,7 @@ class MenuPopupCard extends Component {
 							margin="10px 5% 10px 5%"
 							border="1px solid black"
 							round="4px"
-							item="menuPopupBtn"
+							id="menuPopupBtn"
 							width="90%"
 							height="40px"
 							fontSize="16px"

@@ -15,7 +15,7 @@ class HeaderMenu extends Component {
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={2}>
 					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="MenuHeader-menuPopupCard">
-						<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" item="menuCard" callback={this.props.callback}>
+						<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" id="menuCard" callback={this.props.callback}>
 							{this.props.showPopupMenuList ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 						</Button>
 						<span>{I18n.t("Menu list")}</span>

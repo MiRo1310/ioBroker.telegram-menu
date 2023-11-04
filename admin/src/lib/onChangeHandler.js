@@ -4,8 +4,8 @@
  * @param {*} callback Callback
  * @param {string} item Item
  */
-export function onEvent(event, callback, item) {
-	console.log({ type: event.type, item: item, callback: callback, event: event });
+export function onEvent(event, callback, item, value) {
+	// console.log({ type: event.type, item: item, callback: callback, event: event });
 	if (event.type === "click") {
 		if (item === "menuCard") {
 			callback.setState({ showMenu: !callback.state.showMenu });
@@ -45,6 +45,10 @@ export function onEvent(event, callback, item) {
 	} else if (event.type === "mouseleave") {
 		if (item === "menuCard") {
 			callback.setState({ showPopupMenuList: false });
+		}
+	} else if (event === "") {
+		if (item === "addNewMenu") {
+			callback.setState({ activeMenu: value });
 		}
 	}
 }
