@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Input from "./btn-Input/input";
+import Input from "./btn-Input/Input";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "./btn-Input/checkbox";
 import { I18n } from "@iobroker/adapter-react-v5";

@@ -2,31 +2,28 @@ import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
 import { onEvent } from "../../lib/onChangeHandler";
 import { I18n } from "@iobroker/adapter-react-v5";
-/**
- * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
- */
-const styles = (_theme) => ({
-	input: {
-		width: "100%",
-		padding: "8px 0px",
-		margin: "8px",
-		fontSize: "16px",
-		border: "none",
-		borderColor: "transparent",
-		borderBottom: "1px solid #ccc",
-	},
-});
+
 class Input extends Component {
 	onChangeHandler = (event) => {
 		onEvent(event, this.props.callback, this.props.id);
 	};
 	render() {
+		const inputStyle = {
+			width: this.props.width ? this.props.width : "100%",
+			padding: "8px 0px",
+			margin: this.props.margin ? this.props.margin : "8px",
+			fontSize: "16px",
+			border: "none",
+			borderColor: "transparent",
+			borderBottom: "1px solid #ccc",
+		};
 		return (
 			<div className="InputField">
 				<label>
 					<input
+						style={inputStyle}
 						type="text"
-						className={this.props.classes.input}
+						className="InputField"
 						placeholder={I18n.t(this.props.placeholder)}
 						value={this.props.value}
 						onChange={this.onChangeHandler}
@@ -39,4 +36,4 @@ class Input extends Component {
 	}
 }
 
-export default withStyles(styles)(Input);
+export default Input;

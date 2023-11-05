@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Input from "./btn-Input/input";
+import Input from "./btn-Input/Input";
 import Grid from "@material-ui/core/Grid";
 import Button from "./btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
@@ -35,10 +35,6 @@ class BtnCard extends Component {
 			this.props.callback.updateNative("data.action", action);
 			this.props.callback.updateNative("usersInGroup", usersInGroup);
 			this.props.callback.updateNative("onchange", !this.props.callback.native.onchange || false);
-
-			// setTimeout(() => {
-			// 	console.log(this.props.callback.native.menus);
-			// }, 1000);
 		} else {
 			if (this.state.newMenuName !== "") console.log("empty input field!");
 			else console.log("Menu already exists!");
@@ -61,7 +57,9 @@ class BtnCard extends Component {
 		this.setState({ confirmDialog: true });
 	};
 	renameMenu = () => {};
-	openRenameDialog = () => {};
+	openRenameDialog = () => {
+		this.setState({ renameMenu: true });
+	};
 
 	render() {
 		return (
@@ -105,7 +103,7 @@ class BtnCard extends Component {
 								}}
 							></ConfirmDialog>
 						) : null}
-						<RenameDialog></RenameDialog>
+						{this.state.renameMenu ? <RenameDialog title={I18n.t("Rename menu name")} value={this.props.activeMenu} callback={this.setState}></RenameDialog> : null}
 					</Grid>
 				</Grid>
 			</Grid>

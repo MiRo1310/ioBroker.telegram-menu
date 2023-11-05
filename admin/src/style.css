@@ -37,11 +37,18 @@ body {
 }
 
 /* Allgemein */
+/* .App:has(.renameDialogHeader) {
+	opacity: 0.5;
+	 transition: opacity 255s; 
+} 
+*/
+/* .renameDialogHeader {
+	opacity: 1;
+} */
 button {
 	cursor: pointer;
 }
 
-input,
 input ~ p {
 	margin-left: 5px !important;
 }
