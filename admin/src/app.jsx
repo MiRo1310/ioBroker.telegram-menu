@@ -14,7 +14,7 @@ import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
 
 import getIobrokerData from "./lib/socket";
 import helperFunction from "./lib/Utilis";
-
+let myTheme;
 /**
  * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
  */
@@ -76,7 +76,7 @@ class App extends GenericApp {
 	onConnectionReady() {
 		// executed when connection is ready
 		this.getUsersFromTelegram();
-
+		myTheme = this.props.themeName;
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
 		});

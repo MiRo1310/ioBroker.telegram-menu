@@ -52,6 +52,9 @@ input ~ p {
 input:focus {
 	outline: none;
 }
+div.App.dark .even {
+	background-color: #333;
+}
 .even {
 	background-color: #eee;
 }
