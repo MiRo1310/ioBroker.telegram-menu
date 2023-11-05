@@ -9,14 +9,10 @@ export function onEvent(event, callback, item, value) {
 	if (event.type === "click") {
 		if (item === "menuCard") {
 			callback.setState({ showMenu: !callback.state.showMenu });
-		} else if (item === "expandTelegramusers") {
-			callback();
 		} else if (item === "menuPopupBtn") {
 			callback.setState({ activeMenu: event.target.innerText });
 			callback.setState({ showPopupMenuList: false });
-		} else if (item === "addNewMenu") {
-			callback();
-		} else if ((item = "deleteMenu")) {
+		} else if (item === "addNewMenu" || item === "deleteMenu" || item === "renameMenu" || item === "expandTelegramusers") {
 			callback();
 		}
 	} else if (event.type === "change") {
