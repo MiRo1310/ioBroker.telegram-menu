@@ -101,6 +101,7 @@ class App extends GenericApp {
 		this.setState({ tab: val });
 		console.log(val);
 	}
+	mytheme = this.props.themeName;
 
 	render() {
 		if (!this.state.loaded) {
@@ -108,7 +109,7 @@ class App extends GenericApp {
 		}
 
 		return (
-			<div className="App row">
+			<div className={`App row ${this.mytheme}`}>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<Item className="iconBar">
