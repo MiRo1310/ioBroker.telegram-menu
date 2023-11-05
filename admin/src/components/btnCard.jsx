@@ -26,7 +26,6 @@ class BtnCard extends Component {
 			this.setState({ newMenuName: "" });
 
 			onEvent("", this.props.callback, "addNewMenu", this.state.newMenuName);
-			onEvent("", this.props.callback, "nativeChanged", true);
 
 			this.props.callback.updateNative("data.nav", nav);
 			this.props.callback.updateNative("data.action", action);
@@ -42,7 +41,18 @@ class BtnCard extends Component {
 		}
 	};
 
-	removeMenu = () => {};
+	removeMenu = () => {
+		const newObject = { ...this.props.callback.native.data };
+		const newUsersInGroup = { ...this.props.callback.native.usersInGroup };
+
+		delete newObject.nav[this.props.activeMenu];
+		delete newObject.action[this.props.activeMenu];
+		delete newUsersInGroup[this.props.activeMenu];
+		let firstMenu = Object.keys(newObject.nav)[0];
+		this.props.callback.updateNative("data", newObject.data);
+		this.props.callback.updateNative("usersInGroup", newUsersInGroup);
+		this.props.callback.setState({ activeMenu: firstMenu });
+	};
 
 	render() {
 		return (
@@ -58,7 +68,7 @@ class BtnCard extends Component {
 					</Grid>
 
 					<Grid item xs="auto">
-						<Button b_color="red" color="white" margin="1px" width="100px" height="40px" callback={this.removeMenu}>
+						<Button b_color="red" color="white" margin="1px" width="100px" height="40px" id="deleteMenu" callback={this.removeMenu.bind(this)}>
 							<i className="material-icons">delete</i>Delete
 						</Button>
 					</Grid>

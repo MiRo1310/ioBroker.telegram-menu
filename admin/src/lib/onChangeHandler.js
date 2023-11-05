@@ -16,6 +16,8 @@ export function onEvent(event, callback, item, value) {
 			callback.setState({ showPopupMenuList: false });
 		} else if (item === "addNewMenu") {
 			callback();
+		} else if ((item = "deleteMenu")) {
+			callback();
 		}
 	} else if (event.type === "change") {
 		// Input

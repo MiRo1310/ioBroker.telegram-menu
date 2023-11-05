@@ -2,9 +2,20 @@ import React, { Component } from "react";
 import Button from "./btn-Input/Button";
 
 class MenuPopupCard extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.usersInGroup !== this.props.usersInGroup) {
+			this.menuList = Object.keys(this.props.usersInGroup);
+			console.log(this.menuList);
+		}
+	}
 	menuList = Object.keys(this.props.usersInGroup);
 
 	render() {
+		console.log(this.props.usersInGroup);
 		return (
 			<div className="menuPopup">
 				{this.menuList.map((menu, index) => {

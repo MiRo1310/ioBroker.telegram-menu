@@ -141,7 +141,7 @@ class App extends GenericApp {
 										{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
 										{this.state.tab != "3" ? (
 											<HeaderMenu
-												active={this.state.activeMenu}
+												activeMenu={this.state.activeMenu}
 												showPopupMenuList={this.state.showPopupMenuList}
 												callback={{
 													native: this.state.native,

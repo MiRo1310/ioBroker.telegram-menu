@@ -23,11 +23,11 @@ class HeaderMenu extends Component {
 					</div>
 					<div className="MenuHeader-ActiveMenu">
 						<p>{I18n.t("Active Menu:")}</p>
-						<span className="MenuHeader-borderActiveMenu">{this.props.active}</span>
+						<span className="MenuHeader-borderActiveMenu">{this.props.activeMenu}</span>
 					</div>
 				</Grid>
 				<Grid item xs={10}>
-					<BtnCard newMenuName={this.props.newMenuName} callback={this.props.callback} usersInGroup={this.props.usersInGroup} />
+					<BtnCard newMenuName={this.props.newMenuName} callback={this.props.callback} usersInGroup={this.props.usersInGroup} activeMenu={this.props.activeMenu} />
 				</Grid>
 			</Grid>
 		);
