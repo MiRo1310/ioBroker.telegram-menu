@@ -54,10 +54,21 @@ class RenameDialog extends Component {
 					<Input width="80%" value={this.state.value} margin="0px 10% 0 10%"></Input>
 				</div>
 				<div className={this.props.classes.renameDialogFooterContent}>
-					<Button b_color="#fff" margin="10px 5% 10px 4%" border="1px solid black" round="4px" id="menuPopupBtn" width="41%" height="40px" fontSize="16px" padding="0">
+					<Button
+						b_color="#fff"
+						margin="10px 5% 10px 4%"
+						border="1px solid black"
+						round="4px"
+						id="openRenameMenu"
+						callback={this.props.callback}
+						width="41%"
+						height="40px"
+						fontSize="16px"
+						padding="0"
+					>
 						{I18n.t("OK")}
 					</Button>
-					<Button b_color="#fff" margin="10px 5% 10px 4%" border="1px solid black" round="4px" id="menuPopupBtn" width="41%" height="40px" fontSize="16px" padding="0">
+					<Button b_color="#fff" margin="10px 5% 10px 4%" border="1px solid black" round="4px" width="41%" height="40px" fontSize="16px" padding="0">
 						{I18n.t("Cancel")}
 					</Button>
 				</div>

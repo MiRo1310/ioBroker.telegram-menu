@@ -87,7 +87,6 @@ class App extends GenericApp {
 				console.log(this.state.native);
 				const firstKey = Object.keys(this.state.data.nav)[0];
 				this.setState({ activeMenu: firstKey });
-				console.log(this.updateNativeValue);
 			});
 		}
 	}

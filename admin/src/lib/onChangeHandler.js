@@ -5,7 +5,7 @@
  * @param {string} item Item
  */
 export function onEvent(event, callback, item, value) {
-	// console.log({ type: event.type, item: item, callback: callback, event: event });
+	console.log({ type: event.type, item: item, callback: callback, event: event });
 	if (event.type === "click") {
 		if (item === "menuCard") {
 			callback.setState({ showMenu: !callback.state.showMenu });
@@ -13,6 +13,8 @@ export function onEvent(event, callback, item, value) {
 			callback.setState({ activeMenu: event.target.innerText });
 			callback.setState({ showPopupMenuList: false });
 		} else if (item === "addNewMenu" || item === "deleteMenu" || item === "renameMenu" || item === "expandTelegramusers") {
+			callback();
+		} else if (item === "openRenameMenu") {
 			callback();
 		}
 	} else if (event.type === "change") {

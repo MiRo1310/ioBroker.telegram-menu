@@ -58,7 +58,9 @@ class BtnCard extends Component {
 	};
 	renameMenu = () => {};
 	openRenameDialog = () => {
-		this.setState({ renameMenu: true });
+		console.log("openRenameDialog");
+		this.setState({ renameDialog: true });
+		console.log(this.state.renameDialog);
 	};
 
 	render() {
@@ -80,7 +82,7 @@ class BtnCard extends Component {
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
-						<Button b_color="blue" color="white" margin="1px" width="100px" height="40px" id="editMenu" callback={this.openRenameDialog}>
+						<Button b_color="blue" color="white" margin="1px" width="100px" height="40px" id="openRenameMenu" callback={this.openRenameDialog}>
 							<i className="material-icons">edit</i>Edit
 						</Button>
 					</Grid>
@@ -103,7 +105,9 @@ class BtnCard extends Component {
 								}}
 							></ConfirmDialog>
 						) : null}
-						{this.state.renameMenu ? <RenameDialog title={I18n.t("Rename menu name")} value={this.props.activeMenu} callback={this.setState}></RenameDialog> : null}
+						{this.state.renameDialog ? (
+							<RenameDialog title={I18n.t("Rename menu name")} value={this.props.activeMenu} callback={this.setState.bind(this)}></RenameDialog>
+						) : null}
 					</Grid>
 				</Grid>
 			</Grid>
