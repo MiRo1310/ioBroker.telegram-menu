@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { onEvent } from "../../lib/onChangeHandler";
 
 class Checkbox extends Component {
 	onChangeHandler = (event) => {
-		onEvent(event, this.props.callback, this.props.id);
+		if (this.props.setNative) {
+			this.props.callback(this.props.id, event.target.checked);
+		} else {
+			this.props.callback({ [this.props.id]: event.target.checked });
+		}
 	};
+
 	render() {
 		return (
 			<div className="Checkbox" style={{ display: "inline" }}>

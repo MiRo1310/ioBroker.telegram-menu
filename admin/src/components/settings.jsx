@@ -22,55 +22,72 @@ class Settings extends Component {
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<Select
-							options={this.props.instances}
+							options={this.props.data.instances}
 							placeholder="--Please choose a telegram instance--"
 							label={I18n.t("Telegram Instance")}
 							name="instance"
-							selected={this.props.callback.native.instance}
-							id="instanceSelect"
-							callback={this.props.callback}
+							selected={this.props.data.state.native.instance}
+							id="instance"
+							callback={this.props.callback.updateNative}
+							setNative={true}
 						></Select>
 					</Grid>
 					<Grid item xs={6}>
 						<Input
 							label={I18n.t("Text will be send if no entry was found!")}
 							placeholder="No entry found"
-							callback={this.props.callback}
-							id="noEntry"
-							value={this.props.callback.native.textNoEntry}
+							callback={this.props.callback.updateNative}
+							id="textNoEntry"
+							value={this.props.data.state.native.textNoEntry}
+							setNative={true}
 						/>
 					</Grid>
 					<Grid item xs={6}>
 						<Checkbox
 							label={I18n.t("Active")}
-							id="checkboxNoValueFound"
-							checked={this.props.callback.native.checkbox.checkboxNoValueFound}
-							callback={this.props.callback}
+							id="checkbox.checkboxNoValueFound"
+							checked={this.props.data.state.native.checkbox.checkboxNoValueFound}
+							callback={this.props.callback.updateNative}
+							setNative={true}
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="Resize Keyboard" id="checkboxResKey" checked={this.props.callback.native.checkbox.resKey} callback={this.props.callback} />
+						<Checkbox
+							label="Resize Keyboard"
+							id="checkbox.resKey"
+							checked={this.props.data.state.native.checkbox.resKey}
+							callback={this.props.callback.updateNative}
+							setNative={true}
+						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Checkbox label="One Time Keyboard" id="checkboxOneTiKey" checked={this.props.callback.native.checkbox.oneTiKey} callback={this.props.callback} />
+						<Checkbox
+							label="One Time Keyboard"
+							id="checkbox.oneTiKey"
+							checked={this.props.data.state.native.checkbox.oneTiKey}
+							callback={this.props.callback.updateNative}
+							setNative={true}
+						/>
 					</Grid>
 					<Grid item xs={6}></Grid>
 					<Grid item xs={6}>
 						<Input
 							label={I18n.t("Token Grafana")}
 							placeholder="Token Grafana"
-							callback={this.props.callback}
+							callback={this.props.callback.updateNative}
 							id="tokenGrafana"
-							value={this.props.callback.native.tokenGrafana}
+							value={this.props.data.state.native.tokenGrafana}
+							setNative={true}
 						/>
 					</Grid>
 					<Grid item xs={4}>
 						<Input
 							label={I18n.t("Directory")}
 							placeholder="/opt/iobroker/grafana/"
-							callback={this.props.callback}
+							callback={this.props.callback.updateNative}
 							id="directory"
-							value={this.props.callback.native.directory}
+							value={this.props.data.state.native.directory}
+							setNative={true}
 						/>
 					</Grid>
 				</Grid>

@@ -141,29 +141,20 @@ class App extends GenericApp {
 										{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
 										{this.state.tab != "3" ? (
 											<HeaderMenu
-												activeMenu={this.state.activeMenu}
-												showPopupMenuList={this.state.showPopupMenuList}
+												data={{ state: this.state }}
 												callback={{
-													native: this.state.native,
 													setState: this.setState,
-													state: this.state,
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 												}}
-												usersInGroup={this.state.native.usersInGroup}
-												newMenuName={this.state.newMenuName}
 											></HeaderMenu>
 										) : null}
 									</Grid>
 									<Grid item xs={12}>
 										{this.state.tab != "3" ? (
 											<HeaderTelegramUsers
-												userListWithChatID={this.state.native.userListWithChatID}
-												tab={this.state.tab}
-												activeMenu={this.state.activeMenu}
+												data={{ state: this.state }}
 												callback={{
-													native: this.state.native,
 													setState: this.setState,
-													state: this.state,
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 												}}
 												menuPopupOpen={this.state.popupMenuOpen}
@@ -178,11 +169,9 @@ class App extends GenericApp {
 								<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
 								<TabPanel value="3" className={this.props.classes.tab}>
 									<Settings
-										instances={this.state.instances}
+										data={{ data: this.state.instances, state: this.state }}
 										callback={{
-											native: this.state.native,
 											setState: this.setState,
-											state: this.state,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 										}}
 									></Settings>

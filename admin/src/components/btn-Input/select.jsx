@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { onEvent } from "../../lib/onChangeHandler";
 import { I18n } from "@iobroker/adapter-react-v5";
-
-/**
- * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
- */
 
 class Select extends Component {
 	onChangeHandler = (event) => {
-		onEvent(event, this.props.callback, this.props.id);
+		if (this.props.setNative) {
+			this.props.callback(this.props.id, event.target.value);
+		} else {
+			this.props.callback({ [this.props.id]: event.target.value });
+		}
 	};
 	render() {
 		return (

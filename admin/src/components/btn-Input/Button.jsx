@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import { onEvent } from "../../lib/onChangeHandler";
 
 class Button extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			event: "",
-		};
-		this.eventOnclickButton = this.eventOnclickButton.bind(this);
-	}
-
 	eventOnclickButton = (event) => {
-		onEvent(event, this.props.callback, this.props.id);
+		let value;
+		console.log(event.target.innerText);
+		console.log(this.props.callbackValue);
+		if (this.props.callbackValue === "event.target.innerText") value = event.target.innerText;
+		else value = this.props.callbackValue;
+		console.log(value);
+		if (this.props.setNative) {
+			this.props.callback(this.props.id, value);
+		} else {
+			this.props.callback({ [this.props.id]: value });
+		}
+		if (this.props.secondCallback) this.props.secondCallback();
 	};
 
 	render() {

@@ -3,7 +3,6 @@ import Input from "./btn-Input/Input";
 import Grid from "@material-ui/core/Grid";
 import Button from "./btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { onEvent } from "../lib/onChangeHandler";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
 import RenameDialog from "./RenameDialog";
 class BtnCard extends Component {
@@ -14,14 +13,12 @@ class BtnCard extends Component {
 			confirmDialog: false,
 			renameDialog: false,
 		};
-		this.setState = this.setState.bind(this);
 	}
 	addNewMenu = () => {
-		if (this.state.newMenuName !== "" && !this.props.callback.native.data.nav[this.state.newMenuName]) {
-			const nav = this.props.callback.native.data.nav;
-			const action = this.props.callback.native.data.action;
-			const usersInGroup = this.props.callback.native.usersInGroup;
-			const menus = this.props.callback.native.menus;
+		if (this.state.newMenuName !== "" && !this.props.data.state.native.data.nav[this.state.newMenuName]) {
+			const nav = { ...this.props.data.state.native.data.nav };
+			const action = { ...this.props.data.state.native.data.action };
+			const usersInGroup = { ...this.props.data.state.native.usersInGroup };
 
 			nav[this.state.newMenuName] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
 			action[this.state.newMenuName] = [{ get: [], set: [], pic: [] }];
@@ -29,12 +26,12 @@ class BtnCard extends Component {
 
 			this.setState({ newMenuName: "" });
 
-			onEvent("", this.props.callback, "addNewMenu", this.state.newMenuName);
+			// onEvent("", this.props.callback, "addNewMenu", this.state.newMenuName);
 
 			this.props.callback.updateNative("data.nav", nav);
 			this.props.callback.updateNative("data.action", action);
 			this.props.callback.updateNative("usersInGroup", usersInGroup);
-			this.props.callback.updateNative("onchange", !this.props.callback.native.onchange || false);
+			// this.props.callback.updateNative("onchange", !this.props.data.state.native.onchange || false);
 		} else {
 			if (this.state.newMenuName !== "") console.log("empty input field!");
 			else console.log("Menu already exists!");
@@ -42,8 +39,8 @@ class BtnCard extends Component {
 	};
 
 	removeMenu = () => {
-		const newObject = { ...this.props.callback.native.data };
-		const newUsersInGroup = { ...this.props.callback.native.usersInGroup };
+		const newObject = { ...this.props.data.state.native.data };
+		const newUsersInGroup = { ...this.props.data.state.native.usersInGroup };
 
 		delete newObject.nav[this.props.activeMenu];
 		delete newObject.action[this.props.activeMenu];
@@ -67,7 +64,7 @@ class BtnCard extends Component {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={4}>
-					<Input label={I18n.t("Add new Menu Name")} width="80%" id="inputNewMenuName" value={this.state.newMenuName} callback={this.setState}></Input>
+					<Input label={I18n.t("Add new Menu Name")} width="80%" id="newMenuName" value={this.state.newMenuName} callback={this.setState}></Input>
 				</Grid>
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">

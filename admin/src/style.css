@@ -37,14 +37,13 @@ body {
 }
 
 /* Allgemein */
-/* .App:has(.renameDialogHeader) {
+.App:has(.renameDialogHeader) {
 	opacity: 0.5;
-	 transition: opacity 255s; 
-} 
-*/
-/* .renameDialogHeader {
-	opacity: 1;
-} */
+}
+
+.App div.RenameDialog-renameDialog-6 {
+	opacity: 100% !important;
+}
 button {
 	cursor: pointer;
 }

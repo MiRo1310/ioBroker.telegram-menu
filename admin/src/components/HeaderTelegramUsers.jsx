@@ -27,17 +27,17 @@ class HeaderTelegramUsers extends Component {
 		super(props);
 		this.state = {
 			menuOpen: true,
-			labelCheckbox: createLabel(this.props.activeMenu, "active"),
+			labelCheckbox: createLabel(this.props.data.state.activeMenu, "active"),
 		};
 	}
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.activeMenu) {
-			this.setState({ labelCheckbox: createLabel(this.props.activeMenu, "active") });
+		if (prevProps.activeMenu !== this.props.data.state.activeMenu) {
+			this.setState({ labelCheckbox: createLabel(this.props.data.state.activeMenu, "active") });
 		}
 	}
 
-	labelCheckbox = createLabel(this.props.activeMenu, "active");
+	labelCheckbox = createLabel(this.props.data.state.activeMenu, "active");
 	updateMenuOpen = () => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
@@ -46,7 +46,7 @@ class HeaderTelegramUsers extends Component {
 		return (
 			<Grid container spacing={2}>
 				<Grid item lg={2} md={3} xs={4}>
-					{this.props.tab === "2" ? (
+					{this.props.data.state.tab === "2" ? (
 						<div className="HeaderThirdRow-ButtonAction">
 							<Button b_color="#96d15a" title="Add new Action" width="100%" margin="0 18px" height="50px">
 								<i className="material-icons translate">add</i>
@@ -66,7 +66,7 @@ class HeaderTelegramUsers extends Component {
 						{this.state.menuOpen ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
-								{this.props.userListWithChatID.map((user, key) => {
+								{this.props.data.state.native.userListWithChatID.map((user, key) => {
 									return <TelegramUserCard name={user.name} chatID={user.chatID} key={key} callback={this.props.callback}></TelegramUserCard>;
 								})}
 							</div>

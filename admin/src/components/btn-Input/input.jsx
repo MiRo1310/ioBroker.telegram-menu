@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { withStyles } from "@mui/styles";
-import { onEvent } from "../../lib/onChangeHandler";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 class Input extends Component {
 	onChangeHandler = (event) => {
-		onEvent(event, this.props.callback, this.props.id);
+		if (this.props.setNative) {
+			this.props.callback(this.props.id, event.target.value);
+		} else {
+			this.props.callback({ [this.props.id]: event.target.value });
+		}
 	};
 	render() {
 		const inputStyle = {
