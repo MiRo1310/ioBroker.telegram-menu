@@ -1,199 +1,199 @@
 {
-    "common": {
-        "name": "telegram-menu",
-        "version": "0.8.3",
-        "news": {
-            "0.8.3": {
-                "en": "fix, step smaller than 1 in submenu number and percent\ngloabl fixes in submenu",
-                "de": "fix, schritt kleiner als 1 in untermenünummer und prozent\ngloabl fixes in submenu",
-                "ru": "исправить, шаг меньше 1 в подменю номер и процент\ngloabl исправляет в подменю",
-                "pt": "corrigir, passo menor que 1 no número submenu e por cento\ngloabl correções em submenu",
-                "nl": "vertaling:\ngloabel in submenu",
-                "fr": "fixer, faire plus petit que 1 dans le numéro de sous-menu et pour cent\ngloabl corrige dans le sous-menu",
-                "it": "correzione, passo più piccolo di 1 in numero submenu e per cento\nguaabl fissa in submenu",
-                "es": "fijado, paso más pequeño que 1 en submenú número y porcentaje\ngloabl fijados en submenu",
-                "pl": "metoda ta jest mniejsza niż 1 w liczbie submenu i 1%\nustalenie w podmenu",
-                "uk": "фіксація, крок менше 1 в субмену кількість і відсотків\nглобл закріплює в підменю",
-                "zh-cn": "fix 小于1级和4%\n分项abl f"
-            },
-            "0.8.2": {
-                "en": "fix {status:...}",
-                "de": "fix {status.}:",
-                "ru": "исправить {status.}:",
-                "pt": "correção",
-                "nl": "maak status",
-                "fr": "correction {status.}:",
-                "it": "correggere {status.}:",
-                "es": "arréglalo",
-                "pl": "refix {status.}",
-                "uk": "фіксація {status.}:",
-                "zh-cn": "fixstatus:]"
-            },
-            "0.8.1": {
-                "en": "hotfix, submenu switch",
-                "de": "hotfix, untermenüschalter",
-                "ru": "hotfix, подменю переключатель",
-                "pt": "hotfix, interruptor submenu",
-                "nl": "quality over quantity (qoq) releases vertaling:",
-                "fr": "hotfix, commutateur sous-menu",
-                "it": "hotfix, commutatore submenu",
-                "es": "hotfix, interruptor submenu",
-                "pl": "hotfix, submenu switch",
-                "uk": "hotfix, перемикач підменю",
-                "zh-cn": "热fix,分门转换"
-            },
-            "0.8.0": {
-                "en": "text blocks created as a selection list, including the selection of the ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nget status\nsmall fixes",
-                "de": "als Auswahlliste erstellte Textblöcke, einschließlich der Auswahl der ID\ntext in untermenü ist nun im textfeld in der navigation editierbar\niD durch Menü öffnen\nstatus\nkleine fixierungen",
-                "ru": "текстовые блоки, созданные как список отбора, включая подбор ID\nтекст в подменю теперь редактируем в текстовом поле в навигации\nустановите ID, откройте меню\nполучить статус\nнебольшие исправления",
-                "pt": "blocos de texto criados como uma lista de seleção, incluindo a seleção do ID\ntexto no submenus agora é editável no campo de texto na navegação\nset ID por abrir um menu\nobter status\npequenas correções",
-                "nl": "vertaling:\nsms in submenus is nu editabel in het sms in de navigatie\niD van een menukaart\nsta op\nkleine fixes",
-                "fr": "blocs texte créés comme liste de sélection, y compris la sélection de l'ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nobtenir le statut\npetites corrections",
-                "it": "blocchi di testo creati come elenco di selezione, inclusa la selezione dell'ID\ntesto in submenus è ora modificabile nel campo di testo nella navigazione\nset ID per aprire un menu\nottenere stato\npiccole correzioni",
-                "es": "bloques de texto creados como lista de selección, incluyendo la selección del ID\ntexto en submenú es ahora editable en el campo de texto en la navegación\nestablecer ID por abrir un menú\nobtener el estado\npequeños accesorios",
-                "pl": "bloki tekstowe tworzone jako lista wyborcza, w tym wybór ID\ntekst w podmenu jest obecnie edytowany w polu tekstowym w nawigacji\nzademonstrowany przez otwarte menu\nmieć status\ndrobne rozwiązanie",
-                "uk": "текстові блоки, створені в списку вибору, включаючи вибір ID\nтекст в підменю тепер редагований в текстовому полі на навігацію\nвстановіть ID за допомогою меню\nотримати статус\nмаленькі кріплення",
-                "zh-cn": "选择名单,包括选择裁研所的案文\n导航场案文现在可归入。\n开 门\n身份\n小型配件"
-            },
-            "0.7.2": {
-                "en": "submenu Number fixed\ntext is lost when editing #63\nconvert milliseconds value to a local time specification\nsetstate and get result of another state with text adjusted",
-                "de": "unterpositionen Anzahl fest\ntext wird beim editieren von #63 verloren\nmillisekunden-wert in eine lokale zeitvorgabe umwandeln\nsetstate und erhalten ergebnis eines anderen staates mit text angepasst",
-                "ru": "подменю Номер фиксированный\nтекст теряется при редактировании #63\nконвертировать миллисекундное значение в местную спецификацию времени\nsetstate и получить результат другого государства с текстом скорректирован",
-                "pt": "submenu Número fixo\ntexto é perdido ao editar #63\nconverter valor de milissegundos para uma especificação de tempo local\nsetstate e obter resultado de outro estado com texto ajustado",
-                "nl": "submenu Nummer gerepareerd\nsms is verloren als editing 63\nverbergt milliseconden waarde voor een plaatselijke tijd specifiek\nvertaling:",
-                "fr": "sous-menu Nombre fixe\ntexte est perdu lors de l'édition #63\nconvertir la valeur millisecondes à une spécification locale\nsetstate and get result of another state with text adjusted",
-                "it": "sottomenu Numero fisso\ntesto si perde quando si modifica #63\nconvertire il valore di millisecondi in una specifica dell'ora locale\nsetstate e ottenere il risultato di un altro stato con testo regolato",
-                "es": "submenú Número fijo\ntexto se pierde cuando se edita #63\nconvertir el valor de milisegundos a una especificación de tiempo local\nsetstate y obtener resultado de otro estado con texto ajustado",
-                "pl": "submenu liczba stała\ntekst został utracony podczas edycji #63\nwartość zwrotu milisekund do specyfikacji czasu lokalnego\nzbiór i dostaniemy rezultat innego stanu z tekstem dostosowywanym",
-                "uk": "субмену Номер фіксований\nтекст втрачено при редагування #63\nконвертувати значення мілісекундів в локальну специфікацію часу\nsetstate і отримати результат іншої держави з текстом",
-                "zh-cn": "分项 固定人数\n编辑第63号\n当地时间的具体化肥价值\na. 一国和另一国由于经调整案文"
-            },
-            "0.7.1": {
-                "en": "bugfix, Error read UserListTypeError: Cannot read properties of undefined",
-                "de": "bugfix, Fehler lesen UserListType Fehler: Nicht zu lesen Eigenschaften von undefiniert",
-                "ru": "bugfix, Ошибка читать UserListType Ошибка: Не смогите прочитать свойства неопределенного",
-                "pt": "bugfix, Erro lido UserListType Erro: Não é possível ler propriedades indefinidas",
-                "nl": "error las UserListType Error: Kan niet onbepaalde eigenschappen lezen",
-                "fr": "bugfix, Erreur lire UserListType Erreur: Cannot read properties of undefined",
-                "it": "bugfix, Error read UserListType Errore: Proprietà di lettura non definite",
-                "es": "bugfix, Error leer UserListType Error: No se pueden leer propiedades indefinidas",
-                "pl": "error przeczytał UserListType Error: Cannot czytał właściwości nieokreślone",
-                "uk": "javaScript licenses API Веб-сайт Go1.13.8 Помилка: Не можна прочитати властивості невизначених",
-                "zh-cn": "bugfix, Error读者 rror: 评 注"
-            },
-            "0.7.0": {
-                "en": "#53 feature: sendPicture von server-path\n#52 icons are missing, copy data\n#51 by creating a new Menu, the Users are not shown",
-                "de": "#53 Feature: sendPicture von server-path\n#52 symbole fehlen, kopierdaten\n#51 durch Erstellen eines neuen Menüs, die Benutzer werden nicht angezeigt",
-                "ru": "#53 функция: sendPicture von server-path\n#52 иконки отсутствуют, копирование данных\n#51, создавая новое меню, Пользователи не отображаются",
-                "pt": "Característica #53: sendPicture von server-path\n#52 ícones estão faltando, copiar dados\n#51 criando um novo Menu, os Usuários não são mostrados",
-                "nl": "Vertaling:\n52 iconen ontbreken\nQuality over Quantity (QoQ) Releases Vertaling:",
-                "fr": "#53 fonction: sendPicture von server-path\n#52 icônes sont manquantes, données de copie\n#51 en créant un nouveau menu, les Utilisateurs ne sont pas affichés",
-                "it": "#53 caratteristica: sendPicture von server-path\n#52 icone mancanti, copia dati\n#51 creando un nuovo menu, gli utenti non vengono mostrati",
-                "es": "función #53: sendPicture von server-path\n#52 iconos faltan, copiar datos\n#51 mediante la creación de un nuevo Menú, los Usuarios no se muestran",
-                "pl": "#53: Wysyłanie serwera\nzaginęło 52 ikony\n#51 poprzez stworzenie nowego Menu, Użytkownicy nie zostali przedstawieni",
-                "uk": "#53 Функція: sendPicture фон сервер-path\n#52 іконки відсутні, копіювання даних\n#51 шляхом створення нового меню Користувачі не показані",
-                "zh-cn": "#53 特色:寄电器\n第52条 遗漏,复印数据\n第51号活动是创建一个新的男子,用户没有证明。"
-            }
-        },
-        "titleLang": {
-            "en": "Telegram Menu",
-            "de": "Telegramm-Menü",
-            "ru": "Меню телеграммы",
-            "pt": "Menu Telegram",
-            "nl": "Telegram-menu",
-            "fr": "Menu Télégramme",
-            "it": "Menù telegramma",
-            "es": "Menú de telegramas",
-            "pl": "menu telegramu",
-            "zh-cn": "电报菜单",
-            "uk": "Меню Telegram"
-        },
-        "desc": {
-            "en": "Easily create Telegram Menus",
-            "de": "Erstellen Sie ganz einfach Telegrammmenüs",
-            "ru": "Легко создавать меню Telegram",
-            "pt": "Crie facilmente menus de telegrama",
-            "nl": "Maak eenvoudig Telegram-menu's",
-            "fr": "Créez facilement des menus de télégramme",
-            "it": "Crea facilmente menu di Telegram",
-            "es": "Crea fácilmente menús de Telegram",
-            "pl": "Z łatwością twórz menu telegramu",
-            "zh-cn": "轻松创建电报菜单",
-            "uk": "Легко створюйте меню Telegram"
-        },
-        "authors": [
-            "MiRo1310 <michael.roling@gmx.de>"
-        ],
-        "keywords": [
-            "telegram",
-            "menu"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "telegram-menu.png",
-        "enabled": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-        "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "messaging",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "materialize"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=3.3.22"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=5.0.0",
-                "telegram": ">=1.15.0"
-            }
-        ]
+  "common": {
+    "name": "telegram-menu",
+    "version": "0.8.4",
+    "news": {
+      "0.8.4": {
+        "en": "round values in getState\nfixed, rename menuname\nfixed calling submenus in subordinate menus\nconvert type values to type of target ID",
+        "de": "rundwerte in getState\nfeste, umbenennen-menünamen\nfestrufuntermenüs in untergeordneten menüs\ntypwerte in den Typ der Ziel-ID umwandeln",
+        "ru": "круглые значения в getState\nисправлено, переименовать имя меню\nфиксированный вызов подменю в подведомственных меню\nконвертировать значения типа в тип целевого ID",
+        "pt": "valores redondos em getState\nfixo, renomear nome do menu\nsubmenus de chamada fixa em menus subordinados\nconverter valores de tipo para o tipo de ID de destino",
+        "nl": "ronde waarden in getate\nhernoem\nvertaling:\ntypische waarden om te identificeren",
+        "fr": "valeurs rondes en getState\nfixe, renommer le nom de menu\nsous-menus d'appel fixe dans les menus subordonnés\nconvertir les valeurs de type en type d'identifiant cible",
+        "it": "valori tondi in getState\nfisso, rinomina nome del menu\nchiamata fissa submenus nei menu subordinati\nconvertire i valori del tipo in tipo di ID di destinazione",
+        "es": "valores redondos en getState\nfijo, nombre de menú\nsubmenú de llamadas fijas en menús subordinados\nconvertir valores de tipo a tipo de ID de destino",
+        "pl": "okrągłe wartości\nustalone, rename menuname\nrzeczywisty podrzędnik podrzędny\nwartość typów do typu celu ID",
+        "uk": "круглі значення в getState\nвиправлено, ім'я користувача\nфіксований підменус виклику в підлеглих меню\nперетворення значень типу в тип цільового ID",
+        "zh-cn": "a. 国家间的圆桌会议价值\n固定名称\n固定呼吁附属于附属男子\n转换成目标类型的数值"
+      },
+      "0.8.3": {
+        "en": "fix, step smaller than 1 in submenu number and percent\ngloabl fixes in submenu",
+        "de": "fix, schritt kleiner als 1 in untermenünummer und prozent\ngloabl fixes in submenu",
+        "ru": "исправить, шаг меньше 1 в подменю номер и процент\ngloabl исправляет в подменю",
+        "pt": "corrigir, passo menor que 1 no número submenu e por cento\ngloabl correções em submenu",
+        "nl": "vertaling:\ngloabel in submenu",
+        "fr": "fixer, faire plus petit que 1 dans le numéro de sous-menu et pour cent\ngloabl corrige dans le sous-menu",
+        "it": "correzione, passo più piccolo di 1 in numero submenu e per cento\nguaabl fissa in submenu",
+        "es": "fijado, paso más pequeño que 1 en submenú número y porcentaje\ngloabl fijados en submenu",
+        "pl": "metoda ta jest mniejsza niż 1 w liczbie submenu i 1%\nustalenie w podmenu",
+        "uk": "фіксація, крок менше 1 в субмену кількість і відсотків\nглобл закріплює в підменю",
+        "zh-cn": "fix 小于1级和4%\n分项abl f"
+      },
+      "0.8.2": {
+        "en": "fix {status:...}",
+        "de": "fix {status.}:",
+        "ru": "исправить {status.}:",
+        "pt": "correção",
+        "nl": "maak status",
+        "fr": "correction {status.}:",
+        "it": "correggere {status.}:",
+        "es": "arréglalo",
+        "pl": "refix {status.}",
+        "uk": "фіксація {status.}:",
+        "zh-cn": "fixstatus:]"
+      },
+      "0.8.1": {
+        "en": "hotfix, submenu switch",
+        "de": "hotfix, untermenüschalter",
+        "ru": "hotfix, подменю переключатель",
+        "pt": "hotfix, interruptor submenu",
+        "nl": "quality over quantity (qoq) releases vertaling:",
+        "fr": "hotfix, commutateur sous-menu",
+        "it": "hotfix, commutatore submenu",
+        "es": "hotfix, interruptor submenu",
+        "pl": "hotfix, submenu switch",
+        "uk": "hotfix, перемикач підменю",
+        "zh-cn": "热fix,分门转换"
+      },
+      "0.8.0": {
+        "en": "text blocks created as a selection list, including the selection of the ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nget status\nsmall fixes",
+        "de": "als Auswahlliste erstellte Textblöcke, einschließlich der Auswahl der ID\ntext in untermenü ist nun im textfeld in der navigation editierbar\niD durch Menü öffnen\nstatus\nkleine fixierungen",
+        "ru": "текстовые блоки, созданные как список отбора, включая подбор ID\nтекст в подменю теперь редактируем в текстовом поле в навигации\nустановите ID, откройте меню\nполучить статус\nнебольшие исправления",
+        "pt": "blocos de texto criados como uma lista de seleção, incluindo a seleção do ID\ntexto no submenus agora é editável no campo de texto na navegação\nset ID por abrir um menu\nobter status\npequenas correções",
+        "nl": "vertaling:\nsms in submenus is nu editabel in het sms in de navigatie\niD van een menukaart\nsta op\nkleine fixes",
+        "fr": "blocs texte créés comme liste de sélection, y compris la sélection de l'ID\ntext in submenus is now editable in the textfield in the navigation\nset ID by open a menu\nobtenir le statut\npetites corrections",
+        "it": "blocchi di testo creati come elenco di selezione, inclusa la selezione dell'ID\ntesto in submenus è ora modificabile nel campo di testo nella navigazione\nset ID per aprire un menu\nottenere stato\npiccole correzioni",
+        "es": "bloques de texto creados como lista de selección, incluyendo la selección del ID\ntexto en submenú es ahora editable en el campo de texto en la navegación\nestablecer ID por abrir un menú\nobtener el estado\npequeños accesorios",
+        "pl": "bloki tekstowe tworzone jako lista wyborcza, w tym wybór ID\ntekst w podmenu jest obecnie edytowany w polu tekstowym w nawigacji\nzademonstrowany przez otwarte menu\nmieć status\ndrobne rozwiązanie",
+        "uk": "текстові блоки, створені в списку вибору, включаючи вибір ID\nтекст в підменю тепер редагований в текстовому полі на навігацію\nвстановіть ID за допомогою меню\nотримати статус\nмаленькі кріплення",
+        "zh-cn": "选择名单,包括选择裁研所的案文\n导航场案文现在可归入。\n开 门\n身份\n小型配件"
+      },
+      "0.7.2": {
+        "en": "submenu Number fixed\ntext is lost when editing #63\nconvert milliseconds value to a local time specification\nsetstate and get result of another state with text adjusted",
+        "de": "unterpositionen Anzahl fest\ntext wird beim editieren von #63 verloren\nmillisekunden-wert in eine lokale zeitvorgabe umwandeln\nsetstate und erhalten ergebnis eines anderen staates mit text angepasst",
+        "ru": "подменю Номер фиксированный\nтекст теряется при редактировании #63\nконвертировать миллисекундное значение в местную спецификацию времени\nsetstate и получить результат другого государства с текстом скорректирован",
+        "pt": "submenu Número fixo\ntexto é perdido ao editar #63\nconverter valor de milissegundos para uma especificação de tempo local\nsetstate e obter resultado de outro estado com texto ajustado",
+        "nl": "submenu Nummer gerepareerd\nsms is verloren als editing 63\nverbergt milliseconden waarde voor een plaatselijke tijd specifiek\nvertaling:",
+        "fr": "sous-menu Nombre fixe\ntexte est perdu lors de l'édition #63\nconvertir la valeur millisecondes à une spécification locale\nsetstate and get result of another state with text adjusted",
+        "it": "sottomenu Numero fisso\ntesto si perde quando si modifica #63\nconvertire il valore di millisecondi in una specifica dell'ora locale\nsetstate e ottenere il risultato di un altro stato con testo regolato",
+        "es": "submenú Número fijo\ntexto se pierde cuando se edita #63\nconvertir el valor de milisegundos a una especificación de tiempo local\nsetstate y obtener resultado de otro estado con texto ajustado",
+        "pl": "submenu liczba stała\ntekst został utracony podczas edycji #63\nwartość zwrotu milisekund do specyfikacji czasu lokalnego\nzbiór i dostaniemy rezultat innego stanu z tekstem dostosowywanym",
+        "uk": "субмену Номер фіксований\nтекст втрачено при редагування #63\nконвертувати значення мілісекундів в локальну специфікацію часу\nsetstate і отримати результат іншої держави з текстом",
+        "zh-cn": "分项 固定人数\n编辑第63号\n当地时间的具体化肥价值\na. 一国和另一国由于经调整案文"
+      },
+      "0.7.1": {
+        "en": "bugfix, Error read UserListTypeError: Cannot read properties of undefined",
+        "de": "bugfix, Fehler lesen UserListType Fehler: Nicht zu lesen Eigenschaften von undefiniert",
+        "ru": "bugfix, Ошибка читать UserListType Ошибка: Не смогите прочитать свойства неопределенного",
+        "pt": "bugfix, Erro lido UserListType Erro: Não é possível ler propriedades indefinidas",
+        "nl": "error las UserListType Error: Kan niet onbepaalde eigenschappen lezen",
+        "fr": "bugfix, Erreur lire UserListType Erreur: Cannot read properties of undefined",
+        "it": "bugfix, Error read UserListType Errore: Proprietà di lettura non definite",
+        "es": "bugfix, Error leer UserListType Error: No se pueden leer propiedades indefinidas",
+        "pl": "error przeczytał UserListType Error: Cannot czytał właściwości nieokreślone",
+        "uk": "javaScript licenses API Веб-сайт Go1.13.8 Помилка: Не можна прочитати властивості невизначених",
+        "zh-cn": "bugfix, Error读者 rror: 评 注"
+      }
     },
-    "native": {
-        "nav": {},
-        "instance": "",
-        "data": {},
-        "checkbox": [],
-        "usersForGlobal": "",
-        "users": [],
-        "startsides": [],
-        "tokenGrafana": "",
-        "directory": "",
-        "userActiveCheckbox": [],
-        "usersInGroup": {},
-        "textNoEntry": "",
-        "userListWithChatID": []
+    "titleLang": {
+      "en": "Telegram Menu",
+      "de": "Telegramm-Menü",
+      "ru": "Меню телеграммы",
+      "pt": "Menu Telegram",
+      "nl": "Telegram-menu",
+      "fr": "Menu Télégramme",
+      "it": "Menù telegramma",
+      "es": "Menú de telegramas",
+      "pl": "menu telegramu",
+      "zh-cn": "电报菜单",
+      "uk": "Меню Telegram"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Easily create Telegram Menus",
+      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+      "ru": "Легко создавать меню Telegram",
+      "pt": "Crie facilmente menus de telegrama",
+      "nl": "Maak eenvoudig Telegram-menu's",
+      "fr": "Créez facilement des menus de télégramme",
+      "it": "Crea facilmente menu di Telegram",
+      "es": "Crea fácilmente menús de Telegram",
+      "pl": "Z łatwością twórz menu telegramu",
+      "zh-cn": "轻松创建电报菜单",
+      "uk": "Легко створюйте меню Telegram"
+    },
+    "authors": [
+      "MiRo1310 <michael.roling@gmx.de>"
+    ],
+    "keywords": [
+      "telegram",
+      "menu"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "telegram-menu.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0",
+        "telegram": ">=1.15.0"
+      }
     ]
+  },
+  "native": {
+    "nav": {},
+    "instance": "",
+    "data": {},
+    "checkbox": [],
+    "usersForGlobal": "",
+    "users": [],
+    "startsides": [],
+    "tokenGrafana": "",
+    "directory": "",
+    "userActiveCheckbox": [],
+    "usersInGroup": {},
+    "textNoEntry": "",
+    "userListWithChatID": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
