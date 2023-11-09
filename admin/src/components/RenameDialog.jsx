@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
 import Button from "./btn-Input/Button";
-import Input from "./btn-Input/Input";
+import input from "./btn-Input/input";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 const styles = () => ({
@@ -40,37 +40,67 @@ class RenameDialog extends Component {
 		super(props);
 		this.state = {
 			newMenuName: "",
-			value: this.props.value,
+			menuName: this.props.value,
 		};
 	}
 
 	render() {
+		const dialogContainer = {
+			backgroundColor: "rgba(0,0,0,0.5)",
+			width: "100%",
+			height: "100%",
+			position: "absolute",
+			bottom: "0",
+			right: "0",
+			zIndex: "10000",
+		};
+
 		return (
-			<div className={this.props.classes.renameDialog}>
-				<div className="renameDialogHeader">
-					<div className={this.props.classes.renameDialogTitle}>{this.props.title}</div>
-				</div>
-				<div className="renameDialogBody">
-					<Input width="80%" value={this.state.value} margin="0px 10% 0 10%"></Input>
-				</div>
-				<div className={this.props.classes.renameDialogFooterContent}>
-					<Button
-						b_color="#fff"
-						margin="10px 5% 10px 4%"
-						border="1px solid black"
-						round="4px"
-						id="openRenameMenu"
-						callback={this.props.callback}
-						width="41%"
-						height="40px"
-						fontSize="16px"
-						padding="0"
-					>
-						{I18n.t("OK")}
-					</Button>
-					<Button b_color="#fff" margin="10px 5% 10px 4%" border="1px solid black" round="4px" width="41%" height="40px" fontSize="16px" padding="0">
-						{I18n.t("Cancel")}
-					</Button>
+			<div className="dialogContainer" style={dialogContainer}>
+				<div className={this.props.classes.renameDialog}>
+					<div className="renameDialogHeader">
+						<div className={this.props.classes.renameDialogTitle}>{this.props.title}</div>
+					</div>
+					<div className="renameDialogBody">
+						<Input
+							width="80%"
+							value={this.state.menuName}
+							margin="0px 10% 0 10%"
+							id="menuName"
+							callbackValue="event.target.value"
+							callback={this.setState.bind(this)}
+						></Input>
+					</div>
+					<div className={this.props.classes.renameDialogFooterContent}>
+						<Button
+							b_color="#fff"
+							margin="10px 5% 10px 4%"
+							border="1px solid black"
+							round="4px"
+							callback={this.props.callback.renameMenu}
+							width="41%"
+							height="40px"
+							fontSize="16px"
+							padding="0"
+						>
+							{I18n.t("OK")}
+						</Button>
+						<Button
+							b_color="#fff"
+							margin="10px 5% 10px 4%"
+							border="1px solid black"
+							round="4px"
+							width="41%"
+							height="40px"
+							fontSize="16px"
+							padding="0"
+							id="renameDialog"
+							callbackValue={false}
+							callback={this.props.callback.setState}
+						>
+							{I18n.t("Cancel")}
+						</Button>
+					</div>
 				</div>
 			</div>
 		);

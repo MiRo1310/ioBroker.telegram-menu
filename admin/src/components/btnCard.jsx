@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Input from "./btn-Input/Input";
-import Grid from "@material-ui/core/Grid";
+import Input from "./btn-Input/input";
+import { Grid } from "@mui/material";
 import Button from "./btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
@@ -16,9 +16,9 @@ class BtnCard extends Component {
 	}
 	addNewMenu = () => {
 		if (this.state.newMenuName !== "" && !this.props.data.state.native.data.nav[this.state.newMenuName]) {
-			const nav = { ...this.props.data.state.native.data.nav };
-			const action = { ...this.props.data.state.native.data.action };
-			const usersInGroup = { ...this.props.data.state.native.usersInGroup };
+			const nav = this.props.data.state.native.data.nav;
+			const action = this.props.data.state.native.data.action;
+			const usersInGroup = this.props.data.state.native.usersInGroup;
 
 			nav[this.state.newMenuName] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
 			action[this.state.newMenuName] = [{ get: [], set: [], pic: [] }];
@@ -26,12 +26,10 @@ class BtnCard extends Component {
 
 			this.setState({ newMenuName: "" });
 
-			// onEvent("", this.props.callback, "addNewMenu", this.state.newMenuName);
-
 			this.props.callback.updateNative("data.nav", nav);
 			this.props.callback.updateNative("data.action", action);
 			this.props.callback.updateNative("usersInGroup", usersInGroup);
-			// this.props.callback.updateNative("onchange", !this.props.data.state.native.onchange || false);
+			this.props.callback.updateNative("onchange", !this.props.data.state.native.onchange || false);
 		} else {
 			if (this.state.newMenuName !== "") console.log("empty input field!");
 			else console.log("Menu already exists!");
@@ -53,11 +51,11 @@ class BtnCard extends Component {
 	openConfirmDialog = () => {
 		this.setState({ confirmDialog: true });
 	};
-	renameMenu = () => {};
+	renameMenu = () => {
+		console.log("renameMenu");
+	};
 	openRenameDialog = () => {
-		console.log("openRenameDialog");
 		this.setState({ renameDialog: true });
-		console.log(this.state.renameDialog);
 	};
 
 	render() {
@@ -103,7 +101,11 @@ class BtnCard extends Component {
 							></ConfirmDialog>
 						) : null}
 						{this.state.renameDialog ? (
-							<RenameDialog title={I18n.t("Rename menu name")} value={this.props.activeMenu} callback={this.setState.bind(this)}></RenameDialog>
+							<RenameDialog
+								title={I18n.t("Rename menu name")}
+								value={this.props.activeMenu}
+								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
+							></RenameDialog>
 						) : null}
 					</Grid>
 				</Grid>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TelegramUserCard from "./TelegramUserCard";
 import Button from "./btn-Input/Button";
-import Grid from "@material-ui/core/Grid";
+import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { withStyles } from "@mui/styles";
 import Checkbox from "./btn-Input/checkbox";

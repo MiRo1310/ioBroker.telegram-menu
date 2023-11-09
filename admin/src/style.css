@@ -14,6 +14,13 @@ body {
 .Tab-Header button {
 	margin-left: 5px;
 }
+.Tab-Header img {
+	width: 50px;
+	height: 50px;
+	padding: 0;
+	position: relative;
+	top: -5px;
+}
 
 /* NavigationMenu */
 
@@ -37,13 +44,7 @@ body {
 }
 
 /* Allgemein */
-.App:has(.renameDialogHeader) {
-	opacity: 0.5;
-}
 
-.App div.RenameDialog-renameDialog-6 {
-	opacity: 100% !important;
-}
 button {
 	cursor: pointer;
 }
@@ -144,4 +145,11 @@ input[type="checkbox"] {
 }
 .TelegramUserCard-ChatID {
 	font-size: 0.7rem;
+}
+.MuiTabPanel-root {
+	overflow: auto;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+	width: 95% !important;
 }

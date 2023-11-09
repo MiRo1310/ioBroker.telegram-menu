@@ -25,15 +25,9 @@ const styles = (_theme) => ({
 		flexGrow: 1,
 		flexShrink: 1,
 		flexBasis: "auto",
+		width: "95%",
 	},
 });
-const Item = styled(Paper)(({ theme }) => ({
-	backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-	...theme.typography.body2,
-	padding: theme.spacing(1),
-	textAlign: "left",
-	color: theme.palette.text.secondary,
-}));
 
 class App extends GenericApp {
 	constructor(props) {
@@ -111,20 +105,19 @@ class App extends GenericApp {
 			<div className={`App row ${this.mytheme}`}>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
-						<Item className="iconBar">
-							<HeaderIconBar
-								key="options"
-								common={this.common}
-								socket={this.socket}
-								native={this.state.native}
-								onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
-								onLoad={(native) => this.onLoadConfig(native)}
-								instance={this.instance}
-								adapterName={this.adapterName}
-								changed={this.state.changed}
-								onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
-							></HeaderIconBar>
-						</Item>
+						<HeaderIconBar
+							className="iconBar"
+							key="options"
+							common={this.common}
+							socket={this.socket}
+							native={this.state.native}
+							onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
+							onLoad={(native) => this.onLoadConfig(native)}
+							instance={this.instance}
+							adapterName={this.adapterName}
+							changed={this.state.changed}
+							onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
+						></HeaderIconBar>
 					</Grid>
 					<Grid item xs={12} style={{ height: "calc(100vh - 122px)" }} className="main-content">
 						<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 122px)" }}>
@@ -163,11 +156,11 @@ class App extends GenericApp {
 									</Grid>
 								</Grid>
 
-								<TabPanel value="1" className={this.props.classes.tab}>
+								<TabPanel value="1">
 									<MenuNavigation nav={this.state.native.data.nav} activeMenu={this.state.activeMenu}></MenuNavigation>
 								</TabPanel>
-								<TabPanel value="2" className={this.props.classes.tab}></TabPanel>
-								<TabPanel value="3" className={this.props.classes.tab}>
+								<TabPanel value="2"></TabPanel>
+								<TabPanel value="3">
 									<Settings
 										data={{ data: this.state.instances, state: this.state }}
 										callback={{
