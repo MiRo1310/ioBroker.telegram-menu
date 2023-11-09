@@ -16,9 +16,9 @@ class BtnCard extends Component {
 	}
 	addNewMenu = () => {
 		if (this.state.newMenuName !== "" && !this.props.data.state.native.data.nav[this.state.newMenuName]) {
-			const nav = this.props.data.state.native.data.nav;
-			const action = this.props.data.state.native.data.action;
-			const usersInGroup = this.props.data.state.native.usersInGroup;
+			const nav = { ...this.props.data.state.native.data.nav };
+			const action = { ...this.props.data.state.native.data.action };
+			const usersInGroup = { ...this.props.data.state.native.usersInGroup };
 
 			nav[this.state.newMenuName] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
 			action[this.state.newMenuName] = [{ get: [], set: [], pic: [] }];
@@ -29,7 +29,9 @@ class BtnCard extends Component {
 			this.props.callback.updateNative("data.nav", nav);
 			this.props.callback.updateNative("data.action", action);
 			this.props.callback.updateNative("usersInGroup", usersInGroup);
-			this.props.callback.updateNative("onchange", !this.props.data.state.native.onchange || false);
+
+			this.props.callback.setState({ activeMenu: this.state.newMenuName });
+			// this.props.callback.updateNative("onchange", !this.props.data.state.native.onchange || false);
 		} else {
 			if (this.state.newMenuName !== "") console.log("empty input field!");
 			else console.log("Menu already exists!");
@@ -62,7 +64,7 @@ class BtnCard extends Component {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={4}>
-					<Input label={I18n.t("Add new Menu Name")} width="80%" id="newMenuName" value={this.state.newMenuName} callback={this.setState}></Input>
+					<Input label={I18n.t("Add new Menu Name")} width="80%" id="newMenuName" value={this.state.newMenuName} callback={this.setState.bind(this)}></Input>
 				</Grid>
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">

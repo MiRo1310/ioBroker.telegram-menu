@@ -15,19 +15,6 @@ import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
 import getIobrokerData from "./lib/socket";
 import helperFunction from "./lib/Utilis";
 let myTheme;
-/**
- * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
- */
-const styles = (_theme) => ({
-	root: {},
-	tab: {
-		overflow: "auto",
-		flexGrow: 1,
-		flexShrink: 1,
-		flexBasis: "auto",
-		width: "95%",
-	},
-});
 
 class App extends GenericApp {
 	constructor(props) {
@@ -106,7 +93,6 @@ class App extends GenericApp {
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<HeaderIconBar
-							className="iconBar"
 							key="options"
 							common={this.common}
 							socket={this.socket}
@@ -183,5 +169,4 @@ class App extends GenericApp {
 	}
 }
 
-export default withStyles(styles)(App);
-export { App };
+export default App;
