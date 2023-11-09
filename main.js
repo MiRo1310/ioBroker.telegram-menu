@@ -174,23 +174,35 @@ class TelegramMenu extends utils.Adapter {
 										groups: groupsWithUsers,
 									}),
 								);
-								const groups = [];
+								const menus = [];
 								for (const key in groupsWithUsers) {
 									this.log.debug("Groups " + JSON.stringify(key));
 									if (groupsWithUsers[key].includes(userToSend)) {
-										groups.push(key);
+										menus.push(key);
 									}
 								}
-								this.log.debug("Groups with searched User " + JSON.stringify(groups));
+								this.log.debug("Groups with searched User " + JSON.stringify(menus));
 								let dataFound = false;
-								for (const group of groups) {
-									const groupData = menuData.data[group];
+								for (const menu of menus) {
+									const groupData = menuData.data[menu];
 									this.log.debug("Nav: " + JSON.stringify(groupData));
 									this.log.debug("Menu: " + JSON.stringify(menuData.data));
-									this.log.debug("Group: " + JSON.stringify(group));
+									this.log.debug("Group: " + JSON.stringify(menu));
 
 									if (
-										await processData(this, groupData, calledValue, userToSend, group, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID)
+										await processData(
+											this,
+											groupData,
+											calledValue,
+											userToSend,
+											menu,
+											instanceTelegram,
+											resize_keyboard,
+											one_time_keyboard,
+											userListWithChatID,
+											menuData.data,
+											menus,
+										)
 									) {
 										dataFound = true;
 										break;
@@ -276,7 +288,19 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {string} groupWithUser  Group with the User
 		 * @returns true, if data was found, else false
 		 */
-		async function processData(_this, groupData, calledValue, userToSend = "", groupWithUser, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID) {
+		async function processData(
+			_this,
+			groupData,
+			calledValue,
+			userToSend = "",
+			groupWithUser,
+			instanceTelegram,
+			resize_keyboard,
+			one_time_keyboard,
+			userListWithChatID,
+			menuData,
+			menus,
+		) {
 			try {
 				let part;
 				let call;
@@ -290,7 +314,19 @@ class TelegramMenu extends utils.Adapter {
 						backMenuFunc(_this, call, part.nav, userToSend);
 						if (JSON.stringify(part.nav).includes("menu:")) {
 							_this.log.debug("Submenu");
-							callSubMenu(_this, JSON.stringify(part.nav), groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part);
+							callSubMenu(
+								_this,
+								JSON.stringify(part.nav),
+								groupData,
+								userToSend,
+								instanceTelegram,
+								resize_keyboard,
+								one_time_keyboard,
+								userListWithChatID,
+								part,
+								menuData,
+								menus,
+							);
 							return true;
 						} else {
 							if (userToSend) {
@@ -364,7 +400,7 @@ class TelegramMenu extends utils.Adapter {
 					}
 				} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
 					_this.log.debug("Call Submenu");
-					callSubMenu(_this, calledValue, groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part);
+					callSubMenu(_this, calledValue, groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData, menus);
 					return true;
 				} else {
 					return false;
@@ -382,9 +418,21 @@ class TelegramMenu extends utils.Adapter {
 		 * @param {{}} groupData
 		 * @param {string} userToSend
 		 */
-		async function callSubMenu(_this, calledValue, groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part) {
+		async function callSubMenu(_this, calledValue, groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData, menus) {
 			try {
-				const subMenuData = await subMenu(_this, calledValue, groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part);
+				const subMenuData = await subMenu(
+					_this,
+					calledValue,
+					groupData,
+					userToSend,
+					instanceTelegram,
+					resize_keyboard,
+					one_time_keyboard,
+					userListWithChatID,
+					part,
+					menuData,
+					menus,
+				);
 				_this.log.debug("Submenu data " + JSON.stringify(subMenuData));
 
 				if (subMenuData && subMenuData[3]) {
