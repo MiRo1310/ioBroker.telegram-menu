@@ -39,7 +39,6 @@ class RenameDialog extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			newMenuName: "",
 			menuName: this.props.value,
 		};
 	}
@@ -64,11 +63,11 @@ class RenameDialog extends Component {
 					<div className="renameDialogBody">
 						<Input
 							width="80%"
-							value={this.state.menuName}
+							value={this.props.data.newMenuName}
 							margin="0px 10% 0 10%"
-							id="menuName"
+							id="renamedMenuName"
 							callbackValue="event.target.value"
-							callback={this.setState.bind(this)}
+							callback={this.props.callback.setState}
 						></Input>
 					</div>
 					<div className={this.props.classes.renameDialogFooterContent}>

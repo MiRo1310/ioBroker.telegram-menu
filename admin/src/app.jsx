@@ -61,12 +61,8 @@ class App extends GenericApp {
 		});
 
 		if (this.state.native.data) {
-			const newData = JSON.parse(JSON.stringify(this.state.native.data));
-			this.setState({ data: newData }, () => {
-				console.log(this.state.native);
-				const firstKey = Object.keys(this.state.data.nav)[0];
-				this.setState({ activeMenu: firstKey });
-			});
+			const firstKey = Object.keys(this.state.native.data.nav)[0];
+			this.setState({ activeMenu: firstKey });
 		}
 	}
 	getUsersFromTelegram() {
@@ -118,7 +114,7 @@ class App extends GenericApp {
 										{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
 										{this.state.tab != "3" ? (
 											<HeaderMenu
-												data={{ state: this.state }}
+												data={{ activeMenu: this.state.activeMenu, state: this.state }}
 												callback={{
 													setState: this.setState,
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),

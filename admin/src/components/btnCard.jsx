@@ -9,12 +9,20 @@ class BtnCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			oldMenuName: "",
 			newMenuName: "",
+			renamedMenuName: "",
 			confirmDialog: false,
 			renameDialog: false,
 		};
 	}
-	addNewMenu = () => {
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.oldMenuName !== this.props.data.activeMenu) {
+			this.setState({ oldMenuName: this.props.data.activeMenu, renamedMenuName: this.props.data.activeMenu });
+		}
+	}
+
+	addNewMenu = (newMenu) => {
 		if (this.state.newMenuName !== "" && !this.props.data.state.native.data.nav[this.state.newMenuName]) {
 			const data = { ...this.props.data.state.native.data };
 			const usersInGroup = { ...this.props.data.state.native.usersInGroup };
@@ -50,7 +58,8 @@ class BtnCard extends Component {
 		this.setState({ confirmDialog: true });
 	};
 	renameMenu = () => {
-		console.log("renameMenu");
+		console.log("New Menu Name: " + this.state.renamedMenuName);
+		this.setState({ renameDialog: false });
 	};
 	openRenameDialog = () => {
 		this.setState({ renameDialog: true });
@@ -103,6 +112,7 @@ class BtnCard extends Component {
 								title={I18n.t("Rename menu name")}
 								value={this.props.data.state.activeMenu}
 								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
+								data={{ newMenuName: this.state.renamedMenuName }}
 							></RenameDialog>
 						) : null}
 					</Grid>

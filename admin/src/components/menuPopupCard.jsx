@@ -9,7 +9,6 @@ class MenuPopupCard extends Component {
 	componentDidUpdate(prevProps) {
 		if (prevProps.usersInGroup !== this.props.usersInGroup) {
 			this.menuList = Object.keys(this.props.usersInGroup);
-			console.log(this.menuList);
 		}
 	}
 	secondCallback = () => {
