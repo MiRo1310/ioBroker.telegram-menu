@@ -1,10 +1,8 @@
-import React, { useState, useEffect, Component } from "react";
+import React from "react";
 import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
-import { Menu, Paper, styled, Grid, Tab, Box } from "@mui/material";
-import { withStyles } from "@mui/styles";
-import { I18n } from "@iobroker/adapter-react-v5";
-import { AdminConnection } from "@iobroker/adapter-react-v5";
+import { Grid, Tab, Box } from "@mui/material";
+import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
 
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";

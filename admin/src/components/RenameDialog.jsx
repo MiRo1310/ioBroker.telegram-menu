@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
 import Button from "./btn-Input/Button";
-import input from "./btn-Input/input";
+import Input from "./btn-Input/input";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 const styles = () => ({
