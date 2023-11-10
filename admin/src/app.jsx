@@ -64,6 +64,7 @@ class App extends GenericApp {
 			const firstKey = Object.keys(this.state.native.data.nav)[0];
 			this.setState({ activeMenu: firstKey });
 		}
+		console.log(this.state.native);
 	}
 	getUsersFromTelegram() {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {

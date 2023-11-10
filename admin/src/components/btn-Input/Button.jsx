@@ -6,10 +6,14 @@ class Button extends Component {
 
 		if (this.props.callbackValue === "event.target.innerText") value = event.target.innerText;
 		else value = this.props.callbackValue;
+		console.log("value: " + value);
 		if (this.props.setNative) {
 			this.props.callback(this.props.id, value);
 		} else if (this.props.id && value !== undefined) {
 			this.props.callback({ [this.props.id]: value });
+		} else if (this.props.callbackValue || this.props.callbackValue === false) {
+			console.log("callback(value): " + value);
+			this.props.callback(value);
 		} else this.props.callback();
 		if (this.props.secondCallback) this.props.secondCallback();
 	};
