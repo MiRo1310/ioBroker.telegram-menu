@@ -16,22 +16,17 @@ class BtnCard extends Component {
 	}
 	addNewMenu = () => {
 		if (this.state.newMenuName !== "" && !this.props.data.state.native.data.nav[this.state.newMenuName]) {
-			const nav = { ...this.props.data.state.native.data.nav };
-			const action = { ...this.props.data.state.native.data.action };
+			const data = { ...this.props.data.state.native.data };
 			const usersInGroup = { ...this.props.data.state.native.usersInGroup };
 
-			nav[this.state.newMenuName] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
-			action[this.state.newMenuName] = [{ get: [], set: [], pic: [] }];
+			data.nav[this.state.newMenuName] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
+			data.action[this.state.newMenuName] = [{ get: [], set: [], pic: [] }];
 			usersInGroup[this.state.newMenuName] = [];
 
-			this.setState({ newMenuName: "" });
-
-			this.props.callback.updateNative("data.nav", nav);
-			this.props.callback.updateNative("data.action", action);
+			this.props.callback.updateNative("data", data);
 			this.props.callback.updateNative("usersInGroup", usersInGroup);
-
 			this.props.callback.setState({ activeMenu: this.state.newMenuName });
-			// this.props.callback.updateNative("onchange", !this.props.data.state.native.onchange || false);
+			this.setState({ newMenuName: "" });
 		} else {
 			if (this.state.newMenuName !== "") console.log("empty input field!");
 			else console.log("Menu already exists!");
@@ -42,11 +37,12 @@ class BtnCard extends Component {
 		const newObject = { ...this.props.data.state.native.data };
 		const newUsersInGroup = { ...this.props.data.state.native.usersInGroup };
 
-		delete newObject.nav[this.props.activeMenu];
-		delete newObject.action[this.props.activeMenu];
-		delete newUsersInGroup[this.props.activeMenu];
+		delete newObject.nav[this.props.data.state.activeMenu];
+		delete newObject.action[this.props.data.state.activeMenu];
+		delete newUsersInGroup[this.props.data.state.activeMenu];
 		let firstMenu = Object.keys(newObject.nav)[0];
-		this.props.callback.updateNative("data", newObject.data);
+
+		this.props.callback.updateNative("data", newObject);
 		this.props.callback.updateNative("usersInGroup", newUsersInGroup);
 		this.props.callback.setState({ activeMenu: firstMenu });
 	};
@@ -105,7 +101,7 @@ class BtnCard extends Component {
 						{this.state.renameDialog ? (
 							<RenameDialog
 								title={I18n.t("Rename menu name")}
-								value={this.props.activeMenu}
+								value={this.props.data.state.activeMenu}
 								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
 							></RenameDialog>
 						) : null}
