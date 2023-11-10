@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.8.4",
+    "version": "0.8.5",
     "news": {
+      "0.8.5": {
+        "en": "fixed, menu:back in Subnavigation",
+        "de": "fest, Menü: Zurück in Subnavigation",
+        "ru": "фиксированное, меню:back в Subnavigation",
+        "pt": "fixo, menu: de volta em Subnavegação",
+        "nl": "terug in Subnavigation",
+        "fr": "fixe, menu: retour en Subnavigation",
+        "it": "fisso, menu:back in Subnavigation",
+        "es": "fija, menu:back in Subnavigation",
+        "pl": "przestałe menu:back in Subnavigation",
+        "uk": "виправлено, меню:",
+        "zh-cn": "固定的男性:次死"
+      },
       "0.8.4": {
         "en": "round values in getState\nfixed, rename menuname\nfixed calling submenus in subordinate menus\nconvert type values to type of target ID",
         "de": "rundwerte in getState\nfeste, umbenennen-menünamen\nfestrufuntermenüs in untergeordneten menüs\ntypwerte in den Typ der Ziel-ID umwandeln",
@@ -80,19 +93,6 @@
         "pl": "submenu liczba stała\ntekst został utracony podczas edycji #63\nwartość zwrotu milisekund do specyfikacji czasu lokalnego\nzbiór i dostaniemy rezultat innego stanu z tekstem dostosowywanym",
         "uk": "субмену Номер фіксований\nтекст втрачено при редагування #63\nконвертувати значення мілісекундів в локальну специфікацію часу\nsetstate і отримати результат іншої держави з текстом",
         "zh-cn": "分项 固定人数\n编辑第63号\n当地时间的具体化肥价值\na. 一国和另一国由于经调整案文"
-      },
-      "0.7.1": {
-        "en": "bugfix, Error read UserListTypeError: Cannot read properties of undefined",
-        "de": "bugfix, Fehler lesen UserListType Fehler: Nicht zu lesen Eigenschaften von undefiniert",
-        "ru": "bugfix, Ошибка читать UserListType Ошибка: Не смогите прочитать свойства неопределенного",
-        "pt": "bugfix, Erro lido UserListType Erro: Não é possível ler propriedades indefinidas",
-        "nl": "error las UserListType Error: Kan niet onbepaalde eigenschappen lezen",
-        "fr": "bugfix, Erreur lire UserListType Erreur: Cannot read properties of undefined",
-        "it": "bugfix, Error read UserListType Errore: Proprietà di lettura non definite",
-        "es": "bugfix, Error leer UserListType Error: No se pueden leer propiedades indefinidas",
-        "pl": "error przeczytał UserListType Error: Cannot czytał właściwości nieokreślone",
-        "uk": "javaScript licenses API Веб-сайт Go1.13.8 Помилка: Не можна прочитати властивості невизначених",
-        "zh-cn": "bugfix, Error读者 rror: 评 注"
       }
     },
     "titleLang": {
