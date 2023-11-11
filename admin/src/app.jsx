@@ -152,7 +152,7 @@ class App extends GenericApp {
 								<TabPanel value="2"></TabPanel>
 								<TabPanel value="3">
 									<Settings
-										data={{ data: this.state.instances, state: this.state }}
+										data={{ instances: this.state.instances, state: this.state }}
 										callback={{
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
