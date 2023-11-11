@@ -11,7 +11,7 @@ class Input extends Component {
 	};
 	render() {
 		const inputStyle = {
-			width: this.props.width ? this.props.width : "100%",
+			width: "100%",
 			padding: "8px 0px",
 			margin: this.props.margin ? this.props.margin : "8px",
 			fontSize: "16px",
@@ -19,8 +19,12 @@ class Input extends Component {
 			borderColor: "transparent",
 			borderBottom: "1px solid #ccc",
 		};
+		const container = {
+			width: this.props.width ? this.props.width : "100%",
+			display: "inline-block",
+		};
 		return (
-			<div className="InputField">
+			<div style={container}>
 				<label>
 					<input
 						style={inputStyle}

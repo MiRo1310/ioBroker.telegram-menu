@@ -4,7 +4,7 @@ import Button from "./Button";
 class BtnSmallAdd extends Component {
 	render() {
 		return (
-			<Button b_color="#ddd" title="Add" small="true" round="true">
+			<Button b_color="#ddd" title="Add" small="true" round="true" callbackValue={this.props.index} callback={this.props.callback}>
 				<i className="material-icons">add</i>
 			</Button>
 		);

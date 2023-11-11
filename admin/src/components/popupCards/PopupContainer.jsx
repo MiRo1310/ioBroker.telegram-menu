@@ -18,10 +18,7 @@ const styles = () => ({
 		position: "absolute",
 		bottom: "0",
 		width: "100%",
-	},
-	renameDialogFooterBtn: {
-		display: "inline-block",
-		width: "45%",
+		textAlign: "center",
 	},
 });
 
@@ -45,8 +42,9 @@ class PopupContainer extends Component {
 		};
 		const renameDialog = {
 			position: "absolute",
-			top: "25%",
-			left: "calc(50% - 150px)",
+			top: "50%",
+			left: "50%",
+			transform: "translate(-50%, -60%)",
 			backgroundColor: "#fff",
 			width: this.props.width || "400px",
 			height: this.props.height || "200px",
@@ -68,11 +66,13 @@ class PopupContainer extends Component {
 							margin="10px 5% 10px 4%"
 							border="1px solid black"
 							round="4px"
+							callbackValue={true}
 							callback={this.props.callback}
 							width="41%"
 							height="40px"
 							fontSize="16px"
 							padding="0"
+							maxWidth="200px"
 						>
 							{I18n.t("OK")}
 						</Button>
@@ -85,9 +85,9 @@ class PopupContainer extends Component {
 							height="40px"
 							fontSize="16px"
 							padding="0"
-							id="renameDialog"
 							callbackValue={false}
-							callback={this.props.callback.setState}
+							callback={this.props.callback}
+							maxWidth="200px"
 						>
 							{I18n.t("Cancel")}
 						</Button>

@@ -5,10 +5,8 @@ import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { withStyles } from "@mui/styles";
 import Checkbox from "./btn-Input/checkbox";
-/**
- * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
- */
-const styles = (_theme) => ({
+
+const styles = () => ({
 	btnExpand: {
 		position: "absolute",
 		top: "-35px",

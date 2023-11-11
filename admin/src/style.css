@@ -50,7 +50,7 @@ input ~ p {
 }
 input ~ p {
 	margin-top: 0px !important;
-	display: inline-block;
+	display: block;
 }
 input:focus {
 	outline: none;
