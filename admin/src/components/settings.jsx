@@ -12,9 +12,13 @@ class Settings extends Component {
 			value: "/opt/iobroker/grafana/",
 			options: ["One", "Two", "Three"],
 		};
-		this.onChangeValue = this.onChangeValue.bind(this);
 	}
-	onChangeValue() {}
+	onClickCheckbox = (event) => {
+		console.log(event);
+		const checkbox = { ...this.props.data.state.native.checkbox };
+		checkbox[event.target.id] = event.target.checked;
+		this.props.callback.updateNative("checkbox", checkbox);
+	};
 	render() {
 		return (
 			<div className="Settings">
@@ -47,8 +51,8 @@ class Settings extends Component {
 							label={I18n.t("Active")}
 							id="checkbox.checkboxNoValueFound"
 							checked={this.props.data.state.native.checkbox.checkboxNoValueFound}
-							callback={this.props.callback.updateNative}
-							setNative={true}
+							callbackValue="event"
+							callback={this.onClickCheckbox}
 						/>
 					</Grid>
 					<Grid item xs={3}>
@@ -56,7 +60,8 @@ class Settings extends Component {
 							label="Resize Keyboard"
 							id="checkbox.resKey"
 							checked={this.props.data.state.native.checkbox.resKey}
-							callback={this.props.callback.updateNative}
+							callback={this.onClickCheckbox}
+							callbackValue="event"
 							setNative={true}
 						/>
 					</Grid>
@@ -65,7 +70,8 @@ class Settings extends Component {
 							label="One Time Keyboard"
 							id="checkbox.oneTiKey"
 							checked={this.props.data.state.native.checkbox.oneTiKey}
-							callback={this.props.callback.updateNative}
+							callback={this.onClickCheckbox}
+							callbackValue="event"
 							setNative={true}
 						/>
 					</Grid>

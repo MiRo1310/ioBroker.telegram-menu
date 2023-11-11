@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Checkbox extends Component {
 	onChangeHandler = (event) => {
-		if (this.props.id) {
+		if (!this.props.callbackValue === "event") {
 			if (this.props.setNative) {
 				this.props.callback(this.props.id, event.target.checked);
 			} else {
