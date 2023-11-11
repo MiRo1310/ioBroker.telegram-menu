@@ -39,28 +39,41 @@ class BtnCard extends Component {
 
 	addNewMenu = (newMenu, copyMenu) => {
 		newMenu = checkMenuName(newMenu);
-		console.log(this.state.oldMenuName);
-		console.log(this.state.renamedMenuName);
-		if (newMenu !== "" && newMenu && !this.props.data.state.native.data.nav[newMenu]) {
-			const data = { ...this.props.data.state.native.data };
-			const usersInGroup = { ...this.props.data.state.native.usersInGroup };
+		let addNewMenu = false;
+		const data = { ...this.props.data.state.native.data };
+		let action = { ...this.props.data.state.native.data.action };
+		const usersInGroup = { ...this.props.data.state.native.usersInGroup };
+		if (!this.props.data.state.native.data.nav) {
+			data.nav = {};
+			data.action = {};
+			addNewMenu = true;
+		} else if (newMenu !== "" && newMenu && !this.props.data.state.native.data.nav[newMenu]) {
 			if (copyMenu) {
 				data.nav[newMenu] = data.nav[this.state.oldMenuName];
 				data.action[newMenu] = data.action[this.state.oldMenuName];
 				usersInGroup[newMenu] = usersInGroup[this.state.oldMenuName];
 			} else {
-				data.nav[newMenu] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
-				data.action[newMenu] = [{ get: [], set: [], pic: [] }];
-				usersInGroup[newMenu] = [];
+				addNewMenu = true;
 			}
-			this.setState({ newMenuName: "" });
-			this.props.callback.updateNative("data", data);
-			this.props.callback.updateNative("usersInGroup", usersInGroup);
-			this.props.callback.setState({ activeMenu: newMenu });
 		} else {
 			if (newMenu !== "" || !newMenu) console.log("empty input field!");
 			else console.log("Menu already exists!");
+			return;
 		}
+		if (addNewMenu) {
+			console.log("add new Menu");
+			data.nav[newMenu] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
+			data.action[newMenu] = [{ get: [], set: [], pic: [] }];
+			usersInGroup[newMenu] = [];
+		}
+		this.setState({ newMenuName: "" });
+
+		this.props.callback.updateNative("data", data, this.props.callback.updateNative("usersInGroup", usersInGroup));
+
+		setTimeout(() => {
+			this.props.callback.setState({ activeMenu: newMenu });
+			console.log(this.props.data.state.native.data);
+		}, 200);
 	};
 
 	removeMenu = (menu, renamed) => {

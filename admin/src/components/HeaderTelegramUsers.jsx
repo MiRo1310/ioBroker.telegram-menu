@@ -67,7 +67,7 @@ class HeaderTelegramUsers extends Component {
 				</Grid>
 
 				<Grid item lg={1} md={1} xs={1}>
-					{this.state.menuOpen ? (
+					{this.state.menuOpen && this.props.data.state.activeMenu != undefined ? (
 						<Checkbox
 							label={this.props.data.state.activeMenu + " " + I18n.t("active")}
 							id="checkboxActiveMenu"

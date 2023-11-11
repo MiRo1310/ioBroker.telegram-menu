@@ -153,11 +153,9 @@
 		]
 	},
 	"native": {
-		"nav": {},
 		"instance": "",
-		"data": {},
+		"data": { "nav": {}, "action": {} },
 		"checkbox": [],
-		"usersForGlobal": "",
 		"menus": [],
 		"startsides": [],
 		"tokenGrafana": "",

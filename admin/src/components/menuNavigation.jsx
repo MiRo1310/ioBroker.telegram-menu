@@ -14,6 +14,7 @@ function createData(call, nav, text) {
 
 let rows = [];
 function getRows(nav, activeMenu) {
+	if (!nav) return;
 	let elemente = nav[activeMenu];
 	rows = [];
 	if (elemente === undefined) return;

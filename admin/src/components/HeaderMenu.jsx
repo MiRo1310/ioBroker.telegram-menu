@@ -19,13 +19,18 @@ class HeaderMenu extends Component {
 							{this.props.data.state.showPopupMenuList ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 						</Button>
 						<span>{I18n.t("Menu list")}</span>
-						{this.props.data.state.showPopupMenuList ? (
+						{this.props.data.state.showPopupMenuList && this.props.data.state.activeMenu != undefined ? (
 							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback}></MenuPopupCard>
 						) : null}
 					</div>
+
 					<div className="MenuHeader-ActiveMenu">
 						<p>{I18n.t("Active Menu:")}</p>
-						<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
+						{this.props.data.state.activeMenu != undefined ? (
+							<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
+						) : (
+							<span className="MenuHeader-borderActiveMenu">{I18n.t("No User found")}</span>
+						)}
 					</div>
 				</Grid>
 				<Grid item xs={10}>

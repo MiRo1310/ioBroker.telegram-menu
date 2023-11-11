@@ -23,8 +23,16 @@ class TelegramUserCard extends Component {
 	};
 
 	isUserChecked = () => {
-		if (this.state.activeMenu && this.state.usersInGroup && this.state.usersInGroup[this.state.activeMenu].includes(this.props.name)) {
-			return true;
+		if (this.props.data.usersInGroup && this.props.data.usersInGroup[this.state.activeMenu]) {
+			if (
+				this.state.activeMenu &&
+				this.props.data.usersInGroup[this.state.activeMenu].lenght != 0 &&
+				this.props.data.usersInGroup[this.state.activeMenu].includes(this.props.name)
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
@@ -32,6 +40,7 @@ class TelegramUserCard extends Component {
 
 	checkboxClicked = (event, name) => {
 		const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
+
 		if (event.target.checked && !listOfUsers.includes(name)) {
 			listOfUsers.push(name);
 		} else {

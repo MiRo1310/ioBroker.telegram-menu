@@ -51,6 +51,12 @@ class App extends GenericApp {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
+		if (prevState.native.data !== this.state.native.data) {
+			if (this.state.native.data.nav) {
+				const firstKey = Object.keys(this.state.native.usersInGroup)[0];
+				this.setState({ activeMenu: firstKey });
+			}
+		}
 	}
 	onConnectionReady() {
 		// executed when connection is ready
@@ -60,15 +66,17 @@ class App extends GenericApp {
 			this.setState({ instances: data });
 		});
 
-		if (this.state.native.data) {
-			const firstKey = Object.keys(this.state.native.data.nav)[0];
+		if (this.state.native.usersInGroup) {
+			const firstKey = Object.keys(this.state.native.usersInGroup)[0];
 			this.setState({ activeMenu: firstKey });
 		}
 
 		console.log(this.state.native);
 	}
 	getUsersFromTelegram() {
-		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
+		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || "telegram.0", (data) => {
+			if (!this.state.native.instance) this.updateNativeValue("instance", "telegram.0");
+
 			this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
 		});
 	}
