@@ -33,6 +33,7 @@ class MenuNavigation extends Component {
 			call: "",
 			nav: "",
 			text: "",
+			editRow: false,
 		};
 	}
 	componentDidUpdate(prevProps) {
@@ -76,17 +77,27 @@ class MenuNavigation extends Component {
 		if (data.nav) this.setState({ nav: data.nav });
 		if (data.text) this.setState({ text: data.text });
 	};
-	popupRowCard = (value) => {
-		if (!value) {
+	popupRowCard = (isOK) => {
+		if (!isOK) {
 			this.setState({ rowPopup: false });
 			return;
 		}
 		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
 		const navUserArray = dataCopy.nav[this.props.activeMenu];
-		navUserArray.splice(this.state.rowIndex + 1, 0, { call: this.state.call, value: this.state.nav, text: this.state.text });
+		if (this.state.editRow) {
+			navUserArray.splice(this.state.rowIndex, 1, { call: this.state.call, value: this.state.nav, text: this.state.text });
+		} else navUserArray.splice(this.state.rowIndex + 1, 0, { call: this.state.call, value: this.state.nav, text: this.state.text });
 		dataCopy.nav[this.props.activeMenu] = navUserArray;
 		this.props.callback.updateNative("data", dataCopy);
 		this.setState({ rowPopup: false });
+		this.setState({ editRow: false });
+	};
+	editRow = (index) => {
+		const element = this.props.data.nav[this.props.activeMenu][index];
+		this.setState({ call: element.call, nav: element.value, text: element.text });
+		this.setState({ rowPopup: true });
+		this.setState({ rowIndex: index });
+		this.setState({ editRow: true });
 	};
 
 	render() {
@@ -119,7 +130,7 @@ class MenuNavigation extends Component {
 										<BtnSmallAdd callback={this.openAddRowCard} index={index} />
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
-										<BtnSmallEdit />
+										<BtnSmallEdit callback={this.editRow} index={index} />
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
 										{index != 0 ? <BtnSmallUp callback={this.moveUp} index={index} disabled={index == 1 ? "disabled" : null}></BtnSmallUp> : null}
