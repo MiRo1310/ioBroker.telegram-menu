@@ -31,22 +31,16 @@ class TelegramUserCard extends Component {
 	};
 
 	checkboxClicked = (event, name) => {
-		const usersInGroup = { ...this.props.data.usersInGroup };
-		const usersInGroupOld = { ...this.props.data.usersInGroup };
-
-		if (event.target.checked && !usersInGroup[this.state.activeMenu].includes(name)) {
-			usersInGroup[this.state.activeMenu].push(name);
+		const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
+		if (event.target.checked && !listOfUsers.includes(name)) {
+			listOfUsers.push(name);
 		} else {
-			const index = usersInGroup[this.state.activeMenu].indexOf(name);
+			const index = listOfUsers.indexOf(name);
 			if (index > -1) {
-				usersInGroup[this.state.activeMenu].splice(index, 1);
+				listOfUsers.splice(index, 1);
 			}
 		}
-		console.log("newValue");
-		console.log(this.props.data.state.native);
-		this.props.callback.updateNative("usersInGroup", usersInGroup);
-
-		this.setState({ test: !this.state.test });
+		this.props.callback.updateNative("usersInGroup." + this.state.activeMenu, listOfUsers);
 	};
 	render() {
 		return (

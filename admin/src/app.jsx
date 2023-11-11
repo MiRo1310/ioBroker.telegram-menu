@@ -66,7 +66,6 @@ class App extends GenericApp {
 		}
 
 		console.log(this.state.native);
-		console.log(this.updateNativeValue);
 	}
 	getUsersFromTelegram() {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
