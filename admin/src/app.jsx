@@ -64,7 +64,9 @@ class App extends GenericApp {
 			const firstKey = Object.keys(this.state.native.data.nav)[0];
 			this.setState({ activeMenu: firstKey });
 		}
+
 		console.log(this.state.native);
+		console.log(this.updateNativeValue);
 	}
 	getUsersFromTelegram() {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance, (data) => {
@@ -126,7 +128,7 @@ class App extends GenericApp {
 									<Grid item xs={12}>
 										{this.state.tab != "3" ? (
 											<HeaderTelegramUsers
-												data={{ state: this.state }}
+												data={{ state: this.state, usersInGroup: this.state.native.usersInGroup }}
 												callback={{
 													setState: this.setState,
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),

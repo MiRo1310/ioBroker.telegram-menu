@@ -30,6 +30,7 @@ class HeaderTelegramUsers extends Component {
 	updateMenuOpen = () => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
+	menuActiveChecked = () => {};
 
 	render() {
 		return (
@@ -56,7 +57,9 @@ class HeaderTelegramUsers extends Component {
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
 								{this.props.data.state.native.userListWithChatID.map((user, key) => {
-									return <TelegramUserCard name={user.name} chatID={user.chatID} key={key} callback={this.props.callback}></TelegramUserCard>;
+									return (
+										<TelegramUserCard name={user.name} chatID={user.chatID} key={key} callback={this.props.callback} data={this.props.data}></TelegramUserCard>
+									);
 								})}
 							</div>
 						) : null}
@@ -65,7 +68,12 @@ class HeaderTelegramUsers extends Component {
 
 				<Grid item lg={1} md={1} xs={1}>
 					{this.state.menuOpen ? (
-						<Checkbox label={this.props.data.state.activeMenu + " " + I18n.t("active")} id="checkboxActiveMenu" checked={true} callback={this.props.callback} />
+						<Checkbox
+							label={this.props.data.state.activeMenu + " " + I18n.t("active")}
+							id="checkboxActiveMenu"
+							checked={this.menuActiveChecked}
+							callback={this.props.callback}
+						/>
 					) : null}
 				</Grid>
 			</Grid>

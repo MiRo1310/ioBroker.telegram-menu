@@ -6,15 +6,54 @@ import Checkbox from "./btn-Input/checkbox";
 class TelegramUserCard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			usersInGroup: this.props.data.usersInGroup,
+			name: this.props.name,
+			activeMenu: this.props.data.state.activeMenu,
+			test: false,
+		};
 	}
+	componentDidUpdate = () => {
+		if (this.props.data.usersInGroup !== this.state.usersInGroup) {
+			this.setState({ usersInGroup: this.props.data.usersInGroup });
+		}
+		if (this.props.data.state.activeMenu !== this.state.activeMenu) {
+			this.setState({ activeMenu: this.props.data.state.activeMenu });
+		}
+	};
 
+	isUserChecked = () => {
+		if (this.state.activeMenu && this.state.usersInGroup && this.state.usersInGroup[this.state.activeMenu].includes(this.props.name)) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	checkboxClicked = (event, name) => {
+		const usersInGroup = { ...this.props.data.usersInGroup };
+		const usersInGroupOld = { ...this.props.data.usersInGroup };
+
+		if (event.target.checked && !usersInGroup[this.state.activeMenu].includes(name)) {
+			usersInGroup[this.state.activeMenu].push(name);
+		} else {
+			const index = usersInGroup[this.state.activeMenu].indexOf(name);
+			if (index > -1) {
+				usersInGroup[this.state.activeMenu].splice(index, 1);
+			}
+		}
+		console.log("newValue");
+		console.log(this.props.data.state.native);
+		this.props.callback.updateNative("usersInGroup", usersInGroup);
+
+		this.setState({ test: !this.state.test });
+	};
 	render() {
 		return (
 			<div className="TeleGrammUserCard-content">
 				<div className="TelegramUserCard-User">
 					<p className="TelegramUserCard-name">{this.props.name}</p>
-					<Checkbox className="TelegramUserCard-checkbox"></Checkbox>
+					<Checkbox className="TelegramUserCard-checkbox" name={this.props.name} callback={this.checkboxClicked.bind(this)} isChecked={this.isUserChecked()}></Checkbox>
 				</div>
 				<p className="TelegramUserCard-ChatID">
 					ChatID :<span className="TelegramUserCard-ChatID">{this.props.chatID}</span>
