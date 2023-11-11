@@ -149,3 +149,7 @@ input[type="checkbox"] {
 	flex-basis: auto;
 	width: 95% !important;
 }
+.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}

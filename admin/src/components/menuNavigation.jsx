@@ -63,13 +63,13 @@ class MenuNavigation extends Component {
 									<BtnSmallEdit />
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									<BtnSmallUp />
+									{index != 0 ? <BtnSmallUp disabled={index == 1 ? "disabled" : null}></BtnSmallUp> : null}
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									<BtnSmallDown />
+									{index != 0 ? <BtnSmallDown disabled={index == rows.length - 1 ? "disabled" : ""} /> : null}
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									<BtnSmallRemove />
+									{index != 0 ? <BtnSmallRemove /> : null}
 								</TableCell>
 							</TableRow>
 						))}

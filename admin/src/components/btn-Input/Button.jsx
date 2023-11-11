@@ -36,7 +36,7 @@ class Button extends Component {
 		};
 
 		return (
-			<button style={buttonStyle} onClick={this.eventOnclickButton} title={this.props.title} ref={true} disabled={this.props.disabled}>
+			<button style={buttonStyle} onClick={this.eventOnclickButton} title={this.props.title} ref={true} disabled={this.props.disabled} className={this.props.classname}>
 				<span>{this.props.children}</span>
 			</button>
 		);
