@@ -32,6 +32,32 @@ class MenuNavigation extends Component {
 			getRows(this.props.nav, this.props.activeMenu);
 		}
 	}
+	moveDown = (index) => {
+		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+		const navUserArray = dataCopy.nav[this.props.activeMenu];
+		const element = navUserArray[index];
+		navUserArray.splice(index, 1);
+		navUserArray.splice(index + 1, 0, element);
+		dataCopy.nav[this.props.activeMenu] = navUserArray;
+		this.props.callback.updateNative("data", dataCopy);
+	};
+	moveUp = (index) => {
+		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+		const navUserArray = dataCopy.nav[this.props.activeMenu];
+		const element = navUserArray[index];
+		navUserArray.splice(index, 1);
+		navUserArray.splice(index - 1, 0, element);
+		dataCopy.nav[this.props.activeMenu] = navUserArray;
+		this.props.callback.updateNative("data", dataCopy);
+	};
+	deleteRow = (index) => {
+		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+		const navUserArray = dataCopy.nav[this.props.activeMenu];
+		navUserArray.splice(index, 1);
+		dataCopy.nav[this.props.activeMenu] = navUserArray;
+		this.props.callback.updateNative("data", dataCopy);
+	};
+
 	render() {
 		if (this.props.nav) getRows(this.props.nav, this.props.activeMenu);
 		return (
@@ -64,13 +90,13 @@ class MenuNavigation extends Component {
 									<BtnSmallEdit />
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{index != 0 ? <BtnSmallUp disabled={index == 1 ? "disabled" : null}></BtnSmallUp> : null}
+									{index != 0 ? <BtnSmallUp callback={this.moveUp} index={index} disabled={index == 1 ? "disabled" : null}></BtnSmallUp> : null}
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{index != 0 ? <BtnSmallDown disabled={index == rows.length - 1 ? "disabled" : ""} /> : null}
+									{index != 0 ? <BtnSmallDown callback={this.moveDown} index={index} disabled={index == rows.length - 1 ? "disabled" : ""} /> : null}
 								</TableCell>
 								<TableCell align="center" className="cellIcon">
-									{index != 0 ? <BtnSmallRemove /> : null}
+									{index != 0 ? <BtnSmallRemove callback={this.deleteRow} index={index} /> : null}
 								</TableCell>
 							</TableRow>
 						))}

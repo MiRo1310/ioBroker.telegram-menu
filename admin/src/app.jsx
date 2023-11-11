@@ -152,7 +152,15 @@ class App extends GenericApp {
 								</Grid>
 
 								<TabPanel value="1">
-									<MenuNavigation nav={this.state.native.data.nav} activeMenu={this.state.activeMenu}></MenuNavigation>
+									<MenuNavigation
+										nav={this.state.native.data.nav}
+										activeMenu={this.state.activeMenu}
+										data={this.state.native.data}
+										callback={{
+											setState: this.setState,
+											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+										}}
+									></MenuNavigation>
 								</TabPanel>
 								<TabPanel value="2"></TabPanel>
 								<TabPanel value="3">
