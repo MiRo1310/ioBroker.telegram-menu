@@ -12,10 +12,6 @@ import RenameDialog from "./RenameDialog";
  * @returns
  */
 function checkMenuName(menu) {
-	console.log(menu);
-	console.log(typeof menu);
-	console.log(JSON.stringify(menu));
-
 	return menu.replace(/ /g, "_");
 }
 
@@ -32,7 +28,6 @@ class BtnCard extends Component {
 	}
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.oldMenuName !== this.props.data.activeMenu) {
-			console.log("update");
 			this.setState({ oldMenuName: this.props.data.activeMenu, renamedMenuName: this.props.data.activeMenu });
 		}
 	}
@@ -41,16 +36,18 @@ class BtnCard extends Component {
 		newMenu = checkMenuName(newMenu);
 		let addNewMenu = false;
 		const data = { ...this.props.data.state.native.data };
-		let action = { ...this.props.data.state.native.data.action };
+		let userActiveCheckbox = { ...this.props.data.state.native.userActiveCheckbox };
 		const usersInGroup = { ...this.props.data.state.native.usersInGroup };
 		if (!this.props.data.state.native.data.nav) {
 			data.nav = {};
 			data.action = {};
+			userActiveCheckbox = {};
 			addNewMenu = true;
 		} else if (newMenu !== "" && newMenu && !this.props.data.state.native.data.nav[newMenu]) {
 			if (copyMenu) {
 				data.nav[newMenu] = data.nav[this.state.oldMenuName];
 				data.action[newMenu] = data.action[this.state.oldMenuName];
+				userActiveCheckbox[newMenu] = userActiveCheckbox[this.state.oldMenuName];
 				usersInGroup[newMenu] = usersInGroup[this.state.oldMenuName];
 			} else {
 				addNewMenu = true;
@@ -61,31 +58,34 @@ class BtnCard extends Component {
 			return;
 		}
 		if (addNewMenu) {
-			console.log("add new Menu");
 			data.nav[newMenu] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
 			data.action[newMenu] = [{ get: [], set: [], pic: [] }];
+			userActiveCheckbox[newMenu] = false;
 			usersInGroup[newMenu] = [];
 		}
 		this.setState({ newMenuName: "" });
 
-		this.props.callback.updateNative("data", data, this.props.callback.updateNative("usersInGroup", usersInGroup));
-
+		this.props.callback.updateNative("data", data);
+		this.props.callback.updateNative("usersInGroup", usersInGroup);
+		this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
 		setTimeout(() => {
 			this.props.callback.setState({ activeMenu: newMenu });
-			console.log(this.props.data.state.native.data);
-		}, 200);
+		}, 300);
 	};
 
 	removeMenu = (menu, renamed) => {
 		const newObject = { ...this.props.data.state.native.data };
 		const newUsersInGroup = { ...this.props.data.state.native.usersInGroup };
+		const userActiveCheckbox = { ...this.props.data.state.native.userActiveCheckbox };
 
 		delete newObject.nav[menu];
 		delete newObject.action[menu];
+		delete userActiveCheckbox[menu];
 		delete newUsersInGroup[menu];
 		let firstMenu = Object.keys(newObject.nav)[0];
-		this.props.callback.updateNative("data", newObject, console.log("done1"));
-		this.props.callback.updateNative("usersInGroup", newUsersInGroup, console.log("done2"));
+		this.props.callback.updateNative("data", newObject);
+		this.props.callback.updateNative("usersInGroup", newUsersInGroup);
+		this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
 
 		if (renamed) {
 			this.props.callback.setState({ activeMenu: this.state.renamedMenuName });

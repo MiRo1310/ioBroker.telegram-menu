@@ -135,7 +135,12 @@ class App extends GenericApp {
 									<Grid item xs={12}>
 										{this.state.tab != "3" ? (
 											<HeaderTelegramUsers
-												data={{ state: this.state, usersInGroup: this.state.native.usersInGroup }}
+												data={{
+													state: this.state,
+													usersInGroup: this.state.native.usersInGroup,
+													userActiveCheckbox: this.state.native.userActiveCheckbox,
+													activeMenu: this.state.activeMenu,
+												}}
 												callback={{
 													setState: this.setState,
 													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),

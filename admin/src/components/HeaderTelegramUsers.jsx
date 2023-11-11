@@ -30,7 +30,16 @@ class HeaderTelegramUsers extends Component {
 	updateMenuOpen = () => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
-	menuActiveChecked = () => {};
+	menuActiveChecked = () => {
+		if (this.props.data.userActiveCheckbox[this.props.data.activeMenu]) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+	clickCheckbox = (event, name) => {
+		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, event.target.checked);
+	};
 
 	render() {
 		return (
@@ -71,8 +80,9 @@ class HeaderTelegramUsers extends Component {
 						<Checkbox
 							label={this.props.data.state.activeMenu + " " + I18n.t("active")}
 							id="checkboxActiveMenu"
-							checked={this.menuActiveChecked}
-							callback={this.props.callback}
+							isChecked={this.menuActiveChecked()}
+							callbackValue="event"
+							callback={this.clickCheckbox}
 						/>
 					) : null}
 				</Grid>
