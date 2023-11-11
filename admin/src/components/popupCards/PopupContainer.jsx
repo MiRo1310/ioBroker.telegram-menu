@@ -1,22 +1,12 @@
 import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
-import Button from "./btn-Input/Button";
-import Input from "./btn-Input/input";
+import Button from "../btn-Input/Button";
+import Input from "../btn-Input/input";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 const styles = () => ({
 	root: {},
-	renameDialog: {
-		position: "absolute",
-		top: "25%",
-		left: "calc(50% - 150px)",
-		backgroundColor: "#fff",
-		width: "400px",
-		height: "200px",
-		zIndex: "100",
-		borderRadius: "4px",
-		border: "2px solid #ccc",
-	},
+
 	renameDialogTitle: {
 		fontFamily: "Roboto,Helvetica,Arial,sans-serif",
 		fontSize: "1.25rem",
@@ -35,7 +25,7 @@ const styles = () => ({
 	},
 });
 
-class RenameDialog extends Component {
+class PopupContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -53,30 +43,32 @@ class RenameDialog extends Component {
 			right: "0",
 			zIndex: "10000",
 		};
+		const renameDialog = {
+			position: "absolute",
+			top: "25%",
+			left: "calc(50% - 150px)",
+			backgroundColor: "#fff",
+			width: this.props.width || "400px",
+			height: this.props.height || "200px",
+			zIndex: "100",
+			borderRadius: "4px",
+			border: "2px solid #ccc",
+		};
 
 		return (
 			<div className="dialogContainer" style={dialogContainer}>
-				<div className={this.props.classes.renameDialog}>
+				<div style={renameDialog}>
 					<div className="renameDialogHeader">
 						<div className={this.props.classes.renameDialogTitle}>{this.props.title}</div>
 					</div>
-					<div className="renameDialogBody">
-						<Input
-							width="80%"
-							value={this.props.data.newMenuName}
-							margin="0px 10% 0 10%"
-							id="renamedMenuName"
-							callbackValue="event.target.value"
-							callback={this.props.callback.setState}
-						></Input>
-					</div>
+					<div className="renameDialogBody">{this.props.children}</div>
 					<div className={this.props.classes.renameDialogFooterContent}>
 						<Button
 							b_color="#fff"
 							margin="10px 5% 10px 4%"
 							border="1px solid black"
 							round="4px"
-							callback={this.props.callback.renameMenu}
+							callback={this.props.callback}
 							width="41%"
 							height="40px"
 							fontSize="16px"
@@ -106,4 +98,4 @@ class RenameDialog extends Component {
 	}
 }
 
-export default withStyles(styles)(RenameDialog);
+export default withStyles(styles)(PopupContainer);

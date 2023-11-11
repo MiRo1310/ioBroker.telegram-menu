@@ -4,7 +4,8 @@ import { Grid } from "@mui/material";
 import Button from "./btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
-import RenameDialog from "./RenameDialog";
+import PopupContainer from "./popupCards/PopupContainer";
+import RenameCard from "./popupCards/RenameCard";
 
 /**
  *
@@ -35,8 +36,8 @@ class BtnCard extends Component {
 	addNewMenu = (newMenu, copyMenu) => {
 		newMenu = checkMenuName(newMenu);
 		let addNewMenu = false;
-		const data = { ...this.props.data.state.native.data };
-		let userActiveCheckbox = { ...this.props.data.state.native.userActiveCheckbox };
+		const data = JSON.parse(JSON.stringify(this.props.data.state.native.data));
+		let userActiveCheckbox = JSON.parse(JSON.stringify(this.props.data.state.native.userActiveCheckbox));
 		const usersInGroup = { ...this.props.data.state.native.usersInGroup };
 		if (!this.props.data.state.native.data.nav) {
 			data.nav = {};
@@ -62,18 +63,18 @@ class BtnCard extends Component {
 			data.action[newMenu] = [{ get: [], set: [], pic: [] }];
 			userActiveCheckbox[newMenu] = false;
 			usersInGroup[newMenu] = [];
+			this.setState({ newMenuName: "" });
 		}
-		this.setState({ newMenuName: "" });
+		const cb = () => this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
+		const cb2 = () => this.props.callback.updateNative("usersInGroup", usersInGroup, cb);
+		this.props.callback.updateNative("data", data, cb2);
 
-		this.props.callback.updateNative("data", data);
-		this.props.callback.updateNative("usersInGroup", usersInGroup);
-		this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
 		setTimeout(() => {
 			this.props.callback.setState({ activeMenu: newMenu });
-		}, 300);
+		}, 500);
 	};
 
-	removeMenu = (menu, renamed) => {
+	removeMenu = (menu, renamed, newMenu) => {
 		const newObject = { ...this.props.data.state.native.data };
 		const newUsersInGroup = { ...this.props.data.state.native.usersInGroup };
 		const userActiveCheckbox = { ...this.props.data.state.native.userActiveCheckbox };
@@ -82,28 +83,34 @@ class BtnCard extends Component {
 		delete newObject.action[menu];
 		delete userActiveCheckbox[menu];
 		delete newUsersInGroup[menu];
+
 		let firstMenu = Object.keys(newObject.nav)[0];
 		this.props.callback.updateNative("data", newObject);
 		this.props.callback.updateNative("usersInGroup", newUsersInGroup);
 		this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
 
 		if (renamed) {
-			this.props.callback.setState({ activeMenu: this.state.renamedMenuName });
+			this.props.callback.setState({ activeMenu: newMenu });
 		} else this.props.callback.setState({ activeMenu: firstMenu });
 	};
 	openConfirmDialog = () => {
 		this.setState({ confirmDialog: true });
 	};
-	renameMenu = () => {
+	renameMenu = (value) => {
+		if (!value) {
+			this.setState({ renameDialog: false });
+			return;
+		}
 		let oldMenuName = this.state.oldMenuName;
-		if (newMenu === "" || newMenu == undefined) return;
+		let newMenu = this.state.renamedMenuName;
+		if (newMenu === "" || newMenu == undefined || newMenu === oldMenuName) return;
 		this.addNewMenu(this.state.renamedMenuName, true);
 		setTimeout(() => {
-			this.removeMenu(oldMenuName, true);
+			this.removeMenu(oldMenuName, true, newMenu);
 		}, 1000);
-
 		this.setState({ renameDialog: false });
 	};
+
 	openRenameDialog = () => {
 		this.setState({ renamedMenuName: this.state.oldMenuName });
 		this.setState({ renameDialog: true });
@@ -155,12 +162,18 @@ class BtnCard extends Component {
 							></ConfirmDialog>
 						) : null}
 						{this.state.renameDialog ? (
-							<RenameDialog
+							<PopupContainer
 								title={I18n.t("Rename menu name")}
 								value={this.props.data.state.activeMenu}
-								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
+								callback={this.renameMenu}
 								data={{ newMenuName: this.state.renamedMenuName }}
-							></RenameDialog>
+							>
+								<RenameCard
+									value={this.props.data.state.activeMenu}
+									callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
+									data={{ newMenuName: this.state.renamedMenuName }}
+								></RenameCard>
+							</PopupContainer>
 						) : null}
 					</Grid>
 				</Grid>
