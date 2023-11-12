@@ -92,7 +92,11 @@ class App extends GenericApp {
 		if (!this.state.loaded) {
 			return super.render();
 		}
-
+		const tabBox = {
+			display: "flex",
+			flexDirection: "column",
+			height: "calc(100vh - 142px)",
+		};
 		return (
 			<div className={`App row ${this.mytheme}`}>
 				<Grid container spacing={1}>
@@ -110,8 +114,8 @@ class App extends GenericApp {
 							onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
 						></HeaderIconBar>
 					</Grid>
-					<Grid item xs={12} style={{ height: "calc(100vh - 122px)" }} className="main-content">
-						<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 122px)" }}>
+					<Grid item xs={12} className="main-content">
+						<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={tabBox}>
 							<TabContext value={this.state.tab}>
 								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 									<TabList onChange={this.handleChange} aria-label="lab API tabs example">
@@ -122,7 +126,6 @@ class App extends GenericApp {
 								</Box>
 								<Grid container spacing={1} className="Grid-HeaderMenu ">
 									<Grid item xs={12}>
-										{/* <button onClick={() => this.updateNativeValue("instance", "telegram.1")}>Klick mich</button> */}
 										{this.state.tab != "3" ? (
 											<HeaderMenu
 												data={{ activeMenu: this.state.activeMenu, state: this.state }}

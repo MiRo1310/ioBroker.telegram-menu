@@ -142,14 +142,25 @@ input[type="checkbox"] {
 .TelegramUserCard-ChatID {
 	font-size: 0.7rem;
 }
-.MuiTabPanel-root {
+div.MuiTabPanel-root {
 	overflow: auto;
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
-	width: 95% !important;
+	width: 99% !important;
+	padding: 0 0 0 5px;
 }
 .disabled {
 	pointer-events: none;
 	opacity: 0.4;
+}
+.MuiTabs-root div.MuiTabs-fixed {
+	position: fixed;
+	background-color: white;
+	width: 100%;
+	z-index: 100;
+}
+thead {
+	position: sticky;
+	top: 0;
 }
