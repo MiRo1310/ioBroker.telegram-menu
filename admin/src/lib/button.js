@@ -1,28 +1,40 @@
-export const moveDown = (index, props, action) => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data));
+export const moveDown = (index, props, action, subData) => {
+	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.data.activeMenu;
-	const navUserArray = dataCopy[action][activeMenu];
-	const element = navUserArray[index];
-	navUserArray.splice(index, 1);
-	navUserArray.splice(index + 1, 0, element);
-	dataCopy[action][activeMenu] = navUserArray;
+	let userArray = [];
+	if (subData) {
+		userArray = dataCopy[action][activeMenu][subData];
+	} else userArray = dataCopy[action][activeMenu];
+	const element = userArray[index];
+	userArray.splice(index, 1);
+	userArray.splice(index + 1, 0, element);
+	if (subData) dataCopy[action][activeMenu][subData] = userArray;
+	else dataCopy[action][activeMenu] = userArray;
 	props.callback.updateNative("data", dataCopy);
 };
-export const moveUp = (index, props, action) => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data));
+export const moveUp = (index, props, action, subData) => {
+	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.data.activeMenu;
-	const navUserArray = dataCopy[action][activeMenu];
-	const element = navUserArray[index];
-	navUserArray.splice(index, 1);
-	navUserArray.splice(index - 1, 0, element);
-	dataCopy[action][activeMenu] = navUserArray;
+	let userArray = [];
+	if (subData) {
+		userArray = dataCopy[action][activeMenu][subData];
+	} else userArray = dataCopy[action][activeMenu];
+	const element = userArray[index];
+	userArray.splice(index, 1);
+	userArray.splice(index - 1, 0, element);
+	if (subData) dataCopy[action][activeMenu][subData] = userArray;
+	else dataCopy[action][activeMenu] = userArray;
 	props.callback.updateNative("data", dataCopy);
 };
-export const deleteRow = (index, props, action) => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data));
+export const deleteRow = (index, props, action, subData) => {
+	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.data.activeMenu;
-	const navUserArray = dataCopy[action][activeMenu];
-	navUserArray.splice(index, 1);
-	dataCopy[action][activeMenu] = navUserArray;
+	let userArray = [];
+	if (subData) {
+		userArray = dataCopy[action][activeMenu][subData];
+	} else userArray = dataCopy[action][activeMenu];
+	userArray.splice(index, 1);
+	if (subData) dataCopy[action][activeMenu][subData] = userArray;
+	else dataCopy[action][activeMenu] = userArray;
 	props.callback.updateNative("data", dataCopy);
 };

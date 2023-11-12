@@ -29,16 +29,17 @@ class SetState extends Component {
 		this.state = {};
 	}
 	moveDown = (index) => {
-		moveDown(index, this.props, "action");
+		moveDown(index, this.props, "action", "set");
 	};
 	moveUp = (index) => {
-		moveUp(index, this.props, "action");
+		moveUp(index, this.props, "action", "set");
 	};
 	deleteRow = (index) => {
-		deleteRow(index, this.props, "action");
+		deleteRow(index, this.props, "action", "set");
 	};
 	render() {
-		if (this.props.data.action) getRows(this.props.data.action, this.props.data.activeMenu);
+		console.log(this.props.data.data);
+		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
