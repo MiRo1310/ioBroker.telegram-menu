@@ -154,9 +154,8 @@ class App extends GenericApp {
 
 								<TabPanel value="1">
 									<MenuNavigation
-										nav={this.state.native.data.nav}
 										activeMenu={this.state.activeMenu}
-										data={this.state.native.data}
+										data={{ nav: this.state.native.data.nav, data: this.state.native.data, activeMenu: this.state.activeMenu, state: this.state }}
 										callback={{
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),

@@ -10,6 +10,8 @@ import BtnSmallDown from "./btn-Input/btn-small-down";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowNavCard from "./popupCards/RowNavCard";
 
+import { moveUp, moveDown, deleteRow } from "../lib/button";
+
 function createData(call, nav, text) {
 	return { call, nav, text };
 }
@@ -37,35 +39,11 @@ class MenuNavigation extends Component {
 		};
 	}
 	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.activeMenu || prevProps.nav !== this.props.nav) {
-			getRows(this.props.nav, this.props.activeMenu);
+		if (prevProps.activeMenu !== this.props.data.activeMenu || prevProps.nav !== this.props.nav) {
+			getRows(this.props.nav, this.props.data.activeMenu);
 		}
 	}
-	moveDown = (index) => {
-		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
-		const navUserArray = dataCopy.nav[this.props.activeMenu];
-		const element = navUserArray[index];
-		navUserArray.splice(index, 1);
-		navUserArray.splice(index + 1, 0, element);
-		dataCopy.nav[this.props.activeMenu] = navUserArray;
-		this.props.callback.updateNative("data", dataCopy);
-	};
-	moveUp = (index) => {
-		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
-		const navUserArray = dataCopy.nav[this.props.activeMenu];
-		const element = navUserArray[index];
-		navUserArray.splice(index, 1);
-		navUserArray.splice(index - 1, 0, element);
-		dataCopy.nav[this.props.activeMenu] = navUserArray;
-		this.props.callback.updateNative("data", dataCopy);
-	};
-	deleteRow = (index) => {
-		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
-		const navUserArray = dataCopy.nav[this.props.activeMenu];
-		navUserArray.splice(index, 1);
-		dataCopy.nav[this.props.activeMenu] = navUserArray;
-		this.props.callback.updateNative("data", dataCopy);
-	};
+
 	openAddRowCard = (value) => {
 		if (value) {
 			this.setState({ rowIndex: value });
@@ -82,7 +60,7 @@ class MenuNavigation extends Component {
 			this.setState({ rowPopup: false });
 			return;
 		}
-		const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+		const dataCopy = JSON.parse(JSON.stringify(this.props.data.data));
 		const navUserArray = dataCopy.nav[this.props.activeMenu];
 		if (this.state.editRow) {
 			navUserArray.splice(this.state.rowIndex, 1, { call: this.state.call, value: this.state.nav, text: this.state.text });
@@ -93,15 +71,24 @@ class MenuNavigation extends Component {
 		this.setState({ editRow: false });
 	};
 	editRow = (index) => {
-		const element = this.props.data.nav[this.props.activeMenu][index];
+		const element = this.props.data.data.nav[this.props.activeMenu][index];
 		this.setState({ call: element.call, nav: element.value, text: element.text });
 		this.setState({ rowPopup: true });
 		this.setState({ rowIndex: index });
 		this.setState({ editRow: true });
 	};
+	moveDown = (index) => {
+		moveDown(index, this.props, "nav");
+	};
+	moveUp = (index) => {
+		moveUp(index, this.props, "nav");
+	};
+	deleteRow = (index) => {
+		deleteRow(index, this.props, "nav");
+	};
 
 	render() {
-		if (this.props.nav) getRows(this.props.nav, this.props.activeMenu);
+		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (
 			<div>
 				<TableContainer component={Paper}>
