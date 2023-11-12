@@ -42,16 +42,7 @@ class HeaderTelegramUsers extends Component {
 	render() {
 		return (
 			<Grid container spacing={2}>
-				<Grid item lg={2} md={3} xs={4}>
-					{this.props.data.state.tab === "2" ? (
-						<div className="HeaderThirdRow-ButtonAction">
-							<Button b_color="#96d15a" title="Add new Action" width="100%" margin="0 18px" height="50px">
-								<i className="material-icons translate">add</i>
-								{I18n.t("Add new Action")}
-							</Button>
-						</div>
-					) : null}
-				</Grid>
+				<Grid item lg={2} md={2} xs={2}></Grid>
 				<Grid item lg={8} md={7} xs={5}>
 					<div className={this.props.classes.container}>
 						<div className={this.props.classes.btnExpand}>

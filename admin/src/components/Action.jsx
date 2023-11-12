@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import SetState from "./Setstate";
+import GetState from "./Getstate";
+import SendPicture from "./SendPic";
 
 class Action extends Component {
 	constructor(props) {
@@ -26,8 +28,12 @@ class Action extends Component {
 				<TabPanel value="1">
 					<SetState callback={this.props.callback} data={this.props.data}></SetState>
 				</TabPanel>
-				<TabPanel value="2">GetState</TabPanel>
-				<TabPanel value="3">Send Picture</TabPanel>
+				<TabPanel value="2">
+					<GetState callback={this.props.callback} data={this.props.data}></GetState>
+				</TabPanel>
+				<TabPanel value="3">
+					<SendPicture callback={this.props.callback} data={this.props.data}></SendPicture>
+				</TabPanel>
 			</TabContext>
 		);
 	}

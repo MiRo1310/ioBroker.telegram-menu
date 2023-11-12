@@ -10,34 +10,35 @@ import Button from "./btn-Input/Button";
 
 import { moveUp, moveDown, deleteRow } from "../lib/button";
 
-function createData(trigger, id, value, returnText, confirm, switchValue) {
-	return { trigger, id, value, returnText, confirm, switchValue };
+function createData(trigger, id, filename, picSendDelay) {
+	return { trigger, id, filename, picSendDelay };
 }
 
 let rows = [];
 function getRows(action, activeMenu) {
 	if (!action) return;
-	let elemente = action[activeMenu].set;
+	let elemente = action[activeMenu].pic;
 	rows = [];
 	if (elemente === undefined) return;
 	for (let entry of elemente) {
-		rows.push(createData(entry.trigger, entry.IDs, entry.value, entry.returnText, entry.confirm, entry.switch_checkbox));
+		rows.push(createData(entry.trigger, entry.IDs, entry.filename, entry.picSendDelay));
 	}
 }
-class SetState extends Component {
+class SendPic extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
 	moveDown = (index) => {
-		moveDown(index, this.props, "action", "set");
+		moveDown(index, this.props, "action", "pic");
 	};
 	moveUp = (index) => {
-		moveUp(index, this.props, "action", "set");
+		moveUp(index, this.props, "action", "pic");
 	};
 	deleteRow = (index) => {
-		deleteRow(index, this.props, "action", "set");
+		deleteRow(index, this.props, "action", "pic");
 	};
+
 	render() {
 		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
@@ -54,10 +55,8 @@ class SetState extends Component {
 								<TableRow>
 									<TableCell>{I18n.t("Trigger")}</TableCell>
 									<TableCell align="right">ID</TableCell>
-									<TableCell align="right">{I18n.t("Value")}</TableCell>
-									<TableCell align="right"> {I18n.t("Return Text")} </TableCell>
-									<TableCell align="right"> {I18n.t("Confirm message")} </TableCell>
-									<TableCell align="right"> {I18n.t("Switch")} </TableCell>
+									<TableCell align="right">{I18n.t("Filename")}</TableCell>
+									<TableCell align="right"> {I18n.t("Send delay")} </TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
@@ -72,10 +71,8 @@ class SetState extends Component {
 											{row.trigger}
 										</TableCell>
 										<TableCell align="right">{row.id}</TableCell>
-										<TableCell align="right">{row.value}</TableCell>
-										<TableCell align="right">{row.returnText}</TableCell>
-										<TableCell align="right">{row.confirm}</TableCell>
-										<TableCell align="right">{row.switchValue}</TableCell>
+										<TableCell align="right">{row.filename}</TableCell>
+										<TableCell align="right">{row.picSendDelay}</TableCell>
 										<TableCell align="center" className="cellIcon">
 											<BtnSmallAdd callback={this.openAddRowCard} index={index} />
 										</TableCell>
@@ -103,4 +100,4 @@ class SetState extends Component {
 	}
 }
 
-export default SetState;
+export default SendPic;
