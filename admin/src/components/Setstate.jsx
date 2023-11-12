@@ -20,7 +20,7 @@ function getRows(action, activeMenu) {
 	rows = [];
 	if (elemente === undefined) return;
 	for (let entry of elemente) {
-		rows.push(createData(entry.trigger, entry.id, entry.value, entry.returnText, entry.confirm, entry.switch_checkbox));
+		rows.push(createData(entry.trigger, entry.IDs, entry.value, entry.returnText, entry.confirm, entry.switch_checkbox));
 	}
 }
 class SetState extends Component {
