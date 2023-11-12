@@ -9,6 +9,7 @@ import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
 import MenuNavigation from "./components/menuNavigation";
 import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
+import Action from "./components/Action";
 
 import getIobrokerData from "./lib/socket";
 import helperFunction from "./lib/Utilis";
@@ -162,7 +163,15 @@ class App extends GenericApp {
 										}}
 									></MenuNavigation>
 								</TabPanel>
-								<TabPanel value="2"></TabPanel>
+								<TabPanel value="2">
+									<Action
+										data={{ action: this.state.native.data.action, state: this.state, activeMenu: this.state.activeMenu }}
+										callback={{
+											setState: this.setState,
+											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+										}}
+									></Action>
+								</TabPanel>
 								<TabPanel value="3">
 									<Settings
 										data={{ instances: this.state.instances, state: this.state }}
