@@ -19,6 +19,17 @@ export const deepCopy = (obj) => {
 		console.error("Error deepCopy: " + JSON.stringify(err));
 	}
 };
+export const isChecked = (value) => {
+	try {
+		if (value == "true" || value == true) {
+			return true;
+		} else {
+			return false;
+		}
+	} catch (err) {
+		console.error("Error isChecked: " + JSON.stringify(err));
+	}
+};
 
 const helperFunction = {
 	processUserData,

@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import Input from "../btn-Input/input";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+
+import Input from "../btn-Input/input";
+import Checkbox from "../btn-Input/checkbox";
+
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
 
-import { deepCopy } from "../../lib/Utilis";
+import { deepCopy, isChecked } from "../../lib/Utilis";
 
 function createData(id, value, returnText, confirm, switchValue) {
 	return { id, value, returnText, confirm, switchValue };
@@ -49,9 +52,12 @@ class RowSetCard extends Component {
 		this.saveRows();
 	}
 	updateData = (obj) => {
+		console.log(obj);
 		const newRow = deepCopy(this.props.data);
-		newRow[obj.id][obj.index] = obj.val;
+
+		newRow[obj.id][obj.index] = obj.val.toString();
 		this.props.callback.setState({ newRow: newRow });
+		console.log(newRow);
 	};
 	updateTrigger = (value) => {
 		const newRow = deepCopy(this.props.data);
@@ -116,30 +122,28 @@ class RowSetCard extends Component {
 											id="returnText"
 											index={index}
 											callback={this.updateData}
-											callbackValue="event.target.value"
+											callbackValue="event"
 										></Input>
 									</TableCell>
 									<TableCell align="left">
-										<Input
-											width="100%"
-											value={row.confirm}
-											margin="0px 2px 0 5px"
+										<Checkbox
 											id="confirm"
 											index={index}
 											callback={this.updateData}
-											callbackValue="event.target.value"
-										></Input>
+											callbackValue="event"
+											isChecked={isChecked(row.confirm)}
+											obj={true}
+										></Checkbox>
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
-										<Input
-											width="100%"
-											value={row.switchValue}
-											margin="0px 2px 0 5px"
+										<Checkbox
 											id="switch_checkbox"
 											index={index}
 											callback={this.updateData}
-											callbackValue="event.target.value"
-										></Input>
+											callbackValue="event"
+											isChecked={isChecked(row.switchValue)}
+											obj={true}
+										></Checkbox>
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
 										<BtnSmallAdd callback={this.openAddRowCard} index={index} />

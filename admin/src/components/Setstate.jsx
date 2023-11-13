@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import BtnSmallEdit from "./btn-Input/btn-small-edit";
@@ -28,23 +28,29 @@ function getRows(action, activeMenu) {
 		rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
 	}
 }
+
 class SetState extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			rowPopup: false,
-			rowIndex: "",
+			rowIndex: 0,
 			editRow: false,
-			// newRow: { IDs: [""], trigger: [""], values: [""], returnText: [""], confirm: [""], switch_checkbox: [""] },
-			newRow: {
-				IDs: ["id1", "id2"],
-				trigger: ["trigger"],
-				values: ["Value1", "Value2"],
-				returnText: ["Text1", "Text2"],
-				confirm: ["confirm1", "confirm2"],
-				switch_checkbox: ["switch1", "switch2"],
-			},
+			newRow: { trigger: [""], IDs: [""], values: [""], returnText: [""], confirm: ["false"], switch_checkbox: ["false"] },
+			// newRow: {
+			// 	IDs: ["id1", "id2"],
+			// 	trigger: ["trigger"],
+			// 	values: ["Value1", "Value2"],
+			// 	returnText: ["Text1", "Text2"],
+			// 	confirm: ["false", "true"],
+			// 	switch_checkbox: ["true", "false"],
+			// },
 		};
+	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.rowIndex !== this.props.rowIndex) {
+			console.log("new Index", this.props.rowIndex);
+		}
 	}
 	moveDown = (index) => {
 		moveDown(index, this.props, "action", "set");
@@ -55,16 +61,32 @@ class SetState extends Component {
 	deleteRow = (index) => {
 		deleteRow(index, this.props, "action", "set");
 	};
-	editRow = (index) => {};
+	editRow = (index) => {
+		const data = deepCopy(this.props.data.data);
+		const newRow = data.action[this.props.data.activeMenu].set[index];
+		this.setState({ newRow: newRow });
+		this.setState({ editRow: true });
+		this.setState({ rowPopup: true });
+		this.setState({ rowIndex: index });
+	};
 	openAddRowCard = (index) => {
-		this.setState({ rowPopup: true, rowIndex: index, editRow: false });
+		this.setState({ rowPopup: true });
+		this.setState({ rowIndex: index });
 	};
 
-	openAddRowCard = (index) => {
-		this.setState({ rowPopup: true, rowIndex: index, editRow: false });
-	};
 	closeAddRowCard = (isOk) => {
+		if (isOk) {
+			const data = deepCopy(this.props.data.data);
+			if (this.state.editRow) {
+				data.action[this.props.data.activeMenu].set.splice(this.state.rowIndex, 1, this.state.newRow);
+			} else {
+				data.action[this.props.data.activeMenu].set.splice(this.state.rowIndex + 1, 0, this.state.newRow);
+			}
+			this.props.callback.updateNative("data", data);
+		}
+
 		this.setState({ rowPopup: false });
+		this.setState({ editRow: false });
 	};
 
 	render() {
@@ -129,12 +151,7 @@ class SetState extends Component {
 				)}
 				{this.state.rowPopup ? (
 					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%">
-						<RowSetCard
-							data={this.state.newRow}
-							editRow={this.state.editRow}
-							rowIndex={this.state.rowIndex}
-							callback={{ updateTrigger: this.updateTrigger, setState: this.setState.bind(this) }}
-						></RowSetCard>
+						<RowSetCard data={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowSetCard>
 					</PopupContainer>
 				) : null}
 			</div>

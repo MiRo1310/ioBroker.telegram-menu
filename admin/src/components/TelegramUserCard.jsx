@@ -39,8 +39,8 @@ class TelegramUserCard extends Component {
 	};
 
 	checkboxClicked = (event, name) => {
+		console.log(event, name);
 		const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
-
 		if (event.target.checked && !listOfUsers.includes(name)) {
 			listOfUsers.push(name);
 		} else {
@@ -56,7 +56,13 @@ class TelegramUserCard extends Component {
 			<div className="TeleGrammUserCard-content">
 				<div className="TelegramUserCard-User">
 					<p className="TelegramUserCard-name">{this.props.name}</p>
-					<Checkbox className="TelegramUserCard-checkbox" name={this.props.name} callback={this.checkboxClicked.bind(this)} isChecked={this.isUserChecked()}></Checkbox>
+					<Checkbox
+						className="TelegramUserCard-checkbox"
+						id={this.props.name}
+						callbackValue="event"
+						callback={this.checkboxClicked.bind(this)}
+						isChecked={this.isUserChecked()}
+					></Checkbox>
 				</div>
 				<p className="TelegramUserCard-ChatID">
 					ChatID :<span className="TelegramUserCard-ChatID">{this.props.chatID}</span>

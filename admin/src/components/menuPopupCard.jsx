@@ -18,7 +18,6 @@ class MenuPopupCard extends Component {
 	menuList = Object.keys(this.props.usersInGroup);
 
 	render() {
-		console.log(this.props.usersInGroup);
 		return (
 			<div className="menuPopup">
 				{this.menuList.map((menu, index) => {
