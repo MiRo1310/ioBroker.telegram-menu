@@ -66,17 +66,6 @@ class SetState extends Component {
 	closeAddRowCard = (isOk) => {
 		this.setState({ rowPopup: false });
 	};
-	updateTrigger = (value) => {
-		console.log(value);
-		const newRow = deepCopy(this.state.newRow);
-		newRow.trigger[0] = value.val;
-		this.setState({ newRow: newRow });
-	};
-	updateData = (obj) => {
-		const newRow = deepCopy(this.state.newRow);
-		newRow[obj.id][obj.index] = obj.val;
-		this.setState({ newRow: newRow });
-	};
 
 	render() {
 		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
@@ -144,7 +133,7 @@ class SetState extends Component {
 							data={this.state.newRow}
 							editRow={this.state.editRow}
 							rowIndex={this.state.rowIndex}
-							callback={{ updateTrigger: this.updateTrigger, updateData: this.updateData }}
+							callback={{ updateTrigger: this.updateTrigger, setState: this.setState.bind(this) }}
 						></RowSetCard>
 					</PopupContainer>
 				) : null}

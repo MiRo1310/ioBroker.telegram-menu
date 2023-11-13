@@ -7,6 +7,8 @@ import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
 
+import { deepCopy } from "../../lib/Utilis";
+
 function createData(id, value, returnText, confirm, switchValue) {
 	return { id, value, returnText, confirm, switchValue };
 }
@@ -37,18 +39,25 @@ class RowSetCard extends Component {
 		const rows = data.rows;
 		this.setState({ trigger: data.trigger });
 		this.setState({ rows: rows });
-		console.log(rows);
 	};
 	componentDidUpdate(prevProps) {
-		console.log("componentDidUpdate");
 		if (prevProps.data !== this.props.data) {
-			console.log("data changed");
 			this.saveRows();
 		}
 	}
 	componentDidMount() {
 		this.saveRows();
 	}
+	updateData = (obj) => {
+		const newRow = deepCopy(this.props.data);
+		newRow[obj.id][obj.index] = obj.val;
+		this.props.callback.setState({ newRow: newRow });
+	};
+	updateTrigger = (value) => {
+		const newRow = deepCopy(this.props.data);
+		newRow.trigger[0] = value.val;
+		this.props.callback.setState({ newRow: newRow });
+	};
 
 	render() {
 		return (
@@ -58,7 +67,7 @@ class RowSetCard extends Component {
 					value={this.props.data.trigger[0]}
 					margin="0px 2px 0 5px"
 					id="trigger"
-					callback={this.props.callback.updateTrigger}
+					callback={this.updateTrigger}
 					callbackValue="event.target.value"
 					label="Trigger"
 				></Input>
@@ -83,7 +92,7 @@ class RowSetCard extends Component {
 											margin="0px 2px 0 2px"
 											id="IDs"
 											index={index}
-											callback={this.props.callback.updateData}
+											callback={this.updateData}
 											callbackValue="event.target.value"
 											function="manual"
 										></Input>
@@ -95,7 +104,7 @@ class RowSetCard extends Component {
 											margin="0px 2px 0 5px"
 											id="values"
 											index={index}
-											callback={this.props.callback.updateData}
+											callback={this.updateData}
 											callbackValue="event.target.value"
 										></Input>
 									</TableCell>
@@ -106,7 +115,7 @@ class RowSetCard extends Component {
 											margin="0px 2px 0 5px"
 											id="returnText"
 											index={index}
-											callback={this.props.callback.updateData}
+											callback={this.updateData}
 											callbackValue="event.target.value"
 										></Input>
 									</TableCell>
@@ -117,7 +126,7 @@ class RowSetCard extends Component {
 											margin="0px 2px 0 5px"
 											id="confirm"
 											index={index}
-											callback={this.props.callback.updateData}
+											callback={this.updateData}
 											callbackValue="event.target.value"
 										></Input>
 									</TableCell>
@@ -128,7 +137,7 @@ class RowSetCard extends Component {
 											margin="0px 2px 0 5px"
 											id="switch_checkbox"
 											index={index}
-											callback={this.props.callback.updateData}
+											callback={this.updateData}
 											callbackValue="event.target.value"
 										></Input>
 									</TableCell>
