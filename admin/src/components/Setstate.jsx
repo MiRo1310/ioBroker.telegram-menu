@@ -7,6 +7,10 @@ import BtnSmallAdd from "./btn-Input/btn-small-add";
 import BtnSmallUp from "./btn-Input/btn-small-up";
 import BtnSmallDown from "./btn-Input/btn-small-down";
 import Button from "./btn-Input/Button";
+import PopupContainer from "./popupCards/PopupContainer";
+import RowSetCard from "./popupCards/RowSetCard";
+
+import { deepCopy } from "../lib/Utilis";
 
 import { moveUp, moveDown, deleteRow } from "../lib/button";
 
@@ -21,13 +25,26 @@ function getRows(action, activeMenu) {
 	rows = [];
 	if (elemente === undefined) return;
 	for (let entry of elemente) {
-		rows.push(createData(entry.trigger, entry.IDs, entry.value, entry.returnText, entry.confirm, entry.switch_checkbox));
+		rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
 	}
 }
 class SetState extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			rowPopup: false,
+			rowIndex: "",
+			editRow: false,
+			// newRow: { IDs: [""], trigger: [""], values: [""], returnText: [""], confirm: [""], switch_checkbox: [""] },
+			newRow: {
+				IDs: ["id1", "id2"],
+				trigger: ["trigger"],
+				values: ["Value1", "Value2"],
+				returnText: ["Text1", "Text2"],
+				confirm: ["confirm1", "confirm2"],
+				switch_checkbox: ["switch1", "switch2"],
+			},
+		};
 	}
 	moveDown = (index) => {
 		moveDown(index, this.props, "action", "set");
@@ -38,6 +55,29 @@ class SetState extends Component {
 	deleteRow = (index) => {
 		deleteRow(index, this.props, "action", "set");
 	};
+	editRow = (index) => {};
+	openAddRowCard = (index) => {
+		this.setState({ rowPopup: true, rowIndex: index, editRow: false });
+	};
+
+	openAddRowCard = (index) => {
+		this.setState({ rowPopup: true, rowIndex: index, editRow: false });
+	};
+	closeAddRowCard = (isOk) => {
+		this.setState({ rowPopup: false });
+	};
+	updateTrigger = (value) => {
+		console.log(value);
+		const newRow = deepCopy(this.state.newRow);
+		newRow.trigger[0] = value.val;
+		this.setState({ newRow: newRow });
+	};
+	updateData = (obj) => {
+		const newRow = deepCopy(this.state.newRow);
+		newRow[obj.id][obj.index] = obj.val;
+		this.setState({ newRow: newRow });
+	};
+
 	render() {
 		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
@@ -98,6 +138,16 @@ class SetState extends Component {
 						</Table>
 					</TableContainer>
 				)}
+				{this.state.rowPopup ? (
+					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%">
+						<RowSetCard
+							data={this.state.newRow}
+							editRow={this.state.editRow}
+							rowIndex={this.state.rowIndex}
+							callback={{ updateTrigger: this.updateTrigger, updateData: this.updateData }}
+						></RowSetCard>
+					</PopupContainer>
+				) : null}
 			</div>
 		);
 	}

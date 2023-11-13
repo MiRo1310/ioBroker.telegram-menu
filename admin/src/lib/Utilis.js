@@ -12,6 +12,13 @@ const processUserData = (data) => {
 		console.error("Error processUserData: " + JSON.stringify(err));
 	}
 };
+export const deepCopy = (obj) => {
+	try {
+		return JSON.parse(JSON.stringify(obj));
+	} catch (err) {
+		console.error("Error deepCopy: " + JSON.stringify(err));
+	}
+};
 
 const helperFunction = {
 	processUserData,
