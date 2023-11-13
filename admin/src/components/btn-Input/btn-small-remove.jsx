@@ -13,6 +13,7 @@ class BtnSmallRemove extends Component {
 				callback={this.props.callback}
 				callbackValue={this.props.index}
 				classname={this.props.disabled}
+				disabled={this.props.disabled}
 			>
 				<i className="material-icons">delete</i>
 			</Button>

@@ -64,7 +64,42 @@ class RowSetCard extends Component {
 		newRow.trigger[0] = value.val;
 		this.props.callback.setState({ newRow: newRow });
 	};
-
+	addNewRow = (index) => {
+		const newRow = deepCopy(this.props.data);
+		newRow.IDs.splice(index + 1, 0, "");
+		newRow.values.splice(index + 1, 0, "");
+		newRow.returnText.splice(index + 1, 0, "");
+		newRow.confirm.splice(index + 1, 0, "false");
+		newRow.switch_checkbox.splice(index + 1, 0, "false");
+		this.props.callback.setState({ newRow: newRow });
+	};
+	deleteRow = (index) => {
+		const newRow = deepCopy(this.props.data);
+		newRow.IDs.splice(index, 1);
+		newRow.values.splice(index, 1);
+		newRow.returnText.splice(index, 1);
+		newRow.confirm.splice(index, 1);
+		newRow.switch_checkbox.splice(index, 1);
+		this.props.callback.setState({ newRow: newRow });
+	};
+	moveDown = (index) => {
+		const newRow = deepCopy(this.props.data);
+		newRow.IDs.splice(index + 1, 0, newRow.IDs.splice(index, 1)[0]);
+		newRow.values.splice(index + 1, 0, newRow.values.splice(index, 1)[0]);
+		newRow.returnText.splice(index + 1, 0, newRow.returnText.splice(index, 1)[0]);
+		newRow.confirm.splice(index + 1, 0, newRow.confirm.splice(index, 1)[0]);
+		newRow.switch_checkbox.splice(index + 1, 0, newRow.switch_checkbox.splice(index, 1)[0]);
+		this.props.callback.setState({ newRow: newRow });
+	};
+	moveUp = (index) => {
+		const newRow = deepCopy(this.props.data);
+		newRow.IDs.splice(index - 1, 0, newRow.IDs.splice(index, 1)[0]);
+		newRow.values.splice(index - 1, 0, newRow.values.splice(index, 1)[0]);
+		newRow.returnText.splice(index - 1, 0, newRow.returnText.splice(index, 1)[0]);
+		newRow.confirm.splice(index - 1, 0, newRow.confirm.splice(index, 1)[0]);
+		newRow.switch_checkbox.splice(index - 1, 0, newRow.switch_checkbox.splice(index, 1)[0]);
+		this.props.callback.setState({ newRow: newRow });
+	};
 	render() {
 		return (
 			<div>
@@ -146,7 +181,7 @@ class RowSetCard extends Component {
 										></Checkbox>
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
-										<BtnSmallAdd callback={this.openAddRowCard} index={index} />
+										<BtnSmallAdd callback={this.addNewRow} index={index} />
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
 										<BtnSmallUp callback={this.moveUp} index={index} disabled={index == 0 ? "disabled" : null}></BtnSmallUp>
@@ -155,7 +190,7 @@ class RowSetCard extends Component {
 										<BtnSmallDown callback={this.moveDown} index={index} disabled={index == rows.length - 1 ? "disabled" : ""} />
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
-										<BtnSmallRemove callback={this.deleteRow} index={index} />
+										<BtnSmallRemove callback={this.deleteRow} index={index} disabled={rows.length == 1 ? "disabled" : ""} />
 									</TableCell>
 								</TableRow>
 							))}
