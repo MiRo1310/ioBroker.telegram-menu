@@ -9,6 +9,7 @@ import BtnSmallDown from "./btn-Input/btn-small-down";
 import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowSetCard from "./popupCards/RowSetCard";
+import SubTable from "./subTable";
 
 import { deepCopy } from "../lib/Utilis";
 
@@ -27,6 +28,7 @@ function getRows(action, activeMenu) {
 	for (let entry of elemente) {
 		rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
 	}
+	console.log(rows);
 }
 
 class SetState extends Component {
@@ -50,11 +52,7 @@ class SetState extends Component {
 	componentDidMount() {
 		this.resetNewRow();
 	}
-	componentDidUpdate(prevProps) {
-		if (prevProps.rowIndex !== this.props.rowIndex) {
-			console.log("new Index", this.props.rowIndex);
-		}
-	}
+
 	moveDown = (index) => {
 		moveDown(index, this.props, "action", "set");
 	};
@@ -129,11 +127,22 @@ class SetState extends Component {
 										<TableCell component="th" scope="row">
 											{row.trigger}
 										</TableCell>
-										<TableCell align="right">{row.id}</TableCell>
-										<TableCell align="right">{row.value}</TableCell>
-										<TableCell align="right">{row.returnText}</TableCell>
-										<TableCell align="right">{row.confirm}</TableCell>
-										<TableCell align="right">{row.switchValue}</TableCell>
+										<TableCell align="right">
+											<SubTable data={row.id} />
+										</TableCell>
+										<TableCell align="right">
+											<SubTable data={row.value}></SubTable>
+										</TableCell>
+										<TableCell align="right">
+											<SubTable data={row.returnText}></SubTable>
+										</TableCell>
+										<TableCell align="right">
+											<SubTable data={row.confirm}></SubTable>
+										</TableCell>
+										<TableCell align="right">
+											<SubTable data={row.switchValue}></SubTable>
+										</TableCell>
+
 										<TableCell align="center" className="cellIcon">
 											<BtnSmallAdd callback={this.openAddRowCard} index={index} />
 										</TableCell>
