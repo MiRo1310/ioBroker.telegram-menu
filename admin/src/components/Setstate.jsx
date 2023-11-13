@@ -36,7 +36,7 @@ class SetState extends Component {
 			rowPopup: false,
 			rowIndex: 0,
 			editRow: false,
-			newRow: { trigger: [""], IDs: [""], values: [""], returnText: [""], confirm: ["false"], switch_checkbox: ["false"] },
+			newRow: {},
 			// newRow: {
 			// 	IDs: ["id1", "id2"],
 			// 	trigger: ["trigger"],
@@ -46,6 +46,9 @@ class SetState extends Component {
 			// 	switch_checkbox: ["true", "false"],
 			// },
 		};
+	}
+	componentDidMount() {
+		this.resetNewRow();
 	}
 	componentDidUpdate(prevProps) {
 		if (prevProps.rowIndex !== this.props.rowIndex) {
@@ -87,8 +90,12 @@ class SetState extends Component {
 
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
+		this.resetNewRow();
 	};
-
+	resetNewRow = () => {
+		this.setState({ newRow: this.newRow });
+	};
+	newRow = { trigger: [""], IDs: [""], values: [""], returnText: [""], confirm: ["false"], switch_checkbox: ["false"] };
 	render() {
 		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
