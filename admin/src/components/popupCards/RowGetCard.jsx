@@ -9,9 +9,8 @@ import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
-
-import { isChecked } from "../../lib/Utilis";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp } from "../../lib/actionUtilis";
+import { isChecked } from "../../lib/Utilis";
 
 class RowGetCard extends Component {
 	constructor(props) {
@@ -29,11 +28,12 @@ class RowGetCard extends Component {
 	];
 	componentDidUpdate(prevProps) {
 		if (prevProps.data !== this.props.data) {
-			saveRows(this.props, this.setState.bind(this));
+			saveRows(this.props, this.setState.bind(this), this.rowElements);
 		}
 	}
 	componentDidMount() {
-		saveRows(this.props, this.setState.bind(this));
+		saveRows(this.props, this.setState.bind(this), this.rowElements);
+		console.log(this.state.rows);
 	}
 	updateData = (obj) => {
 		updateData(obj, this.props);
@@ -81,7 +81,7 @@ class RowGetCard extends Component {
 									<TableCell component="th" scope="row" align="left">
 										<Input
 											width="100%"
-											value={row.id}
+											value={row.IDs}
 											margin="0px 2px 0 2px"
 											id="IDs"
 											index={index}
@@ -93,7 +93,7 @@ class RowGetCard extends Component {
 									<TableCell align="left">
 										<Input
 											width="100%"
-											value={row.value}
+											value={row.text}
 											margin="0px 2px 0 5px"
 											id="text"
 											index={index}
@@ -102,15 +102,14 @@ class RowGetCard extends Component {
 										></Input>
 									</TableCell>
 									<TableCell align="left">
-										<Input
-											width="100%"
-											value={row.returnText}
-											margin="0px 2px 0 5px"
+										<Checkbox
 											id="newline_checkbox"
 											index={index}
 											callback={this.updateData}
 											callbackValue="event"
-										></Input>
+											isChecked={isChecked(row.newline_checkbox)}
+											obj={true}
+										></Checkbox>
 									</TableCell>
 
 									<TableCell align="center" className="cellIcon">
