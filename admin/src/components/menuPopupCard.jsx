@@ -19,7 +19,7 @@ class MenuPopupCard extends Component {
 
 	render() {
 		return (
-			<div className="menuPopup">
+			<div className="MenuPopupCard-Popup">
 				{this.menuList.map((menu, index) => {
 					return (
 						<Button

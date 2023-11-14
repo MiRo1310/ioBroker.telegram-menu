@@ -9,7 +9,10 @@ body {
 }
 .iconBar {
 	height: 40px;
-	/* background-color: black !important; */
+}
+.Tab-Header {
+	margin-bottom: 0;
+	background-color: #3399cc;
 }
 .Tab-Header button {
 	margin-left: 5px;
@@ -17,12 +20,98 @@ body {
 .Tab-Header img {
 	margin: 5px;
 }
+/* Tab-Navigation */
+.App-TabList button {
+	background-color: #ddd !important;
+	border-radius: 6px;
+	border: 2px solid #aaa !important;
+	margin: 0px 5px 5px 5px;
+}
+
+.App-TabList > div > div {
+	background-color: #3399cc;
+}
+
+.dark .App-TabList > div > div {
+	background-color: rgb(59, 59, 59);
+}
+.blue .App-TabList > div > div {
+	background-color: rgb(62, 68, 72);
+}
+/* Hover */
+.App-TabList button:hover,
+.MenuPopupCard-Popup button:hover {
+	background-color: #eee !important;
+	border-color: #888 !important;
+}
+/* HeaderMenu */
+.MenuPopupCard-Popup {
+	display: inline-block;
+	width: 160px;
+	background-color: #fff;
+	position: absolute;
+	z-index: 5;
+	top: 142px;
+	left: 5px;
+	border: 2px solid #333;
+	border-radius: 4px;
+}
+.MenuPopupCard-Popup button {
+	color: #3399cc !important;
+	background-color: #ddd !important;
+	border: 2px solid #aaa !important;
+}
+.HeaderMenu-menuPopupCard {
+	display: inline-block;
+}
+.dark .HeaderMenu-GridContainer,
+.blue .HeaderMenu-GridContainer {
+	color: white;
+}
+.HeaderMenu-GridContainer {
+	font-size: 0.8rem;
+}
+.HeaderMenu-GridContainer input {
+	margin-top: 0 !important;
+	margin-left: 0 !important;
+	font-size: 0.8rem !important;
+}
+/* Header Telegram User */
+.HeaderThirdRow-ButtonAction {
+	display: inline-block;
+	width: 200px;
+}
+.TeleGrammUsers {
+	display: inline-block;
+	width: 200px;
+}
+
+/* Grid Main Content */
+.App-main-content {
+	padding-top: 0 !important;
+}
+div.MuiTabPanel-root {
+	overflow: auto;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+	width: calc(100% - 10px) !important;
+	padding: 0px 5px 5px 5px;
+}
 
 /* NavigationMenu */
+/* Table ist in Allgemein */
+.MenuNavigation-Container table tbody tr:first-child {
+	background-color: #96d15a !important;
+}
+.Tab-Box thead tr th {
+	padding: 2px 16px;
+}
 
 .MenuNavigation-Container {
 	padding: 0px !important;
 }
+
 .cellIcon {
 	padding: 1px !important;
 }
@@ -40,7 +129,31 @@ body {
 }
 
 /* Allgemein */
-
+/* Table */
+.Tab-Box table {
+	position: relative;
+}
+.Tab-Box thead tr {
+	background-color: #3399cc !important;
+}
+.Tab-Box table th {
+	padding: 2px 16px;
+	z-index: 2000;
+	position: sticky;
+	top: 0;
+}
+tr td {
+	padding: 2px 16px !important;
+	font-size: 0.8rem !important;
+}
+tr:nth-child(even),
+tr:nth-child(even) td {
+	background-color: #eee;
+}
+tr:nth-child(odd) {
+	background-color: #fff;
+}
+/* Button */
 button {
 	cursor: pointer;
 }
@@ -55,15 +168,7 @@ input ~ p {
 input:focus {
 	outline: none;
 }
-div.App.dark .even {
-	background-color: #333;
-}
-.even {
-	background-color: #eee;
-}
-.odd {
-	background-color: #fff;
-}
+
 input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
@@ -78,30 +183,6 @@ input[type="checkbox"] {
 .Select select {
 	margin: 5px;
 	font-size: 16px;
-}
-
-/* Popup */
-.menuPopup {
-	display: inline-block;
-	width: 180px;
-	background-color: #ddd;
-	position: absolute;
-	z-index: 5;
-	top: 160px;
-	left: 20px;
-	border: 1px solid #333;
-	border-radius: 4px;
-}
-.MenuHeader-menuPopupCard {
-	display: inline-block;
-}
-.HeaderThirdRow-ButtonAction {
-	display: inline-block;
-	width: 200px;
-}
-.TeleGrammUsers {
-	display: inline-block;
-	width: 200px;
 }
 
 /* Settings */
@@ -142,14 +223,7 @@ input[type="checkbox"] {
 .TelegramUserCard-ChatID {
 	font-size: 0.7rem;
 }
-div.MuiTabPanel-root {
-	overflow: auto;
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: auto;
-	width: 99% !important;
-	padding: 0 5px 5px 5px;
-}
+
 .disabled {
 	pointer-events: none;
 	opacity: 0.4;
@@ -159,8 +233,4 @@ div.MuiTabPanel-root {
 	background-color: white;
 	width: 100%;
 	z-index: 100;
-}
-thead {
-	position: sticky;
-	top: 0;
 }

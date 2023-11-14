@@ -91,7 +91,7 @@ class MenuNavigation extends Component {
 		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (
 			<div>
-				<TableContainer component={Paper}>
+				<TableContainer component={Paper} className="MenuNavigation-Container">
 					<Table sx={{ minWidth: "250px", width: "99%", overflow: "hidden" }} aria-label="simple table">
 						<TableHead>
 							<TableRow>
@@ -108,7 +108,7 @@ class MenuNavigation extends Component {
 						<TableBody>
 							{rows.map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} className={index % 2 === 0 ? "even" : "odd"}>
-									<TableCell component="th" scope="row">
+									<TableCell component="td" scope="row">
 										{row.call}
 									</TableCell>
 									<TableCell align="right">{row.nav}</TableCell>

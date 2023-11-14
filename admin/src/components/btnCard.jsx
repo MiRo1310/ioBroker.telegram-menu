@@ -120,7 +120,7 @@ class BtnCard extends Component {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={4}>
-					<Input label={I18n.t("Add new Menu Name")} width="80%" id="newMenuName" value={this.state.newMenuName} callback={this.setState.bind(this)}></Input>
+					<Input placeholder={I18n.t("Add new Menu Name")} width="80%" id="newMenuName" value={this.state.newMenuName} callback={this.setState.bind(this)}></Input>
 				</Grid>
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">

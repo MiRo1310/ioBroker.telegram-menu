@@ -3,7 +3,7 @@ import { Logo } from "@iobroker/adapter-react-v5";
 import { withStyles } from "@mui/styles";
 
 /**
- * @type {(_theme: import("@material-ui/core/styles").Theme) => import("@material-ui/styles").StyleRules}
+ * @type {(_theme: import("@mui/styles").Theme) => import("@mui/styles").StyleRules}
  */
 const styles = (_theme) => ({});
 class HeaderIconBar extends Component {

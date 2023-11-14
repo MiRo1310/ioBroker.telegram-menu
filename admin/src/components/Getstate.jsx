@@ -109,7 +109,7 @@ class SetState extends Component {
 							<TableBody>
 								{rows.map((row, index) => (
 									<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-										<TableCell component="th" scope="row">
+										<TableCell component="td" scope="row">
 											{row.trigger}
 										</TableCell>
 										<TableCell align="left">

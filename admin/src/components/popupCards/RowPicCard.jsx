@@ -78,7 +78,7 @@ class RowPicCard extends Component {
 						<TableBody>
 							{this.state.rows.map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-									<TableCell component="th" scope="row" align="left">
+									<TableCell component="td" scope="row" align="left">
 										<Input
 											width="100%"
 											value={row.IDs || ""}
@@ -99,6 +99,7 @@ class RowPicCard extends Component {
 											index={index}
 											callback={this.updateData}
 											callbackValue="event.target.value"
+											function="manual"
 										></Input>
 									</TableCell>
 									<TableCell align="left">
@@ -110,6 +111,8 @@ class RowPicCard extends Component {
 											index={index}
 											callback={this.updateData}
 											callbackValue="event.target.value"
+											function="manual"
+											type="number"
 										></Input>
 									</TableCell>
 

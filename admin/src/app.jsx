@@ -117,11 +117,11 @@ class App extends GenericApp {
 							onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
 						></HeaderIconBar>
 					</Grid>
-					<Grid item xs={12} className="main-content">
+					<Grid item xs={12} className="App-main-content">
 						<Box sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={tabBox}>
 							<TabContext value={this.state.tab}>
 								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-									<TabList onChange={this.handleChange} aria-label="lab API tabs example">
+									<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">
 										<Tab label={I18n.t("Navigation")} value="1" />
 										<Tab label={I18n.t("Action")} value="2" />
 										<Tab label={I18n.t("Settings")} value="3" />

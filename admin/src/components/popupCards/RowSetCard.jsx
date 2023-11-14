@@ -112,6 +112,7 @@ class RowSetCard extends Component {
 											index={index}
 											callback={this.updateData}
 											callbackValue="event.target.value"
+											function="manual"
 										></Input>
 									</TableCell>
 									<TableCell align="left">
@@ -123,6 +124,7 @@ class RowSetCard extends Component {
 											index={index}
 											callback={this.updateData}
 											callbackValue="event"
+											function="manual"
 										></Input>
 									</TableCell>
 									<TableCell align="left">

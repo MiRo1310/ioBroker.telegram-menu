@@ -3,14 +3,13 @@ import { I18n } from "@iobroker/adapter-react-v5";
 
 class Input extends Component {
 	onChangeHandler = (event) => {
-		if (!this.props.function === "manual") {
+		if (!(this.props.function === "manual")) {
 			if (this.props.setNative) {
 				this.props.callback(this.props.id, event.target.value);
 			} else {
 				this.props.callback({ [this.props.id]: event.target.value });
 			}
 		} else {
-			console.log("else");
 			this.props.callback({ val: event.target.value, index: this.props.index, id: this.props.id });
 		}
 	};
@@ -33,7 +32,7 @@ class Input extends Component {
 				<label>
 					<input
 						style={inputStyle}
-						type="text"
+						type={this.props.type ? this.props.type : "text"}
 						className="InputField"
 						placeholder={I18n.t(this.props.placeholder)}
 						value={this.props.value}
