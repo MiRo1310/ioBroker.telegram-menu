@@ -38,7 +38,7 @@ class PopupContainer extends Component {
 			position: "absolute",
 			bottom: "0",
 			right: "0",
-			zIndex: "10000",
+			zIndex: "1000",
 		};
 		const renameDialog = {
 			position: "absolute",

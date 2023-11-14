@@ -36,6 +36,7 @@ class App extends GenericApp {
 			},
 		};
 		super(props, extendedProps);
+		const theme = this.createTheme();
 		this.state = {
 			...this.state,
 			native: {},
@@ -45,6 +46,8 @@ class App extends GenericApp {
 			showPopupMenuList: false,
 			instances: [],
 			popupMenuOpen: false,
+			themeName: this.getThemeName(theme),
+			themeType: this.getThemeType(theme),
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -167,7 +170,16 @@ class App extends GenericApp {
 								</TabPanel>
 								<TabPanel value="2">
 									<Action
-										data={{ action: this.state.native.data.action, data: this.state.native.data, state: this.state, activeMenu: this.state.activeMenu }}
+										data={{
+											action: this.state.native.data.action,
+											data: this.state.native.data,
+											state: this.state,
+											activeMenu: this.state.activeMenu,
+											socket: this.socket,
+											themeName: this.state.themeName,
+											themeType: this.state.themeType,
+											adapterName: this.adapterName,
+										}}
 										callback={{
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),

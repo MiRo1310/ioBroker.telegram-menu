@@ -138,7 +138,7 @@ class SetState extends Component {
 				)}
 				{this.state.rowPopup ? (
 					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%">
-						<RowPicCard data={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowPicCard>
+						<RowPicCard newRow={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowPicCard>
 					</PopupContainer>
 				) : null}
 			</div>

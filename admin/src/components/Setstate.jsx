@@ -34,14 +34,6 @@ class SetState extends Component {
 			rowIndex: 0,
 			editRow: false,
 			newRow: {},
-			// newRow: {
-			// 	IDs: ["id1", "id2"],
-			// 	trigger: ["trigger"],
-			// 	values: ["Value1", "Value2"],
-			// 	returnText: ["Text1", "Text2"],
-			// 	confirm: ["false", "true"],
-			// 	switch_checkbox: ["true", "false"],
-			// },
 		};
 	}
 	componentDidMount() {
@@ -154,7 +146,7 @@ class SetState extends Component {
 				)}
 				{this.state.rowPopup ? (
 					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%">
-						<RowSetCard data={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowSetCard>
+						<RowSetCard data={this.props.data} newRow={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowSetCard>
 					</PopupContainer>
 				) : null}
 			</div>

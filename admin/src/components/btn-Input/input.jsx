@@ -25,7 +25,7 @@ class Input extends Component {
 			borderBottom: "1px solid #ccc",
 		};
 		const container = {
-			width: this.props.width ? this.props.width : "100%",
+			width: this.props.width ? this.props.width : "auto",
 			display: "inline-block",
 		};
 		return (

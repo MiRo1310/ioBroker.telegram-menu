@@ -32,6 +32,7 @@ class Button extends Component {
 			margin: this.props.margin || "0px 0px 0px 0px",
 			borderRadius: this.props.round === "true" ? "50%" : "0px" || this.props.round ? this.props.round : "0px",
 			maxWidth: this.props.maxWidth || "100%",
+			verticalAlign: this.props.verticalAlign || "middle",
 		};
 
 		return (

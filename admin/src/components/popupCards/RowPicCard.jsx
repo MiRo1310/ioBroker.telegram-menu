@@ -27,7 +27,7 @@ class RowPicCard extends Component {
 		{ name: "picSendDelay", val: "false" },
 	];
 	componentDidUpdate(prevProps) {
-		if (prevProps.data !== this.props.data) {
+		if (prevProps.newRow !== this.props.newRow) {
 			saveRows(this.props, this.setState.bind(this), this.rowElements);
 		}
 	}
@@ -59,7 +59,7 @@ class RowPicCard extends Component {
 			<div>
 				<Input
 					width="10%"
-					value={this.props.data.trigger[0]}
+					value={this.props.newRow.trigger[0]}
 					margin="0px 2px 0 5px"
 					id="trigger"
 					callback={this.updateTrigger}

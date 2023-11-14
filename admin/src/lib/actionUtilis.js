@@ -18,8 +18,8 @@ function getRows(element, rowElements) {
 	return { rows: rows, trigger: trigger };
 }
 export const saveRows = (props, setState, rowElements) => {
-	setState({ data: props.data });
-	const data = getRows(props.data, rowElements);
+	setState({ data: props.newRow });
+	const data = getRows(props.newRow, rowElements);
 	if (!data) return;
 	const rows = data.rows;
 	setState({ trigger: data.trigger });
