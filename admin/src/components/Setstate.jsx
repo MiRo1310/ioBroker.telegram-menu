@@ -1,15 +1,11 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import BtnSmallEdit from "./btn-Input/btn-small-edit";
-import BtnSmallRemove from "./btn-Input/btn-small-remove";
-import BtnSmallAdd from "./btn-Input/btn-small-add";
-import BtnSmallUp from "./btn-Input/btn-small-up";
-import BtnSmallDown from "./btn-Input/btn-small-down";
 import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowSetCard from "./popupCards/RowSetCard";
 import SubTable from "./subTable";
+import ButtonCard from "./btn-Input/buttonCard";
 
 import { deepCopy } from "../lib/Utilis";
 
@@ -109,11 +105,11 @@ class SetState extends Component {
 							<TableHead>
 								<TableRow>
 									<TableCell>{I18n.t("Trigger")}</TableCell>
-									<TableCell align="right">ID</TableCell>
-									<TableCell align="right">{I18n.t("Value")}</TableCell>
-									<TableCell align="right"> {I18n.t("Return Text")} </TableCell>
-									<TableCell align="right"> {I18n.t("Confirm message")} </TableCell>
-									<TableCell align="right"> {I18n.t("Switch")} </TableCell>
+									<TableCell align="left">ID</TableCell>
+									<TableCell align="left">{I18n.t("Value")}</TableCell>
+									<TableCell align="left"> {I18n.t("Return Text")} </TableCell>
+									<TableCell align="left"> {I18n.t("Confirm message")} </TableCell>
+									<TableCell align="left"> {I18n.t("Switch")} </TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
@@ -127,38 +123,30 @@ class SetState extends Component {
 										<TableCell component="th" scope="row">
 											{row.trigger}
 										</TableCell>
-										<TableCell align="right">
+										<TableCell align="left">
 											<SubTable data={row.id} />
 										</TableCell>
-										<TableCell align="right">
+										<TableCell align="left">
 											<SubTable data={row.value}></SubTable>
 										</TableCell>
-										<TableCell align="right">
+										<TableCell align="left">
 											<SubTable data={row.returnText}></SubTable>
 										</TableCell>
-										<TableCell align="right">
+										<TableCell align="left">
 											<SubTable data={row.confirm}></SubTable>
 										</TableCell>
-										<TableCell align="right">
+										<TableCell align="left">
 											<SubTable data={row.switchValue}></SubTable>
 										</TableCell>
-
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallAdd callback={this.openAddRowCard} index={index} />
-										</TableCell>
-
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallEdit callback={this.editRow} index={index} />
-										</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallUp callback={this.moveUp} index={index} disabled={index == 0 ? "disabled" : null}></BtnSmallUp>
-										</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallDown callback={this.moveDown} index={index} disabled={index == rows.length - 1 ? "disabled" : ""} />
-										</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallRemove callback={this.deleteRow} index={index} />
-										</TableCell>
+										<ButtonCard
+											openAddRowCard={this.openAddRowCard}
+											editRow={this.editRow}
+											moveDown={this.moveDown}
+											moveUp={this.moveUp}
+											deleteRow={this.deleteRow}
+											rows={rows}
+											index={index}
+										></ButtonCard>
 									</TableRow>
 								))}
 							</TableBody>
