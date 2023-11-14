@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import BtnSmallEdit from "./btn-Input/btn-small-edit";
-import BtnSmallRemove from "./btn-Input/btn-small-remove";
-import BtnSmallAdd from "./btn-Input/btn-small-add";
-import BtnSmallUp from "./btn-Input/btn-small-up";
-import BtnSmallDown from "./btn-Input/btn-small-down";
 import Button from "./btn-Input/Button";
+import PopupContainer from "./popupCards/PopupContainer";
+import RowPicCard from "./popupCards/RowPicCard";
+import SubTable from "./subTable";
+import ButtonCard from "./btn-Input/buttonCard";
+
+import { deepCopy } from "../lib/Utilis";
 
 import { moveUp, moveDown, deleteRow } from "../lib/button";
 
-function createData(trigger, id, filename, picSendDelay) {
-	return { trigger, id, filename, picSendDelay };
+function createData(trigger, id, fileName, picSendDelay) {
+	return { trigger, id, fileName, picSendDelay };
 }
 
 let rows = [];
@@ -21,14 +22,24 @@ function getRows(action, activeMenu) {
 	rows = [];
 	if (elemente === undefined) return;
 	for (let entry of elemente) {
-		rows.push(createData(entry.trigger, entry.IDs, entry.filename, entry.picSendDelay));
+		rows.push(createData(entry.trigger, entry.IDs, entry.fileName, entry.picSendDelay));
 	}
 }
-class SendPic extends Component {
+
+class SetState extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			rowPopup: false,
+			rowIndex: 0,
+			editRow: false,
+			newRow: {},
+		};
 	}
+	componentDidMount() {
+		this.resetNewRow();
+	}
+
 	moveDown = (index) => {
 		moveDown(index, this.props, "action", "pic");
 	};
@@ -38,7 +49,38 @@ class SendPic extends Component {
 	deleteRow = (index) => {
 		deleteRow(index, this.props, "action", "pic");
 	};
+	editRow = (index) => {
+		const data = deepCopy(this.props.data.data);
+		const newRow = data.action[this.props.data.activeMenu].pic[index];
+		this.setState({ newRow: newRow });
+		this.setState({ editRow: true });
+		this.setState({ rowPopup: true });
+		this.setState({ rowIndex: index });
+	};
+	openAddRowCard = (index) => {
+		this.setState({ rowPopup: true });
+		this.setState({ rowIndex: index });
+	};
 
+	closeAddRowCard = (isOk) => {
+		if (isOk) {
+			const data = deepCopy(this.props.data.data);
+			if (this.state.editRow) {
+				data.action[this.props.data.activeMenu].pic.splice(this.state.rowIndex, 1, this.state.newRow);
+			} else {
+				data.action[this.props.data.activeMenu].pic.splice(this.state.rowIndex + 1, 0, this.state.newRow);
+			}
+			this.props.callback.updateNative("data", data);
+		}
+
+		this.setState({ rowPopup: false });
+		this.setState({ editRow: false });
+		this.resetNewRow();
+	};
+	resetNewRow = () => {
+		this.setState({ newRow: this.newRow });
+	};
+	newRow = { trigger: [""], IDs: [""], fileName: [""], picSendDelay: [""] };
 	render() {
 		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
@@ -54,9 +96,9 @@ class SendPic extends Component {
 							<TableHead>
 								<TableRow>
 									<TableCell>{I18n.t("Trigger")}</TableCell>
-									<TableCell align="right">ID</TableCell>
-									<TableCell align="right">{I18n.t("Filename")}</TableCell>
-									<TableCell align="right"> {I18n.t("Send delay")} </TableCell>
+									<TableCell align="left">ID</TableCell>
+									<TableCell align="left">{I18n.t("Filename")}</TableCell>
+									<TableCell align="left"> {I18n.t("Delay")} </TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
@@ -70,34 +112,38 @@ class SendPic extends Component {
 										<TableCell component="th" scope="row">
 											{row.trigger}
 										</TableCell>
-										<TableCell align="right">{row.id}</TableCell>
-										<TableCell align="right">{row.filename}</TableCell>
-										<TableCell align="right">{row.picSendDelay}</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallAdd callback={this.openAddRowCard} index={index} />
+										<TableCell align="left">
+											<SubTable data={row.id} />
 										</TableCell>
-
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallEdit callback={this.editRow} index={index} />
+										<TableCell align="left">
+											<SubTable data={row.fileName}></SubTable>
 										</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallUp callback={this.moveUp} index={index} disabled={index == 0 ? "disabled" : null}></BtnSmallUp>
+										<TableCell align="left">
+											<SubTable data={row.picSendDelay}></SubTable>
 										</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallDown callback={this.moveDown} index={index} disabled={index == rows.length - 1 ? "disabled" : ""} />
-										</TableCell>
-										<TableCell align="center" className="cellIcon">
-											<BtnSmallRemove callback={this.deleteRow} index={index} />
-										</TableCell>
+										<ButtonCard
+											openAddRowCard={this.openAddRowCard}
+											editRow={this.editRow}
+											moveDown={this.moveDown}
+											moveUp={this.moveUp}
+											deleteRow={this.deleteRow}
+											rows={rows}
+											index={index}
+										></ButtonCard>
 									</TableRow>
 								))}
 							</TableBody>
 						</Table>
 					</TableContainer>
 				)}
+				{this.state.rowPopup ? (
+					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%">
+						<RowPicCard data={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowPicCard>
+					</PopupContainer>
+				) : null}
 			</div>
 		);
 	}
 }
 
-export default SendPic;
+export default SetState;
