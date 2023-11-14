@@ -10,22 +10,8 @@ import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
 
-import { deepCopy, isChecked } from "../../lib/Utilis";
-
-function createData(id, value, returnText, confirm, switchValue) {
-	return { id, value, returnText, confirm, switchValue };
-}
-
-let rows = [];
-function getRows(element) {
-	if (!element) return;
-	rows = [];
-	const trigger = element.trigger[0];
-	for (let index in element.IDs) {
-		rows.push(createData(element.IDs[index], element.values[index], element.returnText[index], element.confirm[index], element.switch_checkbox[index]));
-	}
-	return { rows: rows, trigger: trigger };
-}
+import { isChecked } from "../../lib/Utilis";
+import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp } from "../../lib/actionUtilis";
 
 class RowSetCard extends Component {
 	constructor(props) {
@@ -36,69 +22,40 @@ class RowSetCard extends Component {
 			data: {},
 		};
 	}
-	saveRows = () => {
-		this.setState({ data: this.props.data });
-		const data = getRows(this.props.data);
-		const rows = data.rows;
-		this.setState({ trigger: data.trigger });
-		this.setState({ rows: rows });
-	};
+	// All Elements that are in the table, but without the trigger
+	rowElements = [
+		{ name: "IDs", val: "" },
+		{ name: "values", val: "" },
+		{ name: "returnText", val: "" },
+		{ name: "confirm", val: "false" },
+		{ name: "switch_checkbox", val: "false" },
+	];
 	componentDidUpdate(prevProps) {
 		if (prevProps.data !== this.props.data) {
-			this.saveRows();
+			saveRows(this.props, this.setState.bind(this), this.rowElements);
 		}
 	}
 	componentDidMount() {
-		this.saveRows();
+		saveRows(this.props, this.setState.bind(this), this.rowElements);
 	}
 	updateData = (obj) => {
-		console.log(obj);
-		const newRow = deepCopy(this.props.data);
-
-		newRow[obj.id][obj.index] = obj.val.toString();
-		this.props.callback.setState({ newRow: newRow });
-		console.log(newRow);
+		updateData(obj, this.props);
 	};
 	updateTrigger = (value) => {
-		const newRow = deepCopy(this.props.data);
-		newRow.trigger[0] = value.val;
-		this.props.callback.setState({ newRow: newRow });
+		updateTrigger(value, this.props);
 	};
 	addNewRow = (index) => {
-		const newRow = deepCopy(this.props.data);
-		newRow.IDs.splice(index + 1, 0, "");
-		newRow.values.splice(index + 1, 0, "");
-		newRow.returnText.splice(index + 1, 0, "");
-		newRow.confirm.splice(index + 1, 0, "false");
-		newRow.switch_checkbox.splice(index + 1, 0, "false");
-		this.props.callback.setState({ newRow: newRow });
+		addNewRow(index, this.props, this.rowElements);
 	};
+
 	deleteRow = (index) => {
-		const newRow = deepCopy(this.props.data);
-		newRow.IDs.splice(index, 1);
-		newRow.values.splice(index, 1);
-		newRow.returnText.splice(index, 1);
-		newRow.confirm.splice(index, 1);
-		newRow.switch_checkbox.splice(index, 1);
-		this.props.callback.setState({ newRow: newRow });
+		deleteRow(index, this.props, this.rowElements);
 	};
 	moveDown = (index) => {
-		const newRow = deepCopy(this.props.data);
-		newRow.IDs.splice(index + 1, 0, newRow.IDs.splice(index, 1)[0]);
-		newRow.values.splice(index + 1, 0, newRow.values.splice(index, 1)[0]);
-		newRow.returnText.splice(index + 1, 0, newRow.returnText.splice(index, 1)[0]);
-		newRow.confirm.splice(index + 1, 0, newRow.confirm.splice(index, 1)[0]);
-		newRow.switch_checkbox.splice(index + 1, 0, newRow.switch_checkbox.splice(index, 1)[0]);
-		this.props.callback.setState({ newRow: newRow });
+		moveDown(index, this.props, this.rowElements);
 	};
 	moveUp = (index) => {
-		const newRow = deepCopy(this.props.data);
-		newRow.IDs.splice(index - 1, 0, newRow.IDs.splice(index, 1)[0]);
-		newRow.values.splice(index - 1, 0, newRow.values.splice(index, 1)[0]);
-		newRow.returnText.splice(index - 1, 0, newRow.returnText.splice(index, 1)[0]);
-		newRow.confirm.splice(index - 1, 0, newRow.confirm.splice(index, 1)[0]);
-		newRow.switch_checkbox.splice(index - 1, 0, newRow.switch_checkbox.splice(index, 1)[0]);
-		this.props.callback.setState({ newRow: newRow });
+		moveUp(index, this.props, this.rowElements);
 	};
 	render() {
 		return (
@@ -124,12 +81,12 @@ class RowSetCard extends Component {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{rows.map((row, index) => (
+							{this.state.rows.map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="th" scope="row" align="left">
 										<Input
 											width="100%"
-											value={row.id || ""} // || "" is needed to prevent error when value is undefined
+											value={row.IDs}
 											margin="0px 2px 0 2px"
 											id="IDs"
 											index={index}
@@ -141,7 +98,7 @@ class RowSetCard extends Component {
 									<TableCell align="left">
 										<Input
 											width="100%"
-											value={row.value}
+											value={row.values}
 											margin="0px 2px 0 5px"
 											id="values"
 											index={index}
@@ -176,7 +133,7 @@ class RowSetCard extends Component {
 											index={index}
 											callback={this.updateData}
 											callbackValue="event"
-											isChecked={isChecked(row.switchValue)}
+											isChecked={isChecked(row.switch_checkbox)}
 											obj={true}
 										></Checkbox>
 									</TableCell>
@@ -187,10 +144,10 @@ class RowSetCard extends Component {
 										<BtnSmallUp callback={this.moveUp} index={index} disabled={index == 0 ? "disabled" : null}></BtnSmallUp>
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
-										<BtnSmallDown callback={this.moveDown} index={index} disabled={index == rows.length - 1 ? "disabled" : ""} />
+										<BtnSmallDown callback={this.moveDown} index={index} disabled={index == this.state.rows.length - 1 ? "disabled" : ""} />
 									</TableCell>
 									<TableCell align="center" className="cellIcon">
-										<BtnSmallRemove callback={this.deleteRow} index={index} disabled={rows.length == 1 ? "disabled" : ""} />
+										<BtnSmallRemove callback={this.deleteRow} index={index} disabled={this.state.rows.length == 1 ? "disabled" : ""} />
 									</TableCell>
 								</TableRow>
 							))}
