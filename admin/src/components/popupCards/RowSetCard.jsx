@@ -4,7 +4,6 @@ import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper
 
 import Input from "../btn-Input/input";
 import Checkbox from "../btn-Input/checkbox";
-
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
@@ -22,7 +21,7 @@ class RowSetCard extends Component {
 			trigger: "",
 			data: {},
 			showSelectId: false,
-			selectIdValue: "Test",
+			selectIdValue: "",
 			indexID: 0,
 		};
 	}

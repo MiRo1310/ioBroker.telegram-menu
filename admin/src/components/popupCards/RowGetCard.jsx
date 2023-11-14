@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { I18n } from "@iobroker/adapter-react-v5";
+import { I18n, SelectID } from "@iobroker/adapter-react-v5";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 
 import Input from "../btn-Input/input";
 import Checkbox from "../btn-Input/checkbox";
-
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
-import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp } from "../../lib/actionUtilis";
+import BtnSmallSearch from "../btn-Input/btn-small-search";
+
+import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis";
 import { isChecked } from "../../lib/Utilis";
 
 class RowGetCard extends Component {
@@ -19,6 +20,9 @@ class RowGetCard extends Component {
 			rows: [],
 			trigger: "",
 			data: {},
+			showSelectId: false,
+			selectIdValue: "",
+			indexID: 0,
 		};
 	}
 	rowElements = [
@@ -54,6 +58,10 @@ class RowGetCard extends Component {
 	moveUp = (index) => {
 		moveUp(index, this.props, this.rowElements);
 	};
+	updateId = (selected) => {
+		updateId(selected, this.props, this.state.indexID);
+	};
+
 	render() {
 		return (
 			<div>
@@ -78,9 +86,9 @@ class RowGetCard extends Component {
 						<TableBody>
 							{this.state.rows.map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-									<TableCell component="th" scope="row" align="left">
+									<TableCell component="td" scope="row" align="left">
 										<Input
-											width="100%"
+											width="calc(100% - 30px)"
 											value={row.IDs}
 											margin="0px 2px 0 2px"
 											id="IDs"
@@ -89,6 +97,7 @@ class RowGetCard extends Component {
 											callbackValue="event.target.value"
 											function="manual"
 										></Input>
+										<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
 									</TableCell>
 									<TableCell align="left">
 										<Input
@@ -129,6 +138,23 @@ class RowGetCard extends Component {
 						</TableBody>
 					</Table>
 				</TableContainer>
+				{this.state.showSelectId ? (
+					<SelectID
+						style={{ zIndex: 11000 }}
+						key="tableSelect"
+						imagePrefix="../.."
+						dialogName={this.props.data.adapterName}
+						themeType={this.props.data.themeType}
+						socket={this.props.data.socket}
+						statesOnly={true}
+						selected={this.state.selectIdValue}
+						onClose={() => this.setState({ showSelectId: false })}
+						onOk={(selected, name) => {
+							this.setState({ showSelectId: false });
+							this.updateId(selected);
+						}}
+					/>
+				) : null}
 			</div>
 		);
 	}
