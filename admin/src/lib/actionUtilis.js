@@ -27,18 +27,18 @@ export const saveRows = (props, setState, rowElements) => {
 };
 
 export const updateData = (obj, props) => {
-	const newRow = deepCopy(props.data);
+	const newRow = deepCopy(props.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
 	props.callback.setState({ newRow: newRow });
 };
 export const updateTrigger = (value, props) => {
-	const newRow = deepCopy(props.data);
+	const newRow = deepCopy(props.newRow);
 	newRow.trigger[0] = value.val;
 	props.callback.setState({ newRow: newRow });
 };
 
 export const addNewRow = (index, props, array) => {
-	const newRow = deepCopy(props.data);
+	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index + 1, 0, element.value);
 	});
@@ -46,7 +46,7 @@ export const addNewRow = (index, props, array) => {
 };
 
 export const deleteRow = (index, props, array) => {
-	const newRow = deepCopy(props.data);
+	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index, 1);
 	});
@@ -54,16 +54,24 @@ export const deleteRow = (index, props, array) => {
 };
 
 export const moveDown = (index, props, array) => {
-	const newRow = deepCopy(props.data);
+	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index + 1, 0, newRow[element.name].splice(index, 1)[0]);
 	});
 	props.callback.setState({ newRow: newRow });
 };
 export const moveUp = (index, props, array) => {
-	const newRow = deepCopy(props.data);
+	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index - 1, 0, newRow[element.name].splice(index, 1)[0]);
 	});
+	props.callback.setState({ newRow: newRow });
+};
+export const updateId = (selected, props, indexID) => {
+	const newRow = deepCopy(props.newRow);
+	console.log(newRow);
+	console.log(selected);
+	console.log(indexID);
+	newRow.IDs[indexID] = selected;
 	props.callback.setState({ newRow: newRow });
 };

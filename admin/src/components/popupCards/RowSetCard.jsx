@@ -12,7 +12,7 @@ import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 
 import { isChecked } from "../../lib/Utilis";
-import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp } from "../../lib/actionUtilis";
+import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis";
 
 class RowSetCard extends Component {
 	constructor(props) {
@@ -23,6 +23,7 @@ class RowSetCard extends Component {
 			data: {},
 			showSelectId: false,
 			selectIdValue: "Test",
+			indexID: 0,
 		};
 	}
 	// All Elements that are in the table, but without the trigger
@@ -59,6 +60,9 @@ class RowSetCard extends Component {
 	};
 	moveUp = (index) => {
 		moveUp(index, this.props, this.rowElements);
+	};
+	updateId = (selected) => {
+		updateId(selected, this.props, this.state.indexID);
 	};
 
 	render() {
@@ -98,7 +102,7 @@ class RowSetCard extends Component {
 											callbackValue="event.target.value"
 											function="manual"
 										></Input>
-										<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs })} index={index} />
+										<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
 									</TableCell>
 									<TableCell align="left">
 										<Input
@@ -171,7 +175,8 @@ class RowSetCard extends Component {
 						selected={this.state.selectIdValue}
 						onClose={() => this.setState({ showSelectId: false })}
 						onOk={(selected, name) => {
-							this.setState({ showSelectId: false, selectIdValue: selected });
+							this.setState({ showSelectId: false });
+							this.updateId(selected);
 						}}
 					/>
 				) : null}
