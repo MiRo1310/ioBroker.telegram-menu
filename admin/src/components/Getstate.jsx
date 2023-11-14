@@ -24,7 +24,6 @@ function getRows(action, activeMenu) {
 	for (let entry of elemente) {
 		rows.push(createData(entry.trigger, entry.IDs, entry.text, entry.newline_checkbox));
 	}
-	console.log(rows);
 }
 
 class SetState extends Component {
