@@ -104,9 +104,6 @@ div.MuiTabPanel-root {
 .MenuNavigation-Container table tbody tr:first-child {
 	background-color: #96d15a !important;
 }
-.Tab-Box thead tr th {
-	padding: 2px 16px;
-}
 
 .MenuNavigation-Container,
 .SetState-Container,
@@ -122,6 +119,30 @@ div.MuiTabPanel-root {
 }
 .SetState-Container {
 	height: calc(100% - 50px);
+}
+
+/* Settings */
+.Settings h1 {
+	text-decoration: underline;
+	padding-bottom: 2rem;
+	padding-left: 5px;
+}
+.Settings select {
+	border: none;
+	border-bottom: 1px solid #aaa;
+}
+.Settings input[type="checkbox"] {
+	margin-left: 8px;
+}
+.Settings input[type="checkbox"]:checked {
+	color: #96d15a;
+	accent-color: rgb(33, 150, 243);
+}
+
+.Settings label p {
+	font-size: 0.8rem;
+	color: #777;
+	padding-left: 3px;
 }
 
 .cellIcon {

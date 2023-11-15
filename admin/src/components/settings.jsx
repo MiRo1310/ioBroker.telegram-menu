@@ -36,7 +36,7 @@ class Settings extends Component {
 							setNative={true}
 						></Select>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={4}>
 						<Input
 							label={I18n.t("Text will be send if no entry was found!")}
 							placeholder="No entry found"
@@ -44,9 +44,10 @@ class Settings extends Component {
 							id="textNoEntry"
 							value={this.props.data.state.native.textNoEntry}
 							setNative={true}
+							width="100%"
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={8}>
 						<Checkbox
 							label={I18n.t("Active")}
 							id="checkbox.checkboxNoValueFound"
@@ -84,6 +85,7 @@ class Settings extends Component {
 							id="tokenGrafana"
 							value={this.props.data.state.native.tokenGrafana}
 							setNative={true}
+							width="100%"
 						/>
 					</Grid>
 					<Grid item xs={4}>
@@ -94,6 +96,7 @@ class Settings extends Component {
 							id="directory"
 							value={this.props.data.state.native.directory}
 							setNative={true}
+							width="100%"
 						/>
 					</Grid>
 				</Grid>
