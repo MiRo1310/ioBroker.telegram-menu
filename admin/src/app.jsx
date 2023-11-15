@@ -98,7 +98,7 @@ class App extends GenericApp {
 		const tabBox = {
 			display: "flex",
 			flexDirection: "column",
-			height: "calc(100vh - 142px)",
+			height: "calc(100vh - 112px)",
 		};
 		return (
 			<div className={`App row ${this.mytheme}`}>

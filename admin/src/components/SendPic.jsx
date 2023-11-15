@@ -91,8 +91,8 @@ class SetState extends Component {
 						{I18n.t("Add new Action")}
 					</Button>
 				) : (
-					<TableContainer component={Paper}>
-						<Table sx={{ minWidth: 650 }} aria-label="simple table">
+					<TableContainer component={Paper} className="SendPic-Container">
+						<Table stickyHeader aria-label="sticky table">
 							<TableHead>
 								<TableRow>
 									<TableCell>{I18n.t("Trigger")}</TableCell>

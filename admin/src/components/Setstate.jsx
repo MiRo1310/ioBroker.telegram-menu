@@ -84,15 +84,15 @@ class SetState extends Component {
 	render() {
 		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
-			<div>
+			<>
 				{rows.length == 0 ? (
 					<Button b_color="#96d15a" title="Add new Action" width="50%" margin="0 18px" height="50px" index={0}>
 						<i className="material-icons translate">add</i>
 						{I18n.t("Add new Action")}
 					</Button>
 				) : (
-					<TableContainer component={Paper}>
-						<Table sx={{ minWidth: 650 }} aria-label="simple table">
+					<TableContainer component={Paper} className="SetState-Container">
+						<Table stickyHeader aria-label="sticky table">
 							<TableHead>
 								<TableRow>
 									<TableCell>{I18n.t("Trigger")}</TableCell>
@@ -149,7 +149,7 @@ class SetState extends Component {
 						<RowSetCard data={this.props.data} newRow={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowSetCard>
 					</PopupContainer>
 				) : null}
-			</div>
+			</>
 		);
 	}
 }

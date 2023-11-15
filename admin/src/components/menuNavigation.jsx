@@ -90,9 +90,9 @@ class MenuNavigation extends Component {
 	render() {
 		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (
-			<div>
+			<>
 				<TableContainer component={Paper} className="MenuNavigation-Container">
-					<Table sx={{ minWidth: "250px", width: "99%", overflow: "hidden" }} aria-label="simple table">
+					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
 								<TableCell align="left">{I18n.t("Trigger")}</TableCell>
@@ -138,7 +138,7 @@ class MenuNavigation extends Component {
 						<RowNavCard callback={{ onchange: this.changeInput }} data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}></RowNavCard>
 					</PopupContainer>
 				) : null}
-			</div>
+			</>
 		);
 	}
 }
