@@ -1,26 +1,8 @@
 import React, { Component } from "react";
-import { withStyles } from "@mui/styles";
+
 import Button from "../btn-Input/Button";
-import Input from "../btn-Input/input";
+
 import { I18n } from "@iobroker/adapter-react-v5";
-
-const styles = () => ({
-	root: {},
-
-	renameDialogTitle: {
-		fontFamily: "Roboto,Helvetica,Arial,sans-serif",
-		fontSize: "1.25rem",
-		fontWeight: "500",
-		lineHeight: "1.6",
-		padding: "20px 10px 30px 30px",
-	},
-	renameDialogFooterContent: {
-		position: "absolute",
-		bottom: "0",
-		width: "100%",
-		textAlign: "center",
-	},
-});
 
 class PopupContainer extends Component {
 	constructor(props) {
@@ -31,16 +13,7 @@ class PopupContainer extends Component {
 	}
 
 	render() {
-		const dialogContainer = {
-			backgroundColor: "rgba(0,0,0,0.5)",
-			width: "100%",
-			height: "100%",
-			position: "absolute",
-			bottom: "0",
-			right: "0",
-			zIndex: "1000",
-		};
-		const renameDialog = {
+		const DialogContainer = {
 			position: "absolute",
 			top: "50%",
 			left: "50%",
@@ -54,13 +27,11 @@ class PopupContainer extends Component {
 		};
 
 		return (
-			<div className="dialogContainer" style={dialogContainer}>
-				<div style={renameDialog}>
-					<div className="renameDialogHeader">
-						<div className={this.props.classes.renameDialogTitle}>{this.props.title}</div>
-					</div>
-					<div className="renameDialogBody">{this.props.children}</div>
-					<div className={this.props.classes.renameDialogFooterContent}>
+			<div className="DialogBackground">
+				<div className="DialogContainer" style={DialogContainer}>
+					<div className="DialogContainer-Header">{this.props.title}</div>
+					<div className="DialogContainer-Body">{this.props.children}</div>
+					<div className="DialogContainer-Footer">
 						<Button
 							b_color="#fff"
 							margin="10px 5% 10px 4%"
@@ -68,11 +39,11 @@ class PopupContainer extends Component {
 							round="4px"
 							callbackValue={true}
 							callback={this.props.callback}
-							width="41%"
 							height="40px"
 							fontSize="16px"
 							padding="0"
 							maxWidth="200px"
+							name="ok"
 						>
 							{I18n.t("OK")}
 						</Button>
@@ -81,13 +52,13 @@ class PopupContainer extends Component {
 							margin="10px 5% 10px 4%"
 							border="1px solid black"
 							round="4px"
-							width="41%"
 							height="40px"
 							fontSize="16px"
 							padding="0"
 							callbackValue={false}
 							callback={this.props.callback}
 							maxWidth="200px"
+							name="cancel"
 						>
 							{I18n.t("Cancel")}
 						</Button>
@@ -98,4 +69,4 @@ class PopupContainer extends Component {
 	}
 }
 
-export default withStyles(styles)(PopupContainer);
+export default PopupContainer;

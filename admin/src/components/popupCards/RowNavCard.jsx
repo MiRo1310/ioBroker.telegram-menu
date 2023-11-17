@@ -20,7 +20,7 @@ class RowNavCard extends Component {
 					label="Call"
 				></Input>
 				<Input
-					width="60%"
+					width="55%"
 					value={this.props.data.nav}
 					margin="0px 2px 0 2px"
 					id="nav"

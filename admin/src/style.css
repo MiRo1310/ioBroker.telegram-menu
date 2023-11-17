@@ -144,7 +144,59 @@ div.MuiTabPanel-root {
 	color: #777;
 	padding-left: 3px;
 }
+/* DialogContainer */
 
+.DialogBackground {
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	z-index: 1000;
+}
+.DialogContainer-Header {
+	background-color: #ddd;
+	font-family: "Roboto,Helvetica,Arial,sans-serif";
+	font-size: 1.25rem;
+	font-weight: 500;
+	line-height: 1.6;
+	padding: 10px 10px 10px 30px;
+	margin-bottom: 60px;
+}
+.DialogContainer .Input-Container {
+	margin: 0 10px;
+}
+.DialogContainer button {
+	padding: 0 30px !important;
+	margin: 0 8px 10px 8px !important;
+	border: none !important;
+}
+.DialogContainer button[name="ok"] {
+	background-color: #3399cc !important;
+	color: white !important;
+	opacity: 1 !important;
+}
+.DialogContainer button[name="ok"]:hover {
+	background-color: rgb(35, 107, 142) !important;
+	transition: background-color 0.5s ease;
+}
+.DialogContainer button[name="cancel"] {
+	background-color: #cdcdcd !important;
+	color: black !important;
+	opacity: 1 !important;
+}
+.DialogContainer button[name="cancel"]:hover {
+	background-color: #aaa !important;
+
+	transition: background-color 0.5s ease;
+}
+.DialogContainer-Footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: right;
+}
 .cellIcon {
 	padding: 1px !important;
 }

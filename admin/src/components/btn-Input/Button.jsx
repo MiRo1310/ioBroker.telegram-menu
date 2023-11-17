@@ -26,7 +26,7 @@ class Button extends Component {
 			display: "inline-block",
 			fontSize: this.props.fontSize ? this.props.fontSize : "12px",
 			border: this.props.border ? this.props.border : "none",
-			width: this.props.small === "true" ? "30px" : "80%" || this.props.width ? this.props.width : "80%",
+			width: this.props.small === "true" ? "30px" : "80%" || this.props.width ? this.props.width : null,
 			minWidth: this.props.small === "true" ? "30px" : "60px",
 			height: this.props.small === "true" ? "30px" : "50px" || this.props.height ? this.props.height : "50px",
 			margin: this.props.margin || "0px 0px 0px 0px",
@@ -36,7 +36,15 @@ class Button extends Component {
 		};
 
 		return (
-			<button style={buttonStyle} onClick={this.eventOnclickButton} title={this.props.title} ref={true} disabled={this.props.disabled} className={this.props.classname}>
+			<button
+				style={buttonStyle}
+				onClick={this.eventOnclickButton}
+				title={this.props.title}
+				name={this.props.name}
+				ref={true}
+				disabled={this.props.disabled}
+				className={this.props.classname}
+			>
 				<span>{this.props.children}</span>
 			</button>
 		);
