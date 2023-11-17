@@ -76,7 +76,6 @@ class MenuNavigation extends Component {
 	};
 
 	render() {
-		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (
 			<>
 				<TableContainer component={Paper} className="MenuNavigation-Container">
@@ -93,7 +92,13 @@ class MenuNavigation extends Component {
 								<TableCell align="center" className="cellIcon"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableDnd tableData={this.props.nav} data={this.props.data} calback={this.props.callback} card={"nav"}></TableDnd>
+						<TableDnd
+							tableData={this.props.nav}
+							data={this.props.data}
+							calback={this.props.callback}
+							card={"nav"}
+							showButtons={{ add: true, remove: true, edit: true }}
+						></TableDnd>
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (

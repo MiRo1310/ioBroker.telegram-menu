@@ -3,7 +3,7 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 
 import { moveUp, moveDown, deleteRow, moveItem } from "../lib/button";
-import ButtonCard from "./btn-Input/buttonCard";
+import { ButtonCard } from "./btn-Input/buttonCard";
 
 function createData(call, nav, text) {
 	return { call, nav, text };
@@ -71,6 +71,7 @@ class TableDnd extends Component {
 		deleteRow(index, this.props, this.props.card);
 	};
 	render() {
+		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (
 			<TableBody>
 				{rows.map((row, index) => (
@@ -104,6 +105,7 @@ class TableDnd extends Component {
 							deleteRow={this.deleteRow}
 							rows={rows}
 							index={index}
+							showButtons={this.props.showButtons}
 						></ButtonCard>
 					</TableRow>
 				))}

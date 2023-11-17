@@ -5,7 +5,7 @@ import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowGetCard from "./popupCards/RowGetCard";
 import SubTable from "./subTable";
-import ButtonCard from "./btn-Input/buttonCard";
+import { ButtonCard } from "./btn-Input/buttonCard";
 
 import { deepCopy } from "../lib/Utilis";
 
