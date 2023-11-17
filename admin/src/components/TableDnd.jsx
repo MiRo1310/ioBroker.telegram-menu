@@ -29,6 +29,7 @@ class TableDnd extends Component {
 			dropOver: 0,
 		};
 	}
+
 	componentDidUpdate(prevProps) {
 		if (prevProps.activeMenu !== this.props.data.activeMenu || prevProps.nav !== this.props.nav) {
 			getRows(this.props.tableData, this.props.data.activeMenu);
@@ -46,7 +47,7 @@ class TableDnd extends Component {
 		event.preventDefault();
 	};
 	handleDrop = (index) => {
-		moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
 
 	editRow = (index) => {
@@ -65,6 +66,9 @@ class TableDnd extends Component {
 	deleteRow = (index) => {
 		deleteRow(index, this.props, this.props.card);
 	};
+
+	// Rufe die Funktion auf, um das draggable-Attribut für Index 0 zu entfernen
+
 	render() {
 		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (

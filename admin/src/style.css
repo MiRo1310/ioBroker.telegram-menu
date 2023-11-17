@@ -104,6 +104,9 @@ div.MuiTabPanel-root {
 .MenuNavigation-Container table tbody tr:first-child {
 	background-color: #96d15a !important;
 }
+.MenuNavigation-Container table tbody tr[draggable]:hover {
+	background-color: rgba(51, 153, 204, 0.5) !important;
+}
 
 .MenuNavigation-Container,
 .SetState-Container,
