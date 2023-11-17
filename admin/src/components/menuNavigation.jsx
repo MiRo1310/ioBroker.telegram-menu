@@ -74,6 +74,12 @@ class MenuNavigation extends Component {
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
 	};
+	openAddRowCard = (value) => {
+		if (value) {
+			this.setState({ rowIndex: value });
+		}
+		this.setState({ rowPopup: true });
+	};
 
 	render() {
 		return (
@@ -95,9 +101,12 @@ class MenuNavigation extends Component {
 						<TableDnd
 							tableData={this.props.nav}
 							data={this.props.data}
-							calback={this.props.callback}
+							callback={this.props.callback}
 							card={"nav"}
 							showButtons={{ add: true, remove: true, edit: true }}
+							openAddRowCard={this.openAddRowCard}
+							setState={this.setState.bind(this)}
+							activeMenu={this.props.activeMenu}
 						></TableDnd>
 					</Table>
 				</TableContainer>

@@ -7,7 +7,6 @@ import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 
 export const ButtonCard = (props) => {
-	console.log(props.showButtons);
 	return (
 		<>
 			{props.showButtons && props.showButtons.add ? (

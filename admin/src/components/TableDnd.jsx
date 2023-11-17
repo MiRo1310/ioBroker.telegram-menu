@@ -48,18 +48,13 @@ class TableDnd extends Component {
 	handleDrop = (index) => {
 		moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
-	openAddRowCard = (value) => {
-		if (value) {
-			this.setState({ rowIndex: value });
-		}
-		this.setState({ rowPopup: true });
-	};
+
 	editRow = (index) => {
-		const element = this.props.data.data.nav[this.props.activeMenu][index];
-		this.setState({ call: element.call, nav: element.value, text: element.text });
-		this.setState({ rowPopup: true });
-		this.setState({ rowIndex: index });
-		this.setState({ editRow: true });
+		const element = this.props.data.nav[this.props.activeMenu][index];
+		this.props.setState({ call: element.call, nav: element.value, text: element.text });
+		this.props.setState({ rowPopup: true });
+		this.props.setState({ rowIndex: index });
+		this.props.setState({ editRow: true });
 	};
 	moveDown = (index) => {
 		moveItem(index, this.props, this.props.card, null, 1);
@@ -98,7 +93,7 @@ class TableDnd extends Component {
 						<TableCell align="right">{row.nav}</TableCell>
 						<TableCell align="right">{row.text}</TableCell>
 						<ButtonCard
-							openAddRowCard={this.openAddRowCard}
+							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}
 							moveDown={this.moveDown}
 							moveUp={this.moveUp}
