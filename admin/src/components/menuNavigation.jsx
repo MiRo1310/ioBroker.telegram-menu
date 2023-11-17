@@ -9,8 +9,9 @@ import BtnSmallUp from "./btn-Input/btn-small-up";
 import BtnSmallDown from "./btn-Input/btn-small-down";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowNavCard from "./popupCards/RowNavCard";
+import TableDnd from "./TableDnd";
 
-import { moveUp, moveDown, deleteRow } from "../lib/button";
+import { moveUp, moveDown, deleteRow, moveItem } from "../lib/button";
 
 function createData(call, nav, text) {
 	return { call, nav, text };
@@ -36,6 +37,9 @@ class MenuNavigation extends Component {
 			nav: "",
 			text: "",
 			editRow: false,
+			dropStart: 0,
+			dropEnd: 0,
+			dropOver: 0,
 		};
 	}
 	componentDidUpdate(prevProps) {
@@ -70,22 +74,6 @@ class MenuNavigation extends Component {
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
 	};
-	editRow = (index) => {
-		const element = this.props.data.data.nav[this.props.activeMenu][index];
-		this.setState({ call: element.call, nav: element.value, text: element.text });
-		this.setState({ rowPopup: true });
-		this.setState({ rowIndex: index });
-		this.setState({ editRow: true });
-	};
-	moveDown = (index) => {
-		moveDown(index, this.props, "nav");
-	};
-	moveUp = (index) => {
-		moveUp(index, this.props, "nav");
-	};
-	deleteRow = (index) => {
-		deleteRow(index, this.props, "nav");
-	};
 
 	render() {
 		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
@@ -105,32 +93,7 @@ class MenuNavigation extends Component {
 								<TableCell align="center" className="cellIcon"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>
-							{rows.map((row, index) => (
-								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} className={index % 2 === 0 ? "even" : "odd"}>
-									<TableCell component="td" scope="row">
-										{row.call}
-									</TableCell>
-									<TableCell align="right">{row.nav}</TableCell>
-									<TableCell align="right">{row.text}</TableCell>
-									<TableCell align="center" className="cellIcon">
-										<BtnSmallAdd callback={this.openAddRowCard} index={index} />
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										<BtnSmallEdit callback={this.editRow} index={index} />
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										{index != 0 ? <BtnSmallUp callback={this.moveUp} index={index} disabled={index == 1 ? "disabled" : null}></BtnSmallUp> : null}
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										{index != 0 ? <BtnSmallDown callback={this.moveDown} index={index} disabled={index == rows.length - 1 ? "disabled" : ""} /> : null}
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										{index != 0 ? <BtnSmallRemove callback={this.deleteRow} index={index} /> : null}
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
+						<TableDnd tableData={this.props.nav} data={this.props.data} calback={this.props.callback} card={"nav"}></TableDnd>
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (
