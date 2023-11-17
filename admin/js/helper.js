@@ -50,14 +50,15 @@ const helperText = {
 		{ text: "{common.name}", info: " <span class='translate'>Outputs the name of the data point</span> " },
 		{ text: "&&", info: "<span class='translate'>Placeholder for the value</span>" },
 		{ text: "{round:2}", info: "<span class='translate'>Rounds the value for example to 2 decimal places</span>" },
-	],
-	setText: [
-		{ text: "{novalue}", info: "<span class='translate'>The Value is not specified in the return text</span>" },
-		{ text: "ack:true", info: " <span class='translate'>Confirms the value</span> " },
 		{
 			text: 'change{"true":"an","false":"aus"}',
 			info: "<span class='translate'>Changes the value in the return text, in this case from true to on and false to off</span>",
 		},
+	],
+	setText: [
+		{ text: "{novalue}", info: "<span class='translate'>The Value is not specified in the return text</span>" },
+		{ text: "ack:true", info: " <span class='translate'>Confirms the value</span> " },
+
 		{ text: "&&", info: "<span class='translate'>Placeholder for the value</span>" },
 		{
 			text: "{'id':'ID','text':'Your Text'}",
