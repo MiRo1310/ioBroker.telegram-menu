@@ -7,6 +7,8 @@ import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
 import PopupContainer from "./popupCards/PopupContainer";
 import RenameCard from "./popupCards/RenameCard";
 
+import { deepCopy } from "../lib/Utilis";
+
 /**
  *
  * @param {string} menu
@@ -75,19 +77,19 @@ class BtnCard extends Component {
 	};
 
 	removeMenu = (menu, renamed, newMenu) => {
-		const newObject = { ...this.props.data.state.native.data };
-		const newUsersInGroup = { ...this.props.data.state.native.usersInGroup };
-		const userActiveCheckbox = { ...this.props.data.state.native.userActiveCheckbox };
+		const newObject = deepCopy(this.props.data.state.native.data);
+		const copyOfUsersInGroup = deepCopy(this.props.data.state.native.usersInGroup);
+		const userActiveCheckbox = deepCopy(this.props.data.state.native.userActiveCheckbox);
 
 		delete newObject.nav[menu];
 		delete newObject.action[menu];
 		delete userActiveCheckbox[menu];
-		delete newUsersInGroup[menu];
+		delete copyOfUsersInGroup[menu];
 
 		let firstMenu = Object.keys(newObject.nav)[0];
-		this.props.callback.updateNative("data", newObject);
-		this.props.callback.updateNative("usersInGroup", newUsersInGroup);
-		this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
+		const cb2 = () => this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
+		const cb = () => this.props.callback.updateNative("usersInGroup", copyOfUsersInGroup, cb2);
+		this.props.callback.updateNative("data", newObject, cb);
 
 		if (renamed) {
 			this.props.callback.setState({ activeMenu: newMenu });
