@@ -9,7 +9,17 @@ class PopupContainer extends Component {
 		super(props);
 		this.state = {
 			menuName: this.props.value,
+			disable: true,
 		};
+	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.nav !== this.props.nav || prevProps.call !== this.props.call || prevProps.text !== this.props.text) {
+			if (this.props.call !== "" && this.props.nav !== "" && this.props.text !== "") {
+				this.setState({ disable: false });
+			} else {
+				this.setState({ disable: true });
+			}
+		}
 	}
 
 	render() {
@@ -44,6 +54,7 @@ class PopupContainer extends Component {
 							padding="0"
 							maxWidth="200px"
 							name="ok"
+							disabled={this.state.disable}
 						>
 							{I18n.t("OK")}
 						</Button>

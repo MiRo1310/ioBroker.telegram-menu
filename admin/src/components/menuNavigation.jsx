@@ -55,9 +55,9 @@ class MenuNavigation extends Component {
 		this.setState({ rowPopup: true });
 	};
 	changeInput = (data) => {
-		if (data.call) this.setState({ call: data.call });
-		if (data.nav) this.setState({ nav: data.nav });
-		if (data.text) this.setState({ text: data.text });
+		if (data.call || data.call == "") this.setState({ call: data.call });
+		if (data.nav || data.nav == "") this.setState({ nav: data.nav });
+		if (data.text || data.text == "") this.setState({ text: data.text });
 	};
 	popupRowCard = (isOK) => {
 		if (!isOK) {
@@ -111,7 +111,7 @@ class MenuNavigation extends Component {
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (
-					<PopupContainer callback={this.popupRowCard} width="99%" height="40%" title="Edit">
+					<PopupContainer callback={this.popupRowCard} call={this.state.call} nav={this.state.nav} text={this.state.text} width="99%" height="40%" title="Edit">
 						<RowNavCard callback={{ onchange: this.changeInput }} data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}></RowNavCard>
 					</PopupContainer>
 				) : null}

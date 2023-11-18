@@ -183,12 +183,15 @@ div.MuiTabPanel-root {
 	border: none !important;
 	font-size: 1.2rem !important;
 }
+.DialogContainer .DialogContainer-Footer button[disabled] {
+	opacity: 0.5 !important;
+}
 .DialogContainer button[name="ok"] {
 	background-color: #3399cc !important;
 	color: white !important;
 	opacity: 1 !important;
 }
-.DialogContainer button[name="ok"]:hover {
+.DialogContainer button[name="ok"]:not([disabled]):hover {
 	background-color: rgb(35, 107, 142) !important;
 	transition: background-color 0.5s ease;
 }
@@ -203,6 +206,7 @@ div.MuiTabPanel-root {
 	transition: background-color 0.5s ease;
 }
 
+/* Drag and Drop, not select Text */
 .no-select {
 	user-select: none; /* Standard */
 	-moz-user-select: none; /* Firefox */
