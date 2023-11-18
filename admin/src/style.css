@@ -165,15 +165,23 @@ div.MuiTabPanel-root {
 	font-weight: 500;
 	line-height: 1.6;
 	padding: 10px 10px 10px 30px;
-	margin-bottom: 60px;
+	margin: 5px 5px 60px 5px;
+	border-radius: 4px;
 }
 .DialogContainer .Input-Container {
 	margin: 0 10px;
+}
+.DialogContainer-Footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: right;
 }
 .DialogContainer button {
 	padding: 0 30px !important;
 	margin: 0 8px 10px 8px !important;
 	border: none !important;
+	font-size: 1.2rem !important;
 }
 .DialogContainer button[name="ok"] {
 	background-color: #3399cc !important;
@@ -193,12 +201,6 @@ div.MuiTabPanel-root {
 	background-color: #aaa !important;
 
 	transition: background-color 0.5s ease;
-}
-.DialogContainer-Footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	text-align: right;
 }
 
 .no-select {
