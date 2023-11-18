@@ -1,0 +1,142 @@
+import React, { Component } from "react";
+import { I18n } from "@iobroker/adapter-react-v5";
+import { TableBody, TableCell, TableRow } from "@mui/material";
+import { deleteRow, moveItem } from "../lib/button";
+import { ButtonCard } from "./btn-Input/buttonCard";
+import SubTable from "./subTable";
+import { deepCopy } from "../lib/Utilis";
+
+function createData(trigger, id, value, returnText, confirm, switchValue) {
+	return { trigger, id, value, returnText, confirm, switchValue };
+}
+
+class TableDndAction extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			dropStart: 0,
+			dropEnd: 0,
+			dropOver: 0,
+			rows: [],
+		};
+	}
+	getRows = () => {
+		const action = this.props.tableData;
+		const activeMenu = this.props.activeMenu;
+		if (!action) return;
+		let elemente = action[activeMenu].set;
+
+		const rows = [];
+		if (elemente === undefined) return;
+		for (let entry of elemente) {
+			rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
+		}
+		this.setState({ rows: rows });
+	};
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.activeMenu !== this.props.activeMenu) {
+			this.getRows();
+		}
+		if (prevProps.tableData !== this.props.tableData) {
+			this.getRows();
+		}
+	}
+	componentDidMount() {
+		this.mounted = true;
+		this.getRows();
+	}
+	handleDragEnd = () => {
+		this.setState({ dropStart: 0 });
+		this.setState({ dropOver: 0 });
+	};
+	handleDragStart = (index) => {
+		this.setState({ dropStart: index });
+	};
+	handleDrop = (index) => {
+		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
+	};
+	handelStyleDragOver = (index) => {
+		return this.state.dropOver === index && this.state.dropStart > index
+			? { borderTop: "2px solid #3399cc" }
+			: this.state.dropOver === index && this.state.dropStart < index
+			? { borderBottom: "2px solid #3399cc" }
+			: null;
+	};
+	handleDragEnter = (index) => {
+		this.setState({ dropOver: index });
+	};
+	handleDragOver = (index, event) => {
+		event.preventDefault();
+	};
+
+	editRow = (index) => {
+		const data = deepCopy(this.props.data.data);
+		const newRow = data[this.props.card][this.props.activeMenu][this.props.subcard][index];
+		this.props.setState({ newRow: newRow });
+		this.props.setState({ editRow: true });
+		this.props.setState({ rowPopup: true });
+		this.props.setState({ rowIndex: index });
+	};
+	moveDown = (index) => {
+		moveItem(index, this.props, this.props.card, this.props.subcard, 1);
+	};
+	moveUp = (index) => {
+		moveItem(index, this.props, this.props.card, this.props.subcard, -1);
+	};
+	deleteRow = (index) => {
+		deleteRow(index, this.props, this.props.card, this.props.subcard);
+	};
+
+	render() {
+		return (
+			<TableBody>
+				{this.state.rows.map((row, index) => (
+					<TableRow
+						key={index}
+						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+						className="no-select"
+						draggable
+						onDrop={() => this.handleDrop(index)}
+						onDragStart={() => this.handleDragStart(index)}
+						onDragEnd={this.handleDragEnd}
+						onDragOver={(event) => this.handleDragOver(index, event)}
+						onDragEnter={() => this.handleDragEnter(index)}
+						style={this.handelStyleDragOver(index)}
+					>
+						<TableCell component="td" scope="row">
+							{row.trigger}
+						</TableCell>
+						<TableCell align="left">
+							<SubTable data={row.id} />
+						</TableCell>
+						<TableCell align="left">
+							<SubTable data={row.value}></SubTable>
+						</TableCell>
+						<TableCell align="left">
+							<SubTable data={row.returnText}></SubTable>
+						</TableCell>
+						<TableCell align="left">
+							<SubTable data={row.confirm}></SubTable>
+						</TableCell>
+						<TableCell align="left">
+							<SubTable data={row.switchValue}></SubTable>
+						</TableCell>
+						<ButtonCard
+							openAddRowCard={this.props.openAddRowCard}
+							editRow={this.editRow}
+							moveDown={this.moveDown}
+							moveUp={this.moveUp}
+							deleteRow={this.deleteRow}
+							rows={this.state.rows}
+							index={index}
+							showButtons={this.props.showButtons}
+						></ButtonCard>
+					</TableRow>
+				))}
+			</TableBody>
+		);
+	}
+}
+
+export default TableDndAction;

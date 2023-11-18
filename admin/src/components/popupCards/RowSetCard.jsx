@@ -85,6 +85,10 @@ class RowSetCard extends Component {
 								<TableCell align="left"> {I18n.t("Return Text")} </TableCell>
 								<TableCell align="left"> {I18n.t("Confirm message")} </TableCell>
 								<TableCell align="left"> {I18n.t("Switch")} </TableCell>
+								<TableCell align="left"> </TableCell>
+								<TableCell align="left"> </TableCell>
+								<TableCell align="left"> </TableCell>
+								<TableCell align="left"> </TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -92,7 +96,7 @@ class RowSetCard extends Component {
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row" align="left">
 										<Input
-											width="calc(100% - 30px)"
+											width="calc(100% - 50px)"
 											value={row.IDs}
 											margin="0px 2px 0 2px"
 											id="IDs"

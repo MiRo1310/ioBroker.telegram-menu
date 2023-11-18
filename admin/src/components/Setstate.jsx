@@ -4,27 +4,27 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowSetCard from "./popupCards/RowSetCard";
-import SubTable from "./subTable";
-import { ButtonCard } from "./btn-Input/buttonCard";
+
+import TableDndAction from "./TableDndAction";
 
 import { deepCopy } from "../lib/Utilis";
 
 import { moveUp, moveDown, deleteRow } from "../lib/button";
 
-function createData(trigger, id, value, returnText, confirm, switchValue) {
-	return { trigger, id, value, returnText, confirm, switchValue };
-}
+// function createData(trigger, id, value, returnText, confirm, switchValue) {
+// 	return { trigger, id, value, returnText, confirm, switchValue };
+// }
 
-let rows = [];
-function getRows(action, activeMenu) {
-	if (!action) return;
-	let elemente = action[activeMenu].set;
-	rows = [];
-	if (elemente === undefined) return;
-	for (let entry of elemente) {
-		rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
-	}
-}
+// let rows = [];
+// function getRows(action, activeMenu) {
+// 	if (!action) return;
+// 	let elemente = action[activeMenu].set;
+// 	rows = [];
+// 	if (elemente === undefined) return;
+// 	for (let entry of elemente) {
+// 		rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
+// 	}
+// }
 
 class SetState extends Component {
 	constructor(props) {
@@ -34,10 +34,12 @@ class SetState extends Component {
 			rowIndex: 0,
 			editRow: false,
 			newRow: {},
+			rowsLength: 0,
 		};
 	}
 	componentDidMount() {
 		this.resetNewRow();
+		this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 	}
 
 	moveDown = (index) => {
@@ -80,12 +82,16 @@ class SetState extends Component {
 	resetNewRow = () => {
 		this.setState({ newRow: this.newRow });
 	};
+	getLengthOfData = (data, activeMenu) => {
+		console.log("data", data);
+		console.log("activeMenu", activeMenu);
+		this.setState({ rowsLength: data[activeMenu].set.length });
+	};
 	newRow = { trigger: [""], IDs: [""], values: [""], returnText: [""], confirm: ["false"], switch_checkbox: ["false"] };
 	render() {
-		if (this.props.data.data.action) getRows(this.props.data.data.action, this.props.data.activeMenu);
 		return (
 			<>
-				{rows.length == 0 ? (
+				{this.state.rowsLength == 0 ? (
 					<Button b_color="#96d15a" title="Add new Action" width="50%" margin="0 18px" height="50px" index={0}>
 						<i className="material-icons translate">add</i>
 						{I18n.t("Add new Action")}
@@ -104,43 +110,20 @@ class SetState extends Component {
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
 									<TableCell align="center" className="cellIcon"></TableCell>
-									<TableCell align="center" className="cellIcon"></TableCell>
-									<TableCell align="center" className="cellIcon"></TableCell>
 								</TableRow>
 							</TableHead>
-							<TableBody>
-								{rows.map((row, index) => (
-									<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-										<TableCell component="td" scope="row">
-											{row.trigger}
-										</TableCell>
-										<TableCell align="left">
-											<SubTable data={row.id} />
-										</TableCell>
-										<TableCell align="left">
-											<SubTable data={row.value}></SubTable>
-										</TableCell>
-										<TableCell align="left">
-											<SubTable data={row.returnText}></SubTable>
-										</TableCell>
-										<TableCell align="left">
-											<SubTable data={row.confirm}></SubTable>
-										</TableCell>
-										<TableCell align="left">
-											<SubTable data={row.switchValue}></SubTable>
-										</TableCell>
-										<ButtonCard
-											openAddRowCard={this.openAddRowCard}
-											editRow={this.editRow}
-											moveDown={this.moveDown}
-											moveUp={this.moveUp}
-											deleteRow={this.deleteRow}
-											rows={rows}
-											index={index}
-										></ButtonCard>
-									</TableRow>
-								))}
-							</TableBody>
+							<TableDndAction
+								activeMenu={this.props.activeMenu}
+								tableData={this.props.data.data.action}
+								data={this.props.data}
+								showButtons={{ add: true, remove: true, edit: true }}
+								card="action"
+								subcard="set"
+								setState={this.setState.bind(this)}
+								callback={this.props.callback}
+								openAddRowCard={this.openAddRowCard}
+								entrys={[{ name: "trigger" }, { name: "nav", val: "value" }, { name: "text" }]}
+							></TableDndAction>
 						</Table>
 					</TableContainer>
 				)}

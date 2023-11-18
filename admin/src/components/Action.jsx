@@ -26,7 +26,7 @@ class Action extends Component {
 					</TabList>
 				</Box>
 				<TabPanel value="1">
-					<SetState callback={this.props.callback} data={this.props.data}></SetState>
+					<SetState callback={this.props.callback} data={this.props.data} activeMenu={this.props.activeMenu}></SetState>
 				</TabPanel>
 				<TabPanel value="2">
 					<GetState callback={this.props.callback} data={this.props.data}></GetState>

@@ -177,7 +177,7 @@ div.MuiTabPanel-root {
 	width: 100%;
 	text-align: right;
 }
-.DialogContainer button {
+.DialogContainer-Footer button {
 	padding: 0 30px !important;
 	margin: 0 8px 10px 8px !important;
 	border: none !important;

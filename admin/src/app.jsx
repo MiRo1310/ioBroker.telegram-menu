@@ -87,7 +87,6 @@ class App extends GenericApp {
 
 	handleChange(event, val) {
 		this.setState({ tab: val });
-		console.log(val);
 	}
 	mytheme = this.props.themeName;
 
@@ -174,12 +173,12 @@ class App extends GenericApp {
 											action: this.state.native.data.action,
 											data: this.state.native.data,
 											state: this.state,
-											activeMenu: this.state.activeMenu,
 											socket: this.socket,
 											themeName: this.state.themeName,
 											themeType: this.state.themeType,
 											adapterName: this.adapterName,
 										}}
+										activeMenu={this.state.activeMenu}
 										callback={{
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
