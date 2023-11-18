@@ -36,24 +36,32 @@ class TableDnd extends Component {
 		}
 	}
 	handleDragEnd = () => {
+		console.log("end");
 		this.setState({ dropStart: 0 });
 		this.setState({ dropOver: 0 });
 	};
 	handleDragStart = (index) => {
 		this.setState({ dropStart: index });
 	};
-	handleDragOver = (index, event) => {
-		this.setState({ dropOver: index });
-		event.preventDefault();
-	};
 	handleDrop = (index) => {
+		console.log("drop", index, this.state.dropStart);
 		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
 	handleDraggable = (index) => {
 		return index === 0 ? null : "true";
 	};
 	handelStyleDragOver = (index) => {
-		// if (this.state.dropOver === index) return { backgroundColor: "#e0e0e0" };
+		return this.state.dropOver === index && this.state.dropStart > index
+			? { borderTop: "2px solid #3399cc" }
+			: this.state.dropOver === index && this.state.dropStart < index
+			? { borderBottom: "2px solid #3399cc" }
+			: null;
+	};
+	handleDragEnter = (index) => {
+		this.setState({ dropOver: index });
+	};
+	handleDragOver = (index, event) => {
+		event.preventDefault();
 	};
 
 	editRow = (index) => {
@@ -80,13 +88,14 @@ class TableDnd extends Component {
 				{rows.map((row, index) => (
 					<TableRow
 						key={index}
-						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+						sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
 						className="no-select"
 						draggable={this.handleDraggable(index)}
+						onDrop={() => this.handleDrop(index)}
 						onDragStart={() => this.handleDragStart(index)}
 						onDragEnd={this.handleDragEnd}
 						onDragOver={(event) => this.handleDragOver(index, event)}
-						onDrop={() => this.handleDrop(index)}
+						onDragEnter={() => this.handleDragEnter(index)}
 						style={this.handelStyleDragOver(index)}
 					>
 						<TableCell component="td" scope="row">

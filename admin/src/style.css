@@ -234,6 +234,9 @@ div.MuiTabPanel-root {
 	padding: 2px 16px;
 	top: 0;
 }
+table {
+	border-collapse: collapse !important;
+}
 tr[draggable] {
 	cursor: grab;
 }
