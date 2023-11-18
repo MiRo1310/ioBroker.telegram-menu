@@ -249,10 +249,10 @@ tr td {
 	padding: 2px 16px !important;
 	font-size: 0.8rem !important;
 }
-tr:nth-child(even) {
-	background-color: #ccc;
+tr:not(.SubTable):nth-child(even) {
+	background-color: #eee;
 }
-tr:nth-child(odd) {
+tr:not(.SubTable):nth-child(odd) {
 	background-color: #fff;
 }
 /* Button */

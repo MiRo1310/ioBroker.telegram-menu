@@ -9,7 +9,7 @@ import BtnSmallUp from "./btn-Input/btn-small-up";
 import BtnSmallDown from "./btn-Input/btn-small-down";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowNavCard from "./popupCards/RowNavCard";
-import TableDnd from "./TableDnd";
+import TableDndNav from "./TableDndNav";
 
 import { moveUp, moveDown, deleteRow, moveItem } from "../lib/button";
 
@@ -98,7 +98,7 @@ class MenuNavigation extends Component {
 								<TableCell align="center" className="cellIcon"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableDnd
+						<TableDndNav
 							tableData={this.props.nav}
 							data={this.props.data}
 							callback={this.props.callback}
@@ -107,7 +107,7 @@ class MenuNavigation extends Component {
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
 							activeMenu={this.props.activeMenu}
-						></TableDnd>
+						></TableDndNav>
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (

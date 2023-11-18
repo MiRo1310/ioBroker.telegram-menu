@@ -20,7 +20,7 @@ function getRows(nav, activeMenu) {
 	}
 }
 
-class TableDnd extends Component {
+class TableDndNav extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -88,7 +88,7 @@ class TableDnd extends Component {
 				{rows.map((row, index) => (
 					<TableRow
 						key={index}
-						sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
+						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						className="no-select"
 						draggable={this.handleDraggable(index)}
 						onDrop={() => this.handleDrop(index)}
@@ -120,4 +120,4 @@ class TableDnd extends Component {
 	}
 }
 
-export default TableDnd;
+export default TableDndNav;
