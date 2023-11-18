@@ -47,7 +47,13 @@ class TableDnd extends Component {
 		event.preventDefault();
 	};
 	handleDrop = (index) => {
-		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+	};
+	handleDraggable = (index) => {
+		return index === 0 ? null : "true";
+	};
+	handelStyleDragOver = (index) => {
+		// if (this.state.dropOver === index) return { backgroundColor: "#e0e0e0" };
 	};
 
 	editRow = (index) => {
@@ -67,8 +73,6 @@ class TableDnd extends Component {
 		deleteRow(index, this.props, this.props.card);
 	};
 
-	// Rufe die Funktion auf, um das draggable-Attribut für Index 0 zu entfernen
-
 	render() {
 		if (this.props.data.data.nav) getRows(this.props.data.data.nav, this.props.data.activeMenu);
 		return (
@@ -77,19 +81,13 @@ class TableDnd extends Component {
 					<TableRow
 						key={index}
 						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-						className={index % 2 === 0 ? "even" : "odd"}
-						draggable
+						className="no-select"
+						draggable={this.handleDraggable(index)}
 						onDragStart={() => this.handleDragStart(index)}
 						onDragEnd={this.handleDragEnd}
 						onDragOver={(event) => this.handleDragOver(index, event)}
 						onDrop={() => this.handleDrop(index)}
-						style={
-							this.state.dropStart == index
-								? { backgroundColor: "rgba(99, 142, 202, 0.1)!important" }
-								: this.state.dropOver == index
-								? { backgroundColor: "rgba(99, 142, 202, 0.5)!important" }
-								: null
-						}
+						style={this.handelStyleDragOver(index)}
 					>
 						<TableCell component="td" scope="row">
 							{row.call}

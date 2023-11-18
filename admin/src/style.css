@@ -200,6 +200,13 @@ div.MuiTabPanel-root {
 	width: 100%;
 	text-align: right;
 }
+
+.no-select {
+	user-select: none; /* Standard */
+	-moz-user-select: none; /* Firefox */
+	-webkit-user-select: none; /* Safari und Chrome */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+}
 .cellIcon {
 	padding: 1px !important;
 }
@@ -225,7 +232,7 @@ div.MuiTabPanel-root {
 	padding: 2px 16px;
 	top: 0;
 }
-tr {
+tr[draggable] {
 	cursor: grab;
 }
 
