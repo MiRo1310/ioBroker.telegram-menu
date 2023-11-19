@@ -159,18 +159,16 @@ div.MuiTabPanel-root {
 	z-index: 1000;
 }
 .DialogContainer-Header {
-	background-color: #ddd;
+	background-color: #3399cc;
 	font-family: "Roboto,Helvetica,Arial,sans-serif";
 	font-size: 1.25rem;
 	font-weight: 500;
 	line-height: 1.6;
 	padding: 10px 10px 10px 30px;
-	margin: 5px 5px 60px 5px;
+	margin: 5px 5px 40px 5px;
 	border-radius: 4px;
 }
-.DialogContainer .Input-Container {
-	margin: 0 10px;
-}
+
 .DialogContainer-Footer {
 	position: absolute;
 	bottom: 0;
@@ -202,8 +200,39 @@ div.MuiTabPanel-root {
 }
 .DialogContainer button[name="cancel"]:hover {
 	background-color: #aaa !important;
-
 	transition: background-color 0.5s ease;
+}
+/* Edit cards */
+.Edit-Container p {
+	font-size: 0.8rem;
+	color: #777;
+	margin: 0 !important;
+}
+.Edit-Container input {
+	font-size: 0.9rem !important;
+	margin: 0 !important;
+}
+.Edit-Container-Trigger {
+	margin-left: 20px;
+	margin-bottom: 30px;
+}
+.Edit-Container input {
+	background-color: inherit !important;
+	border-color: black !important;
+}
+.Edit-Container .Input-Container {
+	margin-left: 8px;
+}
+
+.Edit-Container input[type="checkbox"] {
+	margin-left: 8px;
+}
+.Edit-Container input[type="checkbox"]:checked {
+	color: #96d15a;
+	accent-color: rgb(33, 150, 243);
+}
+.Edit-Container .Edit-Container-TableContainer {
+	max-height: 330px;
 }
 
 /* Drag and Drop, not select Text */
@@ -215,6 +244,10 @@ div.MuiTabPanel-root {
 }
 .cellIcon {
 	padding: 1px !important;
+	width: 35px !important;
+}
+.checkbox {
+	width: 60px;
 }
 
 .MenuHeader-ActiveMenu {
@@ -228,9 +261,6 @@ div.MuiTabPanel-root {
 .Grid-HeaderMenu {
 	margin-top: 5px !important;
 }
-/* Edit cards */
-.RowSetCard-Container input {
-}
 
 /* Allgemein */
 /* Table */
@@ -238,7 +268,7 @@ div.MuiTabPanel-root {
 	background-color: #3399cc !important;
 }
 .Tab-Box table th {
-	padding: 2px 0px 2px 10px;
+	padding: 2px 5px 2px 5px;
 	top: 0;
 }
 .TableDndAction-Body {

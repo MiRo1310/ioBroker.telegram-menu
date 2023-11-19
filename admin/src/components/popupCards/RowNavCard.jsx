@@ -9,7 +9,7 @@ class RowNavCard extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="Edit-Container">
 				<Input
 					width="20%"
 					value={this.props.data.call}

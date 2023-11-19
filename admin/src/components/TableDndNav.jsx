@@ -98,11 +98,15 @@ class TableDndNav extends Component {
 						onDragEnter={() => this.handleDragEnter(index)}
 						style={this.handelStyleDragOver(index)}
 					>
-						<TableCell component="td" scope="row">
+						<TableCell component="td" scope="row" style={{ width: "15%" }}>
 							{row.call}
 						</TableCell>
-						<TableCell align="right">{row.nav}</TableCell>
-						<TableCell align="right">{row.text}</TableCell>
+						<TableCell align="right" style={{ width: "60%" }}>
+							{row.nav}{" "}
+						</TableCell>
+						<TableCell align="right" style={{ width: "25%" }}>
+							{row.text}
+						</TableCell>
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}

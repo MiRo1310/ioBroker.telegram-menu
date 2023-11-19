@@ -82,7 +82,15 @@ class MenuNavigation extends Component {
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (
-					<PopupContainer callback={this.popupRowCard} call={this.state.call} nav={this.state.nav} text={this.state.text} width="99%" height="40%" title="Edit">
+					<PopupContainer
+						callback={this.popupRowCard}
+						call={this.state.call}
+						nav={this.state.nav}
+						text={this.state.text}
+						width="99%"
+						height="30%"
+						title="Edit Navigation"
+					>
 						<RowNavCard callback={{ onchange: this.changeInput }} data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}></RowNavCard>
 					</PopupContainer>
 				) : null}

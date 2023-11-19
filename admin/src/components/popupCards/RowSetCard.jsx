@@ -66,17 +66,20 @@ class RowSetCard extends Component {
 
 	render() {
 		return (
-			<div className="RowSetCard-Container">
-				<Input
-					width="10%"
-					value={this.props.newRow.trigger[0]}
-					margin="0px 2px 0 5px"
-					id="trigger"
-					callback={this.updateTrigger}
-					callbackValue="event.target.value"
-					label="Trigger"
-				></Input>
-				<TableContainer component={Paper}>
+			<div className="Edit-Container">
+				<div className="Edit-Container-Trigger">
+					<Input
+						width="10%"
+						value={this.props.newRow.trigger[0]}
+						margin="0px 2px 0 5px"
+						id="trigger"
+						callback={this.updateTrigger}
+						callbackValue="event.target.value"
+						label="Trigger"
+					></Input>
+				</div>
+
+				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table sx={{ minWidth: 650 }} aria-label="simple table">
 						<TableHead>
 							<TableRow>
@@ -131,7 +134,7 @@ class RowSetCard extends Component {
 											function="manual"
 										></Input>
 									</TableCell>
-									<TableCell align="left">
+									<TableCell align="left" className="checkbox">
 										<Checkbox
 											id="confirm"
 											index={index}
@@ -141,7 +144,7 @@ class RowSetCard extends Component {
 											obj={true}
 										></Checkbox>
 									</TableCell>
-									<TableCell align="center" className="cellIcon">
+									<TableCell align="center" className="checkbox">
 										<Checkbox
 											id="switch_checkbox"
 											index={index}
