@@ -24,7 +24,7 @@ class TableDndAction extends Component {
 		const action = this.props.tableData;
 		const activeMenu = this.props.activeMenu;
 		if (!action) return;
-		let elemente = action[activeMenu].set;
+		let elemente = action[activeMenu][this.props.subcard];
 
 		const rows = [];
 		if (elemente === undefined) return;
@@ -104,24 +104,16 @@ class TableDndAction extends Component {
 						onDragEnter={() => this.handleDragEnter(index)}
 						style={this.handelStyleDragOver(index)}
 					>
-						<TableCell component="td" scope="row">
+						<TableCell align="left" component="td" scope="row">
 							{row.trigger}
 						</TableCell>
-						<TableCell align="left">
-							<SubTable data={row.id} />
-						</TableCell>
-						<TableCell align="left">
-							<SubTable data={row.value}></SubTable>
-						</TableCell>
-						<TableCell align="left">
-							<SubTable data={row.returnText}></SubTable>
-						</TableCell>
-						<TableCell align="left">
-							<SubTable data={row.confirm}></SubTable>
-						</TableCell>
-						<TableCell align="left">
-							<SubTable data={row.switchValue}></SubTable>
-						</TableCell>
+						{this.props.entrys.map((entry, index) =>
+							entry.name != "trigger" ? (
+								<TableCell align="left" component="td" scope="row" key={index}>
+									<SubTable data={row[entry.name]} />
+								</TableCell>
+							) : null,
+						)}
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}

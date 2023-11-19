@@ -122,7 +122,7 @@ class SetState extends Component {
 								setState={this.setState.bind(this)}
 								callback={this.props.callback}
 								openAddRowCard={this.openAddRowCard}
-								entrys={[{ name: "trigger" }, { name: "nav", val: "value" }, { name: "text" }]}
+								entrys={[{ name: "trigger" }, { name: "id" }, { name: "value" }, { name: "returnText" }, { name: "confirm" }, { name: "switchValue" }]}
 							></TableDndAction>
 						</Table>
 					</TableContainer>
