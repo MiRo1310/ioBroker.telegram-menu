@@ -1,30 +1,13 @@
 import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { moveUp, moveDown, deleteRow } from "../lib/button";
+import { deepCopy } from "../lib/Utilis";
+
 import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowSetCard from "./popupCards/RowSetCard";
-
 import TableDndAction from "./TableDndAction";
-
-import { deepCopy } from "../lib/Utilis";
-
-import { moveUp, moveDown, deleteRow } from "../lib/button";
-
-// function createData(trigger, id, value, returnText, confirm, switchValue) {
-// 	return { trigger, id, value, returnText, confirm, switchValue };
-// }
-
-// let rows = [];
-// function getRows(action, activeMenu) {
-// 	if (!action) return;
-// 	let elemente = action[activeMenu].set;
-// 	rows = [];
-// 	if (elemente === undefined) return;
-// 	for (let entry of elemente) {
-// 		rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
-// 	}
-// }
 
 class SetState extends Component {
 	constructor(props) {
@@ -42,15 +25,6 @@ class SetState extends Component {
 		this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 	}
 
-	moveDown = (index) => {
-		moveDown(index, this.props, "action", "set");
-	};
-	moveUp = (index) => {
-		moveUp(index, this.props, "action", "set");
-	};
-	deleteRow = (index) => {
-		deleteRow(index, this.props, "action", "set");
-	};
 	editRow = (index) => {
 		const data = deepCopy(this.props.data.data);
 		const newRow = data.action[this.props.data.activeMenu].set[index];
@@ -122,7 +96,7 @@ class SetState extends Component {
 								setState={this.setState.bind(this)}
 								callback={this.props.callback}
 								openAddRowCard={this.openAddRowCard}
-								entrys={[{ name: "trigger" }, { name: "id" }, { name: "value" }, { name: "returnText" }, { name: "confirm" }, { name: "switchValue" }]}
+								entrys={[{ name: "trigger" }, { name: "IDs" }, { name: "values" }, { name: "returnText" }, { name: "confirm" }, { name: "switch_checkbox" }]}
 							></TableDndAction>
 						</Table>
 					</TableContainer>

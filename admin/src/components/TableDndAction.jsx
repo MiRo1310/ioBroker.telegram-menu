@@ -6,8 +6,12 @@ import { ButtonCard } from "./btn-Input/buttonCard";
 import SubTable from "./subTable";
 import { deepCopy } from "../lib/Utilis";
 
-function createData(trigger, id, value, returnText, confirm, switchValue) {
-	return { trigger, id, value, returnText, confirm, switchValue };
+function createData(entrysOfParentComponent, element) {
+	const obj = {};
+	entrysOfParentComponent.forEach((entry) => {
+		obj[entry.name] = element[entry.name];
+	});
+	return obj;
 }
 
 class TableDndAction extends Component {
@@ -29,7 +33,7 @@ class TableDndAction extends Component {
 		const rows = [];
 		if (elemente === undefined) return;
 		for (let entry of elemente) {
-			rows.push(createData(entry.trigger, entry.IDs, entry.values, entry.returnText, entry.confirm, entry.switch_checkbox));
+			rows.push(createData(this.props.entrys, entry));
 		}
 		this.setState({ rows: rows });
 	};
