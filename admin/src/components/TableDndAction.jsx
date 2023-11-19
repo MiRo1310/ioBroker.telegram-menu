@@ -90,7 +90,7 @@ class TableDndAction extends Component {
 
 	render() {
 		return (
-			<TableBody>
+			<TableBody className="TableDndAction-Body">
 				{this.state.rows.map((row, index) => (
 					<TableRow
 						key={index}

@@ -2,31 +2,10 @@ import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 
-import BtnSmallEdit from "./btn-Input/btn-small-edit";
-import BtnSmallRemove from "./btn-Input/btn-small-remove";
-import BtnSmallAdd from "./btn-Input/btn-small-add";
-import BtnSmallUp from "./btn-Input/btn-small-up";
-import BtnSmallDown from "./btn-Input/btn-small-down";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowNavCard from "./popupCards/RowNavCard";
 import TableDndNav from "./TableDndNav";
 
-import { moveUp, moveDown, deleteRow, moveItem } from "../lib/button";
-
-function createData(call, nav, text) {
-	return { call, nav, text };
-}
-
-let rows = [];
-function getRows(nav, activeMenu) {
-	if (!nav) return;
-	let elemente = nav[activeMenu];
-	rows = [];
-	if (elemente === undefined) return;
-	for (let entry of elemente) {
-		rows.push(createData(entry.call, entry.value, entry.text));
-	}
-}
 class MenuNavigation extends Component {
 	constructor(props) {
 		super(props);
@@ -37,15 +16,7 @@ class MenuNavigation extends Component {
 			nav: "",
 			text: "",
 			editRow: false,
-			dropStart: 0,
-			dropEnd: 0,
-			dropOver: 0,
 		};
-	}
-	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.data.activeMenu || prevProps.nav !== this.props.nav) {
-			getRows(this.props.nav, this.props.data.activeMenu);
-		}
 	}
 
 	openAddRowCard = (value) => {

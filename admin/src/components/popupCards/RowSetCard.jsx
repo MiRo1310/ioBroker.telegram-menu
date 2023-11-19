@@ -66,7 +66,7 @@ class RowSetCard extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="RowSetCard-Container">
 				<Input
 					width="10%"
 					value={this.props.newRow.trigger[0]}

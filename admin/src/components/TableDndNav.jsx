@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+import { TableBody, TableCell, TableRow } from "@mui/material";
 
-import { moveUp, moveDown, deleteRow, moveItem } from "../lib/button";
+import { deleteRow, moveItem } from "../lib/button";
 import { ButtonCard } from "./btn-Input/buttonCard";
 
 function createData(call, nav, text) {
