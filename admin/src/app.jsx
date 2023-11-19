@@ -3,6 +3,7 @@ import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Grid, Tab, Box } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
+import { updateTriggerForSelect } from "./lib/actionUtilis";
 
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
@@ -48,6 +49,7 @@ class App extends GenericApp {
 			popupMenuOpen: false,
 			themeName: this.getThemeName(theme),
 			themeType: this.getThemeType(theme),
+			unUsedTrigger: ["pumpe", "pumpe2", "pumpe3", "pumpe4", "pumpe5", "pumpe6", "pumpe7", "pumpe8", "pumpe9", "pumpe10", "pumpe11", "pumpe12"],
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -56,27 +58,31 @@ class App extends GenericApp {
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
 		if (prevState.native.data !== this.state.native.data) {
-			if (this.state.native.data.nav) {
-				const firstKey = Object.keys(this.state.native.usersInGroup)[0];
-				this.setState({ activeMenu: firstKey });
-			}
+			this.updateActiveMenuAndTrigger();
 		}
 	}
+
 	onConnectionReady() {
 		// executed when connection is ready
 		this.getUsersFromTelegram();
+
 		myTheme = this.props.themeName;
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
 		});
-
-		if (this.state.native.usersInGroup) {
-			const firstKey = Object.keys(this.state.native.usersInGroup)[0];
-			this.setState({ activeMenu: firstKey });
-		}
-
+		this.updateActiveMenuAndTrigger();
 		console.log(this.state.native);
 	}
+	updateActiveMenuAndTrigger = () => {
+		let firstKey;
+		if (this.state.native.usersInGroup) {
+			firstKey = Object.keys(this.state.native.usersInGroup)[0];
+			this.setState({ activeMenu: firstKey });
+		}
+		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, firstKey);
+		this.setState({ unUsedTrigger: updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, firstKey).unUsedTrigger });
+	};
+
 	getUsersFromTelegram() {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || "telegram.0", (data) => {
 			if (!this.state.native.instance) this.updateNativeValue("instance", "telegram.0");
@@ -177,6 +183,7 @@ class App extends GenericApp {
 											themeName: this.state.themeName,
 											themeType: this.state.themeType,
 											adapterName: this.adapterName,
+											unUsedTrigger: this.state.unUsedTrigger,
 										}}
 										activeMenu={this.state.activeMenu}
 										callback={{

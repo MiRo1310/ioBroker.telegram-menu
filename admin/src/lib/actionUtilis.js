@@ -1,4 +1,4 @@
-import { deepCopy } from "./Utilis";
+import { deepCopy, sortArray, deleteDoubleEntrysInArray } from "./Utilis";
 
 function createData(element, index, rowElements) {
 	const obj = {};
@@ -70,9 +70,67 @@ export const moveUp = (index, props, array) => {
 };
 export const updateId = (selected, props, indexID) => {
 	const newRow = deepCopy(props.newRow);
-	console.log(newRow);
-	console.log(selected);
-	console.log(indexID);
 	newRow.IDs[indexID] = selected;
 	props.callback.setState({ newRow: newRow });
+};
+
+export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
+	const submenu = ["set", "get", "pic"];
+	// Users für die die Trigger gesucht werden sollen
+	const users = usersInGroup[activeMenu];
+
+	let menusToSearchIn = [];
+	// User durchgehen und schauen in welchen Gruppen sie sind
+	users.forEach((user) => {
+		Object.keys(usersInGroup).forEach((group) => {
+			if (usersInGroup[group].includes(user)) {
+				menusToSearchIn.push(group);
+			}
+		});
+	});
+	// Trigger und Used Trigger finden
+	let usedTrigger = [];
+	let allTriggers = [];
+	menusToSearchIn.forEach((menu) => {
+		// usedTriggers und unUsedTrigger in Nav finden
+		data.nav[menu].forEach((element) => {
+			usedTrigger.push(element.call);
+			allTriggers = allTriggers.concat(disassembleTextToTriggers(element.value));
+		});
+		// usedTriggers in Action finden
+		submenu.forEach((sub) => {
+			data.action[menu][sub].forEach((element) => {
+				usedTrigger = usedTrigger.concat(element.trigger);
+			});
+		});
+	});
+
+	// Doppelte Einträge in Triggers entfernen
+	if (Array.isArray(allTriggers)) allTriggers = deleteDoubleEntrysInArray(allTriggers);
+	// usedTrigger entfernen
+	let unUsedTrigger = allTriggers.filter((x) => !usedTrigger.includes(x));
+	console.log(usedTrigger);
+	console.log(allTriggers);
+	console.log(unUsedTrigger);
+	unUsedTrigger = sortArray(unUsedTrigger);
+	return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger };
+};
+
+const disassembleTextToTriggers = (text) => {
+	const triggerArray = [];
+	if (text.includes("&&")) text = text.split("&&");
+	else text = [text];
+	text.forEach((element) => {
+		element.split(",").forEach((word) => {
+			if (word.includes("menu:")) {
+				const array = word.split(":");
+				const trigger = array[array.length - 2].trim();
+				triggerArray.push(trigger);
+			} else if (word.trim() != "-") {
+				triggerArray.push(word.trim());
+			}
+		});
+	});
+
+	return triggerArray;
 };

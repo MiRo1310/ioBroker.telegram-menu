@@ -4,6 +4,7 @@ import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper
 
 import Input from "../btn-Input/input";
 import Checkbox from "../btn-Input/checkbox";
+import Select from "../btn-Input/select";
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
@@ -60,15 +61,15 @@ class RowEditPopupCard extends Component {
 		return (
 			<div className="Edit-Container">
 				<div className="Edit-Container-Trigger">
-					<Input
+					<Select
 						width="10%"
-						value={this.props.newRow.trigger[0]}
-						margin="0px 2px 0 5px"
+						selected={this.props.newRow.trigger[0]}
+						options={this.props.data.unUsedTrigger}
 						id="trigger"
 						callback={this.updateTrigger}
 						callbackValue="event.target.value"
 						label="Trigger"
-					></Input>
+					></Select>
 				</div>
 
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">

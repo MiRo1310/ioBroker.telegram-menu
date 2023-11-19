@@ -5,8 +5,10 @@ class Select extends Component {
 	onChangeHandler = (event) => {
 		if (this.props.setNative) {
 			this.props.callback(this.props.id, event.target.value);
-		} else {
+		} else if (this.props.id) {
 			this.props.callback({ [this.props.id]: event.target.value });
+		} else {
+			this.props.callback(event.target.value);
 		}
 	};
 	render() {
@@ -14,9 +16,11 @@ class Select extends Component {
 			<label className="Select">
 				<span>{I18n.t(this.props.label)}</span>
 				<select name={this.props.name} value={this.props.selected} onChange={this.onChangeHandler}>
-					<option value="" disabled>
-						{this.props.placeholder}
-					</option>
+					{this.props.placeholder ? (
+						<option value="" disabled>
+							{this.props.placeholder}
+						</option>
+					) : null}
 					{this.props.options.map((option, index) => {
 						return (
 							<option key={index} value={option.toLowerCase()}>
