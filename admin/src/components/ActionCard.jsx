@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { moveUp, moveDown, deleteRow } from "../lib/button";
 import { deepCopy } from "../lib/Utilis";
 
 import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
-import RowSetCard from "./popupCards/RowSetCard";
+import RowEditPopupCard from "./popupCards/RowEditPopupCard";
 import TableDndAction from "./TableDndAction";
 
-class SetState extends Component {
+class ActionCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,7 +26,7 @@ class SetState extends Component {
 
 	editRow = (index) => {
 		const data = deepCopy(this.props.data.data);
-		const newRow = data.action[this.props.data.activeMenu].set[index];
+		const newRow = data.action[this.props.data.activeMenu][this.props.subcard][index];
 		this.setState({ newRow: newRow });
 		this.setState({ editRow: true });
 		this.setState({ rowPopup: true });
@@ -42,9 +41,9 @@ class SetState extends Component {
 		if (isOk) {
 			const data = deepCopy(this.props.data.data);
 			if (this.state.editRow) {
-				data.action[this.props.data.activeMenu].set.splice(this.state.rowIndex, 1, this.state.newRow);
+				data.action[this.props.data.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {
-				data.action[this.props.data.activeMenu].set.splice(this.state.rowIndex + 1, 0, this.state.newRow);
+				data.action[this.props.data.activeMenu][this.props.subcard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
 			}
 			this.props.callback.updateNative("data", data);
 		}
@@ -54,14 +53,16 @@ class SetState extends Component {
 		this.resetNewRow();
 	};
 	resetNewRow = () => {
-		this.setState({ newRow: this.newRow });
+		let newRow = {};
+		this.props.entrys.forEach((entry) => {
+			newRow[entry.name] = [entry.val || ""];
+		});
+		this.setState({ newRow: newRow });
 	};
 	getLengthOfData = (data, activeMenu) => {
-		console.log("data", data);
-		console.log("activeMenu", activeMenu);
-		this.setState({ rowsLength: data[activeMenu].set.length });
+		this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
 	};
-	newRow = { trigger: [""], IDs: [""], values: [""], returnText: [""], confirm: ["false"], switch_checkbox: ["false"] };
+
 	render() {
 		return (
 			<>
@@ -75,35 +76,39 @@ class SetState extends Component {
 						<Table stickyHeader aria-label="sticky table">
 							<TableHead>
 								<TableRow>
-									<TableCell>{I18n.t("Trigger")}</TableCell>
-									<TableCell align="left">ID</TableCell>
-									<TableCell align="left">{I18n.t("Value")}</TableCell>
-									<TableCell align="left"> {I18n.t("Return Text")} </TableCell>
-									<TableCell align="left"> {I18n.t("Confirm message")} </TableCell>
-									<TableCell align="left"> {I18n.t("Switch")} </TableCell>
-									<TableCell align="center" className="cellIcon"></TableCell>
-									<TableCell align="center" className="cellIcon"></TableCell>
-									<TableCell align="center" className="cellIcon"></TableCell>
+									{this.props.entrys.map((entry, index) => (
+										<TableCell key={index}>{I18n.t(entry.headline)}</TableCell>
+									))}
+									{Array(Object.keys(this.props.showButtons).length)
+										.fill()
+										.map((_, i) => (
+											<TableCell key={i} align="center" className="cellIcon"></TableCell>
+										))}
 								</TableRow>
 							</TableHead>
 							<TableDndAction
 								activeMenu={this.props.activeMenu}
 								tableData={this.props.data.data.action}
 								data={this.props.data}
-								showButtons={{ add: true, remove: true, edit: true }}
-								card="action"
-								subcard="set"
+								showButtons={this.props.showButtons}
+								card={this.props.card}
+								subcard={this.props.subcard}
 								setState={this.setState.bind(this)}
 								callback={this.props.callback}
 								openAddRowCard={this.openAddRowCard}
-								entrys={[{ name: "trigger" }, { name: "IDs" }, { name: "values" }, { name: "returnText" }, { name: "confirm" }, { name: "switch_checkbox" }]}
+								entrys={this.props.entrys}
 							></TableDndAction>
 						</Table>
 					</TableContainer>
 				)}
 				{this.state.rowPopup ? (
-					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%" title="Edit SetState">
-						<RowSetCard data={this.props.data} newRow={this.state.newRow} callback={{ setState: this.setState.bind(this) }}></RowSetCard>
+					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%" title={this.props.titlePopup}>
+						<RowEditPopupCard
+							data={this.props.data}
+							newRow={this.state.newRow}
+							callback={{ setState: this.setState.bind(this) }}
+							entrys={this.props.entrys}
+						></RowEditPopupCard>
 					</PopupContainer>
 				) : null}
 			</>
@@ -111,4 +116,4 @@ class SetState extends Component {
 	}
 }
 
-export default SetState;
+export default ActionCard;

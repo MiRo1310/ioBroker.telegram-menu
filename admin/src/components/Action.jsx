@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import SetState from "./Setstate";
-import GetState from "./Getstate";
-import SendPicture from "./SendPic";
+import ActionCard from "./ActionCard";
 
 class Action extends Component {
 	constructor(props) {
@@ -26,13 +24,57 @@ class Action extends Component {
 					</TabList>
 				</Box>
 				<TabPanel value="1">
-					<SetState callback={this.props.callback} data={this.props.data} activeMenu={this.props.activeMenu}></SetState>
+					<ActionCard
+						callback={this.props.callback}
+						data={this.props.data}
+						activeMenu={this.props.activeMenu}
+						card="action"
+						subcard="set"
+						entrys={[
+							{ name: "trigger", val: "", headline: "Trigger" },
+							{ name: "IDs", val: "", headline: "ID" },
+							{ name: "values", val: "", headline: "Value" },
+							{ name: "returnText", val: "", headline: "Return text" },
+							{ name: "confirm", val: "false", headline: "Confirm message", checkbox: true },
+							{ name: "switch_checkbox", val: "false", headline: "Switch", checkbox: true },
+						]}
+						titlePopup="Edit SetState"
+						showButtons={{ add: true, remove: true, edit: true }}
+					></ActionCard>
 				</TabPanel>
 				<TabPanel value="2">
-					<GetState callback={this.props.callback} data={this.props.data}></GetState>
+					<ActionCard
+						callback={this.props.callback}
+						data={this.props.data}
+						activeMenu={this.props.activeMenu}
+						card="action"
+						subcard="get"
+						entrys={[
+							{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
+							{ name: "IDs", val: "", headline: "ID", width: "40%" },
+							{ name: "text", val: "", headline: "Text", width: "40%" },
+							{ name: "newline_checkbox", val: "true", headline: "Newline", checkbox: true },
+						]}
+						titlePopup="Edit GetState"
+						showButtons={{ add: true, remove: true, edit: true }}
+					></ActionCard>
 				</TabPanel>
 				<TabPanel value="3">
-					<SendPicture callback={this.props.callback} data={this.props.data}></SendPicture>
+					<ActionCard
+						callback={this.props.callback}
+						data={this.props.data}
+						activeMenu={this.props.activeMenu}
+						card="action"
+						subcard="pic"
+						entrys={[
+							{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
+							{ name: "IDs", val: "", headline: "ID", width: "40%" },
+							{ name: "fileName", val: "", headline: "Filename", width: "40%" },
+							{ name: "picSendDelay", val: "", headline: "Delay", width: "40%", type: "number" },
+						]}
+						titlePopup="Edit Send Pic"
+						showButtons={{ add: true, remove: true, edit: true }}
+					></ActionCard>
 				</TabPanel>
 			</TabContext>
 		);

@@ -10,10 +10,10 @@ import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 
-import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis";
 import { isChecked } from "../../lib/Utilis";
+import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis";
 
-class RowGetCard extends Component {
+class RowEditPopupCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -25,19 +25,13 @@ class RowGetCard extends Component {
 			indexID: 0,
 		};
 	}
-	rowElements = [
-		{ name: "IDs", val: "" },
-		{ name: "text", val: "" },
-		{ name: "newline_checkbox", val: "false" },
-	];
 	componentDidUpdate(prevProps) {
 		if (prevProps.newRow !== this.props.newRow) {
-			saveRows(this.props, this.setState.bind(this), this.rowElements);
+			saveRows(this.props, this.setState.bind(this), this.props.entrys);
 		}
 	}
 	componentDidMount() {
-		saveRows(this.props, this.setState.bind(this), this.rowElements);
-		console.log(this.state.rows);
+		saveRows(this.props, this.setState.bind(this), this.props.entrys);
 	}
 	updateData = (obj) => {
 		updateData(obj, this.props);
@@ -46,17 +40,17 @@ class RowGetCard extends Component {
 		updateTrigger(value, this.props);
 	};
 	addNewRow = (index) => {
-		addNewRow(index, this.props, this.rowElements);
+		addNewRow(index, this.props, this.props.entrys);
 	};
 
 	deleteRow = (index) => {
-		deleteRow(index, this.props, this.rowElements);
+		deleteRow(index, this.props, this.props.entrys);
 	};
 	moveDown = (index) => {
-		moveDown(index, this.props, this.rowElements);
+		moveDown(index, this.props, this.props.entrys);
 	};
 	moveUp = (index) => {
-		moveUp(index, this.props, this.rowElements);
+		moveUp(index, this.props, this.props.entrys);
 	};
 	updateId = (selected) => {
 		updateId(selected, this.props, this.state.indexID);
@@ -64,23 +58,28 @@ class RowGetCard extends Component {
 
 	render() {
 		return (
-			<div>
-				<Input
-					width="10%"
-					value={this.props.newRow.trigger[0]}
-					margin="0px 2px 0 5px"
-					id="trigger"
-					callback={this.updateTrigger}
-					callbackValue="event.target.value"
-					label="Trigger"
-				></Input>
-				<TableContainer component={Paper}>
+			<div className="Edit-Container">
+				<div className="Edit-Container-Trigger">
+					<Input
+						width="10%"
+						value={this.props.newRow.trigger[0]}
+						margin="0px 2px 0 5px"
+						id="trigger"
+						callback={this.updateTrigger}
+						callbackValue="event.target.value"
+						label="Trigger"
+					></Input>
+				</div>
+
+				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table sx={{ minWidth: 650 }} aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								<TableCell align="left">ID</TableCell>
-								<TableCell align="left">{I18n.t("Text")}</TableCell>
-								<TableCell align="left"> {I18n.t("Newline")} </TableCell>
+								{this.props.entrys.map((entry, index) => (entry.name != "trigger" ? <TableCell align="left">{I18n.t(entry.headline)}</TableCell> : null))}
+								<TableCell align="left"> </TableCell>
+								<TableCell align="left"> </TableCell>
+								<TableCell align="left"> </TableCell>
+								<TableCell align="left"> </TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -88,7 +87,7 @@ class RowGetCard extends Component {
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row" align="left">
 										<Input
-											width="calc(100% - 30px)"
+											width="calc(100% - 50px)"
 											value={row.IDs}
 											margin="0px 2px 0 2px"
 											id="IDs"
@@ -99,28 +98,37 @@ class RowGetCard extends Component {
 										></Input>
 										<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
 									</TableCell>
-									<TableCell align="left">
-										<Input
-											width="100%"
-											value={row.text}
-											margin="0px 2px 0 5px"
-											id="text"
-											index={index}
-											callback={this.updateData}
-											callbackValue="event.target.value"
-											function="manual"
-										></Input>
-									</TableCell>
-									<TableCell align="left">
-										<Checkbox
-											id="newline_checkbox"
-											index={index}
-											callback={this.updateData}
-											callbackValue="event"
-											isChecked={isChecked(row.newline_checkbox)}
-											obj={true}
-										></Checkbox>
-									</TableCell>
+									{this.props.entrys.map((entry, i) =>
+										!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
+											<TableCell align="left" key={i}>
+												<Input
+													width="100%"
+													value={row[entry.name]}
+													margin="0px 2px 0 5px"
+													id={entry.name}
+													index={index}
+													callback={this.updateData}
+													callbackValue="event.target.value"
+													function="manual"
+													type={entry.type}
+												></Input>
+											</TableCell>
+										) : null,
+									)}
+									{this.props.entrys.map((entry, i) =>
+										entry.checkbox ? (
+											<TableCell align="left" className="checkbox">
+												<Checkbox
+													id={entry.name}
+													index={index}
+													callback={this.updateData}
+													callbackValue="event"
+													isChecked={isChecked(row[entry.name])}
+													obj={true}
+												></Checkbox>
+											</TableCell>
+										) : null,
+									)}
 
 									<TableCell align="center" className="cellIcon">
 										<BtnSmallAdd callback={this.addNewRow} index={index} />
@@ -161,4 +169,4 @@ class RowGetCard extends Component {
 	}
 }
 
-export default RowGetCard;
+export default RowEditPopupCard;
