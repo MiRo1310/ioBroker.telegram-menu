@@ -75,7 +75,13 @@ class RowEditPopupCard extends Component {
 					<Table sx={{ minWidth: 650 }} aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								{this.props.entrys.map((entry, index) => (entry.name != "trigger" ? <TableCell align="left">{I18n.t(entry.headline)}</TableCell> : null))}
+								{this.props.entrys.map((entry, index) =>
+									entry.name != "trigger" ? (
+										<TableCell key={index} align="left">
+											{I18n.t(entry.headline)}
+										</TableCell>
+									) : null,
+								)}
 								<TableCell align="left"> </TableCell>
 								<TableCell align="left"> </TableCell>
 								<TableCell align="left"> </TableCell>
@@ -117,7 +123,7 @@ class RowEditPopupCard extends Component {
 									)}
 									{this.props.entrys.map((entry, i) =>
 										entry.checkbox ? (
-											<TableCell align="left" className="checkbox">
+											<TableCell align="left" className="checkbox" key={i}>
 												<Checkbox
 													id={entry.name}
 													index={index}

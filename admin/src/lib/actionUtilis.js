@@ -2,7 +2,6 @@ import { deepCopy } from "./Utilis";
 
 function createData(element, index, rowElements) {
 	const obj = {};
-	console.log(rowElements);
 	rowElements.forEach((entry) => {
 		obj[entry.name] = element[entry.name][index];
 	});
@@ -34,7 +33,7 @@ export const updateData = (obj, props) => {
 };
 export const updateTrigger = (value, props) => {
 	const newRow = deepCopy(props.newRow);
-	newRow.trigger[0] = value.val;
+	newRow.trigger[0] = value.trigger;
 	props.callback.setState({ newRow: newRow });
 };
 

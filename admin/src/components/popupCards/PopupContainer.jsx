@@ -12,12 +12,27 @@ class PopupContainer extends Component {
 			disable: true,
 		};
 	}
+	checked;
 	componentDidUpdate(prevProps) {
-		if (prevProps.nav !== this.props.nav || prevProps.call !== this.props.call || prevProps.text !== this.props.text) {
-			if (this.props.call !== "" && this.props.nav !== "" && this.props.text !== "") {
-				this.setState({ disable: false });
-			} else {
+		if (prevProps.newRow !== this.props.newRow) {
+			this.checked = true;
+			let row = this.props.newRow;
+			this.props.entrys.forEach((entry) => {
+				if (!entry.checkbox) {
+					row[entry.name].forEach((val, index) => {
+						if (val !== undefined && val !== null && val !== "") {
+						} else {
+							this.checked = false;
+						}
+					});
+				}
+			});
+		}
+		if (this.state.disable !== !this.checked) {
+			if (!this.checked) {
 				this.setState({ disable: true });
+			} else {
+				this.setState({ disable: false });
 			}
 		}
 	}
