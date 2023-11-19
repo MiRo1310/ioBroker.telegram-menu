@@ -49,7 +49,7 @@ class MenuNavigation extends Component {
 		if (value) {
 			this.setState({ rowIndex: value });
 		}
-		this.setState({ rowPopup: true });
+		this.setState({ rowPopup: true, call: "", nav: "", text: "" });
 	};
 
 	render() {
