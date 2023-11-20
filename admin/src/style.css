@@ -311,6 +311,16 @@ button {
 	cursor: pointer;
 }
 
+.inUse,
+.inUse input {
+	color: red !important;
+	border-color: red !important;
+}
+p.inUse {
+	position: absolute;
+	top: 60px;
+	left: 5px;
+}
 input ~ p {
 	margin-left: 5px !important;
 }

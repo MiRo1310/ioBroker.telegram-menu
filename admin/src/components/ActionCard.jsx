@@ -105,7 +105,15 @@ class ActionCard extends Component {
 					</TableContainer>
 				)}
 				{this.state.rowPopup ? (
-					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%" title={this.props.titlePopup} entrys={this.props.entrys} newRow={this.state.newRow}>
+					<PopupContainer
+						callback={this.closeAddRowCard}
+						width="99%"
+						height="70%"
+						title={this.props.titlePopup}
+						entrys={this.props.entrys}
+						newRow={this.state.newRow}
+						checkRow={true}
+					>
 						<RowEditPopupCard
 							data={this.props.data}
 							newRow={this.state.newRow}

@@ -10,29 +10,57 @@ class PopupContainer extends Component {
 		this.state = {
 			menuName: this.props.value,
 			disable: true,
+			inUse: false,
 		};
 	}
 	checked;
 	componentDidUpdate(prevProps) {
-		if (prevProps.newRow !== this.props.newRow) {
-			this.checked = true;
-			let row = this.props.newRow;
-			console.log("row " + JSON.stringify(row));
-			this.props.entrys.forEach((entry) => {
-				console.log("entry " + JSON.stringify(entry));
-				if (!entry.checkbox) {
-					console.log("entry.name " + entry.name);
+		// console.log("update");
+		if (this.props.checkRow) {
+			if (prevProps.newRow !== this.props.newRow) {
+				this.checked = true;
+				let row = this.props.newRow;
+				// console.log("row " + JSON.stringify(row));
+				this.props.entrys.forEach((entry) => {
+					console.log("entry " + JSON.stringify(entry));
+					if (!entry.checkbox) {
+						// console.log("entry.name " + entry.name);
 
-					row[entry.name].forEach((val, index) => {
-						console.log("val " + val);
-						if (val !== undefined && val !== null && val !== "") {
-						} else {
-							this.checked = false;
-							console.log(entry.name, index);
-						}
-					});
-				}
-			});
+						row[entry.name].forEach((val, index) => {
+							// console.log("val " + val);
+							if (val !== undefined && val !== null && val !== "") {
+							} else {
+								this.checked = false;
+								// console.log(entry.name, index);
+							}
+						});
+					}
+				});
+			}
+		}
+
+		if (prevProps.call !== this.props.call || prevProps.nav !== this.props.nav || prevProps.text !== this.props.text) {
+			if (this.props.usedTrigger.includes(this.props.call) && this.props.call !== "") {
+				this.setState({ inUse: true });
+
+				this.props.setState({ callIsAlreadyUsed: true });
+			} else {
+				this.setState({ inUse: false });
+
+				this.props.setState({ callIsAlreadyUsed: false });
+			}
+			if (this.props.call !== "" && this.props.nav !== "" && this.props.text !== "" && !this.state.inUse) {
+				this.checked = true;
+			} else {
+				this.checked = false;
+			}
+		}
+
+		if (this.props.data && this.props.data.newMenuName) {
+			if (prevProps.newMenuName !== this.props.data.newMenuName) {
+				if (this.props.data.newMenuName !== "" && this.props.data.newMenuName !== this.props.value) this.checked = true;
+				else this.checked = false;
+			}
 		}
 		if (this.state.disable !== !this.checked) {
 			if (!this.checked) {
@@ -61,7 +89,10 @@ class PopupContainer extends Component {
 			<div className="DialogBackground">
 				<div className="DialogContainer" style={DialogContainer}>
 					<div className="DialogContainer-Header">{this.props.title}</div>
-					<div className="DialogContainer-Body">{this.props.children}</div>
+					<div className="DialogContainer-Body">
+						{this.state.inUse ? <p className="inUse">{I18n.t("Call is allready in use!")}</p> : null}
+						{this.props.children}
+					</div>
 					<div className="DialogContainer-Footer">
 						<Button
 							b_color="#fff"

@@ -16,6 +16,7 @@ class MenuNavigation extends Component {
 			nav: "",
 			text: "",
 			editRow: false,
+			callIsAlreadyUsed: false,
 		};
 	}
 
@@ -87,11 +88,17 @@ class MenuNavigation extends Component {
 						call={this.state.call}
 						nav={this.state.nav}
 						text={this.state.text}
+						usedTrigger={this.props.data.state.usedTrigger}
 						width="99%"
 						height="30%"
 						title="Edit Navigation"
+						setState={this.setState.bind(this)}
 					>
-						<RowNavCard callback={{ onchange: this.changeInput }} data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}></RowNavCard>
+						<RowNavCard
+							callback={{ onchange: this.changeInput }}
+							data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}
+							inUse={this.state.callIsAlreadyUsed}
+						></RowNavCard>
 					</PopupContainer>
 				) : null}
 			</>

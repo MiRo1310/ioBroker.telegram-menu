@@ -18,6 +18,7 @@ class RowNavCard extends Component {
 					callback={this.props.callback.onchange}
 					callbackValue="event.target.value"
 					label="Call"
+					class={this.props.inUse ? "inUse" : ""}
 				></Input>
 				<Input
 					width="55%"

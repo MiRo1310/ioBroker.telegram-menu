@@ -49,7 +49,8 @@ class App extends GenericApp {
 			popupMenuOpen: false,
 			themeName: this.getThemeName(theme),
 			themeType: this.getThemeType(theme),
-			unUsedTrigger: ["pumpe", "pumpe2", "pumpe3", "pumpe4", "pumpe5", "pumpe6", "pumpe7", "pumpe8", "pumpe9", "pumpe10", "pumpe11", "pumpe12"],
+			unUsedTrigger: [],
+			usedTrigger: [],
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -80,7 +81,7 @@ class App extends GenericApp {
 			this.setState({ activeMenu: firstKey });
 		}
 		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, firstKey);
-		this.setState({ unUsedTrigger: updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, firstKey).unUsedTrigger });
+		this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
 	};
 
 	getUsersFromTelegram() {
