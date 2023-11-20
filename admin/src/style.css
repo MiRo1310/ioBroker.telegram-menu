@@ -202,6 +202,16 @@ div.MuiTabPanel-root {
 	background-color: #aaa !important;
 	transition: background-color 0.5s ease;
 }
+.DialogContainer select {
+	color: #3399cc;
+	width: 200px;
+	border: none;
+	border-bottom: 1px solid black;
+	font-size: 1.2rem !important;
+}
+.DialogContainer select:focus {
+	outline: none;
+}
 /* Edit cards */
 .Edit-Container p {
 	font-size: 0.8rem;
