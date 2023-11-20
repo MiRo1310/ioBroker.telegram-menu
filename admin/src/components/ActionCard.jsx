@@ -54,6 +54,7 @@ class ActionCard extends Component {
 		this.setState({ editRow: false });
 		this.resetNewRow();
 	};
+
 	resetNewRow = () => {
 		let newRow = {};
 		this.props.entrys.forEach((entry) => {

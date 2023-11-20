@@ -212,6 +212,31 @@ div.MuiTabPanel-root {
 .DialogContainer select:focus {
 	outline: none;
 }
+/* DropBox */
+.Container-DropBox {
+	background-color: transparent !important;
+	top: 100px !important;
+	height: 50% !important;
+	width: 212px !important;
+	right: 5px !important;
+	left: auto !important;
+}
+.Container-DropBox .DialogContainer {
+	transform: none !important;
+	top: 0px !important;
+	left: auto !important;
+	height: 100% !important;
+}
+.DropBox {
+	background-color: #eee;
+	width: 90%;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 40%;
+	border: 1px solid black;
+}
+
 /* Edit cards */
 .Edit-Container p {
 	font-size: 0.8rem;

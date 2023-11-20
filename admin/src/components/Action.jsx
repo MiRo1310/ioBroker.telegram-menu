@@ -7,10 +7,11 @@ class Action extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			value: "1",
+			value: "set",
 		};
 	}
 	handleChange = (event, newValue) => {
+		this.props.callback.setState({ subTab: newValue });
 		this.setState({ value: newValue });
 	};
 	render() {
@@ -18,12 +19,12 @@ class Action extends Component {
 			<TabContext value={this.state.value}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 					<TabList onChange={this.handleChange} aria-label="lab API tabs example">
-						<Tab label="SetState" value="1" />
-						<Tab label="GetState" value="2" />
-						<Tab label="Send Picture" value="3" />
+						<Tab label="SetState" value="set" />
+						<Tab label="GetState" value="get" />
+						<Tab label="Send Picture" value="pic" />
 					</TabList>
 				</Box>
-				<TabPanel value="1">
+				<TabPanel value="set">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}
@@ -42,7 +43,7 @@ class Action extends Component {
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
-				<TabPanel value="2">
+				<TabPanel value="get">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}
@@ -59,7 +60,7 @@ class Action extends Component {
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
-				<TabPanel value="3">
+				<TabPanel value="pic" className="ActionCard">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}

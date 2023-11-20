@@ -17,7 +17,7 @@ class Select extends Component {
 				<span>{I18n.t(this.props.label)}</span>
 				<select name={this.props.name} value={this.props.selected} onChange={this.onChangeHandler}>
 					<option value="" disabled>
-						{I18n.t("Select a trigger")}
+						{I18n.t(this.props.placeholder)}
 					</option>
 
 					{this.props.options.map((option, index) => {

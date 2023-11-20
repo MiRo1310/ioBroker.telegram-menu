@@ -53,9 +53,11 @@ class TableDndAction extends Component {
 	handleDragEnd = () => {
 		this.setState({ dropStart: 0 });
 		this.setState({ dropOver: 0 });
+		this.props.callback.setState({ draggingRowIndex: 0 });
 	};
 	handleDragStart = (index) => {
 		this.setState({ dropStart: index });
+		this.props.callback.setState({ draggingRowIndex: index });
 	};
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);

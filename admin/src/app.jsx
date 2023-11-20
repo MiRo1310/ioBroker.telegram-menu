@@ -12,6 +12,9 @@ import MenuNavigation from "./components/menuNavigation";
 import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
 import Action from "./components/Action";
 
+import DropBox from "./components/popupCards/DropBox";
+import PopupContainer from "./components/popupCards/PopupContainer";
+
 import getIobrokerData from "./lib/socket";
 import helperFunction from "./lib/Utilis";
 let myTheme;
@@ -42,7 +45,9 @@ class App extends GenericApp {
 			...this.state,
 			native: {},
 			data: {},
-			tab: "1",
+			tab: "nav",
+			subTab: "set",
+			draggingRowIndex: null,
 			activeMenu: "",
 			showPopupMenuList: false,
 			instances: [],
@@ -51,6 +56,7 @@ class App extends GenericApp {
 			themeType: this.getThemeType(theme),
 			unUsedTrigger: [],
 			usedTrigger: [],
+			showDropBox: false,
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -91,6 +97,9 @@ class App extends GenericApp {
 			this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
 		});
 	}
+	closeDropBox = () => {
+		this.setState({ showDropBox: false });
+	};
 
 	handleChange(event, val) {
 		this.setState({ tab: val });
@@ -128,14 +137,14 @@ class App extends GenericApp {
 							<TabContext value={this.state.tab}>
 								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 									<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">
-										<Tab label={I18n.t("Navigation")} value="1" />
-										<Tab label={I18n.t("Action")} value="2" />
-										<Tab label={I18n.t("Settings")} value="3" />
+										<Tab label={I18n.t("Navigation")} value="nav" />
+										<Tab label={I18n.t("Action")} value="action" />
+										<Tab label={I18n.t("Settings")} value="settings" />
 									</TabList>
 								</Box>
 								<Grid container spacing={1} className="Grid-HeaderMenu ">
 									<Grid item xs={12}>
-										{this.state.tab != "3" ? (
+										{this.state.tab != "settings" ? (
 											<HeaderMenu
 												data={{ activeMenu: this.state.activeMenu, state: this.state }}
 												callback={{
@@ -146,7 +155,7 @@ class App extends GenericApp {
 										) : null}
 									</Grid>
 									<Grid item xs={12}>
-										{this.state.tab != "3" ? (
+										{this.state.tab != "settings" ? (
 											<HeaderTelegramUsers
 												data={{
 													state: this.state,
@@ -164,7 +173,7 @@ class App extends GenericApp {
 									</Grid>
 								</Grid>
 
-								<TabPanel value="1">
+								<TabPanel value="nav">
 									<MenuNavigation
 										activeMenu={this.state.activeMenu}
 										data={{ nav: this.state.native.data.nav, data: this.state.native.data, activeMenu: this.state.activeMenu, state: this.state }}
@@ -174,7 +183,7 @@ class App extends GenericApp {
 										}}
 									></MenuNavigation>
 								</TabPanel>
-								<TabPanel value="2">
+								<TabPanel value="action">
 									<Action
 										data={{
 											action: this.state.native.data.action,
@@ -193,7 +202,7 @@ class App extends GenericApp {
 										}}
 									></Action>
 								</TabPanel>
-								<TabPanel value="3">
+								<TabPanel value="settings">
 									<Settings
 										data={{ instances: this.state.instances, state: this.state }}
 										callback={{
@@ -206,6 +215,17 @@ class App extends GenericApp {
 						</Box>
 					</Grid>
 				</Grid>
+				{this.state.showDropBox ? (
+					<PopupContainer class="Container-DropBox" width="99%" height="30%" title="DropBox" callback={this.closeDropBox} closeBtn={true}>
+						<DropBox
+							tab={this.state.tab}
+							subTab={this.state.subTab}
+							index={this.state.draggingRowIndex}
+							activeMenu={this.state.activeMenu}
+							native={this.state.native}
+						></DropBox>
+					</PopupContainer>
+				) : null}
 
 				{/* <Settings native={this.state.native} onChange={(attr, value) => this.updateNativeValue(attr, value)} /> */}
 				{this.renderError()}

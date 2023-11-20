@@ -69,6 +69,7 @@ class RowEditPopupCard extends Component {
 						callback={this.updateTrigger}
 						callbackValue="event.target.value"
 						label="Trigger"
+						placeholder="Select a Trigger"
 					></Select>
 				</div>
 

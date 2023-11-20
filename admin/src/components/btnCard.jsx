@@ -142,7 +142,16 @@ class BtnCard extends Component {
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
-						<Button b_color="green" color="white" margin="1px" width="100px" height="40px">
+						<Button
+							b_color="green"
+							color="white"
+							margin="1px"
+							width="100px"
+							height="40px"
+							id="showDropBox"
+							callbackValue={true}
+							callback={this.props.callback.setState}
+						>
 							<i className="material-icons translate ">content_copy</i>Copy
 						</Button>
 					</Grid>

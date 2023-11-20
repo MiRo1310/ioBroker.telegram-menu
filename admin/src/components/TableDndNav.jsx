@@ -39,9 +39,11 @@ class TableDndNav extends Component {
 		console.log("end");
 		this.setState({ dropStart: 0 });
 		this.setState({ dropOver: 0 });
+		this.props.callback.setState({ draggingRowIndex: null });
 	};
 	handleDragStart = (index) => {
 		this.setState({ dropStart: index });
+		this.props.callback.setState({ draggingRowIndex: index });
 	};
 	handleDrop = (index) => {
 		console.log("drop", index, this.state.dropStart);

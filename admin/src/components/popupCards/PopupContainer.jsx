@@ -86,7 +86,7 @@ class PopupContainer extends Component {
 		};
 
 		return (
-			<div className="DialogBackground">
+			<div className={"DialogBackground " + (this.props.class || "")}>
 				<div className="DialogContainer" style={DialogContainer}>
 					<div className="DialogContainer-Header">{this.props.title}</div>
 					<div className="DialogContainer-Body">
@@ -94,22 +94,24 @@ class PopupContainer extends Component {
 						{this.props.children}
 					</div>
 					<div className="DialogContainer-Footer">
-						<Button
-							b_color="#fff"
-							margin="10px 5% 10px 4%"
-							border="1px solid black"
-							round="4px"
-							callbackValue={true}
-							callback={this.props.callback}
-							height="40px"
-							fontSize="16px"
-							padding="0"
-							maxWidth="200px"
-							name="ok"
-							disabled={this.state.disable}
-						>
-							{I18n.t("OK")}
-						</Button>
+						{!this.props.closeBtn ? (
+							<Button
+								b_color="#fff"
+								margin="10px 5% 10px 4%"
+								border="1px solid black"
+								round="4px"
+								callbackValue={true}
+								callback={this.props.callback}
+								height="40px"
+								fontSize="16px"
+								padding="0"
+								maxWidth="200px"
+								name="ok"
+								disabled={this.state.disable}
+							>
+								{I18n.t("OK")}
+							</Button>
+						) : null}
 						<Button
 							b_color="#fff"
 							margin="10px 5% 10px 4%"
@@ -123,7 +125,7 @@ class PopupContainer extends Component {
 							maxWidth="200px"
 							name="cancel"
 						>
-							{I18n.t("Cancel")}
+							{!this.props.closeBtn ? I18n.t("Cancel") : I18n.t("Close")}
 						</Button>
 					</div>
 				</div>
