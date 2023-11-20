@@ -17,12 +17,18 @@ class PopupContainer extends Component {
 		if (prevProps.newRow !== this.props.newRow) {
 			this.checked = true;
 			let row = this.props.newRow;
+			console.log("row " + JSON.stringify(row));
 			this.props.entrys.forEach((entry) => {
+				console.log("entry " + JSON.stringify(entry));
 				if (!entry.checkbox) {
+					console.log("entry.name " + entry.name);
+
 					row[entry.name].forEach((val, index) => {
+						console.log("val " + val);
 						if (val !== undefined && val !== null && val !== "") {
 						} else {
 							this.checked = false;
+							console.log(entry.name, index);
 						}
 					});
 				}

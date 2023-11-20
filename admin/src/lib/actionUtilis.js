@@ -39,9 +39,8 @@ export const updateTrigger = (value, props) => {
 
 export const addNewRow = (index, props, array) => {
 	const newRow = deepCopy(props.newRow);
-	console.log(newRow);
 	array.forEach((element) => {
-		newRow[element.name].splice(index + 1, 0, element.value);
+		if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.value);
 	});
 	props.callback.setState({ newRow: newRow });
 };
