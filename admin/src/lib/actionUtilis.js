@@ -109,9 +109,7 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 	if (Array.isArray(allTriggers)) allTriggers = deleteDoubleEntrysInArray(allTriggers);
 	// usedTrigger entfernen
 	let unUsedTrigger = allTriggers.filter((x) => !usedTrigger.includes(x));
-	console.log(usedTrigger);
-	console.log(allTriggers);
-	console.log(unUsedTrigger);
+
 	unUsedTrigger = sortArray(unUsedTrigger);
 	return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger };
 };

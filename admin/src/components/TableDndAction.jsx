@@ -77,6 +77,8 @@ class TableDndAction extends Component {
 	editRow = (index) => {
 		const data = deepCopy(this.props.data.data);
 		const newRow = data[this.props.card][this.props.activeMenu][this.props.subcard][index];
+		console.log("newRow", newRow);
+		this.props.addEditedTrigger(newRow.trigger[0]);
 		this.props.setState({ newRow: newRow });
 		this.props.setState({ editRow: true });
 		this.props.setState({ rowPopup: true });

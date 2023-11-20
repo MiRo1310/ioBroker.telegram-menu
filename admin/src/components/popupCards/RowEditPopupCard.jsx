@@ -64,7 +64,7 @@ class RowEditPopupCard extends Component {
 					<Select
 						width="10%"
 						selected={this.props.newRow.trigger[0]}
-						options={this.props.data.unUsedTrigger}
+						options={this.props.newUnUsedTrigger}
 						id="trigger"
 						callback={this.updateTrigger}
 						callbackValue="event.target.value"

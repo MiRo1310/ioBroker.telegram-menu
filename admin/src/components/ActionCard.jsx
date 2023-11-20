@@ -17,22 +17,24 @@ class ActionCard extends Component {
 			editRow: false,
 			newRow: {},
 			rowsLength: 0,
+			newUnUsedTrigger: [],
 		};
 	}
+	addEditedTrigger = (trigger) => {
+		let newTriggerArray = [];
+		const unUsedTrigger = deepCopy(this.props.data.unUsedTrigger);
+		if (trigger) {
+			newTriggerArray = [...unUsedTrigger, trigger];
+		} else newTriggerArray = unUsedTrigger;
+		this.setState({ newUnUsedTrigger: newTriggerArray });
+	};
 	componentDidMount() {
 		this.resetNewRow();
 		this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 	}
 
-	editRow = (index) => {
-		const data = deepCopy(this.props.data.data);
-		const newRow = data.action[this.props.data.activeMenu][this.props.subcard][index];
-		this.setState({ newRow: newRow });
-		this.setState({ editRow: true });
-		this.setState({ rowPopup: true });
-		this.setState({ rowIndex: index });
-	};
 	openAddRowCard = (index) => {
+		this.addEditedTrigger(null);
 		this.setState({ rowPopup: true });
 		this.setState({ rowIndex: index });
 	};
@@ -41,13 +43,13 @@ class ActionCard extends Component {
 		if (isOk) {
 			const data = deepCopy(this.props.data.data);
 			if (this.state.editRow) {
-				data.action[this.props.data.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
+				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {
-				data.action[this.props.data.activeMenu][this.props.subcard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
+				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
 			}
 			this.props.callback.updateNative("data", data);
 		}
-
+		this.setState({ newUnUsedTrigger: null });
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
 		this.resetNewRow();
@@ -97,6 +99,7 @@ class ActionCard extends Component {
 								callback={this.props.callback}
 								openAddRowCard={this.openAddRowCard}
 								entrys={this.props.entrys}
+								addEditedTrigger={this.addEditedTrigger}
 							></TableDndAction>
 						</Table>
 					</TableContainer>
@@ -108,6 +111,7 @@ class ActionCard extends Component {
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
 							entrys={this.props.entrys}
+							newUnUsedTrigger={this.state.newUnUsedTrigger}
 						></RowEditPopupCard>
 					</PopupContainer>
 				) : null}

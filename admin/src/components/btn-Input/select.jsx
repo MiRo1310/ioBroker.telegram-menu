@@ -16,11 +16,10 @@ class Select extends Component {
 			<label className="Select">
 				<span>{I18n.t(this.props.label)}</span>
 				<select name={this.props.name} value={this.props.selected} onChange={this.onChangeHandler}>
-					{this.props.placeholder ? (
-						<option value="" disabled>
-							{this.props.placeholder}
-						</option>
-					) : null}
+					<option value="" disabled>
+						{I18n.t("Select a trigger")}
+					</option>
+
 					{this.props.options.map((option, index) => {
 						return (
 							<option key={index} value={option.toLowerCase()}>
