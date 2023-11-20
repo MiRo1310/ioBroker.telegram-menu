@@ -65,7 +65,7 @@ class App extends GenericApp {
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
 		if (prevState.native.data !== this.state.native.data) {
-			this.updateActiveMenuAndTrigger();
+			if (this.state.activeMenu && this.state.activeMenu != "") this.updateActiveMenuAndTrigger(this.state.activeMenu);
 		}
 	}
 
@@ -77,16 +77,17 @@ class App extends GenericApp {
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
 		});
-		this.updateActiveMenuAndTrigger();
+		let firstMenu = "";
+		if (this.state.native.usersInGroup) {
+			firstMenu = Object.keys(this.state.native.usersInGroup)[0];
+			this.setState({ activeMenu: firstMenu });
+		}
+
+		this.updateActiveMenuAndTrigger(firstMenu);
 		console.log(this.state.native);
 	}
-	updateActiveMenuAndTrigger = () => {
-		let firstKey;
-		if (this.state.native.usersInGroup) {
-			firstKey = Object.keys(this.state.native.usersInGroup)[0];
-			this.setState({ activeMenu: firstKey });
-		}
-		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, firstKey);
+	updateActiveMenuAndTrigger = (Menu) => {
+		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, Menu);
 		this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
 	};
 
