@@ -22,7 +22,7 @@ class Select extends Component {
 
 					{this.props.options.map((option, index) => {
 						return (
-							<option key={index} value={option.toLowerCase()}>
+							<option key={index} value={option}>
 								{option}
 							</option>
 						);

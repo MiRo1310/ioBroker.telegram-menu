@@ -178,6 +178,7 @@ class BtnCard extends Component {
 								value={this.props.data.state.activeMenu}
 								callback={this.renameMenu}
 								data={{ newMenuName: this.state.renamedMenuName }}
+								usersInGroup={this.props.data.state.native.usersInGroup}
 							>
 								<RenameCard
 									value={this.props.data.state.activeMenu}

@@ -217,13 +217,17 @@ class App extends GenericApp {
 					</Grid>
 				</Grid>
 				{this.state.showDropBox ? (
-					<PopupContainer class="Container-DropBox" width="99%" height="30%" title="DropBox" callback={this.closeDropBox} closeBtn={true}>
+					<PopupContainer class="DropBox-PopupContainer" width="99%" height="30%" title="DropBox" callback={this.closeDropBox} closeBtn={true}>
 						<DropBox
 							tab={this.state.tab}
 							subTab={this.state.subTab}
 							index={this.state.draggingRowIndex}
 							activeMenu={this.state.activeMenu}
 							native={this.state.native}
+							callback={{
+								setState: this.setState,
+								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+							}}
 						></DropBox>
 					</PopupContainer>
 				) : null}

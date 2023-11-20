@@ -151,8 +151,8 @@ div.MuiTabPanel-root {
 
 .DialogBackground {
 	background-color: rgba(0, 0, 0, 0.5);
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 	position: absolute;
 	bottom: 0;
 	right: 0;
@@ -213,15 +213,15 @@ div.MuiTabPanel-root {
 	outline: none;
 }
 /* DropBox */
-.Container-DropBox {
+.DropBox-PopupContainer {
 	background-color: transparent !important;
-	top: 100px !important;
+	top: 105px !important;
 	height: 50% !important;
 	width: 212px !important;
 	right: 5px !important;
 	left: auto !important;
 }
-.Container-DropBox .DialogContainer {
+.DropBox-PopupContainer > div.DialogContainer {
 	transform: none !important;
 	top: 0px !important;
 	left: auto !important;
@@ -235,6 +235,9 @@ div.MuiTabPanel-root {
 	margin-right: auto;
 	height: 40%;
 	border: 1px solid black;
+}
+.DropBox-Background {
+	bottom: -250px !important;
 }
 
 /* Edit cards */

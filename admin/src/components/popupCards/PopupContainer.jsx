@@ -55,13 +55,31 @@ class PopupContainer extends Component {
 				this.checked = false;
 			}
 		}
-
-		if (this.props.data && this.props.data.newMenuName) {
+		// Check renameCard.jsx:
+		if (this.props.data && (this.props.data.newMenuName || this.props.data.newMenuName === "")) {
 			if (prevProps.newMenuName !== this.props.data.newMenuName) {
-				if (this.props.data.newMenuName !== "" && this.props.data.newMenuName !== this.props.value) this.checked = true;
-				else this.checked = false;
+				if (this.props.data.newMenuName !== "" && this.props.data.newMenuName !== this.props.value) {
+					// check edit menu name
+					if (this.props.usersInGroup) {
+						if (this.props.usersInGroup.hasOwnProperty(this.props.data.newMenuName)) {
+							this.checked = false;
+						} else this.checked = true;
+					}
+
+					// check newtrigger
+					else if (this.props.usedTrigger) {
+						if (!this.props.usedTrigger.includes(this.props.data.newMenuName)) {
+							this.checked = true;
+						} else this.checked = false;
+					} else {
+						this.checked = true;
+					}
+				} else {
+					this.checked = false;
+				}
 			}
 		}
+
 		if (this.state.disable !== !this.checked) {
 			if (!this.checked) {
 				this.setState({ disable: true });

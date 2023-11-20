@@ -14,7 +14,7 @@ class RenameCard extends Component {
 					width="80%"
 					value={this.props.data.newMenuName}
 					margin="0px 10% 0 10%"
-					id="renamedMenuName"
+					id={this.props.id ? this.props.id : "renamedMenuName"}
 					callbackValue="event.target.value"
 					callback={this.props.callback.setState}
 				></Input>
