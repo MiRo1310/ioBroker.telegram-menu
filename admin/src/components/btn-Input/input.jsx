@@ -28,7 +28,7 @@ class Input extends Component {
 			display: "inline-block",
 		};
 		return (
-			<div className={"Input-Container " + this.props.class} style={container}>
+			<div className={"Input-Container " + (this.props.class || "")} style={container}>
 				<label>
 					<input
 						style={inputStyle}

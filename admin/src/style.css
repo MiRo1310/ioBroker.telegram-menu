@@ -244,6 +244,14 @@ div.MuiTabPanel-root {
 .Edit-Container .Edit-Container-TableContainer {
 	max-height: 330px;
 }
+.RenameCard .Input-Container {
+	display: block !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+.RenameCard input {
+	text-align: center;
+}
 
 /* Drag and Drop, not select Text */
 .no-select {

@@ -9,14 +9,16 @@ class RenameCard extends Component {
 
 	render() {
 		return (
-			<Input
-				width="80%"
-				value={this.props.data.newMenuName}
-				margin="0px 10% 0 10%"
-				id="renamedMenuName"
-				callbackValue="event.target.value"
-				callback={this.props.callback.setState}
-			></Input>
+			<div className="RenameCard">
+				<Input
+					width="80%"
+					value={this.props.data.newMenuName}
+					margin="0px 10% 0 10%"
+					id="renamedMenuName"
+					callbackValue="event.target.value"
+					callback={this.props.callback.setState}
+				></Input>
+			</div>
 		);
 	}
 }
