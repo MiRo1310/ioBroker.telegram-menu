@@ -39,7 +39,9 @@ class TelegramUserCard extends Component {
 	};
 
 	checkboxClicked = (event, name) => {
-		console.log(event, name);
+		if (event.target.checked) {
+			this.props.setState({ errorUserChecked: false });
+		}
 		const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
 		if (event.target.checked && !listOfUsers.includes(name)) {
 			listOfUsers.push(name);
