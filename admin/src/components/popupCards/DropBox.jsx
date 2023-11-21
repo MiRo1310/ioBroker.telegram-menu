@@ -151,7 +151,7 @@ class DropBox extends Component {
 						selected={this.state.selectedMenu}
 						id="selectedMenu"
 						callback={this.setState.bind(this)}
-						placeholder="Select a Menu"
+						placeholder={I18n.t("Select a Menu")}
 					></Select>
 					<label>
 						<Radio checked={this.state.selectedValue === "move"} onChange={this.handleChange} value="move" name="radio-buttons" inputProps={{ "aria-label": "A" }} />

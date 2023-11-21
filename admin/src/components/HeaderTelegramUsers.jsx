@@ -72,7 +72,7 @@ class HeaderTelegramUsers extends Component {
 				<Grid item lg={2} md={2} xs={2}>
 					{this.state.errorUserChecked ? (
 						<div>
-							<p className="errorString">{I18n.t("Please select a user, or deaktivate the Menu, bevor you are allowed to save!")}</p>
+							<p className="errorString">{I18n.t("Please select a user, or deaktivate the Menu, bevor you can save!")}</p>
 							<div className="disableSaveBtn"></div>
 						</div>
 					) : null}
@@ -83,7 +83,7 @@ class HeaderTelegramUsers extends Component {
 							<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" id="expandTelegramusers" callback={this.updateMenuOpen}>
 								{this.state.menuOpen ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 							</Button>
-							<span>{I18n.t("Expand Telegram Users")}</span>
+							<span>{I18n.t("")}</span>
 						</div>
 						{this.state.menuOpen ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">

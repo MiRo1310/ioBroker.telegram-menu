@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import ActionCard from "./ActionCard";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 class Action extends Component {
 	constructor(props) {
@@ -39,7 +40,7 @@ class Action extends Component {
 							{ name: "confirm", val: "false", headline: "Confirm message", checkbox: true },
 							{ name: "switch_checkbox", val: "false", headline: "Switch", checkbox: true },
 						]}
-						titlePopup="Edit SetState"
+						titlePopup="SetState"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
@@ -56,7 +57,7 @@ class Action extends Component {
 							{ name: "text", val: "", headline: "Text", width: "40%" },
 							{ name: "newline_checkbox", val: "true", headline: "Newline", checkbox: true },
 						]}
-						titlePopup="Edit GetState"
+						titlePopup="GetState"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
@@ -73,7 +74,7 @@ class Action extends Component {
 							{ name: "fileName", val: "", headline: "Filename", width: "40%" },
 							{ name: "picSendDelay", val: "", headline: "Delay", width: "40%", type: "number" },
 						]}
-						titlePopup="Edit Send Pic"
+						titlePopup="Send Picture"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>

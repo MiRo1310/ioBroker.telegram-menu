@@ -91,7 +91,7 @@ class MenuNavigation extends Component {
 						usedTrigger={this.props.data.state.usedTrigger}
 						width="99%"
 						height="30%"
-						title="Edit Navigation"
+						title="Navigation"
 						setState={this.setState.bind(this)}
 					>
 						<RowNavCard
