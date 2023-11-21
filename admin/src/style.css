@@ -12,7 +12,16 @@ body {
 }
 .Tab-Header {
 	margin-bottom: 0;
+}
+.light .Tab-Header,
+.colored .Tab-Header {
 	background-color: #3399cc;
+}
+.dark form.Tab-Header {
+	background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
+}
+.blue form.Tab-Header {
+	background-color: rgb(62, 68, 72);
 }
 .Tab-Header button {
 	margin-left: 5px;
@@ -22,10 +31,20 @@ body {
 }
 /* Tab-Navigation */
 .App-TabList button {
-	background-color: #ddd !important;
 	border-radius: 6px;
-	border: 2px solid #aaa !important;
-	margin: 0px 5px 5px 5px;
+	border: 2px solid !important;
+	margin: 5px 5px 5px 5px;
+	border-color: #aaa !important;
+}
+.App-TabList button span {
+	margin-bottom: 2px !important;
+}
+.light .App-TabList button,
+.colored .App-TabList button {
+	background-color: #ddd !important;
+}
+.dark .App-TabList button {
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 .App-TabList > div > div {
@@ -39,16 +58,26 @@ body {
 	background-color: rgb(62, 68, 72);
 }
 /* Hover */
-.App-TabList button:hover,
-.MenuPopupCard-Popup button:hover {
+.light .App-TabList button:hover,
+.light .MenuPopupCard-Popup button:hover .colored .App-TabList button:hover,
+.colored .MenuPopupCard-Popup button:hover {
 	background-color: #eee !important;
+	border-color: #888 !important;
+}
+.dark .App-TabList button:hover,
+.dark .MenuPopupCard-Popup button:hover {
+	background-color: #333 !important;
+	border-color: #888 !important;
+}
+.blue .App-TabList button:hover,
+.blue .MenuPopupCard-Popup button:hover {
+	background-color: #333 !important;
 	border-color: #888 !important;
 }
 /* HeaderMenu */
 .MenuPopupCard-Popup {
 	display: inline-block;
 	width: 160px;
-	background-color: #fff;
 	position: absolute;
 	z-index: 1500;
 	top: 142px;
@@ -56,11 +85,35 @@ body {
 	border: 2px solid #333;
 	border-radius: 4px;
 }
+.light .MenuPopupCard-Popup,
+.colored .MenuPopupCard-Popup {
+	background-color: #fff;
+}
+.dark .MenuPopupCard-Popup {
+	background-color: #333;
+}
+.blue .MenuPopupCard-Popup {
+	background-color: rgb(62, 68, 72);
+}
+
 .MenuPopupCard-Popup button {
 	color: #3399cc !important;
-	background-color: #ddd !important;
 	border: 2px solid #aaa !important;
 }
+.light .MenuPopupCard-Popup button,
+.colored .MenuPopupCard-Popup button {
+	background-color: #ddd !important;
+}
+.dark .MenuPopupCard-Popup button {
+	background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.blue .MenuPopupCard-Popup button {
+	background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.MenuCard button {
+	border-radius: 5px !important;
+}
+
 .HeaderMenu-menuPopupCard {
 	display: inline-block;
 }
@@ -120,9 +173,18 @@ div.MuiTabPanel-root {
 
 /* NavigationMenu */
 /* Table ist in Allgemein */
+.dark th,
+.blue th {
+	color: black;
+}
 .MenuNavigation-Container table tbody tr:first-child {
 	background-color: #96d15a !important;
 }
+.dark .MenuNavigation-Container table tbody tr:first-child td,
+.blue .MenuNavigation-Container table tbody tr:first-child td {
+	color: black !important;
+}
+
 .MenuNavigation-Container table tbody tr[draggable]:hover,
 .TableDndAction-Body tr[draggable]:hover {
 	background-color: rgba(51, 153, 204, 0.5) !important;
@@ -156,10 +218,6 @@ div.MuiTabPanel-root {
 .Settings input[type="checkbox"] {
 	margin-left: 8px;
 }
-.Settings input[type="checkbox"]:checked {
-	color: #96d15a;
-	accent-color: rgb(33, 150, 243);
-}
 
 .Settings label p {
 	font-size: 0.8rem;
@@ -178,7 +236,6 @@ div.MuiTabPanel-root {
 	z-index: 1000;
 }
 .DialogContainer-Header {
-	background-color: #3399cc;
 	font-family: "Roboto,Helvetica,Arial,sans-serif";
 	font-size: 1.25rem;
 	font-weight: 500;
@@ -186,6 +243,18 @@ div.MuiTabPanel-root {
 	padding: 10px 10px 10px 30px;
 	margin: 5px 5px 40px 5px;
 	border-radius: 4px;
+}
+.light .DialogContainer-Header,
+.colored .DialogContainer-Header {
+	background-color: #3399cc;
+}
+.dark .DialogContainer-Header {
+	background-color: #333;
+	color: white;
+}
+.blue .DialogContainer-Header {
+	background-color: rgb(62, 68, 72);
+	color: white;
 }
 
 .DialogContainer-Footer {
@@ -199,6 +268,12 @@ div.MuiTabPanel-root {
 	margin: 0 8px 10px 8px !important;
 	border: none !important;
 	font-size: 1.2rem !important;
+}
+.dark .DialogContainer {
+	background-color: #444 !important;
+}
+.blue .DialogContainer {
+	background-color: rgb(34, 42, 46) !important;
 }
 .DialogContainer .DialogContainer-Footer button[disabled] {
 	opacity: 0.5 !important;
@@ -217,8 +292,30 @@ div.MuiTabPanel-root {
 	color: black !important;
 	opacity: 1 !important;
 }
-.DialogContainer button[name="cancel"]:hover {
+.light .DialogContainer button[name="cancel"]:not([disabled]),
+.colored .DialogContainer button[name="cancel"]:not([disabled]) {
 	background-color: #aaa !important;
+	transition: background-color 0.5s ease;
+}
+.dark .DialogContainer button[name="cancel"]:not([disabled]) {
+	background-color: #555 !important;
+	color: white !important;
+	border: 2px solid #ddd !important;
+}
+.blue .DialogContainer button[name="cancel"]:not([disabled]) {
+	background-color: rgb(62, 68, 72) !important;
+	color: white !important;
+	border: 2px solid #ddd !important;
+}
+
+.light .DialogContainer button[name="cancel"]:hover,
+.colored .DialogContainer button[name="cancel"]:hover {
+	background-color: #aaa !important;
+	transition: background-color 0.5s ease;
+}
+.dark .DialogContainer button[name="cancel"]:hover,
+.blue .DialogContainer button[name="cancel"]:hover {
+	background-color: #333 !important;
 	transition: background-color 0.5s ease;
 }
 .DialogContainer select {
@@ -249,12 +346,21 @@ div.MuiTabPanel-root {
 .DropBox {
 	background-color: #eee;
 	width: 90%;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	height: 40%;
-	border: 1px solid black;
+	border: 2px solid black;
 }
+.dark .DropBox {
+	background-color: #333;
+	color: white;
+}
+.blue .DropBox {
+	background-color: rgb(62, 68, 72);
+	color: white;
+}
+
 .DropBox-Background {
 	bottom: -250px !important;
 }
@@ -266,7 +372,10 @@ div.MuiTabPanel-root {
 	color: #3399cc;
 	text-decoration: underline;
 }
-
+.dark .DropBox-Container label,
+.blue .DropBox-Container label {
+	color: white !important;
+}
 /* Edit cards */
 .Edit-Container p {
 	font-size: 0.8rem;
@@ -363,15 +472,56 @@ tr td {
 	padding: 2px 5px !important;
 	font-size: 0.8rem !important;
 }
-tr:not(.SubTable):nth-child(even) {
+.light tr:not(.SubTable):nth-child(even),
+.colored tr:not(.SubTable):nth-child(even) {
 	background-color: #eee;
 }
-tr:not(.SubTable):nth-child(odd) {
+.dark tr:not(.SubTable):nth-child(even) {
+	background-color: #333;
+}
+.light tr:not(.SubTable):nth-child(odd),
+.colored tr:not(.SubTable):nth-child(odd) {
 	background-color: #fff;
 }
+.dark tr:not(.SubTable):nth-child(odd) {
+	background-color: #555;
+}
+.blue tr:not(.SubTable):nth-child(odd) {
+	background-color: rgb(62, 68, 72);
+}
 /* Button */
+
 button {
 	cursor: pointer;
+}
+.dark .Btn-Expand button {
+	background-color: #555 !important;
+	border-color: #aaa !important;
+}
+.blue .Btn-Expand button {
+	background-color: rgb(62, 68, 72) !important;
+	border-color: #aaa !important;
+}
+.dark .Btn-Expand button:hover,
+.blue .Btn-Expand button:hover {
+	background-color: #333 !important;
+	border-color: #888 !important;
+}
+
+.dark .Btn-Expand span,
+.blue .Btn-Expand span {
+	color: white !important;
+}
+/* Select */
+.dark select {
+	background-color: #333 !important;
+	color: white !important;
+	border: 2px solid #aaa !important;
+}
+.blue select {
+	background-color: rgb(62, 68, 72) !important;
+	color: white !important;
+	border: 2px solid #aaa !important;
 }
 
 .inUse,
@@ -384,6 +534,16 @@ p.inUse {
 	top: 60px;
 	left: 5px;
 }
+.dark input,
+.blue input {
+	background-color: inherit;
+	color: white;
+	border-bottom: 1px solid white !important;
+}
+.dark input:hover,
+.blue input:hover {
+	border-width: 2px !important;
+}
 input ~ p {
 	margin-left: 5px !important;
 }
@@ -394,12 +554,15 @@ input ~ p {
 input:focus {
 	outline: none;
 }
-
+/* checkbox */
 input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
 	margin-bottom: 0;
 	vertical-align: text-bottom;
+}
+input[type="checkbox"]:checked {
+	accent-color: rgb(33, 150, 243);
 }
 
 .Select span {
@@ -416,8 +579,19 @@ input[type="checkbox"] {
 	margin: 1px;
 }
 .HeaderTelegramUsers-TelegramUserCard {
-	width: 100%;
 	background-color: #eee;
+}
+.light .HeaderTelegramUsers-TelegramUserCard,
+.colored .HeaderTelegramUsers-TelegramUserCard {
+	background-color: #eee;
+}
+.dark .HeaderTelegramUsers-TelegramUserCard {
+	background-color: #333;
+	color: white;
+}
+.blue .HeaderTelegramUsers-TelegramUserCard {
+	background-color: rgb(62, 68, 72);
+	color: white;
 }
 .TeleGrammUserCard-content {
 	padding: 0.1rem 1rem;

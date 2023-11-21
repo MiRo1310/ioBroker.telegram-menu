@@ -79,7 +79,7 @@ class HeaderTelegramUsers extends Component {
 				</Grid>
 				<Grid item lg={8} md={8} xs={8}>
 					<div className={this.props.classes.container}>
-						<div className={this.props.classes.btnExpand}>
+						<div className={"Btn-Expand " + this.props.classes.btnExpand}>
 							<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" id="expandTelegramusers" callback={this.updateMenuOpen}>
 								{this.state.menuOpen ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 							</Button>

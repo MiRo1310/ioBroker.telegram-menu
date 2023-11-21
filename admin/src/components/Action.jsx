@@ -18,7 +18,7 @@ class Action extends Component {
 		return (
 			<TabContext value={this.state.value}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-					<TabList onChange={this.handleChange} aria-label="lab API tabs example">
+					<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">
 						<Tab label="SetState" value="set" />
 						<Tab label="GetState" value="get" />
 						<Tab label="Send Picture" value="pic" />
