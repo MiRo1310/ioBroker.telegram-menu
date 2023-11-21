@@ -27,11 +27,16 @@ class BtnCard extends Component {
 			renamedMenuName: "",
 			confirmDialog: false,
 			renameDialog: false,
+			menuNameExists: false,
 		};
 	}
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.oldMenuName !== this.props.data.activeMenu) {
 			this.setState({ oldMenuName: this.props.data.activeMenu, renamedMenuName: this.props.data.activeMenu });
+		}
+		if (prevState.newMenuName !== this.state.newMenuName) {
+			if (this.props.data.state.native.usersInGroup[this.state.newMenuName.replace(/ /g, "_")]) this.setState({ menuNameExists: true });
+			else this.setState({ menuNameExists: false });
 		}
 	}
 
@@ -122,7 +127,14 @@ class BtnCard extends Component {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={4}>
-					<Input placeholder={I18n.t("Add new Menu Name")} width="80%" id="newMenuName" value={this.state.newMenuName} callback={this.setState.bind(this)}></Input>
+					<Input
+						placeholder={I18n.t("Add new Menu Name")}
+						width="80%"
+						id="newMenuName"
+						value={this.state.newMenuName}
+						callback={this.setState.bind(this)}
+						class={this.state.menuNameExists ? "inUse" : null}
+					></Input>
 				</Grid>
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">
