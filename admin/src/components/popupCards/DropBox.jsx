@@ -41,18 +41,25 @@ class DropBox extends Component {
 		e.preventDefault();
 	};
 	handleOnDrop = (e) => {
+		console.log("Drop");
+		console.log("selctedMenu " + this.state.selectedMenu);
 		if (this.state.selectedMenu === "") return;
 		const data = deepCopy(this.props.native.data);
-
+		console.log("newTrigger " + this.state.newTrigger);
 		if (this.state.newTrigger === "") {
 			let rowToWorkWith;
+			console.log("this.props.tab " + this.props.tab);
 			if (this.props.tab === "action") rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
 			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
 			this.setState({ rowToWorkWith: rowToWorkWith });
 			let usedTrigger = updateTriggerForSelect(data, this.props.native.usersInGroup, this.state.selectedMenu).usedTrigger;
 			this.setState({ usedTrigger: usedTrigger });
 			if (this.props.tab === "action") {
-				if (usedTrigger.includes(rowToWorkWith.trigger)) {
+				console.log("action");
+				console.log("usedTrigger " + usedTrigger);
+				console.log("rowToWorkWith " + rowToWorkWith);
+				if (usedTrigger.includes(rowToWorkWith.trigger[0])) {
+					console.log("Trigger is used");
 					this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true });
 				}
 			} else if (usedTrigger.includes(rowToWorkWith.call)) {
