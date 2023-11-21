@@ -10,12 +10,15 @@ class HeaderMenu extends Component {
 		if (event.type === "mouseenter") this.props.callback.setState({ showPopupMenuList: true });
 		if (event.type === "mouseleave") this.props.callback.setState({ showPopupMenuList: false });
 	};
+	handleClick = (event) => {
+		this.props.callback.setState({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
+	};
 	render() {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
 				<Grid item xs={2}>
 					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="HeaderMenu-menuPopupCard">
-						<Button b_color="#fff" small="true" margin="0 5px 0 5px" border="1px solid black" round="4px" id="menuCard" callback={this.props.callback}>
+						<Button b_color="#fff" small="true" margin="0 5px 0 5px" border="1px solid black" round="4px" id="menuCard" callback={this.handleClick}>
 							{this.props.data.state.showPopupMenuList ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 						</Button>
 						<span>{I18n.t("Menu list")}</span>
