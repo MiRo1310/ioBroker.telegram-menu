@@ -239,6 +239,14 @@ div.MuiTabPanel-root {
 .DropBox-Background {
 	bottom: -250px !important;
 }
+.DropBox p {
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.5rem;
+	margin-top: 60px;
+	color: #3399cc;
+	text-decoration: underline;
+}
 
 /* Edit cards */
 .Edit-Container p {

@@ -41,53 +41,86 @@ class DropBox extends Component {
 		e.preventDefault();
 	};
 	handleOnDrop = (e) => {
-		console.log("Drop");
-		console.log("selctedMenu " + this.state.selectedMenu);
 		if (this.state.selectedMenu === "") return;
 		const data = deepCopy(this.props.native.data);
-		console.log("newTrigger " + this.state.newTrigger);
+		let rowToWorkWith;
+		let moveOrCopy = this.state.selectedValue;
 		if (this.state.newTrigger === "") {
-			let rowToWorkWith;
 			console.log("this.props.tab " + this.props.tab);
 			if (this.props.tab === "action") rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
 			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
 			this.setState({ rowToWorkWith: rowToWorkWith });
 			let usedTrigger = updateTriggerForSelect(data, this.props.native.usersInGroup, this.state.selectedMenu).usedTrigger;
+			console.log("usedTrigger", usedTrigger);
 			this.setState({ usedTrigger: usedTrigger });
 			if (this.props.tab === "action") {
-				console.log("action");
-				console.log("usedTrigger " + usedTrigger);
-				console.log("rowToWorkWith " + rowToWorkWith);
-				if (usedTrigger.includes(rowToWorkWith.trigger[0])) {
-					console.log("Trigger is used");
-					this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true });
+				if (moveOrCopy === "copy") {
+					if (usedTrigger.includes(rowToWorkWith.trigger[0])) {
+						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true });
+					}
+				} else {
+					// Move Item
+					if (this.countItemsInArray(usedTrigger, rowToWorkWith.trigger[0]) <= 1) {
+						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger });
+						this.move(rowToWorkWith, data);
+					} else {
+						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true });
+					}
 				}
-			} else if (usedTrigger.includes(rowToWorkWith.call)) {
-				this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true });
+			} else {
+				// Navigation
+				if (moveOrCopy === "copy") {
+					if (usedTrigger.includes(rowToWorkWith.call)) {
+						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true });
+					}
+				} else {
+					// Move Item
+					if (this.countItemsInArray(usedTrigger, rowToWorkWith.call) <= 1) {
+						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call });
+						this.move(rowToWorkWith, data);
+					} else {
+						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true });
+					}
+				}
 			}
 		} else {
-			let moveOrCopy = this.state.selectedValue;
-			let rowToWorkWith = this.state.rowToWorkWith;
+			if (!rowToWorkWith) rowToWorkWith = this.state.rowToWorkWith;
 			if (moveOrCopy === "copy") {
-				if (this.props.tab === "action") {
-					rowToWorkWith.trigger[0] = this.state.newTrigger;
-					data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
-					data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 0);
-				} else {
-					console.log("rowToWorkWith " + JSON.stringify(rowToWorkWith) + " this.state.newTrigger " + this.state.newTrigger);
-					rowToWorkWith.call = this.state.newTrigger;
-					data[this.props.tab][this.state.selectedMenu].push(rowToWorkWith);
-					data[this.props.tab][this.props.activeMenu].splice(this.props.index, 0);
-					console.log(data);
-				}
-			}
-			this.props.callback.updateNative("data", data);
-			console.log(this.props.activeMenu);
-			console.log(this.props.tab);
-			console.log(this.props.subTab);
-			console.log(this.props.index);
-			this.setState({ newTrigger: "" });
+				this.copy(rowToWorkWith, data);
+			} else this.move(rowToWorkWith, data);
 		}
+	};
+	countItemsInArray = (data, searchedString) => {
+		let count = 0;
+		data.forEach((element) => {
+			if (element.trim() === searchedString.trim()) count++;
+		});
+		console.log("count", count);
+		return count;
+	};
+	move = (rowToWorkWith, data) => {
+		if (this.props.tab === "action") {
+			if (this.state.newTrigger !== "") rowToWorkWith.trigger[0] = this.state.newTrigger;
+			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
+			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
+		} else {
+			if (this.state.newTrigger !== "") rowToWorkWith.call = this.state.newTrigger;
+			data[this.props.tab][this.state.selectedMenu].push(rowToWorkWith);
+			data[this.props.tab][this.props.activeMenu].splice(this.props.index, 1);
+		}
+		this.props.callback.updateNative("data", data);
+		this.setState({ newTrigger: "" });
+	};
+	copy = (rowToWorkWith, data) => {
+		if (this.props.tab === "action") {
+			rowToWorkWith.trigger[0] = this.state.newTrigger;
+			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
+		} else {
+			rowToWorkWith.call = this.state.newTrigger;
+			data[this.props.tab][this.state.selectedMenu].push(rowToWorkWith);
+		}
+		this.props.callback.updateNative("data", data);
+		this.setState({ newTrigger: "" });
 	};
 
 	handleDrag = (val) => {
