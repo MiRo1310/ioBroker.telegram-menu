@@ -578,9 +578,15 @@ input[type="checkbox"]:checked {
 .Settings h1 {
 	margin: 1px;
 }
-.HeaderTelegramUsers-TelegramUserCard {
-	background-color: #eee;
+.light .Settings,
+.colored .Settings {
+	color: black;
 }
+.dark .Settings,
+.blue .Settings {
+	color: white;
+}
+
 .light .HeaderTelegramUsers-TelegramUserCard,
 .colored .HeaderTelegramUsers-TelegramUserCard {
 	background-color: #eee;
