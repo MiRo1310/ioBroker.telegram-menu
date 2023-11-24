@@ -25,7 +25,8 @@ class ActionCard extends Component {
 			editedValueFromHelperText: null,
 			isOK: false,
 			valueForSave: null,
-			inputValuesAreOK: false,
+			inputValuesAreOK: true,
+			disableInput: false,
 		};
 	}
 	componentDidUpdate(prevProps, prevState) {
@@ -38,17 +39,32 @@ class ActionCard extends Component {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
+			let value = true;
+			let valueRowValuesAndSwitch = true;
+			let globalRowValue = true;
 			let row = this.state.newRow;
 			this.props.entrys.forEach((entry) => {
 				if (!entry.checkbox) {
 					row[entry.name].forEach((val, index) => {
-						if (val !== undefined && val !== null && val !== "") {
+						if (entry.name === "values") {
+							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
+								valueRowValuesAndSwitch = true;
+							} else {
+								valueRowValuesAndSwitch = false;
+							}
+						} else if (val !== undefined && val !== null && val !== "") {
+							// console.log("VAL is ok", val, entry.name, index);
 						} else {
-							this.setState({ inputValuesAreOK: false });
+							value = false;
 						}
 					});
+
+					if (!valueRowValuesAndSwitch) globalRowValue = false;
 				}
 			});
+
+			value = value && valueRowValuesAndSwitch;
+			if (this.state.inputValuesAreOK !== value) this.setState({ inputValuesAreOK: value });
 		}
 	}
 	checkNewValueIsOK = () => {
@@ -168,6 +184,7 @@ class ActionCard extends Component {
 								openAddRowCard={this.openAddRowCard}
 								entrys={this.props.entrys}
 								addEditedTrigger={this.addEditedTrigger}
+								disableValuesInput={this.state.disableInput}
 							></TableDndAction>
 						</Table>
 					</TableContainer>
