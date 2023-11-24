@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 export const BtnCirleAdd = (props) => {
 	const clickHandler = (event) => {
-		console.log(props.callbackValue);
 		props.callback(props.callbackValue);
 	};
 	return (

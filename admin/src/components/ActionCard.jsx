@@ -23,8 +23,29 @@ class ActionCard extends Component {
 			helperText: false,
 			helperTextFor: "",
 			editedValueFromHelperText: null,
+			isOK: false,
+			valueForSave: null,
 		};
 	}
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
+			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
+				if (this.state.editedValueFromHelperText !== "") {
+					this.setState({ isOK: this.checkNewValueIsOK() });
+				}
+			}
+		}
+	}
+	checkNewValueIsOK = () => {
+		if (
+			this.state.editedValueFromHelperText !== null &&
+			this.state.editedValueFromHelperText !== undefined &&
+			this.state.editedValueFromHelperText !== "" &&
+			this.state.editedValueFromHelperText !== this.state[this.state.helperTextFor]
+		)
+			return true;
+		else return false;
+	};
 	addEditedTrigger = (trigger) => {
 		let newTriggerArray = [];
 		const unUsedTrigger = deepCopy(this.props.data.unUsedTrigger);
@@ -72,8 +93,7 @@ class ActionCard extends Component {
 	};
 
 	openHelperText = (value) => {
-		console.log(value);
-		console.log(this.state.newRow);
+		this.setState({ valueForSave: value });
 		if (value) {
 			this.setState({ editedValueFromHelperText: this.state.newRow[value.entry][value.index] });
 			this.setState({ helperTextFor: value.subcard });
@@ -90,10 +110,9 @@ class ActionCard extends Component {
 	};
 	popupHelperCard = (isOK) => {
 		if (isOK) {
-			let name = this.state.helperTextFor;
-			let ob = {};
-			ob[name] = this.state.editedValueFromHelperText;
-			this.setState(ob);
+			let row = deepCopy(this.state.newRow);
+			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
+			this.setState({ newRow: row });
 		}
 		this.setState({ helperText: false });
 		this.setState({ editedValueFromHelperText: null });

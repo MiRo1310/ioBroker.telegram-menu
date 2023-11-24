@@ -23,6 +23,7 @@ class HelperCard extends Component {
 		};
 	}
 	updateId = (selected) => {
+		console.log(selected);
 		const value = this.props.editedValueFromHelperText;
 		if (value.includes("ID")) {
 			this.props.setState({ editedValueFromHelperText: value.replace("ID", selected) });
@@ -39,6 +40,7 @@ class HelperCard extends Component {
 				const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];
 				this.setState({ selectedId: id });
 			}
+
 			this.setState({ showSelectId: true });
 		} else return;
 	};
