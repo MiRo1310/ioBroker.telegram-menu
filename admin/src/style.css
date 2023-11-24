@@ -373,6 +373,9 @@ div.MuiTabPanel-root {
 	color: white !important;
 }
 /* HelperCard */
+.HelperText .DialogContainer {
+	min-width: 750px !important;
+}
 .HelperCard {
 	max-height: 320px;
 }
