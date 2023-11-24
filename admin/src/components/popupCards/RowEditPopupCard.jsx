@@ -10,6 +10,7 @@ import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
+import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
 import { isChecked } from "../../lib/Utilis";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis";
@@ -74,7 +75,7 @@ class RowEditPopupCard extends Component {
 				</div>
 
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
-					<Table sx={{ minWidth: 650 }} aria-label="simple table">
+					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
 								{this.props.entrys.map((entry, index) =>
@@ -119,7 +120,15 @@ class RowEditPopupCard extends Component {
 													callbackValue="event.target.value"
 													function="manual"
 													type={entry.type}
-												></Input>
+													inputWidth="calc(100% - 28px)"
+												>
+													{entry.name === "returnText" || entry.name === "text" ? (
+														<BtnCirleAdd
+															callbackValue={{ index: index, entry: entry.name, subcard: this.props.subcard }}
+															callback={this.props.openHelperText}
+														></BtnCirleAdd>
+													) : null}
+												</Input>
 											</TableCell>
 										) : null,
 									)}

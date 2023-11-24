@@ -45,7 +45,7 @@ class RowNavCard extends Component {
 					label="Text"
 					inputWidth="calc(100% - 28px)"
 				>
-					<BtnCirleAdd callbackValue="navText" callback={this.props.openHelperText}></BtnCirleAdd>
+					<BtnCirleAdd callbackValue="text" callback={this.props.openHelperText}></BtnCirleAdd>
 				</Input>
 			</div>
 		);

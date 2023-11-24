@@ -7,6 +7,8 @@ import Button from "./btn-Input/Button";
 import PopupContainer from "./popupCards/PopupContainer";
 import RowEditPopupCard from "./popupCards/RowEditPopupCard";
 import TableDndAction from "./TableDndAction";
+import HelperCard from "./popupCards/HelperCard";
+import helperText from "../lib/helper";
 
 class ActionCard extends Component {
 	constructor(props) {
@@ -18,6 +20,9 @@ class ActionCard extends Component {
 			newRow: {},
 			rowsLength: 0,
 			newUnUsedTrigger: [],
+			helperText: false,
+			helperTextFor: "",
+			editedValueFromHelperText: null,
 		};
 	}
 	addEditedTrigger = (trigger) => {
@@ -64,6 +69,34 @@ class ActionCard extends Component {
 	};
 	getLengthOfData = (data, activeMenu) => {
 		this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
+	};
+
+	openHelperText = (value) => {
+		console.log(value);
+		console.log(this.state.newRow);
+		if (value) {
+			this.setState({ editedValueFromHelperText: this.state.newRow[value.entry][value.index] });
+			this.setState({ helperTextFor: value.subcard });
+		}
+
+		this.setState({ helperText: true });
+	};
+	onchangeValueFromHelper = (value) => {
+		let newValue;
+
+		if (this.state.editedValueFromHelperText === null) newValue = value;
+		else newValue = this.state.editedValueFromHelperText + " " + value;
+		this.setState({ editedValueFromHelperText: newValue });
+	};
+	popupHelperCard = (isOK) => {
+		if (isOK) {
+			let name = this.state.helperTextFor;
+			let ob = {};
+			ob[name] = this.state.editedValueFromHelperText;
+			this.setState(ob);
+		}
+		this.setState({ helperText: false });
+		this.setState({ editedValueFromHelperText: null });
 	};
 
 	render() {
@@ -121,7 +154,24 @@ class ActionCard extends Component {
 							callback={{ setState: this.setState.bind(this) }}
 							entrys={this.props.entrys}
 							newUnUsedTrigger={this.state.newUnUsedTrigger}
+							subcard={this.props.subcard}
+							openHelperText={this.openHelperText}
 						></RowEditPopupCard>
+					</PopupContainer>
+				) : null}
+				{this.state.helperText ? (
+					<PopupContainer callback={this.popupHelperCard} width="60%" height="70%" title="Helper Texte" setState={this.setState.bind(this)} isOK={this.state.isOK}>
+						<HelperCard
+							data={this.props.data}
+							helper={helperText}
+							name="nav"
+							val={this.state.helperTextFor}
+							nav={this.state.nav}
+							text={this.state.text}
+							callback={this.onchangeValueFromHelper}
+							editedValueFromHelperText={this.state.editedValueFromHelperText}
+							setState={this.setState.bind(this)}
+						></HelperCard>
 					</PopupContainer>
 				) : null}
 			</>

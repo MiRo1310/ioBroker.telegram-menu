@@ -24,7 +24,7 @@ const helperText = {
 			info: "When pressed, you jump back to the previous menu",
 		},
 	],
-	navText: [
+	text: [
 		{
 			text: "{status:'id':'ID'}",
 			info: "Queries the value of the ID and then replaces it with the value, so text can be written around it",
@@ -35,14 +35,14 @@ const helperText = {
 		},
 		{ text: "", info: globalText.textID },
 	],
-	getText: [
+	get: [
 		{ text: "{math:/10}", info: "Converts the value, /10 can be replaced" },
 		{ text: "{time}", info: "Converts a Unix timestamp to a local time" },
 		{ text: "{common.name}", info: "Outputs the name of the data point" },
 		{ text: "&&", info: "Placeholder for the value" },
 		{ text: "{round:2}", info: "Rounds the value for example to 2 decimal places" },
 	],
-	setText: [
+	set: [
 		{ text: "{novalue}", info: "The Value is not specified in the return text" },
 		{ text: "ack:true", info: "Confirms the value" },
 		{

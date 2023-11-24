@@ -34,11 +34,13 @@ class HelperCard extends Component {
 		}
 	};
 	openSelectId = () => {
-		if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("ID")) {
-			const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];
-			this.setState({ selectedId: id });
-		}
-		this.setState({ showSelectId: true });
+		if (this.props.editedValueFromHelperText) {
+			if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("ID")) {
+				const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];
+				this.setState({ selectedId: id });
+			}
+			this.setState({ showSelectId: true });
+		} else return;
 	};
 
 	render() {
@@ -82,7 +84,7 @@ class HelperCard extends Component {
 					callbackValue="event.target.value"
 					label="Text"
 				>
-					{this.props.val == "navText" || this.props.val == "setText" ? <BtnSmallSearch callback={this.openSelectId} /> : null}
+					{this.props.val == "text" || this.props.val == "set" ? <BtnSmallSearch callback={this.openSelectId} /> : null}
 				</Input>
 
 				{this.state.showSelectId ? (

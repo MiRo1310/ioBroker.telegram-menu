@@ -24,6 +24,7 @@ class MenuNavigation extends Component {
 			helperTextFor: "",
 			editedValueFromHelperText: null,
 			isOK: false,
+			helperText: false,
 		};
 	}
 	componentDidUpdate(prevProps, prevState) {
@@ -102,11 +103,8 @@ class MenuNavigation extends Component {
 		this.setState({ rowPopup: true, call: "", nav: "", text: "" });
 	};
 	openHelperText = (value) => {
-		console.log("Value " + value);
-		let val;
-		if ((value = "navText")) val = "text";
 		if (value) {
-			this.setState({ editedValueFromHelperText: this.state[val] });
+			this.setState({ editedValueFromHelperText: this.state[value] });
 			this.setState({ helperTextFor: value });
 		}
 
