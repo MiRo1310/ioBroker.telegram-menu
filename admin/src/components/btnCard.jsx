@@ -28,6 +28,7 @@ class BtnCard extends Component {
 			confirmDialog: false,
 			renameDialog: false,
 			menuNameExists: false,
+			isOK: false,
 		};
 	}
 	componentDidUpdate(prevProps, prevState) {
@@ -37,6 +38,20 @@ class BtnCard extends Component {
 		if (prevState.newMenuName !== this.state.newMenuName) {
 			if (this.props.data.state.native.usersInGroup[this.state.newMenuName.replace(/ /g, "_")]) this.setState({ menuNameExists: true });
 			else this.setState({ menuNameExists: false });
+		}
+		if (this.state.renamedMenuName) {
+			if (prevState.renamedMenuName !== this.state.renamedMenuName) {
+				if (this.state.renamedMenuName !== this.props.data.state.activeMenu) {
+					// check edit menu name
+					if (this.props.data.state.native.usersInGroup) {
+						if (this.state.renamedMenuName !== "" && this.props.data.state.native.usersInGroup.hasOwnProperty(this.state.renamedMenuName.replace(/ /g, "_"))) {
+							this.setState({ isOK: false });
+						} else this.setState({ isOK: true });
+					}
+				} else {
+					this.setState({ isOK: false });
+				}
+			}
 		}
 	}
 
@@ -185,13 +200,7 @@ class BtnCard extends Component {
 							></ConfirmDialog>
 						) : null}
 						{this.state.renameDialog ? (
-							<PopupContainer
-								title={I18n.t("Rename menu name")}
-								value={this.props.data.state.activeMenu}
-								callback={this.renameMenu}
-								data={{ newMenuName: this.state.renamedMenuName }}
-								usersInGroup={this.props.data.state.native.usersInGroup}
-							>
+							<PopupContainer title={I18n.t("Rename menu name")} callback={this.renameMenu} isOK={this.state.isOK}>
 								<RenameCard
 									value={this.props.data.state.activeMenu}
 									callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}

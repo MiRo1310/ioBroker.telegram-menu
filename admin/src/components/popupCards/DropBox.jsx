@@ -20,15 +20,29 @@ class DropBox extends Component {
 			newTrigger: "",
 			usedTrigger: [],
 			rowToWorkWith: {},
+			isOK: false,
 		};
 	}
 	componentDidMount() {
 		this.updateMenuList();
 	}
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.activeMenu !== this.props.activeMenu) {
 			this.setState({ selectedMenu: "" });
 			this.updateMenuList();
+		}
+		if (prevState.newTrigger !== this.state.newTrigger) {
+			if (this.state.usedTrigger) {
+				if (this.state.usedTrigger.includes(this.state.newTrigger) || this.state.newTrigger === "") {
+					console.log("false");
+					this.setState({ isOK: false });
+				} else {
+					this.setState({ isOK: true });
+					console.log("true");
+				}
+			} else {
+				this.setState({ isOK: true });
+			}
 		}
 	}
 	updateMenuList = () => {
@@ -51,7 +65,7 @@ class DropBox extends Component {
 			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
 			this.setState({ rowToWorkWith: rowToWorkWith });
 			let usedTrigger = updateTriggerForSelect(data, this.props.native.usersInGroup, this.state.selectedMenu).usedTrigger;
-			console.log("usedTrigger", usedTrigger);
+
 			this.setState({ usedTrigger: usedTrigger });
 			if (this.props.tab === "action") {
 				if (moveOrCopy === "copy") {
@@ -179,7 +193,7 @@ class DropBox extends Component {
 						callback={this.renameMenu}
 						data={{ newMenuName: this.state.newTrigger }}
 						class="DropBox-Background"
-						usedTrigger={this.state.usedTrigger}
+						isOK={this.state.isOK}
 					>
 						<RenameCard
 							callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}

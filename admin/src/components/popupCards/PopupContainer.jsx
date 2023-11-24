@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Button from "../btn-Input/Button";
 
 import { I18n } from "@iobroker/adapter-react-v5";
+import { PropTypes } from "prop-types";
 
 class PopupContainer extends Component {
 	constructor(props) {
@@ -12,65 +13,6 @@ class PopupContainer extends Component {
 			disable: true,
 			inUse: false,
 		};
-	}
-	checked;
-	componentDidUpdate(prevProps) {
-		// console.log("update");
-		if (this.props.checkRow) {
-			if (prevProps.newRow !== this.props.newRow) {
-				this.checked = true;
-				let row = this.props.newRow;
-				// console.log("row " + JSON.stringify(row));
-				this.props.entrys.forEach((entry) => {
-					// console.log("entry " + JSON.stringify(entry));
-					if (!entry.checkbox) {
-						// console.log("entry.name " + entry.name);
-
-						row[entry.name].forEach((val, index) => {
-							// console.log("val " + val);
-							if (val !== undefined && val !== null && val !== "") {
-							} else {
-								this.checked = false;
-								// console.log(entry.name, index);
-							}
-						});
-					}
-				});
-			}
-		}
-
-		// Check renameCard.jsx:
-		if (this.props.data && (this.props.data.newMenuName || this.props.data.newMenuName === "")) {
-			if (prevProps.newMenuName !== this.props.data.newMenuName) {
-				if (this.props.data.newMenuName !== "" && this.props.data.newMenuName !== this.props.value) {
-					// check edit menu name
-					if (this.props.usersInGroup) {
-						if (this.props.usersInGroup.hasOwnProperty(this.props.data.newMenuName)) {
-							this.checked = false;
-						} else this.checked = true;
-					}
-
-					// check newtrigger
-					else if (this.props.usedTrigger) {
-						if (!this.props.usedTrigger.includes(this.props.data.newMenuName)) {
-							this.checked = true;
-						} else this.checked = false;
-					} else {
-						this.checked = true;
-					}
-				} else {
-					this.checked = false;
-				}
-			}
-		}
-
-		if (this.state.disable !== !this.checked) {
-			if (!this.checked) {
-				this.setState({ disable: true });
-			} else {
-				this.setState({ disable: false });
-			}
-		}
 	}
 
 	render() {
@@ -134,6 +76,15 @@ class PopupContainer extends Component {
 			</div>
 		);
 	}
+	// static propTypes = {
+	// 	title: PropTypes.string,
+	// 	// callback: PropTypes.
+	// 	isOK: PropTypes.bool.required,
+	// 	closeBtn: PropTypes.bool,
+	// 	width: PropTypes.string,
+	// 	height: PropTypes.string,
+	// 	class: PropTypes.string,
+	// };
 }
 
 export default PopupContainer;

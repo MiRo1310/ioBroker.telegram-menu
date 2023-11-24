@@ -25,6 +25,7 @@ class ActionCard extends Component {
 			editedValueFromHelperText: null,
 			isOK: false,
 			valueForSave: null,
+			inputValuesAreOK: false,
 		};
 	}
 	componentDidUpdate(prevProps, prevState) {
@@ -34,6 +35,20 @@ class ActionCard extends Component {
 					this.setState({ isOK: this.checkNewValueIsOK() });
 				}
 			}
+		}
+
+		if (prevProps.newRow !== this.state.newRow) {
+			let row = this.state.newRow;
+			this.props.entrys.forEach((entry) => {
+				if (!entry.checkbox) {
+					row[entry.name].forEach((val, index) => {
+						if (val !== undefined && val !== null && val !== "") {
+						} else {
+							this.setState({ inputValuesAreOK: false });
+						}
+					});
+				}
+			});
 		}
 	}
 	checkNewValueIsOK = () => {
@@ -158,15 +173,7 @@ class ActionCard extends Component {
 					</TableContainer>
 				)}
 				{this.state.rowPopup ? (
-					<PopupContainer
-						callback={this.closeAddRowCard}
-						width="99%"
-						height="70%"
-						title={this.props.titlePopup}
-						entrys={this.props.entrys}
-						newRow={this.state.newRow}
-						checkRow={true}
-					>
+					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%" title={this.props.titlePopup} isOK={this.state.inputValuesAreOK}>
 						<RowEditPopupCard
 							data={this.props.data}
 							newRow={this.state.newRow}
