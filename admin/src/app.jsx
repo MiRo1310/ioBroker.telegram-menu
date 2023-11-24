@@ -177,7 +177,16 @@ class App extends GenericApp {
 								<TabPanel value="nav">
 									<MenuNavigation
 										activeMenu={this.state.activeMenu}
-										data={{ nav: this.state.native.data.nav, data: this.state.native.data, activeMenu: this.state.activeMenu, state: this.state }}
+										data={{
+											nav: this.state.native.data.nav,
+											data: this.state.native.data,
+											activeMenu: this.state.activeMenu,
+											state: this.state,
+											socket: this.socket,
+											themeName: this.state.themeName,
+											themeType: this.state.themeType,
+											adapterName: this.adapterName,
+										}}
 										callback={{
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),

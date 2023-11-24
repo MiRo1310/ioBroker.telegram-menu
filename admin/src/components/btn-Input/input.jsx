@@ -14,8 +14,12 @@ class Input extends Component {
 		}
 	};
 	render() {
+		const container = {
+			width: this.props.width ? this.props.width : "auto",
+			display: "inline-block",
+		};
 		const inputStyle = {
-			width: "100%",
+			width: this.props.inputWidth ? this.props.inputWidth : "100%",
 			padding: "8px 0px",
 			margin: this.props.margin ? this.props.margin : "8px",
 			fontSize: "16px",
@@ -23,9 +27,9 @@ class Input extends Component {
 			borderColor: "transparent",
 			borderBottom: "1px solid #ccc",
 		};
-		const container = {
-			width: this.props.width ? this.props.width : "auto",
-			display: "inline-block",
+		const styleChildren = {
+			display: "inline",
+			verticalAlign: "bottom",
 		};
 
 		return (
@@ -40,9 +44,9 @@ class Input extends Component {
 						onChange={this.onChangeHandler}
 						spellCheck={this.props.spellCheck ? this.props.spellcheck : false}
 					/>
-					<span>{this.props.label}</span>
+					<div style={styleChildren}>{this.props.children}</div>
+					<p>{this.props.label}</p>
 				</label>
-				{this.props.children}
 			</div>
 		);
 	}

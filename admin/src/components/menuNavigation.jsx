@@ -19,7 +19,8 @@ class MenuNavigation extends Component {
 			nav: "",
 			text: "",
 			editRow: false,
-			callIsAlreadyUsed: false,
+			valuesAreOk: false,
+			callInUse: false,
 			helperTextFor: "",
 			editedValueFromHelperText: null,
 			isOK: false,
@@ -38,15 +39,21 @@ class MenuNavigation extends Component {
 		}
 	}
 	checkValueAllreadyUsed = (value) => {
-		// if (prevProps.call !== this.props.call || prevProps.nav !== this.props.nav || prevProps.text !== this.props.text) {
-		if (this.props.data.state.usedTrigger.includes(this.state.call) && this.state.call !== "" && this.state.nav !== "" && this.state.text !== "") {
-			console.log(this.props.data.state.usedTrigger.includes(this.state.call));
-			console.log(this.state.editRow);
-			this.setState({ callIsAlreadyUsed: true });
-			console.log("true");
+		if (this.state.call !== "" && this.state.nav !== "" && this.state.text !== "") {
+			if (this.state.editRow) {
+				this.setState({ valuesAreOk: true });
+			} else if (this.props.data.state.usedTrigger.includes(this.state.call)) {
+				this.setState({ valuesAreOk: false });
+			} else this.setState({ valuesAreOk: true });
 		} else {
-			this.setState({ callIsAlreadyUsed: false });
-			console.log("false");
+			this.setState({ valuesAreOk: false });
+		}
+		if (this.state.call !== "") {
+			if (this.state.editRow) {
+				this.setState({ callInUse: false });
+			} else if (this.props.data.state.usedTrigger.includes(this.state.call)) {
+				this.setState({ callInUse: true });
+			} else this.setState({ callInUse: false });
 		}
 	};
 
@@ -95,14 +102,22 @@ class MenuNavigation extends Component {
 		this.setState({ rowPopup: true, call: "", nav: "", text: "" });
 	};
 	openHelperText = (value) => {
+		console.log("Value " + value);
+		let val;
+		if ((value = "navText")) val = "text";
 		if (value) {
-			console.log(value);
+			this.setState({ editedValueFromHelperText: this.state[val] });
 			this.setState({ helperTextFor: value });
 		}
+
 		this.setState({ helperText: true });
 	};
-	onchangeHelper = (value) => {
-		console.log(value);
+	onchangeValueFromHelper = (value) => {
+		let newValue;
+
+		if (this.state.editedValueFromHelperText === null) newValue = value;
+		else newValue = this.state.editedValueFromHelperText + " " + value;
+		this.setState({ editedValueFromHelperText: newValue });
 	};
 	popupHelperCard = (isOK) => {
 		if (isOK) {
@@ -112,6 +127,7 @@ class MenuNavigation extends Component {
 			this.setState(ob);
 		}
 		this.setState({ helperText: false });
+		this.setState({ editedValueFromHelperText: null });
 	};
 
 	render() {
@@ -154,35 +170,26 @@ class MenuNavigation extends Component {
 						height="30%"
 						title="Navigation"
 						setState={this.setState.bind(this)}
-						isOK={this.state.callIsAlreadyUsed}
+						isOK={this.state.valuesAreOk}
 					>
 						<RowNavCard
 							callback={{ onchange: this.changeInput }}
 							data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}
-							inUse={this.state.callIsAlreadyUsed}
+							inUse={this.state.callInUse}
 							openHelperText={this.openHelperText}
 						></RowNavCard>
 					</PopupContainer>
 				) : null}
 				{this.state.helperText ? (
-					<PopupContainer
-						callback={this.popupHelperCard}
-						nav={this.state.nav}
-						text={this.state.text}
-						usedTrigger={this.props.data.state.usedTrigger}
-						width="60%"
-						height="70%"
-						title="Helper Texte"
-						setState={this.setState.bind(this)}
-						isOK={this.state.isOK}
-					>
+					<PopupContainer callback={this.popupHelperCard} width="60%" height="70%" title="Helper Texte" setState={this.setState.bind(this)} isOK={this.state.isOK}>
 						<HelperCard
+							data={this.props.data}
 							helper={helperText}
 							name="nav"
 							val={this.state.helperTextFor}
 							nav={this.state.nav}
 							text={this.state.text}
-							callback={this.onchangeHelper}
+							callback={this.onchangeValueFromHelper}
 							editedValueFromHelperText={this.state.editedValueFromHelperText}
 							setState={this.setState.bind(this)}
 						></HelperCard>

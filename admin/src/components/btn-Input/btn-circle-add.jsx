@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import Button from "./Button";
 
 export const BtnCirleAdd = (props) => {
 	const clickHandler = (event) => {
+		console.log(props.callbackValue);
 		props.callback(props.callbackValue);
 	};
 	return (

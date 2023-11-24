@@ -30,6 +30,7 @@ class RowNavCard extends Component {
 					callback={this.props.callback.onchange}
 					callbackValue="event.target.value"
 					label="Navigation"
+					inputWidth="calc(100% - 28px)"
 				>
 					<BtnCirleAdd callbackValue="nav" callback={this.props.openHelperText}></BtnCirleAdd>
 				</Input>
@@ -42,8 +43,9 @@ class RowNavCard extends Component {
 					callback={this.props.callback.onchange}
 					callbackValue="event.target.value"
 					label="Text"
+					inputWidth="calc(100% - 28px)"
 				>
-					<BtnCirleAdd callbackValue="text" callback={this.props.openHelperText}></BtnCirleAdd>
+					<BtnCirleAdd callbackValue="navText" callback={this.props.openHelperText}></BtnCirleAdd>
 				</Input>
 			</div>
 		);

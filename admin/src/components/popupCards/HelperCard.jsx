@@ -7,21 +7,41 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { I18n } from "@iobroker/adapter-react-v5";
+import { I18n, SelectID } from "@iobroker/adapter-react-v5";
 import Input from "../btn-Input/input";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
+import BtnSmallSearch from "../btn-Input/btn-small-search";
+import { Button } from "@mui/material";
 
 class HelperCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			rows: this.props.helper[this.props.name],
+			rows: this.props.helper[this.props.val],
+			showSelectId: false,
+			selectedId: "",
 		};
 	}
+	updateId = (selected) => {
+		const value = this.props.editedValueFromHelperText;
+		if (value.includes("ID")) {
+			this.props.setState({ editedValueFromHelperText: value.replace("ID", selected) });
+		} else if (value.includes("'id':'")) {
+			const oldId = value.split("'id':'")[1].split("'}")[0];
+			this.props.setState({ editedValueFromHelperText: value.replace(oldId, selected) });
+		} else {
+			this.props.setState({ editedValueFromHelperText: value + " " + selected });
+		}
+	};
+	openSelectId = () => {
+		if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("ID")) {
+			const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];
+			this.setState({ selectedId: id });
+		}
+		this.setState({ showSelectId: true });
+	};
 
 	render() {
-		console.log(this.props.val);
-		console.log(this.props[this.props.val]);
 		return (
 			<>
 				<TableContainer component={Paper} className="HelperCard">
@@ -43,9 +63,11 @@ class HelperCard extends Component {
 										{row.head ? <div dangerouslySetInnerHTML={{ __html: row.head }} /> : null}
 										<div dangerouslySetInnerHTML={{ __html: I18n.t(row.info) }} />
 									</TableCell>
-									<TableCell align="center">
-										<BtnSmallAdd callback={this.props.callback} callbackValue={row.text} />
-									</TableCell>
+									{row.text ? (
+										<TableCell align="center">
+											<BtnSmallAdd callback={this.props.callback} callbackValue={row.text} />
+										</TableCell>
+									) : null}
 								</TableRow>
 							))}
 						</TableBody>
@@ -53,13 +75,33 @@ class HelperCard extends Component {
 				</TableContainer>
 				<Input
 					width="100%"
-					value={this.props.editedValueFromHelperText || this.props[this.props.val]}
+					value={this.props.editedValueFromHelperText}
 					margin="0px 2px 0 5px"
 					id="editedValueFromHelperText"
 					callback={this.props.setState}
 					callbackValue="event.target.value"
 					label="Text"
-				></Input>
+				>
+					{this.props.val == "navText" || this.props.val == "setText" ? <BtnSmallSearch callback={this.openSelectId} /> : null}
+				</Input>
+
+				{this.state.showSelectId ? (
+					<SelectID
+						style={{ zIndex: 11000 }}
+						key="tableSelect"
+						imagePrefix="../.."
+						dialogName={this.props.data.adapterName}
+						themeType={this.props.data.themeType}
+						socket={this.props.data.socket}
+						statesOnly={true}
+						selected={""}
+						onClose={() => this.setState({ showSelectId: false })}
+						onOk={(selected, name) => {
+							this.setState({ showSelectId: false });
+							this.updateId(selected);
+						}}
+					/>
+				) : null}
 			</>
 		);
 	}

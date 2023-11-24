@@ -3,7 +3,6 @@ import React, { Component } from "react";
 class Button extends Component {
 	eventOnclickButton = (event) => {
 		let value;
-		console.log(this.props.callback);
 		if (this.props.callbackValue === "event.target.innerText") value = event.target.innerText;
 		else value = this.props.callbackValue;
 		if (this.props.setNative) {

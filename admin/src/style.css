@@ -380,7 +380,7 @@ div.MuiTabPanel-root {
 	background-color: #3399cc !important;
 }
 .HelperCard ~ .Input-Container .InputField {
-	width: 99% !important;
+	width: 90% !important;
 	margin-top: 40px !important;
 	font-size: 0.9rem !important;
 }
@@ -392,24 +392,17 @@ div.MuiTabPanel-root {
 	color: #3399cc;
 	border: none;
 	display: inline-block;
-	position: relative;
-	bottom: 14px;
 	cursor: pointer;
 	margin-left: 4px;
 }
 .light .BtnCircleAdd,
 .colored .BtnCircleAdd {
-	background-color: #333;
+	background-color: white;
 }
 .dark .BtnCircleAdd,
 .blue .BtnCircleAdd {
-	background-color: white;
+	background-color: none;
 }
-div.Input-Container:has(.BtnCircleAdd) label {
-	width: calc(100% - 30px) !important;
-	display: inline-block;
-}
-
 /* Edit cards */
 .Edit-Container p {
 	font-size: 0.8rem;
@@ -430,6 +423,7 @@ div.Input-Container:has(.BtnCircleAdd) label {
 }
 .Edit-Container .Input-Container {
 	margin-left: 8px;
+	display: inline-block;
 }
 
 .Edit-Container input[type="checkbox"] {
@@ -480,10 +474,10 @@ div.Input-Container:has(.BtnCircleAdd) label {
 
 /* Allgemein */
 /* label */
-label span {
+label p {
 	font-size: 0.8rem;
 	color: #777;
-	margin-left: 5px;
+	/* margin-left: px; */
 }
 /* Table */
 .MuiTableHead-root tr th {
@@ -594,6 +588,7 @@ input ~ p {
 input:focus {
 	outline: none;
 }
+
 /* checkbox */
 input[type="checkbox"] {
 	width: 20px;
