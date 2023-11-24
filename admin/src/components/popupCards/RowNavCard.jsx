@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Input from "../btn-Input/input";
+import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
 class RowNavCard extends Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ class RowNavCard extends Component {
 		return (
 			<div className="Edit-Container">
 				<Input
-					width="20%"
+					width="15%"
 					value={this.props.data.call}
 					margin="0px 2px 0 5px"
 					id="call"
@@ -20,6 +21,7 @@ class RowNavCard extends Component {
 					label="Call"
 					class={this.props.inUse ? "inUse" : ""}
 				></Input>
+
 				<Input
 					width="55%"
 					value={this.props.data.nav}
@@ -28,16 +30,21 @@ class RowNavCard extends Component {
 					callback={this.props.callback.onchange}
 					callbackValue="event.target.value"
 					label="Navigation"
-				></Input>
+				>
+					<BtnCirleAdd callbackValue="nav" callback={this.props.openHelperText}></BtnCirleAdd>
+				</Input>
+
 				<Input
-					width="18%"
+					width="27%"
 					value={this.props.data.text}
 					margin="0px 2px 0 5px"
 					id="text"
 					callback={this.props.callback.onchange}
 					callbackValue="event.target.value"
 					label="Text"
-				></Input>
+				>
+					<BtnCirleAdd callbackValue="text" callback={this.props.openHelperText}></BtnCirleAdd>
+				</Input>
 			</div>
 		);
 	}

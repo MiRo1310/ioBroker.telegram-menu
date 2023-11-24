@@ -39,22 +39,6 @@ class PopupContainer extends Component {
 			}
 		}
 
-		if (prevProps.call !== this.props.call || prevProps.nav !== this.props.nav || prevProps.text !== this.props.text) {
-			if (this.props.usedTrigger.includes(this.props.call) && this.props.call !== "") {
-				this.setState({ inUse: true });
-
-				this.props.setState({ callIsAlreadyUsed: true });
-			} else {
-				this.setState({ inUse: false });
-
-				this.props.setState({ callIsAlreadyUsed: false });
-			}
-			if (this.props.call !== "" && this.props.nav !== "" && this.props.text !== "" && !this.state.inUse) {
-				this.checked = true;
-			} else {
-				this.checked = false;
-			}
-		}
 		// Check renameCard.jsx:
 		if (this.props.data && (this.props.data.newMenuName || this.props.data.newMenuName === "")) {
 			if (prevProps.newMenuName !== this.props.data.newMenuName) {
@@ -125,7 +109,7 @@ class PopupContainer extends Component {
 								padding="0"
 								maxWidth="200px"
 								name="ok"
-								disabled={this.state.disable}
+								disabled={this.state.disable && !this.props.isOK}
 							>
 								{I18n.t("OK")}
 							</Button>

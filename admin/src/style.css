@@ -219,11 +219,6 @@ div.MuiTabPanel-root {
 	margin-left: 8px;
 }
 
-.Settings label p {
-	font-size: 0.8rem;
-	color: #777;
-	padding-left: 3px;
-}
 /* DialogContainer */
 
 .DialogBackground {
@@ -323,7 +318,6 @@ div.MuiTabPanel-root {
 	width: 200px;
 	border: none;
 	border-bottom: 1px solid black;
-	font-size: 1.2rem !important;
 }
 .DialogContainer select:focus {
 	outline: none;
@@ -360,7 +354,9 @@ div.MuiTabPanel-root {
 	background-color: rgb(62, 68, 72);
 	color: white;
 }
-
+.DropBox .Select select {
+	font-size: 0.9rem !important;
+}
 .DropBox-Background {
 	bottom: -250px !important;
 }
@@ -376,6 +372,44 @@ div.MuiTabPanel-root {
 .blue .DropBox-Container label {
 	color: white !important;
 }
+/* HelperCard */
+.HelperCard {
+	max-height: 320px;
+}
+.HelperCard button {
+	background-color: #3399cc !important;
+}
+.HelperCard ~ .Input-Container .InputField {
+	width: 99% !important;
+	margin-top: 40px !important;
+	font-size: 0.9rem !important;
+}
+
+.BtnCircleAdd {
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	color: #3399cc;
+	border: none;
+	display: inline-block;
+	position: relative;
+	bottom: 14px;
+	cursor: pointer;
+	margin-left: 4px;
+}
+.light .BtnCircleAdd,
+.colored .BtnCircleAdd {
+	background-color: #333;
+}
+.dark .BtnCircleAdd,
+.blue .BtnCircleAdd {
+	background-color: white;
+}
+div.Input-Container:has(.BtnCircleAdd) label {
+	width: calc(100% - 30px) !important;
+	display: inline-block;
+}
+
 /* Edit cards */
 .Edit-Container p {
 	font-size: 0.8rem;
@@ -445,6 +479,12 @@ div.MuiTabPanel-root {
 }
 
 /* Allgemein */
+/* label */
+label span {
+	font-size: 0.8rem;
+	color: #777;
+	margin-left: 5px;
+}
 /* Table */
 .MuiTableHead-root tr th {
 	background-color: #3399cc !important;
@@ -571,7 +611,6 @@ input[type="checkbox"]:checked {
 }
 .Select select {
 	margin: 5px;
-	font-size: 16px;
 }
 
 /* Settings */

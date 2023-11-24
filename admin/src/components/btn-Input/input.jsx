@@ -27,6 +27,7 @@ class Input extends Component {
 			width: this.props.width ? this.props.width : "auto",
 			display: "inline-block",
 		};
+
 		return (
 			<div className={"Input-Container " + (this.props.class || "")} style={container}>
 				<label>
@@ -39,8 +40,9 @@ class Input extends Component {
 						onChange={this.onChangeHandler}
 						spellCheck={this.props.spellCheck ? this.props.spellcheck : false}
 					/>
-					<p>{this.props.label}</p>
+					<span>{this.props.label}</span>
 				</label>
+				{this.props.children}
 			</div>
 		);
 	}
