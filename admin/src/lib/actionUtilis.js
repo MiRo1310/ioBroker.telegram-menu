@@ -40,7 +40,8 @@ export const updateTrigger = (value, props) => {
 export const addNewRow = (index, props, array) => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
-		if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.value);
+		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf
+		if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
 	});
 	props.callback.setState({ newRow: newRow });
 };

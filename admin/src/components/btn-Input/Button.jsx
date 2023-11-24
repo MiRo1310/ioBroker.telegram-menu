@@ -3,6 +3,7 @@ import React, { Component } from "react";
 class Button extends Component {
 	eventOnclickButton = (event) => {
 		let value;
+
 		if (this.props.callbackValue === "event.target.innerText") value = event.target.innerText;
 		else value = this.props.callbackValue;
 		if (this.props.setNative) {
@@ -11,7 +12,11 @@ class Button extends Component {
 			this.props.callback({ [this.props.id]: value });
 		} else if (this.props.callbackValue || this.props.callbackValue == false) {
 			this.props.callback(value);
-		} else this.props.callback();
+		} else if (this.props.index >= 0) {
+			this.props.callback(this.props.index);
+		} else {
+			this.props.callback();
+		}
 
 		if (this.props.secondCallback) this.props.secondCallback();
 	};

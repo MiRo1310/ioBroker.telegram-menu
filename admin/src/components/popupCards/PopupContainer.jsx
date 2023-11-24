@@ -22,7 +22,7 @@ class PopupContainer extends Component {
 				let row = this.props.newRow;
 				// console.log("row " + JSON.stringify(row));
 				this.props.entrys.forEach((entry) => {
-					console.log("entry " + JSON.stringify(entry));
+					// console.log("entry " + JSON.stringify(entry));
 					if (!entry.checkbox) {
 						// console.log("entry.name " + entry.name);
 
