@@ -50,9 +50,9 @@
     "@types/sinon-chai": "^3.2.10",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
+    "chalk": "^5.3.0",
+    "css-loader": "^6.8.1",
     "eslint": "^8.52.0",
-    "chalk": "^5.3.0",  
-    
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "inquirer": "^9.2.11",
@@ -63,6 +63,7 @@
     "react-dom": "^17.0.2",
     "sinon": "^15.2.0",
     "sinon-chai": "^3.7.0",
+    "style-loader": "^3.3.3",
     "styled-components": "^6.1.0",
     "typescript": "~5.2.2"
   },
