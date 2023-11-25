@@ -29,14 +29,14 @@ class RowEditPopupCard extends Component {
 	}
 	componentDidUpdate(prevProps) {
 		if (prevProps.newRow !== this.props.newRow) {
-			saveRows(this.props, this.setState.bind(this), this.props.entrys);
+			saveRows(this.props, this.setState.bind(this), this.props.entrys, this.state.rows);
 		}
 	}
 	componentDidMount() {
-		saveRows(this.props, this.setState.bind(this), this.props.entrys);
+		saveRows(this.props, this.setState.bind(this), this.props.entrys, this.state.rows);
 	}
 	updateData = (obj) => {
-		updateData(obj, this.props);
+		updateData(obj, this.props, this.state.rows, this.setState.bind(this));
 	};
 	updateTrigger = (value) => {
 		updateTrigger(value, this.props);
@@ -92,75 +92,77 @@ class RowEditPopupCard extends Component {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{this.state.rows.map((row, index) => (
-								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-									<TableCell component="td" scope="row" align="left">
-										<Input
-											width="calc(100% - 50px)"
-											value={row.IDs}
-											margin="0px 2px 0 2px"
-											id="IDs"
-											index={index}
-											callback={this.updateData}
-											callbackValue="event.target.value"
-											function="manual"
-										></Input>
-										<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
-									</TableCell>
-									{this.props.entrys.map((entry, i) =>
-										!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
-											<TableCell align="left" key={i}>
+							{this.state.rows.length > 0
+								? this.state.rows.map((row, index) => (
+										<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+											<TableCell component="td" scope="row" align="left">
 												<Input
-													width="100%"
-													value={row[entry.name]}
-													margin="0px 2px 0 5px"
-													id={entry.name}
+													width="calc(100% - 50px)"
+													value={row.IDs}
+													margin="0px 2px 0 2px"
+													id="IDs"
 													index={index}
 													callback={this.updateData}
 													callbackValue="event.target.value"
 													function="manual"
-													type={entry.type}
-													inputWidth="calc(100% - 28px)"
-												>
-													{entry.name === "returnText" || entry.name === "text" ? (
-														<BtnCirleAdd
-															callbackValue={{ index: index, entry: entry.name, subcard: this.props.subcard }}
-															callback={this.props.openHelperText}
-														></BtnCirleAdd>
-													) : null}
-												</Input>
+												></Input>
+												<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
 											</TableCell>
-										) : null,
-									)}
-									{this.props.entrys.map((entry, i) =>
-										entry.checkbox ? (
-											<TableCell align="left" className="checkbox" key={i}>
-												<Checkbox
-													id={entry.name}
-													index={index}
-													callback={this.updateData}
-													callbackValue="event"
-													isChecked={isChecked(row[entry.name])}
-													obj={true}
-												></Checkbox>
-											</TableCell>
-										) : null,
-									)}
+											{this.props.entrys.map((entry, i) =>
+												!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
+													<TableCell align="left" key={i}>
+														<Input
+															width="100%"
+															value={row[entry.name]}
+															margin="0px 2px 0 5px"
+															id={entry.name}
+															index={index}
+															callback={this.updateData}
+															callbackValue="event.target.value"
+															function="manual"
+															type={entry.type}
+															inputWidth="calc(100% - 28px)"
+														>
+															{entry.name === "returnText" || entry.name === "text" ? (
+																<BtnCirleAdd
+																	callbackValue={{ index: index, entry: entry.name, subcard: this.props.subcard }}
+																	callback={this.props.openHelperText}
+																></BtnCirleAdd>
+															) : null}
+														</Input>
+													</TableCell>
+												) : null,
+											)}
+											{this.props.entrys.map((entry, i) =>
+												entry.checkbox ? (
+													<TableCell align="left" className="checkbox" key={i}>
+														<Checkbox
+															id={entry.name}
+															index={index}
+															callback={this.updateData}
+															callbackValue="event"
+															isChecked={isChecked(row[entry.name])}
+															obj={true}
+														></Checkbox>
+													</TableCell>
+												) : null,
+											)}
 
-									<TableCell align="center" className="cellIcon">
-										<BtnSmallAdd callback={this.addNewRow} index={index} />
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										<BtnSmallUp callback={this.moveUp} index={index} disabled={index == 0 ? "disabled" : null}></BtnSmallUp>
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										<BtnSmallDown callback={this.moveDown} index={index} disabled={index == this.state.rows.length - 1 ? "disabled" : ""} />
-									</TableCell>
-									<TableCell align="center" className="cellIcon">
-										<BtnSmallRemove callback={this.deleteRow} index={index} disabled={this.state.rows.length == 1 ? "disabled" : ""} />
-									</TableCell>
-								</TableRow>
-							))}
+											<TableCell align="center" className="cellIcon">
+												<BtnSmallAdd callback={this.addNewRow} index={index} />
+											</TableCell>
+											<TableCell align="center" className="cellIcon">
+												<BtnSmallUp callback={this.moveUp} index={index} disabled={index == 0 ? "disabled" : null}></BtnSmallUp>
+											</TableCell>
+											<TableCell align="center" className="cellIcon">
+												<BtnSmallDown callback={this.moveDown} index={index} disabled={index == this.state.rows.length - 1 ? "disabled" : ""} />
+											</TableCell>
+											<TableCell align="center" className="cellIcon">
+												<BtnSmallRemove callback={this.deleteRow} index={index} disabled={this.state.rows.length == 1 ? "disabled" : ""} />
+											</TableCell>
+										</TableRow>
+								  ))
+								: null}
 						</TableBody>
 					</Table>
 				</TableContainer>

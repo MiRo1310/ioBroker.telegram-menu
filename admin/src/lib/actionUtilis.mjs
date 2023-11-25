@@ -17,19 +17,22 @@ function getRows(element, rowElements) {
 	}
 	return { rows: rows, trigger: trigger };
 }
-export const saveRows = (props, setState, rowElements) => {
+export const saveRows = (props, setState, rowElements, row) => {
 	setState({ data: props.newRow });
 	const data = getRows(props.newRow, rowElements);
 	if (!data) return;
 	const rows = data.rows;
 	setState({ trigger: data.trigger });
-	setState({ rows: rows });
+
+	if (row.length == 0) setState({ rows: rows });
 };
 
-export const updateData = (obj, props) => {
+export const updateData = (obj, props, rows, setState) => {
 	const newRow = deepCopy(props.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
 	props.callback.setState({ newRow: newRow });
+
+	setState({ rows: [newRow] });
 };
 export const updateTrigger = (value, props) => {
 	const newRow = deepCopy(props.newRow);
