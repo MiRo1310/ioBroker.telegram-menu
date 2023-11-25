@@ -73,6 +73,8 @@
     "Save": "Ratować",
     "Select": "Wybierać",
     "Select a Menu": "Wybierz menu",
+    "Select a Menu, move or copy. Attention! A user must be active in the selected menu!": "Wybierz menu, przenieś lub skopiuj. Uwaga! Użytkownik musi być aktywny w wybranym menu!",
+    "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!": "Wybierz menu, wybierz opcję przenieś lub skopiuj. Uważaj! Użytkownik musi być aktywny w wybranym menu!",
     "Sets the value of the ID to the val, with ack(confirmed)": "Ustawia wartość identyfikatora na val, z potwierdzeniem (potwierdzone)",
     "Settings": "Ustawienia",
     "Startside": "Strona startowa",
@@ -94,6 +96,7 @@
     "What is to do?": "Co robić?",
     "When pressed, you jump back to the previous menu": "Po naciśnięciu następuje powrót do poprzedniego menu",
     "Yes": "Tak",
+    "You have double triggers, please remove them!": "Masz podwójne wyzwalacze, usuń je!",
     "active": "aktywny",
     "telegram-menu adapter settings": "Ustawienia adaptera dla menu telegramu"
 }

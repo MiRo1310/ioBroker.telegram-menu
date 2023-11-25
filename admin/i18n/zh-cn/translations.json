@@ -73,6 +73,8 @@
     "Save": "节省",
     "Select": "选择",
     "Select a Menu": "选择菜单",
+    "Select a Menu, move or copy. Attention! A user must be active in the selected menu!": "选择一个菜单，移动或复制。注意力！用户必须在所选菜单中处于活动状态！",
+    "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!": "选择一个菜单，选择移动或复制。小心！用户必须在所选菜单中处于活动状态！",
     "Sets the value of the ID to the val, with ack(confirmed)": "将ID的值设置为val，带有ack（已确认）",
     "Settings": "设置",
     "Startside": "开始边",
@@ -94,6 +96,7 @@
     "What is to do?": "该怎么办？",
     "When pressed, you jump back to the previous menu": "当按下时，您跳回到上一个菜单",
     "Yes": "是的",
+    "You have double triggers, please remove them!": "您有双触发器，请删除它们！",
     "active": "积极的",
     "telegram-menu adapter settings": "电报菜单的适配器设置"
 }

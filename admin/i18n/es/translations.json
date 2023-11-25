@@ -73,6 +73,8 @@
     "Save": "Ahorrar",
     "Select": "Seleccionar",
     "Select a Menu": "Seleccione un menú",
+    "Select a Menu, move or copy. Attention! A user must be active in the selected menu!": "Seleccione un menú, mueva o copie. ¡Atención! ¡Un usuario debe estar activo en el menú seleccionado!",
+    "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!": "Seleccione un menú, seleccione mover o copiar. ¡Cuidado! ¡Un usuario debe estar activo en el menú seleccionado!",
     "Sets the value of the ID to the val, with ack(confirmed)": "Establece el valor del ID en val, con ack(confirmado)",
     "Settings": "Ajustes",
     "Startside": "Lado de salida",
@@ -94,6 +96,7 @@
     "What is to do?": "¿Qué hay que hacer?",
     "When pressed, you jump back to the previous menu": "Al pulsarlo saltas al menú anterior.",
     "Yes": "Sí",
+    "You have double triggers, please remove them!": "Tienes activadores dobles, ¡elimítalos!",
     "active": "activo",
     "telegram-menu adapter settings": "Configuración del adaptador para el menú de telegramas"
 }

@@ -73,6 +73,8 @@
     "Save": "Save",
     "Select": "Select",
     "Select a Menu": "Select a Menu",
+    "Select a Menu, move or copy. Attention! A user must be active in the selected menu!": "Select a Menu, move or copy. Attention! A user must be active in the selected menu!",
+    "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!": "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!",
     "Sets the value of the ID to the val, with ack(confirmed)": "Sets the value of the ID to the val, with ack(confirmed)",
     "Settings": "Settings",
     "Startside": "Startside",
@@ -94,6 +96,7 @@
     "What is to do?": "What is to do?",
     "When pressed, you jump back to the previous menu": "When pressed, you jump back to the previous menu",
     "Yes": "Yes",
+    "You have double triggers, please remove them!": "You have double triggers, please remove them!",
     "active": "active",
     "telegram-menu adapter settings": "Adapter settings for telegram-menu"
 }

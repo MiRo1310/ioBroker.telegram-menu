@@ -73,6 +73,8 @@
     "Save": "Redden",
     "Select": "Selecteer",
     "Select a Menu": "Selecteer een menu",
+    "Select a Menu, move or copy. Attention! A user must be active in the selected menu!": "Selecteer een menu, verplaats of kopieer. Aandacht! Er moet een gebruiker actief zijn in het geselecteerde menu!",
+    "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!": "Selecteer een menu, selecteer verplaatsen of kopiëren. Kijk uit! Er moet een gebruiker actief zijn in het geselecteerde menu!",
     "Sets the value of the ID to the val, with ack(confirmed)": "Stelt de waarde van de ID in op val, met ack(confirmed)",
     "Settings": "Instellingen",
     "Startside": "Startzijde",
@@ -94,6 +96,7 @@
     "What is to do?": "Wat is er te doen?",
     "When pressed, you jump back to the previous menu": "Wanneer u hierop drukt, springt u terug naar het vorige menu",
     "Yes": "Ja",
+    "You have double triggers, please remove them!": "U heeft dubbele triggers, verwijder deze alstublieft!",
     "active": "actief",
     "telegram-menu adapter settings": "Adapterinstellingen voor telegrammenu"
 }

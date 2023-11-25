@@ -73,6 +73,8 @@
     "Save": "Сохранять",
     "Select": "Выбирать",
     "Select a Menu": "Выберите меню",
+    "Select a Menu, move or copy. Attention! A user must be active in the selected menu!": "Выберите меню, переместите или скопируйте. Внимание! Пользователь должен быть активен в выбранном меню!",
+    "Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!": "Выберите меню, выберите перемещение или копирование. Осторожно! Пользователь должен быть активен в выбранном меню!",
     "Sets the value of the ID to the val, with ack(confirmed)": "Устанавливает значение идентификатора val с подтверждением (подтверждено).",
     "Settings": "Настройки",
     "Startside": "Стартовая сторона",
@@ -94,6 +96,7 @@
     "What is to do?": "Что делать?",
     "When pressed, you jump back to the previous menu": "При нажатии вы возвращаетесь в предыдущее меню.",
     "Yes": "Да",
+    "You have double triggers, please remove them!": "У вас есть двойные триггеры, пожалуйста, удалите их!",
     "active": "активный",
     "telegram-menu adapter settings": "Настройки адаптера для телеграм-меню"
 }
