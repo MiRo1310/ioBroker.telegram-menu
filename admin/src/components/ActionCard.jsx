@@ -57,7 +57,6 @@ class ActionCard extends Component {
 								valueRowValuesAndSwitch = false;
 							}
 						} else if (val !== undefined && val !== null && val !== "") {
-							// console.log("VAL is ok", val, entry.name, index);
 						} else {
 							value = false;
 						}
@@ -106,11 +105,9 @@ class ActionCard extends Component {
 			if (this.state.editRow) {
 				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {
-				console.log(this.props.activeMenu, this.props.subcard);
-				console.log(data.action[this.props.activeMenu][this.props.subcard]);
 				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
 			}
-			console.log("save data", data);
+
 			this.props.callback.updateNative("data", data);
 		}
 		this.setState({ newUnUsedTrigger: null });
@@ -127,9 +124,7 @@ class ActionCard extends Component {
 		this.setState({ newRow: newRow });
 	};
 	getLengthOfData = (data, activeMenu) => {
-		console.log(data, activeMenu, this.props.subcard);
 		if (data && activeMenu && data[activeMenu][this.props.subcard] && data[activeMenu][this.props.subcard].length) {
-			console.log("data[activeMenu][this.props.subcard]", data[activeMenu][this.props.subcard].length);
 			this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
 		} else return;
 	};

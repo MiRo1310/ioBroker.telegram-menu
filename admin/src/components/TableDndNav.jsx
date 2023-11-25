@@ -36,7 +36,6 @@ class TableDndNav extends Component {
 		}
 	}
 	handleDragEnd = () => {
-		console.log("end");
 		this.setState({ dropStart: 0 });
 		this.setState({ dropOver: 0 });
 		this.props.callback.setState({ draggingRowIndex: null });
@@ -46,7 +45,6 @@ class TableDndNav extends Component {
 		this.props.callback.setState({ draggingRowIndex: index });
 	};
 	handleDrop = (index) => {
-		console.log("drop", index, this.state.dropStart);
 		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
 	handleDraggable = (index) => {

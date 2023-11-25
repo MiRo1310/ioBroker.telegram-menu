@@ -34,11 +34,9 @@ class DropBox extends Component {
 		if (prevState.newTrigger !== this.state.newTrigger) {
 			if (this.state.usedTrigger) {
 				if (this.state.usedTrigger.includes(this.state.newTrigger) || this.state.newTrigger === "") {
-					console.log("false");
 					this.setState({ isOK: false });
 				} else {
 					this.setState({ isOK: true });
-					console.log("true");
 				}
 			} else {
 				this.setState({ isOK: true });
@@ -60,7 +58,6 @@ class DropBox extends Component {
 		let rowToWorkWith;
 		let moveOrCopy = this.state.selectedValue;
 		if (this.state.newTrigger === "") {
-			console.log("this.props.tab " + this.props.tab);
 			if (this.props.tab === "action") rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
 			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
 			this.setState({ rowToWorkWith: rowToWorkWith });
@@ -109,7 +106,7 @@ class DropBox extends Component {
 		data.forEach((element) => {
 			if (element.trim() === searchedString.trim()) count++;
 		});
-		console.log("count", count);
+
 		return count;
 	};
 	move = (rowToWorkWith, data) => {
@@ -138,7 +135,6 @@ class DropBox extends Component {
 	};
 
 	handleDrag = (val) => {
-		console.log("Enter DropBox");
 		this.setState({ inDropBox: val });
 	};
 	handleChange = (event) => {
@@ -183,7 +179,8 @@ class DropBox extends Component {
 						onDragEnter={() => this.handleDrag(true)}
 						onDragLeave={() => this.handleDrag(false)}
 					>
-						<p>Drop here!!!</p>
+						<p className="DropBox-Header">Drop here!!!</p>
+						<p className="DropBox-Content">{I18n.t("Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!")} </p>
 					</div>
 				</div>
 				{this.state.openRenamePopup ? (

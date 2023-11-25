@@ -23,7 +23,6 @@ class HelperCard extends Component {
 		};
 	}
 	updateId = (selected) => {
-		console.log(selected);
 		const value = this.props.editedValueFromHelperText;
 		if (value.includes("ID")) {
 			this.props.setState({ editedValueFromHelperText: value.replace("ID", selected) });

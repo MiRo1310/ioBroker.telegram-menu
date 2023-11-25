@@ -51,7 +51,6 @@ class TelegramUserCard extends Component {
 				listOfUsers.splice(index, 1);
 			}
 		}
-		console.log("listOfUsers", listOfUsers);
 		this.props.callback.updateNative("usersInGroup." + this.state.activeMenu, listOfUsers);
 	};
 	render() {

@@ -57,6 +57,7 @@ class App extends GenericApp {
 			unUsedTrigger: [],
 			usedTrigger: [],
 			showDropBox: false,
+			doubleTrigger: [],
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
@@ -64,9 +65,11 @@ class App extends GenericApp {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
-		if (prevState.native.data !== this.state.native.data) {
-			console.log("update Trigger");
+		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
 			if (this.state.activeMenu && this.state.activeMenu != "") this.updateActiveMenuAndTrigger(this.state.activeMenu);
+		}
+		if (prevState.usedTrigger !== this.state.usedTrigger) {
+			this.checkDoubleEntryInUsedTrigger();
 		}
 	}
 
@@ -87,9 +90,19 @@ class App extends GenericApp {
 		this.updateActiveMenuAndTrigger(firstMenu);
 		console.log(this.state.native);
 	}
+	checkDoubleEntryInUsedTrigger = () => {
+		const usedTrigger = [...this.state.usedTrigger];
+		let doubleTrigger = [];
+		usedTrigger.forEach((element, index) => {
+			if (index !== usedTrigger.indexOf(element)) {
+				doubleTrigger.push(element);
+			}
+		});
+
+		this.setState({ doubleTrigger: doubleTrigger });
+	};
 	updateActiveMenuAndTrigger = (Menu) => {
 		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, Menu);
-		console.log(result);
 		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
 	};
 
@@ -242,8 +255,16 @@ class App extends GenericApp {
 						></DropBox>
 					</PopupContainer>
 				) : null}
-
-				{/* <Settings native={this.state.native} onChange={(attr, value) => this.updateNativeValue(attr, value)} /> */}
+				{this.state.doubleTrigger.length > 0 ? (
+					<div className="ErrorDoubleTrigger-Container">
+						<p className="Error-Header">{I18n.t("You have double triggers, please remove them!")}</p>
+						{this.state.doubleTrigger.map((element, index) => (
+							<p className="Error-Items" key={index}>
+								{element}
+							</p>
+						))}
+					</div>
+				) : null}
 				{this.renderError()}
 				{this.renderToast()}
 				{this.renderSaveCloseButtons()}

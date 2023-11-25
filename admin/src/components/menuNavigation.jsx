@@ -73,7 +73,6 @@ class MenuNavigation extends Component {
 			this.setState({ rowIndex: value });
 		}
 		this.setState({ rowPopup: true });
-		console.log(this.state.editRow);
 	};
 	changeInput = (data) => {
 		if (data.call || data.call == "") this.setState({ call: data.call });

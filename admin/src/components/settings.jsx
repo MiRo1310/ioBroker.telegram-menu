@@ -14,7 +14,6 @@ class Settings extends Component {
 		};
 	}
 	onClickCheckbox = (event) => {
-		console.log(event);
 		const checkbox = { ...this.props.data.state.native.checkbox };
 		checkbox[event.target.id] = event.target.checked;
 		this.props.callback.updateNative("checkbox", checkbox);
@@ -42,7 +41,7 @@ class Settings extends Component {
 							placeholder="No entry found"
 							callback={this.props.callback.updateNative}
 							id="textNoEntry"
-							value={this.props.data.state.native.textNoEntry}
+							value={this.props.data.state.native.textNoEntry || I18n.t("Entry not found!")}
 							setNative={true}
 							width="100%"
 						/>
@@ -94,7 +93,7 @@ class Settings extends Component {
 							placeholder="/opt/iobroker/grafana/"
 							callback={this.props.callback.updateNative}
 							id="directory"
-							value={this.props.data.state.native.directory}
+							value={this.props.data.state.native.directory || "/opt/iobroker/grafana/"}
 							setNative={true}
 							width="100%"
 						/>

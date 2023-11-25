@@ -157,6 +157,24 @@ body {
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 1100;
 }
+/* error */
+.ErrorDoubleTrigger-Container {
+	color: red;
+	position: absolute;
+	top: 5px;
+	max-width: 400px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	border: 1px solid red;
+}
+.ErrorDoubleTrigger-Container .Error-Header {
+	margin: 2px 5px;
+}
+.ErrorDoubleTrigger-Container .Error-Items {
+	display: inline;
+	padding: 0px 10px;
+}
 
 /* Grid Main Content */
 .App-main-content {
@@ -364,9 +382,15 @@ div.MuiTabPanel-root {
 	text-align: center;
 	font-weight: 500;
 	font-size: 1.5rem;
-	margin-top: 60px;
+	margin-top: 10px;
 	color: #3399cc;
 	text-decoration: underline;
+	margin-bottom: 10px;
+}
+.DropBox p.DropBox-Content {
+	font-size: 0.7rem;
+	margin-top: 0px;
+	text-decoration: none;
 }
 .dark .DropBox-Container label,
 .blue .DropBox-Container label {
@@ -583,10 +607,11 @@ p.inUse {
 	color: white;
 	border-bottom: 1px solid white !important;
 }
-.dark input:hover,
-.blue input:hover {
+.dark .HeaderMenu-GridContainer input:hover,
+.blue .HeaderMenu-GridContainer input:hover {
 	border-width: 2px !important;
 }
+
 input ~ p {
 	margin-left: 5px !important;
 }

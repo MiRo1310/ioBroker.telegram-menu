@@ -81,9 +81,9 @@ export const updateId = (selected, props, indexID) => {
 export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 	const submenu = ["set", "get", "pic"];
 	// Users für die die Trigger gesucht werden sollen
-	console.log(data);
+
 	const users = usersInGroup[activeMenu];
-	console.log(users);
+
 	let menusToSearchIn = [];
 	// User durchgehen und schauen in welchen Gruppen sie sind
 	if (!users) return;
@@ -94,10 +94,11 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 			}
 		});
 	});
+	menusToSearchIn = deleteDoubleEntrysInArray(menusToSearchIn);
+
 	// Trigger und Used Trigger finden
 	let usedTrigger = [];
 	let allTriggers = [];
-	console.log(menusToSearchIn);
 	menusToSearchIn.forEach((menu) => {
 		// usedTriggers und unUsedTrigger in Nav finden
 		if (!data.nav[menu]) return;
