@@ -100,7 +100,7 @@ class MenuNavigation extends Component {
 		if (value) {
 			this.setState({ rowIndex: value });
 		}
-		this.setState({ rowPopup: true, call: "", nav: "", text: "" });
+		this.setState({ rowPopup: true, call: "", nav: "", text: "Choose an action" });
 	};
 	openHelperText = (value) => {
 		if (value) {

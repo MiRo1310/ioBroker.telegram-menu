@@ -107,7 +107,7 @@ class TableDndNav extends Component {
 							{row.nav}{" "}
 						</TableCell>
 						<TableCell align="right" style={{ width: "25%" }}>
-							{row.text}
+							{I18n.t(row.text)}
 						</TableCell>
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
@@ -118,6 +118,7 @@ class TableDndNav extends Component {
 							rows={rows}
 							index={index}
 							showButtons={this.props.showButtons}
+							notShowDelete={index == 0}
 						></ButtonCard>
 					</TableRow>
 				))}

@@ -81,7 +81,7 @@ class BtnCard extends Component {
 			return;
 		}
 		if (addNewMenu) {
-			data.nav[newMenu] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "choose an action" }];
+			data.nav[newMenu] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "Choose an action" }];
 			data.action[newMenu] = { get: [], set: [], pic: [] };
 			userActiveCheckbox[newMenu] = false;
 			usersInGroup[newMenu] = [];

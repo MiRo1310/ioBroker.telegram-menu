@@ -32,7 +32,7 @@ export const ButtonCard = (props) => {
 			) : null}
 			{props.showButtons && props.showButtons.remove ? (
 				<TableCell align="center" className="cellIcon">
-					<BtnSmallRemove callback={props.deleteRow} index={props.index} />
+					{!props.notShowDelete ? <BtnSmallRemove callback={props.deleteRow} index={props.index} /> : null}
 				</TableCell>
 			) : null}
 		</>
