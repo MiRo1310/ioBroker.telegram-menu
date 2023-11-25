@@ -95,7 +95,7 @@ class App extends GenericApp {
 		let doubleTrigger = [];
 		usedTrigger.forEach((element, index) => {
 			if (index !== usedTrigger.indexOf(element)) {
-				doubleTrigger.push(element);
+				if (element != "-") doubleTrigger.push(element);
 			}
 		});
 
