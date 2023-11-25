@@ -3,19 +3,7 @@ import TelegramUserCard from "./TelegramUserCard";
 import Button from "./btn-Input/Button";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { withStyles } from "@mui/styles";
 import Checkbox from "./btn-Input/checkbox";
-
-const styles = () => ({
-	btnExpand: {
-		position: "absolute",
-		top: "-35px",
-		left: "-55px",
-	},
-	container: {
-		position: "relative",
-	},
-});
 
 class HeaderTelegramUsers extends Component {
 	constructor(props) {
@@ -78,8 +66,8 @@ class HeaderTelegramUsers extends Component {
 					) : null}
 				</Grid>
 				<Grid item lg={8} md={8} xs={8}>
-					<div className={this.props.classes.container}>
-						<div className={"Btn-Expand " + this.props.classes.btnExpand}>
+					<div className={"HeaderTelegramUser-Container"}>
+						<div className={"Btn-Expand"}>
 							<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" id="expandTelegramusers" callback={this.updateMenuOpen}>
 								{this.state.menuOpen ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 							</Button>
@@ -121,4 +109,4 @@ class HeaderTelegramUsers extends Component {
 	}
 }
 
-export default withStyles(styles)(HeaderTelegramUsers);
+export default HeaderTelegramUsers;

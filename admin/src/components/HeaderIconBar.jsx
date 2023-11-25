@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { Logo } from "@iobroker/adapter-react-v5";
-import { withStyles } from "@mui/styles";
 
-/**
- * @type {(_theme: import("@mui/styles").Theme) => import("@mui/styles").StyleRules}
- */
-const styles = (_theme) => ({});
 class HeaderIconBar extends Component {
 	constructor(props) {
 		super(props);
@@ -15,7 +10,6 @@ class HeaderIconBar extends Component {
 		return (
 			<form className="Tab-Header">
 				<Logo
-					className={this.props.classes.img}
 					classes={{}}
 					instance={this.props.instance}
 					common={this.props.common}
@@ -28,4 +22,4 @@ class HeaderIconBar extends Component {
 	}
 }
 
-export default withStyles(styles)(HeaderIconBar);
+export default HeaderIconBar;

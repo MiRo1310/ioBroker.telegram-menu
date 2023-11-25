@@ -531,6 +531,12 @@ tr td {
 button {
 	cursor: pointer;
 }
+
+.HeaderTelegramUser-Container .Btn-Expand {
+	position: absolute;
+	top: -35px;
+	left: -55px;
+}
 .dark .Btn-Expand button {
 	background-color: #555 !important;
 	border-color: #aaa !important;
@@ -676,4 +682,8 @@ input[type="checkbox"]:checked {
 	background-color: white;
 	width: 100%;
 	z-index: 100;
+}
+
+.HeaderTelegramUser-Container {
+	position: relative;
 }
