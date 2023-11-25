@@ -9,6 +9,7 @@ import RowEditPopupCard from "./popupCards/RowEditPopupCard";
 import TableDndAction from "./TableDndAction";
 import HelperCard from "./popupCards/HelperCard";
 import helperText from "../lib/helper";
+import { addNewRow } from "../lib/actionUtilis";
 
 class ActionCard extends Component {
 	constructor(props) {
@@ -19,7 +20,7 @@ class ActionCard extends Component {
 			editRow: false,
 			newRow: {},
 			rowsLength: 0,
-			newUnUsedTrigger: [],
+			newUnUsedTrigger: null || this.props.data.unUsedTrigger,
 			helperText: false,
 			helperTextFor: "",
 			editedValueFromHelperText: null,
@@ -36,6 +37,9 @@ class ActionCard extends Component {
 					this.setState({ isOK: this.checkNewValueIsOK() });
 				}
 			}
+		}
+		if (prevProps.data !== this.props.data) {
+			this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
@@ -102,8 +106,11 @@ class ActionCard extends Component {
 			if (this.state.editRow) {
 				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {
+				console.log(this.props.activeMenu, this.props.subcard);
+				console.log(data.action[this.props.activeMenu][this.props.subcard]);
 				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
 			}
+			console.log("save data", data);
 			this.props.callback.updateNative("data", data);
 		}
 		this.setState({ newUnUsedTrigger: null });
@@ -120,7 +127,11 @@ class ActionCard extends Component {
 		this.setState({ newRow: newRow });
 	};
 	getLengthOfData = (data, activeMenu) => {
-		this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
+		console.log(data, activeMenu, this.props.subcard);
+		if (data && activeMenu && data[activeMenu][this.props.subcard] && data[activeMenu][this.props.subcard].length) {
+			console.log("data[activeMenu][this.props.subcard]", data[activeMenu][this.props.subcard].length);
+			this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
+		} else return;
 	};
 
 	openHelperText = (value) => {
@@ -148,12 +159,17 @@ class ActionCard extends Component {
 		this.setState({ helperText: false });
 		this.setState({ editedValueFromHelperText: null });
 	};
+	addNewRow = (index) => {
+		this.setState({ rowPopup: true });
+		addNewRow(index, this.props, this.props.entrys);
+		// this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
+	};
 
 	render() {
 		return (
 			<>
 				{this.state.rowsLength == 0 ? (
-					<Button b_color="#96d15a" title="Add new Action" width="50%" margin="0 18px" height="50px" index={0}>
+					<Button b_color="#96d15a" title="Add new Action" width="50%" margin="0 18px" height="50px" index={null} callback={this.addNewRow}>
 						<i className="material-icons translate">add</i>
 						{I18n.t("Add new Action")}
 					</Button>
@@ -196,7 +212,7 @@ class ActionCard extends Component {
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
 							entrys={this.props.entrys}
-							newUnUsedTrigger={this.state.newUnUsedTrigger}
+							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.unUsedTrigger}
 							subcard={this.props.subcard}
 							openHelperText={this.openHelperText}
 						></RowEditPopupCard>

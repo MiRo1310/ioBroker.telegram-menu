@@ -65,6 +65,7 @@ class App extends GenericApp {
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
 		if (prevState.native.data !== this.state.native.data) {
+			console.log("update Trigger");
 			if (this.state.activeMenu && this.state.activeMenu != "") this.updateActiveMenuAndTrigger(this.state.activeMenu);
 		}
 	}
@@ -88,7 +89,8 @@ class App extends GenericApp {
 	}
 	updateActiveMenuAndTrigger = (Menu) => {
 		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, Menu);
-		this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
+		console.log(result);
+		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
 	};
 
 	getUsersFromTelegram() {

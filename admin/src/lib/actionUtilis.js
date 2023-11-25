@@ -38,10 +38,14 @@ export const updateTrigger = (value, props) => {
 };
 
 export const addNewRow = (index, props, array) => {
-	const newRow = deepCopy(props.newRow);
+	let newRow;
+	if (index) newRow = deepCopy(props.newRow);
+	else newRow = {};
 	array.forEach((element) => {
-		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf
-		if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
+		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
+		if (!index) {
+			newRow[element.name] = [element.val];
+		} else if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
 	});
 	props.callback.setState({ newRow: newRow });
 };
@@ -77,11 +81,12 @@ export const updateId = (selected, props, indexID) => {
 export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 	const submenu = ["set", "get", "pic"];
 	// Users für die die Trigger gesucht werden sollen
-
+	console.log(data);
 	const users = usersInGroup[activeMenu];
-
+	console.log(users);
 	let menusToSearchIn = [];
 	// User durchgehen und schauen in welchen Gruppen sie sind
+	if (!users) return;
 	users.forEach((user) => {
 		Object.keys(usersInGroup).forEach((group) => {
 			if (usersInGroup[group].includes(user)) {
@@ -100,6 +105,7 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 		});
 		// usedTriggers in Action finden
 		submenu.forEach((sub) => {
+			if (!data.action[menu][sub]) return;
 			data.action[menu][sub].forEach((element) => {
 				usedTrigger = usedTrigger.concat(element.trigger);
 			});

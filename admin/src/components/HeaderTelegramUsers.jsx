@@ -67,13 +67,23 @@ class HeaderTelegramUsers extends Component {
 				</Grid>
 				<Grid item lg={8} md={8} xs={8}>
 					<div className={"HeaderTelegramUser-Container"}>
-						<div className={"Btn-Expand"}>
-							<Button b_color="#fff" small="true" margin="0 5px 0 20px" border="1px solid black" round="4px" id="expandTelegramusers" callback={this.updateMenuOpen}>
-								{this.state.menuOpen ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
-							</Button>
-							<span>{I18n.t("")}</span>
-						</div>
-						{this.state.menuOpen ? (
+						{Object.keys(this.props.data.usersInGroup).length != 0 ? (
+							<div className={"Btn-Expand"}>
+								<Button
+									b_color="#fff"
+									small="true"
+									margin="0 5px 0 20px"
+									border="1px solid black"
+									round="4px"
+									id="expandTelegramusers"
+									callback={this.updateMenuOpen}
+								>
+									{this.state.menuOpen ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
+								</Button>
+								<span>{I18n.t("")}</span>
+							</div>
+						) : null}
+						{this.state.menuOpen && Object.keys(this.props.data.usersInGroup).length != 0 ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
 								{this.props.data.state.native.userListWithChatID.map((user, key) => {
