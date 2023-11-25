@@ -167,6 +167,7 @@ body {
 	transform: translateX(-50%);
 	text-align: center;
 	border: 1px solid red;
+	background-color: white;
 }
 .ErrorDoubleTrigger-Container .Error-Header {
 	margin: 2px 5px;
