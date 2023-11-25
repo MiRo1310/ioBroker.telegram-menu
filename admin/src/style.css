@@ -1,0 +1,714 @@
+body {
+	height: 100vh;
+}
+
+/* IconBar */
+.Logo2-logo-2 {
+	padding: 0px !important;
+	width: 40px !important;
+}
+.iconBar {
+	height: 40px;
+}
+.Tab-Header {
+	margin-bottom: 0;
+}
+.light .Tab-Header,
+.colored .Tab-Header {
+	background-color: #3399cc;
+}
+.dark form.Tab-Header {
+	background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
+}
+.blue form.Tab-Header {
+	background-color: rgb(62, 68, 72);
+}
+.Tab-Header button {
+	margin-left: 5px;
+}
+.Tab-Header img {
+	margin: 5px;
+}
+/* Tab-Navigation */
+.App-TabList button {
+	border-radius: 6px;
+	border: 2px solid !important;
+	margin: 5px 5px 5px 5px;
+	border-color: #aaa !important;
+}
+.App-TabList button span {
+	margin-bottom: 2px !important;
+}
+.light .App-TabList button,
+.colored .App-TabList button {
+	background-color: #ddd !important;
+}
+.dark .App-TabList button {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.App-TabList > div > div {
+	background-color: #3399cc;
+}
+
+.dark .App-TabList > div > div {
+	background-color: rgb(59, 59, 59);
+}
+.blue .App-TabList > div > div {
+	background-color: rgb(62, 68, 72);
+}
+/* Hover */
+.light .App-TabList button:hover,
+.light .MenuPopupCard-Popup button:hover .colored .App-TabList button:hover,
+.colored .MenuPopupCard-Popup button:hover {
+	background-color: #eee !important;
+	border-color: #888 !important;
+}
+.dark .App-TabList button:hover,
+.dark .MenuPopupCard-Popup button:hover {
+	background-color: #333 !important;
+	border-color: #888 !important;
+}
+.blue .App-TabList button:hover,
+.blue .MenuPopupCard-Popup button:hover {
+	background-color: #333 !important;
+	border-color: #888 !important;
+}
+/* HeaderMenu */
+.MenuPopupCard-Popup {
+	display: inline-block;
+	width: 160px;
+	position: absolute;
+	z-index: 1500;
+	top: 142px;
+	left: 5px;
+	border: 2px solid #333;
+	border-radius: 4px;
+}
+.light .MenuPopupCard-Popup,
+.colored .MenuPopupCard-Popup {
+	background-color: #fff;
+}
+.dark .MenuPopupCard-Popup {
+	background-color: #333;
+}
+.blue .MenuPopupCard-Popup {
+	background-color: rgb(62, 68, 72);
+}
+
+.MenuPopupCard-Popup button {
+	color: #3399cc !important;
+	border: 2px solid #aaa !important;
+}
+.light .MenuPopupCard-Popup button,
+.colored .MenuPopupCard-Popup button {
+	background-color: #ddd !important;
+}
+.dark .MenuPopupCard-Popup button {
+	background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.blue .MenuPopupCard-Popup button {
+	background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.MenuCard button {
+	border-radius: 5px !important;
+}
+
+.HeaderMenu-menuPopupCard {
+	display: inline-block;
+}
+.dark .HeaderMenu-GridContainer,
+.blue .HeaderMenu-GridContainer {
+	color: white;
+}
+.HeaderMenu-GridContainer {
+	font-size: 0.8rem;
+}
+.HeaderMenu-GridContainer input {
+	margin-top: 0 !important;
+	margin-left: 0 !important;
+	font-size: 0.8rem !important;
+}
+/* Header Telegram User */
+.HeaderThirdRow-ButtonAction {
+	display: inline-block;
+	width: 200px;
+}
+.TeleGrammUsers {
+	display: inline-block;
+	width: 200px;
+}
+.errorString {
+	color: red;
+	position: absolute;
+	top: 150px;
+	max-width: 200px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.7rem;
+
+	padding: 0.5rem 1rem;
+}
+.disableSaveBtn {
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+	height: 65px;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1100;
+}
+/* error */
+.ErrorDoubleTrigger-Container {
+	color: red;
+	position: absolute;
+	top: 5px;
+	max-width: 400px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	border: 1px solid red;
+}
+.ErrorDoubleTrigger-Container .Error-Header {
+	margin: 2px 5px;
+}
+.ErrorDoubleTrigger-Container .Error-Items {
+	display: inline;
+	padding: 0px 10px;
+}
+
+/* Grid Main Content */
+.App-main-content {
+	padding-top: 0 !important;
+}
+div.MuiTabPanel-root {
+	overflow: hidden;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+	width: calc(100%) !important;
+	padding: 2px 5px 5px 5px;
+}
+
+/* NavigationMenu */
+/* Table ist in Allgemein */
+.dark th,
+.blue th {
+	color: black;
+}
+.MenuNavigation-Container table tbody tr:first-child {
+	background-color: #96d15a !important;
+}
+.dark .MenuNavigation-Container table tbody tr:first-child td,
+.blue .MenuNavigation-Container table tbody tr:first-child td {
+	color: black !important;
+}
+
+.MenuNavigation-Container table tbody tr[draggable]:hover,
+.TableDndAction-Body tr[draggable]:hover {
+	background-color: rgba(51, 153, 204, 0.5) !important;
+}
+
+.MenuNavigation-Container,
+.SetState-Container,
+.SendPic-Container,
+.GetState-Container {
+	padding: 0px !important;
+	overflow: auto;
+	height: calc(100%);
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+}
+.SetState-Container {
+	height: calc(100% - 50px);
+}
+
+/* Settings */
+.Settings h1 {
+	text-decoration: underline;
+	padding-bottom: 2rem;
+	padding-left: 5px;
+}
+.Settings select {
+	border: none;
+	border-bottom: 1px solid #aaa;
+}
+.Settings input[type="checkbox"] {
+	margin-left: 8px;
+}
+
+/* DialogContainer */
+
+.DialogBackground {
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	z-index: 1000;
+}
+.DialogContainer-Header {
+	font-family: "Roboto,Helvetica,Arial,sans-serif";
+	font-size: 1.25rem;
+	font-weight: 500;
+	line-height: 1.6;
+	padding: 10px 10px 10px 30px;
+	margin: 5px 5px 40px 5px;
+	border-radius: 4px;
+}
+.light .DialogContainer-Header,
+.colored .DialogContainer-Header {
+	background-color: #3399cc;
+}
+.dark .DialogContainer-Header {
+	background-color: #333;
+	color: white;
+}
+.blue .DialogContainer-Header {
+	background-color: rgb(62, 68, 72);
+	color: white;
+}
+
+.DialogContainer-Footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: right;
+}
+.DialogContainer-Footer button {
+	padding: 0 30px !important;
+	margin: 0 8px 10px 8px !important;
+	border: none !important;
+	font-size: 1.2rem !important;
+}
+.dark .DialogContainer {
+	background-color: #444 !important;
+}
+.blue .DialogContainer {
+	background-color: rgb(34, 42, 46) !important;
+}
+.DialogContainer .DialogContainer-Footer button[disabled] {
+	opacity: 0.5 !important;
+}
+.DialogContainer button[name="ok"] {
+	background-color: #3399cc !important;
+	color: white !important;
+	opacity: 1 !important;
+}
+.DialogContainer button[name="ok"]:not([disabled]):hover {
+	background-color: rgb(35, 107, 142) !important;
+	transition: background-color 0.5s ease;
+}
+.DialogContainer button[name="cancel"] {
+	background-color: #cdcdcd !important;
+	color: black !important;
+	opacity: 1 !important;
+}
+.light .DialogContainer button[name="cancel"]:not([disabled]),
+.colored .DialogContainer button[name="cancel"]:not([disabled]) {
+	background-color: #aaa !important;
+	transition: background-color 0.5s ease;
+}
+.dark .DialogContainer button[name="cancel"]:not([disabled]) {
+	background-color: #555 !important;
+	color: white !important;
+	border: 2px solid #ddd !important;
+}
+.blue .DialogContainer button[name="cancel"]:not([disabled]) {
+	background-color: rgb(62, 68, 72) !important;
+	color: white !important;
+	border: 2px solid #ddd !important;
+}
+
+.light .DialogContainer button[name="cancel"]:hover,
+.colored .DialogContainer button[name="cancel"]:hover {
+	background-color: #aaa !important;
+	transition: background-color 0.5s ease;
+}
+.dark .DialogContainer button[name="cancel"]:hover,
+.blue .DialogContainer button[name="cancel"]:hover {
+	background-color: #333 !important;
+	transition: background-color 0.5s ease;
+}
+.DialogContainer select {
+	color: #3399cc;
+	width: 200px;
+	border: none;
+	border-bottom: 1px solid black;
+}
+.DialogContainer select:focus {
+	outline: none;
+}
+/* DropBox */
+.DropBox-PopupContainer {
+	background-color: transparent !important;
+	top: 105px !important;
+	height: 50% !important;
+	width: 212px !important;
+	right: 5px !important;
+	left: auto !important;
+}
+.DropBox-PopupContainer > div.DialogContainer {
+	transform: none !important;
+	top: 0px !important;
+	left: auto !important;
+	height: 100% !important;
+}
+.DropBox {
+	background-color: #eee;
+	width: 90%;
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 40%;
+	border: 2px solid black;
+}
+.dark .DropBox {
+	background-color: #333;
+	color: white;
+}
+.blue .DropBox {
+	background-color: rgb(62, 68, 72);
+	color: white;
+}
+.DropBox .Select select {
+	font-size: 0.9rem !important;
+}
+.DropBox-Background {
+	bottom: -250px !important;
+}
+.DropBox p {
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.5rem;
+	margin-top: 10px;
+	color: #3399cc;
+	text-decoration: underline;
+	margin-bottom: 10px;
+}
+.DropBox p.DropBox-Content {
+	font-size: 0.7rem;
+	margin-top: 0px;
+	text-decoration: none;
+}
+.dark .DropBox-Container label,
+.blue .DropBox-Container label {
+	color: white !important;
+}
+/* HelperCard */
+.HelperText .DialogContainer {
+	min-width: 750px !important;
+}
+.HelperCard {
+	max-height: 320px;
+}
+.HelperCard button {
+	background-color: #3399cc !important;
+}
+.HelperCard ~ .Input-Container .InputField {
+	width: 90% !important;
+	margin-top: 40px !important;
+	font-size: 0.9rem !important;
+}
+
+.BtnCircleAdd {
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	color: #3399cc;
+	border: none;
+	display: inline-block;
+	cursor: pointer;
+	margin-left: 4px;
+}
+.light .BtnCircleAdd,
+.colored .BtnCircleAdd {
+	background-color: white;
+}
+.dark .BtnCircleAdd,
+.blue .BtnCircleAdd {
+	background-color: none;
+}
+/* Edit cards */
+.Edit-Container p {
+	font-size: 0.8rem;
+	color: #777;
+	margin: 0 !important;
+}
+.Edit-Container input {
+	font-size: 0.9rem !important;
+	margin: 0 !important;
+}
+.Edit-Container-Trigger {
+	margin-left: 20px;
+	margin-bottom: 30px;
+}
+.Edit-Container input {
+	background-color: inherit !important;
+	border-color: black !important;
+}
+.Edit-Container .Input-Container {
+	margin-left: 8px;
+	display: inline-block;
+}
+
+.Edit-Container input[type="checkbox"] {
+	margin-left: 8px;
+}
+.Edit-Container input[type="checkbox"]:checked {
+	color: #96d15a;
+	accent-color: rgb(33, 150, 243);
+}
+.Edit-Container .Edit-Container-TableContainer {
+	max-height: 330px;
+}
+.RenameCard .Input-Container {
+	display: block !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+.RenameCard input {
+	text-align: center;
+}
+
+/* Drag and Drop, not select Text */
+.no-select {
+	user-select: none; /* Standard */
+	-moz-user-select: none; /* Firefox */
+	-webkit-user-select: none; /* Safari und Chrome */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+}
+.cellIcon {
+	padding: 1px !important;
+	width: 35px !important;
+}
+.checkbox {
+	width: 60px;
+}
+
+.MenuHeader-ActiveMenu {
+	margin-left: 19px;
+}
+
+.MenuHeader-borderActiveMenu {
+	border: 3px solid #96d15a;
+	padding: 2px 3px;
+}
+.Grid-HeaderMenu {
+	margin-top: 5px !important;
+}
+
+/* Allgemein */
+/* label */
+label p {
+	font-size: 0.8rem;
+	color: #777;
+	/* margin-left: px; */
+}
+/* Table */
+.MuiTableHead-root tr th {
+	background-color: #3399cc !important;
+}
+.Tab-Box table th {
+	padding: 5px 5px 2px 5px;
+	top: 0;
+}
+.TableDndAction-Body {
+	width: 95% !important;
+}
+
+table {
+	border-collapse: collapse !important;
+	width: calc(100% - 5px) !important;
+}
+
+tr[draggable] {
+	cursor: grab;
+	padding-right: 10px !important;
+	margin-right: 10px;
+}
+
+tr td {
+	padding: 2px 5px !important;
+	font-size: 0.8rem !important;
+}
+.light tr:not(.SubTable):nth-child(even),
+.colored tr:not(.SubTable):nth-child(even) {
+	background-color: #eee;
+}
+.dark tr:not(.SubTable):nth-child(even) {
+	background-color: #333;
+}
+.light tr:not(.SubTable):nth-child(odd),
+.colored tr:not(.SubTable):nth-child(odd) {
+	background-color: #fff;
+}
+.dark tr:not(.SubTable):nth-child(odd) {
+	background-color: #555;
+}
+.blue tr:not(.SubTable):nth-child(odd) {
+	background-color: rgb(62, 68, 72);
+}
+/* Button */
+
+button {
+	cursor: pointer;
+}
+
+.HeaderTelegramUser-Container .Btn-Expand {
+	position: absolute;
+	top: -35px;
+	left: -55px;
+}
+.dark .Btn-Expand button {
+	background-color: #555 !important;
+	border-color: #aaa !important;
+}
+.blue .Btn-Expand button {
+	background-color: rgb(62, 68, 72) !important;
+	border-color: #aaa !important;
+}
+.dark .Btn-Expand button:hover,
+.blue .Btn-Expand button:hover {
+	background-color: #333 !important;
+	border-color: #888 !important;
+}
+
+.dark .Btn-Expand span,
+.blue .Btn-Expand span {
+	color: white !important;
+}
+/* Select */
+.dark select {
+	background-color: #333 !important;
+	color: white !important;
+	border: 2px solid #aaa !important;
+}
+.blue select {
+	background-color: rgb(62, 68, 72) !important;
+	color: white !important;
+	border: 2px solid #aaa !important;
+}
+
+.inUse,
+.inUse input {
+	color: red !important;
+	border-color: red !important;
+}
+p.inUse {
+	position: absolute;
+	top: 60px;
+	left: 5px;
+}
+.dark input,
+.blue input {
+	background-color: inherit;
+	color: white;
+	border-bottom: 1px solid white !important;
+}
+.dark .HeaderMenu-GridContainer input:hover,
+.blue .HeaderMenu-GridContainer input:hover {
+	border-width: 2px !important;
+}
+
+input ~ p {
+	margin-left: 5px !important;
+}
+input ~ p {
+	margin-top: 0px !important;
+	display: block;
+}
+input:focus {
+	outline: none;
+}
+
+/* checkbox */
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 0;
+	vertical-align: text-bottom;
+}
+input[type="checkbox"]:checked {
+	accent-color: rgb(33, 150, 243);
+}
+
+.Select span {
+	display: block;
+	margin-left: 5px;
+}
+.Select select {
+	margin: 5px;
+}
+
+/* Settings */
+.Settings h1 {
+	margin: 1px;
+}
+.light .Settings,
+.colored .Settings {
+	color: black;
+}
+.dark .Settings,
+.blue .Settings {
+	color: white;
+}
+
+.light .HeaderTelegramUsers-TelegramUserCard,
+.colored .HeaderTelegramUsers-TelegramUserCard {
+	background-color: #eee;
+}
+.dark .HeaderTelegramUsers-TelegramUserCard {
+	background-color: #333;
+	color: white;
+}
+.blue .HeaderTelegramUsers-TelegramUserCard {
+	background-color: rgb(62, 68, 72);
+	color: white;
+}
+.TeleGrammUserCard-content {
+	padding: 0.1rem 1rem;
+	margin: 0;
+	width: 100px;
+	display: inline-block;
+}
+.TeleGrammUserCard-content p {
+	margin: 0;
+}
+.TelegramUserCard-description {
+	color: #96d15a;
+	font-size: 12px;
+	text-decoration: underline;
+	padding: 5px 0 0 16px;
+	margin-bottom: 4px;
+	margin-top: 0px;
+}
+.TelegramUserCard-User {
+	margin-top: 5px;
+}
+.TelegramUserCard-name,
+.TelegramUserCard-content > div.Checkbox {
+	display: inline !important;
+}
+.TelegramUserCard-checkbox input[type="checkbox"] {
+	margin-bottom: 0px;
+}
+.TelegramUserCard-ChatID {
+	font-size: 0.7rem;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}
+.MuiTabs-root div.MuiTabs-fixed {
+	position: fixed;
+	background-color: white;
+	width: 100%;
+	z-index: 100;
+}
+
+.HeaderTelegramUser-Container {
+	position: relative;
+}

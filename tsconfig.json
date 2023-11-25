@@ -6,7 +6,6 @@
 	"compilerOptions": {
 		// do not compile anything, this file is just to configure type checking
 		"noEmit": true,
-
 		// check JS files
 		"allowJs": true,
 		"checkJs": true,
@@ -26,5 +25,5 @@
 		"useUnknownInCatchVariables": false
 	},
 	"include": ["**/*.js", "**/*.d.ts"],
-	"exclude": ["node_modules/**", "widgets/**"]
+	"exclude": ["node_modules/**", "widgets/**", "admin/src/index.jsx", "admin/src/components/settings.jsx", "admin/src/components/btn-Input/"]
 }
