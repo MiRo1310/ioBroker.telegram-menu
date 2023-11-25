@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import ActionCard from "./ActionCard";
-import { I18n } from "@iobroker/adapter-react-v5";
 
 class Action extends Component {
 	constructor(props) {

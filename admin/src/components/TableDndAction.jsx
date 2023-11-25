@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import { deleteRow, moveItem } from "../lib/button";
+import { deleteRow, moveItem } from "../lib/button.mjs";
 import { ButtonCard } from "./btn-Input/buttonCard";
 import SubTable from "./subTable";
-import { deepCopy } from "../lib/Utilis";
+import { deepCopy } from "../lib/Utilis.mjs";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};
@@ -66,8 +66,8 @@ class TableDndAction extends Component {
 		return this.state.dropOver === index && this.state.dropStart > index
 			? { borderTop: "2px solid #3399cc" }
 			: this.state.dropOver === index && this.state.dropStart < index
-			? { borderBottom: "2px solid #3399cc" }
-			: null;
+			  ? { borderBottom: "2px solid #3399cc" }
+			  : null;
 	};
 	handleDragEnter = (index) => {
 		this.setState({ dropOver: index });

@@ -3,7 +3,7 @@ import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Grid, Tab, Box } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
-import { updateTriggerForSelect } from "./lib/actionUtilis";
+import { updateTriggerForSelect } from "./lib/actionUtilis.mjs";
 
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
@@ -15,8 +15,8 @@ import Action from "./components/Action";
 import DropBox from "./components/popupCards/DropBox";
 import PopupContainer from "./components/popupCards/PopupContainer";
 
-import getIobrokerData from "./lib/socket";
-import helperFunction from "./lib/Utilis";
+import getIobrokerData from "./lib/socket.mjs";
+import helperFunction from "./lib/Utilis.mjs";
 let myTheme;
 
 class App extends GenericApp {

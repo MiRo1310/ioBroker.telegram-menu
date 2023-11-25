@@ -12,8 +12,8 @@ import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
-import { isChecked } from "../../lib/Utilis";
-import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis";
+import { isChecked } from "../../lib/Utilis.mjs";
+import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, moveDown, moveUp, updateId } from "../../lib/actionUtilis.mjs";
 
 class RowEditPopupCard extends Component {
 	constructor(props) {

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Select from "../btn-Input/select";
 import { Radio } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { updateTriggerForSelect } from "../../lib/actionUtilis";
-import { deepCopy } from "../../lib/Utilis";
+import { updateTriggerForSelect } from "../../lib/actionUtilis.mjs";
+import { deepCopy } from "../../lib/Utilis.mjs";
 import PopupContainer from "./PopupContainer";
 import RenameCard from "./RenameCard";
 

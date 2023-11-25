@@ -7,7 +7,7 @@ import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
 import PopupContainer from "./popupCards/PopupContainer";
 import RenameCard from "./popupCards/RenameCard";
 
-import { deepCopy } from "../lib/Utilis";
+import { deepCopy } from "../lib/Utilis.mjs";
 
 /**
  *

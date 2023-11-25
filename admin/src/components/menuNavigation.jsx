@@ -7,7 +7,7 @@ import RowNavCard from "./popupCards/RowNavCard";
 import TableDndNav from "./TableDndNav";
 import HelperCard from "./popupCards/HelperCard";
 
-import helperText from "../lib/helper";
+import helperText from "../lib/helper.mjs";
 
 class MenuNavigation extends Component {
 	constructor(props) {
