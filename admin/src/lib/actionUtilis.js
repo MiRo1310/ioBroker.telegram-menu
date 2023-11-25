@@ -97,8 +97,10 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 	// Trigger und Used Trigger finden
 	let usedTrigger = [];
 	let allTriggers = [];
+	console.log(menusToSearchIn);
 	menusToSearchIn.forEach((menu) => {
 		// usedTriggers und unUsedTrigger in Nav finden
+		if (!data.nav[menu]) return;
 		data.nav[menu].forEach((element) => {
 			usedTrigger.push(element.call);
 			allTriggers = allTriggers.concat(disassembleTextToTriggers(element.value));
