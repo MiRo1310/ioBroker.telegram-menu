@@ -1,4 +1,4 @@
-import { deepCopy, sortArray, deleteDoubleEntrysInArray } from "./Utilis";
+import { deepCopy, sortArray, deleteDoubleEntrysInArray } from "./Utilis.mjs";
 
 function createData(element, index, rowElements) {
 	const obj = {};
