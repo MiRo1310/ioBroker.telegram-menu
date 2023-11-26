@@ -29,6 +29,7 @@
     "Choose your option": "Choisissez votre option",
     "Close": "Fermer",
     "Confirm": "Confirmer",
+    "Confirm message": "Confirmer le message",
     "Confirm set value": "Confirmer la valeur définie",
     "Confirms the value": "Confirme la valeur",
     "Converts a Unix timestamp to a local time": "Convertit un horodatage Unix en heure locale",

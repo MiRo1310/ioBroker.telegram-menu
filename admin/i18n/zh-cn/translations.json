@@ -29,6 +29,7 @@
     "Choose your option": "选择您的选项",
     "Close": "关闭",
     "Confirm": "确认",
+    "Confirm message": "确认消息",
     "Confirm set value": "确认设定值",
     "Confirms the value": "确认值",
     "Converts a Unix timestamp to a local time": "将 Unix 时间戳转换为本地时间",

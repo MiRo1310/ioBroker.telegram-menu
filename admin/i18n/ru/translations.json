@@ -29,6 +29,7 @@
     "Choose your option": "Выберите свой вариант",
     "Close": "Закрывать",
     "Confirm": "Подтверждать",
+    "Confirm message": "Подтвердите сообщение",
     "Confirm set value": "Подтвердить установленное значение",
     "Confirms the value": "Подтверждает ценность",
     "Converts a Unix timestamp to a local time": "Преобразует временную метку Unix в местное время.",
