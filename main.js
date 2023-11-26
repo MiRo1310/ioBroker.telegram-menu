@@ -60,7 +60,8 @@ class TelegramMenu extends utils.Adapter {
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
 		// @ts-ignore
-		const listofMenus = this.config.menus;
+		// const listofMenus = this.config.menus;
+		const listofMenus = Object.keys(this.config.menus);
 		// @ts-ignore
 		const startsides = this.config.startsides;
 		// @ts-ignore

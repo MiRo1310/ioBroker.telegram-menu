@@ -34,6 +34,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+
+-   fixed error when the Adapter starts
 -   Drag & Drop in Action Card
 
 ### 0.9.0 (2023-11-26)
