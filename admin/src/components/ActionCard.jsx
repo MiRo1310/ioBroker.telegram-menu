@@ -43,6 +43,7 @@ class ActionCard extends Component {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
+			// console.log("newRow", this.state.newRow);
 			let value = true;
 			let valueRowValuesAndSwitch = true;
 			let globalRowValue = true;
@@ -54,10 +55,12 @@ class ActionCard extends Component {
 							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
 								valueRowValuesAndSwitch = true;
 							} else {
+								// console.log(entry.name, val, index);
 								valueRowValuesAndSwitch = false;
 							}
 						} else if (val !== undefined && val !== null && val !== "") {
 						} else {
+							// console.log(entry.name, val, index);
 							value = false;
 						}
 					});
@@ -67,6 +70,7 @@ class ActionCard extends Component {
 			});
 
 			value = value && valueRowValuesAndSwitch;
+			// console.log(value, valueRowValuesAndSwitch);
 			if (this.state.inputValuesAreOK !== value) this.setState({ inputValuesAreOK: value });
 		}
 	}

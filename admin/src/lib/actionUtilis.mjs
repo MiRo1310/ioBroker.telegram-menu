@@ -46,7 +46,6 @@ export const addNewRow = (index, props, rowElements, setState, row) => {
 	let newRow;
 	if (index >= 0) newRow = deepCopy(props.newRow);
 	else newRow = {};
-
 	rowElements.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
 
@@ -69,9 +68,11 @@ export const deleteRow = (index, props, array, setState, rowElements) => {
 
 export const moveItem = (index, props, array, setState, rowElements, val) => {
 	const newRow = deepCopy(props.newRow);
+	// console.log(newRow);
 	array.forEach((element) => {
-		newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
+		if (element.name !== "trigger") newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
 	});
+	// console.log(newRow);
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
