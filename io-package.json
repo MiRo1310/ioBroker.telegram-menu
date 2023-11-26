@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.8.7",
+    "version": "0.9.0",
     "news": {
+      "0.9.0": {
+        "en": "#75 fixed add new row in Action and edit it",
+        "de": "#75 fix Neue Zeile in Aktion hinzufügen und bearbeiten",
+        "ru": "#75 фиксированный добавить новый ряд в действие и отредактировать его",
+        "pt": "#75 fixo adicionar nova linha em Ação e editá-la",
+        "nl": "75 gerepareerd voeg nieuwe rij in Action en edit it",
+        "fr": "#75 fixe ajouter une nouvelle ligne en Action et la modifier",
+        "it": "#75 fisso aggiungere nuova riga in Azione e modificarla",
+        "es": "#75 fijado añadir nueva fila en Acción y editarlo",
+        "pl": "#75 stał się dodatkiem do nowego wiersza w Akcji i redagował ją",
+        "uk": "#75 фіксований додати новий рядок в дію і редагувати його",
+        "zh-cn": "#75 固定增加新的行动增加,并把它装入。"
+      },
       "0.8.7": {
         "en": "React UI with more features",
         "de": "Reagieren Sie UI mit weiteren Features",
@@ -80,19 +93,6 @@
         "pl": "refix {status.}",
         "uk": "фіксація {status.}:",
         "zh-cn": "fixstatus:]"
-      },
-      "0.8.1": {
-        "en": "hotfix, submenu switch",
-        "de": "hotfix, untermenüschalter",
-        "ru": "hotfix, подменю переключатель",
-        "pt": "hotfix, interruptor submenu",
-        "nl": "quality over quantity (qoq) releases vertaling:",
-        "fr": "hotfix, commutateur sous-menu",
-        "it": "hotfix, commutatore submenu",
-        "es": "hotfix, interruptor submenu",
-        "pl": "hotfix, submenu switch",
-        "uk": "hotfix, перемикач підменю",
-        "zh-cn": "热fix,分门转换"
       }
     },
     "titleLang": {

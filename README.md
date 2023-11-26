@@ -34,8 +34,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.9.0 (2023-11-26)
 
+-   React UI with more features
 -   #75 fixed add new row in Action and edit it
 
 ### 0.8.7 (2023-11-25)
