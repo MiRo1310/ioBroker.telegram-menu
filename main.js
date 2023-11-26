@@ -59,10 +59,9 @@ class TelegramMenu extends utils.Adapter {
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
-		// @ts-ignore
-		// const listofMenus = this.config.menus;
-		const listofMenus = Object.keys(this.config.menus);
-		// @ts-ignore
+		let listofMenus = [];
+		if (this.config.usersInGroup) listofMenus = Object.keys(this.config.usersInGroup);
+
 		const startsides = this.config.startsides;
 		// @ts-ignore
 		const token = this.config.tokenGrafana;
@@ -81,215 +80,220 @@ class TelegramMenu extends utils.Adapter {
 		};
 		const _this = this;
 		this.getForeignObject(datapoint, async (err, obj) => {
-			if (err || obj == null) {
-				this.log.error(JSON.stringify(err));
-				this.log.error(`The State ${datapoint} was not found!`);
-			} else {
-				// Datenpunkt wurde gefunden
-				try {
-					telegramState = await this.getForeignStateAsync(datapoint);
-				} catch (e) {
-					this.log.error("Error getForeignState: " + JSON.stringify(e.message));
-					this.log.error(JSON.stringify(e.stack));
-				}
-				telegramAktiv = telegramState?.val;
-				if (!telegramAktiv) {
-					this.log.info("Telegram was found, but is not runnig. Please start!");
-				}
-				if (telegramAktiv) {
-					this.log.info("Telegram was found");
-					this.setState("info.connection", true, true);
-
-					// @ts-ignore
-					const data = this.config.data;
-					const nav = data["nav"];
-					const action = data["action"];
-					this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
-					this.log.debug("Navigation " + JSON.stringify(nav));
-					this.log.debug("Action " + JSON.stringify(action));
+			try {
+				if (err || obj == null) {
+					this.log.error(JSON.stringify(err));
+					this.log.error(`The State ${datapoint} was not found!`);
+				} else {
+					// Datenpunkt wurde gefunden
 					try {
-						for (const name in nav) {
-							const value = await editArrayButtons(nav[name], this);
-							if (value) menuData.data[name] = await generateNewObjectStructure(_this, value);
-							this.log.debug("New Structure: " + JSON.stringify(menuData.data[name]));
-							const returnValue = generateActions(_this, action[name], menuData.data[name]);
-							menuData.data[name] = returnValue?.obj;
-							subscribeForeignStateIds = returnValue?.ids;
-							this.log.debug("SubscribeForeignStates: " + JSON.stringify(subscribeForeignStateIds));
-							if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
-								_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
-							} else this.log.debug("Nothing to Subscribe!");
-							this.log.debug("Menu: " + JSON.stringify(name));
-							this.log.debug("Array Buttons: " + JSON.stringify(value));
-							this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
+						telegramState = await this.getForeignStateAsync(datapoint);
+					} catch (e) {
+						this.log.error("Error getForeignState: " + JSON.stringify(e.message));
+						this.log.error(JSON.stringify(e.stack));
+					}
+					telegramAktiv = telegramState?.val;
+					if (!telegramAktiv) {
+						this.log.info("Telegram was found, but is not runnig. Please start!");
+					}
+					if (telegramAktiv) {
+						this.log.info("Telegram was found");
+						this.setState("info.connection", true, true);
+
+						// @ts-ignore
+						const data = this.config.data;
+						const nav = data["nav"];
+						const action = data["action"];
+						this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
+						this.log.debug("Navigation " + JSON.stringify(nav));
+						this.log.debug("Action " + JSON.stringify(action));
+						try {
+							for (const name in nav) {
+								const value = await editArrayButtons(nav[name], this);
+								if (value) menuData.data[name] = await generateNewObjectStructure(_this, value);
+								this.log.debug("New Structure: " + JSON.stringify(menuData.data[name]));
+								const returnValue = generateActions(_this, action[name], menuData.data[name]);
+								menuData.data[name] = returnValue?.obj;
+								subscribeForeignStateIds = returnValue?.ids;
+								this.log.debug("SubscribeForeignStates: " + JSON.stringify(subscribeForeignStateIds));
+								if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
+									_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
+								} else this.log.debug("Nothing to Subscribe!");
+								this.log.debug("Menu: " + JSON.stringify(name));
+								this.log.debug("Array Buttons: " + JSON.stringify(value));
+								this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
+							}
+						} catch (err) {
+							this.log.error("Error generateNav: " + JSON.stringify(err.message));
+							this.log.error(JSON.stringify(err.stack));
 						}
-					} catch (err) {
-						this.log.error("Error generateNav: " + JSON.stringify(err.message));
-						this.log.error(JSON.stringify(err.stack));
-					}
 
-					this.log.debug("Checkbox " + JSON.stringify(checkbox));
+						this.log.debug("Checkbox " + JSON.stringify(checkbox));
 
-					try {
-						this.log.debug("MenuList: " + JSON.stringify(listofMenus));
-						listofMenus.forEach((menu) => {
-							this.log.debug("Menu: " + JSON.stringify(menu));
-							const startside = [startsides[menu]].toString();
-							if (userActiveCheckbox[menu] && startside != "-") {
-								this.log.debug("Startseite: " + JSON.stringify(startside));
-								groupsWithUsers[menu].forEach((user) => {
-									backMenuFunc(this, startside, null, user);
-									this.log.debug("User List " + JSON.stringify(userListWithChatID));
+						try {
+							this.log.debug("MenuList: " + JSON.stringify(listofMenus));
+							listofMenus.forEach((menu) => {
+								this.log.debug("Menu: " + JSON.stringify(menu));
+								const startside = [startsides[menu]].toString();
+								if (userActiveCheckbox[menu] && startside != "-") {
+									this.log.debug("Startseite: " + JSON.stringify(startside));
+									groupsWithUsers[menu].forEach((user) => {
+										backMenuFunc(this, startside, null, user);
+										this.log.debug("User List " + JSON.stringify(userListWithChatID));
 
-									sendToTelegram(
-										_this,
-										user,
-										menuData.data[menu][startside].text,
-										menuData.data[menu][startside].nav,
-										instanceTelegram,
-										resize_keyboard,
-										one_time_keyboard,
-										userListWithChatID,
-									);
-								});
-							} else this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startside }));
-						});
-					} catch (error) {
-						this.log.error("Error read UserList" + JSON.stringify(error.message));
-						this.log.error(JSON.stringify(error.stack));
-					}
-				}
-				this.on("stateChange", async (id, state) => {
-					try {
-						let userToSend;
-						if (telegramAktiv && state?.ack) {
-							if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
-								const value = state.val;
-								const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-
-								if (chatID) {
-									this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
-									userListWithChatID.forEach((element) => {
-										this.log.debug("User and ChatID: " + JSON.stringify(element));
-										if (element.chatID == chatID.val) userToSend = element.name;
-										this.log.debug("User " + JSON.stringify(userToSend));
-									});
-								} else {
-									this.log.debug("ChatID not found");
-								}
-
-								const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-								this.log.debug(
-									JSON.stringify({
-										Value: value,
-										User: userToSend,
-										Todo: calledValue,
-										groups: groupsWithUsers,
-									}),
-								);
-								const menus = [];
-								for (const key in groupsWithUsers) {
-									this.log.debug("Groups " + JSON.stringify(key));
-									if (groupsWithUsers[key].includes(userToSend)) {
-										menus.push(key);
-									}
-								}
-								this.log.debug("Groups with searched User " + JSON.stringify(menus));
-								let dataFound = false;
-								for (const menu of menus) {
-									const groupData = menuData.data[menu];
-									this.log.debug("Nav: " + JSON.stringify(groupData));
-									this.log.debug("Menu: " + JSON.stringify(menuData.data));
-									this.log.debug("Group: " + JSON.stringify(menu));
-
-									if (
-										await processData(
-											this,
-											groupData,
-											calledValue,
-											userToSend,
-											menu,
+										sendToTelegram(
+											_this,
+											user,
+											menuData.data[menu][startside].text,
+											menuData.data[menu][startside].nav,
 											instanceTelegram,
 											resize_keyboard,
 											one_time_keyboard,
 											userListWithChatID,
-											menuData.data,
-											menus,
-										)
-									) {
-										dataFound = true;
-										break;
-									} else continue;
-								}
-								if (!dataFound && checkboxNoEntryFound) {
-									sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-								}
+										);
+									});
+								} else this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startside }));
+							});
+						} catch (error) {
+							this.log.error("Error read UserList" + JSON.stringify(error.message));
+							this.log.error(JSON.stringify(error.stack));
+						}
+					}
+					this.on("stateChange", async (id, state) => {
+						try {
+							let userToSend;
+							if (telegramAktiv && state?.ack) {
+								if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
+									const value = state.val;
+									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 
-								// Auf Setstate reagieren und Wert schicken
-							} else if (state && setStateIdsToListenTo && setStateIdsToListenTo.find((element) => element.id == id)) {
-								this.log.debug("State, which is listen to was changed " + JSON.stringify(id));
-								setStateIdsToListenTo.forEach((element, key) => {
-									if (element.id == id) {
-										this.log.debug("Send Value " + JSON.stringify(element));
-										if (element.confirm != "false") {
-											this.log.debug("User " + JSON.stringify(element.userToSend));
+									if (chatID) {
+										this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
+										userListWithChatID.forEach((element) => {
+											this.log.debug("User and ChatID: " + JSON.stringify(element));
+											if (element.chatID == chatID.val) userToSend = element.name;
+											this.log.debug("User " + JSON.stringify(userToSend));
+										});
+									} else {
+										this.log.debug("ChatID not found");
+									}
 
-											let textToSend = "";
-											textToSend = element.returnText;
-											// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
-											let value = "";
-											// Change set value in another Value, like true => on, false => off
-											let result = {};
-											let valueChange = "";
-											if (textToSend.toString().includes("change{")) {
-												result = exchangeValue(textToSend, state.val, this);
-												if (result) {
-													textToSend = result["textToSend"];
-													valueChange = result["valueChange"];
-												}
-											}
-											if (textToSend?.toString().includes("{novalue}")) {
-												value = "";
-												textToSend = textToSend.replace("{novalue}", "");
-											} else if (state.val || state.val == false) value = state.val?.toString();
+									const calledValue = value.slice(value.indexOf("]") + 1, value.length);
+									this.log.debug(
+										JSON.stringify({
+											Value: value,
+											User: userToSend,
+											Todo: calledValue,
+											groups: groupsWithUsers,
+										}),
+									);
+									const menus = [];
+									for (const key in groupsWithUsers) {
+										this.log.debug("Groups " + JSON.stringify(key));
+										if (groupsWithUsers[key].includes(userToSend)) {
+											menus.push(key);
+										}
+									}
+									this.log.debug("Groups with searched User " + JSON.stringify(menus));
+									let dataFound = false;
+									for (const menu of menus) {
+										const groupData = menuData.data[menu];
+										this.log.debug("Nav: " + JSON.stringify(groupData));
+										this.log.debug("Menu: " + JSON.stringify(menuData.data));
+										this.log.debug("Group: " + JSON.stringify(menu));
 
-											valueChange ? (value = valueChange) : value;
-											textToSend.toString().indexOf("&amp;&amp;") != -1
-												? (textToSend = textToSend.replace("&amp;&amp;", value))
-												: (textToSend += " " + value);
-											this.log.debug("Send Set to Telegram");
-											sendToTelegram(
+										if (
+											await processData(
 												this,
-												element.userToSend,
-												textToSend,
-												undefined,
+												groupData,
+												calledValue,
+												userToSend,
+												menu,
 												instanceTelegram,
 												resize_keyboard,
 												one_time_keyboard,
 												userListWithChatID,
-											);
-											// Die Elemente auf die Reagiert wurde entfernen
-											setStateIdsToListenTo.splice(key, 1);
-										}
+												menuData.data,
+												menus,
+											)
+										) {
+											dataFound = true;
+											break;
+										} else continue;
 									}
-								});
-							}
-						}
+									if (!dataFound && checkboxNoEntryFound) {
+										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+									}
 
-						if (state && id == `${instanceTelegram}.info.connection`) {
-							if (!state.val) {
-								telegramAktiv = false;
-								this.setState("info.connection", false, true);
-							} else {
-								this.setState("info.connection", true, true);
-								telegramAktiv = true;
+									// Auf Setstate reagieren und Wert schicken
+								} else if (state && setStateIdsToListenTo && setStateIdsToListenTo.find((element) => element.id == id)) {
+									this.log.debug("State, which is listen to was changed " + JSON.stringify(id));
+									setStateIdsToListenTo.forEach((element, key) => {
+										if (element.id == id) {
+											this.log.debug("Send Value " + JSON.stringify(element));
+											if (element.confirm != "false") {
+												this.log.debug("User " + JSON.stringify(element.userToSend));
+
+												let textToSend = "";
+												textToSend = element.returnText;
+												// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
+												let value = "";
+												// Change set value in another Value, like true => on, false => off
+												let result = {};
+												let valueChange = "";
+												if (textToSend.toString().includes("change{")) {
+													result = exchangeValue(textToSend, state.val, this);
+													if (result) {
+														textToSend = result["textToSend"];
+														valueChange = result["valueChange"];
+													}
+												}
+												if (textToSend?.toString().includes("{novalue}")) {
+													value = "";
+													textToSend = textToSend.replace("{novalue}", "");
+												} else if (state.val || state.val == false) value = state.val?.toString();
+
+												valueChange ? (value = valueChange) : value;
+												textToSend.toString().indexOf("&amp;&amp;") != -1
+													? (textToSend = textToSend.replace("&amp;&amp;", value))
+													: (textToSend += " " + value);
+												this.log.debug("Send Set to Telegram");
+												sendToTelegram(
+													this,
+													element.userToSend,
+													textToSend,
+													undefined,
+													instanceTelegram,
+													resize_keyboard,
+													one_time_keyboard,
+													userListWithChatID,
+												);
+												// Die Elemente auf die Reagiert wurde entfernen
+												setStateIdsToListenTo.splice(key, 1);
+											}
+										}
+									});
+								}
 							}
+
+							if (state && id == `${instanceTelegram}.info.connection`) {
+								if (!state.val) {
+									telegramAktiv = false;
+									this.setState("info.connection", false, true);
+								} else {
+									this.setState("info.connection", true, true);
+									telegramAktiv = true;
+								}
+							}
+						} catch (e) {
+							this.log.error("Error StateChange " + JSON.stringify(e.message));
+							this.log.error(JSON.stringify(e.stack));
 						}
-					} catch (e) {
-						this.log.error("Error StateChange " + JSON.stringify(e.message));
-						this.log.error(JSON.stringify(e.stack));
-					}
-				});
+					});
+				}
+			} catch (e) {
+				this.log.error("Error onReady: " + JSON.stringify(e.message));
+				this.log.error(JSON.stringify(e.stack));
 			}
 		});
 		/**
