@@ -17,74 +17,77 @@ function getRows(element, rowElements) {
 	}
 	return { rows: rows, trigger: trigger };
 }
-export const saveRows = (props, setState, rowElements, row) => {
+export const saveRows = (props, setState, rowElements, newRow) => {
 	setState({ data: props.newRow });
-	const data = getRows(props.newRow, rowElements);
+	let data;
+	if (newRow && newRow.length == 0) {
+		data = getRows(props.newRow, rowElements);
+	} else data = getRows(newRow, rowElements);
 	if (!data) return;
 	const rows = data.rows;
 	setState({ trigger: data.trigger });
-
-	// if (row.length == 0)
 	setState({ rows: rows });
 };
 
-export const updateData = (obj, props, rows, setState) => {
+export const updateData = (obj, props, rows, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
 	props.callback.setState({ newRow: newRow });
-
-	setState({ rows: [newRow] });
+	saveRows(props, setState, rowElements, newRow);
 };
-export const updateTrigger = (value, props) => {
+export const updateTrigger = (value, props, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	newRow.trigger[0] = value.trigger;
 	props.callback.setState({ newRow: newRow });
+	saveRows(props, setState, rowElements, newRow);
 };
 
-export const addNewRow = (index, props, dataForEachAction, setState, row) => {
+export const addNewRow = (index, props, rowElements, setState, row) => {
 	let newRow;
 	if (index >= 0) newRow = deepCopy(props.newRow);
 	else newRow = {};
-	console.log(newRow);
-	dataForEachAction.forEach((element) => {
+
+	rowElements.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
-		console.log(index);
+
 		if (!index && index !== 0) {
-			console.log("index");
 			newRow[element.name] = [element.val];
 		} else if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
 	});
 	props.callback.setState({ newRow: newRow });
-	console.log(row);
-	console.log(newRow);
+	saveRows(props, setState, rowElements, newRow);
 };
 
-export const deleteRow = (index, props, array) => {
+export const deleteRow = (index, props, array, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index, 1);
 	});
 	props.callback.setState({ newRow: newRow });
+	saveRows(props, setState, rowElements, newRow);
 };
 
-export const moveDown = (index, props, array) => {
+export const moveDown = (index, props, array, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index + 1, 0, newRow[element.name].splice(index, 1)[0]);
 	});
 	props.callback.setState({ newRow: newRow });
+	saveRows(props, setState, rowElements, newRow);
 };
-export const moveUp = (index, props, array) => {
+export const moveUp = (index, props, array, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index - 1, 0, newRow[element.name].splice(index, 1)[0]);
 	});
 	props.callback.setState({ newRow: newRow });
+	saveRows(props, setState, rowElements, newRow);
 };
-export const updateId = (selected, props, indexID) => {
+export const updateId = (selected, props, indexID, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	newRow.IDs[indexID] = selected;
 	props.callback.setState({ newRow: newRow });
+	saveRows(props, setState, rowElements, newRow);
 };
 
 export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
