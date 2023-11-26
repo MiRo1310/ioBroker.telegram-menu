@@ -204,8 +204,7 @@ div.MuiTabPanel-root {
 	color: black !important;
 }
 
-.MenuNavigation-Container table tbody tr[draggable]:hover,
-.TableDndAction-Body tr[draggable]:hover {
+tr[draggable]:hover {
 	background-color: rgba(51, 153, 204, 0.5) !important;
 }
 
@@ -423,14 +422,7 @@ div.MuiTabPanel-root {
 	cursor: pointer;
 	margin-left: 4px;
 }
-.light .BtnCircleAdd,
-.colored .BtnCircleAdd {
-	background-color: white;
-}
-.dark .BtnCircleAdd,
-.blue .BtnCircleAdd {
-	background-color: none;
-}
+
 /* Edit cards */
 .Edit-Container p {
 	font-size: 0.8rem;

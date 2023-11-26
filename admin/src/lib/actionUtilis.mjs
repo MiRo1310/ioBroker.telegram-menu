@@ -67,22 +67,15 @@ export const deleteRow = (index, props, array, setState, rowElements) => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const moveDown = (index, props, array, setState, rowElements) => {
+export const moveItem = (index, props, array, setState, rowElements, val) => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
-		newRow[element.name].splice(index + 1, 0, newRow[element.name].splice(index, 1)[0]);
+		newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
 	});
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
-export const moveUp = (index, props, array, setState, rowElements) => {
-	const newRow = deepCopy(props.newRow);
-	array.forEach((element) => {
-		newRow[element.name].splice(index - 1, 0, newRow[element.name].splice(index, 1)[0]);
-	});
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
-};
+
 export const updateId = (selected, props, indexID, setState, rowElements) => {
 	const newRow = deepCopy(props.newRow);
 	newRow.IDs[indexID] = selected;

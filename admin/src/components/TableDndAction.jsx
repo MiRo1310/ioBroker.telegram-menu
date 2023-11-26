@@ -60,7 +60,7 @@ class TableDndAction extends Component {
 		this.props.callback.setState({ draggingRowIndex: index });
 	};
 	handleDrop = (index) => {
-		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
+		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
 	};
 	handelStyleDragOver = (index) => {
 		return this.state.dropOver === index && this.state.dropStart > index
