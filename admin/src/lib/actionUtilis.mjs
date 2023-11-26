@@ -24,7 +24,8 @@ export const saveRows = (props, setState, rowElements, row) => {
 	const rows = data.rows;
 	setState({ trigger: data.trigger });
 
-	if (row.length == 0) setState({ rows: rows });
+	// if (row.length == 0)
+	setState({ rows: rows });
 };
 
 export const updateData = (obj, props, rows, setState) => {
@@ -40,17 +41,22 @@ export const updateTrigger = (value, props) => {
 	props.callback.setState({ newRow: newRow });
 };
 
-export const addNewRow = (index, props, array) => {
+export const addNewRow = (index, props, dataForEachAction, setState, row) => {
 	let newRow;
-	if (index) newRow = deepCopy(props.newRow);
+	if (index >= 0) newRow = deepCopy(props.newRow);
 	else newRow = {};
-	array.forEach((element) => {
+	console.log(newRow);
+	dataForEachAction.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
-		if (!index) {
+		console.log(index);
+		if (!index && index !== 0) {
+			console.log("index");
 			newRow[element.name] = [element.val];
 		} else if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
 	});
 	props.callback.setState({ newRow: newRow });
+	console.log(row);
+	console.log(newRow);
 };
 
 export const deleteRow = (index, props, array) => {
