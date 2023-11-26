@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "news": {
+      "0.9.1": {
+        "en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
+        "de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
+        "ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
+        "pt": "erro fixo quando o adaptador começa\nArrastar e soltar no cartão de ação",
+        "nl": "als de Adapter begint\nDrag Drop in Action Card",
+        "fr": "erreur fixe lorsque l'adaptateur démarre\nDrag & Drop in Action Card",
+        "it": "errore fisso quando l'adattatore inizia\nDrag & Drop in Action Card",
+        "es": "error fijo cuando el Adaptador comienza\nArrastre y suelte la tarjeta de acción",
+        "pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
+        "uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
+        "zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
+      },
       "0.9.0": {
         "en": "#75 fixed add new row in Action and edit it",
         "de": "#75 fix Neue Zeile in Aktion hinzufügen und bearbeiten",
@@ -80,19 +93,6 @@
         "pl": "metoda ta jest mniejsza niż 1 w liczbie submenu i 1%\nustalenie w podmenu",
         "uk": "фіксація, крок менше 1 в субмену кількість і відсотків\nглобл закріплює в підменю",
         "zh-cn": "fix 小于1级和4%\n分项abl f"
-      },
-      "0.8.2": {
-        "en": "fix {status:...}",
-        "de": "fix {status.}:",
-        "ru": "исправить {status.}:",
-        "pt": "correção",
-        "nl": "maak status",
-        "fr": "correction {status.}:",
-        "it": "correggere {status.}:",
-        "es": "arréglalo",
-        "pl": "refix {status.}",
-        "uk": "фіксація {status.}:",
-        "zh-cn": "fixstatus:]"
       }
     },
     "titleLang": {
