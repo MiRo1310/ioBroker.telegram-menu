@@ -10,7 +10,7 @@ class SubTable extends Component {
 		} else if (element === "false") {
 			return valfalse;
 		} else {
-			return element;
+			return element.replace(/&amp;/g, "&");
 		}
 	};
 	render() {
@@ -19,7 +19,9 @@ class SubTable extends Component {
 				<TableBody>
 					{this.props.data.map((element, index) => (
 						<TableRow key={index} className="SubTable">
-							<TableCell style={{ padding: "0", border: "none" }}>{this.getElementIcon(element)}</TableCell>
+							<TableCell style={{ padding: "0", border: "none" }}>
+								<span className="noneDraggable">{this.getElementIcon(element)}</span>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
