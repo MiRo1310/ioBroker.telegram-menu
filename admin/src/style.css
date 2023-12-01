@@ -47,8 +47,13 @@ body {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
-.App-TabList > div > div {
+.light .App-TabList > div > div,
+.colored .App-TabList > div > div {
 	background-color: #3399cc;
+}
+.light .App-TabList.TabList-Action > div > div,
+.colored .App-TabList.TabList-Action > div > div {
+	background-color: white;
 }
 
 .dark .App-TabList > div > div {
@@ -202,10 +207,6 @@ div.MuiTabPanel-root {
 .dark .MenuNavigation-Container table tbody tr:first-child td,
 .blue .MenuNavigation-Container table tbody tr:first-child td {
 	color: black !important;
-}
-
-tr[draggable]:hover {
-	background-color: rgba(51, 153, 204, 0.5) !important;
 }
 
 .MenuNavigation-Container,
@@ -466,7 +467,7 @@ tr[draggable]:hover {
 }
 
 /* Drag and Drop, not select Text */
-.no-select {
+.no-selectt {
 	user-select: none; /* Standard */
 	-moz-user-select: none; /* Firefox */
 	-webkit-user-select: none; /* Safari und Chrome */
@@ -520,6 +521,9 @@ tr[draggable] {
 	cursor: grab;
 	padding-right: 10px !important;
 	margin-right: 10px;
+}
+tr[draggable]:hover {
+	background-color: rgba(51, 153, 204, 0.5) !important;
 }
 
 tr td {
