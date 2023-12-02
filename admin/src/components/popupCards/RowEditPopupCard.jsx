@@ -14,7 +14,7 @@ import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
 import { isChecked } from "../../lib/Utilis.mjs";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "../../lib/actionUtilis.mjs";
-import { handleMouseOut, handleMouseOver, handleDragStart } from "../../lib/dragNDrop.mjs";
+import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../../lib/dragNDrop.mjs";
 
 class RowEditPopupCard extends Component {
 	constructor(props) {
@@ -39,46 +39,10 @@ class RowEditPopupCard extends Component {
 	updateData = (obj) => {
 		updateData(obj, this.props, this.state.rows, this.setState.bind(this), this.props.entrys);
 	};
-	updateTrigger = (value) => {
-		updateTrigger(value, this.props, this.setState.bind(this), this.props.entrys);
-	};
-	addNewRow = (index) => {
-		addNewRow(index, this.props, this.props.entrys, this.setState.bind(this), this.state.rows);
-	};
-
-	deleteRow = (index) => {
-		deleteRow(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys);
-	};
-	moveDown = (index) => {
-		moveItem(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys, 1);
-	};
-	moveUp = (index) => {
-		moveItem(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys, -1);
-	};
-	updateId = (selected) => {
-		updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entrys);
-	};
-	handleDragEnd = () => {
-		this.setState({ dropStart: 0 });
-		this.setState({ dropOver: 0 });
-	};
 
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart)
 			moveItem(this.state.dropStart, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys, index - this.state.dropStart);
-	};
-	handelStyleDragOver = (index) => {
-		return this.state.dropOver === index && this.state.dropStart > index
-			? { borderTop: "2px solid #3399cc" }
-			: this.state.dropOver === index && this.state.dropStart < index
-			  ? { borderBottom: "2px solid #3399cc" }
-			  : null;
-	};
-	handleDragEnter = (index) => {
-		this.setState({ dropOver: index });
-	};
-	handleDragOver = (index, event) => {
-		event.preventDefault();
 	};
 
 	render() {
@@ -90,7 +54,7 @@ class RowEditPopupCard extends Component {
 						selected={this.props.newRow.trigger[0]}
 						options={this.props.newUnUsedTrigger}
 						id="trigger"
-						callback={this.updateTrigger}
+						callback={(value) => updateTrigger(value, this.props, this.setState.bind(this), this.props.entrys)}
 						callbackValue="event.target.value"
 						label="Trigger"
 						placeholder="Select a Trigger"
@@ -121,11 +85,11 @@ class RowEditPopupCard extends Component {
 											draggable
 											onDrop={() => this.handleDrop(index)}
 											onDragStart={(event) => handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this))}
-											onDragEnd={this.handleDragEnd}
-											onDragOver={(event) => this.handleDragOver(index, event)}
-											onDragEnter={() => this.handleDragEnter(index)}
-											onDragLeave={() => this.handleDragEnter(index)}
-											style={this.handelStyleDragOver(index)}
+											onDragEnd={() => handleDragEnd(this.setState.bind(this))}
+											onDragOver={(event) => handleDragOver(index, event)}
+											onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
+											onDragLeave={() => handleDragEnter(index, this.setState.bind(this))}
+											style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
 										>
 											<TableCell component="td" scope="row" align="left">
 												<span
@@ -193,10 +157,17 @@ class RowEditPopupCard extends Component {
 											)}
 
 											<TableCell align="center" className="cellIcon">
-												<BtnSmallAdd callback={this.addNewRow} index={index} />
+												<BtnSmallAdd
+													callback={(index) => addNewRow(index, this.props, this.props.entrys, this.setState.bind(this), this.state.rows)}
+													index={index}
+												/>
 											</TableCell>
 											<TableCell align="center" className="cellIcon">
-												<BtnSmallRemove callback={this.deleteRow} index={index} disabled={this.state.rows.length == 1 ? "disabled" : ""} />
+												<BtnSmallRemove
+													callback={(index) => deleteRow(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys)}
+													index={index}
+													disabled={this.state.rows.length == 1 ? "disabled" : ""}
+												/>
 											</TableCell>
 										</TableRow>
 								  ))
@@ -217,7 +188,7 @@ class RowEditPopupCard extends Component {
 						onClose={() => this.setState({ showSelectId: false })}
 						onOk={(selected, name) => {
 							this.setState({ showSelectId: false });
-							this.updateId(selected);
+							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entrys);
 						}}
 					/>
 				) : null}

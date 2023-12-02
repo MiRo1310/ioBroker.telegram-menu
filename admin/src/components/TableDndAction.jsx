@@ -5,7 +5,7 @@ import { deleteRow, moveItem } from "../lib/button.mjs";
 import { ButtonCard } from "./btn-Input/buttonCard";
 import SubTable from "./subTable";
 import { deepCopy } from "../lib/Utilis.mjs";
-import { handleMouseOut, handleMouseOver, handleDragStart } from "../lib/dragNDrop.mjs";
+import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../lib/dragNDrop.mjs";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};
@@ -52,27 +52,9 @@ class TableDndAction extends Component {
 		this.mounted = true;
 		this.getRows();
 	}
-	handleDragEnd = () => {
-		this.setState({ dropStart: 0 });
-		this.setState({ dropOver: 0 });
-		this.props.callback.setState({ draggingRowIndex: 0 });
-	};
 
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
-	};
-	handelStyleDragOver = (index) => {
-		return this.state.dropOver === index && this.state.dropStart > index
-			? { borderTop: "2px solid #3399cc" }
-			: this.state.dropOver === index && this.state.dropStart < index
-			  ? { borderBottom: "2px solid #3399cc" }
-			  : null;
-	};
-	handleDragEnter = (index) => {
-		this.setState({ dropOver: index });
-	};
-	handleDragOver = (index, event) => {
-		event.preventDefault();
 	};
 
 	editRow = (index) => {
@@ -83,12 +65,6 @@ class TableDndAction extends Component {
 		this.props.setState({ editRow: true });
 		this.props.setState({ rowPopup: true });
 		this.props.setState({ rowIndex: index });
-	};
-	moveDown = (index) => {
-		moveItem(index, this.props, this.props.card, this.props.subcard, 1);
-	};
-	moveUp = (index) => {
-		moveItem(index, this.props, this.props.card, this.props.subcard, -1);
 	};
 	deleteRow = (index) => {
 		deleteRow(index, this.props, this.props.card, this.props.subcard);
@@ -107,10 +83,10 @@ class TableDndAction extends Component {
 						onDragStart={(event) => {
 							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }));
 						}}
-						onDragEnd={this.handleDragEnd}
-						onDragOver={(event) => this.handleDragOver(index, event)}
-						onDragEnter={() => this.handleDragEnter(index)}
-						style={this.handelStyleDragOver(index)}
+						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
+						onDragOver={(event) => handleDragOver(index, event)}
+						onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
+						style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
 					>
 						<TableCell align="left" component="td" scope="row">
 							<span
@@ -131,9 +107,9 @@ class TableDndAction extends Component {
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}
-							moveDown={this.moveDown}
-							moveUp={this.moveUp}
-							deleteRow={this.deleteRow}
+							moveDown={""}
+							moveUp={""}
+							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.subcard)}
 							rows={this.state.rows}
 							index={index}
 							showButtons={this.props.showButtons}
