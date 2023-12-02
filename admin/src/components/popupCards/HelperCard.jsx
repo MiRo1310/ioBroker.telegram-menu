@@ -78,7 +78,7 @@ class HelperCard extends Component {
 				</TableContainer>
 				<Input
 					width="100%"
-					value={this.props.editedValueFromHelperText}
+					value={this.props.editedValueFromHelperText.replace(/&amp;/g, "&")}
 					margin="0px 2px 0 5px"
 					id="editedValueFromHelperText"
 					callback={this.props.setState}

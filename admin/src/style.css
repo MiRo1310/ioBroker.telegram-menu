@@ -466,13 +466,6 @@ div.MuiTabPanel-root {
 	text-align: center;
 }
 
-/* Drag and Drop, not select Text */
-.no-selectt {
-	user-select: none; /* Standard */
-	-moz-user-select: none; /* Firefox */
-	-webkit-user-select: none; /* Safari und Chrome */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-}
 .cellIcon {
 	padding: 1px !important;
 	width: 35px !important;
@@ -522,8 +515,16 @@ tr[draggable] {
 	padding-right: 10px !important;
 	margin-right: 10px;
 }
+
 tr[draggable]:hover {
 	background-color: rgba(51, 153, 204, 0.5) !important;
+}
+tr[draggable] span {
+	cursor: text;
+	user-select: text;
+}
+tr[draggable] span i {
+	cursor: pointer;
 }
 
 tr td {
