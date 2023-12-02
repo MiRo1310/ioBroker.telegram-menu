@@ -33,6 +33,10 @@ const helperText = {
 			text: "{set:'id':'ID',val,ack}",
 			info: "Sets the value of the ID to the val, with ack(confirmed)",
 		},
+		{
+			text: 'change{"true":"an","false":"aus"}',
+			info: "Changes the value in the return text, in this case from true to on and false to off",
+		},
 		{ text: "", info: globalText.textID },
 	],
 	get: [
@@ -41,14 +45,15 @@ const helperText = {
 		{ text: "{common.name}", info: "Outputs the name of the data point" },
 		{ text: "&&", info: "Placeholder for the value" },
 		{ text: "{round:2}", info: "Rounds the value for example to 2 decimal places" },
-	],
-	set: [
-		{ text: "{novalue}", info: "The Value is not specified in the return text" },
-		{ text: "ack:true", info: "Confirms the value" },
 		{
 			text: 'change{"true":"an","false":"aus"}',
 			info: "Changes the value in the return text, in this case from true to on and false to off",
 		},
+	],
+	set: [
+		{ text: "{novalue}", info: "The Value is not specified in the return text" },
+		{ text: "ack:true", info: "Confirms the value" },
+
 		{ text: "&&", info: "Placeholder for the value" },
 		{
 			text: "{'id':'ID','text':'Your Text'}",

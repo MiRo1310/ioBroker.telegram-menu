@@ -13,7 +13,7 @@ const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 const editArrayButtons = require("./lib/js/action").editArrayButtons;
 const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
 const generateActions = require("./lib/js/action").generateActions;
-const exchangeValue = require("./lib/js/action").exchangeValue;
+
 const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
 const utilities = require("./lib/js/utilities");
@@ -21,6 +21,7 @@ const subMenu = require("./lib/js/subMenu").subMenu;
 const backMenuFunc = require("./lib/js/subMenu").backMenuFunc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
 const Utils = require("./lib/js/global");
+const changeValue = require("./lib/js/utilities").changeValue;
 
 let timeouts = [];
 let timeoutKey = 0;
@@ -239,24 +240,26 @@ class TelegramMenu extends utils.Adapter {
 												// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
 												let value = "";
 												// Change set value in another Value, like true => on, false => off
-												let result = {};
 												let valueChange = "";
-												if (textToSend.toString().includes("change{")) {
-													result = exchangeValue(textToSend, state.val, this);
-													if (result) {
-														textToSend = result["textToSend"];
-														valueChange = result["valueChange"];
-													}
+												let resultChange = changeValue(textToSend, state.val, _this);
+												if (resultChange) {
+													valueChange = resultChange["val"];
+													textToSend = resultChange["textToSend"];
 												}
+
 												if (textToSend?.toString().includes("{novalue}")) {
 													value = "";
 													textToSend = textToSend.replace("{novalue}", "");
 												} else if (state.val || state.val == false) value = state.val?.toString();
 
 												valueChange ? (value = valueChange) : value;
-												textToSend.toString().indexOf("&amp;&amp;") != -1
-													? (textToSend = textToSend.replace("&amp;&amp;", value))
+												let searchString = "";
+												if (textToSend.includes("&&")) searchString = "&&";
+												else searchString = "&amp;&amp;";
+												textToSend.toString().indexOf(searchString) != -1
+													? (textToSend = textToSend.replace(searchString, value))
 													: (textToSend += " " + value);
+
 												this.log.debug("Send Set to Telegram");
 												sendToTelegram(
 													this,
@@ -349,6 +352,7 @@ class TelegramMenu extends utils.Adapter {
 							if (userToSend) {
 								_this.log.debug("Send Nav to Telegram");
 								const text = await utilities.checkStatusInfo(_this, part.text);
+								//FIXME -
 								sendToTelegram(_this, userToSend, text, part.nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
 								return true;
 							}
