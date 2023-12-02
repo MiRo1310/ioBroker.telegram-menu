@@ -34,7 +34,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 
--   small fixea
+-   fixed save Value from HelperCard
+-   changeValue extends
+-   small fixes
 -   it is now possible to mark text in draggable rows
 
 ### 0.9.2 (2023-11-26)
