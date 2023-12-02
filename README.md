@@ -33,6 +33,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+-   small fixea
+-   it is now possible to mark text in draggable rows
+
 ### 0.9.2 (2023-11-26)
 
 -   fixed error when the Adapter starts
