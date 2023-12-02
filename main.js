@@ -61,8 +61,10 @@ class TelegramMenu extends utils.Adapter {
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
 		let listofMenus = [];
+		// @ts-ignore
 		if (this.config.usersInGroup) listofMenus = Object.keys(this.config.usersInGroup);
 
+		// @ts-ignore
 		const startsides = this.config.startsides;
 		// @ts-ignore
 		const token = this.config.tokenGrafana;
@@ -241,7 +243,7 @@ class TelegramMenu extends utils.Adapter {
 												let value = "";
 												// Change set value in another Value, like true => on, false => off
 												let valueChange = "";
-												let resultChange = changeValue(textToSend, state.val, _this);
+												const resultChange = changeValue(textToSend, state.val, _this);
 												if (resultChange) {
 													valueChange = resultChange["val"];
 													textToSend = resultChange["textToSend"];
