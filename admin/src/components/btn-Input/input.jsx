@@ -38,11 +38,13 @@ class Input extends Component {
 					<input
 						style={inputStyle}
 						type={this.props.type ? this.props.type : "text"}
-						className="InputField"
+						className="InputField noneDraggable"
 						placeholder={I18n.t(this.props.placeholder)}
 						value={this.props.value}
 						onChange={this.onChangeHandler}
 						spellCheck={this.props.spellCheck ? this.props.spellcheck : false}
+						onMouseOver={this.props.onMouseOver ? (e) => this.props.onMouseOver(e, this.props.setState) : null}
+						onMouseLeave={this.props.onMouseLeave ? (e) => this.props.onMouseLeave(e, this.props.setState) : null}
 					/>
 					<div style={styleChildren}>{this.props.children}</div>
 					<p>{this.props.label}</p>

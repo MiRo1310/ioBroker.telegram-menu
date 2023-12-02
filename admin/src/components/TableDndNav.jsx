@@ -4,6 +4,7 @@ import { TableBody, TableCell, TableRow } from "@mui/material";
 
 import { deleteRow, moveItem } from "../lib/button.mjs";
 import { ButtonCard } from "./btn-Input/buttonCard";
+import { handleMouseOut, handleMouseOver, handleDragStart } from "../lib/dragNDrop.mjs";
 
 function createData(call, nav, text) {
 	return { call, nav, text };
@@ -27,6 +28,7 @@ class TableDndNav extends Component {
 			dropStart: 0,
 			dropEnd: 0,
 			dropOver: 0,
+			mouseOverNoneDraggable: false,
 		};
 	}
 
@@ -40,10 +42,7 @@ class TableDndNav extends Component {
 		this.setState({ dropOver: 0 });
 		this.props.callback.setState({ draggingRowIndex: null });
 	};
-	handleDragStart = (index) => {
-		this.setState({ dropStart: index });
-		this.props.callback.setState({ draggingRowIndex: index });
-	};
+
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
@@ -92,20 +91,40 @@ class TableDndNav extends Component {
 						className="no-select"
 						draggable={this.handleDraggable(index)}
 						onDrop={() => this.handleDrop(index)}
-						onDragStart={() => this.handleDragStart(index)}
+						onDragStart={(event) =>
+							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }))
+						}
 						onDragEnd={this.handleDragEnd}
 						onDragOver={(event) => this.handleDragOver(index, event)}
 						onDragEnter={() => this.handleDragEnter(index)}
 						style={this.handelStyleDragOver(index)}
 					>
 						<TableCell component="td" scope="row" style={{ width: "15%" }}>
-							{row.call}
+							<span
+								className="noneDraggable"
+								onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
+								onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+							>
+								{row.call}
+							</span>
 						</TableCell>
 						<TableCell align="right" style={{ width: "60%" }}>
-							{row.nav}{" "}
+							<span
+								className="noneDraggable"
+								onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
+								onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+							>
+								{row.nav}{" "}
+							</span>
 						</TableCell>
 						<TableCell align="right" style={{ width: "25%" }}>
-							{I18n.t(row.text)}
+							<span
+								className="noneDraggable"
+								onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
+								onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+							>
+								{I18n.t(row.text)}
+							</span>
 						</TableCell>
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}

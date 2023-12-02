@@ -14,6 +14,7 @@ import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
 import { isChecked } from "../../lib/Utilis.mjs";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "../../lib/actionUtilis.mjs";
+import { handleMouseOut, handleMouseOver, handleDragStart } from "../../lib/dragNDrop.mjs";
 
 class RowEditPopupCard extends Component {
 	constructor(props) {
@@ -28,13 +29,10 @@ class RowEditPopupCard extends Component {
 			dropStart: 0,
 			dropEnd: 0,
 			dropOver: 0,
+			mouseOverNoneDraggable: false,
 		};
 	}
-	componentDidUpdate(prevProps) {
-		if (prevProps.newRow !== this.props.newRow) {
-			// saveRows(this.props, this.setState.bind(this), this.props.entrys, this.state.rows);
-		}
-	}
+
 	componentDidMount() {
 		saveRows(this.props, this.setState.bind(this), this.props.entrys, this.state.rows);
 	}
@@ -64,9 +62,7 @@ class RowEditPopupCard extends Component {
 		this.setState({ dropStart: 0 });
 		this.setState({ dropOver: 0 });
 	};
-	handleDragStart = (index) => {
-		this.setState({ dropStart: index });
-	};
+
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart)
 			moveItem(this.state.dropStart, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys, index - this.state.dropStart);
@@ -124,7 +120,7 @@ class RowEditPopupCard extends Component {
 											sx={{ "&:last-child td, &:last-child td": { border: 0 } }}
 											draggable
 											onDrop={() => this.handleDrop(index)}
-											onDragStart={() => this.handleDragStart(index)}
+											onDragStart={(event) => handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this))}
 											onDragEnd={this.handleDragEnd}
 											onDragOver={(event) => this.handleDragOver(index, event)}
 											onDragEnter={() => this.handleDragEnter(index)}
@@ -132,16 +128,24 @@ class RowEditPopupCard extends Component {
 											style={this.handelStyleDragOver(index)}
 										>
 											<TableCell component="td" scope="row" align="left">
-												<Input
-													width="calc(100% - 50px)"
-													value={row.IDs}
-													margin="0px 2px 0 2px"
-													id="IDs"
-													index={index}
-													callback={this.updateData}
-													callbackValue="event.target.value"
-													function="manual"
-												></Input>
+												<span
+													className="test"
+													onMouseEnter={(e) => handleMouseOver(e, this.setState.bind(this))}
+													onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+												>
+													<Input
+														width="calc(100% - 50px)"
+														value={row.IDs}
+														margin="0px 2px 0 2px"
+														id="IDs"
+														index={index}
+														callback={this.updateData}
+														callbackValue="event.target.value"
+														function="manual"
+														className="noneDraggable"
+													></Input>
+												</span>
+
 												<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
 											</TableCell>
 											{this.props.entrys.map((entry, i) =>
@@ -149,7 +153,7 @@ class RowEditPopupCard extends Component {
 													<TableCell align="left" key={i}>
 														<Input
 															width="100%"
-															value={row[entry.name]}
+															value={row[entry.name].replace(/&amp;/g, "&")}
 															margin="0px 2px 0 5px"
 															id={entry.name}
 															index={index}
@@ -158,6 +162,10 @@ class RowEditPopupCard extends Component {
 															function="manual"
 															type={entry.type}
 															inputWidth="calc(100% - 28px)"
+															className="noneDraggable"
+															onMouseOver={handleMouseOver}
+															onMouseLeave={handleMouseOut}
+															setState={this.setState.bind(this)}
 														>
 															{entry.name === "returnText" || entry.name === "text" ? (
 																<BtnCirleAdd

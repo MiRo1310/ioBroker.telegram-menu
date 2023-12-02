@@ -11,15 +11,11 @@ export const moveItem = (index, props, card, subcard, upDown, newPositionIndex) 
 	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.activeMenu;
 	let userArray = [];
-	console.log("card", card);
-	console.log("activeMenu", activeMenu);
-	console.log("subcard", subcard);
-	if (subcard) {
-		console.log("subcard", subcard);
 
+	if (subcard) {
 		userArray = dataCopy[card][activeMenu][subcard];
 	} else userArray = dataCopy[card][activeMenu];
-	console.log("userArray", userArray);
+
 	const element = userArray[index];
 	userArray.splice(index, 1);
 	if (upDown) userArray.splice(index + upDown, 0, element);

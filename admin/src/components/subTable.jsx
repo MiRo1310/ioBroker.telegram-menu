@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { handleMouseOut, handleMouseOver } from "../lib/dragNDrop.mjs";
 
 class SubTable extends Component {
 	getElementIcon = (element) => {
@@ -20,7 +21,14 @@ class SubTable extends Component {
 					{this.props.data.map((element, index) => (
 						<TableRow key={index} className="SubTable">
 							<TableCell style={{ padding: "0", border: "none" }}>
-								<span className="noneDraggable">{this.getElementIcon(element)}</span>
+								<span
+									draggable={false}
+									className="noneDraggable"
+									onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
+									onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
+								>
+									{this.getElementIcon(element)}
+								</span>
 							</TableCell>
 						</TableRow>
 					))}

@@ -5,6 +5,7 @@ import { deleteRow, moveItem } from "../lib/button.mjs";
 import { ButtonCard } from "./btn-Input/buttonCard";
 import SubTable from "./subTable";
 import { deepCopy } from "../lib/Utilis.mjs";
+import { handleMouseOut, handleMouseOver, handleDragStart } from "../lib/dragNDrop.mjs";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};
@@ -22,6 +23,7 @@ class TableDndAction extends Component {
 			dropEnd: 0,
 			dropOver: 0,
 			rows: [],
+			mouseOverNoneDraggable: false,
 		};
 	}
 	getRows = () => {
@@ -55,10 +57,7 @@ class TableDndAction extends Component {
 		this.setState({ dropOver: 0 });
 		this.props.callback.setState({ draggingRowIndex: 0 });
 	};
-	handleDragStart = (index) => {
-		this.setState({ dropStart: index });
-		this.props.callback.setState({ draggingRowIndex: index });
-	};
+
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
 	};
@@ -105,19 +104,27 @@ class TableDndAction extends Component {
 						className="no-select"
 						draggable
 						onDrop={() => this.handleDrop(index)}
-						onDragStart={() => this.handleDragStart(index)}
+						onDragStart={(event) => {
+							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }));
+						}}
 						onDragEnd={this.handleDragEnd}
 						onDragOver={(event) => this.handleDragOver(index, event)}
 						onDragEnter={() => this.handleDragEnter(index)}
 						style={this.handelStyleDragOver(index)}
 					>
 						<TableCell align="left" component="td" scope="row">
-							{row.trigger}
+							<span
+								className="noneDraggable"
+								onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
+								onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+							>
+								{row.trigger}
+							</span>
 						</TableCell>
 						{this.props.entrys.map((entry, index) =>
 							entry.name != "trigger" ? (
 								<TableCell align="left" component="td" scope="row" key={index} style={entry.width ? { width: entry.width } : null}>
-									<SubTable data={row[entry.name]} />
+									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} />
 								</TableCell>
 							) : null,
 						)}
