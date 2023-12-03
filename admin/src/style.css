@@ -210,18 +210,13 @@ div.MuiTabPanel-root {
 }
 
 .MenuNavigation-Container,
-.SetState-Container,
-.SendPic-Container,
-.GetState-Container {
+.ActionCard-Container {
 	padding: 0px !important;
 	overflow: auto;
-	height: calc(100%);
+	height: calc(100% - 10px);
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
-}
-.SetState-Container {
-	height: calc(100% - 50px);
 }
 
 /* Settings */
@@ -507,7 +502,7 @@ label p {
 
 table {
 	border-collapse: collapse !important;
-	width: calc(100% - 5px) !important;
+	width: calc(100% - 10px) !important;
 }
 
 tr[draggable] {

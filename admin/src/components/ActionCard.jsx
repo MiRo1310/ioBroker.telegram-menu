@@ -173,7 +173,7 @@ class ActionCard extends Component {
 						{I18n.t("Add new Action")}
 					</Button>
 				) : (
-					<TableContainer component={Paper} className="SetState-Container">
+					<TableContainer component={Paper} className="ActionCard-Container">
 						<Table stickyHeader aria-label="sticky table">
 							<TableHead>
 								<TableRow>
