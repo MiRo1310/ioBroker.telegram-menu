@@ -43,7 +43,7 @@ class Action extends Component {
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
-				<TabPanel value="get">
+				<TabPanel value="get" className="TabPanel-Action">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}
@@ -60,7 +60,7 @@ class Action extends Component {
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
-				<TabPanel value="pic" className="ActionCard">
+				<TabPanel value="pic" className="ActionCard TabPanel-Action">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}
