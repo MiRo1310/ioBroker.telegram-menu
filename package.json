@@ -73,7 +73,9 @@
     "io-package.json",
     "LICENSE",
     "main.js",
-    "admin/**/style.css"
+    "admin/**/style.css",
+    "admin/build/index.js.map"
+
    
   ],
   "scripts": {

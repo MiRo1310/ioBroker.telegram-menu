@@ -525,10 +525,15 @@ tr[draggable] {
 tr[draggable]:hover {
 	background-color: rgba(51, 153, 204, 0.5) !important;
 }
-tr[draggable] span {
+tr[draggable] span,
+tr[draggable] input {
 	cursor: text;
-	user-select: text;
+	user-select: text; /* Standard */
+	-moz-user-select: text; /* Firefox */
+	-webkit-user-select: text; /* Safari */
+	-ms-user-select: text; /* Internet Explorer/Edge */
 }
+
 tr[draggable] span i {
 	cursor: pointer;
 }
