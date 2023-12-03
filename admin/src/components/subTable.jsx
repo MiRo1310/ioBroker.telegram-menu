@@ -27,7 +27,7 @@ class SubTable extends Component {
 									onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
 									onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
 								>
-									{this.getElementIcon(element)}
+									{this.props.name != "values" ? this.getElementIcon(element) : element}
 								</span>
 							</TableCell>
 						</TableRow>

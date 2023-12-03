@@ -100,7 +100,7 @@ class TableDndAction extends Component {
 						{this.props.entrys.map((entry, index) =>
 							entry.name != "trigger" ? (
 								<TableCell align="left" component="td" scope="row" key={index} style={entry.width ? { width: entry.width } : null}>
-									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} />
+									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} name={entry.name} />
 								</TableCell>
 							) : null,
 						)}
