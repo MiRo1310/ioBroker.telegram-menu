@@ -24,7 +24,7 @@ class Action extends Component {
 						<Tab label="Send Picture" value="pic" />
 					</TabList>
 				</Box>
-				<TabPanel value="set">
+				<TabPanel value="set" className="TabPanel-Action">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}

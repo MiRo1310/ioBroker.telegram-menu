@@ -1,5 +1,6 @@
 body {
 	height: 100vh;
+	overflow: auto;
 }
 
 /* IconBar */
@@ -139,6 +140,7 @@ img[alt="logo"] {
 	display: inline-block;
 	width: 200px;
 }
+
 .TeleGrammUsers {
 	display: inline-block;
 	width: 200px;
@@ -153,35 +155,35 @@ img[alt="logo"] {
 	font-size: 0.7rem;
 
 	padding: 0.5rem 1rem;
-}
-.disableSaveBtn {
-	position: absolute;
-	bottom: 0;
-	width: 100vw;
-	height: 65px;
-	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 1100;
-}
-/* error */
-.ErrorDoubleTrigger-Container {
-	color: red;
-	position: absolute;
-	top: 5px;
-	max-width: 400px;
-	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
-	border: 1px solid red;
-	background-color: white;
-}
-.ErrorDoubleTrigger-Container .Error-Header {
-	margin: 2px 5px;
-}
-.ErrorDoubleTrigger-Container .Error-Items {
-	display: inline;
-	padding: 0px 10px;
-}
 
+	.disableSaveBtn {
+		position: absolute;
+		bottom: 0;
+		width: 100vw;
+		height: 65px;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 1100;
+	}
+	/* error */
+	.ErrorDoubleTrigger-Container {
+		color: red;
+		position: absolute;
+		top: 5px;
+		max-width: 400px;
+		left: 50%;
+		transform: translateX(-50%);
+		text-align: center;
+		border: 1px solid red;
+		background-color: white;
+	}
+	.ErrorDoubleTrigger-Container .Error-Header {
+		margin: 2px 5px;
+	}
+	.ErrorDoubleTrigger-Container .Error-Items {
+		display: inline;
+		padding: 0px 10px;
+	}
+} /* get mistake */
 /* Grid Main Content */
 .App-main-content {
 	padding-top: 0 !important;
@@ -213,14 +215,18 @@ div.MuiTabPanel-root {
 .ActionCard-Container {
 	padding: 0px !important;
 	overflow: auto;
-	height: calc(100% - 5px);
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
 }
-
+.MenuNavigation-Container {
+	height: calc(100% - 10px) !important;
+}
 .ActionCard-Container {
-	height: calc(100% - 55px) !important;
+	height: inherit;
+}
+.TabPanel-Action {
+	height: calc(100% - 30px) !important;
 }
 
 /* Settings */

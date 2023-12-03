@@ -31,7 +31,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@iobroker/adapter-dev": "^1.2.0",
-    "@iobroker/adapter-react-v5": "^4.7.3",
+    "@iobroker/adapter-react-v5": "^4.7.6",
     "@iobroker/testing": "^4.1.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/lab": "^5.0.0-alpha.150",
