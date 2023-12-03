@@ -12,6 +12,9 @@ export const handleMouseOut = (e, cb) => {
 export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, cb) => {
 	if (mouseOverNoneDraggable) {
 		event.preventDefault();
+		event.stopPropagation();
+
+		event.target.style.userSelect = "text";
 		return false;
 	}
 	setState({ dropStart: index });
