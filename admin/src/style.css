@@ -3,7 +3,7 @@ body {
 }
 
 /* IconBar */
-.Logo2-logo-2 {
+img[alt="logo"] {
 	padding: 0px !important;
 	width: 40px !important;
 }
