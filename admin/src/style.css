@@ -225,7 +225,8 @@ div.MuiTabPanel-root {
 .ActionCard-Container {
 	height: inherit;
 }
-.TabPanel-Action {
+.TabPanel-Action,
+.TabPanel-Action > div.MuiTabPanel-root {
 	height: calc(100% - 30px) !important;
 }
 
