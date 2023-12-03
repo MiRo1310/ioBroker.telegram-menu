@@ -73,8 +73,8 @@
     "io-package.json",
     "LICENSE",
     "main.js",
-    "admin/**/style.css",
-    "admin/index_m.html"
+    "admin/**/style.css"
+   
   ],
   "scripts": {
     "prebuild": "rimraf admin/build",

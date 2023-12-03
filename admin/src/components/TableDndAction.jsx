@@ -66,6 +66,7 @@ class TableDndAction extends Component {
 		this.props.setState({ rowPopup: true });
 		this.props.setState({ rowIndex: index });
 	};
+
 	deleteRow = (index) => {
 		deleteRow(index, this.props, this.props.card, this.props.subcard);
 	};
