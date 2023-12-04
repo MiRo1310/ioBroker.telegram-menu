@@ -134,18 +134,19 @@ class MenuNavigation extends Component {
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
-								<TableCell align="left">{I18n.t("Trigger")}</TableCell>
-								<TableCell align="right">{I18n.t("Navigation")}</TableCell>
-								<TableCell align="right">{I18n.t("Text")}</TableCell>
-								<TableCell align="center" className="cellIcon"></TableCell>
-								<TableCell align="center" className="cellIcon"></TableCell>
+								{this.props.entrys.map((entry, index) => (
+									<TableCell key={index} align="left">
+										{I18n.t(entry.headline)}
+									</TableCell>
+								))}
+
 								<TableCell align="center" className="cellIcon"></TableCell>
 								<TableCell align="center" className="cellIcon"></TableCell>
 								<TableCell align="center" className="cellIcon"></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableDndNav
-							tableData={this.props.nav}
+							tableData={this.props.data.nav}
 							data={this.props.data}
 							callback={this.props.callback}
 							card={"nav"}
@@ -153,6 +154,7 @@ class MenuNavigation extends Component {
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
 							activeMenu={this.props.activeMenu}
+							entrys={this.props.entrys}
 						></TableDndNav>
 					</Table>
 				</TableContainer>

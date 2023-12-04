@@ -24,7 +24,7 @@ const insertParseModeCheckbox = (data) => {
 
 			// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
 			if (!element.parse_mode) {
-				data.nav[menu][indexItem].parse_mode = ["false"];
+				data.nav[menu][indexItem].parse_mode = "false";
 			}
 		});
 	});
