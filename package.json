@@ -1,6 +1,6 @@
 {
   "name": "iobroker.telegram-menu",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Easily create Telegram Menus",
   "author": {
     "name": "MiRo1310",
@@ -75,8 +75,6 @@
     "main.js",
     "admin/**/style.css",
     "admin/build/index.js.map"
-
-   
   ],
   "scripts": {
     "prebuild": "rimraf admin/build",
