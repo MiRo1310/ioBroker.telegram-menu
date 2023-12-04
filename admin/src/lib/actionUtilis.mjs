@@ -11,7 +11,7 @@ let rows = [];
 function getRows(element, rowElements) {
 	if (!element) return;
 	rows = [];
-	console.log(element);
+	// console.log(element);
 	const trigger = element.trigger[0];
 	for (let index in element.IDs) {
 		rows.push(createData(element, index, rowElements));
