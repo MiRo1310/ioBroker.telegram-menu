@@ -1,19 +1,41 @@
 export const handleMouseOver = (e, cb) => {
 	if (e.target.classList.contains("noneDraggable")) {
-		cb({ mouseOverNoneDraggable: true });
+		let currentElement = e.target;
+		console.log(currentElement.tagName);
+
+		while (currentElement) {
+			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
+			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
+				// Setze draggable auf true oder false, je nach Bedarf
+				currentElement.draggable = false;
+				return; // Beende die Schleife, wenn das passende Element gefunden wurde
+			}
+			// Gehe eine Ebene höher im DOM
+			currentElement = currentElement.parentNode;
+		}
 	}
 };
 export const handleMouseOut = (e, cb) => {
 	if (e.target.classList.contains("noneDraggable")) {
-		cb({ mouseOverNoneDraggable: false });
+		let currentElement = e.target;
+
+		while (currentElement) {
+			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
+			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
+				// Setze draggable auf true oder false, je nach Bedarf
+				currentElement.draggable = true;
+
+				return; // Beende die Schleife, wenn das passende Element gefunden wurde
+			}
+
+			// Gehe eine Ebene höher im DOM
+			currentElement = currentElement.parentNode;
+		}
 	}
 };
 
 export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, cb) => {
 	if (mouseOverNoneDraggable) {
-		event.preventDefault();
-		event.stopPropagation();
-
 		event.target.style.userSelect = "text";
 		return false;
 	}

@@ -532,6 +532,11 @@ tr[draggable] input {
 	-moz-user-select: text; /* Firefox */
 	-webkit-user-select: text; /* Safari */
 	-ms-user-select: text; /* Internet Explorer/Edge */
+	padding: 5px 0;
+}
+tr[draggable] span::selection {
+	background-color: #96d15a;
+	color: white;
 }
 
 tr[draggable] span i {
