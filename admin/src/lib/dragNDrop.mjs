@@ -1,7 +1,6 @@
 export const handleMouseOver = (e, cb) => {
 	if (e.target.classList.contains("noneDraggable")) {
 		let currentElement = e.target;
-		console.log(currentElement.tagName);
 
 		while (currentElement) {
 			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
