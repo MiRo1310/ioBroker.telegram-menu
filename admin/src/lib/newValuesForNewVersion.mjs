@@ -1,40 +1,66 @@
 import { deepCopy } from "./Utilis.mjs";
-export const insertNewItemsInData = (data) => {
-	data = insertAckCheckbox(data);
-	return data;
-};
-
-const insertAckCheckbox = (data) => {
+import { updateData } from "./actionUtilis.mjs";
+export const insertNewItemsInData = (data, updateNative) => {
 	data = deepCopy(data);
+	data = insertParseModeCheckbox(data);
+	insertAckCheckbox(data, updateNative);
+};
+const insertParseModeCheckbox = (data) => {
+	const actions = ["set", "get"];
 	Object.keys(data.action).forEach((menu) => {
-		data.action[menu].set.forEach((item, index) => {
-			const element = data.action[menu].set[index];
-			element.returnText.forEach((item, index) => {
-				if (!item.ack) {
-					data.action[menu].set[index].ack = [];
-				} else return;
-				console.log("bevor " + item);
-				if (item.includes("ack:")) {
-					let substring;
-					if (item.includes("ack:true")) {
-						substring = item.replace("ack:true ", "");
-						console.log("danach true: " + substring);
-						data.action[menu].set[index].ack[index] = true;
-					} else if (item.includes("ack:false")) {
-						substring = item.replace("ack:false ", "");
-						console.log("danach false " + substring);
-						data.action[menu].set[index].ack[index] = false;
-					}
-
-					data.action[menu].set[index].returnText[index] = substring;
-				} else {
-					data.action[menu].set[index].ack[index] = false;
+		actions.forEach((action) => {
+			data.action[menu][action].forEach((item, indexItem) => {
+				const element = data.action[menu][action][indexItem];
+				// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
+				if (!element.parse_mode) {
+					data.action[menu][action][indexItem].parse_mode = ["false"];
 				}
 			});
 		});
 	});
-	console.log(data);
+	Object.keys(data.nav).forEach((menu) => {
+		data.nav[menu].forEach((item, indexItem) => {
+			const element = data.nav[menu][indexItem];
+
+			// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
+			if (!element.parse_mode) {
+				data.nav[menu][indexItem].parse_mode = ["false"];
+			}
+		});
+	});
 	return data;
+};
+const insertAckCheckbox = (data, updateNative) => {
+	Object.keys(data.action).forEach((menu) => {
+		data.action[menu].set.forEach((item, indexItem) => {
+			const element = data.action[menu].set[indexItem];
+
+			// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
+			if (!element.ack) {
+				data.action[menu].set[indexItem].ack = [];
+			} else {
+				return; // Bereits vorhandenes ack-Array, überspringen
+			}
+			element.returnText.map((textItem, textIndex) => {
+				let substring;
+				if (textItem.includes("ack:")) {
+					if (textItem.includes("ack:true")) {
+						substring = textItem.replace("ack:true", "").replace("  ", " ");
+						data.action[menu].set[indexItem].ack[textIndex] = "true";
+					} else {
+						if (textItem.includes("ack:false")) substring = textItem.replace("ack:false", "").replace("  ", " ");
+						else substring = textItem;
+						data.action[menu].set[indexItem].ack[textIndex] = "false";
+					}
+					data.action[menu].set[indexItem].returnText[textIndex] = substring;
+				} else {
+					data.action[menu].set[indexItem].ack[textIndex] = "false";
+				}
+			});
+		});
+	});
+
+	updateNative("data", data);
 };
 
 /**

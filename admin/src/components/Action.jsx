@@ -36,7 +36,9 @@ class Action extends Component {
 							{ name: "IDs", val: "", headline: "ID" },
 							{ name: "values", val: "", headline: "Value" },
 							{ name: "returnText", val: "", headline: "Return text" },
-							{ name: "confirm", val: "false", headline: "Confirm message", checkbox: true },
+							{ name: "parse_mode", val: "false", headline: "Parse Mode", checkbox: true },
+							{ name: "ack", val: "false", headline: "Ack", checkbox: true },
+							{ name: "confirm", val: "false", headline: "Confirm with message", checkbox: true },
 							{ name: "switch_checkbox", val: "false", headline: "Switch", checkbox: true },
 						]}
 						titlePopup="SetState"
@@ -55,6 +57,7 @@ class Action extends Component {
 							{ name: "IDs", val: "", headline: "ID", width: "40%" },
 							{ name: "text", val: "", headline: "Text", width: "40%" },
 							{ name: "newline_checkbox", val: "true", headline: "Newline", checkbox: true },
+							{ name: "parse_mode", val: "false", headline: "Parse Mode", checkbox: true },
 						]}
 						titlePopup="GetState"
 						showButtons={{ add: true, remove: true, edit: true }}

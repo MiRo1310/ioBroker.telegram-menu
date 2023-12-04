@@ -6,9 +6,9 @@ class SubTable extends Component {
 	getElementIcon = (element) => {
 		const valtrue = "✔️";
 		const valfalse = "❌";
-		if (element === "true") {
+		if (element === "true" || element === true) {
 			return valtrue;
-		} else if (element === "false") {
+		} else if (element === "false" || element === false) {
 			return valfalse;
 		} else {
 			return element.replace(/&amp;/g, "&");
