@@ -52,8 +52,6 @@ const helperText = {
 	],
 	set: [
 		{ text: "{novalue}", info: "The Value is not specified in the return text" },
-		{ text: "ack:true", info: "Confirms the value" },
-
 		{ text: "&&", info: "Placeholder for the value" },
 		{
 			text: "{'id':'ID','text':'Your Text'}",
