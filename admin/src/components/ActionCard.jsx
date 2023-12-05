@@ -178,7 +178,9 @@ class ActionCard extends Component {
 							<TableHead>
 								<TableRow>
 									{this.props.entrys.map((entry, index) => (
-										<TableCell key={index}>{I18n.t(entry.headline)}</TableCell>
+										<TableCell key={index}>
+											<span title={entry.title ? I18n.t(entry.title) : null}>{I18n.t(entry.headline)}</span>
+										</TableCell>
 									))}
 									{Array(Object.keys(this.props.showButtons).length)
 										.fill()
