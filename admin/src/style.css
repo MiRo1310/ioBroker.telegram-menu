@@ -726,3 +726,6 @@ input[type="checkbox"]:checked {
 .HeaderTelegramUser-Container {
 	position: relative;
 }
+span[title] {
+	cursor: help;
+}
