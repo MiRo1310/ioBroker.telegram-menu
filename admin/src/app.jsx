@@ -17,6 +17,7 @@ import PopupContainer from "./components/popupCards/PopupContainer";
 import getIobrokerData from "./lib/socket.mjs";
 import helperFunction from "./lib/Utilis.mjs";
 import { insertNewItemsInData } from "./lib/newValuesForNewVersion.mjs";
+import { navEntrys } from "./lib/entrys.mjs";
 
 let myTheme;
 
@@ -210,12 +211,7 @@ class App extends GenericApp {
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 										}}
-										entrys={[
-											{ name: "call", val: "", headline: "Trigger", width: "15%" },
-											{ name: "value", val: "", headline: "Navigation", width: "60%" },
-											{ name: "text", val: "Choose an action", headline: "Text", width: "25%" },
-											{ name: "parse_mode", val: "false", headline: "Parse Mode", checkbox: true },
-										]}
+										entrys={navEntrys}
 									></MenuNavigation>
 								</TabPanel>
 								<TabPanel value="action">
