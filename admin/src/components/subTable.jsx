@@ -1,19 +1,9 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { handleMouseOut, handleMouseOver } from "../lib/dragNDrop.mjs";
+import { getElementIcon } from "../lib/actionUtilis.mjs";
 
 class SubTable extends Component {
-	getElementIcon = (element) => {
-		const valtrue = "✔️";
-		const valfalse = "❌";
-		if (element === "true" || element === true) {
-			return valtrue;
-		} else if (element === "false" || element === false) {
-			return valfalse;
-		} else {
-			return element.replace(/&amp;/g, "&");
-		}
-	};
 	render() {
 		return (
 			<Table>
@@ -27,7 +17,7 @@ class SubTable extends Component {
 									onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
 									onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
 								>
-									{this.props.name != "values" ? this.getElementIcon(element) : element}
+									{this.props.name != "values" ? getElementIcon(element) : element}
 								</span>
 							</TableCell>
 						</TableRow>

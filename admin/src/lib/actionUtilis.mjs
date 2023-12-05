@@ -149,3 +149,14 @@ const disassembleTextToTriggers = (text) => {
 
 	return triggerArray;
 };
+export const getElementIcon = (element) => {
+	const valtrue = "✔️";
+	const valfalse = "❌";
+	if (element === "true" || element === true) {
+		return valtrue;
+	} else if (element === "false" || element === false) {
+		return valfalse;
+	} else {
+		return element.replace(/&amp;/g, "&");
+	}
+};

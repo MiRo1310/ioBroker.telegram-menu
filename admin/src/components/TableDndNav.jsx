@@ -5,6 +5,7 @@ import { TableBody, TableCell, TableRow } from "@mui/material";
 import { deleteRow, moveItem } from "../lib/button.mjs";
 import { ButtonCard } from "./btn-Input/buttonCard";
 import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../lib/dragNDrop.mjs";
+import { getElementIcon } from "../lib/actionUtilis.mjs";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};
@@ -50,8 +51,8 @@ class TableDndNav extends Component {
 	};
 
 	editRow = (index) => {
-		const element = this.props.data.nav[this.props.activeMenu][index];
-		this.props.setState({ call: element.call, nav: element.value, text: element.text });
+		const rowToEdit = this.props.data.nav[this.props.activeMenu][index];
+		this.props.setState({ newRow: rowToEdit });
 		this.props.setState({ rowPopup: true });
 		this.props.setState({ rowIndex: index });
 		this.props.setState({ editRow: true });
@@ -76,13 +77,13 @@ class TableDndNav extends Component {
 						style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
 					>
 						{this.props.entrys.map((entry, index) => (
-							<TableCell key={index} component="td" scope="row" style={{ width: entry.width ? entry.width : null }}>
+							<TableCell key={index} component="td" style={{ width: entry.width ? entry.width : null }}>
 								<span
 									className="noneDraggable"
 									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
 									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
 								>
-									{row[entry.name]}
+									{getElementIcon(row[entry.name])}
 								</span>
 							</TableCell>
 						))}
