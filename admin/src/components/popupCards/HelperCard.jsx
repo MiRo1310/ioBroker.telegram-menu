@@ -60,7 +60,7 @@ class HelperCard extends Component {
 							{this.state.rows.map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row">
-										<div dangerouslySetInnerHTML={{ __html: row.text }} />
+										{row.text}
 									</TableCell>
 									<TableCell>
 										{row.head ? <div dangerouslySetInnerHTML={{ __html: row.head }} /> : null}
