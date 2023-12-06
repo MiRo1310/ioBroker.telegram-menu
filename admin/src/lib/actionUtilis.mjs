@@ -30,7 +30,8 @@ export const saveRows = (props, setState, rowElements, newRow) => {
 	setState({ rows: rows });
 };
 
-export const updateData = (obj, props, rows, setState, rowElements) => {
+export const updateData = (obj, props, setState, rowElements) => {
+	// console.log(obj);
 	const newRow = deepCopy(props.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
 	props.callback.setState({ newRow: newRow });
@@ -150,6 +151,7 @@ const disassembleTextToTriggers = (text) => {
 	return triggerArray;
 };
 export const getElementIcon = (element) => {
+	if (!element) return;
 	const valtrue = "✔️";
 	const valfalse = "❌";
 	if (element === "true" || element === true) {

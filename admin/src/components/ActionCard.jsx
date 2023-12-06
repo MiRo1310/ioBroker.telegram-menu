@@ -51,18 +51,18 @@ class ActionCard extends Component {
 			this.props.entrys.forEach((entry) => {
 				if (!entry.checkbox) {
 					row[entry.name].forEach((val, index) => {
-						console.log("row ", row);
-						console.log("name " + entry.name, "val " + val, "index " + index);
+						// console.log("row ", row);
+						// console.log("name " + entry.name, "val " + val, "index " + index);
 						if (value && entry.name === "values") {
 							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
 								valueRowValuesAndSwitch = true;
 							} else {
-								console.log(entry.name, val, index);
+								// console.log(entry.name, val, index);
 								valueRowValuesAndSwitch = false;
 							}
 						} else if (value && val == "") {
 							// console.log(entry.name, val, index);
-							console.log("false", entry.name, val, index);
+							// console.log("false", entry.name, val, index);
 							value = false;
 						}
 					});
