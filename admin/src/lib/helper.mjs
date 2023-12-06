@@ -1,9 +1,16 @@
 const globalText = {
 	textID: "To insert an ID, simply insert the block first, select the ID. This will then be automatically inserted in the appropriate place, even if the ID is to be changed. If the code does not recognize the block, the ID is appended to the end.",
 };
+const parse_Mode = [
+	{ text: "<b> </b>", info: "Text in Parse Mode is Bold" },
+	{ text: "<i> </i>", info: "Text in Parse Mode is Italic" },
+	{ text: "<code> </code>", info: "Text in Parse Mode is Code" },
+	{ text: "<a href=“URL“>Link</a>", info: "Text in Parse Mode is Link" },
+];
 
 const helperText = {
-	nav: [
+	// Nav
+	value: [
 		{
 			text: "menu:percent10:TRIGGER:",
 			head: "<strong>Submenu Percent</strong><br>",
@@ -52,8 +59,6 @@ const helperText = {
 	],
 	set: [
 		{ text: "{novalue}", info: "The Value is not specified in the return text" },
-		{ text: "ack:true", info: "Confirms the value" },
-
 		{ text: "&&", info: "Placeholder for the value" },
 		{
 			text: "{'id':'ID','text':'Your Text'}",
@@ -62,5 +67,10 @@ const helperText = {
 		{ text: "", info: globalText.textID },
 	],
 };
+parse_Mode.forEach((element) => {
+	helperText.text.push(element);
+	helperText.get.push(element);
+	helperText.set.push(element);
+});
 
 export default helperText;

@@ -51,16 +51,18 @@ class ActionCard extends Component {
 			this.props.entrys.forEach((entry) => {
 				if (!entry.checkbox) {
 					row[entry.name].forEach((val, index) => {
-						if (entry.name === "values") {
+						// console.log("row ", row);
+						// console.log("name " + entry.name, "val " + val, "index " + index);
+						if (value && entry.name === "values") {
 							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
 								valueRowValuesAndSwitch = true;
 							} else {
 								// console.log(entry.name, val, index);
 								valueRowValuesAndSwitch = false;
 							}
-						} else if (val !== undefined && val !== null && val !== "") {
-						} else {
+						} else if (value && val == "") {
 							// console.log(entry.name, val, index);
+							// console.log("false", entry.name, val, index);
 							value = false;
 						}
 					});
@@ -178,7 +180,9 @@ class ActionCard extends Component {
 							<TableHead>
 								<TableRow>
 									{this.props.entrys.map((entry, index) => (
-										<TableCell key={index}>{I18n.t(entry.headline)}</TableCell>
+										<TableCell key={index}>
+											<span title={entry.title ? I18n.t(entry.title) : null}>{I18n.t(entry.headline)}</span>
+										</TableCell>
 									))}
 									{Array(Object.keys(this.props.showButtons).length)
 										.fill()

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import ActionCard from "./ActionCard";
+import { setEntrys, getEntrys, picEntrys } from "../lib/entrys.mjs";
 
 class Action extends Component {
 	constructor(props) {
@@ -31,14 +32,7 @@ class Action extends Component {
 						activeMenu={this.props.activeMenu}
 						card="action"
 						subcard="set"
-						entrys={[
-							{ name: "trigger", val: "", headline: "Trigger" },
-							{ name: "IDs", val: "", headline: "ID" },
-							{ name: "values", val: "", headline: "Value" },
-							{ name: "returnText", val: "", headline: "Return text" },
-							{ name: "confirm", val: "false", headline: "Confirm message", checkbox: true },
-							{ name: "switch_checkbox", val: "false", headline: "Switch", checkbox: true },
-						]}
+						entrys={setEntrys}
 						titlePopup="SetState"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
@@ -50,12 +44,7 @@ class Action extends Component {
 						activeMenu={this.props.activeMenu}
 						card="action"
 						subcard="get"
-						entrys={[
-							{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
-							{ name: "IDs", val: "", headline: "ID", width: "40%" },
-							{ name: "text", val: "", headline: "Text", width: "40%" },
-							{ name: "newline_checkbox", val: "true", headline: "Newline", checkbox: true },
-						]}
+						entrys={getEntrys}
 						titlePopup="GetState"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
@@ -67,12 +56,7 @@ class Action extends Component {
 						activeMenu={this.props.activeMenu}
 						card="action"
 						subcard="pic"
-						entrys={[
-							{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
-							{ name: "IDs", val: "", headline: "ID", width: "40%" },
-							{ name: "fileName", val: "", headline: "Filename", width: "40%" },
-							{ name: "picSendDelay", val: "", headline: "Delay", width: "40%", type: "number" },
-						]}
+						entrys={picEntrys}
 						titlePopup="Send Picture"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>

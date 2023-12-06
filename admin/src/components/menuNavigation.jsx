@@ -8,6 +8,7 @@ import TableDndNav from "./TableDndNav";
 import HelperCard from "./popupCards/HelperCard";
 
 import helperText from "../lib/helper.mjs";
+import { deepCopy } from "../lib/Utilis.mjs";
 
 class MenuNavigation extends Component {
 	constructor(props) {
@@ -15,9 +16,6 @@ class MenuNavigation extends Component {
 		this.state = {
 			rowPopup: false,
 			rowIndex: 0,
-			call: "",
-			nav: "",
-			text: "",
 			editRow: false,
 			valuesAreOk: false,
 			callInUse: false,
@@ -25,6 +23,7 @@ class MenuNavigation extends Component {
 			editedValueFromHelperText: null,
 			isOK: false,
 			helperText: false,
+			newRow: {},
 		};
 	}
 	componentDidUpdate(prevProps, prevState) {
@@ -35,24 +34,24 @@ class MenuNavigation extends Component {
 				}
 			}
 		}
-		if (prevState.call !== this.state.call || prevState.nav !== this.state.nav || prevState.text !== this.state.text) {
+		if (prevState.newRow !== this.state.newRow) {
 			this.checkValueAllreadyUsed();
 		}
 	}
 	checkValueAllreadyUsed = (value) => {
-		if (this.state.call !== "" && this.state.nav !== "" && this.state.text !== "") {
+		if (this.state.newRow.call !== "" && this.state.newRow.value !== "" && this.state.newRow.text !== "") {
 			if (this.state.editRow) {
 				this.setState({ valuesAreOk: true });
-			} else if (this.props.data.state.usedTrigger.includes(this.state.call)) {
+			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call)) {
 				this.setState({ valuesAreOk: false });
 			} else this.setState({ valuesAreOk: true });
 		} else {
 			this.setState({ valuesAreOk: false });
 		}
-		if (this.state.call !== "") {
+		if (this.state.newRow.call !== "") {
 			if (this.state.editRow) {
 				this.setState({ callInUse: false });
-			} else if (this.props.data.state.usedTrigger.includes(this.state.call)) {
+			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call)) {
 				this.setState({ callInUse: true });
 			} else this.setState({ callInUse: false });
 		}
@@ -68,16 +67,17 @@ class MenuNavigation extends Component {
 			return true;
 		else return false;
 	};
-	openAddRowCard = (value) => {
-		if (value) {
-			this.setState({ rowIndex: value });
-		}
-		this.setState({ rowPopup: true });
-	};
+
 	changeInput = (data) => {
-		if (data.call || data.call == "") this.setState({ call: data.call });
-		if (data.nav || data.nav == "") this.setState({ nav: data.nav });
-		if (data.text || data.text == "") this.setState({ text: data.text });
+		console.log(data);
+		const copyNewRow = deepCopy(this.state.newRow);
+		if (data.id) {
+			copyNewRow[data.id] = data.val.toString();
+		} else
+			Object.keys(data).forEach((key) => {
+				copyNewRow[key] = data[key];
+			});
+		this.setState({ newRow: copyNewRow });
 	};
 	popupRowCard = (isOK) => {
 		if (!isOK) {
@@ -85,25 +85,33 @@ class MenuNavigation extends Component {
 			this.setState({ editRow: false });
 			return;
 		}
+		console.log(this.state.newRow);
 		const dataCopy = JSON.parse(JSON.stringify(this.props.data.data));
 		const navUserArray = dataCopy.nav[this.props.activeMenu];
 		if (this.state.editRow) {
-			navUserArray.splice(this.state.rowIndex, 1, { call: this.state.call, value: this.state.nav, text: this.state.text });
-		} else navUserArray.splice(this.state.rowIndex + 1, 0, { call: this.state.call, value: this.state.nav, text: this.state.text });
+			navUserArray.splice(this.state.rowIndex, 1, this.state.newRow);
+		} else navUserArray.splice(this.state.rowIndex + 1, 0, this.state.newRow);
 		dataCopy.nav[this.props.activeMenu] = navUserArray;
 		this.props.callback.updateNative("data", dataCopy);
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
 	};
 	openAddRowCard = (value) => {
+		console.log(value);
 		if (value) {
 			this.setState({ rowIndex: value });
 		}
-		this.setState({ rowPopup: true, call: "", nav: "", text: "Choose an action" });
+		const obj = {};
+		this.props.entrys.forEach((entry) => {
+			obj[entry.name] = entry.val;
+		});
+		console.log(obj);
+		this.setState({ newRow: obj, rowPopup: true });
 	};
+
 	openHelperText = (value) => {
 		if (value) {
-			this.setState({ editedValueFromHelperText: this.state[value] });
+			this.setState({ editedValueFromHelperText: this.state.newRow[value] });
 			this.setState({ helperTextFor: value });
 		}
 
@@ -118,10 +126,10 @@ class MenuNavigation extends Component {
 	};
 	popupHelperCard = (isOK) => {
 		if (isOK) {
+			const copyNewRow = deepCopy(this.state.newRow);
 			let name = this.state.helperTextFor;
-			let ob = {};
-			ob[name] = this.state.editedValueFromHelperText;
-			this.setState(ob);
+			copyNewRow[name] = this.state.editedValueFromHelperText;
+			this.setState({ newRow: copyNewRow });
 		}
 		this.setState({ helperText: false });
 		this.setState({ editedValueFromHelperText: null });
@@ -134,18 +142,19 @@ class MenuNavigation extends Component {
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
-								<TableCell align="left">{I18n.t("Trigger")}</TableCell>
-								<TableCell align="right">{I18n.t("Navigation")}</TableCell>
-								<TableCell align="right">{I18n.t("Text")}</TableCell>
-								<TableCell align="center" className="cellIcon"></TableCell>
-								<TableCell align="center" className="cellIcon"></TableCell>
+								{this.props.entrys.map((entry, index) => (
+									<TableCell key={index} align="left">
+										<span title={entry.title ? I18n.t(entry.title) : null}>{I18n.t(entry.headline)}</span>
+									</TableCell>
+								))}
+
 								<TableCell align="center" className="cellIcon"></TableCell>
 								<TableCell align="center" className="cellIcon"></TableCell>
 								<TableCell align="center" className="cellIcon"></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableDndNav
-							tableData={this.props.nav}
+							tableData={this.props.data.nav}
 							data={this.props.data}
 							callback={this.props.callback}
 							card={"nav"}
@@ -153,6 +162,7 @@ class MenuNavigation extends Component {
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
 							activeMenu={this.props.activeMenu}
+							entrys={this.props.entrys}
 						></TableDndNav>
 					</Table>
 				</TableContainer>
@@ -164,16 +174,17 @@ class MenuNavigation extends Component {
 						text={this.state.text}
 						usedTrigger={this.props.data.state.usedTrigger}
 						width="99%"
-						height="30%"
+						height="40%"
 						title="Navigation"
 						setState={this.setState.bind(this)}
 						isOK={this.state.valuesAreOk}
 					>
 						<RowNavCard
 							callback={{ onchange: this.changeInput }}
-							data={{ call: this.state.call, text: this.state.text, nav: this.state.nav }}
 							inUse={this.state.callInUse}
 							openHelperText={this.openHelperText}
+							entrys={this.props.entrys}
+							newRow={this.state.newRow}
 						></RowNavCard>
 					</PopupContainer>
 				) : null}
@@ -192,8 +203,8 @@ class MenuNavigation extends Component {
 							helper={helperText}
 							name="nav"
 							val={this.state.helperTextFor}
-							nav={this.state.nav}
-							text={this.state.text}
+							nav={this.state.newRow.nav}
+							text={this.state.newRow.text}
 							callback={this.onchangeValueFromHelper}
 							editedValueFromHelperText={this.state.editedValueFromHelperText}
 							setState={this.setState.bind(this)}

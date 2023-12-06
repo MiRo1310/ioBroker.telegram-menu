@@ -1,5 +1,4 @@
 "use strict";
-
 let setStateIdsToListenTo;
 /*
  * Created with @iobroker/create-adapter v2.3.0
@@ -65,8 +64,6 @@ class TelegramMenu extends utils.Adapter {
 		if (this.config.usersInGroup) listofMenus = Object.keys(this.config.usersInGroup);
 
 		// @ts-ignore
-		const startsides = this.config.startsides;
-		// @ts-ignore
 		const token = this.config.tokenGrafana;
 		// @ts-ignore
 		const directoryPicture = this.config.directory;
@@ -81,6 +78,14 @@ class TelegramMenu extends utils.Adapter {
 		const menuData = {
 			data: {},
 		};
+		// @ts-ignore
+		const data = this.config.data;
+		const startsides = {};
+		Object.keys(groupsWithUsers).forEach((element) => {
+			startsides[element] = data["nav"][element][0]["call"];
+		});
+		this.log.debug("Startsides " + JSON.stringify(startsides));
+
 		const _this = this;
 		this.getForeignObject(datapoint, async (err, obj) => {
 			try {
@@ -103,8 +108,6 @@ class TelegramMenu extends utils.Adapter {
 						this.log.info("Telegram was found");
 						this.setState("info.connection", true, true);
 
-						// @ts-ignore
-						const data = this.config.data;
 						const nav = data["nav"];
 						const action = data["action"];
 						this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
@@ -153,6 +156,7 @@ class TelegramMenu extends utils.Adapter {
 											resize_keyboard,
 											one_time_keyboard,
 											userListWithChatID,
+											menuData.data[menu][startside].parse_mode,
 										);
 									});
 								} else this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startside }));
@@ -225,7 +229,7 @@ class TelegramMenu extends utils.Adapter {
 										} else continue;
 									}
 									if (!dataFound && checkboxNoEntryFound) {
-										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
 									}
 
 									// Auf Setstate reagieren und Wert schicken
@@ -261,7 +265,8 @@ class TelegramMenu extends utils.Adapter {
 												textToSend.toString().indexOf(searchString) != -1
 													? (textToSend = textToSend.replace(searchString, value))
 													: (textToSend += " " + value);
-
+												console.log(element);
+												console.log("Parse_Mode " + element.parse_mode);
 												this.log.debug("Send Set to Telegram");
 												sendToTelegram(
 													this,
@@ -272,6 +277,7 @@ class TelegramMenu extends utils.Adapter {
 													resize_keyboard,
 													one_time_keyboard,
 													userListWithChatID,
+													element.parse_mode,
 												);
 												// Die Elemente auf die Reagiert wurde entfernen
 												setStateIdsToListenTo.splice(key, 1);
@@ -354,8 +360,10 @@ class TelegramMenu extends utils.Adapter {
 							if (userToSend) {
 								_this.log.debug("Send Nav to Telegram");
 								const text = await utilities.checkStatusInfo(_this, part.text);
-								//FIXME -
-								sendToTelegram(_this, userToSend, text, part.nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+								console.log(part);
+								console.log("Parse_Mode " + part.parse_mode);
+
+								sendToTelegram(_this, userToSend, text, part.nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part.parse_mode);
 								return true;
 							}
 						}
@@ -403,7 +411,7 @@ class TelegramMenu extends utils.Adapter {
 							try {
 								const timeout = _this.setTimeout(async () => {
 									_this.log.debug("Send Pic to Telegram");
-									sendToTelegram(_this, userToSend, path, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+									sendToTelegram(_this, userToSend, path, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
 									let timeoutToClear = {};
 									timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
 									clearTimeout(timeoutToClear.timeout);
@@ -464,7 +472,7 @@ class TelegramMenu extends utils.Adapter {
 					_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
 				}
 				if (subMenuData && typeof subMenuData[0] == "string") {
-					sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram, userListWithChatID);
+					sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram, userListWithChatID, "");
 				}
 			} catch (e) {
 				_this.log.error("Error callSubMenu: " + JSON.stringify(e.message));

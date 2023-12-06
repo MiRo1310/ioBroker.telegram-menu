@@ -16,6 +16,8 @@ import PopupContainer from "./components/popupCards/PopupContainer";
 
 import getIobrokerData from "./lib/socket.mjs";
 import helperFunction from "./lib/Utilis.mjs";
+import { insertNewItemsInData } from "./lib/newValuesForNewVersion.mjs";
+import { navEntrys } from "./lib/entrys.mjs";
 
 let myTheme;
 
@@ -58,13 +60,14 @@ class App extends GenericApp {
 			usedTrigger: [],
 			showDropBox: false,
 			doubleTrigger: [],
+			connectionReady: false,
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.native.instance !== this.state.native.instance) this.getUsersFromTelegram();
+		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) this.getUsersFromTelegram();
 		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
 			if (this.state.activeMenu && this.state.activeMenu != "") this.updateActiveMenuAndTrigger(this.state.activeMenu);
 		}
@@ -75,6 +78,7 @@ class App extends GenericApp {
 
 	onConnectionReady() {
 		// executed when connection is ready
+		insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
 		this.getUsersFromTelegram();
 
 		myTheme = this.props.themeName;
@@ -89,6 +93,7 @@ class App extends GenericApp {
 
 		this.updateActiveMenuAndTrigger(firstMenu);
 		console.log(this.state.native);
+		this.setState({ connectionReady: true });
 	}
 	checkDoubleEntryInUsedTrigger = () => {
 		const usedTrigger = [...this.state.usedTrigger];
@@ -206,6 +211,7 @@ class App extends GenericApp {
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 										}}
+										entrys={navEntrys}
 									></MenuNavigation>
 								</TabPanel>
 								<TabPanel value="action">
