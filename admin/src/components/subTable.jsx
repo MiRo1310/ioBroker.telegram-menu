@@ -8,7 +8,7 @@ class SubTable extends Component {
 		return (
 			<Table>
 				<TableBody>
-					{typeof this.props.data != "string"
+					{typeof this.props.data != "string" && this.props.data != null && this.props.data != undefined
 						? this.props.data.map((element, index) => (
 								<TableRow key={index} className="SubTable">
 									<TableCell style={{ padding: "0", border: "none" }}>
