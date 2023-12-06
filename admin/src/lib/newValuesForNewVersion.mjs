@@ -1,6 +1,6 @@
 import { deepCopy } from "./Utilis.mjs";
-import { updateData } from "./actionUtilis.mjs";
 export const insertNewItemsInData = (data, updateNative) => {
+	if (Object.keys(data).length == 0) return;
 	data = deepCopy(data);
 	data = insertParseModeCheckbox(data);
 	insertAckCheckbox(data, updateNative);
