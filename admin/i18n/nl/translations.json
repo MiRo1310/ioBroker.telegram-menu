@@ -68,6 +68,7 @@
     "Please check the triggers, save, and reopen this menu to close the error!": "Controleer de triggers, sla het op en open dit menu opnieuw om de fout te sluiten!",
     "Please select a user, or deaktivate the Menu, bevor you are can save!": "Selecteer een gebruiker of deactiveer het menu voordat u kunt opslaan!",
     "Queries the value of the ID and then replaces it with the value, so text can be written around it": "Vraagt ​​de waarde van de ID op en vervangt deze vervolgens door de waarde, zodat er tekst omheen kan worden geschreven",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row": "Vraagt ​​de waarde van het ID op en vervangt deze vervolgens door de waarde, zodat er tekst omheen kan worden geschreven, het is ook mogelijk om deze meerdere keren achter elkaar te gebruiken",
     "Rename menu name": "Hernoem de menunaam",
     "Rendering url": "Render-URL",
     "Replace TRIGGER with a unique value.": "Vervang TRIGGER door een unieke waarde.",

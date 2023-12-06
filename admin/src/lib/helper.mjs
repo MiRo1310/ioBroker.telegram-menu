@@ -48,7 +48,7 @@ const helperText = {
 	text: [
 		{
 			text: "{status:'id':'ID'}",
-			info: "Queries the value of the ID and then replaces it with the value, so text can be written around it",
+			info: "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row",
 		},
 		{
 			text: "{set:'id':'ID',val,ack}",

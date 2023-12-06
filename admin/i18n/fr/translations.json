@@ -68,6 +68,7 @@
     "Please check the triggers, save, and reopen this menu to close the error!": "Veuillez vérifier les déclencheurs, enregistrer et rouvrir ce menu pour fermer l'erreur !",
     "Please select a user, or deaktivate the Menu, bevor you are can save!": "Veuillez sélectionner un utilisateur ou désactiver le menu avant de pouvoir enregistrer !",
     "Queries the value of the ID and then replaces it with the value, so text can be written around it": "Interroge la valeur de l'ID, puis la remplace par la valeur, afin que du texte puisse être écrit autour de celui-ci.",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row": "Interroge la valeur de l'ID puis la remplace par la valeur, afin que du texte puisse être écrit autour, il est également possible de l'utiliser plus d'une fois de suite.",
     "Rename menu name": "Renommer le nom du menu",
     "Rendering url": "URL de rendu",
     "Replace TRIGGER with a unique value.": "Remplacez TRIGGER par une valeur unique.",

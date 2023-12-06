@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   #81 get Status of more than one ID
 -   #83 New line in Text
 -   fixed menu:number
 
