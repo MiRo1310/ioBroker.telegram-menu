@@ -1,11 +1,25 @@
-const globalText = {
-	textID: "To insert an ID, simply insert the block first, select the ID. This will then be automatically inserted in the appropriate place, even if the ID is to be changed. If the code does not recognize the block, the ID is appended to the end.",
-};
-const parse_Mode = [
-	{ text: "<b> </b>", info: "Text in Parse Mode is Bold" },
-	{ text: "<i> </i>", info: "Text in Parse Mode is Italic" },
-	{ text: "<code> </code>", info: "Text in Parse Mode is Code" },
-	{ text: "<a href=“URL“>Link</a>", info: "Text in Parse Mode is Link" },
+const globalItems = [
+	{ newline: "", places: ["text", "set", "get"], data: [{ text: "\\n", info: "Breakpoint for a new line, Only insert this in the Text" }] },
+	{
+		parse_Mode: "",
+		places: ["text", "set", "get"],
+		data: [
+			{ text: "<b> </b>", info: "Text in Parse-Mode is Bold" },
+			{ text: "<i> </i>", info: "Text in Parse-Mode is Italic" },
+			{ text: "<code> </code>", info: "Text in Parse-Mode is Code" },
+			{ text: "<a href=“URL“>Link</a>", info: "Text in Parse-Mode is Link" },
+		],
+	},
+	{
+		textID: "",
+		places: ["text", "set"],
+		data: [
+			{
+				text: "",
+				info: "To insert an ID, simply insert the block first, select the ID. This will then be automatically inserted in the appropriate place, even if the ID is to be changed. If the code does not recognize the block, the ID is appended to the end.",
+			},
+		],
+	},
 ];
 
 const helperText = {
@@ -44,7 +58,6 @@ const helperText = {
 			text: 'change{"true":"an","false":"aus"}',
 			info: "Changes the value in the return text, in this case from true to on and false to off",
 		},
-		{ text: "", info: globalText.textID },
 	],
 	get: [
 		{ text: "{math:/10}", info: "Converts the value, /10 can be replaced" },
@@ -64,13 +77,14 @@ const helperText = {
 			text: "{'id':'ID','text':'Your Text'}",
 			info: "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.",
 		},
-		{ text: "", info: globalText.textID },
 	],
 };
-parse_Mode.forEach((element) => {
-	helperText.text.push(element);
-	helperText.get.push(element);
-	helperText.set.push(element);
+globalItems.forEach((element) => {
+	element.data.forEach((data) => {
+		if (element.places.includes("value")) helperText.value.push(data);
+		if (element.places.includes("text")) helperText.text.push(data);
+		if (element.places.includes("set")) helperText.set.push(data);
+		if (element.places.includes("get")) helperText.get.push(data);
+	});
 });
-
 export default helperText;

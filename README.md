@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   #83 New line in Text
 -   fixed menu:number
 
 ### 1.0.1 (2023-12-06)
