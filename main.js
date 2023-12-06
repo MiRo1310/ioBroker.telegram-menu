@@ -265,8 +265,6 @@ class TelegramMenu extends utils.Adapter {
 												textToSend.toString().indexOf(searchString) != -1
 													? (textToSend = textToSend.replace(searchString, value))
 													: (textToSend += " " + value);
-												console.log(element);
-												console.log("Parse_Mode " + element.parse_mode);
 												this.log.debug("Send Set to Telegram");
 												sendToTelegram(
 													this,
@@ -360,8 +358,6 @@ class TelegramMenu extends utils.Adapter {
 							if (userToSend) {
 								_this.log.debug("Send Nav to Telegram");
 								const text = await utilities.checkStatusInfo(_this, part.text);
-								console.log(part);
-								console.log("Parse_Mode " + part.parse_mode);
 
 								sendToTelegram(_this, userToSend, text, part.nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part.parse_mode);
 								return true;
