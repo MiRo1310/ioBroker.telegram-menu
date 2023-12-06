@@ -64,8 +64,6 @@ class TelegramMenu extends utils.Adapter {
 		if (this.config.usersInGroup) listofMenus = Object.keys(this.config.usersInGroup);
 
 		// @ts-ignore
-		const startsides = this.config.startsides;
-		// @ts-ignore
 		const token = this.config.tokenGrafana;
 		// @ts-ignore
 		const directoryPicture = this.config.directory;
@@ -80,6 +78,14 @@ class TelegramMenu extends utils.Adapter {
 		const menuData = {
 			data: {},
 		};
+		// @ts-ignore
+		const data = this.config.data;
+		const startsides = {};
+		Object.keys(groupsWithUsers).forEach((element) => {
+			startsides[element] = data["nav"][element][0]["call"];
+		});
+		this.log.debug("Startsides " + JSON.stringify(startsides));
+
 		const _this = this;
 		this.getForeignObject(datapoint, async (err, obj) => {
 			try {
@@ -102,8 +108,6 @@ class TelegramMenu extends utils.Adapter {
 						this.log.info("Telegram was found");
 						this.setState("info.connection", true, true);
 
-						// @ts-ignore
-						const data = this.config.data;
 						const nav = data["nav"];
 						const action = data["action"];
 						this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
