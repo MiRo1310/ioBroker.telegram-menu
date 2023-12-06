@@ -15,7 +15,7 @@ class RowNavCard extends Component {
 		return (
 			<div className="Edit-Container">
 				{this.props.entrys.map((entry, i) =>
-					!(entry.name == "nav") && !(entry.name == "text") && !entry.checkbox ? (
+					!(entry.name == "value") && !(entry.name == "text") && !entry.checkbox ? (
 						<Input
 							key={i}
 							width={entry.width ? entry.width : "15%"}
@@ -27,7 +27,7 @@ class RowNavCard extends Component {
 							label={I18n.t(entry.headline)}
 							class={this.props.inUse ? "inUse" : ""}
 						></Input>
-					) : entry.name == "nav" || entry.name == "text" ? (
+					) : entry.name == "value" || entry.name == "text" ? (
 						<Input
 							key={i}
 							width={entry.width ? entry.width : "15%"}

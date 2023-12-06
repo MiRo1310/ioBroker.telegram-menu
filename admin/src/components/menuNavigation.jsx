@@ -69,6 +69,7 @@ class MenuNavigation extends Component {
 	};
 
 	changeInput = (data) => {
+		console.log(data);
 		const copyNewRow = deepCopy(this.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();

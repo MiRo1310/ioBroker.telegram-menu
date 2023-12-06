@@ -11,7 +11,6 @@ import { I18n, SelectID } from "@iobroker/adapter-react-v5";
 import Input from "../btn-Input/input";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
-import { Button } from "@mui/material";
 
 class HelperCard extends Component {
 	constructor(props) {
@@ -45,6 +44,8 @@ class HelperCard extends Component {
 	};
 
 	render() {
+		console.log(this.props.val);
+		console.log(this.props.helper);
 		return (
 			<>
 				<TableContainer component={Paper} className="HelperCard">

@@ -9,7 +9,8 @@ const parse_Mode = [
 ];
 
 const helperText = {
-	nav: [
+	// Nav
+	value: [
 		{
 			text: "menu:percent10:TRIGGER:",
 			head: "<strong>Submenu Percent</strong><br>",
