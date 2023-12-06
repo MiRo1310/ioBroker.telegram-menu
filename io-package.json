@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "news": {
+      "1.0.1": {
+        "en": "fixed Error read UserList\nremove ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
+        "de": "fehler lesen UserList\nack:true and ack:false from Confirm Message entfernen und ein Kontrollkästchen für ihn kreieren\nparse-Mode HTML",
+        "ru": "исправлена ошибка читать UserList\nудалить ack:true и ack:false от подтвердите сообщение, и создает флажок для него\nparse-Mode HTML",
+        "pt": "erro fixo lido UserList\nremove ack:true e ack:false da mensagem de confirmação, e cria uma caixa de seleção para ele\nparse-Mode HTML",
+        "nl": "error las UserList\nverwijder Ack: True en ack:false van Confirm Message, en creëert er een chequebox voor\n\"Mode HTML",
+        "fr": "erreur fixe lire UserList\nsupprimer ack:true et ack:false de Confirmer Message, et creats une case pour elle\nparse-Mode HTML",
+        "it": "errore fisso letto UserList\nrimuovere ack:true and ack:false from Confirm Message, e crea una casella di controllo per esso\nparse-Mode HTML",
+        "es": "error fijo leído UserList\nquitar ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
+        "pl": "error przeczytał UserList\nusunąć ak:true i ac:false from Confirm Message, a creats a checkbox for it\nhTML (ang.)",
+        "uk": "виправлена помилка читати UserList\nвидалити ack:true і ack:false від Підтвердити повідомлення, і creats a checkbox для нього\njavaScript licenses API Веб-сайт Go1.13.8",
+        "zh-cn": "固定的电子读者\n取消包装:侵入和包装:从确认信处理中偷窃,并为其制造一个检查箱。\np. Mode HTML"
+      },
       "1.0.0": {
         "en": "fixed Error read UserList\nremove ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
         "de": "fehler lesen UserList\nack:true and ack:false from Confirm Message entfernen und ein Kontrollkästchen für ihn kreieren\nparse-Mode HTML",
@@ -80,19 +93,6 @@
         "pl": "React UI z większą cechą",
         "uk": "React UI з додатковими можливостями",
         "zh-cn": "具有更多特点的UI"
-      },
-      "0.8.6": {
-        "en": "fixed change and set value",
-        "de": "fester änderungs- und sollwert",
-        "ru": "фиксированное изменение и установленное значение",
-        "pt": "mudança fixa e valor definido",
-        "nl": "verandering en waarde",
-        "fr": "changement fixe et valeur déterminée",
-        "it": "cambiamento fisso e valore impostato",
-        "es": "cambio fijo y valor establecido",
-        "pl": "zmiana stała i ustawa wartości",
-        "uk": "фіксована зміна та значення",
-        "zh-cn": "固定变化和固定价值"
       }
     },
     "titleLang": {
