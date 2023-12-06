@@ -7,8 +7,7 @@ import Checkbox from "../btn-Input/checkbox";
 import Select from "../btn-Input/select";
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
-import BtnSmallUp from "../btn-Input/btn-small-up";
-import BtnSmallDown from "../btn-Input/btn-small-down";
+
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
@@ -42,7 +41,7 @@ class RowEditPopupCard extends Component {
 		}
 	}
 	updateData = (obj) => {
-		updateData(obj, this.props, this.state.rows, this.setState.bind(this), this.props.entrys);
+		updateData(obj, this.props, this.setState.bind(this), this.props.entrys);
 	};
 
 	handleDrop = (index) => {
@@ -65,15 +64,26 @@ class RowEditPopupCard extends Component {
 						placeholder="Select a Trigger"
 					></Select>
 				</div>
+				<div className="Edit-Container-ParseMode">
+					<Checkbox
+						id="parse_mode"
+						index={0}
+						callback={this.updateData}
+						callbackValue="event"
+						isChecked={isChecked(this.props.newRow.parse_mode[0])}
+						obj={true}
+						label="Parse Mode"
+					></Checkbox>
+				</div>
 
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
 								{this.props.entrys.map((entry, index) =>
-									entry.name != "trigger" ? (
+									entry.name != "trigger" && entry.name != "parse_mode" ? (
 										<TableCell key={index} align="left">
-											{I18n.t(entry.headline)}
+											<span title={entry.title ? I18n.t(entry.title) : null}>{I18n.t(entry.headline)}</span>
 										</TableCell>
 									) : null,
 								)}
@@ -147,7 +157,7 @@ class RowEditPopupCard extends Component {
 												) : null,
 											)}
 											{this.props.entrys.map((entry, i) =>
-												entry.checkbox ? (
+												entry.checkbox && entry.name != "parse_mode" ? (
 													<TableCell align="left" className="checkbox" key={i}>
 														<Checkbox
 															id={entry.name}

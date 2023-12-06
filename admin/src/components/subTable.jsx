@@ -8,20 +8,22 @@ class SubTable extends Component {
 		return (
 			<Table>
 				<TableBody>
-					{this.props.data.map((element, index) => (
-						<TableRow key={index} className="SubTable">
-							<TableCell style={{ padding: "0", border: "none" }}>
-								<span
-									draggable={false}
-									className="noneDraggable"
-									onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
-									onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
-								>
-									{this.props.name != "values" ? getElementIcon(element) : element}
-								</span>
-							</TableCell>
-						</TableRow>
-					))}
+					{typeof this.props.data != "string"
+						? this.props.data.map((element, index) => (
+								<TableRow key={index} className="SubTable">
+									<TableCell style={{ padding: "0", border: "none" }}>
+										<span
+											draggable={false}
+											className="noneDraggable"
+											onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
+											onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
+										>
+											{this.props.name != "values" ? getElementIcon(element) : element}
+										</span>
+									</TableCell>
+								</TableRow>
+						  ))
+						: null}
 				</TableBody>
 			</Table>
 		);
