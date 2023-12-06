@@ -443,6 +443,11 @@ div.MuiTabPanel-root {
 .Edit-Container-Trigger {
 	margin-left: 20px;
 	margin-bottom: 30px;
+	display: inline-block;
+}
+.Edit-Container-ParseMode {
+	display: inline-block;
+	margin-left: 100px;
 }
 .Edit-Container input {
 	background-color: inherit !important;
