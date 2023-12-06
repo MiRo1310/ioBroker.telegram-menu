@@ -66,6 +66,14 @@ const helperText = {
 		{ text: "&&", info: "Placeholder for the value" },
 		{ text: "{round:2}", info: "Rounds the value for example to 2 decimal places" },
 		{
+			text: "{time.lc,(DD MM YYYY hh:mm:ss:sss)}",
+			info: "LastChange. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+		},
+		{
+			text: "{time.ts,(DD MM YYYY hh:mm:ss:sss)}",
+			info: "TimeStamp. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+		},
+		{
 			text: 'change{"true":"an","false":"aus"}',
 			info: "Changes the value in the return text, in this case from true to on and false to off",
 		},
