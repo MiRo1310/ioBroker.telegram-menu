@@ -1,230 +1,241 @@
 {
-	"common": {
-		"name": "telegram-menu",
-		"version": "0.9.3",
-		"news": {
-			"0.9.3": {
-				"en": "fixed scrolling\nvalues changed to value not icon\nfixed save Value from HelperCard\nchangeValue extends\nsmall fixes\nit is now possible to mark text in draggable rows",
-				"de": "festes scrollen\nwerte geändert auf wert nicht symbol\nfester Speicherwert von HelperCard\nänderung Werte\nkleine fixierungen\nes ist nun möglich, text in draggable zeilen zu markieren",
-				"ru": "фиксированная прокрутка\nзначения изменены на значение не иконку\nфиксированное значение экономии от HelperCard\nизменить Значение распространяется\nнебольшие исправления\nтеперь можно отметить текст в перетачиваемых строках",
-				"pt": "rolagem fixa\nvalores alterados para valor não ícone\nvalor de salvamento fixo de HelperCard\nmudança Valor estende\npequenas correções\nagora é possível marcar texto em linhas arrastáveis",
-				"nl": "vertaling:\nwaarden veranderden om geen icoon\nverlost Value van HelperCard\nverandering Value verlengt\nkleine fixes\nhet is nu mogelijk om te sms'en in draagbare rijen",
-				"fr": "défilement fixe\nvaleurs changées en valeur non icône\nvaleur de sauvegarde fixe de HelperCard\nchangement Valeur prolonge\npetites corrections\nil est maintenant possible de marquer le texte dans les lignes mobiles",
-				"it": "scorrimento fisso\nvalori cambiati in valore non icona\nvalore di risparmio fisso da HelperCard\ncambiamento Valore\npiccole correzioni\nè ora possibile contrassegnare il testo in righe trascinabili",
-				"es": "pergamino fijo\nvalores cambiados al valor no icono\nvalor de ahorro fijo de HelperCard\ncambio Valor se extiende\npequeños accesorios\nahora es posible marcar texto en filas arrastrables",
-				"pl": "stały zwoje\nwartość zmieniała się na wartości nie ikonę\nzamknięto Value of HelperCard\nzmiana Value\ndrobne rozwiązanie\nobecnie możliwe jest wypisanie tekstu w rzędowych wierszach",
-				"uk": "фіксоване прокручування\nзначення змінено на значення не іконки\nфіксована економія значення від HelperCard\nувійти Значення поширюється\nмаленькі кріплення\nтепер можна відмітити текст у перетягування рядків",
-				"zh-cn": "固定的缺陷\n价值的变化\n固定价值从助产公司节省\n变化 价值扩展\n小型配件\n现在有可能标出案文,以缓和。"
-			},
-			"0.9.2": {
-				"en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
-				"de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
-				"ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
-				"pt": "erro fixo quando o adaptador começa\nArrastar e soltar no cartão de ação",
-				"nl": "als de Adapter begint\nDrag Drop in Action Card",
-				"fr": "erreur fixe lorsque l'adaptateur démarre\nDrag & Drop in Action Card",
-				"it": "errore fisso quando l'adattatore inizia\nDrag & Drop in Action Card",
-				"es": "error fijo cuando el Adaptador comienza\nArrastre y suelte la tarjeta de acción",
-				"pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
-				"uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
-				"zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
-			},
-			"0.9.1": {
-				"en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
-				"de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
-				"ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
-				"pt": "erro fixo quando o adaptador começa\nArrastar e soltar no cartão de ação",
-				"nl": "als de Adapter begint\nDrag Drop in Action Card",
-				"fr": "erreur fixe lorsque l'adaptateur démarre\nDrag & Drop in Action Card",
-				"it": "errore fisso quando l'adattatore inizia\nDrag & Drop in Action Card",
-				"es": "error fijo cuando el Adaptador comienza\nArrastre y suelte la tarjeta de acción",
-				"pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
-				"uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
-				"zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
-			},
-			"0.9.0": {
-				"en": "#75 fixed add new row in Action and edit it",
-				"de": "#75 fix Neue Zeile in Aktion hinzufügen und bearbeiten",
-				"ru": "#75 фиксированный добавить новый ряд в действие и отредактировать его",
-				"pt": "#75 fixo adicionar nova linha em Ação e editá-la",
-				"nl": "75 gerepareerd voeg nieuwe rij in Action en edit it",
-				"fr": "#75 fixe ajouter une nouvelle ligne en Action et la modifier",
-				"it": "#75 fisso aggiungere nuova riga in Azione e modificarla",
-				"es": "#75 fijado añadir nueva fila en Acción y editarlo",
-				"pl": "#75 stał się dodatkiem do nowego wiersza w Akcji i redagował ją",
-				"uk": "#75 фіксований додати новий рядок в дію і редагувати його",
-				"zh-cn": "#75 固定增加新的行动增加,并把它装入。"
-			},
-			"0.8.7": {
-				"en": "React UI with more features",
-				"de": "Reagieren Sie UI mit weiteren Features",
-				"ru": "React UI с большим количеством функций",
-				"pt": "Reagir UI com mais recursos",
-				"nl": "Reageer UI met meer kenmerken",
-				"fr": "Réagir l'interface utilisateur avec plus de fonctionnalités",
-				"it": "Reagisci UI con più funzionalità",
-				"es": "React UI con más características",
-				"pl": "React UI z większą cechą",
-				"uk": "React UI з додатковими можливостями",
-				"zh-cn": "具有更多特点的UI"
-			},
-			"0.8.6": {
-				"en": "fixed change and set value",
-				"de": "fester änderungs- und sollwert",
-				"ru": "фиксированное изменение и установленное значение",
-				"pt": "mudança fixa e valor definido",
-				"nl": "verandering en waarde",
-				"fr": "changement fixe et valeur déterminée",
-				"it": "cambiamento fisso e valore impostato",
-				"es": "cambio fijo y valor establecido",
-				"pl": "zmiana stała i ustawa wartości",
-				"uk": "фіксована зміна та значення",
-				"zh-cn": "固定变化和固定价值"
-			},
-			"0.8.5": {
-				"en": "fixed, menu:back in Subnavigation",
-				"de": "fest, Menü: Zurück in Subnavigation",
-				"ru": "фиксированное, меню:back в Subnavigation",
-				"pt": "fixo, menu: de volta em Subnavegação",
-				"nl": "terug in Subnavigation",
-				"fr": "fixe, menu: retour en Subnavigation",
-				"it": "fisso, menu:back in Subnavigation",
-				"es": "fija, menu:back in Subnavigation",
-				"pl": "przestałe menu:back in Subnavigation",
-				"uk": "виправлено, меню:",
-				"zh-cn": "固定的男性:次死"
-			}
-		},
-		"titleLang": {
-			"en": "Telegram Menu",
-			"de": "Telegramm-Menü",
-			"ru": "Меню телеграммы",
-			"pt": "Menu Telegram",
-			"nl": "Telegram-menu",
-			"fr": "Menu Télégramme",
-			"it": "Menù telegramma",
-			"es": "Menú de telegramas",
-			"pl": "menu telegramu",
-			"zh-cn": "电报菜单",
-			"uk": "Меню Telegram"
-		},
-		"desc": {
-			"en": "Easily create Telegram Menus",
-			"de": "Erstellen Sie ganz einfach Telegrammmenüs",
-			"ru": "Легко создавать меню Telegram",
-			"pt": "Crie facilmente menus de telegrama",
-			"nl": "Maak eenvoudig Telegram-menu's",
-			"fr": "Créez facilement des menus de télégramme",
-			"it": "Crea facilmente menu di Telegram",
-			"es": "Crea fácilmente menús de Telegram",
-			"pl": "Z łatwością twórz menu telegramu",
-			"zh-cn": "轻松创建电报菜单",
-			"uk": "Легко створюйте меню Telegram"
-		},
-		"authors": ["MiRo1310 <michael.roling@gmx.de>"],
-		"keywords": ["telegram", "menu"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "telegram-menu.png",
-		"enabled": true,
-		"messagebox": true,
-		"extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-		"readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "messaging",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "materialize"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=5.0.0",
-				"telegram": ">=1.15.0"
-			}
-		],
-		"messages": [
-			{
-				"condition": {
-					"operand": "and",
-					"rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
-				},
-				"title": {
-					"en": "Important notice!",
-					"de": "Wichtiger Hinweis!",
-					"ru": "Важное замечание!",
-					"pt": "Notícia importante!",
-					"nl": "Belangrijke mededeling!",
-					"fr": "Avis important!",
-					"it": "Avviso IMPORTANTE!",
-					"es": "Noticia importante!",
-					"pl": "Ważna uwaga!",
-					"zh-cn": "重要通知!",
-					"uk": "Важливе повідомлення!"
-				},
-				"text": {
-					"en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
-					"de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
-					"ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
-					"pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
-					"nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
-					"fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
-					"it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
-					"es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
-					"pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
-					"uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
-					"zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
-				},
-				"level": "warn",
-				"buttons": ["agree", "cancel"]
-			}
-		]
-	},
-	"native": {
-		"nav": {},
-		"instance": "",
-		"data": {},
-		"checkbox": [],
-		"usersForGlobal": "",
-		"users": [],
-		"startsides": [],
-		"tokenGrafana": "",
-		"directory": "",
-		"userActiveCheckbox": [],
-		"usersInGroup": {},
-		"textNoEntry": "",
-		"userListWithChatID": []
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "telegram-menu",
+    "version": "1.0.0",
+    "news": {
+      "1.0.0": {
+        "en": "fixed Error read UserList\nremove ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
+        "de": "fehler lesen UserList\nack:true and ack:false from Confirm Message entfernen und ein Kontrollkästchen für ihn kreieren\nparse-Mode HTML",
+        "ru": "исправлена ошибка читать UserList\nудалить ack:true и ack:false от подтвердите сообщение, и создает флажок для него\nparse-Mode HTML",
+        "pt": "erro fixo lido UserList\nremove ack:true e ack:false da mensagem de confirmação, e cria uma caixa de seleção para ele\nparse-Mode HTML",
+        "nl": "error las UserList\nverwijder Ack: True en ack:false van Confirm Message, en creëert er een chequebox voor\n\"Mode HTML",
+        "fr": "erreur fixe lire UserList\nsupprimer ack:true et ack:false de Confirmer Message, et creats une case pour elle\nparse-Mode HTML",
+        "it": "errore fisso letto UserList\nrimuovere ack:true and ack:false from Confirm Message, e crea una casella di controllo per esso\nparse-Mode HTML",
+        "es": "error fijo leído UserList\nquitar ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
+        "pl": "error przeczytał UserList\nusunąć ak:true i ac:false from Confirm Message, a creats a checkbox for it\nhTML (ang.)",
+        "uk": "виправлена помилка читати UserList\nвидалити ack:true і ack:false від Підтвердити повідомлення, і creats a checkbox для нього\njavaScript licenses API Веб-сайт Go1.13.8",
+        "zh-cn": "固定的电子读者\n取消包装:侵入和包装:从确认信处理中偷窃,并为其制造一个检查箱。\np. Mode HTML"
+      },
+      "0.9.3": {
+        "en": "fixed scrolling\nvalues changed to value not icon\nfixed save Value from HelperCard\nchangeValue extends\nsmall fixes\nit is now possible to mark text in draggable rows",
+        "de": "festes scrollen\nwerte geändert auf wert nicht symbol\nfester Speicherwert von HelperCard\nänderung Werte\nkleine fixierungen\nes ist nun möglich, text in draggable zeilen zu markieren",
+        "ru": "фиксированная прокрутка\nзначения изменены на значение не иконку\nфиксированное значение экономии от HelperCard\nизменить Значение распространяется\nнебольшие исправления\nтеперь можно отметить текст в перетачиваемых строках",
+        "pt": "rolagem fixa\nvalores alterados para valor não ícone\nvalor de salvamento fixo de HelperCard\nmudança Valor estende\npequenas correções\nagora é possível marcar texto em linhas arrastáveis",
+        "nl": "vertaling:\nwaarden veranderden om geen icoon\nverlost Value van HelperCard\nverandering Value verlengt\nkleine fixes\nhet is nu mogelijk om te sms'en in draagbare rijen",
+        "fr": "défilement fixe\nvaleurs changées en valeur non icône\nvaleur de sauvegarde fixe de HelperCard\nchangement Valeur prolonge\npetites corrections\nil est maintenant possible de marquer le texte dans les lignes mobiles",
+        "it": "scorrimento fisso\nvalori cambiati in valore non icona\nvalore di risparmio fisso da HelperCard\ncambiamento Valore\npiccole correzioni\nè ora possibile contrassegnare il testo in righe trascinabili",
+        "es": "pergamino fijo\nvalores cambiados al valor no icono\nvalor de ahorro fijo de HelperCard\ncambio Valor se extiende\npequeños accesorios\nahora es posible marcar texto en filas arrastrables",
+        "pl": "stały zwoje\nwartość zmieniała się na wartości nie ikonę\nzamknięto Value of HelperCard\nzmiana Value\ndrobne rozwiązanie\nobecnie możliwe jest wypisanie tekstu w rzędowych wierszach",
+        "uk": "фіксоване прокручування\nзначення змінено на значення не іконки\nфіксована економія значення від HelperCard\nувійти Значення поширюється\nмаленькі кріплення\nтепер можна відмітити текст у перетягування рядків",
+        "zh-cn": "固定的缺陷\n价值的变化\n固定价值从助产公司节省\n变化 价值扩展\n小型配件\n现在有可能标出案文,以缓和。"
+      },
+      "0.9.2": {
+        "en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
+        "de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
+        "ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
+        "pt": "erro fixo quando o adaptador começa\nArrastar e soltar no cartão de ação",
+        "nl": "als de Adapter begint\nDrag Drop in Action Card",
+        "fr": "erreur fixe lorsque l'adaptateur démarre\nDrag & Drop in Action Card",
+        "it": "errore fisso quando l'adattatore inizia\nDrag & Drop in Action Card",
+        "es": "error fijo cuando el Adaptador comienza\nArrastre y suelte la tarjeta de acción",
+        "pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
+        "uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
+        "zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
+      },
+      "0.9.1": {
+        "en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
+        "de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
+        "ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
+        "pt": "erro fixo quando o adaptador começa\nArrastar e soltar no cartão de ação",
+        "nl": "als de Adapter begint\nDrag Drop in Action Card",
+        "fr": "erreur fixe lorsque l'adaptateur démarre\nDrag & Drop in Action Card",
+        "it": "errore fisso quando l'adattatore inizia\nDrag & Drop in Action Card",
+        "es": "error fijo cuando el Adaptador comienza\nArrastre y suelte la tarjeta de acción",
+        "pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
+        "uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
+        "zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
+      },
+      "0.9.0": {
+        "en": "#75 fixed add new row in Action and edit it",
+        "de": "#75 fix Neue Zeile in Aktion hinzufügen und bearbeiten",
+        "ru": "#75 фиксированный добавить новый ряд в действие и отредактировать его",
+        "pt": "#75 fixo adicionar nova linha em Ação e editá-la",
+        "nl": "75 gerepareerd voeg nieuwe rij in Action en edit it",
+        "fr": "#75 fixe ajouter une nouvelle ligne en Action et la modifier",
+        "it": "#75 fisso aggiungere nuova riga in Azione e modificarla",
+        "es": "#75 fijado añadir nueva fila en Acción y editarlo",
+        "pl": "#75 stał się dodatkiem do nowego wiersza w Akcji i redagował ją",
+        "uk": "#75 фіксований додати новий рядок в дію і редагувати його",
+        "zh-cn": "#75 固定增加新的行动增加,并把它装入。"
+      },
+      "0.8.7": {
+        "en": "React UI with more features",
+        "de": "Reagieren Sie UI mit weiteren Features",
+        "ru": "React UI с большим количеством функций",
+        "pt": "Reagir UI com mais recursos",
+        "nl": "Reageer UI met meer kenmerken",
+        "fr": "Réagir l'interface utilisateur avec plus de fonctionnalités",
+        "it": "Reagisci UI con più funzionalità",
+        "es": "React UI con más características",
+        "pl": "React UI z większą cechą",
+        "uk": "React UI з додатковими можливостями",
+        "zh-cn": "具有更多特点的UI"
+      },
+      "0.8.6": {
+        "en": "fixed change and set value",
+        "de": "fester änderungs- und sollwert",
+        "ru": "фиксированное изменение и установленное значение",
+        "pt": "mudança fixa e valor definido",
+        "nl": "verandering en waarde",
+        "fr": "changement fixe et valeur déterminée",
+        "it": "cambiamento fisso e valore impostato",
+        "es": "cambio fijo y valor establecido",
+        "pl": "zmiana stała i ustawa wartości",
+        "uk": "фіксована зміна та значення",
+        "zh-cn": "固定变化和固定价值"
+      }
+    },
+    "titleLang": {
+      "en": "Telegram Menu",
+      "de": "Telegramm-Menü",
+      "ru": "Меню телеграммы",
+      "pt": "Menu Telegram",
+      "nl": "Telegram-menu",
+      "fr": "Menu Télégramme",
+      "it": "Menù telegramma",
+      "es": "Menú de telegramas",
+      "pl": "menu telegramu",
+      "zh-cn": "电报菜单",
+      "uk": "Меню Telegram"
+    },
+    "desc": {
+      "en": "Easily create Telegram Menus",
+      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+      "ru": "Легко создавать меню Telegram",
+      "pt": "Crie facilmente menus de telegrama",
+      "nl": "Maak eenvoudig Telegram-menu's",
+      "fr": "Créez facilement des menus de télégramme",
+      "it": "Crea facilmente menu di Telegram",
+      "es": "Crea fácilmente menús de Telegram",
+      "pl": "Z łatwością twórz menu telegramu",
+      "zh-cn": "轻松创建电报菜单",
+      "uk": "Легко створюйте меню Telegram"
+    },
+    "authors": [
+      "MiRo1310 <michael.roling@gmx.de>"
+    ],
+    "keywords": [
+      "telegram",
+      "menu"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "telegram-menu.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0",
+        "telegram": ">=1.15.0"
+      }
+    ],
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<1.0.0",
+            "newVersion>=1.0.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
+          "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
+          "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
+          "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
+          "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
+          "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
+          "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
+          "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
+          "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
+          "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
+          "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
+    ]
+  },
+  "native": {
+    "nav": {},
+    "instance": "",
+    "data": {},
+    "checkbox": [],
+    "usersForGlobal": "",
+    "users": [],
+    "startsides": [],
+    "tokenGrafana": "",
+    "directory": "",
+    "userActiveCheckbox": [],
+    "usersInGroup": {},
+    "textNoEntry": "",
+    "userListWithChatID": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
