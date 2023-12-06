@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   fixed Error read UserList
 -   remove ack:true and ack:false from Confirm Message, and creats a checkbox for it
 -   parse-Mode HTML
 
