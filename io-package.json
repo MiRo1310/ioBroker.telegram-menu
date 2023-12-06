@@ -155,7 +155,7 @@
 			{
 				"condition": {
 					"operand": "and",
-					"rules": ["oldVersion<0.9.3", "newVersion>=1.0.0"]
+					"rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
 				},
 				"title": {
 					"en": "Important notice!",
