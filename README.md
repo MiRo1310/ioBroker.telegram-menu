@@ -33,6 +33,12 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   remove ack:true and ack:false from Confirm Message, and creats a checkbox for it
+-   parse-Mode HTML
+
 ### 0.9.3 (2023-12-04)
 
 -   fixed scrolling
