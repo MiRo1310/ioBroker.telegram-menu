@@ -69,7 +69,7 @@ class MenuNavigation extends Component {
 	};
 
 	changeInput = (data) => {
-		console.log(data);
+		// console.log(data);
 		const copyNewRow = deepCopy(this.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();
@@ -97,7 +97,7 @@ class MenuNavigation extends Component {
 		this.setState({ editRow: false });
 	};
 	openAddRowCard = (value) => {
-		console.log(value);
+		// console.log(value);
 		if (value) {
 			this.setState({ rowIndex: value });
 		}

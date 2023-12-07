@@ -20,6 +20,11 @@ const globalItems = [
 			},
 		],
 	},
+	{
+		time: "",
+		places: ["text", "get"],
+		data: [{ text: "{time}", info: "Converts a Unix timestamp to a local time" }],
+	},
 ];
 
 const helperText = {
@@ -40,6 +45,7 @@ const helperText = {
 			head: "<strong>Submenu Switch</strong><br>",
 			info: "Generates two buttons, in this case on and off with the respective values true and false. Replace TRIGGER with a unique value.",
 		},
+
 		{
 			text: "menu:back",
 			info: "When pressed, you jump back to the previous menu",
@@ -55,13 +61,21 @@ const helperText = {
 			info: "Sets the value of the ID to the val, with ack(confirmed)",
 		},
 		{
+			text: "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}",
+			info: "LastChange. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+		},
+		{
+			text: "{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'ID'}",
+			info: "TimeStamp. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+		},
+		{
 			text: 'change{"true":"an","false":"aus"}',
 			info: "Changes the value in the return text, in this case from true to on and false to off",
 		},
 	],
 	get: [
 		{ text: "{math:/10}", info: "Converts the value, /10 can be replaced" },
-		{ text: "{time}", info: "Converts a Unix timestamp to a local time" },
+
 		{ text: "{common.name}", info: "Outputs the name of the data point" },
 		{ text: "&&", info: "Placeholder for the value" },
 		{ text: "{round:2}", info: "Rounds the value for example to 2 decimal places" },
