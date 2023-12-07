@@ -19,6 +19,7 @@ const utilities = require("./lib/js/utilities");
 const subMenu = require("./lib/js/subMenu").subMenu;
 const backMenuFunc = require("./lib/js/subMenu").backMenuFunc;
 const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
+const sendLocationToTelegram = require("./lib/js/telegram").sendLocationToTelegram;
 const Utils = require("./lib/js/global");
 const changeValue = require("./lib/js/utilities").changeValue;
 
@@ -129,6 +130,7 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Array Buttons: " + JSON.stringify(value));
 								this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
 							}
+							console.log(menuData.data);
 						} catch (err) {
 							this.log.error("Error generateNav: " + JSON.stringify(err.message));
 							this.log.error(JSON.stringify(err.stack));
@@ -423,6 +425,10 @@ class TelegramMenu extends utils.Adapter {
 
 						_this.log.debug("Picture sended");
 
+						return true;
+					} else if (part.location) {
+						_this.log.debug("Send Location");
+						sendLocationToTelegram(_this, userToSend, part.location, instanceTelegram, userListWithChatID);
 						return true;
 					}
 				} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
