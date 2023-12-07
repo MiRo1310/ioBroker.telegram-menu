@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { deepCopy } from "../lib/Utilis.mjs";
 
@@ -41,12 +41,14 @@ class ActionCard extends Component {
 		if (prevProps.data !== this.props.data) {
 			this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 		}
+		if (this.props.activeMenu !== prevProps.activeMenu) {
+			this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
+		}
 
 		if (prevProps.newRow !== this.state.newRow) {
 			// console.log("newRow", this.state.newRow);
 			let value = true;
 			let valueRowValuesAndSwitch = true;
-			let globalRowValue = true;
 			let row = this.state.newRow;
 			this.props.entrys.forEach((entry) => {
 				if (!entry.checkbox) {
@@ -132,7 +134,9 @@ class ActionCard extends Component {
 	getLengthOfData = (data, activeMenu) => {
 		if (data && activeMenu && data[activeMenu][this.props.subcard] && data[activeMenu][this.props.subcard].length) {
 			this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
-		} else return;
+		} else {
+			this.setState({ rowsLength: 0 });
+		}
 	};
 
 	openHelperText = (value) => {
