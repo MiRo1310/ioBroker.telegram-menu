@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-       #85 bindings
 -   added {time} to Navigation
 -   #82 Get Location
 -   #85 get state.ls oder state.ts from a state and converts to a local time

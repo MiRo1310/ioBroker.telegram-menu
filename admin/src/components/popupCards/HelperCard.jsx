@@ -86,7 +86,7 @@ class HelperCard extends Component {
 					callbackValue="event.target.value"
 					label="Text"
 				>
-					{this.props.val == "text" || this.props.val == "set" ? <BtnSmallSearch callback={this.openSelectId} /> : null}
+					{this.props.val == "text" || this.props.val == "set" || this.props.val == "get" ? <BtnSmallSearch callback={this.openSelectId} /> : null}
 				</Input>
 
 				{this.state.showSelectId ? (

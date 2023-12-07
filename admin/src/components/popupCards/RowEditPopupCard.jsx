@@ -145,7 +145,7 @@ class RowEditPopupCard extends Component {
 															callbackValue="event.target.value"
 															function="manual"
 															type={entry.type}
-															inputWidth={!entry.search ? "calc(100% - 28px)" : ""}
+															inputWidth={!entry.search || entry.name === "returnText" || entry.name === "text" ? "calc(100% - 28px)" : ""}
 															className="noneDraggable"
 															onMouseOver={handleMouseOver}
 															onMouseLeave={handleMouseOut}

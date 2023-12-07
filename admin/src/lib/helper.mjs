@@ -11,6 +11,11 @@ const globalItems = [
 		],
 	},
 	{
+		time: "",
+		places: ["text", "get"],
+		data: [{ text: "{time}", info: "Converts a Unix timestamp to a local time" }],
+	},
+	{
 		textID: "",
 		places: ["text", "set"],
 		data: [
@@ -19,11 +24,6 @@ const globalItems = [
 				info: "To insert an ID, simply insert the block first, select the ID. This will then be automatically inserted in the appropriate place, even if the ID is to be changed. If the code does not recognize the block, the ID is appended to the end.",
 			},
 		],
-	},
-	{
-		time: "",
-		places: ["text", "get"],
-		data: [{ text: "{time}", info: "Converts a Unix timestamp to a local time" }],
 	},
 ];
 
@@ -90,6 +90,10 @@ const helperText = {
 		{
 			text: 'change{"true":"an","false":"aus"}',
 			info: "Changes the value in the return text, in this case from true to on and false to off",
+		},
+		{
+			text: '{var1:ID;var2:ID; var1 ==var2 ? "equal" : var1 < var2 ? "var1 is smaller" : "var1 is greater"}',
+			info: "Bindings: First Var with id then the condition and the text.",
 		},
 	],
 	set: [
