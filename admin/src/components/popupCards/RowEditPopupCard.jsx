@@ -29,6 +29,7 @@ class RowEditPopupCard extends Component {
 			dropEnd: 0,
 			dropOver: 0,
 			mouseOverNoneDraggable: false,
+			itemForID: "",
 		};
 	}
 
@@ -64,18 +65,19 @@ class RowEditPopupCard extends Component {
 						placeholder="Select a Trigger"
 					></Select>
 				</div>
-				<div className="Edit-Container-ParseMode">
-					<Checkbox
-						id="parse_mode"
-						index={0}
-						callback={this.updateData}
-						callbackValue="event"
-						isChecked={isChecked(this.props.newRow.parse_mode[0])}
-						obj={true}
-						label="Parse Mode"
-					></Checkbox>
-				</div>
-
+				{this.props.newRow.parse_mode ? (
+					<div className="Edit-Container-ParseMode">
+						<Checkbox
+							id="parse_mode"
+							index={0}
+							callback={this.updateData}
+							callbackValue="event"
+							isChecked={isChecked(this.props.newRow.parse_mode[0])}
+							obj={true}
+							label="Parse Mode"
+						></Checkbox>
+					</div>
+				) : null}
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
@@ -92,7 +94,7 @@ class RowEditPopupCard extends Component {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{this.state.rows.length > 0
+							{this.state.rows
 								? this.state.rows.map((row, index) => (
 										<TableRow
 											key={index}
@@ -106,32 +108,35 @@ class RowEditPopupCard extends Component {
 											onDragLeave={() => handleDragEnter(index, this.setState.bind(this))}
 											style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
 										>
-											<TableCell component="td" scope="row" align="left">
-												<span
-													className="test"
-													onMouseEnter={(e) => handleMouseOver(e, this.setState.bind(this))}
-													onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
-												>
-													<Input
-														width="calc(100% - 50px)"
-														value={row.IDs}
-														margin="0px 2px 0 2px"
-														id="IDs"
-														index={index}
-														callback={this.updateData}
-														callbackValue="event.target.value"
-														function="manual"
-														className="noneDraggable"
-													></Input>
-												</span>
+											{row.IDs || row.IDs === "" ? (
+												<TableCell component="td" scope="row" align="left">
+													<span
+														onMouseEnter={(e) => handleMouseOver(e, this.setState.bind(this))}
+														onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+													>
+														<Input
+															width="calc(100% - 50px)"
+															value={row.IDs}
+															margin="0px 2px 0 2px"
+															id="IDs"
+															index={index}
+															callback={this.updateData}
+															callbackValue="event.target.value"
+															function="manual"
+															className="noneDraggable"
+														></Input>
+													</span>
 
-												<BtnSmallSearch callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index })} />
-											</TableCell>
+													<BtnSmallSearch
+														callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index, itemForID: "IDs" })}
+													/>
+												</TableCell>
+											) : null}
 											{this.props.entrys.map((entry, i) =>
 												!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
 													<TableCell align="left" key={i}>
 														<Input
-															width="100%"
+															width={entry.search ? "calc(100% - 50px)" : "100%"}
 															value={row[entry.name].replace(/&amp;/g, "&")}
 															margin="0px 2px 0 5px"
 															id={entry.name}
@@ -140,7 +145,7 @@ class RowEditPopupCard extends Component {
 															callbackValue="event.target.value"
 															function="manual"
 															type={entry.type}
-															inputWidth="calc(100% - 28px)"
+															inputWidth={!entry.search ? "calc(100% - 28px)" : ""}
 															className="noneDraggable"
 															onMouseOver={handleMouseOver}
 															onMouseLeave={handleMouseOut}
@@ -153,11 +158,15 @@ class RowEditPopupCard extends Component {
 																></BtnCirleAdd>
 															) : null}
 														</Input>
+														{entry.search ? (
+															<BtnSmallSearch
+																callback={() =>
+																	this.setState({ showSelectId: true, selectIdValue: row[entry.name], indexID: index, itemForID: entry.name })
+																}
+															/>
+														) : null}
 													</TableCell>
-												) : null,
-											)}
-											{this.props.entrys.map((entry, i) =>
-												entry.checkbox && entry.name != "parse_mode" ? (
+												) : entry.checkbox && entry.name != "parse_mode" ? (
 													<TableCell align="left" className="checkbox" key={i}>
 														<Checkbox
 															id={entry.name}
@@ -203,7 +212,7 @@ class RowEditPopupCard extends Component {
 						onClose={() => this.setState({ showSelectId: false })}
 						onOk={(selected, name) => {
 							this.setState({ showSelectId: false });
-							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entrys);
+							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entrys, this.state.itemForID);
 						}}
 					/>
 				) : null}

@@ -54,11 +54,13 @@ export const addNewRow = (index, props, rowElements, setState) => {
 	else newRow = {};
 	rowElements.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
-
+		console.log(element);
+		console.log(index);
 		if (!index && index !== 0) {
 			newRow[element.name] = [element.val];
 		} else if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
 	});
+	console.log(newRow);
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
@@ -74,24 +76,22 @@ export const deleteRow = (index, props, array, setState, rowElements) => {
 
 export const moveItem = (index, props, array, setState, rowElements, val) => {
 	const newRow = deepCopy(props.newRow);
-	// console.log(newRow);
 	array.forEach((element) => {
 		if (element.name !== "trigger") newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
 	});
-	// console.log(newRow);
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const updateId = (selected, props, indexID, setState, rowElements) => {
+export const updateId = (selected, props, indexID, setState, rowElements, ID) => {
 	const newRow = deepCopy(props.newRow);
-	newRow.IDs[indexID] = selected;
+	newRow[ID][indexID] = selected;
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
 
 export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
-	const submenu = ["set", "get", "pic"];
+	const submenu = ["set", "get", "pic", "loc"];
 	// Users für die die Trigger gesucht werden sollen
 
 	const users = usersInGroup[activeMenu];

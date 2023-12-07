@@ -47,6 +47,7 @@ class ActionCard extends Component {
 
 		if (prevProps.newRow !== this.state.newRow) {
 			// console.log("newRow", this.state.newRow);
+			let globalRowValue = true;
 			let value = true;
 			let valueRowValuesAndSwitch = true;
 			let row = this.state.newRow;
@@ -110,6 +111,7 @@ class ActionCard extends Component {
 	closeAddRowCard = (isOk) => {
 		if (isOk) {
 			const data = deepCopy(this.props.data.data);
+			if (!data.action[this.props.activeMenu][this.props.subcard]) data.action[this.props.activeMenu][this.props.subcard] = [];
 			if (this.state.editRow) {
 				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import ActionCard from "./ActionCard";
-import { setEntrys, getEntrys, picEntrys } from "../lib/entrys.mjs";
+import { setEntrys, getEntrys, picEntrys, locEntrys } from "../lib/entrys.mjs";
 
 class Action extends Component {
 	constructor(props) {
@@ -23,6 +23,7 @@ class Action extends Component {
 						<Tab label="SetState" value="set" />
 						<Tab label="GetState" value="get" />
 						<Tab label="Send Picture" value="pic" />
+						<Tab label="Send Location" value="loc" />
 					</TabList>
 				</Box>
 				<TabPanel value="set" className="TabPanel-Action">
@@ -49,7 +50,7 @@ class Action extends Component {
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
-				<TabPanel value="pic" className="ActionCard TabPanel-Action">
+				<TabPanel value="pic" className="TabPanel-Action">
 					<ActionCard
 						callback={this.props.callback}
 						data={this.props.data}
@@ -58,6 +59,18 @@ class Action extends Component {
 						subcard="pic"
 						entrys={picEntrys}
 						titlePopup="Send Picture"
+						showButtons={{ add: true, remove: true, edit: true }}
+					></ActionCard>
+				</TabPanel>
+				<TabPanel value="loc" className="TabPanel-Action">
+					<ActionCard
+						callback={this.props.callback}
+						data={this.props.data}
+						activeMenu={this.props.activeMenu}
+						card="action"
+						subcard="loc"
+						entrys={locEntrys}
+						titlePopup="Send Location"
 						showButtons={{ add: true, remove: true, edit: true }}
 					></ActionCard>
 				</TabPanel>
