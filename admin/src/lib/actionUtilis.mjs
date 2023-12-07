@@ -11,23 +11,26 @@ let rows = [];
 function getRows(element, rowElements) {
 	if (!element) return;
 	rows = [];
-	// console.log(element);
 	const trigger = element.trigger[0];
-	for (let index in element.IDs) {
+	const generateBy = rowElements.find((element) => element.elementGetRows !== undefined)?.elementGetRows;
+	if (!generateBy) return;
+	for (let index in element[generateBy]) {
 		rows.push(createData(element, index, rowElements));
 	}
 	return { rows: rows, trigger: trigger };
 }
 export const saveRows = (props, setState, rowElements, newRow) => {
-	setState({ data: props.newRow });
 	let data;
 	if (newRow && newRow.length == 0) {
 		data = getRows(props.newRow, rowElements);
 	} else data = getRows(newRow, rowElements);
 	if (!data) return;
 	const rows = data.rows;
-	setState({ trigger: data.trigger });
-	setState({ rows: rows });
+	if (setState) {
+		setState({ data: props.newRow });
+		setState({ trigger: data.trigger });
+		setState({ rows: rows });
+	}
 };
 
 export const updateData = (obj, props, setState, rowElements) => {
@@ -44,9 +47,10 @@ export const updateTrigger = (value, props, setState, rowElements) => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const addNewRow = (index, props, rowElements, setState, row) => {
+export const addNewRow = (index, props, rowElements, setState) => {
 	let newRow;
-	if (index >= 0) newRow = deepCopy(props.newRow);
+
+	if (index >= 0 && index != null) newRow = deepCopy(props.newRow);
 	else newRow = {};
 	rowElements.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag

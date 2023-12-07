@@ -5,7 +5,7 @@ export const navEntrys = [
 	{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%" },
 ];
 export const setEntrys = [
-	{ name: "trigger", val: "", headline: "Trigger" },
+	{ name: "trigger", val: "", headline: "Trigger", elementGetRows: "IDs" },
 	{ name: "IDs", val: "", headline: "ID" },
 	{ name: "values", val: "", headline: "Value" },
 	{ name: "returnText", val: "", headline: "Return text" },
@@ -15,15 +15,21 @@ export const setEntrys = [
 	{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%" },
 ];
 export const getEntrys = [
-	{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
+	{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "IDs" },
 	{ name: "IDs", val: "", headline: "ID", width: "40%" },
 	{ name: "text", val: "", headline: "Text", width: "40%" },
 	{ name: "newline_checkbox", val: "true", headline: "New", title: "Newline", checkbox: true, width: "3%" },
 	{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%" },
 ];
 export const picEntrys = [
-	{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
+	{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "IDs" },
 	{ name: "IDs", val: "", headline: "ID", width: "40%" },
 	{ name: "fileName", val: "", headline: "Filename", width: "40%" },
 	{ name: "picSendDelay", val: "", headline: "Delay", width: "40%", type: "number" },
+];
+export const locEntrys = [
+	{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "latitude" },
+	{ name: "latitude", val: "", headline: "Latitude", width: "20%", search: true },
+	{ name: "longitude", val: "", headline: "Longitude", width: "20%", search: true },
+	{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%" },
 ];
