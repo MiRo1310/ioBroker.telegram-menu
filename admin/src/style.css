@@ -153,37 +153,37 @@ img[alt="logo"] {
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: 0.7rem;
-
 	padding: 0.5rem 1rem;
+}
+.disableSaveBtn {
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+	height: 65px;
+	background-color: rgba(0, 0, 0, 0.5);
 
-	.disableSaveBtn {
-		position: absolute;
-		bottom: 0;
-		width: 100vw;
-		height: 65px;
-		background-color: rgba(0, 0, 0, 0.5);
-		z-index: 1100;
-	}
-	/* error */
-	.ErrorDoubleTrigger-Container {
-		color: red;
-		position: absolute;
-		top: 5px;
-		max-width: 400px;
-		left: 50%;
-		transform: translateX(-50%);
-		text-align: center;
-		border: 1px solid red;
-		background-color: white;
-	}
-	.ErrorDoubleTrigger-Container .Error-Header {
-		margin: 2px 5px;
-	}
-	.ErrorDoubleTrigger-Container .Error-Items {
-		display: inline;
-		padding: 0px 10px;
-	}
-} /* get mistake */
+	z-index: 1200;
+}
+/* error */
+.ErrorDoubleTrigger-Container {
+	color: red;
+	position: absolute;
+	top: 5px;
+	max-width: 400px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	border: 1px solid red;
+	background-color: white;
+}
+.ErrorDoubleTrigger-Container .Error-Header {
+	margin: 2px 5px;
+}
+.ErrorDoubleTrigger-Container .Error-Items {
+	display: inline;
+	padding: 0px 10px;
+}
+/* get mistake */
 /* Grid Main Content */
 .App-main-content {
 	padding-top: 0 !important;
@@ -619,10 +619,11 @@ tr td:has(button.buttonFalse) {
 }
 button.buttonTrue {
 	background-color: #96d15a !important;
+	color: #333;
 }
 button.buttonFalse {
-	background-color: red !important;
-	color: black;
+	background-color: #ff0033 !important;
+	color: #333;
 }
 /* Select */
 .dark select {
