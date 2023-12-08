@@ -39,6 +39,7 @@
     "Converts the value, /10 can be replaced": "Wandelt den Wert um, /10 kann ersetzt werden",
     "Copy Data": "Daten kopieren",
     "Copy Elements from other Menus": "Elemente aus anderen Menüs kopieren",
+    "Creats a table from a JSON. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.": "Erstellt eine Tabelle aus einem JSON. Der erste Wert ist ein Schlüssel des JSON, dahinter steht der Name der Spalte. Sie können mehr als zwei Werte verwenden. Die Kopfzeile muss ausgefüllt werden.",
     "Delay": "Verzögerung",
     "Delay (ms)": "Verzögerung (ms)",
     "Delete Menu": "Menü löschen",

@@ -39,6 +39,7 @@
     "Converts the value, /10 can be replaced": "转换数值，/10可以替换",
     "Copy Data": "复制数据",
     "Copy Elements from other Menus": "从其他菜单复制元素",
+    "Creats a table from a JSON. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.": "从 JSON 创建表。第一个值是 JSON 的一个键，后面是列的名称。您可以使用两个以上的值。必须填写标题。",
     "Delay": "延迟",
     "Delay (ms)": "延迟（毫秒）",
     "Delete Menu": "删除菜单",

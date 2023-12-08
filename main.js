@@ -487,7 +487,7 @@ class TelegramMenu extends utils.Adapter {
 					_subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
 				}
 				if (subMenuData && typeof subMenuData[0] == "string") {
-					sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram, userListWithChatID, "");
+					sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram, userListWithChatID);
 				}
 			} catch (e) {
 				_this.log.error("Error callSubMenu: " + JSON.stringify(e.message));
