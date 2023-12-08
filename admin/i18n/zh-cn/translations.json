@@ -19,6 +19,7 @@
     "All User from Telegram, seperate with": "来自 Telegram 的所有用户，分开",
     "All data will be lost. Confirm?": "所有数据都将丢失。确认？",
     "At least one user must be checked, or the menu must be deactivated.": "必须至少检查一名用户，否则必须停用菜单。",
+    "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End": "注意力。该值仅被设置，但尚未被适配器确认。您可以删除 noValue，然后将显示该值。位置 && 替换为 Value 或将在末尾 pu",
     "Breakpoint for a new line, Only insert this in the Text": "新行的断点，仅将其插入文本中",
     "Call": "称呼",
     "Call Text": "通话短信",

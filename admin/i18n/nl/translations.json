@@ -19,6 +19,7 @@
     "All User from Telegram, seperate with": "Alle gebruikers van Telegram, gescheiden met",
     "All data will be lost. Confirm?": "Alle gegevens gaan verloren. Bevestigen?",
     "At least one user must be checked, or the menu must be deactivated.": "Er moet minimaal één gebruiker zijn aangevinkt, of het menu moet zijn gedeactiveerd.",
+    "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End": "Aandacht. De waarde is alleen ingesteld, maar nog niet bevestigd door de adapter. U kunt noValue verwijderen, waarna de waarde wordt weergegeven. Positie && vervangen door Waarde of zal pu zijn aan het einde",
     "Breakpoint for a new line, Only insert this in the Text": "Breekpunt voor een nieuwe regel. Voeg dit alleen in de tekst in",
     "Call": "Telefoongesprek",
     "Call Text": "Bel tekst",

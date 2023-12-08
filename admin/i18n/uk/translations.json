@@ -19,6 +19,7 @@
     "All User from Telegram, seperate with": "Всі користувачі з Telegram, окремо від",
     "All data will be lost. Confirm?": "Усі дані буде втрачено. Підтвердити?",
     "At least one user must be checked, or the menu must be deactivated.": "Принаймні один користувач повинен бути відмічений, або меню має бути дезактивовано.",
+    "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End": "Увага. Значення лише встановлено, але ще не підтверджено адаптером. Ви можете видалити noValue, тоді значення відобразиться. Позиція && замінюється значенням або буде pu в кінці",
     "Breakpoint for a new line, Only insert this in the Text": "Точка зупину для нового рядка, вставте це лише в текст",
     "Call": "Телефонуйте",
     "Call Text": "Текст виклику",

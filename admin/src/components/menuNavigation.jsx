@@ -51,7 +51,7 @@ class MenuNavigation extends Component {
 		if (this.state.newRow.call !== "") {
 			if (this.state.editRow) {
 				this.setState({ callInUse: false });
-			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call)) {
+			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call) || this.state.newRow.call.startsWith("menu")) {
 				this.setState({ callInUse: true });
 			} else this.setState({ callInUse: false });
 		}
