@@ -36,6 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   confirm the set and not processed state
+-   fixed User checkbox check
 -   new Icons
 -   Error by Starting with new Values of Ack and Parse_mode
 -   #85 bindings

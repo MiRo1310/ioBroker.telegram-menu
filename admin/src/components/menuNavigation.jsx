@@ -42,7 +42,7 @@ class MenuNavigation extends Component {
 		if (this.state.newRow.call !== "" && this.state.newRow.value !== "" && this.state.newRow.text !== "") {
 			if (this.state.editRow) {
 				this.setState({ valuesAreOk: true });
-			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call)) {
+			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call) || this.state.newRow.call.startsWith("menu")) {
 				this.setState({ valuesAreOk: false });
 			} else this.setState({ valuesAreOk: true });
 		} else {

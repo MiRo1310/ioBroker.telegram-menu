@@ -103,6 +103,10 @@ const helperText = {
 			text: "{'id':'ID','text':'Your Text'}",
 			info: "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.",
 		},
+		{
+			text: "{confirmSet:The value has been set:noValue}",
+			info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End",
+		},
 	],
 };
 globalItems.forEach((element) => {

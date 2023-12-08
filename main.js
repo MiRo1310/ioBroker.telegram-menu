@@ -9,9 +9,8 @@ let setStateIdsToListenTo;
 const utils = require("@iobroker/adapter-core");
 const { exec } = require("child_process");
 const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
-const editArrayButtons = require("./lib/js/action").editArrayButtons;
-const generateNewObjectStructure = require("./lib/js/action").generateNewObjectStructure;
-const generateActions = require("./lib/js/action").generateActions;
+
+const { generateActions, generateNewObjectStructure, editArrayButtons, insertValueInPosition } = require("./lib/js/action");
 
 const setstate = require("./lib/js/setstate").setstate;
 const getstate = require("./lib/js/getstate").getstate;
@@ -171,8 +170,8 @@ class TelegramMenu extends utils.Adapter {
 					this.on("stateChange", async (id, state) => {
 						try {
 							let userToSend;
-							if (telegramAktiv && state?.ack) {
-								if (state && typeof state.val === "string" && state.val != "" && id == telegramID) {
+							if (telegramAktiv) {
+								if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {
 									const value = state.val;
 									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 
@@ -240,11 +239,30 @@ class TelegramMenu extends utils.Adapter {
 									setStateIdsToListenTo.forEach((element, key) => {
 										if (element.id == id) {
 											this.log.debug("Send Value " + JSON.stringify(element));
-											if (element.confirm != "false") {
-												this.log.debug("User " + JSON.stringify(element.userToSend));
+											if (element.confirm != "false" && !state?.ack && element.returnText.includes("{confirmSet:")) {
+												const substring = Utils.decomposeText(element.returnText, "{confirmSet:", "}").substring.split(":");
+												const text = substring[2] && substring[2].includes("noValue") ? substring[1] : insertValueInPosition(substring[1], state.val);
 
+												sendToTelegram(
+													this,
+													element.userToSend,
+													text,
+													undefined,
+													instanceTelegram,
+													resize_keyboard,
+													one_time_keyboard,
+													userListWithChatID,
+													element.parse_mode,
+												);
+											} else if (element.confirm != "false" && state?.ack) {
+												this.log.debug("User " + JSON.stringify(element.userToSend));
 												let textToSend = "";
 												textToSend = element.returnText;
+												if (textToSend.includes("{confirmSet:")) {
+													const substring = Utils.decomposeText(textToSend, "{confirmSet:", "}").substring;
+													textToSend = textToSend.replace(substring, "");
+												}
+
 												// Wenn eine Rückkgabe des Value an den User nicht gewünscht ist soll value durch einen leeren String ersetzt werden
 												let value = "";
 												// Change set value in another Value, like true => on, false => off
@@ -261,12 +279,7 @@ class TelegramMenu extends utils.Adapter {
 												} else if (state.val || state.val == false) value = state.val?.toString();
 
 												valueChange ? (value = valueChange) : value;
-												let searchString = "";
-												if (textToSend.includes("&&")) searchString = "&&";
-												else searchString = "&amp;&amp;";
-												textToSend.toString().indexOf(searchString) != -1
-													? (textToSend = textToSend.replace(searchString, value))
-													: (textToSend += " " + value);
+												textToSend = insertValueInPosition(textToSend, value);
 												this.log.debug("Send Set to Telegram");
 												sendToTelegram(
 													this,
