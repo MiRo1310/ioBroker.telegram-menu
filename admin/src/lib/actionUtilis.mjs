@@ -1,3 +1,4 @@
+import React from "react";
 import { deepCopy, sortArray, deleteDoubleEntrysInArray } from "./Utilis.mjs";
 
 function createData(element, index, rowElements) {
@@ -154,14 +155,20 @@ const disassembleTextToTriggers = (text) => {
 
 	return triggerArray;
 };
+const buttonCheck = () => {
+	return React.createElement("button", { className: "buttonTrue" }, React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "done")));
+};
+const buttonClose = () => {
+	return React.createElement("button", { className: "buttonFalse" }, React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "close")));
+};
 export const getElementIcon = (element) => {
 	if (!element) return;
-	const valtrue = "✔️";
-	const valfalse = "❌";
+	// const valtrue = "✔️";
+	// const valfalse = "❌";
 	if (element === "true" || element === true) {
-		return valtrue;
+		return buttonCheck();
 	} else if (element === "false" || element === false) {
-		return valfalse;
+		return buttonClose();
 	} else {
 		return element.replace(/&amp;/g, "&");
 	}

@@ -6,9 +6,9 @@ export const navEntrys = [
 ];
 export const setEntrys = [
 	{ name: "trigger", val: "", headline: "Trigger", elementGetRows: "IDs" },
-	{ name: "IDs", val: "", headline: "ID" },
-	{ name: "values", val: "", headline: "Value" },
-	{ name: "returnText", val: "", headline: "Return text" },
+	{ name: "IDs", val: "", headline: "ID", width: "20%" },
+	{ name: "values", val: "", headline: "Value", width: "10%" },
+	{ name: "returnText", val: "", headline: "Return text", width: "40%" },
 	{ name: "ack", val: "false", headline: "Ack", title: "Set Value with ack-Flag", checkbox: true, width: "3%" },
 	{ name: "confirm", val: "false", headline: "Con", title: "Confirm with message", checkbox: true, width: "3%" },
 	{ name: "switch_checkbox", val: "false", headline: "Swi", title: "Switch", checkbox: true, width: "3%" },

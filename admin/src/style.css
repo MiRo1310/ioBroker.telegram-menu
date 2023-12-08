@@ -598,6 +598,32 @@ button {
 .blue .Btn-Expand span {
 	color: white !important;
 }
+button.buttonTrue,
+button.buttonFalse {
+	border-radius: 5px;
+	border: none;
+	width: 20px;
+	height: 20px;
+	padding: 0px;
+}
+button.buttonTrue i,
+button.buttonFalse i {
+	font-size: 1.2rem;
+	text-align: center;
+}
+tr td:has(button.buttonTrue),
+tr td:has(button.buttonFalse) {
+	padding: 0 !important;
+	margin: 0 !important;
+	width: 20px !important;
+}
+button.buttonTrue {
+	background-color: #96d15a !important;
+}
+button.buttonFalse {
+	background-color: red !important;
+	color: black;
+}
 /* Select */
 .dark select {
 	background-color: #333 !important;
