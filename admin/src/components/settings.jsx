@@ -50,7 +50,7 @@ class Settings extends Component {
 						<Checkbox
 							label={I18n.t("Active")}
 							id="checkbox.checkboxNoValueFound"
-							checked={this.props.data.state.native.checkbox.checkboxNoValueFound}
+							checked={this.props.data.state.native.checkbox.checkboxNoValueFound || false}
 							callbackValue="event"
 							callback={this.onClickCheckbox}
 						/>
@@ -59,7 +59,7 @@ class Settings extends Component {
 						<Checkbox
 							label="Resize Keyboard"
 							id="checkbox.resKey"
-							checked={this.props.data.state.native.checkbox.resKey}
+							checked={this.props.data.state.native.checkbox.resKey || false}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
 							setNative={true}
@@ -69,7 +69,7 @@ class Settings extends Component {
 						<Checkbox
 							label="One Time Keyboard"
 							id="checkbox.oneTiKey"
-							checked={this.props.data.state.native.checkbox.oneTiKey}
+							checked={this.props.data.state.native.checkbox.oneTiKey | false}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
 							setNative={true}
