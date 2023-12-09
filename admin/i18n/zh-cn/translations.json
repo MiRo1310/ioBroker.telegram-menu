@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "没有条目，发送给所有用户。",
+    "!!! To use it, parseMode must not be active !!! Creats a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.": "！！！要使用它，parseMode 一定不能处于活动状态！从 JSON 创建一个表作为文本表。第一个值是 JSON 的一个键，后面是列的名称。您可以使用两个以上的值。必须填写标题。不要更改 TextTable。",
     "--Please choose a telegram instance--": "--请选择一个电报实例--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10可以替换，表示步长0%、10%、20%...！",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...! Replace TRIGGER with a unique value. This is used in action SetState. Enter the desired ID. Below value ! insert": "10可以替换，表示步长0%、10%、20%...！将 TRIGGER 替换为唯一值。这在操作 SetState 中使用。输入所需的 ID。低于价值！插入",

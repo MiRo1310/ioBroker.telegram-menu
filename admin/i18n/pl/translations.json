@@ -1,5 +1,6 @@
 {
     " No entry, send to all Users.": "Brak wpisu, wyślij do wszystkich Użytkowników.",
+    "!!! To use it, parseMode must not be active !!! Creats a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.": "!!! Aby z niego skorzystać, parseMode nie może być aktywny !!! Tworzy tabelę z JSON jako tabelę tekstową. Pierwsza wartość to jeden klucz JSON, za nią znajduje się nazwa kolumny. Możesz użyć więcej niż dwóch wartości. Nagłówek musi być wypełniony. Nie zmieniaj TextTable.",
     "--Please choose a telegram instance--": "--Proszę wybrać instancję telegramu--",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...!": "10 można wymienić i wskazuje wielkość kroku 0%, 10%, 20%...!",
     "10 can be replaced and indicates the step size 0%, 10%, 20%...! Replace TRIGGER with a unique value. This is used in action SetState. Enter the desired ID. Below value ! insert": "10 można wymienić i wskazuje wielkość kroku 0%, 10%, 20%...! Zastąp TRIGGER unikalną wartością. Jest to używane w akcji SetState. Wprowadź żądany identyfikator. Poniżej wartości! wstawić",
