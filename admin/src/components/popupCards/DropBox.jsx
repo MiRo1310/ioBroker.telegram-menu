@@ -45,8 +45,8 @@ class DropBox extends Component {
 	}
 	updateMenuList = () => {
 		const menuList = Object.keys(this.props.native.usersInGroup);
-		const indexOfActiveMenu = menuList.indexOf(this.props.activeMenu);
-		menuList.splice(indexOfActiveMenu, 1);
+		// const indexOfActiveMenu = menuList.indexOf(this.props.activeMenu);
+		// menuList.splice(indexOfActiveMenu, 1);
 		this.setState({ menuList: menuList });
 	};
 	handleDragOver = (e) => {
