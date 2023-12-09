@@ -230,7 +230,7 @@ class ActionCard extends Component {
 				{this.state.helperText ? (
 					<PopupContainer
 						callback={this.popupHelperCard}
-						width="60%"
+						width="90%"
 						height="70%"
 						title="Helper Texte"
 						setState={this.setState.bind(this)}

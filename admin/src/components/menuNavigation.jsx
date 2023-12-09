@@ -85,7 +85,6 @@ class MenuNavigation extends Component {
 			this.setState({ editRow: false });
 			return;
 		}
-		console.log(this.state.newRow);
 		const dataCopy = JSON.parse(JSON.stringify(this.props.data.data));
 		const navUserArray = dataCopy.nav[this.props.activeMenu];
 		if (this.state.editRow) {
@@ -105,7 +104,6 @@ class MenuNavigation extends Component {
 		this.props.entrys.forEach((entry) => {
 			obj[entry.name] = entry.val;
 		});
-		console.log(obj);
 		this.setState({ newRow: obj, rowPopup: true });
 	};
 
@@ -191,7 +189,7 @@ class MenuNavigation extends Component {
 				{this.state.helperText ? (
 					<PopupContainer
 						callback={this.popupHelperCard}
-						width="60%"
+						width="90%"
 						height="70%"
 						title="Helper Texte"
 						setState={this.setState.bind(this)}
