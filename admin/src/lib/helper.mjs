@@ -95,6 +95,10 @@ const helperText = {
 			text: '{var1:ID;var2:ID; var1 ==var2 ? "equal" : var1 < var2 ? "var1 is smaller" : "var1 is greater"}',
 			info: "Bindings: First Var with id then the condition and the text.",
 		},
+		{
+			text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}",
+			info: "Creats a table from a JSON. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.",
+		},
 	],
 	set: [
 		{ text: "{novalue}", info: "The Value is not specified in the return text" },
@@ -106,10 +110,6 @@ const helperText = {
 		{
 			text: "{confirmSet:The value has been set:noValue}",
 			info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End",
-		},
-		{
-			text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}",
-			info: "Creats a table from a JSON. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.",
 		},
 	],
 };
