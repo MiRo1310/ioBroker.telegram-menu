@@ -39,6 +39,8 @@
     "Converts the value, /10 can be replaced": "Konwertuje wartość, /10 można zastąpić",
     "Copy Data": "Kopiuj dane",
     "Copy Elements from other Menus": "Skopiuj elementy z innych menu",
+    "Creats a table from a JSON as Inline-keyboard. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.": "Tworzy tabelę z JSON jako klawiaturę wbudowaną. Pierwsza wartość to jeden klucz JSON, za nią znajduje się nazwa kolumny. Można użyć więcej niż dwóch wartości. Nagłówek musi być wypełniony.",
+    "Creats a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.": "Tworzy tabelę z JSON jako tabelę tekstową. Pierwsza wartość to jeden klucz JSON, za nią znajduje się nazwa kolumny. Możesz użyć więcej niż dwóch wartości. Nagłówek musi być wypełniony. Nie zmieniaj TextTable.",
     "Creats a table from a JSON. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.": "Tworzy tabelę z pliku JSON. Pierwsza wartość to jeden klucz JSON, za nią znajduje się nazwa kolumny. Można użyć więcej niż dwóch wartości. Nagłówek musi być wypełniony.",
     "Delay": "Opóźnienie",
     "Delay (ms)": "Opóźnienie (ms)",

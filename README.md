@@ -36,9 +36,11 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   text table from Json
+-   It is now possible to copy rows into the same menu
 -   small fixes
 -   fixed parse_mode in submenu
--   get json as Table
+-   get json as inline-Keyboard Table
 
 ### 1.1.0 (2023-12-08)
 

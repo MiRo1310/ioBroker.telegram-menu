@@ -39,6 +39,8 @@
     "Converts the value, /10 can be replaced": "Converteert de waarde, /10 kan worden vervangen",
     "Copy Data": "Kopieer gegevens",
     "Copy Elements from other Menus": "Kopieer elementen uit andere menu's",
+    "Creats a table from a JSON as Inline-keyboard. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.": "Creëert een tabel vanuit een JSON als inline-toetsenbord. De eerste waarde is één sleutel van de JSON, daarachter staat de naam van de kolom. U kunt meer dan twee waarden gebruiken. De kop moet ingevuld zijn.",
+    "Creats a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.": "Creëert een tabel van een JSON als teksttabel. De eerste waarde is één sleutel van de JSON, daarachter staat de naam van de kolom. U kunt meer dan twee waarden gebruiken. De header moet worden ingevuld. Wijzig de TextTable niet.",
     "Creats a table from a JSON. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.": "Creëert een tabel op basis van een JSON. De eerste waarde is één sleutel van de JSON, daarachter staat de naam van de kolom. U kunt meer dan twee waarden gebruiken. De kop moet ingevuld zijn.",
     "Delay": "Vertraging",
     "Delay (ms)": "Vertraging (ms)",
