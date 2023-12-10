@@ -253,7 +253,7 @@ div.MuiTabPanel-root {
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	z-index: 1500;
+	z-index: 1100;
 }
 .DialogContainer-Header {
 	font-family: "Roboto,Helvetica,Arial,sans-serif";
