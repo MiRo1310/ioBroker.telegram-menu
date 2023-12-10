@@ -13,7 +13,7 @@ class BtnSmallUp extends Component {
 				verticalAlign="inherit"
 				callback={this.props.callback}
 				callbackValue={this.props.index}
-				classname={this.props.disabled}
+				classname={this.props.disabled ? this.props.disabled : "" + " " + this.props.class ? this.props.class : ""}
 			>
 				<i className="material-icons">search</i>
 			</Button>

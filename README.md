@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   textarea in Helper Card
 -   text table from Json
 -   It is now possible to copy rows into the same menu
 -   small fixes

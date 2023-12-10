@@ -11,6 +11,7 @@ import { I18n, SelectID } from "@iobroker/adapter-react-v5";
 import Input from "../btn-Input/input";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
+import Textarea from "../btn-Input/textarea";
 
 class HelperCard extends Component {
 	constructor(props) {
@@ -44,8 +45,6 @@ class HelperCard extends Component {
 	};
 
 	render() {
-		console.log(this.props.val);
-		console.log(this.props.helper);
 		return (
 			<>
 				<TableContainer component={Paper} className="HelperCard">
@@ -77,17 +76,20 @@ class HelperCard extends Component {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<Input
-					width="100%"
+				<Textarea
+					width="99%"
 					value={this.props.editedValueFromHelperText.replace(/&amp;/g, "&")}
-					margin="0px 2px 0 5px"
+					margin="0px 0.5% 0 0.5%"
 					id="editedValueFromHelperText"
 					callback={this.props.setState}
 					callbackValue="event.target.value"
 					label="Text"
+					rows={4}
 				>
-					{this.props.val == "text" || this.props.val == "set" || this.props.val == "get" ? <BtnSmallSearch callback={this.openSelectId} /> : null}
-				</Input>
+					{this.props.val == "text" || this.props.val == "set" || this.props.val == "get" ? (
+						<BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} />
+					) : null}
+				</Textarea>
 
 				{this.state.showSelectId ? (
 					<SelectID

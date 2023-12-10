@@ -190,7 +190,7 @@ class MenuNavigation extends Component {
 					<PopupContainer
 						callback={this.popupHelperCard}
 						width="90%"
-						height="70%"
+						height="80%"
 						title="Helper Texte"
 						setState={this.setState.bind(this)}
 						isOK={this.state.isOK}
