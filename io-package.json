@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "news": {
+      "1.2.1": {
+        "en": "fix in parse_Mode SetState",
+        "de": "in parse_ Modus SetState",
+        "ru": "исправить в parse_ Режим SetState",
+        "pt": "corrigir em parse_ Mode SetState",
+        "nl": "vertaling: Mode SetState",
+        "fr": "fix in parse_ Mode SetState",
+        "it": "correzione in parse_ Mode SetState",
+        "es": "arreglar en parse_ Mode SetState",
+        "pl": "naprawa Mode Set",
+        "uk": "закріпити в parse_ Режим SetState",
+        "zh-cn": "fix 稀少; 导 言"
+      },
       "1.2.0": {
         "en": "textarea in Helper Card\ntext table from Json\nIt is now possible to copy rows into the same menu\nsmall fixes\nfixed parse_mode in submenu\nget json as inline-Keyboard Table",
         "de": "textbereich in Helper Card\ntexttabelle von Json\nEs ist nun möglich, Zeilen in das gleiche Menü zu kopieren\nkleine fixierungen\nparse_mode in submenu\njson als Inline-Keyboard Tisch",
@@ -80,19 +93,6 @@
         "pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
         "uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
         "zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
-      },
-      "0.9.0": {
-        "en": "#75 fixed add new row in Action and edit it",
-        "de": "#75 fix Neue Zeile in Aktion hinzufügen und bearbeiten",
-        "ru": "#75 фиксированный добавить новый ряд в действие и отредактировать его",
-        "pt": "#75 fixo adicionar nova linha em Ação e editá-la",
-        "nl": "75 gerepareerd voeg nieuwe rij in Action en edit it",
-        "fr": "#75 fixe ajouter une nouvelle ligne en Action et la modifier",
-        "it": "#75 fisso aggiungere nuova riga in Azione e modificarla",
-        "es": "#75 fijado añadir nueva fila en Acción y editarlo",
-        "pl": "#75 stał się dodatkiem do nowego wiersza w Akcji i redagował ją",
-        "uk": "#75 фіксований додати новий рядок в дію і редагувати його",
-        "zh-cn": "#75 固定增加新的行动增加,并把它装入。"
       }
     },
     "titleLang": {
