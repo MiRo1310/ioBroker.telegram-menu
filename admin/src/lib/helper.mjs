@@ -16,6 +16,16 @@ const globalItems = [
 		data: [{ text: "{time}", info: "Converts a Unix timestamp to a local time" }],
 	},
 	{
+		change: "",
+		places: ["text", "set", "get"],
+		data: [
+			{
+				text: 'change{"true":"an","false":"aus"}',
+				info: "Changes the value in the return text, in this case from true to on and false to off",
+			},
+		],
+	},
+	{
 		textID: "",
 		places: ["text", "set"],
 		data: [
@@ -87,10 +97,7 @@ const helperText = {
 			text: "{time.ts,(DD MM YYYY hh:mm:ss:sss)}",
 			info: "TimeStamp. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
 		},
-		{
-			text: 'change{"true":"an","false":"aus"}',
-			info: "Changes the value in the return text, in this case from true to on and false to off",
-		},
+
 		{
 			text: '{var1:ID;var2:ID; var1 ==var2 ? "equal" : var1 < var2 ? "var1 is smaller" : "var1 is greater"}',
 			info: "Bindings: First Var with id then the condition and the text.",
