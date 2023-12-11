@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "news": {
+      "1.2.2": {
+        "en": "style fix and Helper Card texts expanded",
+        "de": "style Fix und Helper Card Texte erweitert",
+        "ru": "стиль исправить и Helper Card тексты расширены",
+        "pt": "correção de estilo e textos de cartão de ajuda expandido",
+        "nl": "stijl en helper Card sms'jes breiden",
+        "fr": "correction de style et les textes de carte d'aide élargi",
+        "it": "stile fix e Helper Card testi ampliati",
+        "es": "textos de estilo y tarjeta de ayuda",
+        "pl": "okładka",
+        "uk": "фіксувати стиль і допоможисерські тексти розширені",
+        "zh-cn": "导 言"
+      },
       "1.2.1": {
         "en": "fix in parse_Mode SetState",
         "de": "in parse_ Modus SetState",
@@ -69,19 +82,6 @@
         "zh-cn": "固定的缺陷\n价值的变化\n固定价值从助产公司节省\n变化 价值扩展\n小型配件\n现在有可能标出案文,以缓和。"
       },
       "0.9.2": {
-        "en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
-        "de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
-        "ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
-        "pt": "erro fixo quando o adaptador começa\nArrastar e soltar no cartão de ação",
-        "nl": "als de Adapter begint\nDrag Drop in Action Card",
-        "fr": "erreur fixe lorsque l'adaptateur démarre\nDrag & Drop in Action Card",
-        "it": "errore fisso quando l'adattatore inizia\nDrag & Drop in Action Card",
-        "es": "error fijo cuando el Adaptador comienza\nArrastre y suelte la tarjeta de acción",
-        "pl": "uruchomiony błąd, gdy Adapter rozpoczyna się od startu\nDrag & Drop, Action Card (ang.)",
-        "uk": "виправлена помилка при запуску адаптера\nПеретягніть та вставте в дію картку",
-        "zh-cn": "当Adapter开始时,固定错误\nDrag & Drop Action Card"
-      },
-      "0.9.1": {
         "en": "fixed error when the Adapter starts\nDrag & Drop in Action Card",
         "de": "fester Fehler beim Start des Adapters\nDrag & Drop in Aktionskarte",
         "ru": "исправлена ошибка при запуске адаптера\nПеретащите и упадайте в Action Card",
