@@ -427,6 +427,7 @@ div.MuiTabPanel-root {
 	margin-top: 20px !important;
 	background-color: #eee;
 	padding: 10px !important;
+	margin-bottom: 10px !important;
 }
 .HelperCard-BtnSearch {
 	position: absolute;
