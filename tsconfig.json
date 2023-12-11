@@ -25,5 +25,5 @@
 		"useUnknownInCatchVariables": false
 	},
 	"include": ["**/*.js", "**/*.d.ts"],
-	"exclude": ["node_modules/**", "widgets/**", "admin/src/index.jsx", "admin/src/components/settings.jsx", "admin/src/components/btn-Input/"]
+	"exclude": ["node_modules/**", "widgets/**"]
 }

@@ -106,8 +106,8 @@ class App extends GenericApp {
 
 		this.setState({ doubleTrigger: doubleTrigger });
 	};
-	updateActiveMenuAndTrigger = (Menu) => {
-		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, Menu);
+	updateActiveMenuAndTrigger = (menu) => {
+		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
 		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
 	};
 
