@@ -129,7 +129,8 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Array Buttons: " + JSON.stringify(value));
 								this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
 							}
-							console.log(menuData.data);
+							// console.error("test");
+							// console.log(menuData.data["Gruppe_1"]["boolean2"]);
 						} catch (err) {
 							this.log.error("Error generateNav: " + JSON.stringify(err.message));
 							this.log.error(JSON.stringify(err.stack));
@@ -281,6 +282,9 @@ class TelegramMenu extends utils.Adapter {
 												valueChange ? (value = valueChange) : value;
 												textToSend = insertValueInPosition(textToSend, value);
 												this.log.debug("Send Set to Telegram");
+												console.log(element);
+												this.log.debug("Parse Mode " + JSON.stringify(element.parse_mode));
+
 												sendToTelegram(
 													this,
 													element.userToSend,
