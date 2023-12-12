@@ -70,7 +70,7 @@ const insertAckCheckbox = (data, updateNative) => {
  * @param {string} secondValue Second value to search for
  * @returns   Returns an object with startindex, endindex, substring, textWithoutSubstring
  */
-function decomposeText(text, searchValue, secondValue) {
+export function decomposeText(text, searchValue, secondValue) {
 	const startindex = text.indexOf(searchValue);
 	const endindex = text.indexOf(secondValue, startindex);
 	const substring = text.substring(startindex, endindex + secondValue.length);
