@@ -114,5 +114,7 @@
     "Yes": "Sim",
     "You have double triggers, please remove them!": "Você tem gatilhos duplos, remova-os!",
     "active": "ativo",
-    "telegram-menu adapter settings": "Configurações do adaptador para menu de telegrama"
+    "telegram-menu adapter settings": "Configurações do adaptador para menu de telegrama",
+    "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value. ConfirmText: Text to confirm the value.": "Isso permite gravar valores dinâmicos em pontos de dados. Basta fazer uma chamada e inserir o valor no campo de entrada. RequestText: Texto para solicitar o valor. Tipo: tipo do valor. ConfirmText: Texto para confirmar o valor.",
+    "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "Isso permite gravar valores dinâmicos em pontos de dados. Basta fazer uma chamada e inserir o valor no campo de entrada. RequestText: Texto para solicitar o valor. Tipo: tipo do valor (booleano ou número). ConfirmText: Texto para confirmar o valor."
 }

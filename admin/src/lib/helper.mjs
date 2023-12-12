@@ -122,6 +122,10 @@ const helperText = {
 			text: "{confirmSet:The value has been set:noValue}",
 			info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End",
 		},
+		{
+			text: "{setDynamicValue:RequestText:Type:ConfirmText:}",
+			info: "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.",
+		},
 	],
 };
 globalItems.forEach((element) => {
