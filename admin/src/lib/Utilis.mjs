@@ -59,3 +59,15 @@ export const sortArray = (arr) => {
 	});
 	return arr;
 };
+/**
+ *
+ * @param {*} obj Value to check
+ * @returns string with the type of the value
+ */
+export const checkObjectOrArray = (obj) => {
+	if (typeof obj == "object" && Array.isArray(obj)) {
+		return "array";
+	} else if (typeof obj == "object") {
+		return "object";
+	} else return typeof obj;
+};
