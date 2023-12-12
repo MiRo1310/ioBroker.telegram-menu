@@ -8,19 +8,23 @@ let setStateIdsToListenTo;
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const { exec } = require("child_process");
-const sendToTelegram = require("./lib/js/telegram").sendToTelegram;
 
-const { generateActions, generateNewObjectStructure, editArrayButtons, insertValueInPosition } = require("./lib/js/action");
+const {
+	generateActions,
+	generateNewObjectStructure,
+	editArrayButtons,
+	insertValueInPosition,
+	getDynamicValue,
+	removeUserFromDynamicValue,
+	adjustValueType,
+} = require("./lib/js/action");
 
-const setstate = require("./lib/js/setstate").setstate;
-const getstate = require("./lib/js/getstate").getstate;
-const utilities = require("./lib/js/utilities");
-const subMenu = require("./lib/js/subMenu").subMenu;
-const backMenuFunc = require("./lib/js/subMenu").backMenuFunc;
-const sendToTelegramSubmenu = require("./lib/js/telegram").sendToTelegramSubmenu;
-const sendLocationToTelegram = require("./lib/js/telegram").sendLocationToTelegram;
+const { setstate } = require("./lib/js/setstate");
+const { getstate } = require("./lib/js/getstate");
+const { subMenu, backMenuFunc } = require("./lib/js/subMenu");
+const { sendToTelegramSubmenu, sendLocationToTelegram, sendToTelegram } = require("./lib/js/telegram");
 const Utils = require("./lib/js/global");
-const changeValue = require("./lib/js/utilities").changeValue;
+const { changeValue, checkStatusInfo } = require("./lib/js/utilities");
 
 let timeouts = [];
 let timeoutKey = 0;
@@ -349,6 +353,28 @@ class TelegramMenu extends utils.Adapter {
 			try {
 				let part;
 				let call;
+				// Wenn der Wert dynamisch gesetzt werden soll wird der Wert abgerufen und der Wert gesetzt und die Funktion beendet
+				if (getDynamicValue(userToSend)) {
+					const res = getDynamicValue(userToSend);
+					let valueToSet;
+					if (res.valueType) valueToSet = adjustValueType(_this, calledValue, res.valueType);
+					else valueToSet = calledValue;
+					if (valueToSet) _this.setForeignStateAsync(res.id, valueToSet, res.ack);
+					else
+						sendToTelegram(
+							_this,
+							userToSend,
+							`You insert a wrong Type of value, please insert type: ${res.valueType}`,
+							undefined,
+							instanceTelegram,
+							resize_keyboard,
+							one_time_keyboard,
+							userListWithChatID,
+							"",
+						);
+					removeUserFromDynamicValue(userToSend);
+					return true;
+				}
 				if (calledValue.includes("menu")) call = calledValue.split(":")[2];
 				else call = calledValue;
 				if (groupData[call] && !calledValue.includes("menu") && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
@@ -376,7 +402,7 @@ class TelegramMenu extends utils.Adapter {
 						} else {
 							if (userToSend) {
 								_this.log.debug("Send Nav to Telegram");
-								const text = await utilities.checkStatusInfo(_this, part.text);
+								const text = await checkStatusInfo(_this, part.text);
 
 								sendToTelegram(_this, userToSend, text, part.nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part.parse_mode);
 								return true;

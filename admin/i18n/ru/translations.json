@@ -114,5 +114,7 @@
     "Yes": "Да",
     "You have double triggers, please remove them!": "У вас есть двойные триггеры, пожалуйста, удалите их!",
     "active": "активный",
-    "telegram-menu adapter settings": "Настройки адаптера для телеграм-меню"
+    "telegram-menu adapter settings": "Настройки адаптера для телеграм-меню",
+    "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value. ConfirmText: Text to confirm the value.": "Это позволяет записывать динамические значения в точки данных. Просто позвоните, а затем введите значение в поле ввода. RequestText: текст для запроса значения. Тип: тип значения. ConfirmText: текст для подтверждения значения.",
+    "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "Это позволяет записывать динамические значения в точки данных. Просто позвоните, а затем введите значение в поле ввода. RequestText: текст для запроса значения. Тип: тип значения (логическое или числовое). ConfirmText: текст для подтверждения значения."
 }

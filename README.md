@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### 1.2.3 (2023-12-12)
 
+-   insert Dynamic Values
+
+### **WORK IN PROGRESS**
+
 -   small fixes
 -   Menu Entrys will sorted by Name
 
