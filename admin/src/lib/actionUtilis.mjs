@@ -173,3 +173,12 @@ export const getElementIcon = (element) => {
 		return element.replace(/&amp;/g, "&");
 	}
 };
+export const sortObjectByKey = (usersInGroup) => {
+	const array = Object.entries(usersInGroup);
+	array.sort();
+	let newobject = {};
+	array.forEach((element) => {
+		newobject[element[0]] = element[1];
+	});
+	return newobject;
+};

@@ -18,6 +18,7 @@ import getIobrokerData from "./lib/socket.mjs";
 import helperFunction from "./lib/Utilis.mjs";
 import { insertNewItemsInData } from "./lib/newValuesForNewVersion.mjs";
 import { navEntrys } from "./lib/entrys.mjs";
+import { sortObjectByKey } from "./lib/actionUtilis.mjs";
 
 let myTheme;
 
@@ -71,6 +72,9 @@ class App extends GenericApp {
 		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
 			if (this.state.activeMenu && this.state.activeMenu != "") this.updateActiveMenuAndTrigger(this.state.activeMenu);
 		}
+		if (prevState.native.usersInGroup !== this.state.native.usersInGroup) {
+			this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
+		}
 		if (prevState.usedTrigger !== this.state.usedTrigger) {
 			this.checkDoubleEntryInUsedTrigger();
 		}
@@ -79,6 +83,7 @@ class App extends GenericApp {
 	onConnectionReady() {
 		// executed when connection is ready
 		insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
+		this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		this.getUsersFromTelegram();
 
 		myTheme = this.props.themeName;
