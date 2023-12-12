@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Button from "../btn-Input/Button";
 
 import { I18n } from "@iobroker/adapter-react-v5";
-import { PropTypes } from "prop-types";
 
 class PopupContainer extends Component {
 	constructor(props) {

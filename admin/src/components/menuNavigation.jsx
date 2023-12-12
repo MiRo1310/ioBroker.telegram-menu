@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 import PopupContainer from "./popupCards/PopupContainer";

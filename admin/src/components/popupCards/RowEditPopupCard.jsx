@@ -13,7 +13,7 @@ import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
 
 import { isChecked } from "../../lib/Utilis.mjs";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "../../lib/actionUtilis.mjs";
-import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../../lib/dragNDrop.mjs";
+import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd } from "../../lib/dragNDrop.mjs";
 
 class RowEditPopupCard extends Component {
 	constructor(props) {

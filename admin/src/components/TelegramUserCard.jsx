@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Button from "./btn-Input/Button";
-import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "./btn-Input/checkbox";
 
 class TelegramUserCard extends Component {

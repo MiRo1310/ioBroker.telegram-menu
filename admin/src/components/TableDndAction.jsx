@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { I18n } from "@iobroker/adapter-react-v5";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import { deleteRow, moveItem } from "../lib/button.mjs";
 import { ButtonCard } from "./btn-Input/buttonCard";

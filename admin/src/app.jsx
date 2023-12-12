@@ -20,7 +20,7 @@ import { insertNewItemsInData } from "./lib/newValuesForNewVersion.mjs";
 import { navEntrys } from "./lib/entrys.mjs";
 import { sortObjectByKey } from "./lib/actionUtilis.mjs";
 
-let myTheme;
+// let myTheme;
 
 class App extends GenericApp {
 	constructor(props) {
@@ -43,7 +43,7 @@ class App extends GenericApp {
 			},
 		};
 		super(props, extendedProps);
-		const theme = this.createTheme();
+		// const theme = this.createTheme();
 		this.state = {
 			...this.state,
 			native: {},
@@ -55,8 +55,10 @@ class App extends GenericApp {
 			showPopupMenuList: false,
 			instances: [],
 			popupMenuOpen: false,
-			themeName: this.getThemeName(theme),
-			themeType: this.getThemeType(theme),
+			themeName: "",
+			// themeName: this.getThemeName(theme),
+			// themeType: this.getThemeType(theme),
+			themeType: "",
 			unUsedTrigger: [],
 			usedTrigger: [],
 			showDropBox: false,
@@ -86,7 +88,7 @@ class App extends GenericApp {
 		this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		this.getUsersFromTelegram();
 
-		myTheme = this.props.themeName;
+		// myTheme = this.props.themeName;
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
 		});
@@ -130,7 +132,6 @@ class App extends GenericApp {
 	handleChange(event, val) {
 		this.setState({ tab: val });
 	}
-	mytheme = this.props.themeName;
 
 	render() {
 		if (!this.state.loaded) {
@@ -142,7 +143,7 @@ class App extends GenericApp {
 			height: "calc(100vh - 112px)",
 		};
 		return (
-			<div className={`App row ${this.mytheme}`}>
+			<div className={`App row ${this.props.themeName}`}>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<HeaderIconBar
