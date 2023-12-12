@@ -33,11 +33,12 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 1.2.3 (2023-12-12)
+
+### **WORK IN PROGRESS**
 
 -   insert Dynamic Values
 
-### **WORK IN PROGRESS**
+### 1.2.3 (2023-12-12)
 
 -   small fixes
 -   Menu Entrys will sorted by Name
