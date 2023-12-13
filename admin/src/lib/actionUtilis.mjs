@@ -145,17 +145,20 @@ const disassembleTextToTriggers = (text) => {
 	const triggerArray = [];
 	if (text.includes("&&")) text = text.split("&&");
 	else text = [text];
-	text.forEach((element) => {
-		element.split(",").forEach((word) => {
-			if (word.includes("menu:")) {
-				const array = word.split(":");
-				const trigger = array[array.length - 2].trim();
-				triggerArray.push(trigger);
-			} else if (word.trim() != "-") {
-				triggerArray.push(word.trim());
-			}
+	if (text[0].includes("menu:")) {
+		const array = text[0].split(":");
+
+		const trigger = array[2];
+		if (trigger) triggerArray.push(trigger.trim());
+	} else {
+		text.forEach((element) => {
+			element.split(",").forEach((word) => {
+				if (word.trim() != "-") {
+					triggerArray.push(word.trim());
+				}
+			});
 		});
-	});
+	}
 
 	return triggerArray;
 };

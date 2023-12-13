@@ -116,5 +116,9 @@
     "active": "积极的",
     "telegram-menu adapter settings": "电报菜单的适配器设置",
     "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value. ConfirmText: Text to confirm the value.": "这允许您将动态值写入数据点。只需拨打电话，然后您就可以在输入字段中输入值。 RequestText：请求值的文本。类型：值的类型。确认文本：用于确认值的文本。",
-    "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "这允许您将动态值写入数据点。只需拨打电话，然后您就可以在输入字段中输入值。 RequestText：请求值的文本。类型：值的类型（布尔值或数字）。确认文本：用于确认值的文本。"
+    "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "这允许您将动态值写入数据点。只需拨打电话，然后您就可以在输入字段中输入值。 RequestText：请求值的文本。类型：值的类型（布尔值或数字）。确认文本：用于确认值的文本。",
+    "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.": "生成乘法按钮，可以单独插入值。将 TRIGGER 替换为唯一值。 LenghtOfRow 是可选的，可用于设置每行的按钮数量。",
+    "Executed Menu": "执行菜单",
+    "Condition to open Menu": "打开菜单的条件",
+    "Menu to be executed": "待执行菜单"
 }

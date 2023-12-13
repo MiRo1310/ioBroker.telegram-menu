@@ -1,241 +1,241 @@
 {
-  "common": {
-    "name": "telegram-menu",
-    "version": "1.3.0",
-    "news": {
-      "1.3.0": {
-        "en": "insert Dynamic Values",
-        "de": "dynamische Werte einsetzen",
-        "ru": "вставить динамические ценности",
-        "pt": "inserir valores dinâmicos",
-        "nl": "dynamic Values",
-        "fr": "insérer Valeurs dynamiques",
-        "it": "inserire Valori Dinamici",
-        "es": "insertar Valores dinámicos",
-        "pl": "dynamic Values (ang.)",
-        "uk": "вставити динамічні значення",
-        "zh-cn": "插入动态价值"
-      },
-      "1.2.3": {
-        "en": "small fixes\nMenu Entrys will sorted by Name",
-        "de": "kleine fixierungen\nMenüeinträge sortiert nach Name",
-        "ru": "небольшие исправления\nМеню Входы будут сортироваться по названию",
-        "pt": "pequenas correções\nEntradas do menu serão ordenadas pelo nome",
-        "nl": "kleine fixes\nMenu Entrys zal de naam",
-        "fr": "petites corrections\nMenu Entrées sera trié par Nom",
-        "it": "piccole correzioni\nMenu Entrys ordinati per Nome",
-        "es": "pequeños accesorios\nMenú Entradas ordenados por nombre",
-        "pl": "drobne rozwiązanie\nMenu Entrys posortował przez Name",
-        "uk": "маленькі кріплення\nІм'я",
-        "zh-cn": "小型配件\n国籍"
-      },
-      "1.2.2": {
-        "en": "style fix and Helper Card texts expanded",
-        "de": "style Fix und Helper Card Texte erweitert",
-        "ru": "стиль исправить и Helper Card тексты расширены",
-        "pt": "correção de estilo e textos de cartão de ajuda expandido",
-        "nl": "stijl en helper Card sms'jes breiden",
-        "fr": "correction de style et les textes de carte d'aide élargi",
-        "it": "stile fix e Helper Card testi ampliati",
-        "es": "textos de estilo y tarjeta de ayuda",
-        "pl": "okładka",
-        "uk": "фіксувати стиль і допоможисерські тексти розширені",
-        "zh-cn": "导 言"
-      },
-      "1.2.1": {
-        "en": "fix in parse_Mode SetState",
-        "de": "in parse_ Modus SetState",
-        "ru": "исправить в parse_ Режим SetState",
-        "pt": "corrigir em parse_ Mode SetState",
-        "nl": "vertaling: Mode SetState",
-        "fr": "fix in parse_ Mode SetState",
-        "it": "correzione in parse_ Mode SetState",
-        "es": "arreglar en parse_ Mode SetState",
-        "pl": "naprawa Mode Set",
-        "uk": "закріпити в parse_ Режим SetState",
-        "zh-cn": "fix 稀少; 导 言"
-      },
-      "1.2.0": {
-        "en": "textarea in Helper Card\ntext table from Json\nIt is now possible to copy rows into the same menu\nsmall fixes\nfixed parse_mode in submenu\nget json as inline-Keyboard Table",
-        "de": "textbereich in Helper Card\ntexttabelle von Json\nEs ist nun möglich, Zeilen in das gleiche Menü zu kopieren\nkleine fixierungen\nparse_mode in submenu\njson als Inline-Keyboard Tisch",
-        "ru": "textarea в Helper Card\nтекстовая таблица от Json\nТеперь можно скопировать строки в одно и то же меню\nнебольшие исправления\nфиксированный parse_mode в подменю\nполучить json как inline-Keyboard Table",
-        "pt": "textarea no cartão de ajuda\ntabela de texto de Json\nAgora é possível copiar linhas no mesmo menu\npequenas correções\nparse_mode fixo no submenu\nobter json como inline-Keyboard Tabela",
-        "nl": "sMS\nsMS tafel Json\nHet is nu mogelijk om rijen in dezelfde menukaart te kopiëren\nkleine fixes\nvertaling:\njson als inline-Keyboard Table",
-        "fr": "textarea in Helper Card\ntable de texte de Json\nIl est maintenant possible de copier des lignes dans le même menu\npetites corrections\nfixed parse_mode in submenu\nobtenir json comme inline-Keyboard Table",
-        "it": "textarea in Helper Card\ntabella di testo da Json\nOra è possibile copiare le righe nello stesso menu\npiccole correzioni\nparse_mode fisso in submenu\nottenere json come inline-Keyboard Table",
-        "es": "textarea en la tarjeta de ayuda\ntext table from Json\nAhora es posible copiar filas en el mismo menú\npequeños accesorios\nfija parse_mode en submenu\nget json as inline-Keyboard Table",
-        "pl": "okładka\ntablica tekstowa Json\nObecnie można kopiować wiersze w tym samym menu\ndrobne rozwiązanie\nparse_mode\ngetson jako inline-Keyboard Table (ang.)",
-        "uk": "текстова карта\nтекст таблиці з Json\nТепер можна копіювати рядки в одному меню\nмаленькі кріплення\nфіксований парсе_mode в підменю\nотримати json як inline-Keyboard Table",
-        "zh-cn": "帮助卡德\njson案文\n现在有可能将一轮的推移成同一个男人。\n小型配件\n固定 p. 砷\njson as aline-Key板"
-      },
-      "1.1.0": {
-        "en": "confirm the set and not processed state\nfixed User checkbox check\nnew Icons\nError by Starting with new Values of Ack and Parse_mode\n#85 bindings\nadded {time} to Navigation\n#82 Get Location\n#85 get state.ls oder state.ts from a state and converts to a local time\n#81 get Status of more than one ID\n#83 New line in Text\nfixed menu:number",
-        "de": "bestätigen sie den eingestellten und nicht verarbeiteten zustand\nfest Benutzerüberprüfung\nneue Icons\nFehler beim Starten mit neuen Werten von Ack und Parse_mode\n#85 bindungen\nzur Navigation hinzugefügt {time}\n#82 Standort erhalten\n#85 get state. ls oder state. ts aus einem zustand und konvertiert in eine lokale zeit\n#81 get Status von mehr als einer ID\n#83 Neue Zeile in Text\nfestmenü: anzahl",
-        "ru": "подтвердить установленное и не обработанное состояние\nфиксированный Проверка пользователя checkbox\nновые иконки\nОшибка, начиная с новых ценностей Ack и Parse_mode\n#85 привязок\nдобавлено {time} к навигации\n#82 Получить местоположение\n#85 получить государство. ls oder состояние. ts от государства и превращается в местное время\n#81 получить Статус более одного ID\n#83 Новая строка в тексте\nфиксированное меню:номер",
-        "pt": "confirmar o estado definido e não processado\nfixo Verificação da caixa de seleção do usuário\nnovos ícones\nErro a partir de novos Valores de Ack e Parse_mode\n#85 ligações\nadicionado {time} à navegação\n#82 Obter Localização\n#85 get state. é estado oder. ts de um estado e converte-se em uma hora local\n#81 get Status de mais de um ID\n#83 Nova linha em texto\nmenu fixo: número",
-        "nl": "bevestig de set en niet verwerkt staat\n_ Gebruiker controle\nnieuwe Icons\nError door te beginnen met nieuwe Values of Ack en Parse\n85 bindingen\nvertaling:\n82 Get Location\n85 krijgen staat. is oderstaat. t van een staat en bekert naar een plaatselijke tijd\n#81 get Status van meer dan één ID\n#83 New line in Text\ngerepareerd menu:",
-        "fr": "confirmer l'ensemble et non l'état traité\nfixes Vérification de la case utilisateur\nnouveaux Icons\nErreur en commençant par de nouvelles valeurs de Ack et Parse_mode\n#85 reliures\najouté {temps} à la navigation\n#82 Get Localisation\n#85 get state. ls oder state. ts d'un état et se convertit à une heure locale\n#81 get Statut de plus d ' une pièce d ' identité\n#83 Nouvelle ligne dans le texte\nmenu fixe:numéro",
-        "it": "confermare il set e lo stato non elaborato\nfisso Controllo checkbox utente\nnuove icone\nErrore partendo da nuovi valori di Ack e Parse_mode\n#85 bindings\naggiunto {time} a Navigazione\n#82 Get Location\n#85 get state. è stato oder. ts da uno stato e converte in un tempo locale\n#81 get Stato di più di un ID\n#83 Nuova linea in testo\nmenu fisso: numero",
-        "es": "confirmar el estado establecido y no procesado\nfijo Verificación de datos\niconos nuevos\nError empezando con nuevos valores de Ack y Parse_mode\n#85 bindings\nañadido {time} a la navegación\n#82 Obtener Ubicación\n#85 conseguir estado. es estado de oder. ts de un estado y convertidos a una hora local\n#81 get Estado de más de un documento de identidad\n#83 Nueva línea en texto\nmenú fijo: número",
-        "pl": "potwierdził ustawę i nie przetworzony stan\nstały kontroler\nnowy ikon\nZaczynając od nowa Values of Ack and Parse_mode\n#85\ndodanym dodatkiem do nawigacji\n82 Get Location (ang.)\n85. stan. l oder stanu. ts from the state and converts to czas lokalny\n#81 Status więcej niż jeden ID\n83 Nowa linia\nrzeczywista liczba menu:",
-        "uk": "підтвердження встановленого і не обробленого стану\nфіксована Перевірка поштової скриньки користувача\nнові іконки\nПомилка, починаючи з нових значень Ack і Parse_mode\n#85 обов'язки\nдодано {time} до навігації\n#82 Отримати Місцезнаходження\n#85 отримати стан. л дер. стан. ts з держави і перетворює в локальний час\n#81 отримати Статус на сервери\n#83 Нова лінія в тексті\nменю:номер",
-        "zh-cn": "2. 确认已确定的、未处理的国家\na. 固定固定地点 用户检查箱\n新的Icons\n导 言\n第85条 具有约束力\n页:1\n第82 Get Location\n第85号法案获得国家。 州。 来自一国和当地时间的转换\n第81条 一国际组织的地位\n案文中的新线\n固定男子:人数"
-      },
-      "1.0.1": {
-        "en": "fixed Error read UserList\nremove ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
-        "de": "fehler lesen UserList\nack:true and ack:false from Confirm Message entfernen und ein Kontrollkästchen für ihn kreieren\nparse-Mode HTML",
-        "ru": "исправлена ошибка читать UserList\nудалить ack:true и ack:false от подтвердите сообщение, и создает флажок для него\nparse-Mode HTML",
-        "pt": "erro fixo lido UserList\nremove ack:true e ack:false da mensagem de confirmação, e cria uma caixa de seleção para ele\nparse-Mode HTML",
-        "nl": "error las UserList\nverwijder Ack: True en ack:false van Confirm Message, en creëert er een chequebox voor\n\"Mode HTML",
-        "fr": "erreur fixe lire UserList\nsupprimer ack:true et ack:false de Confirmer Message, et creats une case pour elle\nparse-Mode HTML",
-        "it": "errore fisso letto UserList\nrimuovere ack:true and ack:false from Confirm Message, e crea una casella di controllo per esso\nparse-Mode HTML",
-        "es": "error fijo leído UserList\nquitar ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
-        "pl": "error przeczytał UserList\nusunąć ak:true i ac:false from Confirm Message, a creats a checkbox for it\nhTML (ang.)",
-        "uk": "виправлена помилка читати UserList\nвидалити ack:true і ack:false від Підтвердити повідомлення, і creats a checkbox для нього\njavaScript licenses API Веб-сайт Go1.13.8",
-        "zh-cn": "固定的电子读者\n取消包装:侵入和包装:从确认信处理中偷窃,并为其制造一个检查箱。\np. Mode HTML"
-      }
-    },
-    "titleLang": {
-      "en": "Telegram Menu",
-      "de": "Telegramm-Menü",
-      "ru": "Меню телеграммы",
-      "pt": "Menu Telegram",
-      "nl": "Telegram-menu",
-      "fr": "Menu Télégramme",
-      "it": "Menù telegramma",
-      "es": "Menú de telegramas",
-      "pl": "menu telegramu",
-      "zh-cn": "电报菜单",
-      "uk": "Меню Telegram"
-    },
-    "desc": {
-      "en": "Easily create Telegram Menus",
-      "de": "Erstellen Sie ganz einfach Telegrammmenüs",
-      "ru": "Легко создавать меню Telegram",
-      "pt": "Crie facilmente menus de telegrama",
-      "nl": "Maak eenvoudig Telegram-menu's",
-      "fr": "Créez facilement des menus de télégramme",
-      "it": "Crea facilmente menu di Telegram",
-      "es": "Crea fácilmente menús de Telegram",
-      "pl": "Z łatwością twórz menu telegramu",
-      "zh-cn": "轻松创建电报菜单",
-      "uk": "Легко створюйте меню Telegram"
-    },
-    "authors": [
-      "MiRo1310 <michael.roling@gmx.de>"
-    ],
-    "keywords": [
-      "telegram",
-      "menu"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "telegram-menu.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "messaging",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "materialize"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=3.3.22"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0",
-        "telegram": ">=1.15.0"
-      }
-    ],
-    "messages": [
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<1.0.0",
-            "newVersion>=1.0.0"
-          ]
+    "common": {
+        "name": "telegram-menu",
+        "version": "1.3.0",
+        "news": {
+            "1.3.0": {
+                "en": "insert Dynamic Values",
+                "de": "dynamische Werte einsetzen",
+                "ru": "вставить динамические ценности",
+                "pt": "inserir valores dinâmicos",
+                "nl": "dynamic Values",
+                "fr": "insérer Valeurs dynamiques",
+                "it": "inserire Valori Dinamici",
+                "es": "insertar Valores dinámicos",
+                "pl": "dynamic Values (ang.)",
+                "uk": "вставити динамічні значення",
+                "zh-cn": "插入动态价值"
+            },
+            "1.2.3": {
+                "en": "small fixes\nMenu Entrys will sorted by Name",
+                "de": "kleine fixierungen\nMenüeinträge sortiert nach Name",
+                "ru": "небольшие исправления\nМеню Входы будут сортироваться по названию",
+                "pt": "pequenas correções\nEntradas do menu serão ordenadas pelo nome",
+                "nl": "kleine fixes\nMenu Entrys zal de naam",
+                "fr": "petites corrections\nMenu Entrées sera trié par Nom",
+                "it": "piccole correzioni\nMenu Entrys ordinati per Nome",
+                "es": "pequeños accesorios\nMenú Entradas ordenados por nombre",
+                "pl": "drobne rozwiązanie\nMenu Entrys posortował przez Name",
+                "uk": "маленькі кріплення\nІм'я",
+                "zh-cn": "小型配件\n国籍"
+            },
+            "1.2.2": {
+                "en": "style fix and Helper Card texts expanded",
+                "de": "style Fix und Helper Card Texte erweitert",
+                "ru": "стиль исправить и Helper Card тексты расширены",
+                "pt": "correção de estilo e textos de cartão de ajuda expandido",
+                "nl": "stijl en helper Card sms'jes breiden",
+                "fr": "correction de style et les textes de carte d'aide élargi",
+                "it": "stile fix e Helper Card testi ampliati",
+                "es": "textos de estilo y tarjeta de ayuda",
+                "pl": "okładka",
+                "uk": "фіксувати стиль і допоможисерські тексти розширені",
+                "zh-cn": "导 言"
+            },
+            "1.2.1": {
+                "en": "fix in parse_Mode SetState",
+                "de": "in parse_ Modus SetState",
+                "ru": "исправить в parse_ Режим SetState",
+                "pt": "corrigir em parse_ Mode SetState",
+                "nl": "vertaling: Mode SetState",
+                "fr": "fix in parse_ Mode SetState",
+                "it": "correzione in parse_ Mode SetState",
+                "es": "arreglar en parse_ Mode SetState",
+                "pl": "naprawa Mode Set",
+                "uk": "закріпити в parse_ Режим SetState",
+                "zh-cn": "fix 稀少; 导 言"
+            },
+            "1.2.0": {
+                "en": "textarea in Helper Card\ntext table from Json\nIt is now possible to copy rows into the same menu\nsmall fixes\nfixed parse_mode in submenu\nget json as inline-Keyboard Table",
+                "de": "textbereich in Helper Card\ntexttabelle von Json\nEs ist nun möglich, Zeilen in das gleiche Menü zu kopieren\nkleine fixierungen\nparse_mode in submenu\njson als Inline-Keyboard Tisch",
+                "ru": "textarea в Helper Card\nтекстовая таблица от Json\nТеперь можно скопировать строки в одно и то же меню\nнебольшие исправления\nфиксированный parse_mode в подменю\nполучить json как inline-Keyboard Table",
+                "pt": "textarea no cartão de ajuda\ntabela de texto de Json\nAgora é possível copiar linhas no mesmo menu\npequenas correções\nparse_mode fixo no submenu\nobter json como inline-Keyboard Tabela",
+                "nl": "sMS\nsMS tafel Json\nHet is nu mogelijk om rijen in dezelfde menukaart te kopiëren\nkleine fixes\nvertaling:\njson als inline-Keyboard Table",
+                "fr": "textarea in Helper Card\ntable de texte de Json\nIl est maintenant possible de copier des lignes dans le même menu\npetites corrections\nfixed parse_mode in submenu\nobtenir json comme inline-Keyboard Table",
+                "it": "textarea in Helper Card\ntabella di testo da Json\nOra è possibile copiare le righe nello stesso menu\npiccole correzioni\nparse_mode fisso in submenu\nottenere json come inline-Keyboard Table",
+                "es": "textarea en la tarjeta de ayuda\ntext table from Json\nAhora es posible copiar filas en el mismo menú\npequeños accesorios\nfija parse_mode en submenu\nget json as inline-Keyboard Table",
+                "pl": "okładka\ntablica tekstowa Json\nObecnie można kopiować wiersze w tym samym menu\ndrobne rozwiązanie\nparse_mode\ngetson jako inline-Keyboard Table (ang.)",
+                "uk": "текстова карта\nтекст таблиці з Json\nТепер можна копіювати рядки в одному меню\nмаленькі кріплення\nфіксований парсе_mode в підменю\nотримати json як inline-Keyboard Table",
+                "zh-cn": "帮助卡德\njson案文\n现在有可能将一轮的推移成同一个男人。\n小型配件\n固定 p. 砷\njson as aline-Key板"
+            },
+            "1.1.0": {
+                "en": "confirm the set and not processed state\nfixed User checkbox check\nnew Icons\nError by Starting with new Values of Ack and Parse_mode\n#85 bindings\nadded {time} to Navigation\n#82 Get Location\n#85 get state.ls oder state.ts from a state and converts to a local time\n#81 get Status of more than one ID\n#83 New line in Text\nfixed menu:number",
+                "de": "bestätigen sie den eingestellten und nicht verarbeiteten zustand\nfest Benutzerüberprüfung\nneue Icons\nFehler beim Starten mit neuen Werten von Ack und Parse_mode\n#85 bindungen\nzur Navigation hinzugefügt {time}\n#82 Standort erhalten\n#85 get state. ls oder state. ts aus einem zustand und konvertiert in eine lokale zeit\n#81 get Status von mehr als einer ID\n#83 Neue Zeile in Text\nfestmenü: anzahl",
+                "ru": "подтвердить установленное и не обработанное состояние\nфиксированный Проверка пользователя checkbox\nновые иконки\nОшибка, начиная с новых ценностей Ack и Parse_mode\n#85 привязок\nдобавлено {time} к навигации\n#82 Получить местоположение\n#85 получить государство. ls oder состояние. ts от государства и превращается в местное время\n#81 получить Статус более одного ID\n#83 Новая строка в тексте\nфиксированное меню:номер",
+                "pt": "confirmar o estado definido e não processado\nfixo Verificação da caixa de seleção do usuário\nnovos ícones\nErro a partir de novos Valores de Ack e Parse_mode\n#85 ligações\nadicionado {time} à navegação\n#82 Obter Localização\n#85 get state. é estado oder. ts de um estado e converte-se em uma hora local\n#81 get Status de mais de um ID\n#83 Nova linha em texto\nmenu fixo: número",
+                "nl": "bevestig de set en niet verwerkt staat\n_ Gebruiker controle\nnieuwe Icons\nError door te beginnen met nieuwe Values of Ack en Parse\n85 bindingen\nvertaling:\n82 Get Location\n85 krijgen staat. is oderstaat. t van een staat en bekert naar een plaatselijke tijd\n#81 get Status van meer dan één ID\n#83 New line in Text\ngerepareerd menu:",
+                "fr": "confirmer l'ensemble et non l'état traité\nfixes Vérification de la case utilisateur\nnouveaux Icons\nErreur en commençant par de nouvelles valeurs de Ack et Parse_mode\n#85 reliures\najouté {temps} à la navigation\n#82 Get Localisation\n#85 get state. ls oder state. ts d'un état et se convertit à une heure locale\n#81 get Statut de plus d ' une pièce d ' identité\n#83 Nouvelle ligne dans le texte\nmenu fixe:numéro",
+                "it": "confermare il set e lo stato non elaborato\nfisso Controllo checkbox utente\nnuove icone\nErrore partendo da nuovi valori di Ack e Parse_mode\n#85 bindings\naggiunto {time} a Navigazione\n#82 Get Location\n#85 get state. è stato oder. ts da uno stato e converte in un tempo locale\n#81 get Stato di più di un ID\n#83 Nuova linea in testo\nmenu fisso: numero",
+                "es": "confirmar el estado establecido y no procesado\nfijo Verificación de datos\niconos nuevos\nError empezando con nuevos valores de Ack y Parse_mode\n#85 bindings\nañadido {time} a la navegación\n#82 Obtener Ubicación\n#85 conseguir estado. es estado de oder. ts de un estado y convertidos a una hora local\n#81 get Estado de más de un documento de identidad\n#83 Nueva línea en texto\nmenú fijo: número",
+                "pl": "potwierdził ustawę i nie przetworzony stan\nstały kontroler\nnowy ikon\nZaczynając od nowa Values of Ack and Parse_mode\n#85\ndodanym dodatkiem do nawigacji\n82 Get Location (ang.)\n85. stan. l oder stanu. ts from the state and converts to czas lokalny\n#81 Status więcej niż jeden ID\n83 Nowa linia\nrzeczywista liczba menu:",
+                "uk": "підтвердження встановленого і не обробленого стану\nфіксована Перевірка поштової скриньки користувача\nнові іконки\nПомилка, починаючи з нових значень Ack і Parse_mode\n#85 обов'язки\nдодано {time} до навігації\n#82 Отримати Місцезнаходження\n#85 отримати стан. л дер. стан. ts з держави і перетворює в локальний час\n#81 отримати Статус на сервери\n#83 Нова лінія в тексті\nменю:номер",
+                "zh-cn": "2. 确认已确定的、未处理的国家\na. 固定固定地点 用户检查箱\n新的Icons\n导 言\n第85条 具有约束力\n页:1\n第82 Get Location\n第85号法案获得国家。 州。 来自一国和当地时间的转换\n第81条 一国际组织的地位\n案文中的新线\n固定男子:人数"
+            },
+            "1.0.1": {
+                "en": "fixed Error read UserList\nremove ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
+                "de": "fehler lesen UserList\nack:true and ack:false from Confirm Message entfernen und ein Kontrollkästchen für ihn kreieren\nparse-Mode HTML",
+                "ru": "исправлена ошибка читать UserList\nудалить ack:true и ack:false от подтвердите сообщение, и создает флажок для него\nparse-Mode HTML",
+                "pt": "erro fixo lido UserList\nremove ack:true e ack:false da mensagem de confirmação, e cria uma caixa de seleção para ele\nparse-Mode HTML",
+                "nl": "error las UserList\nverwijder Ack: True en ack:false van Confirm Message, en creëert er een chequebox voor\n\"Mode HTML",
+                "fr": "erreur fixe lire UserList\nsupprimer ack:true et ack:false de Confirmer Message, et creats une case pour elle\nparse-Mode HTML",
+                "it": "errore fisso letto UserList\nrimuovere ack:true and ack:false from Confirm Message, e crea una casella di controllo per esso\nparse-Mode HTML",
+                "es": "error fijo leído UserList\nquitar ack:true and ack:false from Confirm Message, and creats a checkbox for it\nparse-Mode HTML",
+                "pl": "error przeczytał UserList\nusunąć ak:true i ac:false from Confirm Message, a creats a checkbox for it\nhTML (ang.)",
+                "uk": "виправлена помилка читати UserList\nвидалити ack:true і ack:false від Підтвердити повідомлення, і creats a checkbox для нього\njavaScript licenses API Веб-сайт Go1.13.8",
+                "zh-cn": "固定的电子读者\n取消包装:侵入和包装:从确认信处理中偷窃,并为其制造一个检查箱。\np. Mode HTML"
+            }
         },
-        "title": {
-          "en": "Important notice!",
-          "de": "Wichtiger Hinweis!",
-          "ru": "Важное замечание!",
-          "pt": "Notícia importante!",
-          "nl": "Belangrijke mededeling!",
-          "fr": "Avis important!",
-          "it": "Avviso IMPORTANTE!",
-          "es": "Noticia importante!",
-          "pl": "Ważna uwaga!",
-          "zh-cn": "重要通知!",
-          "uk": "Важливе повідомлення!"
+        "titleLang": {
+            "en": "Telegram Menu",
+            "de": "Telegramm-Menü",
+            "ru": "Меню телеграммы",
+            "pt": "Menu Telegram",
+            "nl": "Telegram-menu",
+            "fr": "Menu Télégramme",
+            "it": "Menù telegramma",
+            "es": "Menú de telegramas",
+            "pl": "menu telegramu",
+            "zh-cn": "电报菜单",
+            "uk": "Меню Telegram"
         },
-        "text": {
-          "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
-          "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
-          "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
-          "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
-          "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
-          "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
-          "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
-          "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
-          "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
-          "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
-          "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+        "desc": {
+            "en": "Easily create Telegram Menus",
+            "de": "Erstellen Sie ganz einfach Telegrammmenüs",
+            "ru": "Легко создавать меню Telegram",
+            "pt": "Crie facilmente menus de telegrama",
+            "nl": "Maak eenvoudig Telegram-menu's",
+            "fr": "Créez facilement des menus de télégramme",
+            "it": "Crea facilmente menu di Telegram",
+            "es": "Crea fácilmente menús de Telegram",
+            "pl": "Z łatwością twórz menu telegramu",
+            "zh-cn": "轻松创建电报菜单",
+            "uk": "Легко створюйте меню Telegram"
         },
-        "level": "warn",
-        "buttons": [
-          "agree",
-          "cancel"
+        "authors": [
+            "MiRo1310 <michael.roling@gmx.de>"
+        ],
+        "keywords": [
+            "telegram",
+            "menu"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "telegram-menu.png",
+        "enabled": true,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+        "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "messaging",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "materialize"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=3.3.22"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0",
+                "telegram": ">=1.15.0"
+            }
+        ],
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<1.0.0",
+                        "newVersion>=1.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Important notice!",
+                    "de": "Wichtiger Hinweis!",
+                    "ru": "Важное замечание!",
+                    "pt": "Notícia importante!",
+                    "nl": "Belangrijke mededeling!",
+                    "fr": "Avis important!",
+                    "it": "Avviso IMPORTANTE!",
+                    "es": "Noticia importante!",
+                    "pl": "Ważna uwaga!",
+                    "zh-cn": "重要通知!",
+                    "uk": "Важливе повідомлення!"
+                },
+                "text": {
+                    "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
+                    "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
+                    "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
+                    "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
+                    "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
+                    "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
+                    "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
+                    "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
+                    "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
+                    "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
+                    "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "native": {
-    "nav": {},
-    "instance": "",
-    "data": {},
-    "checkbox": [],
-    "usersForGlobal": "",
-    "users": [],
-    "startsides": [],
-    "tokenGrafana": "",
-    "directory": "",
-    "userActiveCheckbox": [],
-    "usersInGroup": {},
-    "textNoEntry": "",
-    "userListWithChatID": []
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
     },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+    "native": {
+        "nav": {},
+        "instance": "",
+        "data": {},
+        "checkbox": [],
+        "usersForGlobal": "",
+        "users": [],
+        "startsides": [],
+        "tokenGrafana": "",
+        "directory": "",
+        "userActiveCheckbox": [],
+        "usersInGroup": {},
+        "textNoEntry": "",
+        "userListWithChatID": []
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

@@ -99,6 +99,6 @@ export const locEntrys = [
 ];
 export const eventsEntrys = [
 	{ name: "ID", val: "", headline: "ID", width: "40%", search: true },
-	{ name: "menu", val: "", headline: "Executed Menu", width: "20%", elementGetRows: "menu" },
+	{ name: "menu", val: "", headline: "Menu to be executed", width: "20%", elementGetRows: "menu" },
 	{ name: "condition", val: "", headline: "Condition to open Menu", width: "20%" },
 ];

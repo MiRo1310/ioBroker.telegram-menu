@@ -116,5 +116,9 @@
 	"active": "active",
 	"telegram-menu adapter settings": "Adapter settings for telegram-menu",
 	"This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value. ConfirmText: Text to confirm the value.": "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value. ConfirmText: Text to confirm the value.",
-	"This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value."
+	"This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.",
+	"Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.": "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.",
+	"Executed Menu": "Executed Menu",
+	"Condition to open Menu": "Condition to open Menu",
+	"Menu to be executed": "Menu to be executed"
 }

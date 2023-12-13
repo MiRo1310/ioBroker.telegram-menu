@@ -51,10 +51,10 @@ class RowEditPopupCard extends Component {
 	};
 
 	render() {
-		// console.log(this.state.rows);
+		console.log(this.props.newRow);
 		return (
 			<div className="Edit-Container">
-				{this.props.newRow.trigger && this.props.newRow.trigger[0] ? (
+				{this.props.newRow.trigger ? (
 					<div className="Edit-Container-Trigger">
 						<Select
 							width="10%"
