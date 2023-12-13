@@ -36,7 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
--   Event opens a menu
+-   #87 Event opens a menu
 
 ### 1.3.0 (2023-12-13)
 
