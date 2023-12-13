@@ -17,6 +17,7 @@ const {
 	getDynamicValue,
 	removeUserFromDynamicValue,
 	adjustValueType,
+	checkEvent,
 } = require("./lib/js/action");
 
 const { setstate } = require("./lib/js/setstate");
@@ -82,8 +83,11 @@ class TelegramMenu extends utils.Adapter {
 		const menuData = {
 			data: {},
 		};
+
 		// @ts-ignore
 		const data = this.config.data;
+		// @ts-ignore
+		const dataObject = this.config.data;
 		const startsides = {};
 		Object.keys(groupsWithUsers).forEach((element) => {
 			startsides[element] = data["nav"][element][0]["call"];
@@ -117,8 +121,10 @@ class TelegramMenu extends utils.Adapter {
 						this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
 						this.log.debug("Navigation " + JSON.stringify(nav));
 						this.log.debug("Action " + JSON.stringify(action));
+
 						try {
 							for (const name in nav) {
+								console.log(name);
 								const value = await editArrayButtons(nav[name], this);
 								if (value) menuData.data[name] = await generateNewObjectStructure(_this, value);
 								this.log.debug("New Structure: " + JSON.stringify(menuData.data[name]));
@@ -129,12 +135,18 @@ class TelegramMenu extends utils.Adapter {
 								if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
 									_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
 								} else this.log.debug("Nothing to Subscribe!");
+
+								// Subscribe Events
+								console.log(name);
+								if (dataObject["action"][name] && dataObject["action"][name].events)
+									dataObject["action"][name].events.forEach((event) => {
+										_subscribeForeignStatesAsync([event.ID], _this);
+									});
+
 								this.log.debug("Menu: " + JSON.stringify(name));
 								this.log.debug("Array Buttons: " + JSON.stringify(value));
 								this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
 							}
-							// console.error("test");
-							// console.log(menuData.data["Gruppe_1"]["boolean2"]);
 						} catch (err) {
 							this.log.error("Error generateNav: " + JSON.stringify(err.message));
 							this.log.error(JSON.stringify(err.stack));
@@ -176,6 +188,10 @@ class TelegramMenu extends utils.Adapter {
 						try {
 							let userToSend;
 							if (telegramAktiv) {
+								//ANCHOR - Check Event
+								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, groupsWithUsers))
+									return;
+
 								if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {
 									const value = state.val;
 									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
@@ -209,6 +225,7 @@ class TelegramMenu extends utils.Adapter {
 									}
 									this.log.debug("Groups with searched User " + JSON.stringify(menus));
 									let dataFound = false;
+
 									for (const menu of menus) {
 										const groupData = menuData.data[menu];
 										this.log.debug("Nav: " + JSON.stringify(groupData));
@@ -286,7 +303,7 @@ class TelegramMenu extends utils.Adapter {
 												valueChange ? (value = valueChange) : value;
 												textToSend = insertValueInPosition(textToSend, value);
 												this.log.debug("Send Set to Telegram");
-												console.log(element);
+												// console.log(element);
 												this.log.debug("Parse Mode " + JSON.stringify(element.parse_mode));
 
 												sendToTelegram(
@@ -496,6 +513,7 @@ class TelegramMenu extends utils.Adapter {
 		 */
 		async function callSubMenu(_this, calledValue, groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData, menus) {
 			try {
+				//FIXME - Submenu
 				const subMenuData = await subMenu(
 					_this,
 					calledValue,
