@@ -46,7 +46,7 @@ class ActionCard extends Component {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
-			console.log("newRow", this.state.newRow);
+			// console.log("newRow", this.state.newRow);
 			let globalRowValue = true;
 			let value = true;
 			let valueRowValuesAndSwitch = true;
