@@ -11,13 +11,18 @@ function createData(element, index, rowElements) {
 let rows = [];
 function getRows(element, rowElements) {
 	if (!element) return;
+
 	rows = [];
-	const trigger = element.trigger[0];
+	let trigger;
+	if (element.trigger && element.trigger[0]) trigger = element.trigger[0];
 	const generateBy = rowElements.find((element) => element.elementGetRows !== undefined)?.elementGetRows;
 	if (!generateBy) return;
+	if (!(element && element[generateBy])) console.error(`GenerateBy not found in element, actionUtilis.js. Check entrys.mjs for ${generateBy} is not a name of an element`);
+
 	for (let index in element[generateBy]) {
 		rows.push(createData(element, index, rowElements));
 	}
+
 	return { rows: rows, trigger: trigger };
 }
 export const saveRows = (props, setState, rowElements, newRow) => {
@@ -53,15 +58,14 @@ export const addNewRow = (index, props, rowElements, setState) => {
 
 	if (index >= 0 && index != null) newRow = deepCopy(props.newRow);
 	else newRow = {};
+
 	rowElements.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
-		console.log(element);
-		console.log(index);
+
 		if (!index && index !== 0) {
 			newRow[element.name] = [element.val];
 		} else if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
 	});
-	console.log(newRow);
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };

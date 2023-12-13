@@ -215,7 +215,13 @@ class ActionCard extends Component {
 					</TableContainer>
 				)}
 				{this.state.rowPopup ? (
-					<PopupContainer callback={this.closeAddRowCard} width="99%" height="70%" title={this.props.titlePopup} isOK={this.state.inputValuesAreOK}>
+					<PopupContainer
+						callback={this.closeAddRowCard}
+						width={this.props.popupCard.width}
+						height={this.props.popupCard.height}
+						title={this.props.titlePopup}
+						isOK={this.state.inputValuesAreOK}
+					>
 						<RowEditPopupCard
 							data={this.props.data}
 							newRow={this.state.newRow}
@@ -224,6 +230,7 @@ class ActionCard extends Component {
 							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.unUsedTrigger}
 							subcard={this.props.subcard}
 							openHelperText={this.openHelperText}
+							buttons={this.props.popupCard.buttons}
 						></RowEditPopupCard>
 					</PopupContainer>
 				) : null}

@@ -8,9 +8,9 @@ import { updateTriggerForSelect } from "./lib/actionUtilis.mjs";
 import HeaderIconBar from "./components/HeaderIconBar";
 import Settings from "./components/settings";
 import HeaderMenu from "./components/HeaderMenu";
-import MenuNavigation from "./components/menuNavigation";
+import TabNavigation from "./components/TabNavigation";
 import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
-import Action from "./components/Action";
+import TabAction from "./components/TabAction";
 import DropBox from "./components/popupCards/DropBox";
 import PopupContainer from "./components/popupCards/PopupContainer";
 
@@ -201,7 +201,7 @@ class App extends GenericApp {
 								</Grid>
 
 								<TabPanel value="nav">
-									<MenuNavigation
+									<TabNavigation
 										activeMenu={this.state.activeMenu}
 										data={{
 											nav: this.state.native.data.nav,
@@ -218,10 +218,10 @@ class App extends GenericApp {
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 										}}
 										entrys={navEntrys}
-									></MenuNavigation>
+									></TabNavigation>
 								</TabPanel>
 								<TabPanel value="action">
-									<Action
+									<TabAction
 										data={{
 											action: this.state.native.data.action,
 											data: this.state.native.data,
@@ -237,7 +237,7 @@ class App extends GenericApp {
 											setState: this.setState,
 											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 										}}
-									></Action>
+									></TabAction>
 								</TabPanel>
 								<TabPanel value="settings">
 									<Settings

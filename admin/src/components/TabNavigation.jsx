@@ -10,7 +10,7 @@ import HelperCard from "./popupCards/HelperCard";
 import helperText from "../lib/helper.mjs";
 import { deepCopy } from "../lib/Utilis.mjs";
 
-class MenuNavigation extends Component {
+class TabNavigation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -213,4 +213,4 @@ class MenuNavigation extends Component {
 		);
 	}
 }
-export default MenuNavigation;
+export default TabNavigation;

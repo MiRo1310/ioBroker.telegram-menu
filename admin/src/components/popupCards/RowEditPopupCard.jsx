@@ -51,20 +51,23 @@ class RowEditPopupCard extends Component {
 	};
 
 	render() {
+		// console.log(this.state.rows);
 		return (
 			<div className="Edit-Container">
-				<div className="Edit-Container-Trigger">
-					<Select
-						width="10%"
-						selected={this.props.newRow.trigger[0]}
-						options={this.props.newUnUsedTrigger}
-						id="trigger"
-						callback={(value) => updateTrigger(value, this.props, this.setState.bind(this), this.props.entrys)}
-						callbackValue="event.target.value"
-						label="Trigger"
-						placeholder="Select a Trigger"
-					></Select>
-				</div>
+				{this.props.newRow.trigger && this.props.newRow.trigger[0] ? (
+					<div className="Edit-Container-Trigger">
+						<Select
+							width="10%"
+							selected={this.props.newRow.trigger[0]}
+							options={this.props.newUnUsedTrigger}
+							id="trigger"
+							callback={(value) => updateTrigger(value, this.props, this.setState.bind(this), this.props.entrys)}
+							callbackValue="event.target.value"
+							label="Trigger"
+							placeholder="Select a Trigger"
+						></Select>
+					</div>
+				) : null}
 				{this.props.newRow.parse_mode ? (
 					<div className="Edit-Container-ParseMode">
 						<Checkbox
@@ -89,8 +92,8 @@ class RowEditPopupCard extends Component {
 										</TableCell>
 									) : null,
 								)}
-								<TableCell align="left"> </TableCell>
-								<TableCell align="left"> </TableCell>
+								{this.props.buttons.add ? <TableCell align="left"> </TableCell> : null}
+								{this.props.buttons.delete ? <TableCell align="left"> </TableCell> : null}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -180,19 +183,23 @@ class RowEditPopupCard extends Component {
 												) : null,
 											)}
 
-											<TableCell align="center" className="cellIcon">
-												<BtnSmallAdd
-													callback={(index) => addNewRow(index, this.props, this.props.entrys, this.setState.bind(this), this.state.rows)}
-													index={index}
-												/>
-											</TableCell>
-											<TableCell align="center" className="cellIcon">
-												<BtnSmallRemove
-													callback={(index) => deleteRow(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys)}
-													index={index}
-													disabled={this.state.rows.length == 1 ? "disabled" : ""}
-												/>
-											</TableCell>
+											{this.props.buttons.add ? (
+												<TableCell align="center" className="cellIcon">
+													<BtnSmallAdd
+														callback={(index) => addNewRow(index, this.props, this.props.entrys, this.setState.bind(this), this.state.rows)}
+														index={index}
+													/>
+												</TableCell>
+											) : null}
+											{this.props.buttons.remove ? (
+												<TableCell align="center" className="cellIcon">
+													<BtnSmallRemove
+														callback={(index) => deleteRow(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys)}
+														index={index}
+														disabled={this.state.rows.length == 1 ? "disabled" : ""}
+													/>
+												</TableCell>
+											) : null}
 										</TableRow>
 								  ))
 								: null}
