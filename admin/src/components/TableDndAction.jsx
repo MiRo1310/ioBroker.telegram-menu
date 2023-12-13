@@ -59,7 +59,7 @@ class TableDndAction extends Component {
 	editRow = (index) => {
 		const data = deepCopy(this.props.data.data);
 		const newRow = data[this.props.card][this.props.activeMenu][this.props.subcard][index];
-		this.props.addEditedTrigger(newRow.trigger[0]);
+		if (newRow.trigger) this.props.addEditedTrigger(newRow.trigger[0]);
 		this.props.setState({ newRow: newRow });
 		this.props.setState({ editRow: true });
 		this.props.setState({ rowPopup: true });
@@ -88,15 +88,17 @@ class TableDndAction extends Component {
 						onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
 						style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
 					>
-						<TableCell align="left" component="td" scope="row">
-							<span
-								className="noneDraggable"
-								onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
-								onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
-							>
-								{row.trigger}
-							</span>
-						</TableCell>
+						{row.trigger ? (
+							<TableCell align="left" component="td" scope="row">
+								<span
+									className="noneDraggable"
+									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
+									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+								>
+									{row.trigger}
+								</span>
+							</TableCell>
+						) : null}
 						{this.props.entrys.map((entry, index) =>
 							entry.name != "trigger" ? (
 								<TableCell align="left" component="td" scope="row" key={index} style={entry.width ? { width: entry.width } : null}>
