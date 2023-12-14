@@ -68,6 +68,7 @@ class TelegramMenu extends utils.Adapter {
 			data: {},
 		};
 		const data = this.config.data;
+		this.log.debug("sub " + JSON.stringify(this.subscribeForeignStatesAsync("0_userdata.0.number1")));
 
 		const dataObject = this.config.data;
 		const startsides = {};
@@ -465,7 +466,7 @@ class TelegramMenu extends utils.Adapter {
 					}
 				} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
 					_this.log.debug("Call Submenu");
-					callSubMenu(
+					setStateIdsToListenTo = await callSubMenu(
 						_this,
 						calledValue,
 						groupData,
