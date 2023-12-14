@@ -7,8 +7,6 @@ let setStateIdsToListenTo;
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-const { exec } = require("child_process");
-
 const { generateActions, generateNewObjectStructure, editArrayButtons, insertValueInPosition, adjustValueType, checkEvent } = require("./lib/js/action");
 const { callSubMenu } = require("./lib/js/subMenu");
 const { sendNav } = require("./lib/js/senNav");
@@ -18,8 +16,8 @@ const { setstate } = require("./lib/js/setstate");
 const { getstate } = require("./lib/js/getstate");
 const { backMenuFunc } = require("./lib/js/subMenu");
 const { sendLocationToTelegram, sendToTelegram } = require("./lib/js/telegram");
-const { decomposeText, replaceAll } = require("./lib/js/utilities");
-const { changeValue } = require("./lib/js/utilities");
+const { decomposeText, changeValue } = require("./lib/js/utilities");
+const { sendPic } = require("./lib/js/sendpic");
 
 let timeouts = [];
 let timeoutKey = 0;
@@ -48,9 +46,6 @@ class TelegramMenu extends utils.Adapter {
 		this.log.debug("Datapoint: " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
-		/**
-		 * @type {{}}
-		 */
 		const checkbox = this.config.checkbox;
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
@@ -61,18 +56,19 @@ class TelegramMenu extends utils.Adapter {
 		const token = this.config.tokenGrafana;
 		const directoryPicture = this.config.directory;
 		const userActiveCheckbox = this.config.userActiveCheckbox;
-		const groupsWithUsers = this.config.usersInGroup;
+		const menusWithUsers = this.config.usersInGroup;
 		const textNoEntryFound = this.config.textNoEntry;
 		const userListWithChatID = this.config.userListWithChatID;
 		const menuData = {
 			data: {},
 		};
+
 		const data = this.config.data;
 		this.log.debug("sub " + JSON.stringify(this.subscribeForeignStatesAsync("0_userdata.0.number1")));
 
 		const dataObject = this.config.data;
 		const startsides = {};
-		Object.keys(groupsWithUsers).forEach((element) => {
+		Object.keys(menusWithUsers).forEach((element) => {
 			startsides[element] = data["nav"][element][0]["call"];
 		});
 		this.log.debug("Startsides " + JSON.stringify(startsides));
@@ -101,26 +97,25 @@ class TelegramMenu extends utils.Adapter {
 
 						const nav = data["nav"];
 						const action = data["action"];
-						this.log.debug("Groups With Users: " + JSON.stringify(groupsWithUsers));
+						this.log.debug("Groups With Users: " + JSON.stringify(menusWithUsers));
 						this.log.debug("Navigation " + JSON.stringify(nav));
 						this.log.debug("Action " + JSON.stringify(action));
 
 						try {
 							for (const name in nav) {
-								console.log(name);
 								const value = await editArrayButtons(nav[name], this);
 								if (value) menuData.data[name] = await generateNewObjectStructure(_this, value);
 								this.log.debug("New Structure: " + JSON.stringify(menuData.data[name]));
-								const returnValue = generateActions(_this, action[name], menuData.data[name]);
-								menuData.data[name] = returnValue?.obj;
-								subscribeForeignStateIds = returnValue?.ids;
+								const valueGenerateActions = generateActions(_this, action[name], menuData.data[name]);
+								menuData.data[name] = valueGenerateActions?.obj;
+								subscribeForeignStateIds = valueGenerateActions?.ids;
 								this.log.debug("SubscribeForeignStates: " + JSON.stringify(subscribeForeignStateIds));
+
 								if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
 									_subscribeForeignStatesAsync(subscribeForeignStateIds, _this);
 								} else this.log.debug("Nothing to Subscribe!");
 
 								// Subscribe Events
-								console.log(name);
 								if (dataObject["action"][name] && dataObject["action"][name].events)
 									dataObject["action"][name].events.forEach((event) => {
 										_subscribeForeignStatesAsync([event.ID], _this);
@@ -142,9 +137,10 @@ class TelegramMenu extends utils.Adapter {
 							listofMenus.forEach((menu) => {
 								this.log.debug("Menu: " + JSON.stringify(menu));
 								const startside = [startsides[menu]].toString();
+								// Startseite senden
 								if (userActiveCheckbox[menu] && startside != "-") {
 									this.log.debug("Startseite: " + JSON.stringify(startside));
-									groupsWithUsers[menu].forEach((user) => {
+									menusWithUsers[menu].forEach((user) => {
 										backMenuFunc(this, startside, null, user);
 										this.log.debug("User List " + JSON.stringify(userListWithChatID));
 
@@ -172,7 +168,7 @@ class TelegramMenu extends utils.Adapter {
 							let userToSend;
 							if (telegramAktiv) {
 								//ANCHOR - Check Event
-								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, groupsWithUsers))
+								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, menusWithUsers))
 									return;
 
 								if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {
@@ -196,13 +192,13 @@ class TelegramMenu extends utils.Adapter {
 											Value: value,
 											User: userToSend,
 											Todo: calledValue,
-											groups: groupsWithUsers,
+											groups: menusWithUsers,
 										}),
 									);
 									const menus = [];
-									for (const key in groupsWithUsers) {
+									for (const key in menusWithUsers) {
 										this.log.debug("Groups " + JSON.stringify(key));
-										if (groupsWithUsers[key].includes(userToSend)) {
+										if (menusWithUsers[key].includes(userToSend)) {
 											menus.push(key);
 										}
 									}
@@ -410,53 +406,21 @@ class TelegramMenu extends utils.Adapter {
 						getstate(_this, part, userToSend, instanceTelegram, one_time_keyboard, resize_keyboard, userListWithChatID);
 						return true;
 					} else if (part.sendPic) {
-						_this.log.debug("Send Picture");
-
-						part.sendPic.forEach((element) => {
-							let path = "";
-							if (element.id != "-") {
-								const url = element.id;
-								const newUrl = replaceAll(url, "&amp;", "&");
-								try {
-									exec(`curl -H "Authorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`, (error, stdout, stderr) => {
-										if (stdout) {
-											_this.log.debug("Stdout: " + JSON.stringify(stdout));
-										}
-										if (stderr) {
-											_this.log.debug("Stderr: " + JSON.stringify(stderr));
-										}
-										if (error) {
-											_this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
-											return;
-										}
-									});
-								} catch (e) {
-									_this.log.error("Error :" + JSON.stringify(e.message));
-									_this.log.error(JSON.stringify(e.stack));
-								}
-
-								_this.log.debug("Delay Time " + JSON.stringify(element.delay));
-								timeoutKey += 1;
-								path = `${directoryPicture}${element.fileName}`;
-							} else path = element.fileName;
-							try {
-								const timeout = _this.setTimeout(async () => {
-									_this.log.debug("Send Pic to Telegram");
-									sendToTelegram(_this, userToSend, path, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
-									let timeoutToClear = {};
-									timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-									clearTimeout(timeoutToClear.timeout);
-									timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-								}, parseInt(element.delay));
-								_this.log.debug("Timeout add");
-								timeouts.push({ key: timeoutKey, timeout: timeout });
-							} catch (e) {
-								_this.log.error("Error: " + JSON.stringify(e.message));
-								_this.log.error(JSON.stringify(e.stack));
-							}
-						});
-
-						_this.log.debug("Picture sended");
+						const result = sendPic(
+							_this,
+							part,
+							userToSend,
+							instanceTelegram,
+							resize_keyboard,
+							one_time_keyboard,
+							userListWithChatID,
+							token,
+							directoryPicture,
+							timeouts,
+							timeoutKey,
+						);
+						if (result) timeouts = result;
+						else _this.log.debug("Timeouts not found");
 
 						return true;
 					} else if (part.location) {
