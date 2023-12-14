@@ -20,7 +20,7 @@ const { decomposeText, changeValue } = require("./lib/js/utilities");
 const { sendPic } = require("./lib/js/sendpic");
 
 let timeouts = [];
-let timeoutKey = 0;
+const timeoutKey = 0;
 let subscribeForeignStateIds;
 
 class TelegramMenu extends utils.Adapter {
