@@ -171,21 +171,7 @@ class TelegramMenu extends utils.Adapter {
 							let userToSend;
 							if (telegramAktiv) {
 								//ANCHOR - Check Event
-								if (
-									checkEvent(
-										dataObject,
-										id,
-										state,
-										menuData,
-										_this,
-										userListWithChatID,
-										instanceTelegram,
-										resize_keyboard,
-										one_time_keyboard,
-										groupsWithUsers,
-										textNoEntryFound,
-									)
-								)
+								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, groupsWithUsers))
 									return;
 
 								if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {

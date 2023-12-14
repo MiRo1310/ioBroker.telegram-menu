@@ -56,7 +56,7 @@ const helperText = {
 			info: "Generates two buttons, in this case on and off with the respective values true and false. Replace TRIGGER with a unique value.",
 		},
 		{
-			text: "menu:dynSwitch[a, b,c]:TRIGGER:LenghtOfRow:",
+			text: "menu:dynSwitch[Name1.value1, Name2.value2]:TRIGGER:LenghtOfRow:",
 			head: "<strong>Submenu Dynamic Switch</strong><br>",
 			info: "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.",
 		},
