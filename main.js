@@ -14,10 +14,11 @@ const { _subscribeAndUnSubscribeForeignStatesAsync, _subscribeForeignStatesAsync
 const { setstate } = require("./lib/js/setstate");
 const { getstate } = require("./lib/js/getstate");
 const { backMenuFunc, callSubMenu } = require("./lib/js/subMenu");
-const { sendLocationToTelegram, sendToTelegram, saveMessageIds } = require("./lib/js/telegram");
+const { sendLocationToTelegram, sendToTelegram } = require("./lib/js/telegram");
 const { decomposeText, changeValue } = require("./lib/js/utilities");
 const { sendPic } = require("./lib/js/sendpic");
 const { createState } = require("./lib/js/createState");
+const { saveMessageIds } = require("./lib/js/messageIds");
 
 let timeouts = [];
 const timeoutKey = 0;
