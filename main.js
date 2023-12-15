@@ -8,16 +8,16 @@ let setStateIdsToListenTo;
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const { generateActions, generateNewObjectStructure, editArrayButtons, insertValueInPosition, adjustValueType, checkEvent } = require("./lib/js/action");
-const { callSubMenu } = require("./lib/js/subMenu");
-const { sendNav } = require("./lib/js/senNav");
+const { sendNav } = require("./lib/js/sendNav");
 const { getDynamicValue, removeUserFromDynamicValue } = require("./lib/js/dynamicValue");
 const { _subscribeAndUnSubscribeForeignStatesAsync, _subscribeForeignStatesAsync } = require("./lib/js/subscribeStates");
 const { setstate } = require("./lib/js/setstate");
 const { getstate } = require("./lib/js/getstate");
-const { backMenuFunc } = require("./lib/js/subMenu");
-const { sendLocationToTelegram, sendToTelegram } = require("./lib/js/telegram");
+const { backMenuFunc, callSubMenu } = require("./lib/js/subMenu");
+const { sendLocationToTelegram, sendToTelegram, saveMessageIds } = require("./lib/js/telegram");
 const { decomposeText, changeValue } = require("./lib/js/utilities");
 const { sendPic } = require("./lib/js/sendpic");
+const { createState } = require("./lib/js/createState");
 
 let timeouts = [];
 const timeoutKey = 0;
@@ -38,10 +38,12 @@ class TelegramMenu extends utils.Adapter {
 	}
 	async onReady() {
 		this.setState("info.connection", false, true);
-		// @ts-ignore
+		createState(this);
 		let instanceTelegram = this.config.instance;
 		if (!instanceTelegram || instanceTelegram.length == 0) instanceTelegram = "telegram.0";
 		const telegramID = `${instanceTelegram}.communicate.request`;
+		const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
+		const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
 		const datapoint = `${instanceTelegram}.info.connection`;
 		this.log.debug("Datapoint: " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
@@ -59,6 +61,7 @@ class TelegramMenu extends utils.Adapter {
 		const menusWithUsers = this.config.usersInGroup;
 		const textNoEntryFound = this.config.textNoEntry;
 		const userListWithChatID = this.config.userListWithChatID;
+
 		const menuData = {
 			data: {},
 		};
@@ -170,8 +173,9 @@ class TelegramMenu extends utils.Adapter {
 								//ANCHOR - Check Event
 								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, menusWithUsers))
 									return;
-
-								if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {
+								if (id == botSendMessageID || id == requestMessageID) {
+									saveMessageIds(_this, state, instanceTelegram);
+								} else if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {
 									const value = state.val;
 									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 
@@ -454,8 +458,9 @@ class TelegramMenu extends utils.Adapter {
 			}
 		}
 
-		this.subscribeForeignStatesAsync("telegram.0.info.connection");
-		this.subscribeForeignStatesAsync("telegram.0.communicate.request");
+		this.subscribeForeignStatesAsync(botSendMessageID);
+		this.subscribeForeignStatesAsync(requestMessageID);
+		// telegram.x.communicate.request
 		this.subscribeForeignStatesAsync(telegramID);
 		this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
 	}
