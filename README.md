@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.4.0 (2023-12-16)
 
 -   #88 Menu with dynamic Values
 -   #87 Event opens a menu
