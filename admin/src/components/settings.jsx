@@ -13,12 +13,14 @@ class Settings extends Component {
 			options: ["One", "Two", "Three"],
 		};
 	}
-	onClickCheckbox = (event) => {
+	onClickCheckbox = (event, id) => {
 		const checkbox = { ...this.props.data.state.native.checkbox };
-		checkbox[event.target.id] = event.target.checked;
+		checkbox[id] = event.target.checked;
+		console.log(checkbox);
 		this.props.callback.updateNative("checkbox", checkbox);
 	};
 	render() {
+		console.log(this.props.data.state.native.checkbox);
 		return (
 			<div className="Settings">
 				<h1>{I18n.t("Settings")}</h1>
@@ -49,8 +51,8 @@ class Settings extends Component {
 					<Grid item xs={8}>
 						<Checkbox
 							label={I18n.t("Active")}
-							id="checkbox.checkboxNoValueFound"
-							checked={this.props.data.state.native.checkbox.checkboxNoValueFound || false}
+							id="checkboxNoValueFound"
+							isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound}
 							callbackValue="event"
 							callback={this.onClickCheckbox}
 						/>
@@ -58,8 +60,8 @@ class Settings extends Component {
 					<Grid item xs={3}>
 						<Checkbox
 							label="Resize Keyboard"
-							id="checkbox.resKey"
-							checked={this.props.data.state.native.checkbox.resKey || false}
+							id="resKey"
+							isChecked={this.props.data.state.native.checkbox.resKey}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
 							setNative={true}
@@ -68,8 +70,8 @@ class Settings extends Component {
 					<Grid item xs={3}>
 						<Checkbox
 							label="One Time Keyboard"
-							id="checkbox.oneTiKey"
-							checked={this.props.data.state.native.checkbox.oneTiKey | false}
+							id="oneTiKey"
+							isChecked={this.props.data.state.native.checkbox.oneTiKey}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
 							setNative={true}
