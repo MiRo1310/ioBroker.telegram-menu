@@ -1,5 +1,4 @@
 "use strict";
-let setStateIdsToListenTo;
 /*
  * Created with @iobroker/create-adapter v2.3.0
  */
@@ -7,20 +6,19 @@ let setStateIdsToListenTo;
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-const { generateActions, generateNewObjectStructure, editArrayButtons, insertValueInPosition, adjustValueType, checkEvent } = require("./lib/js/action");
-const { sendNav } = require("./lib/js/sendNav");
-const { getDynamicValue, removeUserFromDynamicValue } = require("./lib/js/dynamicValue");
-const { _subscribeAndUnSubscribeForeignStatesAsync, _subscribeForeignStatesAsync } = require("./lib/js/subscribeStates");
-const { setstate } = require("./lib/js/setstate");
-const { getstate } = require("./lib/js/getstate");
-const { backMenuFunc, callSubMenu } = require("./lib/js/subMenu");
-const { sendLocationToTelegram, sendToTelegram } = require("./lib/js/telegram");
+const { generateActions, generateNewObjectStructure, editArrayButtons } = require("./lib/js/action");
+
+const { _subscribeForeignStatesAsync } = require("./lib/js/subscribeStates");
+
+const { sendToTelegram } = require("./lib/js/telegram");
 const { decomposeText, changeValue } = require("./lib/js/utilities");
-const { sendPic } = require("./lib/js/sendpic");
 const { createState } = require("./lib/js/createState");
 const { saveMessageIds } = require("./lib/js/messageIds");
+const { backMenuFunc } = require("./lib/js/backMenu");
+const { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } = require("./lib/js/processData");
 
-let timeouts = [];
+const { insertValueInPosition, checkEvent } = require("./lib/js/action");
+
 const timeoutKey = 0;
 let subscribeForeignStateIds;
 
@@ -168,6 +166,7 @@ class TelegramMenu extends utils.Adapter {
 						}
 					}
 					this.on("stateChange", async (id, state) => {
+						const setStateIdsToListenTo = getStateIdsToListenTo();
 						try {
 							let userToSend;
 							if (telegramAktiv) {
@@ -208,33 +207,23 @@ class TelegramMenu extends utils.Adapter {
 										}
 									}
 									this.log.debug("Groups with searched User " + JSON.stringify(menus));
-									let dataFound = false;
 
-									for (const menu of menus) {
-										const groupData = menuData.data[menu];
-										this.log.debug("Nav: " + JSON.stringify(groupData));
-										this.log.debug("Menu: " + JSON.stringify(menuData.data));
-										this.log.debug("Group: " + JSON.stringify(menu));
+									const dataFound = checkEveryMenuForData(
+										_this,
+										menuData,
+										calledValue,
+										userToSend,
+										instanceTelegram,
+										resize_keyboard,
+										one_time_keyboard,
+										userListWithChatID,
+										menus,
+										userActiveCheckbox,
+										token,
+										directoryPicture,
+										timeoutKey,
+									);
 
-										if (
-											await processData(
-												this,
-												groupData,
-												calledValue,
-												userToSend,
-												menu,
-												instanceTelegram,
-												resize_keyboard,
-												one_time_keyboard,
-												userListWithChatID,
-												menuData.data,
-												menus,
-											)
-										) {
-											dataFound = true;
-											break;
-										} else continue;
-									}
 									if (!dataFound && checkboxNoEntryFound) {
 										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
 									}
@@ -329,135 +318,6 @@ class TelegramMenu extends utils.Adapter {
 				this.log.error(JSON.stringify(e.stack));
 			}
 		});
-		/**
-		 *
-		 * @param {*} _this
-		 * @param {{}} groupData Data of the Group
-		 * @param {string} calledValue Value, which was called
-		 * @param {string} userToSend  User, which should get the message
-		 * @param {string} groupWithUser  Group with the User
-		 * @returns true, if data was found, else false
-		 */
-		async function processData(
-			_this,
-			groupData,
-			calledValue,
-			userToSend = "",
-			groupWithUser,
-			instanceTelegram,
-			resize_keyboard,
-			one_time_keyboard,
-			userListWithChatID,
-			menuData,
-			menus,
-		) {
-			try {
-				let part;
-				let call;
-				// Wenn der Wert dynamisch gesetzt werden soll wird der Wert abgerufen und der Wert gesetzt und die Funktion beendet
-				if (getDynamicValue(userToSend)) {
-					const res = getDynamicValue(userToSend);
-					let valueToSet;
-					if (res.valueType) valueToSet = adjustValueType(_this, calledValue, res.valueType);
-					else valueToSet = calledValue;
-					if (valueToSet) _this.setForeignStateAsync(res.id, valueToSet, res.ack);
-					else
-						sendToTelegram(
-							_this,
-							userToSend,
-							`You insert a wrong Type of value, please insert type: ${res.valueType}`,
-							undefined,
-							instanceTelegram,
-							resize_keyboard,
-							one_time_keyboard,
-							userListWithChatID,
-							"",
-						);
-					removeUserFromDynamicValue(userToSend);
-					return true;
-				}
-				if (calledValue.includes("menu")) call = calledValue.split(":")[2];
-				else call = calledValue;
-				if (groupData[call] && !calledValue.includes("menu") && userToSend && groupWithUser && userActiveCheckbox[groupWithUser]) {
-					part = groupData[call];
-					// Navigation
-					if (part.nav) {
-						if (
-							await sendNav(
-								_this,
-								part,
-								call,
-								userToSend,
-								instanceTelegram,
-								resize_keyboard,
-								one_time_keyboard,
-								userListWithChatID,
-								groupData,
-								menuData,
-								menus,
-								setStateIdsToListenTo,
-							)
-						)
-							return true;
-					}
-					// Schalten
-					else if (part.switch) {
-						setStateIdsToListenTo = await setstate(_this, part, userToSend, 0, false, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-
-						_this.log.debug("SubmenuData3" + JSON.stringify(setStateIdsToListenTo));
-						if (Array.isArray(setStateIdsToListenTo)) _subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
-						return true;
-					} else if (part.getData) {
-						getstate(_this, part, userToSend, instanceTelegram, one_time_keyboard, resize_keyboard, userListWithChatID);
-						return true;
-					} else if (part.sendPic) {
-						const result = sendPic(
-							_this,
-							part,
-							userToSend,
-							instanceTelegram,
-							resize_keyboard,
-							one_time_keyboard,
-							userListWithChatID,
-							token,
-							directoryPicture,
-							timeouts,
-							timeoutKey,
-						);
-						if (result) timeouts = result;
-						else _this.log.debug("Timeouts not found");
-
-						return true;
-					} else if (part.location) {
-						_this.log.debug("Send Location");
-						sendLocationToTelegram(_this, userToSend, part.location, instanceTelegram, userListWithChatID);
-						return true;
-					}
-				} else if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && groupData[call]) {
-					_this.log.debug("Call Submenu");
-					setStateIdsToListenTo = await callSubMenu(
-						_this,
-						calledValue,
-						groupData,
-						userToSend,
-						instanceTelegram,
-						resize_keyboard,
-						one_time_keyboard,
-						userListWithChatID,
-						part,
-						menuData,
-						menus,
-						setStateIdsToListenTo,
-					);
-					return true;
-				} else {
-					return false;
-				}
-			} catch (e) {
-				_this.log.error("Error processData: " + JSON.stringify(e.message));
-				_this.log.error(JSON.stringify(e.stack));
-			}
-		}
 
 		this.subscribeForeignStatesAsync(botSendMessageID);
 		this.subscribeForeignStatesAsync(requestMessageID);
@@ -471,6 +331,7 @@ class TelegramMenu extends utils.Adapter {
 	 * @param {() => void} callback
 	 */
 	onUnload(callback) {
+		const timeouts = getTimeouts();
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
 			timeouts.forEach((element) => {
