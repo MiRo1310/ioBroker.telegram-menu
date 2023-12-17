@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 class Checkbox extends Component {
 	onChangeHandler = (event) => {
@@ -25,7 +26,13 @@ class Checkbox extends Component {
 		return (
 			<div className="Checkbox" style={container}>
 				<label>
-					<input type="checkbox" checked={this.props.isChecked} onChange={this.onChangeHandler} />
+					<input
+						type="checkbox"
+						checked={this.props.isChecked}
+						onChange={this.onChangeHandler}
+						title={this.props.title ? I18n.t(this.props.title) : null}
+						className={this.props.class}
+					/>
 					<p>{this.props.label}</p>
 				</label>
 			</div>
