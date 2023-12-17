@@ -20,6 +20,8 @@ You can create different groups with separate menus, and then assign users to th
     -   Then a new line with the name of the button as call text and in the navigation column you write e.g. `menu:on-off:name:` or `menu:percent10:name:`. **name** must be replaced with a unique name, e.g. shutter1, then save
     -   By saving, a new trigger is created in the actions, you have to select this at SetState and then you look for the appropriate ID that should be set, simply enter a `!` as a value
 
+ -   **Delete history:** To delete all messages (similar to "Delete history" in the client), add a menu item `menu:deleteAll:Navigation` - **Navigation** is the menu name that should then be called up (e.g. start menu)
+
 ### SetState
 
 -   Switch only toggles booleans, it switch between true and false
@@ -31,6 +33,9 @@ You can create different groups with separate menus, and then assign users to th
 -   If you want to set a state, but you want to get the change of another state, you should put this `{"id":"id","text":"Wert wurde gesetzt:"}` in the return text. Replace ID with the wanted ID , and you can also modify the text.
     However, the change is only sent if the state was set to ack:true
 
+-   **Setting a text or number data point:** If you want to set a text in a data point, for example, the instance waits for an input after pressing a button. The selected data point is then described with the text. This can be achieved by setting `{setDynamicValue:RequestText:Type:ConfirmText:}` in the return field. "RequestText": Prompt text for input, "Type": Data type, can be boolean, number, or string and "ConfirmText": Confirmation text for setting the data point, can be replaced with custom text.
+
+  
 ### GetState
 
 -   You can place the Value in the Text with `&&` as placeholder. You can influence the value with `change{"true":"on", "false":"off"}`, the same as setState
@@ -88,3 +93,7 @@ menu:back
     <br>
     <img src="../pic/submenu_nav.png" width="400"/> <img src="../pic/menu_percent10_r2.png" width="400"/>
     <img src="../pic/submenu_setstate.png" width="600"/>
+
+### Events
+
+Integrated eventlistener: Waits for a data point - if this data point is set with ack=true (e.g. via script or adapter), a predefined menu is opened.   
