@@ -3,7 +3,7 @@
 ## ioBroker telegram-menu adapter
 
 Erstelle ganz einfach Telegrammmenüs
-Der Adapter dient dazu per Telegrammenu mit dem Iobroker kommunizieren, Datenpunkt zu schalten oder Werte von Datenpunkte abzufragen. Hierzu kann man verschiedene Gruppen erstellen in denen man Menus erstellen kann. Diese kann man dann Benutzer zuordnen.
+Der Adapter dient dazu per Telegrammenu mit dem Iobroker zu kommunizieren, Datenpunkt zu schalten oder Werte von Datenpunkte abzufragen. Hierzu kann man verschiedene Gruppen erstellen in denen man Menus erstellen kann. Diese kann man dann Benutzer zuordnen.
 
 Let´s get started!
 
