@@ -33,7 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 -   If you want to set a state, but you want to get the change of another state, you should put this `{"id":"id","text":"Wert wurde gesetzt:"}` in the return text. Replace ID with the wanted ID , and you can also modify the text.
     However, the change is only sent if the state was set to ack:true
 
--   **Setting a text or number data point:** If you want to set a text in a data point, for example, the instance waits for an input after pressing a button. The selected data point is then described with the text. This can be achieved by setting `{setDynamicValue:RequestText:Type:ConfirmText:}` in the return field. "RequestText" and "ConfirmText" can be replaced with your own text.
+-   **Setting a text or number data point:** If you want to set a text in a data point, for example, the instance waits for an input after pressing a button. The selected data point is then described with the text. This can be achieved by setting `{setDynamicValue:RequestText:Type:ConfirmText:}` in the return field. "RequestText": Prompt text for input, "Type": Data type, can be boolean, number, or string and "ConfirmText": Confirmation text for setting the data point, can be replaced with custom text.
 
   
 ### GetState
