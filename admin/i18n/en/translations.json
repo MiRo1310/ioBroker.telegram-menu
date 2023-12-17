@@ -120,5 +120,6 @@
 	"Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.": "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.",
 	"Executed Menu": "Executed Menu",
 	"Condition to open Menu": "Condition to open Menu",
-	"Menu to be executed": "Menu to be executed"
+	"Menu to be executed": "Menu to be executed",
+	"Generates a button to delete all messages from the bot. The navigation is optional.": "Generates a button to delete all messages from the bot. The navigation is optional."
 }

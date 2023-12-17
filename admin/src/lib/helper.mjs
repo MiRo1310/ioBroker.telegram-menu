@@ -60,6 +60,11 @@ const helperText = {
 			head: "<strong>Submenu Dynamic Switch</strong><br>",
 			info: "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.",
 		},
+		{
+			text: "menu:deleteAll:Navigation",
+			head: "<strong>Submenu Delete All</strong><br>",
+			info: "Generates a button to delete all messages from the bot. The navigation is optional.",
+		},
 
 		{
 			text: "menu:back",

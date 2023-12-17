@@ -120,5 +120,6 @@
     "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.": "Genereert multipli-knoppen, waarden kunnen individueel worden ingevoegd. Vervang TRIGGER door een unieke waarde. LenghtOfRow is optioneel en kan worden gebruikt om het aantal knoppen per rij in te stellen.",
     "Executed Menu": "Uitgevoerd menu",
     "Condition to open Menu": "Voorwaarde om Menu te openen",
-    "Menu to be executed": "Uit te voeren menu"
+    "Menu to be executed": "Uit te voeren menu",
+    "Generates a button to delete all messages from the bot. The navigation is optional.": "Genereert een knop om alle berichten van de bot te verwijderen. De navigatie is optioneel."
 }

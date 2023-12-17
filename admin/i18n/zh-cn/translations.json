@@ -120,5 +120,6 @@
     "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.": "生成乘法按钮，可以单独插入值。将 TRIGGER 替换为唯一值。 LenghtOfRow 是可选的，可用于设置每行的按钮数量。",
     "Executed Menu": "执行菜单",
     "Condition to open Menu": "打开菜单的条件",
-    "Menu to be executed": "待执行菜单"
+    "Menu to be executed": "待执行菜单",
+    "Generates a button to delete all messages from the bot. The navigation is optional.": "生成一个按钮以删除机器人中的所有消息。导航是可选的。"
 }

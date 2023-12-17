@@ -208,7 +208,7 @@ class TelegramMenu extends utils.Adapter {
 									}
 									this.log.debug("Groups with searched User " + JSON.stringify(menus));
 
-									const dataFound = checkEveryMenuForData(
+									const dataFound = await checkEveryMenuForData(
 										_this,
 										menuData,
 										calledValue,
@@ -223,7 +223,7 @@ class TelegramMenu extends utils.Adapter {
 										directoryPicture,
 										timeoutKey,
 									);
-
+									this.log.debug("Datafound: " + JSON.stringify(dataFound));
 									if (!dataFound && checkboxNoEntryFound) {
 										sendToTelegram(this, userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
 									}
