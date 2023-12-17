@@ -32,7 +32,7 @@ class HeaderMenu extends Component {
 						{this.props.data.state.activeMenu != undefined ? (
 							<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
 						) : (
-							<span className="MenuHeader-borderActiveMenu">{I18n.t("No User found")}</span>
+							<span className="MenuHeader-borderActiveMenu">{I18n.t("Please create a menu!")}</span>
 						)}
 					</div>
 				</Grid>

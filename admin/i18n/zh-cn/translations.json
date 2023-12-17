@@ -124,5 +124,6 @@
     "Generates a button to delete all messages from the bot. The navigation is optional.": "生成一个按钮以删除机器人中的所有消息。导航是可选的。",
     "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.": "生成一个按钮以删除机器人中的所有消息。导航是可选的。只需将其留空，否则您可以输入应调用的菜单。",
     "Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.": "要求客户垂直调整键盘大小以获得最佳配合（例如，如果只有两行按钮，则缩小键盘）。默认为 false，在这种情况下，自定义键盘始终与应用程序的标准键盘具有相同的高度。",
-    "Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again.": "要求客户在使用键盘后立即隐藏键盘。键盘仍然可用，但客户端将自动在聊天中显示常用的字母键盘 - 用户可以按输入字段中的特殊按钮再次看到自定义键盘。"
+    "Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again.": "要求客户在使用键盘后立即隐藏键盘。键盘仍然可用，但客户端将自动在聊天中显示常用的字母键盘 - 用户可以按输入字段中的特殊按钮再次看到自定义键盘。",
+    "Please create a menu!": "请创建一个菜单！"
 }
