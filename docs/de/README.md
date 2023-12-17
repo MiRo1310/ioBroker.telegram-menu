@@ -55,6 +55,7 @@ Das Ergebnis wäre dann dieses!
     ![change](../pic/image6.png)<br>
 -   Möchte man einen State setzen, aber die Änderung eines anderen States danach erhalten, fügt man `{"id":"id","text":"Wert wurde gesetzt:"}` in den Rückgabetext ein. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
     Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
+    
 -   **Einen Text- oder Zahl-Datenpunkt setzen:** Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch das Setzen von `{setDynamicValue:RequestText:Type:ConfirmText:}`    im Rückgabefeld.  "RequestText" und "ConfirmText" kann mit eigenen Text ersetzt werden. 
 
 ### GetState
@@ -120,4 +121,4 @@ menu:back
 
 ### Events
 
-Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet
+integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet.
