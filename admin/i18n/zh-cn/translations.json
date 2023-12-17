@@ -121,5 +121,6 @@
     "Executed Menu": "执行菜单",
     "Condition to open Menu": "打开菜单的条件",
     "Menu to be executed": "待执行菜单",
-    "Generates a button to delete all messages from the bot. The navigation is optional.": "生成一个按钮以删除机器人中的所有消息。导航是可选的。"
+    "Generates a button to delete all messages from the bot. The navigation is optional.": "生成一个按钮以删除机器人中的所有消息。导航是可选的。",
+    "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.": "生成一个按钮以删除机器人中的所有消息。导航是可选的。只需将其留空，否则您可以输入应调用的菜单。"
 }

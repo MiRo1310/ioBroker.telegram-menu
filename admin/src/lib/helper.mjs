@@ -63,7 +63,7 @@ const helperText = {
 		{
 			text: "menu:deleteAll:Navigation",
 			head: "<strong>Submenu Delete All</strong><br>",
-			info: "Generates a button to delete all messages from the bot. The navigation is optional.",
+			info: "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.",
 		},
 
 		{

@@ -121,5 +121,6 @@
 	"Executed Menu": "Executed Menu",
 	"Condition to open Menu": "Condition to open Menu",
 	"Menu to be executed": "Menu to be executed",
-	"Generates a button to delete all messages from the bot. The navigation is optional.": "Generates a button to delete all messages from the bot. The navigation is optional."
+	"Generates a button to delete all messages from the bot. The navigation is optional.": "Generates a button to delete all messages from the bot. The navigation is optional.",
+	"Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.": "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up."
 }

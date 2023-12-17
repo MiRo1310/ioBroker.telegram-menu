@@ -121,5 +121,6 @@
     "Executed Menu": "Виконане меню",
     "Condition to open Menu": "Умова відкриття меню",
     "Menu to be executed": "Меню для виконання",
-    "Generates a button to delete all messages from the bot. The navigation is optional.": "Генерує кнопку для видалення всіх повідомлень від бота. Навігація необов'язкова."
+    "Generates a button to delete all messages from the bot. The navigation is optional.": "Генерує кнопку для видалення всіх повідомлень від бота. Навігація необов'язкова.",
+    "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.": "Генерує кнопку для видалення всіх повідомлень від бота. Навігація необов'язкова. Просто залиште це поле порожнім, інакше ви зможете увійти в меню, яке слід викликати."
 }

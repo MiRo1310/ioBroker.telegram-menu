@@ -121,5 +121,6 @@
     "Executed Menu": "Uitgevoerd menu",
     "Condition to open Menu": "Voorwaarde om Menu te openen",
     "Menu to be executed": "Uit te voeren menu",
-    "Generates a button to delete all messages from the bot. The navigation is optional.": "Genereert een knop om alle berichten van de bot te verwijderen. De navigatie is optioneel."
+    "Generates a button to delete all messages from the bot. The navigation is optional.": "Genereert een knop om alle berichten van de bot te verwijderen. De navigatie is optioneel.",
+    "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.": "Genereert een knop om alle berichten van de bot te verwijderen. De navigatie is optioneel. Laat het gewoon leeg, anders komt u in een menu dat moet worden opgeroepen."
 }
