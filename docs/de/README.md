@@ -2,32 +2,37 @@
 
 ## ioBroker telegram-menu adapter
 
-####Erstelle ganz einfach Telegrammmenüs
-Der Adapter dient dazu per Telegrammenu mit dem Iobroker zu kommunizieren, Werte in Datenpunkt zu schreiben oder Werte von Datenpunkte abzufragen. Hierzu können verschiedene Menus erstellt werden, denen man dann Benutzern zuordnen kann. Oder man kann neue Menus anlegen um einfach ein wenig Übersicht zu bekommen.
+Erstelle ganz einfach Telegrammmenüs
+Der Adapter dient dazu per Telegrammenu mit dem Iobroker kommunizieren, Datenpunkt zu schalten oder Werte von Datenpunkte abzufragen. Hierzu kann man verschiedene Gruppen erstellen in denen man Menus erstellen kann. Diese kann man dann Benutzer zuordnen.
 
 Let´s get started!
 
 ### Navigation
 
 ![Navigation](../pic/nav.png)
-Hier sieht man die Navigation, Zeile 1 (grün) ist die Startnavigation, diese wird gesendet wenn der Adapter gestartet bzw. neu gestartet wird.
+Hier sieht man den Anfang der Navigation, Zeile 1 (grün) ist die Startnavigation, diese wird gesendet wenn der Adapter gestartet bzw. neu gestartet wird.
 Ab Zeile 2 sind dann aufrufbare Menus. Der Text auf der rechten Seite "Wähle eine Aktion" ist frei wählbar darf aber nicht leer sein.
-Buttons in einer Reihe werden mit einem `Komma` getrennt. Um eine neue Zeile mit Buttons zu füllen nutzt man `&&` als Trenner.
+Wie man sieht werden die Buttons in einer Reihe mit einem `Komma` getrennt, um eine neue Zeile mit Buttons zu füllen nutzt man das `&&` als Trenner.
 
 ![Buttons in Telegram](../pic/image-1.png)
 Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wird "Heizung" als Text an den Adapter gesendet, dieser sucht nach dem passenden Call Text, dieser muss genau so geschrieben sein, siehe im oberen Bild.
-**Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss immer einzigartg sein, Button mit dem selben Namen können öfter vorkommen**
+**Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss einzigartg sein**
+
+![Benutzername](../pic/image.png)
+
+-   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden. User werden durch ein `,` getrennt. **Es ist zwingend notwenig das hier ein Name eingetragen wird.**
 
 -   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladensteuerung, hierzu wird in den Aktionen automatosch ein neuer Trigger erstellt, aber dazu unten mehr.
 
--   Man kann von einem Menu in ein anderes menu springen. Macht Sinn wenn zwei Personen, Menu 1 zusammen haben, aber User1 ein weiteres Menu bekommen soll, auf welches User2 keinen Zugriff haben soll. Bei beiden wäre dieser entsprechende Button zu sehen, nur bei User1 mit einer Funktion. Hierzu muss in beiden Gruppen der entsprechende User angegeben sein.
-
+-   Man kann von einem Menu in ein anderes menu springen. Macht Sinn wenn ein zwei Personen Menu 1 zusammen haben, aber User1 ein weiteres Menu bekommen soll, auf welches User2 keinen Zugriff haben soll. Bei beiden wäre dieser entsprechende Button zu sehen, nur bei User1 mit einer Funktion. Hierzu muss in beiden Gruppen der entsprechende User angegeben sein.
+    ![Menu1](../pic/image7.png)<br>
+    Das ist das erste Menu, hier wird das Menu beim Adapterstart gesendet
     ![Menu2](../pic/image8.png)<br>
+    Das ist das zweite Menu, damit dieses funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses kann man erreichen indem man einfach ein `-` einträgt.
+    Jetzt kann User Michael von Menu1 auf Menu2 zugreifen indem er auf Button Licht drückt, über den neu erscheinenden Button Startseite kommt man ins Menu1 zurück. **Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!** Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
 
-    Das ist das zweite Menu, damit dieses funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses kann erreicht werden, indem man einfach ein `-` einträgt.
-    Jetzt kann User Michael von Menu1 auf Menu2 zugreifen indem er auf Button Licht drückt, über den neu erscheinenden Button Startseite kommt man ins Menu1 zurück.
-    Dieses ist auch sehr nützlich um einfach ein wenig Übersicht in den Menus zu bekommen. Man kann z.b. ein Menu für jeden Raum erstellen und findet so schnell alles wieder.
-    **Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!** Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
+-   **Verlauf löschen:** Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einem Menupunkt `menu:deleteAll:Navigation` - **Navigation** ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startmenu)
+
 
 #### Status
 
@@ -111,3 +116,7 @@ menu:back
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
     <img src="../pic/submenu_setstate.png" width="800"/>
+
+### Events
+
+Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet
