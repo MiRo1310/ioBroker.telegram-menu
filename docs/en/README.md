@@ -17,7 +17,7 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 
 ![Benutzername](../pic/image.png)
 
--   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated.<span></span>It is absolutely necessary that a name is entered here.\*\*
+-   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated. -**It is absolutely necessary that a name is entered here**-
 
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
@@ -26,11 +26,11 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 
 #### delete history
 
-To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`-**Navigation**is the menu name that should then be called up (e.g. home page)
+To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`-**Navigation** ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite)
 
 #### Status
 
-Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.<br>![Config for Status](../pic/statusConfig.png)The result would then be this!<br>![Telegram Status](../pic/TelegramStatus.png)
+To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.<br>![Config for Status](../pic/statusConfig.png)The result would then be this!<br>![Telegram Status](../pic/TelegramStatus.png)
 
 #### Icons in den Menu-Buttons
 
