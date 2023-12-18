@@ -51,7 +51,7 @@ class RowEditPopupCard extends Component {
 	};
 
 	render() {
-		console.log(this.props.newRow);
+		console.log(this.props.entrys);
 		return (
 			<div className="Edit-Container">
 				{this.props.newRow.trigger ? (
@@ -93,7 +93,7 @@ class RowEditPopupCard extends Component {
 									) : null,
 								)}
 								{this.props.buttons.add ? <TableCell align="left"> </TableCell> : null}
-								{this.props.buttons.delete ? <TableCell align="left"> </TableCell> : null}
+								{this.props.buttons.remove ? <TableCell align="left"> </TableCell> : null}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -217,6 +217,8 @@ class RowEditPopupCard extends Component {
 						statesOnly={true}
 						selected={this.state.selectIdValue}
 						onClose={() => this.setState({ showSelectId: false })}
+						// root={this.props.entrys.searchRoot ? this.props.entrys.searchRoot : null}
+						root={this.props.searchRoot}
 						onOk={(selected, name) => {
 							this.setState({ showSelectId: false });
 							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entrys, this.state.itemForID);

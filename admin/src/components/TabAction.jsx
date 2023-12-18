@@ -34,6 +34,7 @@ class TabAction extends Component {
 							card="action"
 							subcard={tab.value}
 							entrys={tab.entrys}
+							searchRoot={tab.searchRoot ? tab.searchRoot : null}
 							titlePopup={tab.label}
 							showButtons={{ add: true, remove: true, edit: true }}
 							popupCard={tab.popupCard}
