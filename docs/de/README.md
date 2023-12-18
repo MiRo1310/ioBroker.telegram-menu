@@ -74,7 +74,7 @@ Das Ergebnis wäre dann dieses!
 
 ![functions](../pic/functions.png)<br>
 
-- **Tabellen** bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den Spaltennamen. **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Je nachdem, ob der "Parse-Mode" eingeschaltet ist, werden verschiedene Formatierungen angewendet. Mit Parse-Mode wird als InlineKeyboard formatiert; ohne gibt es eine Ausgabe im Textformat.
+- **Tabellen** bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den Spaltennamen. **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'
 
 
 ### Send Picture
