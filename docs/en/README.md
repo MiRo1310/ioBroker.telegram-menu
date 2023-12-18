@@ -9,11 +9,11 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)Here you can see the beginning of the navigation, line 1 (green) is the start navigation, this is sent when the adapter is started or restarted.
+![Navigation](../pic/nav.png)<br>Here you can see the beginning of the navigation, line 1 (green) is the start navigation, this is sent when the adapter is started or restarted.
 From line 2 onwards there are menus that can be called up. The text on the right "Choose an action" is freely selectable but cannot be empty.
 As you can see the buttons are in a row with a`Komma`Separately, you use this to fill a new line with buttons`&&`as a separator.
 
-![Buttons in Telegram](../pic/image-1.png)Here is the sent menu in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above.**Very important, each name of the call text may only appear once, i.e. it must be unique**
+![Buttons in Telegram](../pic/image-1.png)<br>Here is the sent menu in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above.**Very important, each name of the call text may only appear once, i.e. it must be unique**
 
 ![Benutzername](../pic/image.png)
 
@@ -21,7 +21,7 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
--   You can jump from one menu to another menu. Makes sense if two people have Menu 1 together, but User1 should get another menu to which User2 should not have access. This corresponding button would be visible for both, only for User1 with a function. To do this, the corresponding user must be specified in both groups.![Menu1](../pic/image7.png)<br>This is the first menu, here the menu is sent when the adapter starts![Menu2](../pic/image8.png)<br>This is the second menu, for this to work the call text on the homepage must be deactivated. This can be achieved by simply entering`-`enters.
+-   You can jump from one menu to another menu. Makes sense if two people have Menu 1 together, but User1 should get another menu to which User2 should not have access. This corresponding button would be visible for both, only for User1 with a function. To do this, the corresponding user must be specified in both groups.![Menu1](../pic/image7.png)<br>This is the first menu, here the menu is sent when the adapter starts<br>![Menu2](../pic/image8.png)<br>This is the second menu, for this to work the call text on the homepage must be deactivated. This can be achieved by simply entering`-`enters.
     Now user Michael can access Menu2 from Menu1 by pressing the Light button. You can return to Menu1 using the new Home button that appears.**Important!! Even if there are two menus, each call text can only appear once!**If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
 #### delete history
@@ -30,7 +30,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 #### Status
 
-To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.![Config for Status](../pic/statusConfig.png)The result would then be this!![Telegram Status](../pic/TelegramStatus.png)
+To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.<br>![Config for Status](../pic/statusConfig.png)The result would then be this!<br>![Telegram Status](../pic/TelegramStatus.png)
 
 #### Icons in den Menu-Buttons
 
@@ -40,7 +40,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ![Icon2](../pic/heizung-icon2.png)
 
-### Submenus
+### Sub-menus
 
 ![Submenus](../pic/image10.png)
 
@@ -98,7 +98,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
@@ -114,4 +114,4 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ### Events
 
-Integrated event listener: Waits for a data point - if this data point is set with ack=true (e.g. via script or adapter), a predefined menu is opened.
+-   Integrated event listener: Waits for a data point - if this data point is set with ack=true (e.g. via script or adapter), a predefined menu is opened.
