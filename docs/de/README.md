@@ -44,7 +44,11 @@ Das Ergebnis wäre dann dieses!
 
 #### Icons in den Menu-Buttons
 
+![Icon1](../pic/heizung-icon1.png)
+
 möchte man spezielle Icons in den Menu-buttons haben, kopiert man sich ein Emoji (z.B. https://www.getemojis.net/html/#Emoji-Liste ) und setzt es wie ein Schriftzeichen ein. 
+
+![Icon2](../pic/heizung-icon2.png)
 
 ### Submenus
 
