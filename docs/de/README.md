@@ -20,7 +20,7 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
 
 ![Benutzername](../pic/image.png)
 
--   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden. User werden durch ein `,` getrennt.<span> </span>**Es ist zwingend notwenig das hier ein Name eingetragen wird.**
+-   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden. User werden durch ein `,` getrennt. <span></span>Es ist zwingend notwenig das hier ein Name eingetragen wird.\*\*
 
 -   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladensteuerung, hierzu wird in den Aktionen automatosch ein neuer Trigger erstellt, aber dazu unten mehr.
 
