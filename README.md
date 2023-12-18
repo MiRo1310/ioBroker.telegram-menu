@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   #89 go back to menu by setting setDynamicValue
 -   delete all Messages by Bot
 
 ### 1.4.0 (2023-12-16)
