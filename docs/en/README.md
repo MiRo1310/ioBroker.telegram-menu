@@ -55,7 +55,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
     menu:percent10:name:
 
--   The 10 is variable and indicates the steps; this can easily be replaced by another number.
+-   Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
 
 
     menu:number1-20-2-unit:name:
