@@ -31,8 +31,9 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
     Das ist das zweite Menu, damit dieses funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses kann man erreichen indem man einfach ein `-` einträgt.
     Jetzt kann User Michael von Menu1 auf Menu2 zugreifen indem er auf Button Licht drückt, über den neu erscheinenden Button Startseite kommt man ins Menu1 zurück. **Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!** Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
 
--   **Verlauf löschen:** Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` - **Navigation** ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startmenu)
+#### Verlauf löschen
 
+Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` - **Navigation** ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite)
 
 #### Status
 
@@ -41,48 +42,13 @@ Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Subme
 Das Ergebnis wäre dann dieses!
 ![Telegram Status](../pic/TelegramStatus.png)
 
-### SetState
+#### Icons in den Menu-Buttons
 
-![SetState](../pic/image3.png)
+![Icon1](../pic/heizung-icon1.png)
 
--   Die Checkbox Schalten rechts, schaltet nur booleans, es wechselt zwischen true und false beim aufrufen des Auslösers. Der Auslöser hat genau den Namen, wie der Button der die Aktion triggern soll.
--   Unter Wert kann man andere Werte eintragen, damit diese gesetzt werden, für jeden Wert muss ein seperates Setstate erstellt werden
--   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, **sobald `ack:true`gesetzt wurde**. Platzhalter für den Wert ist &&. Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat. Möchte man aber `ack:true` manuell setzen, trägt man dieses einfach in den Rückgabetext ein.<br>
-    ![ack:true](../pic/image4.png)<br>
-    Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach `{novalue}` ein<br>
-    ![novalue](../pic/image5.png)<br>
--   Möchte man Values verändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus ,trägtman im Text `change{"true":"an", "false":"aus"}` ein.<br>
-    ![change](../pic/image6.png)<br>
--   Möchte man einen State setzen, aber die Änderung eines anderen States danach erhalten, fügt man `{"id":"id","text":"Wert wurde gesetzt:"}` in den Rückgabetext ein. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
-    Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
-    
--   **Einen Text- oder Zahl-Datenpunkt setzen:** Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch das Setzen von `{setDynamicValue:RequestText:Type:ConfirmText:}`    im Rückgabefeld.  "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden. 
+möchte man spezielle Icons in den Menu-buttons haben, kopiert man sich ein Emoji (z.B. https://www.getemojis.net/html/#Emoji-Liste ) und setzt es wie ein Schriftzeichen ein. Es wird nicht der Code des Emoji's kopiert, sondern das Emoji direkt!
 
-### GetState
-
--   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beinflussen mit `change{"true":"an", "false":"aus"}`.
--   Wenn ich einen Wert aus einem Datenpunkt auslesen möchte, das Value aber umrechnen muss, kann ich in den Rückgabetext `{math:/10}` zum Beispiel wird hier durch 10 geteilt
-    ![math](../pic/image9.png)<br>
--   Möchte man das Value runden geht folgendes `{round:2}`
--   Wenn man gleichzeitig mit einer Abfrage mehrere Werte abrufen möchte, kann man die Checkbox Newline aktivieren um für jede Abfrage den Rückgabetext in einer neuen Zeile angezeigt zu bekommen.
--   Möchte man einen Wert einen States mit Unix-Zeitstempel zu einer lokalen Zeit umwandeln und gesendet bekommen fügt man in den Rückgabetext `{time}` an der gewünschten Stelle ein
-
-#### Werte aus erstellten Funktionen
-
--   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
--   Wenn man im Ausgabe Text den Namen des Datenpunkts haben möchte trägt man einfach an der gewünschten Position im Text `{common.name}` ein
-
-![functions](../pic/functions.png)<br>
-
-### Send Picture
-
--   In den Einstellungen kann man ein Token für Grafana einfügen
--   Es muss ein Verzeichnis erstellt werden in dem man alle Rechte hat z.B. `/opt/iobroker/grafana/` , um dort die Bilder zwischen speichern zu können
--   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
--   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
--   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
-
-    <img src="../pic/grafana.png" width="400">
+![Icon2](../pic/heizung-icon2.png)
 
 ### Submenus
 
@@ -118,6 +84,59 @@ menu:back
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
     <img src="../pic/submenu_setstate.png" width="800"/>
+
+
+
+
+
+### SetState
+
+![SetState](../pic/image3.png)
+
+-   Die Checkbox Schalten rechts, schaltet nur booleans, es wechselt zwischen true und false beim aufrufen des Auslösers. Der Auslöser hat genau den Namen, wie der Button der die Aktion triggern soll.
+-   Unter Wert kann man andere Werte eintragen, damit diese gesetzt werden, für jeden Wert muss ein seperates Setstate erstellt werden
+-   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen, **sobald `ack:true`gesetzt wurde**. Platzhalter für den Wert ist &&. Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat. Möchte man aber `ack:true` manuell setzen, trägt man dieses einfach in den Rückgabetext ein.<br>
+    ![ack:true](../pic/image4.png)<br>
+    Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach `{novalue}` ein<br>
+    ![novalue](../pic/image5.png)<br>
+-   Möchte man Values verändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus ,trägtman im Text `change{"true":"an", "false":"aus"}` ein.<br>
+    ![change](../pic/image6.png)<br>
+-   Möchte man einen State setzen, aber die Änderung eines anderen States danach erhalten, fügt man `{"id":"id","text":"Wert wurde gesetzt:"}` in den Rückgabetext ein. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
+    Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
+    
+-   **Einen Text- oder Zahl-Datenpunkt setzen:** Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch das Setzen von `{setDynamicValue:RequestText:Type:ConfirmText:}`    im Rückgabefeld.  "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden. 
+
+### GetState
+
+-   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beinflussen mit `change{"true":"an", "false":"aus"}`.
+-   Wenn ich einen Wert aus einem Datenpunkt auslesen möchte, das Value aber umrechnen muss, kann ich in den Rückgabetext `{math:/10}` zum Beispiel wird hier durch 10 geteilt
+    ![math](../pic/image9.png)<br>
+-   Möchte man das Value runden geht folgendes `{round:2}`
+-   Wenn man gleichzeitig mit einer Abfrage mehrere Werte abrufen möchte, kann man die Checkbox Newline aktivieren um für jede Abfrage den Rückgabetext in einer neuen Zeile angezeigt zu bekommen.
+-   Möchte man einen Wert einen States mit Unix-Zeitstempel zu einer lokalen Zeit umwandeln und gesendet bekommen fügt man in den Rückgabetext `{time}` an der gewünschten Stelle ein
+
+#### Werte aus erstellten Funktionen
+
+-   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
+-   Wenn man im Ausgabe Text den Namen des Datenpunkts haben möchte trägt man einfach an der gewünschten Position im Text `{common.name}` ein
+
+![functions](../pic/functions.png)<br>
+
+- **Tabellen** bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den dazugehörigen Spaltennamen (usw.). **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
+
+![InlineTable](../pic/inlinetable-grafik.png)
+![TextTable](../pic/textable-grafik.png)
+
+### Send Picture
+
+-   In den Einstellungen kann man ein Token für Grafana einfügen
+-   Es muss ein Verzeichnis erstellt werden in dem man alle Rechte hat z.B. `/opt/iobroker/grafana/` , um dort die Bilder zwischen speichern zu können
+-   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
+-   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
+-   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
+
+    <img src="../pic/grafana.png" width="400">
+
 
 ### Events
 
