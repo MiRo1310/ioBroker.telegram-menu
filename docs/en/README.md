@@ -55,7 +55,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
     menu:percent10:name:
 
--   The 10 is variable and indicates the steps; this can easily be replaced by another number.
+-   Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
 
 
     menu:number1-20-2-unit:name:
@@ -98,7 +98,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3`add.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
