@@ -9,12 +9,12 @@ Let´s get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)
+![Navigation](../pic/nav.png)<br>
 Hier sieht man den Anfang der Navigation, Zeile 1 (grün) ist die Startnavigation, diese wird gesendet wenn der Adapter gestartet bzw. neu gestartet wird.
 Ab Zeile 2 sind dann aufrufbare Menus. Der Text auf der rechten Seite "Wähle eine Aktion" ist frei wählbar darf aber nicht leer sein.
 Wie man sieht werden die Buttons in einer Reihe mit einem `Komma` getrennt, um eine neue Zeile mit Buttons zu füllen nutzt man das `&&` als Trenner.
 
-![Buttons in Telegram](../pic/image-1.png)
+![Buttons in Telegram](../pic/image-1.png)<br>
 Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wird "Heizung" als Text an den Adapter gesendet, dieser sucht nach dem passenden Call Text, dieser muss genau so geschrieben sein, siehe im oberen Bild.
 **Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss einzigartg sein**
 
@@ -26,7 +26,7 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
 
 -   Man kann von einem Menu in ein anderes menu springen. Macht Sinn wenn ein zwei Personen Menu 1 zusammen haben, aber User1 ein weiteres Menu bekommen soll, auf welches User2 keinen Zugriff haben soll. Bei beiden wäre dieser entsprechende Button zu sehen, nur bei User1 mit einer Funktion. Hierzu muss in beiden Gruppen der entsprechende User angegeben sein.
     ![Menu1](../pic/image7.png)<br>
-    Das ist das erste Menu, hier wird das Menu beim Adapterstart gesendet
+    Das ist das erste Menu, hier wird das Menu beim Adapterstart gesendet<br>
     ![Menu2](../pic/image8.png)<br>
     Das ist das zweite Menu, damit dieses funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses kann man erreichen indem man einfach ein `-` einträgt.
     Jetzt kann User Michael von Menu1 auf Menu2 zugreifen indem er auf Button Licht drückt, über den neu erscheinenden Button Startseite kommt man ins Menu1 zurück. **Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!** Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
@@ -37,9 +37,9 @@ Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt ma
 
 #### Status
 
-Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.
+Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.<br>
 ![Config for Status](../pic/statusConfig.png)
-Das Ergebnis wäre dann dieses!
+Das Ergebnis wäre dann dieses!<br>
 ![Telegram Status](../pic/TelegramStatus.png)
 
 #### Icons in den Menu-Buttons
@@ -122,7 +122,8 @@ menu:back
 
 ![functions](../pic/functions.png)<br>
 
-- **Tabellen** bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den dazugehörigen Spaltennamen (usw.). **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
+- **Tabellen**<br>
+bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den dazugehörigen Spaltennamen (usw.). **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
 
 ![InlineTable](../pic/inlinetable-grafik.png)
 ![TextTable](../pic/textable-grafik.png)
@@ -140,4 +141,4 @@ menu:back
 
 ### Events
 
-integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet.
+-    integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet.
