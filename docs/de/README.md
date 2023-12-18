@@ -84,7 +84,7 @@ menu:back
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
     <img src="../pic/submenu_setstate.png" width="800"/>
-
+    
 
 
 
