@@ -18,9 +18,5 @@ jobs:
       - name: Adding README - English
         uses: MiRo1310/translate-readme@main
         with:
-          LANG: en
-      - name: Adding README - French
-        uses: MiRo1310/translate-readme@main
-        with:
-          LANG: fr
+          LANG: en  
      
