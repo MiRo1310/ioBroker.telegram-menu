@@ -66,7 +66,7 @@ export const tabValues = [
 		searchRoot: "echarts",
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger" },
-			{ name: "echartInstance", val: "echart.0", headline: "Echart Instance", width: "40%" },
+			{ name: "echartInstance", val: "echarts.0", headline: "Echart Instance", width: "40%" },
 			{ name: "preset", val: "", headline: "Preset", width: "20%", elementGetRows: "preset", search: true },
 			{ name: "background", val: "#FFFFFF", headline: "Background", width: "10%" },
 			{ name: "theme", val: "light", headline: "Theme", width: "10%" },
