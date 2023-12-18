@@ -33,6 +33,13 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
 
 -   **Verlauf löschen:** Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` - **Navigation** ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite)
 
+#### Status
+
+Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.
+![Config for Status](../pic/statusConfig.png)
+Das Ergebnis wäre dann dieses!
+![Telegram Status](../pic/TelegramStatus.png)
+
 ### Submenus
 
 ![Submenus](../pic/image10.png)
@@ -70,12 +77,7 @@ menu:back
 
 
 
-#### Status
 
-Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.
-![Config for Status](../pic/statusConfig.png)
-Das Ergebnis wäre dann dieses!
-![Telegram Status](../pic/TelegramStatus.png)
 
 ### SetState
 
