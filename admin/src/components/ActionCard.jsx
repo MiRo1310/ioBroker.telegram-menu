@@ -227,6 +227,7 @@ class ActionCard extends Component {
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
 							entrys={this.props.entrys}
+							searchRoot={this.props.searchRoot}
 							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.unUsedTrigger}
 							subcard={this.props.subcard}
 							openHelperText={this.openHelperText}
