@@ -38,6 +38,7 @@ class TelegramMenu extends utils.Adapter {
 	async onReady() {
 		this.setState("info.connection", false, true);
 		createState(this);
+		// @ts-ignore
 		let instanceTelegram = this.config.instance;
 		if (!instanceTelegram || instanceTelegram.length == 0) instanceTelegram = "telegram.0";
 		const telegramID = `${instanceTelegram}.communicate.request`;
@@ -47,27 +48,37 @@ class TelegramMenu extends utils.Adapter {
 		this.log.debug("Datapoint: " + JSON.stringify(datapoint));
 		let telegramAktiv, telegramState;
 
+		// @ts-ignore
 		const checkbox = this.config.checkbox;
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
 		let listofMenus = [];
 
+		// @ts-ignore
 		if (this.config.usersInGroup) listofMenus = Object.keys(this.config.usersInGroup);
+		// @ts-ignore
 		const token = this.config.tokenGrafana;
+		// @ts-ignore
 		const directoryPicture = this.config.directory;
+		// @ts-ignore
 		const userActiveCheckbox = this.config.userActiveCheckbox;
+		// @ts-ignore
 		const menusWithUsers = this.config.usersInGroup;
+		// @ts-ignore
 		const textNoEntryFound = this.config.textNoEntry;
+		// @ts-ignore
 		const userListWithChatID = this.config.userListWithChatID;
 
 		const menuData = {
 			data: {},
 		};
 
+		// @ts-ignore
 		const data = this.config.data;
 		this.log.debug("sub " + JSON.stringify(this.subscribeForeignStatesAsync("0_userdata.0.number1")));
 
+		// @ts-ignore
 		const dataObject = this.config.data;
 		const startsides = {};
 		Object.keys(menusWithUsers).forEach((element) => {

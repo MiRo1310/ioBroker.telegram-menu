@@ -35,14 +35,11 @@ class DropBox extends Component {
 		if (prevState.newTrigger !== this.state.newTrigger) {
 			if (this.state.usedTrigger) {
 				if (this.state.usedTrigger.includes(this.state.newTrigger) || this.state.newTrigger === "" || this.state.newTrigger === this.state.oldTrigger) {
-					console.log("ok");
-					console.log(this.state.usedTrigger);
 					this.setState({ isOK: false });
 				} else {
 					this.setState({ isOK: true });
 				}
 			} else {
-				console.log("no usedTrigger");
 				this.setState({ isOK: true });
 			}
 		}
