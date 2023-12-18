@@ -42,6 +42,10 @@ Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Subme
 Das Ergebnis wäre dann dieses!
 ![Telegram Status](../pic/TelegramStatus.png)
 
+#### Icons in den Menu-Buttons
+
+möchte man spezielle Icons in den Menu-buttons haben, kopiert man sich ein Emoji (z.B. https://www.getemojis.net/html/#Emoji-Liste ) und setzt es wie ein Schriftzeichen ein. 
+
 ### Submenus
 
 ![Submenus](../pic/image10.png)
