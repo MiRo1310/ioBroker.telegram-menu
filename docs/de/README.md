@@ -76,8 +76,7 @@ Das Ergebnis wäre dann dieses!
 
 - **Tabellen** bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den Spaltennamen. **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
 
-![TextTable](../pic/textable-grafik.png)  ![Inline](../pic/inlinetable-grafik-grafik.png)  
-
+![TextTable](../pic/textable-grafik.png)
 
 ### Send Picture
 
