@@ -11,7 +11,7 @@ Let's get started!
 
 ![Navigation](../pic/nav.png)<br>Here you can see the beginning of the navigation, line 1 (green) is the start navigation, this is sent when the adapter is started or restarted.
 From line 2 onwards there are menus that can be called up. The text on the right "Choose an action" is freely selectable but cannot be empty.
-As you can see the buttons are in a row with a`Komma` getrennt, um eine neue Zeile mit Buttons zu füllen nutzt man das `&&`as a separator.
+As you can see the buttons are in a row with a`Komma`Separately, you use this to fill a new line with buttons`&&`as a separator.
 
 ![Buttons in Telegram](../pic/image-1.png)<br>Here is the sent menu in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above.**Very important, each name of the call text may only appear once, i.e. it must be unique**
 
@@ -60,7 +60,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
     menu:number1-20-2-unit:name:
 
--   Die 1,20 gibt die Spanne an, die 2 die Schritte, und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
+-   The 1.20 indicates the range, the 2 the steps, and the unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
     menu:back
@@ -85,7 +85,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ### GetState
 
--   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beinflussen mit `change{"true":"an", "false":"aus"}`.
+-   With && as a placeholder you can place the value in the text, just like with setState you can influence the value`change{"true":"an", "false":"aus"}`.
 -   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}`for example, here we divide by 10![math](../pic/image9.png)<br>
 -   If you want to round the value, do the following`{round:2}`
 -   If you want to retrieve several values ​​at the same time with one query, you can activate the Newline checkbox to have the return text displayed in a new line for each query.
@@ -106,7 +106,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 -   You can insert a token for Grafana in the settings
 -   A directory must be created in which you have all rights, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
--   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
+-   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
 -   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
 
