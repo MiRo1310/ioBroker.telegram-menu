@@ -21,6 +21,7 @@ class DropBox extends Component {
 			usedTrigger: [],
 			rowToWorkWith: {},
 			isOK: false,
+			oldTrigger: "",
 		};
 	}
 	componentDidMount() {
@@ -33,12 +34,15 @@ class DropBox extends Component {
 		}
 		if (prevState.newTrigger !== this.state.newTrigger) {
 			if (this.state.usedTrigger) {
-				if (this.state.usedTrigger.includes(this.state.newTrigger) || this.state.newTrigger === "") {
+				if (this.state.usedTrigger.includes(this.state.newTrigger) || this.state.newTrigger === "" || this.state.newTrigger === this.state.oldTrigger) {
+					console.log("ok");
+					console.log(this.state.usedTrigger);
 					this.setState({ isOK: false });
 				} else {
 					this.setState({ isOK: true });
 				}
 			} else {
+				console.log("no usedTrigger");
 				this.setState({ isOK: true });
 			}
 		}
@@ -67,7 +71,7 @@ class DropBox extends Component {
 			if (this.props.tab === "action") {
 				if (moveOrCopy === "copy") {
 					if (usedTrigger.includes(rowToWorkWith.trigger[0])) {
-						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true });
+						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
 					}
 				} else {
 					// Move Item
@@ -75,14 +79,14 @@ class DropBox extends Component {
 						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger });
 						this.move(rowToWorkWith, data);
 					} else {
-						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true });
+						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
 					}
 				}
 			} else {
 				// Navigation
 				if (moveOrCopy === "copy") {
 					if (usedTrigger.includes(rowToWorkWith.call)) {
-						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true });
+						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true, oldTrigger: rowToWorkWith.call });
 					}
 				} else {
 					// Move Item
@@ -90,7 +94,7 @@ class DropBox extends Component {
 						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call });
 						this.move(rowToWorkWith, data);
 					} else {
-						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true });
+						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true, oldTrigger: rowToWorkWith.call });
 					}
 				}
 			}
@@ -156,6 +160,7 @@ class DropBox extends Component {
 		return (
 			<>
 				<div className="DropBox-Container">
+					<p>{this.state.isOK}</p>
 					<Select
 						options={this.state.menuList}
 						selected={this.state.selectedMenu}
