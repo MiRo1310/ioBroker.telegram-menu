@@ -20,7 +20,7 @@ Hier das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wir
 
 ![Benutzername](../pic/image.png)
 
--   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden. User werden durch ein `,` getrennt. **Es ist zwingend notwenig das hier ein Name eingetragen wird.**
+-   Alle Benutzer müssen genau so geschrieben werden, wie sie in Telegram erstellt wurden. User werden durch ein `,` getrennt.<span> </span>**Es ist zwingend notwenig das hier ein Name eingetragen wird.**
 
 -   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladensteuerung, hierzu wird in den Aktionen automatosch ein neuer Trigger erstellt, aber dazu unten mehr.
 
@@ -84,10 +84,6 @@ menu:back
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
     <img src="../pic/submenu_setstate.png" width="800"/>
-    
-
-
-
 
 ### SetState
 
@@ -103,8 +99,7 @@ menu:back
     ![change](../pic/image6.png)<br>
 -   Möchte man einen State setzen, aber die Änderung eines anderen States danach erhalten, fügt man `{"id":"id","text":"Wert wurde gesetzt:"}` in den Rückgabetext ein. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
     Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
-    
--   **Einen Text- oder Zahl-Datenpunkt setzen:** Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch das Setzen von `{setDynamicValue:RequestText:Type:ConfirmText:}`    im Rückgabefeld.  "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden. 
+-   **Einen Text- oder Zahl-Datenpunkt setzen:** Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch das Setzen von `{setDynamicValue:RequestText:Type:ConfirmText:}` im Rückgabefeld. "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden.
 
 ### GetState
 
@@ -122,8 +117,8 @@ menu:back
 
 ![functions](../pic/functions.png)<br>
 
-- **Tabellen**<br>
-bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den dazugehörigen Spaltennamen (usw.). **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert):  '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
+-   **Tabellen**<br>
+    bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben. **Value-1** ist z.B. der erste Key des JSON's, welcher angezeigt werden soll. **NameTH-Col1** vergibt den dazugehörigen Spaltennamen (usw.). **Header** muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert): '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
 
 ![InlineTable](../pic/inlinetable-grafik.png)
 ![TextTable](../pic/textable-grafik.png)
@@ -138,7 +133,6 @@ bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, wel
 
     <img src="../pic/grafana.png" width="400">
 
-
 ### Events
 
--    integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet.
+-   integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet.
