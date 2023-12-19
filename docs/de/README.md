@@ -135,4 +135,12 @@ menu:back
 
 ### Events
 
--   integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt mit ack=true gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet.
+-   integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet. Es wird auf die Bedingung und auf Ack geprüft, welches man für jedes Event seperat eingeben kann.
+
+### Echarts
+
+-   hiermit ist es möglich sich Diagramme direkt aus dem Echarts Adapter schicken zu lassen.
+-   Preset kann direkt aus der Objektstruktur übernommen werden.
+-   Background , wie der Name schon sagt kann hier der Hintergrund eingestellt werden
+-   Theme, es können verschieden Themes aus dem Echarts Adapter eingestellt werden, z.B.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
+-   Dateiname, individueller Dateiname. -**Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**-

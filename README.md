@@ -33,9 +33,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
 ### 1.5.0 (2023-12-19)
 
--   send echarts
+-   #92 send echarts
 -   #93 Scrollbar in Menus
 -   #89 go back to menu by setting setDynamicValue
 -   delete all Messages by Bot
