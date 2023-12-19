@@ -63,7 +63,8 @@ export const tabValues = [
 	{
 		label: "Echarts",
 		value: "echarts",
-		searchRoot: "echarts",
+		searchRoot: { root: "echarts", type: ["meta", "chart"] },
+
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger" },
 			{ name: "echartInstance", val: "echarts.0", headline: "Echart Instance", width: "40%" },
