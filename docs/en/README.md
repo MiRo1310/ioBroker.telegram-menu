@@ -13,7 +13,7 @@ Let's get started!
 From line 2 onwards there are menus that can be called up. The text on the right "Choose an action" is freely selectable but cannot be empty.
 As you can see the buttons are in a row with a`Komma`Separately, you use this to fill a new line with buttons`&&`as a separator.
 
-![Buttons in Telegram](../pic/image-1.png)<br>Here is the sent menu in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above.**Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss einzigartg sein**
+![Buttons in Telegram](../pic/image-1.png)<br>Here is the sent menu in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above.**Very important, each name of the call text may only appear once, i.e. it must be unique**
 
 ![Benutzername](../pic/image.png)
 
@@ -105,7 +105,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 ### Send Picture
 
 -   You can insert a token for Grafana in the settings
--   A directory must be created in which you have all rights, e.g.`/opt/iobroker/grafana/` , um dort die Bilder zwischen speichern zu können
+-   A directory must be created in which you have all rights, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
 -   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
@@ -114,4 +114,12 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ### Events
 
--   Integrated event listener: Waits for a data point - if this data point is set with ack=true (e.g. via script or adapter), a predefined menu is opened.
+-   Integrated event listener: Waits for a data point - if this data point is set (e.g. via script or adapter), a predefined menu is opened. The condition and Ack are checked, which can be entered separately for each event.
+
+### Echarts
+
+-   This makes it possible to have diagrams sent directly from the Echarts adapter.
+-   Preset can be taken directly from the object structure.
+-   Background , as the name suggests, the background can be set here
+-   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
+-   Filename, individual filename. -**It is important that a directory with full write permission is specified in the settings**-
