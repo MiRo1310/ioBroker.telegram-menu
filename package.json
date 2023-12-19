@@ -21,7 +21,8 @@
     "node": ">= 16"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.0.4"
+    "@iobroker/adapter-core": "^3.0.4",
+    "fs": "0.0.1-security"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.6.0",
