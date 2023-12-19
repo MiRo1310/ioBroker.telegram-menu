@@ -1,0 +1,24 @@
+name: Replace String
+on:
+  push:
+    paths:
+      - 'docs/en/README.md'
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Replace string
+        run: |
+          sed -i 's/%%%/" "/g' README.md
+
+      - name: Commit and push if it changed
+        run: |
+          git diff
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git commit -am "Replace %%% with space" || exit 0
+          git push
