@@ -7,6 +7,7 @@ on:
   pull_request:
     paths:
       - 'docs/en/README.md'
+  workflow_dispatch:
 
 jobs:
   update-readme:
