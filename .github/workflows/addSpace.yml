@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - 'docs/en/README.md'
-
+  workflow_dispatch:
 jobs:
   addSpace:
     runs-on: ubuntu-latest
