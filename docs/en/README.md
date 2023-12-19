@@ -17,12 +17,12 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 
 ![Benutzername](../pic/image.png)
 
--   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated.**It is absolutely necessary that a name is entered here**
+-   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated. **It is absolutely necessary that a name is entered here**
 
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
 -   You can jump from one menu to another menu. Makes sense if two people have Menu 1 together, but User1 should get another menu to which User2 should not have access. This corresponding button would be visible for both, only for User1 with a function. To do this, the corresponding user must be specified in both groups.![Menu1](../pic/image7.png)<br>This is the first menu, here the menu is sent when the adapter starts<br>![Menu2](../pic/image8.png)<br>This is the second menu, for this to work the call text on the homepage must be deactivated. This can be achieved by simply entering`-`enters.
-    Now user Michael can access Menu2 from Menu1 by pressing the Light button. You can return to Menu1 using the new Home button that appears.**Important!! Even if there are two menus, each call text can only appear once!**If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
+    Now user Michael can access Menu2 from Menu1 by pressing the Light button. You can return to Menu1 using the new Home button that appears. **Important!! Even if there are two menus, each call text can only appear once!**If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
 #### delete history
 
