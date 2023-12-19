@@ -66,9 +66,9 @@ export const tabValues = [
 		searchRoot: { root: "echarts", type: ["chart"] },
 
 		entrys: [
-			{ name: "trigger", val: "", headline: "Trigger" },
-			{ name: "echartInstance", val: "echarts.0", headline: "Echart Instance", width: "40%" },
-			{ name: "preset", val: "", headline: "Preset", width: "20%", elementGetRows: "preset", search: true },
+			{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
+			// { name: "echartInstance", val: "echarts.0", headline: "Echart Instance", width: "40%" },
+			{ name: "preset", val: "", headline: "Preset", width: "40%", elementGetRows: "preset", search: true },
 			{ name: "background", val: "#FFFFFF", headline: "Background", width: "10%" },
 			{ name: "theme", val: "light", headline: "Theme", width: "10%" },
 			{ name: "filename", val: "echarts-temp-photo.jpg", headline: "Filename", width: "20%" },
