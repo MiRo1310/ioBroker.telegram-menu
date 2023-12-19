@@ -9,20 +9,22 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)<br>Here you can see the beginning of the navigation, line 1 (green) is the start navigation, this is sent when the adapter is started or restarted.
-From line 2 onwards there are menus that can be called up. The text on the right "Choose an action" is freely selectable but cannot be empty.
-As you can see the buttons are in a row with a`Komma`Separately, you use this to fill a new line with buttons`&&`as a separator.
+![Navigation](../pic/nav.png)<br>Here you can see the navigation.
 
-![Buttons in Telegram](../pic/image-1.png)<br>Here is the sent menu in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above.**Very important, each name of the call text may only appear once, i.e. it must be unique**
+-   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. But you can call this up again using a button.
+-   The text on the right "Choose an action" is freely selectable, but cannot be empty.
+-   Buttons in a row are marked with a`,`separated
+-   A new line can be reached with the separator`&&`.
 
-![Benutzername](../pic/image.png)
-
--   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated. **It is absolutely necessary that a name is entered here**
+![Buttons in Telegram](../pic/image-1.png)<br>Here, the menu sent in Telegram. For example, if I now press heating, "Heating" is sent as a text to the adapter, which looks for the appropriate call text, which must be written exactly like that, see the picture above. **Very important, each name of the call text may only appear once, i.e. it must be unique**
 
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
--   You can jump from one menu to another menu. Makes sense if two people have Menu 1 together, but User1 should get another menu to which User2 should not have access. This corresponding button would be visible for both, only for User1 with a function. To do this, the corresponding user must be specified in both groups.![Menu1](../pic/image7.png)<br>This is the first menu, here the menu is sent when the adapter starts<br>![Menu2](../pic/image8.png)<br>This is the second menu, for this to work the call text on the homepage must be deactivated. This can be achieved by simply entering`-`enters.
-    Now user Michael can access Menu2 from Menu1 by pressing the Light button. You can return to Menu1 using the new Home button that appears. **Important!! Even if there are two menus, each call text can only appear once!**If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
+-   It is possible to switch from one menu to another menu. This makes sense when two people share the same menu, but when User1 is given an additional menu that you don't want User2 to have access to. The corresponding button is visible in both groups, but with functionality that is only relevant for User1. For this to work, the respective user must be specified in both groups.
+
+-   In order for the second menu, i.e. a submenu, to work, the call text on the home page must be deactivated. This is achieved by using a`-`enters. Now User1 can access Menu2 from Menu1 by pressing the corresponding button. **Important!! Even if there are two menus, each call text can only appear once!**
+
+-   If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
 #### delete history
 
@@ -36,7 +38,7 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 
 ![Icon1](../pic/heizung-icon1.png)
 
-If you want to have special icons in the menu buttons, copy an emoji (e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and uses it like a character. The code of the emoji is not copied, but the emoji directly!
+-   If you want to have special icons in the menu buttons, copy an emoji (e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and uses it like a character. The code of the emoji is not copied, but the emoji directly!
 
 ![Icon2](../pic/heizung-icon2.png)
 
@@ -60,7 +62,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
     menu:number1-20-2-unit:name:
 
--   The 1.20 indicates the range, the 2 the steps, and the unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
+-   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
     menu:back
@@ -73,15 +75,22 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ### SetState
 
-![SetState](../pic/image3.png)
+![SetState](../pic/setState.png)
 
 -   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger. The trigger has exactly the same name as the button that is supposed to trigger the action.
+
 -   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
--   It is possible to have the setting of the value confirmed,**as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. A confirmation only occurs when the addressed adapter has set the value to ack:true. But you would like to`ack:true`If you set it manually, you simply enter it in the return text.<br>![ack:true](../pic/image4.png)<br>If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
+
+-   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. A confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
+
+-   If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
+
 -   If you want to change values ​​that are sent as return text, e.g. from true to on and false to off, you enter them in the text`change{"true":"an", "false":"aus"}`a.<br>![change](../pic/image6.png)<br>
+
 -   If you want to set a state but then receive the change of another state, you add`{"id":"id","text":"Wert wurde gesetzt:"}`in the return text. Replace ID with the desired ID, the text can also be customized
     However, the change is only sent if the state was set to ack:true
--   **To set a text or number data point:**For example, if you want to put text in a data point, the instance waits for an input after pressing a button. The selected data point is then described with the text. This can be achieved by setting`{setDynamicValue:RequestText:Type:ConfirmText:}`in the return field. "RequestText" prompt text for input, "Type" boolean, number, string and "ConfirmText" confirmation text of the data point can be replaced with your own text.
+
+-   **To set a text or number data point:** For example, if you want to put text in a data point, the instance waits for an input after pressing a button. The selected data point is then described with the text. This can be achieved by setting`{setDynamicValue:RequestText:Type:ConfirmText:}`in the return field. "RequestText" prompt text for input, "Type" boolean, number, string and "ConfirmText" confirmation text of the data point can be replaced with your own text.
 
 ### GetState
 
