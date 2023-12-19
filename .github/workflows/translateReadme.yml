@@ -2,9 +2,11 @@ name: Translate README
 
 on:
   push:
-    branches:
-      - main
-      - master
+    paths: 
+      - 'docs/de/README.md'
+  pull_request:
+    paths:
+      - 'docs/de/README.md'
 jobs:
   build:
     runs-on: ubuntu-latest
