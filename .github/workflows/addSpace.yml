@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install fs
@@ -22,9 +22,9 @@ jobs:
       - name: Add space after period
         run: |
           const fs = require('fs');
-          let readme = fs.readFileSync('README.md', 'utf8');
+          let readme = fs.readFileSync('docs/en/README.md', 'utf8');
           readme = readme.replace(/\.(\w)/g, '. $1');
-          fs.writeFileSync('README.md', readme);
+          fs.writeFileSync('docs/en/README.md', readme);
 
       - name: Commit and push if it changed
         run: |
