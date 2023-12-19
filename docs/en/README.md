@@ -17,7 +17,7 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 
 ![Benutzername](../pic/image.png)
 
--   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated. -**It is absolutely necessary that a name is entered here**-
+-   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated.**It is absolutely necessary that a name is entered here**-
 
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
