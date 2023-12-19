@@ -139,4 +139,4 @@ menu:back
 -   Preset kann direkt aus der Objektstruktur übernommen werden.
 -   Background , wie der Name schon sagt kann hier der Hintergrund eingestellt werden
 -   Theme, es können verschieden Themes aus dem Echarts Adapter eingestellt werden, z.B.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
--   Dateiname, individueller Dateiname. -**Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**-
+-   Dateiname, individueller Dateiname. &nbsp;**Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**
