@@ -22,7 +22,7 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
 -   You can jump from one menu to another menu. Makes sense if two people have Menu 1 together, but User1 should get another menu to which User2 should not have access. This corresponding button would be visible for both, only for User1 with a function. To do this, the corresponding user must be specified in both groups.![Menu1](../pic/image7.png)<br>This is the first menu, here the menu is sent when the adapter starts<br>![Menu2](../pic/image8.png)<br>This is the second menu, for this to work the call text on the homepage must be deactivated. This can be achieved by simply entering`-`enters.
-    Now user Michael can access Menu2 from Menu1 by pressing the Light button. You can return to Menu1 using the new Home button that appears.**Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!**If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
+    Now user Michael can access Menu2 from Menu1 by pressing the Light button. You can return to Menu1 using the new Home button that appears.**Important!! Even if there are two menus, each call text can only appear once!**If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
 #### delete history
 
@@ -98,14 +98,14 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
 ### Send Picture
 
 -   You can insert a token for Grafana in the settings
--   A directory must be created in which you have all rights, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
+-   Es muss ein Verzeichnis erstellt werden in dem man alle Rechte hat z.B. `/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
 -   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
