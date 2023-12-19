@@ -20,11 +20,12 @@ jobs:
         run: npm install fs
 
       - name: Add space after period
-        run: |
-          const fs = require('fs');
-          let readme = fs.readFileSync('docs/en/README.md', 'utf8');
-          readme = readme.replace(/\.(\w)/g, '. $1');
-          fs.writeFileSync('docs/en/README.md', readme);
+        run:  node -e "
+               const fs = require('fs');
+               let readme = fs.readFileSync('docs/en/README.md', 'utf8');
+               readme = readme.replace(/\.(\w)/g, '. $1');
+               fs.writeFileSync('docs/en/README.md', readme);
+              "
 
       - name: Commit and push if it changed
         run: |
