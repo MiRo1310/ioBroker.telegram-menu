@@ -1,0 +1,35 @@
+name: Replace String
+on:
+  push:
+    paths:
+      - 'docs/en/README.md'
+
+jobs:
+  addSpace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install fs
+
+      - name: Add space after period
+        run: |
+          const fs = require('fs');
+          let readme = fs.readFileSync('README.md', 'utf8');
+          readme = readme.replace(/\.(\w)/g, '. $1');
+          fs.writeFileSync('README.md', readme);
+
+      - name: Commit and push if it changed
+        run: |
+          git diff
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git commit -am "Add space after period" || exit 0
+          git push
