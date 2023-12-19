@@ -17,7 +17,7 @@ As you can see the buttons are in a row with a`Komma`Separately, you use this to
 
 ![Benutzername](../pic/image.png)
 
--   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated.**It is absolutely necessary that a name is entered here**-
+-   All users must be written exactly as they were created in Telegram. Users are activated by a`,`separated.**It is absolutely necessary that a name is entered here**
 
 -   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g. the roller shutter control. A new trigger is automatically created in the actions, but more on that below.
 
@@ -77,7 +77,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 -   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger. The trigger has exactly the same name as the button that is supposed to trigger the action.
 -   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
--   It is possible to have the setting of the value confirmed,**as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. A confirmation only occurs when the addressed adapter has set the value to ack:true. But you would like to`ack:true`If you set it manually, you simply enter it in the return text.<br>![ack:true](../pic/image4.png)<br>If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
+-   It is possible to have the setting of the value confirmed,**as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den Wert auf ack:true gesetzt hat. Möchte man aber `ack:true` manuell setzen, trägt man dieses einfach in den Rückgabetext ein.<br>![ack:true](../pic/image4.png)<br>If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
 -   If you want to change values ​​that are sent as return text, e.g. from true to on and false to off, you enter them in the text`change{"true":"an", "false":"aus"}`a.<br>![change](../pic/image6.png)<br>
 -   If you want to set a state but then receive the change of another state, you add`{"id":"id","text":"Wert wurde gesetzt:"}`in the return text. Replace ID with the desired ID, the text can also be customized
     However, the change is only sent if the state was set to ack:true
@@ -98,7 +98,7 @@ If you want to have special icons in the menu buttons, copy an emoji (e.g.<https
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
