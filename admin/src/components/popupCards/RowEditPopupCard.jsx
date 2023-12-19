@@ -217,7 +217,7 @@ class RowEditPopupCard extends Component {
 						statesOnly={true}
 						selected={this.state.selectIdValue}
 						onClose={() => this.setState({ showSelectId: false })}
-						// root={(this.props.searchRoot && this.props.searchRoot.root) || undefined}
+						root={(this.props.searchRoot && this.props.searchRoot.root) || undefined}
 						types={this.props.searchRoot && this.props.searchRoot.type ? this.props.searchRoot.type : undefined}
 						onOk={(selected, name) => {
 							this.setState({ showSelectId: false });
