@@ -168,17 +168,20 @@ const buttonCheck = () => {
 const buttonClose = () => {
 	return React.createElement("button", { className: "buttonFalse" }, React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "close")));
 };
-export const getElementIcon = (element) => {
+export const getElementIcon = (element, entry) => {
 	if (!element) return;
-	// const valtrue = "✔️";
-	// const valfalse = "❌";
-	if (element === "true" || element === true) {
-		return buttonCheck();
-	} else if (element === "false" || element === false) {
-		return buttonClose();
-	} else {
-		return element.replace(/&amp;/g, "&");
+	let icon = true;
+	if (!entry && !entry?.noIcon) icon = true;
+	else if (entry && entry?.noIcon) icon = false;
+
+	if (icon) {
+		if (element === "true" || element === true) {
+			return buttonCheck();
+		} else if (element === "false" || element === false) {
+			return buttonClose();
+		}
 	}
+	return element.replace(/&amp;/g, "&");
 };
 export const sortObjectByKey = (usersInGroup) => {
 	const array = Object.entries(usersInGroup);

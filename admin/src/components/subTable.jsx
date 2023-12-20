@@ -5,6 +5,7 @@ import { getElementIcon } from "../lib/actionUtilis.mjs";
 
 class SubTable extends Component {
 	render() {
+		console.log(this.props.entry);
 		return (
 			<Table>
 				<TableBody>
@@ -18,11 +19,11 @@ class SubTable extends Component {
 											onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
 											onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
 										>
-											{this.props.name != "values" ? getElementIcon(element) : element}
+											{this.props.name != "values" ? getElementIcon(element, this.props.entry) : element}
 										</span>
 									</TableCell>
 								</TableRow>
-						  ))
+							))
 						: null}
 				</TableBody>
 			</Table>

@@ -55,7 +55,7 @@ export const tabValues = [
 		entrys: [
 			{ name: "ID", val: "", headline: "ID", width: "40%", search: true },
 			{ name: "menu", val: "", headline: "Executed Menu", width: "20%", elementGetRows: "menu" },
-			{ name: "condition", val: "", headline: "Condition to open Menu", width: "20%" },
+			{ name: "condition", val: "", headline: "Condition to open Menu", width: "20%", noIcon: true },
 			{ name: "ack", val: "false", headline: "Ack", title: "Ack-Flag to open Menu", checkbox: true, width: "3%" },
 		],
 		popupCard: { buttons: { add: false, remove: false }, width: "99%", height: "40%" },
