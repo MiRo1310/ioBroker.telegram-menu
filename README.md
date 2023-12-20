@@ -36,6 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   no Icons in events condition
+-   fixed, copy events and echarts
 -   moveable DropBox
 
 ### 1.5.0 (2023-12-19)
