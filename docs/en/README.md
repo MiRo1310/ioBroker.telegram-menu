@@ -26,6 +26,11 @@ Let's get started!
 
 -   If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
+### Generally
+
+-   All submenus and special settings presented below can be found directly in the adapter. These settings are sorted and placed exactly where they can be used.
+    You can use this button to call up the “HelperText”.![Button HelperText](../pic/btnHelperTexte.png)
+
 #### delete history
 
 To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`-**Navigation**is the menu name that should then be called up (e.g. home page)
@@ -81,7 +86,7 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 
 -   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
 
--   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
+-   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. A confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
 -   If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
 
