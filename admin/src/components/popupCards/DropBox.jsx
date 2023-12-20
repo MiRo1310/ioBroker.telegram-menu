@@ -58,9 +58,8 @@ class DropBox extends Component {
 		const data = deepCopy(this.props.native.data);
 		let rowToWorkWith;
 		let moveOrCopy = this.state.selectedValue;
-		console.log(this.state.newTrigger);
-		if (this.state.newTrigger === "") {
-			console.log(this.props.tab);
+		// Wenn es sich um events handelt, wird es sofort weiter geleitet da kein Trigger vorhanden ist, der evtl geändert werden muss
+		if (this.state.newTrigger === "" && !(this.props.subTab === "events")) {
 			if (this.props.tab === "action") rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
 			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
 			this.setState({ rowToWorkWith: rowToWorkWith });
@@ -69,8 +68,6 @@ class DropBox extends Component {
 			this.setState({ usedTrigger: usedTrigger });
 			if (this.props.tab === "action") {
 				if (moveOrCopy === "copy") {
-					console.log(rowToWorkWith);
-					console.log(usedTrigger);
 					if (rowToWorkWith.trigger && usedTrigger.includes(rowToWorkWith.trigger[0])) {
 						console.log(usedTrigger);
 						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
@@ -101,7 +98,10 @@ class DropBox extends Component {
 				}
 			}
 		} else {
-			if (!rowToWorkWith) rowToWorkWith = this.state.rowToWorkWith;
+			if (this.props.subTab === "events") {
+				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
+			} else if (!rowToWorkWith) rowToWorkWith = this.state.rowToWorkWith;
+
 			if (moveOrCopy === "copy") {
 				this.copy(rowToWorkWith, data);
 			} else this.move(rowToWorkWith, data);
@@ -116,12 +116,17 @@ class DropBox extends Component {
 		return count;
 	};
 	move = (rowToWorkWith, data) => {
-		if (this.props.tab === "action") {
+		if (this.props.tab === "action" && this.props.subTab !== "events") {
 			if (this.state.newTrigger !== "") rowToWorkWith.trigger[0] = this.state.newTrigger;
 
 			// Wenn es das erste Element ist, dann muss das Array erstellt werden
 			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
 
+			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
+			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
+		} else if (this.props.subTab == "events") {
+			// Events besonders da kein Trigger vorhanden ist
+			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
 		} else {
@@ -134,8 +139,10 @@ class DropBox extends Component {
 	};
 	copy = (rowToWorkWith, data) => {
 		console.log(rowToWorkWith);
-		if (this.props.tab === "action") {
+		if (this.props.tab === "action" && this.props.subTab !== "events") {
 			rowToWorkWith.trigger[0] = this.state.newTrigger;
+			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
+		} else if (this.props.subTab == "events") {
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 		} else {
 			rowToWorkWith.call = this.state.newTrigger;
