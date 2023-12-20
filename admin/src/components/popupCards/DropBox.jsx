@@ -58,7 +58,9 @@ class DropBox extends Component {
 		const data = deepCopy(this.props.native.data);
 		let rowToWorkWith;
 		let moveOrCopy = this.state.selectedValue;
+		console.log(this.state.newTrigger);
 		if (this.state.newTrigger === "") {
+			console.log(this.props.tab);
 			if (this.props.tab === "action") rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
 			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
 			this.setState({ rowToWorkWith: rowToWorkWith });
@@ -67,7 +69,10 @@ class DropBox extends Component {
 			this.setState({ usedTrigger: usedTrigger });
 			if (this.props.tab === "action") {
 				if (moveOrCopy === "copy") {
-					if (usedTrigger.includes(rowToWorkWith.trigger[0])) {
+					console.log(rowToWorkWith);
+					console.log(usedTrigger);
+					if (rowToWorkWith.trigger && usedTrigger.includes(rowToWorkWith.trigger[0])) {
+						console.log(usedTrigger);
 						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
 					}
 				} else {
@@ -113,6 +118,10 @@ class DropBox extends Component {
 	move = (rowToWorkWith, data) => {
 		if (this.props.tab === "action") {
 			if (this.state.newTrigger !== "") rowToWorkWith.trigger[0] = this.state.newTrigger;
+
+			// Wenn es das erste Element ist, dann muss das Array erstellt werden
+			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
 		} else {
@@ -124,6 +133,7 @@ class DropBox extends Component {
 		this.setState({ newTrigger: "" });
 	};
 	copy = (rowToWorkWith, data) => {
+		console.log(rowToWorkWith);
 		if (this.props.tab === "action") {
 			rowToWorkWith.trigger[0] = this.state.newTrigger;
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);

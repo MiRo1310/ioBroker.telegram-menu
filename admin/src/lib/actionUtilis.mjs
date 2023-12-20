@@ -96,7 +96,7 @@ export const updateId = (selected, props, indexID, setState, rowElements, ID) =>
 };
 
 export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
-	const submenu = ["set", "get", "pic", "loc"];
+	const submenu = ["set", "get", "pic", "loc", "echarts"];
 	// Users für die die Trigger gesucht werden sollen
 
 	const users = usersInGroup[activeMenu];

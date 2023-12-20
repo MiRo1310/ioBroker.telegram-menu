@@ -75,12 +75,10 @@ class App extends GenericApp {
 		this.setState = this.setState.bind(this);
 	}
 	handleResize = (e) => {
-		console.log("resize");
 		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
 		updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
-
 		window.addEventListener("resize", this.handleResize);
 	}
 	componentWillUnmount() {
