@@ -27,6 +27,11 @@ Hier, das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wi
 -   Damit das Zweite Menu, also ein Untermenu funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses wird erreicht indem man ein `-` einträgt. Jetzt kann User1 von Menu1 auf Menu2 zugreifen indem er auf den entsprechenden Button drückt.&nbsp;**Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!**
 -   Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
 
+### Allgemein
+
+-   Alle im Anschluss vorgestellten Submenüs und speziellen Einstellungen sind direkt im Adapter zu finden . Diese Einstellungen sind sortiert und genau dort platziert, wo sie eingesetzt werden können.
+    Über diesen Button kann man die "HelperText"aufrufen ![Button HelperText](../pic/btnHelperTexte.png)
+
 #### Verlauf löschen
 
 Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` - **Navigation** ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite)
