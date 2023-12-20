@@ -13,6 +13,9 @@ class PopupContainer extends Component {
 			inUse: false,
 		};
 	}
+	componentDidMount() {
+		if (this.props.drag) document.querySelector(".DialogBackground").draggable = true;
+	}
 
 	render() {
 		const DialogContainer = {
@@ -29,7 +32,17 @@ class PopupContainer extends Component {
 		};
 
 		return (
-			<div className={"DialogBackground " + (this.props.class || "")}>
+			<div
+				className={"DialogBackground " + (this.props.class || "")}
+				ref={this.props.referenz ? this.props.referenz : null}
+				onDragStart={this.props.onDragStart ? (event) => this.props.onDragStart(event, this.props.setState) : null}
+				onDragEnd={this.props.onDragEnd ? (event) => this.props.onDragEnd(event, this.props.setState) : null}
+				onDragOver={this.props.onDragOver ? (event) => this.props.onDragOver(event, this.props.setState) : null}
+				onDrop={this.props.onDrop ? (event) => this.props.onDrop(event, this.props.setState) : null}
+				onDrag={this.props.onDrag ? (event) => this.props.onDrag(event, this.props.setState) : null}
+				onMouseEnter={this.props.onMouseEnter ? (event) => this.props.onMouseEnter(event, this.props.setState) : null}
+				onMouseLeave={this.props.onMouseLeave ? (event) => this.props.onMouseLeave(event, this.props.setState) : null}
+			>
 				<div className="DialogContainer" style={DialogContainer}>
 					<div className="DialogContainer-Header">{this.props.title}</div>
 					<div className="DialogContainer-Body">

@@ -15,18 +15,15 @@ export const handleMouseOver = (e, cb) => {
 	}
 };
 export const handleMouseOut = (e, cb) => {
-	if (e.target.classList.contains("noneDraggable")) {
+	if (e.target.classList.contains("noneDraggable") && !e.target.classList.contains("draggingDropBox")) {
 		let currentElement = e.target;
-
 		while (currentElement) {
 			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
 				// Setze draggable auf true oder false, je nach Bedarf
 				currentElement.draggable = true;
-
 				return; // Beende die Schleife, wenn das passende Element gefunden wurde
 			}
-
 			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
@@ -34,6 +31,7 @@ export const handleMouseOut = (e, cb) => {
 };
 
 export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, cb) => {
+	console.log("handleDragStart");
 	if (mouseOverNoneDraggable) {
 		event.target.style.userSelect = "text";
 		return false;
@@ -42,6 +40,7 @@ export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, 
 	if (cb) cb();
 };
 export const handleDragOver = (index, event) => {
+	console.log("handleDragOver");
 	event.preventDefault();
 };
 export const handleDragEnter = (index, setState) => {
@@ -51,6 +50,7 @@ export const handleStyleDragOver = (index, dropOver, dropStart) => {
 	return dropOver === index && dropStart > index ? { borderTop: "2px solid #3399cc" } : dropOver === index && dropStart < index ? { borderBottom: "2px solid #3399cc" } : null;
 };
 export const handleDragEnd = (setState, props) => {
+	console.log("handleDragEnd");
 	setState({ dropStart: 0 });
 	setState({ dropOver: 0 });
 	if (props) props.callback.setState({ draggingRowIndex: null });

@@ -352,11 +352,12 @@ div.MuiTabPanel-root {
 /* DropBox */
 .DropBox-PopupContainer {
 	background-color: transparent !important;
-	top: 105px !important;
-	height: 50% !important;
+	/* top: 105px !important; */
+	height: 44% !important;
 	width: 212px !important;
-	right: 5px !important;
+	/* right: 5px !important; */
 	left: auto !important;
+	cursor: move;
 }
 .DropBox-PopupContainer > div.DialogContainer {
 	transform: none !important;
@@ -538,17 +539,17 @@ table {
 	width: calc(100% - 10px) !important;
 }
 
-tr[draggable] {
+tr[draggable="true"] {
 	cursor: grab;
 	padding-right: 10px !important;
 	margin-right: 10px;
 }
 
-tr[draggable]:hover {
+tr[draggable="true"]:hover {
 	background-color: rgba(51, 153, 204, 0.5) !important;
 }
-tr[draggable] span,
-tr[draggable] input {
+tr[draggable="true"] span,
+tr[draggable="true"] input {
 	cursor: text;
 	user-select: text; /* Standard */
 	-moz-user-select: text; /* Firefox */
@@ -556,12 +557,12 @@ tr[draggable] input {
 	-ms-user-select: text; /* Internet Explorer/Edge */
 	padding: 5px 0;
 }
-tr[draggable] span::selection {
+tr[draggable="true"] span::selection {
 	background-color: #96d15a;
 	color: white;
 }
 
-tr[draggable] span i {
+tr[draggable="true"] span i {
 	cursor: pointer;
 }
 

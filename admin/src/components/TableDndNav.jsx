@@ -45,7 +45,18 @@ class TableDndNav extends Component {
 			this.getRows(this.props.tableData, this.props.data.activeMenu);
 		}
 	}
-	handleDrop = (index) => {
+	handleDrop = (event, index) => {
+		let currentElement = event.target;
+		while (currentElement) {
+			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
+			if (currentElement.tagName === "TR") {
+				// Setze draggable auf true oder false, je nach Bedarf
+				if (currentElement.classList.contains("draggingDropBox")) return;
+				// Beende die Schleife, wenn das passende Element gefunden wurde
+			}
+			// Gehe eine Ebene höher im DOM
+			currentElement = currentElement.parentNode;
+		}
 		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
 
@@ -66,7 +77,7 @@ class TableDndNav extends Component {
 						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						className="no-select"
 						draggable={handleDraggable(index)}
-						onDrop={() => this.handleDrop(index)}
+						onDrop={(event) => this.handleDrop(event, index)}
 						onDragStart={(event) =>
 							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }))
 						}

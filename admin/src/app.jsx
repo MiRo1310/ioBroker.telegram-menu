@@ -19,6 +19,7 @@ import helperFunction from "./lib/Utilis.mjs";
 import { insertNewItemsInData } from "./lib/newValuesForNewVersion.mjs";
 import { navEntrys } from "./lib/entrys.mjs";
 import { sortObjectByKey } from "./lib/actionUtilis.mjs";
+import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave, updatePositionDropBox } from "./lib/movePosition.mjs";
 
 // let myTheme;
 
@@ -43,6 +44,7 @@ class App extends GenericApp {
 			},
 		};
 		super(props, extendedProps);
+		this.dropboxRef = React.createRef();
 		// const theme = this.createTheme();
 		this.state = {
 			...this.state,
@@ -64,11 +66,28 @@ class App extends GenericApp {
 			showDropBox: false,
 			doubleTrigger: [],
 			connectionReady: false,
+			dropboxTop: 105,
+			dropboxRight: 5,
+			dropDifferenzX: 0,
+			dropDifferenzY: 0,
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
 	}
+	handleResize = (e) => {
+		console.log("resize");
+		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
+	};
+	componentDidMount() {
+		updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
 
+		window.addEventListener("resize", this.handleResize);
+	}
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.handleResize);
+	}
+	newX = null;
+	newY = null;
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) this.getUsersFromTelegram();
 		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
@@ -79,6 +98,24 @@ class App extends GenericApp {
 		}
 		if (prevState.usedTrigger !== this.state.usedTrigger) {
 			this.checkDoubleEntryInUsedTrigger();
+		}
+		if (prevState.native.dropbox !== this.state.native.dropbox || this.state.showDropBox !== prevState.showDropBox) {
+			updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
+		}
+		if (prevState.dropDifferenzX !== this.state.dropDifferenzX || prevState.dropDifferenzY !== this.state.dropDifferenzY) {
+			let newX, newY;
+			if (this.state.native.dropbox && this.state.native.dropbox.dropboxRight && this.state.native.dropbox.dropboxTop) {
+				newX = this.state.native.dropbox.dropboxRight - this.state.dropDifferenzX;
+				newY = this.state.native.dropbox.dropboxTop + this.state.dropDifferenzY;
+			} else {
+				newX = 5 - this.state.dropDifferenzX;
+				newY = 105 + this.state.dropDifferenzY;
+			}
+			this.newX = newX;
+			this.newY = newY;
+			const dropbox = { dropboxRight: newX, dropboxTop: newY };
+			this.updateNativeValue("dropbox", dropbox);
+			updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
 		}
 	}
 
@@ -253,7 +290,24 @@ class App extends GenericApp {
 					</Grid>
 				</Grid>
 				{this.state.showDropBox ? (
-					<PopupContainer class="DropBox-PopupContainer" width="99%" height="30%" title="DropBox" callback={this.closeDropBox} closeBtn={true}>
+					<PopupContainer
+						class="DropBox-PopupContainer"
+						referenz={this.dropboxRef}
+						width="99%"
+						height="25%"
+						title="DropBox"
+						callback={this.closeDropBox}
+						closeBtn={true}
+						drag="true"
+						onDragStart={onDragStart}
+						onDragEnd={onDragEnd}
+						onDragOver={onDragOver}
+						onDrop={onDrop}
+						onDrag={onDrag}
+						onMouseEnter={onMouseEnter}
+						onMouseLeave={onMouseLeave}
+						setState={this.setState.bind(this)}
+					>
 						<DropBox
 							tab={this.state.tab}
 							subTab={this.state.subTab}

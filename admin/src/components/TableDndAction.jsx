@@ -53,6 +53,15 @@ class TableDndAction extends Component {
 	}
 
 	handleDrop = (index) => {
+		while (currentElement) {
+			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
+			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
+				// Setze draggable auf true oder false, je nach Bedarf
+				if (currentElement.classList.contains("draggingDropBox")) return; // Beende die Schleife, wenn das passende Element gefunden wurde
+			}
+			// Gehe eine Ebene höher im DOM
+			currentElement = currentElement.parentNode;
+		}
 		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
 	};
 
