@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "news": {
+      "1.5.1": {
+        "en": "no Icons in events condition\nfixed, copy events and echarts\nmoveable DropBox",
+        "de": "keine Icons im Ereigniszustand\nfeste, kopieren von ereignissen und echarts\nbewegliche DropBox",
+        "ru": "нет икон в состоянии событий\nфиксированные, копируемые события и эчарты\nперемещаемый DropBox",
+        "pt": "sem ícones em condição de eventos\ncorrigido, copiar eventos e echarts\ncaixa de gota móvel",
+        "nl": "geen Icon in eventuele toestand\nvertaling:\nverplaatsing van DropBox",
+        "fr": "pas d'icônes dans l'état des événements\névénements fixes, copieurs et echarts\ndropBox mobile",
+        "it": "no Icone in condizioni di eventi\neventi fissi, copia ed echarts\ndropBox mobile",
+        "es": "no Iconos en condición de eventos\nfija, copia de eventos y echats\ndropBox",
+        "pl": "nie ma żadnej kondycji w kontekście zdarzeń\nstałe, kopiowane wydarzenia i ekharty\ndropBox",
+        "uk": "немає ікон в умовах подій\nфіксовані, копіювання подій та echarts\nперехідний Dropbox",
+        "zh-cn": "在事件条件下没有我的看法\n固定、复印事件和技术艺术\n可移动的人类生物"
+      },
       "1.5.0": {
         "en": "send echarts\n#93 Scrollbar in Menus\n#89 go back to menu by setting setDynamicValue\ndelete all Messages by Bot",
         "de": "echarts\n#93 Scrollbar in Menüs\n#89 Zurück zum Menü, indem Set gesetzt Dynamik Wert\nalle Nachrichten von Bot löschen",
@@ -80,19 +93,6 @@
         "pl": "naprawa Mode Set",
         "uk": "закріпити в parse_ Режим SetState",
         "zh-cn": "fix 稀少; 导 言"
-      },
-      "1.2.0": {
-        "en": "textarea in Helper Card\ntext table from Json\nIt is now possible to copy rows into the same menu\nsmall fixes\nfixed parse_mode in submenu\nget json as inline-Keyboard Table",
-        "de": "textbereich in Helper Card\ntexttabelle von Json\nEs ist nun möglich, Zeilen in das gleiche Menü zu kopieren\nkleine fixierungen\nparse_mode in submenu\njson als Inline-Keyboard Tisch",
-        "ru": "textarea в Helper Card\nтекстовая таблица от Json\nТеперь можно скопировать строки в одно и то же меню\nнебольшие исправления\nфиксированный parse_mode в подменю\nполучить json как inline-Keyboard Table",
-        "pt": "textarea no cartão de ajuda\ntabela de texto de Json\nAgora é possível copiar linhas no mesmo menu\npequenas correções\nparse_mode fixo no submenu\nobter json como inline-Keyboard Tabela",
-        "nl": "sMS\nsMS tafel Json\nHet is nu mogelijk om rijen in dezelfde menukaart te kopiëren\nkleine fixes\nvertaling:\njson als inline-Keyboard Table",
-        "fr": "textarea in Helper Card\ntable de texte de Json\nIl est maintenant possible de copier des lignes dans le même menu\npetites corrections\nfixed parse_mode in submenu\nobtenir json comme inline-Keyboard Table",
-        "it": "textarea in Helper Card\ntabella di testo da Json\nOra è possibile copiare le righe nello stesso menu\npiccole correzioni\nparse_mode fisso in submenu\nottenere json come inline-Keyboard Table",
-        "es": "textarea en la tarjeta de ayuda\ntext table from Json\nAhora es posible copiar filas en el mismo menú\npequeños accesorios\nfija parse_mode en submenu\nget json as inline-Keyboard Table",
-        "pl": "okładka\ntablica tekstowa Json\nObecnie można kopiować wiersze w tym samym menu\ndrobne rozwiązanie\nparse_mode\ngetson jako inline-Keyboard Table (ang.)",
-        "uk": "текстова карта\nтекст таблиці з Json\nТепер можна копіювати рядки в одному меню\nмаленькі кріплення\nфіксований парсе_mode в підменю\nотримати json як inline-Keyboard Table",
-        "zh-cn": "帮助卡德\njson案文\n现在有可能将一轮的推移成同一个男人。\n小型配件\n固定 p. 砷\njson as aline-Key板"
       }
     },
     "titleLang": {
