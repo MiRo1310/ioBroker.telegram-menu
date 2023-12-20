@@ -81,7 +81,7 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 
 -   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
 
--   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. A confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
+-   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
 -   If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
 
@@ -131,4 +131,4 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 -   Preset can be taken directly from the object structure.
 -   Background , as the name suggests, the background can be set here
 -   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
--   Filename, individual filename. -**It is important that a directory with full write permission is specified in the settings**-
+-   Filename, individual filename. **It is important that a directory with full write permission is specified in the settings**
