@@ -127,12 +127,17 @@ menu:back
 ### Send Picture
 
 -   In den Einstellungen kann man ein Token für Grafana einfügen
--   Es muss ein Verzeichnis erstellt werden in dem man alle Rechte hat z.B. `/opt/iobroker/grafana/` , um dort die Bilder zwischen speichern zu können
+-   Es muss ein Verzeichnis erstellt werden in dem man alle Schreibrechte hat z.B. `/opt/iobroker/grafana/` , um dort die Bilder zwischen speichern zu können
 -   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
 -   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
 -   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
 
     <img src="../pic/grafana.png" width="400">
+
+### Send Location
+
+-   als erstes Trigger auswählen
+-   dann muss ein Datenpunkt für den Breitengrad ("latitude") und einer für den Längengrad ("longtitude") angegeben werden
 
 ### Events
 
