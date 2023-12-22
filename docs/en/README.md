@@ -22,7 +22,7 @@ Let's get started!
 
 -   It is possible to switch from one menu to another menu. This makes sense when two people share the same menu, but when User1 is given an additional menu that you don't want User2 to have access to. The corresponding button is visible in both groups, but with functionality that is only relevant for User1. For this to work, the respective user must be specified in both groups.
 
--   In order for the second menu, i.e. a submenu, to work, the call text on the home page must be deactivated. This is achieved by using a`-` einträgt. Jetzt kann User1 von Menu1 auf Menu2 zugreifen indem er auf den entsprechenden Button drückt. **Important!! Even if there are two menus, each call text can only appear once!**
+-   In order for the second menu, i.e. a submenu, to work, the call text on the home page must be deactivated. This is achieved by using a`-`enters. Now User1 can access Menu2 from Menu1 by pressing the corresponding button. **Important!! Even if there are two menus, each call text can only appear once!**
 
 -   If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
@@ -33,7 +33,7 @@ Let's get started!
 
 #### delete history
 
-To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`-**Navigation**is the menu name that should then be called up (e.g. home page)
+To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`- **Navigation** is the menu name that should then be called up (e.g. home page)
 
 #### Status
 
@@ -112,7 +112,7 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input.**Value-1**is, for example, the first key of the JSON that should be displayed.**NameTH-Col1**assigns the corresponding column name (etc.).**Header**must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input. **Value-1** is, for example, the first key of the JSON that should be displayed. **NameTH-Col1** assigns the corresponding column name (etc.). **Header** must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
@@ -122,7 +122,7 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 -   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
--   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
+-   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
 
     <img src="../pic/grafana.png" width="400">
 
