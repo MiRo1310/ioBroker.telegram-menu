@@ -150,3 +150,13 @@ menu:back
 -   Background , wie der Name schon sagt kann hier der Hintergrund eingestellt werden
 -   Theme, es können verschieden Themes aus dem Echarts Adapter eingestellt werden, z.B.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
 -   Dateiname, individueller Dateiname. &nbsp;**Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**
+
+### Settings
+
+-   Telegram-Instanz, hier kann man zischen den Instanzen wählen wenn man mehrere installiert hat
+-   Der Text des Input-Feldes "Text wird gesendet, wenn kein Eintrag gefunden wurde!" wird geschickt, wie die Beschreibung schon sagt wenn kein Eintrag gefunden wurde, dieses kann durch die Checkbox daneben deaktiviert werden.
+-   Resize Keyboard - Fordert Kunden auf, die Größe der Tastatur vertikal zu ändern, um eine optimale Passform zu gewährleisten (z. B. die Tastatur kleiner zu machen, wenn nur zwei Tastenreihen vorhanden sind). Der Standardwert ist „false“. In diesem Fall hat die benutzerdefinierte Tastatur immer die gleiche Höhe wie die Standardtastatur der App. https://core.telegram.org/bots/api#replykeyboardmarkup
+-   One Time Keyboard - Fordert Clients auf, die Tastatur auszublenden, sobald sie verwendet wird. Die Tastatur wird weiterhin verfügbar sein, aber Clients zeigen im Chat automatisch die übliche Buchstabentastatur an – der Benutzer kann eine spezielle Schaltfläche im Eingabefeld drücken, um die benutzerdefinierte Tastatur wieder anzuzeigen. Der Standardwert ist „false“. https://core.telegram.org/bots/api#replykeyboardmarkup
+-   Token Grafana - Optional , Token um Diagramm von Grafana ab zu rufen
+-   Verzeichnis - um Diagramme zwischen zu speichern, wird für Grafana und auch für Echarts gebraucht, es muss volle Schreibberechtigung für dieses Verzeichnis bestehen
+-   Menu senden nach einem Neustart - bzw. nach dem Speichern kann hier deaktiviert werden, gegebenenfalls muss das Menu das erste mal per Eingabe in das Inputfeld in der Telegram-App aufgerufen werden

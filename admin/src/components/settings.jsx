@@ -16,7 +16,6 @@ class Settings extends Component {
 	onClickCheckbox = (event, id) => {
 		const checkbox = { ...this.props.data.state.native.checkbox };
 		checkbox[id] = event.target.checked;
-		console.log(checkbox);
 		this.props.callback.updateNative("checkbox", checkbox);
 	};
 	render() {
@@ -61,7 +60,7 @@ class Settings extends Component {
 						<Checkbox
 							label="Resize Keyboard"
 							id="resKey"
-							isChecked={this.props.data.state.native.checkbox.resKey}
+							isChecked={this.props.data.state.native.checkbox.resKey || false}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
 							setNative={true}
@@ -73,7 +72,7 @@ class Settings extends Component {
 						<Checkbox
 							label="One Time Keyboard"
 							id="oneTiKey"
-							isChecked={this.props.data.state.native.checkbox.oneTiKey}
+							isChecked={this.props.data.state.native.checkbox.oneTiKey || false}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
 							setNative={true}
@@ -102,6 +101,19 @@ class Settings extends Component {
 							value={this.props.data.state.native.directory || "/opt/iobroker/grafana/"}
 							setNative={true}
 							width="100%"
+						/>
+					</Grid>
+					<Grid item xs={8}>
+						<Checkbox
+							label={I18n.t("Send Menu after Restart")}
+							id="sendMenuAfterRestart"
+							isChecked={
+								this.props.data.state.native.checkbox.sendMenuAfterRestart == true || this.props.data.state.native.checkbox.sendMenuAfterRestart == false
+									? this.props.data.state.native.checkbox.sendMenuAfterRestart
+									: true
+							}
+							callbackValue="event"
+							callback={this.onClickCheckbox}
 						/>
 					</Grid>
 				</Grid>

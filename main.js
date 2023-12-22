@@ -53,6 +53,7 @@ class TelegramMenu extends utils.Adapter {
 		const one_time_keyboard = checkbox["oneTiKey"];
 		const resize_keyboard = checkbox["resKey"];
 		const checkboxNoEntryFound = checkbox["checkboxNoValueFound"];
+		const sendMenuAfterRestart = checkbox["sendMenuAfterRestart"];
 		let listofMenus = [];
 
 		// @ts-ignore
@@ -147,30 +148,33 @@ class TelegramMenu extends utils.Adapter {
 
 						try {
 							this.log.debug("MenuList: " + JSON.stringify(listofMenus));
-							listofMenus.forEach((menu) => {
-								this.log.debug("Menu: " + JSON.stringify(menu));
-								const startside = [startsides[menu]].toString();
-								// Startseite senden
-								if (userActiveCheckbox[menu] && startside != "-") {
-									this.log.debug("Startseite: " + JSON.stringify(startside));
-									menusWithUsers[menu].forEach((user) => {
-										backMenuFunc(this, startside, null, user);
-										this.log.debug("User List " + JSON.stringify(userListWithChatID));
+							//ANCHOR - First Start
+							if (sendMenuAfterRestart) {
+								listofMenus.forEach((menu) => {
+									this.log.debug("Menu: " + JSON.stringify(menu));
+									const startside = [startsides[menu]].toString();
+									// Startseite senden
+									if (userActiveCheckbox[menu] && startside != "-") {
+										this.log.debug("Startseite: " + JSON.stringify(startside));
+										menusWithUsers[menu].forEach((user) => {
+											backMenuFunc(this, startside, null, user);
+											this.log.debug("User List " + JSON.stringify(userListWithChatID));
 
-										sendToTelegram(
-											_this,
-											user,
-											menuData.data[menu][startside].text,
-											menuData.data[menu][startside].nav,
-											instanceTelegram,
-											resize_keyboard,
-											one_time_keyboard,
-											userListWithChatID,
-											menuData.data[menu][startside].parse_mode,
-										);
-									});
-								} else this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startside }));
-							});
+											sendToTelegram(
+												_this,
+												user,
+												menuData.data[menu][startside].text,
+												menuData.data[menu][startside].nav,
+												instanceTelegram,
+												resize_keyboard,
+												one_time_keyboard,
+												userListWithChatID,
+												menuData.data[menu][startside].parse_mode,
+											);
+										});
+									} else this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startside }));
+								});
+							}
 						} catch (error) {
 							this.log.error("Error read UserList" + JSON.stringify(error.message));
 							this.log.error(JSON.stringify(error.stack));
