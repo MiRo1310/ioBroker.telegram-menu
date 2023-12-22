@@ -9,8 +9,16 @@ on:
       - 'docs/de/README.md'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest         
+   
     steps:
+      - name: Check Commit Message
+        run: |
+         COMMIT_MESSAGE=$(git log --format=%B -n 1 ${{ github.sha }})
+         if [[ "$COMMIT_MESSAGE" == chore* ]]; then
+           echo "Commit message starts with 'chore', skipping the workflow."
+           exit 78  # Exit with a neutral exit code to indicate skipping the workflow.
+         fi   
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v1
