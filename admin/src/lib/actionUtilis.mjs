@@ -1,5 +1,6 @@
 import React from "react";
 import { deepCopy, sortArray, deleteDoubleEntrysInArray } from "./Utilis.mjs";
+import { tabValues } from "./entrys.mjs";
 
 function createData(element, index, rowElements) {
 	const obj = {};
@@ -96,7 +97,10 @@ export const updateId = (selected, props, indexID, setState, rowElements, ID) =>
 };
 
 export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
-	const submenu = ["set", "get", "pic", "loc", "echarts"];
+	const submenu = [];
+	tabValues.forEach((element) => {
+		if (element.trigger) submenu.push(element.value);
+	});
 	// Users für die die Trigger gesucht werden sollen
 
 	const users = usersInGroup[activeMenu];

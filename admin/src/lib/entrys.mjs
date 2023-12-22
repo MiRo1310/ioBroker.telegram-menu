@@ -2,6 +2,7 @@ export const tabValues = [
 	{
 		label: "SetState",
 		value: "set",
+		trigger: true, // Wenn Trigger true ist wird hierfür UsedTrigger gesucht
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", elementGetRows: "IDs" },
 			{ name: "IDs", val: "", headline: "ID", width: "20%" },
@@ -17,6 +18,7 @@ export const tabValues = [
 	{
 		label: "GetState",
 		value: "get",
+		trigger: true,
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "IDs" },
 			{ name: "IDs", val: "", headline: "ID", width: "40%" },
@@ -30,6 +32,7 @@ export const tabValues = [
 	{
 		label: "Send Picture",
 		value: "pic",
+		trigger: true,
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "IDs" },
 			{ name: "IDs", val: "", headline: "ID", width: "40%" },
@@ -41,6 +44,7 @@ export const tabValues = [
 	{
 		label: "Send Location",
 		value: "loc",
+		trigger: true,
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "latitude" },
 			{ name: "latitude", val: "", headline: "Latitude", width: "20%", search: true },
@@ -52,6 +56,7 @@ export const tabValues = [
 	{
 		label: "Events",
 		value: "events",
+		trigger: false,
 		entrys: [
 			{ name: "ID", val: "", headline: "ID", width: "40%", search: true },
 			{ name: "menu", val: "", headline: "Executed Menu", width: "20%", elementGetRows: "menu" },
@@ -63,8 +68,8 @@ export const tabValues = [
 	{
 		label: "Echarts",
 		value: "echarts",
-		searchRoot: { root: "echarts", type: ["chart"] },
-
+		searchRoot: { root: "echarts", type: ["chart"] }, // Search Root for SelectID
+		trigger: true,
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", width: "20%" },
 			// { name: "echartInstance", val: "echarts.0", headline: "Echart Instance", width: "40%" },
