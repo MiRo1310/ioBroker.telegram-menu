@@ -22,7 +22,7 @@ Let's get started!
 
 -   It is possible to switch from one menu to another menu. This makes sense when two people share the same menu, but when User1 is given an additional menu that you don't want User2 to have access to. The corresponding button is visible in both groups, but with functionality that is only relevant for User1. For this to work, the respective user must be specified in both groups.
 
--   In order for the second menu, i.e. a submenu, to work, the call text on the home page must be deactivated. This is achieved by using a`-`enters. Now User1 can access Menu2 from Menu1 by pressing the corresponding button. **Important!! Even if there are two menus, each call text can only appear once!**
+-   In order for the second menu, i.e. a submenu, to work, the call text on the home page must be deactivated. This is achieved by using a`-` einträgt. Jetzt kann User1 von Menu1 auf Menu2 zugreifen indem er auf den entsprechenden Button drückt. **Important!! Even if there are two menus, each call text can only appear once!**
 
 -   If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
@@ -86,7 +86,7 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 
 -   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
 
--   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. A confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
+-   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
 -   If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
 
@@ -119,12 +119,17 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 ### Send Picture
 
 -   You can insert a token for Grafana in the settings
--   A directory must be created in which you have all rights, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
+-   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
--   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
+-   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
 
     <img src="../pic/grafana.png" width="400">
+
+### Send Location
+
+-   select trigger first
+-   then one data point must be specified for latitude and one for longitude
 
 ### Events
 
