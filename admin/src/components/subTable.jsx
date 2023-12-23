@@ -5,7 +5,6 @@ import { getElementIcon } from "../lib/actionUtilis.mjs";
 
 class SubTable extends Component {
 	render() {
-		console.log(this.props.entry);
 		return (
 			<Table>
 				<TableBody>

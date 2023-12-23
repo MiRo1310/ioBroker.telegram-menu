@@ -51,7 +51,6 @@ class RowEditPopupCard extends Component {
 	};
 
 	render() {
-		console.log(this.props.searchRoot);
 		return (
 			<div className="Edit-Container">
 				{this.props.newRow.trigger ? (
@@ -201,7 +200,7 @@ class RowEditPopupCard extends Component {
 												</TableCell>
 											) : null}
 										</TableRow>
-								  ))
+									))
 								: null}
 						</TableBody>
 					</Table>
