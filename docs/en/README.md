@@ -142,3 +142,13 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 -   Background , as the name suggests, the background can be set here
 -   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
 -   Filename, individual filename. **It is important that a directory with full write permission is specified in the settings**
+
+### Settings
+
+-   Telegram instance, here you can choose between the instances if you have several installed
+-   The text of the input field "Text will be sent if no entry was found!" is sent, as the description says, if no entry was found, this can be deactivated using the checkbox next to it.
+-   Resize Keyboard - Prompts customers to resize the keyboard vertically for optimal fit (e.g. making the keyboard smaller if there are only two rows of keys). The default value is false. In this case, the custom keyboard will always be the same height as the app's default keyboard.<https://core.telegram.org/bots/api#replykeyboardmarkup>
+-   One Time Keyboard - Prompts clients to hide the keyboard once it is in use. The keyboard will still be available, but clients will automatically display the usual letter keyboard in chat - the user can press a special button in the input field to display the custom keyboard again. The default value is false.<https://core.telegram.org/bots/api#replykeyboardmarkup>
+-   Token Grafana - Optional, token to retrieve graph from Grafana
+-   Directory - to temporarily save diagrams, is needed for Grafana and also for Echarts, there must be full write permission for this directory
+-   Send menu after a restart - or after saving can be deactivated here. If necessary, the menu must be called up for the first time by entering it in the input field in the Telegram app
