@@ -7,6 +7,11 @@ Der Adapter dient dazu per Telegrammenu mit dem Iobroker zu kommunizieren, Daten
 
 Let´s get started!
 
+### Allgemein
+
+-   Alle im Anschluss vorgestellten Submenüs und speziellen Einstellungen sind direkt im Adapter zu finden . Diese Einstellungen sind sortiert und genau dort platziert, wo sie eingesetzt werden können.
+    Über diesen Button kann man die "HelperText"aufrufen ![Button HelperText](../pic/btnHelperTexte.png)
+
 ### Navigation
 
 ![Navigation](../pic/nav.png)<br>
@@ -27,21 +32,41 @@ Hier, das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wi
 -   Damit das Zweite Menu, also ein Untermenu funktioniert muss der Call Text der Startseite deaktiviert werden. Dieses wird erreicht indem man ein `-` einträgt. Jetzt kann User1 von Menu1 auf Menu2 zugreifen indem er auf den entsprechenden Button drückt.&nbsp;**Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!**
 -   Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
 
-### Allgemein
+#### Soll beim Öffnen einer Navigation ...
 
--   Alle im Anschluss vorgestellten Submenüs und speziellen Einstellungen sind direkt im Adapter zu finden . Diese Einstellungen sind sortiert und genau dort platziert, wo sie eingesetzt werden können.
-    Über diesen Button kann man die "HelperText"aufrufen ![Button HelperText](../pic/btnHelperTexte.png)
+##### ...ein Status geschickt werden
 
-#### Verlauf löschen
+-   Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.<br>
+    ![Config for Status](../pic/statusConfig.png)
+    Das Ergebnis wäre dann dieses!<br>
+    ![Telegram Status](../pic/TelegramStatus.png)
 
-Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` -&nbsp;**Navigation**&nbsp; ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite)
+##### ... der Wert des Status geändert werden
 
-#### Status
+-   soll der Wert verändert werden, z.B. von true zu an und false zu aus, kann `change{"true":"an","false":"aus"}` genutzt werden
 
-Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden.<br>
-![Config for Status](../pic/statusConfig.png)
-Das Ergebnis wäre dann dieses!<br>
-![Telegram Status](../pic/TelegramStatus.png)
+##### ...ein Wert gesetzt werden
+
+-   setzt beim Öffnen einer Navigation einen Datenpunkt.Folgendes kann genutzt werden - `{set:'id':'ID',val,ack}` - ID ist die ID des Datenpunkts in den ein Wert geschrieben werden soll. val - der zu setzende Wert, ack - soll der Wert bestätigt oder unbestätigt gesetzt werden?
+
+##### ...ein Zeitstempel gesendet werden
+
+-   sendet beim Öffnen einer Navigation einen Zeitstempel
+-   für die letzte Bearbeitung `{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`
+-   ansonsten `{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'ID'}` - ID ist die ID des abzufragenden Datenpunkts, in den Klammern kann es individuell geändert werden, es können einzelne Platzhalter entfernt werden, dürfen aber nicht geändert werden, bis auf YYYY kann auch als YY genutzt werden.
+
+##### ...dem Text einen Zeilenumbruch hinzufügen
+
+-   an der gewünschten Stelle \n eintragen
+
+##### ...ist der Status Wert ein Unix-Zeitstempel
+
+-   um diesen zu konvertieren zu einer lokalen Zeit - `{time}`
+
+##### ...den Parse Mode verwenden
+
+-   wird genutzt um Text fett `<b></b>`, kursiv `<i></i>` also code `<code></code>` oder link `<a href=“URL“>Link</a>` dar zu stellen, es ist möglich das es noch mehr gibt
+-   um das zu nutzen checkbox Parse Mode aktivieren und Text zwischen die Tags einfügen
 
 #### Icons in den Menu-Buttons
 
@@ -51,30 +76,40 @@ Das Ergebnis wäre dann dieses!<br>
 
 ![Icon2](../pic/heizung-icon2.png)
 
+#### Verlauf löschen
+
+Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` -&nbsp;**Navigation**&nbsp; ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite)
+
 ### Submenus
 
 ![Submenus](../pic/image10.png)
 
 -   Die Menus werden in die Navigation eingetragen um sie aufzurufen
--   Der name muss immer ein einzigartiger Name sein, darf also immer nur einmal vorkommen und verweist dann auf den Trigger in Aktion, wo die ID angegeben wird.
+-   Der TRIGGER muss immer ein einzigartiger Name sein, darf also immer nur einmal vorkommen und verweist dann auf den Trigger in Aktion, wo die ID angegeben wird.
 
 ```
- menu:switch-on.true-off.false:name:
+ menu:switch-on.true-off.false:TRIGGER:
 ```
 
 -   Es kann jeder Wert ersetzt werden, on und off sind die Buttons, true und false werden automatisch zu booleans gewandelt, kann aber auch durch Text ersetzt werden
 
 ```
-menu:percent10:name:
+menu:percent10:TRIGGER:
 ```
 
 -   Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
 
 ```
-menu:number1-20-2-unit:name:
+menu:number1-20-2-unit:TRIGGER:
 ```
 
 -   Die 1,20 gibt die Spanne an, diese kann auch umgedreht sein 20,1, die 2 die Schritte, und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
+
+```
+menu:dynSwitch[Name1.value1, Name2.value2, value3]:TRIGGER:LenghtOfRow:
+```
+
+-   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende und der Wert, Name.Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wieviele Buttons nebeneinander stehen sollen
 
 ```
 menu:back
@@ -94,13 +129,35 @@ menu:back
 -   Unter Wert kann man andere Werte eintragen, damit diese gesetzt werden, für jeden Wert muss ein seperates Setstate erstellt werden
 -   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen,&nbsp;**sobald `ack:true`gesetzt wurde**. Platzhalter für den Wert ist &&. Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den Wert auf `ack:true` gesetzt hat. Möchte man aber `ack:true` manuell setzen, setzt man einfach den Haken bei Ack.<br>
 
--   Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, trägt man in den Rückgabetext einfach `{novalue}` ein<br>
+```
+{novalue}`
+```
+
+-   Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, wird das in den Rückgabetext eingetragen<br>
     ![novalue](../pic/image5.png)<br>
--   Möchte man Values verändern die als Rückgabetext geschickt werden, z.B. von true zu an und false zu aus ,trägtman im Text `change{"true":"an", "false":"aus"}` ein.<br>
-    ![change](../pic/image6.png)<br>
--   Möchte man einen State setzen, aber die Änderung eines anderen States danach erhalten, fügt man `{"id":"id","text":"Wert wurde gesetzt:"}` in den Rückgabetext ein. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
+
+```
+{"id":"id","text":"Wert wurde gesetzt:"}
+```
+
+-   Möchte man einen State setzen, aber dann die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
     Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
--   **Einen Text- oder Zahl-Datenpunkt setzen:**&nbsp;Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch das Setzen von `{setDynamicValue:RequestText:Type:ConfirmText:}` im Rückgabefeld. "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden.
+
+```
+{setDynamicValue:RequestText:Type:ConfirmText:}
+```
+
+-   **Einen Text- oder Zahl-Datenpunkt setzen:**&nbsp;Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch eintragen im Rückgabefeld. "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden.
+
+```
+{confirmSet:The value has been set:noValue}
+```
+
+-   hiermit kann das setzen eines Wertes bestätigt werden, dieses bedeutet aber nicht das ein Adapter diesen Wert verarbeitet hat
+
+##### Parse Mode , change, newline
+
+-   bitte in die Navigation schauen
 
 ### GetState
 
