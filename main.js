@@ -18,6 +18,7 @@ const { backMenuFunc } = require("./lib/js/backMenu");
 const { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } = require("./lib/js/processData");
 
 const { insertValueInPosition, checkEvent } = require("./lib/js/action");
+const util = require("util");
 
 const timeoutKey = 0;
 let subscribeForeignStateIds;
@@ -139,6 +140,7 @@ class TelegramMenu extends utils.Adapter {
 								this.log.debug("Array Buttons: " + JSON.stringify(value));
 								this.log.debug("Gen. Actions: " + JSON.stringify(menuData.data[name]));
 							}
+							console.log(util.inspect(menuData, false, null, true /* enable colors */));
 						} catch (err) {
 							this.log.error("Error generateNav: " + JSON.stringify(err.message));
 							this.log.error(JSON.stringify(err.stack));
