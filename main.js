@@ -159,7 +159,7 @@ class TelegramMenu extends utils.Adapter {
 									if (userActiveCheckbox[menu] && startside != "-") {
 										this.log.debug("Startseite: " + JSON.stringify(startside));
 										menusWithUsers[menu].forEach((user) => {
-											backMenuFunc(this, startside, null, user);
+											backMenuFunc(this, startside, menuData.data[menu][startside].nav, user);
 											this.log.debug("User List " + JSON.stringify(userListWithChatID));
 
 											sendToTelegram(
