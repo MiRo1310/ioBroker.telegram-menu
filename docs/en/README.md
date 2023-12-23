@@ -7,6 +7,11 @@ The adapter is used to communicate with the Iobroker via telegram menu, to switc
 
 Let's get started!
 
+### Generally
+
+-   All submenus and special settings presented below can be found directly in the adapter. These settings are sorted and placed exactly where they can be used.
+    You can use this button to call up the “HelperText”.![Button HelperText](../pic/btnHelperTexte.png)
+
 ### Navigation
 
 ![Navigation](../pic/nav.png)<br>Here you can see the navigation.
@@ -26,18 +31,38 @@ Let's get started!
 
 -   If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
-### Generally
+#### When opening a navigation...
 
--   All submenus and special settings presented below can be found directly in the adapter. These settings are sorted and placed exactly where they can be used.
-    You can use this button to call up the “HelperText”.![Button HelperText](../pic/btnHelperTexte.png)
+##### ...a status will be sent
 
-#### delete history
+-   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.<br>![Config for Status](../pic/statusConfig.png)The result would then be this!<br>![Telegram Status](../pic/TelegramStatus.png)
 
-To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`- **Navigation** is the menu name that should then be called up (e.g. home page)
+##### ... the value of the status can be changed
 
-#### Status
+-   If the value is to be changed, e.g. from true to on and false to off, can`change{"true":"an","false":"aus"}`be used
 
-To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.<br>![Config for Status](../pic/statusConfig.png)The result would then be this!<br>![Telegram Status](../pic/TelegramStatus.png)
+##### ...a value can be set
+
+-   sets a data point when opening a navigation. The following can be used -`{set:'id':'ID',val,ack}`- ID is the ID of the data point into which a value is to be written. val - the value to be set, ack - should the value be set confirmed or unconfirmed?
+
+##### ...a timestamp will be sent
+
+-   sends a timestamp when opening a navigation
+-   for final processing`{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`
+-   otherwise`{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`- ID is the ID of the data point to be queried, it can be changed individually in the brackets, individual placeholders can be removed but may not be changed, except for YYYY can also be used as YY.
+
+##### ...add a line break to the text
+
+-   Enter \\n at the desired location
+
+##### ...the status value is a Unix timestamp
+
+-   to convert this to a local time -`{time}`
+
+##### ...use parse mode
+
+-   is used to make text bold`<b></b>`, italics`<i></i>`also code`<code></code>`or link`<a href=“URL“>Link</a>`To show, it is possible that there are more
+-   to use the checkbox Enable Parse Mode and insert text between the tags
 
 #### Icons in den Menu-Buttons
 
@@ -47,27 +72,36 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 
 ![Icon2](../pic/heizung-icon2.png)
 
+#### delete history
+
+To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`- **Navigation** is the menu name that should then be called up (e.g. home page)
+
 ### Sub-menus
 
 ![Submenus](../pic/image10.png)
 
 -   The menus are entered into the navigation in order to call them up
--   The name must always be a unique name, so it can only appear once and then refers to the trigger in action, where the ID is specified.
+-   The TRIGGER must always be a unique name, so it can only appear once and then refers to the trigger in action, where the ID is specified.
 
 
-     menu:switch-on.true-off.false:name:
+     menu:switch-on.true-off.false:TRIGGER:
 
 -   Any value can be replaced, on and off are the buttons, true and false are automatically converted to booleans, but can also be replaced with text
 
 
-    menu:percent10:name:
+    menu:percent10:TRIGGER:
 
 -   The 10 is variable and indicates the steps; this can easily be replaced by another number.
 
 
-    menu:number1-20-2-unit:name:
+    menu:number1-20-2-unit:TRIGGER:
 
 -   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
+
+
+    menu:dynSwitch[Name1.value1, Name2.value2, value3]:TRIGGER:LenghtOfRow:
+
+-   This can be used to create a dynamic menu, in an array \[], always the one to be displayed and the value, Name.Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can specify how many buttons next to each other should stand
 
 
     menu:back
@@ -83,19 +117,33 @@ To display the status of an ID when calling up a navigation or a submenu, the fo
 ![SetState](../pic/setState.png)
 
 -   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger. The trigger has exactly the same name as the button that is supposed to trigger the action.
-
 -   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
-
 -   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
--   If you don't want to receive the set value, simply enter it in the return text`{novalue}`a<br>![novalue](../pic/image5.png)<br>
 
--   If you want to change values ​​that are sent as return text, e.g. from true to on and false to off, you enter them in the text`change{"true":"an", "false":"aus"}`a.<br>![change](../pic/image6.png)<br>
+    {novalue}`
 
--   If you want to set a state but then receive the change of another state, you add`{"id":"id","text":"Wert wurde gesetzt:"}`in the return text. Replace ID with the desired ID, the text can also be customized
+-   If you do not want to receive the set value, this will be entered in the return text<br>![novalue](../pic/image5.png)<br>
+
+
+    {"id":"id","text":"Wert wurde gesetzt:"}
+
+-   If you want to set a state but then receive the change to another state, you use this in the return text. Replace ID with the desired ID, the text can also be customized
     However, the change is only sent if the state was set to ack:true
 
--   **To set a text or number data point:** For example, if you want to put text in a data point, the instance waits for an input after pressing a button. The selected data point is then described with the text. This can be achieved by setting`{setDynamicValue:RequestText:Type:ConfirmText:}`in the return field. "RequestText" prompt text for input, "Type" boolean, number, string and "ConfirmText" confirmation text of the data point can be replaced with your own text.
+
+    {setDynamicValue:RequestText:Type:ConfirmText:}
+
+-   **To set a text or number data point:** For example, if you want to put text in a data point, the instance waits for an input after pressing a button. The selected data point is then described with the text. You can do this by entering it in the return field. "RequestText" prompt text for input, "Type" boolean, number, string and "ConfirmText" confirmation text of the data point can be replaced with your own text.
+
+
+    {confirmSet:The value has been set:noValue}
+
+-   This can be used to confirm the setting of a value, but this does not mean that an adapter has processed this value
+
+##### Parse Mode , change, newline
+
+-   please look in the navigation
 
 ### GetState
 
