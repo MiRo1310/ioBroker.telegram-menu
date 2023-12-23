@@ -14,7 +14,7 @@ const { sendToTelegram } = require("./lib/js/telegram");
 const { decomposeText, changeValue } = require("./lib/js/utilities");
 const { createState } = require("./lib/js/createState");
 const { saveMessageIds } = require("./lib/js/messageIds");
-const { backMenuFunc } = require("./lib/js/backMenu");
+const { adapterStartMenuSend } = require("./lib/js/adapterStartMenuSend");
 const { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } = require("./lib/js/processData");
 
 const { insertValueInPosition, checkEvent } = require("./lib/js/action");
@@ -47,7 +47,7 @@ class TelegramMenu extends utils.Adapter {
 		const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
 		const datapoint = `${instanceTelegram}.info.connection`;
 		this.log.debug("Datapoint: " + JSON.stringify(datapoint));
-		let telegramAktiv, telegramState;
+		let telegramActiv, telegramInfoConnection;
 
 		// @ts-ignore
 		const checkbox = this.config.checkbox;
@@ -97,16 +97,16 @@ class TelegramMenu extends utils.Adapter {
 				} else {
 					// Datenpunkt wurde gefunden
 					try {
-						telegramState = await this.getForeignStateAsync(datapoint);
+						telegramInfoConnection = await this.getForeignStateAsync(datapoint);
 					} catch (e) {
 						this.log.error("Error getForeignState: " + JSON.stringify(e.message));
 						this.log.error(JSON.stringify(e.stack));
 					}
-					telegramAktiv = telegramState?.val;
-					if (!telegramAktiv) {
+					telegramActiv = telegramInfoConnection?.val;
+					if (!telegramActiv) {
 						this.log.info("Telegram was found, but is not runnig. Please start!");
 					}
-					if (telegramAktiv) {
+					if (telegramActiv) {
 						this.log.info("Telegram was found");
 						this.setState("info.connection", true, true);
 
@@ -152,30 +152,18 @@ class TelegramMenu extends utils.Adapter {
 							this.log.debug("MenuList: " + JSON.stringify(listofMenus));
 							//ANCHOR - First Start
 							if (sendMenuAfterRestart) {
-								listofMenus.forEach((menu) => {
-									this.log.debug("Menu: " + JSON.stringify(menu));
-									const startside = [startsides[menu]].toString();
-									// Startseite senden
-									if (userActiveCheckbox[menu] && startside != "-") {
-										this.log.debug("Startseite: " + JSON.stringify(startside));
-										menusWithUsers[menu].forEach((user) => {
-											backMenuFunc(this, startside, menuData.data[menu][startside].nav, user);
-											this.log.debug("User List " + JSON.stringify(userListWithChatID));
-
-											sendToTelegram(
-												_this,
-												user,
-												menuData.data[menu][startside].text,
-												menuData.data[menu][startside].nav,
-												instanceTelegram,
-												resize_keyboard,
-												one_time_keyboard,
-												userListWithChatID,
-												menuData.data[menu][startside].parse_mode,
-											);
-										});
-									} else this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startside }));
-								});
+								adapterStartMenuSend(
+									_this,
+									listofMenus,
+									startsides,
+									userActiveCheckbox,
+									menusWithUsers,
+									menuData,
+									userListWithChatID,
+									instanceTelegram,
+									resize_keyboard,
+									one_time_keyboard,
+								);
 							}
 						} catch (error) {
 							this.log.error("Error read UserList" + JSON.stringify(error.message));
@@ -186,7 +174,7 @@ class TelegramMenu extends utils.Adapter {
 						const setStateIdsToListenTo = getStateIdsToListenTo();
 						try {
 							let userToSend;
-							if (telegramAktiv) {
+							if (telegramActiv) {
 								//ANCHOR - Check Event
 								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, menusWithUsers))
 									return;
@@ -317,11 +305,11 @@ class TelegramMenu extends utils.Adapter {
 
 							if (state && id == `${instanceTelegram}.info.connection`) {
 								if (!state.val) {
-									telegramAktiv = false;
+									telegramActiv = false;
 									this.setState("info.connection", false, true);
 								} else {
 									this.setState("info.connection", true, true);
-									telegramAktiv = true;
+									telegramActiv = true;
 								}
 							}
 						} catch (e) {

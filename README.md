@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   fixes in menu:back
 -   Possibility to stop sending Menu after restart (after save)
 
 ### 1.5.1 (2023-12-20)

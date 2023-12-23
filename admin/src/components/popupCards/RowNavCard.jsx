@@ -18,7 +18,7 @@ class RowNavCard extends Component {
 					!(entry.name == "value") && !(entry.name == "text") && !entry.checkbox ? (
 						<Input
 							key={i}
-							width={entry.width ? entry.width : "15%"}
+							width={entry.editWidth ? entry.editWidth : "15%"}
 							value={this.props.newRow[entry.name]}
 							margin="0px 2px 0 5px"
 							id={entry.name}
@@ -30,7 +30,7 @@ class RowNavCard extends Component {
 					) : entry.name == "value" || entry.name == "text" ? (
 						<Input
 							key={i}
-							width={entry.width ? entry.width : "15%"}
+							width={entry.editWidth ? entry.editWidth : "15%"}
 							value={this.props.newRow[entry.name]}
 							margin="0px 2px 0 2px"
 							id={entry.name}
@@ -52,7 +52,7 @@ class RowNavCard extends Component {
 							isChecked={isChecked(this.props.newRow[entry.name])}
 							obj={true}
 							label={I18n.t(entry.headline)}
-							marginLeft="5px"
+							marginLeft="8px"
 							marginTop="10px"
 						></Checkbox>
 					),

@@ -83,8 +83,8 @@ export const tabValues = [
 ];
 
 export const navEntrys = [
-	{ name: "call", val: "", headline: "Trigger", width: "15%" },
-	{ name: "value", val: "", headline: "Navigation", width: "45%" },
-	{ name: "text", val: "Choose an action", headline: "Text", width: "35%" },
-	{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%" },
+	{ name: "call", val: "", headline: "Trigger", width: "25%", editWidth: "98%" },
+	{ name: "value", val: "", headline: "Navigation", width: "45%", editWidth: "98%" },
+	{ name: "text", val: "Choose an action", headline: "Text", width: "35%", editWidth: "98%" },
+	{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "10%" },
 ];
