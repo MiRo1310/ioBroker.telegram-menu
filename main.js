@@ -178,7 +178,11 @@ class TelegramMenu extends utils.Adapter {
 							if (telegramActiv) {
 								// Send to Shoppinglist
 								if (state && typeof state.val == "string" && state.val.includes("sList:")) {
-									shoppingList(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+									shoppingList(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard, false);
+									return;
+								}
+								if (id.includes("alexa-shoppinglist")) {
+									shoppingList(_this, null, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard, true);
 									return;
 								}
 								//ANCHOR - Check Event
