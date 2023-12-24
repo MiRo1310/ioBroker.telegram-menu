@@ -126,5 +126,6 @@
     "Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.": "Просить клієнтів змінити розмір клавіатури по вертикалі для оптимального припасування (наприклад, зробити клавіатуру меншою, якщо є лише два ряди кнопок). За замовчуванням значення false, у цьому випадку спеціальна клавіатура завжди має ту саму висоту, що й стандартна клавіатура програми.",
     "Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again.": "Вимагає від клієнтів приховати клавіатуру, щойно вона використовується. Клавіатура як і раніше буде доступна, але клієнти автоматично відображатимуть звичайну літерну клавіатуру в чаті - користувач може натиснути спеціальну кнопку в полі введення, щоб знову побачити спеціальну клавіатуру.",
     "Please create a menu!": "Будь ласка, створіть меню!",
-    "Send Menu after Restart": "Надіслати меню після перезапуску"
+    "Send Menu after Restart": "Надіслати меню після перезапуску",
+    "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "Те саме, що й вище, але коли ви натискаєте кнопку, товар буде видалено, «список покупок» не можна змінити."
 }

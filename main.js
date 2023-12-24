@@ -16,6 +16,7 @@ const { createState } = require("./lib/js/createState");
 const { saveMessageIds } = require("./lib/js/messageIds");
 const { adapterStartMenuSend } = require("./lib/js/adapterStartMenuSend");
 const { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } = require("./lib/js/processData");
+const { shoppingList } = require("./lib/js/shoppingList");
 
 const { insertValueInPosition, checkEvent } = require("./lib/js/action");
 const util = require("util");
@@ -175,6 +176,11 @@ class TelegramMenu extends utils.Adapter {
 						try {
 							let userToSend;
 							if (telegramActiv) {
+								// Send to Shoppinglist
+								if (state && typeof state.val == "string" && state.val.includes("sList:")) {
+									shoppingList(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+									return;
+								}
 								//ANCHOR - Check Event
 								if (checkEvent(dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, menusWithUsers))
 									return;

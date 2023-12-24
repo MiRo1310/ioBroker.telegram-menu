@@ -113,6 +113,10 @@ const helperText = {
 			info: "Creats a table from a JSON as Inline-keyboard. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.",
 		},
 		{
+			text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}",
+			info: "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.",
+		},
+		{
 			text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}",
 			info: "!!! To use it, parseMode must not be active !!! Creats a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.",
 		},

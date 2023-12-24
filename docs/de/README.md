@@ -178,6 +178,12 @@ menu:back
 -   **Tabellen**<br>
     bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben.&nbsp;**Value-1**&nbsp; ist z.B. der erste Key des JSON's, welcher angezeigt werden soll.&nbsp; **NameTH-Col1**&nbsp; vergibt den dazugehörigen Spaltennamen (usw.), Dieser kann auch weg gelassen werden, dann hat die Tabelle keinen Header.&nbsp; **Header**&nbsp; muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert): '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
 
+```
+{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
+```
+
+-   Dieses erstellt genau die selbe Liste , hierbei haben die Button die Funktion das Item aus der Liste vom Alexa2 Adapter zu entfernen. Damit das ganze funktioniert, muss der Datenpunkt von dem die Liste erstellt wurde, der Datenpunkt des `alexa-shoppinglist` Adapter sein.
+
 ![InlineTable](../pic/inlinetable-grafik.png)
 ![TextTable](../pic/textable-grafik.png)
 
