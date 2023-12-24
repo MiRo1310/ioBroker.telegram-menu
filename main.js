@@ -176,13 +176,25 @@ class TelegramMenu extends utils.Adapter {
 						try {
 							let userToSend;
 							if (telegramActiv) {
+								const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+								if (chatID) {
+									this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
+									userListWithChatID.forEach((element) => {
+										this.log.debug("User and ChatID: " + JSON.stringify(element));
+										if (element.chatID == chatID.val) userToSend = element.name;
+										this.log.debug("User " + JSON.stringify(userToSend));
+									});
+								} else {
+									this.log.debug("ChatID not found");
+								}
+
 								// Send to Shoppinglist
 								if (state && typeof state.val == "string" && state.val.includes("sList:")) {
-									shoppingList(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard, false);
+									shoppingList(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard, false, "");
 									return;
 								}
 								if (id.includes("alexa-shoppinglist")) {
-									shoppingList(_this, null, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard, true);
+									shoppingList(_this, null, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard, true, userToSend);
 									return;
 								}
 								//ANCHOR - Check Event
@@ -192,18 +204,6 @@ class TelegramMenu extends utils.Adapter {
 									saveMessageIds(_this, state, instanceTelegram);
 								} else if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack) {
 									const value = state.val;
-									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-
-									if (chatID) {
-										this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
-										userListWithChatID.forEach((element) => {
-											this.log.debug("User and ChatID: " + JSON.stringify(element));
-											if (element.chatID == chatID.val) userToSend = element.name;
-											this.log.debug("User " + JSON.stringify(userToSend));
-										});
-									} else {
-										this.log.debug("ChatID not found");
-									}
 
 									const calledValue = value.slice(value.indexOf("]") + 1, value.length);
 									this.log.debug(
