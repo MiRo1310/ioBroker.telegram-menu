@@ -14,7 +14,7 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)<br>Here you can see the navigation.
+![Navigation](../pic/nav.png)<br>Here the navigation looks.
 
 -   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. But you can call this up again using a button.
 -   The text on the right "Choose an action" is freely selectable, but cannot be empty.
@@ -117,7 +117,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 ![SetState](../pic/setState.png)
 
 -   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger. The trigger has exactly the same name as the button that is supposed to trigger the action.
--   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
+-   Under Value you can enter other values ​​so that they can be set; a separate set state must be created for each value
 -   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
 
@@ -160,7 +160,12 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input. **Value-1** is, for example, the first key of the JSON that should be displayed. **NameTH-Col1** assigns the corresponding column name (etc.). **Header** must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input. **Value-1** is, for example, the first key of the JSON that should be displayed. **NameTH-Col1** assigns the corresponding column name (etc.). This can also be omitted, then the table has no header. **Header** must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+
+
+    {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
+
+-   This creates exactly the same list, but the buttons have the function of removing the item from the list of the Alexa2 adapter. For the whole thing to work, the data point from which the list was created must be the data point of the`alexa-shoppinglist`Adapt breast.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
