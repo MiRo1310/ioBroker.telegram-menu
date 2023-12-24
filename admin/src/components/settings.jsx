@@ -18,6 +18,15 @@ class Settings extends Component {
 		checkbox[id] = event.target.checked;
 		this.props.callback.updateNative("checkbox", checkbox);
 	};
+
+	componentDidMount() {
+		if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
+			const checkbox = { ...this.props.data.state.native.checkbox };
+			checkbox.sendMenuAfterRestart = true;
+			this.props.callback.updateNative("checkbox", checkbox);
+		}
+	}
+
 	render() {
 		console.log(this.props.data.state.native.checkbox);
 		return (
@@ -110,7 +119,7 @@ class Settings extends Component {
 							isChecked={
 								this.props.data.state.native.checkbox.sendMenuAfterRestart == true || this.props.data.state.native.checkbox.sendMenuAfterRestart == false
 									? this.props.data.state.native.checkbox.sendMenuAfterRestart
-									: true
+									: false
 							}
 							callbackValue="event"
 							callback={this.onClickCheckbox}
