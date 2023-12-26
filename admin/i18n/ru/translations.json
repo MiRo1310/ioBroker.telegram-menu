@@ -127,5 +127,6 @@
     "Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again.": "Просит клиентов скрывать клавиатуру сразу после ее использования. Клавиатура по-прежнему будет доступна, но клиенты будут автоматически отображать в чате обычную буквенную клавиатуру — пользователь может нажать специальную кнопку в поле ввода, чтобы снова увидеть кастомную клавиатуру.",
     "Please create a menu!": "Пожалуйста, создайте меню!",
     "Send Menu after Restart": "Меню отправки после перезагрузки",
-    "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "То же, что и выше, но при нажатии на кнопку товар будет удален, «список покупок» изменить нельзя."
+    "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "То же, что и выше, но при нажатии на кнопку товар будет удален, «список покупок» изменить нельзя.",
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "То же, что и выше, но при нажатии на кнопку элемент будет удален. Ключом для элементов является `name:`, вы также можете добавить `time:`. <strong>Важно!!!</strong> «Список покупок» нельзя изменить."
 }

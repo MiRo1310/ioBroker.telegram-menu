@@ -127,5 +127,6 @@
     "Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again.": "要求客户在使用键盘后立即隐藏键盘。键盘仍然可用，但客户端将自动在聊天中显示常用的字母键盘 - 用户可以按输入字段中的特殊按钮再次看到自定义键盘。",
     "Please create a menu!": "请创建一个菜单！",
     "Send Menu after Restart": "重启后发送菜单",
-    "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，“购物清单”可能不会更改。"
+    "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，“购物清单”可能不会更改。",
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，项目的 Key 是 `name:`，您也可以添加 `time:`。 <strong>重要！！！</strong>“购物清单”可能无法更改。"
 }

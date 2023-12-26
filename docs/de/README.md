@@ -182,7 +182,7 @@ menu:back
 {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
 ```
 
--   Dieses erstellt genau die selbe Liste , hierbei haben die Button die Funktion das Item aus der Liste vom Alexa2 Adapter zu entfernen. Damit das ganze funktioniert, muss der Datenpunkt von dem die Liste erstellt wurde, der Datenpunkt des `alexa-shoppinglist` Adapter sein.
+-   Dieses erstellt genau die selbe Liste , hierbei haben die Button die Funktion das Item aus der Liste vom Alexa2 Adapter zu entfernen. Der Key für die Daten aus der JSON ist in diesem Fall `name:`.Damit das ganze funktioniert, muss der Datenpunkt von dem die Liste erstellt wurde, der Datenpunkt des `alexa-shoppinglist` Adapter sein.
 
 ![InlineTable](../pic/inlinetable-grafik.png)
 ![TextTable](../pic/textable-grafik.png)

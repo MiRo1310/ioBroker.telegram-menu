@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   json Table in combination with the alexa-shoppinglist adapter can remove items
 -   json Table without Head
 -   fixes in menu:back
 -   Possibility to stop sending Menu after restart (after save)
