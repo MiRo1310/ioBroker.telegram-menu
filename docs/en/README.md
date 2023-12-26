@@ -91,7 +91,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     menu:percent10:TRIGGER:
 
--   The 10 is variable and indicates the steps; this can easily be replaced by another number.
+-   Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
 
 
     menu:number1-20-2-unit:TRIGGER:
@@ -117,7 +117,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 ![SetState](../pic/setState.png)
 
 -   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger. The trigger has exactly the same name as the button that is supposed to trigger the action.
--   Under Value you can enter other values ​​so that they can be set; a separate set state must be created for each value
+-   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
 -   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
 
@@ -165,7 +165,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
 
--   This creates exactly the same list, but the buttons have the function of removing the item from the list of the Alexa2 adapter. For the whole thing to work, the data point from which the list was created must be the data point of the`alexa-shoppinglist`Adapt breast.
+-   This creates exactly the same list, but the buttons have the function of removing the item from the list of the Alexa2 adapter. In this case, the key for the data from the JSON is`name:`.For the whole thing to work, the data point from which the list was created must be the data point of the`alexa-shoppinglist`Adapt breast.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
