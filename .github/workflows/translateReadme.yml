@@ -3,10 +3,7 @@ name: Translate README
 on:
   push:
     paths: 
-      - 'docs/de/README.md'
-  pull_request:
-    paths:
-      - 'docs/de/README.md'
+      - 'docs/de/README.md'  
   workflow_dispatch:  # Erlaubt manuelle Auslösung
 jobs:
   build:
