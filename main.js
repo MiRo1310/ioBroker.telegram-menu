@@ -193,7 +193,7 @@ class TelegramMenu extends utils.Adapter {
 									shoppingListSubscribeStateAndDeleteItem(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
 									return;
 								}
-								if (id.includes("alexa-shoppinglist")) {
+								if (id.includes("alexa-shoppinglist") && !id.includes("add_position")) {
 									deleteMessageAndSendNewShoppingList(_this, instanceTelegram, userListWithChatID, userToSend);
 									return;
 								}
