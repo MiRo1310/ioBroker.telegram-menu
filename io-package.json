@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "news": {
+      "1.6.1": {
+        "en": "fixed, shoppinglist",
+        "de": "fest, shoppinglist",
+        "ru": "фиксированный, торговый список",
+        "pt": "fixo, lista de compras",
+        "nl": "vertaling:",
+        "fr": "fixe, liste d'achats",
+        "it": "fisso, elenco degli acquisti",
+        "es": "fija, lista de compras",
+        "pl": "ustalony",
+        "uk": "фіксований, список покупок",
+        "zh-cn": "固定营业商"
+      },
       "1.6.0": {
         "en": "json Table in combination with the alexa-shoppinglist adapter can remove items\njson Table without Head\nfixes in menu:back\nPossibility to stop sending Menu after restart (after save)",
         "de": "json Tabelle in Kombination mit dem alexa-shoppinglist Adapter kann Elemente entfernen\njson Tisch ohne Kopf\neinstellungen im menü:back\nMöglichkeit, das Senden von Menü nach dem Neustart zu stoppen (nach dem Speichern)",
@@ -80,19 +93,6 @@
         "pl": "drobne rozwiązanie\nMenu Entrys posortował przez Name",
         "uk": "маленькі кріплення\nІм'я",
         "zh-cn": "小型配件\n国籍"
-      },
-      "1.2.2": {
-        "en": "style fix and Helper Card texts expanded",
-        "de": "style Fix und Helper Card Texte erweitert",
-        "ru": "стиль исправить и Helper Card тексты расширены",
-        "pt": "correção de estilo e textos de cartão de ajuda expandido",
-        "nl": "stijl en helper Card sms'jes breiden",
-        "fr": "correction de style et les textes de carte d'aide élargi",
-        "it": "stile fix e Helper Card testi ampliati",
-        "es": "textos de estilo y tarjeta de ayuda",
-        "pl": "okładka",
-        "uk": "фіксувати стиль і допоможисерські тексти розширені",
-        "zh-cn": "导 言"
       }
     },
     "titleLang": {
