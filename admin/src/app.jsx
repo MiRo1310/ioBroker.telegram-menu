@@ -323,8 +323,16 @@ class App extends GenericApp {
 					</PopupContainer>
 				) : null}
 				{this.state.showTriggerInfo ? (
-					<PopupContainer title="Trigger Info" width="99%" height="99%" top="60%" class="TriggerOverview-PopupContainer" closeBtn={true}>
-						<TriggerOverview trigger={this.state.triggerObject}></TriggerOverview>
+					<PopupContainer
+						title="Trigger Info"
+						width="99%"
+						height="99%"
+						top="60%"
+						class="TriggerOverview-PopupContainer"
+						closeBtn={true}
+						callback={(val) => this.setState({ showTriggerInfo: val })}
+					>
+						<TriggerOverview trigger={this.state.triggerObject} usersInGroup={this.state.native.usersInGroup}></TriggerOverview>
 					</PopupContainer>
 				) : null}
 				{this.state.doubleTrigger.length > 0 ? (

@@ -119,22 +119,28 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 
 	// Trigger und Used Trigger finden
 	let usedTrigger = [];
-	let allTriggers = [];
+	let allTrigger = [];
 	const triggerArray = [];
+	const everyTrigger = {};
 
-	const nav = [];
-	const triggerObj = { unUsedTrigger: [""], usedTrigger: { nav: nav, action: {} } };
+	const triggerObj = { unUsedTrigger: [""], everyTrigger: everyTrigger, usedTrigger: { nav: {}, action: {} } };
 	menusToSearchIn.forEach((menu) => {
 		// usedTriggers und unUsedTrigger in Nav finden
+		let triggerInMenu = [];
 		if (!data.nav[menu]) return;
 		data.nav[menu].forEach((element, index) => {
+			let triggerInRow = [];
 			usedTrigger.push(element.call);
 			triggerArray.push(element.call);
-			allTriggers = allTriggers.concat(disassembleTextToTriggers(element.value));
+			triggerInRow = disassembleTextToTriggers(element.value);
+			triggerInMenu = triggerInMenu.concat(triggerInRow);
+			allTrigger = allTrigger.concat(triggerInRow);
 
+			// Wenn letzter Eintrag, dann usedTriggers in Objekt einfügen für das Trigger overview
 			if (index == data.nav[menu].length - 1) {
-				const obj = { [menu]: [...triggerArray] };
-				triggerObj.usedTrigger.nav.push(obj);
+				triggerObj.usedTrigger.nav[menu] = [...triggerArray];
+				// everyTriggers in Objekt einfügen für das Trigger overview ohne "-"
+				triggerObj.everyTrigger[menu] = deleteDoubleEntrysInArray([...triggerInMenu].filter((x) => x != "-")).sort();
 				triggerArray.length = 0;
 			}
 		});
@@ -146,6 +152,7 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 			data.action[menu][sub].forEach((element, index) => {
 				usedTrigger = usedTrigger.concat(element.trigger);
 				actionTrigger.push(element.trigger[0]);
+				// Wenn letzter Eintrag, dann usedTriggers in Objekt einfügen für das Trigger overview
 				if (index == data.action[menu][sub].length - 1) {
 					triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
 					actionTrigger.length = 0;
@@ -155,9 +162,9 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 	});
 
 	// Doppelte Einträge in Triggers entfernen
-	if (Array.isArray(allTriggers)) allTriggers = deleteDoubleEntrysInArray(allTriggers);
+	if (Array.isArray(allTrigger)) allTrigger = deleteDoubleEntrysInArray(allTrigger);
 	// usedTrigger entfernen
-	let unUsedTrigger = allTriggers.filter((x) => !usedTrigger.includes(x));
+	let unUsedTrigger = allTrigger.filter((x) => !usedTrigger.includes(x));
 	// unUsedTrigger in Object einfügen
 	if (unUsedTrigger.length > 0) triggerObj.unUsedTrigger = unUsedTrigger;
 	unUsedTrigger = sortArray(unUsedTrigger);
