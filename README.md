@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   remaining text reattached
+
 ### 1.6.1 (2023-12-27)
 
 -   fixed, shoppinglist
