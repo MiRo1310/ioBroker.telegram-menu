@@ -109,7 +109,6 @@ export const colors = [
 	"PowderBlue",
 	"Purple",
 	"RebeccaPurple",
-	"Red",
 	"RosyBrown",
 	"RoyalBlue",
 	"SaddleBrown",

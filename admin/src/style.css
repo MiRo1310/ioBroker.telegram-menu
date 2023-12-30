@@ -808,12 +808,20 @@ span[title],
 	vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
 	margin: 3px 3px;
 	padding: 0 3px;
-	background-color: #f5f5f5;
-
+	background-color: #eee;
 	width: max-content;
 }
-.Action-list li {
+.dark .Menu-list-card,
+.blue .Menu-list-card {
+	background-color: #333;
+	color: #ddd;
+}
+
+.Action-list li,
+.Menu-list-card li {
 	list-style-type: none;
+	font-size: 0.7rem;
+	line-height: 0.75rem;
 }
 
 /* Für die <p> und <ul> Elemente innerhalb der .Menu-list-card */
@@ -832,16 +840,19 @@ span[title],
 .User-list-container {
 	background-color: #ddd;
 }
+.dark .User-list-container,
+.blue .User-list-container {
+	background-color: #aaa;
+}
 .User-list-container p {
 	margin-top: 4px;
 	margin-bottom: 0px;
 	padding: 0 5px;
+	color: black;
 }
 .User-list ~ p {
 	font-size: 0.75rem;
-
 	padding-bottom: 2px;
-
 	font-weight: 500;
 	display: inline-block;
 	margin-top: 0;
@@ -852,17 +863,40 @@ span[title],
 
 .menu-startside {
 	background-color: #96d15a;
+	color: black;
 }
 .menu-disabled {
-	background-color: #ff0033;
+	background-color: rgb(242, 101, 101);
+	color: black;
 }
 
 .Menu-list-container ul li ul li {
 	font-size: 0.75rem;
-	line-height: 0.7rem;
+	line-height: 0.75rem;
 }
 .strong {
 	margin-top: 5px;
 	font-weight: 500;
 	text-decoration: underline;
+}
+.squareText {
+	font-size: 0.7rem;
+}
+.noMargin {
+	margin: 0;
+	padding-left: 5px;
+}
+.textRight {
+	padding: 0 5px 0 5px;
+	margin: 3px 3px 0 0;
+}
+.inlineBlock {
+	display: inline-block;
+	flex-grow: 1;
+}
+.active {
+	background-color: #b5fb6f;
+}
+.inactive {
+	background-color: #ff0033;
 }

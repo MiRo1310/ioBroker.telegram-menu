@@ -332,7 +332,11 @@ class App extends GenericApp {
 						closeBtn={true}
 						callback={(val) => this.setState({ showTriggerInfo: val })}
 					>
-						<TriggerOverview trigger={this.state.triggerObject} usersInGroup={this.state.native.usersInGroup}></TriggerOverview>
+						<TriggerOverview
+							trigger={this.state.triggerObject}
+							usersInGroup={this.state.native.usersInGroup}
+							userActiveCheckbox={this.state.native.userActiveCheckbox}
+						></TriggerOverview>
 					</PopupContainer>
 				) : null}
 				{this.state.doubleTrigger.length > 0 ? (
