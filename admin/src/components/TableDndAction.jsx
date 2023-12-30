@@ -52,7 +52,8 @@ class TableDndAction extends Component {
 		this.getRows();
 	}
 
-	handleDrop = (index) => {
+	handleDrop = (index, event) => {
+		let currentElement = event.target;
 		while (currentElement) {
 			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
@@ -88,7 +89,7 @@ class TableDndAction extends Component {
 						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						className="no-select"
 						draggable
-						onDrop={() => this.handleDrop(index)}
+						onDrop={(event) => this.handleDrop(index, event)}
 						onDragStart={(event) => {
 							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }));
 						}}
