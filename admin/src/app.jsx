@@ -333,9 +333,10 @@ class App extends GenericApp {
 						callback={(val) => this.setState({ showTriggerInfo: val })}
 					>
 						<TriggerOverview
-							trigger={this.state.triggerObject}
+							// trigger={this.state.triggerObject}
 							usersInGroup={this.state.native.usersInGroup}
 							userActiveCheckbox={this.state.native.userActiveCheckbox}
+							data={this.state.native.data}
 						></TriggerOverview>
 					</PopupContainer>
 				) : null}

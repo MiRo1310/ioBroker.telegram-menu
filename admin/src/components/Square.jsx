@@ -13,7 +13,7 @@ class Square extends Component {
 			fontWeight: "normal",
 		};
 	}
-	componentDidMount() {
+	getValuesForSquare() {
 		switch (this.props.color) {
 			case "white":
 				if (this.props.trigger == "-") {
@@ -23,6 +23,7 @@ class Square extends Component {
 				this.setState({ bColor: "white", width: 60, text: "Not linked", left: "-59px", fontWeight: "bold" });
 				break;
 			case "black":
+				console.log(this.props.color, this.props.trigger, this.props.position);
 				this.setState({
 					bColor: "black",
 					width: this.props.noText ? 6 : 60,
@@ -34,12 +35,20 @@ class Square extends Component {
 				break;
 
 			default:
+				console.log(this.props.color, this.props.trigger, this.props.position);
 				if (this.props.trigger != "-") this.setState({ bColor: this.props.color, left: -(this.props.position * 10 + 5) + "px" });
 				else this.setState({ bColor: "transparent" });
 				break;
 		}
 	}
-
+	componentDidMount() {
+		this.getValuesForSquare();
+	}
+	componentDidUpdate(prevProps) {
+		if (this.props.color !== prevProps.color || this.props.trigger !== prevProps.trigger || this.props.position !== prevProps.position) {
+			this.getValuesForSquare();
+		}
+	}
 	render() {
 		return (
 			<div>

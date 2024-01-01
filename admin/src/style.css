@@ -901,3 +901,9 @@ span[title],
 .inactive {
 	background-color: #ff0033;
 }
+.menuDespription {
+	margin: 2px 0 4px 0;
+	text-decoration: underline;
+	font-size: 0.8rem;
+	font-weight: 500;
+}
