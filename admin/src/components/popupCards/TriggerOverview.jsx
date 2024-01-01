@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { colors } from "../../lib/color.mjs";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Square from "../Square.jsx";
+import { deleteDoubleEntrysInArray } from "../../lib/Utilis.mjs";
 
 class TriggerOverview extends Component {
 	constructor(props) {
@@ -14,33 +15,45 @@ class TriggerOverview extends Component {
 	ulPadding = {};
 	colorArray = [];
 	menuArray = [];
-	getColorUsedTriggerNav(indexUsedTrigger, menuCall, trigger) {
-		this.menuArray = [];
+	getMenusWithUserOrIndexOfMenu(menuCall, getIndex = false) {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
-		const menusWithUser = new Set();
+		let menusWithUser = [];
+		let colorIndex = 0;
 		const userInMenu = this.props.usersInGroup[menuCall];
-
-		arrayUsersInGroup.forEach((menu) => {
+		arrayUsersInGroup.forEach((menu, index) => {
 			userInMenu.forEach((user) => {
 				if (this.props.usersInGroup[menu].includes(user)) {
-					menusWithUser.add(menu);
+					menusWithUser.push({ menu: menu, index: index });
+					if (getIndex && menuCall == menu) {
+						colorIndex = index;
+					}
 				}
 			});
 		});
+		if (getIndex) return colorIndex;
+		return { menusWithUser: menusWithUser, arrayUsersInGroup: arrayUsersInGroup };
+	}
+	getColorUsedTriggerNav(indexUsedTrigger, menuCall, trigger) {
+		// console.log(this.ulPadding);
+		if (trigger == "Melanie") console.log(this.ulPadding["Melanie"]);
+		this.menuArray = [];
+		const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
+		const menusWithUser = deleteDoubleEntrysInArray(result.menusWithUser);
+		// console.log(menusWithUser);
 		this.colorArray = [];
 		// Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
 
 		for (const menu of menusWithUser) {
 			if (!this.ulPadding[menuCall]) this.ulPadding[menuCall] = 0;
 			// Die Trigger durchlaufen die in dem Menü in nav sind
-			if (this.props.trigger.everyTrigger[menu].includes(trigger)) {
+			if (this.props.trigger.everyTrigger[menu["menu"]] && this.props.trigger.everyTrigger[menu["menu"]].includes(trigger)) {
 				// Dann ermitteln welchen key das menu hat
-				for (let key = 0; key < arrayUsersInGroup.length; key++) {
-					if (arrayUsersInGroup[key] === menu) {
-						this.menuArray.push(menu);
-						this.colorArray.push({ color: colors[key], menu: menu, index: key });
-						if (this.ulPadding[menuCall] < (this.colorArray.length - 4) * 15 + 15) {
-							this.ulPadding[menuCall] = (this.colorArray.length - 4) * 15 + 15;
+				for (let key = 0; key < result.arrayUsersInGroup.length; key++) {
+					if (result.arrayUsersInGroup[key] === menu["menu"]) {
+						if (!this.menuArray.includes(menu["menu"])) this.menuArray.push(menu["menu"]);
+						this.colorArray.push({ color: colors[menu["index"]], menu: menu["menu"], index: key });
+						if (this.ulPadding[menuCall] < (this.colorArray.length - 4) * 11 + 15) {
+							this.ulPadding[menuCall] = (this.colorArray.length - 4) * 11 + 15;
 						}
 					}
 				}
@@ -49,10 +62,12 @@ class TriggerOverview extends Component {
 		if (this.colorArray.length !== 0) {
 			return this.colorArray;
 		}
-		if (this.ulPadding[menuCall] < 37) this.ulPadding[menuCall] = 37;
+		if (trigger == "-" && this.ulPadding[menuCall] != 37) this.ulPadding[menuCall] = 10;
+		else if (this.ulPadding[menuCall] < 37) this.ulPadding[menuCall] = 37;
 		return [{ color: "white", menu: "Is not assigned ", index: null, used: I18n.t("not created") }];
 	}
 	getColorNavElemente(index, menu, trigger, inAction = false) {
+		if (trigger == "Grafana") console.log(this.ulPadding);
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const menusWithUser = new Set();
 		const userInMenu = this.props.usersInGroup[menu];
@@ -67,7 +82,7 @@ class TriggerOverview extends Component {
 		// Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
 		for (const menu of menusWithUser) {
 			// Die Trigger durchlaufen die in dem Menü in nav sind
-			if (this.props.trigger.usedTrigger.nav[menu].includes(trigger)) {
+			if (this.props.trigger.usedTrigger.nav[menu] && this.props.trigger.usedTrigger.nav[menu].includes(trigger)) {
 				// Dann ermitteln welchen key das menu hat
 				for (let key = 0; key < arrayUsersInGroup.length; key++) {
 					if (arrayUsersInGroup[key] === menu) {
@@ -97,6 +112,10 @@ class TriggerOverview extends Component {
 		this.dataOfIterate.index = null;
 		this.dataOfIterate.menu = I18n.t("Unused Trigger");
 		this.dataOfIterate.used = I18n.t("Unused");
+		if (!this.ulPadding[menu]) this.ulPadding[menu] = 0;
+		if (this.ulPadding[menu] < 37) {
+			this.ulPadding[menu] = 37;
+		}
 		return "black";
 	}
 	getIndex() {
@@ -110,6 +129,7 @@ class TriggerOverview extends Component {
 		console.log(this.ulPadding);
 		console.log(this.props.trigger);
 	}
+
 	render() {
 		return (
 			<>
@@ -141,7 +161,8 @@ class TriggerOverview extends Component {
 									</div>
 									<p className="noMargin">{menu}</p>
 								</div>
-								<div className="User-list-container" style={{ border: `2px solid ${colors[indexUsedTrigger]}` }}>
+								<div className="User-list-container" style={{ border: `4px solid ${colors[this.getMenusWithUserOrIndexOfMenu(menu, true)]}` }}>
+									{/* <p>{colors[this.getMenusWithUserOrIndexOfMenu(menu, true)]} Test</p> */}
 									<p className="User-list">{I18n.t("User-List")}</p>
 									{this.props.usersInGroup[menu].map((user, indexUser) => {
 										return <p key={indexUser}>{user}</p>;

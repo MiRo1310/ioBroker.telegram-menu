@@ -881,6 +881,7 @@ span[title],
 }
 .squareText {
 	font-size: 0.7rem;
+	cursor: default;
 }
 .noMargin {
 	margin: 0;
