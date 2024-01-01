@@ -166,7 +166,7 @@ class TriggerOverview extends Component {
 				{this.state.trigger ? (
 					<div className="Menu-list-container">
 						<div className="Menu-list-card">
-							<p>{I18n.t("All unused Trigger")}</p>
+							<p>{I18n.t("Unused Trigger")}</p>
 							<ul>
 								{this.state.trigger.unUsedTrigger.map((trigger, index) => {
 									return (
@@ -190,10 +190,12 @@ class TriggerOverview extends Component {
 												<span className="textRight inactive"> {I18n.t("Inactive")}</span>
 											)}
 										</div>
-										<p className="noMargin">{menu}</p>
+										<p className="noMargin">
+											{I18n.t("Menu")}: {menu}
+										</p>
 									</div>
 									<div className="User-list-container" style={{ border: `4px solid ${colors[this.getMenusWithUserOrIndexOfMenu(menu, true)]}` }}>
-										<p className="User-list">{I18n.t("User-List")}</p>
+										<p className="User-list">{I18n.t("User List")}</p>
 										{this.props.usersInGroup[menu].map((user, indexUser) => {
 											return <p key={indexUser}>{user}</p>;
 										})}
@@ -208,7 +210,7 @@ class TriggerOverview extends Component {
 														<div key={indexTrigger} style={{ position: "relative" }}>
 															<Square position={0} color={this.getColorNavElemente(indexUsedTrigger, menu, trigger, true)} />
 
-															<li key={indexTrigger} title={I18n.t("Is linked with: ") + this.getMenu()}>
+															<li key={indexTrigger} title={I18n.t("Is linked with: ") + " " + this.getMenu()}>
 																{trigger}
 															</li>
 														</div>
@@ -228,7 +230,7 @@ class TriggerOverview extends Component {
 															))}
 															<li
 																className={indexTrigger == 0 && trigger == "-" ? "menu-disabled" : indexTrigger == 0 ? "menu-startside" : ""}
-																title={this.menuArray.reverse().join(", ")}
+																title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}
 															>
 																{trigger}
 															</li>
@@ -249,7 +251,7 @@ class TriggerOverview extends Component {
 																	{this.getColorUsedTriggerNav(indexUsedTrigger, menu, trigger).map((item, i) => (
 																		<Square key={i} position={i} color={item.color} />
 																	))}
-																	<li key={index3} title={this.menuArray.reverse().join(", ")}>
+																	<li key={index3} title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}>
 																		{trigger}
 																	</li>
 																</div>

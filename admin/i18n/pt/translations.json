@@ -128,5 +128,13 @@
     "Please create a menu!": "Por favor, crie um menu!",
     "Send Menu after Restart": "Enviar menu após reiniciar",
     "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "O mesmo que acima, mas ao clicar em um botão, o item será excluído, a 'lista de compras' não poderá ser alterada.",
-    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "O mesmo que acima, mas ao clicar em um botão, o item será excluído, a chave para os itens é `nome:`, você também pode adicionar `tempo:`. <strong>Importante!!!</strong> 'lista de compras' não pode ser alterada."
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "O mesmo que acima, mas ao clicar em um botão, o item será excluído, a chave para os itens é `nome:`, você também pode adicionar `tempo:`. <strong>Importante!!!</strong> 'lista de compras' não pode ser alterada.",
+    "Navigation Buttons": "Botões de navegação",
+    "Is linked with: ": "Está vinculado a:",
+    "Used Trigger": "Gatilho usado",
+    "User List": "Lista de usuários",
+    "Inactive": "Inativo",
+    "Unused Trigger": "Gatilho não utilizado",
+    "Start Menus": "Menus iniciais",
+    "Menu": "Cardápio"
 }
