@@ -42,6 +42,7 @@ class TriggerOverview extends Component {
 		return { menusWithUser: menusWithUser, arrayUsersInGroup: arrayUsersInGroup };
 	}
 	getColorUsedTriggerNav(indexUsedTrigger, menuCall, trigger) {
+		console.log(this.ulPadding);
 		this.menuArray = [];
 		const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
 		const menusWithUser = deleteDoubleEntrysInArray(result.menusWithUser);
@@ -68,38 +69,42 @@ class TriggerOverview extends Component {
 			return this.colorArray;
 		}
 		if (trigger == "-" && this.ulPadding[menuCall] != 37) this.ulPadding[menuCall] = 10;
-		else if (this.ulPadding[menuCall] < 37) this.ulPadding[menuCall] = 37;
+		else if (this.ulPadding[menuCall] < 37) {
+			console.log("add 37");
+			console.log(menuCall);
+			console.log(this.ulPadding);
+			this.ulPadding[menuCall] = 37;
+		}
 		return [{ color: "white", menu: "Is not assigned ", index: null, used: I18n.t("not created") }];
 	}
-	getColorNavElemente(index, menu, trigger, inAction = false) {
+	getColorNavElemente(index, menu, trigger) {
+		console.log(menu, trigger);
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const result = this.getMenusWithUserOrIndexOfMenu(menu);
 		const menusWithUser = result.menusWithUser;
-		console.log(menusWithUser);
-		console.log(trigger);
 		// Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
+		let menu2;
 		for (const menuObj of menusWithUser) {
-			menu = menuObj.menu;
+			menu2 = menuObj.menu;
 			// Die Trigger durchlaufen die in dem Menü in nav sind
-			if (this.state.trigger.usedTrigger.nav[menu] && this.state.trigger.usedTrigger.nav[menu].includes(trigger)) {
+			if (this.state.trigger.usedTrigger.nav[menu2] && this.state.trigger.usedTrigger.nav[menu2].includes(trigger)) {
 				// Dann ermitteln welchen key das menu hat
 				for (let key = 0; key < arrayUsersInGroup.length; key++) {
-					if (arrayUsersInGroup[key] === menu) {
-						this.dataOfIterate.menu = menu;
-						if (inAction) {
-						}
+					if (arrayUsersInGroup[key] === menu2) {
+						this.dataOfIterate.menu = menu2;
+
 						return colors[key];
 					}
 				}
 			}
 			// Wenn es nicht in Nav ist muss es in Action sein, ansonsten ist der Trigger unbenutzt
 			else {
-				for (const action in this.state.trigger.usedTrigger.action[menu]) {
-					if (this.state.trigger.usedTrigger.action[menu][action].includes(trigger)) {
+				for (const action in this.state.trigger.usedTrigger.action[menu2]) {
+					if (this.state.trigger.usedTrigger.action[menu2][action].includes(trigger)) {
 						for (let key = 0; key < arrayUsersInGroup.length; key++) {
-							if (arrayUsersInGroup[key] === menu) {
-								this.dataOfIterate.menu = menu;
-								console.log(colors[key]);
+							if (arrayUsersInGroup[key] === menu2) {
+								this.dataOfIterate.menu = menu2;
+
 								return colors[key];
 							}
 						}
@@ -107,9 +112,11 @@ class TriggerOverview extends Component {
 				}
 			}
 		}
+		console.log(this.ulPadding);
 		console.log(menu);
 		if (!this.ulPadding[menu]) this.ulPadding[menu] = 0;
 		if (this.ulPadding[menu] < 37) {
+			console.log("add 37");
 			this.ulPadding[menu] = 37;
 		}
 		return "black";
@@ -139,12 +146,14 @@ class TriggerOverview extends Component {
 		this.getOptions();
 		this.setState({ ulPadding: this.ulPadding });
 		// console.log(this.ulPadding);
-		// console.log(this.state.trigger);
+		console.log(this.state.trigger);
 	}
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.trigger != this.state.trigger) {
+			console.log(this.state.trigger);
 			this.setState({ ulPadding: this.ulPadding });
 		}
+		// console.log(this.ulPadding);
 	}
 	updateHandler = (value, id) => {
 		this.setState({ selected: value.startMenu });
@@ -191,7 +200,7 @@ class TriggerOverview extends Component {
 											)}
 										</div>
 										<p className="noMargin">
-											{I18n.t("Menu")}: {menu}
+											{I18n.t("Set menu")}: {menu}
 										</p>
 									</div>
 									<div className="User-list-container" style={{ border: `4px solid ${colors[this.getMenusWithUserOrIndexOfMenu(menu, true)]}` }}>
