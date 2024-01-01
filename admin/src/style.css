@@ -795,7 +795,7 @@ span[title],
 	display: flex;
 	flex-wrap: wrap;
 	align-items: stretch;
-	height: calc(100vh - 130px);
+	height: calc(100vh - 180px);
 	overflow: auto;
 }
 .Menu-list-container li {
