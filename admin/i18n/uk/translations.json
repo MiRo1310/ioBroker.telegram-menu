@@ -128,5 +128,13 @@
     "Please create a menu!": "Будь ласка, створіть меню!",
     "Send Menu after Restart": "Надіслати меню після перезапуску",
     "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "Те саме, що й вище, але коли ви натискаєте кнопку, товар буде видалено, «список покупок» не можна змінити.",
-    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "Те саме, що й вище, але коли ви натискаєте кнопку, елемент буде видалено, ключем для елементів є `name:`, ви також можете додати `time:`. <strong>Важливо!!!</strong> \"список покупок\" не можна змінювати."
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "Те саме, що й вище, але коли ви натискаєте кнопку, елемент буде видалено, ключем для елементів є `name:`, ви також можете додати `time:`. <strong>Важливо!!!</strong> \"список покупок\" не можна змінювати.",
+    "Navigation Buttons": "Кнопки навігації",
+    "Is linked with: ": "Пов'язаний з:",
+    "Used Trigger": "Тригер використаний",
+    "User List": "Список користувачів",
+    "Inactive": "Неактивний",
+    "Unused Trigger": "Невикористаний тригер",
+    "Start Menus": "Меню «Пуск».",
+    "Menu": "Меню"
 }

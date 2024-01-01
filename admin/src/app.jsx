@@ -13,6 +13,7 @@ import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
 import TabAction from "./components/TabAction";
 import DropBox from "./components/popupCards/DropBox";
 import PopupContainer from "./components/popupCards/PopupContainer";
+import TriggerOverview from "./components/popupCards/TriggerOverview";
 
 import getIobrokerData from "./lib/socket.mjs";
 import helperFunction from "./lib/Utilis.mjs";
@@ -63,6 +64,8 @@ class App extends GenericApp {
 			themeType: "",
 			unUsedTrigger: [],
 			usedTrigger: [],
+			triggerObject: {},
+			showTriggerInfo: false,
 			showDropBox: false,
 			doubleTrigger: [],
 			connectionReady: false,
@@ -150,7 +153,7 @@ class App extends GenericApp {
 	};
 	updateActiveMenuAndTrigger = (menu) => {
 		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
-		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger });
+		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
 	};
 
 	getUsersFromTelegram() {
@@ -317,6 +320,24 @@ class App extends GenericApp {
 								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 							}}
 						></DropBox>
+					</PopupContainer>
+				) : null}
+				{this.state.showTriggerInfo ? (
+					<PopupContainer
+						title="Trigger Info"
+						width="99%"
+						height="99%"
+						top="60%"
+						class="TriggerOverview-PopupContainer"
+						closeBtn={true}
+						callback={(val) => this.setState({ showTriggerInfo: val })}
+					>
+						<TriggerOverview
+							// trigger={this.state.triggerObject}
+							usersInGroup={this.state.native.usersInGroup}
+							userActiveCheckbox={this.state.native.userActiveCheckbox}
+							data={this.state.native.data}
+						></TriggerOverview>
 					</PopupContainer>
 				) : null}
 				{this.state.doubleTrigger.length > 0 ? (

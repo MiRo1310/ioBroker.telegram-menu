@@ -128,5 +128,13 @@
 	"Please create a menu!": "Please create a menu!",
 	"Send Menu after Restart": "Send Menu after Restart",
 	"The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.",
-	"The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed."
+	"The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.",
+	"Navigation Buttons": "Navigation Buttons",
+	"Is linked with: ": "Is linked with: ",
+	"Used Trigger": "Used Trigger",
+	"User List": "User List",
+	"Inactive": "Inactive",
+	"Unused Trigger": "Unused Trigger",
+	"Start Menus": "Start Menus",
+	"Menu": "Menu"
 }

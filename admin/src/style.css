@@ -263,7 +263,7 @@ div.MuiTabPanel-root {
 	font-weight: 500;
 	line-height: 1.6;
 	padding: 10px 10px 10px 30px;
-	margin: 5px 5px 40px 5px;
+	margin: 5px 5px 5px 5px;
 	border-radius: 4px;
 }
 .light .DialogContainer-Header,
@@ -788,4 +788,122 @@ input[type="checkbox"]:checked {
 span[title],
 .title {
 	cursor: help;
+}
+
+/* Trigger Overview */
+.Menu-list-container {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	height: calc(100vh - 130px);
+	overflow: auto;
+}
+.Menu-list-container li {
+	cursor: help;
+	padding-left: 4px;
+}
+/* Für die .Menu-list-card Elemente */
+.Menu-list-card {
+	display: inline-block;
+	vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
+	margin: 3px 3px;
+	padding: 0 3px;
+	background-color: #eee;
+	width: max-content;
+}
+.dark .Menu-list-card,
+.blue .Menu-list-card {
+	background-color: #333;
+	color: #ddd;
+}
+
+.Action-list li,
+.Menu-list-card li {
+	list-style-type: none;
+	font-size: 0.7rem;
+	line-height: 0.75rem;
+}
+
+/* Für die <p> und <ul> Elemente innerhalb der .Menu-list-card */
+.Menu-list-card > p,
+.Menu-list-card > ul {
+	display: block;
+}
+.Menu-list-card ul {
+	padding-left: 20px;
+}
+.Menu-list {
+	margin: 2px 0 0 0;
+	font-weight: 500;
+	border-bottom: 1px solid currentColor;
+}
+.User-list-container {
+	background-color: #ddd;
+}
+.dark .User-list-container,
+.blue .User-list-container {
+	background-color: #aaa;
+}
+.User-list-container p {
+	margin-top: 4px;
+	margin-bottom: 0px;
+	padding: 0 5px;
+	color: black;
+}
+.User-list ~ p {
+	font-size: 0.75rem;
+	padding-bottom: 2px;
+	font-weight: 500;
+	display: inline-block;
+	margin-top: 0;
+}
+.createdTrigger li {
+	padding-left: 5px;
+}
+
+.menu-startside {
+	background-color: #96d15a;
+	color: black;
+}
+.menu-disabled {
+	background-color: rgb(242, 101, 101);
+	color: black;
+}
+
+.Menu-list-container ul li ul li {
+	font-size: 0.75rem;
+	line-height: 0.75rem;
+}
+.strong {
+	margin-top: 5px;
+	font-weight: 500;
+	text-decoration: underline;
+}
+.squareText {
+	font-size: 0.7rem;
+	cursor: default;
+}
+.noMargin {
+	margin: 0;
+	padding-left: 5px;
+}
+.textRight {
+	padding: 0 5px 0 5px;
+	margin: 3px 3px 0 0;
+}
+.inlineBlock {
+	display: inline-block;
+	flex-grow: 1;
+}
+.active {
+	background-color: #b5fb6f;
+}
+.inactive {
+	background-color: #ff0033;
+}
+.menuDespription {
+	margin: 2px 0 4px 0;
+	text-decoration: underline;
+	font-size: 0.8rem;
+	font-weight: 500;
 }

@@ -128,5 +128,13 @@
     "Please create a menu!": "Пожалуйста, создайте меню!",
     "Send Menu after Restart": "Меню отправки после перезагрузки",
     "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "То же, что и выше, но при нажатии на кнопку товар будет удален, «список покупок» изменить нельзя.",
-    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "То же, что и выше, но при нажатии на кнопку элемент будет удален. Ключом для элементов является `name:`, вы также можете добавить `time:`. <strong>Важно!!!</strong> «Список покупок» нельзя изменить."
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "То же, что и выше, но при нажатии на кнопку элемент будет удален. Ключом для элементов является `name:`, вы также можете добавить `time:`. <strong>Важно!!!</strong> «Список покупок» нельзя изменить.",
+    "Navigation Buttons": "Кнопки навигации",
+    "Is linked with: ": "Связано с:",
+    "Used Trigger": "Используемый триггер",
+    "User List": "Список пользователей",
+    "Inactive": "Неактивный",
+    "Unused Trigger": "Неиспользованный триггер",
+    "Start Menus": "Меню «Пуск»",
+    "Menu": "Меню"
 }

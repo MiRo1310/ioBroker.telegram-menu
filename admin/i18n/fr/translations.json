@@ -128,5 +128,13 @@
     "Please create a menu!": "S'il vous plaît, créez un menu !",
     "Send Menu after Restart": "Envoyer le menu après le redémarrage",
     "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "Comme ci-dessus, mais lorsque vous cliquez sur un bouton, l'article sera supprimé, la « liste de courses » ne pourra pas être modifiée.",
-    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "Comme ci-dessus, mais lorsque vous cliquez sur un bouton, l'élément sera supprimé, la clé des éléments est « nom : », vous pouvez également ajouter « heure : ». <strong>Important !!!</strong> La « liste de courses » ne peut pas être modifiée."
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "Comme ci-dessus, mais lorsque vous cliquez sur un bouton, l'élément sera supprimé, la clé des éléments est « nom : », vous pouvez également ajouter « heure : ». <strong>Important !!!</strong> La « liste de courses » ne peut pas être modifiée.",
+    "Navigation Buttons": "Boutons de navigation",
+    "Is linked with: ": "Est lié à :",
+    "Used Trigger": "Déclencheur utilisé",
+    "User List": "liste d'utilisateur",
+    "Inactive": "Inactif",
+    "Unused Trigger": "Déclencheur inutilisé",
+    "Start Menus": "Menus Démarrer",
+    "Menu": "Menu"
 }

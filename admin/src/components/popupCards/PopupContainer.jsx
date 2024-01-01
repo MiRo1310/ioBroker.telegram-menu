@@ -20,7 +20,7 @@ class PopupContainer extends Component {
 	render() {
 		const DialogContainer = {
 			position: "absolute",
-			top: "50%",
+			top: this.props.top ? this.props.top : "50%",
 			left: "50%",
 			transform: "translate(-50%, -60%)",
 			backgroundColor: "#fff",

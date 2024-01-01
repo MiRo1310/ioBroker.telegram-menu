@@ -183,6 +183,20 @@ class BtnCard extends Component {
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
+						<Button
+							b_color="blue"
+							color="white"
+							margin="1px"
+							width="100px"
+							height="40px"
+							id="showTriggerInfo"
+							callbackValue={true}
+							callback={this.props.callback.setState}
+						>
+							<i className="material-icons translate ">info</i>Overview
+						</Button>
+					</Grid>
+					<Grid item xs="auto">
 						{this.state.confirmDialog ? (
 							<ConfirmDialog
 								title={I18n.t("Do you really want to delete this menu?")}

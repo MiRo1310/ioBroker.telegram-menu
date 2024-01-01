@@ -128,5 +128,13 @@
     "Please create a menu!": "请创建一个菜单！",
     "Send Menu after Restart": "重启后发送菜单",
     "The same as above, but when you click on a button, the item will be deleted, 'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，“购物清单”可能不会更改。",
-    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，项目的 Key 是 `name:`，您也可以添加 `time:`。 <strong>重要！！！</strong>“购物清单”可能无法更改。"
+    "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，项目的 Key 是 `name:`，您也可以添加 `time:`。 <strong>重要！！！</strong>“购物清单”可能无法更改。",
+    "Navigation Buttons": "导航按钮",
+    "Is linked with: ": "与以下链接：",
+    "Used Trigger": "使用过的触发器",
+    "User List": "用户列表",
+    "Inactive": "不活跃",
+    "Unused Trigger": "未使用的触发器",
+    "Start Menus": "开始菜单",
+    "Menu": "菜单"
 }
