@@ -36,6 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-
+-   #94 menu:number with Float Numbers fixed
 -   Trigger Info - Overview of all menus and users, only visual but without functions
 -   remaining text reattached
 

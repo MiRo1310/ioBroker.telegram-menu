@@ -466,10 +466,10 @@ div.MuiTabPanel-root {
 .light .Edit-Container input {
 	background-color: #eee !important;
 }
-.blue .Edit-Container input,
+/* .blue .Edit-Container input,
 .dark .Edit-Container input {
 	background-color: #555 !important;
-}
+} */
 .Edit-Container-Trigger {
 	margin-left: 20px;
 	margin-bottom: 30px;
@@ -906,4 +906,8 @@ span[title],
 	text-decoration: underline;
 	font-size: 0.8rem;
 	font-weight: 500;
+}
+
+#ar_dialog_selectid_title ~ div.MuiDialogContent-root {
+	overflow: auto !important;
 }
