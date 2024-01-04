@@ -5,6 +5,7 @@ import { ButtonCard } from "./btn-Input/buttonCard";
 import SubTable from "./subTable";
 import { deepCopy } from "../lib/Utilis.mjs";
 import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../lib/dragNDrop.mjs";
+import { getElementIcon } from "../lib/actionUtilis.mjs";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};
@@ -110,12 +111,23 @@ class TableDndAction extends Component {
 							</TableCell>
 						) : null}
 						{this.props.entrys.map((entry, index) =>
-							entry.name != "trigger" ? (
+							entry.name != "trigger" && entry.name != "parse_mode" ? (
 								<TableCell align="left" component="td" scope="row" key={index} style={entry.width ? { width: entry.width } : null}>
 									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} name={entry.name} entry={entry} />
 								</TableCell>
 							) : null,
 						)}
+						{row.parse_mode ? (
+							<TableCell align="left" component="td" scope="row">
+								<span
+									className="noneDraggable"
+									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
+									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+								>
+									{getElementIconrow.parse_mode[0]}
+								</span>
+							</TableCell>
+						) : null}
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}
