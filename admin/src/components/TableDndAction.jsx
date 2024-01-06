@@ -43,16 +43,43 @@ class TableDndAction extends Component {
 	componentDidUpdate(prevProps) {
 		if (prevProps.activeMenu !== this.props.activeMenu) {
 			this.getRows();
+			this.updateHeight();
 		}
 		if (prevProps.tableData !== this.props.tableData) {
 			this.getRows();
 		}
 	}
+	updateHeight = () => {
+		// Diese Funktion setzt die Höhe der Tabelle auf die Höhe des darüber liegenden Td Tags da es herkömmlich anscheinen nicht funktioniert
+		const tbodys = Array.from(document.getElementsByClassName("dynamicHeight"));
+		const tds = Array.from(document.getElementsByClassName("tdWithHeightForSubTable"));
+		// Setzen Sie die Höhe auf 'auto', bevor Sie die Höhe neu berechnen
+		tbodys.forEach((tbody) => {
+			tbody.style.height = "auto";
+		});
+		const offset = 0;
+
+		if (tds.length > 0) {
+			tds.forEach((td, index) => {
+				if (td && tbodys[index]) {
+					if (tbodys[index].offsetHeight < td.offsetHeight) {
+						tbodys[index].style.height = `${td.offsetHeight + offset}px`;
+					}
+				}
+			});
+		} else console.log("Error get Tds");
+	};
 	componentDidMount() {
 		this.mounted = true;
 		this.getRows();
+		window.addEventListener("resize", this.updateHeight);
+		setTimeout(() => {
+			this.updateHeight();
+		}, 100);
 	}
-
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateHeight);
+	}
 	handleDrop = (index, event) => {
 		let currentElement = event.target;
 		while (currentElement) {
@@ -110,9 +137,16 @@ class TableDndAction extends Component {
 								</span>
 							</TableCell>
 						) : null}
-						{this.props.entrys.map((entry, index) =>
+						{this.props.entrys.map((entry, indexEntry) =>
 							entry.name != "trigger" && entry.name != "parse_mode" ? (
-								<TableCell align="left" component="td" scope="row" key={index} style={entry.width ? { width: entry.width } : null}>
+								<TableCell
+									className="tdWithHeightForSubTable"
+									align="left"
+									component="td"
+									scope="row"
+									key={indexEntry}
+									style={entry.width ? { width: entry.width } : null}
+								>
 									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} name={entry.name} entry={entry} />
 								</TableCell>
 							) : null,
@@ -124,7 +158,7 @@ class TableDndAction extends Component {
 									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
 									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
 								>
-									{getElementIconrow.parse_mode[0]}
+									{getElementIcon(row.parse_mode[0])}
 								</span>
 							</TableCell>
 						) : null}
