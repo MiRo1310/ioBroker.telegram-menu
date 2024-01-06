@@ -20,7 +20,7 @@ class Settings extends Component {
 	};
 
 	componentDidMount() {
-		if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
+		if (this.props.data.state.native.checkbox.sendMenuAfterRestart === undefined || this.props.data.state.native.checkbox.sendMenuAfterRestart === null) {
 			const checkbox = { ...this.props.data.state.native.checkbox };
 			checkbox.sendMenuAfterRestart = true;
 			this.props.callback.updateNative("checkbox", checkbox);
@@ -28,7 +28,6 @@ class Settings extends Component {
 	}
 
 	render() {
-		console.log(this.props.data.state.native.checkbox);
 		return (
 			<div className="Settings">
 				<h1>{I18n.t("Settings")}</h1>
@@ -117,12 +116,13 @@ class Settings extends Component {
 							label={I18n.t("Send Menu after Restart")}
 							id="sendMenuAfterRestart"
 							isChecked={
-								this.props.data.state.native.checkbox.sendMenuAfterRestart == true || this.props.data.state.native.checkbox.sendMenuAfterRestart == false
-									? this.props.data.state.native.checkbox.sendMenuAfterRestart
-									: false
+								this.props.data.state.native.checkbox.sendMenuAfterRestart === null || this.props.data.state.native.checkbox.sendMenuAfterRestart === undefined
+									? true
+									: this.props.data.state.native.checkbox.sendMenuAfterRestart
 							}
 							callbackValue="event"
 							callback={this.onClickCheckbox}
+							setNative={true}
 						/>
 					</Grid>
 				</Grid>
