@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   small visual changes in actions for small screens
 -   fixed checkbox send menu after restart in settings
 -   #94 menu:number with Float Numbers fixed
 -   Trigger Info - Overview of all menus and users, only visual but without functions
