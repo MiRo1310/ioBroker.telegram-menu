@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import TelegramUserCard from "./TelegramUserCard";
-import Button from "./btn-Input/Button";
+import TelegramUserCard from "./TelegramUserCard/TelegramUserCard";
+import Button from "../btn-Input/Button";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Checkbox from "./btn-Input/checkbox";
+import Checkbox from "../btn-Input/checkbox";
 
 class HeaderTelegramUsers extends Component {
 	constructor(props) {

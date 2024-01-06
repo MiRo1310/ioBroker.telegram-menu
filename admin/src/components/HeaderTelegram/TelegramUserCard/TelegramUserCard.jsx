@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Checkbox from "./btn-Input/checkbox";
+import Checkbox from "../../btn-Input/checkbox";
 
 class TelegramUserCard extends Component {
 	constructor(props) {

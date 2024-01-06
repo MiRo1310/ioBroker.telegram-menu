@@ -215,11 +215,11 @@ div.MuiTabPanel-root {
 
 .MenuNavigation-Container,
 .ActionCard-Container {
-	padding: 0px !important;
-	overflow: auto;
+	padding: 0 !important;
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
+	overflow-y: auto;
 }
 .MenuNavigation-Container {
 	height: calc(100% - 10px) !important;
@@ -227,11 +227,34 @@ div.MuiTabPanel-root {
 .ActionCard-Container {
 	height: inherit;
 }
+
 .TabPanel-Action,
 .TabPanel-Action > div.MuiTabPanel-root {
 	height: calc(100% - 30px) !important;
+	padding-left: 0 !important;
 }
 
+/* Für Webkit-Browser wie Chrome und Safari */
+.MenuNavigation-Container::-webkit-scrollbar,
+.ActionCard-Container::-webkit-scrollbar {
+	width: 10px; /* Breite der Scrollbar */
+}
+
+.MenuNavigation-Container::-webkit-scrollbar-thumb,
+.ActionCard-Container::-webkit-scrollbar-thumb {
+	background: #888; /* Farbe des beweglichen Teils der Scrollbar */
+}
+
+.MenuNavigation-Container::-webkit-scrollbar-thumb:hover,
+.ActionCard-Container::-webkit-scrollbar-thumb:hover {
+	background: #555; /* Farbe des beweglichen Teils der Scrollbar beim Überfahren mit der Maus */
+}
+
+/* Für Firefox */
+.MenuNavigation-Container {
+	scrollbar-width: thin; /* Breite der Scrollbar */
+	scrollbar-color: #888 #f5f5f5; /* Farbe des beweglichen Teils der Scrollbar und Hintergrundfarbe der Scrollbar */
+}
 /* Settings */
 .Settings h1 {
 	text-decoration: underline;
@@ -508,6 +531,10 @@ div.MuiTabPanel-root {
 	padding: 1px !important;
 	width: 35px !important;
 }
+tr td:last-child button {
+	margin-right: 6px !important;
+}
+
 .checkbox {
 	width: 60px;
 }
@@ -545,7 +572,7 @@ label p {
 
 table {
 	border-collapse: collapse !important;
-	width: calc(100% - 10px) !important;
+	width: calc(100% - 0) !important;
 }
 
 tr[draggable="true"] {

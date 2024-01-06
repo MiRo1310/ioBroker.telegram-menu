@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import { deleteRow, moveItem } from "../lib/button.mjs";
-import { ButtonCard } from "./btn-Input/buttonCard";
-import SubTable from "./subTable";
-import { deepCopy } from "../lib/Utilis.mjs";
-import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../lib/dragNDrop.mjs";
-import { getElementIcon } from "../lib/actionUtilis.mjs";
+import { deleteRow, moveItem } from "../../../../lib/button.mjs";
+import { ButtonCard } from "../../../../components/popupCards/buttonCard";
+import SubTable from "./SubTable/SubTable";
+import { deepCopy } from "../../../../lib/Utilis.mjs";
+import {
+	handleMouseOut,
+	handleMouseOver,
+	handleDragStart,
+	handleDragOver,
+	handleDragEnter,
+	handleStyleDragOver,
+	handleDragEnd,
+	handleDraggable,
+} from "../../../../lib/dragNDrop.mjs";
+import { getElementIcon } from "../../../../lib/actionUtilis.mjs";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};

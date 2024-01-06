@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Input from "./btn-Input/input";
+import Input from "@components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Checkbox from "./btn-Input/checkbox";
+import Checkbox from "@components/btn-Input/checkbox";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Select from "./btn-Input/select";
+import Select from "@components/btn-Input/select";
 
 class Settings extends Component {
 	constructor(props) {

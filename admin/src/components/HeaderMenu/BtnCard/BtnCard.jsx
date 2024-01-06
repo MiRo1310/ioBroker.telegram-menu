@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Input from "./btn-Input/input";
+import Input from "../../btn-Input/input";
 import { Grid } from "@mui/material";
-import Button from "./btn-Input/Button";
+import Button from "../../btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
-import PopupContainer from "./popupCards/PopupContainer";
-import RenameCard from "./popupCards/RenameCard";
+import PopupContainer from "../../popupCards/PopupContainer";
+import RenameCard from "../../popupCards/RenameCard";
 
-import { deepCopy } from "../lib/Utilis.mjs";
+import { deepCopy } from "../../../lib/Utilis.mjs";
 
 /**
  *

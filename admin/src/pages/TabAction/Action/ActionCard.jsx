@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { deepCopy } from "../lib/Utilis.mjs";
+import { deepCopy } from "../../../lib/Utilis.mjs";
 
-import Button from "./btn-Input/Button";
-import PopupContainer from "./popupCards/PopupContainer";
-import RowEditPopupCard from "./popupCards/RowEditPopupCard";
-import TableDndAction from "./TableDndAction";
-import HelperCard from "./popupCards/HelperCard";
-import helperText from "../lib/helper.mjs";
-import { addNewRow } from "../lib/actionUtilis.mjs";
+import Button from "../../../components/btn-Input/Button";
+import PopupContainer from "../../../components/popupCards/PopupContainer";
+import RowEditPopupCard from "../../../components/popupCards/RowEditPopupCard";
+import TableDndAction from "./TableDND/TableDndAction";
+import HelperCard from "../../../components/popupCards/HelperCard";
+import helperText from "../../../lib/helper.mjs";
+import { addNewRow } from "../../../lib/actionUtilis.mjs";
 
 class ActionCard extends Component {
 	constructor(props) {

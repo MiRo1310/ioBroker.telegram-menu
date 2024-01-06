@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import ActionCard from "./ActionCard";
-import { tabValues } from "../lib/entrys.mjs";
+import ActionCard from "./Action/ActionCard";
+import { tabValues } from "../../lib/entrys.mjs";
 
 class TabAction extends Component {
 	constructor(props) {

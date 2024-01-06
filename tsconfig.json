@@ -4,6 +4,10 @@
 	// https://github.com/tsconfig/bases#node-16-tsconfigjson
 	"extends": "@tsconfig/node16/tsconfig.json",
 	"compilerOptions": {
+		"baseUrl": "./admin/src", // This must be specified if "paths" is.
+		"paths": {
+			"@components/*": ["components/*"]
+		},
 		// do not compile anything, this file is just to configure type checking
 		"noEmit": true,
 		// check JS files

@@ -5,15 +5,15 @@ import { Grid, Tab, Box } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "./lib/actionUtilis.mjs";
 
-import HeaderIconBar from "./components/HeaderIconBar";
-import Settings from "./components/settings";
-import HeaderMenu from "./components/HeaderMenu";
-import TabNavigation from "./components/TabNavigation";
-import HeaderTelegramUsers from "./components/HeaderTelegramUsers";
-import TabAction from "./components/TabAction";
+import HeaderIconBar from "./components/HeaderIconBar/HeaderIconBar";
+import Settings from "./pages/TabSettings/Settings";
+import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
+import TabNavigation from "./pages/TabNaviagtion/TabNavigation";
+import HeaderTelegramUsers from "./components/HeaderTelegram/HeaderTelegramUsers";
+import TabAction from "./pages/TabAction/TabAction";
 import DropBox from "./components/popupCards/DropBox";
 import PopupContainer from "./components/popupCards/PopupContainer";
-import TriggerOverview from "./components/popupCards/TriggerOverview";
+import TriggerOverview from "./components/popupCards/TriggerOverview/TriggerOverview";
 
 import getIobrokerData from "./lib/socket.mjs";
 import helperFunction from "./lib/Utilis.mjs";
@@ -258,7 +258,7 @@ class App extends GenericApp {
 										entrys={navEntrys}
 									></TabNavigation>
 								</TabPanel>
-								<TabPanel value="action">
+								<TabPanel value="action" className="tabAction">
 									<TabAction
 										data={{
 											action: this.state.native.data.action,

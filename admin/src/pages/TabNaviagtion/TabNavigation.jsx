@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 
-import PopupContainer from "./popupCards/PopupContainer";
-import RowNavCard from "./popupCards/RowNavCard";
-import TableDndNav from "./TableDndNav";
-import HelperCard from "./popupCards/HelperCard";
+import PopupContainer from "../../components/popupCards/PopupContainer";
+import RowNavCard from "../../components/popupCards/RowNavCard";
+import TableDndNav from "./TableDND/TableDndNav";
+import HelperCard from "../../components/popupCards/HelperCard";
 
-import helperText from "../lib/helper.mjs";
-import { deepCopy } from "../lib/Utilis.mjs";
+import helperText from "../../lib/helper.mjs";
+import { deepCopy } from "../../lib/Utilis.mjs";
 
 class TabNavigation extends Component {
 	constructor(props) {

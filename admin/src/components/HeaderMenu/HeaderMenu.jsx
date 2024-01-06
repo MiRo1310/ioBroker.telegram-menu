@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import Button from "./btn-Input/Button";
-import BtnCard from "./btnCard";
-import MenuPopupCard from "./menuPopupCard";
+import Button from "../btn-Input/Button";
+import BtnCard from "./BtnCard/BtnCard";
+import MenuPopupCard from "./PopupMenu/menuPopupCard";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 class HeaderMenu extends Component {
