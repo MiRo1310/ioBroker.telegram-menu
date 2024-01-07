@@ -137,5 +137,6 @@
     "Unused Trigger": "Ongebruikte trekker",
     "Start Menus": "Startmenu's",
     "Menu": "Menu",
-    "Set menu": "Menu instellen"
+    "Set menu": "Menu instellen",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.": "Vraagt ​​de waarde van het ID op en vervangt deze vervolgens door de waarde, zodat er tekst omheen kan worden geschreven, het is ook mogelijk om deze meerdere keren achter elkaar te gebruiken. De parameter true is een optie om de waarde te wijzigen door een functiewijziging. Je moet het op false zetten als je deze waarde niet verandert, maar hierachter zit nog een {status: ... request with change:true."
 }

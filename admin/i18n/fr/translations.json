@@ -137,5 +137,6 @@
     "Unused Trigger": "Déclencheur inutilisé",
     "Start Menus": "Menus Démarrer",
     "Menu": "Menu",
-    "Set menu": "Menu fixe"
+    "Set menu": "Menu fixe",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.": "Interroge la valeur de l'ID puis la remplace par la valeur, afin que du texte puisse être écrit autour, il est également possible de l'utiliser plus d'une fois de suite. Le paramètre true est une option permettant de modifier la valeur par changement de fonction. Vous devez le définir sur false si vous ne modifiez pas cette valeur, mais derrière cela se trouve une autre requête {status : ... avec changement : true."
 }

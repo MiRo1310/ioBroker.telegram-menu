@@ -137,5 +137,6 @@
     "Unused Trigger": "Gatillo no utilizado",
     "Start Menus": "Menús de inicio",
     "Menu": "Menú",
-    "Set menu": "Establecer el menú"
+    "Set menu": "Establecer el menú",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.": "Consulta el valor del ID y luego lo reemplaza con el valor, para que se pueda escribir texto alrededor de él, también es posible usarlo más de una vez seguida. El parámetro verdadero es una opción para cambiar el valor mediante el cambio de función. Tienes que configurarlo en falso si no cambias este valor, pero detrás de esto hay otra solicitud de {status: ... con cambio:true."
 }

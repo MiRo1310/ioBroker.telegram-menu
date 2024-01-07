@@ -137,5 +137,6 @@
     "Unused Trigger": "未使用的触发器",
     "Start Menus": "开始菜单",
     "Menu": "菜单",
-    "Set menu": "套餐"
+    "Set menu": "套餐",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.": "查询ID的值，然后将其替换为值，因此可以在其周围写入文本，也可以连续多次使用它。参数 true 是通过函数更改来更改值的选项。如果您不更改此值，则必须将其设置为 false，但在这后面还有另一个 {status: ... 带有change:true 的请求。"
 }

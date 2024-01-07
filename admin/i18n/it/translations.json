@@ -137,5 +137,6 @@
     "Unused Trigger": "Grilletto non utilizzato",
     "Start Menus": "Menu di avvio",
     "Menu": "Menù",
-    "Set menu": "Menu fisso"
+    "Set menu": "Menu fisso",
+    "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.": "Interroga il valore dell'ID e poi lo sostituisce con il valore, in modo che sia possibile scrivere del testo attorno ad esso, ed è anche possibile utilizzarlo più di una volta di seguito. Il parametro true è un'opzione per modificare il valore mediante modifica della funzione. Devi impostarlo su false se non cambi questo valore, ma dietro c'è un altro {status: ... request with change:true."
 }
