@@ -1,264 +1,281 @@
 {
-	"common": {
-		"name": "telegram-menu",
-		"version": "1.6.1",
-		"news": {
-			"1.6.1": {
-				"en": "fixed, shoppinglist",
-				"de": "fest, shoppinglist",
-				"ru": "фиксированный, торговый список",
-				"pt": "fixo, lista de compras",
-				"nl": "vertaling:",
-				"fr": "fixe, liste d'achats",
-				"it": "fisso, elenco degli acquisti",
-				"es": "fija, lista de compras",
-				"pl": "ustalony",
-				"uk": "фіксований, список покупок",
-				"zh-cn": "固定营业商"
-			},
-			"1.6.0": {
-				"en": "json Table in combination with the alexa-shoppinglist adapter can remove items\njson Table without Head\nfixes in menu:back\nPossibility to stop sending Menu after restart (after save)",
-				"de": "json Tabelle in Kombination mit dem alexa-shoppinglist Adapter kann Elemente entfernen\njson Tisch ohne Kopf\neinstellungen im menü:back\nMöglichkeit, das Senden von Menü nach dem Neustart zu stoppen (nach dem Speichern)",
-				"ru": "json Table в сочетании с адаптером alexa-shoppinglist может удалить элементы\njson Таблица без головы\nисправления в меню:back\nВозможность прекратить отправку меню после перезагрузки (после сохранения)",
-				"pt": "json Table em combinação com o adaptador alexa-shoppinglist pode remover itens\njson Tabela sem cabeça\ncorreções no menu:back\nPossibilidade de parar de enviar Menu após reiniciar (após salvar)",
-				"nl": "json Table in combinatie met de alexa-shoppinglist adapter kan items verwijderen\njson Table zonder hoofd\nvertaling:\nMogelijkheden om te stoppen met Menu te sturen na de herstart",
-				"fr": "json Table en combinaison avec l'adaptateur alexa-shoppinglist peut supprimer les éléments\njson Table sans tête\ncorrige dans le menu:back\nPossibilité d'arrêter l'envoi de Menu après redémarrage (après sauvegarde)",
-				"it": "json Table in combinazione con l'adattatore alexa-shoppinglist può rimuovere gli elementi\njson tavolo senza testa\ncorrezioni nel menu:back\nPossibilità di interrompere l'invio di Menu dopo il riavvio (dopo il salvataggio)",
-				"es": "json Table en combinación con el adaptador alexa-shoppinglist puede eliminar los elementos\njson Table sin Head\nfijaciones en el menú:back\nPosibilidad de dejar de enviar Menú después de reiniciar (después de guardar)",
-				"pl": "json Table w połączeniu z alexa-shoppinglistą może usuwać przedmioty\njson Table without Head (ang.)\nnaprawa menu:\nNiemożliwość zatrzymywania wysyłania Menu po restartie (po ocaleniu)",
-				"uk": "json Table в поєднанні з alexa-shoppinglist адаптер може видалити елементи\njson Table без глави\nвиправлення в меню:back\nМожливість зупинити відправлення Меню після перезавантаження (після збереження)",
-				"zh-cn": "j. 同一个法轮化剂适应者合并的表格可以拆除物品\njson 表\nf 男性:挫折\n允许在恢复原状(之后)之后停止派遣Mendu"
-			},
-			"1.5.1": {
-				"en": "no Icons in events condition\nfixed, copy events and echarts\nmoveable DropBox",
-				"de": "keine Icons im Ereigniszustand\nfeste, kopieren von ereignissen und echarts\nbewegliche DropBox",
-				"ru": "нет икон в состоянии событий\nфиксированные, копируемые события и эчарты\nперемещаемый DropBox",
-				"pt": "sem ícones em condição de eventos\ncorrigido, copiar eventos e echarts\ncaixa de gota móvel",
-				"nl": "geen Icon in eventuele toestand\nvertaling:\nverplaatsing van DropBox",
-				"fr": "pas d'icônes dans l'état des événements\névénements fixes, copieurs et echarts\ndropBox mobile",
-				"it": "no Icone in condizioni di eventi\neventi fissi, copia ed echarts\ndropBox mobile",
-				"es": "no Iconos en condición de eventos\nfija, copia de eventos y echats\ndropBox",
-				"pl": "nie ma żadnej kondycji w kontekście zdarzeń\nstałe, kopiowane wydarzenia i ekharty\ndropBox",
-				"uk": "немає ікон в умовах подій\nфіксовані, копіювання подій та echarts\nперехідний Dropbox",
-				"zh-cn": "在事件条件下没有我的看法\n固定、复印事件和技术艺术\n可移动的人类生物"
-			},
-			"1.5.0": {
-				"en": "send echarts\n#93 Scrollbar in Menus\n#89 go back to menu by setting setDynamicValue\ndelete all Messages by Bot",
-				"de": "echarts\n#93 Scrollbar in Menüs\n#89 Zurück zum Menü, indem Set gesetzt Dynamik Wert\nalle Nachrichten von Bot löschen",
-				"ru": "отправить echarts\n#93 Scrollbar в меню\n#89 вернуться в меню, установив Динамический Значение\nудалить все сообщения от Bot",
-				"pt": "enviar echarts\n#93 Scrollbar em Menus\n#89 voltar para o menu, definindo o conjunto Dinâmica Valor\napagar todas as mensagens por Bot",
-				"nl": "stuur echarts\n93 Scrollbar in Menus\n♪89 go back to menu by setting Dynamic Value\nverwijder alle berichten van Bot",
-				"fr": "envoyer des echarts\n#93 Barre de défilement dans les menus\n#89 Retourner au menu par réglage Dynamique Valeur\nsupprimer tous les messages de Bot",
-				"it": "inviare echarts\n#93 Scrollbar nei menu\n#89 torna al menu impostando il set Dinamica Valore\ncancellare tutti i messaggi da Bot",
-				"es": "enviar echarts\n#93 Scrollbar en menús\n#89 volver al menú con el set Dinámica dinámica Valor\neliminar todos los mensajes de Bot",
-				"pl": "wysyłać chart\n93 Scrollbar in Menus (ang.)\n#89 powraca do menu, gdzie ustawiono ustawę. Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Value\nusunąć wszystkie komunikaty",
-				"uk": "надіслати echarts\n#93 Скролбар в меню\n#89 повернутися до меню, встановивши набір Головна Ціна\nвидалити всі повідомлення від Bot",
-				"zh-cn": "发 术\n#93 Scrollbar in Menus\n第89号法案通过设立男子来回男性。 动态 价值\n删除Bot的所有信"
-			},
-			"1.4.0": {
-				"en": "#88 Menu with dynamic Values\n#87 Event opens a menu",
-				"de": "#88 Menü mit dynamischen Werten\n#87 Veranstaltung öffnet ein Menü",
-				"ru": "#88 Меню с динамическими ценностями\n#87 Событие открывает меню",
-				"pt": "#88 Menu com valores dinâmicos\n#87 Evento abre um menu",
-				"nl": "88 Menu met dynamische Values\n♪87 Event opent een menu",
-				"fr": "#88 Menu avec des valeurs dynamiques\n#87 Event opens a menu",
-				"it": "#88 Menu con valori dinamici\n#87 Evento apre un menu",
-				"es": "#88 Menu con valores dinámicos\n#87 Evento abre un menú",
-				"pl": "#88 Menu z dynamicznym Valuesem\n#87 wydarzenia otwierają menu",
-				"uk": "#88 Меню з динамічними значеннями\n#87 Захід відкриває меню",
-				"zh-cn": "行动88 具有动态价值的男子\n第87号活动打开了一名男子。"
-			},
-			"1.3.0": {
-				"en": "insert Dynamic Values",
-				"de": "dynamische Werte einsetzen",
-				"ru": "вставить динамические ценности",
-				"pt": "inserir valores dinâmicos",
-				"nl": "dynamic Values",
-				"fr": "insérer Valeurs dynamiques",
-				"it": "inserire Valori Dinamici",
-				"es": "insertar Valores dinámicos",
-				"pl": "dynamic Values (ang.)",
-				"uk": "вставити динамічні значення",
-				"zh-cn": "插入动态价值"
-			},
-			"1.2.3": {
-				"en": "small fixes\nMenu Entrys will sorted by Name",
-				"de": "kleine fixierungen\nMenüeinträge sortiert nach Name",
-				"ru": "небольшие исправления\nМеню Входы будут сортироваться по названию",
-				"pt": "pequenas correções\nEntradas do menu serão ordenadas pelo nome",
-				"nl": "kleine fixes\nMenu Entrys zal de naam",
-				"fr": "petites corrections\nMenu Entrées sera trié par Nom",
-				"it": "piccole correzioni\nMenu Entrys ordinati per Nome",
-				"es": "pequeños accesorios\nMenú Entradas ordenados por nombre",
-				"pl": "drobne rozwiązanie\nMenu Entrys posortował przez Name",
-				"uk": "маленькі кріплення\nІм'я",
-				"zh-cn": "小型配件\n国籍"
-			}
-		},
-		"titleLang": {
-			"en": "Telegram Menu",
-			"de": "Telegram-Menü",
-			"ru": "Меню телеграммы",
-			"pt": "Menu Telegram",
-			"nl": "Telegram-menu",
-			"fr": "Menu Télégramme",
-			"it": "Menù telegramma",
-			"es": "Menú de telegramas",
-			"pl": "menu telegramu",
-			"zh-cn": "电报菜单",
-			"uk": "Меню Telegram"
-		},
-		"desc": {
-			"en": "Easily create Telegram Menus",
-			"de": "Erstellen Sie ganz einfach Telegrammenüs",
-			"ru": "Легко создавать меню Telegram",
-			"pt": "Crie facilmente menus de telegrama",
-			"nl": "Maak eenvoudig Telegram-menu's",
-			"fr": "Créez facilement des menus de télégramme",
-			"it": "Crea facilmente menu di Telegram",
-			"es": "Crea fácilmente menús de Telegram",
-			"pl": "Z łatwością twórz menu telegramu",
-			"zh-cn": "轻松创建电报菜单",
-			"uk": "Легко створюйте меню Telegram"
-		},
-		"authors": ["MiRo1310 <michael.roling@gmx.de>"],
-		"keywords": ["telegram", "menu"],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "telegram-menu.png",
-		"enabled": true,
-		"messagebox": true,
-		"extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-		"readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "messaging",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "materialize"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=5.0.0",
-				"telegram": ">=1.15.0"
-			}
-		],
-		"messages": [
-			{
-				"condition": {
-					"operand": "and",
-					"rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
-				},
-				"title": {
-					"en": "Important notice!",
-					"de": "Wichtiger Hinweis!",
-					"ru": "Важное замечание!",
-					"pt": "Notícia importante!",
-					"nl": "Belangrijke mededeling!",
-					"fr": "Avis important!",
-					"it": "Avviso IMPORTANTE!",
-					"es": "Noticia importante!",
-					"pl": "Ważna uwaga!",
-					"zh-cn": "重要通知!",
-					"uk": "Важливе повідомлення!"
-				},
-				"text": {
-					"en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
-					"de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
-					"ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
-					"pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
-					"nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
-					"fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
-					"it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
-					"es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
-					"pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
-					"uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
-					"zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
-				},
-				"level": "warn",
-				"buttons": ["agree", "cancel"]
-			},
-			{
-				"condition": {
-					"operand": "and",
-					"rules": ["oldVersion<1.6.1", "newVersion>=1.6.1"]
-				},
-				"title": {
-					"en": "Important notice!",
-					"de": "Wichtiger Hinweis!",
-					"ru": "Важное замечание!",
-					"pt": "Notícia importante!",
-					"nl": "Belangrijke mededeling!",
-					"fr": "Avis important!",
-					"it": "Avviso IMPORTANTE!",
-					"es": "Noticia importante!",
-					"pl": "Ważna uwaga!",
-					"zh-cn": "重要通知!",
-					"uk": "Важливе повідомлення!"
-				},
-				"text": {
-					"en": "Breaking Change!!! #102 menu:dynSwitch with float numbers, if you allready use it, you have to adjust the function manually. More infos in the documentation",
-					"de": "Wechseln!!! #102 Menü:dynSwitch mit Float-Nummern, wenn Sie allready verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen in der Dokumentation",
-					"ru": "Разрушение изменения!!! #102 меню:dynSwitch с поплавковыми номерами, если вы все время используете его, вы должны настроить функцию вручную. Больше информации в документации",
-					"pt": "Mudança de ruptura!!! #102 menu:dynSwitch com números de flutuador, se você já usá-lo, você tem que ajustar a função manualmente. Mais informações na documentação",
-					"nl": "Breaking Change!! #102 menu:dynSwitch met floatnummers, als je het al gebruikt, moet je de functie handmatig aanpassen. Meer informatie in de documentatie",
-					"fr": "Briser le changement!!! Menu #102:dynSwitch avec les numéros flottants, si vous l'utilisez déjà, vous devez ajuster la fonction manuellement. Plus d'infos dans la documentation",
-					"it": "Breaking Change!!! #102 menu:dynSwitch con numeri di galleggiante, se si utilizza allready, è necessario regolare la funzione manualmente. Maggiori informazioni nella documentazione",
-					"es": "Cambio de ruptura! #102 menu:dynSwitch con números de flotador, si lo usas todo listo, tienes que ajustar la función manualmente. Más información en la documentación",
-					"pl": "Łamanie zmian!!! # 102 menu: dynSwitch z numerami float, jeśli wszystkie gotowe używać go, trzeba dostosować funkcję ręcznie. Więcej informacji w dokumentacji",
-					"uk": "Змінити зміни! #102 меню:dynSwitch з float номерами, якщо ви використовуєте його, ви повинні налаштувати функцію вручну. Більше інформації в документації",
-					"zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
-				},
-				"level": "warn",
-				"buttons": ["agree", "cancel"]
-			}
-		]
-	},
-	"native": {
-		"nav": {},
-		"instance": "",
-		"data": {},
-		"checkbox": [],
-		"usersForGlobal": "",
-		"users": [],
-		"startsides": [],
-		"tokenGrafana": "",
-		"directory": "",
-		"userActiveCheckbox": [],
-		"usersInGroup": {},
-		"textNoEntry": "",
-		"userListWithChatID": []
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "telegram-menu",
+    "version": "1.6.2",
+    "news": {
+      "1.6.2": {
+        "en": "#102 **_Breaking Change!!!_** menu:dynSwitch with decimal numbers, if you use it, you have to adjust the function manually. For more information, see the documentation\n#106 fixed change `{status:'id':'ID':true}` has now a new parameter, check docs\n#107 one line menu without workaround\n#103 scrollbar in Navigation and Action\nsmall visual changes in actions for small screens\nfixed checkbox send menu after restart in settings\n#94 menu:number with Float Numbers fixed\nTrigger Info - Overview of all menus and users, only visual but without functions\nremaining text reattached",
+        "de": "#102 **_Breaking Change!!!_** Menü: DynSwitch mit Dezimalzahlen, wenn Sie es verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen finden Sie in der Dokumentation\n#106 fix change `{status:'id':'ID':true}` hat nun einen neuen Parameter, check docs\n#107 ein menü ohne workaround\n#103 Scrollbar in Navigation und Action\nkleine visuelle veränderungen in aktionen für kleine bildschirme\nfeste checkbox-sendemenü nach neustart in einstellungen\n#94 Menü: Nummer mit Float-Zahlen fixiert\nTrigger Info - Übersicht aller Menüs und Benutzer, nur visuell, aber ohne Funktionen\nrestlicher text neu angehängt",
+        "ru": "#102 **_Breaking Change!!!_** меню:dynSwitch с десятичными номерами, если вы используете его, вы должны настроить функцию вручную. Дополнительные сведения см. в документации\n#106 фиксированное изменение `{статус:'id':'ID': True}` имеет теперь новый параметр, проверить док\n#107 одно строковое меню без обхода\n#103 прокрутка в навигации и действии\nнебольшие визуальные изменения в действиях для небольших экранов\nфиксированная папка отправить меню после перезагрузки в настройках\n#94 меню: номер с фиксированными номерами\nTrigger Info - Обзор всех меню и пользователей, только визуально, но без функций\nоставшийся текст",
+        "pt": "#102 **_Breaking Change!!!_** menu:dynSwitch com números decimais, se você usá-lo, você tem que ajustar a função manualmente. Para mais informações, consulte a documentação\n#106 mudança fixa `{status:'id':'ID':true}` tem agora um novo parâmetro, verificar documentos\n#107 menu de uma linha sem solução\nBarra de rolagem #103 em Navegação e Ação\npequenas mudanças visuais em ações para telas pequenas\ncaixa de seleção fixa enviar menu após reiniciar em configurações\n#94 menu: número com números de flutuação fixo\nTrigger Info - Visão geral de todos os menus e usuários, apenas visual, mas sem funções\ntexto restante reconectado",
+        "nl": "#102 **_Breaking Change!!!_** menu:dynSwitch met decimale getallen, als je het gebruikt, moet je de functie handmatig aanpassen. Voor meer informatie, zie de documentatie\n#106 fixed change  heeft nu een nieuwe parameter, controle docs\n#107 one line menu zonder omweg\n#103 scrollbar in Navigation and Action\nkleine visuele veranderingen in acties voor kleine schermen\nvast keuzevakje versturen na herstart in instellingen\n#94 menu:nummer met vaste Floatnummers\nTrigger Info - Overzicht van alle menu's en gebruikers, alleen visueel maar zonder functies\nresterende tekst heringevoegd",
+        "fr": "#102 **_Breaking Change!!!_** menu:dynSwitch avec des nombres décimaux, si vous l'utilisez, vous devez ajuster la fonction manuellement. Pour en savoir plus, consultez la documentation\n#106 changement fixe `{status:'id':'ID':true}` a maintenant un nouveau paramètre, vérifiez les documents\n#107 menu une ligne sans retouche\nLa barre de défilement 103 dans Navigation et Action\npetits changements visuels dans les actions pour petits écrans\ncase à cocher fixe envoyer le menu après le redémarrage dans les paramètres\n#94 menu:numéro avec Flot Numbers corrigé\nTrigger Info - Aperçu de tous les menus et utilisateurs, seulement visuel mais sans fonctions\ntexte restant réattaché",
+        "it": "#102 **_Breaking Change!!!_** menu:dynSwitch con numeri decimali, se lo usi, devi regolare la funzione manualmente. Per ulteriori informazioni, vedere la documentazione\n#106 cambiamento fisso `{status:'id':'ID':true}` ha ora un nuovo parametro, controllare i documenti\n#107 un menu di linea senza soluzione di continuità\n#103 barra di scorrimento in navigazione e azione\npiccoli cambiamenti visivi in azioni per piccoli schermi\ncheckbox fisso invia menu dopo il riavvio nelle impostazioni\n#94 menu: numero con numeri di galleggiamento fissi\nTrigger Info - Panoramica di tutti i menu e utenti, solo visiva ma senza funzioni\ntesto rimanente riattaccato",
+        "es": "#102 **_Breaking Change!!!_** menu:dynSwitch con números decimal, si lo usas, tienes que ajustar la función manualmente. Para más información, consulte la documentación\n#106 cambio fijo `{status:'id':'ID':true}` tiene ahora un nuevo parámetro, cheque docs\n#107 un menú de línea sin trabajo\n#103 barra de desplazamiento en navegación y acción\npequeños cambios visuales en acciones para pequeñas pantallas\ncasilla fija enviar menú después de reiniciar en la configuración\n#94 menu:number with Float Numbers fixed\nTrigger Info - Vista general de todos los menús y usuarios, sólo visual pero sin funciones\ntexto restablecido",
+        "pl": "# 102 * * _ Breaking Change! Więcej informacji znajduje się w dokumentacji\n# 106 stała zmiana '{status:' id ':' ID ': true}' ma teraz nowy parametr, sprawdź dokumenty\n# 107 jedno menu linii bez pracy\n# 103 scrollbar w nawigacji i akcji\nniewielkie zmiany wizualne w działaniu dla małych ekranów\nustawiona opcja wysyłania menu po ponownym uruchomieniu w ustawieniach\n# 94 menu: numer z ustawianiem numerów float\nTrigger Info - Przegląd wszystkich menu i użytkowników, tylko wizualne, ale bez funkcji\npozostały tekst ponownie zapisany",
+        "uk": "#102 **_Перегляд змін !!!_** меню:dynSwitch з десятковими номерами, якщо його використовувати, ви повинні налаштувати функцію вручну. Для отримання додаткової інформації див. документацію\n#106 фіксована зміна `{status:'id':'ID':true}` тепер новий параметр, перевірити docs\n#107 меню одного рядка без тренування\n#103 прокрутка навігації та дії\nмаленькі візуальні зміни в діях для малих екранів\nвиправлений прапорець відправте меню після перезавантаження в налаштуваннях\n#94 меню:номер з фіксованими номерами Float\nTrigger Info - Огляд всіх меню і користувачів, тільки візуальний, але без функцій\nзворотній зв'язок",
+        "zh-cn": "#102 QQBreaking Change!!!QQ菜单:dynSwitch 带有十进制数字,如果使用它,必须手动调整函数. 更多信息见文件\n# 106 固定更改 _____________________________________________________________________________________________________ 检查文件\n#107 单行菜单不用工作\n# 103 滚动条在导航和动作中\n小屏幕动作的小视觉变化\n在设置中重新启动后固定复选框发送菜单\n# 94 菜单: 有固定浮点数的数字\n触发信息 - 所有菜单和用户概览,只有视觉功能,但没有功能\n剩余文本重附"
+      },
+      "1.6.1": {
+        "en": "fixed, shoppinglist",
+        "de": "fest, shoppinglist",
+        "ru": "фиксированный, торговый список",
+        "pt": "fixo, lista de compras",
+        "nl": "vertaling:",
+        "fr": "fixe, liste d'achats",
+        "it": "fisso, elenco degli acquisti",
+        "es": "fija, lista de compras",
+        "pl": "ustalony",
+        "uk": "фіксований, список покупок",
+        "zh-cn": "固定营业商"
+      },
+      "1.6.0": {
+        "en": "json Table in combination with the alexa-shoppinglist adapter can remove items\njson Table without Head\nfixes in menu:back\nPossibility to stop sending Menu after restart (after save)",
+        "de": "json Tabelle in Kombination mit dem alexa-shoppinglist Adapter kann Elemente entfernen\njson Tisch ohne Kopf\neinstellungen im menü:back\nMöglichkeit, das Senden von Menü nach dem Neustart zu stoppen (nach dem Speichern)",
+        "ru": "json Table в сочетании с адаптером alexa-shoppinglist может удалить элементы\njson Таблица без головы\nисправления в меню:back\nВозможность прекратить отправку меню после перезагрузки (после сохранения)",
+        "pt": "json Table em combinação com o adaptador alexa-shoppinglist pode remover itens\njson Tabela sem cabeça\ncorreções no menu:back\nPossibilidade de parar de enviar Menu após reiniciar (após salvar)",
+        "nl": "json Table in combinatie met de alexa-shoppinglist adapter kan items verwijderen\njson Table zonder hoofd\nvertaling:\nMogelijkheden om te stoppen met Menu te sturen na de herstart",
+        "fr": "json Table en combinaison avec l'adaptateur alexa-shoppinglist peut supprimer les éléments\njson Table sans tête\ncorrige dans le menu:back\nPossibilité d'arrêter l'envoi de Menu après redémarrage (après sauvegarde)",
+        "it": "json Table in combinazione con l'adattatore alexa-shoppinglist può rimuovere gli elementi\njson tavolo senza testa\ncorrezioni nel menu:back\nPossibilità di interrompere l'invio di Menu dopo il riavvio (dopo il salvataggio)",
+        "es": "json Table en combinación con el adaptador alexa-shoppinglist puede eliminar los elementos\njson Table sin Head\nfijaciones en el menú:back\nPosibilidad de dejar de enviar Menú después de reiniciar (después de guardar)",
+        "pl": "json Table w połączeniu z alexa-shoppinglistą może usuwać przedmioty\njson Table without Head (ang.)\nnaprawa menu:\nNiemożliwość zatrzymywania wysyłania Menu po restartie (po ocaleniu)",
+        "uk": "json Table в поєднанні з alexa-shoppinglist адаптер може видалити елементи\njson Table без глави\nвиправлення в меню:back\nМожливість зупинити відправлення Меню після перезавантаження (після збереження)",
+        "zh-cn": "j. 同一个法轮化剂适应者合并的表格可以拆除物品\njson 表\nf 男性:挫折\n允许在恢复原状(之后)之后停止派遣Mendu"
+      },
+      "1.5.1": {
+        "en": "no Icons in events condition\nfixed, copy events and echarts\nmoveable DropBox",
+        "de": "keine Icons im Ereigniszustand\nfeste, kopieren von ereignissen und echarts\nbewegliche DropBox",
+        "ru": "нет икон в состоянии событий\nфиксированные, копируемые события и эчарты\nперемещаемый DropBox",
+        "pt": "sem ícones em condição de eventos\ncorrigido, copiar eventos e echarts\ncaixa de gota móvel",
+        "nl": "geen Icon in eventuele toestand\nvertaling:\nverplaatsing van DropBox",
+        "fr": "pas d'icônes dans l'état des événements\névénements fixes, copieurs et echarts\ndropBox mobile",
+        "it": "no Icone in condizioni di eventi\neventi fissi, copia ed echarts\ndropBox mobile",
+        "es": "no Iconos en condición de eventos\nfija, copia de eventos y echats\ndropBox",
+        "pl": "nie ma żadnej kondycji w kontekście zdarzeń\nstałe, kopiowane wydarzenia i ekharty\ndropBox",
+        "uk": "немає ікон в умовах подій\nфіксовані, копіювання подій та echarts\nперехідний Dropbox",
+        "zh-cn": "在事件条件下没有我的看法\n固定、复印事件和技术艺术\n可移动的人类生物"
+      },
+      "1.5.0": {
+        "en": "send echarts\n#93 Scrollbar in Menus\n#89 go back to menu by setting setDynamicValue\ndelete all Messages by Bot",
+        "de": "echarts\n#93 Scrollbar in Menüs\n#89 Zurück zum Menü, indem Set gesetzt Dynamik Wert\nalle Nachrichten von Bot löschen",
+        "ru": "отправить echarts\n#93 Scrollbar в меню\n#89 вернуться в меню, установив Динамический Значение\nудалить все сообщения от Bot",
+        "pt": "enviar echarts\n#93 Scrollbar em Menus\n#89 voltar para o menu, definindo o conjunto Dinâmica Valor\napagar todas as mensagens por Bot",
+        "nl": "stuur echarts\n93 Scrollbar in Menus\n♪89 go back to menu by setting Dynamic Value\nverwijder alle berichten van Bot",
+        "fr": "envoyer des echarts\n#93 Barre de défilement dans les menus\n#89 Retourner au menu par réglage Dynamique Valeur\nsupprimer tous les messages de Bot",
+        "it": "inviare echarts\n#93 Scrollbar nei menu\n#89 torna al menu impostando il set Dinamica Valore\ncancellare tutti i messaggi da Bot",
+        "es": "enviar echarts\n#93 Scrollbar en menús\n#89 volver al menú con el set Dinámica dinámica Valor\neliminar todos los mensajes de Bot",
+        "pl": "wysyłać chart\n93 Scrollbar in Menus (ang.)\n#89 powraca do menu, gdzie ustawiono ustawę. Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Value\nusunąć wszystkie komunikaty",
+        "uk": "надіслати echarts\n#93 Скролбар в меню\n#89 повернутися до меню, встановивши набір Головна Ціна\nвидалити всі повідомлення від Bot",
+        "zh-cn": "发 术\n#93 Scrollbar in Menus\n第89号法案通过设立男子来回男性。 动态 价值\n删除Bot的所有信"
+      },
+      "1.4.0": {
+        "en": "#88 Menu with dynamic Values\n#87 Event opens a menu",
+        "de": "#88 Menü mit dynamischen Werten\n#87 Veranstaltung öffnet ein Menü",
+        "ru": "#88 Меню с динамическими ценностями\n#87 Событие открывает меню",
+        "pt": "#88 Menu com valores dinâmicos\n#87 Evento abre um menu",
+        "nl": "88 Menu met dynamische Values\n♪87 Event opent een menu",
+        "fr": "#88 Menu avec des valeurs dynamiques\n#87 Event opens a menu",
+        "it": "#88 Menu con valori dinamici\n#87 Evento apre un menu",
+        "es": "#88 Menu con valores dinámicos\n#87 Evento abre un menú",
+        "pl": "#88 Menu z dynamicznym Valuesem\n#87 wydarzenia otwierają menu",
+        "uk": "#88 Меню з динамічними значеннями\n#87 Захід відкриває меню",
+        "zh-cn": "行动88 具有动态价值的男子\n第87号活动打开了一名男子。"
+      },
+      "1.3.0": {
+        "en": "insert Dynamic Values",
+        "de": "dynamische Werte einsetzen",
+        "ru": "вставить динамические ценности",
+        "pt": "inserir valores dinâmicos",
+        "nl": "dynamic Values",
+        "fr": "insérer Valeurs dynamiques",
+        "it": "inserire Valori Dinamici",
+        "es": "insertar Valores dinámicos",
+        "pl": "dynamic Values (ang.)",
+        "uk": "вставити динамічні значення",
+        "zh-cn": "插入动态价值"
+      }
+    },
+    "titleLang": {
+      "en": "Telegram Menu",
+      "de": "Telegram-Menü",
+      "ru": "Меню телеграммы",
+      "pt": "Menu Telegram",
+      "nl": "Telegram-menu",
+      "fr": "Menu Télégramme",
+      "it": "Menù telegramma",
+      "es": "Menú de telegramas",
+      "pl": "menu telegramu",
+      "zh-cn": "电报菜单",
+      "uk": "Меню Telegram"
+    },
+    "desc": {
+      "en": "Easily create Telegram Menus",
+      "de": "Erstellen Sie ganz einfach Telegrammenüs",
+      "ru": "Легко создавать меню Telegram",
+      "pt": "Crie facilmente menus de telegrama",
+      "nl": "Maak eenvoudig Telegram-menu's",
+      "fr": "Créez facilement des menus de télégramme",
+      "it": "Crea facilmente menu di Telegram",
+      "es": "Crea fácilmente menús de Telegram",
+      "pl": "Z łatwością twórz menu telegramu",
+      "zh-cn": "轻松创建电报菜单",
+      "uk": "Легко створюйте меню Telegram"
+    },
+    "authors": [
+      "MiRo1310 <michael.roling@gmx.de>"
+    ],
+    "keywords": [
+      "telegram",
+      "menu"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "telegram-menu.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0",
+        "telegram": ">=1.15.0"
+      }
+    ],
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<1.0.0",
+            "newVersion>=1.0.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
+          "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
+          "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
+          "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
+          "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
+          "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
+          "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
+          "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
+          "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
+          "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
+          "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<1.6.1",
+            "newVersion>=1.6.1"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Breaking Change!!! #102 menu:dynSwitch with float numbers, if you allready use it, you have to adjust the function manually. More infos in the documentation",
+          "de": "Wechseln!!! #102 Menü:dynSwitch mit Float-Nummern, wenn Sie allready verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen in der Dokumentation",
+          "ru": "Разрушение изменения!!! #102 меню:dynSwitch с поплавковыми номерами, если вы все время используете его, вы должны настроить функцию вручную. Больше информации в документации",
+          "pt": "Mudança de ruptura!!! #102 menu:dynSwitch com números de flutuador, se você já usá-lo, você tem que ajustar a função manualmente. Mais informações na documentação",
+          "nl": "Breaking Change!! #102 menu:dynSwitch met floatnummers, als je het al gebruikt, moet je de functie handmatig aanpassen. Meer informatie in de documentatie",
+          "fr": "Briser le changement!!! Menu #102:dynSwitch avec les numéros flottants, si vous l'utilisez déjà, vous devez ajuster la fonction manuellement. Plus d'infos dans la documentation",
+          "it": "Breaking Change!!! #102 menu:dynSwitch con numeri di galleggiante, se si utilizza allready, è necessario regolare la funzione manualmente. Maggiori informazioni nella documentazione",
+          "es": "Cambio de ruptura! #102 menu:dynSwitch con números de flotador, si lo usas todo listo, tienes que ajustar la función manualmente. Más información en la documentación",
+          "pl": "Łamanie zmian!!! # 102 menu: dynSwitch z numerami float, jeśli wszystkie gotowe używać go, trzeba dostosować funkcję ręcznie. Więcej informacji w dokumentacji",
+          "uk": "Змінити зміни! #102 меню:dynSwitch з float номерами, якщо ви використовуєте його, ви повинні налаштувати функцію вручну. Більше інформації в документації",
+          "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
+    ]
+  },
+  "native": {
+    "nav": {},
+    "instance": "",
+    "data": {},
+    "checkbox": [],
+    "usersForGlobal": "",
+    "users": [],
+    "startsides": [],
+    "tokenGrafana": "",
+    "directory": "",
+    "userActiveCheckbox": [],
+    "usersInGroup": {},
+    "textNoEntry": "",
+    "userListWithChatID": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
