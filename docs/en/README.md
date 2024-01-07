@@ -40,7 +40,7 @@ Let's get started!
 
 ##### ... the value of the status can be changed
 
--   If the value is to be changed, e.g. from true to on and false to off, can`change{"true":"an","false":"aus"}`be used
+-   If the value is to be changed, e.g. from true to on and false to off, can`change{"true":"an","false":"aus"}` genutzt werden
 
 ##### ...a value can be set
 
@@ -97,7 +97,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     menu:number1-20-2-unit:TRIGGER:
 
--   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
+-   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, for a negative value simply`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
     menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
@@ -156,7 +156,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 #### Values ​​from created functions
 
--   To get all the values ​​of the adjustable functions, you simply have to write functions=light instead of the ID, for example.
+-   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
 -   If you want to have the name of the data point in the output text, simply enter it at the desired position in the text`{common.name}`a
 
 ![functions](../pic/functions.png)<br>
