@@ -37,7 +37,8 @@ Hier, das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wi
 ##### ...ein Status geschickt werden
 
 -   Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden. `{status:'id':'ID':true}`.
-    ID - muss durch die abzufragende ID ersetzt werden, der Parameter true dahinter sagt aus oder der Wert geändert werden darf durch `change{"true":"an","false":"aus"}` oder einer modifizierten Version davon. Dieses ist wichtig wenn ich mehr als einen Status in einem Aufruf abfragen möchte, setzte ich den Wert nicht, werden die Werte nicht sauber verarbeitet. <br>
+    ID - muss durch die abzufragende ID ersetzt werden.
+    **_Breaking Change!!!_** der Parameter true dahinter sagt aus oder der Wert geändert werden darf durch `change{"true":"an","false":"aus"}` oder einer modifizierten Version davon. Dieses ist wichtig wenn ich mehr als einen Status in einem Aufruf abfragen möchte, setzte ich den Wert nicht, werden die Werte nicht sauber verarbeitet. <br>
 
 ##### ... der Wert des Status geändert werden
 
