@@ -36,7 +36,7 @@ Let's get started!
 ##### ...a status will be sent
 
 -   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.`{status:'id':'ID':true}`.
-    ID - must be replaced by the ID to be queried, the parameter behind it says true or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​won't be processed cleanly.<br>
+    ID - must be replaced by the ID to be queried, the parameter behind it says true or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​will not be processed cleanly.<br>
 
 ##### ... the value of the status can be changed
 
@@ -100,9 +100,9 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
-    menu:dynSwitch[Name1.value1, Name2.value2, value3]:TRIGGER:LenghtOfRow:
+    menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
 
--   This can be used to create a dynamic menu, in an array \[], always the one to be displayed and the value, Name.Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can specify how many buttons next to each other should stand
+-   This can be used to create a dynamic menu, in an array \[], always the name to be displayed and the value, Name|Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can specify how many buttons should stand next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change to`[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values, e.g. (2.5).
 
 
     menu:back
