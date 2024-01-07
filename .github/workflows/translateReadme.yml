@@ -1,24 +1,25 @@
 name: Translate README
 
 on:
-  push:
-    paths: 
-      - 'docs/de/README.md'  
-  workflow_dispatch:  # Erlaubt manuelle Auslösung
+    push:
+        branches:
+            - main
+        paths:
+            - "docs/de/README.md"
+    workflow_dispatch: # Erlaubt manuelle Auslösung
 jobs:
-  build:
-    runs-on: ubuntu-latest         
-   
-    steps:
-     
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-      # ISO Langusge Codes: https://cloud.google.com/translate/docs/languages  
-      - name: Adding README - English
-        uses: MiRo1310/translate-readme@main
-        with:
-          LANG: en  
-     
+    build:
+        runs-on: ubuntu-latest
+        if: ${{ !startsWith(github.event.head_commit.message, 'chore') }}
+
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18.x
+            # ISO Langusge Codes: https://cloud.google.com/translate/docs/languages
+            - name: Adding README - English
+              uses: MiRo1310/translate-readme@main
+              with:
+                  LANG: en
