@@ -75,7 +75,7 @@ Let's get started!
 
 #### delete history
 
-To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`- **Navigation** is the menu name that should then be called up (e.g. home page)
+To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`- **Navigation** is the menu name that should then be called up (e.g. home page); only entries that are younger than 48 hours can be deleted.
 
 ### Sub-menus
 
@@ -149,8 +149,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 ### GetState
 
 -   With && as a placeholder you can place the value in the text, just like with setState you can influence the value`change{"true":"an", "false":"aus"}`.
--   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}` zum Beispiel wird hier durch 10 geteilt
-    ![math](../pic/image9.png)<br>
+-   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}`for example, here we divide by 10![math](../pic/image9.png)<br>
 -   If you want to round the value, do the following`{round:2}`
 -   If you want to retrieve several values ​​at the same time with one query, you can activate the Newline checkbox to have the return text displayed in a new line for each query.
 -   If you want to convert a value from a state with a Unix timestamp to a local time and have it sent, add it to the return text`{time}`at the desired location
