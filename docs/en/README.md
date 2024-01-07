@@ -36,11 +36,11 @@ Let's get started!
 ##### ...a status will be sent
 
 -   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.`{status:'id':'ID':true}`.
-    ID - must be replaced by the ID to be queried, the parameter behind it says true or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​will not be processed cleanly.<br>
+    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​won't be processed cleanly.<br>
 
 ##### ... the value of the status can be changed
 
--   If the value is to be changed, e.g. from true to on and false to off, can`change{"true":"an","false":"aus"}` genutzt werden
+-   If the value is to be changed, e.g. from true to on and false to off, can`change{"true":"an","false":"aus"}`be used
 
 ##### ...a value can be set
 
@@ -149,14 +149,15 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 ### GetState
 
 -   With && as a placeholder you can place the value in the text, just like with setState you can influence the value`change{"true":"an", "false":"aus"}`.
--   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}`for example, here we divide by 10![math](../pic/image9.png)<br>
+-   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}` zum Beispiel wird hier durch 10 geteilt
+    ![math](../pic/image9.png)<br>
 -   If you want to round the value, do the following`{round:2}`
 -   If you want to retrieve several values ​​at the same time with one query, you can activate the Newline checkbox to have the return text displayed in a new line for each query.
 -   If you want to convert a value from a state with a Unix timestamp to a local time and have it sent, add it to the return text`{time}`at the desired location
 
 #### Values ​​from created functions
 
--   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
+-   To get all the values ​​of the adjustable functions, you simply have to write functions=light instead of the ID, for example.
 -   If you want to have the name of the data point in the output text, simply enter it at the desired position in the text`{common.name}`a
 
 ![functions](../pic/functions.png)<br>
