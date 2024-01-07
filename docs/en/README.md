@@ -35,7 +35,8 @@ Let's get started!
 
 ##### ...a status will be sent
 
--   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.<br>![Config for Status](../pic/statusConfig.png)The result would then be this!<br>![Telegram Status](../pic/TelegramStatus.png)
+-   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.`{status:'id':'ID':true}`.
+    ID - must be replaced by the ID to be queried, the parameter behind it says true or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​won't be processed cleanly.<br>
 
 ##### ... the value of the status can be changed
 
@@ -91,7 +92,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     menu:percent10:TRIGGER:
 
--   Die 10 ist variabel und gibt die Schritte an, diese kann einfach durch eine andere Zahl ersetzt werden.
+-   The 10 is variable and indicates the steps; this can easily be replaced by another number.
 
 
     menu:number1-20-2-unit:TRIGGER:
