@@ -938,3 +938,7 @@ span[title],
 #ar_dialog_selectid_title ~ div.MuiDialogContent-root {
 	overflow: auto !important;
 }
+.breakingChange {
+	color: red;
+	font-weight: 500;
+}

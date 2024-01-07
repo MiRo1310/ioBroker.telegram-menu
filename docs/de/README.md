@@ -104,10 +104,10 @@ menu:number1-20-2-unit:TRIGGER:
 -   Die 1,20 gibt die Spanne an, diese kann auch umgedreht sein 20,1, die 2 die Schritte, und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
 
 ```
-menu:dynSwitch[Name1.value1, Name2.value2, value3]:TRIGGER:LenghtOfRow:
+menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
 ```
 
--   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende und der Wert, Name.Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wieviele Buttons nebeneinander stehen sollen
+-   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende Name und der Wert, Name|Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wieviele Buttons nebeneinander stehen sollen. **_Breaking Change!!!_** &nbsp; Bitte manuel ändern: `[Name1:Value1, Name2:Value2]` ändern zu `[Name1|Value1, Name2|Value2]`. Jetzt können auch Dezimalzahlen als Value genutzt werden, z.B.(2.5).
 
 ```
 menu:back

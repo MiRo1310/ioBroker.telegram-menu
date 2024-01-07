@@ -56,9 +56,9 @@ const helperText = {
 			info: "Generates two buttons, in this case on and off with the respective values true and false. Replace TRIGGER with a unique value.",
 		},
 		{
-			text: "menu:dynSwitch[Name1.value1, Name2.value2, value3]:TRIGGER:LenghtOfRow:",
+			text: "menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:",
 			head: "<strong>Submenu Dynamic Switch</strong><br>",
-			info: "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row.",
+			info: "Generates multipli buttons, values can be insert individual. Replace TRIGGER with a unique value. LenghtOfRow is optional and can be used to set the number of buttons per row. <br><strong class='breakingChange'>Breaking Change!!!</strong> &nbsp; Please change manually: `[Name1:Value1, Name2:Value2]` to `[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values.",
 		},
 		{
 			text: "menu:deleteAll:Navigation",

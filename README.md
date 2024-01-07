@@ -36,7 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
--   #106 fixed change `{status:'id':'ID':true}` has now a new Parameter, check Docs
+-   #102 **_Breaking Change!!!_** menu:dynSwitch with decimal numbers, if you use it, you have to adjust the function manually. For more information, see the documentation
+-   #106 fixed change `{status:'id':'ID':true}` has now a new parameter, check docs
 -   #107 one line menu without workaround
 -   #103 scrollbar in Navigation and Action
 -   small visual changes in actions for small screens
