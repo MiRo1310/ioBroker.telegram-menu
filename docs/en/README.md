@@ -33,10 +33,10 @@ Let's get started!
 
 #### When opening a navigation...
 
-##### ...a status will be sent
+##### <span id="status"></span>...a status will be sent
 
 -   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.`{status:'id':'ID':true}`.
-    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​won't be processed cleanly.<br>
+    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​will not be processed cleanly.<br>
 
 ##### ... the value of the status can be changed
 
@@ -97,12 +97,13 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     menu:number1-20-2-unit:TRIGGER:
 
--   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, for a negative value simply`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
+-   Die 1,20 gibt die Spanne an, diese kann auch umgedreht sein 20,1, die 2 die Schritte, für einen negativen Wert einfach`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
     menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
 
 -   This can be used to create a dynamic menu, in an array \[], always the name to be displayed and the value, Name|Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can specify how many buttons should stand next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change to`[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values, e.g. (2.5).
+    A value of a data point can now also be used as a name.`{status:'id':'ID':true}`<a href="#status">for more information look here</a>
 
 
     menu:back
