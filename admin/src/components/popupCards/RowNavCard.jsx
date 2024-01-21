@@ -55,6 +55,7 @@ class RowNavCard extends Component {
 							marginLeft="8px"
 							marginTop="10px"
 						></Checkbox>
+						
 					),
 				)}
 			</div>

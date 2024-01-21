@@ -86,9 +86,7 @@ class HelperCard extends Component {
 					label="Text"
 					rows={4}
 				>
-					{this.props.val == "text" || this.props.val == "set" || this.props.val == "get" ? (
-						<BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} />
-					) : null}
+					{["text", "set", "get", "value"].includes(this.props.val) ? <BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} /> : null}
 				</Textarea>
 
 				{this.state.showSelectId ? (

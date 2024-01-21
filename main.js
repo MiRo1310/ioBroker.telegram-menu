@@ -178,6 +178,7 @@ class TelegramMenu extends utils.Adapter {
 							if (telegramActiv) {
 								const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 								if (chatID) {
+									console.debug("State: " + state);
 									this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
 									userListWithChatID.forEach((element) => {
 										this.log.debug("User and ChatID: " + JSON.stringify(element));
