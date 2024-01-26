@@ -51,10 +51,8 @@ class ActionCard extends Component {
 			let value = true;
 			let valueRowValuesAndSwitch = true;
 			let row = this.state.newRow;
-			this.props.entrys.forEach((entry) => {
-				console.log("test");
-				if (!entry.checkbox && entry.required) {
-					console.log("entry", entry);
+			this.props.entrys.forEach((entry) => {				
+				if (!entry.checkbox && entry.required) {				
 					// Wenn der Wert nicht vorhanden ist, dadurch das evtl eine neues Element in entrys hinzugefügt wurde
 					if (!row[entry.name]) row[entry.name] = [""];
 					row[entry.name].forEach((val, index) => {

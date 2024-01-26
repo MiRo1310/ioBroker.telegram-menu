@@ -90,7 +90,7 @@ export const tabValues = [
 			{ name: "user", val: "", headline: "User", width: "20%" },
 			{ name: "password", val: "", headline: "Password", password: true, width: "20%" },
 			{ name: "filename", val: "http-request-photo.jpg", headline: "Filename", width: "20%", required: true },
-			{ name: "delay", val: 5000, headline: "Delay (ms)", width: "20%", type: "number", required: true },
+			// { name: "delay", val: 5000, headline: "Delay (ms)", width: "20%", type: "number", required: true },
 		],
 		popupCard: { buttons: { add: true, remove: true }, width: "99%", height: "70%" },
 	},

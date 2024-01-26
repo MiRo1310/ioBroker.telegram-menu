@@ -214,6 +214,11 @@ menu:back
 -   Theme, es können verschieden Themes aus dem Echarts Adapter eingestellt werden, z.B.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
 -   Dateiname, individueller Dateiname. &nbsp;**Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**
 
+### HTTP Request
+
+-   hiermit ist es möglich einen Http Request ab zu senden, mit und ohne Authentification. Als erstes muss die Url angegeben werden, User und Passwort sind optional, wenn diese nicht benötigt werden einfach leer lassen. Als Dateiname kann der vorkonfiguriert Name stehen bleiben. 
+
+
 ### Settings
 
 -   Telegram-Instanz, hier kann man zischen den Instanzen wählen wenn man mehrere installiert hat
