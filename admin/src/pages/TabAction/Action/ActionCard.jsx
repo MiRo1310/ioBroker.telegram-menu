@@ -52,20 +52,19 @@ class ActionCard extends Component {
 			let valueRowValuesAndSwitch = true;
 			let row = this.state.newRow;
 			this.props.entrys.forEach((entry) => {
-				if (!entry.checkbox) {
+				console.log("test");
+				if (!entry.checkbox && entry.required) {
+					console.log("entry", entry);
+					// Wenn der Wert nicht vorhanden ist, dadurch das evtl eine neues Element in entrys hinzugefügt wurde
+					if (!row[entry.name]) row[entry.name] = [""];
 					row[entry.name].forEach((val, index) => {
-						// console.log("row ", row);
-						// console.log("name " + entry.name, "val " + val, "index " + index);
 						if (value && entry.name === "values") {
 							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
 								valueRowValuesAndSwitch = true;
 							} else {
-								// console.log(entry.name, val, index);
 								valueRowValuesAndSwitch = false;
 							}
 						} else if (value && val == "") {
-							// console.log(entry.name, val, index);
-							// console.log("false", entry.name, val, index);
 							value = false;
 						}
 					});

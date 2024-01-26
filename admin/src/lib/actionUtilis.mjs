@@ -5,7 +5,7 @@ import { tabValues } from "./entrys.mjs";
 function createData(element, index, rowElements) {
 	const obj = {};
 	rowElements.forEach((entry) => {
-		obj[entry.name] = element[entry.name][index];
+		obj[entry.name] = element[entry.name] ? (element[entry.name][index] ? element[entry.name][index] : null) : null;
 	});
 	return obj;
 }
