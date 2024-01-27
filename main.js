@@ -79,7 +79,6 @@ class TelegramMenu extends utils.Adapter {
 
 		// @ts-ignore
 		const data = this.config.data;
-		this.log.debug("sub " + JSON.stringify(this.subscribeForeignStatesAsync("0_userdata.0.number1")));
 
 		// @ts-ignore
 		const dataObject = this.config.data;
@@ -176,19 +175,20 @@ class TelegramMenu extends utils.Adapter {
 						try {
 							let userToSend;
 							if (telegramActiv) {
-								const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-								if (chatID) {
-									this.log.debug("State: " + state + " ID: " + id);
-									this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
-									userListWithChatID.forEach((element) => {
-										this.log.debug("User and ChatID: " + JSON.stringify(element));
-										if (element.chatID == chatID.val) userToSend = element.name;
-										this.log.debug("User " + JSON.stringify(userToSend));
-									});
-								} else {
-									this.log.debug("ChatID not found");
+								if (id == `${instanceTelegram}.communicate.requestChatId`) {
+									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+									if (chatID) {
+										this.log.debug(" ID: " + id);
+										this.log.debug("ChatID to use: " + JSON.stringify(chatID.val));
+										userListWithChatID.forEach((element) => {
+											this.log.debug("User and ChatID: " + JSON.stringify(element));
+											if (element.chatID == chatID.val) userToSend = element.name;
+											this.log.debug("User " + JSON.stringify(userToSend));
+										});
+									} else {
+										this.log.debug("ChatID not found");
+									}
 								}
-
 								// Send to Shoppinglist
 								if (state && typeof state.val == "string" && state.val.includes("sList:")) {
 									shoppingListSubscribeStateAndDeleteItem(_this, state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
@@ -337,6 +337,7 @@ class TelegramMenu extends utils.Adapter {
 
 		this.subscribeForeignStatesAsync(botSendMessageID);
 		this.subscribeForeignStatesAsync(requestMessageID);
+		this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);
 		// telegram.x.communicate.request
 		this.subscribeForeignStatesAsync(telegramID);
 		this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
