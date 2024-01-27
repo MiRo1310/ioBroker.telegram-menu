@@ -5,7 +5,8 @@ import { tabValues } from "./entrys.mjs";
 function createData(element, index, rowElements) {
 	const obj = {};
 	rowElements.forEach((entry) => {
-		obj[entry.name] = element[entry.name][index];
+		// Wenn das Element in entrys hinzugefügt wird und noch nicht vorhanden ist soll es auf "" gesetzt werden, damit es nicht undefined ist
+		obj[entry.name] = element[entry.name] && element[entry.name][index] ? element[entry.name][index] : "";
 	});
 	return obj;
 }
