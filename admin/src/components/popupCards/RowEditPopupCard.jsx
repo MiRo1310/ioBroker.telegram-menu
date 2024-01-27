@@ -139,7 +139,7 @@ class RowEditPopupCard extends Component {
 													<TableCell align="left" key={i}>
 														<Input
 															width={entry.search ? "calc(100% - 50px)" : "100%"}
-															value={typeof row[entry.name] === "string" ? row[entry.name].replace(/&amp;/g, "&") : ""}
+															value={row[entry.name].replace(/&amp;/g, "&")}
 															margin="0px 2px 0 5px"
 															id={entry.name}
 															index={index}
