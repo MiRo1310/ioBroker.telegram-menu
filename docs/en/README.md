@@ -14,7 +14,7 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)<br>Here the navigation looks.
+![Navigation](../pic/nav.png)<br>Here you can see the navigation.
 
 -   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. But you can call this up again using a button.
 -   The text on the right "Choose an action" is freely selectable, but cannot be empty.
@@ -97,7 +97,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     menu:number1-20-2-unit:TRIGGER:
 
--   Die 1,20 gibt die Spanne an, diese kann auch umgedreht sein 20,1, die 2 die Schritte, für einen negativen Wert einfach`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
+-   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, for a negative value simply`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
     menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
@@ -177,7 +177,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
--   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
+-   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
 
     <img src="../pic/grafana.png" width="400">
 
@@ -197,6 +197,10 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   Background , as the name suggests, the background can be set here
 -   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
 -   Filename, individual filename. **It is important that a directory with full write permission is specified in the settings**
+
+### HTTP Request
+
+-   This makes it possible to send an Http request, with or without authentication. First, the URL must be entered, user and password are optional, if they are not needed simply leave them blank. The preconfigured name can remain as the file name.
 
 ### Settings
 
