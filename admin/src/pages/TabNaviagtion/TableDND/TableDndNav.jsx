@@ -92,7 +92,7 @@ class TableDndNav extends Component {
 								<span
 									className="noneDraggable"
 									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
-									onMouseLeave={index1 == 0 ? "" : (e) => handleMouseOut(e, this.setState.bind(this))}
+									onMouseLeave={index1 == 0 ? undefined : (e) => handleMouseOut(e, this.setState.bind(this))}
 								>
 									{getElementIcon(row[entry.name])}{" "}
 									<span
