@@ -14,7 +14,7 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)<br>Here you can see the navigation.
+![Navigation](../pic/nav.png)<br>Here the navigation looks.
 
 -   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. But you can call this up again using a button.
 -   The text on the right "Choose an action" is freely selectable, but cannot be empty.
@@ -27,7 +27,7 @@ Let's get started!
 
 -   It is possible to switch from one menu to another menu. This makes sense when two people share the same menu, but when User1 is given an additional menu that you don't want User2 to have access to. The corresponding button is visible in both groups, but with functionality that is only relevant for User1. For this to work, the respective user must be specified in both groups.
 
--   In order for the second menu, i.e. a submenu, to work, the call text on the home page must be deactivated. This is achieved by using a`-`enters. Now User1 can access Menu2 from Menu1 by pressing the corresponding button. **Important!! Even if there are two menus, each call text can only appear once!**
+-   In order for the second menu, i.e. a submenu, to work, the trigger text on the home page must be deactivated. When you deactivate it, the line is displayed in orange and a message appears indicating that it is a submenu. You deactivate the line by leaving the Trigger cell empty. In the older versions you had to`-`enter, but it still works with it. Now User1 can access Menu2 from Menu1 by pressing the corresponding button. **Important!! Even if there are two menus, each call text can only appear once!**
 
 -   If there are two menus that do not have the same user, each menu can of course have an entry, e.g. light, but not if you jump from one to the other.
 
@@ -36,7 +36,7 @@ Let's get started!
 ##### <span id="status"></span>...a status will be sent
 
 -   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.`{status:'id':'ID':true}`.
-    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​will not be processed cleanly.<br>
+    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​won't be processed cleanly.<br>
 
 ##### ... the value of the status can be changed
 
@@ -177,7 +177,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
--   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be taken
+-   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
 
     <img src="../pic/grafana.png" width="400">
 
