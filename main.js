@@ -170,12 +170,13 @@ class TelegramMenu extends utils.Adapter {
 							this.log.error(JSON.stringify(error.stack));
 						}
 					}
+					let userToSend;
 					this.on("stateChange", async (id, state) => {
 						const setStateIdsToListenTo = getStateIdsToListenTo();
 						try {
-							let userToSend;
+							
 							if (telegramActiv) {
-								if (id == `${instanceTelegram}.communicate.requestChatId`) {
+								if (id == `${instanceTelegram}.communicate.requestChatId` || !userToSend) {
 									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 									if (chatID) {
 										this.log.debug(" ID: " + id);
