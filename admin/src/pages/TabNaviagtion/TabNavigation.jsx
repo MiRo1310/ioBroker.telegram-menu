@@ -39,7 +39,8 @@ class TabNavigation extends Component {
 		}
 	}
 	checkValueAllreadyUsed = (value) => {
-		if (this.state.newRow.call !== "" && this.state.newRow.value !== "" && this.state.newRow.text !== "") {
+		// Row.call darf ab jetzt leer oder auch nur ein - sein um es zu deaktivieren. Das Value darf ab jetzt auch leer sein.
+		if (this.state.newRow.text !== "") {
 			if (this.state.editRow) {
 				this.setState({ valuesAreOk: true });
 			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call) || this.state.newRow.call.startsWith("menu")) {

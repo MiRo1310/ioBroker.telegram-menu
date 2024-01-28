@@ -205,9 +205,20 @@ div.MuiTabPanel-root {
 .blue th {
 	color: black;
 }
-.MenuNavigation-Container table tbody tr:first-child {
+.MenuNavigation-Container .startsideActive {
 	background-color: #96d15a !important;
 }
+.MenuNavigation-Container .startsideInactive {
+	background-color: #eb8628 !important;
+}
+.MenuNavigation-Container .startsideHideInfo {
+	display: none;
+}
+.MenuNavigation-Container .textSubmenuInfo {
+	font-size: 1rem;
+	font-weight: 900;
+}
+
 .dark .MenuNavigation-Container table tbody tr:first-child td,
 .blue .MenuNavigation-Container table tbody tr:first-child td {
 	color: black !important;

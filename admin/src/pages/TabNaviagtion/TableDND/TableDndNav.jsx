@@ -5,6 +5,7 @@ import { deleteRow, moveItem } from "../../../lib/button.mjs";
 import { ButtonCard } from "../../../components/popupCards/buttonCard";
 import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../../../lib/dragNDrop.mjs";
 import { getElementIcon } from "../../../lib/actionUtilis.mjs";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 function createData(entrysOfParentComponent, element) {
 	const obj = {};
@@ -71,29 +72,38 @@ class TableDndNav extends Component {
 	render() {
 		return (
 			<TableBody>
-				{this.state.rows.map((row, index) => (
+				{this.state.rows.map((row, index1) => (
 					<TableRow
-						key={index}
+						key={index1}
 						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-						className="no-select"
-						draggable={handleDraggable(index)}
-						onDrop={(event) => this.handleDrop(event, index)}
+						className={"no-select" + " " + (index1 === 0 ? (row.call != "" && row.call != "-" ? "startsideActive" : "startsideInactive") : "")}
+						draggable={handleDraggable(index1)}
+						onDrop={(event) => this.handleDrop(event, index1)}
 						onDragStart={(event) =>
-							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }))
+							handleDragStart(index1, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index1 }))
 						}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
-						onDragOver={(event) => handleDragOver(index, event)}
-						onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
-						style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
+						onDragOver={(event) => handleDragOver(index1, event)}
+						onDragEnter={() => handleDragEnter(index1, this.setState.bind(this))}
+						style={handleStyleDragOver(index1, this.state.dropOver, this.state.dropStart)}
 					>
 						{this.props.entrys.map((entry, index) => (
 							<TableCell key={index} component="td" style={{ width: entry.width ? entry.width : null }}>
 								<span
 									className="noneDraggable"
 									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
-									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
+									onMouseLeave={index1 == 0 ? "" : (e) => handleMouseOut(e, this.setState.bind(this))}
 								>
-									{getElementIcon(row[entry.name])}
+									{getElementIcon(row[entry.name])}{" "}
+									<span
+										draggable={false}
+										className={
+											"textSubmenuInfo noneDraggable " +
+											(index === 0 ? (row.call === "" || row.call === "-" ? "" : "startsideHideInfo") : "startsideHideInfo")
+										}
+									>
+										{I18n.t("This is a Submenu!")}
+									</span>
 								</span>
 							</TableCell>
 						))}
@@ -103,11 +113,11 @@ class TableDndNav extends Component {
 							editRow={this.editRow}
 							moveDown={""}
 							moveUp={""}
-							deleteRow={() => deleteRow(index, this.props, this.props.card)}
+							deleteRow={() => deleteRow(index1, this.props, this.props.card)}
 							rows={this.state.rows}
-							index={index}
+							index={index1}
 							showButtons={this.props.showButtons}
-							notShowDelete={index == 0}
+							notShowDelete={index1 == 0}
 						></ButtonCard>
 					</TableRow>
 				))}

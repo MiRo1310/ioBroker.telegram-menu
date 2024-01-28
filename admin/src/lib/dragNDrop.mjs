@@ -30,8 +30,7 @@ export const handleMouseOut = (e, cb) => {
 	}
 };
 
-export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, cb) => {
-	console.log("handleDragStart");
+export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, cb) => {	
 	if (mouseOverNoneDraggable) {
 		event.target.style.userSelect = "text";
 		return false;
@@ -39,8 +38,7 @@ export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, 
 	setState({ dropStart: index });
 	if (cb) cb();
 };
-export const handleDragOver = (index, event) => {
-	console.log("handleDragOver");
+export const handleDragOver = (index, event) => {	
 	event.preventDefault();
 };
 export const handleDragEnter = (index, setState) => {
@@ -49,12 +47,11 @@ export const handleDragEnter = (index, setState) => {
 export const handleStyleDragOver = (index, dropOver, dropStart) => {
 	return dropOver === index && dropStart > index ? { borderTop: "2px solid #3399cc" } : dropOver === index && dropStart < index ? { borderBottom: "2px solid #3399cc" } : null;
 };
-export const handleDragEnd = (setState, props) => {
-	console.log("handleDragEnd");
+export const handleDragEnd = (setState, props) => {	
 	setState({ dropStart: 0 });
 	setState({ dropOver: 0 });
 	if (props) props.callback.setState({ draggingRowIndex: null });
 };
 export const handleDraggable = (index) => {
-	return index === 0 ? null : "true";
+	return index === 0 ? "false" : "true";
 };

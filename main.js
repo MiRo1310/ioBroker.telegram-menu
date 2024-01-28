@@ -7,9 +7,7 @@
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const { generateActions, generateNewObjectStructure, editArrayButtons } = require("./lib/js/action");
-
 const { _subscribeForeignStatesAsync } = require("./lib/js/subscribeStates");
-
 const { sendToTelegram } = require("./lib/js/telegram");
 const { decomposeText, changeValue } = require("./lib/js/utilities");
 const { createState } = require("./lib/js/createState");
@@ -174,7 +172,6 @@ class TelegramMenu extends utils.Adapter {
 					this.on("stateChange", async (id, state) => {
 						const setStateIdsToListenTo = getStateIdsToListenTo();
 						try {
-							
 							if (telegramActiv) {
 								if (id == `${instanceTelegram}.communicate.requestChatId` || !userToSend) {
 									const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
