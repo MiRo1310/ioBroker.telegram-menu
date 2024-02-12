@@ -4,7 +4,7 @@ const globalItems = [
 		places: ["text", "value"],
 		data: [
 			{
-				text: "{status:'id':'ID':true}",
+				text: "{status:'ID':true}",
 				info: "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.",
 			},
 		],

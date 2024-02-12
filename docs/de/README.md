@@ -36,7 +36,7 @@ Hier, das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wi
 
 ##### <span id="status"></span>...ein Status geschickt werden
 
--   Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden. `{status:'id':'ID':true}`.
+-   Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im Textfeld genutzt werden. `{status:'ID':true}`.
     ID - muss durch die abzufragende ID ersetzt werden.
     **_Breaking Change!!!_** der Parameter true dahinter sagt aus oder der Wert geändert werden darf durch `change{"true":"an","false":"aus"}` oder einer modifizierten Version davon. Dieses ist wichtig wenn ich mehr als einen Status in einem Aufruf abfragen möchte, setzte ich den Wert nicht, werden die Werte nicht sauber verarbeitet. <br>
 
@@ -109,7 +109,7 @@ menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
 ```
 
 -   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende Name und der Wert, Name|Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wieviele Buttons nebeneinander stehen sollen. **_Breaking Change!!!_** &nbsp; Bitte manuel ändern: `[Name1:Value1, Name2:Value2]` ändern zu `[Name1|Value1, Name2|Value2]`. Jetzt können auch Dezimalzahlen als Value genutzt werden, z.B.(2.5).
-Als Name kann jetzt auch ein Wert eines Datenpunkts genutzt werden. `{status:'id':'ID':true}`  <a href="#status">für weitere Infos schaue hier</a>
+Als Name kann jetzt auch ein Wert eines Datenpunkts genutzt werden. `{status:'ID':true}`  <a href="#status">für weitere Infos schaue hier</a>
 
 ```
 menu:back
