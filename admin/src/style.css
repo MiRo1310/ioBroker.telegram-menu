@@ -399,6 +399,15 @@ div.MuiTabPanel-root {
 	left: auto !important;
 	height: 100% !important;
 }
+
+.Dropbox--PopupContainer-RenameCard {
+	position: fixed;
+	top: -200px;
+	right: 0;
+	left: 0;
+	height: 100vh;
+	bottom: 500px;
+}
 .DropBox {
 	background-color: #eee;
 	width: 90%;

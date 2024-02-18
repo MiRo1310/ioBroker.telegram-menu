@@ -41,8 +41,7 @@ class TriggerOverview extends Component {
 
 		return { menusWithUser: menusWithUser, arrayUsersInGroup: arrayUsersInGroup };
 	}
-	getColorUsedTriggerNav(indexUsedTrigger, menuCall, trigger) {
-		console.log(this.ulPadding);
+	getColorUsedTriggerNav(indexUsedTrigger, menuCall, trigger) {		
 		this.menuArray = [];
 		const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
 		const menusWithUser = deleteDoubleEntrysInArray(result.menusWithUser);
@@ -69,16 +68,12 @@ class TriggerOverview extends Component {
 			return this.colorArray;
 		}
 		if (trigger == "-" && this.ulPadding[menuCall] != 37) this.ulPadding[menuCall] = 10;
-		else if (this.ulPadding[menuCall] < 37) {
-			console.log("add 37");
-			console.log(menuCall);
-			console.log(this.ulPadding);
+		else if (this.ulPadding[menuCall] < 37) {			
 			this.ulPadding[menuCall] = 37;
 		}
 		return [{ color: "white", menu: "Is not assigned ", index: null, used: I18n.t("not created") }];
 	}
-	getColorNavElemente(index, menu, trigger) {
-		console.log(menu, trigger);
+	getColorNavElemente(index, menu, trigger) {		
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const result = this.getMenusWithUserOrIndexOfMenu(menu);
 		const menusWithUser = result.menusWithUser;
@@ -112,11 +107,10 @@ class TriggerOverview extends Component {
 				}
 			}
 		}
-		console.log(this.ulPadding);
-		console.log(menu);
+	
 		if (!this.ulPadding[menu]) this.ulPadding[menu] = 0;
 		if (this.ulPadding[menu] < 37) {
-			console.log("add 37");
+			
 			this.ulPadding[menu] = 37;
 		}
 		return "black";
@@ -145,15 +139,13 @@ class TriggerOverview extends Component {
 	componentDidMount() {
 		this.getOptions();
 		this.setState({ ulPadding: this.ulPadding });
-		// console.log(this.ulPadding);
-		console.log(this.state.trigger);
+		
 	}
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.trigger != this.state.trigger) {
-			console.log(this.state.trigger);
+		if (prevState.trigger != this.state.trigger) {			
 			this.setState({ ulPadding: this.ulPadding });
 		}
-		// console.log(this.ulPadding);
+		
 	}
 	updateHandler = (value, id) => {
 		this.setState({ selected: value.startMenu });

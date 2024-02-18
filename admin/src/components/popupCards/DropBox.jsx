@@ -69,7 +69,6 @@ class DropBox extends Component {
 			if (this.props.tab === "action") {
 				if (moveOrCopy === "copy") {
 					if (rowToWorkWith.trigger && usedTrigger.includes(rowToWorkWith.trigger[0])) {
-						console.log(usedTrigger);
 						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
 					}
 				} else {
@@ -138,7 +137,6 @@ class DropBox extends Component {
 		this.setState({ newTrigger: "" });
 	};
 	copy = (rowToWorkWith, data) => {
-		console.log(rowToWorkWith);
 		if (this.props.tab === "action" && this.props.subTab !== "events") {
 			rowToWorkWith.trigger[0] = this.state.newTrigger;
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
@@ -159,20 +157,23 @@ class DropBox extends Component {
 		this.setState({ selectedValue: event.target.value });
 	};
 	renameMenu = (value) => {
+		console.log(value)
 		if (!value) {
 			this.setState({ openRenamePopup: false });
+			this.setState({ newTrigger: "" });
 			return;
 		}
 		if (value === true) {
 			this.setState({ openRenamePopup: false });
 			this.handleOnDrop();
+
 			return;
 		}
 		this.setState({ newTrigger: value });
 	};
 	render() {
 		return (
-			<>
+			<div className="Dropbox--outerContainer">
 				<div className="DropBox-Container">
 					<p>{this.state.isOK}</p>
 					<Select
@@ -203,22 +204,24 @@ class DropBox extends Component {
 					</div>
 				</div>
 				{this.state.openRenamePopup ? (
-					<PopupContainer
-						title={I18n.t("Rename trigger")}
-						value={this.state.trigger}
-						callback={this.renameMenu}
-						data={{ newMenuName: this.state.newTrigger }}
-						class="DropBox-Background"
-						isOK={this.state.isOK}
-					>
-						<RenameCard
-							callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
-							id="newTrigger"
+					<div className="Dropbox--PopupContainer-RenameCard">
+						<PopupContainer
+							title={I18n.t("Rename trigger")}
+							value={this.state.trigger}
+							callback={this.renameMenu}
 							data={{ newMenuName: this.state.newTrigger }}
-						></RenameCard>
-					</PopupContainer>
+							class="DropBox-Background"
+							isOK={this.state.isOK}
+						>
+							<RenameCard
+								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
+								id="newTrigger"
+								data={{ newMenuName: this.state.newTrigger }}
+							></RenameCard>
+						</PopupContainer>
+					</div>
 				) : null}
-			</>
+			</div>
 		);
 	}
 }

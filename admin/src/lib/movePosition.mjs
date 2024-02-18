@@ -25,7 +25,8 @@ export function onDrag(event, setState) {
 }
 export function onMouseEnter(event, setState) {
 	document.querySelectorAll("tr[draggable],span[draggable]").forEach((element) => {
-		element.draggable = false;
+		// Herausgenommen, da es sonst nicht möglich ist Rows zu verschieben, nach dem umbenennen, ansonsten erst wieder mit der Maus in die Dropbox gehen
+		// element.draggable = false;
 		element.classList.add("draggingDropBox");
 	});
 }
