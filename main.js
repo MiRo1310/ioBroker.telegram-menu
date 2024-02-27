@@ -15,7 +15,6 @@ const { saveMessageIds } = require("./lib/js/messageIds");
 const { adapterStartMenuSend } = require("./lib/js/adapterStartMenuSend");
 const { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } = require("./lib/js/processData");
 const { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } = require("./lib/js/shoppingList");
-
 const { insertValueInPosition, checkEvent } = require("./lib/js/action");
 const util = require("util");
 
