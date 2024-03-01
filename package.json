@@ -35,7 +35,7 @@
     "@iobroker/adapter-react-v5": "^4.9.3",
     "@iobroker/testing": "^4.1.0",
     "@mui/icons-material": "^5.15.7",
-    "@mui/lab": "^5.0.0-alpha.158",
+    "@mui/lab": "^5.0.0-alpha.166",
     "@mui/material": "^5.14.18",
     "@mui/styled-engine-sc": "^6.0.0-alpha.17",
     "@mui/styles": "^5.14.16",
