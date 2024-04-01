@@ -223,7 +223,7 @@
 			{
 				"condition": {
 					"operand": "and",
-					"rules": ["oldVersion<1.6.2", "newVersion>=1.6.3"]
+					"rules": ["oldVersion<1.6.3", "newVersion>=1.6.4"]
 				},
 				"title": {
 					"en": "Important notice!",
