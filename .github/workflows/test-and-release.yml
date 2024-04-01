@@ -63,6 +63,6 @@ jobs:
         steps:
             - uses: ioBroker/testing-action-deploy@v1
               with:
-                  node-version: "16.x"
+                  node-version: "18.x"
                   npm-token: ${{ secrets.NPM_TOKEN }}
                   github-token: ${{ secrets.GITHUB_TOKEN }}
