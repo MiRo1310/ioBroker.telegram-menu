@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.4",
+    "@types/axios": "^0.14.0",
     "axios": "^1.6.7"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.17",
     "@mui/styles": "^5.14.16",
     "@tsconfig/node16": "^16.1.1",
+    "@tsconfig/node20": "^20.1.4",
     "@types/chai": "^4.3.11",
     "@types/chai-as-promised": "^7.1.8",
     "@types/glob": "^8.1.0",
