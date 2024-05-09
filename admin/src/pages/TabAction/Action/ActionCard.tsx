@@ -1,4 +1,4 @@
-import React, { Component, Props } from "react";
+import React, { Component } from "react";
 import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { deepCopy } from "../../../lib/Utils.js";

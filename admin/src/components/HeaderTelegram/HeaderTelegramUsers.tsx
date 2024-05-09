@@ -1,4 +1,4 @@
-import React, { Component, Props } from "react";
+import React, { Component } from "react";
 import TelegramUserCard from "./TelegramUserCard/TelegramUserCard";
 import Button from "../btn-Input/Button";
 import { Grid } from "@mui/material";

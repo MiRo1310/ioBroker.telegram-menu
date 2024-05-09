@@ -163,6 +163,7 @@ interface ButtonProps {
     name?: string
     disabled?: string | boolean
     className?: string
+    children?: ReactNode
 }
 type CallbackValue = boolean | string | number | undefined
 
@@ -225,7 +226,7 @@ interface InputProps {
     inputWidth?: string;
     margin?: string;
     class?: string;
-    children?: any;
+    children?: ReactNode;
     function?: string;
     index?: number;
     onMouseOver?: (e: any, setState: any) => void;
@@ -272,7 +273,7 @@ interface PropsTextarea {
     inputWidth?: string;
     margin?: string;
     label: string;
-    children?: any;
+    children?: ReactNode;
     function?: string;
     setNative?: boolean;
     spellCheck?: boolean;
@@ -382,6 +383,7 @@ interface PropsPopupContainer {
     value?: string;
     setState?: Function
     data?: { [key: string]: any };
+    children?: ReactNode
 }
 interface StatePopupContainer {
     menuName: string;
@@ -570,4 +572,5 @@ interface PropsMenuButton {
     color?: string;
     title?: string;
     onChangeValue?: () => void;
+    children?: ReactNode;
 }
