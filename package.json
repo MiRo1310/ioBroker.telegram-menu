@@ -102,7 +102,9 @@
     "release": "release-script",
     "lint:fix": "eslint . --fix",
     "checker": "node skript.mjs",
-    "dev": " dev-server run      "
+    "dev": " dev-server run",
+    "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))"
+    
   },
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
