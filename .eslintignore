@@ -2,3 +2,4 @@
 \*\*/.eslintrc.js
 admin/words.js
 admin/build/
+build/
