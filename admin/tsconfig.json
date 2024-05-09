@@ -1,16 +1,29 @@
 {
 	"extends": "../tsconfig.json",
+	 "compilerOptions": {
+        "noEmit": false,
+        "outDir": "./build",
+        "sourceMap": true,
+        "sourceRoot": "./src",
+        "noImplicitAny": false,
+        "lib": ["es2018", "DOM"],
+        "jsx": "react",
+		"removeComments": true
+		
+    },
 	"include": [
+		"./**/*.ts", "./**/*.tsx", "../src/lib/adapter-config.d.ts",
 		"./admin.d.ts",
-		"./**/*.js",
+		"./**/*.ts",
 		// Include the adapter-config definition if it exists.
 		// It should be at either on of these paths:
 		"../lib/adapter-config.d.ts", // JS
 		"../src/lib/adapter-config.d.ts", // TS
-		"src/lib/Utilis.mjs",
-		"src/lib/socket.mjs",
-		"src/lib/helper.mjs",
-		"src/lib/button.mjs",
-		"src/lib/actionUtilis.mjs"
-	]
+		"src/lib/Utils.ts",
+		"src/lib/socket.ts",
+		"src/lib/helper.ts",
+		"src/lib/button.ts",
+		"src/lib/actionUtils.ts"
+	],
+	"exclude": ["./**/*.test.ts", "./**/*.test.tsx"]
 }
