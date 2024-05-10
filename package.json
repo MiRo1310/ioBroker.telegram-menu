@@ -73,15 +73,16 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.3.3"
   },
-  "main": "main.js",
+  "main": "build/src/main.js",
   "files": [
     "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "admin/build",
     "lib/",
     "www/",
     "io-package.json",
     "LICENSE",
-    "main.js",
+    "build/src/",    
     "admin/**/style.css",
     "admin/build/index.js.map"
   ],

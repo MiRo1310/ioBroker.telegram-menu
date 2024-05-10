@@ -125,7 +125,7 @@
         "keywords": ["telegram", "menu"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
-        "main": "build/main.js",
+        "main": "build/src/main.js",
         "icon": "telegram-menu.png",
         "enabled": true,
         "messagebox": true,
