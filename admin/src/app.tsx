@@ -1,10 +1,11 @@
 import React  from "react";
-import GenericApp from "@iobroker/adapter-react-v5/GenericApp";
-
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Grid, Tab, Box } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "./lib/actionUtils";
+// import GenericApp from "@iobroker/adapter-react-v5/GenericApp"
+import GenericApp from "../GenericApp"
+
 
 import HeaderIconBar from "./components/HeaderIconBar/HeaderIconBar";
 import Settings from "./pages/TabSettings/Settings";
