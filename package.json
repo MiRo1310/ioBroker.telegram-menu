@@ -21,9 +21,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.1.4",
-    "@types/axios": "^0.14.0",
-    "axios": "^1.6.7"
+    "@iobroker/adapter-core": "^3.1.4"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.7.0",
@@ -82,7 +80,7 @@
     "www/",
     "io-package.json",
     "LICENSE",
-    "build/src/",    
+    "build/src/",
     "admin/**/style.css",
     "admin/build/index.js.map"
   ],
@@ -105,7 +103,6 @@
     "checker": "node skript.mjs",
     "dev": " dev-server run",
     "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))"
-    
   },
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
