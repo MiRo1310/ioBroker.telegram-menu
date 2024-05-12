@@ -8,7 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { I18n, SelectID } from "@iobroker/adapter-react-v5";
-import Input from "../btn-Input/input";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";

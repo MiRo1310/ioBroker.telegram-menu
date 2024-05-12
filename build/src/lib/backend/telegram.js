@@ -24,6 +24,7 @@ async function sendToTelegram(_this, user = "", textToSend, keyboard = [], insta
         _this.log.debug("parse_mode	: " + JSON.stringify(parse_mode));
         _this.log.debug("chatId	: " + JSON.stringify(chatId));
         const parse_modeType = getParseMode(parse_mode);
+        _this.log.debug("ParseModeType	 " + JSON.stringify(parse_modeType));
         textToSend = newLine(textToSend);
         if (keyboard.length == 0) {
             _this.sendTo(instance, "send", {
@@ -38,7 +39,7 @@ async function sendToTelegram(_this, user = "", textToSend, keyboard = [], insta
             const text = await checkStatusInfo(_this, textToSend);
             _this.sendTo(instance, "send", {
                 chatId: chatId,
-                parse_mode: parse_mode,
+                parse_mode: parse_modeType,
                 text: text,
                 reply_markup: {
                     keyboard: keyboard,
@@ -66,6 +67,7 @@ async function sendToTelegram(_this, user = "", textToSend, keyboard = [], insta
  */
 function sendToTelegramSubmenu(_this, user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
     const parseModeType = getParseMode(parse_mode);
+    _this.log.debug("Send this ParseMode : " + JSON.stringify(parseModeType));
     try {
         const chatId = getChatID(userListWithChatID, user);
         textToSend = newLine(textToSend);

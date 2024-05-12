@@ -247,7 +247,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 						<HelperCard
 							data={this.props.data}
 							helper={helperText}
-							name="nav"
+							name="action"
 							val={this.state.helperTextFor}
 							nav={this.state.nav}
 							text={this.state.text}

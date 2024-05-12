@@ -16,9 +16,9 @@ import {
 } from "../../../../lib/dragNDrop.js";
 import { getElementIcon } from "../../../../lib/actionUtils.js";
 
-function createData(entrysOfParentComponent, element) {
+function createData(entriesOfParentComponent, element) {
 	const obj = {};
-	entrysOfParentComponent.forEach((entry) => {
+	entriesOfParentComponent.forEach((entry) => {
 		obj[entry.name] = element[entry.name];
 	});
 	return obj;
@@ -41,11 +41,11 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		const action = this.props.tableData;
 		const activeMenu = this.props.activeMenu;
 		if (!action) return;
-		let elemente = action[activeMenu][this.props.subcard];
+		let elements = action[activeMenu][this.props.subcard];
 
 		const rows:Object[] = [];
-		if (elemente === undefined) return;
-		for (let entry of elemente) {
+		if (elements === undefined) return;
+		for (let entry of elements) {
 			rows.push(createData(this.props.entrys, entry));
 		}
 		this.setState({ rows: rows });

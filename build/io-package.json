@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "telegram-menu",
-        "version": "1.6.3",
+        "version": "1.7.0",
         "news": {
+            "1.7.0": {
+                "en": "Switched to typescript",
+                "de": "Umgestellt in die Schrift",
+                "ru": "Переключение на типscript",
+                "pt": "Mudado para o typescript",
+                "nl": "Overgeschakeld naar typescript",
+                "fr": "Passé au dactylographié",
+                "it": "Passato alla scrittura",
+                "es": "Interruptor a tiposcript",
+                "pl": "Przełączono na maszynopis",
+                "uk": "Перемкнено до типу",
+                "zh-cn": "切换到打字符"
+            },
             "1.6.3": {
                 "en": "Bug in copy card fixed\n#104 HTTP Request Beta\n#111 status Value in dynamicSwitch\n#112 change value\n**_Change!!!_** menu:deleteAll removes automatic Request Ids which are older than 48h from list. The list is completely deleted once during the update\nFixed menu:number with negativ Values, see the documentation",
                 "de": "Fehler in der Kopierkarte behoben\n#104 HTTP Frage stellen\n#111 Status Wert in dynamicSwitch\n#112 änderungswert\n**_Change!!!_** Menü:löschen Alle entfernt automatische Request Ids, die älter als 48h sind aus der Liste. Die Liste wird während des Updates vollständig gelöscht\nFixed Menu:Nummer mit Negativ Werte, siehe Dokumentation",
@@ -80,19 +93,6 @@
                 "pl": "wysyłać chart\n93 Scrollbar in Menus (ang.)\n#89 powraca do menu, gdzie ustawiono ustawę. Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Value\nusunąć wszystkie komunikaty",
                 "uk": "надіслати echarts\n#93 Скролбар в меню\n#89 повернутися до меню, встановивши набір Головна Ціна\nвидалити всі повідомлення від Bot",
                 "zh-cn": "发 术\n#93 Scrollbar in Menus\n第89号法案通过设立男子来回男性。 动态 价值\n删除Bot的所有信"
-            },
-            "1.4.0": {
-                "en": "#88 Menu with dynamic Values\n#87 Event opens a menu",
-                "de": "#88 Menü mit dynamischen Werten\n#87 Veranstaltung öffnet ein Menü",
-                "ru": "#88 Меню с динамическими ценностями\n#87 Событие открывает меню",
-                "pt": "#88 Menu com valores dinâmicos\n#87 Evento abre um menu",
-                "nl": "88 Menu met dynamische Values\n♪87 Event opent een menu",
-                "fr": "#88 Menu avec des valeurs dynamiques\n#87 Event opens a menu",
-                "it": "#88 Menu con valori dinamici\n#87 Evento apre un menu",
-                "es": "#88 Menu con valores dinámicos\n#87 Evento abre un menú",
-                "pl": "#88 Menu z dynamicznym Valuesem\n#87 wydarzenia otwierają menu",
-                "uk": "#88 Меню з динамічними значеннями\n#87 Захід відкриває меню",
-                "zh-cn": "行动88 具有动态价值的男子\n第87号活动打开了一名男子。"
             }
         },
         "titleLang": {
@@ -121,8 +121,13 @@
             "zh-cn": "轻松创建电报菜单",
             "uk": "Легко створюйте меню Telegram"
         },
-        "authors": ["MiRo1310 <michael.roling@gmx.de>"],
-        "keywords": ["telegram", "menu"],
+        "authors": [
+            "MiRo1310 <michael.roling@gmx.de>"
+        ],
+        "keywords": [
+            "telegram",
+            "menu"
+        ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/src/main.js",
@@ -155,7 +160,10 @@
             {
                 "condition": {
                     "operand": "and",
-                    "rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
+                    "rules": [
+                        "oldVersion<1.0.0",
+                        "newVersion>=1.0.0"
+                    ]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -184,12 +192,18 @@
                     "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
                 },
                 "level": "warn",
-                "buttons": ["agree", "cancel"]
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
             },
             {
                 "condition": {
                     "operand": "and",
-                    "rules": ["oldVersion<1.6.1", "newVersion>=1.6.1"]
+                    "rules": [
+                        "oldVersion<1.6.1",
+                        "newVersion>=1.6.1"
+                    ]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -218,12 +232,18 @@
                     "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
                 },
                 "level": "warn",
-                "buttons": ["agree", "cancel"]
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
             },
             {
                 "condition": {
                     "operand": "and",
-                    "rules": ["oldVersion<1.6.3", "newVersion>=1.6.4"]
+                    "rules": [
+                        "oldVersion<1.6.3",
+                        "newVersion>=1.6.4"
+                    ]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -252,7 +272,10 @@
                     "zh-cn": "突破变化! 至少需要节点Js 18"
                 },
                 "level": "warn",
-                "buttons": ["agree", "cancel"]
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
             }
         ]
     },

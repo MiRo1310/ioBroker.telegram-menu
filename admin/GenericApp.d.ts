@@ -228,6 +228,7 @@ declare namespace GenericApp {
         let encryptedFields: PropTypes.Requireable<any[]>;
         let bottomButtons: PropTypes.Requireable<boolean>;
         let Connection: PropTypes.Requireable<object>;
+
     }
 }
 import Router from '@iobroker/adapter-react-v5/Components/Router';
