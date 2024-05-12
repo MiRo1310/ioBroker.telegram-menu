@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Input from "../btn-Input/input";
-import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
+import { BtnCircleAdd } from "../btn-Input/btn-circle-add";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../btn-Input/checkbox";
 import { isChecked } from "../../lib/Utils.js";
@@ -40,7 +40,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 							inputWidth="calc(100% - 28px)"
 							width={entry.width ? entry.width : "15%"} // Add the width prop here
 						>
-							<BtnCirleAdd callbackValue={entry.name} callback={this.props.openHelperText}></BtnCirleAdd>
+							<BtnCircleAdd callbackValue={entry.name} callback={this.props.openHelperText}></BtnCircleAdd>
 						</Input>
 					) : (
 						<Checkbox

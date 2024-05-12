@@ -24,6 +24,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 			newUnUsedTrigger: null || this.props.data.unUsedTrigger,
 			helperText: false,
 			helperTextFor: "",
+			helperTextForInput: "",
 			editedValueFromHelperText: null,
 			isOK: false,
 			valueForSave: null,
@@ -145,7 +146,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 		this.setState({ valueForSave: value });
 		if (value) {
 			this.setState({ editedValueFromHelperText: this.state.newRow[value.entry][value.index] });
-			this.setState({ helperTextFor: value.subcard });
+			
+			this.setState({ helperTextFor: value.subcard, helperTextForInput: value.entry });
 		}
 
 		this.setState({ helperText: true });
@@ -248,9 +250,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 							data={this.props.data}
 							helper={helperText}
 							name="action"
-							val={this.state.helperTextFor}
-							nav={this.state.nav}
+							val={this.state.helperTextFor}							
 							text={this.state.text}
+							helperTextForInput={this.state.helperTextForInput}
 							callback={this.onchangeValueFromHelper}
 							editedValueFromHelperText={this.state.editedValueFromHelperText}
 							setState={this.setState.bind(this)}

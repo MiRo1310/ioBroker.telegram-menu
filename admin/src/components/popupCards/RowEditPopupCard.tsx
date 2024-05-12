@@ -9,7 +9,7 @@ import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 
 import BtnSmallSearch from "../btn-Input/btn-small-search";
-import { BtnCirleAdd } from "../btn-Input/btn-circle-add";
+import { BtnCircleAdd } from "../btn-Input/btn-circle-add";
 
 import { isChecked } from "../../lib/Utils.js";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "../../lib/actionUtils.js";
@@ -154,11 +154,11 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 															onMouseLeave={handleMouseOut}
 															setState={this.setState.bind(this)}
 														>
-															{entry.name === "returnText" || entry.name === "text" ? (
-																<BtnCirleAdd
+															{entry.btnCircleAdd ? (
+																<BtnCircleAdd
 																	callbackValue={{ index: index, entry: entry.name, subcard: this.props.subcard }}
 																	callback={this.props.openHelperText}
-																></BtnCirleAdd>
+																></BtnCircleAdd>
 															) : null}
 														</Input>
 														{entry.search ? (

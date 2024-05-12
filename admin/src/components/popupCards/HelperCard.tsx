@@ -56,8 +56,8 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 								<TableCell align="left"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>
-							{this.state.rows.map((row, index) => (
+						<TableBody>							
+							{this.state.rows[this.props.helperTextForInput].map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row">
 										{row.text}

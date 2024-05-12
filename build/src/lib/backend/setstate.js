@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sendToTelegram = require("./telegram").sendToTelegram;
 const utilities = require("./utilities");
 const { setDynamicValue } = require("./dynamicValue");
+const { decomposeText } = require("./global");
 /**
  * Sets the state
  * @param {*} _this
@@ -85,13 +86,7 @@ async function setstate(_this, part, userToSend, valueFromSubmenu, SubmenuValueP
                 });
             }
             else {
-                let valueToSet;
-                SubmenuValuePriority ? (valueToSet = valueFromSubmenu) : (valueToSet = element.value);
-                utilities.checkTypeOfId(_this, element.id, valueToSet).then((val) => {
-                    valueToSet = val;
-                    _this.log.debug("Value to Set: " + JSON.stringify(valueToSet));
-                    _this.setForeignStateAsync(element.id, valueToSet, ack);
-                });
+                setValue(_this, element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
             }
         });
         return setStateIds;
@@ -101,6 +96,26 @@ async function setstate(_this, part, userToSend, valueFromSubmenu, SubmenuValueP
         _this.log.error(JSON.stringify(error.stack));
     }
 }
+const setValue = async (_this, id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
+    let valueToSet;
+    SubmenuValuePriority ? (valueToSet = valueFromSubmenu) : (valueToSet = await isDynamicValueToSet(_this, value));
+    utilities.checkTypeOfId(_this, id, valueToSet).then((val) => {
+        valueToSet = val;
+        _this.log.debug("Value to Set: " + JSON.stringify(valueToSet));
+        _this.setForeignStateAsync(id, valueToSet, ack);
+    });
+};
+const isDynamicValueToSet = async (_this, value) => {
+    console.log("Value to set: " + value);
+    if (value.includes("{id:")) {
+        const result = decomposeText(value, "{id:", "}");
+        const id = result.substring.replace("{id:", "").replace("}", "");
+        const textWithoutSubstring = result.textWithoutSubstring;
+        const newValue = await _this.getForeignStateAsync(id);
+        return textWithoutSubstring + newValue.val;
+    }
+    return value;
+};
 module.exports = {
     setstate,
 };

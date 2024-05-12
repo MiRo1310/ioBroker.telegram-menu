@@ -7,8 +7,8 @@ export const tabValues = [
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", elementGetRows: "IDs", required: true },
 			{ name: "IDs", val: "", headline: "ID", width: "20%", required: true },
-			{ name: "values", val: "", headline: "Value", width: "10%", required: true },
-			{ name: "returnText", val: "", headline: "Return text", width: "40%", required: true },
+			{ name: "values", val: "", headline: "Value", width: "10%", required: true, btnCircleAdd: true },
+			{ name: "returnText", val: "", headline: "Return text", width: "40%", required: true, btnCircleAdd: true },
 			{ name: "ack", val: "false", headline: "Ack", title: "Set Value with ack-Flag", checkbox: true, width: "3%", required: true },
 			{ name: "confirm", val: "false", headline: "Con", title: "Confirm with message", checkbox: true, width: "3%", required: true },
 			{ name: "switch_checkbox", val: "false", headline: "Swi", title: "Switch", checkbox: true, width: "3%", required: true },
@@ -23,7 +23,7 @@ export const tabValues = [
 		entrys: [
 			{ name: "trigger", val: "", headline: "Trigger", width: "20%", elementGetRows: "IDs", required: true },
 			{ name: "IDs", val: "", headline: "ID", width: "40%", required: true },
-			{ name: "text", val: "", headline: "Text", width: "40%", required: true },
+			{ name: "text", val: "", headline: "Text", width: "40%", required: true, btnCircleAdd: true },
 			{ name: "newline_checkbox", val: "true", headline: "New", title: "Newline", checkbox: true, width: "3%", required: true },
 			{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%", required: true },
 		],

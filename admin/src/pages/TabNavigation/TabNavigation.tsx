@@ -202,8 +202,8 @@ class TabNavigation extends Component<PropsTabNavigation,StateTabNavigation> {
 							data={this.props.data}
 							helper={helperText}
 							name="nav"
-							val={this.state.helperTextFor}
-							nav={this.state.newRow.nav}
+							val="nav"
+							helperTextForInput={this.state.helperTextFor}
 							text={this.state.newRow.text}
 							callback={this.onchangeValueFromHelper}
 							editedValueFromHelperText={this.state.editedValueFromHelperText||""}
