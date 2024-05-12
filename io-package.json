@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.6.9",
-    "news": {    
+    "version": "1.7.0",
+    "news": {
+      "1.7.0": {
+        "en": "Switched to typescript",
+        "de": "Umgestellt in die Schrift",
+        "ru": "Переключение на типscript",
+        "pt": "Mudado para o typescript",
+        "nl": "Overgeschakeld naar typescript",
+        "fr": "Passé au dactylographié",
+        "it": "Passato alla scrittura",
+        "es": "Interruptor a tiposcript",
+        "pl": "Przełączono na maszynopis",
+        "uk": "Перемкнено до типу",
+        "zh-cn": "切换到打字符"
+      },
       "1.6.3": {
         "en": "Bug in copy card fixed\n#104 HTTP Request Beta\n#111 status Value in dynamicSwitch\n#112 change value\n**_Change!!!_** menu:deleteAll removes automatic Request Ids which are older than 48h from list. The list is completely deleted once during the update\nFixed menu:number with negativ Values, see the documentation",
         "de": "Fehler in der Kopierkarte behoben\n#104 HTTP Frage stellen\n#111 Status Wert in dynamicSwitch\n#112 änderungswert\n**_Change!!!_** Menü:löschen Alle entfernt automatische Request Ids, die älter als 48h sind aus der Liste. Die Liste wird während des Updates vollständig gelöscht\nFixed Menu:Nummer mit Negativ Werte, siehe Dokumentation",
