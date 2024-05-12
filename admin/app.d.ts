@@ -253,8 +253,8 @@ interface PropsHelperCard {
     data: any;
     callback: any;
     name: string;
-    nav: string;
     text: string;
+    helperTextForInput: string;
 }
 interface StateHelperCard {
     rows: any;
@@ -317,6 +317,7 @@ interface StateActionCard {
     disableInput: boolean;
     nav: string;
     text: string;
+    helperTextForInput: string;
 }
 interface PropsTableDndAction {
     tableData: any;

@@ -238,11 +238,8 @@ interface AllMenusWithData {
     [key: string]: DataObject
 }
 interface SetStateIdsToListenTo {
-
 }
-interface SubmenuValuePriority {
 
-}
 interface SetStateIds {
     id: string,
     confirm: BooleanString | boolean,

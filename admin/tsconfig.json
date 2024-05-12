@@ -8,7 +8,7 @@
         "noImplicitAny": false,
         "lib": ["es2018", "DOM"],
         "jsx": "react",
-		"removeComments": true,		
+		"removeComments": true,			
     },
 	
 	"include": [

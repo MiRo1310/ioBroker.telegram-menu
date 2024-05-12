@@ -8,7 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { I18n, SelectID } from "@iobroker/adapter-react-v5";
-import Input from "../btn-Input/input";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
@@ -57,8 +56,8 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 								<TableCell align="left"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>
-							{this.state.rows.map((row, index) => (
+						<TableBody>							
+							{this.state.rows[this.props.helperTextForInput].map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row">
 										{row.text}

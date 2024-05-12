@@ -415,7 +415,7 @@ var GenericApp = /*#__PURE__*/function (_Router) {
     key: "getThemeName",
     value: function getThemeName(currentTheme) {
       return currentTheme.name;
-    }
+        }
 
     /**
      * Get the theme type

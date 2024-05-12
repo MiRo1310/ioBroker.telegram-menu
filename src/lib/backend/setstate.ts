@@ -1,7 +1,7 @@
 const sendToTelegram = require("./telegram").sendToTelegram;
 const utilities = require("./utilities");
 const { setDynamicValue } = require("./dynamicValue");
-
+const { decomposeText } = require("./global");
 /**
  * Sets the state
  * @param {*} _this
@@ -15,7 +15,7 @@ const { setDynamicValue } = require("./dynamicValue");
  * @param {[]} userListWithChatID
  * @returns Returns an array with the ids to set
  */
-async function setstate(_this: any, part: Part, userToSend: string, valueFromSubmenu: string, SubmenuValuePriority: SubmenuValuePriority, telegramInstance: string, resize_keyboard: boolean, one_time_keyboard: boolean, userListWithChatID: UserListWithChatId[]) {
+async function setstate(_this: any, part: Part, userToSend: string, valueFromSubmenu: string, SubmenuValuePriority: boolean, telegramInstance: string, resize_keyboard: boolean, one_time_keyboard: boolean, userListWithChatID: UserListWithChatId[]) {
 	try {
 		const setStateIds: SetStateIds[] = [];
 		part.switch?.forEach((/** @type {{ id: string; value: *; toggle:boolean; confirm:Boolean; returnText: string; parse_mode: string }} */ element) => {
@@ -94,13 +94,7 @@ async function setstate(_this: any, part: Part, userToSend: string, valueFromSub
 						_this.log.error(JSON.stringify(e.stack));
 					});
 			} else {
-				let valueToSet;
-				SubmenuValuePriority ? (valueToSet = valueFromSubmenu) : (valueToSet = element.value);
-				utilities.checkTypeOfId(_this, element.id, valueToSet).then((val: string) => {
-					valueToSet = val;
-					_this.log.debug("Value to Set: " + JSON.stringify(valueToSet));
-					_this.setForeignStateAsync(element.id, valueToSet, ack);
-				});
+				setValue(_this, element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
 			}
 		});
 		return setStateIds;
@@ -108,6 +102,28 @@ async function setstate(_this: any, part: Part, userToSend: string, valueFromSub
 		_this.log.error("Error Switch" + JSON.stringify(error.message));
 		_this.log.error(JSON.stringify(error.stack));
 	}
+}
+const setValue = async (_this: any, id: string, value: string, SubmenuValuePriority: boolean, valueFromSubmenu: string, ack: boolean) => {
+	let valueToSet;
+	SubmenuValuePriority ? (valueToSet = valueFromSubmenu) : (valueToSet = await isDynamicValueToSet(_this, value));
+	utilities.checkTypeOfId(_this, id, valueToSet).then((val: string) => {
+		valueToSet = val;
+		_this.log.debug("Value to Set: " + JSON.stringify(valueToSet));
+		_this.setForeignStateAsync(id, valueToSet, ack);
+	});
+}
+
+const isDynamicValueToSet = async (_this: any, value: string): Promise<string> => {
+	console.log("Value to set: " + value)
+	if (value.includes("{id:")) {
+		const result = decomposeText(value, "{id:", "}")
+		const id = result.substring.replace("{id:", "").replace("}", "")
+		const textWithoutSubstring = result.textWithoutSubstring
+		const newValue = await _this.getForeignStateAsync(id)
+		return textWithoutSubstring + newValue.val
+
+	}
+	return value
 }
 
 module.exports = {
