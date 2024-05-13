@@ -14,7 +14,7 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)<br>Here you can see the navigation.
+![Navigation](../pic/nav.png)<br>Here the navigation looks.
 
 -   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. But you can call this up again using a button.
 -   The text on the right "Choose an action" is freely selectable, but cannot be empty.
@@ -69,7 +69,7 @@ Let's get started!
 
 ![Icon1](../pic/heizung-icon1.png)
 
--   If you want to have special icons in the menu buttons, copy an emoji (e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and uses it like a character. The code of the emoji is not copied, but the emoji directly!
+-   If you want to have special icons in the menu buttons, copy an emoji (e.g.<https://www.getemojis.net/html/#Emoji-Liste> ) und setzt es wie ein Schriftzeichen ein. Es wird nicht der Code des Emoji's kopiert, sondern das Emoji direkt!
 
 ![Icon2](../pic/heizung-icon2.png)
 
@@ -147,6 +147,10 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 -   please look in the navigation
 
+#### Set a static value with a dynamic value of an ID
+
+-   To achieve this, you can define a static part and a dynamic part before, between or behind it. The dynamic part looks like this`{id:ID}`, where ID must be replaced with the desired Id, and the rest stays that way.
+
 ### GetState
 
 -   With && as a placeholder you can place the value in the text, just like with setState you can influence the value`change{"true":"an", "false":"aus"}`.
@@ -162,7 +166,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input. **Value-1** is, for example, the first key of the JSON that should be displayed. **NameTH-Col1** assigns the corresponding column name (etc.). This can also be omitted, then the table has no header. **Header** must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-in JSON:NamaTH-Col1,value-2-in JSON:NamaTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input. **Value-1** is, for example, the first key of the JSON that should be displayed. **NameTH-Col1** assigns the corresponding column name (etc.). This can also be omitted, then the table has no header. **Header** must be filled out and is the heading for the table. Output in text format (parse mode disabled): '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. The number of columns can be freely defined - for example:`value-3-inJSON:NameTH-Col3`add.
 
 
     {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
@@ -196,7 +200,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   Preset can be taken directly from the object structure.
 -   Background , as the name suggests, the background can be set here
 -   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
--   Filename, individual filename. **It is important that a directory with full write permission is specified in the settings**
+-   Filename, individual filename. **Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**
 
 ### HTTP Request
 
@@ -204,7 +208,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 ### Settings
 
--   Telegram instance, here you can choose between the instances if you have several installed
+-   Telegram-Instanz, hier kann man zischen den Instanzen wählen wenn man mehrere installiert hat
 -   The text of the input field "Text will be sent if no entry was found!" is sent, as the description says, if no entry was found, this can be deactivated using the checkbox next to it.
 -   Resize Keyboard - Prompts customers to resize the keyboard vertically for optimal fit (e.g. making the keyboard smaller if there are only two rows of keys). The default value is false. In this case, the custom keyboard will always be the same height as the app's default keyboard.<https://core.telegram.org/bots/api#replykeyboardmarkup>
 -   One Time Keyboard - Prompts clients to hide the keyboard once it is in use. The keyboard will still be available, but clients will automatically display the usual letter keyboard in chat - the user can press a special button in the input field to display the custom keyboard again. The default value is false.<https://core.telegram.org/bots/api#replykeyboardmarkup>
