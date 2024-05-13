@@ -149,8 +149,8 @@ const helperText = {
 			}],
 		values: [
 			{
-				text: "Value{id:ID}",
-				info: "This allows you to set a value manually set Value in combination with ID Value",
+				text: "{id:ID}",
+				info: "This allows you to set a value manually set Value in combination with ID Value, like this: staticValue{id:ID}staticValue",
 			}]
 	}
 };
