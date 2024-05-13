@@ -155,9 +155,14 @@ menu:back
 
 -   hiermit kann das setzen eines Wertes bestätigt werden, dieses bedeutet aber nicht das ein Adapter diesen Wert verarbeitet hat
 
+
 ##### Parse Mode , change, newline
 
 -   bitte in die Navigation schauen
+
+#### Einen statischen Wert mit einem dynamischen Wert einer ID setzen
+
+- Um dieses zu erreichen kann man Wert einen statischen Teil definieren und davor, dazwischen oder dahinter einen dynamischen Teil. Der dynamische Teil sieht so aus `{id:ID}`, wobei ID durch die gewünschte Id ersetzt werden muss, und der Rest bleibt so. 
 
 ### GetState
 

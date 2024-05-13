@@ -114,13 +114,15 @@ const setValue = async (_this: any, id: string, value: string, SubmenuValuePrior
 }
 
 const isDynamicValueToSet = async (_this: any, value: string): Promise<string> => {
-	console.log("Value to set: " + value)
+
 	if (value.includes("{id:")) {
 		const result = decomposeText(value, "{id:", "}")
 		const id = result.substring.replace("{id:", "").replace("}", "")
-		const textWithoutSubstring = result.textWithoutSubstring
+
 		const newValue = await _this.getForeignStateAsync(id)
-		return textWithoutSubstring + newValue.val
+		if (newValue.val) {
+			return value.replace(result.substring, newValue.val)
+		}
 
 	}
 	return value
