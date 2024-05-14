@@ -123,6 +123,8 @@
     "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.": "与上面相同，但是当您单击按钮时，该项目将被删除，项目的 Key 是 `name:`，您也可以添加 `time:`。 <strong>重要！！！</strong>“购物清单”可能无法更改。",
     "The trigger is allready in use.": "触发器已准备好使用。",
     "There are doubled used Triggers:": "有双重使用的触发器：",
+    "This allows you to set a  manually value in combination with ID Value, like this: staticValue{id:ID}staticValue": "这允许您结合 ID 值手动设置值，如下所示：staticValue{id:ID}staticValue",
+    "This allows you to set a modified Submenu Value in combination with a static part , like this: staticValue{value}staticValue": "这允许您结合静态部分设置修改后的子菜单值，如下所示：staticValue{value}staticValue",
     "This allows you to set a value manually set Value in combination with ID Value, like this: staticValue{id:ID}staticValue": "这允许您手动设置一个值，将 Value 与 ID Value 结合使用，如下所示：staticValue{id:ID}staticValue",
     "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.": "这允许您将动态值写入数据点。只需拨打电话，然后您就可以在输入字段中输入值。 RequestText：请求值的文本。类型：值的类型（布尔值或数字）。确认文本：用于确认值的文本。",
     "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value. ConfirmText: Text to confirm the value.": "这允许您将动态值写入数据点。只需拨打电话，然后您就可以在输入字段中输入值。 RequestText：请求值的文本。类型：值的类型。确认文本：用于确认值的文本。",

@@ -150,8 +150,12 @@ const helperText = {
 		values: [
 			{
 				text: "{id:ID}",
-				info: "This allows you to set a value manually set Value in combination with ID Value, like this: staticValue{id:ID}staticValue",
-			}]
+				info: "This allows you to set a  manually value in combination with ID Value, like this: staticValue{id:ID}staticValue",
+			}, {
+				text: "{value}",
+				info: "This allows you to set a modified Submenu Value in combination with a static part , like this: staticValue{value}staticValue",
+			}
+		]
 	}
 };
 globalItems.forEach((element) => {

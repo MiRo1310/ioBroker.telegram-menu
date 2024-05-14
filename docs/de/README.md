@@ -160,6 +160,10 @@ menu:back
 
 -   bitte in die Navigation schauen
 
+#### Einen Wert von einem Submenu beeinflussen
+
+- Um dieses zu erreichen einfach das Submenu wie gewohnt erstellen. Dann bei SetState als Wert den statischen Teil einfügen und als Platzhalter aus dem Submenu `{value}` setzen.
+
 #### Einen statischen Wert mit einem dynamischen Wert einer ID setzen
 
 - Um dieses zu erreichen kann man Wert einen statischen Teil definieren und davor, dazwischen oder dahinter einen dynamischen Teil. Der dynamische Teil sieht so aus `{id:ID}`, wobei ID durch die gewünschte Id ersetzt werden muss, und der Rest bleibt so. 

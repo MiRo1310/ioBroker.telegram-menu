@@ -98,12 +98,18 @@ async function setstate(_this, part, userToSend, valueFromSubmenu, SubmenuValueP
 }
 const setValue = async (_this, id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
     let valueToSet;
-    SubmenuValuePriority ? (valueToSet = valueFromSubmenu) : (valueToSet = await isDynamicValueToSet(_this, value));
+    SubmenuValuePriority ? (valueToSet = modifiedValue(valueFromSubmenu, value)) : (valueToSet = await isDynamicValueToSet(_this, value));
     utilities.checkTypeOfId(_this, id, valueToSet).then((val) => {
         valueToSet = val;
         _this.log.debug("Value to Set: " + JSON.stringify(valueToSet));
         _this.setForeignStateAsync(id, valueToSet, ack);
     });
+};
+const modifiedValue = (valueFromSubmenu, value) => {
+    if (value.includes("{value}")) {
+        return value.replace("{value}", valueFromSubmenu);
+    }
+    return valueFromSubmenu;
 };
 const isDynamicValueToSet = async (_this, value) => {
     if (value.includes("{id:")) {
