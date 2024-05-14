@@ -36,7 +36,7 @@ Let's get started!
 ##### <span id="status"></span>...a status will be sent
 
 -   To display the status of an ID when calling up a navigation or a submenu, the following entry in the text field can be used.`{status:'ID':true}`.
-    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​will not be processed cleanly.<br>
+    ID - must be replaced with the ID to be queried.**_Breaking Change!!!_**The parameter true behind it says or the value can be changed by`change{"true":"an","false":"aus"}`or a modified version thereof. This is important if I want to query more than one status in one call. If I don't set the value, the values ​​won't be processed cleanly.<br>
 
 ##### ... the value of the status can be changed
 
@@ -69,7 +69,7 @@ Let's get started!
 
 ![Icon1](../pic/heizung-icon1.png)
 
--   If you want to have special icons in the menu buttons, copy an emoji (e.g.<https://www.getemojis.net/html/#Emoji-Liste> ) und setzt es wie ein Schriftzeichen ein. Es wird nicht der Code des Emoji's kopiert, sondern das Emoji direkt!
+-   If you want to have special icons in the menu buttons, copy an emoji (e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and uses it like a character. The code of the emoji is not copied, but the emoji directly!
 
 ![Icon2](../pic/heizung-icon2.png)
 
@@ -147,6 +147,10 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 -   please look in the navigation
 
+#### Influence a value from a submenu
+
+-   To achieve this simply create the submenu as usual. Then insert the static part as a value into SetState and as a placeholder from the submenu`{value}`set.
+
 #### Set a static value with a dynamic value of an ID
 
 -   To achieve this, you can define a static part and a dynamic part before, between or behind it. The dynamic part looks like this`{id:ID}`, where ID must be replaced with the desired Id, and the rest stays that way.
@@ -161,7 +165,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 #### Values ​​from created functions
 
--   To get all the values ​​of the adjustable functions, you simply have to write functions=light instead of the ID, for example.
+-   Um alle Werte der einstellbaren Funktionen zu bekommen, muss man anstatt der ID einfach functions=Licht z.B. schreiben.
 -   If you want to have the name of the data point in the output text, simply enter it at the desired position in the text`{common.name}`a
 
 ![functions](../pic/functions.png)<br>
@@ -200,7 +204,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   Preset can be taken directly from the object structure.
 -   Background , as the name suggests, the background can be set here
 -   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
--   Filename, individual filename. **Wichtig ist das in den Einstellungen ein Verzeichnis angegeben ist mit voller Schreibberechtigung**
+-   Filename, individual filename. **It is important that a directory with full write permission is specified in the settings**
 
 ### HTTP Request
 
@@ -208,7 +212,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 ### Settings
 
--   Telegram-Instanz, hier kann man zischen den Instanzen wählen wenn man mehrere installiert hat
+-   Telegram instance, here you can choose between the instances if you have several installed
 -   The text of the input field "Text will be sent if no entry was found!" is sent, as the description says, if no entry was found, this can be deactivated using the checkbox next to it.
 -   Resize Keyboard - Prompts customers to resize the keyboard vertically for optimal fit (e.g. making the keyboard smaller if there are only two rows of keys). The default value is false. In this case, the custom keyboard will always be the same height as the app's default keyboard.<https://core.telegram.org/bots/api#replykeyboardmarkup>
 -   One Time Keyboard - Prompts clients to hide the keyboard once it is in use. The keyboard will still be available, but clients will automatically display the usual letter keyboard in chat - the user can press a special button in the input field to display the custom keyboard again. The default value is false.<https://core.telegram.org/bots/api#replykeyboardmarkup>
