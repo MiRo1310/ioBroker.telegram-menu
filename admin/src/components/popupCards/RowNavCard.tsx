@@ -37,14 +37,14 @@ class RowNavCard extends Component<PropsRowNavCard> {
 							callbackValue="event.target.value"
 							label={I18n.t(entry.headline)}
 							inputWidth="calc(100% - 28px)"
-							width={entry.width ? entry.width : "15%"} // Add the width prop here
+							width={entry.editWidth ? entry.editWidth : "15%"} // Add the width prop here
 						>
 							<BtnCircleAdd callbackValue={entry.name} callback={this.props.openHelperText}></BtnCircleAdd>
 						</Input>
 					) : (
 						<Checkbox
 							key={i}
-							width={entry.width && typeof entry.width === "string" ? entry.width : "5%"}
+							width={entry.editWidth && typeof entry.editWidth === "string" ? entry.width : "5%"}
 							id={entry.name}
 							index={i}
 							callback={this.props.callback.onchange}

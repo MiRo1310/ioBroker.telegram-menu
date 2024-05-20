@@ -49,7 +49,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
-			// console.log("newRow", this.state.newRow);
 			let globalRowValue = true;
 			let value = true;
 			let valueRowValuesAndSwitch = true;
@@ -75,7 +74,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			});
 
 			value = value && valueRowValuesAndSwitch;
-			// console.log(value, valueRowValuesAndSwitch);
 			if (this.state.inputValuesAreOK !== value) this.setState({ inputValuesAreOK: value });
 		}
 	}
@@ -170,7 +168,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	addNewRow = (index) => {
 		this.setState({ rowPopup: true });
 		addNewRow(index, this.props, this.props.entries);
-		// this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 	};
 
 	render() {
@@ -210,7 +207,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 								openAddRowCard={this.openAddRowCard}
 								entries={this.props.entries}
 								addEditedTrigger={this.addEditedTrigger}
-								// disableValuesInput={this.state.disableInput}
 							></TableDndAction>
 						</Table>
 					</TableContainer>
@@ -227,7 +223,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							data={this.props.data}
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
-							entrys={this.props.entries}
+							entries={this.props.entries}
 							searchRoot={this.props.searchRoot}
 							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.unUsedTrigger}
 							subCard={this.props.subCard}

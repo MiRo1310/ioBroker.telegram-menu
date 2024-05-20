@@ -34,20 +34,20 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	}
 
 	componentDidMount() {
-		saveRows(this.props, this.setState.bind(this), this.props.entrys, this.state.rows);
+		saveRows(this.props, this.setState.bind(this), this.props.entries, this.state.rows);
 	}
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.newRow !== this.props.newRow) {
-			saveRows(this.props, this.setState.bind(this), this.props.entrys, this.props.newRow);
+			saveRows(this.props, this.setState.bind(this), this.props.entries, this.props.newRow);
 		}
 	}
 	updateData = (obj) => {
-		updateData(obj, this.props, this.setState.bind(this), this.props.entrys);
+		updateData(obj, this.props, this.setState.bind(this), this.props.entries);
 	};
 
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart)
-			moveItem(this.state.dropStart, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys, index - this.state.dropStart);
+			moveItem(this.state.dropStart, this.props, this.props.entries, this.setState.bind(this), this.props.entries, index - this.state.dropStart);
 	};
 
 	render() {
@@ -60,7 +60,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 							selected={this.props.newRow.trigger[0]}
 							options={this.props.newUnUsedTrigger}
 							id="trigger"
-							callback={(value) => updateTrigger(value, this.props, this.setState.bind(this), this.props.entrys)}
+							callback={(value) => updateTrigger(value, this.props, this.setState.bind(this), this.props.entries)}
 							callbackValue="event.target.value"
 							label="Trigger"
 							placeholder="Select a Trigger"
@@ -84,7 +84,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
-								{this.props.entrys.map((entry, index) =>
+								{this.props.entries.map((entry, index) =>
 									entry.name != "trigger" && entry.name != "parse_mode" ? (
 										<TableCell key={index} align="left">
 											<span title={entry.title ? I18n.t(entry.title) : undefined}>{I18n.t(entry.headline)}</span>
@@ -134,7 +134,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 													/>
 												</TableCell>
 											) : null}
-											{this.props.entrys.map((entry, i) =>
+											{this.props.entries.map((entry, i) =>
 												!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
 													<TableCell align="left" key={i}>
 														<Input
@@ -184,13 +184,13 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 
 											{this.props.buttons.add ? (
 												<TableCell align="center" className="cellIcon">
-													<BtnSmallAdd callback={(index) => addNewRow(index, this.props, this.props.entrys, this.setState.bind(this))} index={index} />
+													<BtnSmallAdd callback={(index) => addNewRow(index, this.props, this.props.entries, this.setState.bind(this))} index={index} />
 												</TableCell>
 											) : null}
 											{this.props.buttons.remove ? (
 												<TableCell align="center" className="cellIcon">
 													<BtnSmallRemove
-														callback={(index) => deleteRow(index, this.props, this.props.entrys, this.setState.bind(this), this.props.entrys)}
+														callback={(index) => deleteRow(index, this.props, this.props.entries, this.setState.bind(this), this.props.entries)}
 														index={index}
 														disabled={this.state.rows.length == 1 ? "disabled" : ""}
 													/>
@@ -218,7 +218,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						types={this.props.searchRoot && this.props.searchRoot.type ? this.props.searchRoot.type : undefined}
 						onOk={(selected, name) => {
 							this.setState({ showSelectId: false });
-							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entrys, this.state.itemForID);
+							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entries, this.state.itemForID);
 						}}
 					/>
 				) : null}

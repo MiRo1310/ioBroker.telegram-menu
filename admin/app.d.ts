@@ -393,7 +393,7 @@ interface StatePopupContainer {
     inUse: boolean;
 }
 interface PropsRowEditPopupCard {
-    entrys: any;
+    entries: any;
     newRow: any;
     data: any;
     openHelperText: any;

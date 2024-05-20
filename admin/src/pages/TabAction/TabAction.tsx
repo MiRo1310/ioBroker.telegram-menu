@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Tab } from "@mui/material";
+import { TabContext, TabPanel } from "@mui/lab";
 import ActionCard from "./Action/ActionCard";
 import { tabValues } from "../../lib/entries";
+import TabActionTabs from "./TabActionTabs";
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {
 	constructor(props) {
@@ -11,22 +11,11 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 			value: "set",
 		};
 	}
-	handleChange = (event, newValue) => {
-		if (this.props.callback.setState) {
-			this.props.callback.setState({ subTab: newValue });
-		}
-		this.setState({ value: newValue });
-	};
+
 	render() {
 		return (
 			<TabContext value={this.state.value}>
-				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-					<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList TabList-Action">
-						{tabValues.map((tab, index) => {
-							return <Tab key={index} label={tab.label} value={tab.value} />;
-						})}
-					</TabList>
-				</Box>
+				<TabActionTabs callback={this.props.callback} setState={this.setState.bind(this)} />
 				{tabValues.map((tab, index) => (
 					<TabPanel key={index} value={tab.value} className="TabPanel-Action">
 						<ActionCard
