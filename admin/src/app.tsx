@@ -1,22 +1,22 @@
 import React from "react";
 
 import { Grid } from "@mui/material";
-import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
-import { updateTriggerForSelect } from "./lib/actionUtils";
-// import GenericApp from "@iobroker/adapter-react-v5/GenericApp"
+import { AdminConnection } from "@iobroker/adapter-react-v5";
+import { updateTriggerForSelect } from "@/lib/actionUtils";
 import GenericApp from "../GenericApp";
 
 import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
 import MainContent from "@/pages/MainPage/MainContent";
 import MainDropBox from "@/pages/MainPage/MainDropBox";
 import MainTriggerOverview from "@/pages/MainPage/MainTriggerOverview";
+import MainDoubleTriggerInfo from "@/pages/MainPage/MainDoubleTriggerInfo";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
 import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
 
 import { sortObjectByKey } from "@/lib/actionUtils";
-import { updatePositionDropBox } from "./lib/movePosition";
+import { updatePositionDropBox } from "@/lib/movePosition";
 import { Properties } from "csstype";
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	constructor(props) {
@@ -39,7 +39,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			},
 		};
 		super(props, extendedProps);
-		this.dropboxRef = React.createRef();
+		this.dropBoxRef = React.createRef();
 		this.state = {
 			...this.state,
 			native: {} as Native,
@@ -69,10 +69,10 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		this.setState = this.setState.bind(this);
 	}
 	handleResize = (e) => {
-		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
+		updatePositionDropBox(null, null, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
-		updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
+		updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		window.addEventListener("resize", this.handleResize);
 	}
 	componentWillUnmount() {
@@ -92,7 +92,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			this.checkDoubleEntryInUsedTrigger();
 		}
 		if (prevState.native.dropbox !== this.state.native.dropbox || this.state.showDropBox !== prevState.showDropBox) {
-			updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
+			updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		}
 		if (prevState.dropDifferenzX !== this.state.dropDifferenzX || prevState.dropDifferenzY !== this.state.dropDifferenzY) {
 			let newX, newY;
@@ -107,7 +107,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			this.newY = newY;
 			const dropbox = { dropboxRight: newX, dropboxTop: newY };
 			this.updateNativeValue("dropbox", dropbox);
-			updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
+			updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		}
 	}
 
@@ -200,7 +200,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 							setState: this.setState,
 							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 						}}
-						dropBoxRef={this.dropboxRef}
+						dropBoxRef={this.dropBoxRef}
 					/>
 				) : null}
 				{this.state.showTriggerInfo ? (
@@ -212,16 +212,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						}}
 					/>
 				) : null}
-				{this.state.doubleTrigger.length > 0 ? (
-					<div className="ErrorDoubleTrigger-Container">
-						<p className="Error-Header">{I18n.t("You have double triggers, please remove them!")}</p>
-						{this.state.doubleTrigger.map((element, index) => (
-							<p className="Error-Items" key={index}>
-								{element}
-							</p>
-						))}
-					</div>
-				) : null}
+				{this.state.doubleTrigger.length > 0 ? <MainDoubleTriggerInfo state={this.state} /> : null}
 				{this.renderError()}
 				{this.renderToast()}
 				{this.renderSaveCloseButtons()}

@@ -7,7 +7,7 @@ import { Utils } from "@iobroker/adapter-react-v5";
 import App from "./app";
 
 let themeName = Utils.getThemeName();
-console.log(themeName);
+
 function build() {
 	return ReactDOM.render(
 		<ThemeProvider theme={theme(themeName)}>
@@ -16,7 +16,6 @@ function build() {
 					themeName = _theme;
 					build();
 				}}
-				//@ts-ignore
 				themeName={themeName}
 			/>
 		</ThemeProvider>,

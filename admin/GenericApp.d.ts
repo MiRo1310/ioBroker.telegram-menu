@@ -49,7 +49,7 @@ declare class GenericApp<P = {}, S = {}> extends Router<import('@iobroker/adapte
         _alertType: string;
         _alertMessage: string;
     };
-    dropboxRef: React.RefObject<any>;
+    dropBoxRef: React.RefObject<any>;
     savedNative: {};
     encryptedFields: string[];
     sentryDSN: any;

@@ -664,3 +664,6 @@ interface PropsMainTriggerOverview {
     state: AdditionalStateInfo;
     callback: CallbackFunctions;
 }
+interface PropsMainDoubleTriggerInfo {
+    state: AdditionalStateInfo;
+}
