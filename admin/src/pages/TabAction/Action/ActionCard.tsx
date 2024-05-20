@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { deepCopy } from "../../../lib/Utils.js";
+import { deepCopy } from "@/lib/Utils.js";
 
-import Button from "../../../components/btn-Input/Button";
-import PopupContainer from "../../../components/popupCards/PopupContainer";
-import RowEditPopupCard from "../../../components/popupCards/RowEditPopupCard";
+import Button from "@/components/btn-Input/Button";
+import PopupContainer from "@/components/popupCards/PopupContainer";
+import ActionRowEditPopupCard from "@/components/popupCards/rowEditPopupCard/ActionRowEditPopupCard";
 import TableDndAction from "./TableDND/TableDndAction";
-import HelperCard from "../../../components/popupCards/HelperCard";
-import helperText from "../../../lib/helper.js";
-import { addNewRow } from "../../../lib/actionUtils.js";
+import HelperCard from "@/components/popupCards/HelperCard";
+import helperText from "@/lib/helper.js";
+import { addNewRow } from "@/lib/actionUtils.js";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props) {
@@ -143,8 +143,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ valueForSave: value });
 		if (value) {
 			this.setState({ editedValueFromHelperText: this.state.newRow[value.entry][value.index] });
-
-			this.setState({ helperTextFor: value.subcard, helperTextForInput: value.entry });
+			this.setState({ helperTextFor: value.subCard, helperTextForInput: value.entry });
 		}
 
 		this.setState({ helperText: true });
@@ -219,7 +218,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 						title={this.props.titlePopup}
 						isOK={this.state.inputValuesAreOK}
 					>
-						<RowEditPopupCard
+						<ActionRowEditPopupCard
 							data={this.props.data}
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
@@ -229,7 +228,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							subCard={this.props.subCard}
 							openHelperText={this.openHelperText}
 							buttons={this.props.popupCard.buttons}
-						></RowEditPopupCard>
+						></ActionRowEditPopupCard>
 					</PopupContainer>
 				) : null}
 				{this.state.helperText ? (

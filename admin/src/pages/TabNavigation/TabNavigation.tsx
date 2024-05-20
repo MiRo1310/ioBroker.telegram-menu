@@ -21,7 +21,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			editedValueFromHelperText: null,
 			isOK: false,
 			helperText: false,
-			newRow: {},
+			newRow: {} as Nav,
 			nav: "",
 			call: "",
 			text: "",
@@ -36,6 +36,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			}
 		}
 		if (prevState.newRow !== this.state.newRow) {
+			console.log(this.state.newRow);
 			this.checkValueAlreadyUsed();
 		}
 	}
@@ -100,7 +101,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		if (value) {
 			this.setState({ rowIndex: value });
 		}
-		const obj = {};
+		const obj = {} as Nav;
 		this.props.entries.forEach((entry) => {
 			obj[entry.name] = entry.val;
 		});

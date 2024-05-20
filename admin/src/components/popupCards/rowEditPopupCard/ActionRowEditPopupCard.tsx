@@ -2,18 +2,19 @@ import React, { Component } from "react";
 import { I18n, SelectID } from "@iobroker/adapter-react-v5";
 import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 
-import Input from "../btn-Input/input";
-import Checkbox from "../btn-Input/checkbox";
-import Select from "../btn-Input/select";
-import BtnSmallRemove from "../btn-Input/btn-small-remove";
-import BtnSmallAdd from "../btn-Input/btn-small-add";
+import Input from "@/components/btn-Input/input";
+import Checkbox from "@/components/btn-Input/checkbox";
+import Select from "@/components/btn-Input/select";
+import BtnSmallRemove from "@/components/btn-Input/btn-small-remove";
+import BtnSmallAdd from "@/components/btn-Input/btn-small-add";
+import ActionEditHeader from "@/components/popupCards/rowEditPopupCard/ActionEditHeader";
 
-import BtnSmallSearch from "../btn-Input/btn-small-search";
-import { BtnCircleAdd } from "../btn-Input/btn-circle-add";
+import BtnSmallSearch from "@/components/btn-Input/btn-small-search";
+import { BtnCircleAdd } from "@/components/btn-Input/btn-circle-add";
 
-import { isChecked } from "../../lib/Utils.js";
-import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "../../lib/actionUtils.js";
-import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd } from "../../lib/dragNDrop.js";
+import { isChecked } from "@/lib/Utils.js";
+import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "@/lib/actionUtils.js";
+import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd } from "@/lib/dragNDrop.js";
 
 class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
 	constructor(props) {
@@ -64,7 +65,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 							callbackValue="event.target.value"
 							label="Trigger"
 							placeholder="Select a Trigger"
-						></Select>
+						/>
 					</div>
 				) : null}
 				{this.props.newRow.parse_mode ? (
@@ -77,24 +78,12 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 							isChecked={isChecked(this.props.newRow.parse_mode[0])}
 							obj={true}
 							label="Parse Mode"
-						></Checkbox>
+						/>
 					</div>
 				) : null}
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
-						<TableHead>
-							<TableRow>
-								{this.props.entries.map((entry, index) =>
-									entry.name != "trigger" && entry.name != "parse_mode" ? (
-										<TableCell key={index} align="left">
-											<span title={entry.title ? I18n.t(entry.title) : undefined}>{I18n.t(entry.headline)}</span>
-										</TableCell>
-									) : null,
-								)}
-								{this.props.buttons.add ? <TableCell align="left"> </TableCell> : null}
-								{this.props.buttons.remove ? <TableCell align="left"> </TableCell> : null}
-							</TableRow>
-						</TableHead>
+						<ActionEditHeader entries={this.props.entries} buttons={this.props.buttons} />
 						<TableBody>
 							{this.state.rows
 								? this.state.rows.map((row, index) => (
@@ -210,7 +199,6 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						dialogName={this.props.data.adapterName}
 						themeType={this.props.data.themeType}
 						socket={this.props.data.socket}
-						// statesOnly={true}
 						filters={{}}
 						selected={this.state.selectIdValue}
 						onClose={() => this.setState({ showSelectId: false })}

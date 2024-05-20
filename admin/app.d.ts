@@ -60,7 +60,7 @@ interface StateTabNavigation {
     editedValueFromHelperText: string | null;
     isOK: boolean;
     helperText: boolean;
-    newRow: Record<string, any>; // Ersetzen Sie 'any' durch den tatsächlichen Typ
+    newRow: Nav
     call: string
     nav: string
     text: string
@@ -604,7 +604,7 @@ interface HttpRequest {
     delay: string[],
 }
 interface Nav {
-    nav: string
+    // nav: string
     call: string
     value: string
     text: string
@@ -687,4 +687,11 @@ interface PropsTableNavHelper {
     setState: ({ }) => void;
     data: any;
     popupHelperCard: any;
+}
+interface PropsActionEditHeader {
+    entries: NavEntries[];
+    buttons: {
+        add: boolean;
+        remove: boolean;
+    };
 }

@@ -12,8 +12,7 @@ import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
 
-
-class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
+class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -45,6 +44,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 	};
 
 	render() {
+		console.log(this.props);
 		return (
 			<>
 				<TableContainer component={Paper} className="HelperCard">
@@ -56,7 +56,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 								<TableCell align="left"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>							
+						<TableBody>
 							{this.state.rows[this.props.helperTextForInput].map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row">
@@ -90,16 +90,14 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 				</Textarea>
 
 				{this.state.showSelectId ? (
-					<SelectID					
-						// style={{ zIndex: '11000' }}
+					<SelectID
 						key="tableSelect"
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
 						themeType={this.props.data.themeType}
 						socket={this.props.data.socket}
 						filters={{}}
-						// statesOnly={true}
-						classes={ {zIndex: '11000'} }
+						classes={{ zIndex: "11000" }}
 						selected={""}
 						onClose={() => this.setState({ showSelectId: false })}
 						onOk={(selected, name) => {
