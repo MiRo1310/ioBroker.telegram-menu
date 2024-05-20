@@ -7,19 +7,17 @@ import { updateTriggerForSelect } from "./lib/actionUtils";
 import GenericApp from "../GenericApp";
 
 import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
-import Settings from "@/pages/TabSettings/Settings";
-import TabNavigation from "@/pages/TabNavigation/TabNavigation";
-import TabAction from "@/pages/TabAction/TabAction";
 import DropBox from "@/components/popupCards/DropBox";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
 import MainTabList from "@/pages/MainPage/MainTabList";
 import MainActions from "@/pages/MainPage/MainActions";
+import MainTabs from "./pages/MainPage/MainTabs";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
 import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
-import { navEntries } from "@/lib/entries";
+
 import { sortObjectByKey } from "@/lib/actionUtils";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave, updatePositionDropBox } from "./lib/movePosition";
 import { Properties } from "csstype";
@@ -203,54 +201,15 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 										updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 									}}
 								/>
-								<TabPanel value="nav">
-									<TabNavigation
-										activeMenu={this.state.activeMenu}
-										data={{
-											nav: this.state.native.data.nav,
-											data: this.state.native.data,
-											activeMenu: this.state.activeMenu,
-											state: this.state,
-											socket: this.socket,
-											themeName: this.state.themeName,
-											themeType: this.state.themeType,
-											adapterName: this.adapterName,
-										}}
-										callback={{
-											setState: this.setState,
-											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-										}}
-										entrys={navEntries}
-									></TabNavigation>
-								</TabPanel>
-								<TabPanel value="action" className="tabAction">
-									<TabAction
-										data={{
-											action: this.state.native.data.action,
-											data: this.state.native.data,
-											state: this.state,
-											socket: this.socket,
-											themeName: this.state.themeName,
-											themeType: this.state.themeType,
-											adapterName: this.adapterName,
-											unUsedTrigger: this.state.unUsedTrigger,
-										}}
-										activeMenu={this.state.activeMenu}
-										callback={{
-											setState: this.setState,
-											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-										}}
-									></TabAction>
-								</TabPanel>
-								<TabPanel value="settings">
-									<Settings
-										data={{ instances: this.state.instances, state: this.state, checkbox: this.state.native.checkbox }}
-										callback={{
-											setState: this.setState,
-											updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-										}}
-									></Settings>
-								</TabPanel>
+								<MainTabs
+									callback={{
+										setState: this.setState,
+										updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+									}}
+									adapterName={this.adapterName}
+									socket={this.socket}
+									state={this.state}
+								/>
 							</TabContext>
 						</Box>
 					</Grid>

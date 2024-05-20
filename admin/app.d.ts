@@ -23,6 +23,8 @@ interface AdditionalStateInfo {
     showPopupMenuList: boolean
     dropBoxTop: number
     dropBoxRight: number
+    themeName: string
+    themeType: string
 }
 
 interface PropsSettings {
