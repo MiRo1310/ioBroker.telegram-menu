@@ -681,3 +681,10 @@ interface PropsMainDropBox {
 interface PropsTableNavHeader {
     entries: NavEntries[];
 }
+
+interface PropsTableNavHelper {
+    state: any;
+    setState: ({ }) => void;
+    data: any;
+    popupHelperCard: any;
+}

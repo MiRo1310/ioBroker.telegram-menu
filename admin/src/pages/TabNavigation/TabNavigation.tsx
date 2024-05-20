@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import { Table, TableContainer, Paper } from "@mui/material";
+import { Table, TableContainer, Paper, Tab } from "@mui/material";
 
-import PopupContainer from "@/components/popupCards/PopupContainer";
-import RowNavCard from "@/components/popupCards/RowNavCard";
-import TableNavBody from "./nav/TableNavBody";
-import HelperCard from "@/components/popupCards/HelperCard";
+import TableNavBody from "@/pages/TabNavigation/nav/TableNavBody";
 import TabNavHeader from "./nav/TableNavHeader";
 import TableNavEditRow from "./nav/TableNavEditRow";
+import TableNavHelper from "./nav/TableNavHelper";
 
-import helperText from "@/lib/helper.js";
 import { deepCopy } from "@/lib/Utils.js";
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
@@ -110,13 +107,6 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ newRow: obj, rowPopup: true });
 	};
 
-	onchangeValueFromHelper = (value) => {
-		let newValue;
-
-		if (this.state.editedValueFromHelperText === null) newValue = value;
-		else newValue = this.state.editedValueFromHelperText + " " + value;
-		this.setState({ editedValueFromHelperText: newValue });
-	};
 	popupHelperCard = (isOK) => {
 		if (isOK) {
 			const copyNewRow = deepCopy(this.state.newRow);
@@ -149,49 +139,9 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 				</TableContainer>
 				{this.state.rowPopup ? (
 					<TableNavEditRow state={this.state} setState={this.setState.bind(this)} data={this.props.data} entries={this.props.entries} popupRowCard={this.popupRowCard} />
-				) : // <PopupContainer
-				// 	callback={this.popupRowCard}
-				// 	call={this.state.call}
-				// 	nav={this.state.nav}
-				// 	text={this.state.text}
-				// 	usedTrigger={this.props.data.state.usedTrigger}
-				// 	width="99%"
-				// 	height="40%"
-				// 	title="Navigation"
-				// 	setState={this.setState.bind(this)}
-				// 	isOK={this.state.valuesAreOk}
-				// >
-				// 	<RowNavCard
-				// 		callback={{ onchange: this.changeInput }}
-				// 		inUse={this.state.callInUse}
-				// 		openHelperText={this.openHelperText}
-				// 		entries={this.props.entries}
-				// 		newRow={this.state.newRow}
-				// 	></RowNavCard>
-				// </PopupContainer>
-				null}
+				) : null}
 				{this.state.helperText ? (
-					<PopupContainer
-						callback={this.popupHelperCard}
-						width="90%"
-						height="80%"
-						title="Helper Texte"
-						setState={this.setState.bind(this)}
-						isOK={this.state.isOK}
-						class="HelperText"
-					>
-						<HelperCard
-							data={this.props.data}
-							helper={helperText}
-							name="nav"
-							val="nav"
-							helperTextForInput={this.state.helperTextFor}
-							text={this.state.newRow.text}
-							callback={this.onchangeValueFromHelper}
-							editedValueFromHelperText={this.state.editedValueFromHelperText || ""}
-							setState={this.setState.bind(this)}
-						></HelperCard>
-					</PopupContainer>
+					<TableNavHelper state={this.state} setState={this.setState.bind(this)} data={this.props.data} popupHelperCard={this.popupHelperCard} />
 				) : null}
 			</>
 		);
