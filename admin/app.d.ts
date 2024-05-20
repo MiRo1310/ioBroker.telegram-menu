@@ -660,3 +660,7 @@ interface CallbackFunctions {
     setState: Function
     updateNative: UpdateNativeFunction
 }
+interface PropsMainTriggerOverview {
+    state: AdditionalStateInfo;
+    callback: CallbackFunctions;
+}

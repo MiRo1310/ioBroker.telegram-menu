@@ -7,18 +7,16 @@ import { updateTriggerForSelect } from "./lib/actionUtils";
 import GenericApp from "../GenericApp";
 
 import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
-import DropBox from "@/components/popupCards/DropBox";
-import PopupContainer from "@/components/popupCards/PopupContainer";
-import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
 import MainContent from "@/pages/MainPage/MainContent";
 import MainDropBox from "@/pages/MainPage/MainDropBox";
+import MainTriggerOverview from "@/pages/MainPage/MainTriggerOverview";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
 import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
 
 import { sortObjectByKey } from "@/lib/actionUtils";
-import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave, updatePositionDropBox } from "./lib/movePosition";
+import { updatePositionDropBox } from "./lib/movePosition";
 import { Properties } from "csstype";
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	constructor(props) {
@@ -206,22 +204,13 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 					/>
 				) : null}
 				{this.state.showTriggerInfo ? (
-					<PopupContainer
-						title="Trigger Info"
-						width="99%"
-						height="99%"
-						top="60%"
-						class="TriggerOverview-PopupContainer"
-						closeBtn={true}
-						callback={(val) => this.setState({ showTriggerInfo: val })}
-					>
-						<TriggerOverview
-							// trigger={this.state.triggerObject}
-							usersInGroup={this.state.native.usersInGroup}
-							userActiveCheckbox={this.state.native.userActiveCheckbox}
-							data={this.state.native.data}
-						></TriggerOverview>
-					</PopupContainer>
+					<MainTriggerOverview
+						state={this.state}
+						callback={{
+							setState: this.setState,
+							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+						}}
+					/>
 				) : null}
 				{this.state.doubleTrigger.length > 0 ? (
 					<div className="ErrorDoubleTrigger-Container">
