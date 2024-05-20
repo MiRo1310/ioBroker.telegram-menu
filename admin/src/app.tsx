@@ -65,7 +65,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			dropDifferenzX: 0,
 			dropDifferenzY: 0,
 		};
-		this.handleChange = this.handleChange.bind(this);
+
 		this.setState = this.setState.bind(this);
 	}
 	handleResize = (e) => {
@@ -153,19 +153,11 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		});
 	}
 
-	handleChange(event, val) {
-		this.setState({ tab: val });
-	}
-
 	render() {
 		if (!this.state.loaded) {
 			return super.render();
 		}
-		const tabBox: Properties<string | number, string & {}> = {
-			display: "flex",
-			flexDirection: "column",
-			height: "calc(100vh - 112px)",
-		};
+
 		return (
 			<div className={`App row ${this.props.themeName}`}>
 				<Grid container spacing={1}>
@@ -178,7 +170,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						adapterName={this.adapterName}
 						changed={this.state.changed}
 						onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
-					></HeaderIconBar>
+					/>
 
 					<MainContent
 						callback={{
@@ -189,8 +181,6 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						socket={this.socket}
 						data={{ activeMenu: this.state.activeMenu, state: this.state }}
 						adapterName={this.adapterName}
-						handleChange={this.handleChange}
-						tabBox={tabBox}
 					/>
 				</Grid>
 				{this.state.showDropBox ? (

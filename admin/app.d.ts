@@ -649,7 +649,7 @@ interface Echart {
     trigger: string[],
 }
 interface PropsMainTabList {
-    handleChange: (event: React.SyntheticEvent, newValue: string) => void;
+    callback: CallbackFunctions;
 }
 interface PropsMainActions {
     data: any
@@ -666,4 +666,12 @@ interface PropsMainTriggerOverview {
 }
 interface PropsMainDoubleTriggerInfo {
     state: AdditionalStateInfo;
+}
+interface PropsMainContent {
+    state: AdditionalStateInfo;
+    socket: any;
+    data: any;
+    callback: CallbackFunctions;
+    adapterName: string;
+
 }
