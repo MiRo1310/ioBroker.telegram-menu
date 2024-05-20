@@ -1,31 +1,30 @@
-import React  from "react";
-import { TabList, TabPanel, TabContext } from "@mui/lab";
-import { Grid, Tab, Box } from "@mui/material";
+import React from "react";
+import { TabPanel, TabContext } from "@mui/lab";
+import { Grid, Box } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "./lib/actionUtils";
 // import GenericApp from "@iobroker/adapter-react-v5/GenericApp"
-import GenericApp from "../GenericApp"
+import GenericApp from "../GenericApp";
 
+import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
+import Settings from "@/pages/TabSettings/Settings";
+import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
+import TabNavigation from "@/pages/TabNavigation/TabNavigation";
+import HeaderTelegramUsers from "@/components/HeaderTelegram/HeaderTelegramUsers";
+import TabAction from "@/pages/TabAction/TabAction";
+import DropBox from "@/components/popupCards/DropBox";
+import PopupContainer from "@/components/popupCards/PopupContainer";
+import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
+import MainTabList from "@/pages/MainPage/MainTabList";
 
-import HeaderIconBar from "./components/HeaderIconBar/HeaderIconBar";
-import Settings from "./pages/TabSettings/Settings";
-import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
-import TabNavigation from "./pages/TabNavigation/TabNavigation";
-import HeaderTelegramUsers from "./components/HeaderTelegram/HeaderTelegramUsers";
-import TabAction from "./pages/TabAction/TabAction";
-import DropBox from "./components/popupCards/DropBox";
-import PopupContainer from "./components/popupCards/PopupContainer";
-import TriggerOverview from "./components/popupCards/TriggerOverview/TriggerOverview";
-
-import getIobrokerData from "./lib/socket";
-import helperFunction from "./lib/Utils";
-import { insertNewItemsInData } from "./lib/newValuesForNewVersion";
-import { navEntries } from "./lib/entries";
-import { sortObjectByKey } from "./lib/actionUtils";
+import getIobrokerData from "@/lib/socket";
+import helperFunction from "@/lib/Utils";
+import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
+import { navEntries } from "@/lib/entries";
+import { sortObjectByKey } from "@/lib/actionUtils";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave, updatePositionDropBox } from "./lib/movePosition";
 import { Properties } from "csstype";
-class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {	
-	
+class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	constructor(props) {
 		const extendedProps = {
 			...props,
@@ -47,7 +46,6 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 		};
 		super(props, extendedProps);
 		this.dropboxRef = React.createRef();
-		// const theme = this.createTheme();
 		this.state = {
 			...this.state,
 			native: {} as Native,
@@ -60,8 +58,6 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 			instances: [],
 			popupMenuOpen: false,
 			themeName: "",
-			// themeName: this.getThemeName(theme),
-			// themeType: this.getThemeType(theme),
 			themeType: "",
 			unUsedTrigger: [],
 			usedTrigger: [],
@@ -74,12 +70,12 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 			dropBoxRight: 5,
 			dropDifferenzX: 0,
 			dropDifferenzY: 0,
-		}
+		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
 	}
 	handleResize = (e) => {
-		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox , this.state.native.dropbox);
+		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
 		updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
@@ -122,12 +118,10 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 	}
 
 	onConnectionReady() {
-		// executed when connection is ready
 		insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
 		this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		this.getUsersFromTelegram();
 
-		// myTheme = this.props.themeName;
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
 		});
@@ -143,7 +137,7 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 	}
 	checkDoubleEntryInUsedTrigger = () => {
 		const usedTrigger = [...this.state.usedTrigger];
-		let doubleTrigger:string[] = [];
+		let doubleTrigger: string[] = [];
 		usedTrigger.forEach((element, index) => {
 			if (index !== usedTrigger.indexOf(element)) {
 				if (element != "-") doubleTrigger.push(element);
@@ -176,7 +170,7 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 		if (!this.state.loaded) {
 			return super.render();
 		}
-		const tabBox:Properties<string | number, string & {}> = {
+		const tabBox: Properties<string | number, string & {}> = {
 			display: "flex",
 			flexDirection: "column",
 			height: "calc(100vh - 112px)",
@@ -188,7 +182,6 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 						<HeaderIconBar
 							key="options"
 							common={this.common}
-							// socket={this.socket}
 							native={this.state.native}
 							onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
 							//@ts-ignore
@@ -202,13 +195,7 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 					<Grid item xs={12} className="App-main-content">
 						<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={tabBox}>
 							<TabContext value={this.state.tab}>
-								<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-									<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">
-										<Tab label={I18n.t("Navigation")} value="nav" />
-										<Tab label={I18n.t("Action")} value="action" />
-										<Tab label={I18n.t("Settings")} value="settings" />
-									</TabList>
-								</Box>
+								<MainTabList handleChange={this.handleChange} />
 								<Grid container spacing={1} className="Grid-HeaderMenu ">
 									<Grid item xs={12}>
 										{this.state.tab != "settings" ? (

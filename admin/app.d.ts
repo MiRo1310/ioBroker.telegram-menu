@@ -454,28 +454,7 @@ interface TriggerObject {
         action: {};
     };
 }
-interface Native {
-    dropbox: {
-        dropboxTop: number
-        dropboxRight: number
-    }
-    data: DataObject
-    usersInGroup: string[]
-    nav: {};
-    instance: string;
-    data: {};
-    checkbox: {};
-    usersForGlobal: string;
-    users: never[];
-    startsides: never[];
-    tokenGrafana: string;
-    directory: string;
-    userActiveCheckbox: {};
-    usersInGroup: {};
-    textNoEntry: string;
-    userListWithChatID: never[];
 
-}
 interface PropsDropBox {
     native: Native
     callback: any;
@@ -574,4 +553,99 @@ interface PropsMenuButton {
     title?: string;
     onChangeValue?: () => void;
     children?: ReactNode;
+}
+
+interface Native {
+    dropbox: {
+        dropboxTop: number
+        dropboxRight: number
+    }
+    data: DataObject
+    usersInGroup: string[]
+    nav: any;
+    instance: string;
+    data: NativeData;
+    checkbox: {
+        sendMenuAfterRestart: boolean
+        checkboxNoValueFound: boolean
+        resKey: boolean
+        oneTiKey: boolean
+    };
+    usersForGlobal: string;
+    users: never[];
+    startsides: never[];
+    tokenGrafana: string;
+    directory: string;
+    userActiveCheckbox: {};
+    usersInGroup: {};
+    textNoEntry: string;
+    userListWithChatID: never[];
+}
+interface NativeData {
+    action: { [key: string]: Actions }
+    nav: { [key: string]: Nav }
+
+}
+interface Actions {
+    get: Get[],
+    set: Set[],
+    pic: Pic[],
+    httpRequest: HttpRequest[],
+    echarts: Echart[],
+    events: Events[]
+}
+interface HttpRequest {
+    url: string[],
+    user: string[],
+    password: string[],
+    filename: string[],
+    trigger: string[],
+    delay: string[],
+}
+interface Nav {
+    nav: string
+    call: string
+    value: string
+    text: string
+    parse_mode: BooleanString
+}
+interface Set {
+    ack: BooleanString[],
+    confirm: BooleanString[],
+    parse_mode: BooleanString[],
+    switch_checkbox: BooleanString[],
+    IDs: string[],
+    returnText: string[],
+    trigger: string[],
+    values: string[],
+}
+interface Get {
+    newline_checkbox: BooleanString[],
+    parse_mode: BooleanString[],
+    IDs: string[],
+    text: string[],
+    trigger: string[],
+}
+interface Events {
+    ack: BooleanString[],
+    ID: string[],
+    menu: string[],
+    condition: string,
+}
+interface Pic {
+    IDs: string[],
+    filename: string[],
+    trigger: string[],
+    picSendDelay: string[],
+}
+interface Echart {
+    background: string[],
+    echartsInstance: string[],
+    filename: string[],
+    preset: string,
+    theme: string[],
+    trigger: string[],
+}
+interface PropsMainTabList {
+    handleChange: (event: React.SyntheticEvent, newValue: string) => void;
 }

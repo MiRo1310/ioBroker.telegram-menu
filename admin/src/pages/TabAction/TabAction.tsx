@@ -12,8 +12,9 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 		};
 	}
 	handleChange = (event, newValue) => {
-		if(this.props.callback.setState){
-		this.props.callback.setState({ subTab: newValue });}
+		if (this.props.callback.setState) {
+			this.props.callback.setState({ subTab: newValue });
+		}
 		this.setState({ value: newValue });
 	};
 	render() {
