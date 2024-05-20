@@ -1,6 +1,6 @@
 import React from "react";
-import { TabPanel, TabContext } from "@mui/lab";
-import { Grid, Box } from "@mui/material";
+
+import { Grid } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "./lib/actionUtils";
 // import GenericApp from "@iobroker/adapter-react-v5/GenericApp"
@@ -10,9 +10,7 @@ import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
 import DropBox from "@/components/popupCards/DropBox";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
-import MainTabList from "@/pages/MainPage/MainTabList";
-import MainActions from "@/pages/MainPage/MainActions";
-import MainTabs from "./pages/MainPage/MainTabs";
+import MainContent from "./pages/MainPage/MainContent";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
@@ -175,44 +173,29 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		return (
 			<div className={`App row ${this.props.themeName}`}>
 				<Grid container spacing={1}>
-					<Grid item xs={12}>
-						<HeaderIconBar
-							key="options"
-							common={this.common}
-							native={this.state.native}
-							onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
-							//@ts-ignore
-							onLoad={(native) => this.onLoadConfig(native)}
-							instance={this.instance}
-							adapterName={this.adapterName}
-							changed={this.state.changed}
-							onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
-						></HeaderIconBar>
-					</Grid>
-					<Grid item xs={12} className="App-main-content">
-						<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={tabBox}>
-							<TabContext value={this.state.tab}>
-								<MainTabList handleChange={this.handleChange} />
-								<MainActions
-									tab={this.state.tab}
-									data={{ activeMenu: this.state.activeMenu, state: this.state }}
-									callback={{
-										setState: this.setState,
-										updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-									}}
-								/>
-								<MainTabs
-									callback={{
-										setState: this.setState,
-										updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-									}}
-									adapterName={this.adapterName}
-									socket={this.socket}
-									state={this.state}
-								/>
-							</TabContext>
-						</Box>
-					</Grid>
+					<HeaderIconBar
+						common={this.common}
+						native={this.state.native}
+						onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
+						onLoad={(native) => this.onLoadConfig(native)}
+						instance={this.instance}
+						adapterName={this.adapterName}
+						changed={this.state.changed}
+						onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
+					></HeaderIconBar>
+
+					<MainContent
+						callback={{
+							setState: this.setState,
+							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+						}}
+						state={this.state}
+						socket={this.socket}
+						data={{ activeMenu: this.state.activeMenu, state: this.state }}
+						adapterName={this.adapterName}
+						handleChange={this.handleChange}
+						tabBox={tabBox}
+					/>
 				</Grid>
 				{this.state.showDropBox ? (
 					<PopupContainer

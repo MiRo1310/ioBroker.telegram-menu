@@ -121,7 +121,7 @@ interface PropsTabAction {
 interface Data {
     activeMenu?: string
     nav?: TableData
-    state: { usedTrigger: string[] }
+    state: AdditionalStateInfo
     data?: any
     action?: any
     socket?: any
@@ -241,7 +241,7 @@ interface PropsHeaderIconBar {
     instance: number;
     common: Record<string, any>;
     native: any;
-    onLoad: (error: string | null) => void;
+    onLoad: (error: Record<string, null>) => void;
     onError: (text: any) => void;
     adapterName: string;
     changed: boolean;

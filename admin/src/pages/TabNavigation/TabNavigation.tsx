@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 
-import PopupContainer from "../../components/popupCards/PopupContainer";
-import RowNavCard from "../../components/popupCards/RowNavCard";
+import PopupContainer from "@/components/popupCards/PopupContainer";
+import RowNavCard from "@/components/popupCards/RowNavCard";
 import TableDndNav from "./TableDND/TableDndNav";
-import HelperCard from "../../components/popupCards/HelperCard";
+import HelperCard from "@/components/popupCards/HelperCard";
 
-import helperText from "../../lib/helper.js";
-import { deepCopy } from "../../lib/Utils.js";
+import helperText from "@/lib/helper.js";
+import { deepCopy } from "@/lib/Utils.js";
 
-class TabNavigation extends Component<PropsTabNavigation,StateTabNavigation> {
+class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -72,7 +72,7 @@ class TabNavigation extends Component<PropsTabNavigation,StateTabNavigation> {
 		else return false;
 	};
 
-	changeInput = (data) => {		
+	changeInput = (data) => {
 		const copyNewRow = deepCopy(this.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();
@@ -89,16 +89,16 @@ class TabNavigation extends Component<PropsTabNavigation,StateTabNavigation> {
 			return;
 		}
 		const dataCopy = JSON.parse(JSON.stringify(this.props.data.data));
-		const navUserArray = dataCopy.nav[this.props.activeMenu];
+		const navUserArray = dataCopy.nav[this.props.data.state.activeMenu];
 		if (this.state.editRow) {
 			navUserArray.splice(this.state.rowIndex, 1, this.state.newRow);
 		} else navUserArray.splice(this.state.rowIndex + 1, 0, this.state.newRow);
-		dataCopy.nav[this.props.activeMenu] = navUserArray;
+		dataCopy.nav[this.props.data.state.activeMenu] = navUserArray;
 		this.props.callback.updateNative("data", dataCopy);
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
 	};
-	openAddRowCard = (value) => {		
+	openAddRowCard = (value) => {
 		if (value) {
 			this.setState({ rowIndex: value });
 		}
@@ -161,7 +161,7 @@ class TabNavigation extends Component<PropsTabNavigation,StateTabNavigation> {
 							showButtons={{ add: true, remove: true, edit: true }}
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
-							activeMenu={this.props.activeMenu}
+							activeMenu={this.props.data.state.activeMenu}
 							entrys={this.props.entrys}
 						></TableDndNav>
 					</Table>
@@ -206,7 +206,7 @@ class TabNavigation extends Component<PropsTabNavigation,StateTabNavigation> {
 							helperTextForInput={this.state.helperTextFor}
 							text={this.state.newRow.text}
 							callback={this.onchangeValueFromHelper}
-							editedValueFromHelperText={this.state.editedValueFromHelperText||""}
+							editedValueFromHelperText={this.state.editedValueFromHelperText || ""}
 							setState={this.setState.bind(this)}
 						></HelperCard>
 					</PopupContainer>
