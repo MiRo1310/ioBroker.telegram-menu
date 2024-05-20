@@ -67,7 +67,7 @@ interface StateTabNavigation {
 }
 interface PropsTabNavigation {
     data: Data
-    entrys: NavEntries[]
+    entries: NavEntries[]
     activeMenu: string;
     callback: Callback;
 }
@@ -91,7 +91,7 @@ interface SetState {
 interface TableData {
 }
 interface PropsTableDndNav {
-    entrys: NavEntries[]
+    entries: NavEntries[]
     tableData: TableData | undefined
     card: string,
     activeMenu?: string
@@ -187,11 +187,11 @@ interface PropsCheckbox {
 type BooleanString = "true" | "false"
 
 interface PropsRowNavCard {
-    entrys: NavEntries[];
+    entries: NavEntries[];
     newRow: any;
     callback: any;
     inUse: boolean;
-    openHelperText: any;
+    openHelperText: (value: string) => void;
 }
 interface Entries {
     name: string;
@@ -269,7 +269,6 @@ interface PropsTextarea {
     value: string;
     callback: any;
     placeholder?: string;
-    // type: string;
     class?: string;
     width?: string;
     inputWidth?: string;
@@ -295,8 +294,8 @@ interface PropsActionCard {
     data: any;
     activeMenu: string;
     card: string;
-    subcard: string;
-    entrys: any;
+    subCard: string;
+    entries: any;
     popupCard: any;
     titlePopup: string;
     showButtons: any;
@@ -324,8 +323,8 @@ interface StateActionCard {
 interface PropsTableDndAction {
     tableData: any;
     activeMenu: string;
-    subcard: string;
-    entrys: any;
+    subCard: string;
+    entries: any;
     data: any;
     setState: any;
     showButtons: boolean;
@@ -374,7 +373,7 @@ interface PropsPopupContainer {
     class?: string;
     drag?: string;
     top?: string;
-    referenz?: any;
+    reference?: any;
     onDragStart?: any;
     onDragEnd?: any;
     onDragOver?: any;
@@ -398,7 +397,7 @@ interface PropsRowEditPopupCard {
     newRow: any;
     data: any;
     openHelperText: any;
-    subcard: any;
+    subCard: any;
     searchRoot: any;
     buttons: any;
     newUnUsedTrigger: any;
@@ -673,5 +672,12 @@ interface PropsMainContent {
     data: any;
     callback: CallbackFunctions;
     adapterName: string;
-
+}
+interface PropsMainDropBox {
+    state: AdditionalStateInfo;
+    callback: CallbackFunctions;
+    dropBoxRef: any;
+}
+interface PropsTableNavHeader {
+    entries: NavEntries[];
 }

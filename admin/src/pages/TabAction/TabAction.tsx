@@ -34,8 +34,8 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 							data={this.props.data}
 							activeMenu={this.props.activeMenu}
 							card="action"
-							subcard={tab.value}
-							entrys={tab.entrys}
+							subCard={tab.value}
+							entries={tab.entrys}
 							searchRoot={tab.searchRoot ? tab.searchRoot : null}
 							titlePopup={tab.label}
 							showButtons={{ add: true, remove: true, edit: true }}

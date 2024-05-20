@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import DropBox from "@/components/popupCards/DropBox";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave, updatePositionDropBox } from "@/lib/movePosition";
-interface PropsMainDropBox {
-	state: AdditionalStateInfo;
-	callback: CallbackFunctions;
-	dropBoxRef: any;
-}
+
 class MainDropBox extends Component<PropsMainDropBox> {
 	constructor(props) {
 		super(props);
@@ -20,7 +16,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
 		return (
 			<PopupContainer
 				class="DropBox-PopupContainer"
-				referenz={this.props.dropBoxRef}
+				reference={this.props.dropBoxRef}
 				width="99%"
 				height="25%"
 				title="DropBox"

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
-import { I18n } from "@iobroker/adapter-react-v5";
+import { Table, TableContainer, Paper } from "@mui/material";
 
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import RowNavCard from "@/components/popupCards/RowNavCard";
-import TableDndNav from "./TableDND/TableDndNav";
+import TableNavBody from "./nav/TableNavBody";
 import HelperCard from "@/components/popupCards/HelperCard";
+import TabNavHeader from "./nav/TableNavHeader";
+import TableNavEditRow from "./nav/TableNavEditRow";
 
 import helperText from "@/lib/helper.js";
 import { deepCopy } from "@/lib/Utils.js";
@@ -103,20 +104,12 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			this.setState({ rowIndex: value });
 		}
 		const obj = {};
-		this.props.entrys.forEach((entry) => {
+		this.props.entries.forEach((entry) => {
 			obj[entry.name] = entry.val;
 		});
 		this.setState({ newRow: obj, rowPopup: true });
 	};
 
-	openHelperText = (value) => {
-		if (value) {
-			this.setState({ editedValueFromHelperText: this.state.newRow[value] });
-			this.setState({ helperTextFor: value });
-		}
-
-		this.setState({ helperText: true });
-	};
 	onchangeValueFromHelper = (value) => {
 		let newValue;
 
@@ -140,20 +133,8 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			<>
 				<TableContainer component={Paper} className="MenuNavigation-Container">
 					<Table stickyHeader aria-label="sticky table">
-						<TableHead>
-							<TableRow>
-								{this.props.entrys.map((entry, index) => (
-									<TableCell key={index} align="left">
-										<span title={entry.title ? I18n.t(entry.title) : undefined}>{I18n.t(entry.headline)}</span>
-									</TableCell>
-								))}
-
-								<TableCell align="center" className="cellIcon"></TableCell>
-								<TableCell align="center" className="cellIcon"></TableCell>
-								<TableCell align="center" className="cellIcon"></TableCell>
-							</TableRow>
-						</TableHead>
-						<TableDndNav
+						<TabNavHeader entries={this.props.entries} />
+						<TableNavBody
 							tableData={this.props.data.nav}
 							data={this.props.data}
 							callback={this.props.callback}
@@ -162,32 +143,33 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
 							activeMenu={this.props.data.state.activeMenu}
-							entrys={this.props.entrys}
-						></TableDndNav>
+							entries={this.props.entries}
+						></TableNavBody>
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (
-					<PopupContainer
-						callback={this.popupRowCard}
-						call={this.state.call}
-						nav={this.state.nav}
-						text={this.state.text}
-						usedTrigger={this.props.data.state.usedTrigger}
-						width="99%"
-						height="40%"
-						title="Navigation"
-						setState={this.setState.bind(this)}
-						isOK={this.state.valuesAreOk}
-					>
-						<RowNavCard
-							callback={{ onchange: this.changeInput }}
-							inUse={this.state.callInUse}
-							openHelperText={this.openHelperText}
-							entrys={this.props.entrys}
-							newRow={this.state.newRow}
-						></RowNavCard>
-					</PopupContainer>
-				) : null}
+					<TableNavEditRow state={this.state} setState={this.setState.bind(this)} data={this.props.data} entries={this.props.entries} popupRowCard={this.popupRowCard} />
+				) : // <PopupContainer
+				// 	callback={this.popupRowCard}
+				// 	call={this.state.call}
+				// 	nav={this.state.nav}
+				// 	text={this.state.text}
+				// 	usedTrigger={this.props.data.state.usedTrigger}
+				// 	width="99%"
+				// 	height="40%"
+				// 	title="Navigation"
+				// 	setState={this.setState.bind(this)}
+				// 	isOK={this.state.valuesAreOk}
+				// >
+				// 	<RowNavCard
+				// 		callback={{ onchange: this.changeInput }}
+				// 		inUse={this.state.callInUse}
+				// 		openHelperText={this.openHelperText}
+				// 		entries={this.props.entries}
+				// 		newRow={this.state.newRow}
+				// 	></RowNavCard>
+				// </PopupContainer>
+				null}
 				{this.state.helperText ? (
 					<PopupContainer
 						callback={this.popupHelperCard}

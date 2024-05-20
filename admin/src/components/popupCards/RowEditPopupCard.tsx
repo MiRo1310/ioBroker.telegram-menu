@@ -15,8 +15,7 @@ import { isChecked } from "../../lib/Utils.js";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "../../lib/actionUtils.js";
 import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd } from "../../lib/dragNDrop.js";
 
-
-class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard>{
+class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -156,7 +155,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 														>
 															{entry.btnCircleAdd ? (
 																<BtnCircleAdd
-																	callbackValue={{ index: index, entry: entry.name, subcard: this.props.subcard }}
+																	callbackValue={{ index: index, entry: entry.name, subCard: this.props.subCard }}
 																	callback={this.props.openHelperText}
 																></BtnCircleAdd>
 															) : null}
@@ -185,10 +184,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 
 											{this.props.buttons.add ? (
 												<TableCell align="center" className="cellIcon">
-													<BtnSmallAdd
-														callback={(index) => addNewRow(index, this.props, this.props.entrys, this.setState.bind(this))}
-														index={index}
-													/>
+													<BtnSmallAdd callback={(index) => addNewRow(index, this.props, this.props.entrys, this.setState.bind(this))} index={index} />
 												</TableCell>
 											) : null}
 											{this.props.buttons.remove ? (
@@ -208,7 +204,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 				</TableContainer>
 				{this.state.showSelectId ? (
 					<SelectID
-						classes={{ zIndex: '11000' }}
+						classes={{ zIndex: "11000" }}
 						key="tableSelect"
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}

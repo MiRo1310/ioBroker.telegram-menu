@@ -11,8 +11,7 @@ import HelperCard from "../../../components/popupCards/HelperCard";
 import helperText from "../../../lib/helper.js";
 import { addNewRow } from "../../../lib/actionUtils.js";
 
-
-class ActionCard extends Component<PropsActionCard, StateActionCard>{
+class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -55,9 +54,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 			let value = true;
 			let valueRowValuesAndSwitch = true;
 			let row = this.state.newRow;
-			this.props.entrys.forEach((entry) => {				
-				if (!entry.checkbox && entry.required) {				
-					// Wenn der Wert nicht vorhanden ist, dadurch das evtl eine neues Element in entrys hinzugefügt wurde
+			this.props.entries.forEach((entry) => {
+				if (!entry.checkbox && entry.required) {
+					// Wenn der Wert nicht vorhanden ist, dadurch das evtl eine neues Element in entries hinzugefügt wurde
 					if (!row[entry.name]) row[entry.name] = [""];
 					row[entry.name].forEach((val, index) => {
 						if (value && entry.name === "values") {
@@ -91,8 +90,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 		else return false;
 	};
 	addEditedTrigger = (trigger) => {
-		let newTriggerArray:string[]  = [];
-		const unUsedTrigger:string [] = deepCopy(this.props.data.unUsedTrigger);
+		let newTriggerArray: string[] = [];
+		const unUsedTrigger: string[] = deepCopy(this.props.data.unUsedTrigger);
 		if (trigger) {
 			newTriggerArray = [...unUsedTrigger, trigger];
 		} else newTriggerArray = unUsedTrigger;
@@ -112,11 +111,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 	closeAddRowCard = (isOk) => {
 		if (isOk) {
 			const data = deepCopy(this.props.data.data);
-			if (!data.action[this.props.activeMenu][this.props.subcard]) data.action[this.props.activeMenu][this.props.subcard] = [];
+			if (!data.action[this.props.activeMenu][this.props.subCard]) data.action[this.props.activeMenu][this.props.subCard] = [];
 			if (this.state.editRow) {
-				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex, 1, this.state.newRow);
+				data.action[this.props.activeMenu][this.props.subCard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {
-				data.action[this.props.activeMenu][this.props.subcard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
+				data.action[this.props.activeMenu][this.props.subCard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
 			}
 
 			this.props.callback.updateNative("data", data);
@@ -129,14 +128,14 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 
 	resetNewRow = () => {
 		let newRow = {};
-		this.props.entrys.forEach((entry) => {
+		this.props.entries.forEach((entry) => {
 			newRow[entry.name] = [entry.val || ""];
 		});
 		this.setState({ newRow: newRow });
 	};
 	getLengthOfData = (data, activeMenu) => {
-		if (data && activeMenu && data[activeMenu][this.props.subcard] && data[activeMenu][this.props.subcard].length) {
-			this.setState({ rowsLength: data[activeMenu][this.props.subcard].length });
+		if (data && activeMenu && data[activeMenu][this.props.subCard] && data[activeMenu][this.props.subCard].length) {
+			this.setState({ rowsLength: data[activeMenu][this.props.subCard].length });
 		} else {
 			this.setState({ rowsLength: 0 });
 		}
@@ -146,7 +145,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 		this.setState({ valueForSave: value });
 		if (value) {
 			this.setState({ editedValueFromHelperText: this.state.newRow[value.entry][value.index] });
-			
+
 			this.setState({ helperTextFor: value.subcard, helperTextForInput: value.entry });
 		}
 
@@ -170,7 +169,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 	};
 	addNewRow = (index) => {
 		this.setState({ rowPopup: true });
-		addNewRow(index, this.props, this.props.entrys);
+		addNewRow(index, this.props, this.props.entries);
 		// this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
 	};
 
@@ -187,13 +186,14 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 						<Table stickyHeader aria-label="sticky table">
 							<TableHead>
 								<TableRow>
-									{this.props.entrys.map((entry, index) => (
+									{this.props.entries.map((entry, index) => (
 										<TableCell key={index}>
 											<span title={entry.title ? I18n.t(entry.title) : undefined}>{I18n.t(entry.headline)}</span>
 										</TableCell>
 									))}
 									{Array(Object.keys(this.props.showButtons).length)
-										.fill(undefined).map((_, i) => (
+										.fill(undefined)
+										.map((_, i) => (
 											<TableCell key={i} align="center" className="cellIcon"></TableCell>
 										))}
 								</TableRow>
@@ -204,11 +204,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 								data={this.props.data}
 								showButtons={this.props.showButtons}
 								card={this.props.card}
-								subcard={this.props.subcard}
+								subCard={this.props.subCard}
 								setState={this.setState.bind(this)}
 								callback={this.props.callback}
 								openAddRowCard={this.openAddRowCard}
-								entrys={this.props.entrys}
+								entries={this.props.entries}
 								addEditedTrigger={this.addEditedTrigger}
 								// disableValuesInput={this.state.disableInput}
 							></TableDndAction>
@@ -227,10 +227,10 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 							data={this.props.data}
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
-							entrys={this.props.entrys}
+							entrys={this.props.entries}
 							searchRoot={this.props.searchRoot}
 							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.unUsedTrigger}
-							subcard={this.props.subcard}
+							subCard={this.props.subCard}
 							openHelperText={this.openHelperText}
 							buttons={this.props.popupCard.buttons}
 						></RowEditPopupCard>
@@ -250,7 +250,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard>{
 							data={this.props.data}
 							helper={helperText}
 							name="action"
-							val={this.state.helperTextFor}							
+							val={this.state.helperTextFor}
 							text={this.state.text}
 							helperTextForInput={this.state.helperTextForInput}
 							callback={this.onchangeValueFromHelper}

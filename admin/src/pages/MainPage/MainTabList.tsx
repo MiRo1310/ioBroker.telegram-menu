@@ -11,9 +11,7 @@ class MainTabList extends Component<PropsMainTabList> {
 	handleChange = (event, val) => {
 		this.props.callback.setState({ tab: val });
 	};
-
 	render() {
-		console.log(this.props);
 		return (
 			<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 				<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">

@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 
-import { deleteRow, moveItem } from "../../../lib/button.js";
-import { ButtonCard } from "../../../components/popupCards/buttonCard.js";
-import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "../../../lib/dragNDrop.js";
-import { getElementIcon } from "../../../lib/actionUtils.js";
+import { deleteRow, moveItem } from "@/lib/button.js";
+import { ButtonCard } from "@/components/popupCards/buttonCard.js";
+import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "@/lib/dragNDrop.js";
+import { getElementIcon } from "@/lib/actionUtils.js";
 import { I18n } from "@iobroker/adapter-react-v5";
 
 function createData(entriesOfParentComponent, element) {
-	const obj:Rows = {} as Rows;
+	const obj: Rows = {} as Rows;
 	entriesOfParentComponent.forEach((entry) => {
 		obj[entry.name] = element[entry.name];
 	});
 	return obj;
 }
 
-class TableDndNav extends Component<PropsTableDndNav,StateTableDndNav> {
+class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -30,10 +30,10 @@ class TableDndNav extends Component<PropsTableDndNav,StateTableDndNav> {
 	getRows(nav, activeMenu) {
 		if (!nav) return;
 		let elements = nav[activeMenu];
-		let rows:Rows[] = [];
+		let rows: Rows[] = [];
 		if (elements === undefined) return;
 		for (let entry of elements) {
-			rows.push(createData(this.props.entrys, entry));
+			rows.push(createData(this.props.entries, entry));
 		}
 		this.setState({ rows: rows });
 	}
@@ -62,9 +62,10 @@ class TableDndNav extends Component<PropsTableDndNav,StateTableDndNav> {
 	};
 
 	editRow = (index) => {
-		if(this.props.data.nav && this.props.activeMenu){
-		const rowToEdit = this.props?.data?.nav[this.props?.activeMenu][index];
-		this.props.setState({ newRow: rowToEdit });}
+		if (this.props.data.nav && this.props.activeMenu) {
+			const rowToEdit = this.props?.data?.nav[this.props?.activeMenu][index];
+			this.props.setState({ newRow: rowToEdit });
+		}
 		this.props.setState({ rowPopup: true });
 		this.props.setState({ rowIndex: index });
 		this.props.setState({ editRow: true });
@@ -81,14 +82,20 @@ class TableDndNav extends Component<PropsTableDndNav,StateTableDndNav> {
 						draggable={handleDraggable(index1)}
 						onDrop={(event) => this.handleDrop(event, index1)}
 						onDragStart={(event) =>
-							handleDragStart(index1, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState?this.props.callback.setState({ draggingRowIndex: index1 }):"")
+							handleDragStart(
+								index1,
+								event,
+								this.state.mouseOverNoneDraggable,
+								this.setState.bind(this),
+								this.props.callback.setState ? this.props.callback.setState({ draggingRowIndex: index1 }) : "",
+							)
 						}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
 						onDragOver={(event) => handleDragOver(index1, event)}
 						onDragEnter={() => handleDragEnter(index1, this.setState.bind(this))}
 						style={handleStyleDragOver(index1, this.state.dropOver, this.state.dropStart)}
 					>
-						{this.props.entrys.map((entry, index) => (
+						{this.props.entries.map((entry, index) => (
 							<TableCell key={index} component="td" style={{ width: entry.width ? entry.width : undefined }}>
 								<span
 									className="noneDraggable"

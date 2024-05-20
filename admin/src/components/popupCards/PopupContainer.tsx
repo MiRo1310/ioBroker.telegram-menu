@@ -3,25 +3,24 @@ import Button from "../btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { Properties } from "csstype";
 
-
-
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
 	constructor(props) {
 		super(props);
 		this.state = {
-			menuName: this.props.value||"",
+			menuName: this.props.value || "",
 			disable: true,
 			inUse: false,
 		};
 	}
 	componentDidMount() {
-		if (this.props.drag){
-			const element = document.querySelector(".DialogBackground")as HTMLElement
-			element.draggable = true;}
+		if (this.props.drag) {
+			const element = document.querySelector(".DialogBackground") as HTMLElement;
+			element.draggable = true;
+		}
 	}
 
 	render() {
-		const DialogContainer : Properties<string | number, string & {}>  = {
+		const DialogContainer: Properties<string | number, string & {}> = {
 			position: "absolute",
 			top: this.props.top ? this.props.top : "50%",
 			left: "50%",
@@ -37,7 +36,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 		return (
 			<div
 				className={"DialogBackground " + (this.props.class || "")}
-				ref={this.props.referenz ? this.props.referenz : null}
+				ref={this.props.reference ? this.props.reference : null}
 				onDragStart={this.props.onDragStart ? (event) => this.props.onDragStart(event, this.props.setState) : undefined}
 				onDragEnd={this.props.onDragEnd ? (event) => this.props.onDragEnd(event, this.props.setState) : undefined}
 				onDragOver={this.props.onDragOver ? (event) => this.props.onDragOver(event, this.props.setState) : undefined}
@@ -90,7 +89,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 				</div>
 			</div>
 		);
-	}	
+	}
 }
 
 export default PopupContainer;

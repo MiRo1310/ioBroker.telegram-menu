@@ -5,7 +5,6 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../btn-Input/checkbox";
 import { isChecked } from "../../lib/Utils.js";
 
-
 class RowNavCard extends Component<PropsRowNavCard> {
 	constructor(props) {
 		super(props);
@@ -15,7 +14,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 	render() {
 		return (
 			<div className="Edit-Container">
-				{this.props.entrys.map((entry, i) =>
+				{this.props.entries.map((entry, i) =>
 					!(entry.name == "value") && !(entry.name == "text") && !entry.checkbox ? (
 						<Input
 							key={i}
@@ -30,7 +29,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 						></Input>
 					) : entry.name == "value" || entry.name == "text" ? (
 						<Input
-							key={i}							
+							key={i}
 							value={this.props.newRow[entry.name]}
 							margin="0px 2px 0 2px"
 							id={entry.name}
@@ -56,7 +55,6 @@ class RowNavCard extends Component<PropsRowNavCard> {
 							marginLeft="8px"
 							marginTop="10px"
 						></Checkbox>
-						
 					),
 				)}
 			</div>

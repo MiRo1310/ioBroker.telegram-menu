@@ -41,12 +41,12 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		const action = this.props.tableData;
 		const activeMenu = this.props.activeMenu;
 		if (!action) return;
-		let elements = action[activeMenu][this.props.subcard];
+		let elements = action[activeMenu][this.props.subCard];
 
 		const rows:Object[] = [];
 		if (elements === undefined) return;
 		for (let entry of elements) {
-			rows.push(createData(this.props.entrys, entry));
+			rows.push(createData(this.props.entries, entry));
 		}
 		this.setState({ rows: rows });
 	};
@@ -102,12 +102,12 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
-		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subcard, index - this.state.dropStart);
+		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subCard, index - this.state.dropStart);
 	};
 
 	editRow = (index) => {
 		const data = deepCopy(this.props.data.data);
-		const newRow = data[this.props.card][this.props.activeMenu][this.props.subcard][index];
+		const newRow = data[this.props.card][this.props.activeMenu][this.props.subCard][index];
 		if (newRow.trigger) this.props.addEditedTrigger(newRow.trigger[0]);
 		this.props.setState({ newRow: newRow });
 		this.props.setState({ editRow: true });
@@ -116,7 +116,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 	};
 
 	deleteRow = (index) => {
-		deleteRow(index, this.props, this.props.card, this.props.subcard);
+		deleteRow(index, this.props, this.props.card, this.props.subCard);
 	};
 
 	render() {
@@ -148,7 +148,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								</span>
 							</TableCell>
 						) : null}
-						{this.props.entrys.map((entry, indexEntry) =>
+						{this.props.entries.map((entry, indexEntry) =>
 							entry.name != "trigger" && entry.name != "parse_mode" ? (
 								<TableCell
 									className="tdWithHeightForSubTable"
@@ -178,7 +178,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							editRow={this.editRow}
 							moveDown={""}
 							moveUp={""}
-							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.subcard)}
+							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.subCard)}
 							rows={this.state.rows}
 							index={index}
 							showButtons={this.props.showButtons}

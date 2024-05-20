@@ -33,7 +33,7 @@ class MainTabs extends Component<PropsMainTabs> {
 							adapterName: this.props.adapterName,
 						}}
 						callback={this.props.callback}
-						entrys={navEntries}
+						entries={navEntries}
 					></TabNavigation>
 				</TabPanel>
 				<TabPanel value="action" className="tabAction">
