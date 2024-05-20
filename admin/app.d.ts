@@ -649,3 +649,12 @@ interface Echart {
 interface PropsMainTabList {
     handleChange: (event: React.SyntheticEvent, newValue: string) => void;
 }
+interface PropsMainActions {
+    data: any
+    tab: string
+    callback: CallbackFunctions;
+}
+interface CallbackFunctions {
+    setState: Function
+    updateNative: UpdateNativeFunction
+}

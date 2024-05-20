@@ -5,8 +5,7 @@ import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../btn-Input/checkbox";
 
-
-class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers>{
+class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -41,7 +40,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		} else {
 			this.setState({ errorUserChecked: false });
 		}
-		this.setState({ menuChecked: event.target.checked })		
+		this.setState({ menuChecked: event.target.checked });
 		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, event.target.checked);
 	};
 	checkAktivUsers = (val?) => {
@@ -87,7 +86,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 						{this.state.menuOpen && Object.keys(this.props.data.usersInGroup).length != 0 ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
-								{this.props.data.state.native.userListWithChatID.map((user, key) => {
+								{this.props.data.state.native?.userListWithChatID.map((user, key) => {
 									return (
 										<TelegramUserCard
 											name={user.name}

@@ -8,14 +8,13 @@ import GenericApp from "../GenericApp";
 
 import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
 import Settings from "@/pages/TabSettings/Settings";
-import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
 import TabNavigation from "@/pages/TabNavigation/TabNavigation";
-import HeaderTelegramUsers from "@/components/HeaderTelegram/HeaderTelegramUsers";
 import TabAction from "@/pages/TabAction/TabAction";
 import DropBox from "@/components/popupCards/DropBox";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
 import MainTabList from "@/pages/MainPage/MainTabList";
+import MainActions from "@/pages/MainPage/MainActions";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
@@ -196,37 +195,14 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={tabBox}>
 							<TabContext value={this.state.tab}>
 								<MainTabList handleChange={this.handleChange} />
-								<Grid container spacing={1} className="Grid-HeaderMenu ">
-									<Grid item xs={12}>
-										{this.state.tab != "settings" ? (
-											<HeaderMenu
-												data={{ activeMenu: this.state.activeMenu, state: this.state }}
-												callback={{
-													setState: this.setState,
-													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-												}}
-											></HeaderMenu>
-										) : null}
-									</Grid>
-									<Grid item xs={12}>
-										{this.state.tab != "settings" ? (
-											<HeaderTelegramUsers
-												data={{
-													state: this.state,
-													usersInGroup: this.state.native.usersInGroup,
-													userActiveCheckbox: this.state.native.userActiveCheckbox,
-													activeMenu: this.state.activeMenu,
-												}}
-												callback={{
-													setState: this.setState,
-													updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-												}}
-												menuPopupOpen={this.state.popupMenuOpen}
-											></HeaderTelegramUsers>
-										) : null}
-									</Grid>
-								</Grid>
-
+								<MainActions
+									tab={this.state.tab}
+									data={{ activeMenu: this.state.activeMenu, state: this.state }}
+									callback={{
+										setState: this.setState,
+										updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+									}}
+								/>
 								<TabPanel value="nav">
 									<TabNavigation
 										activeMenu={this.state.activeMenu}
