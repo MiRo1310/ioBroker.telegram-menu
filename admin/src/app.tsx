@@ -10,7 +10,8 @@ import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
 import DropBox from "@/components/popupCards/DropBox";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
-import MainContent from "./pages/MainPage/MainContent";
+import MainContent from "@/pages/MainPage/MainContent";
+import MainDropBox from "@/pages/MainPage/MainDropBox";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
@@ -153,9 +154,6 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
 		});
 	}
-	closeDropBox = () => {
-		this.setState({ showDropBox: false });
-	};
 
 	handleChange(event, val) {
 		this.setState({ tab: val });
@@ -198,36 +196,14 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 					/>
 				</Grid>
 				{this.state.showDropBox ? (
-					<PopupContainer
-						class="DropBox-PopupContainer"
-						referenz={this.dropboxRef}
-						width="99%"
-						height="25%"
-						title="DropBox"
-						callback={this.closeDropBox}
-						closeBtn={true}
-						drag="true"
-						onDragStart={onDragStart}
-						onDragEnd={onDragEnd}
-						onDragOver={onDragOver}
-						onDrop={onDrop}
-						onDrag={onDrag}
-						onMouseEnter={onMouseEnter}
-						onMouseLeave={onMouseLeave}
-						setState={this.setState.bind(this)}
-					>
-						<DropBox
-							tab={this.state.tab}
-							subTab={this.state.subTab}
-							index={this.state.draggingRowIndex}
-							activeMenu={this.state.activeMenu}
-							native={this.state.native}
-							callback={{
-								setState: this.setState,
-								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-							}}
-						></DropBox>
-					</PopupContainer>
+					<MainDropBox
+						state={this.state}
+						callback={{
+							setState: this.setState,
+							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+						}}
+						dropBoxRef={this.dropboxRef}
+					/>
 				) : null}
 				{this.state.showTriggerInfo ? (
 					<PopupContainer
