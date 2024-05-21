@@ -76,6 +76,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 						</TableBody>
 					</Table>
 				</TableContainer>
+
 				<Textarea
 					width="99%"
 					value={this.props.editedValueFromHelperText.replace(/&amp;/g, "&")}
@@ -83,14 +84,15 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 					id="editedValueFromHelperText"
 					callback={this.props.setState}
 					callbackValue="event.target.value"
-					label="Text"
+					label=""
 					rows={4}
 				>
-					{["text", "set", "get", "value"].includes(this.props.val) ? <BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} /> : null}
+					{["nav", "text", "set", "get", "value"].includes(this.props.val) ? <BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} /> : null}
 				</Textarea>
 
 				{this.state.showSelectId ? (
 					<SelectID
+						// style={{ zIndex: '11000' }}
 						key="tableSelect"
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
