@@ -17,7 +17,8 @@ class TableNavEditRow extends Component<PropsTableNAvEditRow> {
 		super(props);
 		this.state = {};
 	}
-	changeInput = (data) => {
+
+	changeInput = (data: ChangeInputNav) => {
 		const copyNewRow = deepCopy(this.props.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();

@@ -40,9 +40,9 @@ export default helperFunction;
 /**
  * Removes duplicate entries and saves the result
  * @param {any[]} arr Array
- * @returns Array with unique entrys
+ * @returns Array with unique entries
  */
-export const deleteDoubleEntrysInArray = (arr: any[]) => {
+export const deleteDoubleEntriesInArray = (arr: any[]) => {
 	return arr.filter((item, index) => arr.indexOf(item) === index);
 };
 /**
@@ -50,7 +50,7 @@ export const deleteDoubleEntrysInArray = (arr: any[]) => {
  * @param {any[]} arr Array witch should be sorted
  * @returns Sorted Array
  */
-export const sortArray = (arr) => {
+export const sortArray = (arr: string[]) => {
 	arr.sort((a, b) => {
 		const lowerCaseA = a.toLowerCase();
 		const lowerCaseB = b.toLowerCase();

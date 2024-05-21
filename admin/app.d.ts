@@ -44,12 +44,9 @@ interface PropsSettings {
         instances: string[];
         checkbox: Object
     };
-    callback: Callback
+    callback: CallbackFunctions
 }
 
-interface callback {
-    setState?: React.Component['setState'], updateNative?: UpdateNativeFunction
-}
 interface StateTabNavigation {
     rowPopup: boolean;
     rowIndex: number;
@@ -71,36 +68,47 @@ interface PropsTabNavigation {
     activeMenu: string;
     callback: Callback;
 }
+interface TabValues {
+    label: string;
+    value: string;
+    trigger: boolean;
+    entries: NavEntries[];
+    popupCard: any;
+    searchRoot?: { root: string; type: string[] };
+}
 interface NavEntries {
     name: string;
-    width: string;
+    width?: string;
     checkbox?: boolean;
     title?: string;
     editWidth?: string;
     headline: string;
     val: string;
+    elementGetRows?: string;
+    required?: boolean;
+    btnCircleAdd?: boolean;
+    search?: boolean;
+    noIcon?: boolean;
+    password?: boolean;
+    type?: string;
 }
 type UpdateNative = {
     updateNative: UpdateNativeFunction
 }
 interface SetState {
-    setState: (obj: { [key: string]: any }) => void;
-
+    setState: SetStateFunction
 }
 
-interface TableData {
-}
 interface PropsTableDndNav {
     entries: NavEntries[]
-    tableData: TableData | undefined
+    tableData: Nav | undefined
     card: string,
     activeMenu?: string
     openAddRowCard: (value: any) => void
     showButtons: { add: boolean, remove: boolean, edit: boolean }
     data: Data
-    setState: Function
+    setState: SetStateFunction
     callback: CallbackFunctions
-
 }
 
 interface StateTableDndNav {
@@ -109,7 +117,6 @@ interface StateTableDndNav {
     dropOver: number
     dropEnd: number
     mouseOverNoneDraggable: boolean
-
 }
 
 interface PropsTabAction {
@@ -188,10 +195,14 @@ type BooleanString = "true" | "false"
 
 interface PropsRowNavCard {
     entries: NavEntries[];
-    newRow: any;
-    callback: any;
+    newRow: Nav;
+    callback: { onchange: (data: ChangeInputNav) => void };
     inUse: boolean;
     openHelperText: (value: string) => void;
+}
+interface ChangeInputNav {
+    id: string;
+    val: string;
 }
 interface Entries {
     name: string;
@@ -209,7 +220,7 @@ interface SelectProps {
     placeholder?: string;
     options: string[];
     selected: string;
-    callback: React.Component['setState']
+    callback: SetStateFunction
     setNative?: boolean;
     width?: string;
     callbackValue?: CallbackValue
@@ -220,7 +231,7 @@ interface InputProps {
     type?: string;
     placeholder?: string;
     value: string;
-    callback: React.Component['setState']
+    callback: SetStateFunction
     label?: string;
     setNative?: boolean;
     spellCheck?: boolean;
@@ -233,7 +244,7 @@ interface InputProps {
     index?: number;
     onMouseOver?: (e: any, setState: any) => void;
     onMouseLeave?: (e: any, setState: any) => void;
-    setState?: any;
+    setState?: SetStateFunction;
     callbackValue?: CallbackValue;
     className?: string;
 }
@@ -251,7 +262,7 @@ interface PropsHelperCard {
     helper: {};
     val: string;
     editedValueFromHelperText: string;
-    setState: React.Component['setState']
+    setState: SetStateFunction
     data: any;
     callback: any;
     name: string;
@@ -263,7 +274,7 @@ interface StateHelperCard {
     showSelectId: boolean;
     selectedId: string;
 }
-type SetStateFunction = (obj: { [key: string]: any }) => void
+type SetStateFunction = React.Component['setState']
 interface PropsTextarea {
     id: string;
     value: string;
@@ -280,7 +291,7 @@ interface PropsTextarea {
     spellCheck?: boolean;
     onMouseOver?: (e: any, setState: any) => void;
     onMouseLeave?: (e: any, setState: any) => void;
-    setState?: any;
+    setState?: SetStateFunction;
     rows?: number;
     cols?: number;
     index?: number;
@@ -326,7 +337,7 @@ interface PropsTableDndAction {
     subCard: string;
     entries: any;
     data: any;
-    setState: any;
+    setState: SetStateFunction;
     showButtons: boolean;
     openAddRowCard: any;
     callback: any;
@@ -344,14 +355,14 @@ interface PropsSubTable {
     data: [];
     name: string;
     entry: any;
-    setState: any;
+    setState: SetStateFunction;
 }
 interface PropsTelegramUserCard {
     name: string;
     chatID: string;
     data: any;
     callback: any;
-    setState: any;
+    setState: SetStateFunction;
     class?: string;
     key?: number;
 }
@@ -383,7 +394,7 @@ interface PropsPopupContainer {
     onMouseLeave?: any;
     callback: any;
     value?: string;
-    setState?: Function
+    setState?: SetStateFunction
     data?: { [key: string]: any };
     children?: ReactNode
 }
@@ -401,7 +412,7 @@ interface PropsRowEditPopupCard {
     searchRoot: any;
     buttons: any;
     newUnUsedTrigger: any;
-    callback?: { setState: React.Component['setState'] };
+    callback?: { setState: SetStateFunction };
 
 }
 interface StateRowEditPopupCard {
@@ -656,7 +667,7 @@ interface PropsMainActions {
     callback: CallbackFunctions;
 }
 interface CallbackFunctions {
-    setState: Function
+    setState: SetStateFunction
     updateNative: UpdateNativeFunction
 }
 interface PropsMainTriggerOverview {
@@ -684,7 +695,7 @@ interface PropsTableNavHeader {
 
 interface PropsTableNavHelper {
     state: any;
-    setState: ({ }) => void;
+    setState: SetStateFunction;
     data: any;
     popupHelperCard: any;
 }

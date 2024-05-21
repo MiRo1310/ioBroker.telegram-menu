@@ -36,7 +36,6 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			}
 		}
 		if (prevState.newRow !== this.state.newRow) {
-			console.log(this.state.newRow);
 			this.checkValueAlreadyUsed();
 		}
 	}

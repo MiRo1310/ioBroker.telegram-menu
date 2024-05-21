@@ -17,7 +17,6 @@ import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
 
 import { sortObjectByKey } from "@/lib/actionUtils";
 import { updatePositionDropBox } from "@/lib/movePosition";
-import { Properties } from "csstype";
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	constructor(props) {
 		const extendedProps = {

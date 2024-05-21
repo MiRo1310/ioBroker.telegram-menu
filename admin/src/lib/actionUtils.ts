@@ -1,5 +1,5 @@
 import React from "react";
-import { deepCopy, sortArray, deleteDoubleEntrysInArray } from "./Utils";
+import { deepCopy, sortArray, deleteDoubleEntriesInArray } from "./Utils";
 import { tabValues } from "./entries";
 
 function createData(element, index, rowElements) {
@@ -116,7 +116,7 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 			}
 		});
 	});
-	menusToSearchIn = deleteDoubleEntrysInArray(menusToSearchIn);
+	menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
 
 	// Trigger und Used Trigger finden
 	let usedTrigger: string[] = [];
@@ -141,7 +141,7 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 			if (index == data.nav[menu].length - 1) {
 				triggerObj.usedTrigger.nav[menu] = [...triggerArray];
 				// everyTriggers in Objekt einfügen für das Trigger overview ohne "-"
-				triggerObj.everyTrigger[menu] = deleteDoubleEntrysInArray([...triggerInMenu].filter((x) => x != "-")).sort();
+				triggerObj.everyTrigger[menu] = deleteDoubleEntriesInArray([...triggerInMenu].filter((x) => x != "-")).sort();
 				triggerArray.length = 0;
 			}
 		});
@@ -163,7 +163,7 @@ export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
 	});
 
 	// Doppelte Einträge in Triggers entfernen
-	if (Array.isArray(allTrigger)) allTrigger = deleteDoubleEntrysInArray(allTrigger);
+	if (Array.isArray(allTrigger)) allTrigger = deleteDoubleEntriesInArray(allTrigger);
 	// usedTrigger entfernen
 	let unUsedTrigger = allTrigger.filter((x) => !usedTrigger.includes(x));
 	// unUsedTrigger in Object einfügen
