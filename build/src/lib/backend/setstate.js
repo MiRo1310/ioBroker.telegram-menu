@@ -57,7 +57,7 @@ async function setstate(_this, part, userToSend, valueFromSubmenu, SubmenuValueP
                     const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
                     // Den Rest des Strings wieder anhängen
                     returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
-                    sendToTelegram(_this, userToSend, textToSend, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode);
+                    sendToTelegram(_this, userToSend, textToSend || "-", undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode);
                     _this.log.debug("JSON parse: " + JSON.stringify(returnObj));
                     setStateIds.push({
                         id: returnObj.id,

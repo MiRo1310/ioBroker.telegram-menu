@@ -1,11 +1,10 @@
-import React  from "react";
+import React from "react";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import { Grid, Tab, Box } from "@mui/material";
 import { I18n, AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "./lib/actionUtils";
 // import GenericApp from "@iobroker/adapter-react-v5/GenericApp"
-import GenericApp from "../GenericApp"
-
+import GenericApp from "../GenericApp";
 
 import HeaderIconBar from "./components/HeaderIconBar/HeaderIconBar";
 import Settings from "./pages/TabSettings/Settings";
@@ -24,8 +23,7 @@ import { navEntries } from "./lib/entries";
 import { sortObjectByKey } from "./lib/actionUtils";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave, updatePositionDropBox } from "./lib/movePosition";
 import { Properties } from "csstype";
-class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {	
-	
+class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	constructor(props) {
 		const extendedProps = {
 			...props,
@@ -74,12 +72,12 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 			dropBoxRight: 5,
 			dropDifferenzX: 0,
 			dropDifferenzY: 0,
-		}
+		};
 		this.handleChange = this.handleChange.bind(this);
 		this.setState = this.setState.bind(this);
 	}
 	handleResize = (e) => {
-		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox , this.state.native.dropbox);
+		updatePositionDropBox(null, null, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
 		updatePositionDropBox(this.newX, this.newY, this.dropboxRef, this.state.showDropBox, this.state.native.dropbox);
@@ -143,7 +141,7 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 	}
 	checkDoubleEntryInUsedTrigger = () => {
 		const usedTrigger = [...this.state.usedTrigger];
-		let doubleTrigger:string[] = [];
+		let doubleTrigger: string[] = [];
 		usedTrigger.forEach((element, index) => {
 			if (index !== usedTrigger.indexOf(element)) {
 				if (element != "-") doubleTrigger.push(element);
@@ -176,7 +174,7 @@ class App extends  GenericApp<AdditionalPropInfo,AdditionalStateInfo> {
 		if (!this.state.loaded) {
 			return super.render();
 		}
-		const tabBox:Properties<string | number, string & {}> = {
+		const tabBox: Properties<string | number, string & {}> = {
 			display: "flex",
 			flexDirection: "column",
 			height: "calc(100vh - 112px)",

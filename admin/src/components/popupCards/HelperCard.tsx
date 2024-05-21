@@ -12,8 +12,7 @@ import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
 
-
-class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
+class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -56,7 +55,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 								<TableCell align="left"></TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>							
+						<TableBody>
 							{this.state.rows[this.props.helperTextForInput].map((row, index) => (
 								<TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 									<TableCell component="td" scope="row">
@@ -76,6 +75,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 						</TableBody>
 					</Table>
 				</TableContainer>
+
 				<Textarea
 					width="99%"
 					value={this.props.editedValueFromHelperText.replace(/&amp;/g, "&")}
@@ -83,14 +83,14 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 					id="editedValueFromHelperText"
 					callback={this.props.setState}
 					callbackValue="event.target.value"
-					label="Text"
+					label=""
 					rows={4}
 				>
-					{["text", "set", "get", "value"].includes(this.props.val) ? <BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} /> : null}
+					{["nav", "text", "set", "get", "value"].includes(this.props.val) ? <BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} /> : null}
 				</Textarea>
 
 				{this.state.showSelectId ? (
-					<SelectID					
+					<SelectID
 						// style={{ zIndex: '11000' }}
 						key="tableSelect"
 						imagePrefix="../.."
@@ -99,7 +99,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard>{
 						socket={this.props.data.socket}
 						filters={{}}
 						// statesOnly={true}
-						classes={ {zIndex: '11000'} }
+						classes={{ zIndex: "11000" }}
 						selected={""}
 						onClose={() => this.setState({ showSelectId: false })}
 						onOk={(selected, name) => {
