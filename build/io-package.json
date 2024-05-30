@@ -121,16 +121,13 @@
             "zh-cn": "轻松创建电报菜单",
             "uk": "Легко створюйте меню Telegram"
         },
-        "authors": [
-            "MiRo1310 <michael.roling@gmx.de>"
-        ],
-        "keywords": [
-            "telegram",
-            "menu"
-        ],
-        "license": "MIT",
+        "authors": ["MiRo1310 <michael.roling@gmx.de>"],
+        "keywords": ["telegram", "menu"],
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
         "platform": "Javascript/Node.js",
-        "main": "build/src/main.js",
         "icon": "telegram-menu.png",
         "enabled": true,
         "messagebox": true,
@@ -139,6 +136,7 @@
         "loglevel": "info",
         "mode": "daemon",
         "type": "messaging",
+        "tier": 3,
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
@@ -160,10 +158,7 @@
             {
                 "condition": {
                     "operand": "and",
-                    "rules": [
-                        "oldVersion<1.0.0",
-                        "newVersion>=1.0.0"
-                    ]
+                    "rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -192,18 +187,12 @@
                     "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
                 },
                 "level": "warn",
-                "buttons": [
-                    "agree",
-                    "cancel"
-                ]
+                "buttons": ["agree", "cancel"]
             },
             {
                 "condition": {
                     "operand": "and",
-                    "rules": [
-                        "oldVersion<1.6.1",
-                        "newVersion>=1.6.1"
-                    ]
+                    "rules": ["oldVersion<1.6.1", "newVersion>=1.6.1"]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -232,18 +221,12 @@
                     "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
                 },
                 "level": "warn",
-                "buttons": [
-                    "agree",
-                    "cancel"
-                ]
+                "buttons": ["agree", "cancel"]
             },
             {
                 "condition": {
                     "operand": "and",
-                    "rules": [
-                        "oldVersion<1.6.3",
-                        "newVersion>=1.6.4"
-                    ]
+                    "rules": ["oldVersion<1.6.3", "newVersion>=1.6.4"]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -272,10 +255,7 @@
                     "zh-cn": "突破变化! 至少需要节点Js 18"
                 },
                 "level": "warn",
-                "buttons": [
-                    "agree",
-                    "cancel"
-                ]
+                "buttons": ["agree", "cancel"]
             }
         ]
     },
