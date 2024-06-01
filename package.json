@@ -36,7 +36,7 @@
     "@mui/icons-material": "^5.15.7",
     "@mui/lab": "^5.0.0-alpha.166",
     "@mui/material": "^5.15.14",
-    "@mui/styled-engine-sc": "^6.0.0-alpha.17",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/styles": "^5.14.16",
     "@tsconfig/node20": "^20.1.4",
     "@types/chai": "^4.3.14",
