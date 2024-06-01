@@ -35,7 +35,7 @@
     "@iobroker/testing": "^4.1.3",
     "@mui/icons-material": "^5.15.7",
     "@mui/lab": "^5.0.0-alpha.166",
-    "@mui/material": "^5.15.14",
+    "@mui/material": "^5.15.19",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/styles": "^5.14.16",
     "@tsconfig/node20": "^20.1.4",
