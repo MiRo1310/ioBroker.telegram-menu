@@ -55,11 +55,10 @@ export const updateTrigger = (value, props, setState, rowElements) => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const addNewRow = (index, props, rowElements, setState?) => {
+export const addNewRow = (props, rowElements, index: number, setState?) => {
 	let newRow;
-
-	if (index >= 0 && index != null) newRow = deepCopy(props.newRow);
-	else newRow = {};
+	if (index >= 0 && index != null) { newRow = deepCopy(props.newRow) }
+	else { newRow = {} };
 
 	rowElements.forEach((element) => {
 		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Properties } from "csstype";
 
-
 class Button extends Component<ButtonProps> {
 	eventOnclickButton = (event) => {
 		let value;
@@ -24,7 +23,7 @@ class Button extends Component<ButtonProps> {
 	};
 
 	render() {
-		const buttonStyle:Properties<string | number, string & {}> = {
+		const buttonStyle: Properties<string | number, string & {}> = {
 			backgroundColor: this.props.b_color || "#ddd",
 			color: this.props.color || "black",
 			padding: this.props.small === "true" ? "2px" : "8px 32px" || this.props.padding ? this.props.padding : "8px 32px",
@@ -48,8 +47,7 @@ class Button extends Component<ButtonProps> {
 				onClick={this.eventOnclickButton}
 				title={this.props.title}
 				name={this.props.name}
-				// ref={true}
-				disabled={this.props.disabled?true:false}
+				disabled={this.props.disabled ? true : false}
 				className={this.props.className}
 			>
 				<span>{this.props.children}</span>

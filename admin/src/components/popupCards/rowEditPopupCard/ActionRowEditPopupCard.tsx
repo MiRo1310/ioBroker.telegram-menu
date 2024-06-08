@@ -14,7 +14,15 @@ import { BtnCircleAdd } from "@/components/btn-Input/btn-circle-add";
 
 import { isChecked } from "@/lib/Utils.js";
 import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "@/lib/actionUtils.js";
-import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd } from "@/lib/dragNDrop.js";
+import {
+	handleMouseOut,
+	handleMouseOver,
+	handleDragStart,
+	handleDragOver,
+	handleDragEnter,
+	handleStyleDragOver,
+	handleDragEnd,
+} from "@/lib/dragNDrop.js";
 
 class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
 	constructor(props) {
@@ -48,7 +56,14 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 
 	handleDrop = (index) => {
 		if (index !== this.state.dropStart)
-			moveItem(this.state.dropStart, this.props, this.props.entries, this.setState.bind(this), this.props.entries, index - this.state.dropStart);
+			moveItem(
+				this.state.dropStart,
+				this.props,
+				this.props.entries,
+				this.setState.bind(this),
+				this.props.entries,
+				index - this.state.dropStart,
+			);
 	};
 
 	render() {
@@ -86,18 +101,20 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						<ActionEditHeader entries={this.props.entries} buttons={this.props.buttons} />
 						<TableBody>
 							{this.state.rows
-								? this.state.rows.map((row, index) => (
+								? this.state.rows.map((row, indexRow: number) => (
 										<TableRow
-											key={index}
+											key={indexRow}
 											sx={{ "&:last-child td, &:last-child td": { border: 0 } }}
 											draggable
-											onDrop={() => this.handleDrop(index)}
-											onDragStart={(event) => handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this))}
+											onDrop={() => this.handleDrop(indexRow)}
+											onDragStart={(event) =>
+												handleDragStart(indexRow, event, this.state.mouseOverNoneDraggable, this.setState.bind(this))
+											}
 											onDragEnd={() => handleDragEnd(this.setState.bind(this))}
-											onDragOver={(event) => handleDragOver(index, event)}
-											onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
-											onDragLeave={() => handleDragEnter(index, this.setState.bind(this))}
-											style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
+											onDragOver={(event) => handleDragOver(indexRow, event)}
+											onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
+											onDragLeave={() => handleDragEnter(indexRow, this.setState.bind(this))}
+											style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
 										>
 											{row.IDs || row.IDs === "" ? (
 												<TableCell component="td" scope="row" align="left">
@@ -110,7 +127,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 															value={row.IDs}
 															margin="0px 2px 0 2px"
 															id="IDs"
-															index={index}
+															index={indexRow}
 															callback={this.updateData}
 															callbackValue="event.target.value"
 															function="manual"
@@ -119,7 +136,14 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 													</span>
 
 													<BtnSmallSearch
-														callback={() => this.setState({ showSelectId: true, selectIdValue: row.IDs, indexID: index, itemForID: "IDs" })}
+														callback={() =>
+															this.setState({
+																showSelectId: true,
+																selectIdValue: row.IDs,
+																indexID: indexRow,
+																itemForID: "IDs",
+															})
+														}
 													/>
 												</TableCell>
 											) : null}
@@ -131,12 +155,16 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 															value={typeof row[entry.name] === "string" ? row[entry.name].replace(/&amp;/g, "&") : ""}
 															margin="0px 2px 0 5px"
 															id={entry.name}
-															index={index}
+															index={indexRow}
 															callback={this.updateData}
 															callbackValue="event.target.value"
 															function="manual"
 															type={entry.type}
-															inputWidth={!entry.search || entry.name === "returnText" || entry.name === "text" ? "calc(100% - 28px)" : ""}
+															inputWidth={
+																!entry.search || entry.name === "returnText" || entry.name === "text"
+																	? "calc(100% - 28px)"
+																	: ""
+															}
 															className="noneDraggable"
 															onMouseOver={handleMouseOver}
 															onMouseLeave={handleMouseOut}
@@ -144,7 +172,11 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 														>
 															{entry.btnCircleAdd ? (
 																<BtnCircleAdd
-																	callbackValue={{ index: index, entry: entry.name, subCard: this.props.subCard }}
+																	callbackValue={{
+																		index: indexRow,
+																		entry: entry.name,
+																		subCard: this.props.subCard,
+																	}}
 																	callback={this.props.openHelperText}
 																></BtnCircleAdd>
 															) : null}
@@ -152,7 +184,12 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 														{entry.search ? (
 															<BtnSmallSearch
 																callback={() =>
-																	this.setState({ showSelectId: true, selectIdValue: row[entry.name], indexID: index, itemForID: entry.name })
+																	this.setState({
+																		showSelectId: true,
+																		selectIdValue: row[entry.name],
+																		indexID: indexRow,
+																		itemForID: entry.name,
+																	})
 																}
 															/>
 														) : null}
@@ -161,7 +198,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 													<TableCell align="left" className="checkbox" key={i}>
 														<Checkbox
 															id={entry.name}
-															index={index}
+															index={indexRow}
 															callback={this.updateData}
 															callbackValue="event"
 															isChecked={isChecked(row[entry.name])}
@@ -173,14 +210,25 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 
 											{this.props.buttons.add ? (
 												<TableCell align="center" className="cellIcon">
-													<BtnSmallAdd callback={(index) => addNewRow(index, this.props, this.props.entries, this.setState.bind(this))} index={index} />
+													<BtnSmallAdd
+														index={indexRow}
+														callback={() => addNewRow(this.props, this.props.entries, indexRow, this.setState.bind(this))}
+													/>
 												</TableCell>
 											) : null}
 											{this.props.buttons.remove ? (
 												<TableCell align="center" className="cellIcon">
 													<BtnSmallRemove
-														callback={(index) => deleteRow(index, this.props, this.props.entries, this.setState.bind(this), this.props.entries)}
-														index={index}
+														callback={(index) =>
+															deleteRow(
+																index,
+																this.props,
+																this.props.entries,
+																this.setState.bind(this),
+																this.props.entries,
+															)
+														}
+														index={indexRow}
 														disabled={this.state.rows.length == 1 ? "disabled" : ""}
 													/>
 												</TableCell>
