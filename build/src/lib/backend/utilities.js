@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getChatID = exports.replaceAll = exports.decomposeText = exports.processTimeValue = exports.processTimeIdLc = exports.newLine = exports.changeValue = exports.checkTypeOfId = exports.checkStatusInfo = void 0;
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 const global_1 = require("./global");
 Object.defineProperty(exports, "replaceAll", { enumerable: true, get: function () { return global_1.replaceAll; } });
 const logging_1 = require("./logging");

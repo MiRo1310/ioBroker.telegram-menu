@@ -1,6 +1,6 @@
-import { debug, error } from "@backend/lib/backend/logging";
+import { debug, error } from "./logging";
 import { newLine, getChatID, checkStatusInfo } from "./utilities";
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 
 async function sendToTelegram(
 	user = "",

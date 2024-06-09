@@ -2,7 +2,7 @@ import { sendToTelegram } from "./telegram";
 import { replaceAll } from "./utilities";
 import { exec } from "child_process";
 import { debug, error } from "./logging";
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 
 function sendPic(
 	part: Part,

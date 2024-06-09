@@ -4,7 +4,7 @@ import { createKeyboardFromJson, createTextTableFromJson } from "./jsonTable";
 import { processTimeIdLc, processTimeValue, changeValue } from "./utilities";
 import { decomposeText } from "./global";
 import { debug } from "./logging";
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 
 function getState(
 	part: Part,

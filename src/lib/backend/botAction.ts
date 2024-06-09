@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { debug, error } from "./logging";
 
 const deleteMessageByBot = async (

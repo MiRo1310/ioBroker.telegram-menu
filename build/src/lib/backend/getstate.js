@@ -10,7 +10,7 @@ const jsonTable_1 = require("./jsonTable");
 const utilities_1 = require("./utilities");
 const global_1 = require("./global");
 const logging_1 = require("./logging");
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
     const _this = main_1.default.getInstance();
     let text = "";

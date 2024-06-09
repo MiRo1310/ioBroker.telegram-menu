@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { error } from "./logging";
 import { sendToTelegram } from "./telegram";
 function getChart(

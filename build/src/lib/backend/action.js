@@ -10,9 +10,9 @@ const subMenu_js_1 = require("./subMenu.js");
 const sendNav_js_1 = require("./sendNav.js");
 const backMenu_js_1 = require("./backMenu.js");
 const logging_js_1 = require("./logging.js");
-const main_js_1 = __importDefault(require("@backend/main.js"));
+const main_1 = __importDefault(require("../../main"));
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
-    const _this = main_js_1.default.getInstance();
+    const _this = main_1.default.getInstance();
     let value;
     try {
         const substring = (0, global_1.decomposeText)(text, "binding:", "}").substring;

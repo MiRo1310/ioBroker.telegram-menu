@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMessageIds = exports.saveMessageIds = void 0;
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 const botAction_1 = require("./botAction");
 const utilities_1 = require("./utilities");
 const logging_1 = require("./logging");

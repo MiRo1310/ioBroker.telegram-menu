@@ -3,7 +3,7 @@ import { createKeyboardFromJson } from "./jsonTable.js";
 import { sendToTelegramSubmenu, sendToTelegram } from "./telegram.js";
 import { _subscribeAndUnSubscribeForeignStatesAsync } from "./subscribeStates.js";
 import { debug, error } from "./logging.js";
-import TelegramMenu from "@backend/main.js";
+import TelegramMenu from "../../main.js";
 
 interface ObjectData {
 	[key: string]: {

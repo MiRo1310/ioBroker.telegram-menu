@@ -8,7 +8,7 @@ const telegram_1 = require("./telegram");
 const utilities_1 = require("./utilities");
 const child_process_1 = require("child_process");
 const logging_1 = require("./logging");
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
     part.sendPic?.forEach((element) => {
         const _this = main_1.default.getInstance();

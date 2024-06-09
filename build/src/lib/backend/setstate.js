@@ -8,7 +8,7 @@ const telegram_1 = require("./telegram");
 const utilities_1 = require("./utilities");
 const dynamicValue_1 = require("./dynamicValue");
 const global_1 = require("./global");
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 const logging_1 = require("./logging");
 const modifiedValue = (valueFromSubmenu, value) => {
     if (value && typeof value === "string" && value.includes("{value}")) {

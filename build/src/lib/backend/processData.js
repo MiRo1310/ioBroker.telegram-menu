@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkEveryMenuForData = exports.getTimeouts = exports.getStateIdsToListenTo = void 0;
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 const telegram_1 = require("./telegram");
 const sendNav_1 = require("./sendNav");
 const subMenu_1 = require("./subMenu");
@@ -18,7 +18,7 @@ const action_1 = require("./action");
 const subscribeStates_1 = require("./subscribeStates");
 const echarts_1 = require("./echarts");
 const httpRequest_1 = require("./httpRequest");
-const logging_1 = require("@backend/lib/backend/logging");
+const logging_1 = require("./logging");
 let setStateIdsToListenTo = [];
 let timeouts = [];
 async function checkEveryMenuForData(obj) {

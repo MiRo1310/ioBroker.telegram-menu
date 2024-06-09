@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendLocationToTelegram = exports.sendToTelegramSubmenu = exports.sendToTelegram = void 0;
-const logging_1 = require("@backend/lib/backend/logging");
+const logging_1 = require("./logging");
 const utilities_1 = require("./utilities");
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "telegram.0", resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode) {
     try {
         const _this = main_1.default.getInstance();

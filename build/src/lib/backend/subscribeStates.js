@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports._subscribeForeignStatesAsync = exports._subscribeAndUnSubscribeForeignStatesAsync = void 0;
-const main_1 = __importDefault(require("@backend/main"));
+const main_1 = __importDefault(require("../../main"));
 const global_1 = require("./global");
 const logging_1 = require("./logging");
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {

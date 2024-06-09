@@ -9,7 +9,7 @@ const jsonTable_js_1 = require("./jsonTable.js");
 const telegram_js_1 = require("./telegram.js");
 const subscribeStates_js_1 = require("./subscribeStates.js");
 const logging_js_1 = require("./logging.js");
-const main_js_1 = __importDefault(require("@backend/main.js"));
+const main_js_1 = __importDefault(require("../../main.js"));
 const objData = {};
 async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
     const _this = main_js_1.default.getInstance();

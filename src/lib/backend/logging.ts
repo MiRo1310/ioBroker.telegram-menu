@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../..//main";
 
 interface LoggingTypes {
 	text?: string;

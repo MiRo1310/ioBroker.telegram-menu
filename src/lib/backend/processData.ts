@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { sendToTelegram } from "./telegram";
 import { sendNav } from "./sendNav";
 import { callSubMenu } from "./subMenu";
@@ -12,7 +12,7 @@ import { adjustValueType } from "./action";
 import { _subscribeAndUnSubscribeForeignStatesAsync } from "./subscribeStates";
 import { getChart } from "./echarts";
 import { httpRequest } from "./httpRequest";
-import { debug, error } from "@backend/lib/backend/logging";
+import { debug, error } from "./logging";
 
 let setStateIdsToListenTo: SetStateIds[] = [];
 let timeouts: Timeouts[] = [];

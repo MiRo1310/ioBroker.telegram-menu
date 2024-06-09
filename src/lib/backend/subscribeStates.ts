@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { deleteDoubleEntriesInArray } from "./global";
 import { debug } from "./logging";
 

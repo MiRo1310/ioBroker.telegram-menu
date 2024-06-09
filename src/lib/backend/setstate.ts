@@ -2,7 +2,7 @@ import { sendToTelegram } from "./telegram";
 import { checkTypeOfId } from "./utilities";
 import { setDynamicValue } from "./dynamicValue";
 import { decomposeText } from "./global";
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { debug, error } from "./logging";
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {

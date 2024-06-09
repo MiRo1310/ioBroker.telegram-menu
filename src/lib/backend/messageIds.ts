@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { deleteMessageByBot } from "./botAction";
 import { getChatID } from "./utilities";
 import { error } from "./logging";

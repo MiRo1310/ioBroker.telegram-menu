@@ -4,7 +4,7 @@ import { callSubMenu } from "./subMenu.js";
 import { sendNav } from "./sendNav.js";
 import { backMenuFunc } from "./backMenu.js";
 import { debug, error } from "./logging.js";
-import TelegramMenu from "@backend/main.js";
+import TelegramMenu from "../../main";
 
 const bindingFunc = async (
 	text: string,

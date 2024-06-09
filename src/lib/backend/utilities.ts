@@ -1,4 +1,4 @@
-import TelegramMenu from "@backend/main";
+import TelegramMenu from "../../main";
 import { isJSON, replaceAll } from "./global";
 import { debug, error } from "./logging";
 
