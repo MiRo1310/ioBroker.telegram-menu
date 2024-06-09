@@ -10,14 +10,13 @@ type Logging = "debug" | "error" | "info";
 const logging = (type: Logging, obj: LoggingTypes[]): void => {
 	const _this = TelegramMenu.getInstance();
 	if (obj) {
-
 		obj.forEach((element) => {
-			let text: string = ""
+			let text: string = "";
 			if (element.text) {
-				text = element.text
+				text = element.text;
 			}
 			if (element.val) {
-				text += " " + JSON.stringify(element.val)
+				text += " " + JSON.stringify(element.val);
 			}
 			_this.log[type](text);
 		});

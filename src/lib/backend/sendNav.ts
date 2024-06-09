@@ -29,7 +29,10 @@ async function sendNav(
 			);
 		}
 	} catch (e: any) {
-		error([{ text: "Error sendNav:", val: e.message }, { text: "Stack:", val: e.stack }]);
+		error([
+			{ text: "Error sendNav:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
 export { sendNav };

@@ -15,7 +15,10 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
         }
     }
     catch (e) {
-        (0, console_1.error)([{ text: "Error sendNav:", val: e.message }, { text: "Stack:", val: e.stack }]);
+        (0, console_1.error)([
+            { text: "Error sendNav:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 }
 exports.sendNav = sendNav;

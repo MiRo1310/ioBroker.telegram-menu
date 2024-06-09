@@ -179,16 +179,12 @@ const checkStatus = (text: string, processTimeValue?: ProzessTimeValue): Promise
 				}
 			}
 			if (stateValue.val === undefined || stateValue.val === null) {
-				debug([
-					{ text: "Id", val: id },
-					{ text: "Value is null or undefined!" },
-				]);
+				debug([{ text: "Id", val: id }, { text: "Value is null or undefined!" }]);
 				return resolve(text.replace(substring, ""));
-
 			}
 			if (!valueChange) {
 				resolve(text.replace(substring, stateValue.val.toString()));
-				return
+				return;
 			}
 			const changedResult = changeValue(text, stateValue.val);
 			let newValue;
@@ -199,15 +195,14 @@ const checkStatus = (text: string, processTimeValue?: ProzessTimeValue): Promise
 				newValue = stateValue.val;
 			}
 			resolve(text.replace(substring, newValue.toString()));
-		}
-		catch (e: any) {
+		} catch (e: any) {
 			error([
 				{ text: "Error checkStatus:", val: e.message },
 				{ text: "Stack:", val: e.stack },
 			]);
 		}
-	})
-}
+	});
+};
 
 const checkStatusInfo = async (text: string): Promise<string | undefined> => {
 	const _this = TelegramMenu.getInstance();
@@ -239,8 +234,8 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
 			}
 		}
 		if (text) {
-			return text
-		};
+			return text;
+		}
 	} catch (e: any) {
 		error([
 			{ text: "Error checkStatusInfo:", val: e.message },

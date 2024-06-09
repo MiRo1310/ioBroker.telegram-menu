@@ -177,10 +177,7 @@ const checkStatus = (text, processTimeValue) => {
                 }
             }
             if (stateValue.val === undefined || stateValue.val === null) {
-                (0, logging_1.debug)([
-                    { text: "Id", val: id },
-                    { text: "Value is null or undefined!" },
-                ]);
+                (0, logging_1.debug)([{ text: "Id", val: id }, { text: "Value is null or undefined!" }]);
                 return resolve(text.replace(substring, ""));
             }
             if (!valueChange) {
@@ -235,7 +232,6 @@ const checkStatusInfo = async (text) => {
         if (text) {
             return text;
         }
-        ;
     }
     catch (e) {
         (0, logging_1.error)([

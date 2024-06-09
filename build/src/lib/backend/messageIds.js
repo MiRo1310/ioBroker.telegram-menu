@@ -24,10 +24,9 @@ async function saveMessageIds(state, instanceTelegram) {
             if (typeof requestUserIdObj.val === "string" && !requestMessageId[requestUserIdObj.val]) {
                 requestMessageId[requestUserIdObj.val] = [];
             }
-            if (typeof requestUserIdObj.val === "string") {
-                requestMessageId[requestUserIdObj.val].push({ id: state.val, time: Date.now() });
-                requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val);
-            }
+            requestMessageId[requestUserIdObj.val.toString()].push({ id: state.val, time: Date.now() });
+            requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
+            _this.setStateAsync("communication.requestIds", JSON.stringify(requestMessageId), true);
         }
     }
     catch (e) {
