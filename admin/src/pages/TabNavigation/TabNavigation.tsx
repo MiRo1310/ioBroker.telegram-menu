@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Table, TableContainer, Paper, Tab } from "@mui/material";
-
+import { Table, TableContainer, Paper } from "@mui/material";
 import TableNavBody from "@/pages/TabNavigation/nav/TableNavBody";
 import TabNavHeader from "./nav/TableNavHeader";
 import TableNavEditRow from "./nav/TableNavEditRow";
@@ -27,7 +26,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			text: "",
 		};
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(_, prevState) {
 		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
 			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
 				if (this.state.editedValueFromHelperText !== "") {
@@ -110,7 +109,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 	popupHelperCard = (isOK) => {
 		if (isOK) {
 			const copyNewRow = deepCopy(this.state.newRow);
-			let name = this.state.helperTextFor;
+			const name = this.state.helperTextFor;
 			copyNewRow[name] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: copyNewRow });
 		}
@@ -138,10 +137,21 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (
-					<TableNavEditRow state={this.state} setState={this.setState.bind(this)} data={this.props.data} entries={this.props.entries} popupRowCard={this.popupRowCard} />
+					<TableNavEditRow
+						state={this.state}
+						setState={this.setState.bind(this)}
+						data={this.props.data}
+						entries={this.props.entries}
+						popupRowCard={this.popupRowCard}
+					/>
 				) : null}
 				{this.state.helperText ? (
-					<TableNavHelper state={this.state} setState={this.setState.bind(this)} data={this.props.data} popupHelperCard={this.popupHelperCard} />
+					<TableNavHelper
+						state={this.state}
+						setState={this.setState.bind(this)}
+						data={this.props.data}
+						popupHelperCard={this.popupHelperCard}
+					/>
 				) : null}
 			</>
 		);

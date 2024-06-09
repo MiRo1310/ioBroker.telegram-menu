@@ -3,8 +3,7 @@ import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { handleMouseOut, handleMouseOver } from "../../../../../lib/dragNDrop.js";
 import { getElementIcon } from "../../../../../lib/actionUtils.js";
 
-
-class SubTable extends Component<PropsSubTable>{
+class SubTable extends Component<PropsSubTable> {
 	render() {
 		return (
 			<Table>
@@ -16,8 +15,8 @@ class SubTable extends Component<PropsSubTable>{
 										<span
 											draggable={false}
 											className="noneDraggable"
-											onMouseOver={(e) => handleMouseOver(e, this.props.setState)}
-											onMouseLeave={(e) => handleMouseOut(e, this.props.setState)}
+											onMouseOver={(e) => handleMouseOver(e)}
+											onMouseLeave={(e) => handleMouseOut(e)}
 										>
 											{this.props.name != "values" ? getElementIcon(element, this.props.entry) : element}
 										</span>

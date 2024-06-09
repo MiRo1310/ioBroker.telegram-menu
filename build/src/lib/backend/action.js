@@ -1,28 +1,21 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { sendToTelegram } = require("./telegram.js");
-const { decomposeText } = require("./global");
-const { callSubMenu } = require("./subMenu.js");
-const { sendNav } = require("./sendNav.js");
-const { backMenuFunc } = require("./backMenu.js");
-/**
- *
- * @param {*} _this
- * @param {*} id
- * @param {*} text
- * @param {*} userToSend
- * @param {*} newline
- * @param {*} telegramInstance
- * @param {*} one_time_keyboard
- * @param {*} resize_keyboard
- * @param {*} userListWithChatID
- * @param {*} parse_mode
- */
-const bindingFunc = async (_this, id, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
-    // Zusätzlicher Import da auf die Funktion sendToTelegram nicht  zugegriffen werden kann, die ausserhalb definiert wurde, keine Ahnung warum
+exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.insertValueInPosition = exports.bindingFunc = exports.roundValue = exports.calcValue = exports.generateActions = exports.generateNewObjectStructure = exports.idBySelector = exports.editArrayButtons = void 0;
+const telegram_js_1 = require("./telegram.js");
+const global_1 = require("./global");
+const subMenu_js_1 = require("./subMenu.js");
+const sendNav_js_1 = require("./sendNav.js");
+const backMenu_js_1 = require("./backMenu.js");
+const logging_js_1 = require("./logging.js");
+const main_js_1 = __importDefault(require("@backend/main.js"));
+const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
+    const _this = main_js_1.default.getInstance();
     let value;
     try {
-        const substring = decomposeText(text, "binding:", "}").substring;
+        const substring = (0, global_1.decomposeText)(text, "binding:", "}").substring;
         const arrayOfItems = substring.replace("binding:{", "").replace("}", "").split(";");
         const bindingObject = {
             values: {},
@@ -32,7 +25,9 @@ const bindingFunc = async (_this, id, text, userToSend, newline, telegramInstanc
                 const key = item.split(":")[0];
                 const id = item.split(":")[1];
                 const result = await _this.getForeignStateAsync(id);
-                bindingObject.values[key] = result.val;
+                if (result) {
+                    bindingObject.values[key] = result.val?.toString() || "";
+                }
             }
             else {
                 Object.keys(bindingObject.values).forEach(function (key) {
@@ -41,19 +36,16 @@ const bindingFunc = async (_this, id, text, userToSend, newline, telegramInstanc
                 value = eval(item);
             }
         }
-        sendToTelegram(_this, userToSend, value, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+        (0, telegram_js_1.sendToTelegram)(userToSend, value, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
     }
-    catch (error) {
-        _this.log.error("Error " + JSON.stringify(error.message));
-        _this.log.error(JSON.stringify(error.stack));
+    catch (e) {
+        (0, logging_js_1.error)([
+            { text: "Error:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 };
-/**
- * Calculates Value with the Value in {math:} from textToSend
- * @param {string} textToSend Text to send to user
- * @param {string} val Value to calculate with
- * @returns {object} textToSend and val
- */
+exports.bindingFunc = bindingFunc;
 function calcValue(_this, textToSend, val) {
     const startindex = textToSend.indexOf("{math");
     const endindex = textToSend.indexOf("}", startindex);
@@ -61,33 +53,27 @@ function calcValue(_this, textToSend, val) {
     const mathValue = substring.replace("{math:", "").replace("}", "");
     try {
         val = eval(val + mathValue);
+        textToSend = textToSend.replace(substring, "");
+        return { textToSend: textToSend, val: val };
     }
     catch (e) {
-        _this.log.error("Error Eval" + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_js_1.error)([
+            { text: "Error Eval:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
-    textToSend = textToSend.replace(substring, "");
-    return { textToSend: textToSend, val: val };
 }
-/**
- * Adds && to the line if not exists to display the buttons in one line
- * @param {string} text Text to convert to Navigation Arrays
- * @returns {string}
- */
+exports.calcValue = calcValue;
 function checkValueForOneLine(text) {
-    if (!text.includes("&&"))
+    if (!text.includes("&&")) {
         return text + "&&";
+    }
     return text;
 }
-/**
- * Generate Array
- * @param {object[]} val
- * @param {*} _this
- * @returns  Arrays with Buttons
- */
 async function editArrayButtons(val, _this) {
+    const newVal = [];
     try {
-        val.forEach((element, key) => {
+        val.forEach((element) => {
             let value = "";
             if (typeof element.value === "string") {
                 value = checkValueForOneLine(element.value);
@@ -112,99 +98,86 @@ async function editArrayButtons(val, _this) {
                     });
                 }
             }
-            //REVIEW - Changed			
-            val[key].value = array;
+            newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
         });
-        return val;
+        return newVal;
     }
     catch (err) {
-        _this.log.error("Error EditArray: " + JSON.stringify(err.message));
-        _this.log.error(JSON.stringify(err.stack));
+        (0, logging_js_1.error)([
+            { text: "Error EditArray:", val: err.message },
+            { text: "Stack:", val: err.stack },
+        ]);
+        return null;
     }
 }
-// ID by Selector Auswerten
-/**
- *
- * @param {*} _this
- * @param {string} selector Selector
- * @param {string} text Text to send
- * @param {string} userToSend User to send
- * @param {string} newline Newline
- */
+exports.editArrayButtons = editArrayButtons;
 const idBySelector = async (_this, selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) => {
     let text2Send = "";
     try {
-        if (selector.includes("functions")) {
-            const functions = selector.replace("functions=", "");
-            let enums = [];
-            const result = await _this.getEnumsAsync();
-            if (result && result["enum.functions"][`enum.functions.${functions}`]) {
-                enums = result["enum.functions"][`enum.functions.${functions}`].common.members;
-                if (enums) {
-                    const promises = enums.map(async (id) => {
-                        try {
-                            const value = await _this.getForeignStateAsync(id);
-                            if (value && value.val) {
-                                _this.log.debug("Value " + JSON.stringify(value.val));
-                                _this.log.debug("text " + JSON.stringify(text));
-                                let newText = text;
-                                let name;
-                                if (text.includes("{common.name}")) {
-                                    name = await _this.getForeignObjectAsync(id);
-                                    _this.log.debug("Name " + JSON.stringify(name));
-                                    if (name && name.common.name)
-                                        newText = newText.replace("{common.name}", name.common.name);
-                                }
-                                if (text.includes("&amp;&amp;"))
-                                    text2Send += newText.replace("&amp;&amp;", value.val);
-                                else {
-                                    text2Send += newText;
-                                    text2Send += " " + value.val;
-                                }
-                            }
-                            if (newline == "true")
-                                text2Send += "\n";
-                            else
-                                text2Send += " ";
-                            _this.log.debug("text2send " + JSON.stringify(text2Send));
-                        }
-                        catch (e) {
-                            _this.log.error("Error Promise: " + JSON.stringify(e.message));
-                            _this.log.error(JSON.stringify(e.stack));
-                        }
-                    });
-                    Promise.all(promises)
-                        .then(() => {
-                        _this.log.debug("textToSend " + JSON.stringify(text2Send));
-                        _this.log.debug("userToSend " + JSON.stringify(userToSend));
-                        sendToTelegram(_this, userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
-                    })
-                        .catch((e) => {
-                        _this.log.error("Error Promise: " + JSON.stringify(e.message));
-                        _this.log.error(JSON.stringify(e.stack));
-                    });
+        if (!selector.includes("functions")) {
+            return;
+        }
+        const functions = selector.replace("functions=", "");
+        let enums = [];
+        const result = await _this.getEnumsAsync();
+        if (!result || !result["enum.functions"][`enum.functions.${functions}`]) {
+            return;
+        }
+        enums = result["enum.functions"][`enum.functions.${functions}`].common.members;
+        if (!enums) {
+            return;
+        }
+        const promises = enums.map(async (id) => {
+            const value = await _this.getForeignStateAsync(id);
+            if (value && value.val) {
+                let newText = text;
+                let name;
+                if (text.includes("{common.name}")) {
+                    name = await _this.getForeignObjectAsync(id);
+                    _this.log.debug("Name " + JSON.stringify(name));
+                    if (name && name.common.name)
+                        newText = newText.replace("{common.name}", name.common.name);
+                }
+                if (text.includes("&amp;&amp;"))
+                    text2Send += newText.replace("&amp;&amp;", value.val);
+                else {
+                    text2Send += newText;
+                    text2Send += " " + value.val;
                 }
             }
-        }
+            if (newline == "true")
+                text2Send += "\n";
+            else
+                text2Send += " ";
+            _this.log.debug("text2send " + JSON.stringify(text2Send));
+        });
+        Promise.all(promises)
+            .then(() => {
+            _this.log.debug("textToSend " + JSON.stringify(text2Send));
+            _this.log.debug("userToSend " + JSON.stringify(userToSend));
+            (0, telegram_js_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
+        })
+            .catch((e) => {
+            _this.log.error("Error Promise: " + JSON.stringify(e.message));
+            _this.log.error(JSON.stringify(e.stack));
+        });
     }
     catch (error) {
         _this.log.error("Error " + JSON.stringify(error.message));
         _this.log.error(JSON.stringify(error.stack));
     }
 };
-/**
- *
- * @param {*} _this
- * @param {array} val Array with Objects
- * @returns Object with new Structure
- */
-async function generateNewObjectStructure(_this, val) {
+exports.idBySelector = idBySelector;
+async function generateNewObjectStructure(val) {
     try {
+        if (!val) {
+            return null;
+        }
         const obj = {};
         val.forEach(function (element) {
             const call = element.call;
             obj[call] = {
-                nav: element.value,
+                nav: element.nav,
                 text: element.text,
                 parse_mode: element.parse_mode == "true" || element.parse_mode == "false" ? element.parse_mode : "false",
             };
@@ -212,17 +185,15 @@ async function generateNewObjectStructure(_this, val) {
         return obj;
     }
     catch (err) {
-        _this.log.error("Error GenerateNewObjectStructure " + JSON.stringify(err.message));
-        _this.log.error(JSON.stringify(err.stack));
+        (0, logging_js_1.error)([
+            { text: "Error GenerateNewObjectStructure:", val: err.message },
+            { text: "Stack:", val: err.stack },
+        ]);
+        return null;
     }
 }
-/**
- *	Generate Actions
- * @param {object} action Object with Actions
- * @param {object} userObject Object from User with generated Navigation
- * @returns {object} Object with Actions and IDs
- */
-function generateActions(_this, action, userObject) {
+exports.generateNewObjectStructure = generateNewObjectStructure;
+function generateActions(action, userObject) {
     try {
         const arrayOfEntries = [
             {
@@ -231,8 +202,18 @@ function generateActions(_this, action, userObject) {
                 loop: "preset",
                 elements: [{ name: "preset" }, { name: "echartInstance" }, { name: "background" }, { name: "theme" }, { name: "filename" }],
             },
-            { objName: "loc", name: "location", loop: "latitude", elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", key: 0 }] },
-            { objName: "pic", name: "sendPic", loop: "IDs", elements: [{ name: "id", value: "IDs" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }] },
+            {
+                objName: "loc",
+                name: "location",
+                loop: "latitude",
+                elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", key: 0 }],
+            },
+            {
+                objName: "pic",
+                name: "sendPic",
+                loop: "IDs",
+                elements: [{ name: "id", value: "IDs" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }],
+            },
             {
                 objName: "get",
                 name: "getData",
@@ -251,7 +232,6 @@ function generateActions(_this, action, userObject) {
                 elements: [{ name: "url" }, { name: "user" }, { name: "password" }, { name: "filename" }],
             },
         ];
-        _this.log.debug("action : " + JSON.stringify(action));
         const listOfSetStateIds = [];
         action.set.forEach(function (element, key) {
             if (key == 0)
@@ -277,7 +257,7 @@ function generateActions(_this, action, userObject) {
                     ack: element.ack ? element.ack[index] : false,
                     parse_mode: element.parse_mode ? element.parse_mode[0] : false,
                 };
-                if (userObject[element.trigger]?.switch) {
+                if (userObject[element.trigger] && userObject[element.trigger]?.switch) {
                     userObject[element.trigger].switch.push(newObj);
                 }
             });
@@ -306,8 +286,9 @@ function generateActions(_this, action, userObject) {
                             else
                                 newObj[name] = val;
                         });
-                        // @ts-ignore
-                        userObject[element.trigger][item?.name].push(newObj);
+                        if (item.name && typeof item.name === "string") {
+                            userObject[element.trigger][item?.name].push(newObj);
+                        }
                     });
                 });
             }
@@ -315,37 +296,44 @@ function generateActions(_this, action, userObject) {
         return { obj: userObject, ids: listOfSetStateIds };
     }
     catch (err) {
-        _this.log.error("Error generateActions" + JSON.stringify(err.message));
-        _this.log.error(JSON.stringify(err.stack));
+        (0, logging_js_1.error)([
+            { text: "Error generateActions:", val: err.message },
+            { text: "Stack:", val: err.stack },
+        ]);
     }
 }
-function roundValue(_this, val, textToSend) {
+exports.generateActions = generateActions;
+function roundValue(val, textToSend) {
     try {
         const floatedNumber = parseFloat(val);
-        const result = decomposeText(textToSend, "{round:", "}");
+        const result = (0, global_1.decomposeText)(textToSend, "{round:", "}");
         const substring = result.substring;
         const decimalPlaces = substring.split(":")[1].replace("}", "");
         const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
         return { val: floatedString, textToSend: result.textWithoutSubstring };
     }
     catch (err) {
-        _this.log.error("Error roundValue" + JSON.stringify(err.message));
-        _this.log.error(JSON.stringify(err.stack));
+        (0, logging_js_1.error)([
+            { text: "Error roundValue:", val: err.message },
+            { text: "Stack:", val: err.stack },
+        ]);
     }
 }
+exports.roundValue = roundValue;
 const insertValueInPosition = (textToSend, text) => {
     let searchString = "";
-    if (textToSend.includes("&&"))
+    if (textToSend.includes("&&")) {
         searchString = "&&";
-    else
-        searchString = "&amp;&amp;";
-    textToSend.toString().indexOf(searchString) != -1 ? (textToSend = textToSend.replace(searchString, text)) : (textToSend += " " + text);
+    }
+    searchString = "&amp;&amp;";
+    textToSend.toString().indexOf(searchString) != -1 ? (textToSend = textToSend.replace(searchString, text.toString())) : (textToSend += " " + text);
     return textToSend;
 };
-const adjustValueType = (_this, value, valueType) => {
+exports.insertValueInPosition = insertValueInPosition;
+const adjustValueType = (value, valueType) => {
     if (valueType == "number") {
         if (!parseFloat(value)) {
-            _this.log.error(`Error: Value is not a number, value: ${value}`);
+            (0, logging_js_1.error)([{ text: "Error: Value is not a number:", val: value }]);
             return false;
         }
         else
@@ -354,17 +342,17 @@ const adjustValueType = (_this, value, valueType) => {
     else if (valueType == "boolean") {
         if (value == "true")
             return true;
-        else if (value == "false")
-            return false;
-        else {
-            _this.log.error(`Error: Value is not a boolean, value: ${value}`);
+        else if (value == "false") {
             return false;
         }
+        (0, logging_js_1.error)([{ text: "Error: Value is not a boolean:", val: value }]);
+        return false;
     }
     else
         return value;
 };
-const checkEvent = (dataObject, id, state, menuData, _this, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
+exports.adjustValueType = adjustValueType;
+const checkEvent = (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
     const menuArray = [];
     let ok = false;
     let calledNav = "";
@@ -403,12 +391,14 @@ const checkEvent = (dataObject, id, state, menuData, _this, userListWithChatID, 
                     usersInGroup[menu].forEach((user) => {
                         const part = menuData.data[menu][calledNav];
                         const menus = Object.keys(menuData.data);
-                        backMenuFunc(_this, calledNav, part.nav, user);
-                        if (part && JSON.stringify(part.nav[0]).includes("menu:")) {
-                            callSubMenu(_this, JSON.stringify(part.nav[0]), menuData.data[menu], user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData.data, menus, null);
+                        if (part.nav) {
+                            (0, backMenu_js_1.backMenuFunc)(calledNav, part.nav, user);
+                        }
+                        if (part && part.nav && JSON.stringify(part?.nav[0]).includes("menu:")) {
+                            (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData.data, menus, null);
                         }
                         else {
-                            sendNav(_this, part, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+                            (0, sendNav_js_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
                         }
                     });
                 }
@@ -417,16 +407,31 @@ const checkEvent = (dataObject, id, state, menuData, _this, userListWithChatID, 
     }
     return ok;
 };
-module.exports = {
-    editArrayButtons,
-    idBySelector,
-    generateNewObjectStructure,
-    generateActions,
-    calcValue,
-    roundValue,
-    bindingFunc,
-    insertValueInPosition,
-    adjustValueType,
-    checkEvent,
+exports.checkEvent = checkEvent;
+const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
+    let userToSend = null;
+    if (!chatID)
+        return null;
+    userListWithChatID.forEach((element) => {
+        if (element.chatID == chatID.val) {
+            userToSend = element.name;
+        }
+        (0, logging_js_1.debug)([
+            { text: "User and ChatID:", val: element },
+            { text: "User:", val: userToSend },
+        ]);
+    });
+    return userToSend;
 };
+exports.getUserToSendFromUserListWithChatID = getUserToSendFromUserListWithChatID;
+const getMenusWithUserToSend = (menusWithUsers, userToSend) => {
+    const menus = [];
+    for (const key in menusWithUsers) {
+        if (menusWithUsers[key].includes(userToSend)) {
+            menus.push(key);
+        }
+    }
+    return menus;
+};
+exports.getMenusWithUserToSend = getMenusWithUserToSend;
 //# sourceMappingURL=action.js.map

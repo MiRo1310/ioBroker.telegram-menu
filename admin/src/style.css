@@ -205,11 +205,11 @@ div.MuiTabPanel-root {
 .blue th {
 	color: black;
 }
-.MenuNavigation-Container .startsideActive {
+.MenuNavigation-Container .startSideActive {
 	background-color: #96d15a !important;
 }
-.MenuNavigation-Container .startsideInactive {
-	background-color: #eb8628 !important;
+.MenuNavigation-Container .startSideInactive {
+	background-color: #eac9c7 !important;
 }
 .MenuNavigation-Container .startsideHideInfo {
 	display: none;

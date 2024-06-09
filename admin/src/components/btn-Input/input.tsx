@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
 
-
-
 class Input extends Component<InputProps> {
 	onChangeHandler = (event) => {
 		if (!(this.props.function === "manual")) {
-			if (this.props.setNative) {				
+			if (this.props.setNative) {
 				this.props.callback(this.props.id, event.target?.value);
 			} else {
 				this.props.callback({ [this.props.id]: event.target.value });
@@ -41,7 +39,7 @@ class Input extends Component<InputProps> {
 						style={inputStyle}
 						type={this.props.type ? this.props.type : "text"}
 						className="InputField noneDraggable"
-						placeholder={I18n.t(this.props.placeholder||"")}
+						placeholder={I18n.t(this.props.placeholder || "")}
 						value={this.props.value}
 						onChange={this.onChangeHandler}
 						spellCheck={this.props.spellCheck ? this.props.spellCheck : false}

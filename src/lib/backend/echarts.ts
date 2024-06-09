@@ -1,5 +1,16 @@
-const { sendToTelegram } = require("./telegram");
-function getChart(_this: any, echarts: Echart[], directoryPicture: string, user: string, instanceTelegram: string, userListWithChatID: UserListWithChatId[], resize_keyboard: boolean, one_time_keyboard: boolean) {
+import TelegramMenu from "@backend/main";
+import { error } from "./logging";
+import { sendToTelegram } from "./telegram";
+function getChart(
+	echarts: Echart[],
+	directoryPicture: string,
+	user: string,
+	instanceTelegram: string,
+	userListWithChatID: UserListWithChatId[],
+	resize_keyboard: boolean,
+	one_time_keyboard: boolean,
+): void {
+	const _this = TelegramMenu.getInstance();
 	try {
 		if (!echarts) return;
 		for (const echart of echarts) {
@@ -15,20 +26,25 @@ function getChart(_this: any, echarts: Echart[], directoryPicture: string, user:
 					quality: 1.0,
 					fileOnDisk: directoryPicture + echart.filename,
 				},
-				(result: TelegramResult) => {
-					if (result && result.error) {
-						sendToTelegram(_this, user, result.error, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
-					} else {
-						sendToTelegram(_this, user, directoryPicture + echart.filename, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
-					}
+				(result: any) => {
+					sendToTelegram(
+						user,
+						result.error || directoryPicture + echart.filename,
+						[],
+						instanceTelegram,
+						resize_keyboard,
+						one_time_keyboard,
+						userListWithChatID,
+						"",
+					);
 				},
 			);
 		}
 	} catch (e: any) {
-		_this.log.error("Error getChart: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
-module.exports = {
-	getChart,
-};
+export { getChart };

@@ -1,11 +1,6 @@
-function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb) {
+function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb): void {
 	try {
 		new Promise((resolve, reject) => {
-			// Beispiel für getObjekt
-			// socket.getObject(`system.adapter.admin.0.guiSettings`).then((obj) => {
-			// 	console.log(obj);
-			// });
-			console.log(telegramInstance);
 			socket.getState(telegramInstance + ".communicate.users").then((state, err) => {
 				if (state && state.val && !err) {
 					resolve(cb(state.val));
@@ -20,14 +15,7 @@ function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb) {
 	}
 }
 
-/**
- *
- * @param {*} socket
- * @returns
- */
-
-function getAllTelegramInstances(socket, callback) {
-	console.log("getAllTelegramInstances");
+function getAllTelegramInstances(socket, callback): void {
 	const IDs: string[] = [];
 	try {
 		socket.getObjectViewCustom("system", "instance", "", "\u9999").then((objects) => {

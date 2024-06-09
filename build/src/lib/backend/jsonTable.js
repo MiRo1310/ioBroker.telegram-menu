@@ -1,22 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { decomposeText } = require("./global");
+exports.createTextTableFromJson = exports.createKeyboardFromJson = void 0;
+const global_1 = require("./global");
+const logging_1 = require("./logging");
 const lastText = {};
-const createKeyboardFromJson = (_this, val, text, id, user) => {
+const createKeyboardFromJson = (val, text, id, user) => {
     try {
         if (text)
             lastText[user] = text;
         else
             text = lastText[user];
-        const array = decomposeText(text, "{json:", "}").substring.split(";");
+        const array = (0, global_1.decomposeText)(text, "{json:", "}").substring.split(";");
         const headline = array[2];
         const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
         let idShoppingList = false;
         if (array.length > 3 && array[3] == "shoppinglist")
             idShoppingList = true;
         let valArray = [];
-        _this.log.debug("Val: " + JSON.stringify(val));
-        _this.log.debug("Type of Val: " + JSON.stringify(typeof val));
+        (0, logging_1.debug)([
+            { text: "Val:", val },
+            { text: "Type of Val:", val },
+        ]);
         if (typeof val == "string")
             valArray = JSON.parse(val);
         else
@@ -33,11 +37,14 @@ const createKeyboardFromJson = (_this, val, text, id, user) => {
                 }
                 if (idShoppingList) {
                     const value = element["buttondelete"];
-                    const valueDeleteLinkArray = decomposeText(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
+                    const valueDeleteLinkArray = (0, global_1.decomposeText)(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
                     const instanceAlexa = valueDeleteLinkArray[1];
                     const valueDeleteId = valueDeleteLinkArray[5];
                     const instanceShoppingListID = id.split(".")[1] + "." + id.split(".")[2];
-                    rowArray.push({ text: element[item.split(":")[0]], callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:` });
+                    rowArray.push({
+                        text: element[item.split(":")[0]],
+                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
+                    });
                 }
                 else
                     rowArray.push({ text: element[item.split(":")[0]], callback_data: "1" });
@@ -47,26 +54,22 @@ const createKeyboardFromJson = (_this, val, text, id, user) => {
             keyboard.push(rowArray);
         });
         const inline_keyboard = { inline_keyboard: keyboard };
-        _this.log.debug("keyboard: " + JSON.stringify(inline_keyboard));
-        return { text: headline, keyboard: inline_keyboard };
+        (0, logging_1.debug)([{ text: "keyboard:", val: inline_keyboard }]);
+        return { text: headline, keyboard: JSON.stringify(inline_keyboard) };
     }
     catch (err) {
-        _this.log.error("Error createKeyboardFromJson: " + JSON.stringify(err.message));
-        _this.log.error(JSON.stringify(err.stack));
+        (0, logging_1.error)([
+            { text: "Error createKeyboardFromJson:", val: err.message },
+            { text: "Stack:", val: err.stack },
+        ]);
     }
 };
-/**
- *
- * @param {*} _this
- * @param {string} val Value From State
- * @param {*} textToSend Return Text
- * @returns Object with Text
- */
-async function createTextTableFromJson(_this, val, textToSend) {
+exports.createKeyboardFromJson = createKeyboardFromJson;
+async function createTextTableFromJson(val, textToSend) {
     try {
         if (!val)
             return;
-        const substring = decomposeText(textToSend, "{json:", "}").substring;
+        const substring = (0, global_1.decomposeText)(textToSend, "{json:", "}").substring;
         const array = substring.split(";");
         const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
         const valArray = JSON.parse(val);
@@ -82,7 +85,7 @@ async function createTextTableFromJson(_this, val, textToSend) {
                     lengthArray[index] = element[item.split(":")[0]].toString().length;
             });
         });
-        _this.log.debug("Length of rows " + JSON.stringify(lengthArray));
+        (0, logging_1.debug)([{ text: "Length of rows", val: lengthArray }]);
         const headline = array[2];
         let textTable = textToSend.replace(substring, "").trim();
         if (textTable != "")
@@ -131,12 +134,11 @@ async function createTextTableFromJson(_this, val, textToSend) {
         return textTable;
     }
     catch (e) {
-        _this.log.error("Error createTextTableFromJson: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_1.error)([
+            { text: "Error createTextTableFromJson:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 }
-module.exports = {
-    createKeyboardFromJson,
-    createTextTableFromJson,
-};
+exports.createTextTableFromJson = createTextTableFromJson;
 //# sourceMappingURL=jsonTable.js.map

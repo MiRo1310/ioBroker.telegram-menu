@@ -67,7 +67,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 
 		this.setState = this.setState.bind(this);
 	}
-	handleResize = (e) => {
+	handleResize = () => {
 		updatePositionDropBox(null, null, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
@@ -130,7 +130,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	}
 	checkDoubleEntryInUsedTrigger = () => {
 		const usedTrigger = [...this.state.usedTrigger];
-		let doubleTrigger: string[] = [];
+		const doubleTrigger: string[] = [];
 		usedTrigger.forEach((element, index) => {
 			if (index !== usedTrigger.indexOf(element)) {
 				if (element != "-") doubleTrigger.push(element);
@@ -140,7 +140,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		this.setState({ doubleTrigger: doubleTrigger });
 	};
 	updateActiveMenuAndTrigger = (menu) => {
-		let result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
+		const result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
 		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
 	};
 

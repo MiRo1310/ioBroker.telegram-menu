@@ -3,7 +3,7 @@ import { Properties } from "csstype";
 
 class MenuButton extends Component<PropsMenuButton> {
 	render() {
-		const buttonStyle:Properties<string | number, string & {}> = {
+		const buttonStyle: Properties<string | number, string> = {
 			backgroundColor: this.props.b_color || "#ddd",
 			color: this.props.color || "black",
 			padding: "8px 32px",

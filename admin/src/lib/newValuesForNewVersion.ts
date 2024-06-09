@@ -1,17 +1,12 @@
 import { deepCopy } from "./Utils.js";
-export const insertNewItemsInData = (data, updateNative) => {
-	if (Object.keys(data).length == 0) return;
-	data = deepCopy(data);
-	data = insertParseModeCheckbox(data);
-	insertAckCheckbox(data, updateNative);
-};
-const insertParseModeCheckbox = (data) => {
+
+const insertParseModeCheckbox = (data: { action: []; nav: [] }): { action: []; nav: [] } => {
 	const actions = ["set", "get"];
 	Object.keys(data.action).forEach((menu) => {
 		actions.forEach((action) => {
-			data.action[menu][action].forEach((item, indexItem) => {
+			data.action[menu][action].forEach((_, indexItem) => {
 				const element = data.action[menu][action][indexItem];
-				// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
+
 				if (!element.parse_mode) {
 					data.action[menu][action][indexItem].parse_mode = ["false"];
 				}
@@ -19,10 +14,9 @@ const insertParseModeCheckbox = (data) => {
 		});
 	});
 	Object.keys(data.nav).forEach((menu) => {
-		data.nav[menu].forEach((item, indexItem) => {
+		data.nav[menu].forEach((_, indexItem) => {
 			const element = data.nav[menu][indexItem];
 
-			// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
 			if (!element.parse_mode) {
 				data.nav[menu][indexItem].parse_mode = "false";
 			}
@@ -30,16 +24,15 @@ const insertParseModeCheckbox = (data) => {
 	});
 	return data;
 };
-const insertAckCheckbox = (data, updateNative) => {
+const insertAckCheckbox = (data, updateNative): void => {
 	Object.keys(data.action).forEach((menu) => {
-		data.action[menu].set.forEach((item, indexItem) => {
+		data.action[menu].set.forEach((_, indexItem) => {
 			const element = data.action[menu].set[indexItem];
 
-			// Neues Array für ack erstellen, wenn es noch nicht vorhanden ist
 			if (!element.ack) {
 				data.action[menu].set[indexItem].ack = [];
 			} else {
-				return; // Bereits vorhandenes ack-Array, überspringen
+				return;
 			}
 			element.returnText.map((textItem, textIndex) => {
 				let substring;
@@ -62,15 +55,18 @@ const insertAckCheckbox = (data, updateNative) => {
 
 	updateNative("data", data);
 };
+export const insertNewItemsInData = (data, updateNative): void => {
+	if (Object.keys(data).length == 0) return;
+	data = deepCopy(data);
+	data = insertParseModeCheckbox(data);
+	insertAckCheckbox(data, updateNative);
+};
 
-/**
- * Returns an object with startindex, endindex, substring, textWithoutSubstring
- * @param {string} text  Text to search in
- * @param {string} searchValue Value to search for
- * @param {string} secondValue Second value to search for
- * @returns   Returns an object with startindex, endindex, substring, textWithoutSubstring
- */
-export function decomposeText(text, searchValue, secondValue) {
+export function decomposeText(
+	text: string,
+	searchValue: string,
+	secondValue: string,
+): { startindex: number; endindex: number; substring: string; textWithoutSubstring: string } {
 	const startindex = text.indexOf(searchValue);
 	const endindex = text.indexOf(secondValue, startindex);
 	const substring = text.substring(startindex, endindex + secondValue.length);

@@ -129,7 +129,7 @@ const helperText = {
 				text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}",
 				info: "!!! To use it, parseMode must not be active !!! Creates a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.",
 			},
-		]
+		],
 	},
 	set: {
 		returnText: [
@@ -141,22 +141,24 @@ const helperText = {
 			},
 			{
 				text: "{confirmSet:The value has been set:noValue}",
-				info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End",
+				info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be put at the End",
 			},
 			{
 				text: "{setDynamicValue:RequestText:Type:ConfirmText:}",
 				info: "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.",
-			}],
+			},
+		],
 		values: [
 			{
 				text: "{id:ID}",
 				info: "This allows you to set a  manually value in combination with ID Value, like this: staticValue{id:ID}staticValue",
-			}, {
+			},
+			{
 				text: "{value}",
 				info: "This allows you to set a modified Submenu Value in combination with a static part , like this: staticValue{value}staticValue",
-			}
-		]
-	}
+			},
+		],
+	},
 };
 globalItems.forEach((element) => {
 	element.data.forEach((data) => {

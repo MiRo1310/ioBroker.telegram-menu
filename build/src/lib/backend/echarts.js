@@ -1,7 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { sendToTelegram } = require("./telegram");
-function getChart(_this, echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+exports.getChart = void 0;
+const main_1 = __importDefault(require("@backend/main"));
+const logging_1 = require("./logging");
+const telegram_1 = require("./telegram");
+function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+    const _this = main_1.default.getInstance();
     try {
         if (!echarts)
             return;
@@ -16,21 +23,16 @@ function getChart(_this, echarts, directoryPicture, user, instanceTelegram, user
                 quality: 1.0,
                 fileOnDisk: directoryPicture + echart.filename,
             }, (result) => {
-                if (result && result.error) {
-                    sendToTelegram(_this, user, result.error, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
-                }
-                else {
-                    sendToTelegram(_this, user, directoryPicture + echart.filename, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
-                }
+                (0, telegram_1.sendToTelegram)(user, result.error || directoryPicture + echart.filename, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
             });
         }
     }
     catch (e) {
-        _this.log.error("Error getChart: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_1.error)([
+            { text: "Error:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 }
-module.exports = {
-    getChart,
-};
+exports.getChart = getChart;
 //# sourceMappingURL=echarts.js.map

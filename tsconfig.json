@@ -7,7 +7,8 @@
 		"baseUrl": ".", // Dies muss gesetzt sein!
 		"paths": {
 			"@components/*": ["admin/src/components/*"],
-			"@/*": ["admin/src/*"]
+			"@/*": ["admin/src/*"],
+			"@backend/*": ["src/*"]
 		},
 		// do not compile anything, this file is just to configure type checking
 		// the compilation is configured in tsconfig.build.json
@@ -44,6 +45,6 @@
 		"sourceMap": true,
 		"inlineSourceMap": false
 	},
-	"include": ["src/**/*.ts", "test/**/*.ts"],
+	"include": ["src/**/*.ts", "test/**/*.js"],
 	"exclude": ["build/**", "node_modules/**", "widgets/**"]
 }

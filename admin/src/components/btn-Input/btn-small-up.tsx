@@ -12,7 +12,7 @@ class BtnSmallUp extends Component<ButtonSmallProps> {
 				round="true"
 				callback={this.props.callback}
 				callbackValue={this.props.index}
-				className={this.props.disabled||""}
+				className={this.props.disabled || ""}
 			>
 				<i className="material-icons">arrow_upward</i>
 			</Button>

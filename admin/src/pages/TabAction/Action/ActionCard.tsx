@@ -8,7 +8,7 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import ActionRowEditPopupCard from "@/components/popupCards/rowEditPopupCard/ActionRowEditPopupCard";
 import TableDndAction from "./TableDND/TableDndAction";
 import HelperCard from "@/components/popupCards/HelperCard";
-import helperText from "@/lib/helper.js";
+import helperText from "@/config/helper.js";
 import { addNewRow } from "@/lib/actionUtils.js";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
@@ -49,13 +49,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
-			let globalRowValue = true;
 			let value = true;
 			let valueRowValuesAndSwitch = true;
-			let row = this.state.newRow;
+			const row = this.state.newRow;
 			this.props.entries.forEach((entry) => {
 				if (!entry.checkbox && entry.required) {
-					// Wenn der Wert nicht vorhanden ist, dadurch das evtl eine neues Element in entries hinzugefügt wurde
 					if (!row[entry.name]) row[entry.name] = [""];
 					row[entry.name].forEach((val, index) => {
 						if (value && entry.name === "values") {
@@ -68,8 +66,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							value = false;
 						}
 					});
-
-					if (!valueRowValuesAndSwitch) globalRowValue = false;
 				}
 			});
 
@@ -125,7 +121,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	};
 
 	resetNewRow = () => {
-		let newRow = {};
+		const newRow = {};
 		this.props.entries.forEach((entry) => {
 			newRow[entry.name] = [entry.val || ""];
 		});
@@ -157,7 +153,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	};
 	popupHelperCard = (isOK) => {
 		if (isOK) {
-			let row = deepCopy(this.state.newRow);
+			const row = deepCopy(this.state.newRow);
 			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: row });
 		}

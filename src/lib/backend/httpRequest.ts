@@ -1,8 +1,20 @@
-const axios = require("axios");
-const { sendToTelegram } = require("./telegram");
-const path = require("path");
-const fs = require("fs");
-async function httpRequest(_this: any, parts: Parts, userToSend: string, instanceTelegram: string, resize_keyboard: boolean, one_time_keyboard: boolean, userListWithChatID: UserListWithChatId[], directoryPicture: string) {
+import axios from "axios";
+import { sendToTelegram } from "./telegram";
+import path from "path";
+import fs from "fs";
+import { debug, error } from "./logging";
+async function httpRequest(
+	parts: Part,
+	userToSend: string,
+	instanceTelegram: string,
+	resize_keyboard: boolean,
+	one_time_keyboard: boolean,
+	userListWithChatID: UserListWithChatId[],
+	directoryPicture: string,
+): Promise<boolean | undefined> {
+	if (!parts.httpRequest) {
+		return;
+	}
 	for (const part of parts.httpRequest) {
 		const url = part.url;
 		const user = part.user;
@@ -28,19 +40,24 @@ async function httpRequest(_this: any, parts: Parts, userToSend: string, instanc
 						responseType: "arraybuffer",
 					},
 			);
+			if (!part.filename) {
+				return;
+			}
 			const imagePath = path.join(directoryPicture, part.filename);
 
 			fs.writeFileSync(imagePath, Buffer.from(response.data), "binary");
-			_this.log.debug("Bild erfolgreich gespeichert:", imagePath);
-			sendToTelegram(_this, user, imagePath, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
+			debug([{ text: "Pic saved:", val: imagePath }]);
+
+			sendToTelegram(user, imagePath, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
 		} catch (e: any) {
-			_this.log.error("Fehler beim Speichern des Bildes:", e);
-			_this.log.error("Serverantwort:", e.response.status);
-			_this.log.error("Serverdaten:", e.response.data);
+			error([
+				{ text: "Error:", val: e.message },
+				{ text: "Stack:", val: e.stack },
+				{ text: "Server Response:", val: e.response.status },
+				{ text: "Server data:", val: e.response.data },
+			]);
 		}
 	}
 	return true;
 }
-module.exports = {
-	httpRequest,
-};
+export { httpRequest };

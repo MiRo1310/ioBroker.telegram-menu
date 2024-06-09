@@ -109,7 +109,7 @@ menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
 ```
 
 -   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende Name und der Wert, Name|Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wieviele Buttons nebeneinander stehen sollen. **_Breaking Change!!!_** &nbsp; Bitte manuel ändern: `[Name1:Value1, Name2:Value2]` ändern zu `[Name1|Value1, Name2|Value2]`. Jetzt können auch Dezimalzahlen als Value genutzt werden, z.B.(2.5).
-Als Name kann jetzt auch ein Wert eines Datenpunkts genutzt werden. `{status:'ID':true}`  <a href="#status">für weitere Infos schaue hier</a>
+    Als Name kann jetzt auch ein Wert eines Datenpunkts genutzt werden. `{status:'ID':true}` <a href="#status">für weitere Infos schaue hier</a>
 
 ```
 menu:back
@@ -155,18 +155,17 @@ menu:back
 
 -   hiermit kann das setzen eines Wertes bestätigt werden, dieses bedeutet aber nicht das ein Adapter diesen Wert verarbeitet hat
 
-
 ##### Parse Mode , change, newline
 
 -   bitte in die Navigation schauen
 
 #### Einen Wert von einem Submenu beeinflussen
 
-- Um dieses zu erreichen einfach das Submenu wie gewohnt erstellen. Dann bei SetState als Wert den statischen Teil einfügen und als Platzhalter aus dem Submenu `{value}` setzen.
+-   Um dieses zu erreichen einfach das Submenu wie gewohnt erstellen. Dann bei SetState als Wert den statischen Teil einfügen und als Platzhalter aus dem Submenu `{value}` setzen.
 
 #### Einen statischen Wert mit einem dynamischen Wert einer ID setzen
 
-- Um dieses zu erreichen kann man Wert einen statischen Teil definieren und davor, dazwischen oder dahinter einen dynamischen Teil. Der dynamische Teil sieht so aus `{id:ID}`, wobei ID durch die gewünschte Id ersetzt werden muss, und der Rest bleibt so. 
+-   Um dieses zu erreichen kann man Wert einen statischen Teil definieren und davor, dazwischen oder dahinter einen dynamischen Teil. Der dynamische Teil sieht so aus `{id:ID}`, wobei ID durch die gewünschte Id ersetzt werden muss, und der Rest bleibt so.
 
 ### GetState
 
@@ -225,8 +224,7 @@ menu:back
 
 ### HTTP Request
 
--   hiermit ist es möglich einen Http Request ab zu senden, mit und ohne Authentification. Als erstes muss die Url angegeben werden, User und Passwort sind optional, wenn diese nicht benötigt werden einfach leer lassen. Als Dateiname kann der vorkonfiguriert Name stehen bleiben. 
-
+-   hiermit ist es möglich einen Http Request ab zu senden, mit und ohne Authentification. Als erstes muss die Url angegeben werden, User und Passwort sind optional, wenn diese nicht benötigt werden einfach leer lassen. Als Dateiname kann der vorkonfiguriert Name stehen bleiben.
 
 ### Settings
 

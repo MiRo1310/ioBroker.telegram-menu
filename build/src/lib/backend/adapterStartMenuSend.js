@@ -1,25 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { sendToTelegram } = require("./telegram");
-const { backMenuFunc } = require("./backMenu");
-function adapterStartMenuSend(_this, listofMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
-    listofMenus.forEach((menu) => {
-        _this.log.debug("Menu: " + JSON.stringify(menu));
+exports.adapterStartMenuSend = void 0;
+const telegram_1 = require("./telegram");
+const backMenu_1 = require("./backMenu");
+const logging_1 = require("./logging");
+function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
+    listOfMenus.forEach((menu) => {
         const startSide = [startSides[menu]].toString();
-        // Startseite senden
         if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
-            _this.log.debug("Startseite: " + JSON.stringify(startSide));
+            (0, logging_1.debug)([{ text: "Startseite:", val: startSide }]);
             menusWithUsers[menu].forEach((user) => {
-                backMenuFunc(_this, startSide, menuData.data[menu][startSide].nav, user);
-                _this.log.debug("User List " + JSON.stringify(userListWithChatID));
-                sendToTelegram(_this, user, menuData.data[menu][startSide].text, menuData.data[menu][startSide].nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, menuData.data[menu][startSide].parse_mode);
+                (0, backMenu_1.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
+                (0, logging_1.debug)([{ text: "User List:", val: userListWithChatID }]);
+                (0, telegram_1.sendToTelegram)(user, menuData.data[menu][startSide].text, menuData.data[menu][startSide].nav, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, menuData.data[menu][startSide].parse_mode);
             });
         }
-        else
-            _this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startSide }));
+        else {
+            if (startSide == "-") {
+                (0, logging_1.debug)([{ text: `Menu "${menu}" is a Submenu.` }]);
+                return;
+            }
+            (0, logging_1.debug)([{ text: `Menu "${menu}" is inactive.` }]);
+        }
     });
 }
-module.exports = {
-    adapterStartMenuSend,
-};
+exports.adapterStartMenuSend = adapterStartMenuSend;
 //# sourceMappingURL=adapterStartMenuSend.js.map

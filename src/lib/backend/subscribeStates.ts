@@ -1,36 +1,28 @@
-const { deleteDoubleEntriesInArray } = require("./global");
-/**
- *
- * @param {any[]} array
- * @param {*} _this
- * @param {boolean} subscribe If true, then subscribe, else unsubscribe
- */
-async function _subscribeAndUnSubscribeForeignStatesAsync(array: SubscribeForeignStateArray[], _this: any, subscribe: boolean) {
-	if (subscribe) {
-		for (const element of array) {
-			_this.log.debug("Element " + JSON.stringify(element));
-			_this.log.debug("ID to subscribe " + JSON.stringify(element["id"]));
-			_this.log.debug("subscribe " + JSON.stringify(await _this.subscribeForeignStatesAsync(element["id"])));
-		}
-	} else {
-		array.forEach((element) => {
+import TelegramMenu from "@backend/main";
+import { deleteDoubleEntriesInArray } from "./global";
+import { debug } from "./logging";
+
+async function _subscribeAndUnSubscribeForeignStatesAsync(obj: { array?: SetStateIds[]; id?: string }): Promise<void> {
+	const _this = TelegramMenu.getInstance();
+	if (obj.id) {
+		debug([
+			{ text: "ID to subscribe:", val: obj.id },
+			{ text: "Subscribe:", val: await _this.subscribeForeignStatesAsync(obj.id) },
+		]);
+	} else if (obj.array) {
+		obj.array.forEach((element) => {
 			_this.unsubscribeForeignStatesAsync(element["id"]);
 		});
 	}
 }
-/**
- *
- * @param {string[]} array
- * @param {*} _this
- */
-function _subscribeForeignStatesAsync(array: string[], _this: any) {
-	array = deleteDoubleEntriesInArray(array, _this);
-	_this.log.debug("Subscribe all States of: " + JSON.stringify(array));
+
+function _subscribeForeignStatesAsync(array: string[]): void {
+	const _this = TelegramMenu.getInstance();
+	array = deleteDoubleEntriesInArray(array);
 	array.forEach((element) => {
 		_this.subscribeForeignStatesAsync(element);
 	});
+	debug([{ text: "Subscribe all States of:", val: array }]);
 }
-module.exports = {
-	_subscribeAndUnSubscribeForeignStatesAsync,
-	_subscribeForeignStatesAsync,
-};
+
+export { _subscribeAndUnSubscribeForeignStatesAsync, _subscribeForeignStatesAsync };

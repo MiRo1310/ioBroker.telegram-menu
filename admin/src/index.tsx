@@ -8,8 +8,8 @@ import App from "./app";
 
 let themeName = Utils.getThemeName();
 
-function build() {
-	return ReactDOM.render(
+function build(): void {
+	ReactDOM.render(
 		<ThemeProvider theme={theme(themeName)}>
 			<App
 				onThemeChange={(_theme) => {

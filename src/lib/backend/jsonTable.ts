@@ -1,8 +1,8 @@
-const { decomposeText } = require("./global");
+import { decomposeText } from "./global";
+import { debug, error } from "./logging";
 const lastText: LastText = {};
-const createKeyboardFromJson = (_this: any, val: string, text: string, id: string, user: string) => {
+const createKeyboardFromJson = (val: string, text: string | null, id: string, user: string): { text: string; keyboard: string } | undefined => {
 	try {
-
 		if (text) lastText[user] = text;
 		else text = lastText[user];
 		const array = decomposeText(text, "{json:", "}").substring.split(";");
@@ -12,8 +12,11 @@ const createKeyboardFromJson = (_this: any, val: string, text: string, id: strin
 		if (array.length > 3 && array[3] == "shoppinglist") idShoppingList = true;
 
 		let valArray: ValArray[] = [];
-		_this.log.debug("Val: " + JSON.stringify(val));
-		_this.log.debug("Type of Val: " + JSON.stringify(typeof val));
+		debug([
+			{ text: "Val:", val },
+			{ text: "Type of Val:", val },
+		]);
+
 		if (typeof val == "string") valArray = JSON.parse(val);
 		else valArray = val;
 		const keyboard: (FirstRow | RowArray)[][] = [];
@@ -33,29 +36,28 @@ const createKeyboardFromJson = (_this: any, val: string, text: string, id: strin
 					const valueDeleteId = valueDeleteLinkArray[5];
 
 					const instanceShoppingListID = id.split(".")[1] + "." + id.split(".")[2];
-					rowArray.push({ text: element[item.split(":")[0]], callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:` });
+					rowArray.push({
+						text: element[item.split(":")[0]],
+						callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
+					});
 				} else rowArray.push({ text: element[item.split(":")[0]], callback_data: "1" });
 			});
 			if (index == 0) keyboard.push(firstRow);
 			keyboard.push(rowArray);
 		});
 		const inline_keyboard = { inline_keyboard: keyboard };
-		_this.log.debug("keyboard: " + JSON.stringify(inline_keyboard));
+		debug([{ text: "keyboard:", val: inline_keyboard }]);
 
-		return { text: headline, keyboard: inline_keyboard };
+		return { text: headline, keyboard: JSON.stringify(inline_keyboard) };
 	} catch (err: any) {
-		_this.log.error("Error createKeyboardFromJson: " + JSON.stringify(err.message));
-		_this.log.error(JSON.stringify(err.stack));
+		error([
+			{ text: "Error createKeyboardFromJson:", val: err.message },
+			{ text: "Stack:", val: err.stack },
+		]);
 	}
 };
-/**
- *
- * @param {*} _this
- * @param {string} val Value From State
- * @param {*} textToSend Return Text
- * @returns Object with Text
- */
-async function createTextTableFromJson(_this: any, val: string, textToSend: string) {
+
+async function createTextTableFromJson(val: string, textToSend: string): Promise<string | undefined> {
 	try {
 		if (!val) return;
 		const substring = decomposeText(textToSend, "{json:", "}").substring;
@@ -70,10 +72,11 @@ async function createTextTableFromJson(_this: any, val: string, textToSend: stri
 		});
 		valArray.forEach((element) => {
 			itemArray.forEach((item, index) => {
-				if (lengthArray[index] < element[item.split(":")[0]].toString().length) lengthArray[index] = element[item.split(":")[0]].toString().length;
+				if (lengthArray[index] < element[item.split(":")[0]].toString().length)
+					lengthArray[index] = element[item.split(":")[0]].toString().length;
 			});
 		});
-		_this.log.debug("Length of rows " + JSON.stringify(lengthArray));
+		debug([{ text: "Length of rows", val: lengthArray }]);
 		const headline = array[2];
 		let textTable = textToSend.replace(substring, "").trim();
 		if (textTable != "") textTable += " \n\n";
@@ -116,11 +119,10 @@ async function createTextTableFromJson(_this: any, val: string, textToSend: stri
 		textTable += "`";
 		return textTable;
 	} catch (e: any) {
-		_this.log.error("Error createTextTableFromJson: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error createTextTableFromJson:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
-module.exports = {
-	createKeyboardFromJson,
-	createTextTableFromJson,
-};
+export { createKeyboardFromJson, createTextTableFromJson };

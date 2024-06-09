@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TabContext, TabPanel } from "@mui/lab";
 import ActionCard from "./Action/ActionCard";
-import { tabValues } from "../../lib/entries";
+import { tabValues } from "../../config/entries";
 import TabActionTabs from "./TabActionTabs";
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {

@@ -1,10 +1,10 @@
 const drag = { dragStartX: 0, dragStartY: 0, dragEndX: 0, dragEndY: 0 };
 
-export function onDragStart(event, setState) {
+export function onDragStart(event): void {
 	drag.dragStartX = event.clientX;
 	drag.dragStartY = event.clientY;
 }
-export function onDragEnd(event, setState) {
+export function onDragEnd(event, setState): void {
 	event.preventDefault();
 	drag.dragEndX = event.clientX;
 	drag.dragEndY = event.clientY;
@@ -13,31 +13,29 @@ export function onDragEnd(event, setState) {
 
 	setState({ dropDifferenzY: dropDifferenzY, dropDifferenzX: dropDifferenzX });
 }
-export function onDragOver(event, setState) {
+export function onDragOver(event): void {
 	event.preventDefault();
 }
-export function onDrop(event, setState) {
+export function onDrop(event): void {
 	event.preventDefault();
 }
 
-export function onDrag(event, setState) {
+export function onDrag(event): void {
 	event.preventDefault();
 }
-export function onMouseEnter(event, setState) {
+export function onMouseEnter(): void {
 	document.querySelectorAll("tr[draggable],span[draggable]").forEach((element) => {
-		// Herausgenommen, da es sonst nicht möglich ist Rows zu verschieben, nach dem umbenennen, ansonsten erst wieder mit der Maus in die Dropbox gehen
-		// element.draggable = false;
 		element.classList.add("draggingDropBox");
 	});
 }
-export function onMouseLeave(event, setState) {
+export function onMouseLeave(): void {
 	document.querySelectorAll("tr[draggable],span[draggable]").forEach((element) => {
 		(element as HTMLElement).draggable = true;
 		element.classList.remove("draggingDropBox");
 	});
 }
 
-export const updatePositionDropBox = (newX, newY, dropboxRef, showDropBox, dropbox) => {
+export const updatePositionDropBox = (newX, newY, dropboxRef, showDropBox, dropbox): void => {
 	if (dropboxRef && dropboxRef.current && dropboxRef.current != null && showDropBox) {
 		if (!(newX || newY)) {
 			console.log("updatePositionDropBox");

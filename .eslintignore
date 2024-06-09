@@ -2,5 +2,11 @@
 \*\*/.eslintrc.js
 admin/words.js
 admin/build/
+admin/i18n
 build/
-admin/GenericApp.*
+admin/GenericApp.\*
+src/lib/telegram-menu.d.ts
+src/main.test.ts
+.github/
+.vscode/
+node_modules/

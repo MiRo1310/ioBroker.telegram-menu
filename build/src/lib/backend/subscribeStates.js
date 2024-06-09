@@ -1,40 +1,34 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { deleteDoubleEntriesInArray } = require("./global");
-/**
- *
- * @param {any[]} array
- * @param {*} _this
- * @param {boolean} subscribe If true, then subscribe, else unsubscribe
- */
-async function _subscribeAndUnSubscribeForeignStatesAsync(array, _this, subscribe) {
-    if (subscribe) {
-        for (const element of array) {
-            _this.log.debug("Element " + JSON.stringify(element));
-            _this.log.debug("ID to subscribe " + JSON.stringify(element["id"]));
-            _this.log.debug("subscribe " + JSON.stringify(await _this.subscribeForeignStatesAsync(element["id"])));
-        }
+exports._subscribeForeignStatesAsync = exports._subscribeAndUnSubscribeForeignStatesAsync = void 0;
+const main_1 = __importDefault(require("@backend/main"));
+const global_1 = require("./global");
+const logging_1 = require("./logging");
+async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
+    const _this = main_1.default.getInstance();
+    if (obj.id) {
+        (0, logging_1.debug)([
+            { text: "ID to subscribe:", val: obj.id },
+            { text: "Subscribe:", val: await _this.subscribeForeignStatesAsync(obj.id) },
+        ]);
     }
-    else {
-        array.forEach((element) => {
+    else if (obj.array) {
+        obj.array.forEach((element) => {
             _this.unsubscribeForeignStatesAsync(element["id"]);
         });
     }
 }
-/**
- *
- * @param {string[]} array
- * @param {*} _this
- */
-function _subscribeForeignStatesAsync(array, _this) {
-    array = deleteDoubleEntriesInArray(array, _this);
-    _this.log.debug("Subscribe all States of: " + JSON.stringify(array));
+exports._subscribeAndUnSubscribeForeignStatesAsync = _subscribeAndUnSubscribeForeignStatesAsync;
+function _subscribeForeignStatesAsync(array) {
+    const _this = main_1.default.getInstance();
+    array = (0, global_1.deleteDoubleEntriesInArray)(array);
     array.forEach((element) => {
         _this.subscribeForeignStatesAsync(element);
     });
+    (0, logging_1.debug)([{ text: "Subscribe all States of:", val: array }]);
 }
-module.exports = {
-    _subscribeAndUnSubscribeForeignStatesAsync,
-    _subscribeForeignStatesAsync,
-};
+exports._subscribeForeignStatesAsync = _subscribeForeignStatesAsync;
 //# sourceMappingURL=subscribeStates.js.map

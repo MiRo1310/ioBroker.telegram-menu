@@ -1,11 +1,22 @@
-const { decomposeText } = require("./utilities");
-const { sendToTelegram } = require("./telegram");
+import { decomposeText } from "./utilities";
+import { sendToTelegram } from "./telegram";
 const setDynamicValueObj: SetDynamicValueObj = {};
-const setDynamicValue = (_this: any, returnText: string, ack: boolean, id: string, userToSend: string, telegramInstance: string, one_time_keyboard: boolean, resize_keyboard: boolean, userListWithChatID: UserListWithChatId[], parse_mode: BooleanString, confirm: string) => {
+const setDynamicValue = (
+	returnText: string,
+	ack: boolean,
+	id: string,
+	userToSend: string,
+	telegramInstance: string,
+	one_time_keyboard: boolean,
+	resize_keyboard: boolean,
+	userListWithChatID: UserListWithChatId[],
+	parse_mode: BooleanString,
+	confirm: string,
+): string | undefined => {
 	const { substring } = decomposeText(returnText, "{setDynamicValue:", "}");
 	const array = substring.split(":");
 	const text = array[1];
-	if (text) sendToTelegram(_this, userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
+	if (text) sendToTelegram(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
 	const obj = {
 		id: id,
 		ack: ack,
@@ -22,20 +33,12 @@ const setDynamicValue = (_this: any, returnText: string, ack: boolean, id: strin
 	setDynamicValueObj[userToSend] = obj;
 	if (array[3] && array[3] != "") return array[3];
 };
-/**
- *
- * @param {string} userToSend
- * @returns object with user Data
- */
-const getDynamicValue = (userToSend: string) => {
+
+const getDynamicValue = (userToSend: string): SetDynamicValue | null => {
 	if (setDynamicValueObj[userToSend]) return setDynamicValueObj[userToSend];
-	else return false;
+	else return null;
 };
-const removeUserFromDynamicValue = (userToSend: string) => {
+const removeUserFromDynamicValue = (userToSend: string): void => {
 	if (setDynamicValueObj[userToSend]) delete setDynamicValueObj[userToSend];
 };
-module.exports = {
-	setDynamicValue,
-	getDynamicValue,
-	removeUserFromDynamicValue,
-};
+export { setDynamicValue, getDynamicValue, removeUserFromDynamicValue };

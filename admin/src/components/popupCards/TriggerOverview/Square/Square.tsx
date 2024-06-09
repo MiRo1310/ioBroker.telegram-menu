@@ -1,7 +1,7 @@
 import { I18n } from "@iobroker/adapter-react-v5";
 import React, { Component } from "react";
 
-class Square extends Component<PropsSquare, StateSquare>{
+class Square extends Component<PropsSquare, StateSquare> {
 	constructor(props) {
 		super(props);
 		this.state = {

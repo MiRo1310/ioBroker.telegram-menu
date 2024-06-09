@@ -1,19 +1,19 @@
-/**
- * Sends Request to delete a Message
- * @param {*} _this
- * @param {string} instance Instance of Telegram
- * @param {string} user User to send to
- * @param {[]} userListWithChatID Array with ChatID and Username
- * @param {string|number} messageId ID of the Message to delete
- * @param {string|number} chat_id ChatID of the User
- */
-const deleteMessageByBot = async (_this: any, instance: string, user: string, userListWithChatID: UserListWithChatId[], messageId: number, chat_id: string | number) => {
+import TelegramMenu from "@backend/main";
+import { debug, error } from "./logging";
+
+const deleteMessageByBot = async (
+	instance: string,
+	user: string,
+	userListWithChatID: UserListWithChatId[],
+	messageId: number,
+	chat_id: string | number,
+): Promise<void> => {
+	const _this = TelegramMenu.getInstance();
 	try {
 		if (chat_id) {
-			_this.log.debug("Delete Message for " + JSON.stringify(user + " " + chat_id));
+			debug([{ text: "Delete Message for ", val: user + " " + chat_id }]);
 		}
 		_this.sendTo(instance, {
-			// user: user,
 			deleteMessage: {
 				options: {
 					chat_id: chat_id,
@@ -22,10 +22,10 @@ const deleteMessageByBot = async (_this: any, instance: string, user: string, us
 			},
 		});
 	} catch (e: any) {
-		_this.log.error("Error deleteMessage: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error deleteMessage:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 };
-module.exports = {
-	deleteMessageByBot,
-};
+export { deleteMessageByBot };

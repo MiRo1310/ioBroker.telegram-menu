@@ -87,23 +87,23 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 					label=""
 					rows={4}
 				>
-					{["nav", "text", "set", "get", "value"].includes(this.props.val) ? <BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} /> : null}
+					{["nav", "text", "set", "get", "value"].includes(this.props.val) ? (
+						<BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} />
+					) : null}
 				</Textarea>
 
 				{this.state.showSelectId ? (
 					<SelectID
-						// style={{ zIndex: '11000' }}
 						key="tableSelect"
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
 						themeType={this.props.data.themeType}
 						socket={this.props.data.socket}
 						filters={{}}
-						// statesOnly={true}
 						classes={{ zIndex: "11000" }}
 						selected={""}
 						onClose={() => this.setState({ showSelectId: false })}
-						onOk={(selected, name) => {
+						onOk={(selected) => {
 							this.setState({ showSelectId: false });
 							this.updateId(selected);
 						}}

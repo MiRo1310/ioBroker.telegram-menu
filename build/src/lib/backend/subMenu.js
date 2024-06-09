@@ -1,75 +1,49 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { switchBack } = require("./backMenu");
-const setstate = require("./setstate").setstate;
-const { sendToTelegram, sendToTelegramSubmenu } = require("./telegram");
-const { checkStatusInfo } = require("./utilities");
-const { _subscribeAndUnSubscribeForeignStatesAsync } = require("./subscribeStates");
-const { deleteMessageIds } = require("./messageIds");
-const { dynamicSwitch } = require("./dynamicSwitch");
+exports.callSubMenu = exports.subMenu = void 0;
+const backMenu_1 = require("./backMenu");
+const setstate_1 = require("./setstate");
+const telegram_1 = require("./telegram");
+const utilities_1 = require("./utilities");
+const subscribeStates_1 = require("./subscribeStates");
+const messageIds_1 = require("./messageIds");
+const dynamicSwitch_1 = require("./dynamicSwitch");
+const logging_1 = require("./logging");
+const console_1 = require("console");
 let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
-/**
- * Calls the submenu
- * @param {*} _this
- * @param {string} calledValue - Value of the button [["menu:percent10:r1:"]]
- * @param {{}} menuData
- * @param {string} userToSend
- * @param {string} instanceTelegram
- * @param {boolean} resize_keyboard
- * @param {boolean} one_time_keyboard
- * @param {[]} userListWithChatID
- * @param {object} part
- * @param {{}} allMenusWithData
- * @param {array} menus
- * @param {*} setStateIdsToListenTo
- * @returns array setStateIdsToListenTo
- */
-async function callSubMenu(_this, calledValue, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo) {
+async function callSubMenu(calledValue, newObjectNavStructure, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo) {
     try {
-        _this.log.debug("type of " + JSON.stringify(typeof calledValue));
-        const subMenuData = await subMenu(_this, calledValue, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus);
-        _this.log.debug("Submenu data " + JSON.stringify(subMenuData));
-        let newNav = null;
-        if (subMenuData && subMenuData[4]) {
-            newNav = subMenuData[4];
+        (0, logging_1.debug)([{ text: "Type of:", val: typeof calledValue }]);
+        const obj = await subMenu(calledValue, newObjectNavStructure, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus);
+        (0, logging_1.debug)([{ text: "Submenu data:", val: obj }]);
+        if (obj?.returnIds) {
+            setStateIdsToListenTo = obj.returnIds;
+            (0, subscribeStates_1._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
         }
-        if (subMenuData && subMenuData[3]) {
-            _this.log.debug("SubmenuData3" + JSON.stringify(subMenuData[3]));
-            if (subMenuData[3])
-                setStateIdsToListenTo = subMenuData[3];
-            _subscribeAndUnSubscribeForeignStatesAsync(setStateIdsToListenTo, _this, true);
+        if (obj && typeof obj.text == "string" && obj.text && typeof obj.keyboard == "string") {
+            (0, telegram_1.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, instanceTelegram, userListWithChatID, part.parse_mode || "false");
         }
-        if (subMenuData && typeof subMenuData[0] == "string" && subMenuData[1] && typeof subMenuData[1] == "string") {
-            sendToTelegramSubmenu(_this, userToSend, subMenuData[0], subMenuData[1], instanceTelegram, userListWithChatID, part.parse_mode);
-        }
-        return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: newNav };
+        return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
     }
     catch (e) {
-        _this.log.error("Error callSubMenu: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, console_1.error)({
+            array: [
+                { text: "Error callSubMenu:", val: e.message },
+                { text: "Stack:", val: e.stack },
+            ],
+        });
     }
 }
-/**
- * finds the Submenu and calls it
- * @param {*} _this
- * @param {string} calledValue - Value of the button [["menu:percent10:r1:"]]
- * @param {{}} menuData - Data of the group
- * @param {string} userToSend - user to send the message to
- * @param {string} instanceTelegram - instance of telegram
- * @param {boolean} resize_keyboard - resize keyboard
- * @param {boolean} one_time_keyboard - one time keyboard
- * @param {[]} userListWithChatID - array with chatID and username
- * @param {object} part - Part of the menu
- * @returns [text, keyboard, device2Switch, returnIDToListenTo, navToGoBack]
- */
-async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus) {
+exports.callSubMenu = callSubMenu;
+async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus) {
     try {
-        _this.log.debug("CalledValue: " + JSON.stringify(calledValue));
+        (0, logging_1.debug)([{ text: "CalledValue:", val: calledValue }]);
         let text = "";
-        if (part && part.text && part.text != "")
-            text = await checkStatusInfo(_this, part.text);
+        if (part && part.text && part.text != "") {
+            text = await (0, utilities_1.checkStatusInfo)(part.text);
+        }
         let splittedText = [];
         let callbackData = "";
         let device2Switch = "";
@@ -81,23 +55,25 @@ async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegra
         }
         device2Switch = splittedText[2];
         callbackData = splittedText[1];
-        _this.log.debug("callbackData: 	" + JSON.stringify(callbackData));
-        _this.log.debug("splittet Data of callbackData " + JSON.stringify(splittedText[1]));
-        _this.log.debug("deviceToSwitch: 	" + JSON.stringify(device2Switch));
-        _this.log.debug("text: 	" + JSON.stringify(calledValue));
+        (0, logging_1.debug)([
+            { text: "CallbackData:", val: callbackData },
+            { text: "Device2Switch:", val: device2Switch },
+            { text: "SplittedText:", val: splittedText },
+        ]);
         if (callbackData.includes("delete")) {
             const navToGoBack = splittedText[2];
             if (callbackData.includes("deleteAll")) {
-                deleteMessageIds(_this, userToSend, userListWithChatID, instanceTelegram, "all");
+                (0, messageIds_1.deleteMessageIds)(userToSend, userListWithChatID, instanceTelegram, "all");
             }
-            if (navToGoBack && navToGoBack != "")
-                return [null, null, null, null, navToGoBack];
-            else
-                _this.log.debug("Please insert a Menu in your Delete Submenu");
+            if (navToGoBack && navToGoBack != "") {
+                return { navToGoBack: navToGoBack };
+            }
+            else {
+                (0, logging_1.debug)([{ text: "Please insert a Menu in your Delete Submenu" }]);
+            }
             return;
         }
         else if (callbackData.includes("switch")) {
-            //ANCHOR -  Switch
             splittedData = callbackData.split("-");
             const keyboard = {
                 inline_keyboard: [
@@ -113,11 +89,11 @@ async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegra
                     ],
                 ],
             };
-            return [text, JSON.stringify(keyboard), device2Switch];
+            return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
         }
         else if (callbackData.includes("first")) {
             let val;
-            _this.log.debug("SplittedData " + JSON.stringify(splittedData));
+            (0, logging_1.debug)([{ text: "SplittedData:", val: splittedData }]);
             if (splittedData[1].split(".")[1] == "false") {
                 val = false;
             }
@@ -127,10 +103,10 @@ async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegra
             else {
                 val = splittedData[1].split(".")[1];
             }
-            const result = await setstate(_this, menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+            const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
             if (Array.isArray(result))
                 returnIDToListenTo = result;
-            return [null, null, null, returnIDToListenTo];
+            return { returnIds: returnIDToListenTo };
         }
         else if (callbackData.includes("second")) {
             let val;
@@ -143,24 +119,24 @@ async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegra
             else {
                 val = splittedData[2].split(".")[1];
             }
-            const result = await setstate(_this, menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+            const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
             if (Array.isArray(result))
                 returnIDToListenTo = result;
-            return [null, null, null, returnIDToListenTo];
+            return { returnIds: returnIDToListenTo };
         }
         else if (callbackData.includes("dynSwitch")) {
-            // Dynamisches Switch
-            return dynamicSwitch(_this, calledValue, device2Switch, text);
+            return (0, dynamicSwitch_1.dynamicSwitch)(calledValue, device2Switch, text);
         }
         else if (callbackData.includes("dynS")) {
-            _this.log.debug("SplittedData " + JSON.stringify(splittedData));
+            (0, logging_1.debug)([{ text: "SplittedData:", val: splittedData }]);
             const val = splittedText[3];
-            const result = await setstate(_this, menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+            const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
             if (Array.isArray(result))
                 returnIDToListenTo = result;
-            return [null, null, null, returnIDToListenTo];
+            return {
+                returnIds: returnIDToListenTo,
+            };
         }
-        //ANCHOR - Percent
         else if (!calledValue.includes("submenu") && callbackData.includes("percent")) {
             step = parseFloat(callbackData.replace("percent", ""));
             let rowEntries = 0;
@@ -187,15 +163,14 @@ async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegra
             }
             if (rowEntries != 0)
                 keyboard.inline_keyboard.push(menu);
-            return [text, JSON.stringify(keyboard), device2Switch];
+            return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
         }
         else if (calledValue.includes(`submenu:percent${step}`)) {
             const value = parseInt(calledValue.split(":")[1].split(",")[1]);
-            const result = await setstate(_this, menuData[device2Switch], userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+            const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
             if (Array.isArray(result))
                 returnIDToListenTo = result;
-            return [null, null, null, returnIDToListenTo];
-            //ANCHOR - Number
+            return { returnIds: returnIDToListenTo };
         }
         else if (!calledValue.includes("submenu") && callbackData.includes("number")) {
             if (callbackData.includes("(-)"))
@@ -241,41 +216,38 @@ async function subMenu(_this, calledValue, menuData, userToSend, instanceTelegra
                 });
                 rowEntries++;
                 if (rowEntries == maxEntriesPerRow) {
-                    // @ts-ignore
                     keyboard.inline_keyboard.push(menu);
                     menu = [];
                     rowEntries = 0;
                 }
             }
-            // @ts-ignore
             if (rowEntries != 0)
                 keyboard.inline_keyboard.push(menu);
-            _this.log.debug("keyboard " + JSON.stringify(keyboard.inline_keyboard));
-            return [text, JSON.stringify(keyboard), device2Switch];
+            (0, logging_1.debug)([{ text: "keyboard:", val: keyboard.inline_keyboard }]);
+            return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
         }
         else if (calledValue.includes(`submenu:${callbackData}`)) {
-            _this.log.debug("CallbackData" + JSON.stringify(callbackData));
+            (0, logging_1.debug)([{ text: "CallbackData:", val: callbackData }]);
             const value = parseFloat(calledValue.split(":")[3]);
             device2Switch = calledValue.split(":")[2];
-            _this.log.debug(JSON.stringify({ device2Switch: device2Switch, data: menuData, user: userToSend, value: value }));
-            const result = await setstate(_this, menuData[device2Switch], userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+            const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
             if (Array.isArray(result))
                 returnIDToListenTo = result;
-            return [null, null, null, returnIDToListenTo];
+            return { returnIds: returnIDToListenTo };
         }
-        //ANCHOR - Back menu
         else if (callbackData === "back") {
-            const result = await switchBack(_this, userToSend, allMenusWithData, menus);
+            const result = await (0, backMenu_1.switchBack)(userToSend, allMenusWithData, menus);
             if (result)
-                sendToTelegram(_this, userToSend, result["texttosend"], result["menuToSend"], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, result["parseMode"]);
+                (0, telegram_1.sendToTelegram)(userToSend, result["texttosend"], result["menuToSend"], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, result["parseMode"]);
         }
+        return;
     }
     catch (error) {
-        _this.log.error("Error subMenu: " + JSON.stringify(error.message + error.stack));
+        error([
+            { text: "Error subMenu:", val: error.message },
+            { text: "Stack", val: error.stack },
+        ]);
     }
 }
-module.exports = {
-    subMenu,
-    callSubMenu,
-};
+exports.subMenu = subMenu;
 //# sourceMappingURL=subMenu.js.map

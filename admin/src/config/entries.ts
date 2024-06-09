@@ -1,4 +1,3 @@
-
 export const tabValues: TabValues[] = [
 	// Danach noch generateActions anpassen in action.js
 	{

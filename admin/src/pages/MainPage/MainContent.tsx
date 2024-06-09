@@ -11,7 +11,7 @@ class MainContent extends Component<PropsMainContent> {
 		super(props);
 		this.state = {};
 	}
-	tabBox: Properties<string | number, string & {}> = {
+	tabBox: Properties<string | number, string> = {
 		display: "flex",
 		flexDirection: "column",
 		height: "calc(100vh - 112px)",
@@ -24,7 +24,12 @@ class MainContent extends Component<PropsMainContent> {
 					<TabContext value={this.props.state.tab}>
 						<MainTabList callback={this.props.callback} />
 						<MainActions tab={this.props.state.tab} data={this.props.data} callback={this.props.callback} />
-						<MainTabs callback={this.props.callback} adapterName={this.props.adapterName} socket={this.props.socket} state={this.props.state} />
+						<MainTabs
+							callback={this.props.callback}
+							adapterName={this.props.adapterName}
+							socket={this.props.socket}
+							state={this.props.state}
+						/>
 					</TabContext>
 				</Box>
 			</Grid>

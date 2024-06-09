@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { I18n, SelectID } from "@iobroker/adapter-react-v5";
-import { TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
+import { SelectID } from "@iobroker/adapter-react-v5";
+import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 
 import Input from "@/components/btn-Input/input";
 import Checkbox from "@/components/btn-Input/checkbox";
@@ -45,7 +45,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	componentDidMount() {
 		saveRows(this.props, this.setState.bind(this), this.props.entries, this.state.rows);
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		if (prevProps.newRow !== this.props.newRow) {
 			saveRows(this.props, this.setState.bind(this), this.props.entries, this.props.newRow);
 		}
@@ -118,10 +118,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 										>
 											{row.IDs || row.IDs === "" ? (
 												<TableCell component="td" scope="row" align="left">
-													<span
-														onMouseEnter={(e) => handleMouseOver(e, this.setState.bind(this))}
-														onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
-													>
+													<span onMouseEnter={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
 														<Input
 															width="calc(100% - 50px)"
 															value={row.IDs}
@@ -211,8 +208,10 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 											{this.props.buttons.add ? (
 												<TableCell align="center" className="cellIcon">
 													<BtnSmallAdd
+														callback={(index) =>
+															addNewRow(index, this.props, this.props.entries, this.setState.bind(this))
+														}
 														index={indexRow}
-														callback={() => addNewRow(this.props, this.props.entries, indexRow, this.setState.bind(this))}
 													/>
 												</TableCell>
 											) : null}
@@ -252,7 +251,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						onClose={() => this.setState({ showSelectId: false })}
 						root={(this.props.searchRoot && this.props.searchRoot.root) || undefined}
 						types={this.props.searchRoot && this.props.searchRoot.type ? this.props.searchRoot.type : undefined}
-						onOk={(selected, name) => {
+						onOk={(selected) => {
 							this.setState({ showSelectId: false });
 							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entries, this.state.itemForID);
 						}}

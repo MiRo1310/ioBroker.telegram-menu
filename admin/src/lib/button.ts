@@ -7,7 +7,7 @@
  * @param {number} upDown Positions to move up or down
  * @param {number} newPositionIndex New position of the element in the array
  */
-export const moveItem = (index, props, card, subcard, upDown, newPositionIndex?) => {
+export const moveItem = (index: number, props, card: string, subcard: string | null, upDown: number, newPositionIndex?: number): void => {
 	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.activeMenu;
 	let userArray = [];
@@ -24,7 +24,7 @@ export const moveItem = (index, props, card, subcard, upDown, newPositionIndex?)
 	else dataCopy[card][activeMenu] = userArray;
 	props.callback.updateNative("data", dataCopy);
 };
-export const moveDown = (index, props, card, subcard, upDown) => {
+export const moveDown = (index, props, card, subcard, upDown): void => {
 	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.activeMenu;
 	let userArray = [];
@@ -38,7 +38,7 @@ export const moveDown = (index, props, card, subcard, upDown) => {
 	else dataCopy[card][activeMenu] = userArray;
 	props.callback.updateNative("data", dataCopy);
 };
-export const moveUp = (index, props, card, subcard) => {
+export const moveUp = (index, props, card, subcard): void => {
 	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.activeMenu;
 	let userArray = [];
@@ -52,7 +52,7 @@ export const moveUp = (index, props, card, subcard) => {
 	else dataCopy[card][activeMenu] = userArray;
 	props.callback.updateNative("data", dataCopy);
 };
-export const deleteRow = (index, props, card, subcard?) => {
+export const deleteRow = (index, props, card, subcard?): void => {
 	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
 	const activeMenu = props.activeMenu;
 	let userArray = [];

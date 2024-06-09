@@ -1,21 +1,18 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Sends Request to delete a Message
- * @param {*} _this
- * @param {string} instance Instance of Telegram
- * @param {string} user User to send to
- * @param {[]} userListWithChatID Array with ChatID and Username
- * @param {string|number} messageId ID of the Message to delete
- * @param {string|number} chat_id ChatID of the User
- */
-const deleteMessageByBot = async (_this, instance, user, userListWithChatID, messageId, chat_id) => {
+exports.deleteMessageByBot = void 0;
+const main_1 = __importDefault(require("@backend/main"));
+const logging_1 = require("./logging");
+const deleteMessageByBot = async (instance, user, userListWithChatID, messageId, chat_id) => {
+    const _this = main_1.default.getInstance();
     try {
         if (chat_id) {
-            _this.log.debug("Delete Message for " + JSON.stringify(user + " " + chat_id));
+            (0, logging_1.debug)([{ text: "Delete Message for ", val: user + " " + chat_id }]);
         }
         _this.sendTo(instance, {
-            // user: user,
             deleteMessage: {
                 options: {
                     chat_id: chat_id,
@@ -25,11 +22,11 @@ const deleteMessageByBot = async (_this, instance, user, userListWithChatID, mes
         });
     }
     catch (e) {
-        _this.log.error("Error deleteMessage: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_1.error)([
+            { text: "Error deleteMessage:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 };
-module.exports = {
-    deleteMessageByBot,
-};
+exports.deleteMessageByBot = deleteMessageByBot;
 //# sourceMappingURL=botAction.js.map

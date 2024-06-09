@@ -1,26 +1,58 @@
-const { isJSON, replaceAll } = require("./global");
-/**
- *	Searches for the ChatID of a User
- * @param {array} userListWithChatID Array with ChatID and Username
- * @param {string} user Username
- * @returns {string|number} chatId
- */
-const getChatID = (userListWithChatID: UserListWithChatId[], user: string) => {
+import TelegramMenu from "@backend/main";
+import { isJSON, replaceAll } from "./global";
+import { debug, error } from "./logging";
+
+const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
+	const string = obj.val?.toString();
+	if (!string) {
+		return textToSend;
+	}
+	const time = new Date(string);
+	const timeString = time.toLocaleDateString("de-DE", {
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: false,
+	});
+	textToSend = textToSend.replace("{time}", timeString);
+	return textToSend;
+};
+
+const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string => {
 	let chatId = "";
 	userListWithChatID.forEach((element) => {
-		if (element.name === user) chatId = element.chatID;
+		if (element.name === user) {
+			chatId = element.chatID;
+		}
 	});
 	return chatId;
 };
+const exchangeValue = (textToSend: string, stateVal: string | number | boolean): { valueChange: string; textToSend: string } | boolean => {
+	const startindex = decomposeText(textToSend, "change{", "}").startindex;
+	const endindex = decomposeText(textToSend, "change{", "}").endindex;
 
-/**
- * Returns an object with startindex, endindex, substring, textWithoutSubstring
- * @param {string} text  Text to search in
- * @param {string} searchValue Value to search for
- * @param {string} secondValue Second value to search for
- * @returns   Returns an object with startindex, endindex, substring, textWithoutSubstring
- */
-function decomposeText(text: string, searchValue: string, secondValue: string) {
+	let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
+
+	let objChangeValue;
+	match = match.replaceAll("'", '"');
+
+	if (isJSON("{" + match + "}")) {
+		objChangeValue = JSON.parse("{" + match + "}");
+	} else {
+		error([{ text: `There is a error in your input:`, val: replaceAll(match, '"', "'") }]);
+		return false;
+	}
+
+	let newValue;
+	objChangeValue[String(stateVal)] ? (newValue = objChangeValue[String(stateVal)]) : (newValue = stateVal);
+	return { valueChange: newValue, textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1) };
+};
+
+function decomposeText(
+	text: string,
+	searchValue: string,
+	secondValue: string,
+): { startindex: number; endindex: number; substring: string; textWithoutSubstring: string } {
 	const startindex = text.indexOf(searchValue);
 	const endindex = text.indexOf(secondValue, startindex);
 	const substring = text.substring(startindex, endindex + secondValue.length);
@@ -33,128 +65,20 @@ function decomposeText(text: string, searchValue: string, secondValue: string) {
 	};
 }
 
-function changeValue(textToSend: string, val: string | number, _this: any) {
+function changeValue(textToSend: string, val: string | number | boolean): { textToSend: string; val: string | number } | undefined {
 	if (textToSend.includes("change{")) {
-		const result = exchangeValue(textToSend, val, _this);
-		if (!result) { return }
-		console.log("result " + JSON.stringify(result));
-
+		const result = exchangeValue(textToSend, val);
+		if (!result) {
+			return;
+		}
+		if (typeof result === "boolean") {
+			return;
+		}
 		return { textToSend: result["textToSend"], val: result["valueChange"] };
 	}
 }
-const checkStatusInfo = async (_this: any, text: string, processTimeValue: Function) => {
-	try {
-		if (text && text.includes("{status:")) {
-			while (text.includes("{status:")) {
-				text = await checkStatus(_this, text, processTimeValue);
-			}
-		}
-		if (text.includes("{time.lc") || text.includes("{time.ts")) {
-			text = await processTimeIdLc(text, null, _this);
-		}
-		if (text.includes("{set:")) {
-			const result = decomposeText(text, "{set:", "}");
-			const id = result.substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
-			const importedValue = result.substring.split(",")[1];
-
-			text = result.textWithoutSubstring;
-			const convertedValue = await checkTypeOfId(_this, id, importedValue);
-
-			let ack;
-			if (result.substring.split(",")[2].replace("}", "") == "true") ack = true;
-			else ack = false;
-			_this.log.debug(JSON.stringify({ id: id, value: convertedValue, ack: ack }));
-			if (text === "") text = "Wähle eine Aktion";
-
-			await _this.setForeignState(id, convertedValue, ack);
-		}
-		return text;
-	} catch (e: any) {
-		_this.log.error("Error checkStatusInfo: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify("text: " + text));
-		_this.log.error(JSON.stringify(e.stack));
-	}
-};
-/**
- *
- * @param {*} _this
- * @param {string} text
- * @returns
- */
-const checkStatus = async (_this: any, text: string, processTimeValue: Function) => {
-	_this.log.debug("CheckStatusInfo: " + JSON.stringify(text));
-	const substring = decomposeText(text, "{status:", "}").substring;
-	let id, valueChange;
-
-	// Da sich die Funktion geändert hat, muss hier unterschieden werden, ob es sich um eine alte oder neue Funktion handelt, die Neue beinhalter id: und valueChange:
-	if (substring.includes("status:'id':")) {
-		id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-
-		valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
-	} else {
-		id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-		valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
-	}
-
-	let value = await _this.getForeignStateAsync(id);
-	if (!value) return;
-	_this.log.debug(JSON.stringify({ id: id, val: value.val }));
-
-	if (text.includes("{time}")) {
-		text = text.replace(substring, "");
-
-		value = processTimeValue(text, value).replace(value.val, "");
-		return value;
-	} else if (value || value.val === 0 || value.val == false || value.val == "false") {
-		if (valueChange) {
-			const changedResult = changeValue(text, value.val, _this);
-			let newValue;
-			if (changedResult) {
-				text = changedResult.textToSend;
-				newValue = changedResult.val;
-			} else newValue = value.val;
-			return text.replace(substring, newValue);
-		} else {
-			return text.replace(substring, value.val);
-		}
-	} else _this.log.debug("Error getting Value from " + JSON.stringify(id));
-};
-/**
- *  check the type of the id and convert the value
- * @param {*} _this
- * @param {string} id  id of the state
- * @param {*} value  value to check
- * @returns
- */
-async function checkTypeOfId(_this: any, id: string, value: string | boolean | number) {
-	try {
-		const obj = await _this.getForeignObject(id);
-		const receivedType = typeof value;
-		if (obj && obj.common && obj.common.type === "boolean") {
-			if (value == "true") value = true;
-			if (value == "false") value = false;
-		} else if (obj && obj.common && obj.common.type === "string") {
-			value = value.toString();
-		} else if (obj && obj.common && obj.common.type === "number" && typeof value === "string") {
-			value = parseFloat(value);
-		}
-		_this.log.debug(`Change Valuetype from : ${receivedType} to ${typeof value}`);
-		return value;
-	} catch (e: any) {
-		_this.log.error("Error checkTypeOfId: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
-	}
-}
-const newLine = (text: string) => {
-	if (text && text.includes("\\n")) return text.replace(/\\n/g, "\n");
-	return text;
-};
-/**
- *
- * @param {*} textToSend
- * @returns string
- */
-const processTimeIdLc = async (textToSend: string, id: string | null, _this: any) => {
+const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
+	const _this = TelegramMenu.getInstance();
 
 	let key: string = "";
 	const substring = decomposeText(textToSend, "{time.", "}").substring;
@@ -166,22 +90,27 @@ const processTimeIdLc = async (textToSend: string, id: string | null, _this: any
 	else if (array[0].includes("ts")) key = "ts";
 
 	if (!id) {
-		if (!changedSubstring.includes("id:")) return _this.log.error("Error processTimeIdLc: id not found in " + JSON.stringify(changedSubstring));
-		else {
-			if (array[2]) {
-				id = array[2].replace("id:", "").replace("}", "").replace(/'/g, "");
-				changedSubstring = changedSubstring.replace(array[2], "").replace(/,/g, "");
-			}
+		if (!changedSubstring.includes("id:")) {
+			debug([{ text: "Error processTimeIdLc: id not found in:", val: changedSubstring }]);
+			return;
 		}
+
+		if (array[2]) {
+			id = array[2].replace("id:", "").replace("}", "").replace(/'/g, "");
+			changedSubstring = changedSubstring.replace(array[2], "").replace(/,/g, "");
+		}
+		return;
 	}
 	const value = await _this.getForeignStateAsync(id);
 	let timeValue;
 	let timeStringUser;
-	if (key) {
+	if (key && value) {
 		timeStringUser = changedSubstring.replace(",(", "").replace(")", "").replace("}", "");
-		timeValue = value[key];
+		timeValue = value[key as keyof ioBroker.StateValue];
 	}
-
+	if (!timeValue) {
+		return;
+	}
 	const timeObj = new Date(timeValue);
 	const milliseconds = timeObj.getMilliseconds();
 	const seconds = timeObj.getSeconds();
@@ -191,7 +120,6 @@ const processTimeIdLc = async (textToSend: string, id: string | null, _this: any
 	const month = timeObj.getMonth() + 1;
 	const year = timeObj.getFullYear();
 
-	// Fügt eine führende Null hinzu, wenn die Stunden oder Minuten weniger als 10 sind
 	const time = {
 		ms: milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds,
 		s: seconds < 10 ? "0" + seconds : seconds,
@@ -213,48 +141,154 @@ const processTimeIdLc = async (textToSend: string, id: string | null, _this: any
 		if (timeStringUser.includes("YY")) timeStringUser = timeStringUser.replace("YY", time.y.toString().slice(-2));
 		timeStringUser = timeStringUser.replace("(", "").replace(")", "");
 		return textToSend.replace(substring, timeStringUser);
-	} else return textToSend;
-};
-/**
- *
- * @param {string} textToSend
- * @param {*} obj
- * @returns String
- */
-const processTimeValue = (textToSend: string, obj: { val: string }) => {
-	const time = new Date(obj.val);
-	const timeString = time.toLocaleDateString("de-DE", {
-		hour: "2-digit",
-		minute: "2-digit",
-		second: "2-digit",
-		hour12: false,
-	});
-	textToSend = textToSend.replace("{time}", timeString);
+	}
+
 	return textToSend;
 };
-/**
- * Exchange Value with other Value
- * @param {String} textToSend Text which should be send to user
- * @param {String} stateVal Value to exchange
- * @param {*} _this
- * @returns {object} valueChange and textToSend
- */
-const exchangeValue = (textToSend: string, stateVal: string | number, _this: any) => {
-	const startindex = decomposeText(textToSend, "change{", "}").startindex;
-	const endindex = decomposeText(textToSend, "change{", "}").endindex;
 
-	let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
-	console.log("match " + match);
-	let objChangeValue;
-	match = match.replaceAll("'", '"');
-	if (isJSON("{" + match + "}")) objChangeValue = JSON.parse("{" + match + "}");
-	else {
-		_this.log.error(`There is a error in your input: ` + JSON.stringify(replaceAll(match, '"', "'")));
-		return false;
+const checkStatus = (text: string, processTimeValue?: ProzessTimeValue): Promise<string | undefined | ioBroker.State | null> => {
+	return new Promise(async (resolve) => {
+		try {
+			const _this = TelegramMenu.getInstance();
+			debug([{ text: "CheckStatusInfo:", val: text }]);
+
+			const substring = decomposeText(text, "{status:", "}").substring;
+			let id, valueChange;
+
+			if (substring.includes("status:'id':")) {
+				id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
+
+				valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
+			} else {
+				id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
+				valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
+			}
+
+			const stateValue = await _this.getForeignStateAsync(id);
+
+			if (!stateValue) {
+				debug([{ text: "Error getting Value from:", val: id }]);
+				return;
+			}
+
+			if (text.includes("{time}") && processTimeValue) {
+				text = text.replace(substring, "");
+				if (stateValue.val && typeof stateValue.val === "string") {
+					const newValue = processTimeValue(text, stateValue).replace(stateValue.val, "");
+					return resolve(newValue);
+				}
+			}
+			if (stateValue.val === undefined || stateValue.val === null) {
+				debug([
+					{ text: "Id", val: id },
+					{ text: "Value is null or undefined!" },
+				]);
+				return resolve(text.replace(substring, ""));
+
+			}
+			if (!valueChange) {
+				resolve(text.replace(substring, stateValue.val.toString()));
+				return
+			}
+			const changedResult = changeValue(text, stateValue.val);
+			let newValue;
+			if (changedResult) {
+				text = changedResult.textToSend;
+				newValue = changedResult.val;
+			} else {
+				newValue = stateValue.val;
+			}
+			resolve(text.replace(substring, newValue.toString()));
+		}
+		catch (e: any) {
+			error([
+				{ text: "Error checkStatus:", val: e.message },
+				{ text: "Stack:", val: e.stack },
+			]);
+		}
+	})
+}
+
+const checkStatusInfo = async (text: string): Promise<string | undefined> => {
+	const _this = TelegramMenu.getInstance();
+	try {
+		if (text && text.includes("{status:")) {
+			while (text.includes("{status:")) {
+				const result = await checkStatus(text, processTimeValue);
+				text = result?.toString() || "";
+			}
+		}
+		if (text.includes("{time.lc") || text.includes("{time.ts")) {
+			text = (await processTimeIdLc(text, null)) || "";
+		}
+		if (text.includes("{set:")) {
+			const result = decomposeText(text, "{set:", "}");
+			const id = result.substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
+			const importedValue = result.substring.split(",")[1];
+
+			text = result.textWithoutSubstring;
+			const convertedValue = await checkTypeOfId(id, importedValue);
+
+			const ack = result.substring.split(",")[2].replace("}", "") == "true";
+
+			if (text === "") {
+				text = "Wähle eine Aktion";
+			}
+			if (convertedValue) {
+				await _this.setForeignStateAsync(id, convertedValue, ack);
+			}
+		}
+		if (text) {
+			return text
+		};
+	} catch (e: any) {
+		error([
+			{ text: "Error checkStatusInfo:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
-	// Wenn der Wert in der Objektliste ist, wird der Wert ausgetauscht, ansonsten bleibt der Wert gleich
-	let newValue;
-	objChangeValue[String(stateVal)] ? (newValue = objChangeValue[String(stateVal)]) : (newValue = stateVal);
-	return { valueChange: newValue, textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1) };
 };
-module.exports = { checkStatusInfo, checkTypeOfId, changeValue, newLine, processTimeIdLc, processTimeValue, decomposeText, replaceAll, getChatID };
+
+async function checkTypeOfId(
+	id: string,
+	value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
+): Promise<ioBroker.State | null | undefined | ioBroker.State | ioBroker.StateValue | ioBroker.SettableState> {
+	const _this = TelegramMenu.getInstance();
+	try {
+		const obj = await _this.getForeignObject(id, () => console.log("Object not found"));
+		const receivedType = typeof value;
+		if (!obj || !value) {
+			return value;
+		}
+		if (receivedType === typeof obj.common.type || !obj.common.type) {
+			return value;
+		}
+
+		debug([{ text: `Change Value type from : ${receivedType} to ${typeof value}` }]);
+
+		if (obj.common.type === "boolean") {
+			if (value == "true") value = true;
+			if (value == "false") value = false;
+			return value;
+		}
+		if (obj.common.type === "string") {
+			return value.toString();
+		}
+		if (obj && obj.common && obj.common.type === "number" && typeof value === "string") {
+			return parseFloat(value);
+		}
+
+		return value;
+	} catch (e: any) {
+		error([
+			{ text: "Error checkTypeOfId:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
+	}
+}
+const newLine = (text: string): string => {
+	if (text && text.includes("\\n")) return text.replace(/\\n/g, "\n");
+	return text;
+};
+
+export { checkStatusInfo, checkTypeOfId, changeValue, newLine, processTimeIdLc, processTimeValue, decomposeText, replaceAll, getChatID };

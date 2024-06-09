@@ -7,8 +7,7 @@ import { deepCopy } from "../../lib/Utils.js";
 import PopupContainer from "./PopupContainer";
 import RenameCard from "./RenameCard";
 
-
-class DropBox extends Component<PropsDropBox, StateDropBox>{
+class DropBox extends Component<PropsDropBox, StateDropBox> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -35,7 +34,11 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 		}
 		if (prevState.newTrigger !== this.state.newTrigger) {
 			if (this.state.usedTrigger) {
-				if (this.state.usedTrigger.includes(this.state.newTrigger) || this.state.newTrigger === "" || this.state.newTrigger === this.state.oldTrigger) {
+				if (
+					this.state.usedTrigger.includes(this.state.newTrigger) ||
+					this.state.newTrigger === "" ||
+					this.state.newTrigger === this.state.oldTrigger
+				) {
 					this.setState({ isOK: false });
 				} else {
 					this.setState({ isOK: true });
@@ -47,30 +50,36 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 	}
 	updateMenuList = () => {
 		const menuList = Object.keys(this.props.native.usersInGroup);
-		// const indexOfActiveMenu = menuList.indexOf(this.props.activeMenu);
-		// menuList.splice(indexOfActiveMenu, 1);
 		this.setState({ menuList: menuList });
 	};
+
 	handleDragOver = (e) => {
 		e.preventDefault();
 	};
-	handleOnDrop = (e?) => {
+
+	handleOnDrop = () => {
 		if (this.state.selectedMenu === "") return;
 		const data = deepCopy(this.props.native.data);
 		let rowToWorkWith;
-		let moveOrCopy = this.state.selectedValue;
-		// Wenn es sich um events handelt, wird es sofort weiter geleitet da kein Trigger vorhanden ist, der evtl geändert werden muss
-		if (this.state.newTrigger === "" && !(this.props.subTab === "events")) {
-			if (this.props.tab === "action") rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
-			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
-			this.setState({ rowToWorkWith: rowToWorkWith });			
-			let usedTrigger = updateTriggerForSelect(data, this.props.native?.usersInGroup, this.state.selectedMenu)?.usedTrigger;
+		const moveOrCopy = this.state.selectedValue;
 
-			this.setState({ usedTrigger: usedTrigger||[] });
+		if (this.state.newTrigger === "" && !(this.props.subTab === "events")) {
+			if (this.props.tab === "action")
+				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
+			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
+			this.setState({ rowToWorkWith: rowToWorkWith });
+			const usedTrigger = updateTriggerForSelect(data, this.props.native?.usersInGroup, this.state.selectedMenu)?.usedTrigger;
+
+			this.setState({ usedTrigger: usedTrigger || [] });
 			if (this.props.tab === "action") {
 				if (moveOrCopy === "copy") {
 					if (rowToWorkWith.trigger && usedTrigger?.includes(rowToWorkWith.trigger[0])) {
-						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
+						this.setState({
+							trigger: rowToWorkWith.trigger,
+							newTrigger: rowToWorkWith.trigger,
+							openRenamePopup: true,
+							oldTrigger: rowToWorkWith.trigger,
+						});
 					}
 				} else {
 					// Move Item
@@ -78,14 +87,24 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger });
 						this.move(rowToWorkWith, data);
 					} else {
-						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger, openRenamePopup: true, oldTrigger: rowToWorkWith.trigger });
+						this.setState({
+							trigger: rowToWorkWith.trigger,
+							newTrigger: rowToWorkWith.trigger,
+							openRenamePopup: true,
+							oldTrigger: rowToWorkWith.trigger,
+						});
 					}
 				}
 			} else {
 				// Navigation
 				if (moveOrCopy === "copy") {
 					if (usedTrigger?.includes(rowToWorkWith.call)) {
-						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true, oldTrigger: rowToWorkWith.call });
+						this.setState({
+							trigger: rowToWorkWith.call,
+							newTrigger: rowToWorkWith.call,
+							openRenamePopup: true,
+							oldTrigger: rowToWorkWith.call,
+						});
 					}
 				} else {
 					// Move Item
@@ -93,7 +112,12 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call });
 						this.move(rowToWorkWith, data);
 					} else {
-						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call, openRenamePopup: true, oldTrigger: rowToWorkWith.call });
+						this.setState({
+							trigger: rowToWorkWith.call,
+							newTrigger: rowToWorkWith.call,
+							openRenamePopup: true,
+							oldTrigger: rowToWorkWith.call,
+						});
 					}
 				}
 			}
@@ -120,13 +144,15 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 			if (this.state.newTrigger !== "") rowToWorkWith.trigger[0] = this.state.newTrigger;
 
 			// Wenn es das erste Element ist, dann muss das Array erstellt werden
-			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab])
+				data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
 
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
 		} else if (this.props.subTab == "events") {
 			// Events besonders da kein Trigger vorhanden ist
-			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab])
+				data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
 		} else {
@@ -158,7 +184,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 		this.setState({ selectedValue: event.target.value });
 	};
 	renameMenu = (value) => {
-		console.log(value)
+		console.log(value);
 		if (!value) {
 			this.setState({ openRenamePopup: false });
 			this.setState({ newTrigger: "" });
@@ -185,23 +211,37 @@ class DropBox extends Component<PropsDropBox, StateDropBox>{
 						placeholder={I18n.t("Select a Menu")}
 					></Select>
 					<label>
-						<Radio checked={this.state.selectedValue === "move"} onChange={this.handleChange} value="move" name="radio-buttons" inputProps={{ "aria-label": "A" }} />
+						<Radio
+							checked={this.state.selectedValue === "move"}
+							onChange={this.handleChange}
+							value="move"
+							name="radio-buttons"
+							inputProps={{ "aria-label": "A" }}
+						/>
 						{I18n.t("Move")}
 					</label>
 					<label>
-						<Radio checked={this.state.selectedValue === "copy"} onChange={this.handleChange} value="copy" name="radio-buttons" inputProps={{ "aria-label": "B" }} />
+						<Radio
+							checked={this.state.selectedValue === "copy"}
+							onChange={this.handleChange}
+							value="copy"
+							name="radio-buttons"
+							inputProps={{ "aria-label": "B" }}
+						/>
 						{I18n.t("Copy")}
 					</label>
 					<div
 						className="DropBox"
 						draggable
-						onDrop={(event) => this.handleOnDrop(event)}
+						onDrop={() => this.handleOnDrop()}
 						onDragOver={(event) => this.handleDragOver(event)}
 						onDragEnter={() => this.handleDrag(true)}
 						onDragLeave={() => this.handleDrag(false)}
 					>
 						<p className="DropBox-Header">Drop here!!!</p>
-						<p className="DropBox-Content">{I18n.t("Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!")} </p>
+						<p className="DropBox-Content">
+							{I18n.t("Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!")}{" "}
+						</p>
 					</div>
 				</div>
 				{this.state.openRenamePopup ? (

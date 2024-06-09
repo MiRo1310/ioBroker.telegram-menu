@@ -1,4 +1,4 @@
-const createState = async (_this: any) => {
+const createState = async (_this: any): Promise<void> => {
 	await _this.setObjectNotExistsAsync("communication.requestIds", {
 		type: "state",
 		common: {
@@ -12,4 +12,4 @@ const createState = async (_this: any) => {
 		native: {},
 	});
 };
-module.exports = { createState };
+export { createState };

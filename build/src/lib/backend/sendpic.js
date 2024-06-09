@@ -1,61 +1,70 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { sendToTelegram } = require("./telegram");
-const { replaceAll } = require("./utilities");
-const { exec } = require("child_process");
-function sendPic(_this, part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
-    _this.log.debug("Send Picture");
+exports.sendPic = void 0;
+const telegram_1 = require("./telegram");
+const utilities_1 = require("./utilities");
+const child_process_1 = require("child_process");
+const logging_1 = require("./logging");
+const main_1 = __importDefault(require("@backend/main"));
+function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
     part.sendPic?.forEach((element) => {
+        const _this = main_1.default.getInstance();
         let path = "";
         if (element.id != "-") {
             const url = element.id;
-            const newUrl = replaceAll(url, "&amp;", "&");
+            const newUrl = (0, utilities_1.replaceAll)(url, "&amp;", "&");
             try {
-                exec(`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`, (error, stdout, stderr) => {
+                (0, child_process_1.exec)(`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`, (error, stdout, stderr) => {
                     if (stdout) {
-                        _this.log.debug("Stdout: " + JSON.stringify(stdout));
+                        (0, logging_1.debug)([{ text: "Stdout:", val: stdout }]);
                     }
                     if (stderr) {
-                        _this.log.debug("Stderr: " + JSON.stringify(stderr));
+                        (0, logging_1.debug)([{ text: "Stderr:", val: stderr }]);
                     }
                     if (error) {
-                        _this.log.error("Ein Fehler ist aufgetreten: " + JSON.stringify(error));
+                        error([{ text: "Error:", val: error }]);
                         return;
                     }
                 });
             }
             catch (e) {
-                _this.log.error("Error :" + JSON.stringify(e.message));
-                _this.log.error(JSON.stringify(e.stack));
+                (0, logging_1.error)([
+                    { text: "Error:", val: e.message },
+                    { text: "Stack:", val: e.stack },
+                ]);
             }
-            _this.log.debug("Delay Time " + JSON.stringify(element.delay));
+            (0, logging_1.debug)([{ text: "Delay Time:", val: element.delay }]);
             timeoutKey += 1;
             path = `${directoryPicture}${element.fileName}`;
+            return;
         }
-        else
-            path = element.fileName;
         try {
+            path = element.fileName;
             const timeout = _this.setTimeout(async () => {
-                _this.log.debug("Send Pic to Telegram");
-                sendToTelegram(_this, userToSend, path, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
+                (0, telegram_1.sendToTelegram)(userToSend, path, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
                 let timeoutToClear = [];
                 timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-                //REVIEW - Changed
                 timeoutToClear.forEach((item) => {
                     clearTimeout(item.timeout);
                 });
                 timeouts = timeouts.filter((item) => item.key !== timeoutKey);
             }, parseInt(element.delay));
-            _this.log.debug("Timeout add");
-            timeouts.push({ key: timeoutKey, timeout: timeout });
+            if (timeout) {
+                timeouts.push({ key: timeoutKey, timeout: timeout });
+            }
         }
         catch (e) {
-            _this.log.error("Error: " + JSON.stringify(e.message));
-            _this.log.error(JSON.stringify(e.stack));
+            (0, logging_1.error)([
+                { text: "Error:", val: e.message },
+                { text: "Stack:", val: e.stack },
+            ]);
         }
     });
-    _this.log.debug("Picture sended");
+    (0, logging_1.debug)([{ text: "Picture sended" }]);
     return timeouts;
 }
-module.exports = { sendPic };
+exports.sendPic = sendPic;
 //# sourceMappingURL=sendpic.js.map

@@ -21,6 +21,7 @@
     "All data will be lost. Confirm?": "Todos los datos se perderán. ¿Confirmar?",
     "At least one user must be checked, or the menu must be deactivated.": "Se debe marcar al menos un usuario o se debe desactivar el menú.",
     "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be pu at the End": "Atención. El valor sólo ha sido establecido pero aún no confirmado por el Adaptador. Puede eliminar noValue y luego se mostrará el valor. Posición && reemplazada por Valor o se publicará al final",
+    "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be put at the End": "Atención. El valor sólo ha sido establecido pero aún no confirmado por el Adaptador. Puede eliminar noValue y luego se mostrará el valor. Posición && reemplazada por Valor o se pondrá al final",
     "Breakpoint for a new line, Only insert this in the Text": "Punto de interrupción para una nueva línea, solo inserte esto en el texto",
     "Call": "Llamar",
     "Call Text": "Llamar texto",

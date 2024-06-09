@@ -20,7 +20,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 	}
 
 	render() {
-		const DialogContainer: Properties<string | number, string & {}> = {
+		const DialogContainer: Properties<string | number, string> = {
 			position: "absolute",
 			top: this.props.top ? this.props.top : "50%",
 			left: "50%",

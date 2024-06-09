@@ -1,10 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { checkStatusInfo } = require("./utilities");
-async function dynamicSwitch(_this, calledValue, device2Switch, text) {
+exports.dynamicSwitch = void 0;
+const logging_1 = require("./logging");
+const utilities_1 = require("./utilities");
+async function dynamicSwitch(calledValue, device2Switch, text) {
     try {
-        const changedCalledValue = await checkStatusInfo(_this, calledValue);
-        const splittedArray = changedCalledValue.replace(/"/g, "").split(":");
+        const changedCalledValue = await (0, utilities_1.checkStatusInfo)(calledValue);
+        const splittedArray = changedCalledValue?.replace(/"/g, "").split(":");
+        if (!splittedArray) {
+            return;
+        }
         device2Switch = splittedArray[2];
         const arrayOfValues = splittedArray[1].replace("dynSwitch", "").replace(/\]/g, "").replace(/\[/g, "").split(",");
         const lengthOfRow = parseInt(splittedArray[3]) || 6;
@@ -24,15 +29,15 @@ async function dynamicSwitch(_this, calledValue, device2Switch, text) {
                     arrayOfEntriesDynamicSwitch = [];
                 }
             });
-            return [text, JSON.stringify(keyboard), device2Switch];
+            return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
         }
     }
     catch (e) {
-        _this.log.error("Error parsing dynSwitch: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_1.error)([
+            { text: "Error parsing dynSwitch:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 }
-module.exports = {
-    dynamicSwitch,
-};
+exports.dynamicSwitch = dynamicSwitch;
 //# sourceMappingURL=dynamicSwitch.js.map

@@ -1,16 +1,23 @@
-const { checkStatusInfo } = require("./utilities");
-async function dynamicSwitch(_this: any, calledValue: string, device2Switch: string, text: string) {
-
+import { error } from "./logging";
+import { checkStatusInfo } from "./utilities";
+async function dynamicSwitch(
+	calledValue: string,
+	device2Switch: string,
+	text: string,
+): Promise<{ text?: string; keyboard: string; device: string } | undefined> {
 	try {
-		const changedCalledValue = await checkStatusInfo(_this, calledValue);
-		const splittedArray: string[] = changedCalledValue.replace(/"/g, "").split(":");
+		const changedCalledValue = await checkStatusInfo(calledValue);
+		const splittedArray: string[] | undefined = changedCalledValue?.replace(/"/g, "").split(":");
+		if (!splittedArray) {
+			return;
+		}
 		device2Switch = splittedArray[2];
 		const arrayOfValues = splittedArray[1].replace("dynSwitch", "").replace(/\]/g, "").replace(/\[/g, "").split(",");
 
 		const lengthOfRow = parseInt(splittedArray[3]) || 6;
 
 		const array: ArrayOfEntriesDynamicSwitch[][] = [];
-		const keyboard: Keyboard = { inline_keyboard: array }
+		const keyboard: Keyboard = { inline_keyboard: array };
 		if (arrayOfValues) {
 			let arrayOfEntriesDynamicSwitch: ArrayOfEntriesDynamicSwitch[] = [];
 			arrayOfValues.forEach((value, index: number) => {
@@ -23,13 +30,13 @@ async function dynamicSwitch(_this: any, calledValue: string, device2Switch: str
 					arrayOfEntriesDynamicSwitch = [];
 				}
 			});
-			return [text, JSON.stringify(keyboard), device2Switch];
+			return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 		}
 	} catch (e: any) {
-		_this.log.error("Error parsing dynSwitch: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error parsing dynSwitch:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
-module.exports = {
-	dynamicSwitch,
-};
+export { dynamicSwitch };

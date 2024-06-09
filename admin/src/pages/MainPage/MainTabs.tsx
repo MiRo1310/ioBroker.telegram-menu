@@ -3,7 +3,7 @@ import TabNavigation from "@/pages/TabNavigation/TabNavigation";
 import TabAction from "@/pages/TabAction/TabAction";
 import Settings from "@/pages/TabSettings/Settings";
 import { TabPanel } from "@mui/lab";
-import { navEntries } from "@/lib/entries";
+import { navEntries } from "@/config/entries";
 interface PropsMainTabs {
 	state: AdditionalStateInfo;
 	socket: any;

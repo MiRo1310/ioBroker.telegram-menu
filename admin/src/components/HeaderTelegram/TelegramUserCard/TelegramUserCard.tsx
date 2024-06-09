@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import Checkbox from "../../btn-Input/checkbox";
 
-
-
-class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUserCard > {
+class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUserCard> {
 	constructor(props) {
 		super(props);
 		this.state = {
 			usersInGroup: this.props.data.usersInGroup,
 			name: this.props.name,
-			activeMenu: this.props.data.state.activeMenu,			
+			activeMenu: this.props.data.state.activeMenu,
 		};
 	}
 	componentDidUpdate = () => {

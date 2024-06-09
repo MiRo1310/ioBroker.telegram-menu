@@ -34,7 +34,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 			return false;
 		}
 	};
-	clickCheckbox = (event, name) => {
+	clickCheckbox = (event) => {
 		if (event.target.checked) {
 			if (!this.checkAktivUsers(true)) return;
 		} else {
@@ -78,7 +78,11 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 									id="expandTelegramusers"
 									callback={this.updateMenuOpen}
 								>
-									{this.state.menuOpen ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
+									{this.state.menuOpen ? (
+										<i className="material-icons">expand_more</i>
+									) : (
+										<i className="material-icons">chevron_right</i>
+									)}
 								</Button>
 								<span>{I18n.t("")}</span>
 							</div>

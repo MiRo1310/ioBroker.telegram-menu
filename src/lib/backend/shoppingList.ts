@@ -1,26 +1,25 @@
-const { deleteMessageIds } = require("./messageIds.js");
-const { createKeyboardFromJson } = require("./jsonTable.js");
-const { sendToTelegramSubmenu, sendToTelegram } = require("./telegram.js");
-const { _subscribeAndUnSubscribeForeignStatesAsync } = require("./subscribeStates.js");
+import { deleteMessageIds } from "./messageIds.js";
+import { createKeyboardFromJson } from "./jsonTable.js";
+import { sendToTelegramSubmenu, sendToTelegram } from "./telegram.js";
+import { _subscribeAndUnSubscribeForeignStatesAsync } from "./subscribeStates.js";
+import { debug, error } from "./logging.js";
+import TelegramMenu from "@backend/main.js";
+
 interface ObjectData {
 	[key: string]: {
-		idList: string
-	}
-
+		idList: string;
+	};
 }
 const objData: ObjectData = {};
-/**
- *
- * @param {*} _this
- * @param {*} val
- * @param {*} instanceTelegram
- * @param {*} userListWithChatID
- * @param {*} resize_keyboard
- * @param {*} one_time_keyboard
- * @returns
- */
-async function shoppingListSubscribeStateAndDeleteItem(_this: any, val: string | null, instanceTelegram: string, userListWithChatID: UserListWithChatId[], resize_keyboard: boolean, one_time_keyboard: boolean) {
 
+async function shoppingListSubscribeStateAndDeleteItem(
+	val: string | null,
+	instanceTelegram: string,
+	userListWithChatID: UserListWithChatId[],
+	resize_keyboard: boolean,
+	one_time_keyboard: boolean,
+): Promise<void> {
+	const _this = TelegramMenu.getInstance();
 	try {
 		let array, user, idList, instance, idItem, res;
 		if (val != null) {
@@ -33,47 +32,58 @@ async function shoppingListSubscribeStateAndDeleteItem(_this: any, val: string |
 
 			if (res) {
 				objData[user] = { idList: idList };
-				_this.log.debug("alexa-shoppinglist." + JSON.stringify(idList));
-				await _subscribeAndUnSubscribeForeignStatesAsync([{ id: `alexa-shoppinglist.${idList}` }], _this, true);
+				debug([{ text: "alexa-shoppinglist.", val: idList }]);
+				await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
 				await _this.setForeignStateAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`, true, false);
 			} else {
-				sendToTelegram(_this, user, "Cannot delete the Item", undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "true");
-				_this.log.debug("Cannot delete the Item");
+				sendToTelegram(
+					user,
+					"Cannot delete the Item",
+					undefined,
+					instanceTelegram,
+					resize_keyboard,
+					one_time_keyboard,
+					userListWithChatID,
+					"true",
+				);
+				debug([{ text: "Cannot delete the Item" }]);
 				return;
 			}
 		}
 	} catch (e: any) {
-		_this.log.error("Error shoppingList: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error shoppingList:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
 
-/**
- *
- * @param {*} _this
- * @param {*} instanceTelegram
- * @param {*} userListWithChatID
- * @param {*} userToSend
- */
-async function deleteMessageAndSendNewShoppingList(_this: any, instanceTelegram: string, userListWithChatID: UserListWithChatId[], userToSend: string) {
+async function deleteMessageAndSendNewShoppingList(
+	instanceTelegram: string,
+	userListWithChatID: UserListWithChatId[],
+	userToSend: string,
+): Promise<void> {
+	const _this = TelegramMenu.getInstance();
 	try {
 		const user = userToSend;
 		const idList = objData[user].idList;
-		_subscribeAndUnSubscribeForeignStatesAsync([{ id: `alexa-shoppinglist.${idList}` }], _this, false);
-		await deleteMessageIds(_this, user, userListWithChatID, instanceTelegram, "last");
+		_subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
+		await deleteMessageIds(user, userListWithChatID, instanceTelegram, "last");
 
 		const result = await _this.getForeignStateAsync("alexa-shoppinglist." + idList);
 		if (result && result.val) {
-			_this.log.debug("Result from Shoppinglist " + JSON.stringify(result));
+			debug([{ text: "Result from Shoppinglist:", val: result }]);
 			const newId = `alexa-shoppinglist.${idList}`;
-			const resultJson = createKeyboardFromJson(_this, result.val, null, newId, user);
+			const resultJson = createKeyboardFromJson(result.val as string, null, newId, user);
 			if (resultJson && resultJson.text && resultJson.keyboard)
-				sendToTelegramSubmenu(_this, user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
+				sendToTelegramSubmenu(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
 		}
 	} catch (e: any) {
-		_this.log.error("Error deleteMessageAndSendNewShoppingList: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error deleteMessageAndSendNewShoppingList:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
 
-module.exports = { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList };
+export { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList };

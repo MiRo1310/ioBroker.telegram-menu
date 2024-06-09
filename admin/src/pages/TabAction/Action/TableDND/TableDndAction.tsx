@@ -12,7 +12,6 @@ import {
 	handleDragEnter,
 	handleStyleDragOver,
 	handleDragEnd,
-	handleDraggable,
 } from "../../../../lib/dragNDrop.js";
 import { getElementIcon } from "../../../../lib/actionUtils.js";
 
@@ -25,7 +24,7 @@ function createData(entriesOfParentComponent, element) {
 }
 
 class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction> {
-	mounted:boolean
+	mounted: boolean;
 	constructor(props) {
 		super(props);
 		this.mounted = false;
@@ -34,18 +33,18 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			dropEnd: 0,
 			dropOver: 0,
 			rows: [],
-			mouseOverNoneDraggable: false,			
+			mouseOverNoneDraggable: false,
 		};
 	}
 	getRows = () => {
 		const action = this.props.tableData;
 		const activeMenu = this.props.activeMenu;
 		if (!action) return;
-		let elements = action[activeMenu][this.props.subCard];
+		const elements = action[activeMenu][this.props.subCard];
 
-		const rows:Object[] = [];
+		const rows: any[] = [];
 		if (elements === undefined) return;
-		for (let entry of elements) {
+		for (const entry of elements) {
 			rows.push(createData(this.props.entries, entry));
 		}
 		this.setState({ rows: rows });
@@ -65,13 +64,13 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		const tBodies = Array.from(document.getElementsByClassName("dynamicHeight")) as HTMLTableSectionElement[];
 		const tds = Array.from(document.getElementsByClassName("tdWithHeightForSubTable")) as HTMLTableCellElement[];
 		// Setzen Sie die Höhe auf 'auto', bevor Sie die Höhe neu berechnen
-		tBodies.forEach((tbody:HTMLTableSectionElement) => {
+		tBodies.forEach((tbody: HTMLTableSectionElement) => {
 			tbody.style.height = "auto";
 		});
 		const offset = 0;
 
 		if (tds.length > 0) {
-			tds.forEach((td :HTMLTableCellElement, index:number) => {
+			tds.forEach((td: HTMLTableCellElement, index: number) => {
 				if (td && tBodies[index]) {
 					if (tBodies[index].offsetHeight < td.offsetHeight) {
 						tBodies[index].style.height = `${td.offsetHeight + offset}px`;
@@ -102,7 +101,8 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
-		if (index !== this.state.dropStart) moveItem(this.state.dropStart, this.props, this.props.card, this.props.subCard, index - this.state.dropStart);
+		if (index !== this.state.dropStart)
+			moveItem(this.state.dropStart, this.props, this.props.card, this.props.subCard, index - this.state.dropStart);
 	};
 
 	editRow = (index) => {
@@ -130,7 +130,13 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 						draggable
 						onDrop={(event) => this.handleDrop(index, event)}
 						onDragStart={(event) => {
-							handleDragStart(index, event, this.state.mouseOverNoneDraggable, this.setState.bind(this), this.props.callback.setState({ draggingRowIndex: index }));
+							handleDragStart(
+								index,
+								event,
+								this.state.mouseOverNoneDraggable,
+								this.setState.bind(this),
+								this.props.callback.setState({ draggingRowIndex: index }),
+							);
 						}}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
 						onDragOver={(event) => handleDragOver(index, event)}
@@ -139,11 +145,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 					>
 						{row.trigger ? (
 							<TableCell align="left" component="td" scope="row">
-								<span
-									className="noneDraggable"
-									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
-									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
-								>
+								<span className="noneDraggable" onMouseOver={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
 									{row.trigger}
 								</span>
 							</TableCell>
@@ -164,11 +166,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 						)}
 						{row.parse_mode ? (
 							<TableCell align="left" component="td" scope="row">
-								<span
-									className="noneDraggable"
-									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
-									onMouseLeave={(e) => handleMouseOut(e, this.setState.bind(this))}
-								>
+								<span className="noneDraggable" onMouseOver={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
 									{getElementIcon(row.parse_mode[0])}
 								</span>
 							</TableCell>
@@ -176,8 +174,8 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}
-							moveDown={""}
-							moveUp={""}
+							moveDown={() => {}}
+							moveUp={() => {}}
 							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.subCard)}
 							rows={this.state.rows}
 							index={index}

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import Button from "../../btn-Input/Button";
 
-
-
-class MenuPopupCard extends Component<PropsMenuPopupCard>{
+class MenuPopupCard extends Component<PropsMenuPopupCard> {
 	constructor(props) {
 		super(props);
 		this.state = {};

@@ -1,8 +1,8 @@
-const { sendToTelegram } = require("./telegram");
-const { backMenuFunc } = require("./backMenu");
+import { sendToTelegram } from "./telegram";
+import { backMenuFunc } from "./backMenu";
+import { debug } from "./logging";
 function adapterStartMenuSend(
-	_this: any,
-	listofMenus: ListOfMenus,
+	listOfMenus: ListOfMenus,
 	startSides: StartSides,
 	userActiveCheckbox: IsUserActiveCheckbox,
 	menusWithUsers: MenusWithUsers,
@@ -11,32 +11,34 @@ function adapterStartMenuSend(
 	instanceTelegram: string,
 	resize_keyboard: boolean,
 	one_time_keyboard: boolean,
-) {
-	listofMenus.forEach((menu) => {
-		_this.log.debug("Menu: " + JSON.stringify(menu));
+): void {
+	listOfMenus.forEach((menu) => {
 		const startSide = [startSides[menu]].toString();
-		// Startseite senden
+
 		if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
-			_this.log.debug("Startseite: " + JSON.stringify(startSide));
+			debug([{ text: "Startseite:", val: startSide }]);
 			menusWithUsers[menu].forEach((user) => {
-				backMenuFunc(_this, startSide, menuData.data[menu][startSide].nav, user);
-				_this.log.debug("User List " + JSON.stringify(userListWithChatID));
+				backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, user);
+				debug([{ text: "User List:", val: userListWithChatID }]);
 
 				sendToTelegram(
-					_this,
 					user,
-					menuData.data[menu][startSide].text,
+					menuData.data[menu][startSide].text as string,
 					menuData.data[menu][startSide].nav,
 					instanceTelegram,
 					resize_keyboard,
 					one_time_keyboard,
 					userListWithChatID,
-					menuData.data[menu][startSide].parse_mode,
+					menuData.data[menu][startSide].parse_mode as BooleanString,
 				);
 			});
-		} else _this.log.debug("Menu inactive or is Submenu. " + JSON.stringify({ active: userActiveCheckbox[menu], startside: startSide }));
+		} else {
+			if (startSide == "-") {
+				debug([{ text: `Menu "${menu}" is a Submenu.` }]);
+				return;
+			}
+			debug([{ text: `Menu "${menu}" is inactive.` }]);
+		}
 	});
 }
-module.exports = {
-	adapterStartMenuSend,
-};
+export { adapterStartMenuSend };

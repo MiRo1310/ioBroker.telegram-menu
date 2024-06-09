@@ -1,8 +1,8 @@
-const processUserData = (data) => {
+const processUserData = (data): { name: string; chatID: string }[] | undefined => {
 	try {
-		const array: { name: string, chatID: string }[] = [];
+		const array: { name: string; chatID: string }[] = [];
 
-		let newData = JSON.parse(data);
+		const newData = JSON.parse(data);
 		Object.keys(newData).forEach((key) => {
 			const name = newData[key].firstName;
 			array.push({ name: name, chatID: key });
@@ -12,45 +12,37 @@ const processUserData = (data) => {
 		console.error("Error processUserData: " + JSON.stringify(err));
 	}
 };
-export const deepCopy = (obj) => {
+
+export const deepCopy = (obj: any): any => {
 	try {
 		return JSON.parse(JSON.stringify(obj));
 	} catch (err) {
 		console.error("Error deepCopy: " + JSON.stringify(err));
 	}
 };
+
 export const isChecked = (value: string | boolean): boolean => {
 	try {
 		if (value == "true" || value == true) {
 			return true;
 		}
 		return false;
-
 	} catch (err) {
 		console.error("Error isChecked: " + JSON.stringify(err));
 		return false;
 	}
-
 };
 
 const helperFunction = {
 	processUserData,
 };
 export default helperFunction;
-/**
- * Removes duplicate entries and saves the result
- * @param {any[]} arr Array
- * @returns Array with unique entries
- */
-export const deleteDoubleEntriesInArray = (arr: any[]) => {
+
+export const deleteDoubleEntriesInArray = (arr: any): any => {
 	return arr.filter((item, index) => arr.indexOf(item) === index);
 };
-/**
- * Sorts the array descending
- * @param {any[]} arr Array witch should be sorted
- * @returns Sorted Array
- */
-export const sortArray = (arr: string[]) => {
+
+export const sortArray = (arr: string[]): string[] => {
 	arr.sort((a, b) => {
 		const lowerCaseA = a.toLowerCase();
 		const lowerCaseB = b.toLowerCase();
@@ -61,12 +53,8 @@ export const sortArray = (arr: string[]) => {
 	});
 	return arr;
 };
-/**
- *
- * @param {*} obj Value to check
- * @returns string with the type of the value
- */
-export const checkObjectOrArray = (obj) => {
+
+export const checkObjectOrArray = (obj): "object" | "array" | string => {
 	if (typeof obj == "object" && Array.isArray(obj)) {
 		return "array";
 	} else if (typeof obj == "object") {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Box, Tab } from "@mui/material";
 import { TabList } from "@mui/lab";
-import { tabValues } from "@/lib/entries";
+import { tabValues } from "@/config/entries";
 interface PropsTabActionTabs {
 	callback: CallbackFunctions;
 	setState: ({}) => void;

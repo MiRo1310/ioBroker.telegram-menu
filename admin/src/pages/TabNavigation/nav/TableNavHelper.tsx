@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 
-import helperText from "@/lib/helper.js";
+import helperText from "@/config/helper.js";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
 	constructor(props) {

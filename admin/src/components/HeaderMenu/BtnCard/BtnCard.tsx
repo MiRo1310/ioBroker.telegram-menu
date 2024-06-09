@@ -9,12 +9,7 @@ import RenameCard from "../../popupCards/RenameCard";
 
 import { deepCopy } from "../../../lib/Utils.js";
 
-/**
- *
- * @param {string} menu
- * @returns
- */
-function checkMenuName(menu) {
+function checkMenuName(menu): string {
 	return menu.replace(/ /g, "_");
 }
 
@@ -31,7 +26,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			isOK: false,
 		};
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(_, prevState) {
 		if (prevState.oldMenuName !== this.props.data.activeMenu) {
 			this.setState({ oldMenuName: this.props.data.activeMenu, renamedMenuName: this.props.data.activeMenu });
 		}
@@ -44,7 +39,10 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 				if (this.state.renamedMenuName !== this.props.data.state.activeMenu) {
 					// check edit menu name
 					if (this.props.data.state.native.usersInGroup) {
-						if (this.state.renamedMenuName !== "" && this.props.data.state.native.usersInGroup.hasOwnProperty(this.state.renamedMenuName.replace(/ /g, "_"))) {
+						if (
+							this.state.renamedMenuName !== "" &&
+							this.props.data.state.native.usersInGroup.hasOwnProperty(this.state.renamedMenuName.replace(/ /g, "_"))
+						) {
 							this.setState({ isOK: false });
 						} else this.setState({ isOK: true });
 					}
@@ -106,7 +104,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		delete userActiveCheckbox[menu];
 		delete copyOfUsersInGroup[menu];
 
-		let firstMenu = Object.keys(newObject.nav)[0];
+		const firstMenu = Object.keys(newObject.nav)[0];
 		const cb2 = () => this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
 		const cb = () => this.props.callback.updateNative("usersInGroup", copyOfUsersInGroup, cb2);
 		this.props.callback.updateNative("data", newObject, cb);
@@ -123,8 +121,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			this.setState({ renameDialog: false });
 			return;
 		}
-		let oldMenuName = this.state.oldMenuName;
-		let newMenu = this.state.renamedMenuName;
+		const oldMenuName = this.state.oldMenuName;
+		const newMenu = this.state.renamedMenuName;
 		if (newMenu === "" || newMenu == undefined || newMenu === oldMenuName) return;
 		this.addNewMenu(this.state.renamedMenuName, true);
 		setTimeout(() => {
@@ -153,7 +151,14 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 				</Grid>
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">
-						<Button b_color="#ddd" margin="1px" width="100px" height="40px" callbackValue={this.state.newMenuName} callback={this.addNewMenu}>
+						<Button
+							b_color="#ddd"
+							margin="1px"
+							width="100px"
+							height="40px"
+							callbackValue={this.state.newMenuName}
+							callback={this.addNewMenu}
+						>
 							<i className="material-icons">group_add</i>Add
 						</Button>
 					</Grid>
@@ -164,7 +169,15 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
-						<Button b_color="blue" color="white" margin="1px" width="100px" height="40px" id="openRenameMenu" callback={this.openRenameDialog}>
+						<Button
+							b_color="blue"
+							color="white"
+							margin="1px"
+							width="100px"
+							height="40px"
+							id="openRenameMenu"
+							callback={this.openRenameDialog}
+						>
 							<i className="material-icons">edit</i>Edit
 						</Button>
 					</Grid>

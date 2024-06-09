@@ -1,17 +1,16 @@
 import React from "react";
 import { deepCopy, sortArray, deleteDoubleEntriesInArray } from "./Utils";
-import { tabValues } from "./entries";
+import { tabValues } from "../config/entries";
 
-function createData(element, index, rowElements) {
+function createData(element, index, rowElements): { [key: string]: string } {
 	const obj = {};
 	rowElements.forEach((entry) => {
-		// Wenn das Element in entrys hinzugefügt wird und noch nicht vorhanden ist soll es auf "" gesetzt werden, damit es nicht undefined ist
 		obj[entry.name] = element[entry.name] && element[entry.name][index] ? element[entry.name][index] : "";
 	});
 	return obj;
 }
-let rows = [];
-function getRows(element, rowElements) {
+let rows: { [key: string]: string }[] = [];
+function getRows(element, rowElements): { rows: { [key: string]: string }[]; trigger: string } | undefined {
 	if (!element) return;
 
 	rows = [];
@@ -19,16 +18,18 @@ function getRows(element, rowElements) {
 	if (element.trigger && element.trigger[0]) trigger = element.trigger[0];
 	const generateBy = rowElements.find((element) => element.elementGetRows !== undefined)?.elementGetRows;
 	if (!generateBy) return;
-	if (!(element && element[generateBy])) console.error(`GenerateBy not found in element, actionUtilis.js. Check entrys.mjs for ${generateBy} is not a name of an element`);
+	if (!(element && element[generateBy]))
+		console.error(`GenerateBy not found in element, actionUtilis.js. Check entrys.mjs for ${generateBy} is not a name of an element`);
 
-	for (let index in element[generateBy]) {
-		// @ts-ignore
-		rows.push(createData(element, index, rowElements));
+	for (const index in element[generateBy]) {
+		const row = createData(element, index, rowElements);
+		if (row) {
+			rows.push(row);
+		}
 	}
-
 	return { rows: rows, trigger: trigger };
 }
-export const saveRows = (props, setState, rowElements, newRow) => {
+export const saveRows = (props, setState, rowElements, newRow): void => {
 	let data;
 	if (newRow && newRow.length == 0) {
 		data = getRows(props.newRow, rowElements);
@@ -42,27 +43,28 @@ export const saveRows = (props, setState, rowElements, newRow) => {
 	}
 };
 
-export const updateData = (obj, props, setState, rowElements) => {
+export const updateData = (obj, props, setState, rowElements): void => {
 	const newRow = deepCopy(props.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
-export const updateTrigger = (value, props, setState, rowElements) => {
+export const updateTrigger = (value, props, setState, rowElements): void => {
 	const newRow = deepCopy(props.newRow);
 	newRow.trigger[0] = value.trigger;
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const addNewRow = (props, rowElements, index: number, setState?) => {
+export const addNewRow = (index, props, rowElements, setState?): void => {
 	let newRow;
-	if (index >= 0 && index != null) { newRow = deepCopy(props.newRow) }
-	else { newRow = {} };
+	if (index >= 0 && index != null) {
+		newRow = deepCopy(props.newRow);
+	} else {
+		newRow = {};
+	}
 
 	rowElements.forEach((element) => {
-		// Trigger wird nicht kopiert, da ja schon ein Trigger vorhanden sein darf, es sei denn es ist der erste Eintrag
-
 		if (!index && index !== 0) {
 			newRow[element.name] = [element.val];
 		} else if (element.name !== "trigger") newRow[element.name].splice(index + 1, 0, element.val);
@@ -71,7 +73,7 @@ export const addNewRow = (props, rowElements, index: number, setState?) => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const deleteRow = (index, props, array, setState, rowElements) => {
+export const deleteRow = (index, props, array, setState, rowElements): void => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index, 1);
@@ -80,7 +82,7 @@ export const deleteRow = (index, props, array, setState, rowElements) => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const moveItem = (index, props, array, setState, rowElements, val) => {
+export const moveItem = (index, props, array, setState, rowElements, val): void => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		if (element.name !== "trigger") newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
@@ -89,90 +91,13 @@ export const moveItem = (index, props, array, setState, rowElements, val) => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const updateId = (selected, props, indexID, setState, rowElements, ID) => {
+export const updateId = (selected, props, indexID, setState, rowElements, ID): void => {
 	const newRow = deepCopy(props.newRow);
 	newRow[ID][indexID] = selected;
 	props.callback.setState({ newRow: newRow });
 	saveRows(props, setState, rowElements, newRow);
 };
-
-export const updateTriggerForSelect = (data, usersInGroup, activeMenu) => {
-	const submenu: string[] = [];
-	tabValues.forEach((element) => {
-		if (element.trigger) submenu.push(element.value);
-	});
-	// Users für die die Trigger gesucht werden sollen
-
-	const users = usersInGroup[activeMenu];
-
-	let menusToSearchIn: string[] = [];
-	// User durchgehen und schauen in welchen Gruppen sie sind
-	if (!users) return;
-	users.forEach((user) => {
-		Object.keys(usersInGroup).forEach((group) => {
-			if (usersInGroup[group].includes(user)) {
-				menusToSearchIn.push(group);
-			}
-		});
-	});
-	menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
-
-	// Trigger und Used Trigger finden
-	let usedTrigger: string[] = [];
-	let allTrigger: string[] = [];
-	const triggerArray: string[] = [];
-	const everyTrigger = {};
-
-	const triggerObj = { unUsedTrigger: [""], everyTrigger: everyTrigger, usedTrigger: { nav: {}, action: {} } };
-	menusToSearchIn.forEach((menu) => {
-		// usedTriggers und unUsedTrigger in Nav finden
-		let triggerInMenu: string[] = [];
-		if (!data.nav[menu]) return;
-		data.nav[menu].forEach((element, index) => {
-			let triggerInRow: string[] = [];
-			usedTrigger.push(element.call);
-			triggerArray.push(element.call);
-			triggerInRow = disassembleTextToTriggers(element.value);
-			triggerInMenu = triggerInMenu.concat(triggerInRow);
-			allTrigger = allTrigger.concat(triggerInRow);
-
-			// Wenn letzter Eintrag, dann usedTriggers in Objekt einfügen für das Trigger overview
-			if (index == data.nav[menu].length - 1) {
-				triggerObj.usedTrigger.nav[menu] = [...triggerArray];
-				// everyTriggers in Objekt einfügen für das Trigger overview ohne "-"
-				triggerObj.everyTrigger[menu] = deleteDoubleEntriesInArray([...triggerInMenu].filter((x) => x != "-")).sort();
-				triggerArray.length = 0;
-			}
-		});
-		// usedTriggers in Action finden
-		triggerObj.usedTrigger.action[menu] = {};
-		const actionTrigger: string[] = [];
-		submenu.forEach((sub) => {
-			if (!data.action[menu][sub]) return;
-			data.action[menu][sub].forEach((element, index) => {
-				usedTrigger = usedTrigger.concat(element.trigger);
-				actionTrigger.push(element.trigger[0]);
-				// Wenn letzter Eintrag, dann usedTriggers in Objekt einfügen für das Trigger overview
-				if (index == data.action[menu][sub].length - 1) {
-					triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
-					actionTrigger.length = 0;
-				}
-			});
-		});
-	});
-
-	// Doppelte Einträge in Triggers entfernen
-	if (Array.isArray(allTrigger)) allTrigger = deleteDoubleEntriesInArray(allTrigger);
-	// usedTrigger entfernen
-	let unUsedTrigger = allTrigger.filter((x) => !usedTrigger.includes(x));
-	// unUsedTrigger in Object einfügen
-	if (unUsedTrigger.length > 0) triggerObj.unUsedTrigger = unUsedTrigger;
-	unUsedTrigger = sortArray(unUsedTrigger);
-	// console.log(triggerObj);
-	return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger, triggerObj: triggerObj };
-};
-
-const disassembleTextToTriggers = (text) => {
+const disassembleTextToTriggers = (text): string[] => {
 	const triggerArray: string[] = [];
 	if (text.includes("&&")) text = text.split("&&");
 	else text = [text];
@@ -193,13 +118,97 @@ const disassembleTextToTriggers = (text) => {
 
 	return triggerArray;
 };
-const buttonCheck = () => {
-	return React.createElement("button", { className: "buttonTrue" }, React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "done")));
+
+export const updateTriggerForSelect = (
+	data,
+	usersInGroup,
+	activeMenu,
+): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: any } | undefined => {
+	const submenu: string[] = [];
+	tabValues.forEach((element) => {
+		if (element.trigger) submenu.push(element.value);
+	});
+
+	const users = usersInGroup[activeMenu];
+
+	let menusToSearchIn: string[] = [];
+
+	if (!users) return;
+	users.forEach((user) => {
+		Object.keys(usersInGroup).forEach((group) => {
+			if (usersInGroup[group].includes(user)) {
+				menusToSearchIn.push(group);
+			}
+		});
+	});
+	menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
+
+	let usedTrigger: string[] = [];
+	let allTrigger: string[] = [];
+	const triggerArray: string[] = [];
+	const everyTrigger = {};
+
+	const triggerObj = { unUsedTrigger: [""], everyTrigger: everyTrigger, usedTrigger: { nav: {}, action: {} } };
+	menusToSearchIn.forEach((menu) => {
+		let triggerInMenu: string[] = [];
+		if (!data.nav[menu]) return;
+		data.nav[menu].forEach((element, index) => {
+			let triggerInRow: string[] = [];
+			usedTrigger.push(element.call);
+			triggerArray.push(element.call);
+			triggerInRow = disassembleTextToTriggers(element.value);
+			triggerInMenu = triggerInMenu.concat(triggerInRow);
+			allTrigger = allTrigger.concat(triggerInRow);
+
+			if (index == data.nav[menu].length - 1) {
+				triggerObj.usedTrigger.nav[menu] = [...triggerArray];
+
+				triggerObj.everyTrigger[menu] = deleteDoubleEntriesInArray([...triggerInMenu].filter((x) => x != "-")).sort();
+				triggerArray.length = 0;
+			}
+		});
+
+		triggerObj.usedTrigger.action[menu] = {};
+		const actionTrigger: string[] = [];
+		submenu.forEach((sub) => {
+			if (!data.action[menu][sub]) return;
+			data.action[menu][sub].forEach((element, index) => {
+				usedTrigger = usedTrigger.concat(element.trigger);
+				actionTrigger.push(element.trigger[0]);
+
+				if (index == data.action[menu][sub].length - 1) {
+					triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
+					actionTrigger.length = 0;
+				}
+			});
+		});
+	});
+
+	if (Array.isArray(allTrigger)) allTrigger = deleteDoubleEntriesInArray(allTrigger);
+
+	let unUsedTrigger = allTrigger.filter((x) => !usedTrigger.includes(x));
+
+	if (unUsedTrigger.length > 0) triggerObj.unUsedTrigger = unUsedTrigger;
+	unUsedTrigger = sortArray(unUsedTrigger);
+
+	return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger, triggerObj: triggerObj };
 };
-const buttonClose = () => {
-	return React.createElement("button", { className: "buttonFalse" }, React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "close")));
+
+const buttonCheck = (): React.ReactElement => {
+	return React.createElement(
+		"button",
+		{ className: "buttonTrue" },
+		React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "done")),
+	);
 };
-export const getElementIcon = (element, entry?) => {
+const buttonClose = (): React.ReactElement => {
+	return React.createElement(
+		"button",
+		{ className: "buttonFalse" },
+		React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "close")),
+	);
+};
+export const getElementIcon = (element, entry?): undefined | React.ReactElement | string => {
 	if (!element) return;
 	let icon = true;
 	if (!entry && !entry?.noIcon) icon = true;
@@ -214,12 +223,12 @@ export const getElementIcon = (element, entry?) => {
 	}
 	return element.replace(/&amp;/g, "&");
 };
-export const sortObjectByKey = (usersInGroup) => {
+export const sortObjectByKey = (usersInGroup): any => {
 	const array = Object.entries(usersInGroup);
 	array.sort();
-	let newobject = {};
+	const newObject = {};
 	array.forEach((element) => {
-		newobject[element[0]] = element[1];
+		newObject[element[0]] = element[1];
 	});
-	return newobject;
+	return newObject;
 };

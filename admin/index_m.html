@@ -1,32 +1,25 @@
 <!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+		<title>ioBroker.telegram-menu</title>
 
-	<title>ioBroker.telegram-menu</title>
+		<!-- Load ioBroker scripts and styles-->
+		<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+		<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 
-	<!-- Load ioBroker scripts and styles-->
-	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
-	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+		<!-- Load our own files -->
+		<link rel="stylesheet" type="text/css" href="./src/style.css" />
+	</head>
 
-	<!-- Load our own files -->
-	<link rel="stylesheet" type="text/css" href="./src/style.css" />
+	<body>
+		<!-- this is where the React components are loaded into -->
+		<div class="m adapter-container" id="root"></div>
 
-</head>
-
-
-<body>
-
-	<!-- this is where the React components are loaded into -->
-	<div class="m adapter-container" id="root"></div>
-
-	<!-- load compiled React scripts -->
-	<script type="text/javascript" src="build/index.js"></script>
-	<script>
-
-	</script>
-</body>
-
+		<!-- load compiled React scripts -->
+		<script type="text/javascript" src="build/index.js"></script>
+		<script></script>
+	</body>
 </html>

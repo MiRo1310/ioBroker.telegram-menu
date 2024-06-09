@@ -1,21 +1,18 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { deleteMessageIds } = require("./messageIds.js");
-const { createKeyboardFromJson } = require("./jsonTable.js");
-const { sendToTelegramSubmenu, sendToTelegram } = require("./telegram.js");
-const { _subscribeAndUnSubscribeForeignStatesAsync } = require("./subscribeStates.js");
+exports.deleteMessageAndSendNewShoppingList = exports.shoppingListSubscribeStateAndDeleteItem = void 0;
+const messageIds_js_1 = require("./messageIds.js");
+const jsonTable_js_1 = require("./jsonTable.js");
+const telegram_js_1 = require("./telegram.js");
+const subscribeStates_js_1 = require("./subscribeStates.js");
+const logging_js_1 = require("./logging.js");
+const main_js_1 = __importDefault(require("@backend/main.js"));
 const objData = {};
-/**
- *
- * @param {*} _this
- * @param {*} val
- * @param {*} instanceTelegram
- * @param {*} userListWithChatID
- * @param {*} resize_keyboard
- * @param {*} one_time_keyboard
- * @returns
- */
-async function shoppingListSubscribeStateAndDeleteItem(_this, val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+    const _this = main_js_1.default.getInstance();
     try {
         let array, user, idList, instance, idItem, res;
         if (val != null) {
@@ -27,48 +24,47 @@ async function shoppingListSubscribeStateAndDeleteItem(_this, val, instanceTeleg
             res = await _this.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
             if (res) {
                 objData[user] = { idList: idList };
-                _this.log.debug("alexa-shoppinglist." + JSON.stringify(idList));
-                await _subscribeAndUnSubscribeForeignStatesAsync([{ id: `alexa-shoppinglist.${idList}` }], _this, true);
+                (0, logging_js_1.debug)([{ text: "alexa-shoppinglist.", val: idList }]);
+                await (0, subscribeStates_js_1._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
                 await _this.setForeignStateAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`, true, false);
             }
             else {
-                sendToTelegram(_this, user, "Cannot delete the Item", undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "true");
-                _this.log.debug("Cannot delete the Item");
+                (0, telegram_js_1.sendToTelegram)(user, "Cannot delete the Item", undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "true");
+                (0, logging_js_1.debug)([{ text: "Cannot delete the Item" }]);
                 return;
             }
         }
     }
     catch (e) {
-        _this.log.error("Error shoppingList: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_js_1.error)([
+            { text: "Error shoppingList:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 }
-/**
- *
- * @param {*} _this
- * @param {*} instanceTelegram
- * @param {*} userListWithChatID
- * @param {*} userToSend
- */
-async function deleteMessageAndSendNewShoppingList(_this, instanceTelegram, userListWithChatID, userToSend) {
+exports.shoppingListSubscribeStateAndDeleteItem = shoppingListSubscribeStateAndDeleteItem;
+async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend) {
+    const _this = main_js_1.default.getInstance();
     try {
         const user = userToSend;
         const idList = objData[user].idList;
-        _subscribeAndUnSubscribeForeignStatesAsync([{ id: `alexa-shoppinglist.${idList}` }], _this, false);
-        await deleteMessageIds(_this, user, userListWithChatID, instanceTelegram, "last");
+        (0, subscribeStates_js_1._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+        await (0, messageIds_js_1.deleteMessageIds)(user, userListWithChatID, instanceTelegram, "last");
         const result = await _this.getForeignStateAsync("alexa-shoppinglist." + idList);
         if (result && result.val) {
-            _this.log.debug("Result from Shoppinglist " + JSON.stringify(result));
+            (0, logging_js_1.debug)([{ text: "Result from Shoppinglist:", val: result }]);
             const newId = `alexa-shoppinglist.${idList}`;
-            const resultJson = createKeyboardFromJson(_this, result.val, null, newId, user);
+            const resultJson = (0, jsonTable_js_1.createKeyboardFromJson)(result.val, null, newId, user);
             if (resultJson && resultJson.text && resultJson.keyboard)
-                sendToTelegramSubmenu(_this, user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
+                (0, telegram_js_1.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
         }
     }
     catch (e) {
-        _this.log.error("Error deleteMessageAndSendNewShoppingList: " + JSON.stringify(e.message));
-        _this.log.error(JSON.stringify(e.stack));
+        (0, logging_js_1.error)([
+            { text: "Error deleteMessageAndSendNewShoppingList:", val: e.message },
+            { text: "Stack:", val: e.stack },
+        ]);
     }
 }
-module.exports = { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList };
+exports.deleteMessageAndSendNewShoppingList = deleteMessageAndSendNewShoppingList;
 //# sourceMappingURL=shoppingList.js.map

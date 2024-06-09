@@ -1,13 +1,8 @@
-const { checkStatusInfo } = require("./utilities");
+import { debug, error } from "./logging";
+import { checkStatusInfo } from "./utilities";
 const backMenu: BackMenu = {};
-/**
- *  Saves the last menu to go back to
- * @param {*} _this
- * @param {string} nav - nav of the menu
- * @param {object} part - part of the menu
- * @param {string} userToSend - user to send the message to
- */
-function backMenuFunc(_this: any, nav: Nav, part: Part, userToSend: string) {
+
+function backMenuFunc(nav: string, part: NavPart, userToSend: string): void {
 	if (!part || !JSON.stringify(part).split(`"`)[1].includes("menu:")) {
 		if (backMenu[userToSend] && backMenu[userToSend].list.length === 20) {
 			backMenu[userToSend].list.shift();
@@ -17,62 +12,60 @@ function backMenuFunc(_this: any, nav: Nav, part: Part, userToSend: string) {
 		if (backMenu[userToSend].last !== "") backMenu[userToSend].list.push(backMenu[userToSend].last);
 		backMenu[userToSend].last = nav;
 	}
-	_this.log.debug("goBackMenu" + JSON.stringify(backMenu));
+	debug([{ text: "GoBackMenu", val: backMenu }]);
 }
-/**
- * Returns to the last menu in list
- * @param {*} _this
- * @param {*} userToSend
- * @param {*} allMenusWithData
- * @param {*} menus
- * @param {boolean} lastMenu If true returns to the last menu witch is not in the list
- * @returns
- */
-async function switchBack(_this: any, userToSend: string, allMenusWithData: AllMenusWithData, menus: Menus, lastMenu = false) {
+
+async function switchBack(
+	userToSend: string,
+	allMenusWithData: AllMenusWithData,
+	menus: string[],
+	lastMenu = false,
+): Promise<{ texttosend: string | undefined; menuToSend: NavPart; parseMode: BooleanString } | undefined> {
 	try {
 		const list = backMenu[userToSend] && backMenu[userToSend]?.list ? backMenu[userToSend].list : [];
-		let menuToSend;
+		let menuToSend: NavPart | undefined = [];
 		let foundedMenu = "";
 		if (list.length != 0) {
 			for (const menu of menus) {
-				if (lastMenu && allMenusWithData[menu][backMenu[userToSend].last]?.nav) {
+				if (lastMenu && allMenusWithData[menu]?.[backMenu[userToSend].last]?.nav) {
 					menuToSend = allMenusWithData[menu][backMenu[userToSend].last].nav;
 					foundedMenu = menu;
 					break;
-				} else if (allMenusWithData[menu][list[list.length - 1]] && !lastMenu) {
+				} else if (allMenusWithData[menu][list[list.length - 1]]?.nav && !lastMenu) {
 					menuToSend = allMenusWithData[menu][list[list.length - 1]].nav;
-					_this.log.debug("Menu call found");
+					debug([{ text: "Menu call found" }]);
 					foundedMenu = menu;
 					break;
 				}
-				_this.log.debug("Menu call not found in this Menu");
+				debug([{ text: "Menu call not found in this Menu" }]);
 			}
-			if (menuToSend !== "" && foundedMenu != "") {
-				let parseMode = "";
+			if (menuToSend && foundedMenu != "") {
+				let parseMode: BooleanString = "" as BooleanString;
 				if (!lastMenu) {
 					let textToSend = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].text;
-					textToSend = await checkStatusInfo(_this, textToSend);
-					parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode;
+					if (textToSend) {
+						textToSend = await checkStatusInfo(textToSend);
+					}
+					parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode || "false";
 					backMenu[userToSend].last = list.pop();
-					console.log(backMenu[userToSend]);
-					console.log("backMenu[userToSend].last: " + backMenu[userToSend]["last"]);
-					console.log("menuToSend: " + menuToSend);
-					console.log(allMenusWithData[foundedMenu]);
-					console.log(allMenusWithData[foundedMenu][backMenu[userToSend]["last"]]);
+
 					return { texttosend: textToSend, menuToSend: menuToSend, parseMode: parseMode };
 				} else {
-					parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode;
-					return { texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text, menuToSend: menuToSend, parseMode: parseMode };
+					parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode || "false";
+					return {
+						texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
+						menuToSend: menuToSend,
+						parseMode: parseMode,
+					};
 				}
 			}
 		}
 	} catch (e: any) {
-		_this.log.error("Error in switchBack: " + JSON.stringify(e.message));
-		_this.log.error(JSON.stringify(e.stack));
+		error([
+			{ text: "Error in switchBack:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
 	}
 }
 
-module.exports = {
-	switchBack,
-	backMenuFunc,
-};
+export { switchBack, backMenuFunc };

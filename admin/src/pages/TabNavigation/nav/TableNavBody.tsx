@@ -3,7 +3,16 @@ import { TableBody, TableCell, TableRow } from "@mui/material";
 
 import { deleteRow, moveItem } from "@/lib/button.js";
 import { ButtonCard } from "@/components/popupCards/buttonCard.js";
-import { handleMouseOut, handleMouseOver, handleDragStart, handleDragOver, handleDragEnter, handleStyleDragOver, handleDragEnd, handleDraggable } from "@/lib/dragNDrop.js";
+import {
+	handleMouseOut,
+	handleMouseOver,
+	handleDragStart,
+	handleDragOver,
+	handleDragEnter,
+	handleStyleDragOver,
+	handleDragEnd,
+	handleDraggable,
+} from "@/lib/dragNDrop.js";
 import { getElementIcon } from "@/lib/actionUtils.js";
 import { I18n } from "@iobroker/adapter-react-v5";
 
@@ -29,10 +38,10 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 
 	getRows(nav, activeMenu) {
 		if (!nav) return;
-		let elements = nav[activeMenu];
-		let rows: Rows[] = [];
+		const elements = nav[activeMenu];
+		const rows: Rows[] = [];
 		if (elements === undefined) return;
-		for (let entry of elements) {
+		for (const entry of elements) {
 			rows.push(createData(this.props.entries, entry));
 		}
 		this.setState({ rows: rows });
@@ -58,7 +67,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
-		if (index !== this.state.dropStart && index != 0) moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+		if (index !== this.state.dropStart && index != 0)
+			moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
 	};
 
 	editRow = (index) => {
@@ -78,7 +88,9 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 					<TableRow
 						key={index1}
 						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-						className={"no-select" + " " + (index1 === 0 ? (row.call != "" && row.call != "-" ? "startsideActive" : "startsideInactive") : "")}
+						className={
+							"no-select" + " " + (index1 === 0 ? (row.call != "" && row.call != "-" ? "startSideActive" : "startSideInactive") : "")
+						}
 						draggable={handleDraggable(index1)}
 						onDrop={(event) => this.handleDrop(event, index1)}
 						onDragStart={(event) =>
@@ -99,8 +111,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 							<TableCell key={index} component="td" style={{ width: entry.width ? entry.width : undefined }}>
 								<span
 									className="noneDraggable"
-									onMouseOver={(e) => handleMouseOver(e, this.setState.bind(this))}
-									onMouseLeave={index1 == 0 ? undefined : (e) => handleMouseOut(e, this.setState.bind(this))}
+									onMouseOver={(e) => handleMouseOver(e)}
+									onMouseLeave={index1 == 0 ? undefined : (e) => handleMouseOut(e)}
 								>
 									{getElementIcon(row[entry.name])}{" "}
 									<span
@@ -119,8 +131,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 						<ButtonCard
 							openAddRowCard={this.props.openAddRowCard}
 							editRow={this.editRow}
-							moveDown={""}
-							moveUp={""}
+							moveDown={() => {}}
+							moveUp={() => {}}
 							deleteRow={() => deleteRow(index1, this.props, this.props.card)}
 							rows={this.state.rows}
 							index={index1}
