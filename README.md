@@ -36,6 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   Fix: Delete Messages
+-   Fix: Add new row in action
 -   Fix: Error setState "value.includes is not a function"
 -   #144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id
 

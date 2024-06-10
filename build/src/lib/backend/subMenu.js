@@ -63,7 +63,7 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
         if (callbackData.includes("delete")) {
             const navToGoBack = splittedText[2];
             if (callbackData.includes("deleteAll")) {
-                (0, messageIds_1.deleteMessageIds)(userToSend, userListWithChatID, instanceTelegram, "all");
+                await (0, messageIds_1.deleteMessageIds)(userToSend, userListWithChatID, instanceTelegram, "all");
             }
             if (navToGoBack && navToGoBack != "") {
                 return { navToGoBack: navToGoBack };

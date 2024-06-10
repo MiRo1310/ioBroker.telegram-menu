@@ -10,7 +10,7 @@ const deleteMessageByBot = async (instance, user, userListWithChatID, messageId,
     const _this = main_1.default.getInstance();
     try {
         if (chat_id) {
-            (0, logging_1.debug)([{ text: "Delete Message for ", val: user + " " + chat_id }]);
+            (0, logging_1.debug)([{ text: "Delete Message for", val: user + " " + chat_id + " , MessageId: " + messageId }]);
         }
         _this.sendTo(instance, {
             deleteMessage: {

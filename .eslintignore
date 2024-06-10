@@ -10,3 +10,5 @@ src/main.test.ts
 .github/
 .vscode/
 node_modules/
+**/*.d.ts
+test/integration.js

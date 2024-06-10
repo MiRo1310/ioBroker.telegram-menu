@@ -173,13 +173,12 @@ class TelegramMenu extends utils.Adapter {
                         userToSend = (0, action_1.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID);
                         chatID ? (0, logging_1.debug)([{ text: "ChatID found" }]) : (0, logging_1.debug)([{ text: "ChatID not found" }]);
                     }
-                    // Send to ShoppingList
                     if (state && typeof state.val == "string" && state.val.includes("sList:")) {
                         (0, shoppingList_1.shoppingListSubscribeStateAndDeleteItem)(state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
                         return;
                     }
                     if (id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend) {
-                        (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(instanceTelegram, userListWithChatID, userToSend);
+                        await (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(instanceTelegram, userListWithChatID, userToSend);
                         return;
                     }
                     if (state &&
@@ -187,7 +186,7 @@ class TelegramMenu extends utils.Adapter {
                         return;
                     }
                     if ((id == botSendMessageID || id == requestMessageID) && state) {
-                        (0, messageIds_1.saveMessageIds)(state, instanceTelegram);
+                        await (0, messageIds_1.saveMessageIds)(state, instanceTelegram);
                     }
                     else if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack && userToSend) {
                         const value = state.val;

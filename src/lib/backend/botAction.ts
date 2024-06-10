@@ -11,7 +11,7 @@ const deleteMessageByBot = async (
 	const _this = TelegramMenu.getInstance();
 	try {
 		if (chat_id) {
-			debug([{ text: "Delete Message for ", val: user + " " + chat_id }]);
+			debug([{ text: "Delete Message for", val: user + " " + chat_id + " , MessageId: " + messageId }]);
 		}
 		_this.sendTo(instance, {
 			deleteMessage: {

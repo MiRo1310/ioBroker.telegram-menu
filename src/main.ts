@@ -186,13 +186,13 @@ export default class TelegramMenu extends utils.Adapter {
 
 						chatID ? debug([{ text: "ChatID found" }]) : debug([{ text: "ChatID not found" }]);
 					}
-					// Send to ShoppingList
+
 					if (state && typeof state.val == "string" && state.val.includes("sList:")) {
 						shoppingListSubscribeStateAndDeleteItem(state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
 						return;
 					}
 					if (id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend) {
-						deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend);
+						await deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend);
 						return;
 					}
 
@@ -214,7 +214,7 @@ export default class TelegramMenu extends utils.Adapter {
 					}
 
 					if ((id == botSendMessageID || id == requestMessageID) && state) {
-						saveMessageIds(state, instanceTelegram);
+						await saveMessageIds(state, instanceTelegram);
 					} else if (state && typeof state.val === "string" && state.val != "" && id == telegramID && state?.ack && userToSend) {
 						const value = state.val;
 						const calledValue = value.slice(value.indexOf("]") + 1, value.length);

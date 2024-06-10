@@ -1,29 +1,49 @@
 import TelegramMenu from "../../main";
 import { deleteMessageByBot } from "./botAction";
 import { getChatID } from "./utilities";
-import { error } from "./logging";
+import { error, debug } from "./logging";
 
+interface Messages {
+	[key: string]: MessageInfos[];
+}
+interface MessageInfos {
+	id: ioBroker.StateValue;
+	time?: number;
+	request?: ioBroker.StateValue | null | undefined;
+}
+let isDeleting = false;
 async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): Promise<void> {
 	const _this = TelegramMenu.getInstance();
 	try {
-		let requestMessageId;
-		const requestUserIdObj = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-		const requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
-		if (requestMessageIdObj && requestUserIdObj && requestUserIdObj.val) {
-			if (requestMessageIdObj.val) {
-				requestMessageId = JSON.parse(requestMessageIdObj.val.toString());
-			} else {
-				requestMessageId = {};
-			}
-
-			if (typeof requestUserIdObj.val === "string" && !requestMessageId[requestUserIdObj.val]) {
-				requestMessageId[requestUserIdObj.val] = [];
-			}
-
-			requestMessageId[requestUserIdObj.val.toString()].push({ id: state.val, time: Date.now() });
-			requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-			_this.setStateAsync("communication.requestIds", JSON.stringify(requestMessageId), true);
+		let requestMessageId: Messages = {};
+		debug([{ text: "aa new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
+		let requestMessageIdObj = null;
+		if (!isDeleting) {
+			requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
 		}
+		isDeleting = false;
+		const requestUserIdObj = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+
+		const request = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
+
+		if (!(requestUserIdObj && requestUserIdObj.val)) {
+			return;
+		}
+
+		requestMessageId = requestMessageIdObj && requestMessageIdObj.val ? JSON.parse(requestMessageIdObj.val.toString()) : {};
+
+		if (!requestMessageId[requestUserIdObj.val.toString()]) {
+			requestMessageId[requestUserIdObj.val.toString()] = [];
+		}
+
+		if (!requestMessageId[requestUserIdObj.val.toString()]?.find((message) => message.id === state.val)) {
+			requestMessageId[requestUserIdObj.val.toString()].push({ id: state.val, time: Date.now(), request: request?.val });
+		}
+
+		requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
+		debug([{ text: "b new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
+		await _this.setStateAsync("communication.requestIds", JSON.stringify(requestMessageId), true);
+		debug([{ text: "a new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
 	} catch (e: any) {
 		error([
 			{ text: "Error saveMessageIds:", val: e.message },
@@ -48,26 +68,24 @@ async function deleteMessageIds(
 	try {
 		const requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
 		const lastMessageId = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
+
 		if (requestMessageIdObj && typeof requestMessageIdObj.val === "string" && JSON.parse(requestMessageIdObj.val)) {
 			const chat_id = getChatID(userListWithChatID, user);
-			const messageIds = JSON.parse(requestMessageIdObj.val);
-			messageIds[chat_id].push({ id: lastMessageId?.val });
-			const newMessageIds = messageIds;
-			for (let i = messageIds[chat_id].length - 1; i >= 0; i--) {
-				if (whatShouldDelete === "all") {
-					deleteMessageByBot(instanceTelegram, user, userListWithChatID, messageIds[chat_id][i].id, chat_id);
-					newMessageIds[chat_id].splice(i, 1);
-				} else if (whatShouldDelete === "last" && i === messageIds[chat_id].length - 1) {
-					deleteMessageByBot(instanceTelegram, user, userListWithChatID, messageIds[chat_id][i].id, chat_id);
-					messageIds[chat_id] = messageIds[chat_id].slice(i, 1);
-				}
-				// else if (whatShouldDelete === "leaveL" && leaveLastStanding && i > leaveLastStanding - 1) {
-				// 	deleteMessageByBot(_this, instanceTelegram, user, userListWithChatID, messageIds[chat_id][i].id, chat_id);
-				// 	newMessageIds[chat_id].splice(i, 1);
-				// }
+			const messageIds: Messages = JSON.parse(requestMessageIdObj.val);
+			if (lastMessageId && lastMessageId.val) {
+				messageIds[chat_id].push({ id: lastMessageId.val.toString() });
 			}
+			isDeleting = true;
+			messageIds[chat_id].forEach((element) => {
+				if (whatShouldDelete === "all" && element.id) {
+					deleteMessageByBot(instanceTelegram, user, userListWithChatID, parseInt(element.id?.toString()), chat_id);
+				}
+			});
+			messageIds[chat_id] = [];
 
-			_this.setStateAsync("communication.requestIds", JSON.stringify(newMessageIds), true);
+			debug([{ text: "before Save", val: messageIds }]);
+			await _this.setStateAsync("communication.requestIds", JSON.stringify(messageIds), true);
+			debug([{ text: "After Save", val: messageIds }]);
 		}
 	} catch (e: any) {
 		error([

@@ -123,10 +123,7 @@
         },
         "authors": ["MiRo1310 <michael.roling@gmx.de>"],
         "keywords": ["telegram", "menu"],
-        "licenseInformation": {
-            "license": "MIT",
-            "type": "free"
-        },
+        "license": "MIT",
         "platform": "Javascript/Node.js",
         "icon": "telegram-menu.png",
         "enabled": true,
