@@ -78,8 +78,9 @@ async function processData(obj) {
             }
             (0, dynamicValue_1.removeUserFromDynamicValue)(userToSend);
             const result = await (0, backMenu_1.switchBack)(userToSend, allMenusWithData, menus, true);
-            if (result)
+            if (result) {
                 (0, telegram_1.sendToTelegram)(userToSend, result["texttosend"] || "", result["menuToSend"], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, result["parseMode"]);
+            }
             else {
                 (0, sendNav_1.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
             }
@@ -106,8 +107,9 @@ async function processData(obj) {
                 if (JSON.stringify(part.nav).includes("menu:")) {
                     (0, logging_1.debug)([{ text: "Submenu" }]);
                     const result = await (0, subMenu_1.callSubMenu)(JSON.stringify(part.nav), groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo);
-                    if (result && result.setStateIdsToListenTo)
+                    if (result && result.setStateIdsToListenTo) {
                         setStateIdsToListenTo = result.setStateIdsToListenTo;
+                    }
                     if (result && result.newNav) {
                         checkEveryMenuForData({
                             menuData,

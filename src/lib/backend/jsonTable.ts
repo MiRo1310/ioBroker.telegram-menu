@@ -3,13 +3,18 @@ import { debug, error } from "./logging";
 const lastText: LastText = {};
 const createKeyboardFromJson = (val: string, text: string | null, id: string, user: string): { text: string; keyboard: string } | undefined => {
 	try {
-		if (text) lastText[user] = text;
-		else text = lastText[user];
+		if (text) {
+			lastText[user] = text;
+		} else {
+			text = lastText[user];
+		}
 		const array = decomposeText(text, "{json:", "}").substring.split(";");
 		const headline = array[2];
 		const itemArray: string[] = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
 		let idShoppingList = false;
-		if (array.length > 3 && array[3] == "shoppinglist") idShoppingList = true;
+		if (array.length > 3 && array[3] == "shoppinglist") {
+			idShoppingList = true;
+		}
 
 		let valArray: ValArray[] = [];
 		debug([
@@ -17,8 +22,11 @@ const createKeyboardFromJson = (val: string, text: string | null, id: string, us
 			{ text: "Type of Val:", val },
 		]);
 
-		if (typeof val == "string") valArray = JSON.parse(val);
-		else valArray = val;
+		if (typeof val == "string") {
+			valArray = JSON.parse(val);
+		} else {
+			valArray = val;
+		}
 		const keyboard: (FirstRow | RowArray)[][] = [];
 
 		valArray.forEach((element, index) => {
@@ -27,7 +35,9 @@ const createKeyboardFromJson = (val: string, text: string | null, id: string, us
 			itemArray.forEach((item) => {
 				if (index == 0) {
 					const btnText: string = item.split(":")[1];
-					if (btnText.length > 0) firstRow.push({ text: btnText, callback_data: "1" });
+					if (btnText.length > 0) {
+						firstRow.push({ text: btnText, callback_data: "1" });
+					}
 				}
 				if (idShoppingList) {
 					const value = element["buttondelete"];
@@ -40,9 +50,13 @@ const createKeyboardFromJson = (val: string, text: string | null, id: string, us
 						text: element[item.split(":")[0]],
 						callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
 					});
-				} else rowArray.push({ text: element[item.split(":")[0]], callback_data: "1" });
+				} else {
+					rowArray.push({ text: element[item.split(":")[0]], callback_data: "1" });
+				}
 			});
-			if (index == 0) keyboard.push(firstRow);
+			if (index == 0) {
+				keyboard.push(firstRow);
+			}
 			keyboard.push(rowArray);
 		});
 		const inline_keyboard = { inline_keyboard: keyboard };
@@ -59,7 +73,9 @@ const createKeyboardFromJson = (val: string, text: string | null, id: string, us
 
 async function createTextTableFromJson(val: string, textToSend: string): Promise<string | undefined> {
 	try {
-		if (!val) return;
+		if (!val) {
+			return;
+		}
 		const substring = decomposeText(textToSend, "{json:", "}").substring;
 		const array = substring.split(";");
 		const itemArray: string[] = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
@@ -72,14 +88,17 @@ async function createTextTableFromJson(val: string, textToSend: string): Promise
 		});
 		valArray.forEach((element) => {
 			itemArray.forEach((item, index) => {
-				if (lengthArray[index] < element[item.split(":")[0]].toString().length)
+				if (lengthArray[index] < element[item.split(":")[0]].toString().length) {
 					lengthArray[index] = element[item.split(":")[0]].toString().length;
+				}
 			});
 		});
 		debug([{ text: "Length of rows", val: lengthArray }]);
 		const headline = array[2];
 		let textTable = textToSend.replace(substring, "").trim();
-		if (textTable != "") textTable += " \n\n";
+		if (textTable != "") {
+			textTable += " \n\n";
+		}
 		textTable += " " + headline + " \n`";
 		const enlargeColumn = 1;
 		const reduce = lengthArray.length == 1 ? 2 : 0;
@@ -105,13 +124,19 @@ async function createTextTableFromJson(val: string, textToSend: string): Promise
 								// Breakline
 								textTable += "-".repeat(lineLenght) + " \n";
 							}
-						} else textTable = textTable.slice(0, -1);
+						} else {
+							textTable = textTable.slice(0, -1);
+						}
 					});
 				}
 				// TableBody
-				if (index == 0) textTable += "|";
+				if (index == 0) {
+					textTable += "|";
+				}
 				textTable += " " + element[item.split(":")[0]].toString().padEnd(lengthArray[index] + enlargeColumn, " ") + "|";
-				if (index == itemArray.length - 1) textTable += "\n";
+				if (index == itemArray.length - 1) {
+					textTable += "\n";
+				}
 			});
 		});
 		// Breakline

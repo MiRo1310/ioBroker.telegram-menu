@@ -5,8 +5,11 @@ class Button extends Component<ButtonProps> {
 	eventOnclickButton = (event) => {
 		let value;
 
-		if (this.props.callbackValue === "event.target.innerText") value = event.target.innerText;
-		else value = this.props.callbackValue;
+		if (this.props.callbackValue === "event.target.innerText") {
+			value = event.target.innerText;
+		} else {
+			value = this.props.callbackValue;
+		}
 		if (this.props.setNative) {
 			this.props.callback(this.props.id, value);
 		} else if (this.props.id && value !== undefined) {
@@ -19,7 +22,9 @@ class Button extends Component<ButtonProps> {
 			this.props.callback();
 		}
 
-		if (this.props.secondCallback) this.props.secondCallback();
+		if (this.props.secondCallback) {
+			this.props.secondCallback();
+		}
 	};
 
 	render() {

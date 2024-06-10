@@ -80,9 +80,13 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	newX = null;
 	newY = null;
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) this.getUsersFromTelegram();
+		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
+			this.getUsersFromTelegram();
+		}
 		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
-			if (this.state.activeMenu && this.state.activeMenu != "") this.updateActiveMenuAndTrigger(this.state.activeMenu);
+			if (this.state.activeMenu && this.state.activeMenu != "") {
+				this.updateActiveMenuAndTrigger(this.state.activeMenu);
+			}
 		}
 		if (prevState.native.usersInGroup !== this.state.native.usersInGroup) {
 			this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
@@ -133,7 +137,9 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		const doubleTrigger: string[] = [];
 		usedTrigger.forEach((element, index) => {
 			if (index !== usedTrigger.indexOf(element)) {
-				if (element != "-") doubleTrigger.push(element);
+				if (element != "-") {
+					doubleTrigger.push(element);
+				}
 			}
 		});
 
@@ -141,12 +147,16 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	};
 	updateActiveMenuAndTrigger = (menu) => {
 		const result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
-		if (result) this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
+		if (result) {
+			this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
+		}
 	};
 
 	getUsersFromTelegram() {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || "telegram.0", (data) => {
-			if (!this.state.native.instance) this.updateNativeValue("instance", "telegram.0");
+			if (!this.state.native.instance) {
+				this.updateNativeValue("instance", "telegram.0");
+			}
 
 			this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
 		});

@@ -53,11 +53,18 @@ export const updatePositionDropBox = (newX, newY, dropboxRef, showDropBox, dropb
 		if (newY && newX) {
 			if (newY < 1) {
 				y = 1;
-			} else if (newY > maxTop) y = maxTop;
-			else y = newY;
-			if (newX < 1) x = 1;
-			else if (newX > maxRight) x = maxRight;
-			else x = newX;
+			} else if (newY > maxTop) {
+				y = maxTop;
+			} else {
+				y = newY;
+			}
+			if (newX < 1) {
+				x = 1;
+			} else if (newX > maxRight) {
+				x = maxRight;
+			} else {
+				x = newX;
+			}
 		} else if (dropbox && dropbox.dropboxRight && dropbox.dropboxTop) {
 			{
 				x = dropbox.dropboxRight;

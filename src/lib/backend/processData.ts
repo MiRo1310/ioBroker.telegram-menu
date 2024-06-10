@@ -116,7 +116,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 			removeUserFromDynamicValue(userToSend);
 			const result = await switchBack(userToSend, allMenusWithData, menus, true);
 
-			if (result)
+			if (result) {
 				sendToTelegram(
 					userToSend,
 					result["texttosend"] || "",
@@ -127,7 +127,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 					userListWithChatID,
 					result["parseMode"],
 				);
-			else {
+			} else {
 				sendNav(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
 			}
 			return true;
@@ -169,7 +169,9 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 						menus,
 						setStateIdsToListenTo,
 					);
-					if (result && result.setStateIdsToListenTo) setStateIdsToListenTo = result.setStateIdsToListenTo;
+					if (result && result.setStateIdsToListenTo) {
+						setStateIdsToListenTo = result.setStateIdsToListenTo;
+					}
 					if (result && result.newNav) {
 						checkEveryMenuForData({
 							menuData,

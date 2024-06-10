@@ -103,12 +103,15 @@ function getState(
 									parse_mode,
 								);
 								return;
-							} else _this.log.debug("Cannot create a Text-Table");
+							} else {
+								_this.log.debug("Cannot create a Text-Table");
+							}
 						} else {
 							const result = createKeyboardFromJson(valueForJson, textToSend, element.id, userToSend);
 							if (valueForJson && valueForJson.length > 0) {
-								if (result && result.text && result.keyboard)
+								if (result && result.text && result.keyboard) {
 									sendToTelegramSubmenu(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parse_mode);
+								}
 								return;
 							} else {
 								sendToTelegram(
@@ -136,15 +139,18 @@ function getState(
 					} else {
 						debug([{ text: "No Change" }]);
 					}
-					if (textToSend.indexOf("&&") != -1) text += `${textToSend.replace("&&", val.toString())}${newline}`;
-					else text += textToSend + " " + val + newline;
+					if (textToSend.indexOf("&&") != -1) {
+						text += `${textToSend.replace("&&", val.toString())}${newline}`;
+					} else {
+						text += textToSend + " " + val + newline;
+					}
 				} else {
 					text += `${val} ${newline}`;
 				}
 				debug([{ text: "Text:", val: text }]);
 
 				if (i == part.getData?.length) {
-					if (userToSend)
+					if (userToSend) {
 						sendToTelegram(
 							userToSend,
 							text,
@@ -155,6 +161,7 @@ function getState(
 							userListWithChatID,
 							parse_mode,
 						);
+					}
 				}
 				i++;
 			});

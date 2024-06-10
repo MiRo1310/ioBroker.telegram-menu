@@ -162,10 +162,18 @@ const helperText = {
 };
 globalItems.forEach((element) => {
 	element.data.forEach((data) => {
-		if (element.places.includes("value")) helperText.nav.value.push(data);
-		if (element.places.includes("text")) helperText.nav.text.push(data);
-		if (element.places.includes("set")) helperText.set.returnText.push(data);
-		if (element.places.includes("get")) helperText.get.text.push(data);
+		if (element.places.includes("value")) {
+			helperText.nav.value.push(data);
+		}
+		if (element.places.includes("text")) {
+			helperText.nav.text.push(data);
+		}
+		if (element.places.includes("set")) {
+			helperText.set.returnText.push(data);
+		}
+		if (element.places.includes("get")) {
+			helperText.get.text.push(data);
+		}
 	});
 });
 export default helperText;

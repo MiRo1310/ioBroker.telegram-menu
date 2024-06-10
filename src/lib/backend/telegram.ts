@@ -100,11 +100,15 @@ const sendLocationToTelegram = async (user: string, data: any, instance: string,
 	try {
 		const chatId = getChatID(userListWithChatID, user);
 		for (const element of data) {
-			if (!(element.latitude || element.longitude)) continue;
+			if (!(element.latitude || element.longitude)) {
+				continue;
+			}
 
 			const latitude = await _this.getForeignStateAsync(element.latitude);
 			const longitude = await _this.getForeignStateAsync(element.longitude);
-			if (!latitude || !longitude) continue;
+			if (!latitude || !longitude) {
+				continue;
+			}
 			_this.sendTo(instance, {
 				chatId: chatId,
 				latitude: latitude.val,

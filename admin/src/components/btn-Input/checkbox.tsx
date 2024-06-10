@@ -12,7 +12,9 @@ class Checkbox extends Component<PropsCheckbox> {
 		} else {
 			if (this.props.obj) {
 				this.props.callback({ val: event.target.checked, id: this.props.id, index: this.props.index });
-			} else this.props.callback(event, this.props.id);
+			} else {
+				this.props.callback(event, this.props.id);
+			}
 		}
 	};
 

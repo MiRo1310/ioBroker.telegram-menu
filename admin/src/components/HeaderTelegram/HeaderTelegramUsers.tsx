@@ -36,7 +36,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 	};
 	clickCheckbox = (event) => {
 		if (event.target.checked) {
-			if (!this.checkAktivUsers(true)) return;
+			if (!this.checkAktivUsers(true)) {
+				return;
+			}
 		} else {
 			this.setState({ errorUserChecked: false });
 		}
@@ -50,7 +52,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 				// TelegramUserCard.jsx setzt zurück
 				this.setState({ errorUserChecked: true });
 				return false;
-			} else return true;
+			} else {
+				return true;
+			}
 		}
 	};
 

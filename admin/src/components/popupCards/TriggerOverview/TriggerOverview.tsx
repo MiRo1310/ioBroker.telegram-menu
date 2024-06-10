@@ -52,17 +52,23 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 	getColorUsedTriggerNav(_, menuCall: string, trigger) {
 		this.menuArray = [];
 		const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
-		if (typeof result == "number") return;
+		if (typeof result == "number") {
+			return;
+		}
 		const menusWithUser = deleteDoubleEntriesInArray(result.menusWithUser);
 		this.colorArray = [];
 
 		for (const menu of menusWithUser) {
-			if (!this.ulPadding[menuCall]) this.ulPadding[menuCall] = 0;
+			if (!this.ulPadding[menuCall]) {
+				this.ulPadding[menuCall] = 0;
+			}
 
 			if (this.state.trigger.everyTrigger[menu["menu"]] && this.state.trigger.everyTrigger[menu["menu"]].includes(trigger)) {
 				for (let key = 0; key < result.arrayUsersInGroup.length; key++) {
 					if (result.arrayUsersInGroup[key] === menu["menu"]) {
-						if (!this.menuArray.includes(menu["menu"])) this.menuArray.push(menu["menu"]);
+						if (!this.menuArray.includes(menu["menu"])) {
+							this.menuArray.push(menu["menu"]);
+						}
 						this.colorArray.push({ color: colors[menu["index"]], menu: menu["menu"], index: key });
 						if (this.ulPadding[menuCall] < (this.colorArray.length - 4) * 11 + 15) {
 							this.ulPadding[menuCall] = (this.colorArray.length - 4) * 11 + 15;
@@ -74,8 +80,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		if (this.colorArray.length !== 0) {
 			return this.colorArray;
 		}
-		if (trigger == "-" && this.ulPadding[menuCall] != 37) this.ulPadding[menuCall] = 10;
-		else if (this.ulPadding[menuCall] < 37) {
+		if (trigger == "-" && this.ulPadding[menuCall] != 37) {
+			this.ulPadding[menuCall] = 10;
+		} else if (this.ulPadding[menuCall] < 37) {
 			this.ulPadding[menuCall] = 37;
 		}
 		return [{ color: "white", menu: "Is not assigned ", index: null, used: I18n.t("not created") }];
@@ -83,7 +90,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 	getColorNavElemente(index, menu, trigger) {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const result = this.getMenusWithUserOrIndexOfMenu(menu);
-		if (typeof result == "number") return;
+		if (typeof result == "number") {
+			return;
+		}
 		const menusWithUser = result.menusWithUser;
 		// Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
 		let menu2;
@@ -116,7 +125,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 			}
 		}
 
-		if (!this.ulPadding[menu]) this.ulPadding[menu] = 0;
+		if (!this.ulPadding[menu]) {
+			this.ulPadding[menu] = 0;
+		}
 		if (this.ulPadding[menu] < 37) {
 			this.ulPadding[menu] = 37;
 		}
@@ -134,7 +145,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 	getOptions() {
 		const options: string[] = [];
 		for (const menu in this.props.data.nav) {
-			if (this.props.data.nav[menu][0].call != "-") options.push(menu);
+			if (this.props.data.nav[menu][0].call != "-") {
+				options.push(menu);
+			}
 		}
 		this.setState({ options: options, selected: options[0] });
 		this.createdData(options[0]);

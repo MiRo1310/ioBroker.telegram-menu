@@ -55,8 +55,9 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
             (0, logging_js_1.debug)([{ text: "Result from Shoppinglist:", val: result }]);
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = (0, jsonTable_js_1.createKeyboardFromJson)(result.val, null, newId, user);
-            if (resultJson && resultJson.text && resultJson.keyboard)
+            if (resultJson && resultJson.text && resultJson.keyboard) {
                 (0, telegram_js_1.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
+            }
         }
     }
     catch (e) {

@@ -79,8 +79,9 @@ async function editArrayButtons(val, _this) {
                 value = checkValueForOneLine(element.value);
             }
             let array = [];
-            if (value.indexOf("&&") != -1)
+            if (value.indexOf("&&") != -1) {
                 array = value.split("&&");
+            }
             if (array.length > 1) {
                 array.forEach(function (element, index) {
                     if (typeof element === "string") {
@@ -90,13 +91,11 @@ async function editArrayButtons(val, _this) {
                     }
                 });
             }
-            else {
-                if (typeof element.value === "string") {
-                    array = element.value.split(",");
-                    array.forEach(function (element, index) {
-                        array[index] = [element.trim()];
-                    });
-                }
+            else if (typeof element.value === "string") {
+                array = element.value.split(",");
+                array.forEach(function (element, index) {
+                    array[index] = [element.trim()];
+                });
             }
             newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
         });
@@ -135,36 +134,40 @@ const idBySelector = async (_this, selector, text, userToSend, newline, telegram
                 if (text.includes("{common.name}")) {
                     name = await _this.getForeignObjectAsync(id);
                     _this.log.debug("Name " + JSON.stringify(name));
-                    if (name && name.common.name)
+                    if (name && name.common.name) {
                         newText = newText.replace("{common.name}", name.common.name);
+                    }
                 }
-                if (text.includes("&amp;&amp;"))
+                if (text.includes("&amp;&amp;")) {
                     text2Send += newText.replace("&amp;&amp;", value.val);
+                }
                 else {
                     text2Send += newText;
                     text2Send += " " + value.val;
                 }
             }
-            if (newline == "true")
+            if (newline === "true") {
                 text2Send += "\n";
-            else
+            }
+            else {
                 text2Send += " ";
+            }
             _this.log.debug("text2send " + JSON.stringify(text2Send));
         });
         Promise.all(promises)
             .then(() => {
-            _this.log.debug("textToSend " + JSON.stringify(text2Send));
-            _this.log.debug("userToSend " + JSON.stringify(userToSend));
+            (0, logging_js_1.debug)([{ text: "TextToSend:", val: text2Send }, { text: "UserToSend:", val: userToSend }]);
             (0, telegram_js_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
         })
             .catch((e) => {
-            _this.log.error("Error Promise: " + JSON.stringify(e.message));
-            _this.log.error(JSON.stringify(e.stack));
+            (0, logging_js_1.error)([{ text: "Error Promise:", val: e.message }, { text: "Stack:", val: e.stack }]);
         });
     }
     catch (error) {
-        _this.log.error("Error " + JSON.stringify(error.message));
-        _this.log.error(JSON.stringify(error.stack));
+        error([
+            { text: "Error idBySelector:", val: error.message },
+            { text: "Stack:", val: error.stack },
+        ]);
     }
 };
 exports.idBySelector = idBySelector;
@@ -234,8 +237,9 @@ function generateActions(action, userObject) {
         ];
         const listOfSetStateIds = [];
         action.set.forEach(function (element, key) {
-            if (key == 0)
+            if (key == 0) {
                 userObject[element.trigger] = { switch: [] };
+            }
             userObject[element.trigger] = { switch: [] };
             element.IDs.forEach(function (id, index) {
                 // Liste zum überwachen der Ids
@@ -246,8 +250,9 @@ function generateActions(action, userObject) {
                 if (element.values[index] === "true" || element.values[index] === "false") {
                     value = element.values[index] === "true";
                 }
-                else
+                else {
                     value = element.values[index];
+                }
                 const newObj = {
                     id: element.IDs[index],
                     value: value,
@@ -266,8 +271,9 @@ function generateActions(action, userObject) {
             if (action[item.objName]) {
                 action[item.objName].forEach(function (element, index) {
                     userObject[element.trigger] = { [item.name]: [] };
-                    if (index == 0)
+                    if (index == 0) {
                         userObject[element.trigger] = { [item.name]: [] };
+                    }
                     element[item.loop].forEach(function (id, key) {
                         const newObj = {};
                         item.elements.forEach((elementItem) => {
@@ -275,16 +281,21 @@ function generateActions(action, userObject) {
                             const value = elementItem.value ? elementItem.value : elementItem.name;
                             const newKey = elementItem.key ? elementItem.key : key;
                             let val;
-                            if (!element[value])
+                            if (!element[value]) {
                                 val = false;
-                            else
+                            }
+                            else {
                                 val = element[value][newKey];
-                            if (val == undefined)
+                            }
+                            if (val == undefined) {
                                 val = "false";
-                            if (elementItem.type == "text" && typeof val === "string")
+                            }
+                            if (elementItem.type == "text" && typeof val === "string") {
                                 newObj[name] = val.replace(/&amp;/g, "&");
-                            else
+                            }
+                            else {
                                 newObj[name] = val;
+                            }
                         });
                         if (item.name && typeof item.name === "string") {
                             userObject[element.trigger][item?.name].push(newObj);
@@ -336,20 +347,23 @@ const adjustValueType = (value, valueType) => {
             (0, logging_js_1.error)([{ text: "Error: Value is not a number:", val: value }]);
             return false;
         }
-        else
+        else {
             return parseFloat(value);
+        }
     }
     else if (valueType == "boolean") {
-        if (value == "true")
+        if (value == "true") {
             return true;
+        }
         else if (value == "false") {
             return false;
         }
         (0, logging_js_1.error)([{ text: "Error: Value is not a boolean:", val: value }]);
         return false;
     }
-    else
+    else {
         return value;
+    }
 };
 exports.adjustValueType = adjustValueType;
 const checkEvent = (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
@@ -410,8 +424,9 @@ const checkEvent = (dataObject, id, state, menuData, userListWithChatID, instanc
 exports.checkEvent = checkEvent;
 const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
     let userToSend = null;
-    if (!chatID)
+    if (!chatID) {
         return null;
+    }
     userListWithChatID.forEach((element) => {
         if (element.chatID == chatID.val) {
             userToSend = element.name;

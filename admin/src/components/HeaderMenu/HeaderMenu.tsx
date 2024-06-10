@@ -7,8 +7,12 @@ import { I18n } from "@iobroker/adapter-react-v5";
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
 	eventOnMouse = (event) => {
-		if (event.type === "mouseenter") this.props.callback.setState({ showPopupMenuList: true });
-		if (event.type === "mouseleave") this.props.callback.setState({ showPopupMenuList: false });
+		if (event.type === "mouseenter") {
+			this.props.callback.setState({ showPopupMenuList: true });
+		}
+		if (event.type === "mouseleave") {
+			this.props.callback.setState({ showPopupMenuList: false });
+		}
 	};
 	handleClick = () => {
 		this.props.callback.setState({ showPopupMenuList: !this.props.data.state.showPopupMenuList });

@@ -54,7 +54,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			const row = this.state.newRow;
 			this.props.entries.forEach((entry) => {
 				if (!entry.checkbox && entry.required) {
-					if (!row[entry.name]) row[entry.name] = [""];
+					if (!row[entry.name]) {
+						row[entry.name] = [""];
+					}
 					row[entry.name].forEach((val, index) => {
 						if (value && entry.name === "values") {
 							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
@@ -70,7 +72,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			});
 
 			value = value && valueRowValuesAndSwitch;
-			if (this.state.inputValuesAreOK !== value) this.setState({ inputValuesAreOK: value });
+			if (this.state.inputValuesAreOK !== value) {
+				this.setState({ inputValuesAreOK: value });
+			}
 		}
 	}
 	checkNewValueIsOK = () => {
@@ -79,16 +83,20 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			this.state.editedValueFromHelperText !== undefined &&
 			this.state.editedValueFromHelperText !== "" &&
 			this.state.editedValueFromHelperText !== this.state[this.state.helperTextFor]
-		)
+		) {
 			return true;
-		else return false;
+		} else {
+			return false;
+		}
 	};
 	addEditedTrigger = (trigger) => {
 		let newTriggerArray: string[] = [];
 		const unUsedTrigger: string[] = deepCopy(this.props.data.unUsedTrigger);
 		if (trigger) {
 			newTriggerArray = [...unUsedTrigger, trigger];
-		} else newTriggerArray = unUsedTrigger;
+		} else {
+			newTriggerArray = unUsedTrigger;
+		}
 		this.setState({ newUnUsedTrigger: newTriggerArray });
 	};
 	componentDidMount() {
@@ -105,7 +113,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	closeAddRowCard = (isOk) => {
 		if (isOk) {
 			const data = deepCopy(this.props.data.data);
-			if (!data.action[this.props.activeMenu][this.props.subCard]) data.action[this.props.activeMenu][this.props.subCard] = [];
+			if (!data.action[this.props.activeMenu][this.props.subCard]) {
+				data.action[this.props.activeMenu][this.props.subCard] = [];
+			}
 			if (this.state.editRow) {
 				data.action[this.props.activeMenu][this.props.subCard].splice(this.state.rowIndex, 1, this.state.newRow);
 			} else {
@@ -147,8 +157,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	onchangeValueFromHelper = (value) => {
 		let newValue;
 
-		if (this.state.editedValueFromHelperText === null) newValue = value;
-		else newValue = this.state.editedValueFromHelperText + " " + value;
+		if (this.state.editedValueFromHelperText === null) {
+			newValue = value;
+		} else {
+			newValue = this.state.editedValueFromHelperText + " " + value;
+		}
 		this.setState({ editedValueFromHelperText: newValue });
 	};
 	popupHelperCard = (isOK) => {

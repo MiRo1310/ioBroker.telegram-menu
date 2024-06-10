@@ -37,17 +37,23 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 	}
 
 	getRows(nav, activeMenu) {
-		if (!nav) return;
+		if (!nav) {
+			return;
+		}
 		const elements = nav[activeMenu];
 		const rows: Rows[] = [];
-		if (elements === undefined) return;
+		if (elements === undefined) {
+			return;
+		}
 		for (const entry of elements) {
 			rows.push(createData(this.props.entries, entry));
 		}
 		this.setState({ rows: rows });
 	}
 	componentDidMount() {
-		if (this.props.tableData) this.getRows(this.props.tableData, this.props.data.activeMenu);
+		if (this.props.tableData) {
+			this.getRows(this.props.tableData, this.props.data.activeMenu);
+		}
 	}
 
 	componentDidUpdate(prevProps) {
@@ -61,14 +67,17 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR") {
 				// Setze draggable auf true oder false, je nach Bedarf
-				if (currentElement.classList.contains("draggingDropBox")) return;
+				if (currentElement.classList.contains("draggingDropBox")) {
+					return;
+				}
 				// Beende die Schleife, wenn das passende Element gefunden wurde
 			}
 			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
-		if (index !== this.state.dropStart && index != 0)
+		if (index !== this.state.dropStart && index != 0) {
 			moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+		}
 	};
 
 	editRow = (index) => {

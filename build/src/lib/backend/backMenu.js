@@ -12,8 +12,9 @@ function backMenuFunc(nav, part, userToSend) {
         else if (!backMenu[userToSend]) {
             backMenu[userToSend] = { list: [], last: "" };
         }
-        if (backMenu[userToSend].last !== "")
+        if (backMenu[userToSend].last !== "") {
             backMenu[userToSend].list.push(backMenu[userToSend].last);
+        }
         backMenu[userToSend].last = nav;
     }
     (0, logging_1.debug)([{ text: "GoBackMenu", val: backMenu }]);

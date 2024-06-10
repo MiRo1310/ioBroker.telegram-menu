@@ -34,8 +34,11 @@ class Square extends Component<PropsSquare, StateSquare> {
 				break;
 
 			default:
-				if (this.props.trigger != "-") this.setState({ bColor: this.props.color, left: -(this.props.position * 10 + 5) + "px" });
-				else this.setState({ bColor: "transparent" });
+				if (this.props.trigger != "-") {
+					this.setState({ bColor: this.props.color, left: -(this.props.position * 10 + 5) + "px" });
+				} else {
+					this.setState({ bColor: "transparent" });
+				}
 				break;
 		}
 	}

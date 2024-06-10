@@ -8,8 +8,9 @@ const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_
     const { substring } = (0, utilities_1.decomposeText)(returnText, "{setDynamicValue:", "}");
     const array = substring.split(":");
     const text = array[1];
-    if (text)
+    if (text) {
         (0, telegram_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
+    }
     const obj = {
         id: id,
         ack: ack,
@@ -24,20 +25,24 @@ const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_
         valueType: array[2],
     };
     setDynamicValueObj[userToSend] = obj;
-    if (array[3] && array[3] != "")
+    if (array[3] && array[3] != "") {
         return array[3];
+    }
 };
 exports.setDynamicValue = setDynamicValue;
 const getDynamicValue = (userToSend) => {
-    if (setDynamicValueObj[userToSend])
+    if (setDynamicValueObj[userToSend]) {
         return setDynamicValueObj[userToSend];
-    else
+    }
+    else {
         return null;
+    }
 };
 exports.getDynamicValue = getDynamicValue;
 const removeUserFromDynamicValue = (userToSend) => {
-    if (setDynamicValueObj[userToSend])
+    if (setDynamicValueObj[userToSend]) {
         delete setDynamicValueObj[userToSend];
+    }
 };
 exports.removeUserFromDynamicValue = removeUserFromDynamicValue;
 //# sourceMappingURL=dynamicValue.js.map

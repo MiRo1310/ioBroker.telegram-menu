@@ -41,8 +41,11 @@ const insertAckCheckbox = (data, updateNative): void => {
 						substring = textItem.replace("ack:true", "").replace("  ", " ");
 						data.action[menu].set[indexItem].ack[textIndex] = "true";
 					} else {
-						if (textItem.includes("ack:false")) substring = textItem.replace("ack:false", "").replace("  ", " ");
-						else substring = textItem;
+						if (textItem.includes("ack:false")) {
+							substring = textItem.replace("ack:false", "").replace("  ", " ");
+						} else {
+							substring = textItem;
+						}
 						data.action[menu].set[indexItem].ack[textIndex] = "false";
 					}
 					data.action[menu].set[indexItem].returnText[textIndex] = substring;
@@ -56,7 +59,9 @@ const insertAckCheckbox = (data, updateNative): void => {
 	updateNative("data", data);
 };
 export const insertNewItemsInData = (data, updateNative): void => {
-	if (Object.keys(data).length == 0) return;
+	if (Object.keys(data).length == 0) {
+		return;
+	}
 	data = deepCopy(data);
 	data = insertParseModeCheckbox(data);
 	insertAckCheckbox(data, updateNative);

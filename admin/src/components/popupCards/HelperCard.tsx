@@ -40,7 +40,9 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 			}
 
 			this.setState({ showSelectId: true });
-		} else return;
+		} else {
+			return;
+		}
 	};
 
 	render() {

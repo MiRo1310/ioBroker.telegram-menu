@@ -39,11 +39,15 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 	getRows = () => {
 		const action = this.props.tableData;
 		const activeMenu = this.props.activeMenu;
-		if (!action) return;
+		if (!action) {
+			return;
+		}
 		const elements = action[activeMenu][this.props.subCard];
 
 		const rows: any[] = [];
-		if (elements === undefined) return;
+		if (elements === undefined) {
+			return;
+		}
 		for (const entry of elements) {
 			rows.push(createData(this.props.entries, entry));
 		}
@@ -77,7 +81,9 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 					}
 				}
 			});
-		} else console.log("Error get Tds");
+		} else {
+			console.log("Error get Tds");
+		}
 	};
 	componentDidMount() {
 		this.mounted = true;
@@ -96,19 +102,24 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
 				// Setze draggable auf true oder false, je nach Bedarf
-				if (currentElement.classList.contains("draggingDropBox")) return; // Beende die Schleife, wenn das passende Element gefunden wurde
+				if (currentElement.classList.contains("draggingDropBox")) {
+					return;
+				} // Beende die Schleife, wenn das passende Element gefunden wurde
 			}
 			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
-		if (index !== this.state.dropStart)
+		if (index !== this.state.dropStart) {
 			moveItem(this.state.dropStart, this.props, this.props.card, this.props.subCard, index - this.state.dropStart);
+		}
 	};
 
 	editRow = (index) => {
 		const data = deepCopy(this.props.data.data);
 		const newRow = data[this.props.card][this.props.activeMenu][this.props.subCard][index];
-		if (newRow.trigger) this.props.addEditedTrigger(newRow.trigger[0]);
+		if (newRow.trigger) {
+			this.props.addEditedTrigger(newRow.trigger[0]);
+		}
 		this.props.setState({ newRow: newRow });
 		this.props.setState({ editRow: true });
 		this.props.setState({ rowPopup: true });

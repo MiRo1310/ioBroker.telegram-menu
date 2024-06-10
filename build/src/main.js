@@ -64,8 +64,9 @@ class TelegramMenu extends utils.Adapter {
         this.setState("info.connection", false, true);
         (0, createState_1.createState)(this);
         let instanceTelegram = this.config.instance;
-        if (!instanceTelegram || instanceTelegram.length == 0)
+        if (!instanceTelegram || instanceTelegram.length == 0) {
             instanceTelegram = "telegram.0";
+        }
         const telegramID = `${instanceTelegram}.communicate.request`;
         const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
         const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
@@ -145,10 +146,11 @@ class TelegramMenu extends utils.Adapter {
                         (0, logging_1.debug)([{ text: "Nothing to Subscribe!" }]);
                     }
                     // Subscribe Events
-                    if (dataObject["action"][name] && dataObject["action"][name].events)
+                    if (dataObject["action"][name] && dataObject["action"][name].events) {
                         dataObject["action"][name].events.forEach((event) => {
                             (0, subscribeStates_1._subscribeForeignStatesAsync)([event.ID]);
                         });
+                    }
                     (0, logging_1.debug)([
                         { text: "Menu: ", val: name },
                         { text: "Array Buttons: ", val: value },
@@ -251,8 +253,9 @@ class TelegramMenu extends utils.Adapter {
                                         value = "";
                                         textToSend = textToSend.replace("{novalue}", "");
                                     }
-                                    else if (state.val || state.val == false)
+                                    else if (state.val || state.val == false) {
                                         value = state.val?.toString();
+                                    }
                                     valueChange ? (value = valueChange) : value;
                                     textToSend = (0, action_2.insertValueInPosition)(textToSend, value);
                                     (0, telegram_1.sendToTelegram)(element.userToSend, textToSend, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, element.parse_mode);
@@ -306,8 +309,9 @@ class TelegramMenu extends utils.Adapter {
                 // e.g. send email or pushover or whatever
                 this.log.info("send command");
                 // Send response in callback if required
-                if (obj.callback)
+                if (obj.callback) {
                     this.sendTo(obj.from, obj.command, "Message received", obj.callback);
+                }
             }
         }
     }

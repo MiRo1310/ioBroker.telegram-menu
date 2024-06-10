@@ -75,8 +75,9 @@ async function deleteMessageAndSendNewShoppingList(
 			debug([{ text: "Result from Shoppinglist:", val: result }]);
 			const newId = `alexa-shoppinglist.${idList}`;
 			const resultJson = createKeyboardFromJson(result.val as string, null, newId, user);
-			if (resultJson && resultJson.text && resultJson.keyboard)
+			if (resultJson && resultJson.text && resultJson.keyboard) {
 				sendToTelegramSubmenu(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
+			}
 		}
 	} catch (e: any) {
 		error([

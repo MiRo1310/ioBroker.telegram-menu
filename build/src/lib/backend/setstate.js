@@ -52,24 +52,22 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
     const _this = main_1.default.getInstance();
     try {
         const setStateIds = [];
-        part.switch?.forEach((/** @type {{ id: string; value: *; toggle:boolean; confirm:Boolean; returnText: string; parse_mode: string }} */ element) => {
+        part.switch?.forEach((element) => {
             (0, logging_1.debug)([{ text: "Element to set:", val: element }]);
             let ack = false;
             let returnText = element.returnText;
-            if (element["ack"]) {
-                (0, logging_1.debug)([{ text: "Set ack:", val: +JSON.stringify(element["ack"]) }]);
-                if (element.ack === "true")
-                    ack = true;
-            }
+            (0, logging_1.debug)([{ text: "Set ack:", val: element["ack"] }]);
+            ack = element?.ack ? element.ack === "true" : false;
             if (returnText.includes("{setDynamicValue")) {
                 const confirmText = (0, dynamicValue_1.setDynamicValue)(returnText, ack, element.id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode, element.confirm);
-                if (element.confirm)
+                if (element.confirm) {
                     return setStateIds.push({
                         id: element.id,
                         confirm: element.confirm,
                         returnText: confirmText,
                         userToSend: userToSend,
                     });
+                }
             }
             if (!returnText.includes("{'id':'")) {
                 setStateIds.push({
@@ -112,8 +110,9 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
                 _this
                     .getForeignStateAsync(element.id)
                     .then((val) => {
-                    if (val)
+                    if (val) {
                         _this.setForeignStateAsync(element.id, !val.val, ack);
+                    }
                 })
                     .catch((e) => {
                     (0, logging_1.error)([

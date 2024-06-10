@@ -77,14 +77,16 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                                 (0, telegram_1.sendToTelegram)(userToSend, result, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
                                 return;
                             }
-                            else
+                            else {
                                 _this.log.debug("Cannot create a Text-Table");
+                            }
                         }
                         else {
                             const result = (0, jsonTable_1.createKeyboardFromJson)(valueForJson, textToSend, element.id, userToSend);
                             if (valueForJson && valueForJson.length > 0) {
-                                if (result && result.text && result.keyboard)
+                                if (result && result.text && result.keyboard) {
                                     (0, telegram_1.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parse_mode);
+                                }
                                 return;
                             }
                             else {
@@ -103,18 +105,21 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                     else {
                         (0, logging_1.debug)([{ text: "No Change" }]);
                     }
-                    if (textToSend.indexOf("&&") != -1)
+                    if (textToSend.indexOf("&&") != -1) {
                         text += `${textToSend.replace("&&", val.toString())}${newline}`;
-                    else
+                    }
+                    else {
                         text += textToSend + " " + val + newline;
+                    }
                 }
                 else {
                     text += `${val} ${newline}`;
                 }
                 (0, logging_1.debug)([{ text: "Text:", val: text }]);
                 if (i == part.getData?.length) {
-                    if (userToSend)
+                    if (userToSend) {
                         (0, telegram_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+                    }
                 }
                 i++;
             });

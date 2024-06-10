@@ -16,7 +16,9 @@ const setDynamicValue = (
 	const { substring } = decomposeText(returnText, "{setDynamicValue:", "}");
 	const array = substring.split(":");
 	const text = array[1];
-	if (text) sendToTelegram(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
+	if (text) {
+		sendToTelegram(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
+	}
 	const obj = {
 		id: id,
 		ack: ack,
@@ -31,14 +33,21 @@ const setDynamicValue = (
 		valueType: array[2],
 	};
 	setDynamicValueObj[userToSend] = obj;
-	if (array[3] && array[3] != "") return array[3];
+	if (array[3] && array[3] != "") {
+		return array[3];
+	}
 };
 
 const getDynamicValue = (userToSend: string): SetDynamicValue | null => {
-	if (setDynamicValueObj[userToSend]) return setDynamicValueObj[userToSend];
-	else return null;
+	if (setDynamicValueObj[userToSend]) {
+		return setDynamicValueObj[userToSend];
+	} else {
+		return null;
+	}
 };
 const removeUserFromDynamicValue = (userToSend: string): void => {
-	if (setDynamicValueObj[userToSend]) delete setDynamicValueObj[userToSend];
+	if (setDynamicValueObj[userToSend]) {
+		delete setDynamicValueObj[userToSend];
+	}
 };
 export { setDynamicValue, getDynamicValue, removeUserFromDynamicValue };

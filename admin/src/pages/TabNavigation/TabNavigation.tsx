@@ -45,7 +45,9 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 				this.setState({ valuesAreOk: true });
 			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call) || this.state.newRow.call.startsWith("menu")) {
 				this.setState({ valuesAreOk: false });
-			} else this.setState({ valuesAreOk: true });
+			} else {
+				this.setState({ valuesAreOk: true });
+			}
 		} else {
 			this.setState({ valuesAreOk: false });
 		}
@@ -54,7 +56,9 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 				this.setState({ callInUse: false });
 			} else if (this.props.data.state.usedTrigger.includes(this.state.newRow.call) || this.state.newRow.call.startsWith("menu")) {
 				this.setState({ callInUse: true });
-			} else this.setState({ callInUse: false });
+			} else {
+				this.setState({ callInUse: false });
+			}
 		}
 	};
 
@@ -64,19 +68,22 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			this.state.editedValueFromHelperText !== undefined &&
 			this.state.editedValueFromHelperText !== "" &&
 			this.state.editedValueFromHelperText !== this.state[this.state.helperTextFor]
-		)
+		) {
 			return true;
-		else return false;
+		} else {
+			return false;
+		}
 	};
 
 	changeInput = (data) => {
 		const copyNewRow = deepCopy(this.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();
-		} else
+		} else {
 			Object.keys(data).forEach((key) => {
 				copyNewRow[key] = data[key];
 			});
+		}
 		this.setState({ newRow: copyNewRow });
 	};
 	popupRowCard = (isOK) => {
@@ -89,7 +96,9 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		const navUserArray = dataCopy.nav[this.props.data.state.activeMenu];
 		if (this.state.editRow) {
 			navUserArray.splice(this.state.rowIndex, 1, this.state.newRow);
-		} else navUserArray.splice(this.state.rowIndex + 1, 0, this.state.newRow);
+		} else {
+			navUserArray.splice(this.state.rowIndex + 1, 0, this.state.newRow);
+		}
 		dataCopy.nav[this.props.data.state.activeMenu] = navUserArray;
 		this.props.callback.updateNative("data", dataCopy);
 		this.setState({ rowPopup: false });

@@ -31,8 +31,11 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			this.setState({ oldMenuName: this.props.data.activeMenu, renamedMenuName: this.props.data.activeMenu });
 		}
 		if (prevState.newMenuName !== this.state.newMenuName) {
-			if (this.props.data.state.native.usersInGroup[this.state.newMenuName.replace(/ /g, "_")]) this.setState({ menuNameExists: true });
-			else this.setState({ menuNameExists: false });
+			if (this.props.data.state.native.usersInGroup[this.state.newMenuName.replace(/ /g, "_")]) {
+				this.setState({ menuNameExists: true });
+			} else {
+				this.setState({ menuNameExists: false });
+			}
 		}
 		if (this.state.renamedMenuName) {
 			if (prevState.renamedMenuName !== this.state.renamedMenuName) {
@@ -44,7 +47,9 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							this.props.data.state.native.usersInGroup.hasOwnProperty(this.state.renamedMenuName.replace(/ /g, "_"))
 						) {
 							this.setState({ isOK: false });
-						} else this.setState({ isOK: true });
+						} else {
+							this.setState({ isOK: true });
+						}
 					}
 				} else {
 					this.setState({ isOK: false });
@@ -74,8 +79,11 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 				addNewMenu = true;
 			}
 		} else {
-			if (newMenu !== "" || !newMenu) console.log("empty input field!");
-			else console.log("Menu already exists!");
+			if (newMenu !== "" || !newMenu) {
+				console.log("empty input field!");
+			} else {
+				console.log("Menu already exists!");
+			}
 			return;
 		}
 		if (addNewMenu) {
@@ -111,7 +119,9 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
 		if (renamed) {
 			this.props.callback.setState({ activeMenu: newMenu });
-		} else this.props.callback.setState({ activeMenu: firstMenu });
+		} else {
+			this.props.callback.setState({ activeMenu: firstMenu });
+		}
 	};
 	openConfirmDialog = () => {
 		this.setState({ confirmDialog: true });
@@ -123,7 +133,9 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}
 		const oldMenuName = this.state.oldMenuName;
 		const newMenu = this.state.renamedMenuName;
-		if (newMenu === "" || newMenu == undefined || newMenu === oldMenuName) return;
+		if (newMenu === "" || newMenu == undefined || newMenu === oldMenuName) {
+			return;
+		}
 		this.addNewMenu(this.state.renamedMenuName, true);
 		setTimeout(() => {
 			this.removeMenu(oldMenuName, true, newMenu);

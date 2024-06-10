@@ -12,8 +12,11 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
 	onchangeValueFromHelper = (value) => {
 		let newValue;
 
-		if (this.props.state.editedValueFromHelperText === null) newValue = value;
-		else newValue = this.props.state.editedValueFromHelperText + " " + value;
+		if (this.props.state.editedValueFromHelperText === null) {
+			newValue = value;
+		} else {
+			newValue = this.props.state.editedValueFromHelperText + " " + value;
+		}
 		this.props.setState({ editedValueFromHelperText: newValue });
 	};
 

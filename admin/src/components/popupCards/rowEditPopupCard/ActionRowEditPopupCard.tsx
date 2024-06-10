@@ -55,7 +55,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	};
 
 	handleDrop = (index) => {
-		if (index !== this.state.dropStart)
+		if (index !== this.state.dropStart) {
 			moveItem(
 				this.state.dropStart,
 				this.props,
@@ -64,6 +64,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 				this.props.entries,
 				index - this.state.dropStart,
 			);
+		}
 	};
 
 	render() {

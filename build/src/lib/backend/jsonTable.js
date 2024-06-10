@@ -6,25 +6,30 @@ const logging_1 = require("./logging");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
     try {
-        if (text)
+        if (text) {
             lastText[user] = text;
-        else
+        }
+        else {
             text = lastText[user];
+        }
         const array = (0, global_1.decomposeText)(text, "{json:", "}").substring.split(";");
         const headline = array[2];
         const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
         let idShoppingList = false;
-        if (array.length > 3 && array[3] == "shoppinglist")
+        if (array.length > 3 && array[3] == "shoppinglist") {
             idShoppingList = true;
+        }
         let valArray = [];
         (0, logging_1.debug)([
             { text: "Val:", val },
             { text: "Type of Val:", val },
         ]);
-        if (typeof val == "string")
+        if (typeof val == "string") {
             valArray = JSON.parse(val);
-        else
+        }
+        else {
             valArray = val;
+        }
         const keyboard = [];
         valArray.forEach((element, index) => {
             const firstRow = [];
@@ -32,8 +37,9 @@ const createKeyboardFromJson = (val, text, id, user) => {
             itemArray.forEach((item) => {
                 if (index == 0) {
                     const btnText = item.split(":")[1];
-                    if (btnText.length > 0)
+                    if (btnText.length > 0) {
                         firstRow.push({ text: btnText, callback_data: "1" });
+                    }
                 }
                 if (idShoppingList) {
                     const value = element["buttondelete"];
@@ -46,11 +52,13 @@ const createKeyboardFromJson = (val, text, id, user) => {
                         callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
                     });
                 }
-                else
+                else {
                     rowArray.push({ text: element[item.split(":")[0]], callback_data: "1" });
+                }
             });
-            if (index == 0)
+            if (index == 0) {
                 keyboard.push(firstRow);
+            }
             keyboard.push(rowArray);
         });
         const inline_keyboard = { inline_keyboard: keyboard };
@@ -67,8 +75,9 @@ const createKeyboardFromJson = (val, text, id, user) => {
 exports.createKeyboardFromJson = createKeyboardFromJson;
 async function createTextTableFromJson(val, textToSend) {
     try {
-        if (!val)
+        if (!val) {
             return;
+        }
         const substring = (0, global_1.decomposeText)(textToSend, "{json:", "}").substring;
         const array = substring.split(";");
         const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
@@ -81,15 +90,17 @@ async function createTextTableFromJson(val, textToSend) {
         });
         valArray.forEach((element) => {
             itemArray.forEach((item, index) => {
-                if (lengthArray[index] < element[item.split(":")[0]].toString().length)
+                if (lengthArray[index] < element[item.split(":")[0]].toString().length) {
                     lengthArray[index] = element[item.split(":")[0]].toString().length;
+                }
             });
         });
         (0, logging_1.debug)([{ text: "Length of rows", val: lengthArray }]);
         const headline = array[2];
         let textTable = textToSend.replace(substring, "").trim();
-        if (textTable != "")
+        if (textTable != "") {
             textTable += " \n\n";
+        }
         textTable += " " + headline + " \n`";
         const enlargeColumn = 1;
         const reduce = lengthArray.length == 1 ? 2 : 0;
@@ -116,16 +127,19 @@ async function createTextTableFromJson(val, textToSend) {
                                 textTable += "-".repeat(lineLenght) + " \n";
                             }
                         }
-                        else
+                        else {
                             textTable = textTable.slice(0, -1);
+                        }
                     });
                 }
                 // TableBody
-                if (index == 0)
+                if (index == 0) {
                     textTable += "|";
+                }
                 textTable += " " + element[item.split(":")[0]].toString().padEnd(lengthArray[index] + enlargeColumn, " ") + "|";
-                if (index == itemArray.length - 1)
+                if (index == itemArray.length - 1) {
                     textTable += "\n";
+                }
             });
         });
         // Breakline

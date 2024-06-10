@@ -22,8 +22,9 @@ async function dynamicSwitch(calledValue, device2Switch, text) {
                     const splittedValue = value.split("|");
                     arrayOfEntriesDynamicSwitch.push({ text: splittedValue[0], callback_data: `menu:dynS:${device2Switch}:${splittedValue[1]}` });
                 }
-                else
+                else {
                     arrayOfEntriesDynamicSwitch.push({ text: value, callback_data: `menu:dynS:${device2Switch}:${value}` });
+                }
                 if (((index + 1) % lengthOfRow == 0 && index != 0 && arrayOfValues.length > 0) || index + 1 == arrayOfValues.length) {
                     keyboard.inline_keyboard.push(arrayOfEntriesDynamicSwitch);
                     arrayOfEntriesDynamicSwitch = [];

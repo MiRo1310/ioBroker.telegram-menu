@@ -144,7 +144,9 @@ async function subMenu(
 				one_time_keyboard,
 				userListWithChatID,
 			);
-			if (Array.isArray(result)) returnIDToListenTo = result;
+			if (Array.isArray(result)) {
+				returnIDToListenTo = result;
+			}
 			return { returnIds: returnIDToListenTo };
 		} else if (callbackData.includes("second")) {
 			let val;
@@ -165,7 +167,9 @@ async function subMenu(
 				one_time_keyboard,
 				userListWithChatID,
 			);
-			if (Array.isArray(result)) returnIDToListenTo = result;
+			if (Array.isArray(result)) {
+				returnIDToListenTo = result;
+			}
 			return { returnIds: returnIDToListenTo };
 		} else if (callbackData.includes("dynSwitch")) {
 			return dynamicSwitch(calledValue, device2Switch, text as string);
@@ -183,7 +187,9 @@ async function subMenu(
 				one_time_keyboard,
 				userListWithChatID,
 			);
-			if (Array.isArray(result)) returnIDToListenTo = result;
+			if (Array.isArray(result)) {
+				returnIDToListenTo = result;
+			}
 			return {
 				returnIds: returnIDToListenTo,
 			};
@@ -199,11 +205,12 @@ async function subMenu(
 					text: `${i}%`,
 					callback_data: `submenu:percent${step},${i}:${device2Switch}`,
 				});
-				if (i != 0 && i - step < 0)
+				if (i != 0 && i - step < 0) {
 					menu.push({
 						text: `0%`,
 						callback_data: `submenu:percent${step},${0}:${device2Switch}`,
 					});
+				}
 				rowEntries++;
 				if (rowEntries == 8) {
 					keyboard.inline_keyboard.push(menu);
@@ -212,7 +219,9 @@ async function subMenu(
 				}
 			}
 
-			if (rowEntries != 0) keyboard.inline_keyboard.push(menu);
+			if (rowEntries != 0) {
+				keyboard.inline_keyboard.push(menu);
+			}
 			return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 		} else if (calledValue.includes(`submenu:percent${step}`)) {
 			const value = parseInt(calledValue.split(":")[1].split(",")[1]);
@@ -227,10 +236,14 @@ async function subMenu(
 				one_time_keyboard,
 				userListWithChatID,
 			);
-			if (Array.isArray(result)) returnIDToListenTo = result;
+			if (Array.isArray(result)) {
+				returnIDToListenTo = result;
+			}
 			return { returnIds: returnIDToListenTo };
 		} else if (!calledValue.includes("submenu") && callbackData.includes("number")) {
-			if (callbackData.includes("(-)")) callbackData = callbackData.replace("(-)", "negativ");
+			if (callbackData.includes("(-)")) {
+				callbackData = callbackData.replace("(-)", "negativ");
+			}
 			const splittedData = callbackData.replace("number", "").split("-");
 			let rowEntries = 0;
 			let menu = [];
@@ -238,7 +251,9 @@ async function subMenu(
 				inline_keyboard: [] as any[],
 			};
 			let unit = "";
-			if (splittedData[3] != "") unit = splittedData[3];
+			if (splittedData[3] != "") {
+				unit = splittedData[3];
+			}
 			let start = 0,
 				end = 0;
 			const firstValueInText = parseFloat(splittedData[0].includes("negativ") ? splittedData[0].replace("negativ", "-") : splittedData[0]);
@@ -255,12 +270,16 @@ async function subMenu(
 
 			let maxEntriesPerRow = 8;
 			const step = parseFloat(splittedData[2].includes("negativ") ? splittedData[2].replace("negativ", "-") : splittedData[2]);
-			if (step < 1) maxEntriesPerRow = 6;
+			if (step < 1) {
+				maxEntriesPerRow = 6;
+			}
 
 			for (let i = start; i >= end; i -= step) {
 				// Zahlen umdrehen
 				if (parseFloat(splittedData[0]) < parseFloat(splittedData[1])) {
-					if (i === start) index = end - step;
+					if (i === start) {
+						index = end - step;
+					}
 					index = index + step;
 				} else {
 					index = i;
@@ -277,7 +296,9 @@ async function subMenu(
 				}
 			}
 
-			if (rowEntries != 0) keyboard.inline_keyboard.push(menu);
+			if (rowEntries != 0) {
+				keyboard.inline_keyboard.push(menu);
+			}
 			debug([{ text: "keyboard:", val: keyboard.inline_keyboard }]);
 			return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 		} else if (calledValue.includes(`submenu:${callbackData}`)) {
@@ -296,11 +317,13 @@ async function subMenu(
 				one_time_keyboard,
 				userListWithChatID,
 			);
-			if (Array.isArray(result)) returnIDToListenTo = result;
+			if (Array.isArray(result)) {
+				returnIDToListenTo = result;
+			}
 			return { returnIds: returnIDToListenTo };
 		} else if (callbackData === "back") {
 			const result = await switchBack(userToSend, allMenusWithData, menus);
-			if (result)
+			if (result) {
 				sendToTelegram(
 					userToSend,
 					result["texttosend"] as string,
@@ -311,6 +334,7 @@ async function subMenu(
 					userListWithChatID,
 					result["parseMode"],
 				);
+			}
 		}
 		return;
 	} catch (error: any) {

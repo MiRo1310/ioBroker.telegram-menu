@@ -10,8 +10,9 @@ const telegram_1 = require("./telegram");
 function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
     const _this = main_1.default.getInstance();
     try {
-        if (!echarts)
+        if (!echarts) {
             return;
+        }
         for (const echart of echarts) {
             const splitted = echart.preset.split(".");
             const echartInstance = splitted[0] + "." + splitted[1];

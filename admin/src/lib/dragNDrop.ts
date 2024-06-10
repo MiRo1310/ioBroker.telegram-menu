@@ -30,7 +30,9 @@ export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, 
 		return false;
 	}
 	setState({ dropStart: index });
-	if (cb) cb();
+	if (cb) {
+		cb();
+	}
 };
 export const handleDragOver = (_, event): void => {
 	event.preventDefault();
@@ -48,7 +50,9 @@ export const handleStyleDragOver = (index, dropOver, dropStart): { borderTop?: s
 export const handleDragEnd = (setState, props?): void => {
 	setState({ dropStart: 0 });
 	setState({ dropOver: 0 });
-	if (props) props.callback.setState({ draggingRowIndex: null });
+	if (props) {
+		props.callback.setState({ draggingRowIndex: null });
+	}
 };
 export const handleDraggable = (index: number): "true" | "false" => {
 	return index === 0 ? "false" : "true";

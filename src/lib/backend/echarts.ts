@@ -12,7 +12,9 @@ function getChart(
 ): void {
 	const _this = TelegramMenu.getInstance();
 	try {
-		if (!echarts) return;
+		if (!echarts) {
+			return;
+		}
 		for (const echart of echarts) {
 			const splitted = echart.preset.split(".");
 			const echartInstance = splitted[0] + "." + splitted[1];

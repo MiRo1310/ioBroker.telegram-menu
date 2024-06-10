@@ -58,15 +58,19 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 	};
 
 	handleOnDrop = () => {
-		if (this.state.selectedMenu === "") return;
+		if (this.state.selectedMenu === "") {
+			return;
+		}
 		const data = deepCopy(this.props.native.data);
 		let rowToWorkWith;
 		const moveOrCopy = this.state.selectedValue;
 
 		if (this.state.newTrigger === "" && !(this.props.subTab === "events")) {
-			if (this.props.tab === "action")
+			if (this.props.tab === "action") {
 				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
-			else rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
+			} else {
+				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
+			}
 			this.setState({ rowToWorkWith: rowToWorkWith });
 			const usedTrigger = updateTriggerForSelect(data, this.props.native?.usersInGroup, this.state.selectedMenu)?.usedTrigger;
 
@@ -124,39 +128,51 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		} else {
 			if (this.props.subTab === "events") {
 				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
-			} else if (!rowToWorkWith) rowToWorkWith = this.state.rowToWorkWith;
+			} else if (!rowToWorkWith) {
+				rowToWorkWith = this.state.rowToWorkWith;
+			}
 
 			if (moveOrCopy === "copy") {
 				this.copy(rowToWorkWith, data);
-			} else this.move(rowToWorkWith, data);
+			} else {
+				this.move(rowToWorkWith, data);
+			}
 		}
 	};
 	countItemsInArray = (data, searchedString) => {
 		let count = 0;
 		data.forEach((element) => {
-			if (element.trim() === searchedString.trim()) count++;
+			if (element.trim() === searchedString.trim()) {
+				count++;
+			}
 		});
 
 		return count;
 	};
 	move = (rowToWorkWith, data) => {
 		if (this.props.tab === "action" && this.props.subTab !== "events") {
-			if (this.state.newTrigger !== "") rowToWorkWith.trigger[0] = this.state.newTrigger;
+			if (this.state.newTrigger !== "") {
+				rowToWorkWith.trigger[0] = this.state.newTrigger;
+			}
 
 			// Wenn es das erste Element ist, dann muss das Array erstellt werden
-			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab])
+			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) {
 				data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+			}
 
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
 		} else if (this.props.subTab == "events") {
 			// Events besonders da kein Trigger vorhanden ist
-			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab])
+			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) {
 				data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+			}
 			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
 		} else {
-			if (this.state.newTrigger !== "") rowToWorkWith.call = this.state.newTrigger;
+			if (this.state.newTrigger !== "") {
+				rowToWorkWith.call = this.state.newTrigger;
+			}
 			data[this.props.tab][this.state.selectedMenu].push(rowToWorkWith);
 			data[this.props.tab][this.props.activeMenu].splice(this.props.index, 1);
 		}

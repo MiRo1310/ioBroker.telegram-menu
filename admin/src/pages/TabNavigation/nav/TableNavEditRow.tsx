@@ -22,10 +22,11 @@ class TableNavEditRow extends Component<PropsTableNAvEditRow> {
 		const copyNewRow = deepCopy(this.props.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();
-		} else
+		} else {
 			Object.keys(data).forEach((key) => {
 				copyNewRow[key] = data[key];
 			});
+		}
 		this.props.setState({ newRow: copyNewRow });
 	};
 	openHelperText = (value) => {

@@ -56,102 +56,103 @@ export const setState = async (
 	const _this = TelegramMenu.getInstance();
 	try {
 		const setStateIds: SetStateIds[] = [];
-		part.switch?.forEach(
-			(/** @type {{ id: string; value: *; toggle:boolean; confirm:Boolean; returnText: string; parse_mode: string }} */ element) => {
-				debug([{ text: "Element to set:", val: element }]);
-				let ack = false;
-				let returnText = element.returnText;
+		part.switch?.forEach((element) => {
+			debug([{ text: "Element to set:", val: element }]);
+			let ack = false;
+			let returnText = element.returnText;
 
-				if (element["ack"]) {
-					debug([{ text: "Set ack:", val: +JSON.stringify(element["ack"]) }]);
-					if (element.ack === "true") ack = true;
-				}
-				if (returnText.includes("{setDynamicValue")) {
-					const confirmText = setDynamicValue(
-						returnText,
-						ack,
-						element.id,
-						userToSend,
-						telegramInstance,
-						one_time_keyboard,
-						resize_keyboard,
-						userListWithChatID,
-						element.parse_mode,
-						element.confirm,
-					);
+			debug([{ text: "Set ack:", val: element["ack"] }]);
 
-					if (element.confirm)
-						return setStateIds.push({
-							id: element.id,
-							confirm: element.confirm,
-							returnText: confirmText as string,
-							userToSend: userToSend,
-						});
-				}
+			ack = element?.ack ? element.ack === "true" : false;
 
-				if (!returnText.includes("{'id':'")) {
-					setStateIds.push({
+			if (returnText.includes("{setDynamicValue")) {
+				const confirmText = setDynamicValue(
+					returnText,
+					ack,
+					element.id,
+					userToSend,
+					telegramInstance,
+					one_time_keyboard,
+					resize_keyboard,
+					userListWithChatID,
+					element.parse_mode,
+					element.confirm,
+				);
+
+				if (element.confirm) {
+					return setStateIds.push({
 						id: element.id,
 						confirm: element.confirm,
-						returnText: returnText,
+						returnText: confirmText as string,
 						userToSend: userToSend,
-						parse_mode: element.parse_mode,
 					});
-					debug([{ text: "SetStateIds:", val: setStateIds }]);
-				} else {
-					try {
-						debug([{ text: "ReturnText:", val: returnText }]);
-						returnText = returnText.replaceAll("'", '"');
-						const textToSend = returnText.slice(0, returnText.indexOf("{")).trim();
-						const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
+				}
+			}
 
-						returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
-						if (textToSend && textToSend !== "") {
-							sendToTelegram(
-								userToSend,
-								textToSend,
-								undefined,
-								telegramInstance,
-								one_time_keyboard,
-								resize_keyboard,
-								userListWithChatID,
-								element.parse_mode,
-							);
-						}
+			if (!returnText.includes("{'id':'")) {
+				setStateIds.push({
+					id: element.id,
+					confirm: element.confirm,
+					returnText: returnText,
+					userToSend: userToSend,
+					parse_mode: element.parse_mode,
+				});
+				debug([{ text: "SetStateIds:", val: setStateIds }]);
+			} else {
+				try {
+					debug([{ text: "ReturnText:", val: returnText }]);
+					returnText = returnText.replaceAll("'", '"');
+					const textToSend = returnText.slice(0, returnText.indexOf("{")).trim();
+					const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
 
-						debug([{ text: "JSON parse:", val: returnObj }]);
-						setStateIds.push({
-							id: returnObj.id,
-							confirm: true,
-							returnText: returnObj.text,
-							userToSend: userToSend,
-						});
-						debug([{ text: "SetStateIds", val: setStateIds }]);
-					} catch (e: any) {
-						error([
-							{ text: "Error parsing returnObj:", val: e.message },
-							{ text: "Stack:", val: e.stack },
-						]);
+					returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
+					if (textToSend && textToSend !== "") {
+						sendToTelegram(
+							userToSend,
+							textToSend,
+							undefined,
+							telegramInstance,
+							one_time_keyboard,
+							resize_keyboard,
+							userListWithChatID,
+							element.parse_mode,
+						);
 					}
+
+					debug([{ text: "JSON parse:", val: returnObj }]);
+					setStateIds.push({
+						id: returnObj.id,
+						confirm: true,
+						returnText: returnObj.text,
+						userToSend: userToSend,
+					});
+					debug([{ text: "SetStateIds", val: setStateIds }]);
+				} catch (e: any) {
+					error([
+						{ text: "Error parsing returnObj:", val: e.message },
+						{ text: "Stack:", val: e.stack },
+					]);
 				}
-				if (element.toggle) {
-					debug([{ text: "Toggle" }]);
-					_this
-						.getForeignStateAsync(element.id)
-						.then((val) => {
-							if (val) _this.setForeignStateAsync(element.id, !val.val, ack);
-						})
-						.catch((e: any) => {
-							error([
-								{ text: "Error", val: e.message },
-								{ text: "Stack", val: e.stack },
-							]);
-						});
-				} else {
-					setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
-				}
-			},
-		);
+			}
+			if (element.toggle) {
+				debug([{ text: "Toggle" }]);
+				_this
+					.getForeignStateAsync(element.id)
+					.then((val) => {
+						if (val) {
+							_this.setForeignStateAsync(element.id, !val.val, ack);
+						}
+					})
+					.catch((e: any) => {
+						error([
+							{ text: "Error", val: e.message },
+							{ text: "Stack", val: e.stack },
+						]);
+					});
+			} else {
+				setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
+			}
+		});
 		return setStateIds;
 	} catch (error: any) {
 		error([

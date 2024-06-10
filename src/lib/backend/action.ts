@@ -85,7 +85,9 @@ async function editArrayButtons(val: EditArrayButtons[], _this: any): Promise<Ge
 				value = checkValueForOneLine(element.value);
 			}
 			let array: string[] | string[][] = [];
-			if (value.indexOf("&&") != -1) array = value.split("&&");
+			if (value.indexOf("&&") != -1) {
+				array = value.split("&&");
+			}
 
 			if (array.length > 1) {
 				array.forEach(function (element, index: number) {
@@ -95,14 +97,13 @@ async function editArrayButtons(val: EditArrayButtons[], _this: any): Promise<Ge
 						array[index] = navArray;
 					}
 				});
-			} else {
-				if (typeof element.value === "string") {
-					array = element.value.split(",");
-					array.forEach(function (element, index: number) {
-						array[index] = [element.trim()];
-					});
-				}
+			} else if (typeof element.value === "string") {
+				array = element.value.split(",");
+				array.forEach(function (element, index: number) {
+					array[index] = [element.trim()];
+				});
 			}
+
 			newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
 		});
 
@@ -154,32 +155,44 @@ const idBySelector = async (
 					name = await _this.getForeignObjectAsync(id);
 					_this.log.debug("Name " + JSON.stringify(name));
 
-					if (name && name.common.name) newText = newText.replace("{common.name}", name.common.name);
+					if (name && name.common.name) {
+						newText = newText.replace("{common.name}", name.common.name);
+					}
 				}
-				if (text.includes("&amp;&amp;")) text2Send += newText.replace("&amp;&amp;", value.val);
-				else {
+				if (text.includes("&amp;&amp;")) {
+					text2Send += newText.replace("&amp;&amp;", value.val);
+				} else {
 					text2Send += newText;
 					text2Send += " " + value.val;
 				}
 			}
-			if (newline == "true") text2Send += "\n";
-			else text2Send += " ";
+			if (newline === "true") {
+				text2Send += "\n";
+			} else {
+				text2Send += " ";
+			}
 			_this.log.debug("text2send " + JSON.stringify(text2Send));
 		});
 		Promise.all(promises)
 			.then(() => {
-				_this.log.debug("textToSend " + JSON.stringify(text2Send));
-				_this.log.debug("userToSend " + JSON.stringify(userToSend));
+				debug([
+					{ text: "TextToSend:", val: text2Send },
+					{ text: "UserToSend:", val: userToSend },
+				]);
 
 				sendToTelegram(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
 			})
 			.catch((e) => {
-				_this.log.error("Error Promise: " + JSON.stringify(e.message));
-				_this.log.error(JSON.stringify(e.stack));
+				error([
+					{ text: "Error Promise:", val: e.message },
+					{ text: "Stack:", val: e.stack },
+				]);
 			});
 	} catch (error: any) {
-		_this.log.error("Error " + JSON.stringify(error.message));
-		_this.log.error(JSON.stringify(error.stack));
+		error([
+			{ text: "Error idBySelector:", val: error.message },
+			{ text: "Stack:", val: error.stack },
+		]);
 	}
 };
 
@@ -249,7 +262,9 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 
 		const listOfSetStateIds: string[] = [];
 		action.set.forEach(function (element, key) {
-			if (key == 0) userObject[element.trigger] = { switch: [] };
+			if (key == 0) {
+				userObject[element.trigger] = { switch: [] };
+			}
 			userObject[element.trigger] = { switch: [] };
 			element.IDs.forEach(function (id: string, index: number) {
 				// Liste zum überwachen der Ids
@@ -259,7 +274,9 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 				// Aus true oder false einen boolean machen
 				if (element.values[index] === "true" || element.values[index] === "false") {
 					value = element.values[index] === "true";
-				} else value = element.values[index];
+				} else {
+					value = element.values[index];
+				}
 				const newObj: Switch = {
 					id: element.IDs[index],
 					value: value,
@@ -279,7 +296,9 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 			if (action[item.objName as keyof Actions]) {
 				action[item.objName as keyof Actions].forEach(function (element, index: number) {
 					userObject[element.trigger] = { [item.name]: [] };
-					if (index == 0) userObject[element.trigger] = { [item.name as keyof UserObjectActions]: [] };
+					if (index == 0) {
+						userObject[element.trigger] = { [item.name as keyof UserObjectActions]: [] };
+					}
 
 					element[item.loop].forEach(function (id: string, key: number) {
 						const newObj: GenerateActionsNewObject = {};
@@ -289,13 +308,20 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 							const newKey = elementItem.key ? elementItem.key : key;
 							let val: string | boolean;
 
-							if (!element[value]) val = false;
-							else val = element[value][newKey];
-							if (val == undefined) val = "false";
+							if (!element[value]) {
+								val = false;
+							} else {
+								val = element[value][newKey];
+							}
+							if (val == undefined) {
+								val = "false";
+							}
 
-							if (elementItem.type == "text" && typeof val === "string")
+							if (elementItem.type == "text" && typeof val === "string") {
 								newObj[name as keyof GenerateActionsNewObject] = val.replace(/&amp;/g, "&") as any;
-							else newObj[name as keyof GenerateActionsNewObject] = val as any;
+							} else {
+								newObj[name as keyof GenerateActionsNewObject] = val as any;
+							}
 						});
 						if (item.name && typeof item.name === "string") {
 							userObject[element.trigger as NewObjectNavStructureKey][item?.name as keyof Part].push(newObj);
@@ -346,15 +372,20 @@ const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string):
 		if (!parseFloat(value as string)) {
 			error([{ text: "Error: Value is not a number:", val: value }]);
 			return false;
-		} else return parseFloat(value as string);
+		} else {
+			return parseFloat(value as string);
+		}
 	} else if (valueType == "boolean") {
-		if (value == "true") return true;
-		else if (value == "false") {
+		if (value == "true") {
+			return true;
+		} else if (value == "false") {
 			return false;
 		}
 		error([{ text: "Error: Value is not a boolean:", val: value }]);
 		return false;
-	} else return value;
+	} else {
+		return value;
+	}
 };
 
 const checkEvent = (
@@ -435,7 +466,9 @@ const checkEvent = (
 const getUserToSendFromUserListWithChatID = (userListWithChatID: UserListWithChatId[], chatID: ioBroker.State | undefined | null): string | null => {
 	let userToSend: string | null = null;
 
-	if (!chatID) return null;
+	if (!chatID) {
+		return null;
+	}
 
 	userListWithChatID.forEach((element) => {
 		if (element.chatID == chatID.val) {

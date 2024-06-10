@@ -54,6 +54,8 @@ module.exports = {
         "no-var": "error",
         "prefer-const": "error",
         "no-trailing-spaces": "error",
+        "arrow-parens": ["error", "always"],
+        curly: ["error", "all"],
     },
     overrides: [
         {

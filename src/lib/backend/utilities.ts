@@ -86,8 +86,11 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 	let changedSubstring = substring;
 	changedSubstring = changedSubstring.replace(array[0], "");
 
-	if (array[0].includes("lc")) key = "lc";
-	else if (array[0].includes("ts")) key = "ts";
+	if (array[0].includes("lc")) {
+		key = "lc";
+	} else if (array[0].includes("ts")) {
+		key = "ts";
+	}
 
 	if (!id) {
 		if (!changedSubstring.includes("id:")) {
@@ -131,14 +134,30 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 	};
 
 	if (timeStringUser) {
-		if (timeStringUser.includes("sss")) timeStringUser = timeStringUser.replace("sss", time.ms.toString());
-		if (timeStringUser.includes("ss")) timeStringUser = timeStringUser.replace("ss", time.s.toString());
-		if (timeStringUser.includes("mm")) timeStringUser = timeStringUser.replace("mm", time.m.toString());
-		if (timeStringUser.includes("hh")) timeStringUser = timeStringUser.replace("hh", time.h.toString());
-		if (timeStringUser.includes("DD")) timeStringUser = timeStringUser.replace("DD", time.d.toString());
-		if (timeStringUser.includes("MM")) timeStringUser = timeStringUser.replace("MM", time.mo.toString());
-		if (timeStringUser.includes("YYYY")) timeStringUser = timeStringUser.replace("YYYY", time.y.toString());
-		if (timeStringUser.includes("YY")) timeStringUser = timeStringUser.replace("YY", time.y.toString().slice(-2));
+		if (timeStringUser.includes("sss")) {
+			timeStringUser = timeStringUser.replace("sss", time.ms.toString());
+		}
+		if (timeStringUser.includes("ss")) {
+			timeStringUser = timeStringUser.replace("ss", time.s.toString());
+		}
+		if (timeStringUser.includes("mm")) {
+			timeStringUser = timeStringUser.replace("mm", time.m.toString());
+		}
+		if (timeStringUser.includes("hh")) {
+			timeStringUser = timeStringUser.replace("hh", time.h.toString());
+		}
+		if (timeStringUser.includes("DD")) {
+			timeStringUser = timeStringUser.replace("DD", time.d.toString());
+		}
+		if (timeStringUser.includes("MM")) {
+			timeStringUser = timeStringUser.replace("MM", time.mo.toString());
+		}
+		if (timeStringUser.includes("YYYY")) {
+			timeStringUser = timeStringUser.replace("YYYY", time.y.toString());
+		}
+		if (timeStringUser.includes("YY")) {
+			timeStringUser = timeStringUser.replace("YY", time.y.toString().slice(-2));
+		}
 		timeStringUser = timeStringUser.replace("(", "").replace(")", "");
 		return textToSend.replace(substring, timeStringUser);
 	}
@@ -262,8 +281,12 @@ async function checkTypeOfId(
 		debug([{ text: `Change Value type from : ${receivedType} to ${typeof value}` }]);
 
 		if (obj.common.type === "boolean") {
-			if (value == "true") value = true;
-			if (value == "false") value = false;
+			if (value == "true") {
+				value = true;
+			}
+			if (value == "false") {
+				value = false;
+			}
 			return value;
 		}
 		if (obj.common.type === "string") {
@@ -282,7 +305,9 @@ async function checkTypeOfId(
 	}
 }
 const newLine = (text: string): string => {
-	if (text && text.includes("\\n")) return text.replace(/\\n/g, "\n");
+	if (text && text.includes("\\n")) {
+		return text.replace(/\\n/g, "\n");
+	}
 	return text;
 };
 

@@ -47,8 +47,12 @@ export const sortArray = (arr: string[]): string[] => {
 		const lowerCaseA = a.toLowerCase();
 		const lowerCaseB = b.toLowerCase();
 
-		if (lowerCaseA < lowerCaseB) return -1;
-		if (lowerCaseA > lowerCaseB) return 1;
+		if (lowerCaseA < lowerCaseB) {
+			return -1;
+		}
+		if (lowerCaseA > lowerCaseB) {
+			return 1;
+		}
 		return 0;
 	});
 	return arr;
@@ -59,5 +63,7 @@ export const checkObjectOrArray = (obj): "object" | "array" | string => {
 		return "array";
 	} else if (typeof obj == "object") {
 		return "object";
-	} else return typeof obj;
+	} else {
+		return typeof obj;
+	}
 };

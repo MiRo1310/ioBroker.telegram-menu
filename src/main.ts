@@ -51,7 +51,9 @@ export default class TelegramMenu extends utils.Adapter {
 		createState(this);
 
 		let instanceTelegram: string = this.config.instance;
-		if (!instanceTelegram || instanceTelegram.length == 0) instanceTelegram = "telegram.0";
+		if (!instanceTelegram || instanceTelegram.length == 0) {
+			instanceTelegram = "telegram.0";
+		}
 		const telegramID = `${instanceTelegram}.communicate.request`;
 		const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
 		const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
@@ -142,10 +144,11 @@ export default class TelegramMenu extends utils.Adapter {
 					}
 
 					// Subscribe Events
-					if (dataObject["action"][name] && dataObject["action"][name].events)
+					if (dataObject["action"][name] && dataObject["action"][name].events) {
 						dataObject["action"][name].events.forEach((event: { ID: any }) => {
 							_subscribeForeignStatesAsync([event.ID]);
 						});
+					}
 
 					debug([
 						{ text: "Menu: ", val: name },
@@ -302,7 +305,9 @@ export default class TelegramMenu extends utils.Adapter {
 									if (textToSend?.toString().includes("{novalue}")) {
 										value = "";
 										textToSend = textToSend.replace("{novalue}", "");
-									} else if (state.val || state.val == false) value = state.val?.toString();
+									} else if (state.val || state.val == false) {
+										value = state.val?.toString();
+									}
 
 									valueChange ? (value = valueChange) : value;
 									textToSend = insertValueInPosition(textToSend, value);
@@ -371,7 +376,9 @@ export default class TelegramMenu extends utils.Adapter {
 				this.log.info("send command");
 
 				// Send response in callback if required
-				if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
+				if (obj.callback) {
+					this.sendTo(obj.from, obj.command, "Message received", obj.callback);
+				}
 			}
 		}
 	}

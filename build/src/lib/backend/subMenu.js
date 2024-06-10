@@ -104,8 +104,9 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
                 val = splittedData[1].split(".")[1];
             }
             const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-            if (Array.isArray(result))
+            if (Array.isArray(result)) {
                 returnIDToListenTo = result;
+            }
             return { returnIds: returnIDToListenTo };
         }
         else if (callbackData.includes("second")) {
@@ -120,8 +121,9 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
                 val = splittedData[2].split(".")[1];
             }
             const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-            if (Array.isArray(result))
+            if (Array.isArray(result)) {
                 returnIDToListenTo = result;
+            }
             return { returnIds: returnIDToListenTo };
         }
         else if (callbackData.includes("dynSwitch")) {
@@ -131,8 +133,9 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
             (0, logging_1.debug)([{ text: "SplittedData:", val: splittedData }]);
             const val = splittedText[3];
             const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, val, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-            if (Array.isArray(result))
+            if (Array.isArray(result)) {
                 returnIDToListenTo = result;
+            }
             return {
                 returnIds: returnIDToListenTo,
             };
@@ -149,11 +152,12 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
                     text: `${i}%`,
                     callback_data: `submenu:percent${step},${i}:${device2Switch}`,
                 });
-                if (i != 0 && i - step < 0)
+                if (i != 0 && i - step < 0) {
                     menu.push({
                         text: `0%`,
                         callback_data: `submenu:percent${step},${0}:${device2Switch}`,
                     });
+                }
                 rowEntries++;
                 if (rowEntries == 8) {
                     keyboard.inline_keyboard.push(menu);
@@ -161,20 +165,23 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
                     rowEntries = 0;
                 }
             }
-            if (rowEntries != 0)
+            if (rowEntries != 0) {
                 keyboard.inline_keyboard.push(menu);
+            }
             return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
         }
         else if (calledValue.includes(`submenu:percent${step}`)) {
             const value = parseInt(calledValue.split(":")[1].split(",")[1]);
             const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-            if (Array.isArray(result))
+            if (Array.isArray(result)) {
                 returnIDToListenTo = result;
+            }
             return { returnIds: returnIDToListenTo };
         }
         else if (!calledValue.includes("submenu") && callbackData.includes("number")) {
-            if (callbackData.includes("(-)"))
+            if (callbackData.includes("(-)")) {
                 callbackData = callbackData.replace("(-)", "negativ");
+            }
             const splittedData = callbackData.replace("number", "").split("-");
             let rowEntries = 0;
             let menu = [];
@@ -182,8 +189,9 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
                 inline_keyboard: [],
             };
             let unit = "";
-            if (splittedData[3] != "")
+            if (splittedData[3] != "") {
                 unit = splittedData[3];
+            }
             let start = 0, end = 0;
             const firstValueInText = parseFloat(splittedData[0].includes("negativ") ? splittedData[0].replace("negativ", "-") : splittedData[0]);
             const secondValueInText = parseFloat(splittedData[1].includes("negativ") ? splittedData[1].replace("negativ", "-") : splittedData[1]);
@@ -198,13 +206,15 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
             let index = -1;
             let maxEntriesPerRow = 8;
             const step = parseFloat(splittedData[2].includes("negativ") ? splittedData[2].replace("negativ", "-") : splittedData[2]);
-            if (step < 1)
+            if (step < 1) {
                 maxEntriesPerRow = 6;
+            }
             for (let i = start; i >= end; i -= step) {
                 // Zahlen umdrehen
                 if (parseFloat(splittedData[0]) < parseFloat(splittedData[1])) {
-                    if (i === start)
+                    if (i === start) {
                         index = end - step;
+                    }
                     index = index + step;
                 }
                 else {
@@ -221,8 +231,9 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
                     rowEntries = 0;
                 }
             }
-            if (rowEntries != 0)
+            if (rowEntries != 0) {
                 keyboard.inline_keyboard.push(menu);
+            }
             (0, logging_1.debug)([{ text: "keyboard:", val: keyboard.inline_keyboard }]);
             return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
         }
@@ -231,14 +242,16 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
             const value = parseFloat(calledValue.split(":")[3]);
             device2Switch = calledValue.split(":")[2];
             const result = await (0, setstate_1.setState)(menuData[device2Switch], userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
-            if (Array.isArray(result))
+            if (Array.isArray(result)) {
                 returnIDToListenTo = result;
+            }
             return { returnIds: returnIDToListenTo };
         }
         else if (callbackData === "back") {
             const result = await (0, backMenu_1.switchBack)(userToSend, allMenusWithData, menus);
-            if (result)
+            if (result) {
                 (0, telegram_1.sendToTelegram)(userToSend, result["texttosend"], result["menuToSend"], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, result["parseMode"]);
+            }
         }
         return;
     }
