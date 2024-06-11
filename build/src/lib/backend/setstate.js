@@ -37,7 +37,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
             valueToSet = val;
             (0, logging_1.debug)([{ text: "Value to Set:", val: valueToSet }]);
             if (valueToSet) {
-                _this.setForeignStateAsync(id, valueToSet, ack);
+                _this.setForeignState(id, valueToSet, ack);
             }
         });
     }

@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "telegram-menu",
-        "version": "1.7.0",
+        "version": "1.7.1",
         "news": {
+            "1.7.1": {
+                "en": "Fix: Delete Messages\nFix: Add new row in action\nFix: Error setState \"value.includes is not a function\"\n#144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id",
+                "de": "Fix: Nachrichten löschen\nFix: Neue Zeile in Aktion hinzufügen\nFix: Fehler setState \"Wert. enthält keine Funktion\"\n#44 Neue Funktion in setState hinzufügen: Jetzt ist es möglich, einen statischen Wert mit einem dynamischen Wert von id einzustellen",
+                "ru": "Исключить сообщения\nFix: Добавить новый ряд в действие\nFix: Ошибка устанавливает состояние \"значение. включает не функцию»\n#144 Добавить новую функцию в setState: Теперь можно установить статическое значение с динамическим значением от id",
+                "pt": "Corrigir: Excluir mensagens\nFix: Adicionar nova linha em ação\nCorrigir: erro setState \"valor. inclui não é uma função\"\n144 Adicionar novo recurso no setState: Agora é possível definir um valor estático com um valor dinâmico do id",
+                "nl": "Fix: Berichten verwijderen\nFix: nieuwe rij toevoegen in actie\nFix: Error setState \"waarde. bevat geen functie\"\n#144 Nieuwe functie toevoegen in setState: Nu is het mogelijk om een statische waarde in te stellen met een dynamische waarde van id",
+                "fr": "Correction: Supprimer les messages\nCorrection : Ajouter une nouvelle ligne en action\nCorrection : erreur setState \"value. comprend n'est pas une fonction\"\n#144 Ajouter une nouvelle fonctionnalité dans setState: Maintenant, il est possible de définir une valeur statique avec une valeur dynamique à partir de l'id",
+                "it": "Correzione: Cancella messaggi\nFix: Aggiungi una nuova riga in azione\nRisolvere: Impostazione errore \"valore. include non è una funzione\"\n#144 # Aggiungi nuova funzionalità in setState: Ora è possibile impostare un valore statico con un valore dinamico da id",
+                "es": "Corrección: Eliminar mensajes\nFijación: Agregue nueva fila en acción\nCorrección: Juego de errores Valor estatal. incluye no es una función\"\n#144 Añadir nueva característica en setState: Ahora es posible establecer un valor estático con un valor dinámico de id",
+                "pl": "Fix: Usuń wiadomości\nFix: Dodaj nowy wiersz w akcji\nFix: Wartość błędu setState \". zawiera nie jest funkcją\"\n# 144 Dodaj nową funkcję w setState: Teraz jest możliwe ustawienie wartości statycznej z dynamiczną wartością z id",
+                "uk": "Виправлення: Видалити повідомлення\nВиправлення: Додати новий ряд в дії\nВиправлення: Помилка setState \"value. включає не функцію\n#144 Додати нову функцію в setState: Тепер можна встановити статичну вартість з динамічним значенням від id",
+                "zh-cn": "修正: 删除信件\n修正: 在动作中添加新行\nFix: 错误设置状态\"值 。 包含不是一个函数\"\n144号 在设置状态中添加新特性: 现在可以从 id 中设置一个具有动态值的静态值"
+            },
             "1.7.0": {
                 "en": "Switched to typescript",
                 "de": "Umgestellt in die Schrift",
@@ -80,19 +93,6 @@
                 "pl": "nie ma żadnej kondycji w kontekście zdarzeń\nstałe, kopiowane wydarzenia i ekharty\ndropBox",
                 "uk": "немає ікон в умовах подій\nфіксовані, копіювання подій та echarts\nперехідний Dropbox",
                 "zh-cn": "在事件条件下没有我的看法\n固定、复印事件和技术艺术\n可移动的人类生物"
-            },
-            "1.5.0": {
-                "en": "send echarts\n#93 Scrollbar in Menus\n#89 go back to menu by setting setDynamicValue\ndelete all Messages by Bot",
-                "de": "echarts\n#93 Scrollbar in Menüs\n#89 Zurück zum Menü, indem Set gesetzt Dynamik Wert\nalle Nachrichten von Bot löschen",
-                "ru": "отправить echarts\n#93 Scrollbar в меню\n#89 вернуться в меню, установив Динамический Значение\nудалить все сообщения от Bot",
-                "pt": "enviar echarts\n#93 Scrollbar em Menus\n#89 voltar para o menu, definindo o conjunto Dinâmica Valor\napagar todas as mensagens por Bot",
-                "nl": "stuur echarts\n93 Scrollbar in Menus\n♪89 go back to menu by setting Dynamic Value\nverwijder alle berichten van Bot",
-                "fr": "envoyer des echarts\n#93 Barre de défilement dans les menus\n#89 Retourner au menu par réglage Dynamique Valeur\nsupprimer tous les messages de Bot",
-                "it": "inviare echarts\n#93 Scrollbar nei menu\n#89 torna al menu impostando il set Dinamica Valore\ncancellare tutti i messaggi da Bot",
-                "es": "enviar echarts\n#93 Scrollbar en menús\n#89 volver al menú con el set Dinámica dinámica Valor\neliminar todos los mensajes de Bot",
-                "pl": "wysyłać chart\n93 Scrollbar in Menus (ang.)\n#89 powraca do menu, gdzie ustawiono ustawę. Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Dynamic Value\nusunąć wszystkie komunikaty",
-                "uk": "надіслати echarts\n#93 Скролбар в меню\n#89 повернутися до меню, встановивши набір Головна Ціна\nвидалити всі повідомлення від Bot",
-                "zh-cn": "发 术\n#93 Scrollbar in Menus\n第89号法案通过设立男子来回男性。 动态 价值\n删除Bot的所有信"
             }
         },
         "titleLang": {
@@ -121,9 +121,17 @@
             "zh-cn": "轻松创建电报菜单",
             "uk": "Легко створюйте меню Telegram"
         },
-        "authors": ["MiRo1310 <michael.roling@gmx.de>"],
-        "keywords": ["telegram", "menu"],
-        "license": "MIT",
+        "authors": [
+            "MiRo1310 <michael.roling@gmx.de>"
+        ],
+        "keywords": [
+            "telegram",
+            "menu"
+        ],
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
         "platform": "Javascript/Node.js",
         "icon": "telegram-menu.png",
         "enabled": true,
@@ -155,7 +163,10 @@
             {
                 "condition": {
                     "operand": "and",
-                    "rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
+                    "rules": [
+                        "oldVersion<1.0.0",
+                        "newVersion>=1.0.0"
+                    ]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -184,12 +195,18 @@
                     "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
                 },
                 "level": "warn",
-                "buttons": ["agree", "cancel"]
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
             },
             {
                 "condition": {
                     "operand": "and",
-                    "rules": ["oldVersion<1.6.1", "newVersion>=1.6.1"]
+                    "rules": [
+                        "oldVersion<1.6.1",
+                        "newVersion>=1.6.1"
+                    ]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -218,12 +235,18 @@
                     "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
                 },
                 "level": "warn",
-                "buttons": ["agree", "cancel"]
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
             },
             {
                 "condition": {
                     "operand": "and",
-                    "rules": ["oldVersion<1.6.3", "newVersion>=1.6.4"]
+                    "rules": [
+                        "oldVersion<1.6.3",
+                        "newVersion>=1.6.4"
+                    ]
                 },
                 "title": {
                     "en": "Important notice!",
@@ -252,7 +275,10 @@
                     "zh-cn": "突破变化! 至少需要节点Js 18"
                 },
                 "level": "warn",
-                "buttons": ["agree", "cancel"]
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
             }
         ]
     },

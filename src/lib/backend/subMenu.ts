@@ -307,16 +307,7 @@ async function subMenu(
 			const value = parseFloat(calledValue.split(":")[3]);
 			device2Switch = calledValue.split(":")[2];
 
-			const result = await setState(
-				menuData[device2Switch],
-				userToSend,
-				value,
-				true,
-				instanceTelegram,
-				resize_keyboard,
-				one_time_keyboard,
-				userListWithChatID,
-			);
+			const result = await setState(part, userToSend, value, true, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
 			if (Array.isArray(result)) {
 				returnIDToListenTo = result;
 			}
