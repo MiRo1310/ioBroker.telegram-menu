@@ -249,7 +249,7 @@ interface GenerateActionsNewObject {
 interface UserInGroup {
 	[key: string]: string[];
 }
-interface ReturnIdToListenTo {}
+interface ReturnIdToListenTo { }
 type SplittedData = string[];
 
 interface SetStateIds {
@@ -268,7 +268,7 @@ interface TimeoutToClear {
 	timeout: NodeJS.Timeout;
 }
 type GroupWithUser = string;
-interface Menu {}
+interface Menu { }
 interface Messages {
 	[key: string]: Message[];
 }
@@ -335,3 +335,62 @@ interface ProcessDataType {
 	groupData: NewObjectNavStructure;
 }
 type ProzessTimeValue = (textToSend: string, obj: ioBroker.State) => string;
+
+interface SetValueForSubmenuNumber extends GlobalTelegramValues {
+	callbackData: string;
+	calledValue: string;
+	userListWithChatID: UserListWithChatId[];
+	part: Part;
+}
+interface BackMenuType extends GlobalTelegramValues {
+	allMenusWithData: AllMenusWithData, menus: string[], userListWithChatID: UserListWithChatId[]
+}
+interface SetValueForSubmenuPercent extends GlobalTelegramValues {
+	callbackData: string;
+	calledValue: string;
+	userListWithChatID: UserListWithChatId[];
+	part: Part;
+	allMenusWithData: { [key: string]: NewObjectNavStructure };
+	menus: string[];
+}
+interface GlobalTelegramValues {
+	instanceTelegram: string, resize_keyboard: boolean, one_time_keyboard: boolean, userToSend: string;
+}
+interface CreateSwitchMenu {
+	callbackData: string;
+	device2Switch: string;
+	text: string | undefined;
+}
+interface SetFirstMenuValue extends GlobalTelegramValues {
+	part: Part;
+	userListWithChatID: UserListWithChatId[];
+}
+interface SetSecondMenuValue extends GlobalTelegramValues {
+	part: Part;
+	userListWithChatID: UserListWithChatId[];
+}
+interface CreateSubmenuNumber {
+	callbackData: string;
+	device2Switch: string;
+	text: string | undefined;
+}
+interface CreateSubmenuPercent {
+	callbackData: string;
+	device2Switch: string;
+	text: string | undefined;
+}
+interface SetDynamicValueType extends GlobalTelegramValues {
+	val: string;
+	part: Part;
+	userListWithChatID: UserListWithChatId[];
+}
+interface DeleteMessageIds {
+	userToSend: string;
+	userListWithChatID: UserListWithChatId[];
+	instanceTelegram: string;
+	device2Switch: string;
+	callbackData: string;
+}
+interface SplitText {
+	calledValue: string;
+}
