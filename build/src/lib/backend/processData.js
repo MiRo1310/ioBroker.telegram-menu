@@ -92,6 +92,7 @@ async function processData(obj) {
         else {
             call = calledValue;
         }
+        part = groupData[call];
         if (typeof call === "string" &&
             groupData &&
             groupData[call] &&
@@ -99,7 +100,6 @@ async function processData(obj) {
             userToSend &&
             groupWithUser &&
             isUserActiveCheckbox[groupWithUser]) {
-            part = groupData[call];
             // Navigation
             if (part.nav) {
                 (0, logging_1.debug)([{ text: "Menu to Send:", val: part.nav }]);

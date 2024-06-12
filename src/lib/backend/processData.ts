@@ -137,6 +137,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 		} else {
 			call = calledValue as keyof NewObjectNavStructure;
 		}
+		part = groupData[call];
 
 		if (
 			typeof call === "string" &&
@@ -147,7 +148,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 			groupWithUser &&
 			isUserActiveCheckbox[groupWithUser as keyof IsUserActiveCheckbox]
 		) {
-			part = groupData[call];
 			// Navigation
 			if (part.nav) {
 				debug([{ text: "Menu to Send:", val: part.nav }]);

@@ -156,11 +156,17 @@ const idBySelector = async (_this, selector, text, userToSend, newline, telegram
         });
         Promise.all(promises)
             .then(() => {
-            (0, logging_js_1.debug)([{ text: "TextToSend:", val: text2Send }, { text: "UserToSend:", val: userToSend }]);
+            (0, logging_js_1.debug)([
+                { text: "TextToSend:", val: text2Send },
+                { text: "UserToSend:", val: userToSend },
+            ]);
             (0, telegram_js_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
         })
             .catch((e) => {
-            (0, logging_js_1.error)([{ text: "Error Promise:", val: e.message }, { text: "Stack:", val: e.stack }]);
+            (0, logging_js_1.error)([
+                { text: "Error Promise:", val: e.message },
+                { text: "Stack:", val: e.stack },
+            ]);
         });
     }
     catch (error) {

@@ -209,9 +209,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 											{this.props.buttons.add ? (
 												<TableCell align="center" className="cellIcon">
 													<BtnSmallAdd
-														callback={(index) =>
-															addNewRow(index, this.props, this.props.entries, this.setState.bind(this))
-														}
+														callback={() => addNewRow(indexRow, this.props, this.props.entries, this.setState.bind(this))}
 														index={indexRow}
 													/>
 												</TableCell>
