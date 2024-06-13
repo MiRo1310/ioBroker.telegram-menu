@@ -11,16 +11,16 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj: { array?: SetStat
 		]);
 	} else if (obj.array) {
 		obj.array.forEach((element) => {
-			_this.unsubscribeForeignStatesAsync(element["id"]);
+			_this.subscribeForeignStatesAsync(element["id"]);
 		});
 	}
 }
 
-function _subscribeForeignStatesAsync(array: string[]): void {
+async function _subscribeForeignStatesAsync(array: string[]): Promise<void> {
 	const _this = TelegramMenu.getInstance();
 	array = deleteDoubleEntriesInArray(array);
-	array.forEach((element) => {
-		_this.subscribeForeignStatesAsync(element);
+	array.forEach(async (element) => {
+		await _this.subscribeForeignStatesAsync(element);
 	});
 	debug([{ text: "Subscribe all States of:", val: array }]);
 }

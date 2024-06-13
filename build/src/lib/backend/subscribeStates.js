@@ -17,16 +17,16 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
     }
     else if (obj.array) {
         obj.array.forEach((element) => {
-            _this.unsubscribeForeignStatesAsync(element["id"]);
+            _this.subscribeForeignStatesAsync(element["id"]);
         });
     }
 }
 exports._subscribeAndUnSubscribeForeignStatesAsync = _subscribeAndUnSubscribeForeignStatesAsync;
-function _subscribeForeignStatesAsync(array) {
+async function _subscribeForeignStatesAsync(array) {
     const _this = main_1.default.getInstance();
     array = (0, global_1.deleteDoubleEntriesInArray)(array);
-    array.forEach((element) => {
-        _this.subscribeForeignStatesAsync(element);
+    array.forEach(async (element) => {
+        await _this.subscribeForeignStatesAsync(element);
     });
     (0, logging_1.debug)([{ text: "Subscribe all States of:", val: array }]);
 }

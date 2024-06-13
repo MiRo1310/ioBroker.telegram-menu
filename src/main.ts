@@ -176,6 +176,7 @@ export default class TelegramMenu extends utils.Adapter {
 				}
 
 				let userToSend: string | null = null;
+
 				this.on("stateChange", async (id, state) => {
 					const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
 

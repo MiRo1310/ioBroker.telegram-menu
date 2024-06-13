@@ -360,8 +360,10 @@ const insertValueInPosition = (textToSend: string, text: string | number): strin
 	let searchString = "";
 	if (textToSend.includes("&&")) {
 		searchString = "&&";
+	} else if (textToSend.includes("&amp;&amp;")) {
+		searchString = "&amp;&amp;";
 	}
-	searchString = "&amp;&amp;";
+
 	textToSend.toString().indexOf(searchString) != -1 ? (textToSend = textToSend.replace(searchString, text.toString())) : (textToSend += " " + text);
 
 	return textToSend;

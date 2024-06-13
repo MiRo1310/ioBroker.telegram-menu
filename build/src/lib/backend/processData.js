@@ -95,12 +95,11 @@ async function processData(obj) {
         part = groupData[call];
         if (typeof call === "string" &&
             groupData &&
-            groupData[call] &&
-            !calledValue.includes("menu:") &&
+            part &&
+            !(calledValue.toString()).includes("menu:") &&
             userToSend &&
             groupWithUser &&
             isUserActiveCheckbox[groupWithUser]) {
-            // Navigation
             if (part.nav) {
                 (0, logging_1.debug)([{ text: "Menu to Send:", val: part.nav }]);
                 (0, backMenu_1.backMenuFunc)(call, part.nav, userToSend);
@@ -132,7 +131,6 @@ async function processData(obj) {
                 }
                 return true;
             }
-            // Schalten
             if (part.switch) {
                 const result = await (0, setstate_1.setState)(part, userToSend, 0, false, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
                 if (result) {
