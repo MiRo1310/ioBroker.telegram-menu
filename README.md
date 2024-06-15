@@ -33,12 +33,17 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   FIX: #155 DynSwitch
+
 ### 1.7.1 (2024-06-10)
 
--   Fix: Delete Messages
--   Fix: Add new row in action
--   Fix: Error setState "value.includes is not a function"
--   #144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id
+-   FIX: Delete Messages
+-   FIX: Add new row in action
+-   FIX: Error setState "value.includes is not a function"
+-   FIX: #144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id
 
 ### 1.7.0 (2024-05-11)
 

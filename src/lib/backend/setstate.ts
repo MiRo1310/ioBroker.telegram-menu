@@ -31,7 +31,7 @@ const setValue = async (id: string, value: string, SubmenuValuePriority: boolean
 		await checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
 			valueToSet = val;
 			debug([{ text: "Value to Set:", val: valueToSet }]);
-			if (valueToSet) {
+			if (valueToSet !== undefined && valueToSet !== null) {
 				_this.setForeignState(id, valueToSet, ack);
 			}
 		});

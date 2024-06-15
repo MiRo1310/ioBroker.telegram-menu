@@ -36,7 +36,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
         await (0, utilities_1.checkTypeOfId)(id, valueToSet).then((val) => {
             valueToSet = val;
             (0, logging_1.debug)([{ text: "Value to Set:", val: valueToSet }]);
-            if (valueToSet) {
+            if (valueToSet !== undefined && valueToSet !== null) {
                 _this.setForeignState(id, valueToSet, ack);
             }
         });
