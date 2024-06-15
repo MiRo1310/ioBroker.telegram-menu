@@ -96,7 +96,7 @@ async function processData(obj) {
         if (typeof call === "string" &&
             groupData &&
             part &&
-            !(calledValue.toString()).includes("menu:") &&
+            !calledValue.toString().includes("menu:") &&
             userToSend &&
             groupWithUser &&
             isUserActiveCheckbox[groupWithUser]) {

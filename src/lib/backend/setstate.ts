@@ -28,7 +28,7 @@ const setValue = async (id: string, value: string, SubmenuValuePriority: boolean
 		const _this = TelegramMenu.getInstance();
 		let valueToSet;
 		SubmenuValuePriority ? (valueToSet = modifiedValue(valueFromSubmenu as string, value)) : (valueToSet = await isDynamicValueToSet(value));
-		checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
+		await checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
 			valueToSet = val;
 			debug([{ text: "Value to Set:", val: valueToSet }]);
 			if (valueToSet) {

@@ -363,8 +363,9 @@ const insertValueInPosition = (textToSend: string, text: string | number): strin
 	} else if (textToSend.includes("&amp;&amp;")) {
 		searchString = "&amp;&amp;";
 	}
-
-	textToSend.toString().indexOf(searchString) != -1 ? (textToSend = textToSend.replace(searchString, text.toString())) : (textToSend += " " + text);
+	searchString !== "" && textToSend.toString().indexOf(searchString) != -1
+		? (textToSend = textToSend.replace(searchString, text.toString()))
+		: (textToSend += " " + text);
 
 	return textToSend;
 };

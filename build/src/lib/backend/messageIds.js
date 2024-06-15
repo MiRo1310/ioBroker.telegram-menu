@@ -13,7 +13,6 @@ async function saveMessageIds(state, instanceTelegram) {
     const _this = main_1.default.getInstance();
     try {
         let requestMessageId = {};
-        (0, logging_1.debug)([{ text: "aa new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
         let requestMessageIdObj = null;
         if (!isDeleting) {
             requestMessageIdObj = await _this.getStateAsync("communication.requestIds");

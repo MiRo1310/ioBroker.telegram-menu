@@ -254,15 +254,16 @@ exports.checkStatusInfo = checkStatusInfo;
 async function checkTypeOfId(id, value) {
     const _this = main_1.default.getInstance();
     try {
-        const obj = await _this.getForeignObject(id, () => console.log("Object not found"));
+        (0, logging_1.debug)([{ text: `Check Type of Id: ${id}` }]);
+        const obj = await _this.getForeignObjectAsync(id);
         const receivedType = typeof value;
         if (!obj || !value) {
             return value;
         }
-        if (receivedType === typeof obj.common.type || !obj.common.type) {
+        if (receivedType === obj.common.type || !obj.common.type) {
             return value;
         }
-        (0, logging_1.debug)([{ text: `Change Value type from : ${receivedType} to ${typeof value}` }]);
+        (0, logging_1.debug)([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
         if (obj.common.type === "boolean") {
             if (value == "true") {
                 value = true;

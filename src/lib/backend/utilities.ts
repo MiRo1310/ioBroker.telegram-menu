@@ -269,16 +269,17 @@ async function checkTypeOfId(
 ): Promise<ioBroker.State | null | undefined | ioBroker.State | ioBroker.StateValue | ioBroker.SettableState> {
 	const _this = TelegramMenu.getInstance();
 	try {
-		const obj = await _this.getForeignObject(id, () => console.log("Object not found"));
+		debug([{ text: `Check Type of Id: ${id}` }]);
+		const obj = await _this.getForeignObjectAsync(id);
 		const receivedType = typeof value;
 		if (!obj || !value) {
 			return value;
 		}
-		if (receivedType === typeof obj.common.type || !obj.common.type) {
+		if (receivedType === obj.common.type || !obj.common.type) {
 			return value;
 		}
 
-		debug([{ text: `Change Value type from : ${receivedType} to ${typeof value}` }]);
+		debug([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
 
 		if (obj.common.type === "boolean") {
 			if (value == "true") {

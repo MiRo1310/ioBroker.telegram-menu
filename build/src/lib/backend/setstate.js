@@ -33,7 +33,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
         const _this = main_1.default.getInstance();
         let valueToSet;
         SubmenuValuePriority ? (valueToSet = modifiedValue(valueFromSubmenu, value)) : (valueToSet = await isDynamicValueToSet(value));
-        (0, utilities_1.checkTypeOfId)(id, valueToSet).then((val) => {
+        await (0, utilities_1.checkTypeOfId)(id, valueToSet).then((val) => {
             valueToSet = val;
             (0, logging_1.debug)([{ text: "Value to Set:", val: valueToSet }]);
             if (valueToSet) {

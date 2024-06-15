@@ -16,7 +16,6 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
 	const _this = TelegramMenu.getInstance();
 	try {
 		let requestMessageId: Messages = {};
-		debug([{ text: "aa new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
 		let requestMessageIdObj = null;
 		if (!isDeleting) {
 			requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
