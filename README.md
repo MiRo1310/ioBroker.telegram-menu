@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   FIX: #158 Telegram-menu connection
 -   FIX: #155 DynSwitch
 
 ### 1.7.1 (2024-06-10)

@@ -25,6 +25,7 @@ import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from "./lib
 import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from "./lib/backend/shoppingList";
 import { insertValueInPosition, checkEvent } from "./lib/backend/action";
 import { info, debug, error } from "./lib/backend/logging";
+import { checkIsTelegramActive } from "./lib/backend/connection";
 
 const timeoutKey: string = "0";
 let subscribeForeignStateIds: string[];
@@ -57,9 +58,8 @@ export default class TelegramMenu extends utils.Adapter {
 		const telegramID = `${instanceTelegram}.communicate.request`;
 		const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
 		const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
-		const dataPoint = `${instanceTelegram}.info.connection`;
+		const infoConnectionOfTelegram = `${instanceTelegram}.info.connection`;
 
-		let isTelegramActive: boolean, telegramInfoConnection: ioBroker.State | null | undefined;
 		const checkboxes: Checkboxes = this.config.checkbox as Checkboxes;
 		const one_time_keyboard: boolean = checkboxes["oneTiKey"];
 		const resize_keyboard: boolean = checkboxes["resKey"];
@@ -87,25 +87,14 @@ export default class TelegramMenu extends utils.Adapter {
 		});
 		info([{ text: "StartSides", val: startSides }]);
 
-		this.getForeignObject(dataPoint, async (err, obj) => {
+		this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
 			try {
 				if (err || obj == null) {
-					error([{ val: err }, { text: `The State ${dataPoint} was not found!` }]);
+					error([{ val: err }, { text: `The State ${infoConnectionOfTelegram} was not found!` }]);
 					return;
 				}
 
-				telegramInfoConnection = await this.getForeignStateAsync(dataPoint);
-
-				if (telegramInfoConnection?.val === true || telegramInfoConnection?.val === false) {
-					isTelegramActive = telegramInfoConnection?.val;
-				}
-				if (!isTelegramActive) {
-					info([{ text: "Telegram was found, but is not running. Please start!" }]);
-				}
-				if (!isTelegramActive) {
-					return;
-				}
-				this.setState("info.connection", true, true);
+				let isTelegramActive = await checkIsTelegramActive(infoConnectionOfTelegram);
 				const nav = dataObject["nav"];
 				const action = dataObject["action"];
 
@@ -180,8 +169,11 @@ export default class TelegramMenu extends utils.Adapter {
 				this.on("stateChange", async (id, state) => {
 					const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
 
-					if (!isTelegramActive) {
-						return;
+					if (id === infoConnectionOfTelegram) {
+						isTelegramActive = await checkIsTelegramActive(infoConnectionOfTelegram);
+						if (!isTelegramActive) {
+							return;
+						}
 					}
 
 					if (id == `${instanceTelegram}.communicate.requestChatId` || !userToSend) {
@@ -328,16 +320,6 @@ export default class TelegramMenu extends utils.Adapter {
 								}
 							}
 						});
-					}
-
-					if (state && id == `${instanceTelegram}.info.connection`) {
-						if (!state.val) {
-							isTelegramActive = false;
-							this.setState("info.connection", false, true);
-						} else {
-							this.setState("info.connection", true, true);
-							isTelegramActive = true;
-						}
 					}
 				});
 			} catch (e: any) {

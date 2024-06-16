@@ -70,8 +70,7 @@ class TelegramMenu extends utils.Adapter {
         const telegramID = `${instanceTelegram}.communicate.request`;
         const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
         const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
-        const dataPoint = `${instanceTelegram}.info.connection`;
-        let isTelegramActive, telegramInfoConnection;
+        const infoConnectionOfTelegram = `${instanceTelegram}.info.connection`;
         const checkboxes = this.config.checkbox;
         const one_time_keyboard = checkboxes["oneTiKey"];
         const resize_keyboard = checkboxes["resKey"];
@@ -96,23 +95,13 @@ class TelegramMenu extends utils.Adapter {
             startSides[element] = dataObject.nav[element][0]["call"];
         });
         (0, logging_1.info)([{ text: "StartSides", val: startSides }]);
-        this.getForeignObject(dataPoint, async (err, obj) => {
+        this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
             try {
                 if (err || obj == null) {
-                    (0, logging_1.error)([{ val: err }, { text: `The State ${dataPoint} was not found!` }]);
+                    (0, logging_1.error)([{ val: err }, { text: `The State ${infoConnectionOfTelegram} was not found!` }]);
                     return;
                 }
-                telegramInfoConnection = await this.getForeignStateAsync(dataPoint);
-                if (telegramInfoConnection?.val === true || telegramInfoConnection?.val === false) {
-                    isTelegramActive = telegramInfoConnection?.val;
-                }
-                if (!isTelegramActive) {
-                    (0, logging_1.info)([{ text: "Telegram was found, but is not running. Please start!" }]);
-                }
-                if (!isTelegramActive) {
-                    return;
-                }
-                this.setState("info.connection", true, true);
+                let isTelegramActive = await checkIsTelegramActive(this, infoConnectionOfTelegram);
                 const nav = dataObject["nav"];
                 const action = dataObject["action"];
                 (0, logging_1.info)([{ text: "Telegram was found" }]);
@@ -167,8 +156,11 @@ class TelegramMenu extends utils.Adapter {
                 let userToSend = null;
                 this.on("stateChange", async (id, state) => {
                     const setStateIdsToListenTo = (0, processData_1.getStateIdsToListenTo)();
-                    if (!isTelegramActive) {
-                        return;
+                    if (id === infoConnectionOfTelegram) {
+                        isTelegramActive = await checkIsTelegramActive(this, infoConnectionOfTelegram);
+                        if (!isTelegramActive) {
+                            return;
+                        }
                     }
                     if (id == `${instanceTelegram}.communicate.requestChatId` || !userToSend) {
                         const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
@@ -264,16 +256,6 @@ class TelegramMenu extends utils.Adapter {
                             }
                         });
                     }
-                    if (state && id == `${instanceTelegram}.info.connection`) {
-                        if (!state.val) {
-                            isTelegramActive = false;
-                            this.setState("info.connection", false, true);
-                        }
-                        else {
-                            this.setState("info.connection", true, true);
-                            isTelegramActive = true;
-                        }
-                    }
                 });
             }
             catch (e) {
@@ -328,4 +310,16 @@ else {
     // otherwise start the instance directly
     new TelegramMenu();
 }
+const checkIsTelegramActive = async (_this, dataPoint) => {
+    _this.setState("info.connection", false, true);
+    const telegramInfoConnection = await _this.getForeignStateAsync(dataPoint);
+    (0, logging_1.error)([{ text: "Set to: ", val: telegramInfoConnection?.val }]);
+    if (telegramInfoConnection?.val) {
+        _this.setState("info.connection", telegramInfoConnection?.val, true);
+    }
+    if (!telegramInfoConnection?.val) {
+        (0, logging_1.info)([{ text: "Telegram was found, but is not running. Please start!" }]);
+    }
+    return telegramInfoConnection?.val;
+};
 //# sourceMappingURL=main.js.map

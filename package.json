@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.4",
+    "@sentry/integrations": "^7.114.0",
     "@types/module-alias": "^2.0.4",
     "module-alias": "^2.2.3"
   },
@@ -104,7 +105,8 @@
     "prettier": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"admin/src/**/*.ts\" \"admin/src/**/*.tsx\"",
     "checker": "node skript.mjs",
     "dev": " dev-server run",
-    "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))"
+    "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))",
+    "force": "git push --force-with-lease"
   },
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
