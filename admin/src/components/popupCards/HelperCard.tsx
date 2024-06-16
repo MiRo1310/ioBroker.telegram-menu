@@ -102,7 +102,6 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 						themeType={this.props.data.themeType}
 						socket={this.props.data.socket}
 						filters={{}}
-						classes={{ zIndex: "11000" }}
 						selected={""}
 						onClose={() => this.setState({ showSelectId: false })}
 						onOk={(selected) => {

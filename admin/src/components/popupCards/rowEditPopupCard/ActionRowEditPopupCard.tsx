@@ -239,7 +239,6 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 				</TableContainer>
 				{this.state.showSelectId ? (
 					<SelectID
-						classes={{ zIndex: "11000" }}
 						key="tableSelect"
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
