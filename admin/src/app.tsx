@@ -50,8 +50,8 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			showPopupMenuList: false,
 			instances: [],
 			popupMenuOpen: false,
-			themeName: "",
-			themeType: "",
+			themeName: "light",
+			themeType: "light",
 			unUsedTrigger: [],
 			usedTrigger: [],
 			triggerObject: {} as TriggerObject,
@@ -180,7 +180,6 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						changed={this.state.changed}
 						onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
 					/>
-
 					<MainContent
 						callback={{
 							setState: this.setState,

@@ -490,7 +490,7 @@ interface PropsRenameCard {
 	value?: string;
 }
 
-interface StateRenameCard {}
+interface StateRenameCard { }
 interface PropsTriggerOverview {
 	data: any;
 	usersInGroup: any;
