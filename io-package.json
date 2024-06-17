@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "news": {
+      "1.7.2": {
+        "en": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
+        "de": "FIX: #158 Telegram-menu-Verbindung\nFIX: #155 DynSwitch",
+        "ru": "FIX: #158\n#155 DynSwitch",
+        "pt": "FIX: #158 Conexão telegrama-menu\nFIX: #155 DynSwitch",
+        "nl": "FIX: #158 Telegram-menuverbinding\nFIX: #155 DynSwitch",
+        "fr": "FIXE: #158 Connexion au télégramme-menu\nFIXE : 1 55 DynSwitch",
+        "it": "FIX: #158 Connessione Telegram-menu\nFIX: #155 DynSwitch",
+        "es": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
+        "pl": "FIX: # 158 Połączenie menu telegramowego\nFIX: # 155 DynSwitch",
+        "uk": "FIX: #158 Телеграма-меню підключення\nFIX: #155 DynSwitch",
+        "zh-cn": "FIX: #158 Telegram-菜单连接\nFIX: #155 DynSwitch 打开"
+      },
       "1.7.1": {
         "en": "Fix: Delete Messages\nFix: Add new row in action\nFix: Error setState \"value.includes is not a function\"\n#144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id",
         "de": "Fix: Nachrichten löschen\nFix: Neue Zeile in Aktion hinzufügen\nFix: Fehler setState \"Wert. enthält keine Funktion\"\n#44 Neue Funktion in setState hinzufügen: Jetzt ist es möglich, einen statischen Wert mit einem dynamischen Wert von id einzustellen",
@@ -80,19 +93,6 @@
         "pl": "json Table w połączeniu z alexa-shoppinglistą może usuwać przedmioty\njson Table without Head (ang.)\nnaprawa menu:\nNiemożliwość zatrzymywania wysyłania Menu po restartie (po ocaleniu)",
         "uk": "json Table в поєднанні з alexa-shoppinglist адаптер може видалити елементи\njson Table без глави\nвиправлення в меню:back\nМожливість зупинити відправлення Меню після перезавантаження (після збереження)",
         "zh-cn": "j. 同一个法轮化剂适应者合并的表格可以拆除物品\njson 表\nf 男性:挫折\n允许在恢复原状(之后)之后停止派遣Mendu"
-      },
-      "1.5.1": {
-        "en": "no Icons in events condition\nfixed, copy events and echarts\nmoveable DropBox",
-        "de": "keine Icons im Ereigniszustand\nfeste, kopieren von ereignissen und echarts\nbewegliche DropBox",
-        "ru": "нет икон в состоянии событий\nфиксированные, копируемые события и эчарты\nперемещаемый DropBox",
-        "pt": "sem ícones em condição de eventos\ncorrigido, copiar eventos e echarts\ncaixa de gota móvel",
-        "nl": "geen Icon in eventuele toestand\nvertaling:\nverplaatsing van DropBox",
-        "fr": "pas d'icônes dans l'état des événements\névénements fixes, copieurs et echarts\ndropBox mobile",
-        "it": "no Icone in condizioni di eventi\neventi fissi, copia ed echarts\ndropBox mobile",
-        "es": "no Iconos en condición de eventos\nfija, copia de eventos y echats\ndropBox",
-        "pl": "nie ma żadnej kondycji w kontekście zdarzeń\nstałe, kopiowane wydarzenia i ekharty\ndropBox",
-        "uk": "немає ікон в умовах подій\nфіксовані, копіювання подій та echarts\nперехідний Dropbox",
-        "zh-cn": "在事件条件下没有我的看法\n固定、复印事件和技术艺术\n可移动的人类生物"
       }
     },
     "titleLang": {

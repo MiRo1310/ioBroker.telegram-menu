@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.7.2 (2024-06-17)
 
 -   FIX: #158 Telegram-menu connection
 -   FIX: #155 DynSwitch
