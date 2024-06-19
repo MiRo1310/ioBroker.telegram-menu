@@ -128,18 +128,21 @@ const idBySelector = async (_this, selector, text, userToSend, newline, telegram
         }
         const promises = enums.map(async (id) => {
             const value = await _this.getForeignStateAsync(id);
-            if (value && value.val) {
+            if (value && value.val !== undefined && value.val !== null) {
                 let newText = text;
-                let name;
+                let res;
                 if (text.includes("{common.name}")) {
-                    name = await _this.getForeignObjectAsync(id);
-                    _this.log.debug("Name " + JSON.stringify(name));
-                    if (name && name.common.name) {
-                        newText = newText.replace("{common.name}", name.common.name);
+                    res = await _this.getForeignObjectAsync(id);
+                    _this.log.debug("Name " + JSON.stringify(res.common.name));
+                    if (res && res.common.name) {
+                        newText = newText.replace("{common.name}", res.common.name);
                     }
                 }
                 if (text.includes("&amp;&amp;")) {
                     text2Send += newText.replace("&amp;&amp;", value.val);
+                }
+                else if (text.includes("&&")) {
+                    text2Send += newText.replace("&&", value.val);
                 }
                 else {
                     text2Send += newText;
@@ -147,7 +150,7 @@ const idBySelector = async (_this, selector, text, userToSend, newline, telegram
                 }
             }
             if (newline === "true") {
-                text2Send += "\n";
+                text2Send += " \n";
             }
             else {
                 text2Send += " ";
@@ -156,11 +159,11 @@ const idBySelector = async (_this, selector, text, userToSend, newline, telegram
         });
         Promise.all(promises)
             .then(() => {
+            (0, telegram_js_1.sendToTelegram)(userToSend, text2Send, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
             (0, logging_js_1.debug)([
                 { text: "TextToSend:", val: text2Send },
                 { text: "UserToSend:", val: userToSend },
             ]);
-            (0, telegram_js_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
         })
             .catch((e) => {
             (0, logging_js_1.error)([

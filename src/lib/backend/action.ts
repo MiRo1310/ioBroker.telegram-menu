@@ -147,27 +147,29 @@ const idBySelector = async (
 		}
 		const promises = enums.map(async (id: string) => {
 			const value = await _this.getForeignStateAsync(id);
-			if (value && value.val) {
+			if (value && value.val !== undefined && value.val !== null) {
 				let newText = text;
-				let name;
+				let res;
 
 				if (text.includes("{common.name}")) {
-					name = await _this.getForeignObjectAsync(id);
-					_this.log.debug("Name " + JSON.stringify(name));
+					res = await _this.getForeignObjectAsync(id);
+					_this.log.debug("Name " + JSON.stringify(res.common.name));
 
-					if (name && name.common.name) {
-						newText = newText.replace("{common.name}", name.common.name);
+					if (res && res.common.name) {
+						newText = newText.replace("{common.name}", res.common.name);
 					}
 				}
 				if (text.includes("&amp;&amp;")) {
 					text2Send += newText.replace("&amp;&amp;", value.val);
+				} else if (text.includes("&&")) {
+					text2Send += newText.replace("&&", value.val);
 				} else {
 					text2Send += newText;
 					text2Send += " " + value.val;
 				}
 			}
 			if (newline === "true") {
-				text2Send += "\n";
+				text2Send += " \n";
 			} else {
 				text2Send += " ";
 			}
@@ -175,12 +177,11 @@ const idBySelector = async (
 		});
 		Promise.all(promises)
 			.then(() => {
+				sendToTelegram(userToSend, text2Send, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
 				debug([
 					{ text: "TextToSend:", val: text2Send },
 					{ text: "UserToSend:", val: userToSend },
 				]);
-
-				sendToTelegram(userToSend, text, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, "");
 			})
 			.catch((e) => {
 				error([

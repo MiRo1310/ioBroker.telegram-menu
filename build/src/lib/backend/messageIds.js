@@ -31,9 +31,7 @@ async function saveMessageIds(state, instanceTelegram) {
             requestMessageId[requestUserIdObj.val.toString()].push({ id: state.val, time: Date.now(), request: request?.val });
         }
         requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-        (0, logging_1.debug)([{ text: "b new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
         await _this.setStateAsync("communication.requestIds", JSON.stringify(requestMessageId), true);
-        (0, logging_1.debug)([{ text: "a new Value ", val: await _this.getStateAsync("communication.requestIds") }]);
     }
     catch (e) {
         (0, logging_1.error)([
