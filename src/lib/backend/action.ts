@@ -268,11 +268,10 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 			}
 			userObject[element.trigger] = { switch: [] };
 			element.IDs.forEach(function (id: string, index: number) {
-				// Liste zum überwachen der Ids
 				listOfSetStateIds.push(id);
 				const toggle = element.switch_checkbox[index] === "true";
 				let value;
-				// Aus true oder false einen boolean machen
+
 				if (element.values[index] === "true" || element.values[index] === "false") {
 					value = element.values[index] === "true";
 				} else {
@@ -376,20 +375,17 @@ const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string):
 		if (!parseFloat(value as string)) {
 			error([{ text: "Error: Value is not a number:", val: value }]);
 			return false;
-		} else {
-			return parseFloat(value as string);
 		}
-	} else if (valueType == "boolean") {
+		return parseFloat(value as string);
+	}
+	if (valueType == "boolean") {
 		if (value == "true") {
 			return true;
-		} else if (value == "false") {
-			return false;
 		}
 		error([{ text: "Error: Value is not a boolean:", val: value }]);
 		return false;
-	} else {
-		return value;
 	}
+	return value;
 };
 
 const checkEvent = (

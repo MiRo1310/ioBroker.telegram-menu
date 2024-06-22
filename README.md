@@ -61,7 +61,12 @@ You can create different groups with separate menus, and then assign users to th
 -   FIX: #104 HTTP Request Beta
 -   FIX: #111 status Value in dynamicSwitch
 -   FIX: #112 change value
+-   FIX: Bug in copy card fixed
+-   FIX: #104 HTTP Request Beta
+-   FIX: #111 status Value in dynamicSwitch
+-   FIX: #112 change value
 -   **_Change!!!_** menu:deleteAll removes automatic Request Ids which are older than 48h from list. The list is completely deleted once during the update
+-   FIX: menu:number with negativ Values, see the documentation
 -   FIX: menu:number with negativ Values, see the documentation
 
 ### 1.6.2 (2024-01-07)
@@ -70,7 +75,13 @@ You can create different groups with separate menus, and then assign users to th
 -   FIX: #106 **_Breaking Change!!!_** fixed change `{status:'id':'ID':true}` has now a new parameter, check docs
 -   FIX: #107 one line menu without workaround
 -   FIX: #103 scrollbar in Navigation and Action
+-   FIX: #102 **_Breaking Change!!!_** menu:dynSwitch with decimal numbers, if you use it, you have to adjust the function manually. For more information, see the documentation
+-   FIX: #106 **_Breaking Change!!!_** fixed change `{status:'id':'ID':true}` has now a new parameter, check docs
+-   FIX: #107 one line menu without workaround
+-   FIX: #103 scrollbar in Navigation and Action
 -   Small visual changes in actions for small screens
+-   FIX: Checkbox send menu after restart in settings
+-   FIX: #94 Menu:number with Float Numbers fixed
 -   FIX: Checkbox send menu after restart in settings
 -   FIX: #94 Menu:number with Float Numbers fixed
 -   Trigger Info - Overview of all menus and users, only visual but without functions
@@ -79,9 +90,13 @@ You can create different groups with separate menus, and then assign users to th
 ### 1.6.1 (2023-12-27)
 
 -   FIX: Shoppinglist
+-   FIX: Shoppinglist
 
 ### 1.6.0 (2023-12-26)
 
+-   Json Table in combination with the alexa-shoppinglist adapter can remove items
+-   Json Table without Head
+-   FIX: Menu:back
 -   Json Table in combination with the alexa-shoppinglist adapter can remove items
 -   Json Table without Head
 -   FIX: Menu:back
@@ -92,9 +107,16 @@ You can create different groups with separate menus, and then assign users to th
 -   No Icons in events condition
 -   FIX: Copy events and echarts
 -   Moveable DropBox
+-   No Icons in events condition
+-   FIX: Copy events and echarts
+-   Moveable DropBox
 
 ### 1.5.0 (2023-12-19)
 
+-   FIX: #92 send echarts
+-   FIX: #93 Scrollbar in Menus
+-   FIX: #89 go back to menu by setting setDynamicValue
+-   Delete all Messages by Bot
 -   FIX: #92 send echarts
 -   FIX: #93 Scrollbar in Menus
 -   FIX: #89 go back to menu by setting setDynamicValue
