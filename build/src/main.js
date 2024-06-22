@@ -154,8 +154,8 @@ class TelegramMenu extends utils.Adapter {
                 if (sendMenuAfterRestart) {
                     (0, adapterStartMenuSend_1.adapterStartMenuSend)(listOfMenus, startSides, isUserActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard);
                 }
-                let userToSend = null;
                 this.on("stateChange", async (id, state) => {
+                    let userToSend = null;
                     const setStateIdsToListenTo = (0, processData_1.getStateIdsToListenTo)();
                     if (id === infoConnectionOfTelegram) {
                         isTelegramActive = await (0, connection_1.checkIsTelegramActive)(infoConnectionOfTelegram);
@@ -205,7 +205,7 @@ class TelegramMenu extends utils.Adapter {
                             { text: "Groups with searched User:", val: menus },
                             { text: "Data found:", val: dataFound },
                         ]);
-                        if (!dataFound && checkboxNoEntryFound) {
+                        if (!dataFound && checkboxNoEntryFound && userToSend) {
                             (0, logging_1.debug)([{ text: "No Entry found" }]);
                             (0, telegram_1.sendToTelegram)(userToSend, textNoEntryFound, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
                         }

@@ -164,9 +164,8 @@ export default class TelegramMenu extends utils.Adapter {
 					);
 				}
 
-				let userToSend: string | null = null;
-
 				this.on("stateChange", async (id, state) => {
+					let userToSend: string | null = null;
 					const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
 
 					if (id === infoConnectionOfTelegram) {
@@ -236,7 +235,7 @@ export default class TelegramMenu extends utils.Adapter {
 							{ text: "Data found:", val: dataFound },
 						]);
 
-						if (!dataFound && checkboxNoEntryFound) {
+						if (!dataFound && checkboxNoEntryFound && userToSend) {
 							debug([{ text: "No Entry found" }]);
 							sendToTelegram(
 								userToSend,
