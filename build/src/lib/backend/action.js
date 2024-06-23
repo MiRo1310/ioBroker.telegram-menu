@@ -251,11 +251,9 @@ function generateActions(action, userObject) {
             }
             userObject[element.trigger] = { switch: [] };
             element.IDs.forEach(function (id, index) {
-                // Liste zum überwachen der Ids
                 listOfSetStateIds.push(id);
                 const toggle = element.switch_checkbox[index] === "true";
                 let value;
-                // Aus true oder false einen boolean machen
                 if (element.values[index] === "true" || element.values[index] === "false") {
                     value = element.values[index] === "true";
                 }
@@ -360,23 +358,16 @@ const adjustValueType = (value, valueType) => {
             (0, logging_js_1.error)([{ text: "Error: Value is not a number:", val: value }]);
             return false;
         }
-        else {
-            return parseFloat(value);
-        }
+        return parseFloat(value);
     }
-    else if (valueType == "boolean") {
+    if (valueType == "boolean") {
         if (value == "true") {
             return true;
-        }
-        else if (value == "false") {
-            return false;
         }
         (0, logging_js_1.error)([{ text: "Error: Value is not a boolean:", val: value }]);
         return false;
     }
-    else {
-        return value;
-    }
+    return value;
 };
 exports.adjustValueType = adjustValueType;
 const checkEvent = (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {

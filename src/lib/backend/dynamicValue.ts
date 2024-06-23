@@ -12,7 +12,7 @@ const setDynamicValue = (
 	userListWithChatID: UserListWithChatId[],
 	parse_mode: BooleanString,
 	confirm: string,
-): string | undefined => {
+): { confirmText: string; id: string | undefined } => {
 	const { substring } = decomposeText(returnText, "{setDynamicValue:", "}");
 	const array = substring.split(":");
 	const text = array[1];
@@ -34,8 +34,9 @@ const setDynamicValue = (
 	};
 	setDynamicValueObj[userToSend] = obj;
 	if (array[3] && array[3] != "") {
-		return array[3];
+		return { confirmText: array[3], id: array[4] };
 	}
+	return { confirmText: "", id: undefined };
 };
 
 const getDynamicValue = (userToSend: string): SetDynamicValue | null => {

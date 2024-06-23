@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   FEAT: #160 Expand setDynamicValue
 -   UPDATE: Dependencies
 
 ### 1.7.3 (2024-06-22)

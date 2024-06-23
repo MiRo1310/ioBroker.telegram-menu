@@ -59,10 +59,10 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
             (0, logging_1.debug)([{ text: "Set ack:", val: element["ack"] }]);
             ack = element?.ack ? element.ack === "true" : false;
             if (returnText.includes("{setDynamicValue")) {
-                const confirmText = (0, dynamicValue_1.setDynamicValue)(returnText, ack, element.id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode, element.confirm);
+                const { confirmText, id } = (0, dynamicValue_1.setDynamicValue)(returnText, ack, element.id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode, element.confirm);
                 if (element.confirm) {
                     return setStateIds.push({
-                        id: element.id,
+                        id: id || element.id,
                         confirm: element.confirm,
                         returnText: confirmText,
                         userToSend: userToSend,

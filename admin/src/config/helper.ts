@@ -144,8 +144,8 @@ const helperText = {
 				info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be put at the End",
 			},
 			{
-				text: "{setDynamicValue:RequestText:Type:ConfirmText:}",
-				info: "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value.",
+				text: "{setDynamicValue:RequestText:Type:ConfirmText:ID:}",
+				info: "This allows you to write dynamic values ​​into data points. Simply make a call and then you can enter the value in the input field. RequestText: Text to request the value. Type: type of the value(boolean or number). ConfirmText: Text to confirm the value. ID: If you want to confirm from another State, enter the ID here.",
 			},
 		],
 		values: [
