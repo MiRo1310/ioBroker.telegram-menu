@@ -6,8 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.error = exports.debug = exports.info = void 0;
 const main_1 = __importDefault(require("../..//main"));
 [];
+let _this;
 const logging = (type, obj) => {
-    const _this = main_1.default.getInstance();
+    if (!_this) {
+        _this = main_1.default.getInstance();
+    }
     if (obj) {
         obj.forEach((element) => {
             let text = "";

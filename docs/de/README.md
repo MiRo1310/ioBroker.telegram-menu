@@ -2,8 +2,8 @@
 
 ## ioBroker telegram-menu adapter
 
-Erstelle ganz einfach Telegrammmenüs
-Der Adapter dient dazu per Telegrammenu mit dem Iobroker zu kommunizieren, Datenpunkt zu schalten oder Werte von Datenpunkte abzufragen. Hierzu kann man verschiedene Gruppen erstellen in denen man Menus erstellen kann. Diese kann man dann Benutzer zuordnen.
+Erstelle ganz einfach Telegram Menüs
+Der Adapter dient dazu per Telegram-Menu mit dem Iobroker zu kommunizieren, Datenpunkt zu schalten oder Werte von Datenpunkte abzufragen. Hierzu kann man verschiedene Gruppen erstellen in denen man Menus erstellen kann. Diese kann man dann Benutzer zuordnen.
 
 Let´s get started!
 
@@ -24,12 +24,12 @@ Hier sieht die Navigation.
 
 ![Buttons in Telegram](../pic/image-1.png)<br>
 Hier, das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wird "Heizung" als Text an den Adapter gesendet, dieser sucht nach dem passenden Call Text, dieser muss genau so geschrieben sein, siehe im oberen Bild.&nbsp;
-**Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss einzigartg sein**
+**Ganz wichtig, jede Bezeichnung des Call Text darf nur einmal vorkommen, d.h. er muss einzigartig sein**
 
--   Es können verschiedene vordefinierte Untermenus verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladensteuerung, hierzu wird in den Aktionen automatosch ein neuer Trigger erstellt, aber dazu unten mehr.
+-   Es können verschiedene vordefinierte Untermenüs verwendet werden, z.B. on-off , Prozent oder Nummern für z.B. die Rolladen Steuerung, hierzu wird in den Aktionen automatisch ein neuer Trigger erstellt, aber dazu unten mehr.
 
 -   Es ist möglich, von einem Menü zu einem anderen Menü zu wechseln. Dies ergibt Sinn, wenn zwei Personen dasselbe Menü gemeinsam verwenden, aber wenn User1 ein zusätzliches Menü erhält, auf das User2 keinen Zugriff haben soll. In beiden Gruppen ist der entsprechende Button sichtbar, jedoch mit einer Funktionalität, die nur für User1 relevant ist. Damit dies funktioniert, muss der jeweilige Benutzer in beiden Gruppen spezifiziert sein.
--   Damit das Zweite Menu, also ein Untermenu funktioniert muss der Auslösen Text der Startseite deaktiviert werden. Durch das deaktivieren wird die Zeile in orange dargestellt, und es erscheint auch der Hinweis das es sich um ein Untermenü handelt. Man deaktiviert die Zeile indem man die Zelle Auslösen leer lässt. In den älteren Vesionen musste man ein `-` eintragen, funktioniert aber auch weiterhin damit. Jetzt kann User1 von Menu1 auf Menu2 zugreifen indem er auf den entsprechenden Button drückt.&nbsp;**Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!**
+-   Damit das Zweite Menu, also ein Untermenü funktioniert muss der Auslösen Text der Startseite deaktiviert werden. Durch das deaktivieren wird die Zeile in orange dargestellt, und es erscheint auch der Hinweis das es sich um ein Untermenü handelt. Man deaktiviert die Zeile indem man die Zelle Auslösen leer lässt. In den älteren Versionen musste man ein `-` eintragen, funktioniert aber auch weiterhin damit. Jetzt kann User1 von Menu1 auf Menu2 zugreifen indem er auf den entsprechenden Button drückt.&nbsp;**Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal vorkommen!**
 -   Bei zwei Menus die nicht den gleichen User haben, darf natürlich jedes Menu einen Eintrag z.B. Licht haben, aber nicht wenn von einem zum anderen gesprungen wird.
 
 #### Soll beim Öffnen einer Navigation ...
@@ -77,7 +77,7 @@ Hier, das gesendete Menu in Telegram. Wenn ich jetzt z.B. auf Heizung drücke wi
 
 #### Verlauf löschen
 
-Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menupunkt `menu:deleteAll:Navigation` -&nbsp;**Navigation**&nbsp; ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite), es können nur Einträge gelöscht werden die jünger sind als 48h.
+Um alle Nachrichten zu löschen (ähnlich "Verlauf löschen" im Client) fügt man bei einen Menüpunkt `menu:deleteAll:Navigation` -&nbsp;**Navigation**&nbsp; ist der Menu-Name, der anschliessend aufgerufen werden soll (z.b. Startseite), es können nur Einträge gelöscht werden die jünger sind als 48h.
 
 ### Submenus
 
@@ -105,10 +105,10 @@ menu:number1-20-2-unit:TRIGGER:
 -   Die 1,20 gibt die Spanne an, diese kann auch umgedreht sein 20,1, die 2 die Schritte, für einen negativen Wert einfach`(-)` vor die Zahl schreiben , und Unit die Einheit, alles ist variabel ersetzbar. z.B. `menu:number16-36-4-°C:temperaturXY:`
 
 ```
-menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
+menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LengthOfRow:
 ```
 
--   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende Name und der Wert, Name|Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wieviele Buttons nebeneinander stehen sollen. **_Breaking Change!!!_** &nbsp; Bitte manuel ändern: `[Name1:Value1, Name2:Value2]` ändern zu `[Name1|Value1, Name2|Value2]`. Jetzt können auch Dezimalzahlen als Value genutzt werden, z.B.(2.5).
+-   Hiermit kann ein dynamisches Menu erzeugt werden, in einem Array [], immer der anzuzeigende Name und der Wert, Name|Wert, oder alternativ nur der Wert , dann wird der Button mit dem Wert bezeichnet, -LengthOfRow- hiermit kann man angeben wie viele Buttons nebeneinander stehen sollen. **_Breaking Change!!!_** &nbsp; Bitte manuell ändern: `[Name1:Value1, Name2:Value2]` ändern zu `[Name1|Value1, Name2|Value2]`. Jetzt können auch Dezimalzahlen als Value genutzt werden, z.B.(2.5).
     Als Name kann jetzt auch ein Wert eines Datenpunkts genutzt werden. `{status:'ID':true}` <a href="#status">für weitere Infos schaue hier</a>
 
 ```
@@ -126,7 +126,7 @@ menu:back
 ![SetState](../pic/setState.png)
 
 -   Die Checkbox Schalten rechts, schaltet nur booleans, es wechselt zwischen true und false beim aufrufen des Auslösers. Der Auslöser hat genau den Namen, wie der Button der die Aktion triggern soll.
--   Unter Wert kann man andere Werte eintragen, damit diese gesetzt werden, für jeden Wert muss ein seperates Setstate erstellt werden
+-   Unter Wert kann man andere Werte eintragen, damit diese gesetzt werden, für jeden Wert muss ein separates SetState erstellt werden
 -   Es ist möglich sich das Setzen des Wertes bestätigen zu lassen,&nbsp;**sobald `ack:true`gesetzt wurde**. Platzhalter für den Wert ist &&. Grundsätzlich werde alle states mit `ack:false` gesetzt ,dieses ist grundsätzlich erforderlich wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den Wert auf `ack:true` gesetzt hat. Möchte man aber `ack:true` manuell setzen, setzt man einfach den Haken bei Ack.<br>
 
 ```
@@ -140,14 +140,18 @@ menu:back
 {"id":"id","text":"Wert wurde gesetzt:"}
 ```
 
--   Möchte man einen State setzen, aber dann die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
+-   Möchte man einen State setzen, und dann die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext. ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
     Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
 
 ```
-{setDynamicValue:RequestText:Type:ConfirmText:}
+{setDynamicValue:RequestText:Type:ConfirmText:ID:}
 ```
 
--   **Einen Text- oder Zahl-Datenpunkt setzen:**&nbsp;Möchte man z.b einen Text in einen Datenpunkt setzen, wartet die Instanz nach Drücken eines Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Erreichen kann man das durch eintragen im Rückgabefeld. "RequestText"-Aufforderungstext zur Eingabe, "Type"-boolean, number, string und "ConfirmText"-Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden.
+-   **Einen Text- oder Zahl-Datenpunkt setzen:**&nbsp;Möchte man z.b einen Text in einen Datenpunkt schreiben, wartet die Instanz nach Drücken des Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text beschrieben. Eingetragen werden muss dieses im Rückgabe Feld.
+    -   "RequestText" - Aufforderungstext zur Eingabe
+    -   "Type" - boolean, number, string
+    -   "ConfirmText" - Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden.
+    -   "ID" - Bestätigungswert einer anderen ID in den Rückgabetext (ist optional)
 
 ```
 {confirmSet:The value has been set:noValue}
@@ -169,7 +173,7 @@ menu:back
 
 ### GetState
 
--   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beinflussen mit `change{"true":"an", "false":"aus"}`.
+-   Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beeinflussen mit `change{"true":"an", "false":"aus"}`.
 -   Wenn ich einen Wert aus einem Datenpunkt auslesen möchte, das Value aber umrechnen muss, kann ich in den Rückgabetext `{math:/10}` zum Beispiel wird hier durch 10 geteilt
     ![math](../pic/image9.png)<br>
 -   Möchte man das Value runden geht folgendes `{round:2}`
@@ -200,7 +204,7 @@ menu:back
 -   In den Einstellungen kann man ein Token für Grafana einfügen
 -   Es muss ein Verzeichnis erstellt werden in dem man alle Schreibrechte hat z.B. `/opt/iobroker/grafana/` , um dort die Bilder zwischen speichern zu können
 -   In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
--   Wenn man mehrer Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
+-   Wenn man mehrere Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig überschreiben
 -   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
 
     <img src="../pic/grafana.png" width="400">
@@ -208,11 +212,11 @@ menu:back
 ### Send Location
 
 -   als erstes Trigger auswählen
--   dann muss ein Datenpunkt für den Breitengrad ("latitude") und einer für den Längengrad ("longtitude") angegeben werden
+-   dann muss ein Datenpunkt für den Breitengrad ("latitude") und einer für den Längengrad ("longitude") angegeben werden
 
 ### Events
 
--   integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet. Es wird auf die Bedingung und auf Ack geprüft, welches man für jedes Event seperat eingeben kann.
+-   integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt gesetzt (z.B. über Script oder Adapter), wird ein vordefiniertes Menu geöffnet. Es wird auf die Bedingung und auf Ack geprüft, welches man für jedes Event separat eingeben kann.
 
 ### Echarts
 
@@ -224,7 +228,7 @@ menu:back
 
 ### HTTP Request
 
--   hiermit ist es möglich einen Http Request ab zu senden, mit und ohne Authentification. Als erstes muss die Url angegeben werden, User und Passwort sind optional, wenn diese nicht benötigt werden einfach leer lassen. Als Dateiname kann der vorkonfiguriert Name stehen bleiben.
+-   hiermit ist es möglich einen Http Request ab zu senden, mit und ohne Authentifikation. Als erstes muss die Url angegeben werden, User und Passwort sind optional, wenn diese nicht benötigt werden einfach leer lassen. Als Dateiname kann der vorkonfiguriert Name stehen bleiben.
 
 ### Settings
 
@@ -234,4 +238,4 @@ menu:back
 -   One Time Keyboard - Fordert Clients auf, die Tastatur auszublenden, sobald sie verwendet wird. Die Tastatur wird weiterhin verfügbar sein, aber Clients zeigen im Chat automatisch die übliche Buchstabentastatur an – der Benutzer kann eine spezielle Schaltfläche im Eingabefeld drücken, um die benutzerdefinierte Tastatur wieder anzuzeigen. Der Standardwert ist „false“. https://core.telegram.org/bots/api#replykeyboardmarkup
 -   Token Grafana - Optional , Token um Diagramm von Grafana ab zu rufen
 -   Verzeichnis - um Diagramme zwischen zu speichern, wird für Grafana und auch für Echarts gebraucht, es muss volle Schreibberechtigung für dieses Verzeichnis bestehen
--   Menu senden nach einem Neustart - bzw. nach dem Speichern kann hier deaktiviert werden, gegebenenfalls muss das Menu das erste mal per Eingabe in das Inputfeld in der Telegram-App aufgerufen werden
+-   Menu senden nach einem Neustart - bzw. nach dem Speichern kann hier deaktiviert werden, gegebenenfalls muss das Menu das erste mal per Eingabe in das Eingabefeld in der Telegram-App aufgerufen werden

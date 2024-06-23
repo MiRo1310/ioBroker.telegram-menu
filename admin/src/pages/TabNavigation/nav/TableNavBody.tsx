@@ -64,15 +64,11 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 	handleDrop = (event, index) => {
 		let currentElement = event.target;
 		while (currentElement) {
-			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR") {
-				// Setze draggable auf true oder false, je nach Bedarf
 				if (currentElement.classList.contains("draggingDropBox")) {
 					return;
 				}
-				// Beende die Schleife, wenn das passende Element gefunden wurde
 			}
-			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
 		if (index !== this.state.dropStart && index != 0) {
@@ -93,45 +89,45 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 	render() {
 		return (
 			<TableBody>
-				{this.state.rows.map((row, index1) => (
+				{this.state.rows.map((row, indexRow) => (
 					<TableRow
-						key={index1}
+						key={indexRow}
 						sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						className={
-							"no-select" + " " + (index1 === 0 ? (row.call != "" && row.call != "-" ? "startSideActive" : "startSideInactive") : "")
+							"no-select" + " " + (indexRow === 0 ? (row.call != "" && row.call != "-" ? "startSideActive" : "startSideInactive") : "")
 						}
-						draggable={handleDraggable(index1)}
-						onDrop={(event) => this.handleDrop(event, index1)}
+						draggable={handleDraggable(indexRow)}
+						onDrop={(event) => this.handleDrop(event, indexRow)}
 						onDragStart={(event) =>
 							handleDragStart(
-								index1,
+								indexRow,
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setState ? this.props.callback.setState({ draggingRowIndex: index1 }) : "",
+								this.props.callback.setState ? this.props.callback.setState({ draggingRowIndex: indexRow }) : "",
 							)
 						}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
-						onDragOver={(event) => handleDragOver(index1, event)}
-						onDragEnter={() => handleDragEnter(index1, this.setState.bind(this))}
-						style={handleStyleDragOver(index1, this.state.dropOver, this.state.dropStart)}
+						onDragOver={(event) => handleDragOver(indexRow, event)}
+						onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
+						style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
 					>
-						{this.props.entries.map((entry, index) => (
-							<TableCell key={index} component="td" style={{ width: entry.width ? entry.width : undefined }}>
+						{this.props.entries.map((entry, indexCell) => (
+							<TableCell key={indexCell} component="td" style={{ width: entry.width ? entry.width : undefined }}>
 								<span
 									className="noneDraggable"
 									onMouseOver={(e) => handleMouseOver(e)}
-									onMouseLeave={index1 == 0 ? undefined : (e) => handleMouseOut(e)}
+									onMouseLeave={indexRow == 0 ? undefined : (e) => handleMouseOut(e)}
 								>
 									{getElementIcon(row[entry.name])}{" "}
 									<span
 										draggable={false}
 										className={
 											"textSubmenuInfo noneDraggable " +
-											(index === 0 ? (row.call === "" || row.call === "-" ? "" : "startsideHideInfo") : "startsideHideInfo")
+											(indexCell === 0 && (row.call === "" || row.call === "-") ? "" : "startSideHideInfo")
 										}
 									>
-										{I18n.t("This is a Submenu!")}
+										{indexRow === 0 && (row.call === "" || row.call === "-") ? <span>{I18n.t("This is a Submenu!")}</span> : null}
 									</span>
 								</span>
 							</TableCell>
@@ -142,11 +138,11 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={() => deleteRow(index1, this.props, this.props.card)}
+							deleteRow={() => deleteRow(indexRow, this.props, this.props.card)}
 							rows={this.state.rows}
-							index={index1}
+							index={indexRow}
 							showButtons={this.props.showButtons}
-							notShowDelete={index1 == 0}
+							notShowDelete={indexRow == 0}
 						></ButtonCard>
 					</TableRow>
 				))}

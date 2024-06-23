@@ -3,7 +3,7 @@
 ## ioBroker telegram-menu adapter
 
 Easily create Telegram menus
-The adapter is used to communicate with the Iobroker via telegram menu, to switch data points or to query values ​​from data points. To do this, you can create different groups in which you can create menus. These can then be assigned to users.
+The adapter is used to communicate with the Iobroker via Telegram menu, to switch data points or to query values ​​from data points. To do this, you can create different groups in which you can create menus. These can then be assigned to users.
 
 Let's get started!
 
@@ -14,7 +14,7 @@ Let's get started!
 
 ### Navigation
 
-![Navigation](../pic/nav.png)<br>Here the navigation looks.
+![Navigation](../pic/nav.png)<br>Here you can see the navigation.
 
 -   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. But you can call this up again using a button.
 -   The text on the right "Choose an action" is freely selectable, but cannot be empty.
@@ -100,9 +100,9 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, for a negative value simply`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
 
 
-    menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LenghtOfRow:
+    menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LengthOfRow:
 
--   This can be used to create a dynamic menu, in an array \[], always the name to be displayed and the value, Name|Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can specify how many buttons should stand next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change to`[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values, e.g. (2.5).
+-   This can be used to create a dynamic menu, in an array \[], always the name to be displayed and the value, Name|Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can specify how many Buttons should be next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change to`[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values, e.g. (2.5).
     A value of a data point can now also be used as a name.`{status:'ID':true}`<a href="#status">for more information look here</a>
 
 
@@ -119,7 +119,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 ![SetState](../pic/setState.png)
 
 -   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger. The trigger has exactly the same name as the button that is supposed to trigger the action.
--   You can enter other values ​​under Value so that they can be set; a separate set state must be created for each value
+-   You can enter other values ​​under Value so that they can be set; a separate SetState must be created for each value
 -   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder for the value is &&. Basically all states will be included`ack:false`set, this is basically necessary if you want to control adapters with it. Confirmation only occurs when the addressed adapter has set the value`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
 
@@ -130,13 +130,17 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
     {"id":"id","text":"Wert wurde gesetzt:"}
 
--   If you want to set a state but then receive the change to another state, you use this in the return text. Replace ID with the desired ID, the text can also be customized
+-   If you want to set a state and then receive the change to another state, you use this in the return text. Replace ID with the desired ID, the text can also be customized
     However, the change is only sent if the state was set to ack:true
 
 
-    {setDynamicValue:RequestText:Type:ConfirmText:}
+    {setDynamicValue:RequestText:Type:ConfirmText:ID:}
 
--   **To set a text or number data point:** For example, if you want to put text in a data point, the instance waits for an input after pressing a button. The selected data point is then described with the text. You can do this by entering it in the return field. "RequestText" prompt text for input, "Type" boolean, number, string and "ConfirmText" confirmation text of the data point can be replaced with your own text.
+-   **To set a text or number data point:** For example, if you want to write text into a data point, the instance waits for an input after pressing the button. The selected data point is then described with the text. This must be entered in the return field.
+    -   "RequestText" - request text for input
+    -   "Type" - boolean, number, string
+    -   "ConfirmText" - Set confirmation text of the data point, can be replaced with your own text.
+    -   "ID" - confirmation value of another ID in the return text (is optional)
 
 
     {confirmSet:The value has been set:noValue}
@@ -157,7 +161,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 
 ### GetState
 
--   With && as a placeholder you can place the value in the text, just like with setState you can influence the value`change{"true":"an", "false":"aus"}`.
+-   With && as a placeholder you can place the value in the text, just like with setState you can influence the value with`change{"true":"an", "false":"aus"}`.
 -   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}`for example, here we divide by 10![math](../pic/image9.png)<br>
 -   If you want to round the value, do the following`{round:2}`
 -   If you want to retrieve several values ​​at the same time with one query, you can activate the Newline checkbox to have the return text displayed in a new line for each query.
@@ -185,7 +189,7 @@ To delete all messages (similar to "Delete history" in the client), add a menu i
 -   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to be able to temporarily save the images there
 -   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (remove lock time range so that the current diagram is always sent) -> direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will overwrite each other
--   Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein anderer Wert genommen werden
+-   Delay is the time between the request and the sending of the image -> depending on the speed of the system, a different value can and must be used
 
     <img src="../pic/grafana.png" width="400">
 

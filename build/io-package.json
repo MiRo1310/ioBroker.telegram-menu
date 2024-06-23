@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "telegram-menu",
-        "version": "1.7.2",
+        "version": "1.7.3",
         "news": {
+            "1.7.3": {
+                "en": "FIX: Multi-user fixed\nFIX: #159 Functions fixed",
+                "de": "FIX: Multi-User fixiert\nFIX: #159 Funktionen fixiert",
+                "ru": "FIX: Многопользовательская фиксированная\nFIX: #159",
+                "pt": "FIX: Multiusuário fixo\nFIX: #159 Funções fixas",
+                "nl": "FIX: Multi-user vast\nFIX: #159 Functies vast",
+                "fr": "FIX: Multi-utilisateur fixe\nFIXE: #159 Fonctions fixes",
+                "it": "FIX: Multi-utente fisso\nFIX: #159 Funzioni fisse",
+                "es": "FIX: fijo multiusuario\nFIX: #159 Funciones fijas",
+                "pl": "FIX: Multi- użytkownik stały\nFIX: # 159 Funkcje stałe",
+                "uk": "FIX: Multi-user фіксований\nFIX: #159 Функції фіксовані",
+                "zh-cn": "FIX: 多用户固定\nFIX: # 159 函数固定"
+            },
             "1.7.2": {
                 "en": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
                 "de": "FIX: #158 Telegram-menu-Verbindung\nFIX: #155 DynSwitch",
@@ -80,19 +93,6 @@
                 "pl": "ustalony",
                 "uk": "фіксований, список покупок",
                 "zh-cn": "固定营业商"
-            },
-            "1.6.0": {
-                "en": "json Table in combination with the alexa-shoppinglist adapter can remove items\njson Table without Head\nfixes in menu:back\nPossibility to stop sending Menu after restart (after save)",
-                "de": "json Tabelle in Kombination mit dem alexa-shoppinglist Adapter kann Elemente entfernen\njson Tisch ohne Kopf\neinstellungen im menü:back\nMöglichkeit, das Senden von Menü nach dem Neustart zu stoppen (nach dem Speichern)",
-                "ru": "json Table в сочетании с адаптером alexa-shoppinglist может удалить элементы\njson Таблица без головы\nисправления в меню:back\nВозможность прекратить отправку меню после перезагрузки (после сохранения)",
-                "pt": "json Table em combinação com o adaptador alexa-shoppinglist pode remover itens\njson Tabela sem cabeça\ncorreções no menu:back\nPossibilidade de parar de enviar Menu após reiniciar (após salvar)",
-                "nl": "json Table in combinatie met de alexa-shoppinglist adapter kan items verwijderen\njson Table zonder hoofd\nvertaling:\nMogelijkheden om te stoppen met Menu te sturen na de herstart",
-                "fr": "json Table en combinaison avec l'adaptateur alexa-shoppinglist peut supprimer les éléments\njson Table sans tête\ncorrige dans le menu:back\nPossibilité d'arrêter l'envoi de Menu après redémarrage (après sauvegarde)",
-                "it": "json Table in combinazione con l'adattatore alexa-shoppinglist può rimuovere gli elementi\njson tavolo senza testa\ncorrezioni nel menu:back\nPossibilità di interrompere l'invio di Menu dopo il riavvio (dopo il salvataggio)",
-                "es": "json Table en combinación con el adaptador alexa-shoppinglist puede eliminar los elementos\njson Table sin Head\nfijaciones en el menú:back\nPosibilidad de dejar de enviar Menú después de reiniciar (después de guardar)",
-                "pl": "json Table w połączeniu z alexa-shoppinglistą może usuwać przedmioty\njson Table without Head (ang.)\nnaprawa menu:\nNiemożliwość zatrzymywania wysyłania Menu po restartie (po ocaleniu)",
-                "uk": "json Table в поєднанні з alexa-shoppinglist адаптер може видалити елементи\njson Table без глави\nвиправлення в меню:back\nМожливість зупинити відправлення Меню після перезавантаження (після збереження)",
-                "zh-cn": "j. 同一个法轮化剂适应者合并的表格可以拆除物品\njson 表\nf 男性:挫折\n允许在恢复原状(之后)之后停止派遣Mendu"
             }
         },
         "titleLang": {

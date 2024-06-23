@@ -7,8 +7,11 @@ interface LoggingTypes {
 [];
 
 type Logging = "debug" | "error" | "info";
+let _this: TelegramMenu;
 const logging = (type: Logging, obj: LoggingTypes[]): void => {
-	const _this = TelegramMenu.getInstance();
+	if (!_this) {
+		_this = TelegramMenu.getInstance();
+	}
 	if (obj) {
 		obj.forEach((element) => {
 			let text: string = "";

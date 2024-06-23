@@ -26,8 +26,9 @@ const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_
     };
     setDynamicValueObj[userToSend] = obj;
     if (array[3] && array[3] != "") {
-        return array[3];
+        return { confirmText: array[3], id: array[4] };
     }
+    return { confirmText: "", id: undefined };
 };
 exports.setDynamicValue = setDynamicValue;
 const getDynamicValue = (userToSend) => {
