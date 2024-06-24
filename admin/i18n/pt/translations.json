@@ -145,5 +145,6 @@
     "Yes": "Sim",
     "You have double triggers, please remove them!": "Você tem gatilhos duplos, remova-os!",
     "active": "ativo",
+    "setDynamicValue": "Isso permite gravar valores dinâmicos em pontos de dados. Basta fazer uma chamada e inserir o valor no campo de entrada. RequestText: Texto para solicitar o valor. Tipo: tipo do valor (booleano ou número). ConfirmText: Texto para confirmar o valor. ID: Se você deseja confirmar de outro estado, insira o ID aqui.(Isso é opcional)",
     "telegram-menu adapter settings": "Configurações do adaptador para menu de telegrama"
 }

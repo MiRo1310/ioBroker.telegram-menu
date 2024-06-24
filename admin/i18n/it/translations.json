@@ -145,5 +145,6 @@
     "Yes": "SÌ",
     "You have double triggers, please remove them!": "Hai doppi trigger, rimuovili!",
     "active": "attivo",
+    "setDynamicValue": "Ciò consente di scrivere valori dinamici in punti dati. Basta effettuare una chiamata e quindi inserire il valore nel campo di immissione. RequestText: testo per richiedere il valore. Tipo: tipo del valore (booleano o numerico). confirmText: testo per confermare il valore. ID: se desideri confermare da un altro Stato, inserisci qui l'ID (facoltativo)",
     "telegram-menu adapter settings": "Impostazioni dell'adattatore per il menu telegramma"
 }

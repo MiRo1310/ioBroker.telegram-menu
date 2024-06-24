@@ -145,5 +145,6 @@
     "Yes": "Ja",
     "You have double triggers, please remove them!": "U heeft dubbele triggers, verwijder deze alstublieft!",
     "active": "actief",
+    "setDynamicValue": "Hierdoor kunt u dynamische waarden in datapunten schrijven. U hoeft alleen maar te bellen en vervolgens kunt u de waarde in het invoerveld invoeren. RequestText: tekst om de waarde op te vragen. Type: type waarde (Boolean of getal). BevestigTekst: tekst om de waarde te bevestigen. ID: Als u vanuit een andere staat wilt bevestigen, voert u hier het ID in. (Dit is optioneel)",
     "telegram-menu adapter settings": "Adapterinstellingen voor telegrammenu"
 }

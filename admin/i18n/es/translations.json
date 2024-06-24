@@ -145,5 +145,6 @@
     "Yes": "Sí",
     "You have double triggers, please remove them!": "Tienes activadores dobles, ¡elimítalos!",
     "active": "activo",
+    "setDynamicValue": "Esto le permite escribir valores dinámicos en puntos de datos. Simplemente haga una llamada y luego podrá ingresar el valor en el campo de entrada. RequestText: Texto para solicitar el valor. Tipo: tipo del valor (booleano o número). ConfirmText: Texto para confirmar el valor. DNI: Si deseas confirmar desde otro Estado, ingresa aquí el DNI. (Esto es opcional)",
     "telegram-menu adapter settings": "Configuración del adaptador para el menú de telegramas"
 }

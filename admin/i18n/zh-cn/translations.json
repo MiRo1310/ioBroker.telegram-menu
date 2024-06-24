@@ -145,5 +145,6 @@
     "Yes": "是的",
     "You have double triggers, please remove them!": "您有双触发器，请删除它们！",
     "active": "积极的",
+    "setDynamicValue": "这允许您将动态值写入数据点。只需拨打电话，然后您就可以在输入字段中输入值。 RequestText：请求值的文本。类型：值的类型（布尔值或数字）。确认文本：用于确认值的文本。 ID：如果您想从其他州确认，请在此处输入 ID。（这是可选的）",
     "telegram-menu adapter settings": "电报菜单的适配器设置"
 }

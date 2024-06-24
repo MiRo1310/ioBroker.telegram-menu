@@ -145,5 +145,6 @@
     "Yes": "Tak",
     "You have double triggers, please remove them!": "Masz podwójne wyzwalacze, usuń je!",
     "active": "aktywny",
+    "setDynamicValue": "Umożliwia to zapisywanie wartości dynamicznych w punktach danych. Wystarczy wykonać połączenie, a następnie wprowadzić wartość w polu wejściowym. RequestText: Tekst żądania wartości. Typ: typ wartości (logiczna lub liczba). PotwierdźTekst: Tekst potwierdzający wartość. ID: Jeśli chcesz potwierdzić, że pochodzisz z innego stanu, wprowadź tutaj identyfikator. (jest to opcjonalne)",
     "telegram-menu adapter settings": "Ustawienia adaptera dla menu telegramu"
 }

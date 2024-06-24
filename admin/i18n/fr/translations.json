@@ -145,5 +145,6 @@
     "Yes": "Oui",
     "You have double triggers, please remove them!": "Vous disposez de doubles déclencheurs, veuillez les supprimer !",
     "active": "actif",
+    "setDynamicValue": "Cela vous permet d'écrire des valeurs dynamiques dans des points de données. Passez simplement un appel et vous pourrez ensuite saisir la valeur dans le champ de saisie. RequestText : texte pour demander la valeur. Type : type de la valeur (booléen ou nombre). ConfirmText : texte pour confirmer la valeur. ID : Si vous souhaitez confirmer depuis un autre État, entrez l'ID ici. (Ceci est facultatif)",
     "telegram-menu adapter settings": "Paramètres de l'adaptateur pour le menu télégramme"
 }

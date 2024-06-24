@@ -145,5 +145,6 @@
     "Yes": "Ja",
     "You have double triggers, please remove them!": "Sie haben Doppelauslöser, bitte entfernen Sie diese!",
     "active": "aktiv",
+    "setDynamicValue": "Dadurch können Sie dynamische Werte in Datenpunkte schreiben. Einfach anrufen und dann den Wert in das Eingabefeld eingeben. RequestText: Text zum Anfordern des Werts. Typ: Typ des Werts (boolescher Wert oder Zahl). Bestätigungstext: Text zur Bestätigung des Werts. ID: Wenn Sie aus einem anderen Staat bestätigen möchten, geben Sie hier die ID ein. (Dies ist optional)",
     "telegram-menu adapter settings": "Adaptereinstellungen für Telegram-Menü"
 }
