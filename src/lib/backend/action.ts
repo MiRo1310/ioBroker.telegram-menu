@@ -52,9 +52,7 @@ const bindingFunc = async (
 };
 
 function calcValue(_this: any, textToSend: string, val: string): { textToSend: string; val: string } | undefined {
-	const startindex = textToSend.indexOf("{math");
-	const endindex = textToSend.indexOf("}", startindex);
-	const substring = textToSend.substring(startindex, endindex + 1);
+	const { substring } = decomposeText(textToSend, "{math:", "}");
 	const mathValue = substring.replace("{math:", "").replace("}", "");
 	try {
 		val = eval(val + mathValue);
@@ -343,11 +341,11 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 function roundValue(val: string, textToSend: string): { val: string; textToSend: string } | undefined {
 	try {
 		const floatedNumber = parseFloat(val);
-		const result = decomposeText(textToSend, "{round:", "}");
-		const substring = result.substring;
+		const { substring, textWithoutSubstring } = decomposeText(textToSend, "{round:", "}");
+
 		const decimalPlaces = substring.split(":")[1].replace("}", "");
 		const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
-		return { val: floatedString, textToSend: result.textWithoutSubstring };
+		return { val: floatedString, textToSend: textWithoutSubstring };
 	} catch (err: any) {
 		error([
 			{ text: "Error roundValue:", val: err.message },
@@ -356,7 +354,7 @@ function roundValue(val: string, textToSend: string): { val: string; textToSend:
 	}
 }
 
-const insertValueInPosition = (textToSend: string, text: string | number): string => {
+const exchangePlaceholderWithValue = (textToSend: string, text: string | number): string => {
 	let searchString = "";
 	if (textToSend.includes("&&")) {
 		searchString = "&&";
@@ -501,7 +499,7 @@ export {
 	calcValue,
 	roundValue,
 	bindingFunc,
-	insertValueInPosition,
+	exchangePlaceholderWithValue,
 	adjustValueType,
 	checkEvent,
 	getUserToSendFromUserListWithChatID,

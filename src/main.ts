@@ -23,7 +23,7 @@ import { saveMessageIds } from "./lib/backend/messageIds";
 import { adapterStartMenuSend } from "./lib/backend/adapterStartMenuSend";
 import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from "./lib/backend/processData";
 import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from "./lib/backend/shoppingList";
-import { insertValueInPosition, checkEvent } from "./lib/backend/action";
+import { exchangePlaceholderWithValue, checkEvent } from "./lib/backend/action";
 import { info, debug, error } from "./lib/backend/logging";
 import { checkIsTelegramActive } from "./lib/backend/connection";
 
@@ -262,7 +262,7 @@ export default class TelegramMenu extends utils.Adapter {
 										text =
 											substring[2] && substring[2].includes("noValue")
 												? substring[1]
-												: insertValueInPosition(substring[1], state.val as string);
+												: exchangePlaceholderWithValue(substring[1], state.val as string);
 									}
 
 									sendToTelegram(
@@ -302,7 +302,7 @@ export default class TelegramMenu extends utils.Adapter {
 									}
 
 									valueChange ? (value = valueChange) : value;
-									textToSend = insertValueInPosition(textToSend, value);
+									textToSend = exchangePlaceholderWithValue(textToSend, value);
 
 									sendToTelegram(
 										element.userToSend,

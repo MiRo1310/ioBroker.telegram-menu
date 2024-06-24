@@ -28,8 +28,7 @@ const getChatID = (userListWithChatID: UserListWithChatId[], user: string): stri
 	return chatId;
 };
 const exchangeValue = (textToSend: string, stateVal: string | number | boolean): { valueChange: string; textToSend: string } | boolean => {
-	const startindex = decomposeText(textToSend, "change{", "}").startindex;
-	const endindex = decomposeText(textToSend, "change{", "}").endindex;
+	const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
 
 	let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
 
@@ -81,7 +80,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 	const _this = TelegramMenu.getInstance();
 
 	let key: string = "";
-	const substring = decomposeText(textToSend, "{time.", "}").substring;
+	const { substring } = decomposeText(textToSend, "{time.", "}");
 	const array = substring.split(",");
 	let changedSubstring = substring;
 	changedSubstring = changedSubstring.replace(array[0], "");
