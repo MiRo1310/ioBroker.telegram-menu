@@ -5,6 +5,7 @@ import MainTabList from "@/pages/MainPage/MainTabList";
 import MainActions from "@/pages/MainPage/MainActions";
 import MainTabs from "@/pages/MainPage/MainTabs";
 import { Properties } from "csstype";
+import { PropsMainContent } from "admin/app";
 
 class MainContent extends Component<PropsMainContent> {
 	constructor(props) {

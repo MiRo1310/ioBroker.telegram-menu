@@ -3,6 +3,7 @@ import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 
 import helperText from "@/config/helper.js";
+import { PropsTableNavHelper } from "admin/app";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
 	constructor(props) {

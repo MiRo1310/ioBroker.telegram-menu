@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "telegram-menu",
-        "version": "1.7.3",
+        "version": "1.7.4",
         "news": {
+            "1.7.4": {
+                "en": "FEAT: #160 Expand setDynamicValue",
+                "de": "FEAT: #160 Expand setDynamic Wert",
+                "ru": "#160 Expand setDynamic Стоимость",
+                "pt": "FEAT: #160 Expand setDynamic Valor",
+                "nl": "FEAT: #160 Vergroot setDynamic Waarde",
+                "fr": "VIE: #160 Expand setDynamic Valeur",
+                "it": "FEAT: #160 Expand setDynamic Valore",
+                "es": "FEAT: #160 Expand setDynamic Valor",
+                "pl": "FEAT: # 160 Expand setDynamic Wartość",
+                "uk": "FEAT: #160 Комплект динаміки Ціна",
+                "zh-cn": "FEAT: # 160 扩展设置 Dynamic 数值"
+            },
             "1.7.3": {
                 "en": "FIX: Multi-user fixed\nFIX: #159 Functions fixed",
                 "de": "FIX: Multi-User fixiert\nFIX: #159 Funktionen fixiert",
@@ -80,19 +93,6 @@
                 "pl": "# 102 * * _ Breaking Change! Więcej informacji znajduje się w dokumentacji\n# 106 stała zmiana '{status:' id ':' ID ': true}' ma teraz nowy parametr, sprawdź dokumenty\n# 107 jedno menu linii bez pracy\n# 103 scrollbar w nawigacji i akcji\nniewielkie zmiany wizualne w działaniu dla małych ekranów\nustawiona opcja wysyłania menu po ponownym uruchomieniu w ustawieniach\n# 94 menu: numer z ustawianiem numerów float\nTrigger Info - Przegląd wszystkich menu i użytkowników, tylko wizualne, ale bez funkcji\npozostały tekst ponownie zapisany",
                 "uk": "#102 **_Перегляд змін !!!_** меню:dynSwitch з десятковими номерами, якщо його використовувати, ви повинні налаштувати функцію вручну. Для отримання додаткової інформації див. документацію\n#106 фіксована зміна `{status:'id':'ID':true}` тепер новий параметр, перевірити docs\n#107 меню одного рядка без тренування\n#103 прокрутка навігації та дії\nмаленькі візуальні зміни в діях для малих екранів\nвиправлений прапорець відправте меню після перезавантаження в налаштуваннях\n#94 меню:номер з фіксованими номерами Float\nTrigger Info - Огляд всіх меню і користувачів, тільки візуальний, але без функцій\nзворотній зв'язок",
                 "zh-cn": "#102 QQBreaking Change!!!QQ菜单:dynSwitch 带有十进制数字,如果使用它,必须手动调整函数. 更多信息见文件\n# 106 固定更改 _____________________________________________________________________________________________________ 检查文件\n#107 单行菜单不用工作\n# 103 滚动条在导航和动作中\n小屏幕动作的小视觉变化\n在设置中重新启动后固定复选框发送菜单\n# 94 菜单: 有固定浮点数的数字\n触发信息 - 所有菜单和用户概览,只有视觉功能,但没有功能\n剩余文本重附"
-            },
-            "1.6.1": {
-                "en": "fixed, shoppinglist",
-                "de": "fest, shoppinglist",
-                "ru": "фиксированный, торговый список",
-                "pt": "fixo, lista de compras",
-                "nl": "vertaling:",
-                "fr": "fixe, liste d'achats",
-                "it": "fisso, elenco degli acquisti",
-                "es": "fija, lista de compras",
-                "pl": "ustalony",
-                "uk": "фіксований, список покупок",
-                "zh-cn": "固定营业商"
             }
         },
         "titleLang": {

@@ -6,6 +6,7 @@ import { updateTriggerForSelect } from "../../lib/actionUtils.js";
 import { deepCopy } from "../../lib/Utils.js";
 import PopupContainer from "./PopupContainer";
 import RenameCard from "./RenameCard";
+import { PropsDropBox, StateDropBox } from "admin/app";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
 	constructor(props) {

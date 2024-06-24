@@ -1,7 +1,9 @@
-interface AdditionalPropInfo {
+import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
+
+export interface AdditionalPropInfo extends GenericAppProps {
 	themeName: string;
 }
-interface AdditionalStateInfo {
+export interface AdditionalStateInfo extends GenericAppState {
 	showDropBox: boolean;
 	native: Native;
 	connectionReady: boolean;
@@ -22,11 +24,10 @@ interface AdditionalStateInfo {
 	showPopupMenuList: boolean;
 	dropBoxTop: number;
 	dropBoxRight: number;
-	themeName: string;
-	themeType: string;
+
 }
 
-interface PropsSettings {
+export interface PropsSettings {
 	data: {
 		state: {
 			native: {
@@ -46,7 +47,7 @@ interface PropsSettings {
 	callback: CallbackFunctions;
 }
 
-interface StateTabNavigation {
+export interface StateTabNavigation {
 	rowPopup: boolean;
 	rowIndex: number;
 	editRow: boolean;
@@ -61,13 +62,13 @@ interface StateTabNavigation {
 	nav: string;
 	text: string;
 }
-interface PropsTabNavigation {
+export interface PropsTabNavigation {
 	data: Data;
 	entries: NavEntries[];
 	activeMenu: string;
 	callback: Callback;
 }
-interface TabValues {
+export interface TabValues {
 	label: string;
 	value: string;
 	trigger: boolean;
@@ -75,7 +76,7 @@ interface TabValues {
 	popupCard: any;
 	searchRoot?: { root: string; type: string[] };
 }
-interface NavEntries {
+export interface NavEntries {
 	name: string;
 	width?: string;
 	checkbox?: boolean;
@@ -94,11 +95,11 @@ interface NavEntries {
 type UpdateNative = {
 	updateNative: UpdateNativeFunction;
 };
-interface SetState {
+export interface SetState {
 	setState: SetStateFunction;
 }
 
-interface PropsTableDndNav {
+export interface PropsTableDndNav {
 	entries: NavEntries[];
 	tableData: Nav | undefined;
 	card: string;
@@ -110,7 +111,7 @@ interface PropsTableDndNav {
 	callback: CallbackFunctions;
 }
 
-interface StateTableDndNav {
+export interface StateTableDndNav {
 	rows: Rows[];
 	dropStart: number;
 	dropOver: number;
@@ -118,13 +119,13 @@ interface StateTableDndNav {
 	mouseOverNoneDraggable: boolean;
 }
 
-interface PropsTabAction {
+export interface PropsTabAction {
 	callback: Callback;
 	activeMenu: string;
 	data: Data;
 }
 
-interface Data {
+export interface Data {
 	activeMenu?: string;
 	nav?: TableData;
 	state: AdditionalStateInfo;
@@ -138,17 +139,17 @@ interface Data {
 	usersInGroup?: string[];
 	userActiveCheckbox?: IsUserActiveCheckbox;
 }
-interface StateTabAction {
+export interface StateTabAction {
 	value: string;
 }
-interface ButtonSmallProps {
+export interface ButtonSmallProps {
 	index?: number;
 	callbackValue?: CallbackValue;
 	callback: any;
 	disabled?: string;
 	class?: string;
 }
-interface ButtonProps {
+export interface ButtonProps {
 	color?: string;
 	b_color?: string;
 	padding?: string;
@@ -175,7 +176,7 @@ interface ButtonProps {
 }
 type CallbackValue = boolean | string | number | undefined;
 
-interface PropsCheckbox {
+export interface PropsCheckbox {
 	id: string;
 	label?: string;
 	isChecked: boolean;
@@ -192,18 +193,18 @@ interface PropsCheckbox {
 }
 type BooleanString = "true" | "false";
 
-interface PropsRowNavCard {
+export interface PropsRowNavCard {
 	entries: NavEntries[];
 	newRow: Nav;
 	callback: { onchange: (data: ChangeInputNav) => void };
 	inUse: boolean;
 	openHelperText: (value: string) => void;
 }
-interface ChangeInputNav {
+export interface ChangeInputNav {
 	id: string;
 	val: string;
 }
-interface Entries {
+export interface Entries {
 	name: string;
 	checkbox: boolean;
 	editWidth: string;
@@ -212,7 +213,7 @@ interface Entries {
 	val: string;
 	title: string;
 }
-interface SelectProps {
+export interface SelectProps {
 	id: string;
 	name?: string;
 	label?: string;
@@ -225,7 +226,7 @@ interface SelectProps {
 	callbackValue?: CallbackValue;
 }
 type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
-interface InputProps {
+export interface InputProps {
 	id: string;
 	type?: string;
 	placeholder?: string;
@@ -247,7 +248,7 @@ interface InputProps {
 	callbackValue?: CallbackValue;
 	className?: string;
 }
-interface PropsHeaderIconBar {
+export interface PropsHeaderIconBar {
 	instance: number;
 	common: Record<string, any>;
 	native: any;
@@ -257,7 +258,7 @@ interface PropsHeaderIconBar {
 	changed: boolean;
 	onChange: UpdateNativeFunction;
 }
-interface PropsHelperCard {
+export interface PropsHelperCard {
 	helper: {};
 	val: string;
 	editedValueFromHelperText: string;
@@ -268,13 +269,13 @@ interface PropsHelperCard {
 	text: string;
 	helperTextForInput: string;
 }
-interface StateHelperCard {
+export interface StateHelperCard {
 	rows: any;
 	showSelectId: boolean;
 	selectedId: string;
 }
 type SetStateFunction = React.Component["setState"];
-interface PropsTextarea {
+export interface PropsTextarea {
 	id: string;
 	value: string;
 	callback: any;
@@ -296,10 +297,10 @@ interface PropsTextarea {
 	index?: number;
 	callbackValue?: CallbackValue;
 }
-interface StateTextarea {
+export interface StateTextarea {
 	value: string;
 }
-interface PropsActionCard {
+export interface PropsActionCard {
 	data: any;
 	activeMenu: string;
 	card: string;
@@ -311,7 +312,7 @@ interface PropsActionCard {
 	callback: any;
 	searchRoot: any;
 }
-interface StateActionCard {
+export interface StateActionCard {
 	rowPopup: boolean;
 	rowIndex: number;
 	editRow: boolean;
@@ -329,7 +330,7 @@ interface StateActionCard {
 	text: string;
 	helperTextForInput: string;
 }
-interface PropsTableDndAction {
+export interface PropsTableDndAction {
 	tableData: any;
 	activeMenu: string;
 	subCard: string;
@@ -342,20 +343,20 @@ interface PropsTableDndAction {
 	addEditedTrigger: any;
 	card: string;
 }
-interface StateTableDndAction {
+export interface StateTableDndAction {
 	dropStart: number;
 	dropEnd: number;
 	dropOver: number;
 	rows: any;
 	mouseOverNoneDraggable: boolean;
 }
-interface PropsSubTable {
+export interface PropsSubTable {
 	data: [];
 	name: string;
 	entry: any;
 	setState: SetStateFunction;
 }
-interface PropsTelegramUserCard {
+export interface PropsTelegramUserCard {
 	name: string;
 	chatID: string;
 	data: any;
@@ -364,12 +365,12 @@ interface PropsTelegramUserCard {
 	class?: string;
 	key?: number;
 }
-interface StateTelegramUserCard {
+export interface StateTelegramUserCard {
 	usersInGroup: any;
 	name: string;
 	activeMenu: string;
 }
-interface PropsPopupContainer {
+export interface PropsPopupContainer {
 	title: string;
 	isOK?: boolean;
 	closeBtn?: boolean;
@@ -396,12 +397,12 @@ interface PropsPopupContainer {
 	data?: { [key: string]: any };
 	children?: ReactNode;
 }
-interface StatePopupContainer {
+export interface StatePopupContainer {
 	menuName: string;
 	disable: boolean;
 	inUse: boolean;
 }
-interface PropsRowEditPopupCard {
+export interface PropsRowEditPopupCard {
 	entries: any;
 	newRow: any;
 	data: any;
@@ -412,7 +413,7 @@ interface PropsRowEditPopupCard {
 	newUnUsedTrigger: any;
 	callback?: { setState: SetStateFunction };
 }
-interface StateRowEditPopupCard {
+export interface StateRowEditPopupCard {
 	rows: Rows[];
 	trigger: string;
 	data: any;
@@ -425,12 +426,12 @@ interface StateRowEditPopupCard {
 	mouseOverNoneDraggable: boolean;
 	itemForID: string;
 }
-interface Rows {
+export interface Rows {
 	IDs: string;
 	call?: string;
 }
 
-interface AppState {
+export interface AppState {
 	selectedTab: any;
 	selectedTabNum: number;
 	native: {};
@@ -453,7 +454,7 @@ interface AppState {
 	showDropBox: boolean;
 }
 
-interface TriggerObject {
+export interface TriggerObject {
 	unUsedTrigger: string[];
 	everyTrigger: {};
 	usedTrigger: {
@@ -462,7 +463,7 @@ interface TriggerObject {
 	};
 }
 
-interface PropsDropBox {
+export interface PropsDropBox {
 	native: Native;
 	callback: any;
 	tab: string;
@@ -470,7 +471,7 @@ interface PropsDropBox {
 	index: number | null;
 	activeMenu: string;
 }
-interface StateDropBox {
+export interface StateDropBox {
 	inDropBox: boolean;
 	menuList: string[];
 	selectedMenu: string;
@@ -483,38 +484,38 @@ interface StateDropBox {
 	isOK: boolean;
 	oldTrigger: string;
 }
-interface PropsRenameCard {
+export interface PropsRenameCard {
 	data: any;
 	id?: string;
 	callback: any;
 	value?: string;
 }
 
-interface StateRenameCard {}
-interface PropsTriggerOverview {
+export interface StateRenameCard { }
+export interface PropsTriggerOverview {
 	data: any;
 	usersInGroup: any;
 	userActiveCheckbox: any;
 }
-interface StateTriggerOverview {
+export interface StateTriggerOverview {
 	ulPadding: any;
 	trigger: any;
 	groupsOfMenus: any;
 	selected: string;
 	options: any;
 }
-interface MenuWithUser {
+export interface MenuWithUser {
 	menu: string;
 	index: number;
 }
 
-interface PropsSquare {
+export interface PropsSquare {
 	color: string;
 	trigger?: string;
 	position: number;
 	noText?: boolean;
 }
-interface StateSquare {
+export interface StateSquare {
 	bColor: string;
 	width: number;
 	color: string;
@@ -522,25 +523,25 @@ interface StateSquare {
 	left: string;
 	fontWeight: string;
 }
-interface PropsHeaderTelegramUsers {
+export interface PropsHeaderTelegramUsers {
 	callback: any;
 	data: any;
 	menuPopupOpen: boolean;
 }
-interface StateHeaderTelegramUsers {
+export interface StateHeaderTelegramUsers {
 	menuOpen: boolean;
 	errorUserChecked: boolean;
 	menuChecked: boolean;
 }
-interface PropsHeaderMenu {
+export interface PropsHeaderMenu {
 	data: any;
 	callback: any;
 }
-interface PropsBtnCard {
+export interface PropsBtnCard {
 	callback: any;
 	data: any;
 }
-interface StateBtnCard {
+export interface StateBtnCard {
 	oldMenuName: string;
 	newMenuName: string;
 	renamedMenuName: string;
@@ -549,11 +550,11 @@ interface StateBtnCard {
 	menuNameExists: boolean;
 	isOK: boolean;
 }
-interface PropsMenuPopupCard {
+export interface PropsMenuPopupCard {
 	usersInGroup: any;
 	callback: any;
 }
-interface PropsMenuButton {
+export interface PropsMenuButton {
 	b_color?: string;
 	color?: string;
 	title?: string;
@@ -561,7 +562,7 @@ interface PropsMenuButton {
 	children?: ReactNode;
 }
 
-interface Native {
+export interface Native {
 	dropbox: {
 		dropboxTop: number;
 		dropboxRight: number;
@@ -587,11 +588,11 @@ interface Native {
 	textNoEntry: string;
 	userListWithChatID: never[];
 }
-interface NativeData {
+export interface NativeData {
 	action: { [key: string]: Actions };
 	nav: { [key: string]: Nav };
 }
-interface Actions {
+export interface Actions {
 	get: Get[];
 	set: Set[];
 	pic: Pic[];
@@ -599,7 +600,7 @@ interface Actions {
 	echarts: Echart[];
 	events: Events[];
 }
-interface HttpRequest {
+export interface HttpRequest {
 	url: string[];
 	user: string[];
 	password: string[];
@@ -607,14 +608,14 @@ interface HttpRequest {
 	trigger: string[];
 	delay: string[];
 }
-interface Nav {
+export interface Nav {
 	// nav: string
 	call: string;
 	value: string;
 	text: string;
 	parse_mode: BooleanString;
 }
-interface Set {
+export interface Set {
 	ack: BooleanString[];
 	confirm: BooleanString[];
 	parse_mode: BooleanString[];
@@ -624,26 +625,26 @@ interface Set {
 	trigger: string[];
 	values: string[];
 }
-interface Get {
+export interface Get {
 	newline_checkbox: BooleanString[];
 	parse_mode: BooleanString[];
 	IDs: string[];
 	text: string[];
 	trigger: string[];
 }
-interface Events {
+export interface Events {
 	ack: BooleanString[];
 	ID: string[];
 	menu: string[];
 	condition: string;
 }
-interface Pic {
+export interface Pic {
 	IDs: string[];
 	filename: string[];
 	trigger: string[];
 	picSendDelay: string[];
 }
-interface Echart {
+export interface Echart {
 	background: string[];
 	echartsInstance: string[];
 	filename: string[];
@@ -651,55 +652,55 @@ interface Echart {
 	theme: string[];
 	trigger: string[];
 }
-interface PropsMainTabList {
+export interface PropsMainTabList {
 	callback: CallbackFunctions;
 }
-interface PropsMainActions {
+export interface PropsMainActions {
 	data: any;
 	tab: string;
 	callback: CallbackFunctions;
 }
-interface CallbackFunctions {
+export interface CallbackFunctions {
 	setState: SetStateFunction;
 	updateNative: UpdateNativeFunction;
 }
-interface PropsMainTriggerOverview {
+export interface PropsMainTriggerOverview {
 	state: AdditionalStateInfo;
 	callback: CallbackFunctions;
 }
-interface PropsMainDoubleTriggerInfo {
+export interface PropsMainDoubleTriggerInfo {
 	state: AdditionalStateInfo;
 }
-interface PropsMainContent {
+export interface PropsMainContent {
 	state: AdditionalStateInfo;
 	socket: any;
 	data: any;
 	callback: CallbackFunctions;
 	adapterName: string;
 }
-interface PropsMainDropBox {
+export interface PropsMainDropBox {
 	state: AdditionalStateInfo;
 	callback: CallbackFunctions;
 	dropBoxRef: any;
 }
-interface PropsTableNavHeader {
+export interface PropsTableNavHeader {
 	entries: NavEntries[];
 }
 
-interface PropsTableNavHelper {
+export interface PropsTableNavHelper {
 	state: any;
 	setState: SetStateFunction;
 	data: any;
 	popupHelperCard: any;
 }
-interface PropsActionEditHeader {
+export interface PropsActionEditHeader {
 	entries: NavEntries[];
 	buttons: {
 		add: boolean;
 		remove: boolean;
 	};
 }
-interface PropsButtonCard {
+export interface PropsButtonCard {
 	showButtons: ShowButtons;
 	openAddRowCard: (index: number) => void;
 	editRow: (index: number) => void;
@@ -710,7 +711,7 @@ interface PropsButtonCard {
 	rows: any[];
 	notShowDelete?: boolean;
 }
-interface ShowButtons {
+export interface ShowButtons {
 	add: boolean;
 	edit: boolean;
 	moveUp?: boolean;

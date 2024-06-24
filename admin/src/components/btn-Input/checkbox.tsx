@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { PropsCheckbox } from "admin/app";
 
 class Checkbox extends Component<PropsCheckbox> {
 	onChangeHandler = (event) => {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Properties } from "csstype";
+import { ButtonProps } from "admin/app";
 
 class Button extends Component<ButtonProps> {
 	eventOnclickButton = (event) => {

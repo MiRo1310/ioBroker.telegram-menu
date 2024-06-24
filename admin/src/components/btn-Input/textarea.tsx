@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { PropsTextarea, StateTextarea } from "admin/app";
 
 class Textarea extends Component<PropsTextarea, StateTextarea> {
 	onChangeHandler = (event) => {

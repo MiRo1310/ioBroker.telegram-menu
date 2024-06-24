@@ -6,6 +6,7 @@ import { deleteDoubleEntriesInArray } from "../../../lib/Utils.js";
 import { updateTriggerForSelect } from "../../../lib/actionUtils.js";
 import Select from "../../btn-Input/select.js";
 import { deepCopy } from "../../../lib/Utils.js";
+import { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from "admin/app.js";
 
 class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOverview> {
 	constructor(props) {

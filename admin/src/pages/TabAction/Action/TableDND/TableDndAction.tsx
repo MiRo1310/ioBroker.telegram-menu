@@ -14,6 +14,7 @@ import {
 	handleDragEnd,
 } from "../../../../lib/dragNDrop.js";
 import { getElementIcon } from "../../../../lib/actionUtils.js";
+import { PropsTableDndAction, StateTableDndAction } from "admin/app.js";
 
 function createData(entriesOfParentComponent, element) {
 	const obj = {};

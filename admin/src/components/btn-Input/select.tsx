@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { SelectProps } from "admin/app";
 
 class Select extends Component<SelectProps> {
 	onChangeHandler = (event) => {

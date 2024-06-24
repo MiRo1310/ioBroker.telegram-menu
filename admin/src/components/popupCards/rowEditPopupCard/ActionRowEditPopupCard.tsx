@@ -23,6 +23,7 @@ import {
 	handleStyleDragOver,
 	handleDragEnd,
 } from "@/lib/dragNDrop.js";
+import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 
 class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
 	constructor(props) {

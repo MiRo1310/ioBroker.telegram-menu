@@ -1,3 +1,5 @@
+import { NavEntries, TabValues } from "admin/app";
+
 export const tabValues: TabValues[] = [
 	// Danach noch generateActions anpassen in action.js
 	{

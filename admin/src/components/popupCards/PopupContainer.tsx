@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Button from "../btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { Properties } from "csstype";
+import { PropsPopupContainer, StatePopupContainer } from "admin/app";
 
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
 	constructor(props) {

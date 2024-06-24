@@ -11,6 +11,7 @@ import { I18n, SelectID } from "@iobroker/adapter-react-v5";
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
+import { PropsHelperCard, StateHelperCard } from "admin/app";
 
 class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 	constructor(props) {

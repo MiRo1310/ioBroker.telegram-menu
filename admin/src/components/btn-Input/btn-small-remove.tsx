@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Button from "./Button";
+import { ButtonSmallProps } from "admin/app";
 
 class BtnSmallRemove extends Component<ButtonSmallProps> {
 	render() {

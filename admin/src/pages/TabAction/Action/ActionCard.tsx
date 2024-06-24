@@ -10,6 +10,7 @@ import TableDndAction from "./TableDND/TableDndAction";
 import HelperCard from "@/components/popupCards/HelperCard";
 import helperText from "@/config/helper.js";
 import { addNewRow } from "@/lib/actionUtils.js";
+import { PropsActionCard, StateActionCard } from "admin/app";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props) {

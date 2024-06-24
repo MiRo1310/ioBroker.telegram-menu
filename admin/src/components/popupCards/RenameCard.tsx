@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Input from "../btn-Input/input";
+import { PropsRenameCard, StateRenameCard } from "admin/app";
 
 class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
 	constructor(props) {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import DropBox from "@/components/popupCards/DropBox";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave } from "@/lib/movePosition";
+import { PropsMainDropBox } from "admin/app";
 
 class MainDropBox extends Component<PropsMainDropBox> {
 	constructor(props) {

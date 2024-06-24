@@ -8,6 +8,7 @@ import PopupContainer from "../../popupCards/PopupContainer";
 import RenameCard from "../../popupCards/RenameCard";
 
 import { deepCopy } from "../../../lib/Utils.js";
+import { PropsBtnCard, StateBtnCard } from "admin/app";
 
 function checkMenuName(menu): string {
 	return menu.replace(/ /g, "_");

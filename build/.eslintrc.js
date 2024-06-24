@@ -56,6 +56,7 @@ module.exports = {
         "no-trailing-spaces": "error",
         "arrow-parens": ["error", "always"],
         curly: ["error", "all"],
+        "@typescript-eslint/ban-ts-comment": "off",
     },
     overrides: [
         {

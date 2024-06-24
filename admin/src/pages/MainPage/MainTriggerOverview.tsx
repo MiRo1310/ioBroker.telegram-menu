@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import TriggerOverview from "@/components/popupCards/TriggerOverview/TriggerOverview";
+import { PropsMainTriggerOverview } from "admin/app";
 
 class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
 	constructor(props) {

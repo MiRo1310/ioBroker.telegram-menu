@@ -4,6 +4,7 @@ import Button from "../btn-Input/Button";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../btn-Input/checkbox";
+import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
 	constructor(props) {

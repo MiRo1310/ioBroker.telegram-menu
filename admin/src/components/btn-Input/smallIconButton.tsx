@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Properties } from "csstype";
+import { PropsMenuButton } from "admin/app";
 
 class MenuButton extends Component<PropsMenuButton> {
 	render() {

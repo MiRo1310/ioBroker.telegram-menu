@@ -15,6 +15,7 @@ import {
 } from "@/lib/dragNDrop.js";
 import { getElementIcon } from "@/lib/actionUtils.js";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { PropsTableDndNav, Rows, StateTableDndNav } from "admin/app";
 
 function createData(entriesOfParentComponent, element) {
 	const obj: Rows = {} as Rows;

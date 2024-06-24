@@ -5,6 +5,7 @@ import BtnSmallEdit from "../btn-Input/btn-small-edit";
 import BtnSmallUp from "../btn-Input/btn-small-up";
 import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
+import { PropsButtonCard } from "admin/app";
 
 export const ButtonCard = (props: PropsButtonCard) => {
 	return (

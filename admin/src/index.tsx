@@ -16,7 +16,6 @@ function build(): void {
 					themeName = _theme;
 					build();
 				}}
-				//@ts-ignore
 				themeName={themeName}
 			/>
 		</ThemeProvider>,

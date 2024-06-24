@@ -4,6 +4,7 @@ import { BtnCircleAdd } from "../btn-Input/btn-circle-add";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../btn-Input/checkbox";
 import { isChecked } from "../../lib/Utils.js";
+import { PropsRowNavCard } from "admin/app";
 
 class RowNavCard extends Component<PropsRowNavCard> {
 	constructor(props) {

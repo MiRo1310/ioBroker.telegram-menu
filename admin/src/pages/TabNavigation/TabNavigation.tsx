@@ -6,6 +6,7 @@ import TableNavEditRow from "./nav/TableNavEditRow";
 import TableNavHelper from "./nav/TableNavHelper";
 
 import { deepCopy } from "@/lib/Utils.js";
+import { Nav, PropsTabNavigation, StateTabNavigation } from "admin/app";
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 	constructor(props) {

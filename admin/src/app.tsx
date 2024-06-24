@@ -17,9 +17,9 @@ import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
 
 import { sortObjectByKey } from "@/lib/actionUtils";
 import { updatePositionDropBox } from "@/lib/movePosition";
-// <AdditionalPropInfo, AdditionalStateInfo>
+import { AdditionalPropInfo, AdditionalStateInfo, Native, TriggerObject } from "admin/app";
 
-class App extends GenericApp {
+class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	dropBoxRef: any;
 	constructor(props) {
 		const extendedProps = {
@@ -45,7 +45,6 @@ class App extends GenericApp {
 		this.state = {
 			...this.state,
 			native: {} as Native,
-			//@ts-ignore
 			data: {},
 			tab: "nav",
 			subTab: "set",
@@ -73,11 +72,9 @@ class App extends GenericApp {
 	}
 
 	handleResize = () => {
-		//@ts-ignore
 		updatePositionDropBox(null, null, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
-		//@ts-ignore
 		updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		window.addEventListener("resize", this.handleResize);
 	}
@@ -87,44 +84,38 @@ class App extends GenericApp {
 	newX = null;
 	newY = null;
 	componentDidUpdate(prevProps, prevState) {
-		//@ts-ignore
 		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
 			this.getUsersFromTelegram();
-		} //@ts-ignore
+		}
 		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
-			//@ts-ignore
 			if (this.state.activeMenu && this.state.activeMenu != "") {
-				//@ts-ignore
 				this.updateActiveMenuAndTrigger(this.state.activeMenu);
 			}
 		}
 		if (prevState.native.usersInGroup !== this.state.native.usersInGroup) {
 			this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
-		} //@ts-ignore
+		}
 		if (prevState.usedTrigger !== this.state.usedTrigger) {
 			this.checkDoubleEntryInUsedTrigger();
-		} //@ts-ignore
+		}
 		if (prevState.native.dropbox !== this.state.native.dropbox || this.state.showDropBox !== prevState.showDropBox) {
-			//@ts-ignore
 			updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
-		} //@ts-ignore
+		}
 		if (prevState.dropDifferenzX !== this.state.dropDifferenzX || prevState.dropDifferenzY !== this.state.dropDifferenzY) {
 			let newX, newY;
 			if (this.state.native.dropbox && this.state.native.dropbox.dropboxRight && this.state.native.dropbox.dropboxTop) {
-				//@ts-ignore
 				newX = this.state.native.dropbox.dropboxRight - this.state.dropDifferenzX;
-				//@ts-ignore
+
 				newY = this.state.native.dropbox.dropboxTop + this.state.dropDifferenzY;
 			} else {
-				//@ts-ignore
 				newX = 5 - this.state.dropDifferenzX;
-				//@ts-ignore
+
 				newY = 105 + this.state.dropDifferenzY;
 			}
 			this.newX = newX;
 			this.newY = newY;
 			const dropbox = { dropboxRight: newX, dropboxTop: newY };
-			this.updateNativeValue("dropbox", dropbox); //@ts-ignore
+			this.updateNativeValue("dropbox", dropbox);
 			updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		}
 	}
@@ -135,21 +126,19 @@ class App extends GenericApp {
 		this.getUsersFromTelegram();
 
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
-			//@ts-ignore
 			this.setState({ instances: data });
 		});
 		let firstMenu = "";
 		if (this.state.native.usersInGroup) {
-			firstMenu = Object.keys(this.state.native.usersInGroup)[0]; //@ts-ignore
+			firstMenu = Object.keys(this.state.native.usersInGroup)[0];
 			this.setState({ activeMenu: firstMenu });
 		}
 
 		this.updateActiveMenuAndTrigger(firstMenu);
-		console.log(this.state.native); //@ts-ignore
+		console.log(this.state.native);
 		this.setState({ connectionReady: true });
 	}
 	checkDoubleEntryInUsedTrigger = () => {
-		//@ts-ignore
 		const usedTrigger = [...this.state.usedTrigger];
 		const doubleTrigger: string[] = [];
 		usedTrigger.forEach((element, index) => {
@@ -159,13 +148,12 @@ class App extends GenericApp {
 				}
 			}
 		});
-		//@ts-ignore
+
 		this.setState({ doubleTrigger: doubleTrigger });
 	};
 	updateActiveMenuAndTrigger = (menu) => {
 		const result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
 		if (result) {
-			//@ts-ignore
 			this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
 		}
 	};
@@ -186,7 +174,6 @@ class App extends GenericApp {
 		}
 
 		return (
-			//@ts-ignore
 			<div className={`App row ${this.props.themeName}`}>
 				<Grid container spacing={1}>
 					<HeaderIconBar
@@ -204,44 +191,33 @@ class App extends GenericApp {
 						callback={{
 							setState: this.setState,
 							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-						}} //@ts-ignore
+						}}
 						state={this.state}
-						socket={this.socket} //@ts-ignore
+						socket={this.socket}
 						data={{ activeMenu: this.state.activeMenu, state: this.state }}
 						adapterName={this.adapterName}
 					/>
 				</Grid>
-				{
-					//@ts-ignore
-					this.state.showDropBox ? (
-						<MainDropBox
-							//@ts-ignore
-							state={this.state}
-							callback={{
-								setState: this.setState,
-								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-							}}
-							dropBoxRef={this.dropBoxRef}
-						/>
-					) : null
-				}
-				{
-					//@ts-ignore
-					this.state.showTriggerInfo ? (
-						<MainTriggerOverview
-							//@ts-ignore
-							state={this.state}
-							callback={{
-								setState: this.setState,
-								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-							}}
-						/>
-					) : null
-				}
-				{
-					//@ts-ignore
-					this.state.doubleTrigger.length > 0 ? <MainDoubleTriggerInfo state={this.state} /> : null
-				}
+				{this.state.showDropBox ? (
+					<MainDropBox
+						state={this.state}
+						callback={{
+							setState: this.setState,
+							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+						}}
+						dropBoxRef={this.dropBoxRef}
+					/>
+				) : null}
+				{this.state.showTriggerInfo ? (
+					<MainTriggerOverview
+						state={this.state}
+						callback={{
+							setState: this.setState,
+							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+						}}
+					/>
+				) : null}
+				{this.state.doubleTrigger.length > 0 ? <MainDoubleTriggerInfo state={this.state} /> : null}
 				{this.renderError()}
 				{this.renderToast()}
 				{this.renderSaveCloseButtons()}

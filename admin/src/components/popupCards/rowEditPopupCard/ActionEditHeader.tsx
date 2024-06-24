@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TableHead, TableCell, TableRow } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { PropsActionEditHeader } from "admin/app";
 
 class ActionEditHeader extends Component<PropsActionEditHeader> {
 	constructor(props) {

@@ -4,6 +4,7 @@ import TabAction from "@/pages/TabAction/TabAction";
 import Settings from "@/pages/TabSettings/Settings";
 import { TabPanel } from "@mui/lab";
 import { navEntries } from "@/config/entries";
+import { AdditionalStateInfo, CallbackFunctions } from "admin/app";
 interface PropsMainTabs {
 	state: AdditionalStateInfo;
 	socket: any;

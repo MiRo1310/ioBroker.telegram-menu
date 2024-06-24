@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Button from "../../btn-Input/Button";
+import { PropsMenuPopupCard } from "admin/app";
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {
 	constructor(props) {

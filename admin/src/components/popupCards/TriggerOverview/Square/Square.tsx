@@ -1,4 +1,5 @@
 import { I18n } from "@iobroker/adapter-react-v5";
+import { PropsSquare, StateSquare } from "admin/app";
 import React, { Component } from "react";
 
 class Square extends Component<PropsSquare, StateSquare> {
