@@ -27,8 +27,6 @@ import { insertValueInPosition, checkEvent } from "./lib/backend/action";
 import { info, debug, error } from "./lib/backend/logging";
 import { checkIsTelegramActive } from "./lib/backend/connection";
 
-
-
 const timeoutKey: string = "0";
 let subscribeForeignStateIds: string[];
 
