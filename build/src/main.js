@@ -222,7 +222,7 @@ class TelegramMenu extends utils.Adapter {
                                         text =
                                             substring[2] && substring[2].includes("noValue")
                                                 ? substring[1]
-                                                : (0, action_2.insertValueInPosition)(substring[1], state.val);
+                                                : (0, action_2.exchangePlaceholderWithValue)(substring[1], state.val);
                                     }
                                     (0, telegram_1.sendToTelegram)(element.userToSend, text, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, element.parse_mode);
                                 }
@@ -250,7 +250,7 @@ class TelegramMenu extends utils.Adapter {
                                         value = state.val?.toString();
                                     }
                                     valueChange ? (value = valueChange) : value;
-                                    textToSend = (0, action_2.insertValueInPosition)(textToSend, value);
+                                    textToSend = (0, action_2.exchangePlaceholderWithValue)(textToSend, value);
                                     (0, telegram_1.sendToTelegram)(element.userToSend, textToSend, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, element.parse_mode);
                                     setStateIdsToListenTo.splice(key, 1);
                                 }

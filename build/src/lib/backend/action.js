@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.insertValueInPosition = exports.bindingFunc = exports.roundValue = exports.calcValue = exports.generateActions = exports.generateNewObjectStructure = exports.idBySelector = exports.editArrayButtons = void 0;
+exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.exchangePlaceholderWithValue = exports.bindingFunc = exports.roundValue = exports.calcValue = exports.generateActions = exports.generateNewObjectStructure = exports.idBySelector = exports.editArrayButtons = void 0;
 const telegram_js_1 = require("./telegram.js");
 const global_1 = require("./global");
 const subMenu_js_1 = require("./subMenu.js");
@@ -47,9 +47,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
 };
 exports.bindingFunc = bindingFunc;
 function calcValue(_this, textToSend, val) {
-    const startindex = textToSend.indexOf("{math");
-    const endindex = textToSend.indexOf("}", startindex);
-    const substring = textToSend.substring(startindex, endindex + 1);
+    const { substring } = (0, global_1.decomposeText)(textToSend, "{math:", "}");
     const mathValue = substring.replace("{math:", "").replace("}", "");
     try {
         val = eval(val + mathValue);
@@ -324,11 +322,10 @@ exports.generateActions = generateActions;
 function roundValue(val, textToSend) {
     try {
         const floatedNumber = parseFloat(val);
-        const result = (0, global_1.decomposeText)(textToSend, "{round:", "}");
-        const substring = result.substring;
+        const { substring, textWithoutSubstring } = (0, global_1.decomposeText)(textToSend, "{round:", "}");
         const decimalPlaces = substring.split(":")[1].replace("}", "");
         const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
-        return { val: floatedString, textToSend: result.textWithoutSubstring };
+        return { val: floatedString, textToSend: textWithoutSubstring };
     }
     catch (err) {
         (0, logging_js_1.error)([
@@ -338,7 +335,7 @@ function roundValue(val, textToSend) {
     }
 }
 exports.roundValue = roundValue;
-const insertValueInPosition = (textToSend, text) => {
+const exchangePlaceholderWithValue = (textToSend, text) => {
     let searchString = "";
     if (textToSend.includes("&&")) {
         searchString = "&&";
@@ -351,7 +348,7 @@ const insertValueInPosition = (textToSend, text) => {
         : (textToSend += " " + text);
     return textToSend;
 };
-exports.insertValueInPosition = insertValueInPosition;
+exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
 const adjustValueType = (value, valueType) => {
     if (valueType == "number") {
         if (!parseFloat(value)) {

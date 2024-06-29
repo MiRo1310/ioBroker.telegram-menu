@@ -11,7 +11,7 @@ const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_
     if (text) {
         (0, telegram_1.sendToTelegram)(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
     }
-    const obj = {
+    setDynamicValueObj[userToSend] = {
         id: id,
         ack: ack,
         returnText: text,
@@ -24,7 +24,6 @@ const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_
         userListWithChatID: userListWithChatID,
         valueType: array[2],
     };
-    setDynamicValueObj[userToSend] = obj;
     if (array[3] && array[3] != "") {
         return { confirmText: array[3], id: array[4] };
     }
@@ -35,15 +34,15 @@ const getDynamicValue = (userToSend) => {
     if (setDynamicValueObj[userToSend]) {
         return setDynamicValueObj[userToSend];
     }
-    else {
-        return null;
-    }
+    return null;
 };
 exports.getDynamicValue = getDynamicValue;
 const removeUserFromDynamicValue = (userToSend) => {
     if (setDynamicValueObj[userToSend]) {
         delete setDynamicValueObj[userToSend];
+        return true;
     }
+    return false;
 };
 exports.removeUserFromDynamicValue = removeUserFromDynamicValue;
 //# sourceMappingURL=dynamicValue.js.map

@@ -35,8 +35,7 @@ const getChatID = (userListWithChatID, user) => {
 };
 exports.getChatID = getChatID;
 const exchangeValue = (textToSend, stateVal) => {
-    const startindex = decomposeText(textToSend, "change{", "}").startindex;
-    const endindex = decomposeText(textToSend, "change{", "}").endindex;
+    const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
     let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
     let objChangeValue;
     match = match.replaceAll("'", '"');
@@ -80,7 +79,7 @@ exports.changeValue = changeValue;
 const processTimeIdLc = async (textToSend, id) => {
     const _this = main_1.default.getInstance();
     let key = "";
-    const substring = decomposeText(textToSend, "{time.", "}").substring;
+    const { substring } = decomposeText(textToSend, "{time.", "}");
     const array = substring.split(",");
     let changedSubstring = substring;
     changedSubstring = changedSubstring.replace(array[0], "");
