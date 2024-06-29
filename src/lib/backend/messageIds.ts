@@ -40,7 +40,7 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
 		}
 
 		requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-		await _this.setStateAsync("communication.requestIds", JSON.stringify(requestMessageId), true);
+		_this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
 	} catch (e: any) {
 		error([
 			{ text: "Error saveMessageIds:", val: e.message },
@@ -81,7 +81,7 @@ async function deleteMessageIds(
 			messageIds[chat_id] = [];
 
 			debug([{ text: "before Save", val: messageIds }]);
-			await _this.setStateAsync("communication.requestIds", JSON.stringify(messageIds), true);
+			_this.setState("communication.requestIds", JSON.stringify(messageIds), true);
 			debug([{ text: "After Save", val: messageIds }]);
 		}
 	} catch (e: any) {

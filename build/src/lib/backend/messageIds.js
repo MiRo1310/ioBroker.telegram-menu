@@ -31,7 +31,7 @@ async function saveMessageIds(state, instanceTelegram) {
             requestMessageId[requestUserIdObj.val.toString()].push({ id: state.val, time: Date.now(), request: request?.val });
         }
         requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-        await _this.setStateAsync("communication.requestIds", JSON.stringify(requestMessageId), true);
+       _this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
     }
     catch (e) {
         (0, logging_1.error)([
@@ -66,7 +66,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
             });
             messageIds[chat_id] = [];
             (0, logging_1.debug)([{ text: "before Save", val: messageIds }]);
-            await _this.setStateAsync("communication.requestIds", JSON.stringify(messageIds), true);
+            _this.setState("communication.requestIds", JSON.stringify(messageIds), true);
             (0, logging_1.debug)([{ text: "After Save", val: messageIds }]);
         }
     }
