@@ -11,6 +11,7 @@ const subscribeStates_js_1 = require("./subscribeStates.js");
 const logging_js_1 = require("./logging.js");
 const main_js_1 = __importDefault(require("../../main.js"));
 const objData = {};
+let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
     const _this = main_js_1.default.getInstance();
     try {
@@ -25,14 +26,16 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
             if (res) {
                 objData[user] = { idList: idList };
                 (0, logging_js_1.debug)([{ text: "alexa-shoppinglist.", val: idList }]);
-                await (0, subscribeStates_js_1._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+                if (!isSubscribed) {
+                    await (0, subscribeStates_js_1._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+                    isSubscribed = true;
+                }
                 await _this.setForeignStateAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`, true, false);
-            }
-            else {
-                (0, telegram_js_1.sendToTelegram)(user, "Cannot delete the Item", undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "true");
-                (0, logging_js_1.debug)([{ text: "Cannot delete the Item" }]);
                 return;
             }
+            (0, telegram_js_1.sendToTelegram)(user, "Cannot delete the Item", undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "true");
+            (0, logging_js_1.debug)([{ text: "Cannot delete the Item" }]);
+            return;
         }
     }
     catch (e) {

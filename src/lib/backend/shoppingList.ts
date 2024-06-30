@@ -12,6 +12,8 @@ interface ObjectData {
 }
 const objData: ObjectData = {};
 
+let isSubscribed = false;
+
 async function shoppingListSubscribeStateAndDeleteItem(
 	val: string | null,
 	instanceTelegram: string,
@@ -33,22 +35,25 @@ async function shoppingListSubscribeStateAndDeleteItem(
 			if (res) {
 				objData[user] = { idList: idList };
 				debug([{ text: "alexa-shoppinglist.", val: idList }]);
-				await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
+				if (!isSubscribed) {
+					await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
+					isSubscribed = true;
+				}
 				await _this.setForeignStateAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`, true, false);
-			} else {
-				sendToTelegram(
-					user,
-					"Cannot delete the Item",
-					undefined,
-					instanceTelegram,
-					resize_keyboard,
-					one_time_keyboard,
-					userListWithChatID,
-					"true",
-				);
-				debug([{ text: "Cannot delete the Item" }]);
 				return;
 			}
+			sendToTelegram(
+				user,
+				"Cannot delete the Item",
+				undefined,
+				instanceTelegram,
+				resize_keyboard,
+				one_time_keyboard,
+				userListWithChatID,
+				"true",
+			);
+			debug([{ text: "Cannot delete the Item" }]);
+			return;
 		}
 	} catch (e: any) {
 		error([
