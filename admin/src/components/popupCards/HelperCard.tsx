@@ -7,11 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { I18n, SelectID } from "@iobroker/adapter-react-v5";
+import { type IobTheme, Theme, I18n, SelectID } from "@iobroker/adapter-react-v5";
+
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
 import { PropsHelperCard, StateHelperCard } from "admin/app";
+
+const theme: IobTheme = Theme("light");
 
 class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 	constructor(props) {
@@ -101,6 +104,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
 						themeType={this.props.data.themeType}
+						theme={theme}
 						socket={this.props.data.socket}
 						filters={{}}
 						selected={""}

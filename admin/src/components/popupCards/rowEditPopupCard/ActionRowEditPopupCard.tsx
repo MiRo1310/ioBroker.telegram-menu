@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SelectID } from "@iobroker/adapter-react-v5";
+import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
 
 import Input from "@/components/btn-Input/input";
@@ -24,6 +24,8 @@ import {
 	handleDragEnd,
 } from "@/lib/dragNDrop.js";
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
+
+const theme: IobTheme = Theme("light");
 
 class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
 	constructor(props) {
@@ -244,6 +246,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
 						themeType={this.props.data.themeType}
+						theme={theme}
 						socket={this.props.data.socket}
 						filters={{}}
 						selected={this.state.selectIdValue}

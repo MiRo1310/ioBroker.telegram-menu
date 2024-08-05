@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   FIX: #154 #152 Import config from file
 -   Delete messages adjusted
 
 ### 1.7.4 (2024-06-24)
