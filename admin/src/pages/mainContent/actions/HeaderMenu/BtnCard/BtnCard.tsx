@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Input from "../../btn-Input/input";
+import Input from "../../../../../components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Button from "../../btn-Input/Button";
+import Button from "../../../../../components/btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
-import PopupContainer from "../../popupCards/PopupContainer";
-import RenameCard from "../../popupCards/RenameCard";
+import PopupContainer from "../../../../../components/popupCards/PopupContainer";
+import RenameCard from "../../../../../components/popupCards/RenameCard";
 
-import { deepCopy } from "../../../lib/Utils.js";
+import { deepCopy } from "../../../../../lib/Utils.js";
 import { PropsBtnCard, StateBtnCard } from "admin/app";
 
 function checkMenuName(menu): string {
@@ -160,8 +160,9 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 						value={this.state.newMenuName}
 						callback={this.setState.bind(this)}
 						class={this.state.menuNameExists ? "inUse" : undefined}
-					></Input>
+					/>
 				</Grid>
+
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">
 						<Button
@@ -171,13 +172,25 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							height="40px"
 							callbackValue={this.state.newMenuName}
 							callback={this.addNewMenu}
+							disabled={!this.state.newMenuName || this.state.newMenuName === ""}
+							className={
+								!this.state.newMenuName || this.state.newMenuName === "" ? "cursorDefault disabled" : "cursorPointer buttonHover"
+							}
 						>
 							<i className="material-icons">group_add</i>Add
 						</Button>
 					</Grid>
 
 					<Grid item xs="auto">
-						<Button b_color="red" color="white" margin="1px" width="100px" height="40px" callback={this.openConfirmDialog}>
+						<Button
+							b_color="red"
+							color="white"
+							margin="1px"
+							width="100px"
+							height="40px"
+							callback={this.openConfirmDialog}
+							className="buttonHover"
+						>
 							<i className="material-icons">delete</i>Delete
 						</Button>
 					</Grid>
@@ -190,6 +203,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							height="40px"
 							id="openRenameMenu"
 							callback={this.openRenameDialog}
+							className="buttonHover"
 						>
 							<i className="material-icons">edit</i>Edit
 						</Button>
@@ -204,6 +218,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							id="showDropBox"
 							callbackValue={true}
 							callback={this.props.callback.setState}
+							className="buttonHover"
 						>
 							<i className="material-icons translate ">content_copy</i>Copy
 						</Button>
@@ -218,6 +233,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							id="showTriggerInfo"
 							callbackValue={true}
 							callback={this.props.callback.setState}
+							className="buttonHover"
 						>
 							<i className="material-icons translate ">info</i>Overview
 						</Button>
@@ -237,7 +253,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
 									this.setState({ confirmDialog: false });
 								}}
-							></ConfirmDialog>
+							/>
 						) : null}
 						{this.state.renameDialog ? (
 							<PopupContainer title={I18n.t("Rename menu name")} callback={this.renameMenu} isOK={this.state.isOK}>
@@ -245,7 +261,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 									value={this.props.data.state.activeMenu}
 									callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
 									data={{ newMenuName: this.state.renamedMenuName }}
-								></RenameCard>
+								/>
 							</PopupContainer>
 						) : null}
 					</Grid>

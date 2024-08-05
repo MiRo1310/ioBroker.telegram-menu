@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
-import { handleMouseOut, handleMouseOver } from "../../../../../lib/dragNDrop.js";
-import { getElementIcon } from "../../../../../lib/actionUtils.js";
+import { handleMouseOut, handleMouseOver } from "../../../../../../../lib/dragNDrop.js";
+import { getElementIcon } from "../../../../../../../lib/actionUtils.js";
 import { PropsSubTable } from "admin/app.js";
 
 class SubTable extends Component<PropsSubTable> {

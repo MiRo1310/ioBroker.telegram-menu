@@ -43,7 +43,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		const userInMenu = this.props.usersInGroup[menuCall];
 		arrayUsersInGroup.forEach((menu, index) => {
 			userInMenu.forEach((user) => {
-				if (this.props.usersInGroup[menu].includes(user)) {
+				if (this.props.usersInGroup[menu].includes(user) && menu == menuCall) {
 					colorIndex = index;
 				}
 			});
@@ -173,13 +173,12 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 			<>
 				<Select
 					options={this.state.options}
-					// placeholder="--Please choose a telegram instance--"
 					label={I18n.t("Start Menus")}
 					name="instance"
 					selected={this.state.selected}
 					id="startMenu"
 					callback={this.updateHandler}
-				></Select>
+				/>
 				{this.state.trigger ? (
 					<div className="Menu-list-container">
 						<div className="Menu-list-card">

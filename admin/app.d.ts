@@ -718,3 +718,7 @@ export interface ShowButtons {
 	moveDown?: boolean;
 	remove: boolean;
 }
+export interface TabListingType {
+	label: string;
+	value: string;
+}

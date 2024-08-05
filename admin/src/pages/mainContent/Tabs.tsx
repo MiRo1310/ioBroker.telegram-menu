@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import TabNavigation from "@/pages/TabNavigation/TabNavigation";
-import TabAction from "@/pages/TabAction/TabAction";
-import Settings from "@/pages/TabSettings/Settings";
+import TabNavigation from "@/pages/mainContent/tabs/TabNavigation/TabNavigation";
+import TabAction from "@/pages/mainContent/tabs/TabAction/TabAction";
+import Settings from "@/pages/mainContent/tabs/Settings";
 import { TabPanel } from "@mui/lab";
 import { navEntries } from "@/config/entries";
 import { AdditionalStateInfo, CallbackFunctions } from "admin/app";
@@ -11,7 +11,7 @@ interface PropsMainTabs {
 	callback: CallbackFunctions;
 	adapterName: string;
 }
-class MainTabs extends Component<PropsMainTabs> {
+class Tabs extends Component<PropsMainTabs> {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -35,7 +35,7 @@ class MainTabs extends Component<PropsMainTabs> {
 						}}
 						callback={this.props.callback}
 						entries={navEntries}
-					></TabNavigation>
+					/>
 				</TabPanel>
 				<TabPanel value="action" className="tabAction">
 					<TabAction
@@ -51,17 +51,17 @@ class MainTabs extends Component<PropsMainTabs> {
 						}}
 						activeMenu={this.props.state.activeMenu}
 						callback={this.props.callback}
-					></TabAction>
+					/>
 				</TabPanel>
 				<TabPanel value="settings">
 					<Settings
 						data={{ instances: this.props.state.instances, state: this.props.state, checkbox: this.props.state.native.checkbox }}
 						callback={this.props.callback}
-					></Settings>
+					/>
 				</TabPanel>
 			</>
 		);
 	}
 }
 
-export default MainTabs;
+export default Tabs;
