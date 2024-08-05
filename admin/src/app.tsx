@@ -5,11 +5,11 @@ import { AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "@/lib/actionUtils";
 import { GenericApp } from "@iobroker/adapter-react-v5";
 
-import HeaderIconBar from "@/components/HeaderIconBar/HeaderIconBar";
-import MainContent from "@/pages/MainPage/MainContent";
-import MainDropBox from "@/pages/MainPage/MainDropBox";
-import MainTriggerOverview from "@/pages/MainPage/MainTriggerOverview";
-import MainDoubleTriggerInfo from "@/pages/MainPage/MainDoubleTriggerInfo";
+import HeaderIconBar from "@/pages/HeaderIconBar/HeaderIconBar";
+import MainContent from "@/pages/MainContent";
+import MainDropBox from "@/pages/MainDropBox";
+import MainTriggerOverview from "@/pages/TriggerOverview";
+import DoubleTriggerInfo from "@/pages/DoubleTriggerInfo";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
@@ -217,7 +217,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						}}
 					/>
 				) : null}
-				{this.state.doubleTrigger.length > 0 ? <MainDoubleTriggerInfo state={this.state} /> : null}
+				{this.state.doubleTrigger.length > 0 ? <DoubleTriggerInfo state={this.state} /> : null}
 				{this.renderError()}
 				{this.renderToast()}
 				{this.renderSaveCloseButtons()}

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import { deleteRow, moveItem } from "../../../../lib/button.js";
-import { ButtonCard } from "../../../../components/popupCards/buttonCard";
-import SubTable from "./SubTable/SubTable";
-import { deepCopy } from "../../../../lib/Utils.js";
+import { deleteRow, moveItem } from "../../../../../../lib/button.js";
+import { ButtonCard } from "../../../../../../components/popupCards/buttonCard.js";
+import SubTable from "./SubTable/SubTable.js";
+import { deepCopy } from "../../../../../../lib/Utils.js";
 import {
 	handleMouseOut,
 	handleMouseOver,
@@ -12,8 +12,8 @@ import {
 	handleDragEnter,
 	handleStyleDragOver,
 	handleDragEnd,
-} from "../../../../lib/dragNDrop.js";
-import { getElementIcon } from "../../../../lib/actionUtils.js";
+} from "../../../../../../lib/dragNDrop.js";
+import { getElementIcon } from "../../../../../../lib/actionUtils.js";
 import { PropsTableDndAction, StateTableDndAction } from "admin/app.js";
 
 function createData(entriesOfParentComponent, element) {

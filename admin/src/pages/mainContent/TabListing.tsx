@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Tab, Box } from "@mui/material";
 import { TabList } from "@mui/lab";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { PropsMainTabList } from "admin/app";
+import { PropsMainTabList, TabListingType } from "admin/app";
 
-class MainTabList extends Component<PropsMainTabList> {
+class TabListing extends Component<PropsMainTabList> {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -12,17 +12,32 @@ class MainTabList extends Component<PropsMainTabList> {
 	handleChange = (event, val) => {
 		this.props.callback.setState({ tab: val });
 	};
+
+	tabs: TabListingType[] = [
+		{
+			label: "Navigation",
+			value: "nav",
+		},
+		{
+			label: "Action",
+			value: "action",
+		},
+		{
+			label: "Settings",
+			value: "settings",
+		},
+	];
 	render() {
 		return (
 			<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 				<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">
-					<Tab label={I18n.t("Navigation")} value="nav" />
-					<Tab label={I18n.t("Action")} value="action" />
-					<Tab label={I18n.t("Settings")} value="settings" />
+					{this.tabs.map((tab) => (
+						<Tab label={I18n.t(tab.label)} value={tab.value} key={tab.label} />
+					))}
 				</TabList>
 			</Box>
 		);
 	}
 }
 
-export default MainTabList;
+export default TabListing;

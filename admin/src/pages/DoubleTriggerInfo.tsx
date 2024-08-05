@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsMainDoubleTriggerInfo } from "admin/app";
 
-class MainDoubleTriggerInfo extends Component<PropsMainDoubleTriggerInfo> {
+class DoubleTriggerInfo extends Component<PropsMainDoubleTriggerInfo> {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -22,4 +22,4 @@ class MainDoubleTriggerInfo extends Component<PropsMainDoubleTriggerInfo> {
 	}
 }
 
-export default MainDoubleTriggerInfo;
+export default DoubleTriggerInfo;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
-import HeaderTelegramUsers from "@/components/HeaderTelegram/HeaderTelegramUsers";
+import HeaderMenu from "@/pages/mainContent/actions/HeaderMenu";
+import HeaderTelegramUsers from "@/pages/mainContent/actions/HeaderTelegramUsers";
 import { PropsMainActions } from "admin/app";
 
 class MainActions extends Component<PropsMainActions> {
@@ -14,7 +14,7 @@ class MainActions extends Component<PropsMainActions> {
 		return (
 			<Grid container spacing={1} className="Grid-HeaderMenu ">
 				<Grid item xs={12}>
-					{this.props.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback}></HeaderMenu> : null}
+					{this.props.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback} /> : null}
 				</Grid>
 				<Grid item xs={12}>
 					{this.props.tab != "settings" ? (

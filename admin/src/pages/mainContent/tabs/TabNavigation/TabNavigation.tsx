@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Table, TableContainer, Paper } from "@mui/material";
-import TableNavBody from "@/pages/TabNavigation/nav/TableNavBody";
-import TabNavHeader from "./nav/TableNavHeader";
-import TableNavEditRow from "./nav/TableNavEditRow";
-import TableNavHelper from "./nav/TableNavHelper";
+import TableNavBody from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavBody";
+import TabNavHeader from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavHeader";
+import TableNavEditRow from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavEditRow";
+import TableNavHelper from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavHelper";
 
 import { deepCopy } from "@/lib/Utils.js";
 import { Nav, PropsTabNavigation, StateTabNavigation } from "admin/app";

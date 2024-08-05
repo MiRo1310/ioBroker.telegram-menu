@@ -962,3 +962,14 @@ span[title],
 	color: red;
 	font-weight: 500;
 }
+
+.cursorDefault {
+	cursor: default;
+}
+.cursoerPointer {
+	cursor: pointer;
+}
+.buttonHover:hover {
+	border: 3px solid rgb(103, 103, 103) !important;
+	opacity: 0.8 !important;
+}
