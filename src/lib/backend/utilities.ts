@@ -90,7 +90,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 	} else if (array[0].includes("ts")) {
 		key = "ts";
 	}
-
+	let idFromText = "";
 	if (!id) {
 		if (!changedSubstring.includes("id:")) {
 			debug([{ text: "Error processTimeIdLc: id not found in:", val: changedSubstring }]);
@@ -98,12 +98,14 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 		}
 
 		if (array[2]) {
-			id = array[2].replace("id:", "").replace("}", "").replace(/'/g, "");
+			idFromText = array[2].replace("id:", "").replace("}", "").replace(/'/g, "");
 			changedSubstring = changedSubstring.replace(array[2], "").replace(/,/g, "");
 		}
+	}
+	if (!id && !idFromText) {
 		return;
 	}
-	const value = await _this.getForeignStateAsync(id);
+	const value = await _this.getForeignStateAsync(id || idFromText);
 	let timeValue;
 	let timeStringUser;
 	if (key && value) {
@@ -224,8 +226,13 @@ const checkStatus = (text: string, processTimeValue?: ProzessTimeValue): Promise
 
 const checkStatusInfo = async (text: string): Promise<string | undefined> => {
 	const _this = TelegramMenu.getInstance();
+
 	try {
-		if (text && text.includes("{status:")) {
+		if (!text) {
+			return;
+		}
+		_this.log.debug("Text: " + JSON.stringify(text));
+		if (text.includes("{status:")) {
 			while (text.includes("{status:")) {
 				const result = await checkStatus(text, processTimeValue);
 				text = result?.toString() || "";
