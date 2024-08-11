@@ -21,7 +21,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.1.4",
+    "@iobroker/adapter-core": "^3.1.6",
     "@sentry/integrations": "^7.114.0",
     "@types/module-alias": "^2.0.4",
     "module-alias": "^2.2.3"
