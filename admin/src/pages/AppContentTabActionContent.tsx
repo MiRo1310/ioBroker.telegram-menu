@@ -77,7 +77,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	};
 	private disableButtonHandler() {
 		let inputValuesAreOk = true;
-		let valueRowValuesAndSwitch = true;
 		const row = this.state.newRow;
 
 		this.props.entries.forEach((entry) => {
@@ -85,21 +84,21 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 				if (!row[entry.name]) {
 					row[entry.name] = [""];
 				}
-				row[entry.name].forEach((val, index) => {
+				row[entry.name].forEach((val) => {
 					if (inputValuesAreOk && entry.name === "values") {
-						if ((val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
-							valueRowValuesAndSwitch = true;
-						} else {
-							valueRowValuesAndSwitch = false;
+						if (typeof val !== "string") {
+							inputValuesAreOk = false;
 						}
-					} else if (inputValuesAreOk && val == "") {
+						return;
+					}
+					if (inputValuesAreOk && val == "") {
 						inputValuesAreOk = false;
 					}
 				});
 			}
 		});
 
-		inputValuesAreOk = inputValuesAreOk && valueRowValuesAndSwitch;
+		inputValuesAreOk = inputValuesAreOk;
 		if (this.state.inputValuesAreOK !== inputValuesAreOk) {
 			this.setState({ inputValuesAreOK: inputValuesAreOk });
 		}
