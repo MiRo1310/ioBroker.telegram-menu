@@ -1,324 +1,324 @@
 {
-  "common": {
-    "name": "telegram-menu",
-    "version": "2.0.0",
-    "news": {
-      "2.0.0": {
-        "en": "Js-controller >=5.0.19 is required\nFIX: Colors in triggerOverview\nFIX: #154 #152 Import config from file\nDelete messages adjusted",
-        "de": "Js-Controller >=5.0.19 ist erforderlich\nFIX: Farben im Trigger Überblick\nFIX: #154 #152 Import config aus Datei\nLöschen von Nachrichten angepasst",
-        "ru": "Js-контроллер >=5.0.19 требуется\nFIX: Цвета на триггере Обзор\n#154 #152 Импорт конфигурации из файла\nИсключить сообщения",
-        "pt": "Js-controller >=5.0.19 é necessário\nFIX: Cores no gatilho Visão geral\nFIX: #154 #152 Importar config do arquivo\nExcluir mensagens ajustadas",
-        "nl": "Js-controller > 5.0.19 is vereist\nFIX: Kleuren in trigger Overzicht\nFIX: #154 #152 Config importeren uit bestand\nBerichten verwijderen aangepast",
-        "fr": "Js-contrôleur >=5.0.19 est nécessaire\nFIX: Couleurs dans le déclencheur Aperçu général\nFIXE: #154 #152 Importer la configuration à partir du fichier\nSupprimer les messages ajustés",
-        "it": "Js-controller >=5.0.19 è richiesto\nFIX: Colori in trigger Panoramica\n#154 #152 Importa la configurazione dal file\nEliminare i messaggi modificati",
-        "es": "Se requiere Js-controller\nFIX: Colores en el gatillo Sinopsis\nFIX: #154 #152 Importar configuración del archivo\nEliminar mensajes ajustados",
-        "pl": "Wymagany jest kontroler js- 19\nFIX: Kolory w spustu Przegląd\nFIX: # 154 # 152 Importuj plik konfiguracyjny\nUsuń poprawione wiadomości",
-        "uk": "Js-controller >=5.0.19 потрібно\nFIX: Кольори в тригері Огляд\nFIX: #154 #152 Налаштування імпорту з файлу\nВидалити повідомлення регульовані",
-        "zh-cn": "需要Js控制器 >=5.0.19\nFIX: 触发中的颜色 概览\nFIX: #154 #152 (英语). 从文件导入配置\n删除调整后的信件"
-      },
-      "1.7.4": {
-        "en": "FEAT: #160 Expand setDynamicValue",
-        "de": "FEAT: #160 Expand setDynamic Wert",
-        "ru": "#160 Expand setDynamic Стоимость",
-        "pt": "FEAT: #160 Expand setDynamic Valor",
-        "nl": "FEAT: #160 Vergroot setDynamic Waarde",
-        "fr": "VIE: #160 Expand setDynamic Valeur",
-        "it": "FEAT: #160 Expand setDynamic Valore",
-        "es": "FEAT: #160 Expand setDynamic Valor",
-        "pl": "FEAT: # 160 Expand setDynamic Wartość",
-        "uk": "FEAT: #160 Комплект динаміки Ціна",
-        "zh-cn": "FEAT: # 160 扩展设置 Dynamic 数值"
-      },
-      "1.7.3": {
-        "en": "FIX: Multi-user fixed\nFIX: #159 Functions fixed",
-        "de": "FIX: Multi-User fixiert\nFIX: #159 Funktionen fixiert",
-        "ru": "FIX: Многопользовательская фиксированная\nFIX: #159",
-        "pt": "FIX: Multiusuário fixo\nFIX: #159 Funções fixas",
-        "nl": "FIX: Multi-user vast\nFIX: #159 Functies vast",
-        "fr": "FIX: Multi-utilisateur fixe\nFIXE: #159 Fonctions fixes",
-        "it": "FIX: Multi-utente fisso\nFIX: #159 Funzioni fisse",
-        "es": "FIX: fijo multiusuario\nFIX: #159 Funciones fijas",
-        "pl": "FIX: Multi- użytkownik stały\nFIX: # 159 Funkcje stałe",
-        "uk": "FIX: Multi-user фіксований\nFIX: #159 Функції фіксовані",
-        "zh-cn": "FIX: 多用户固定\nFIX: # 159 函数固定"
-      },
-      "1.7.2": {
-        "en": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
-        "de": "FIX: #158 Telegram-menu-Verbindung\nFIX: #155 DynSwitch",
-        "ru": "FIX: #158\n#155 DynSwitch",
-        "pt": "FIX: #158 Conexão telegrama-menu\nFIX: #155 DynSwitch",
-        "nl": "FIX: #158 Telegram-menuverbinding\nFIX: #155 DynSwitch",
-        "fr": "FIXE: #158 Connexion au télégramme-menu\nFIXE : 1 55 DynSwitch",
-        "it": "FIX: #158 Connessione Telegram-menu\nFIX: #155 DynSwitch",
-        "es": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
-        "pl": "FIX: # 158 Połączenie menu telegramowego\nFIX: # 155 DynSwitch",
-        "uk": "FIX: #158 Телеграма-меню підключення\nFIX: #155 DynSwitch",
-        "zh-cn": "FIX: #158 Telegram-菜单连接\nFIX: #155 DynSwitch 打开"
-      },
-      "1.7.1": {
-        "en": "Fix: Delete Messages\nFix: Add new row in action\nFix: Error setState \"value.includes is not a function\"\n#144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id",
-        "de": "Fix: Nachrichten löschen\nFix: Neue Zeile in Aktion hinzufügen\nFix: Fehler setState \"Wert. enthält keine Funktion\"\n#44 Neue Funktion in setState hinzufügen: Jetzt ist es möglich, einen statischen Wert mit einem dynamischen Wert von id einzustellen",
-        "ru": "Исключить сообщения\nFix: Добавить новый ряд в действие\nFix: Ошибка устанавливает состояние \"значение. включает не функцию»\n#144 Добавить новую функцию в setState: Теперь можно установить статическое значение с динамическим значением от id",
-        "pt": "Corrigir: Excluir mensagens\nFix: Adicionar nova linha em ação\nCorrigir: erro setState \"valor. inclui não é uma função\"\n144 Adicionar novo recurso no setState: Agora é possível definir um valor estático com um valor dinâmico do id",
-        "nl": "Fix: Berichten verwijderen\nFix: nieuwe rij toevoegen in actie\nFix: Error setState \"waarde. bevat geen functie\"\n#144 Nieuwe functie toevoegen in setState: Nu is het mogelijk om een statische waarde in te stellen met een dynamische waarde van id",
-        "fr": "Correction: Supprimer les messages\nCorrection : Ajouter une nouvelle ligne en action\nCorrection : erreur setState \"value. comprend n'est pas une fonction\"\n#144 Ajouter une nouvelle fonctionnalité dans setState: Maintenant, il est possible de définir une valeur statique avec une valeur dynamique à partir de l'id",
-        "it": "Correzione: Cancella messaggi\nFix: Aggiungi una nuova riga in azione\nRisolvere: Impostazione errore \"valore. include non è una funzione\"\n#144 # Aggiungi nuova funzionalità in setState: Ora è possibile impostare un valore statico con un valore dinamico da id",
-        "es": "Corrección: Eliminar mensajes\nFijación: Agregue nueva fila en acción\nCorrección: Juego de errores Valor estatal. incluye no es una función\"\n#144 Añadir nueva característica en setState: Ahora es posible establecer un valor estático con un valor dinámico de id",
-        "pl": "Fix: Usuń wiadomości\nFix: Dodaj nowy wiersz w akcji\nFix: Wartość błędu setState \". zawiera nie jest funkcją\"\n# 144 Dodaj nową funkcję w setState: Teraz jest możliwe ustawienie wartości statycznej z dynamiczną wartością z id",
-        "uk": "Виправлення: Видалити повідомлення\nВиправлення: Додати новий ряд в дії\nВиправлення: Помилка setState \"value. включає не функцію\n#144 Додати нову функцію в setState: Тепер можна встановити статичну вартість з динамічним значенням від id",
-        "zh-cn": "修正: 删除信件\n修正: 在动作中添加新行\nFix: 错误设置状态\"值 。 包含不是一个函数\"\n144号 在设置状态中添加新特性: 现在可以从 id 中设置一个具有动态值的静态值"
-      },
-      "1.7.0": {
-        "en": "Switched to typescript",
-        "de": "Umgestellt in die Schrift",
-        "ru": "Переключение на типscript",
-        "pt": "Mudado para o typescript",
-        "nl": "Overgeschakeld naar typescript",
-        "fr": "Passé au dactylographié",
-        "it": "Passato alla scrittura",
-        "es": "Interruptor a tiposcript",
-        "pl": "Przełączono na maszynopis",
-        "uk": "Перемкнено до типу",
-        "zh-cn": "切换到打字符"
-      },
-      "1.6.3": {
-        "en": "Bug in copy card fixed\n#104 HTTP Request Beta\n#111 status Value in dynamicSwitch\n#112 change value\n**_Change!!!_** menu:deleteAll removes automatic Request Ids which are older than 48h from list. The list is completely deleted once during the update\nFixed menu:number with negativ Values, see the documentation",
-        "de": "Fehler in der Kopierkarte behoben\n#104 HTTP Frage stellen\n#111 Status Wert in dynamicSwitch\n#112 änderungswert\n**_Change!!!_** Menü:löschen Alle entfernt automatische Request Ids, die älter als 48h sind aus der Liste. Die Liste wird während des Updates vollständig gelöscht\nFixed Menu:Nummer mit Negativ Werte, siehe Dokumentation",
-        "ru": "Цыпленок с копировальной картой\n#104 HTTP Запрос Beta\n#111 Статус Значение в DynamicSwitch\n#112 изменить значение\n**_Чанге!!!_** меню: удаления Все удаляет автоматические запросы, которые старше 48 часов из списка. Список полностью удален один раз во время обновления\nИсправленное меню: номер с негативом Ценности, см. документацию",
-        "pt": "Bug no cartão de cópia corrigido\n#104 HTTP Pedido Beta\nstatus #111 Valor em dinâmicoSwitch\nvalor de mudança #112\n**_Change!!!_** cardápio:delete Todos remove Ids de pedido automáticos que são mais antigos do que 48h da lista. A lista é completamente excluída uma vez durante a atualização\nMenu fixo: número com negativ Valores, veja a documentação",
-        "nl": "Bug in kopieerkaart gerepareerd\n#104 HTTP Beta aanvragen\n#111 status Waarde in dynamicSwitch\n#112 verandering waarde\n**_Wijzigen!!_** menu:verwijderen Alle verwijdert automatische Request Ids die ouder zijn dan 48 uur uit de lijst. De lijst wordt tijdens de update volledig verwijderd\nVast menu:nummer met negativ Waarden, zie de documentatie",
-        "fr": "Bogue dans la carte de copie corrigée\n#104 HTTP Demande Beta\nÉtat 111 Valeur dans dynamicSwitch\nvaleur de variation n°112\n**_Change!!!_** menu:delete Tous suppriment automatiquement les Ids Request qui sont plus de 48h de la liste. La liste est complètement supprimée une fois lors de la mise à jour\nMenu fixe:nombre avec negativ Valeurs, voir la documentation",
-        "it": "Bug nella scheda di copia fissa\n#104 HTTP Richiesta Beta\n#111 stato Valore in dinamicaSwitch\n#112 valore di cambiamento\n**_Change!!!_** menu: Tutti rimuove automaticamente Ids richiesta che sono più vecchi di 48h dalla lista. L'elenco viene completamente cancellato una volta durante l'aggiornamento\nMenu fisso: numero con negativ Valori, vedere la documentazione",
-        "es": "Error en la tarjeta de copia fija\n#104 HTTP Solicitud Beta\n#111 status Valor en DynamicSwitch\n#112 cambio de valor\n**_Cambiar!!!_** menu:delete Todo elimina los Ids de Solicitud automáticos que son mayores de 48h de la lista. La lista se elimina por completo una vez durante la actualización\nMenú fijo: número con negativ Valores, ver la documentación",
-        "pl": "Błąd w kopii karty stałe\n# 104 HTTP Wniosek Beta\n# 111 status Wartość w dynamicznym przełączniku\n# 112 zmiana wartości\nMenu: usuń Wszystkie usuwa automatyczne identyfikatory zapytania, które są starsze niż 48h z listy. Lista jest całkowicie usuwana raz podczas aktualizacji\nNaprawiono menu: numer z negativ Wartości, patrz dokumentacja",
-        "uk": "Помилки в скопійованій картці\n#104 HTTP Замовити бета\n#111 статус Значення в динамціSwitch\n#112 значення зміни\n**************************************************************************************************************************************************************************************************************************************************************** Всі видаліть автоматичний запит Ids, які старше 48h з списку. Список повністю вилучений після оновлення\nФіксоване меню:номер з негативом Значення, див. документацію",
-        "zh-cn": "复制卡中的错误已修复\n#104 HTTP (韩语) 请求beta\n#111状态 动态开关中的值\n#112 变化值\n菜单:删除 所有从列表中删除年龄大于48小时的自动请求ID。 在更新过程中, 名单被完全删除一次\n固定菜单:数用 Negativ 值,参见文档"
-      }
-    },
-    "titleLang": {
-      "en": "Telegram Menu",
-      "de": "Telegram-Menü",
-      "ru": "Меню телеграммы",
-      "pt": "Menu Telegram",
-      "nl": "Telegram-menu",
-      "fr": "Menu Télégramme",
-      "it": "Menù telegramma",
-      "es": "Menú de telegramas",
-      "pl": "menu telegramu",
-      "zh-cn": "电报菜单",
-      "uk": "Меню Telegram"
-    },
-    "desc": {
-      "en": "Easily create Telegram Menus",
-      "de": "Erstellen Sie ganz einfach Telegrammenüs",
-      "ru": "Легко создавать меню Telegram",
-      "pt": "Crie facilmente menus de telegrama",
-      "nl": "Maak eenvoudig Telegram-menu's",
-      "fr": "Créez facilement des menus de télégramme",
-      "it": "Crea facilmente menu di Telegram",
-      "es": "Crea fácilmente menús de Telegram",
-      "pl": "Z łatwością twórz menu telegramu",
-      "zh-cn": "轻松创建电报菜单",
-      "uk": "Легко створюйте меню Telegram"
-    },
-    "authors": [
-      "MiRo1310 <michael.roling@gmx.de>"
-    ],
-    "keywords": [
-      "telegram",
-      "menu"
-    ],
-    "licenseInformation": {
-      "license": "MIT",
-      "type": "free"
-    },
-    "platform": "Javascript/Node.js",
-    "icon": "telegram-menu.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "messaging",
-    "tier": 3,
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "materialize"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=5.0.19"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0",
-        "telegram": ">=1.15.0"
-      }
-    ],
-    "messages": [
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<1.0.0",
-            "newVersion>=1.0.0"
-          ]
+    "common": {
+        "name": "telegram-menu",
+        "version": "2.0.0",
+        "news": {
+            "2.0.0": {
+                "en": "Js-controller >=5.0.19 is required\nFIX: Colors in triggerOverview\nFIX: #154 #152 Import config from file\nDelete messages adjusted",
+                "de": "Js-Controller >=5.0.19 ist erforderlich\nFIX: Farben im Trigger Überblick\nFIX: #154 #152 Import config aus Datei\nLöschen von Nachrichten angepasst",
+                "ru": "Js-контроллер >=5.0.19 требуется\nFIX: Цвета на триггере Обзор\n#154 #152 Импорт конфигурации из файла\nИсключить сообщения",
+                "pt": "Js-controller >=5.0.19 é necessário\nFIX: Cores no gatilho Visão geral\nFIX: #154 #152 Importar config do arquivo\nExcluir mensagens ajustadas",
+                "nl": "Js-controller > 5.0.19 is vereist\nFIX: Kleuren in trigger Overzicht\nFIX: #154 #152 Config importeren uit bestand\nBerichten verwijderen aangepast",
+                "fr": "Js-contrôleur >=5.0.19 est nécessaire\nFIX: Couleurs dans le déclencheur Aperçu général\nFIXE: #154 #152 Importer la configuration à partir du fichier\nSupprimer les messages ajustés",
+                "it": "Js-controller >=5.0.19 è richiesto\nFIX: Colori in trigger Panoramica\n#154 #152 Importa la configurazione dal file\nEliminare i messaggi modificati",
+                "es": "Se requiere Js-controller\nFIX: Colores en el gatillo Sinopsis\nFIX: #154 #152 Importar configuración del archivo\nEliminar mensajes ajustados",
+                "pl": "Wymagany jest kontroler js- 19\nFIX: Kolory w spustu Przegląd\nFIX: # 154 # 152 Importuj plik konfiguracyjny\nUsuń poprawione wiadomości",
+                "uk": "Js-controller >=5.0.19 потрібно\nFIX: Кольори в тригері Огляд\nFIX: #154 #152 Налаштування імпорту з файлу\nВидалити повідомлення регульовані",
+                "zh-cn": "需要Js控制器 >=5.0.19\nFIX: 触发中的颜色 概览\nFIX: #154 #152 (英语). 从文件导入配置\n删除调整后的信件"
+            },
+            "1.7.4": {
+                "en": "FEAT: #160 Expand setDynamicValue",
+                "de": "FEAT: #160 Expand setDynamic Wert",
+                "ru": "#160 Expand setDynamic Стоимость",
+                "pt": "FEAT: #160 Expand setDynamic Valor",
+                "nl": "FEAT: #160 Vergroot setDynamic Waarde",
+                "fr": "VIE: #160 Expand setDynamic Valeur",
+                "it": "FEAT: #160 Expand setDynamic Valore",
+                "es": "FEAT: #160 Expand setDynamic Valor",
+                "pl": "FEAT: # 160 Expand setDynamic Wartość",
+                "uk": "FEAT: #160 Комплект динаміки Ціна",
+                "zh-cn": "FEAT: # 160 扩展设置 Dynamic 数值"
+            },
+            "1.7.3": {
+                "en": "FIX: Multi-user fixed\nFIX: #159 Functions fixed",
+                "de": "FIX: Multi-User fixiert\nFIX: #159 Funktionen fixiert",
+                "ru": "FIX: Многопользовательская фиксированная\nFIX: #159",
+                "pt": "FIX: Multiusuário fixo\nFIX: #159 Funções fixas",
+                "nl": "FIX: Multi-user vast\nFIX: #159 Functies vast",
+                "fr": "FIX: Multi-utilisateur fixe\nFIXE: #159 Fonctions fixes",
+                "it": "FIX: Multi-utente fisso\nFIX: #159 Funzioni fisse",
+                "es": "FIX: fijo multiusuario\nFIX: #159 Funciones fijas",
+                "pl": "FIX: Multi- użytkownik stały\nFIX: # 159 Funkcje stałe",
+                "uk": "FIX: Multi-user фіксований\nFIX: #159 Функції фіксовані",
+                "zh-cn": "FIX: 多用户固定\nFIX: # 159 函数固定"
+            },
+            "1.7.2": {
+                "en": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
+                "de": "FIX: #158 Telegram-menu-Verbindung\nFIX: #155 DynSwitch",
+                "ru": "FIX: #158\n#155 DynSwitch",
+                "pt": "FIX: #158 Conexão telegrama-menu\nFIX: #155 DynSwitch",
+                "nl": "FIX: #158 Telegram-menuverbinding\nFIX: #155 DynSwitch",
+                "fr": "FIXE: #158 Connexion au télégramme-menu\nFIXE : 1 55 DynSwitch",
+                "it": "FIX: #158 Connessione Telegram-menu\nFIX: #155 DynSwitch",
+                "es": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
+                "pl": "FIX: # 158 Połączenie menu telegramowego\nFIX: # 155 DynSwitch",
+                "uk": "FIX: #158 Телеграма-меню підключення\nFIX: #155 DynSwitch",
+                "zh-cn": "FIX: #158 Telegram-菜单连接\nFIX: #155 DynSwitch 打开"
+            },
+            "1.7.1": {
+                "en": "Fix: Delete Messages\nFix: Add new row in action\nFix: Error setState \"value.includes is not a function\"\n#144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id",
+                "de": "Fix: Nachrichten löschen\nFix: Neue Zeile in Aktion hinzufügen\nFix: Fehler setState \"Wert. enthält keine Funktion\"\n#44 Neue Funktion in setState hinzufügen: Jetzt ist es möglich, einen statischen Wert mit einem dynamischen Wert von id einzustellen",
+                "ru": "Исключить сообщения\nFix: Добавить новый ряд в действие\nFix: Ошибка устанавливает состояние \"значение. включает не функцию»\n#144 Добавить новую функцию в setState: Теперь можно установить статическое значение с динамическим значением от id",
+                "pt": "Corrigir: Excluir mensagens\nFix: Adicionar nova linha em ação\nCorrigir: erro setState \"valor. inclui não é uma função\"\n144 Adicionar novo recurso no setState: Agora é possível definir um valor estático com um valor dinâmico do id",
+                "nl": "Fix: Berichten verwijderen\nFix: nieuwe rij toevoegen in actie\nFix: Error setState \"waarde. bevat geen functie\"\n#144 Nieuwe functie toevoegen in setState: Nu is het mogelijk om een statische waarde in te stellen met een dynamische waarde van id",
+                "fr": "Correction: Supprimer les messages\nCorrection : Ajouter une nouvelle ligne en action\nCorrection : erreur setState \"value. comprend n'est pas une fonction\"\n#144 Ajouter une nouvelle fonctionnalité dans setState: Maintenant, il est possible de définir une valeur statique avec une valeur dynamique à partir de l'id",
+                "it": "Correzione: Cancella messaggi\nFix: Aggiungi una nuova riga in azione\nRisolvere: Impostazione errore \"valore. include non è una funzione\"\n#144 # Aggiungi nuova funzionalità in setState: Ora è possibile impostare un valore statico con un valore dinamico da id",
+                "es": "Corrección: Eliminar mensajes\nFijación: Agregue nueva fila en acción\nCorrección: Juego de errores Valor estatal. incluye no es una función\"\n#144 Añadir nueva característica en setState: Ahora es posible establecer un valor estático con un valor dinámico de id",
+                "pl": "Fix: Usuń wiadomości\nFix: Dodaj nowy wiersz w akcji\nFix: Wartość błędu setState \". zawiera nie jest funkcją\"\n# 144 Dodaj nową funkcję w setState: Teraz jest możliwe ustawienie wartości statycznej z dynamiczną wartością z id",
+                "uk": "Виправлення: Видалити повідомлення\nВиправлення: Додати новий ряд в дії\nВиправлення: Помилка setState \"value. включає не функцію\n#144 Додати нову функцію в setState: Тепер можна встановити статичну вартість з динамічним значенням від id",
+                "zh-cn": "修正: 删除信件\n修正: 在动作中添加新行\nFix: 错误设置状态\"值 。 包含不是一个函数\"\n144号 在设置状态中添加新特性: 现在可以从 id 中设置一个具有动态值的静态值"
+            },
+            "1.7.0": {
+                "en": "Switched to typescript",
+                "de": "Umgestellt in die Schrift",
+                "ru": "Переключение на типscript",
+                "pt": "Mudado para o typescript",
+                "nl": "Overgeschakeld naar typescript",
+                "fr": "Passé au dactylographié",
+                "it": "Passato alla scrittura",
+                "es": "Interruptor a tiposcript",
+                "pl": "Przełączono na maszynopis",
+                "uk": "Перемкнено до типу",
+                "zh-cn": "切换到打字符"
+            },
+            "1.6.3": {
+                "en": "Bug in copy card fixed\n#104 HTTP Request Beta\n#111 status Value in dynamicSwitch\n#112 change value\n**_Change!!!_** menu:deleteAll removes automatic Request Ids which are older than 48h from list. The list is completely deleted once during the update\nFixed menu:number with negativ Values, see the documentation",
+                "de": "Fehler in der Kopierkarte behoben\n#104 HTTP Frage stellen\n#111 Status Wert in dynamicSwitch\n#112 änderungswert\n**_Change!!!_** Menü:löschen Alle entfernt automatische Request Ids, die älter als 48h sind aus der Liste. Die Liste wird während des Updates vollständig gelöscht\nFixed Menu:Nummer mit Negativ Werte, siehe Dokumentation",
+                "ru": "Цыпленок с копировальной картой\n#104 HTTP Запрос Beta\n#111 Статус Значение в DynamicSwitch\n#112 изменить значение\n**_Чанге!!!_** меню: удаления Все удаляет автоматические запросы, которые старше 48 часов из списка. Список полностью удален один раз во время обновления\nИсправленное меню: номер с негативом Ценности, см. документацию",
+                "pt": "Bug no cartão de cópia corrigido\n#104 HTTP Pedido Beta\nstatus #111 Valor em dinâmicoSwitch\nvalor de mudança #112\n**_Change!!!_** cardápio:delete Todos remove Ids de pedido automáticos que são mais antigos do que 48h da lista. A lista é completamente excluída uma vez durante a atualização\nMenu fixo: número com negativ Valores, veja a documentação",
+                "nl": "Bug in kopieerkaart gerepareerd\n#104 HTTP Beta aanvragen\n#111 status Waarde in dynamicSwitch\n#112 verandering waarde\n**_Wijzigen!!_** menu:verwijderen Alle verwijdert automatische Request Ids die ouder zijn dan 48 uur uit de lijst. De lijst wordt tijdens de update volledig verwijderd\nVast menu:nummer met negativ Waarden, zie de documentatie",
+                "fr": "Bogue dans la carte de copie corrigée\n#104 HTTP Demande Beta\nÉtat 111 Valeur dans dynamicSwitch\nvaleur de variation n°112\n**_Change!!!_** menu:delete Tous suppriment automatiquement les Ids Request qui sont plus de 48h de la liste. La liste est complètement supprimée une fois lors de la mise à jour\nMenu fixe:nombre avec negativ Valeurs, voir la documentation",
+                "it": "Bug nella scheda di copia fissa\n#104 HTTP Richiesta Beta\n#111 stato Valore in dinamicaSwitch\n#112 valore di cambiamento\n**_Change!!!_** menu: Tutti rimuove automaticamente Ids richiesta che sono più vecchi di 48h dalla lista. L'elenco viene completamente cancellato una volta durante l'aggiornamento\nMenu fisso: numero con negativ Valori, vedere la documentazione",
+                "es": "Error en la tarjeta de copia fija\n#104 HTTP Solicitud Beta\n#111 status Valor en DynamicSwitch\n#112 cambio de valor\n**_Cambiar!!!_** menu:delete Todo elimina los Ids de Solicitud automáticos que son mayores de 48h de la lista. La lista se elimina por completo una vez durante la actualización\nMenú fijo: número con negativ Valores, ver la documentación",
+                "pl": "Błąd w kopii karty stałe\n# 104 HTTP Wniosek Beta\n# 111 status Wartość w dynamicznym przełączniku\n# 112 zmiana wartości\nMenu: usuń Wszystkie usuwa automatyczne identyfikatory zapytania, które są starsze niż 48h z listy. Lista jest całkowicie usuwana raz podczas aktualizacji\nNaprawiono menu: numer z negativ Wartości, patrz dokumentacja",
+                "uk": "Помилки в скопійованій картці\n#104 HTTP Замовити бета\n#111 статус Значення в динамціSwitch\n#112 значення зміни\n**************************************************************************************************************************************************************************************************************************************************************** Всі видаліть автоматичний запит Ids, які старше 48h з списку. Список повністю вилучений після оновлення\nФіксоване меню:номер з негативом Значення, див. документацію",
+                "zh-cn": "复制卡中的错误已修复\n#104 HTTP (韩语) 请求beta\n#111状态 动态开关中的值\n#112 变化值\n菜单:删除 所有从列表中删除年龄大于48小时的自动请求ID。 在更新过程中, 名单被完全删除一次\n固定菜单:数用 Negativ 值,参见文档"
+            }
         },
-        "title": {
-          "en": "Important notice!",
-          "de": "Wichtiger Hinweis!",
-          "ru": "Важное замечание!",
-          "pt": "Notícia importante!",
-          "nl": "Belangrijke mededeling!",
-          "fr": "Avis important!",
-          "it": "Avviso IMPORTANTE!",
-          "es": "Noticia importante!",
-          "pl": "Ważna uwaga!",
-          "zh-cn": "重要通知!",
-          "uk": "Важливе повідомлення!"
+        "titleLang": {
+            "en": "Telegram Menu",
+            "de": "Telegram-Menü",
+            "ru": "Меню телеграммы",
+            "pt": "Menu Telegram",
+            "nl": "Telegram-menu",
+            "fr": "Menu Télégramme",
+            "it": "Menù telegramma",
+            "es": "Menú de telegramas",
+            "pl": "menu telegramu",
+            "zh-cn": "电报菜单",
+            "uk": "Меню Telegram"
         },
-        "text": {
-          "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
-          "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
-          "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
-          "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
-          "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
-          "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
-          "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
-          "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
-          "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
-          "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
-          "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+        "desc": {
+            "en": "Easily create Telegram Menus",
+            "de": "Erstellen Sie ganz einfach Telegrammenüs",
+            "ru": "Легко создавать меню Telegram",
+            "pt": "Crie facilmente menus de telegrama",
+            "nl": "Maak eenvoudig Telegram-menu's",
+            "fr": "Créez facilement des menus de télégramme",
+            "it": "Crea facilmente menu di Telegram",
+            "es": "Crea fácilmente menús de Telegram",
+            "pl": "Z łatwością twórz menu telegramu",
+            "zh-cn": "轻松创建电报菜单",
+            "uk": "Легко створюйте меню Telegram"
         },
-        "level": "warn",
-        "buttons": [
-          "agree",
-          "cancel"
+        "authors": [
+            "MiRo1310 <michael.roling@gmx.de>"
+        ],
+        "keywords": [
+            "telegram",
+            "menu"
+        ],
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "telegram-menu.png",
+        "enabled": true,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+        "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "messaging",
+        "tier": 3,
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "materialize"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=5.0.19"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0",
+                "telegram": ">=1.15.0"
+            }
+        ],
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<1.0.0",
+                        "newVersion>=1.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Important notice!",
+                    "de": "Wichtiger Hinweis!",
+                    "ru": "Важное замечание!",
+                    "pt": "Notícia importante!",
+                    "nl": "Belangrijke mededeling!",
+                    "fr": "Avis important!",
+                    "it": "Avviso IMPORTANTE!",
+                    "es": "Noticia importante!",
+                    "pl": "Ważna uwaga!",
+                    "zh-cn": "重要通知!",
+                    "uk": "Важливе повідомлення!"
+                },
+                "text": {
+                    "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
+                    "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
+                    "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
+                    "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
+                    "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
+                    "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
+                    "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
+                    "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
+                    "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
+                    "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
+                    "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            },
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<1.6.1",
+                        "newVersion>=1.6.1"
+                    ]
+                },
+                "title": {
+                    "en": "Important notice!",
+                    "de": "Wichtiger Hinweis!",
+                    "ru": "Важное замечание!",
+                    "pt": "Notícia importante!",
+                    "nl": "Belangrijke mededeling!",
+                    "fr": "Avis important!",
+                    "it": "Avviso IMPORTANTE!",
+                    "es": "Noticia importante!",
+                    "pl": "Ważna uwaga!",
+                    "zh-cn": "重要通知!",
+                    "uk": "Важливе повідомлення!"
+                },
+                "text": {
+                    "en": "Breaking Change!!! #102 menu:dynSwitch with float numbers, if you allready use it, you have to adjust the function manually. More infos in the documentation",
+                    "de": "Wechseln!!! #102 Menü:dynSwitch mit Float-Nummern, wenn Sie allready verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen in der Dokumentation",
+                    "ru": "Разрушение изменения!!! #102 меню:dynSwitch с поплавковыми номерами, если вы все время используете его, вы должны настроить функцию вручную. Больше информации в документации",
+                    "pt": "Mudança de ruptura!!! #102 menu:dynSwitch com números de flutuador, se você já usá-lo, você tem que ajustar a função manualmente. Mais informações na documentação",
+                    "nl": "Breaking Change!! #102 menu:dynSwitch met floatnummers, als je het al gebruikt, moet je de functie handmatig aanpassen. Meer informatie in de documentatie",
+                    "fr": "Briser le changement!!! Menu #102:dynSwitch avec les numéros flottants, si vous l'utilisez déjà, vous devez ajuster la fonction manuellement. Plus d'infos dans la documentation",
+                    "it": "Breaking Change!!! #102 menu:dynSwitch con numeri di galleggiante, se si utilizza allready, è necessario regolare la funzione manualmente. Maggiori informazioni nella documentazione",
+                    "es": "Cambio de ruptura! #102 menu:dynSwitch con números de flotador, si lo usas todo listo, tienes que ajustar la función manualmente. Más información en la documentación",
+                    "pl": "Łamanie zmian!!! # 102 menu: dynSwitch z numerami float, jeśli wszystkie gotowe używać go, trzeba dostosować funkcję ręcznie. Więcej informacji w dokumentacji",
+                    "uk": "Змінити зміни! #102 меню:dynSwitch з float номерами, якщо ви використовуєте його, ви повинні налаштувати функцію вручну. Більше інформації в документації",
+                    "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            },
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<1.6.3",
+                        "newVersion>=1.6.4"
+                    ]
+                },
+                "title": {
+                    "en": "Important notice!",
+                    "de": "Wichtiger Hinweis!",
+                    "ru": "Важное замечание!",
+                    "pt": "Notícia importante!",
+                    "nl": "Belangrijke mededeling!",
+                    "fr": "Avis important!",
+                    "it": "Avviso IMPORTANTE!",
+                    "es": "Noticia importante!",
+                    "pl": "Ważna uwaga!",
+                    "zh-cn": "重要通知!",
+                    "uk": "Важливе повідомлення!"
+                },
+                "text": {
+                    "en": "Breaking change!!! At least NodeJs 18 is required",
+                    "de": "Wechseln!!! Mindestens NodeJs 18 ist erforderlich",
+                    "ru": "Разрыв изменения!!! По крайней мере NodeJs 18 требуется",
+                    "pt": "Mudança de ruptura!!! Pelo menos NodeJs 18 é necessário",
+                    "nl": "Breek verandering!!! Ten minste NodeJs 18 is vereist",
+                    "fr": "Briser le changement!!! Au moins NodeJs 18 est nécessaire",
+                    "it": "Cambiamento di rottura!!! Almeno NodeJs 18 è richiesto",
+                    "es": "Cambio de ruptura! Por lo menos NodeJs 18 es necesario",
+                    "pl": "Łamanie drobnych! Co najmniej NodeJs 18 jest wymagane",
+                    "uk": "Змінити зміни! При найменшому NodeJs 18 потрібно",
+                    "zh-cn": "突破变化! 至少需要节点Js 18"
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
         ]
-      },
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<1.6.1",
-            "newVersion>=1.6.1"
-          ]
+    },
+    "native": {
+        "nav": {},
+        "instance": "",
+        "data": {},
+        "checkbox": {},
+        "usersForGlobal": "",
+        "users": [],
+        "startsides": [],
+        "tokenGrafana": "",
+        "directory": "",
+        "userActiveCheckbox": {},
+        "usersInGroup": {},
+        "textNoEntry": "",
+        "userListWithChatID": []
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
         },
-        "title": {
-          "en": "Important notice!",
-          "de": "Wichtiger Hinweis!",
-          "ru": "Важное замечание!",
-          "pt": "Notícia importante!",
-          "nl": "Belangrijke mededeling!",
-          "fr": "Avis important!",
-          "it": "Avviso IMPORTANTE!",
-          "es": "Noticia importante!",
-          "pl": "Ważna uwaga!",
-          "zh-cn": "重要通知!",
-          "uk": "Важливе повідомлення!"
-        },
-        "text": {
-          "en": "Breaking Change!!! #102 menu:dynSwitch with float numbers, if you allready use it, you have to adjust the function manually. More infos in the documentation",
-          "de": "Wechseln!!! #102 Menü:dynSwitch mit Float-Nummern, wenn Sie allready verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen in der Dokumentation",
-          "ru": "Разрушение изменения!!! #102 меню:dynSwitch с поплавковыми номерами, если вы все время используете его, вы должны настроить функцию вручную. Больше информации в документации",
-          "pt": "Mudança de ruptura!!! #102 menu:dynSwitch com números de flutuador, se você já usá-lo, você tem que ajustar a função manualmente. Mais informações na documentação",
-          "nl": "Breaking Change!! #102 menu:dynSwitch met floatnummers, als je het al gebruikt, moet je de functie handmatig aanpassen. Meer informatie in de documentatie",
-          "fr": "Briser le changement!!! Menu #102:dynSwitch avec les numéros flottants, si vous l'utilisez déjà, vous devez ajuster la fonction manuellement. Plus d'infos dans la documentation",
-          "it": "Breaking Change!!! #102 menu:dynSwitch con numeri di galleggiante, se si utilizza allready, è necessario regolare la funzione manualmente. Maggiori informazioni nella documentazione",
-          "es": "Cambio de ruptura! #102 menu:dynSwitch con números de flotador, si lo usas todo listo, tienes que ajustar la función manualmente. Más información en la documentación",
-          "pl": "Łamanie zmian!!! # 102 menu: dynSwitch z numerami float, jeśli wszystkie gotowe używać go, trzeba dostosować funkcję ręcznie. Więcej informacji w dokumentacji",
-          "uk": "Змінити зміни! #102 меню:dynSwitch з float номерами, якщо ви використовуєте його, ви повинні налаштувати функцію вручну. Більше інформації в документації",
-          "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
-        },
-        "level": "warn",
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
-      },
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<1.6.3",
-            "newVersion>=1.6.4"
-          ]
-        },
-        "title": {
-          "en": "Important notice!",
-          "de": "Wichtiger Hinweis!",
-          "ru": "Важное замечание!",
-          "pt": "Notícia importante!",
-          "nl": "Belangrijke mededeling!",
-          "fr": "Avis important!",
-          "it": "Avviso IMPORTANTE!",
-          "es": "Noticia importante!",
-          "pl": "Ważna uwaga!",
-          "zh-cn": "重要通知!",
-          "uk": "Важливе повідомлення!"
-        },
-        "text": {
-          "en": "Breaking change!!! At least NodeJs 18 is required",
-          "de": "Wechseln!!! Mindestens NodeJs 18 ist erforderlich",
-          "ru": "Разрыв изменения!!! По крайней мере NodeJs 18 требуется",
-          "pt": "Mudança de ruptura!!! Pelo menos NodeJs 18 é necessário",
-          "nl": "Breek verandering!!! Ten minste NodeJs 18 is vereist",
-          "fr": "Briser le changement!!! Au moins NodeJs 18 est nécessaire",
-          "it": "Cambiamento di rottura!!! Almeno NodeJs 18 è richiesto",
-          "es": "Cambio de ruptura! Por lo menos NodeJs 18 es necesario",
-          "pl": "Łamanie drobnych! Co najmniej NodeJs 18 jest wymagane",
-          "uk": "Змінити зміни! При найменшому NodeJs 18 потрібно",
-          "zh-cn": "突破变化! 至少需要节点Js 18"
-        },
-        "level": "warn",
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
-      }
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "nav": {},
-    "instance": "",
-    "data": {},
-    "checkbox": {},
-    "usersForGlobal": "",
-    "users": [],
-    "startsides": [],
-    "tokenGrafana": "",
-    "directory": "",
-    "userActiveCheckbox": {},
-    "usersInGroup": {},
-    "textNoEntry": "",
-    "userListWithChatID": []
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
 }
