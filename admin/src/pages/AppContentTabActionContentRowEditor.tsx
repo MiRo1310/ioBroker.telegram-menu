@@ -1,29 +1,26 @@
-import React, { Component } from "react";
-import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
-import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
-
-import Input from "@/components/btn-Input/input";
-import Checkbox from "@/components/btn-Input/checkbox";
-import Select from "@/components/btn-Input/select";
-import BtnSmallRemove from "@/components/btn-Input/btn-small-remove";
-import BtnSmallAdd from "@/components/btn-Input/btn-small-add";
-import ActionEditHeader from "@/pages/AppContentTabActionContentRowEditorHeader";
-
-import BtnSmallSearch from "@/components/btn-Input/btn-small-search";
 import { BtnCircleAdd } from "@/components/btn-Input/btn-circle-add";
-
+import BtnSmallAdd from "@/components/btn-Input/btn-small-add";
+import BtnSmallRemove from "@/components/btn-Input/btn-small-remove";
+import BtnSmallSearch from "@/components/btn-Input/btn-small-search";
+import Checkbox from "@/components/btn-Input/checkbox";
+import Input from "@/components/btn-Input/input";
+import Select from "@/components/btn-Input/select";
 import { isChecked } from "@/lib/Utils.js";
-import { updateData, updateTrigger, addNewRow, saveRows, deleteRow, updateId, moveItem } from "@/lib/actionUtils.js";
+import { addNewRow, deleteRow, moveItem, saveRows, updateData, updateId, updateTrigger } from "@/lib/actionUtils.js";
 import {
+	handleDragEnd,
+	handleDragEnter,
+	handleDragOver,
+	handleDragStart,
 	handleMouseOut,
 	handleMouseOver,
-	handleDragStart,
-	handleDragOver,
-	handleDragEnter,
 	handleStyleDragOver,
-	handleDragEnd,
 } from "@/lib/dragNDrop.js";
+import ActionEditHeader from "@/pages/AppContentTabActionContentRowEditorHeader";
+import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
+import React, { Component } from "react";
 
 const theme: IobTheme = Theme("light");
 
@@ -133,7 +130,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 															callbackValue="event.target.value"
 															function="manual"
 															className="noneDraggable"
-														></Input>
+														/>
 													</span>
 
 													<BtnSmallSearch

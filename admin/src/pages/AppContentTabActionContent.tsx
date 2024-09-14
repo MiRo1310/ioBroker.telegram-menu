@@ -50,32 +50,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
-			let value = true;
-			let valueRowValuesAndSwitch = true;
-			const row = this.state.newRow;
-			this.props.entries.forEach((entry) => {
-				if (!entry.checkbox && entry.required) {
-					if (!row[entry.name]) {
-						row[entry.name] = [""];
-					}
-					row[entry.name].forEach((val, index) => {
-						if (value && entry.name === "values") {
-							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
-								valueRowValuesAndSwitch = true;
-							} else {
-								valueRowValuesAndSwitch = false;
-							}
-						} else if (value && val == "") {
-							value = false;
-						}
-					});
-				}
-			});
-
-			value = value && valueRowValuesAndSwitch;
-			if (this.state.inputValuesAreOK !== value) {
-				this.setState({ inputValuesAreOK: value });
-			}
+			this.disableButtonHandler();
 		}
 	}
 	checkNewValueIsOK = () => {
@@ -100,6 +75,36 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 		this.setState({ newUnUsedTrigger: newTriggerArray });
 	};
+	private disableButtonHandler() {
+		let inputValuesAreOk = true;
+		let valueRowValuesAndSwitch = true;
+		const row = this.state.newRow;
+
+		this.props.entries.forEach((entry) => {
+			if (!entry.checkbox && entry.required) {
+				if (!row[entry.name]) {
+					row[entry.name] = [""];
+				}
+				row[entry.name].forEach((val, index) => {
+					if (inputValuesAreOk && entry.name === "values") {
+						if ((val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
+							valueRowValuesAndSwitch = true;
+						} else {
+							valueRowValuesAndSwitch = false;
+						}
+					} else if (inputValuesAreOk && val == "") {
+						inputValuesAreOk = false;
+					}
+				});
+			}
+		});
+
+		inputValuesAreOk = inputValuesAreOk && valueRowValuesAndSwitch;
+		if (this.state.inputValuesAreOK !== inputValuesAreOk) {
+			this.setState({ inputValuesAreOK: inputValuesAreOk });
+		}
+	}
+
 	componentDidMount() {
 		this.resetNewRow();
 		this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
@@ -261,7 +266,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							callback={this.onchangeValueFromHelper}
 							editedValueFromHelperText={this.state.editedValueFromHelperText}
 							setState={this.setState.bind(this)}
-						></HelperCard>
+						/>
 					</PopupContainer>
 				) : null}
 			</>
