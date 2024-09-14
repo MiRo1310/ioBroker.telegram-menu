@@ -3,7 +3,7 @@ import { Logo } from "@iobroker/adapter-react-v5";
 import { Grid } from "@mui/material";
 import { PropsHeaderIconBar } from "admin/app";
 
-class HeaderIconBar extends Component<PropsHeaderIconBar> {
+class AppHeaderIconBar extends Component<PropsHeaderIconBar> {
 	constructor(props) {
 		super(props);
 	}
@@ -25,4 +25,4 @@ class HeaderIconBar extends Component<PropsHeaderIconBar> {
 	}
 }
 
-export default HeaderIconBar;
+export default AppHeaderIconBar;

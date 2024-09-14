@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Select from "../btn-Input/select";
+import Select from "../components/btn-Input/select";
 import { Radio } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { updateTriggerForSelect } from "../../lib/actionUtils.js";
-import { deepCopy } from "../../lib/Utils.js";
-import PopupContainer from "./PopupContainer";
-import RenameCard from "./RenameCard";
+import { updateTriggerForSelect } from "../lib/actionUtils.js";
+import { deepCopy } from "../lib/Utils.js";
+import PopupContainer from "../components/popupCards/PopupContainer";
+import RenameCard from "../components/popupCards/RenameCard";
 import { PropsDropBox, StateDropBox } from "admin/app";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {

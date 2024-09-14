@@ -7,7 +7,7 @@ import Checkbox from "@/components/btn-Input/checkbox";
 import Select from "@/components/btn-Input/select";
 import BtnSmallRemove from "@/components/btn-Input/btn-small-remove";
 import BtnSmallAdd from "@/components/btn-Input/btn-small-add";
-import ActionEditHeader from "@/components/popupCards/rowEditPopupCard/ActionEditHeader";
+import ActionEditHeader from "@/pages/AppContentTabActionContentRowEditorHeader";
 
 import BtnSmallSearch from "@/components/btn-Input/btn-small-search";
 import { BtnCircleAdd } from "@/components/btn-Input/btn-circle-add";
@@ -179,7 +179,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 																		subCard: this.props.subCard,
 																	}}
 																	callback={this.props.openHelperText}
-																></BtnCircleAdd>
+																/>
 															) : null}
 														</Input>
 														{entry.search ? (
@@ -204,7 +204,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 															callbackValue="event"
 															isChecked={isChecked(row[entry.name])}
 															obj={true}
-														></Checkbox>
+														/>
 													</TableCell>
 												) : null,
 											)}

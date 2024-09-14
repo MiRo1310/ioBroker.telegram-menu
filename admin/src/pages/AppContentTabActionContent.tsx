@@ -5,8 +5,8 @@ import { deepCopy } from "@/lib/Utils.js";
 
 import Button from "@/components/btn-Input/Button";
 import PopupContainer from "@/components/popupCards/PopupContainer";
-import ActionRowEditPopupCard from "@/components/popupCards/rowEditPopupCard/ActionRowEditPopupCard";
-import TableDndAction from "./TableDND/TableDndAction";
+import ActionRowEditPopupCard from "@/pages/AppContentTabActionContentRowEditor";
+import TableDndAction from "./AppContentTabActionContentTable";
 import HelperCard from "@/components/popupCards/HelperCard";
 import helperText from "@/config/helper.js";
 import { addNewRow } from "@/lib/actionUtils.js";
@@ -21,7 +21,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			editRow: false,
 			newRow: {},
 			rowsLength: 0,
-			newUnUsedTrigger: null || this.props.data.unUsedTrigger,
+			newUnUsedTrigger: this.props.data.unUsedTrigger,
 			helperText: false,
 			helperTextFor: "",
 			helperTextForInput: "",
@@ -216,7 +216,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 								openAddRowCard={this.openAddRowCard}
 								entries={this.props.entries}
 								addEditedTrigger={this.addEditedTrigger}
-							></TableDndAction>
+							/>
 						</Table>
 					</TableContainer>
 				)}
@@ -238,7 +238,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							subCard={this.props.subCard}
 							openHelperText={this.openHelperText}
 							buttons={this.props.popupCard.buttons}
-						></ActionRowEditPopupCard>
+						/>
 					</PopupContainer>
 				) : null}
 				{this.state.helperText ? (

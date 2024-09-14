@@ -5,11 +5,11 @@ import { AdminConnection } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "@/lib/actionUtils";
 import { GenericApp } from "@iobroker/adapter-react-v5";
 
-import HeaderIconBar from "@/pages/HeaderIconBar/HeaderIconBar";
-import MainContent from "@/pages/MainContent";
-import MainDropBox from "@/pages/MainDropBox";
-import MainTriggerOverview from "@/pages/TriggerOverview";
-import DoubleTriggerInfo from "@/pages/DoubleTriggerInfo";
+import AppHeaderIconBar from "@/pages/AppHeaderIconBar";
+import AppContent from "@/pages/AppContent";
+import AppDropBox from "@/pages/AppDropBox";
+import AppTriggerOverview from "@/pages/AppTriggerOverview";
+import AppDoubleTriggerInfo from "@/pages/AppDoubleTriggerInfo";
 
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
@@ -176,7 +176,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		return (
 			<div className={`App row ${this.props.themeName}`}>
 				<Grid container spacing={1}>
-					<HeaderIconBar
+					<AppHeaderIconBar
 						common={this.common}
 						native={this.state.native}
 						onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
@@ -187,7 +187,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
 					/>
 
-					<MainContent
+					<AppContent
 						callback={{
 							setState: this.setState,
 							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
@@ -199,7 +199,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 					/>
 				</Grid>
 				{this.state.showDropBox ? (
-					<MainDropBox
+					<AppDropBox
 						state={this.state}
 						callback={{
 							setState: this.setState,
@@ -209,7 +209,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 					/>
 				) : null}
 				{this.state.showTriggerInfo ? (
-					<MainTriggerOverview
+					<AppTriggerOverview
 						state={this.state}
 						callback={{
 							setState: this.setState,
@@ -217,7 +217,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 						}}
 					/>
 				) : null}
-				{this.state.doubleTrigger.length > 0 ? <DoubleTriggerInfo state={this.state} /> : null}
+				{this.state.doubleTrigger.length > 0 ? <AppDoubleTriggerInfo state={this.state} /> : null}
 				{this.renderError()}
 				{this.renderToast()}
 				{this.renderSaveCloseButtons()}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import HeaderMenu from "@/pages/mainContent/actions/HeaderMenu";
-import HeaderTelegramUsers from "@/pages/mainContent/actions/HeaderTelegramUsers";
+import HeaderMenu from "@/pages/AppContentHeaderMenu";
+import HeaderTelegramUsers from "@/pages/AppContentHeaderTelegramUsers";
 import { PropsMainActions } from "admin/app";
 
 class MainActions extends Component<PropsMainActions> {
