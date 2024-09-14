@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/createState.ts"],
+  "sourcesContent": ["const createState = async (_this: any): Promise<void> => {\r\n\tawait _this.setObjectNotExistsAsync(\"communication.requestIds\", {\r\n\t\ttype: \"state\",\r\n\t\tcommon: {\r\n\t\t\tname: \"RequestIds\",\r\n\t\t\ttype: \"string\",\r\n\t\t\trole: \"state\",\r\n\t\t\tread: true,\r\n\t\t\twrite: false,\r\n\t\t\tdef: \"\",\r\n\t\t},\r\n\t\tnative: {},\r\n\t});\r\n};\r\nexport { createState };\r\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,MAAM,cAAc,OAAO,UAA8B;AACxD,QAAM,MAAM,wBAAwB,4BAA4B;AAAA,IAC/D,MAAM;AAAA,IACN,QAAQ;AAAA,MACP,MAAM;AAAA,MACN,MAAM;AAAA,MACN,MAAM;AAAA,MACN,MAAM;AAAA,MACN,OAAO;AAAA,MACP,KAAK;AAAA,IACN;AAAA,IACA,QAAQ,CAAC;AAAA,EACV,CAAC;AACF;",
+  "names": []
+}

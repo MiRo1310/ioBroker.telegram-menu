@@ -201,7 +201,6 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		this.setState({ selectedValue: event.target.value });
 	};
 	renameMenu = (value) => {
-		console.log(value);
 		if (!value) {
 			this.setState({ openRenamePopup: false });
 			this.setState({ newTrigger: "" });
@@ -225,7 +224,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 						selected={this.state.selectedMenu}
 						id="selectedMenu"
 						callback={this.setState.bind(this)}
-						placeholder={I18n.t("Select a Menu")}
+						placeholder={I18n.t("Select a target menu")}
 					></Select>
 					<label>
 						<Radio

@@ -14,18 +14,18 @@ import {
 	editArrayButtons,
 	getUserToSendFromUserListWithChatID,
 	getMenusWithUserToSend,
-} from "./lib/backend/action";
-import { _subscribeForeignStatesAsync } from "./lib/backend/subscribeStates";
-import { sendToTelegram } from "./lib/backend/telegram";
-import { decomposeText, changeValue } from "./lib/backend/utilities";
-import { createState } from "./lib/backend/createState";
-import { saveMessageIds } from "./lib/backend/messageIds";
-import { adapterStartMenuSend } from "./lib/backend/adapterStartMenuSend";
-import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from "./lib/backend/processData";
-import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from "./lib/backend/shoppingList";
-import { exchangePlaceholderWithValue, checkEvent } from "./lib/backend/action";
-import { info, debug, error } from "./lib/backend/logging";
-import { checkIsTelegramActive } from "./lib/backend/connection";
+} from "./lib/action";
+import { _subscribeForeignStatesAsync } from "./lib/subscribeStates";
+import { sendToTelegram } from "./lib/telegram";
+import { decomposeText, changeValue } from "./lib/utilities";
+import { createState } from "./lib/createState";
+import { saveMessageIds } from "./lib/messageIds";
+import { adapterStartMenuSend } from "./lib/adapterStartMenuSend";
+import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from "./lib/processData";
+import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from "./lib/shoppingList";
+import { exchangePlaceholderWithValue, checkEvent } from "./lib/action";
+import { debug, error } from "./lib/logging";
+import { checkIsTelegramActive } from "./lib/connection";
 
 const timeoutKey: string = "0";
 let subscribeForeignStateIds: string[];
@@ -85,12 +85,11 @@ export default class TelegramMenu extends utils.Adapter {
 		Object.keys(menusWithUsers).forEach((element) => {
 			startSides[element] = dataObject.nav[element][0]["call"];
 		});
-		info([{ text: "StartSides", val: startSides }]);
 
 		this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
 			try {
 				if (err || obj == null) {
-					error([{ val: err }, { text: `The State ${infoConnectionOfTelegram} was not found!` }]);
+					this.log.error(`The State ${infoConnectionOfTelegram} was not found! ` + err);
 					return;
 				}
 
@@ -98,12 +97,7 @@ export default class TelegramMenu extends utils.Adapter {
 				const nav = dataObject["nav"];
 				const action = dataObject["action"];
 
-				info([{ text: "Telegram was found" }]);
-				debug([
-					{ text: "Groups With Users:", val: menusWithUsers },
-					{ text: "Navigation:", val: nav },
-					{ text: "Action:", val: action },
-				]);
+				this.log.info("Telegram was found");
 
 				for (const name in nav) {
 					const value = await editArrayButtons(nav[name], this);
@@ -120,11 +114,6 @@ export default class TelegramMenu extends utils.Adapter {
 					} else {
 						debug([{ text: "No Actions generated!" }]);
 					}
-
-					debug([
-						{ text: "New Structure:", val: menuData.data[name] },
-						{ text: "SubscribeForeignStates:", val: subscribeForeignStateIds },
-					]);
 
 					if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
 						_subscribeForeignStatesAsync(subscribeForeignStateIds);

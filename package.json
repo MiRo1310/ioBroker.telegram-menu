@@ -74,25 +74,21 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.3.3"
   },
-  "main": "build/src/main.js",
+  "main": "build/main.js",
   "files": [
     "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
     "admin/build",
-    "lib/",
+    "build",
     "www/",
     "io-package.json",
     "LICENSE",
-    "build/src/",
     "admin/**/style.css",
     "admin/build/index.js.map"
   ],
-  "_moduleAliases": {
-    "@backend": "build/src/"
-  },
   "scripts": {
     "prebuild": "rimraf admin/build",
-    "build": "build-adapter react",
+    "build": "build-adapter all",
     "watch": "build-adapter react --watch",
     "prebuild:react": "rimraf admin/build",
     "build:react": "build-adapter react",
@@ -102,10 +98,10 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:js && npm run test:package",
     "check": "tsc --noEmit -p tsconfig.check.json",
-    "lint": "eslint --ext .ts,.tsx src/ admin/src/",
+   "lint": "eslint --ext .ts,.tsx src/ admin/src/",
     "translate": "translate-adapter",
     "release": "release-script",
-    "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint --fix --ext .ts,.tsx src/ admin/src/",
     "prettier": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"admin/src/**/*.ts\" \"admin/src/**/*.tsx\"",
     "checker": "node skript.mjs",
     "dev": " dev-server run",

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/botAction.ts"],
+  "sourcesContent": ["import TelegramMenu from \"../main\";\r\nimport { debug, error } from \"./logging\";\r\n\r\nconst deleteMessageByBot = async (\r\n\tinstance: string,\r\n\tuser: string,\r\n\tuserListWithChatID: UserListWithChatId[],\r\n\tmessageId: number,\r\n\tchat_id: string | number,\r\n): Promise<void> => {\r\n\tconst _this = TelegramMenu.getInstance();\r\n\ttry {\r\n\t\tif (chat_id) {\r\n\t\t\tdebug([{ text: \"Delete Message for\", val: user + \" \" + chat_id + \" , MessageId: \" + messageId }]);\r\n\t\t}\r\n\t\t_this.sendTo(instance, {\r\n\t\t\tdeleteMessage: {\r\n\t\t\t\toptions: {\r\n\t\t\t\t\tchat_id: chat_id,\r\n\t\t\t\t\tmessage_id: messageId,\r\n\t\t\t\t},\r\n\t\t\t},\r\n\t\t});\r\n\t} catch (e: any) {\r\n\t\terror([\r\n\t\t\t{ text: \"Error deleteMessage:\", val: e.message },\r\n\t\t\t{ text: \"Stack:\", val: e.stack },\r\n\t\t]);\r\n\t}\r\n};\r\nexport { deleteMessageByBot };\r\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAyB;AACzB,qBAA6B;AAE7B,MAAM,qBAAqB,OAC1B,UACA,MACA,oBACA,WACA,YACmB;AACnB,QAAM,QAAQ,YAAAA,QAAa,YAAY;AACvC,MAAI;AACH,QAAI,SAAS;AACZ,gCAAM,CAAC,EAAE,MAAM,sBAAsB,KAAK,OAAO,MAAM,UAAU,mBAAmB,UAAU,CAAC,CAAC;AAAA,IACjG;AACA,UAAM,OAAO,UAAU;AAAA,MACtB,eAAe;AAAA,QACd,SAAS;AAAA,UACR;AAAA,UACA,YAAY;AAAA,QACb;AAAA,MACD;AAAA,IACD,CAAC;AAAA,EACF,SAAS,GAAP;AACD,8BAAM;AAAA,MACL,EAAE,MAAM,wBAAwB,KAAK,EAAE,QAAQ;AAAA,MAC/C,EAAE,MAAM,UAAU,KAAK,EAAE,MAAM;AAAA,IAChC,CAAC;AAAA,EACF;AACD;",
+  "names": ["TelegramMenu"]
+}
