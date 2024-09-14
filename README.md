@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 ### **WORK IN PROGRESS**
 
 -   FIX: #176 Error in setDynamic value
+-   FIX: #181 Required values in setState
 
 ### 2.0.0 (2024-08-11)
 
