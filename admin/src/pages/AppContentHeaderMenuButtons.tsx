@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Input from "../../../../../components/btn-Input/input";
+import Input from "../components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Button from "../../../../../components/btn-Input/Button";
+import Button from "../components/btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
-import PopupContainer from "../../../../../components/popupCards/PopupContainer";
-import RenameCard from "../../../../../components/popupCards/RenameCard";
+import PopupContainer from "../components/popupCards/PopupContainer";
+import RenameCard from "../components/popupCards/RenameCard";
 
-import { deepCopy } from "../../../../../lib/Utils.js";
+import { deepCopy } from "../lib/Utils.js";
 import { PropsBtnCard, StateBtnCard } from "admin/app";
 
 function checkMenuName(menu): string {

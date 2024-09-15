@@ -5,8 +5,8 @@ import { deepCopy } from "@/lib/Utils.js";
 
 import Button from "@/components/btn-Input/Button";
 import PopupContainer from "@/components/popupCards/PopupContainer";
-import ActionRowEditPopupCard from "@/components/popupCards/rowEditPopupCard/ActionRowEditPopupCard";
-import TableDndAction from "./TableDND/TableDndAction";
+import ActionRowEditPopupCard from "@/pages/AppContentTabActionContentRowEditor";
+import TableDndAction from "./AppContentTabActionContentTable";
 import HelperCard from "@/components/popupCards/HelperCard";
 import helperText from "@/config/helper.js";
 import { addNewRow } from "@/lib/actionUtils.js";
@@ -21,7 +21,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			editRow: false,
 			newRow: {},
 			rowsLength: 0,
-			newUnUsedTrigger: null || this.props.data.unUsedTrigger,
+			newUnUsedTrigger: this.props.data.unUsedTrigger,
 			helperText: false,
 			helperTextFor: "",
 			helperTextForInput: "",
@@ -50,32 +50,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
-			let value = true;
-			let valueRowValuesAndSwitch = true;
-			const row = this.state.newRow;
-			this.props.entries.forEach((entry) => {
-				if (!entry.checkbox && entry.required) {
-					if (!row[entry.name]) {
-						row[entry.name] = [""];
-					}
-					row[entry.name].forEach((val, index) => {
-						if (value && entry.name === "values") {
-							if ((val !== "" && val !== undefined && val !== null) || row.switch_checkbox[index] === "true") {
-								valueRowValuesAndSwitch = true;
-							} else {
-								valueRowValuesAndSwitch = false;
-							}
-						} else if (value && val == "") {
-							value = false;
-						}
-					});
-				}
-			});
-
-			value = value && valueRowValuesAndSwitch;
-			if (this.state.inputValuesAreOK !== value) {
-				this.setState({ inputValuesAreOK: value });
-			}
+			this.disableButtonHandler();
 		}
 	}
 	checkNewValueIsOK = () => {
@@ -100,6 +75,35 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 		this.setState({ newUnUsedTrigger: newTriggerArray });
 	};
+	private disableButtonHandler() {
+		let inputValuesAreOk = true;
+		const row = this.state.newRow;
+
+		this.props.entries.forEach((entry) => {
+			if (!entry.checkbox && entry.required) {
+				if (!row[entry.name]) {
+					row[entry.name] = [""];
+				}
+				row[entry.name].forEach((val) => {
+					if (inputValuesAreOk && entry.name === "values") {
+						if (typeof val !== "string") {
+							inputValuesAreOk = false;
+						}
+						return;
+					}
+					if (inputValuesAreOk && val == "") {
+						inputValuesAreOk = false;
+					}
+				});
+			}
+		});
+
+		inputValuesAreOk = inputValuesAreOk;
+		if (this.state.inputValuesAreOK !== inputValuesAreOk) {
+			this.setState({ inputValuesAreOK: inputValuesAreOk });
+		}
+	}
+
 	componentDidMount() {
 		this.resetNewRow();
 		this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
@@ -216,7 +220,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 								openAddRowCard={this.openAddRowCard}
 								entries={this.props.entries}
 								addEditedTrigger={this.addEditedTrigger}
-							></TableDndAction>
+							/>
 						</Table>
 					</TableContainer>
 				)}
@@ -238,7 +242,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							subCard={this.props.subCard}
 							openHelperText={this.openHelperText}
 							buttons={this.props.popupCard.buttons}
-						></ActionRowEditPopupCard>
+						/>
 					</PopupContainer>
 				) : null}
 				{this.state.helperText ? (
@@ -261,7 +265,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							callback={this.onchangeValueFromHelper}
 							editedValueFromHelperText={this.state.editedValueFromHelperText}
 							setState={this.setState.bind(this)}
-						></HelperCard>
+						/>
 					</PopupContainer>
 				) : null}
 			</>

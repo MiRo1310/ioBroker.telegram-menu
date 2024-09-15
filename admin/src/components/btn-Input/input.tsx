@@ -14,6 +14,8 @@ class Input extends Component<InputProps> {
 			this.props.callback({ val: event.target.value, index: this.props.index, id: this.props.id });
 		}
 	};
+
+	getClassName = () => {};
 	render() {
 		const container = {
 			width: this.props.width ? this.props.width : "auto",
@@ -26,7 +28,7 @@ class Input extends Component<InputProps> {
 			fontSize: "16px",
 			border: "none",
 			borderColor: "transparent",
-			borderBottom: "1px solid #ccc",
+			borderBottom: "1px solid #ccc ",
 		};
 		const styleChildren = {
 			display: "inline",
@@ -42,6 +44,7 @@ class Input extends Component<InputProps> {
 						className="InputField noneDraggable"
 						placeholder={I18n.t(this.props.placeholder || "")}
 						value={this.props.value}
+						disabled={this.props.disabled}
 						onChange={this.onChangeHandler}
 						spellCheck={this.props.spellCheck ? this.props.spellCheck : false}
 						onMouseOver={this.props.onMouseOver ? (e) => this.props.onMouseOver?.(e, this.props.setState) : undefined}

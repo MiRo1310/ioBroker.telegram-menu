@@ -1,4 +1,5 @@
 import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
+import { Tab } from '@mui/material';
 
 export interface AdditionalPropInfo extends GenericAppProps {
 	themeName: string;
@@ -57,7 +58,7 @@ export interface StateTabNavigation {
 	editedValueFromHelperText: string | null;
 	isOK: boolean;
 	helperText: boolean;
-	newRow: Nav;
+	newRow: RowsNav;
 	call: string;
 	nav: string;
 	text: string;
@@ -101,7 +102,7 @@ export interface SetState {
 
 export interface PropsTableDndNav {
 	entries: NavEntries[];
-	tableData: Nav | undefined;
+	tableData: NavData | undefined;
 	card: string;
 	activeMenu?: string;
 	openAddRowCard: (value: any) => void;
@@ -111,12 +112,22 @@ export interface PropsTableDndNav {
 	callback: CallbackFunctions;
 }
 
+interface NavData {
+	[key: string]: RowsNav[];
+}
+
 export interface StateTableDndNav {
-	rows: Rows[];
+	rows: RowsNav[];
 	dropStart: number;
 	dropOver: number;
 	dropEnd: number;
 	mouseOverNoneDraggable: boolean;
+}
+export interface RowsNav {
+	call: string;
+	parse_mode: BooleanString;
+	text: string;
+	value: string;
 }
 
 export interface PropsTabAction {
@@ -127,7 +138,7 @@ export interface PropsTabAction {
 
 export interface Data {
 	activeMenu?: string;
-	nav?: TableData;
+	nav?: NavData;
 	state: AdditionalStateInfo;
 	data?: any;
 	action?: any;
@@ -195,7 +206,7 @@ type BooleanString = "true" | "false";
 
 export interface PropsRowNavCard {
 	entries: NavEntries[];
-	newRow: Nav;
+	newRow: RowsNav;
 	callback: { onchange: (data: ChangeInputNav) => void };
 	inUse: boolean;
 	openHelperText: (value: string) => void;
@@ -242,6 +253,7 @@ export interface InputProps {
 	children?: ReactNode;
 	function?: string;
 	index?: number;
+	disabled?: boolean;
 	onMouseOver?: (e: any, setState: any) => void;
 	onMouseLeave?: (e: any, setState: any) => void;
 	setState?: SetStateFunction;
@@ -404,7 +416,7 @@ export interface StatePopupContainer {
 }
 export interface PropsRowEditPopupCard {
 	entries: any;
-	newRow: any;
+	newRow: ActionNewRowProps;
 	data: any;
 	openHelperText: any;
 	subCard: any;
@@ -413,8 +425,22 @@ export interface PropsRowEditPopupCard {
 	newUnUsedTrigger: any;
 	callback?: { setState: SetStateFunction };
 }
+
+export type BooleanString = "true" | "false";
+
+export interface ActionNewRowProps {
+	IDs: string[];
+	ack: BooleanString[];
+	confirm: BooleanString[];
+	parse_mode: BooleanString[];
+	returnText: string[];
+	values: string[];
+	trigger: string[];
+	switch_checkbox: BooleanString[];
+
+}
 export interface StateRowEditPopupCard {
-	rows: Rows[];
+	rows: RowsSetState[];
 	trigger: string;
 	data: any;
 	showSelectId: boolean;
@@ -426,9 +452,15 @@ export interface StateRowEditPopupCard {
 	mouseOverNoneDraggable: boolean;
 	itemForID: string;
 }
-export interface Rows {
+export interface RowsSetState {
 	IDs: string;
-	call?: string;
+	ack: ActionNewRowProps;
+	confirm: BooleanString;
+	parse_mode: BooleanString;
+	returnText: string;
+	values: string;
+	trigger: string;
+	switch_checkbox: BooleanString;
 }
 
 export interface AppState {
@@ -590,7 +622,7 @@ export interface Native {
 }
 export interface NativeData {
 	action: { [key: string]: Actions };
-	nav: { [key: string]: Nav };
+	nav: { [key: string]: RowsNav };
 }
 export interface Actions {
 	get: Get[];
@@ -607,13 +639,6 @@ export interface HttpRequest {
 	filename: string[];
 	trigger: string[];
 	delay: string[];
-}
-export interface Nav {
-	// nav: string
-	call: string;
-	value: string;
-	text: string;
-	parse_mode: BooleanString;
 }
 export interface Set {
 	ack: BooleanString[];

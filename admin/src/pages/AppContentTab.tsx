@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import TabNavigation from "@/pages/mainContent/tabs/TabNavigation/TabNavigation";
-import TabAction from "@/pages/mainContent/tabs/TabAction/TabAction";
-import Settings from "@/pages/mainContent/tabs/Settings";
+import TabNavigation from "@/pages/AppContentTabNavigation";
+import TabAction from "@/pages/AppContentTabAction";
+import Settings from "@/pages/AppContentTabSettings";
 import { TabPanel } from "@mui/lab";
 import { navEntries } from "@/config/entries";
 import { AdditionalStateInfo, CallbackFunctions } from "admin/app";

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { TabContext } from "@mui/lab";
 import { Grid, Box } from "@mui/material";
-import TabListing from "@/pages/mainContent/TabListing";
-import MainActions from "@/pages/mainContent/MainActions";
-import Tabs from "@/pages/mainContent/Tabs";
+import TabListing from "@/pages/AppContentTabsListing";
+import MainActions from "@/pages/AppContentHeader";
+import Tabs from "@/pages/AppContentTab";
 import { Properties } from "csstype";
 import { PropsMainContent } from "admin/app";
 

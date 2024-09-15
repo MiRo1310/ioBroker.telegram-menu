@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Table, TableContainer, Paper } from "@mui/material";
-import TableNavBody from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavBody";
-import TabNavHeader from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavHeader";
-import TableNavEditRow from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavEditRow";
-import TableNavHelper from "@/pages/mainContent/tabs/TabNavigation/nav/TableNavHelper";
+import TableNavBody from "@/pages/AppContentTabNavigationTableBody";
+import TabNavHeader from "@/pages/AppContentTabNavigationTableHeader";
+import TableNavEditRow from "@/pages/AppContentTabNavigationTableRowEditor";
+import TableNavHelper from "@/pages/AppContentTabNavigationTableHelper";
 
 import { deepCopy } from "@/lib/Utils.js";
-import { Nav, PropsTabNavigation, StateTabNavigation } from "admin/app";
+import { RowsNav, PropsTabNavigation, StateTabNavigation } from "admin/app";
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 	constructor(props) {
@@ -21,7 +21,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			editedValueFromHelperText: null,
 			isOK: false,
 			helperText: false,
-			newRow: {} as Nav,
+			newRow: {} as RowsNav,
 			nav: "",
 			call: "",
 			text: "",
@@ -109,7 +109,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		if (value) {
 			this.setState({ rowIndex: value });
 		}
-		const obj = {} as Nav;
+		const obj = {} as RowsNav;
 		this.props.entries.forEach((entry) => {
 			obj[entry.name] = entry.val;
 		});
@@ -143,7 +143,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 							setState={this.setState.bind(this)}
 							activeMenu={this.props.data.state.activeMenu}
 							entries={this.props.entries}
-						></TableNavBody>
+						/>
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (

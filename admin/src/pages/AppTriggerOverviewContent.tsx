@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { colors } from "../../../lib/color.js";
+import { colors } from "../lib/color.js";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Square from "./Square/Square.js";
-import { deleteDoubleEntriesInArray } from "../../../lib/Utils.js";
-import { updateTriggerForSelect } from "../../../lib/actionUtils.js";
-import Select from "../../btn-Input/select.js";
-import { deepCopy } from "../../../lib/Utils.js";
+import Square from "./AppTriggerOverviewContentSquare.js";
+import { deleteDoubleEntriesInArray } from "../lib/Utils.js";
+import { updateTriggerForSelect } from "../lib/actionUtils.js";
+import Select from "../components/btn-Input/select.js";
+import { deepCopy } from "../lib/Utils.js";
 import { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from "admin/app.js";
 
 class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOverview> {

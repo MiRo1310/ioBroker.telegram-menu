@@ -1,24 +1,25 @@
-import React, { Component } from "react";
 import { TableBody, TableCell, TableRow } from "@mui/material";
+import React, { Component } from "react";
 
-import { deleteRow, moveItem } from "@/lib/button.js";
 import { ButtonCard } from "@/components/popupCards/buttonCard.js";
+import { getElementIcon } from "@/lib/actionUtils.js";
+import { deleteRow, moveItem } from "@/lib/button.js";
 import {
+	handleDragEnd,
+	handleDragEnter,
+	handleDraggable,
+	handleDragOver,
+	handleDragStart,
 	handleMouseOut,
 	handleMouseOver,
-	handleDragStart,
-	handleDragOver,
-	handleDragEnter,
 	handleStyleDragOver,
-	handleDragEnd,
-	handleDraggable,
 } from "@/lib/dragNDrop.js";
-import { getElementIcon } from "@/lib/actionUtils.js";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { PropsTableDndNav, Rows, StateTableDndNav } from "admin/app";
+import { NavData, PropsTableDndNav, StateTableDndNav } from "admin/app";
+import { RowsNav } from "../../app";
 
 function createData(entriesOfParentComponent, element) {
-	const obj: Rows = {} as Rows;
+	const obj: RowsNav = {} as RowsNav;
 	entriesOfParentComponent.forEach((entry) => {
 		obj[entry.name] = element[entry.name];
 	});
@@ -37,13 +38,14 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		};
 	}
 
-	getRows(nav, activeMenu) {
-		if (!nav) {
+	getRows(nav: NavData | undefined, activeMenu: string | undefined): void {
+		if (!nav || !activeMenu) {
 			return;
 		}
+
 		const elements = nav[activeMenu];
-		const rows: Rows[] = [];
-		if (elements === undefined) {
+		const rows: RowsNav[] = [];
+		if (!elements) {
 			return;
 		}
 		for (const entry of elements) {
