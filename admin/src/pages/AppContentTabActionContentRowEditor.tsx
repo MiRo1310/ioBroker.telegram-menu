@@ -67,6 +67,13 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 		}
 	};
 
+	disableInput = (name: string, index: number): boolean => {
+		if (this.state?.rows?.[index]?.switch_checkbox === "true" && name === "values") {
+			return true;
+		}
+		return false;
+	};
+
 	render() {
 		return (
 			<div className="Edit-Container">
@@ -157,6 +164,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 															callback={this.updateData}
 															callbackValue="event.target.value"
 															function="manual"
+															disabled={this.disableInput(entry.name, indexRow)}
 															type={entry.type}
 															inputWidth={
 																!entry.search || entry.name === "returnText" || entry.name === "text"

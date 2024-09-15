@@ -743,13 +743,19 @@ input:focus {
 	outline: none;
 }
 
+input:disabled {
+	opacity: 0.3;
+}
+
 /* checkbox */
 input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
 	margin-bottom: 0;
 	vertical-align: text-bottom;
+	cursor: pointer !important;
 }
+
 input[type="checkbox"]:checked {
 	accent-color: rgb(33, 150, 243);
 }
