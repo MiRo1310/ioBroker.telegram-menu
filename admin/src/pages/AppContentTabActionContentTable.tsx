@@ -14,10 +14,10 @@ import {
 	handleDragEnd,
 } from "../lib/dragNDrop.js";
 import { getElementIcon } from "../lib/actionUtils.js";
-import { PropsTableDndAction, StateTableDndAction } from "admin/app.js";
+import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
 
 function createData(entriesOfParentComponent, element) {
-	const obj = {};
+	const obj: RowForButton = {} as RowForButton;
 	entriesOfParentComponent.forEach((entry) => {
 		obj[entry.name] = element[entry.name];
 	});
@@ -45,7 +45,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		}
 		const elements = action[activeMenu][this.props.subCard];
 
-		const rows: any[] = [];
+		const rows: RowForButton[] = [];
 		if (elements === undefined) {
 			return;
 		}
@@ -82,8 +82,6 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 					}
 				}
 			});
-		} else {
-			console.log("Error get Tds");
 		}
 	};
 	componentDidMount() {
@@ -94,20 +92,19 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			this.updateHeight();
 		}, 100);
 	}
+
 	componentWillUnmount() {
 		window.removeEventListener("resize", this.updateHeight);
 	}
+
 	handleDrop = (index, event) => {
 		let currentElement = event.target;
 		while (currentElement) {
-			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
-				// Setze draggable auf true oder false, je nach Bedarf
 				if (currentElement.classList.contains("draggingDropBox")) {
 					return;
-				} // Beende die Schleife, wenn das passende Element gefunden wurde
+				}
 			}
-			// Gehe eine Ebene höher im DOM
 			currentElement = currentElement.parentNode;
 		}
 		if (index !== this.state.dropStart) {
@@ -115,7 +112,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		}
 	};
 
-	editRow = (index) => {
+	editRow = (index: number) => {
 		const data = deepCopy(this.props.data.data);
 		const newRow = data[this.props.card][this.props.activeMenu][this.props.subCard][index];
 		if (newRow.trigger) {
@@ -127,7 +124,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		this.props.setState({ rowIndex: index });
 	};
 
-	deleteRow = (index) => {
+	deleteRow = (index: number) => {
 		deleteRow(index, this.props, this.props.card, this.props.subCard);
 	};
 

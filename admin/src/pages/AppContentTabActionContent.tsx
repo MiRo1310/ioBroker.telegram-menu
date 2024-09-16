@@ -5,8 +5,8 @@ import { deepCopy } from "@/lib/Utils.js";
 
 import Button from "@/components/btn-Input/Button";
 import PopupContainer from "@/components/popupCards/PopupContainer";
-import ActionRowEditPopupCard from "@/pages/AppContentTabActionContentRowEditor";
-import TableDndAction from "./AppContentTabActionContentTable";
+import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionContentRowEditor";
+import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
 import HelperCard from "@/components/popupCards/HelperCard";
 import helperText from "@/config/helper.js";
 import { addNewRow } from "@/lib/actionUtils.js";
@@ -43,10 +43,10 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			}
 		}
 		if (prevProps.data !== this.props.data) {
-			this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
+			this.getLengthOfData(this.props.data.data?.action, this.props.activeMenu);
 		}
 		if (this.props.activeMenu !== prevProps.activeMenu) {
-			this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
+			this.getLengthOfData(this.props.data.data?.action, this.props.activeMenu);
 		}
 
 		if (prevProps.newRow !== this.state.newRow) {
@@ -106,7 +106,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 	componentDidMount() {
 		this.resetNewRow();
-		this.getLengthOfData(this.props.data.data.action, this.props.activeMenu);
+		this.getLengthOfData(this.props.data.data?.action, this.props.activeMenu);
 	}
 
 	openAddRowCard = (index) => {
@@ -208,9 +208,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 										))}
 								</TableRow>
 							</TableHead>
-							<TableDndAction
+							<AppContentTabActionContentTable
 								activeMenu={this.props.activeMenu}
-								tableData={this.props.data.data.action}
+								tableData={this.props.data.data?.action}
 								data={this.props.data}
 								showButtons={this.props.showButtons}
 								card={this.props.card}
@@ -232,7 +232,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 						title={this.props.titlePopup}
 						isOK={this.state.inputValuesAreOK}
 					>
-						<ActionRowEditPopupCard
+						<AppContentTabActionContentRowEditor
 							data={this.props.data}
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}

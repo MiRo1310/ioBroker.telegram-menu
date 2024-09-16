@@ -20,7 +20,7 @@ import { updatePositionDropBox } from "@/lib/movePosition";
 import { AdditionalPropInfo, AdditionalStateInfo, Native, TriggerObject } from "admin/app";
 
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
-	dropBoxRef: any;
+	dropBoxRef: React.RefObject<unknown>;
 	constructor(props) {
 		const extendedProps = {
 			...props,
@@ -75,6 +75,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		updatePositionDropBox(null, null, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 	componentDidMount() {
+		console.log(this.state.native);
 		updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		window.addEventListener("resize", this.handleResize);
 	}
@@ -124,7 +125,6 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
 		this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		this.getUsersFromTelegram();
-
 		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
 			this.setState({ instances: data });
 		});
@@ -179,7 +179,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 					<AppHeaderIconBar
 						common={this.common}
 						native={this.state.native}
-						onError={(text) => this.setState({ errorText: (text || text === 0) && typeof text !== "string" ? text.toString() : text })}
+						onError={(text: string | number) => this.setState({ errorText: text.toString() })}
 						onLoad={(native) => this.onLoadConfig(native)}
 						instance={this.instance}
 						adapterName={this.adapterName}

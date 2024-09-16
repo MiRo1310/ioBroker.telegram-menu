@@ -200,13 +200,13 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 	handleChange = (event) => {
 		this.setState({ selectedValue: event.target.value });
 	};
-	renameMenu = (value) => {
+	renameMenu = (value: boolean) => {
 		if (!value) {
 			this.setState({ openRenamePopup: false });
 			this.setState({ newTrigger: "" });
 			return;
 		}
-		if (value === true) {
+		if (value) {
 			this.setState({ openRenamePopup: false });
 			this.handleOnDrop();
 

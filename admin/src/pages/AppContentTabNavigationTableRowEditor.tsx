@@ -3,13 +3,13 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import RowNavCard from "@/components/popupCards/RowNavCard";
 
 import { deepCopy } from "@/lib/Utils.js";
-import { ChangeInputNav, NavEntries } from "admin/app";
+import { ChangeInputNav, TabValueEntries } from "admin/app";
 
 interface PropsTableNAvEditRow {
 	state: any;
 	setState: ({}) => void;
 	data: any;
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 	popupRowCard: any;
 }
 

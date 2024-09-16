@@ -1,5 +1,6 @@
 import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
 import { Tab } from '@mui/material';
+import { AdminConnection } from '@iobroker/socket-client';
 
 export interface AdditionalPropInfo extends GenericAppProps {
 	themeName: string;
@@ -65,7 +66,7 @@ export interface StateTabNavigation {
 }
 export interface PropsTabNavigation {
 	data: Data;
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 	activeMenu: string;
 	callback: Callback;
 }
@@ -73,11 +74,20 @@ export interface TabValues {
 	label: string;
 	value: string;
 	trigger: boolean;
-	entries: NavEntries[];
-	popupCard: any;
-	searchRoot?: { root: string; type: string[] };
+	entries: TabValueEntries[];
+	popupCard: PopupCard;
+	searchRoot?: SearchRoot | null;
 }
-export interface NavEntries {
+
+interface PopupCard {
+	buttons: { add: boolean, remove: boolean }, width: string, height: string
+}
+
+export interface SearchRoot {
+	root: string;
+	type: ObjectBrowserType | ObjectBrowserType[] | undefined;
+}
+export interface TabValueEntries {
 	name: string;
 	width?: string;
 	checkbox?: boolean;
@@ -101,7 +111,7 @@ export interface SetState {
 }
 
 export interface PropsTableDndNav {
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 	tableData: NavData | undefined;
 	card: string;
 	activeMenu?: string;
@@ -117,7 +127,7 @@ interface NavData {
 }
 
 export interface StateTableDndNav {
-	rows: RowsNav[];
+	rows: RowForButton[];
 	dropStart: number;
 	dropOver: number;
 	dropEnd: number;
@@ -140,16 +150,20 @@ export interface Data {
 	activeMenu?: string;
 	nav?: NavData;
 	state: AdditionalStateInfo;
-	data?: any;
+	data?: NativeData;
 	action?: any;
-	socket?: any;
+	socket?: Socket;
 	themeName?: string;
 	themeType?: string;
 	adapterName?: string;
 	unUsedTrigger?: string[];
-	usersInGroup?: string[];
-	userActiveCheckbox?: IsUserActiveCheckbox;
+	usersInGroup?: UserInGroup;
+	userActiveCheckbox?: UserActiveCheckbox;
 }
+
+type UserInGroup = string[][];
+type socket = AdminConnection;
+
 export interface StateTabAction {
 	value: string;
 }
@@ -205,7 +219,7 @@ export interface PropsCheckbox {
 type BooleanString = "true" | "false";
 
 export interface PropsRowNavCard {
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 	newRow: RowsNav;
 	callback: { onchange: (data: ChangeInputNav) => void };
 	inUse: boolean;
@@ -262,10 +276,10 @@ export interface InputProps {
 }
 export interface PropsHeaderIconBar {
 	instance: number;
-	common: Record<string, any>;
-	native: any;
+	common: ioBroker.InstanceCommon | null;
+	native: Native;
 	onLoad: (error: Record<string, null>) => void;
-	onError: (text: any) => void;
+	onError: (text: string | number) => void;
 	adapterName: string;
 	changed: boolean;
 	onChange: UpdateNativeFunction;
@@ -313,16 +327,16 @@ export interface StateTextarea {
 	value: string;
 }
 export interface PropsActionCard {
-	data: any;
+	data: Data;
 	activeMenu: string;
 	card: string;
 	subCard: string;
-	entries: any;
-	popupCard: any;
+	entries: TabValueEntries[];
+	popupCard: PopupCard;
 	titlePopup: string;
-	showButtons: any;
+	showButtons: { add: boolean; remove: boolean; edit: boolean };
 	callback: any;
-	searchRoot: any;
+	searchRoot: SearchRoot | null;
 }
 export interface StateActionCard {
 	rowPopup: boolean;
@@ -346,8 +360,8 @@ export interface PropsTableDndAction {
 	tableData: any;
 	activeMenu: string;
 	subCard: string;
-	entries: any;
-	data: any;
+	entries: TabValueEntries[];
+	data: data;
 	setState: SetStateFunction;
 	showButtons: ShowButtons;
 	openAddRowCard: any;
@@ -359,26 +373,31 @@ export interface StateTableDndAction {
 	dropStart: number;
 	dropEnd: number;
 	dropOver: number;
-	rows: any;
+	rows: RowForButton[];
 	mouseOverNoneDraggable: boolean;
 }
 export interface PropsSubTable {
 	data: [];
 	name: string;
-	entry: any;
+	entry: TabValueEntries;
 	setState: SetStateFunction;
 }
 export interface PropsTelegramUserCard {
 	name: string;
 	chatID: string;
-	data: any;
-	callback: any;
+	data: {
+		state: AdditionalStateInfo;
+		activeMenu: string;
+		usersInGroup: UserInGroup;
+		userActiveCheckbox: UserActiveCheckbox
+	};
+	callback: CallbackFunctions;
 	setState: SetStateFunction;
 	class?: string;
 	key?: number;
 }
 export interface StateTelegramUserCard {
-	usersInGroup: any;
+	usersInGroup: UserInGroup;
 	name: string;
 	activeMenu: string;
 }
@@ -395,15 +414,15 @@ export interface PropsPopupContainer {
 	class?: string;
 	drag?: string;
 	top?: string;
-	reference?: any;
-	onDragStart?: any;
-	onDragEnd?: any;
-	onDragOver?: any;
-	onDrop?: any;
-	onDrag?: any;
-	onMouseEnter?: any;
-	onMouseLeave?: any;
-	callback: any;
+	reference?: LegacyRef<HTMLDivElement> | undefined;
+	onDragStart?: (event: any, setState: SetStateFunction | undefined) => void | undefined;
+	onDragEnd?: (event: any, setState: SetStateFunction | undefined) => void;
+	onDragOver?: (event: any, setState: SetStateFunction | undefined) => void;
+	onDrop?: (event: any, setState: SetStateFunction | undefined) => void;
+	onDrag?: (event: any, setState: SetStateFunction | undefined) => void;
+	onMouseEnter?: (event: any, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (event: any, setState: SetStateFunction | undefined) => void;
+	callback: (val) => void;
 	value?: string;
 	setState?: SetStateFunction;
 	data?: { [key: string]: any };
@@ -420,7 +439,7 @@ export interface PropsRowEditPopupCard {
 	data: any;
 	openHelperText: any;
 	subCard: any;
-	searchRoot: any;
+	searchRoot: SearchRoot | null;
 	buttons: any;
 	newUnUsedTrigger: any;
 	callback?: { setState: SetStateFunction };
@@ -517,17 +536,17 @@ export interface StateDropBox {
 	oldTrigger: string;
 }
 export interface PropsRenameCard {
-	data: any;
+	data: { newMenuName: string };
 	id?: string;
-	callback: any;
+	callback: { setState: SetStateFunction, renameMenu: (value: boolean) => void };
 	value?: string;
 }
 
 export interface StateRenameCard { }
 export interface PropsTriggerOverview {
 	data: any;
-	usersInGroup: any;
-	userActiveCheckbox: any;
+	usersInGroup: UserInGroup;
+	userActiveCheckbox: UserActiveCheckbox;
 }
 export interface StateTriggerOverview {
 	ulPadding: any;
@@ -556,8 +575,8 @@ export interface StateSquare {
 	fontWeight: string;
 }
 export interface PropsHeaderTelegramUsers {
-	callback: any;
-	data: any;
+	callback: CallbackFunctions;
+	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UserInGroup, userActiveCheckbox: UserActiveCheckbox };
 	menuPopupOpen: boolean;
 }
 export interface StateHeaderTelegramUsers {
@@ -566,12 +585,12 @@ export interface StateHeaderTelegramUsers {
 	menuChecked: boolean;
 }
 export interface PropsHeaderMenu {
-	data: any;
-	callback: any;
+	data: { activeMenu: string; state: AdditionalStateInfo };
+	callback: CallbackFunctions;
 }
 export interface PropsBtnCard {
-	callback: any;
-	data: any;
+	callback: CallbackFunctions;
+	data: { activeMenu: string; state: AdditionalStateInfo }
 }
 export interface StateBtnCard {
 	oldMenuName: string;
@@ -583,8 +602,8 @@ export interface StateBtnCard {
 	isOK: boolean;
 }
 export interface PropsMenuPopupCard {
-	usersInGroup: any;
-	callback: any;
+	usersInGroup: UserInGroup;
+	callback: CallbackFunctions;
 }
 export interface PropsMenuButton {
 	b_color?: string;
@@ -600,8 +619,7 @@ export interface Native {
 		dropboxRight: number;
 	};
 	data: DataObject;
-	usersInGroup: string[];
-	nav: any;
+	usersInGroup: UserInGroup;
 	instance: string;
 	data: NativeData;
 	checkbox: {
@@ -611,15 +629,13 @@ export interface Native {
 		oneTiKey: boolean;
 	};
 	usersForGlobal: string;
-	users: never[];
-	startsides: never[];
 	tokenGrafana: string;
 	directory: string;
-	userActiveCheckbox: {};
-	usersInGroup: {};
+	userActiveCheckbox: UserActiveCheckbox
 	textNoEntry: string;
-	userListWithChatID: never[];
+	userListWithChatID: { name: string, chatID: string }[];
 }
+type UserActiveCheckbox = { [key: string]: boolean };
 export interface NativeData {
 	action: { [key: string]: Actions };
 	nav: { [key: string]: RowsNav };
@@ -681,7 +697,7 @@ export interface PropsMainTabList {
 	callback: CallbackFunctions;
 }
 export interface PropsMainActions {
-	data: any;
+	data: { activeMenu: string; state: AdditionalStateInfo };
 	tab: string;
 	callback: CallbackFunctions;
 }
@@ -698,28 +714,28 @@ export interface PropsMainDoubleTriggerInfo {
 }
 export interface PropsMainContent {
 	state: AdditionalStateInfo;
-	socket: any;
-	data: any;
+	socket: Socket;
+	data: { activeMenu: string; state: AdditionalStateInfo };
 	callback: CallbackFunctions;
 	adapterName: string;
 }
 export interface PropsMainDropBox {
 	state: AdditionalStateInfo;
 	callback: CallbackFunctions;
-	dropBoxRef: any;
+	dropBoxRef: React.RefObject<unknown>;
 }
 export interface PropsTableNavHeader {
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 }
 
 export interface PropsTableNavHelper {
-	state: any;
+	state: StateTabNavigation;
 	setState: SetStateFunction;
-	data: any;
-	popupHelperCard: any;
+	data: data;
+	popupHelperCard: (isOkay: boolean) => void;
 }
 export interface PropsActionEditHeader {
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 	buttons: {
 		add: boolean;
 		remove: boolean;
@@ -733,7 +749,7 @@ export interface PropsButtonCard {
 	moveDown: (index: number) => void;
 	deleteRow: (index: number) => void;
 	index: number;
-	rows: any[];
+	rows: RowForButton[];
 	notShowDelete?: boolean;
 }
 export interface ShowButtons {
@@ -746,4 +762,11 @@ export interface ShowButtons {
 export interface TabListingType {
 	label: string;
 	value: string;
+}
+
+interface RowForButton {
+	trigger: string;
+	parse_mode: string[];
+	[key: string]: any;
+
 }

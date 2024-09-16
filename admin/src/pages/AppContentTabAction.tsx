@@ -30,7 +30,7 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 							titlePopup={tab.label}
 							showButtons={{ add: true, remove: true, edit: true }}
 							popupCard={tab.popupCard}
-						></ActionCard>
+						/>
 					</TabPanel>
 				))}
 			</TabContext>

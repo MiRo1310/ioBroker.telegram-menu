@@ -38,13 +38,13 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 			<div
 				className={"DialogBackground " + (this.props.class || "")}
 				ref={this.props.reference ? this.props.reference : null}
-				onDragStart={this.props.onDragStart ? (event) => this.props.onDragStart(event, this.props.setState) : undefined}
-				onDragEnd={this.props.onDragEnd ? (event) => this.props.onDragEnd(event, this.props.setState) : undefined}
-				onDragOver={this.props.onDragOver ? (event) => this.props.onDragOver(event, this.props.setState) : undefined}
-				onDrop={this.props.onDrop ? (event) => this.props.onDrop(event, this.props.setState) : undefined}
-				onDrag={this.props.onDrag ? (event) => this.props.onDrag(event, this.props.setState) : undefined}
-				onMouseEnter={this.props.onMouseEnter ? (event) => this.props.onMouseEnter(event, this.props.setState) : undefined}
-				onMouseLeave={this.props.onMouseLeave ? (event) => this.props.onMouseLeave(event, this.props.setState) : undefined}
+				onDragStart={this.props.onDragStart ? (event) => this.props.onDragStart!(event, this.props.setState) : undefined}
+				onDragEnd={this.props.onDragEnd ? (event) => this.props.onDragEnd!(event, this.props.setState) : undefined}
+				onDragOver={this.props.onDragOver ? (event) => this.props.onDragOver!(event, this.props.setState) : undefined}
+				onDrop={this.props.onDrop ? (event) => this.props.onDrop!(event, this.props.setState) : undefined}
+				onDrag={this.props.onDrag ? (event) => this.props.onDrag!(event, this.props.setState) : undefined}
+				onMouseEnter={this.props.onMouseEnter ? (event) => this.props.onMouseEnter!(event, this.props.setState) : undefined}
+				onMouseLeave={this.props.onMouseLeave ? (event) => this.props.onMouseLeave!(event, this.props.setState) : undefined}
 			>
 				<div className="DialogContainer" style={DialogContainer}>
 					<div className="DialogContainer-Header">{this.props.title}</div>

@@ -1,4 +1,4 @@
-import { NavEntries, TabValues } from "admin/app";
+import { TabValueEntries, TabValues } from "admin/app";
 
 export const tabValues: TabValues[] = [
 	// Danach noch generateActions anpassen in action.js
@@ -98,7 +98,7 @@ export const tabValues: TabValues[] = [
 ];
 // Danach noch generateActions anpassen in action.js
 
-export const navEntries: NavEntries[] = [
+export const navEntries: TabValueEntries[] = [
 	{ name: "call", val: "", headline: "Trigger", width: "25%", editWidth: "98%" },
 	{ name: "value", val: "", headline: "Navigation", width: "45%", editWidth: "98%" },
 	{ name: "text", val: "Choose an action", headline: "Text", width: "35%", editWidth: "98%" },

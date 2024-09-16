@@ -87,6 +87,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 		this.setState({ newRow: copyNewRow });
 	};
+
 	popupRowCard = (isOK) => {
 		if (!isOK) {
 			this.setState({ rowPopup: false });
@@ -105,6 +106,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ rowPopup: false });
 		this.setState({ editRow: false });
 	};
+
 	openAddRowCard = (value) => {
 		if (value) {
 			this.setState({ rowIndex: value });
@@ -116,7 +118,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ newRow: obj, rowPopup: true });
 	};
 
-	popupHelperCard = (isOK) => {
+	popupHelperCard = (isOK: boolean): void => {
 		if (isOK) {
 			const copyNewRow = deepCopy(this.state.newRow);
 			const name = this.state.helperTextFor;

@@ -15,11 +15,10 @@ import {
 	handleStyleDragOver,
 } from "@/lib/dragNDrop.js";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { NavData, PropsTableDndNav, StateTableDndNav } from "admin/app";
-import { RowsNav } from "../../app";
+import { NavData, PropsTableDndNav, RowForButton, StateTableDndNav } from "admin/app";
 
 function createData(entriesOfParentComponent, element) {
-	const obj: RowsNav = {} as RowsNav;
+	const obj: RowForButton = {} as RowForButton;
 	entriesOfParentComponent.forEach((entry) => {
 		obj[entry.name] = element[entry.name];
 	});
@@ -44,7 +43,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		}
 
 		const elements = nav[activeMenu];
-		const rows: RowsNav[] = [];
+		const rows: RowForButton[] = [];
 		if (!elements) {
 			return;
 		}
