@@ -80,7 +80,12 @@ export interface TabValues {
 }
 
 interface PopupCard {
-	buttons: { add: boolean, remove: boolean }, width: string, height: string
+	buttons: PopupCardButtons, width: string, height: string
+}
+interface PopupCardButtons {
+	add?: boolean;
+	remove?: boolean;
+	copy?: boolean;
 }
 
 export interface SearchRoot {
@@ -122,6 +127,9 @@ export interface PropsTableDndNav {
 	callback: CallbackFunctions;
 }
 
+interface ActionData {
+	[key: string]: Actions
+}
 interface NavData {
 	[key: string]: RowsNav[];
 }
@@ -151,7 +159,7 @@ export interface Data {
 	nav?: NavData;
 	state: AdditionalStateInfo;
 	data?: NativeData;
-	action?: any;
+	action?: ActionData;
 	socket?: Socket;
 	themeName?: string;
 	themeType?: string;
@@ -334,9 +342,16 @@ export interface PropsActionCard {
 	entries: TabValueEntries[];
 	popupCard: PopupCard;
 	titlePopup: string;
-	showButtons: { add: boolean; remove: boolean; edit: boolean };
+	showButtons: ShowButtons;
 	callback: any;
 	searchRoot: SearchRoot | null;
+}
+interface ShowButtons {
+	add: boolean;
+	remove: boolean;
+	edit: boolean;
+	moveUp: boolean;
+	moveDown: boolean;
 }
 export interface StateActionCard {
 	rowPopup: boolean;
@@ -440,7 +455,7 @@ export interface PropsRowEditPopupCard {
 	openHelperText: any;
 	subCard: any;
 	searchRoot: SearchRoot | null;
-	buttons: any;
+	buttons: PopupCardButtons;
 	newUnUsedTrigger: any;
 	callback?: { setState: SetStateFunction };
 }
@@ -638,7 +653,7 @@ export interface Native {
 type UserActiveCheckbox = { [key: string]: boolean };
 export interface NativeData {
 	action: { [key: string]: Actions };
-	nav: { [key: string]: RowsNav };
+	nav: NavData;
 }
 export interface Actions {
 	get: Get[];
@@ -736,10 +751,7 @@ export interface PropsTableNavHelper {
 }
 export interface PropsActionEditHeader {
 	entries: TabValueEntries[];
-	buttons: {
-		add: boolean;
-		remove: boolean;
-	};
+	buttons: PopupCardButtons
 }
 export interface PropsButtonCard {
 	showButtons: ShowButtons;

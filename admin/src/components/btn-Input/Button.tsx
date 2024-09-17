@@ -5,7 +5,6 @@ import { ButtonProps } from "admin/app";
 class Button extends Component<ButtonProps> {
 	eventOnclickButton = (event) => {
 		let value;
-
 		if (this.props.callbackValue === "event.target.innerText") {
 			value = event.target.innerText;
 		} else {
@@ -17,7 +16,7 @@ class Button extends Component<ButtonProps> {
 			this.props.callback({ [this.props.id]: value });
 		} else if (this.props.callbackValue || this.props.callbackValue == false) {
 			this.props.callback(value);
-		} else if (this.props.index && this.props.index >= 0) {
+		} else if (!isNaN(this.props.index as number)) {
 			this.props.callback(this.props.index);
 		} else {
 			this.props.callback();

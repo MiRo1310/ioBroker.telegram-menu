@@ -22,6 +22,7 @@ class ActionEditHeader extends Component<PropsActionEditHeader> {
 					)}
 					{this.props.buttons.add ? <TableCell align="left" /> : null}
 					{this.props.buttons.remove ? <TableCell align="left" /> : null}
+					{this.props.buttons.copy ? <TableCell align="left" /> : null}
 				</TableRow>
 			</TableHead>
 		);

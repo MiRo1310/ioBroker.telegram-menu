@@ -29,7 +29,7 @@ export const tabValues: TabValues[] = [
 			{ name: "newline_checkbox", val: "true", headline: "New", title: "Newline", checkbox: true, width: "3%", required: true },
 			{ name: "parse_mode", val: "false", headline: "Par", title: "Parse Mode HTML", checkbox: true, width: "3%", required: true },
 		],
-		popupCard: { buttons: { add: true, remove: true }, width: "99%", height: "70%" },
+		popupCard: { buttons: { add: true, remove: true, copy: true }, width: "99%", height: "70%" },
 	},
 
 	{

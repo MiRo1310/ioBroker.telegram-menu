@@ -17,6 +17,7 @@ import {
 	handleStyleDragOver,
 } from "@/lib/dragNDrop.js";
 import ActionEditHeader from "@/pages/AppContentTabActionContentRowEditorHeader";
+import BtnSmallCopy from "@components/btn-Input/btn-small-copy";
 import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
@@ -72,6 +73,10 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 			return true;
 		}
 		return false;
+	};
+	copyData = (index: number) => {
+		console.log(index);
+		console.log(this.props.newRow);
 	};
 
 	render() {
@@ -237,6 +242,11 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 														index={indexRow}
 														disabled={this.state.rows.length == 1 ? "disabled" : ""}
 													/>
+												</TableCell>
+											) : null}
+											{this.props.buttons.copy ? (
+												<TableCell align="center" className="cellIcon">
+													<BtnSmallCopy index={indexRow} callback={(index: number) => this.copyData(index)} />
 												</TableCell>
 											) : null}
 										</TableRow>

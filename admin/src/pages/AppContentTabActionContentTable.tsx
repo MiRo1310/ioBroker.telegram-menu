@@ -189,7 +189,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							rows={this.state.rows}
 							index={index}
 							showButtons={this.props.showButtons}
-						></ButtonCard>
+						/>
 					</TableRow>
 				))}
 			</TableBody>
