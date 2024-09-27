@@ -1,3 +1,4 @@
+import { DropBoxType } from 'admin/app';
 export const handleMouseOver = (e): void => {
 	if (e.target.classList.contains("noneDraggable")) {
 		let currentElement = e.target;
@@ -57,3 +58,10 @@ export const handleDragEnd = (setState, props?): void => {
 export const handleDraggable = (index: number): "true" | "false" => {
 	return index === 0 ? "false" : "true";
 };
+
+export function getDefaultDropBoxCoordinates(dropBox: DropBoxType, dropDifferenzX: number, dropDifferenzY: number): { newX: number; newY: number } {
+	if (dropBox && dropBox.dropboxRight && dropBox.dropboxTop) {
+		return { newX: dropBox.dropboxRight - dropDifferenzX, newY: dropBox.dropboxTop + dropDifferenzY };
+	}
+	return { newX: 5 - dropDifferenzX, newY: 105 + dropDifferenzY };
+}

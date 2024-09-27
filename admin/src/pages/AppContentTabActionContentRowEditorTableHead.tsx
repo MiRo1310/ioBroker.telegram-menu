@@ -3,7 +3,7 @@ import { TableHead, TableCell, TableRow } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsActionEditHeader } from "admin/app";
 
-class ActionEditHeader extends Component<PropsActionEditHeader> {
+class AppContentTabActionContentRowEditorTableHead extends Component<PropsActionEditHeader> {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -29,4 +29,4 @@ class ActionEditHeader extends Component<PropsActionEditHeader> {
 	}
 }
 
-export default ActionEditHeader;
+export default AppContentTabActionContentRowEditorTableHead;

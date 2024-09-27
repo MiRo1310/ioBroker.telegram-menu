@@ -6,7 +6,8 @@ class BtnSmallCopy extends Component<ButtonSmallProps> {
 	render() {
 		return (
 			<Button
-				b_color="yellow"
+				b_color="blue"
+				color="white"
 				title="Copy"
 				small="true"
 				round="true"

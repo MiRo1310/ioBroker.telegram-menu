@@ -1,23 +1,19 @@
-import React from "react";
-
-import { Grid } from "@mui/material";
-import { AdminConnection } from "@iobroker/adapter-react-v5";
-import { updateTriggerForSelect } from "@/lib/actionUtils";
-import { GenericApp } from "@iobroker/adapter-react-v5";
-
-import AppHeaderIconBar from "@/pages/AppHeaderIconBar";
-import AppContent from "@/pages/AppContent";
-import AppDropBox from "@/pages/AppDropBox";
-import AppTriggerOverview from "@/pages/AppTriggerOverview";
-import AppDoubleTriggerInfo from "@/pages/AppDoubleTriggerInfo";
-
+import { sortObjectByKey, updateActiveMenuAndTrigger } from "@/lib/actionUtils";
+import { updatePositionDropBox } from "@/lib/movePosition";
+import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
 import getIobrokerData from "@/lib/socket";
 import helperFunction from "@/lib/Utils";
-import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
-
-import { sortObjectByKey } from "@/lib/actionUtils";
-import { updatePositionDropBox } from "@/lib/movePosition";
-import { AdditionalPropInfo, AdditionalStateInfo, Native, TriggerObject } from "admin/app";
+import AppContent from "@/pages/AppContent";
+import AppDoubleTriggerInfo from "@/pages/AppDoubleTriggerInfo";
+import AppDropBox from "@/pages/AppDropBox";
+import AppHeaderIconBar from "@/pages/AppHeaderIconBar";
+import AppTriggerOverview from "@/pages/AppTriggerOverview";
+import { AdminConnection, GenericApp } from "@iobroker/adapter-react-v5";
+import { Grid } from "@mui/material";
+import { AdditionalPropInfo, AdditionalStateInfo, Native, Nullable, TriggerObject } from "admin/app";
+import React from "react";
+import { getDefaultDropBoxCoordinates } from "./lib/dragNDrop";
+import { getDoubleEntries, getFirstItem as getFirstObjectKey } from "./lib/object";
 
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	dropBoxRef: React.RefObject<unknown>;
@@ -74,45 +70,38 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	handleResize = () => {
 		updatePositionDropBox(null, null, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
+
 	componentDidMount() {
-		console.log(this.state.native);
 		updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		window.addEventListener("resize", this.handleResize);
 	}
+
 	componentWillUnmount() {
 		window.removeEventListener("resize", this.handleResize);
 	}
-	newX = null;
-	newY = null;
+
+	newX: Nullable<number> = null;
+	newY: Nullable<number> = null;
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
 			this.getUsersFromTelegram();
 		}
 		if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
 			if (this.state.activeMenu && this.state.activeMenu != "") {
-				this.updateActiveMenuAndTrigger(this.state.activeMenu);
+				updateActiveMenuAndTrigger(this.state.activeMenu, this.setState, this.state.native.data, this.state.native.usersInGroup);
 			}
 		}
 		if (prevState.native.usersInGroup !== this.state.native.usersInGroup) {
 			this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		}
 		if (prevState.usedTrigger !== this.state.usedTrigger) {
-			this.checkDoubleEntryInUsedTrigger();
+			this.setState({ doubleTrigger: getDoubleEntries(this.state.usedTrigger) });
 		}
 		if (prevState.native.dropbox !== this.state.native.dropbox || this.state.showDropBox !== prevState.showDropBox) {
 			updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		}
 		if (prevState.dropDifferenzX !== this.state.dropDifferenzX || prevState.dropDifferenzY !== this.state.dropDifferenzY) {
-			let newX, newY;
-			if (this.state.native.dropbox && this.state.native.dropbox.dropboxRight && this.state.native.dropbox.dropboxTop) {
-				newX = this.state.native.dropbox.dropboxRight - this.state.dropDifferenzX;
-
-				newY = this.state.native.dropbox.dropboxTop + this.state.dropDifferenzY;
-			} else {
-				newX = 5 - this.state.dropDifferenzX;
-
-				newY = 105 + this.state.dropDifferenzY;
-			}
+			const { newX, newY } = getDefaultDropBoxCoordinates(this.state.native.dropbox, this.state.dropDifferenzX, this.state.dropDifferenzY);
 			this.newX = newX;
 			this.newY = newY;
 			const dropbox = { dropboxRight: newX, dropboxTop: newY };
@@ -125,46 +114,21 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
 		this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		this.getUsersFromTelegram();
-		getIobrokerData.getAllTelegramInstances(this.socket, (data) => {
+		getIobrokerData.getAllTelegramInstances(this.socket, (data: string[]) => {
 			this.setState({ instances: data });
 		});
-		let firstMenu = "";
-		if (this.state.native.usersInGroup) {
-			firstMenu = Object.keys(this.state.native.usersInGroup)[0];
-			this.setState({ activeMenu: firstMenu });
-		}
-
-		this.updateActiveMenuAndTrigger(firstMenu);
+		const firstMenu = getFirstObjectKey(this.state.native.usersInGroup);
+		this.setState({ activeMenu: firstMenu });
+		updateActiveMenuAndTrigger(firstMenu, this.setState, this.state.native.data, this.state.native.usersInGroup);
 		console.log(this.state.native);
 		this.setState({ connectionReady: true });
 	}
-	checkDoubleEntryInUsedTrigger = () => {
-		const usedTrigger = [...this.state.usedTrigger];
-		const doubleTrigger: string[] = [];
-		usedTrigger.forEach((element, index) => {
-			if (index !== usedTrigger.indexOf(element)) {
-				if (element != "-") {
-					doubleTrigger.push(element);
-				}
-			}
-		});
-
-		this.setState({ doubleTrigger: doubleTrigger });
-	};
-	updateActiveMenuAndTrigger = (menu) => {
-		const result = updateTriggerForSelect(this.state.native.data, this.state.native.usersInGroup, menu);
-		if (result) {
-			this.setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
-		}
-	};
 
 	getUsersFromTelegram() {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || "telegram.0", (data) => {
-			if (!this.state.native.instance) {
-				this.updateNativeValue("instance", "telegram.0");
-			}
-
-			this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
+			!this.state.native.instance
+				? this.updateNativeValue("instance", "telegram.0")
+				: this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
 		});
 	}
 

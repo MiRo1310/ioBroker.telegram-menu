@@ -9,10 +9,8 @@ import RenameCard from "../components/popupCards/RenameCard";
 
 import { deepCopy } from "../lib/Utils.js";
 import { PropsBtnCard, StateBtnCard } from "admin/app";
-
-function checkMenuName(menu): string {
-	return menu.replace(/ /g, "_");
-}
+import { replaceSpaceWithUnderscore } from "../lib/string";
+import { NativeData } from "../../app";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	constructor(props) {
@@ -59,8 +57,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}
 	}
 
-	addNewMenu = (newMenu, copyMenu) => {
-		newMenu = checkMenuName(newMenu);
+	addNewMenu = (newMenu: string, copyMenu: boolean) => {
+		newMenu = replaceSpaceWithUnderscore(newMenu);
 		let addNewMenu = false;
 		const data = JSON.parse(JSON.stringify(this.props.data.state.native.data));
 		let userActiveCheckbox = JSON.parse(JSON.stringify(this.props.data.state.native.userActiveCheckbox));
@@ -80,11 +78,6 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 				addNewMenu = true;
 			}
 		} else {
-			if (newMenu !== "" || !newMenu) {
-				console.log("empty input field!");
-			} else {
-				console.log("Menu already exists!");
-			}
 			return;
 		}
 		if (addNewMenu) {
@@ -103,8 +96,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}, 500);
 	};
 
-	removeMenu = (menu, renamed, newMenu?) => {
-		const newObject = deepCopy(this.props.data.state.native.data);
+	removeMenu = (menu: string, renamed: boolean, newMenu?: string) => {
+		const newObject: NativeData = deepCopy(this.props.data.state.native.data);
 		const copyOfUsersInGroup = deepCopy(this.props.data.state.native.usersInGroup);
 		const userActiveCheckbox = deepCopy(this.props.data.state.native.userActiveCheckbox);
 
@@ -120,9 +113,9 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
 		if (renamed) {
 			this.props.callback.setState({ activeMenu: newMenu });
-		} else {
-			this.props.callback.setState({ activeMenu: firstMenu });
+			return;
 		}
+		this.props.callback.setState({ activeMenu: firstMenu });
 	};
 	openConfirmDialog = () => {
 		this.setState({ confirmDialog: true });

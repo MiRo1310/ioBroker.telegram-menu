@@ -2,6 +2,8 @@ import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
 import { Tab } from '@mui/material';
 import { AdminConnection } from '@iobroker/socket-client';
 
+export type Nullable<T> = T | null | undefined;
+
 export interface AdditionalPropInfo extends GenericAppProps {
 	themeName: string;
 }
@@ -165,11 +167,11 @@ export interface Data {
 	themeType?: string;
 	adapterName?: string;
 	unUsedTrigger?: string[];
-	usersInGroup?: UserInGroup;
+	usersInGroup?: UsersInGroup;
 	userActiveCheckbox?: UserActiveCheckbox;
 }
 
-type UserInGroup = string[][];
+export type UsersInGroup = { [key: string]: string[] };
 type socket = AdminConnection;
 
 export interface StateTabAction {
@@ -403,7 +405,7 @@ export interface PropsTelegramUserCard {
 	data: {
 		state: AdditionalStateInfo;
 		activeMenu: string;
-		usersInGroup: UserInGroup;
+		usersInGroup: UsersInGroup;
 		userActiveCheckbox: UserActiveCheckbox
 	};
 	callback: CallbackFunctions;
@@ -412,7 +414,7 @@ export interface PropsTelegramUserCard {
 	key?: number;
 }
 export interface StateTelegramUserCard {
-	usersInGroup: UserInGroup;
+	usersInGroup: UsersInGroup;
 	name: string;
 	activeMenu: string;
 }
@@ -449,14 +451,14 @@ export interface StatePopupContainer {
 	inUse: boolean;
 }
 export interface PropsRowEditPopupCard {
-	entries: any;
+	entries: TabValueEntries[];
 	newRow: ActionNewRowProps;
-	data: any;
-	openHelperText: any;
-	subCard: any;
+	data: Data;
+	openHelperText: (value: any) => void;
+	subCard: string;
 	searchRoot: SearchRoot | null;
 	buttons: PopupCardButtons;
-	newUnUsedTrigger: any;
+	newUnUsedTrigger: string[];
 	callback?: { setState: SetStateFunction };
 }
 
@@ -560,7 +562,7 @@ export interface PropsRenameCard {
 export interface StateRenameCard { }
 export interface PropsTriggerOverview {
 	data: any;
-	usersInGroup: UserInGroup;
+	usersInGroup: UsersInGroup;
 	userActiveCheckbox: UserActiveCheckbox;
 }
 export interface StateTriggerOverview {
@@ -591,7 +593,7 @@ export interface StateSquare {
 }
 export interface PropsHeaderTelegramUsers {
 	callback: CallbackFunctions;
-	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UserInGroup, userActiveCheckbox: UserActiveCheckbox };
+	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox };
 	menuPopupOpen: boolean;
 }
 export interface StateHeaderTelegramUsers {
@@ -617,7 +619,7 @@ export interface StateBtnCard {
 	isOK: boolean;
 }
 export interface PropsMenuPopupCard {
-	usersInGroup: UserInGroup;
+	usersInGroup: UsersInGroup;
 	callback: CallbackFunctions;
 }
 export interface PropsMenuButton {
@@ -629,12 +631,8 @@ export interface PropsMenuButton {
 }
 
 export interface Native {
-	dropbox: {
-		dropboxTop: number;
-		dropboxRight: number;
-	};
-	data: DataObject;
-	usersInGroup: UserInGroup;
+	dropbox: DropBoxType;
+	usersInGroup: UsersInGroup;
 	instance: string;
 	data: NativeData;
 	checkbox: {
@@ -650,7 +648,12 @@ export interface Native {
 	textNoEntry: string;
 	userListWithChatID: { name: string, chatID: string }[];
 }
-type UserActiveCheckbox = { [key: string]: boolean };
+
+export interface DropBoxType {
+	dropboxTop: number;
+	dropboxRight: number;
+}
+export type UserActiveCheckbox = { [key: string]: boolean };
 export interface NativeData {
 	action: { [key: string]: Actions };
 	nav: NavData;

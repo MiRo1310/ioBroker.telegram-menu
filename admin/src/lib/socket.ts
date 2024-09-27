@@ -1,3 +1,6 @@
+import { AdminConnection } from "@iobroker/adapter-react-v5";
+import helperFunction from "./Utils";
+
 function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb): void {
 	try {
 		new Promise((resolve, reject) => {
@@ -38,8 +41,10 @@ function getAllTelegramInstances(socket, callback): void {
 		console.error("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
 }
+
 const getIobrokerData = {
 	getUsersFromTelegram,
 	getAllTelegramInstances,
+
 };
 export default getIobrokerData;

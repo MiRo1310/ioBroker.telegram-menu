@@ -1,6 +1,7 @@
 import React from "react";
 import { deepCopy, sortArray, deleteDoubleEntriesInArray } from "./Utils";
 import { tabValues } from "../config/entries";
+import { SetStateFunction, NativeData, UsersInGroup } from "admin/app";
 
 function createData(element, index, rowElements): { [key: string]: string } {
 	const obj = {};
@@ -268,4 +269,11 @@ export const sortObjectByKey = (usersInGroup): any => {
 		newObject[element[0]] = element[1];
 	});
 	return newObject;
+};
+
+export function updateActiveMenuAndTrigger(menu: string, setState: SetStateFunction, data: NativeData, usersInGroup: UsersInGroup): void {
+	const result = updateTriggerForSelect(data, usersInGroup, menu);
+	if (result) {
+		setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
+	}
 };
