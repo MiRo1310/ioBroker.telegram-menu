@@ -22,7 +22,7 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 						<ActionCard
 							callback={this.props.callback}
 							data={this.props.data}
-							activeMenu={this.props.activeMenu}
+							activeMenu={this.props.data.state.activeMenu}
 							card="action"
 							subCard={tab.value}
 							entries={tab.entries}

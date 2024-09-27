@@ -7,7 +7,11 @@ class AppContentTabActionContentRowEditorCopyModal extends Component {
 	}
 
 	render() {
-		return <div className="Template">Hallo das ist eine Seite</div>;
+		return (
+			<div className="Template">
+				<p>Menu</p>
+			</div>
+		);
 	}
 }
 

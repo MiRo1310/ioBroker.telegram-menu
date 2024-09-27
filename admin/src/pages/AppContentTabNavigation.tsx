@@ -94,7 +94,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			this.setState({ editRow: false });
 			return;
 		}
-		const dataCopy = JSON.parse(JSON.stringify(this.props.data.data));
+		const dataCopy = JSON.parse(JSON.stringify(this.props.data.state.native.data));
 		const navUserArray = dataCopy.nav[this.props.data.state.activeMenu];
 		if (this.state.editRow) {
 			navUserArray.splice(this.state.rowIndex, 1, this.state.newRow);
@@ -112,7 +112,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			this.setState({ rowIndex: value });
 		}
 		const obj = {} as RowsNav;
-		this.props.entries.forEach((entry) => {
+		this.props.data.entries.forEach((entry) => {
 			obj[entry.name] = entry.val;
 		});
 		this.setState({ newRow: obj, rowPopup: true });
@@ -134,9 +134,9 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			<>
 				<TableContainer component={Paper} className="MenuNavigation-Container">
 					<Table stickyHeader aria-label="sticky table">
-						<TabNavHeader entries={this.props.entries} />
+						<TabNavHeader entries={this.props.data.entries} />
 						<TableNavBody
-							tableData={this.props.data.nav}
+							tableData={this.props.data.state.native.data.nav}
 							data={this.props.data}
 							callback={this.props.callback}
 							card={"nav"}
@@ -144,7 +144,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
 							activeMenu={this.props.data.state.activeMenu}
-							entries={this.props.entries}
+							entries={this.props.data.entries}
 						/>
 					</Table>
 				</TableContainer>
@@ -153,7 +153,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 						state={this.state}
 						setState={this.setState.bind(this)}
 						data={this.props.data}
-						entries={this.props.entries}
+						entries={this.props.data.entries}
 						popupRowCard={this.popupRowCard}
 					/>
 				) : null}

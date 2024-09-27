@@ -156,7 +156,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 							setStateApp: this.setState,
 							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 						}}
-						data={{ activeMenu: this.state.activeMenu, state: this.state, adapterName: this.adapterName, socket: this.socket }}
+						data={{ state: this.state, adapterName: this.adapterName, socket: this.socket }}
 					/>
 				</Grid>
 				{this.state.showDropBox ? (

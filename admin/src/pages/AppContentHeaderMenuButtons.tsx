@@ -26,8 +26,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		};
 	}
 	componentDidUpdate(_, prevState) {
-		if (prevState.oldMenuName !== this.props.data.activeMenu) {
-			this.setState({ oldMenuName: this.props.data.activeMenu, renamedMenuName: this.props.data.activeMenu });
+		if (prevState.oldMenuName !== this.props.data.state.activeMenu) {
+			this.setState({ oldMenuName: this.props.data.state.activeMenu, renamedMenuName: this.props.data.state.activeMenu });
 		}
 		if (prevState.newMenuName !== this.state.newMenuName) {
 			if (this.props.data.state.native.usersInGroup[this.state.newMenuName.replace(/ /g, "_")]) {

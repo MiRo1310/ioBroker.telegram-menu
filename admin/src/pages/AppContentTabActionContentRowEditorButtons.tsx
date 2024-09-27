@@ -5,7 +5,7 @@ import BtnSmallRemove from "@components/btn-Input/btn-small-remove";
 import PopupContainer from "@components/popupCards/PopupContainer";
 import { TableCell } from "@mui/material";
 import React, { Component } from "react";
-import { AppContentTabActionContentRowEditorButtonsProps } from "../../types/props-types";
+import { AppContentTabActionContentRowEditorButtonsProps } from "../types/props-types";
 import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
 
 interface AppContentTabActionContentRowEditorButtonsState {

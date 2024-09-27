@@ -67,9 +67,7 @@ export interface StateTabNavigation {
 	text: string;
 }
 export interface PropsTabNavigation {
-	data: Data;
-	entries: TabValueEntries[];
-	activeMenu: string;
+	data: DataMainContent & { entries: TabValueEntries[] }
 	callback: Callback;
 }
 export interface TabValues {
@@ -151,9 +149,8 @@ export interface RowsNav {
 }
 
 export interface PropsTabAction {
+	data: DataMainContent
 	callback: Callback;
-	activeMenu: string;
-	data: Data;
 }
 
 export interface Data {
@@ -513,11 +510,11 @@ export interface AppState {
 	isConfigurationError: string;
 	expertMode: boolean;
 	toast: string;
-	theme: import("./types").Theme;
+	theme: import("./src/types").Theme;
 	themeName: string;
 	themeType: string;
 	bottomButtons: boolean;
-	width: import("./types").Width;
+	width: import("./src/types").Width;
 	confirmClose: boolean;
 	_alert: boolean;
 	_alertType: string;
@@ -602,12 +599,12 @@ export interface StateHeaderTelegramUsers {
 	menuChecked: boolean;
 }
 export interface PropsHeaderMenu {
-	data: { activeMenu: string; state: AdditionalStateInfo };
+	data: DataMainContent;
 	callback: CallbackFunctionsApp;
 }
 export interface PropsBtnCard {
 	callback: CallbackFunctionsApp;
-	data: { activeMenu: string; state: AdditionalStateInfo }
+	data: DataMainContent
 }
 export interface StateBtnCard {
 	oldMenuName: string;
@@ -715,7 +712,7 @@ export interface PropsMainTabList {
 	callback: CallbackFunctionsApp;
 }
 export interface PropsMainActions {
-	data: { activeMenu: string; state: AdditionalStateInfo };
+	data: DataMainContent;
 	callback: CallbackFunctionsApp;
 }
 export interface CallbackFunctions {
@@ -734,9 +731,13 @@ export interface PropsMainDoubleTriggerInfo {
 	state: AdditionalStateInfo;
 }
 export interface PropsMainContent {
-	data: { activeMenu: string; state: AdditionalStateInfo, adapterName: string, socket: Socket };
+	data: DataMainContent;
 	callback: CallbackFunctionsApp;
 }
+export interface DataMainContent { state: AdditionalStateInfo, adapterName: string, socket: Socket }
+
+export type Socket = any;
+
 export interface PropsMainDropBox {
 	callback: CallbackFunctionsApp;
 	data: DataDropBox;

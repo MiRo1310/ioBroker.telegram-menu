@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { TabContext } from "@mui/lab";
 import { Grid, Box } from "@mui/material";
-import TabListing from "@/pages/AppContentTabsListing";
-import MainActions from "@/pages/AppContentHeader";
-import Tabs from "@/pages/AppContentTab";
+import AppContentTabsListing from "@/pages/AppContentTabsListing";
+import AppContentHeader from "@/pages/AppContentHeader";
+import AppContentTab from "@/pages/AppContentTab";
 import { Properties } from "csstype";
 import { PropsMainContent } from "admin/app";
 
@@ -23,14 +23,9 @@ class MainContent extends Component<PropsMainContent> {
 			<Grid item xs={12} className="App-main-content">
 				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={this.tabBox}>
 					<TabContext value={this.props.data.state.tab}>
-						<TabListing callback={this.props.callback} />
-						<MainActions data={this.props.data} callback={this.props.callback} />
-						<Tabs
-							callback={this.props.callback}
-							adapterName={this.props.data.adapterName}
-							socket={this.props.data.socket}
-							state={this.props.data.state}
-						/>
+						<AppContentTabsListing callback={this.props.callback} />
+						<AppContentHeader data={this.props.data} callback={this.props.callback} />
+						<AppContentTab callback={this.props.callback} data={this.props.data} />
 					</TabContext>
 				</Box>
 			</Grid>
