@@ -236,6 +236,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							data={this.props.data}
 							newRow={this.state.newRow}
 							callback={{ setState: this.setState.bind(this) }}
+							callbackFromAppTsx={this.props.callback}
 							entries={this.props.entries}
 							searchRoot={this.props.searchRoot}
 							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.unUsedTrigger}

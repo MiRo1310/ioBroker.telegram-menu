@@ -345,7 +345,7 @@ export interface PropsActionCard {
 	popupCard: PopupCard;
 	titlePopup: string;
 	showButtons: ShowButtons;
-	callback: any;
+	callback: CallbackFunctions;
 	searchRoot: SearchRoot | null;
 }
 interface ShowButtons {
@@ -382,7 +382,7 @@ export interface PropsTableDndAction {
 	setState: SetStateFunction;
 	showButtons: ShowButtons;
 	openAddRowCard: any;
-	callback: any;
+	callback: CallbackFunctions;
 	addEditedTrigger: any;
 	card: string;
 }
@@ -460,6 +460,7 @@ export interface PropsRowEditPopupCard {
 	buttons: PopupCardButtons;
 	newUnUsedTrigger: string[];
 	callback?: { setState: SetStateFunction };
+	callbackFromAppTsx: CallbackFunctions;
 }
 
 export type BooleanString = "true" | "false";

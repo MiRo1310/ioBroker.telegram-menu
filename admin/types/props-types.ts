@@ -1,5 +1,5 @@
-import { RowsSetState, TabValueEntries, ActionNewRowProps } from '../../app';
-import { SetStateFunction, PopupCardButtons } from 'admin/app';
+import { RowsSetState, TabValueEntries, ActionNewRowProps, Data } from '../app';
+import { SetStateFunction, PopupCardButtons, CallbackFunctions } from 'admin/app';
 export interface AppContentTabActionContentRowEditorButtonsProps {
     buttons: PopupCardButtons;
     newRow: ActionNewRowProps;
@@ -7,4 +7,6 @@ export interface AppContentTabActionContentRowEditorButtonsProps {
     indexRow: number;
     rows: RowsSetState[];
     setState: SetStateFunction;
+    data: Data
+    callbackFromAppTsx: CallbackFunctions;
 }

@@ -6,7 +6,7 @@ import { TableCell } from "@mui/material";
 import React, { Component } from "react";
 import { ActionNewRowProps, PopupCardButtons, SetStateFunction, TabValueEntries } from "admin/app";
 import { RowsSetState } from "../../app";
-import { AppContentTabActionContentRowEditorButtonsProps } from "../types/props-types";
+import { AppContentTabActionContentRowEditorButtonsProps } from "../../types/props-types";
 
 class AppContentTabActionContentRowEditorButtons extends Component<AppContentTabActionContentRowEditorButtonsProps> {
 	constructor(props) {
@@ -18,7 +18,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<AppContentTab
 		console.log(this.props.newRow);
 	};
 	componentDidMount(): void {
-		console.log(this.props);
+		console.log(this.props.data.data);
 	}
 
 	render() {
