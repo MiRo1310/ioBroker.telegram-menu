@@ -153,23 +153,19 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 
 					<AppContent
 						callback={{
-							setState: this.setState,
+							setStateApp: this.setState,
 							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 						}}
-						state={this.state}
-						socket={this.socket}
-						data={{ activeMenu: this.state.activeMenu, state: this.state }}
-						adapterName={this.adapterName}
+						data={{ activeMenu: this.state.activeMenu, state: this.state, adapterName: this.adapterName, socket: this.socket }}
 					/>
 				</Grid>
 				{this.state.showDropBox ? (
 					<AppDropBox
-						state={this.state}
+						data={{ state: this.state, dropBoxRef: this.dropBoxRef }}
 						callback={{
-							setState: this.setState,
+							setStateApp: this.setState,
 							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
 						}}
-						dropBoxRef={this.dropBoxRef}
 					/>
 				) : null}
 				{this.state.showTriggerInfo ? (

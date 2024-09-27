@@ -22,14 +22,14 @@ class MainContent extends Component<PropsMainContent> {
 		return (
 			<Grid item xs={12} className="App-main-content">
 				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={this.tabBox}>
-					<TabContext value={this.props.state.tab}>
+					<TabContext value={this.props.data.state.tab}>
 						<TabListing callback={this.props.callback} />
-						<MainActions tab={this.props.state.tab} data={this.props.data} callback={this.props.callback} />
+						<MainActions data={this.props.data} callback={this.props.callback} />
 						<Tabs
 							callback={this.props.callback}
-							adapterName={this.props.adapterName}
-							socket={this.props.socket}
-							state={this.props.state}
+							adapterName={this.props.data.adapterName}
+							socket={this.props.data.socket}
+							state={this.props.data.state}
 						/>
 					</TabContext>
 				</Box>

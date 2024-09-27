@@ -29,7 +29,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		this.updateMenuList();
 	}
 	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.activeMenu !== this.props.activeMenu) {
+		if (prevProps.activeMenu !== this.props.data.state.activeMenu) {
 			this.setState({ selectedMenu: "" });
 			this.updateMenuList();
 		}
@@ -50,7 +50,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		}
 	}
 	updateMenuList = () => {
-		const menuList = Object.keys(this.props.native.usersInGroup);
+		const menuList = Object.keys(this.props.data.state.native.usersInGroup);
 		this.setState({ menuList: menuList });
 	};
 
@@ -62,21 +62,24 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		if (this.state.selectedMenu === "") {
 			return;
 		}
-		const data = deepCopy(this.props.native.data);
+		const data = deepCopy(this.props.data.state.native.data);
 		let rowToWorkWith;
 		const moveOrCopy = this.state.selectedValue;
 
-		if (this.state.newTrigger === "" && !(this.props.subTab === "events")) {
-			if (this.props.tab === "action") {
-				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
+		if (this.state.newTrigger === "" && !(this.props.data.state.subTab === "events")) {
+			if (this.props.data.state.tab === "action") {
+				rowToWorkWith =
+					this.props.data.state.native.data[this.props.data.state.tab][this.props.data.state.activeMenu][this.props.data.state.subTab][
+						this.props.index
+					];
 			} else {
-				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.index];
+				rowToWorkWith = this.props.data.state.native.data[this.props.data.state.tab][this.props.data.state.activeMenu][this.props.index];
 			}
 			this.setState({ rowToWorkWith: rowToWorkWith });
-			const usedTrigger = updateTriggerForSelect(data, this.props.native?.usersInGroup, this.state.selectedMenu)?.usedTrigger;
+			const usedTrigger = updateTriggerForSelect(data, this.props.data.state.native?.usersInGroup, this.state.selectedMenu)?.usedTrigger;
 
 			this.setState({ usedTrigger: usedTrigger || [] });
-			if (this.props.tab === "action") {
+			if (this.props.data.state.tab === "action") {
 				if (moveOrCopy === "copy") {
 					if (rowToWorkWith.trigger && usedTrigger?.includes(rowToWorkWith.trigger[0])) {
 						this.setState({
@@ -127,8 +130,11 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 				}
 			}
 		} else {
-			if (this.props.subTab === "events") {
-				rowToWorkWith = this.props.native.data[this.props.tab][this.props.activeMenu][this.props.subTab][this.props.index];
+			if (this.props.data.state.subTab === "events") {
+				rowToWorkWith =
+					this.props.data.state.native.data[this.props.data.state.tab][this.props.data.state.activeMenu][this.props.data.state.subTab][
+						this.props.index
+					];
 			} else if (!rowToWorkWith) {
 				rowToWorkWith = this.state.rowToWorkWith;
 			}
@@ -151,44 +157,44 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		return count;
 	};
 	move = (rowToWorkWith, data) => {
-		if (this.props.tab === "action" && this.props.subTab !== "events") {
+		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events") {
 			if (this.state.newTrigger !== "") {
 				rowToWorkWith.trigger[0] = this.state.newTrigger;
 			}
 
 			// Wenn es das erste Element ist, dann muss das Array erstellt werden
-			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) {
-				data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+			if (!data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab]) {
+				data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab] = [];
 			}
 
-			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
-			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
-		} else if (this.props.subTab == "events") {
+			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
+			data[this.props.data.state.tab][this.props.data.state.activeMenu][this.props.data.state.subTab].splice(this.props.index, 1);
+		} else if (this.props.data.state.subTab == "events") {
 			// Events besonders da kein Trigger vorhanden ist
-			if (!data[this.props.tab][this.state.selectedMenu][this.props.subTab]) {
-				data[this.props.tab][this.state.selectedMenu][this.props.subTab] = [];
+			if (!data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab]) {
+				data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab] = [];
 			}
-			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
-			data[this.props.tab][this.props.activeMenu][this.props.subTab].splice(this.props.index, 1);
+			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
+			data[this.props.data.state.tab][this.props.data.state.activeMenu][this.props.data.state.subTab].splice(this.props.index, 1);
 		} else {
 			if (this.state.newTrigger !== "") {
 				rowToWorkWith.call = this.state.newTrigger;
 			}
-			data[this.props.tab][this.state.selectedMenu].push(rowToWorkWith);
-			data[this.props.tab][this.props.activeMenu].splice(this.props.index, 1);
+			data[this.props.data.state.tab][this.state.selectedMenu].push(rowToWorkWith);
+			data[this.props.data.state.tab][this.props.data.state.activeMenu].splice(this.props.index, 1);
 		}
 		this.props.callback.updateNative("data", data);
 		this.setState({ newTrigger: "" });
 	};
 	copy = (rowToWorkWith, data) => {
-		if (this.props.tab === "action" && this.props.subTab !== "events") {
+		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events") {
 			rowToWorkWith.trigger[0] = this.state.newTrigger;
-			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
-		} else if (this.props.subTab == "events") {
-			data[this.props.tab][this.state.selectedMenu][this.props.subTab].push(rowToWorkWith);
+			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
+		} else if (this.props.data.state.subTab == "events") {
+			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
 		} else {
 			rowToWorkWith.call = this.state.newTrigger;
-			data[this.props.tab][this.state.selectedMenu].push(rowToWorkWith);
+			data[this.props.data.state.tab][this.state.selectedMenu].push(rowToWorkWith);
 		}
 		this.props.callback.updateNative("data", data);
 		this.setState({ newTrigger: "" });

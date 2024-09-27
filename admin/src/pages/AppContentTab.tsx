@@ -5,10 +5,11 @@ import Settings from "@/pages/AppContentTabSettings";
 import { TabPanel } from "@mui/lab";
 import { navEntries } from "@/config/entries";
 import { AdditionalStateInfo, CallbackFunctions } from "admin/app";
+import { CallbackFunctionsApp } from "../../app";
 interface PropsMainTabs {
 	state: AdditionalStateInfo;
 	socket: any;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	adapterName: string;
 }
 class Tabs extends Component<PropsMainTabs> {

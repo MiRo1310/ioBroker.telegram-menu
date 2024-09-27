@@ -13,7 +13,7 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 		}
 	}
 	secondCallback = () => {
-		this.props.callback.setState({ showPopupMenuList: false });
+		this.props.callback.setStateApp({ showPopupMenuList: false });
 	};
 
 	menuList = Object.keys(this.props.usersInGroup);
@@ -33,7 +33,7 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 							width="90%"
 							height="40px"
 							fontSize="16px"
-							callback={this.props.callback.setState}
+							callback={this.props.callback.setStateApp}
 							callbackValue="event.target.innerText"
 							secondCallback={this.secondCallback}
 						>

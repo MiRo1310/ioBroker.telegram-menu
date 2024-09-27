@@ -9,14 +9,14 @@ import { PropsHeaderMenu } from "admin/app";
 class HeaderMenu extends Component<PropsHeaderMenu> {
 	eventOnMouse = (event) => {
 		if (event.type === "mouseenter") {
-			this.props.callback.setState({ showPopupMenuList: true });
+			this.props.callback.setStateApp({ showPopupMenuList: true });
 		}
 		if (event.type === "mouseleave") {
-			this.props.callback.setState({ showPopupMenuList: false });
+			this.props.callback.setStateApp({ showPopupMenuList: false });
 		}
 	};
 	handleClick = () => {
-		this.props.callback.setState({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
+		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
 	render() {
 		return (

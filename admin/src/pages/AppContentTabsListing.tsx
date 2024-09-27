@@ -10,7 +10,7 @@ class TabListing extends Component<PropsMainTabList> {
 		this.state = {};
 	}
 	handleChange = (event, val) => {
-		this.props.callback.setState({ tab: val });
+		this.props.callback.setStateApp({ tab: val });
 	};
 
 	tabs: TabListingType[] = [

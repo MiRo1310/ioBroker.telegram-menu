@@ -10,14 +10,14 @@ class MainDropBox extends Component<PropsMainDropBox> {
 		this.state = {};
 	}
 	closeDropBox = () => {
-		this.props.callback.setState({ showDropBox: false });
+		this.props.callback.setStateApp({ showDropBox: false });
 	};
 
 	render() {
 		return (
 			<PopupContainer
 				class="DropBox-PopupContainer"
-				reference={this.props.dropBoxRef}
+				reference={this.props.data.dropBoxRef}
 				width="99%"
 				height="25%"
 				title="DropBox"
@@ -33,14 +33,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
 				onMouseLeave={onMouseLeave}
 				setState={this.setState.bind(this)}
 			>
-				<DropBox
-					tab={this.props.state.tab}
-					subTab={this.props.state.subTab}
-					index={this.props.state.draggingRowIndex}
-					activeMenu={this.props.state.activeMenu}
-					native={this.props.state.native}
-					callback={this.props.callback}
-				/>
+				<DropBox data={this.props.data} index={this.props.data.state.draggingRowIndex} callback={this.props.callback} />
 			</PopupContainer>
 		);
 	}

@@ -48,7 +48,7 @@ export interface PropsSettings {
 		instances: string[];
 		checkbox: Object;
 	};
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 
 export interface StateTabNavigation {
@@ -408,7 +408,7 @@ export interface PropsTelegramUserCard {
 		usersInGroup: UsersInGroup;
 		userActiveCheckbox: UserActiveCheckbox
 	};
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	setState: SetStateFunction;
 	class?: string;
 	key?: number;
@@ -533,12 +533,9 @@ export interface TriggerObject {
 }
 
 export interface PropsDropBox {
-	native: Native;
-	callback: any;
-	tab: string;
-	subTab: string;
+	callback: CallbackFunctionsApp;
+	data: DataDropBox;
 	index: number | null;
-	activeMenu: string;
 }
 export interface StateDropBox {
 	inDropBox: boolean;
@@ -593,7 +590,7 @@ export interface StateSquare {
 	fontWeight: string;
 }
 export interface PropsHeaderTelegramUsers {
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox };
 	menuPopupOpen: boolean;
 }
@@ -604,10 +601,10 @@ export interface StateHeaderTelegramUsers {
 }
 export interface PropsHeaderMenu {
 	data: { activeMenu: string; state: AdditionalStateInfo };
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 export interface PropsBtnCard {
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	data: { activeMenu: string; state: AdditionalStateInfo }
 }
 export interface StateBtnCard {
@@ -621,7 +618,7 @@ export interface StateBtnCard {
 }
 export interface PropsMenuPopupCard {
 	usersInGroup: UsersInGroup;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 export interface PropsMenuButton {
 	b_color?: string;
@@ -713,15 +710,18 @@ export interface Echart {
 	trigger: string[];
 }
 export interface PropsMainTabList {
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 export interface PropsMainActions {
 	data: { activeMenu: string; state: AdditionalStateInfo };
-	tab: string;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 export interface CallbackFunctions {
 	setState: SetStateFunction;
+	updateNative: UpdateNativeFunction;
+}
+export interface CallbackFunctionsApp {
+	setStateApp: SetStateFunction;
 	updateNative: UpdateNativeFunction;
 }
 export interface PropsMainTriggerOverview {
@@ -732,16 +732,15 @@ export interface PropsMainDoubleTriggerInfo {
 	state: AdditionalStateInfo;
 }
 export interface PropsMainContent {
-	state: AdditionalStateInfo;
-	socket: Socket;
-	data: { activeMenu: string; state: AdditionalStateInfo };
-	callback: CallbackFunctions;
-	adapterName: string;
+	data: { activeMenu: string; state: AdditionalStateInfo, adapterName: string, socket: Socket };
+	callback: CallbackFunctionsApp;
 }
 export interface PropsMainDropBox {
-	state: AdditionalStateInfo;
-	callback: CallbackFunctions;
-	dropBoxRef: React.RefObject<unknown>;
+	callback: CallbackFunctionsApp;
+	data: DataDropBox;
+}
+export interface DataDropBox {
+	dropBoxRef: React.RefObject<unknown>, state: AdditionalStateInfo
 }
 export interface PropsTableNavHeader {
 	entries: TabValueEntries[];
@@ -750,7 +749,7 @@ export interface PropsTableNavHeader {
 export interface PropsTableNavHelper {
 	state: StateTabNavigation;
 	setState: SetStateFunction;
-	data: data;
+	data: Data;
 	popupHelperCard: (isOkay: boolean) => void;
 }
 export interface PropsActionEditHeader {

@@ -14,10 +14,10 @@ class MainActions extends Component<PropsMainActions> {
 		return (
 			<Grid container spacing={1} className="Grid-HeaderMenu ">
 				<Grid item xs={12}>
-					{this.props.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback} /> : null}
+					{this.props.data.state.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback} /> : null}
 				</Grid>
 				<Grid item xs={12}>
-					{this.props.tab != "settings" ? (
+					{this.props.data.state.tab != "settings" ? (
 						<HeaderTelegramUsers
 							data={{
 								state: this.props.data.state,

@@ -92,7 +92,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		this.props.callback.updateNative("data", data, cb2);
 
 		setTimeout(() => {
-			this.props.callback.setState({ activeMenu: newMenu });
+			this.props.callback.setStateApp({ activeMenu: newMenu });
 		}, 500);
 	};
 
@@ -112,10 +112,10 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		this.props.callback.updateNative("data", newObject, cb);
 
 		if (renamed) {
-			this.props.callback.setState({ activeMenu: newMenu });
+			this.props.callback.setStateApp({ activeMenu: newMenu });
 			return;
 		}
-		this.props.callback.setState({ activeMenu: firstMenu });
+		this.props.callback.setStateApp({ activeMenu: firstMenu });
 	};
 	openConfirmDialog = () => {
 		this.setState({ confirmDialog: true });
@@ -210,7 +210,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							height="40px"
 							id="showDropBox"
 							callbackValue={true}
-							callback={this.props.callback.setState}
+							callback={this.props.callback.setStateApp}
 							className="buttonHover"
 						>
 							<i className="material-icons translate ">content_copy</i>Copy
@@ -225,7 +225,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							height="40px"
 							id="showTriggerInfo"
 							callbackValue={true}
-							callback={this.props.callback.setState}
+							callback={this.props.callback.setStateApp}
 							className="buttonHover"
 						>
 							<i className="material-icons translate ">info</i>Overview
