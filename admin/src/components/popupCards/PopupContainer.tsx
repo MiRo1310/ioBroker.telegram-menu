@@ -24,7 +24,8 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 		const DialogContainer: Properties<string | number, string> = {
 			position: "absolute",
 			top: this.props.top ? this.props.top : "50%",
-			left: "50%",
+			left: this.props.left ? this.props.left : "50%",
+			right: this.props.right ? this.props.right : "50%",
 			transform: "translate(-50%, -60%)",
 			backgroundColor: "#fff",
 			width: this.props.width || "400px",

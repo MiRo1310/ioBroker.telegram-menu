@@ -2,24 +2,29 @@ import { addNewRow, deleteRow } from "@/lib/actionUtils";
 import BtnSmallAdd from "@components/btn-Input/btn-small-add";
 import BtnSmallCopy from "@components/btn-Input/btn-small-copy";
 import BtnSmallRemove from "@components/btn-Input/btn-small-remove";
+import PopupContainer from "@components/popupCards/PopupContainer";
 import { TableCell } from "@mui/material";
 import React, { Component } from "react";
-import { ActionNewRowProps, PopupCardButtons, SetStateFunction, TabValueEntries } from "admin/app";
-import { RowsSetState } from "../../app";
 import { AppContentTabActionContentRowEditorButtonsProps } from "../../types/props-types";
+import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
 
-class AppContentTabActionContentRowEditorButtons extends Component<AppContentTabActionContentRowEditorButtonsProps> {
+interface AppContentTabActionContentRowEditorButtonsState {
+	openCopyPopup: boolean;
+}
+
+class AppContentTabActionContentRowEditorButtons extends Component<
+	AppContentTabActionContentRowEditorButtonsProps,
+	AppContentTabActionContentRowEditorButtonsState
+> {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = { openCopyPopup: false };
 	}
 	copyData = (index: number) => {
+		this.setState({ openCopyPopup: true });
 		console.log(index);
 		console.log(this.props.newRow);
 	};
-	componentDidMount(): void {
-		console.log(this.props.data.data);
-	}
 
 	render() {
 		return (
@@ -46,6 +51,11 @@ class AppContentTabActionContentRowEditorButtons extends Component<AppContentTab
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallCopy index={this.props.indexRow} callback={(index: number) => this.copyData(index)} />
 					</TableCell>
+				) : null}
+				{this.state.openCopyPopup ? (
+					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val) => this.setState({ openCopyPopup: val })}>
+						<AppContentTabActionContentRowEditorCopyModal />
+					</PopupContainer>
 				) : null}
 			</>
 		);

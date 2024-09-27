@@ -138,7 +138,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		}
 
 		return (
-			<div className={`App row ${this.props.themeName}`}>
+			<div className={`App row relative ${this.props.themeName}`}>
 				<Grid container spacing={1}>
 					<AppHeaderIconBar
 						common={this.common}

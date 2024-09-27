@@ -431,6 +431,8 @@ export interface PropsPopupContainer {
 	class?: string;
 	drag?: string;
 	top?: string;
+	left?: string;
+	right?: string;
 	reference?: LegacyRef<HTMLDivElement> | undefined;
 	onDragStart?: (event: any, setState: SetStateFunction | undefined) => void | undefined;
 	onDragEnd?: (event: any, setState: SetStateFunction | undefined) => void;
