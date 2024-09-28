@@ -331,16 +331,10 @@ export interface StateTextarea {
 	value: string;
 }
 export interface PropsActionCard {
-	data: Data;
-	activeMenu: string;
+	data: DataMainContent & { tab: TabValues }
 	card: string;
-	subCard: string;
-	entries: TabValueEntries[];
-	popupCard: PopupCard;
-	titlePopup: string;
 	showButtons: ShowButtons;
 	callback: CallbackFunctions;
-	searchRoot: SearchRoot | null;
 }
 interface ShowButtons {
 	add: boolean;
@@ -452,7 +446,7 @@ export interface PropsRowEditPopupCard {
 	data: Data;
 	openHelperText: (value: any) => void;
 	subCard: string;
-	searchRoot: SearchRoot | null;
+	searchRoot: SearchRoot | null | undefined;
 	buttons: PopupCardButtons;
 	newUnUsedTrigger: string[];
 	callback?: { setState: SetStateFunction };
@@ -649,9 +643,10 @@ export interface DropBoxType {
 }
 export type UserActiveCheckbox = { [key: string]: boolean };
 export interface NativeData {
-	action: { [key: string]: Actions };
+	action: ActionData;
 	nav: NavData;
 }
+export interface ActionData { [key: string]: Actions }
 export interface Actions {
 	get: Get[];
 	set: Set[];

@@ -21,15 +21,14 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 					<TabPanel key={index} value={tab.value} className="TabPanel-Action">
 						<ActionCard
 							callback={this.props.callback}
-							data={this.props.data}
-							activeMenu={this.props.data.state.activeMenu}
+							data={{ ...this.props.data, tab }}
 							card="action"
-							subCard={tab.value}
-							entries={tab.entries}
-							searchRoot={tab.searchRoot ? tab.searchRoot : null}
-							titlePopup={tab.label}
+							// subCard={tab.value}
+							// entries={tab.entries}
+							// searchRoot={tab.searchRoot ? tab.searchRoot : null}
+							// titlePopup={tab.label}
 							showButtons={{ add: true, remove: true, edit: true }}
-							popupCard={tab.popupCard}
+							// popupCard={tab.popupCard}
 						/>
 					</TabPanel>
 				))}

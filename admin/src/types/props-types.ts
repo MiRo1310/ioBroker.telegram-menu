@@ -1,4 +1,4 @@
-import { RowsSetState, TabValueEntries, ActionNewRowProps, Data, CallbackFunctionsApp, Socket } from '../../app';
+import { RowsSetState, TabValueEntries, ActionNewRowProps, Data, CallbackFunctionsApp, Socket, DataMainContent } from '../../app';
 import { SetStateFunction, PopupCardButtons, CallbackFunctions, AdditionalStateInfo } from 'admin/app';
 export interface AppContentTabActionContentRowEditorButtonsProps {
     buttons: PopupCardButtons;
@@ -13,5 +13,5 @@ export interface AppContentTabActionContentRowEditorButtonsProps {
 
 export interface PropsMainTabs {
     callback: CallbackFunctionsApp;
-    data: { adapterName: string, socket: Socket, state: AdditionalStateInfo }
+    data: DataMainContent
 }
