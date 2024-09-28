@@ -144,7 +144,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setState({ draggingRowIndex: index }),
+								this.props.callback.setStateApp({ draggingRowIndex: index }),
 							);
 						}}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}

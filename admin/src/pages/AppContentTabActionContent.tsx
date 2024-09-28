@@ -44,11 +44,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 				}
 			}
 		}
-		//TODO - Doppelte Funktion
-		if (prevProps.data !== this.props.data) {
-			this.getLengthOfData(native.data.action, activeMenu);
-		}
-		if (activeMenu !== prevProps.data.state.activeMenu) {
+
+		if (prevProps.data !== this.props.data || activeMenu !== prevProps.data.state.activeMenu) {
 			this.getLengthOfData(native.data.action, activeMenu);
 		}
 
@@ -58,15 +55,13 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	}
 	checkNewValueIsOK = () => {
 		if (
-			this.state.editedValueFromHelperText !== null &&
-			this.state.editedValueFromHelperText !== undefined &&
+			this.state.editedValueFromHelperText &&
 			this.state.editedValueFromHelperText !== "" &&
 			this.state.editedValueFromHelperText !== this.state[this.state.helperTextFor]
 		) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	};
 	addEditedTrigger = (trigger) => {
 		let newTriggerArray: string[] = [];
@@ -149,12 +144,12 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		});
 		this.setState({ newRow: newRow });
 	};
+
 	getLengthOfData = (data: ActionData, activeMenu: string) => {
 		const { value: subCard } = this.props.data.tab;
 
 		if (data?.[activeMenu]?.[subCard]?.length) {
 			this.setState({ rowsLength: data[activeMenu][subCard].length });
-			console.log("rowsLength", this.state.rowsLength);
 			return;
 		}
 		this.setState({ rowsLength: 0 });
@@ -245,8 +240,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 						<AppContentTabActionContentRowEditor
 							data={this.props.data}
 							newRow={this.state.newRow}
-							callback={{ setState: this.setState.bind(this) }}
-							callbackFromAppTsx={this.props.callback}
+							callback={{ ...this.props.callback, setStateTabActionContent: this.setState.bind(this) }}
 							entries={this.props.data.tab.entries}
 							searchRoot={this.props.data.tab.searchRoot}
 							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.state.unUsedTrigger}

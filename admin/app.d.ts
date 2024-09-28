@@ -147,7 +147,7 @@ export interface RowsNav {
 
 export interface PropsTabAction {
 	data: DataMainContent
-	callback: Callback;
+	callback: CallbackFunctionsApp;
 }
 
 export interface Data {
@@ -334,7 +334,7 @@ export interface PropsActionCard {
 	data: DataMainContent & { tab: TabValues }
 	card: string;
 	showButtons: ShowButtons;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 interface ShowButtons {
 	add: boolean;
@@ -370,7 +370,7 @@ export interface PropsTableDndAction {
 	setState: SetStateFunction;
 	showButtons: ShowButtons;
 	openAddRowCard: any;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	addEditedTrigger: any;
 	card: string;
 }
@@ -449,8 +449,11 @@ export interface PropsRowEditPopupCard {
 	searchRoot: SearchRoot | null | undefined;
 	buttons: PopupCardButtons;
 	newUnUsedTrigger: string[];
-	callback?: { setState: SetStateFunction };
-	callbackFromAppTsx: CallbackFunctions;
+	callback: CallbackFunctionsApp & CallbackTabActionContent;
+}
+
+export interface CallbackTabActionContent {
+	setStateTabActionContent: SetStateFunction;
 }
 
 export type BooleanString = "true" | "false";

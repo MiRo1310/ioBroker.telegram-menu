@@ -195,7 +195,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 												rows={(this, this.state.rows)}
 												newRow={this.props.newRow}
 												setState={this.setState.bind(this)}
-												callbackFromAppTsx={this.props.callbackFromAppTsx}
+												callback={this.props.callback}
 												data={this.props.data}
 											/>
 										</TableRow>

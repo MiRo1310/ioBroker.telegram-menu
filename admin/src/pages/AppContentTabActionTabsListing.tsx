@@ -3,8 +3,9 @@ import { Box, Tab } from "@mui/material";
 import { TabList } from "@mui/lab";
 import { tabValues } from "@/config/entries";
 import { CallbackFunctions } from "admin/app";
+import { CallbackFunctionsApp } from "../../app";
 interface PropsTabActionTabs {
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	setState: ({}) => void;
 }
 
@@ -14,8 +15,8 @@ class TabActionTabs extends Component<PropsTabActionTabs> {
 		this.state = {};
 	}
 	handleChange = (event, newValue) => {
-		if (this.props.callback.setState) {
-			this.props.callback.setState({ subTab: newValue });
+		if (this.props.callback.setStateApp) {
+			this.props.callback.setStateApp({ subTab: newValue });
 		}
 		this.props.setState({ value: newValue });
 	};
