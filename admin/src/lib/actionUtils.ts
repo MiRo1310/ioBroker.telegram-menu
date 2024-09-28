@@ -276,4 +276,4 @@ export function updateActiveMenuAndTrigger(menu: string, setState: SetStateFunct
 	if (result) {
 		setState({ unUsedTrigger: result.unUsedTrigger, usedTrigger: result.usedTrigger, triggerObject: result.triggerObj });
 	}
-};
+}

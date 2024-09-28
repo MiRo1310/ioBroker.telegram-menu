@@ -38,29 +38,31 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		};
 	}
 	getRows = () => {
-		const action = this.props.tableData;
-		const activeMenu = this.props.activeMenu;
+		const { activeMenu, native } = this.props.data.state;
+		const action = native.data.action;
+
 		if (!action) {
 			return;
 		}
-		const elements = action[activeMenu][this.props.subCard];
+		const elements = action[activeMenu][this.props.data.tab.value];
 
 		const rows: RowForButton[] = [];
 		if (elements === undefined) {
 			return;
 		}
 		for (const entry of elements) {
-			rows.push(createData(this.props.entries, entry));
+			rows.push(createData(this.props.data.tab.entries, entry));
 		}
 		this.setState({ rows: rows });
 	};
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.activeMenu) {
+		const { activeMenu, native } = this.props.data.state;
+		if (prevProps.activeMenu !== activeMenu) {
 			this.getRows();
 			this.updateHeight();
 		}
-		if (prevProps.tableData !== this.props.tableData) {
+		if (prevProps.tableData !== native.data.action) {
 			this.getRows();
 		}
 	}
@@ -97,7 +99,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		window.removeEventListener("resize", this.updateHeight);
 	}
 
-	handleDrop = (index, event) => {
+	handleDrop = (index: number, event) => {
 		let currentElement = event.target;
 		while (currentElement) {
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
@@ -108,24 +110,26 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			currentElement = currentElement.parentNode;
 		}
 		if (index !== this.state.dropStart) {
-			moveItem(this.state.dropStart, this.props, this.props.card, this.props.subCard, index - this.state.dropStart);
+			moveItem(this.state.dropStart, this.props, this.props.card, this.props.data.tab.value, index - this.state.dropStart);
 		}
 	};
 
 	editRow = (index: number) => {
-		const data = deepCopy(this.props.data.data);
-		const newRow = data[this.props.card][this.props.activeMenu][this.props.subCard][index];
+		const { activeMenu, data } = this.props.data.state;
+		const { setStateTabActionContent } = this.props.callback;
+		const newRow = deepCopy(data)[this.props.card][activeMenu][this.props.data.tab.value][index];
 		if (newRow.trigger) {
-			this.props.addEditedTrigger(newRow.trigger[0]);
+			this.props.callback.addEditedTrigger(newRow.trigger[0]);
 		}
-		this.props.setState({ newRow: newRow });
-		this.props.setState({ editRow: true });
-		this.props.setState({ rowPopup: true });
-		this.props.setState({ rowIndex: index });
+		setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndex: index });
+		// TODO: Delete
+		// setStateTabActionContent({ editRow: true });
+		// setStateTabActionContent({ rowPopup: true });
+		// setStateTabActionContent({ rowIndex: index });
 	};
 
 	deleteRow = (index: number) => {
-		deleteRow(index, this.props, this.props.card, this.props.subCard);
+		deleteRow(index, this.props, this.props.card, this.props.data.tab.value);
 	};
 
 	render() {
@@ -159,7 +163,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								</span>
 							</TableCell>
 						) : null}
-						{this.props.entries.map((entry, indexEntry) =>
+						{this.props.data.tab.entries.map((entry, indexEntry) =>
 							entry.name != "trigger" && entry.name != "parse_mode" ? (
 								<TableCell
 									className="tdWithHeightForSubTable"
@@ -181,11 +185,11 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							</TableCell>
 						) : null}
 						<ButtonCard
-							openAddRowCard={this.props.openAddRowCard}
+							openAddRowCard={this.props.callback.openAddRowCard}
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.subCard)}
+							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.data.tab.value)}
 							rows={this.state.rows}
 							index={index}
 							showButtons={this.props.showButtons}

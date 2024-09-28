@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import { Box, Tab } from "@mui/material";
-import { TabList } from "@mui/lab";
 import { tabValues } from "@/config/entries";
-import { CallbackFunctions } from "admin/app";
+import { TabList } from "@mui/lab";
+import { Box, Tab } from "@mui/material";
+import React, { Component } from "react";
 import { CallbackFunctionsApp } from "../../app";
 interface PropsTabActionTabs {
 	callback: CallbackFunctionsApp;

@@ -1,11 +1,10 @@
 import Checkbox from "@/components/btn-Input/checkbox";
 import Select from "@/components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
-import { ActionNewRowProps, SetStateFunction } from "admin/app";
+import { isChecked } from "@/lib/Utils.js";
+import { ActionNewRowProps } from "admin/app";
 import React, { Component } from "react";
 import { TabValueEntries } from "../../app";
-import { isChecked } from "@/lib/Utils.js";
-import { updateData } from "../lib/actionUtils";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 	newRow: ActionNewRowProps;

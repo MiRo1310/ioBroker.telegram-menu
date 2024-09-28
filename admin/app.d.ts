@@ -362,17 +362,14 @@ export interface StateActionCard {
 	helperTextForInput: string;
 }
 export interface PropsTableDndAction {
-	tableData: any;
-	activeMenu: string;
-	subCard: string;
-	entries: TabValueEntries[];
-	data: data;
-	setState: SetStateFunction;
+	data: DataMainContent & { tab: TabValues }
 	showButtons: ShowButtons;
-	openAddRowCard: any;
-	callback: CallbackFunctionsApp;
-	addEditedTrigger: any;
+	callback: CallbackFunctionsApp & CallbackTabActionContent & TabActionContentCallback;
 	card: string;
+}
+interface TabActionContentCallback {
+	addEditedTrigger: (trigger: string | null) => void;
+	openAddRowCard: (index: number) => void;
 }
 export interface StateTableDndAction {
 	dropStart: number;

@@ -1,17 +1,16 @@
-import React, { Component } from "react";
-import { TableHead, Table, TableCell, TableContainer, TableRow, Paper } from "@mui/material";
-import { I18n } from "@iobroker/adapter-react-v5";
 import { deepCopy } from "@/lib/Utils.js";
+import { I18n } from "@iobroker/adapter-react-v5";
+import { Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { Component } from "react";
 
 import Button from "@/components/btn-Input/Button";
-import PopupContainer from "@/components/popupCards/PopupContainer";
-import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionContentRowEditor";
-import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
 import HelperCard from "@/components/popupCards/HelperCard";
+import PopupContainer from "@/components/popupCards/PopupContainer";
 import helperText from "@/config/helper.js";
 import { addNewRow } from "@/lib/actionUtils.js";
+import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionContentRowEditor";
+import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
 import { ActionData, PropsActionCard, StateActionCard } from "admin/app";
-import { Data } from "../../app";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props) {
@@ -63,16 +62,16 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 		return false;
 	};
-	addEditedTrigger = (trigger) => {
-		let newTriggerArray: string[] = [];
+
+	addEditedTrigger = (trigger: string | null) => {
 		const unUsedTrigger: string[] = deepCopy(this.props.data.state.unUsedTrigger);
 		if (trigger) {
-			newTriggerArray = [...unUsedTrigger, trigger];
-		} else {
-			newTriggerArray = unUsedTrigger;
+			this.setState({ newUnUsedTrigger: [...unUsedTrigger, trigger] });
+			return;
 		}
-		this.setState({ newUnUsedTrigger: newTriggerArray });
+		this.setState({ newUnUsedTrigger: unUsedTrigger });
 	};
+
 	private disableButtonHandler() {
 		const { tab } = this.props.data;
 		let inputValuesAreOk = true;
@@ -109,7 +108,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.getLengthOfData(native.data?.action, activeMenu);
 	}
 
-	openAddRowCard = (index) => {
+	openAddRowCard = (index: number) => {
 		this.addEditedTrigger(null);
 		this.setState({ rowPopup: true });
 		this.setState({ rowIndex: index });
@@ -214,17 +213,15 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 								</TableRow>
 							</TableHead>
 							<AppContentTabActionContentTable
-								activeMenu={this.props.data.state.activeMenu}
-								tableData={this.props.data.state.native.data?.action}
 								data={this.props.data}
 								showButtons={this.props.showButtons}
 								card={this.props.card}
-								subCard={this.props.data.tab.value}
-								setState={this.setState.bind(this)}
-								callback={this.props.callback}
-								openAddRowCard={this.openAddRowCard}
-								entries={this.props.data.tab.entries}
-								addEditedTrigger={this.addEditedTrigger}
+								callback={{
+									...this.props.callback,
+									setStateTabActionContent: this.setState.bind(this),
+									openAddRowCard: this.openAddRowCard,
+									addEditedTrigger: this.addEditedTrigger,
+								}}
 							/>
 						</Table>
 					</TableContainer>

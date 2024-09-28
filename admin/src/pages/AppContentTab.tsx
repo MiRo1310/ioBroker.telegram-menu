@@ -1,11 +1,9 @@
-import React, { Component } from "react";
-import TabNavigation from "@/pages/AppContentTabNavigation";
+import { navEntries } from "@/config/entries";
 import TabAction from "@/pages/AppContentTabAction";
+import TabNavigation from "@/pages/AppContentTabNavigation";
 import Settings from "@/pages/AppContentTabSettings";
 import { TabPanel } from "@mui/lab";
-import { navEntries } from "@/config/entries";
-import { AdditionalStateInfo, CallbackFunctions } from "admin/app";
-import { CallbackFunctionsApp } from "../../app";
+import React, { Component } from "react";
 import { PropsMainTabs } from "../types/props-types";
 
 class Tabs extends Component<PropsMainTabs> {

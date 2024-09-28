@@ -1,4 +1,4 @@
-import { DropBoxType } from 'admin/app';
+import { DropBoxType } from "admin/app";
 export const handleMouseOver = (e): void => {
 	if (e.target.classList.contains("noneDraggable")) {
 		let currentElement = e.target;
