@@ -70,6 +70,7 @@ interface Events {
 	ID: string[];
 	menu: string[];
 	condition: string;
+	trigger: string[];
 }
 interface Pic {
 	IDs: string[];
@@ -108,7 +109,7 @@ interface AllMenusWithData {
 }
 type MenuNames = string;
 
-interface DataObject {
+export interface DataObject {
 	action: Action;
 	nav: NavObject;
 	[key: MenusArray]: Nav;

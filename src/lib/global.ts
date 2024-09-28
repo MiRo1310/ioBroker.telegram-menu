@@ -1,3 +1,5 @@
+import { DecomposeText } from "./telegram-menu";
+
 function deleteDoubleEntriesInArray(arr: string[]): string[] {
 	return arr.filter((item, index) => arr.indexOf(item) === index);
 }

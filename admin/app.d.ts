@@ -1,6 +1,7 @@
 import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
 import { Tab } from '@mui/material';
 import { AdminConnection } from '@iobroker/socket-client';
+import { LegacyRef, ReactNode } from "react";
 
 export type Nullable<T> = T | null | undefined;
 
@@ -32,22 +33,7 @@ export interface AdditionalStateInfo extends GenericAppState {
 }
 
 export interface PropsSettings {
-	data: {
-		state: {
-			native: {
-				instance: string;
-				textNoEntry: string;
-				tokenGrafana: string;
-				directory: string;
-				checkbox: {
-					[key: string]: boolean;
-				};
-			};
-		};
-
-		instances: string[];
-		checkbox: Object;
-	};
+	data: DataMainContent;
 	callback: CallbackFunctionsApp;
 }
 
@@ -79,10 +65,10 @@ export interface TabValues {
 	searchRoot?: SearchRoot | null;
 }
 
-interface PopupCard {
+export interface PopupCard {
 	buttons: PopupCardButtons, width: string, height: string
 }
-interface PopupCardButtons {
+export interface PopupCardButtons {
 	add?: boolean;
 	remove?: boolean;
 	copy?: boolean;
@@ -92,6 +78,7 @@ export interface SearchRoot {
 	root: string;
 	type: ObjectBrowserType | ObjectBrowserType[] | undefined;
 }
+export type ObjectBrowserType = any
 export interface TabValueEntries {
 	name: string;
 	width?: string;
@@ -108,7 +95,7 @@ export interface TabValueEntries {
 	password?: boolean;
 	type?: string;
 }
-type UpdateNative = {
+export type UpdateNative = {
 	updateNative: UpdateNativeFunction;
 };
 export interface SetState {
@@ -124,10 +111,8 @@ export interface PropsTableDndNav {
 	callback: CallbackFunctionsApp;
 }
 
-interface ActionData {
-	[key: string]: Actions
-}
-interface NavData {
+
+export interface NavData {
 	[key: string]: RowsNav[];
 }
 
@@ -166,7 +151,7 @@ export interface Data {
 }
 
 export type UsersInGroup = { [key: string]: string[] };
-type socket = AdminConnection;
+export type socket = AdminConnection;
 
 export interface StateTabAction {
 	value: string;
@@ -203,7 +188,7 @@ export interface ButtonProps {
 	className?: string;
 	children?: ReactNode;
 }
-type CallbackValue = boolean | string | number | undefined;
+export type CallbackValue = boolean | string | number | undefined;
 
 export interface PropsCheckbox {
 	id: string;
@@ -220,7 +205,6 @@ export interface PropsCheckbox {
 	marginTop?: string;
 	class?: string;
 }
-type BooleanString = "true" | "false";
 
 export interface PropsRowNavCard {
 	entries: TabValueEntries[];
@@ -254,7 +238,7 @@ export interface SelectProps {
 	width?: string;
 	callbackValue?: CallbackValue;
 }
-type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
+export type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
 export interface InputProps {
 	id: string;
 	type?: string;
@@ -304,7 +288,7 @@ export interface StateHelperCard {
 	showSelectId: boolean;
 	selectedId: string;
 }
-type SetStateFunction = React.Component["setState"];
+export type SetStateFunction = React.Component["setState"];
 export interface PropsTextarea {
 	id: string;
 	value: string;
@@ -331,25 +315,18 @@ export interface StateTextarea {
 	value: string;
 }
 export interface PropsActionCard {
-	data: DataMainContent & { tab: TabValues }
-	card: string;
-	showButtons: ShowButtons;
+	data: DataMainContent & TabActionContentTableProps
 	callback: CallbackFunctionsApp;
 }
-interface ShowButtons {
-	add: boolean;
-	remove: boolean;
-	edit: boolean;
-	moveUp: boolean;
-	moveDown: boolean;
-}
+export interface TabActionContentTableProps { tab: TabValues; card: string; showButtons: ShowButtons; }
+
 export interface StateActionCard {
 	rowPopup: boolean;
 	rowIndex: number;
 	editRow: boolean;
 	newRow: any;
 	rowsLength: number;
-	newUnUsedTrigger: any;
+	newUnUsedTrigger: string[] | null;
 	helperText: boolean;
 	helperTextFor: string;
 	editedValueFromHelperText: any;
@@ -362,12 +339,10 @@ export interface StateActionCard {
 	helperTextForInput: string;
 }
 export interface PropsTableDndAction {
-	data: DataMainContent & { tab: TabValues }
-	showButtons: ShowButtons;
+	data: DataMainContent & TabActionContentTableProps
 	callback: CallbackFunctionsApp & CallbackTabActionContent & TabActionContentCallback;
-	card: string;
 }
-interface TabActionContentCallback {
+export interface TabActionContentCallback {
 	addEditedTrigger: (trigger: string | null) => void;
 	openAddRowCard: (index: number) => void;
 }
@@ -438,16 +413,10 @@ export interface StatePopupContainer {
 	inUse: boolean;
 }
 export interface PropsRowEditPopupCard {
-	entries: TabValueEntries[];
-	newRow: ActionNewRowProps;
-	data: Data;
-	openHelperText: (value: any) => void;
-	subCard: string;
-	searchRoot: SearchRoot | null | undefined;
-	buttons: PopupCardButtons;
-	newUnUsedTrigger: string[];
-	callback: CallbackFunctionsApp & CallbackTabActionContent;
+	data: DataMainContent & TabActionContentTableProps & DataTabActionContent
+	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void }
 }
+export interface DataTabActionContent { newRow: ActionNewRowProps; newUnUsedTrigger: string[]; }
 
 export interface CallbackTabActionContent {
 	setStateTabActionContent: SetStateFunction;
@@ -582,7 +551,6 @@ export interface StateSquare {
 export interface PropsHeaderTelegramUsers {
 	callback: CallbackFunctionsApp;
 	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox };
-	menuPopupOpen: boolean;
 }
 export interface StateHeaderTelegramUsers {
 	menuOpen: boolean;
@@ -735,7 +703,8 @@ export interface PropsMainDropBox {
 	data: DataDropBox;
 }
 export interface DataDropBox {
-	dropBoxRef: React.RefObject<unknown>, state: AdditionalStateInfo
+	dropBoxRef: LegacyRef<HTMLDivElement> | undefined,
+	state: AdditionalStateInfo
 }
 export interface PropsTableNavHeader {
 	entries: TabValueEntries[];
@@ -747,10 +716,11 @@ export interface PropsTableNavHelper {
 	data: Data;
 	popupHelperCard: (isOkay: boolean) => void;
 }
+
 export interface PropsActionEditHeader {
-	entries: TabValueEntries[];
-	buttons: PopupCardButtons
+	tab: TabValues
 }
+
 export interface PropsButtonCard {
 	showButtons: ShowButtons;
 	openAddRowCard: (index: number) => void;
@@ -774,7 +744,7 @@ export interface TabListingType {
 	value: string;
 }
 
-interface RowForButton {
+export interface RowForButton {
 	trigger: string;
 	parse_mode: string[];
 	[key: string]: any;

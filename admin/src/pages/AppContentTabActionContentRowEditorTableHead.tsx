@@ -13,16 +13,16 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
 		return (
 			<TableHead>
 				<TableRow>
-					{this.props.entries.map((entry, index) =>
+					{this.props.tab.entries.map((entry, index) =>
 						entry.name != "trigger" && entry.name != "parse_mode" ? (
 							<TableCell key={index} align="left">
 								<span title={entry.title ? I18n.t(entry.title) : undefined}>{I18n.t(entry.headline)}</span>
 							</TableCell>
 						) : null,
 					)}
-					{this.props.buttons.add ? <TableCell align="left" /> : null}
-					{this.props.buttons.remove ? <TableCell align="left" /> : null}
-					{this.props.buttons.copy ? <TableCell align="left" /> : null}
+					{this.props.tab.popupCard.buttons.add ? <TableCell align="left" /> : null}
+					{this.props.tab.popupCard.buttons.remove ? <TableCell align="left" /> : null}
+					{this.props.tab.popupCard.buttons.copy ? <TableCell align="left" /> : null}
 				</TableRow>
 			</TableHead>
 		);

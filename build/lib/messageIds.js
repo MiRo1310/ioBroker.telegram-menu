@@ -30,8 +30,8 @@ __export(messageIds_exports, {
 module.exports = __toCommonJS(messageIds_exports);
 var import_main = __toESM(require("../main"));
 var import_botAction = require("./botAction");
-var import_utilities = require("./utilities");
 var import_logging = require("./logging");
+var import_utilities = require("./utilities");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
   var _a;
@@ -48,7 +48,7 @@ async function saveMessageIds(state, instanceTelegram) {
     if (!(requestUserIdObj && requestUserIdObj.val)) {
       return;
     }
-    requestMessageId = requestMessageIdObj && requestMessageIdObj.val ? JSON.parse(requestMessageIdObj.val.toString()) : {};
+    requestMessageId = (requestMessageIdObj == null ? void 0 : requestMessageIdObj.val) ? JSON.parse(requestMessageIdObj == null ? void 0 : requestMessageIdObj.val.toString()) : {};
     if (!requestMessageId[requestUserIdObj.val.toString()]) {
       requestMessageId[requestUserIdObj.val.toString()] = [];
     }

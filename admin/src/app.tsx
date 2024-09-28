@@ -14,9 +14,10 @@ import { AdditionalPropInfo, AdditionalStateInfo, Native, Nullable, TriggerObjec
 import React from "react";
 import { getDefaultDropBoxCoordinates } from "./lib/dragNDrop";
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from "./lib/object";
+import { LegacyRef } from "react";
 
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
-	dropBoxRef: React.RefObject<unknown>;
+	dropBoxRef: LegacyRef<HTMLDivElement> | undefined;
 	constructor(props) {
 		const extendedProps = {
 			...props,

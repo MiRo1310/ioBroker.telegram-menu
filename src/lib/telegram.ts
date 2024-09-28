@@ -1,6 +1,7 @@
 import { debug, error } from "./logging";
 import { newLine, getChatID, checkStatusInfo } from "./utilities";
 import TelegramMenu from "../main";
+import { NavPart, UserListWithChatId, BooleanString, ParseModeType } from "./telegram-menu";
 
 async function sendToTelegram(
 	user = "",

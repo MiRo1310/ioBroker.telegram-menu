@@ -23,33 +23,37 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 	copyData = (index: number) => {
 		this.setState({ openCopyPopup: true });
 		console.log(index);
-		console.log(this.props.newRow);
+		console.log(this.props.data.newRow);
 	};
 
 	render() {
+		const { buttons } = this.props.data.tab.popupCard;
+		const { entries } = this.props.data.tab;
+		const { indexRow, rows } = this.props.data;
+		const { setStateEditor } = this.props.callback;
 		return (
 			<>
-				{this.props.buttons.add ? (
+				{buttons.add ? (
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallAdd // Buttons sind einstellbar in entries.ts
-							callback={() => addNewRow(this.props.indexRow, this.props, this.props.entries, this.props.setState)}
-							index={this.props.indexRow}
+							callback={() => addNewRow(indexRow, this.props, entries, setStateEditor)}
+							index={indexRow}
 						/>
 					</TableCell>
 				) : null}
-				{this.props.buttons.remove ? (
+				{buttons.remove ? (
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallRemove
-							callback={(index: number) => deleteRow(index, this.props, this.props.entries, this.props.setState, this.props.entries)}
-							index={this.props.indexRow}
-							disabled={this.props.rows.length == 1 ? "disabled" : ""}
+							callback={(index: number) => deleteRow(index, this.props, entries, setStateEditor, entries)}
+							index={indexRow}
+							disabled={rows.length == 1 ? "disabled" : ""}
 						/>
 					</TableCell>
 				) : null}
 
-				{this.props.buttons.copy ? (
+				{buttons.copy ? (
 					<TableCell align="center" className="cellIcon">
-						<BtnSmallCopy index={this.props.indexRow} callback={(index: number) => this.copyData(index)} />
+						<BtnSmallCopy index={indexRow} callback={(index: number) => this.copyData(index)} />
 					</TableCell>
 				) : null}
 				{this.state.openCopyPopup ? (

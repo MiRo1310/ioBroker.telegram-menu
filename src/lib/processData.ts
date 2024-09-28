@@ -13,6 +13,16 @@ import { _subscribeAndUnSubscribeForeignStatesAsync } from "./subscribeStates";
 import { getChart } from "./echarts";
 import { httpRequest } from "./httpRequest";
 import { debug, error } from "./logging";
+import {
+	SetStateIds,
+	Timeouts,
+	CheckEveryMenuForDataType,
+	NewObjectNavStructure,
+	ProcessDataType,
+	Part,
+	MenuData,
+	IsUserActiveCheckbox,
+} from "./telegram-menu";
 
 let setStateIdsToListenTo: SetStateIds[] = [];
 let timeouts: Timeouts[] = [];

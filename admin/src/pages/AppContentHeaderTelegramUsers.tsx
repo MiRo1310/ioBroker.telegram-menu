@@ -50,12 +50,10 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		const usersInGroup = this.props.data.usersInGroup;
 		if (this.state.menuChecked || val) {
 			if (usersInGroup && usersInGroup[this.props.data.activeMenu] && usersInGroup[this.props.data.activeMenu].length <= 0) {
-				// TelegramUserCard.jsx setzt zurück
 				this.setState({ errorUserChecked: true });
 				return false;
-			} else {
-				return true;
 			}
+			return true;
 		}
 	};
 

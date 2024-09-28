@@ -21,10 +21,7 @@ class Settings extends Component<PropsSettings> {
 	};
 
 	componentDidMount() {
-		if (
-			this.props.data.state.native.checkbox.sendMenuAfterRestart === undefined ||
-			this.props.data.state.native.checkbox.sendMenuAfterRestart === null
-		) {
+		if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
 			const checkbox = { ...this.props.data.state.native.checkbox };
 			checkbox.sendMenuAfterRestart = true;
 			this.props.callback.updateNative("checkbox", checkbox);
@@ -39,7 +36,7 @@ class Settings extends Component<PropsSettings> {
 					<Grid item xs={12}>
 						<Select
 							placeholder="--Please choose a telegram instance--"
-							options={this.props.data.instances}
+							options={this.props.data.state.instances}
 							label={I18n.t("Telegram Instance")}
 							name="instance"
 							selected={this.props.data.state.native.instance}

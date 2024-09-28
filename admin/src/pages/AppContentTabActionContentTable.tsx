@@ -110,26 +110,22 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			currentElement = currentElement.parentNode;
 		}
 		if (index !== this.state.dropStart) {
-			moveItem(this.state.dropStart, this.props, this.props.card, this.props.data.tab.value, index - this.state.dropStart);
+			moveItem(this.state.dropStart, this.props, this.props.data.card, this.props.data.tab.value, index - this.state.dropStart);
 		}
 	};
 
 	editRow = (index: number) => {
 		const { activeMenu, data } = this.props.data.state;
 		const { setStateTabActionContent } = this.props.callback;
-		const newRow = deepCopy(data)[this.props.card][activeMenu][this.props.data.tab.value][index];
+		const newRow = deepCopy(data)[this.props.data.card][activeMenu][this.props.data.tab.value][index];
 		if (newRow.trigger) {
 			this.props.callback.addEditedTrigger(newRow.trigger[0]);
 		}
 		setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndex: index });
-		// TODO: Delete
-		// setStateTabActionContent({ editRow: true });
-		// setStateTabActionContent({ rowPopup: true });
-		// setStateTabActionContent({ rowIndex: index });
 	};
 
 	deleteRow = (index: number) => {
-		deleteRow(index, this.props, this.props.card, this.props.data.tab.value);
+		deleteRow(index, this.props, this.props.data.card, this.props.data.tab.value);
 	};
 
 	render() {
@@ -189,10 +185,10 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.data.tab.value)}
+							deleteRow={(index) => deleteRow(index, this.props, this.props.data.card, this.props.data.tab.value)}
 							rows={this.state.rows}
 							index={index}
-							showButtons={this.props.showButtons}
+							showButtons={this.props.data.showButtons}
 						/>
 					</TableRow>
 				))}

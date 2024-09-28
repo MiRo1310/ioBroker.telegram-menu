@@ -90,8 +90,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 
 	popupRowCard = (isOK) => {
 		if (!isOK) {
-			this.setState({ rowPopup: false });
-			this.setState({ editRow: false });
+			this.setState({ rowPopup: false, editRow: false });
 			return;
 		}
 		const dataCopy = JSON.parse(JSON.stringify(this.props.data.state.native.data));
@@ -103,8 +102,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 		dataCopy.nav[this.props.data.state.activeMenu] = navUserArray;
 		this.props.callback.updateNative("data", dataCopy);
-		this.setState({ rowPopup: false });
-		this.setState({ editRow: false });
+		this.setState({ rowPopup: false, editRow: false });
 	};
 
 	openAddRowCard = (value) => {
@@ -125,8 +123,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			copyNewRow[name] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: copyNewRow });
 		}
-		this.setState({ helperText: false });
-		this.setState({ editedValueFromHelperText: null });
+		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
 
 	render() {

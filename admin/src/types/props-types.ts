@@ -1,14 +1,15 @@
-import { PopupCardButtons, SetStateFunction } from "admin/app";
-import { ActionNewRowProps, CallbackFunctionsApp, CallbackTabActionContent, Data, DataMainContent, RowsSetState, TabValueEntries } from "../../app";
+import {
+	CallbackFunctionsApp,
+	CallbackTabActionContent,
+	DataMainContent,
+	DataTabActionContent,
+	RowsSetState,
+	TabActionContentTableProps,
+} from "../../app";
+import { SetStateFunction } from "admin/app";
 export interface AppContentTabActionContentRowEditorButtonsProps {
-	buttons: PopupCardButtons;
-	newRow: ActionNewRowProps;
-	entries: TabValueEntries[];
-	indexRow: number;
-	rows: RowsSetState[];
-	setState: SetStateFunction;
-	data: Data;
-	callback: CallbackFunctionsApp & CallbackTabActionContent;
+	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rows: RowsSetState[]; indexRow: number };
+	callback: CallbackFunctionsApp & CallbackTabActionContent & { setStateEditor: SetStateFunction };
 }
 
 export interface PropsMainTabs {

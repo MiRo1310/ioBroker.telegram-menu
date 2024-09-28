@@ -87,7 +87,7 @@
     "admin/build/index.js.map"
   ],
   "scripts": {
-    "prebuild": "rimraf admin/build",
+    "prebuild": "npm run lint:fix && rimraf admin/build",
     "build": "build-adapter all",
     "watch": "build-adapter react --watch",
     "prebuild:react": "rimraf admin/build",

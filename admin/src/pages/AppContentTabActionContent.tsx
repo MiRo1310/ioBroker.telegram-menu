@@ -110,8 +110,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 	openAddRowCard = (index: number) => {
 		this.addEditedTrigger(null);
-		this.setState({ rowPopup: true });
-		this.setState({ rowIndex: index });
+		this.setState({ rowPopup: true, rowIndex: index });
 	};
 
 	closeAddRowCard = (isOk) => {
@@ -130,9 +129,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 			this.props.callback.updateNative("data", data);
 		}
-		this.setState({ newUnUsedTrigger: null });
-		this.setState({ rowPopup: false });
-		this.setState({ editRow: false });
+		this.setState({ newUnUsedTrigger: null, rowPopup: false, editRow: false });
 		this.resetNewRow();
 	};
 
@@ -157,8 +154,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	openHelperText = (value) => {
 		this.setState({ valueForSave: value });
 		if (value) {
-			this.setState({ editedValueFromHelperText: this.state.newRow[value.entry][value.index] });
-			this.setState({ helperTextFor: value.subCard, helperTextForInput: value.entry });
+			this.setState({
+				editedValueFromHelperText: this.state.newRow[value.entry][value.index],
+				helperTextFor: value.subCard,
+				helperTextForInput: value.entry,
+			});
 		}
 
 		this.setState({ helperText: true });
@@ -179,8 +179,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: row });
 		}
-		this.setState({ helperText: false });
-		this.setState({ editedValueFromHelperText: null });
+		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
 	addNewRow = (index) => {
 		this.setState({ rowPopup: true });
@@ -205,7 +204,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 											<span title={entry.title ? I18n.t(entry.title) : undefined}>{I18n.t(entry.headline)}</span>
 										</TableCell>
 									))}
-									{Array(Object.keys(this.props.showButtons).length)
+									{Array(Object.keys(this.props.data.showButtons).length)
 										.fill(undefined)
 										.map((_, i) => (
 											<TableCell key={i} align="center" className="cellIcon"></TableCell>
@@ -214,8 +213,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							</TableHead>
 							<AppContentTabActionContentTable
 								data={this.props.data}
-								showButtons={this.props.showButtons}
-								card={this.props.card}
 								callback={{
 									...this.props.callback,
 									setStateTabActionContent: this.setState.bind(this),
@@ -235,15 +232,16 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 						isOK={this.state.inputValuesAreOK}
 					>
 						<AppContentTabActionContentRowEditor
-							data={this.props.data}
-							newRow={this.state.newRow}
-							callback={{ ...this.props.callback, setStateTabActionContent: this.setState.bind(this) }}
-							entries={this.props.data.tab.entries}
-							searchRoot={this.props.data.tab.searchRoot}
-							newUnUsedTrigger={this.state.newUnUsedTrigger || this.props.data.state.unUsedTrigger}
-							subCard={this.props.data.tab.value}
-							openHelperText={this.openHelperText}
-							buttons={this.props.data.tab.popupCard.buttons}
+							data={{
+								...this.props.data,
+								newRow: this.state.newRow,
+								newUnUsedTrigger: this.state.newUnUsedTrigger || this.props.data.state.unUsedTrigger,
+							}}
+							callback={{
+								...this.props.callback,
+								setStateTabActionContent: this.setState.bind(this),
+								openHelperText: this.openHelperText,
+							}}
 						/>
 					</PopupContainer>
 				) : null}

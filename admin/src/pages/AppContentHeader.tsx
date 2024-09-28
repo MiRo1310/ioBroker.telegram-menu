@@ -26,7 +26,6 @@ class MainActions extends Component<PropsMainActions> {
 								activeMenu: this.props.data.state.activeMenu,
 							}}
 							callback={this.props.callback}
-							menuPopupOpen={this.props.data.state.popupMenuOpen}
 						/>
 					) : null}
 				</Grid>

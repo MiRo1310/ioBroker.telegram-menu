@@ -96,7 +96,7 @@ export const deleteRow = (index, props, array, setState, rowElements): void => {
 	saveRows(props, setState, rowElements, newRow);
 };
 
-export const moveItem = (index, props, array, setState, rowElements, val): void => {
+export const moveItem = (index, props, array, setState, val): void => {
 	const newRow = deepCopy(props.newRow);
 	array.forEach((element) => {
 		if (element.name !== "trigger") {
@@ -104,7 +104,7 @@ export const moveItem = (index, props, array, setState, rowElements, val): void 
 		}
 	});
 	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
+	saveRows(props, setState, array, newRow);
 };
 
 export const updateId = (selected, props, indexID, setState, rowElements, ID): void => {

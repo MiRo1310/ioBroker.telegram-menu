@@ -22,14 +22,7 @@ class Tabs extends Component<PropsMainTabs> {
 					<TabAction data={this.props.data} callback={this.props.callback} />
 				</TabPanel>
 				<TabPanel value="settings">
-					<Settings
-						data={{
-							instances: this.props.data.state.instances,
-							state: this.props.data.state,
-							checkbox: this.props.data.state.native.checkbox,
-						}}
-						callback={this.props.callback}
-					/>
+					<Settings data={this.props.data} callback={this.props.callback} />
 				</TabPanel>
 			</>
 		);

@@ -21,9 +21,7 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
 					<TabPanel key={index} value={tab.value} className="TabPanel-Action">
 						<AppContentTabActionContent
 							callback={this.props.callback}
-							data={{ ...this.props.data, tab }}
-							card="action"
-							showButtons={{ add: true, remove: true, edit: true }}
+							data={{ ...this.props.data, tab, card: "action", showButtons: { add: true, remove: true, edit: true } }}
 						/>
 					</TabPanel>
 				))}

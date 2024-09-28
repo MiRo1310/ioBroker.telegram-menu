@@ -13,6 +13,7 @@ import {
 	handleMouseOver,
 	handleStyleDragOver,
 } from "@/lib/dragNDrop.js";
+import { isTruthy } from "@/lib/string";
 import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabActionContentRowEditorTableHead";
 import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
@@ -42,46 +43,37 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	}
 
 	componentDidMount() {
-		saveRows(this.props, this.setState.bind(this), this.props.entries, this.state.rows);
+		saveRows(this.props, this.setState.bind(this), this.props.data.tab.entries, this.state.rows);
 	}
+
 	componentDidUpdate(prevProps) {
-		if (prevProps.newRow !== this.props.newRow) {
-			saveRows(this.props, this.setState.bind(this), this.props.entries, this.props.newRow);
+		const { newRow } = this.props.data;
+		if (prevProps.newRow !== newRow) {
+			saveRows(this.props, this.setState.bind(this), this.props.data.tab.entries, newRow);
 		}
 	}
+
 	updateData = (obj) => {
-		updateData(obj, this.props, this.setState.bind(this), this.props.entries);
+		updateData(obj, this.props, this.setState.bind(this), this.props.data.tab.entries);
 	};
 
 	handleDrop = (index: number) => {
 		if (index !== this.state.dropStart) {
-			moveItem(
-				this.state.dropStart,
-				this.props,
-				this.props.entries,
-				this.setState.bind(this),
-				this.props.entries,
-				index - this.state.dropStart,
-			);
+			moveItem(this.state.dropStart, this.props, this.props.data.tab.entries, this.setState.bind(this), index - this.state.dropStart);
 		}
 	};
 
 	disableInput = (name: string, index: number): boolean => {
-		return this.state?.rows?.[index]?.switch_checkbox === "true" && name === "values" ? true : false;
+		return isTruthy(this.state?.rows?.[index]?.switch_checkbox) && name === "values" ? true : false;
 	};
 
 	render() {
 		return (
 			<div className="Edit-Container">
-				<AppContentTabActionContentRowEditorInputAboveTable
-					callback={{ updateData: this.updateData }}
-					entries={this.props.entries}
-					newRow={this.props.newRow}
-					newUnUsedTrigger={this.props.newUnUsedTrigger}
-				/>
+				<AppContentTabActionContentRowEditorInputAboveTable callback={{ updateData: this.updateData }} data={this.props.data} />
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
-						<AppContentTabActionContentRowEditorTableHead entries={this.props.entries} buttons={this.props.buttons} />
+						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} />
 						<TableBody>
 							{this.state.rows
 								? this.state.rows.map((row, indexRow: number) => (
@@ -127,7 +119,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 													/>
 												</TableCell>
 											) : null}
-											{this.props.entries.map((entry, i) =>
+											{this.props.data.tab.entries.map((entry, i) =>
 												!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
 													<TableCell align="left" key={i}>
 														<Input
@@ -156,9 +148,9 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 																	callbackValue={{
 																		index: indexRow,
 																		entry: entry.name,
-																		subCard: this.props.subCard,
+																		subCard: this.props.data.tab.value,
 																	}}
-																	callback={this.props.openHelperText}
+																	callback={this.props.callback.openHelperText}
 																/>
 															) : null}
 														</Input>
@@ -189,14 +181,8 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 												) : null,
 											)}
 											<AppContentTabActionContentRowEditorButtons
-												buttons={this.props.buttons}
-												entries={this.props.entries}
-												indexRow={indexRow}
-												rows={(this, this.state.rows)}
-												newRow={this.props.newRow}
-												setState={this.setState.bind(this)}
-												callback={this.props.callback}
-												data={this.props.data}
+												callback={{ ...this.props.callback, setStateEditor: this.setState.bind(this) }}
+												data={{ ...this.props.data, rows: this.state.rows, indexRow }}
 											/>
 										</TableRow>
 									))
@@ -209,17 +195,24 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						key="tableSelect"
 						imagePrefix="../.."
 						dialogName={this.props.data.adapterName}
-						themeType={this.props.data.themeType}
+						themeType={this.props.data.state.themeType}
 						theme={theme}
 						socket={this.props.data.socket}
 						filters={{}}
 						selected={this.state.selectIdValue}
 						onClose={() => this.setState({ showSelectId: false })}
-						root={(this.props.searchRoot && this.props.searchRoot.root) || undefined}
-						types={this.props.searchRoot && this.props.searchRoot.type ? this.props.searchRoot.type : undefined}
+						root={this.props.data.tab.searchRoot?.root}
+						types={this.props.data.tab.searchRoot?.type ? this.props.data.tab.searchRoot.type : undefined}
 						onOk={(selected) => {
 							this.setState({ showSelectId: false });
-							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.props.entries, this.state.itemForID);
+							updateId(
+								selected,
+								this.props,
+								this.state.indexID,
+								this.setState.bind(this),
+								this.props.data.tab.entries,
+								this.state.itemForID,
+							);
 						}}
 					/>
 				) : null}

@@ -5,6 +5,26 @@ import { sendNav } from "./sendNav.js";
 import { backMenuFunc } from "./backMenu.js";
 import { debug, error } from "./logging.js";
 import TelegramMenu from "../main.js";
+import {
+	UserListWithChatId,
+	BooleanString,
+	BindingObject,
+	EditArrayButtons,
+	GeneratedNavMenu,
+	Newline,
+	NewObjectNavStructure,
+	Actions,
+	GenerateActionsArrayOfEntries,
+	Switch,
+	UserObjectActions,
+	GenerateActionsNewObject,
+	NewObjectNavStructureKey,
+	Part,
+	DataObject,
+	MenuData,
+	UserInGroup,
+	MenusWithUsers,
+} from "./telegram-menu.js";
 
 const bindingFunc = async (
 	text: string,
@@ -262,9 +282,9 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 		const listOfSetStateIds: string[] = [];
 		action.set.forEach(function (element, key) {
 			if (key == 0) {
-				userObject[element.trigger] = { switch: [] };
+				userObject[element.trigger[0]] = { switch: [] };
 			}
-			userObject[element.trigger] = { switch: [] };
+			userObject[element.trigger[0]] = { switch: [] };
 			element.IDs.forEach(function (id: string, index: number) {
 				listOfSetStateIds.push(id);
 				const toggle = element.switch_checkbox[index] === "true";
@@ -277,15 +297,15 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 				}
 				const newObj: Switch = {
 					id: element.IDs[index],
-					value: value,
+					value: value.toString(),
 					toggle: toggle,
 					confirm: element.confirm[index],
 					returnText: element.returnText[index],
-					ack: element.ack ? element.ack[index] : false,
-					parse_mode: element.parse_mode ? element.parse_mode[0] : false,
+					ack: element.ack ? element.ack[index] : "false",
+					parse_mode: element.parse_mode ? element.parse_mode[0] : "false",
 				};
-				if (userObject[element.trigger] && userObject[element.trigger]?.switch) {
-					userObject[element.trigger].switch!.push(newObj);
+				if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
+					userObject[element.trigger[0]].switch!.push(newObj);
 				}
 			});
 		});
@@ -293,12 +313,12 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 		arrayOfEntries.forEach((item) => {
 			if (action[item.objName as keyof Actions]) {
 				action[item.objName as keyof Actions].forEach(function (element, index: number) {
-					userObject[element.trigger] = { [item.name]: [] };
+					userObject[element.trigger[0]] = { [item.name]: [] };
 					if (index == 0) {
-						userObject[element.trigger] = { [item.name as keyof UserObjectActions]: [] };
+						userObject[element.trigger[0]] = { [item.name as keyof UserObjectActions]: [] };
 					}
 
-					element[item.loop].forEach(function (id: string, key: number) {
+					(element[item.loop as keyof typeof element] as string[]).forEach(function (id: string, key: number) {
 						const newObj: GenerateActionsNewObject = {};
 						item.elements.forEach((elementItem) => {
 							const name = elementItem.name;
@@ -306,13 +326,10 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 							const newKey = elementItem.key ? elementItem.key : key;
 							let val: string | boolean;
 
-							if (!element[value]) {
+							if (!element[value as keyof typeof element]) {
 								val = false;
 							} else {
-								val = element[value][newKey];
-							}
-							if (val == undefined) {
-								val = "false";
+								val = element[value as keyof typeof element][newKey] || "false";
 							}
 
 							if (elementItem.type == "text" && typeof val === "string") {
