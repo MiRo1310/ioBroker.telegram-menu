@@ -48,19 +48,23 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 			return;
 		}
 		for (const entry of elements) {
-			rows.push(createData(this.props.entries, entry));
+			rows.push(createData(this.props.data.entries, entry));
 		}
 		this.setState({ rows: rows });
 	}
 	componentDidMount() {
-		if (this.props.tableData) {
-			this.getRows(this.props.tableData, this.props.data.activeMenu);
+		const { native, activeMenu } = this.props.data.state;
+		console.log(native, activeMenu);
+		if (native.data.nav) {
+			this.getRows(native.data.nav, activeMenu);
 		}
 	}
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.data.activeMenu || prevProps.tableData !== this.props.tableData) {
-			this.getRows(this.props.tableData, this.props.data.activeMenu);
+		const { native, activeMenu } = this.props.data.state;
+		const { nav } = native.data;
+		if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
+			this.getRows(native.data.nav, activeMenu);
 		}
 	}
 	handleDrop = (event, index) => {
@@ -79,8 +83,10 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 	};
 
 	editRow = (index) => {
-		if (this.props.data.nav && this.props.activeMenu) {
-			const rowToEdit = this.props?.data?.nav[this.props?.activeMenu][index];
+		const { native, activeMenu } = this.props.data.state;
+
+		if (native.data.nav && activeMenu) {
+			const rowToEdit = native.data.nav[activeMenu][index];
 			this.props.setState({ newRow: rowToEdit });
 		}
 		this.props.setState({ rowPopup: true });
@@ -106,7 +112,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setState ? this.props.callback.setState({ draggingRowIndex: indexRow }) : "",
+								this.props.callback.setStateApp ? this.props.callback.setStateApp({ draggingRowIndex: indexRow }) : "",
 							)
 						}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
@@ -114,7 +120,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 						onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
 						style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
 					>
-						{this.props.entries.map((entry, indexCell) => (
+						{this.props.data.entries.map((entry, indexCell) => (
 							<TableCell key={indexCell} component="td" style={{ width: entry.width ? entry.width : undefined }}>
 								<span
 									className="noneDraggable"

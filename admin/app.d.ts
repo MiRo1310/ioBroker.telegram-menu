@@ -68,7 +68,7 @@ export interface StateTabNavigation {
 }
 export interface PropsTabNavigation {
 	data: DataMainContent & { entries: TabValueEntries[] }
-	callback: Callback;
+	callback: CallbackFunctionsApp;
 }
 export interface TabValues {
 	label: string;
@@ -116,15 +116,12 @@ export interface SetState {
 }
 
 export interface PropsTableDndNav {
-	entries: TabValueEntries[];
-	tableData: NavData | undefined;
 	card: string;
-	activeMenu?: string;
 	openAddRowCard: (value: any) => void;
 	showButtons: ShowButtons;
-	data: Data;
+	data: DataMainContent & { entries: TabValueEntries[] }
 	setState: SetStateFunction;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 
 interface ActionData {

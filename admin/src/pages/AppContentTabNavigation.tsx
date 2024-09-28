@@ -136,15 +136,12 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 					<Table stickyHeader aria-label="sticky table">
 						<TabNavHeader entries={this.props.data.entries} />
 						<TableNavBody
-							tableData={this.props.data.state.native.data.nav}
 							data={this.props.data}
 							callback={this.props.callback}
 							card={"nav"}
 							showButtons={{ add: true, remove: true, edit: true }}
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
-							activeMenu={this.props.data.state.activeMenu}
-							entries={this.props.data.entries}
 						/>
 					</Table>
 				</TableContainer>
