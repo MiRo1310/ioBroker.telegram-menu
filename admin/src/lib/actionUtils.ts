@@ -1,9 +1,11 @@
 import React from "react";
 import { deepCopy, sortArray, deleteDoubleEntriesInArray } from "./Utils";
 import { tabValues } from "../config/entries";
-import { SetStateFunction, NativeData, UsersInGroup } from "admin/app";
+import { SetStateFunction, NativeData, UsersInGroup, PropsRowEditPopupCard } from 'admin/app';
+import { ActionNewRowProps, TabValueEntries, RowsSetState } from '../../app';
+import { AppContentTabActionContentRowEditorButtonsProps } from '../types/props-types';
 
-function createData(element, index, rowElements): { [key: string]: string } {
+function createData(element: ActionNewRowProps, index: string, rowElements: TabValueEntries[]): { [key: string]: string } {
 	const obj = {};
 	rowElements.forEach((entry) => {
 		obj[entry.name] = element[entry.name] && element[entry.name][index] ? element[entry.name][index] : "";
@@ -11,19 +13,20 @@ function createData(element, index, rowElements): { [key: string]: string } {
 	return obj;
 }
 let rows: { [key: string]: string }[] = [];
-function getRows(element, rowElements): { rows: { [key: string]: string }[]; trigger: string } | undefined {
+
+function getRows(element: ActionNewRowProps, rowElements: TabValueEntries[]): { rows: { [key: string]: string }[] | null; trigger: string } {
 	if (!element) {
-		return;
+		return { rows: null, trigger: "" };
 	}
 
 	rows = [];
-	let trigger;
+	let trigger: string = "";
 	if (element.trigger && element.trigger[0]) {
 		trigger = element.trigger[0];
 	}
 	const generateBy = rowElements.find((element) => element.elementGetRows !== undefined)?.elementGetRows;
 	if (!generateBy) {
-		return;
+		return { rows: null, trigger: "" };
 	}
 	if (!(element && element[generateBy])) {
 		console.error(`GenerateBy not found in element, actionUtilis.js. Check entrys.mjs for ${generateBy} is not a name of an element`);
@@ -37,81 +40,81 @@ function getRows(element, rowElements): { rows: { [key: string]: string }[]; tri
 	}
 	return { rows: rows, trigger: trigger };
 }
-export const saveRows = (props, setState, rowElements, newRow): void => {
-	let data;
-	if (newRow && newRow.length == 0) {
-		data = getRows(props.newRow, rowElements);
-	} else {
-		data = getRows(newRow, rowElements);
+
+export const saveRows = (props: PropsRowEditPopupCard | AppContentTabActionContentRowEditorButtonsProps, setState: SetStateFunction, newRow: ActionNewRowProps | [], existingRow?: RowsSetState[]): void => {
+	if (existingRow?.length == 0) {
+		const { rows, trigger } = getRows(props.data.newRow, props.data.tab.entries)
+		if (!rows) {
+			return;
+		}
+		setState({ trigger, rows });
+		return
 	}
-	if (!data) {
+
+	const { rows, trigger } = getRows(newRow as ActionNewRowProps, props.data.tab.entries);
+	if (!rows) {
 		return;
 	}
-	const rows = data.rows;
-	if (setState) {
-		setState({ data: props.newRow });
-		setState({ trigger: data.trigger });
-		setState({ rows: rows });
-	}
+	setState({ trigger, rows });
 };
 
-export const updateData = (obj, props, setState, rowElements): void => {
-	const newRow = deepCopy(props.newRow);
+export const updateData = (obj, props: PropsRowEditPopupCard, setState: SetStateFunction): void => {
+	const newRow = deepCopy(props.data.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
+	props.callback.setStateTabActionContent({ newRow: newRow });
+	saveRows(props, setState, newRow);
 };
-export const updateTrigger = (value, props, setState, rowElements): void => {
-	const newRow = deepCopy(props.newRow);
+export const updateTrigger = (value, props: PropsRowEditPopupCard, setState: SetStateFunction): void => {
+	const newRow = deepCopy(props.data.newRow);
 	newRow.trigger[0] = value.trigger;
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
+	props.callback.setStateTabActionContent({ newRow: newRow });
+	saveRows(props, setState, newRow);
 };
 
-export const addNewRow = (index, props, rowElements, setState?): void => {
+export const addNewRow = (index, props: PropsRowEditPopupCard | AppContentTabActionContentRowEditorButtonsProps, setState: SetStateFunction): void => {
 	let newRow;
 	if (index >= 0 && index != null) {
-		newRow = deepCopy(props.newRow);
+		newRow = deepCopy(props.data.newRow);
 	} else {
 		newRow = {};
 	}
 
-	rowElements.forEach((element) => {
+	props.data.tab.entries.forEach((element) => {
 		if (!index && index !== 0) {
 			newRow[element.name] = [element.val];
 		} else if (element.name !== "trigger") {
 			newRow[element.name].splice(index + 1, 0, element.val);
 		}
 	});
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
+	props.callback.setStateTabActionContent({ newRow: newRow });
+	saveRows(props, setState, newRow);
 };
 
-export const deleteRow = (index, props, array, setState, rowElements): void => {
-	const newRow = deepCopy(props.newRow);
+export const deleteRow = (index, props: PropsRowEditPopupCard | AppContentTabActionContentRowEditorButtonsProps, array, setState: SetStateFunction): void => {
+	const newRow = deepCopy(props.data.newRow);
 	array.forEach((element) => {
 		newRow[element.name].splice(index, 1);
 	});
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
+	props.callback.setStateTabActionContent({ newRow: newRow });
+	saveRows(props, setState, newRow);
 };
 
-export const moveItem = (index, props, array, setState, val): void => {
-	const newRow = deepCopy(props.newRow);
+export const moveItem = (index, props: PropsRowEditPopupCard, array, setState: SetStateFunction, val): void => {
+	const newRow = deepCopy(props.data.newRow);
 	array.forEach((element) => {
 		if (element.name !== "trigger") {
 			newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
 		}
 	});
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, array, newRow);
+	props.callback.setStateTabActionContent({ newRow: newRow });
+	saveRows(props, setState, newRow);
 };
 
-export const updateId = (selected, props, indexID, setState, rowElements, ID): void => {
-	const newRow = deepCopy(props.newRow);
+export const updateId = (selected, props: PropsRowEditPopupCard, indexID, setState: SetStateFunction, ID): void => {
+	const newRow = deepCopy(props.data.newRow);
 	newRow[ID][indexID] = selected;
-	props.callback.setState({ newRow: newRow });
-	saveRows(props, setState, rowElements, newRow);
+	props.callback.setStateTabActionContent({ newRow: newRow });
+	saveRows(props, setState, newRow);
 };
 const disassembleTextToTriggers = (text): string[] => {
 	const triggerArray: string[] = [];

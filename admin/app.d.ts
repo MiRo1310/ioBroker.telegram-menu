@@ -438,7 +438,6 @@ export interface ActionNewRowProps {
 export interface StateRowEditPopupCard {
 	rows: RowsSetState[];
 	trigger: string;
-	data: any;
 	showSelectId: boolean;
 	selectIdValue: string;
 	indexID: number;

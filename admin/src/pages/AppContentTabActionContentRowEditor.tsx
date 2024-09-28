@@ -20,7 +20,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@m
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 import React, { Component } from "react";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
-import AppContentTabActionContentRowEditorInputAboveTable from "./AppContentTabActionContentRowEditorInputAboveTable";
+import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
 
 const theme: IobTheme = Theme("light");
 
@@ -30,7 +30,6 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 		this.state = {
 			rows: [],
 			trigger: "",
-			data: {},
 			showSelectId: false,
 			selectIdValue: "",
 			indexID: 0,
@@ -43,18 +42,21 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	}
 
 	componentDidMount() {
-		saveRows(this.props, this.setState.bind(this), this.props.data.tab.entries, this.state.rows);
+		saveRows(this.props, this.setState.bind(this), [], this.state.rows);
 	}
 
 	componentDidUpdate(prevProps) {
-		const { newRow } = this.props.data;
-		if (prevProps.newRow !== newRow) {
-			saveRows(this.props, this.setState.bind(this), this.props.data.tab.entries, newRow);
+		const { newRow, tab } = this.props.data;
+		if (prevProps.data.newRow !== newRow) {
+			saveRows(this.props, this.setState.bind(this), newRow);
 		}
+	}
+	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+		console.error("Error in RowEditPopupCard", error, errorInfo);
 	}
 
 	updateData = (obj) => {
-		updateData(obj, this.props, this.setState.bind(this), this.props.data.tab.entries);
+		updateData(obj, this.props, this.setState.bind(this));
 	};
 
 	handleDrop = (index: number) => {
@@ -70,10 +72,11 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	render() {
 		return (
 			<div className="Edit-Container">
-				<AppContentTabActionContentRowEditorInputAboveTable callback={{ updateData: this.updateData }} data={this.props.data} />
+				<AppContentTabActionContentRowEditorHeader callback={{ updateData: this.updateData }} data={this.props.data} />
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
 						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} />
+
 						<TableBody>
 							{this.state.rows
 								? this.state.rows.map((row, indexRow: number) => (
@@ -205,14 +208,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 						types={this.props.data.tab.searchRoot?.type ? this.props.data.tab.searchRoot.type : undefined}
 						onOk={(selected) => {
 							this.setState({ showSelectId: false });
-							updateId(
-								selected,
-								this.props,
-								this.state.indexID,
-								this.setState.bind(this),
-								this.props.data.tab.entries,
-								this.state.itemForID,
-							);
+							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.state.itemForID);
 						}}
 					/>
 				) : null}

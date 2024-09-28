@@ -19,8 +19,8 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 	render() {
 		const { newRow, newUnUsedTrigger, tab } = this.props.data;
 		return (
-			<template>
-				{this.props.data.newRow.trigger ? (
+			<>
+				{newRow.trigger ? (
 					<div className="Edit-Container-Trigger">
 						<Select
 							width="10%"
@@ -47,7 +47,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 						/>
 					</div>
 				) : null}
-			</template>
+			</>
 		);
 	}
 }

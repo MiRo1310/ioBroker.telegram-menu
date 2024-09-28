@@ -36,7 +36,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 				{buttons.add ? (
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallAdd // Buttons sind einstellbar in entries.ts
-							callback={() => addNewRow(indexRow, this.props, entries, setStateEditor)}
+							callback={() => addNewRow(indexRow, this.props, setStateEditor)}
 							index={indexRow}
 						/>
 					</TableCell>
@@ -44,7 +44,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 				{buttons.remove ? (
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallRemove
-							callback={(index: number) => deleteRow(index, this.props, entries, setStateEditor, entries)}
+							callback={(index: number) => deleteRow(index, this.props, entries, setStateEditor)}
 							index={indexRow}
 							disabled={rows.length == 1 ? "disabled" : ""}
 						/>

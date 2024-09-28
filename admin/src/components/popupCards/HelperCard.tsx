@@ -50,7 +50,6 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 	};
 
 	render() {
-		console.log(this.props);
 		return (
 			<>
 				<TableContainer component={Paper} className="HelperCard">

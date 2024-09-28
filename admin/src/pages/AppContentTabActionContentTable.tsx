@@ -58,14 +58,15 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 
 	componentDidUpdate(prevProps) {
 		const { activeMenu, native } = this.props.data.state;
-		if (prevProps.activeMenu !== activeMenu) {
+		if (prevProps.data.state.activeMenu !== activeMenu) {
 			this.getRows();
 			this.updateHeight();
 		}
-		if (prevProps.tableData !== native.data.action) {
+		if (prevProps.data.state.native.data.action !== native.data.action) {
 			this.getRows();
 		}
 	}
+
 	updateHeight = () => {
 		// Diese Funktion setzt die Höhe der Tabelle auf die Höhe des darüber liegenden Td Tags da es herkömmlich anscheinen nicht funktioniert
 		const tBodies = Array.from(document.getElementsByClassName("dynamicHeight")) as HTMLTableSectionElement[];
@@ -99,6 +100,10 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		window.removeEventListener("resize", this.updateHeight);
 	}
 
+	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+		console.log(error, errorInfo);
+	}
+
 	handleDrop = (index: number, event) => {
 		let currentElement = event.target;
 		while (currentElement) {
@@ -115,9 +120,11 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 	};
 
 	editRow = (index: number) => {
-		const { activeMenu, data } = this.props.data.state;
+		const { activeMenu } = this.props.data.state;
+		const { data } = this.props.data.state.native;
 		const { setStateTabActionContent } = this.props.callback;
-		const newRow = deepCopy(data)[this.props.data.card][activeMenu][this.props.data.tab.value][index];
+		const dataCopy = deepCopy(data);
+		const newRow = dataCopy[this.props.data.card][activeMenu][this.props.data.tab.value][index];
 		if (newRow.trigger) {
 			this.props.callback.addEditedTrigger(newRow.trigger[0]);
 		}

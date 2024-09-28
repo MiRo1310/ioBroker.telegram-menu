@@ -113,7 +113,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ rowPopup: true, rowIndex: index });
 	};
 
-	closeAddRowCard = (isOk) => {
+	closeAddRowCard = (isOk: boolean) => {
 		const { native, activeMenu } = this.props.data.state;
 		const { value: subCard } = this.props.data.tab;
 		if (isOk) {
@@ -163,17 +163,16 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 		this.setState({ helperText: true });
 	};
-	onchangeValueFromHelper = (value) => {
-		let newValue;
 
+	onchangeValueFromHelper = (value: string) => {
 		if (this.state.editedValueFromHelperText === null) {
-			newValue = value;
-		} else {
-			newValue = this.state.editedValueFromHelperText + " " + value;
+			this.setState({ editedValueFromHelperText: value });
+			return;
 		}
-		this.setState({ editedValueFromHelperText: newValue });
+		this.setState({ editedValueFromHelperText: this.state.editedValueFromHelperText + " " + value });
 	};
-	popupHelperCard = (isOK) => {
+
+	popupHelperCard = (isOK: boolean) => {
 		if (isOK) {
 			const row = deepCopy(this.state.newRow);
 			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
@@ -181,7 +180,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
-	addNewRow = (index) => {
+
+	addNewRow = (index: number) => {
 		this.setState({ rowPopup: true });
 		addNewRow(index, this.props, this.props.data.tab.entries);
 	};
