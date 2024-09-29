@@ -1,9 +1,9 @@
+import { NativeData, SetStateFunction, UsersInGroup } from "admin/app";
 import React from "react";
-import { deepCopy, sortArray, deleteDoubleEntriesInArray } from "./Utils";
+import { ActionNewRowProps, RowsSetState, TabValueEntries } from "../../app";
 import { tabValues } from "../config/entries";
-import { SetStateFunction, NativeData, UsersInGroup, PropsRowEditPopupCard } from 'admin/app';
-import { ActionNewRowProps, TabValueEntries, RowsSetState } from '../../app';
-import { AppContentTabActionContentRowEditorButtonsProps } from '../types/props-types';
+import { isTruthy } from "./string";
+import { deepCopy, deleteDoubleEntriesInArray, sortArray } from "./Utils";
 
 function createData(element: ActionNewRowProps, index: string, rowElements: TabValueEntries[]): { [key: string]: string } {
 	const obj = {};
@@ -41,14 +41,19 @@ function getRows(element: ActionNewRowProps, rowElements: TabValueEntries[]): { 
 	return { rows: rows, trigger: trigger };
 }
 
-export const saveRows = (props: PropsRowEditPopupCard | AppContentTabActionContentRowEditorButtonsProps, setState: SetStateFunction, newRow: ActionNewRowProps | [], existingRow?: RowsSetState[]): void => {
+export const saveRows = (
+	props: { data: { newRow: ActionNewRowProps; tab: { entries: TabValueEntries[] } } },
+	setState: SetStateFunction,
+	newRow: ActionNewRowProps | [],
+	existingRow?: RowsSetState[],
+): void => {
 	if (existingRow?.length == 0) {
-		const { rows, trigger } = getRows(props.data.newRow, props.data.tab.entries)
+		const { rows, trigger } = getRows(props.data.newRow, props.data.tab.entries);
 		if (!rows) {
 			return;
 		}
 		setState({ trigger, rows });
-		return
+		return;
 	}
 
 	const { rows, trigger } = getRows(newRow as ActionNewRowProps, props.data.tab.entries);
@@ -57,21 +62,36 @@ export const saveRows = (props: PropsRowEditPopupCard | AppContentTabActionConte
 	}
 	setState({ trigger, rows });
 };
+export interface UpdateProps {
+	data: { newRow: ActionNewRowProps; tab: { entries: TabValueEntries[] } };
+	callback?: { setStateTabActionContent: SetStateFunction };
+}
+export interface UpdateDataObject {
+	id: string;
+	index: number;
+	val: string;
+}
 
-export const updateData = (obj, props: PropsRowEditPopupCard, setState: SetStateFunction): void => {
+export const updateData = (obj: UpdateDataObject, props: UpdateProps, setState: SetStateFunction): void => {
 	const newRow = deepCopy(props.data.newRow);
 	newRow[obj.id][obj.index] = obj.val.toString();
-	props.callback.setStateTabActionContent({ newRow: newRow });
-	saveRows(props, setState, newRow);
-};
-export const updateTrigger = (value, props: PropsRowEditPopupCard, setState: SetStateFunction): void => {
-	const newRow = deepCopy(props.data.newRow);
-	newRow.trigger[0] = value.trigger;
-	props.callback.setStateTabActionContent({ newRow: newRow });
+	if (props.callback?.setStateTabActionContent) {
+		props.callback.setStateTabActionContent({ newRow: newRow });
+	}
+
 	saveRows(props, setState, newRow);
 };
 
-export const addNewRow = (index, props: PropsRowEditPopupCard | AppContentTabActionContentRowEditorButtonsProps, setState: SetStateFunction): void => {
+export const updateTrigger = (value: { trigger: string }, props: UpdateProps, setState: SetStateFunction): void => {
+	const newRow = deepCopy(props.data.newRow);
+	newRow.trigger[0] = value.trigger;
+	if (props.callback?.setStateTabActionContent) {
+		props.callback.setStateTabActionContent({ newRow: newRow });
+	}
+	saveRows(props, setState, newRow);
+};
+
+export const addNewRow = (index: number, props: UpdateProps, setState: SetStateFunction, cb: SetStateFunction): void => {
 	let newRow;
 	if (index >= 0 && index != null) {
 		newRow = deepCopy(props.data.newRow);
@@ -86,44 +106,57 @@ export const addNewRow = (index, props: PropsRowEditPopupCard | AppContentTabAct
 			newRow[element.name].splice(index + 1, 0, element.val);
 		}
 	});
-	props.callback.setStateTabActionContent({ newRow: newRow });
+	cb({ newRow: newRow });
 	saveRows(props, setState, newRow);
 };
 
-export const deleteRow = (index, props: PropsRowEditPopupCard | AppContentTabActionContentRowEditorButtonsProps, array, setState: SetStateFunction): void => {
+export const deleteRow = (index: number, props: UpdateProps, setState: SetStateFunction): void => {
 	const newRow = deepCopy(props.data.newRow);
-	array.forEach((element) => {
+	props.data.tab.entries.forEach((element) => {
 		newRow[element.name].splice(index, 1);
 	});
-	props.callback.setStateTabActionContent({ newRow: newRow });
+	if (props.callback?.setStateTabActionContent) {
+		props.callback.setStateTabActionContent({ newRow: newRow });
+	}
 	saveRows(props, setState, newRow);
 };
 
-export const moveItem = (index, props: PropsRowEditPopupCard, array, setState: SetStateFunction, val): void => {
+export const moveItem = (index: number, props: UpdateProps, setState: SetStateFunction, val: number): void => {
 	const newRow = deepCopy(props.data.newRow);
-	array.forEach((element) => {
+	props.data.tab.entries.forEach((element) => {
 		if (element.name !== "trigger") {
 			newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
 		}
 	});
-	props.callback.setStateTabActionContent({ newRow: newRow });
+	if (props.callback?.setStateTabActionContent) {
+		props.callback.setStateTabActionContent({ newRow: newRow });
+	}
 	saveRows(props, setState, newRow);
 };
 
-export const updateId = (selected, props: PropsRowEditPopupCard, indexID, setState: SetStateFunction, ID): void => {
+export const updateId = (
+	selected: string | string[] | undefined,
+	props: UpdateProps,
+	indexID: number,
+	setState: SetStateFunction,
+	ID: string,
+): void => {
 	const newRow = deepCopy(props.data.newRow);
 	newRow[ID][indexID] = selected;
-	props.callback.setStateTabActionContent({ newRow: newRow });
+	if (props.callback?.setStateTabActionContent) {
+		props.callback.setStateTabActionContent({ newRow: newRow });
+	}
 	saveRows(props, setState, newRow);
 };
-const disassembleTextToTriggers = (text): string[] => {
+const disassembleTextToTriggers = (text: string): string[] => {
 	const triggerArray: string[] = [];
+	let textArray: string[] = [];
 	if (text.includes("&&")) {
-		text = text.split("&&");
+		textArray = text.split("&&");
 	} else {
-		text = [text];
+		textArray = [text];
 	}
-	if (text[0].includes("menu:")) {
+	if (textArray[0].includes("menu:")) {
 		const array = text[0].split(":");
 
 		const trigger = array[2];
@@ -131,7 +164,7 @@ const disassembleTextToTriggers = (text): string[] => {
 			triggerArray.push(trigger.trim());
 		}
 	} else {
-		text.forEach((element) => {
+		textArray.forEach((element) => {
 			element.split(",").forEach((word) => {
 				if (word.trim() != "-") {
 					triggerArray.push(word.trim());
@@ -144,9 +177,9 @@ const disassembleTextToTriggers = (text): string[] => {
 };
 
 export const updateTriggerForSelect = (
-	data,
-	usersInGroup,
-	activeMenu,
+	data: NativeData,
+	usersInGroup: UsersInGroup,
+	activeMenu: string,
 ): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: any } | undefined => {
 	const submenu: string[] = [];
 	tabValues.forEach((element) => {
@@ -237,6 +270,7 @@ const buttonCheck = (): React.ReactElement => {
 		React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "done")),
 	);
 };
+
 const buttonClose = (): React.ReactElement => {
 	return React.createElement(
 		"button",
@@ -244,33 +278,31 @@ const buttonClose = (): React.ReactElement => {
 		React.createElement("span", null, React.createElement("i", { className: "material-icons" }, "close")),
 	);
 };
-export const getElementIcon = (element, entry?): undefined | React.ReactElement | string => {
+
+export const getElementIcon = (element: string | boolean, entry?: TabValueEntries): undefined | React.ReactElement | string => {
 	if (!element) {
 		return;
 	}
-	let icon = true;
-	if (!entry && !entry?.noIcon) {
-		icon = true;
-	} else if (entry && entry?.noIcon) {
-		icon = false;
-	}
 
-	if (icon) {
-		if (element === "true" || element === true) {
+	if (!entry?.noIcon) {
+		if (isTruthy(element)) {
 			return buttonCheck();
-		} else if (element === "false" || element === false) {
+		}
+		if (element === "false") {
 			return buttonClose();
 		}
 	}
-	return element.replace(/&amp;/g, "&");
+	return element.toString().replace(/&amp;/g, "&");
 };
-export const sortObjectByKey = (usersInGroup): any => {
-	const array = Object.entries(usersInGroup);
-	array.sort();
+
+export const sortObjectByKey = (usersInGroup: UsersInGroup): UsersInGroup => {
 	const newObject = {};
-	array.forEach((element) => {
-		newObject[element[0]] = element[1];
-	});
+	Object.entries(usersInGroup)
+		.sort()
+		.forEach((element) => {
+			newObject[element[0]] = element[1];
+		});
+
 	return newObject;
 };
 

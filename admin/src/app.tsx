@@ -15,6 +15,7 @@ import React from "react";
 import { getDefaultDropBoxCoordinates } from "./lib/dragNDrop";
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from "./lib/object";
 import { LegacyRef } from "react";
+import ErrorBoundary from "@components/ErrorBoundary";
 
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 	dropBoxRef: LegacyRef<HTMLDivElement> | undefined;
@@ -140,48 +141,50 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 
 		return (
 			<div className={`App row relative ${this.props.themeName}`}>
-				<Grid container spacing={1}>
-					<AppHeaderIconBar
-						common={this.common}
-						native={this.state.native}
-						onError={(text: string | number) => this.setState({ errorText: text.toString() })}
-						onLoad={(native) => this.onLoadConfig(native)}
-						instance={this.instance}
-						adapterName={this.adapterName}
-						changed={this.state.changed}
-						onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
-					/>
+				<ErrorBoundary>
+					<Grid container spacing={1}>
+						<AppHeaderIconBar
+							common={this.common}
+							native={this.state.native}
+							onError={(text: string | number) => this.setState({ errorText: text.toString() })}
+							onLoad={(native) => this.onLoadConfig(native)}
+							instance={this.instance}
+							adapterName={this.adapterName}
+							changed={this.state.changed}
+							onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
+						/>
 
-					<AppContent
-						callback={{
-							setStateApp: this.setState,
-							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-						}}
-						data={{ state: this.state, adapterName: this.adapterName, socket: this.socket }}
-					/>
-				</Grid>
-				{this.state.showDropBox ? (
-					<AppDropBox
-						data={{ state: this.state, dropBoxRef: this.dropBoxRef }}
-						callback={{
-							setStateApp: this.setState,
-							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-						}}
-					/>
-				) : null}
-				{this.state.showTriggerInfo ? (
-					<AppTriggerOverview
-						state={this.state}
-						callback={{
-							setState: this.setState,
-							updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
-						}}
-					/>
-				) : null}
-				{this.state.doubleTrigger.length > 0 ? <AppDoubleTriggerInfo state={this.state} /> : null}
-				{this.renderError()}
-				{this.renderToast()}
-				{this.renderSaveCloseButtons()}
+						<AppContent
+							callback={{
+								setStateApp: this.setState,
+								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+							}}
+							data={{ state: this.state, adapterName: this.adapterName, socket: this.socket }}
+						/>
+					</Grid>
+					{this.state.showDropBox ? (
+						<AppDropBox
+							data={{ state: this.state, dropBoxRef: this.dropBoxRef }}
+							callback={{
+								setStateApp: this.setState,
+								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+							}}
+						/>
+					) : null}
+					{this.state.showTriggerInfo ? (
+						<AppTriggerOverview
+							state={this.state}
+							callback={{
+								setState: this.setState,
+								updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
+							}}
+						/>
+					) : null}
+					{this.state.doubleTrigger.length > 0 ? <AppDoubleTriggerInfo state={this.state} /> : null}
+					{this.renderError()}
+					{this.renderToast()}
+					{this.renderSaveCloseButtons()}
+				</ErrorBoundary>
 			</div>
 		);
 	}

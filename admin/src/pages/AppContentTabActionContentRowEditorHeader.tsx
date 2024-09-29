@@ -3,11 +3,11 @@ import Select from "@/components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
 import { isChecked } from "@/lib/Utils.js";
 import React, { Component } from "react";
-import { DataMainContent, DataTabActionContent, TabActionContentTableProps } from "../../app";
+import { CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps, CallbackFunctionsApp } from "../../app";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
-	callback: { updateData: (obj) => void };
+	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void } & { updateData: (obj) => void };
 }
 
 class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppContentTabActionContentRowEditorInputAboveTableProps> {
@@ -17,7 +17,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 	}
 
 	render() {
-		const { newRow, newUnUsedTrigger, tab } = this.props.data;
+		const { newRow, newUnUsedTrigger } = this.props.data;
 		return (
 			<>
 				{newRow.trigger ? (
@@ -27,7 +27,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 							selected={newRow.trigger[0]}
 							options={newUnUsedTrigger}
 							id="trigger"
-							callback={(value) => updateTrigger(value, this.props, this.setState.bind(this), tab.entries)}
+							callback={(value: { trigger: string }) => updateTrigger(value, this.props, this.setState.bind(this))}
 							callbackValue="event.target.value"
 							label="Trigger"
 							placeholder="Select a Trigger"

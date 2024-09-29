@@ -3,5 +3,5 @@ export function replaceSpaceWithUnderscore(menu: string): string {
 }
 
 export function isTruthy(value: string | number | boolean): boolean {
-	return !!value;
+	return value === "1" || value === 1 || value === true || value === "true";
 }

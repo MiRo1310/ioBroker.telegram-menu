@@ -7,10 +7,11 @@ import Button from "@/components/btn-Input/Button";
 import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import helperText from "@/config/helper.js";
-import { addNewRow } from "@/lib/actionUtils.js";
+import { addNewRow, UpdateProps } from "@/lib/actionUtils.js";
 import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionContentRowEditor";
 import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
 import { ActionData, PropsActionCard, StateActionCard } from "admin/app";
+import { ActionNewRowProps } from "../../app";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props) {
@@ -19,7 +20,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			rowPopup: false,
 			rowIndex: 0,
 			editRow: false,
-			newRow: {},
+			newRow: {} as ActionNewRowProps,
 			rowsLength: 0,
 			newUnUsedTrigger: this.props.data.state.unUsedTrigger,
 			helperText: false,
@@ -134,7 +135,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	};
 
 	resetNewRow = () => {
-		const newRow = {};
+		const newRow = {} as ActionNewRowProps;
 		this.props.data.tab.entries.forEach((entry) => {
 			newRow[entry.name] = [entry.val || ""];
 		});
@@ -183,7 +184,13 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 	addNewRow = (index: number) => {
 		this.setState({ rowPopup: true });
-		addNewRow(index, this.props, this.props.data.tab.entries);
+		const combinedProps: UpdateProps = {
+			data: {
+				newRow: this.state.newRow,
+				tab: { entries: this.props.data.tab.entries },
+			},
+		};
+		addNewRow(index, combinedProps, this.props.callback.setStateApp, this.props.callback.setStateApp);
 	};
 
 	render() {

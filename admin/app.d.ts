@@ -324,7 +324,7 @@ export interface StateActionCard {
 	rowPopup: boolean;
 	rowIndex: number;
 	editRow: boolean;
-	newRow: any;
+	newRow: ActionNewRowProps;
 	rowsLength: number;
 	newUnUsedTrigger: string[] | null;
 	helperText: boolean;
@@ -517,7 +517,7 @@ export interface PropsRenameCard {
 
 export interface StateRenameCard { }
 export interface PropsTriggerOverview {
-	data: any;
+	data: NativeData;
 	usersInGroup: UsersInGroup;
 	userActiveCheckbox: UserActiveCheckbox;
 }

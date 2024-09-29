@@ -46,7 +46,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	}
 
 	componentDidUpdate(prevProps) {
-		const { newRow, tab } = this.props.data;
+		const { newRow } = this.props.data;
 		if (prevProps.data.newRow !== newRow) {
 			saveRows(this.props, this.setState.bind(this), newRow);
 		}
@@ -61,7 +61,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 
 	handleDrop = (index: number) => {
 		if (index !== this.state.dropStart) {
-			moveItem(this.state.dropStart, this.props, this.props.data.tab.entries, this.setState.bind(this), index - this.state.dropStart);
+			moveItem(this.state.dropStart, this.props, this.setState.bind(this), index - this.state.dropStart);
 		}
 	};
 
@@ -72,7 +72,10 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	render() {
 		return (
 			<div className="Edit-Container">
-				<AppContentTabActionContentRowEditorHeader callback={{ updateData: this.updateData }} data={this.props.data} />
+				<AppContentTabActionContentRowEditorHeader
+					callback={{ ...this.props.callback, updateData: this.updateData }}
+					data={this.props.data}
+				/>
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
 						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} />
