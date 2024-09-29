@@ -26,7 +26,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 	}
 
 	openModal = (index: number) => {
-		this.setState({ openCopyPopup: true, indexOfRowToCopyForModal: index });
+		this.props.callback.setStateEditor({ openCopyPopup: true, indexOfRowToCopyForModal: index });
 	};
 
 	render() {
@@ -57,14 +57,6 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallCopy index={indexRow} callback={(index: number) => this.openModal(index)} />
 					</TableCell>
-				) : null}
-				{this.state.openCopyPopup ? (
-					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val) => this.setState({ openCopyPopup: val })}>
-						<AppContentTabActionContentRowEditorCopyModal
-							{...this.props}
-							indexOfRowToCopyForModal={this.state.indexOfRowToCopyForModal}
-						/>
-					</PopupContainer>
 				) : null}
 			</>
 		);

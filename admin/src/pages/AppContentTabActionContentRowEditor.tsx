@@ -21,6 +21,8 @@ import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 import React, { Component } from "react";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
 import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
+import PopupContainer from "@components/popupCards/PopupContainer";
+import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
 
 const theme: IobTheme = Theme("light");
 
@@ -38,6 +40,8 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 			dropOver: 0,
 			mouseOverNoneDraggable: false,
 			itemForID: "",
+			openCopyPopup: false,
+			indexOfRowToCopyForModal: 0,
 		};
 	}
 
@@ -214,6 +218,14 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 							updateId(selected, this.props, this.state.indexID, this.setState.bind(this), this.state.itemForID);
 						}}
 					/>
+				) : null}
+				{this.state.openCopyPopup ? (
+					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val) => this.setState({ openCopyPopup: val })}>
+						<AppContentTabActionContentRowEditorCopyModal
+							{...this.props}
+							indexOfRowToCopyForModal={this.state.indexOfRowToCopyForModal}
+						/>
+					</PopupContainer>
 				) : null}
 			</div>
 		);

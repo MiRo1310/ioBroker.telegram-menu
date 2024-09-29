@@ -214,7 +214,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 									{Array(Object.keys(this.props.data.showButtons).length)
 										.fill(undefined)
 										.map((_, i) => (
-											<TableCell key={i} align="center" className="cellIcon"></TableCell>
+											<TableCell key={i} align="center" className="cellIcon" />
 										))}
 								</TableRow>
 							</TableHead>

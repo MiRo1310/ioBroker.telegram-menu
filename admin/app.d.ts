@@ -446,6 +446,8 @@ export interface StateRowEditPopupCard {
 	dropOver: number;
 	mouseOverNoneDraggable: boolean;
 	itemForID: string;
+	openCopyPopup: boolean,
+	indexOfRowToCopyForModal: number,
 }
 export interface RowsSetState {
 	IDs: string;

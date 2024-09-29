@@ -66,7 +66,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 			this.getRows(native.data.nav, activeMenu);
 		}
 	}
-	handleDrop = (event, index) => {
+	handleDrop = (event, index: number) => {
 		let currentElement = event.target;
 		while (currentElement) {
 			if (currentElement.tagName === "TR") {
@@ -77,11 +77,18 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 			currentElement = currentElement.parentNode;
 		}
 		if (index !== this.state.dropStart && index != 0) {
-			moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+			moveItem({
+				index: this.state.dropStart,
+				card: this.props.card,
+				upDown: index - this.state.dropStart,
+				data: this.props.data.state.native.data,
+				activeMenu: this.props.data.state.activeMenu,
+				updateNative: this.props.callback.setStateApp,
+			});
 		}
 	};
 
-	editRow = (index) => {
+	editRow = (index: number) => {
 		const { native, activeMenu } = this.props.data.state;
 
 		if (native.data.nav && activeMenu) {
@@ -145,7 +152,15 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={() => deleteRow(indexRow, this.props, this.props.card)}
+							deleteRow={() =>
+								deleteRow({
+									index: indexRow,
+									card: this.props.card,
+									activeMenu: this.props.data.state.activeMenu,
+									data: this.props.data.state.native.data,
+									updateNative: this.props.callback.setStateApp,
+								})
+							}
 							rows={this.state.rows}
 							index={indexRow}
 							showButtons={this.props.showButtons}

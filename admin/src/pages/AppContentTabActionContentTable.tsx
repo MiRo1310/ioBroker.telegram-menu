@@ -115,7 +115,15 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			currentElement = currentElement.parentNode;
 		}
 		if (index !== this.state.dropStart) {
-			moveItem(this.state.dropStart, this.props, this.props.data.card, this.props.data.tab.value, index - this.state.dropStart);
+			moveItem({
+				index: this.state.dropStart,
+				card: this.props.data.card,
+				subCard: this.props.data.tab.value,
+				upDown: index - this.state.dropStart,
+				activeMenu: this.props.data.state.activeMenu,
+				data: this.props.data.state.native.data,
+				updateNative: this.props.callback.updateNative,
+			});
 		}
 	};
 
@@ -132,7 +140,16 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 	};
 
 	deleteRow = (index: number) => {
-		deleteRow(index, this.props, this.props.data.card, this.props.data.tab.value);
+		const { activeMenu } = this.props.data.state;
+		const { updateNative } = this.props.callback;
+		deleteRow({
+			index,
+			activeMenu,
+			card: this.props.data.card,
+			data: this.props.data.state.native.data,
+			updateNative,
+			subCard: this.props.data.tab.value,
+		});
 	};
 
 	render() {
@@ -192,7 +209,16 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={(index) => deleteRow(index, this.props, this.props.data.card, this.props.data.tab.value)}
+							deleteRow={(index) =>
+								deleteRow({
+									index,
+									activeMenu: this.props.data.state.activeMenu,
+									card: this.props.data.card,
+									subCard: this.props.data.tab.value,
+									updateNative: this.props.callback.updateNative,
+									data: this.props.data.state.native.data,
+								})
+							}
 							rows={this.state.rows}
 							index={index}
 							showButtons={this.props.data.showButtons}
