@@ -54,13 +54,12 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 	}
 	componentDidMount() {
 		const { native, activeMenu } = this.props.data.state;
-		console.log(native, activeMenu);
 		if (native.data.nav) {
 			this.getRows(native.data.nav, activeMenu);
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Readonly<PropsTableDndNav>) {
 		const { native, activeMenu } = this.props.data.state;
 		const { nav } = native.data;
 		if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {

@@ -45,7 +45,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 		saveRows(this.props, this.setState.bind(this), [], this.state.rows);
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Readonly<PropsRowEditPopupCard>) {
 		const { newRow } = this.props.data;
 		if (prevProps.data.newRow !== newRow) {
 			saveRows(this.props, this.setState.bind(this), newRow);

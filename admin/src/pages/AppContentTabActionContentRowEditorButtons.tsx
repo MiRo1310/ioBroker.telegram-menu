@@ -26,7 +26,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 	}
 
 	openModal = (index: number) => {
-		this.setState({ openCopyPopup: true });
+		this.setState({ openCopyPopup: true, indexOfRowToCopyForModal: index });
 	};
 
 	render() {

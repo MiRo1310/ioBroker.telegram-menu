@@ -1,15 +1,14 @@
-import React, { Component } from "react";
 import Select from "@/components/btn-Input/select";
-import { setState } from "../../../src/lib/setstate";
 import {
-	DataMainContent,
-	TabActionContentTableProps,
-	DataTabActionContent,
-	RowsSetState,
 	CallbackFunctionsApp,
 	CallbackTabActionContent,
+	DataMainContent,
+	DataTabActionContent,
+	RowsSetState,
 	SetStateFunction,
+	TabActionContentTableProps,
 } from "admin/app";
+import React, { Component } from "react";
 
 export interface PropsRowEditorCopyModal {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rows: RowsSetState[]; indexRow: number };
@@ -17,27 +16,28 @@ export interface PropsRowEditorCopyModal {
 	indexOfRowToCopyForModal: number;
 }
 interface State {
-	selected: string;
+	selectedMenu: string;
+	selectedAction: string;
 }
 
 class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEditorCopyModal, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selected: "",
+			selectedMenu: "",
+			selectedAction: "",
 		};
 	}
-	componentDidUpdate(prevProps: Readonly<PropsRowEditorCopyModal>, prevState: Readonly<State>): void {
-		if (prevState.selected !== this.state.selected) {
-			console.log(this.props.data.state.native.data.action[this.state.selected]);
-		}
-	}
+
 	getAllAvailableActionsFromSelectedMenu() {
-		return Object.keys(this.props.data.state.native.data.action[this.state.selected]);
+		return Object.keys(this.props.data.state.native.data.action[this.state.selectedMenu]);
 	}
 
 	getAllMenusWithoutActiveMenu() {
 		return Object.keys(this.props.data.state.native.usersInGroup).filter((menu) => menu !== this.props.data.state.activeMenu);
+	}
+	getValuesInSelectedAction() {
+		return this.props.data.state.native.data.action[this.state.selectedMenu][this.state.selectedAction];
 	}
 
 	render() {
@@ -47,16 +47,16 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 				<p>Menu to copy to</p>
 				<Select
 					options={this.getAllMenusWithoutActiveMenu()}
-					id="selected"
-					selected={this.state.selected}
+					id="selectedMenu"
+					selected={this.state.selectedMenu}
 					placeholder="Select a menu"
 					callback={this.setState.bind(this)}
 				/>
-				{this.state.selected !== "" ? (
+				{this.state.selectedMenu !== "" ? (
 					<Select
-						options={this.getAllMenusWithoutActiveMenu()}
-						id="test"
-						selected={this.state.selected}
+						options={this.getAllAvailableActionsFromSelectedMenu()}
+						id="selectedAction"
+						selected={this.state.selectedAction}
 						placeholder="Select a menu"
 						callback={this.setState.bind(this)}
 					/>

@@ -35,7 +35,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			text: "",
 		};
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps: Readonly<PropsActionCard>, prevState: Readonly<StateActionCard>) {
 		const { native, activeMenu } = this.props.data.state;
 		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
 			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
@@ -49,7 +49,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			this.getLengthOfData(native.data.action, activeMenu);
 		}
 
-		if (prevProps.newRow !== this.state.newRow) {
+		if (prevState.newRow !== this.state.newRow) {
 			this.disableButtonHandler();
 		}
 	}

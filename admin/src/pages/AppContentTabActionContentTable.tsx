@@ -56,7 +56,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		this.setState({ rows: rows });
 	};
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Readonly<PropsTableDndAction>) {
 		const { activeMenu, native } = this.props.data.state;
 		if (prevProps.data.state.activeMenu !== activeMenu) {
 			this.getRows();

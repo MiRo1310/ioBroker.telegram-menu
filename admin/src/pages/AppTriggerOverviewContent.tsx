@@ -158,7 +158,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		this.getOptions();
 		this.setState({ ulPadding: this.ulPadding });
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps: Readonly<PropsTriggerOverview>, prevState: Readonly<StateTriggerOverview>) {
 		if (prevState.trigger != this.state.trigger) {
 			this.setState({ ulPadding: this.ulPadding });
 		}

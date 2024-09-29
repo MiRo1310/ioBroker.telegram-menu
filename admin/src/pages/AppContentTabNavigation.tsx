@@ -27,7 +27,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			text: "",
 		};
 	}
-	componentDidUpdate(_, prevState) {
+	componentDidUpdate(_, prevState: Readonly<StateTabNavigation>) {
 		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
 			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
 				if (this.state.editedValueFromHelperText !== "") {

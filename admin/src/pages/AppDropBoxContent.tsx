@@ -28,8 +28,8 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 	componentDidMount() {
 		this.updateMenuList();
 	}
-	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.activeMenu !== this.props.data.state.activeMenu) {
+	componentDidUpdate(prevProps: Readonly<PropsDropBox>, prevState: Readonly<StateDropBox>) {
+		if (prevProps.data.state.activeMenu !== this.props.data.state.activeMenu) {
 			this.setState({ selectedMenu: "" });
 			this.updateMenuList();
 		}

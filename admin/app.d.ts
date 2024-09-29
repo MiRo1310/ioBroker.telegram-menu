@@ -459,7 +459,7 @@ export interface RowsSetState {
 }
 
 export interface AppState {
-	selectedTab: any;
+	selectedTab: string;
 	selectedTabNum: number;
 	native: {};
 	errorText: string;
@@ -694,8 +694,8 @@ export interface PropsMainContent {
 	callback: CallbackFunctionsApp;
 }
 export interface DataMainContent { state: AdditionalStateInfo, adapterName: string, socket: Socket }
-
-export type Socket = any;
+//FIXME - Evtl passt das nicht
+export type Socket = AdminConnection;
 
 export interface PropsMainDropBox {
 	callback: CallbackFunctionsApp;

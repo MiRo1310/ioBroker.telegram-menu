@@ -84,7 +84,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 
 	newX: Nullable<number> = null;
 	newY: Nullable<number> = null;
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps: Readonly<AdditionalPropInfo>, prevState: Readonly<AdditionalStateInfo>) {
 		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
 			this.getUsersFromTelegram();
 		}

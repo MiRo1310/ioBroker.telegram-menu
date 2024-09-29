@@ -7,7 +7,8 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 		super(props);
 		this.state = {};
 	}
-	componentDidUpdate(prevProps) {
+
+	componentDidUpdate(prevProps: Readonly<PropsMenuPopupCard>) {
 		if (prevProps.usersInGroup !== this.props.usersInGroup) {
 			this.menuList = Object.keys(this.props.usersInGroup);
 		}

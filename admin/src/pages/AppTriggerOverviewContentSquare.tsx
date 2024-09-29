@@ -46,7 +46,7 @@ class Square extends Component<PropsSquare, StateSquare> {
 	componentDidMount() {
 		this.getValuesForSquare();
 	}
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Readonly<PropsSquare>) {
 		if (this.props.color !== prevProps.color || this.props.trigger !== prevProps.trigger || this.props.position !== prevProps.position) {
 			this.getValuesForSquare();
 		}
