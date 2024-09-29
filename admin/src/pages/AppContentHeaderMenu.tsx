@@ -40,7 +40,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 						</Button>
 						<span>{I18n.t("Menu list")}</span>
 						{this.props.data.state.showPopupMenuList && this.props.data.state.activeMenu != undefined ? (
-							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback}></MenuPopupCard>
+							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
 						) : null}
 					</div>
 

@@ -10,6 +10,7 @@ import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionC
 
 interface AppContentTabActionContentRowEditorButtonsState {
 	openCopyPopup: boolean;
+	indexOfRowToCopyForModal: number;
 }
 
 class AppContentTabActionContentRowEditorButtons extends Component<
@@ -18,12 +19,14 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 > {
 	constructor(props) {
 		super(props);
-		this.state = { openCopyPopup: false };
+		this.state = {
+			openCopyPopup: false,
+			indexOfRowToCopyForModal: 0,
+		};
 	}
-	copyData = (index: number) => {
+
+	openModal = (index: number) => {
 		this.setState({ openCopyPopup: true });
-		console.log(index);
-		console.log(this.props.data.newRow);
 	};
 
 	render() {
@@ -52,12 +55,15 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 
 				{buttons.copy ? (
 					<TableCell align="center" className="cellIcon">
-						<BtnSmallCopy index={indexRow} callback={(index: number) => this.copyData(index)} />
+						<BtnSmallCopy index={indexRow} callback={(index: number) => this.openModal(index)} />
 					</TableCell>
 				) : null}
 				{this.state.openCopyPopup ? (
 					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val) => this.setState({ openCopyPopup: val })}>
-						<AppContentTabActionContentRowEditorCopyModal />
+						<AppContentTabActionContentRowEditorCopyModal
+							{...this.props}
+							indexOfRowToCopyForModal={this.state.indexOfRowToCopyForModal}
+						/>
 					</PopupContainer>
 				) : null}
 			</>

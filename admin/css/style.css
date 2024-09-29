@@ -700,6 +700,7 @@ button.buttonFalse {
 	color: #333;
 }
 /* Select */
+
 .dark select {
 	background-color: #333 !important;
 	color: white !important;
@@ -981,9 +982,13 @@ span[title],
 }
 
 .PopupContainer__copy .DialogContainer {
-	width: 99.5% !important;
-	height: 99% !important;
-	top: 63.5rem !important;
-	margin-left: 0.7rem;
+	width: 100% !important;
+	height: 100% !important;
+	top: 63.6rem !important;
+	margin-left: 0.9rem;
 	cursor: default;
+}
+.editor__modal_container {
+	margin-top: 4rem;
+	margin-left: 2rem;
 }
