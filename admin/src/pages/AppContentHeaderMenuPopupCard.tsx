@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/Button_legacy";
 import { PropsMenuPopupCard } from "admin/app";
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {

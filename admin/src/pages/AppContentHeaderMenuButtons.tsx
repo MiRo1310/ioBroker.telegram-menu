@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Input from "../components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/Button_legacy";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
 import PopupContainer from "../components/popupCards/PopupContainer";

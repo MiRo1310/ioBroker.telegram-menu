@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "../btn-Input/Button";
+import Button from "../btn-Input/Button_legacy";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { Properties } from "csstype";
 import { PropsPopupContainer, StatePopupContainer } from "admin/app";

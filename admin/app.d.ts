@@ -163,6 +163,31 @@ export interface ButtonSmallProps {
 	disabled?: string;
 	class?: string;
 }
+export interface ButtonProps_legacy {
+	color?: string;
+	b_color?: string;
+	padding?: string;
+	small?: BooleanString;
+	fontSize?: string;
+	border?: string;
+	width?: string;
+	margin?: string;
+	height?: string;
+	round?: string;
+	maxWidth?: string;
+	verticalAlign?: string;
+	secondCallback?: Function;
+	index?: number | null;
+	callback: Function;
+	callbackValue?: CallbackValue;
+	id?: string;
+	setNative?: boolean;
+	title?: string;
+	name?: string;
+	disabled?: string | boolean;
+	className?: string;
+	children?: ReactNode;
+}
 export interface ButtonProps {
 	color?: string;
 	b_color?: string;
@@ -448,6 +473,7 @@ export interface StateRowEditPopupCard {
 	itemForID: string;
 	openCopyPopup: boolean,
 	indexOfRowToCopyForModal: number,
+	checkboxes: boolean[];
 }
 export interface RowsSetState {
 	IDs: string;
@@ -720,6 +746,7 @@ export interface PropsTableNavHelper {
 
 export interface PropsActionEditHeader {
 	tab: TabValues
+	callback: { checkAll: (check) => void };
 }
 
 export interface PropsButtonCard {

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/Button_legacy";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Checkbox from "../components/btn-Input/checkbox";
+import Checkbox from "../components/btn-Input/checkbox_legacy";
 import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {

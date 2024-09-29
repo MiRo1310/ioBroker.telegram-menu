@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Input from "../btn-Input/input";
 import { BtnCircleAdd } from "../btn-Input/btn-circle-add";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Checkbox from "../btn-Input/checkbox";
+import Checkbox from "../btn-Input/checkbox_legacy";
 import { isChecked } from "../../lib/Utils.js";
 import { PropsRowNavCard } from "admin/app";
 

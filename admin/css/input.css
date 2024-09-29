@@ -1,0 +1,68 @@
+.HeaderMenu-GridContainer input {
+	margin-top: 0 !important;
+	margin-left: 0 !important;
+	font-size: 0.8rem !important;
+}
+.Settings input[type="checkbox"] {
+	margin-left: 8px;
+}
+
+.RenameCard input {
+	text-align: center;
+}
+tr[draggable="true"] input {
+	cursor: text;
+	user-select: text; /* Standard */
+	-moz-user-select: text; /* Firefox */
+	-webkit-user-select: text; /* Safari */
+	-ms-user-select: text; /* Internet Explorer/Edge */
+	/* padding: 5px 0; */
+}
+
+.inUse,
+.inUse input {
+	color: red !important;
+	border-color: red !important;
+}
+
+.dark input,
+.blue input {
+	background-color: inherit;
+	color: white;
+	border-bottom: 1px solid white !important;
+}
+.dark .HeaderMenu-GridContainer input:hover,
+.blue .HeaderMenu-GridContainer input:hover {
+	border-width: 2px !important;
+}
+
+input ~ p {
+	margin-left: 5px !important;
+}
+input ~ p {
+	margin-top: 0px !important;
+	display: block;
+}
+input:focus {
+	outline: none;
+}
+
+input:disabled {
+	opacity: 0.3;
+}
+
+/* checkbox */
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 0;
+	vertical-align: text-bottom;
+	cursor: pointer !important;
+}
+
+input[type="checkbox"]:checked {
+	accent-color: rgb(33, 150, 243);
+}
+.TelegramUserCard-checkbox input[type="checkbox"] {
+	margin-bottom: 0px;
+}

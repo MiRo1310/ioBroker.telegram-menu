@@ -3,7 +3,7 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React, { Component } from "react";
 
-import Button from "@/components/btn-Input/Button";
+import Button from "@components/btn-Input/Button_legacy";
 import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import helperText from "@/config/helper.js";

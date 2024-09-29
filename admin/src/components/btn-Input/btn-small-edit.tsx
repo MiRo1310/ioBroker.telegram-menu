@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "./Button";
+import Button from "./Button_legacy";
 import { ButtonSmallProps } from "admin/app";
 
 class BtnSmallEdit extends Component<ButtonSmallProps> {

@@ -4,6 +4,7 @@ import { ActionNewRowProps, RowsSetState, TabValueEntries } from "../../app";
 import { tabValues } from "../config/entries";
 import { isTruthy } from "./string";
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from "./Utils";
+import { EventCheckbox } from '../pages/AppContentTabActionContentRowEditorTableHead';
 
 function createData(element: ActionNewRowProps, index: string, rowElements: TabValueEntries[]): { [key: string]: string } {
 	const obj = {};
@@ -66,15 +67,10 @@ export interface UpdateProps {
 	data: { newRow: ActionNewRowProps; tab: { entries: TabValueEntries[] } };
 	callback?: { setStateTabActionContent: SetStateFunction };
 }
-export interface UpdateDataObject {
-	id: string;
-	index: number;
-	val: string;
-}
 
-export const updateData = (obj: UpdateDataObject, props: UpdateProps, setState: SetStateFunction): void => {
+export const updateData = (obj: EventCheckbox, props: UpdateProps, setState: SetStateFunction): void => {
 	const newRow = deepCopy(props.data.newRow);
-	newRow[obj.id][obj.index] = obj.val.toString();
+	newRow[obj.id][obj.index] = obj.isChecked.toString();
 	if (props.callback?.setStateTabActionContent) {
 		props.callback.setStateTabActionContent({ newRow: newRow });
 	}

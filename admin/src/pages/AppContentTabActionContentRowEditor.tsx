@@ -1,6 +1,5 @@
 import { BtnCircleAdd } from "@/components/btn-Input/btn-circle-add";
 import BtnSmallSearch from "@/components/btn-Input/btn-small-search";
-import Checkbox from "@/components/btn-Input/checkbox";
 import Input from "@/components/btn-Input/input";
 import { isChecked } from "@/lib/Utils.js";
 import { moveItem, saveRows, updateData, updateId } from "@/lib/actionUtils.js";
@@ -15,14 +14,17 @@ import {
 } from "@/lib/dragNDrop.js";
 import { isTruthy } from "@/lib/string";
 import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabActionContentRowEditorTableHead";
+import Checkbox from "@components/btn-Input/checkbox";
+import PopupContainer from "@components/popupCards/PopupContainer";
 import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 import React, { Component } from "react";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
-import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
-import PopupContainer from "@components/popupCards/PopupContainer";
 import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
+import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
+import { EventCheckbox } from "../components/btn-Input/checkbox";
+import { EventButton } from "@components/btn-Input/Button";
 
 const theme: IobTheme = Theme("light");
 
@@ -42,24 +44,27 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 			itemForID: "",
 			openCopyPopup: false,
 			indexOfRowToCopyForModal: 0,
+			checkboxes: [],
 		};
 	}
 
 	componentDidMount() {
 		saveRows(this.props, this.setState.bind(this), [], this.state.rows);
+		this.initCheckboxesForEachRow();
 	}
 
 	componentDidUpdate(prevProps: Readonly<PropsRowEditPopupCard>) {
 		const { newRow } = this.props.data;
 		if (prevProps.data.newRow !== newRow) {
 			saveRows(this.props, this.setState.bind(this), newRow);
+			this.initCheckboxesForEachRow();
 		}
 	}
 	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
 		console.error("Error in RowEditPopupCard", error, errorInfo);
 	}
 
-	updateData = (obj) => {
+	updateData = (obj: EventCheckbox) => {
 		updateData(obj, this.props, this.setState.bind(this));
 	};
 
@@ -72,17 +77,44 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	disableInput = (name: string, index: number): boolean => {
 		return isTruthy(this.state?.rows?.[index]?.switch_checkbox) && name === "values" ? true : false;
 	};
+	initCheckboxesForEachRow = () => {
+		const checkboxes: boolean[] = [];
+		this.state.rows.forEach((_, index) => {
+			checkboxes[index] = false;
+		});
+		this.setState({ checkboxes });
+	};
+
+	checkAll = (check: boolean) => {
+		const rows = [...this.state.rows];
+		const checkboxes: boolean[] = [];
+		rows.forEach((_, index) => {
+			checkboxes[index] = check;
+		});
+		this.setState({ checkboxes });
+	};
+
+	setCheckbox = (event: EventCheckbox) => {
+		const checkboxes = [...this.state.checkboxes];
+		checkboxes[event.index] = event.isChecked;
+		this.setState({ checkboxes });
+	};
+
+	openCopyModal = ({}: EventButton) => {
+		this.setState({ openCopyPopup: true });
+	};
 
 	render() {
 		return (
 			<div className="Edit-Container">
+				{JSON.stringify(this.state.checkboxes)}
 				<AppContentTabActionContentRowEditorHeader
-					callback={{ ...this.props.callback, updateData: this.updateData }}
+					callback={{ ...this.props.callback, updateData: this.updateData, openCopyModal: this.openCopyModal.bind(this) }}
 					data={this.props.data}
 				/>
 				<TableContainer component={Paper} className="Edit-Container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
-						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} />
+						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} callback={{ checkAll: this.checkAll }} />
 
 						<TableBody>
 							{this.state.rows
@@ -101,6 +133,16 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 											onDragLeave={() => handleDragEnter(indexRow, this.setState.bind(this))}
 											style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
 										>
+											<TableCell component="td" scope="row" align="left" className="td--checkbox">
+												<Checkbox
+													id="checkbox"
+													index={indexRow}
+													callback={this.setCheckbox}
+													callbackValue="event"
+													isChecked={this.state.checkboxes[indexRow]}
+													obj={true}
+												/>
+											</TableCell>
 											{row.IDs || row.IDs === "" ? (
 												<TableCell component="td" scope="row" align="left">
 													<span onMouseEnter={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
@@ -191,7 +233,10 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 												) : null,
 											)}
 											<AppContentTabActionContentRowEditorButtons
-												callback={{ ...this.props.callback, setStateEditor: this.setState.bind(this) }}
+												callback={{
+													...this.props.callback,
+													setStateEditor: this.setState.bind(this),
+												}}
 												data={{ ...this.props.data, rows: this.state.rows, indexRow }}
 											/>
 										</TableRow>
@@ -221,10 +266,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 				) : null}
 				{this.state.openCopyPopup ? (
 					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val) => this.setState({ openCopyPopup: val })}>
-						<AppContentTabActionContentRowEditorCopyModal
-							{...this.props}
-							indexOfRowToCopyForModal={this.state.indexOfRowToCopyForModal}
-						/>
+						<AppContentTabActionContentRowEditorCopyModal {...this.props} checkboxes={this.state.checkboxes} />
 					</PopupContainer>
 				) : null}
 			</div>

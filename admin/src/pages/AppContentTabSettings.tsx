@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Input from "@components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Checkbox from "@components/btn-Input/checkbox";
+import Checkbox from "@components/btn-Input/checkbox_legacy";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Select from "@/components/btn-Input/select";
 import { PropsSettings } from "admin/app";

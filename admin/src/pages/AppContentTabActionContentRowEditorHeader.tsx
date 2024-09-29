@@ -1,13 +1,20 @@
-import Checkbox from "@/components/btn-Input/checkbox";
+import Checkbox from "@components/btn-Input/checkbox_legacy";
 import Select from "@/components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
 import { isChecked } from "@/lib/Utils.js";
 import React, { Component } from "react";
 import { CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps, CallbackFunctionsApp } from "../../app";
+import Button from "@components/btn-Input/Button";
+import { EventCheckbox } from "../components/btn-Input/checkbox";
+import { EventButton } from "../components/btn-Input/Button";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
-	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void } & { updateData: (obj) => void };
+	callback: CallbackFunctionsApp &
+		CallbackTabActionContent & { openHelperText: (value: any) => void } & {
+			updateData: (obj: EventCheckbox) => void;
+			openCopyModal: (obj: EventButton) => void;
+		};
 }
 
 class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppContentTabActionContentRowEditorInputAboveTableProps> {
@@ -20,8 +27,17 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 		const { newRow, newUnUsedTrigger } = this.props.data;
 		return (
 			<>
+				<Button
+					id="showDropBox"
+					callbackValue={true}
+					callback={this.props.callback.openCopyModal}
+					className="buttonHover button__copy editor__header_button"
+				>
+					<i className="material-icons translate">content_copy</i>Copy
+				</Button>
+
 				{newRow.trigger ? (
-					<div className="Edit-Container-Trigger">
+					<div className="editor__header_trigger">
 						<Select
 							width="10%"
 							selected={newRow.trigger[0]}
@@ -35,7 +51,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 					</div>
 				) : null}
 				{newRow.parse_mode ? (
-					<div className="Edit-Container-ParseMode">
+					<div className="editor__header_parseMode">
 						<Checkbox
 							id="parse_mode"
 							index={0}

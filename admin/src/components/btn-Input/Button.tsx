@@ -1,47 +1,41 @@
-import React, { Component } from "react";
 import { Properties } from "csstype";
-import { ButtonProps } from "admin/app";
+import React, { Component, MouseEventHandler } from "react";
+import { ButtonProps } from "../../../app";
+
+export interface EventButton {
+	innerText: string;
+	id: string;
+	cbValue: string;
+	index: number;
+	event: React.MouseEvent<HTMLButtonElement>;
+}
 
 class Button extends Component<ButtonProps> {
-	eventOnclickButton = (event) => {
-		let value;
-		if (this.props.callbackValue === "event.target.innerText") {
-			value = event.target.innerText;
-		} else {
-			value = this.props.callbackValue;
-		}
-		if (this.props.setNative) {
-			this.props.callback(this.props.id, value);
-		} else if (this.props.id && value !== undefined) {
-			this.props.callback({ [this.props.id]: value });
-		} else if (this.props.callbackValue || this.props.callbackValue == false) {
-			this.props.callback(value);
-		} else if (!isNaN(this.props.index as number)) {
-			this.props.callback(this.props.index);
-		} else {
-			this.props.callback();
-		}
-
-		if (this.props.secondCallback) {
-			this.props.secondCallback();
-		}
+	eventOnclickButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+		this.props.callback({
+			innerText: (event.target as HTMLButtonElement).innerText,
+			id: this.props.id,
+			cbValue: this.props.callbackValue,
+			index: this.props.index,
+			event: event,
+		});
 	};
 
 	render() {
 		const buttonStyle: Properties<string | number, string> = {
 			backgroundColor: this.props.b_color || "#ddd",
 			color: this.props.color || "black",
-			padding: this.props.small === "true" ? "2px" : "8px 32px" || this.props.padding ? this.props.padding : "8px 32px",
+			padding: this.props.small === "true" ? "2px" : this.props.padding ? this.props.padding : "8px 32px",
 			textAlign: "center",
 			textDecoration: "none",
 			display: "inline-block",
 			fontSize: this.props.fontSize ? this.props.fontSize : "12px",
 			border: this.props.border ? this.props.border : "none",
-			width: this.props.small === "true" ? "30px" : "80%" || this.props.width ? this.props.width : "",
+			width: this.props.small === "true" ? "30px" : this.props.width ? this.props.width : "",
 			minWidth: this.props.small === "true" ? "30px" : "60px",
-			height: this.props.small === "true" ? "30px" : "50px" || this.props.height ? this.props.height : "50px",
+			height: this.props.small === "true" ? "30px" : this.props.height ? this.props.height : "50px",
 			margin: this.props.margin || "0px 0px 0px 0px",
-			borderRadius: this.props.round === "true" ? "50%" : "0px" || this.props.round ? this.props.round : "0px",
+			borderRadius: this.props.round === "true" ? "50%" : this.props.round ? this.props.round : "0px",
 			maxWidth: this.props.maxWidth || "100%",
 			verticalAlign: this.props.verticalAlign || "middle",
 		};

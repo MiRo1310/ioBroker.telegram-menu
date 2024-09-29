@@ -13,7 +13,7 @@ import React, { Component } from "react";
 export interface PropsRowEditorCopyModal {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
 	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void };
-	indexOfRowToCopyForModal: number;
+	checkboxes: boolean[];
 }
 interface State {
 	selectedMenu: string;
@@ -44,7 +44,7 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 		return (
 			<div className="editor__modal_container">
 				Active Menu: {this.props.data.state.activeMenu}
-				{this.props.indexOfRowToCopyForModal}
+				{JSON.stringify(this.props.checkboxes)}
 				<p>Menu to copy to</p>
 				<Select
 					options={this.getAllMenusWithoutActiveMenu()}
