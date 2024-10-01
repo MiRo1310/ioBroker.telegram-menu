@@ -474,6 +474,7 @@ export interface StateRowEditPopupCard {
 	openCopyPopup: boolean,
 	indexOfRowToCopyForModal: number,
 	checkboxes: boolean[];
+	isMinOneCheckboxChecked: boolean
 }
 export interface RowsSetState {
 	IDs: string;
@@ -777,4 +778,9 @@ export interface RowForButton {
 	parse_mode: string[];
 	[key: string]: any;
 
+}
+export interface EventCheckbox {
+	isChecked: boolean;
+	id: string;
+	index: number;
 }

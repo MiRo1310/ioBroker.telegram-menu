@@ -49,7 +49,7 @@ class Button extends Component<ButtonProps> {
 				disabled={this.props.disabled ? true : false}
 				className={this.props.className}
 			>
-				<span>{this.props.children}</span>
+				<span className="button--children">{this.props.children}</span>
 			</button>
 		);
 	}

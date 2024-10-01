@@ -1,28 +1,28 @@
-.Edit-Container p {
+.edit__container p {
 	font-size: 0.8rem;
 	color: #777;
 	margin: 0 !important;
 }
 
-.Edit-Container-Trigger {
+.edit__container-Trigger {
 	margin-left: 20px;
 	margin-bottom: 30px;
 	display: inline-block;
 }
-.Edit-Container-ParseMode {
+.edit__container-ParseMode {
 	display: inline-block;
 	margin-left: 100px;
 }
 
-.Edit-Container .Input-Container {
+.edit__container .Input-Container {
 	/* margin-left: 8px; */
 	display: inline-block;
 }
 
-.Edit-Container .Edit-Container-TableContainer {
+.edit__container .edit__container-TableContainer {
 	max-height: 330px;
 }
-.Edit-Container input {
+.edit__container input {
 	box-sizing: border-box;
 	font-size: 0.9rem !important;
 	margin: 0 !important;
@@ -30,18 +30,18 @@
 	padding-left: 5px !important;
 	border-color: black !important;
 }
-.colored .Edit-Container input,
-.light .Edit-Container input {
+.colored .edit__container input,
+.light .edit__container input {
 	background-color: white !important;
 }
-.Edit-Container input[type="checkbox"] {
+.edit__container input[type="checkbox"] {
 	margin-left: 8px;
 }
-.Edit-Container input[type="checkbox"]:checked {
+.edit__container input[type="checkbox"]:checked {
 	color: #96d15a;
 	accent-color: rgb(33, 150, 243);
 }
 
-.Edit-Container td:nth-child(1) {
+.edit__container td:nth-child(1) {
 	padding-left: 0.35rem !important;
 }

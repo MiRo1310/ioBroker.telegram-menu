@@ -1,7 +1,7 @@
 @import "./input.css";
 @import "./edit-container.css";
 @import "./button.css";
-@import "./editor-header";
+@import "./editor-header.css";
 
 body {
 	height: 100vh;
@@ -867,10 +867,6 @@ span[title],
 }
 .cursoerPointer {
 	cursor: pointer;
-}
-.buttonHover:hover {
-	border: 3px solid rgb(103, 103, 103) !important;
-	opacity: 0.8 !important;
 }
 
 .PopupContainer__copy .DialogContainer {

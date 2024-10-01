@@ -166,9 +166,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							callbackValue={this.state.newMenuName}
 							callback={this.addNewMenu}
 							disabled={!this.state.newMenuName || this.state.newMenuName === ""}
-							className={
-								!this.state.newMenuName || this.state.newMenuName === "" ? "cursorDefault disabled" : "cursorPointer buttonHover"
-							}
+							className={!this.state.newMenuName || this.state.newMenuName === "" ? "button--disabled" : "button--hover"}
 						>
 							<i className="material-icons">group_add</i>Add
 						</Button>
@@ -182,7 +180,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							width="100px"
 							height="40px"
 							callback={this.openConfirmDialog}
-							className="buttonHover"
+							className="button--hover"
 						>
 							<i className="material-icons">delete</i>Delete
 						</Button>
@@ -196,22 +194,17 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							height="40px"
 							id="openRenameMenu"
 							callback={this.openRenameDialog}
-							className="buttonHover"
+							className="button--hover"
 						>
 							<i className="material-icons">edit</i>Edit
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
 						<Button
-							b_color="green"
-							color="white"
-							margin="1px"
-							width="100px"
-							height="40px"
 							id="showDropBox"
 							callbackValue={true}
 							callback={this.props.callback.setStateApp}
-							className="buttonHover"
+							className="button--hover button__copy"
 						>
 							<i className="material-icons translate ">content_copy</i>Copy
 						</Button>
@@ -226,7 +219,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							id="showTriggerInfo"
 							callbackValue={true}
 							callback={this.props.callback.setStateApp}
-							className="buttonHover"
+							className="button--hover"
 						>
 							<i className="material-icons translate ">info</i>Overview
 						</Button>

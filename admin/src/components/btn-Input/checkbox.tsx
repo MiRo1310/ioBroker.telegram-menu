@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsCheckbox } from "admin/app";
-export interface EventCheckbox {
-	isChecked: boolean;
-	id: string;
-	index: number;
-}
+
 class Checkbox extends Component<PropsCheckbox> {
 	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.props.callback({ isChecked: event.target.checked, id: this.props?.id, index: this.props?.index });

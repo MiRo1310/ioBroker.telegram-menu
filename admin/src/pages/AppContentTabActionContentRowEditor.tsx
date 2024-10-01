@@ -23,12 +23,12 @@ import React, { Component } from "react";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
 import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
 import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
-import { EventCheckbox } from "../components/btn-Input/checkbox";
 import { EventButton } from "@components/btn-Input/Button";
+import { EventCheckbox } from "../../app";
 
 const theme: IobTheme = Theme("light");
 
-class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
+class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -45,6 +45,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 			openCopyPopup: false,
 			indexOfRowToCopyForModal: 0,
 			checkboxes: [],
+			isMinOneCheckboxChecked: false,
 		};
 	}
 
@@ -53,15 +54,16 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 		this.initCheckboxesForEachRow();
 	}
 
-	componentDidUpdate(prevProps: Readonly<PropsRowEditPopupCard>) {
+	componentDidUpdate(prevProps: Readonly<PropsRowEditPopupCard>, prevState: Readonly<StateRowEditPopupCard>): void {
 		const { newRow } = this.props.data;
 		if (prevProps.data.newRow !== newRow) {
 			saveRows(this.props, this.setState.bind(this), newRow);
 			this.initCheckboxesForEachRow();
 		}
-	}
-	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-		console.error("Error in RowEditPopupCard", error, errorInfo);
+		if (prevState.checkboxes !== this.state.checkboxes) {
+			const isMinOneCheckboxChecked = this.state.checkboxes.some((checkbox) => checkbox);
+			this.setState({ isMinOneCheckboxChecked });
+		}
 	}
 
 	updateData = (obj: EventCheckbox) => {
@@ -103,16 +105,20 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	openCopyModal = ({}: EventButton) => {
 		this.setState({ openCopyPopup: true });
 	};
+	closeCopyModal = () => {
+		this.initCheckboxesForEachRow();
+		this.setState({ openCopyPopup: false });
+	};
 
 	render() {
 		return (
-			<div className="Edit-Container">
-				{JSON.stringify(this.state.checkboxes)}
+			<div className="edit__container">
+				//TODO checkbox zurück setzen wenn modal geschlossen wird
 				<AppContentTabActionContentRowEditorHeader
 					callback={{ ...this.props.callback, updateData: this.updateData, openCopyModal: this.openCopyModal.bind(this) }}
-					data={this.props.data}
+					data={{ ...this.props.data, isMinOneCheckboxChecked: this.state.isMinOneCheckboxChecked }}
 				/>
-				<TableContainer component={Paper} className="Edit-Container-TableContainer">
+				<TableContainer component={Paper} className="edit__container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
 						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} callback={{ checkAll: this.checkAll }} />
 
@@ -265,7 +271,7 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 					/>
 				) : null}
 				{this.state.openCopyPopup ? (
-					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val) => this.setState({ openCopyPopup: val })}>
+					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val: boolean) => this.closeCopyModal()}>
 						<AppContentTabActionContentRowEditorCopyModal {...this.props} checkboxes={this.state.checkboxes} />
 					</PopupContainer>
 				) : null}
@@ -274,4 +280,4 @@ class RowEditPopupCard extends Component<PropsRowEditPopupCard, StateRowEditPopu
 	}
 }
 
-export default RowEditPopupCard;
+export default AppContentTabActionContentRowEditor;

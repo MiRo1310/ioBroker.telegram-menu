@@ -1,6 +1,14 @@
-.editor__header_button {
+.editor__header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1rem;
 }
+
 .editor__header_trigger {
+	margin-left: 1rem !important;
+	margin-right: 1rem !important;
 }
 .editor__header_parseMode {
+	margin-left: 1rem !important;
+	margin-right: 1rem !important;
 }

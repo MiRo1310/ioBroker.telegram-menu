@@ -1,15 +1,21 @@
-import Checkbox from "@components/btn-Input/checkbox_legacy";
 import Select from "@/components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
 import { isChecked } from "@/lib/Utils.js";
-import React, { Component } from "react";
-import { CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps, CallbackFunctionsApp } from "../../app";
 import Button from "@components/btn-Input/Button";
-import { EventCheckbox } from "../components/btn-Input/checkbox";
+import Checkbox from "@components/btn-Input/checkbox_legacy";
+import React, { Component } from "react";
+import {
+	CallbackFunctionsApp,
+	CallbackTabActionContent,
+	DataMainContent,
+	DataTabActionContent,
+	EventCheckbox,
+	TabActionContentTableProps,
+} from "../../app";
 import { EventButton } from "../components/btn-Input/Button";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
-	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
+	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { isMinOneCheckboxChecked: boolean };
 	callback: CallbackFunctionsApp &
 		CallbackTabActionContent & { openHelperText: (value: any) => void } & {
 			updateData: (obj: EventCheckbox) => void;
@@ -26,16 +32,16 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 	render() {
 		const { newRow, newUnUsedTrigger } = this.props.data;
 		return (
-			<>
+			<div className="editor__header">
 				<Button
 					id="showDropBox"
 					callbackValue={true}
 					callback={this.props.callback.openCopyModal}
-					className="buttonHover button__copy editor__header_button"
+					className={`${!this.props.data.isMinOneCheckboxChecked ? "button--disabled" : "button--hover"} button__copy`}
+					disabled={!this.props.data.isMinOneCheckboxChecked}
 				>
 					<i className="material-icons translate">content_copy</i>Copy
 				</Button>
-
 				{newRow.trigger ? (
 					<div className="editor__header_trigger">
 						<Select
@@ -63,7 +69,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 						/>
 					</div>
 				) : null}
-			</>
+			</div>
 		);
 	}
 }

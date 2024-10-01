@@ -2,7 +2,8 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { TableCell, TableHead, TableRow } from "@mui/material";
 import { PropsActionEditHeader } from "admin/app";
 import React, { Component } from "react";
-import Checkbox, { EventCheckbox } from "../components/btn-Input/checkbox";
+import Checkbox from "@/components/btn-Input/checkbox";
+import { EventCheckbox } from "../../app";
 
 export interface StateActionEditHeader {
 	checkAll: boolean;

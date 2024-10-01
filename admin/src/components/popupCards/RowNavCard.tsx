@@ -14,7 +14,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 
 	render() {
 		return (
-			<div className="Edit-Container">
+			<div className="edit__container">
 				{this.props.entries.map((entry, i) =>
 					!(entry.name == "value") && !(entry.name == "text") && !entry.checkbox ? (
 						<Input
