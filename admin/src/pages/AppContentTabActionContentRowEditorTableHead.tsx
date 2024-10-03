@@ -18,11 +18,16 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
 			isChecked: false,
 		};
 	}
+	componentDidMount(): void {
+		this.props.setRef(this);
+	}
 	clickCheckBox = (event: EventCheckbox) => {
 		this.setState({ isChecked: event.isChecked });
 		this.props.callback.checkAll(event.isChecked);
 	};
-
+	resetCheckboxHeader() {
+		this.setState({ isChecked: false });
+	}
 	render() {
 		return (
 			<TableHead>
@@ -39,7 +44,6 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
 					)}
 					{this.props.tab.popupCard.buttons.add ? <TableCell align="left" /> : null}
 					{this.props.tab.popupCard.buttons.remove ? <TableCell align="left" /> : null}
-					{/* {this.props.tab.popupCard.buttons.copy ? <TableCell align="left" /> : null} */}
 				</TableRow>
 			</TableHead>
 		);

@@ -46,8 +46,13 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			indexOfRowToCopyForModal: 0,
 			checkboxes: [],
 			isMinOneCheckboxChecked: false,
+			copyModalOpen: false,
 		};
 	}
+	tableHeadRef: AppContentTabActionContentRowEditorTableHead | null = null;
+	setTableHeadRef = (ref: AppContentTabActionContentRowEditorTableHead) => {
+		this.tableHeadRef = ref;
+	};
 
 	componentDidMount() {
 		saveRows(this.props, this.setState.bind(this), [], this.state.rows);
@@ -106,6 +111,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.setState({ openCopyPopup: true });
 	};
 	closeCopyModal = () => {
+		this.tableHeadRef?.resetCheckboxHeader();
 		this.initCheckboxesForEachRow();
 		this.setState({ openCopyPopup: false });
 	};
@@ -113,14 +119,20 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 	render() {
 		return (
 			<div className="edit__container">
-				//TODO checkbox zurück setzen wenn modal geschlossen wird
 				<AppContentTabActionContentRowEditorHeader
 					callback={{ ...this.props.callback, updateData: this.updateData, openCopyModal: this.openCopyModal.bind(this) }}
-					data={{ ...this.props.data, isMinOneCheckboxChecked: this.state.isMinOneCheckboxChecked }}
+					data={{
+						...this.props.data,
+						isMinOneCheckboxChecked: this.state.isMinOneCheckboxChecked,
+					}}
 				/>
 				<TableContainer component={Paper} className="edit__container-TableContainer">
 					<Table stickyHeader aria-label="sticky table">
-						<AppContentTabActionContentRowEditorTableHead tab={this.props.data.tab} callback={{ checkAll: this.checkAll }} />
+						<AppContentTabActionContentRowEditorTableHead
+							tab={this.props.data.tab}
+							callback={{ checkAll: this.checkAll }}
+							setRef={this.setTableHeadRef}
+						/>
 
 						<TableBody>
 							{this.state.rows

@@ -60,7 +60,19 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 										</TableCell>
 										{Object.keys(row).map((val, i) => (
 											<TableCell align="left" key={i}>
-												{row[val]}
+												{typeof row[val] === "string"
+													? row[val]
+													: row[val].map((entry: string | number | boolean) => {
+															return (
+																<Table>
+																	<TableBody>
+																		<TableRow>
+																			<TableCell align="left">{entry}</TableCell>
+																		</TableRow>
+																	</TableBody>
+																</Table>
+															);
+														})}
 											</TableCell>
 										))}
 									</TableRow>

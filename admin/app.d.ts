@@ -475,6 +475,7 @@ export interface StateRowEditPopupCard {
 	indexOfRowToCopyForModal: number,
 	checkboxes: boolean[];
 	isMinOneCheckboxChecked: boolean
+	copyModalOpen: boolean;
 }
 export interface RowsSetState {
 	IDs: string;
@@ -748,6 +749,7 @@ export interface PropsTableNavHelper {
 export interface PropsActionEditHeader {
 	tab: TabValues
 	callback: { checkAll: (check) => void };
+	setRef: (ref: AppContentTabActionContentRowEditorTableHead) => void;
 }
 
 export interface PropsButtonCard {

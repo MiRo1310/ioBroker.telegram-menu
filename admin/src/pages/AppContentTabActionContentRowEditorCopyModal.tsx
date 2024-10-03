@@ -19,7 +19,7 @@ export interface PropsRowEditorCopyModal {
 }
 interface State {
 	selectedMenu: string;
-	selectedAction: string;
+	action: string;
 }
 
 class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEditorCopyModal, State> {
@@ -27,19 +27,18 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 		super(props);
 		this.state = {
 			selectedMenu: "",
-			selectedAction: "",
+			action: "",
 		};
 	}
-
-	getAllAvailableActionsFromSelectedMenu() {
-		return Object.keys(this.props.data.state.native.data.action[this.state.selectedMenu]);
+	componentDidMount(): void {
+		this.setState({ action: this.props.data.tab.value });
 	}
 
 	getAllMenusWithoutActiveMenu() {
 		return Object.keys(this.props.data.state.native.usersInGroup).filter((menu) => menu !== this.props.data.state.activeMenu);
 	}
 	getValuesInSelectedAction(): Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] {
-		return this.props.data.state.native.data.action?.[this.state.selectedMenu]?.[this.state.selectedAction] || [];
+		return this.props.data.state.native.data.action?.[this.state.selectedMenu]?.[this.state.action] || [];
 	}
 
 	render() {
@@ -55,17 +54,8 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 						placeholder="Select a menu"
 						callback={this.setState.bind(this)}
 					/>
-					{this.state.selectedMenu !== "" ? (
-						<Select
-							options={this.getAllAvailableActionsFromSelectedMenu()}
-							id="selectedAction"
-							selected={this.state.selectedAction}
-							placeholder="Select a menu"
-							callback={this.setState.bind(this)}
-						/>
-					) : null}
 				</div>
-				{this.state.selectedAction !== "" ? (
+				{this.state.action !== "" ? (
 					<AppContentTabActionContentRowEditorCopyModalSelectedValues value={this.getValuesInSelectedAction()} />
 				) : null}
 			</div>

@@ -2,6 +2,7 @@
 	display: flex;
 	align-items: center;
 	margin-bottom: 1rem;
+	margin-left: 5px;
 }
 
 .editor__header_trigger {
