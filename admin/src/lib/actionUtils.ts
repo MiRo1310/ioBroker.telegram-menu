@@ -67,9 +67,10 @@ export interface UpdateProps {
 	callback?: { setStateTabActionContent: SetStateFunction };
 }
 
-export const updateData = (obj: EventCheckbox, props: UpdateProps, setState: SetStateFunction): void => {
+export const updateData = ({ index, val, id }: { id: string, val: string | number | boolean, index: number }, props: UpdateProps, setState: SetStateFunction): void => {
+
 	const newRow = deepCopy(props.data.newRow);
-	newRow[obj.id][obj.index] = obj.isChecked.toString();
+	newRow[id][index] = val.toString();
 	if (props.callback?.setStateTabActionContent) {
 		props.callback.setStateTabActionContent({ newRow: newRow });
 	}

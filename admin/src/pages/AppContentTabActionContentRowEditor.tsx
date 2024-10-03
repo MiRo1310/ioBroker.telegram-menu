@@ -74,7 +74,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		}
 	}
 
-	updateData = (obj: EventCheckbox) => {
+	updateData = (obj: { id: string; val: string | number | boolean; index: number }) => {
 		updateData(obj, this.props, this.setState.bind(this));
 	};
 
@@ -148,7 +148,11 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		return (
 			<div className="edit__container">
 				<AppContentTabActionContentRowEditorHeader
-					callback={{ ...this.props.callback, updateData: this.updateData, openCopyModal: this.openCopyModal.bind(this) }}
+					callback={{
+						...this.props.callback,
+						updateData: ({ id, index, isChecked: val }: EventCheckbox) => this.updateData({ id, index, val }),
+						openCopyModal: this.openCopyModal.bind(this),
+					}}
 					data={{
 						...this.props.data,
 						isMinOneCheckboxChecked: this.state.isMinOneCheckboxChecked,

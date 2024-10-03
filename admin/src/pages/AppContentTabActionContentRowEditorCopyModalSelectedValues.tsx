@@ -1,12 +1,16 @@
 import Checkbox from "@components/btn-Input/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
+import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction, CallbackFunctionsApp } from "admin/app";
 import React, { Component } from "react";
 import { NativeData } from "../../app";
+import { deepCopy } from "@/lib/Utils";
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
 	data: NativeData;
-	callback: { setStateRowEditor: SetStateFunction; setFunctionSave: (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => void };
+	callback: CallbackFunctionsApp & {
+		setStateRowEditor: SetStateFunction;
+		setFunctionSave: (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => void;
+	};
 }
 type Rows = Get | Set | Pic | HttpRequest | Echart | Events;
 
@@ -60,12 +64,12 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		// exist nicht
 		if (this.props.data.action[copyToMenu]?.[tab].length) {
 			console.log("existiert");
-			const rowToCopy = this.props.data.action[activeMenu][tab][rowIndexToEdit];
-
+			const rowToCopy: Rows = this.props.data.action[activeMenu][tab][rowIndexToEdit];
+			let copyData: NativeData = deepCopy(this.props.data);
 			checkboxesToCopy.forEach((value, i) => {
 				if (value) {
-					Object.keys(this.state.checked).forEach((key, index) => {
-						if (!this.state.checked[index]) {
+					Object.keys(this.state.checked).forEach((key, copyToIndex) => {
+						if (!this.state.checked[copyToIndex]) {
 							return;
 						}
 						console.log("das soll kopiert werden " + JSON.stringify(rowToCopy));
@@ -74,11 +78,16 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 								return;
 							}
 							console.log(this.props.data.action[copyToMenu][tab][i]);
-							this.props.data.action[copyToMenu][tab][i][rowKey].push(rowToCopy[rowKey]);
+							console.log(this.props.data.action[copyToMenu][tab]);
+							console.log(rowToCopy[rowKey][copyToIndex]);
+							copyData.action[copyToMenu][tab][copyToIndex][rowKey].push(rowToCopy[rowKey][i]);
 						});
 					});
 				}
 			});
+			//TODO
+			console.log("copyData " + JSON.stringify(copyData));
+			this.props.callback.updateNative("data", copyData);
 			return;
 		}
 		console.log("existiert nicht");
@@ -109,7 +118,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 												callback={this.checkboxChecked}
 												id="checkbox"
 												index={index}
-												isChecked={this.state.checked[index]}
+												isChecked={this.state.checked[index] || false}
 											/>
 										</TableCell>
 										{Object.keys(row).map((val, i) => (

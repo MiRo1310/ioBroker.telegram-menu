@@ -33,7 +33,9 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 	}
 
 	getAllMenusWithoutActiveMenu() {
-		return Object.keys(this.props.data.state.native.usersInGroup).filter((menu) => menu !== this.props.data.state.activeMenu);
+		return Object.keys(this.props.data.state.native.usersInGroup);
+		//REVIEW - habe ich raus genommen damit man in das gleich menu speichern kann
+		// .filter((menu) => menu !== this.props.data.state.activeMenu);
 	}
 	getValuesInSelectedAction(): Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] {
 		return this.props.data.state.native.data.action?.[this.state.selectedMenu]?.[this.state.action] || [];
@@ -52,7 +54,7 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 					<Select
 						options={this.getAllMenusWithoutActiveMenu()}
 						id="selectedMenu"
-						selected={this.state.selectedMenu}
+						selected={this.state.selectedMenu || ""}
 						placeholder="Select a menu"
 						callback={this.updateSelect}
 					/>
@@ -61,7 +63,11 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 					<AppContentTabActionContentRowEditorCopyModalSelectedValues
 						value={this.getValuesInSelectedAction()}
 						data={this.props.data.state.native.data}
-						callback={{ setStateRowEditor: this.props.callback.setStateRowEditor, setFunctionSave: this.props.callback.setFunctionSave }}
+						callback={{
+							...this.props.callback,
+							setStateRowEditor: this.props.callback.setStateRowEditor,
+							setFunctionSave: this.props.callback.setFunctionSave,
+						}}
 					/>
 				) : null}
 			</div>
