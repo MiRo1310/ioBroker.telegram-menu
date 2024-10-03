@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "../btn-Input/Button_legacy";
+import Button from "../btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { Properties } from "csstype";
 import { PropsPopupContainer, StatePopupContainer } from "admin/app";
@@ -56,35 +56,16 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 					<div className="DialogContainer-Footer">
 						{!this.props.closeBtn ? (
 							<Button
-								b_color="#fff"
-								margin="10px 5% 10px 4%"
-								border="1px solid black"
-								round="4px"
+								className={`button button__ok ${this.props.isOK ? "button--hover" : "button--disabled"}`}
 								callbackValue={true}
 								callback={this.props.callback}
-								height="40px"
-								fontSize="16px"
-								padding="0"
-								maxWidth="200px"
-								name="ok"
+								name={this.props.labelBtnOK ? this.props.labelBtnOK : "ok"}
 								disabled={this.state.disable && !this.props.isOK}
 							>
-								{I18n.t("OK")}
+								{I18n.t(this.props.labelBtnOK ? this.props.labelBtnOK : "OK")}
 							</Button>
 						) : null}
-						<Button
-							b_color="#fff"
-							margin="10px 5% 10px 4%"
-							border="1px solid black"
-							round="4px"
-							height="40px"
-							fontSize="16px"
-							padding="0"
-							callbackValue={false}
-							callback={this.props.callback}
-							maxWidth="200px"
-							name="cancel"
-						>
+						<Button className="button button__close" callbackValue={false} callback={this.props.callback} maxWidth="200px" name="cancel">
 							{!this.props.closeBtn ? I18n.t("Cancel") : I18n.t("Close")}
 						</Button>
 					</div>

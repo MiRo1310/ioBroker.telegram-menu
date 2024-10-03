@@ -45,12 +45,6 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 						/>
 					</TableCell>
 				) : null}
-
-				{/* {buttons.copy ? (
-					<TableCell align="center" className="cellIcon">
-						<BtnSmallCopy index={indexRow} callback={(index: number) => this.props.callback.(index)} />
-					</TableCell>
-				) : null} */}
 			</>
 		);
 	}

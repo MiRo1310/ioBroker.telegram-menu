@@ -5,7 +5,7 @@ import { ButtonProps } from "../../../app";
 export interface EventButton {
 	innerText: string;
 	id: string;
-	cbValue: string;
+	value: string | number | boolean;
 	index: number;
 	event: React.MouseEvent<HTMLButtonElement>;
 }
@@ -15,7 +15,7 @@ class Button extends Component<ButtonProps> {
 		this.props.callback({
 			innerText: (event.target as HTMLButtonElement).innerText,
 			id: this.props.id,
-			cbValue: this.props.callbackValue,
+			value: this.props.callbackValue,
 			index: this.props.index,
 			event: event,
 		});

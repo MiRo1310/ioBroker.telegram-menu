@@ -3,13 +3,14 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import DropBox from "@/pages/AppDropBoxContent";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave } from "@/lib/movePosition";
 import { PropsMainDropBox } from "admin/app";
+import { EventButton } from "@components/btn-Input/Button";
 
 class MainDropBox extends Component<PropsMainDropBox> {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
-	closeDropBox = () => {
+	closeDropBox = ({}: EventButton) => {
 		this.props.callback.setStateApp({ showDropBox: false });
 	};
 

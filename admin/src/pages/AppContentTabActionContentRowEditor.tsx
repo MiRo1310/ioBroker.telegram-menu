@@ -47,6 +47,8 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			checkboxes: [],
 			isMinOneCheckboxChecked: false,
 			copyModalOpen: false,
+			copyToRowIndex: {},
+			copyToMenu: "",
 		};
 	}
 	tableHeadRef: AppContentTabActionContentRowEditorTableHead | null = null;
@@ -89,7 +91,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.state.rows.forEach((_, index) => {
 			checkboxes[index] = false;
 		});
-		this.setState({ checkboxes });
+		this.setState({ checkboxes: checkboxes });
 	};
 
 	checkAll = (check: boolean) => {
@@ -110,10 +112,26 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 	openCopyModal = ({}: EventButton) => {
 		this.setState({ openCopyPopup: true });
 	};
-	closeCopyModal = () => {
+	closeCopyModal = (val: boolean) => {
+		if (val) {
+			this.addSelectedDataToSelected();
+		}
 		this.tableHeadRef?.resetCheckboxHeader();
 		this.initCheckboxesForEachRow();
 		this.setState({ openCopyPopup: false });
+	};
+	addSelectedDataToSelected = () => {
+		console.log("what should copy " + JSON.stringify(this.state.checkboxes));
+		console.log("copyto index " + JSON.stringify(this.state.copyToRowIndex));
+		console.log("copyto menu " + JSON.stringify(this.state.copyToMenu));
+		console.log("activemenu " + this.props.data.state.activeMenu);
+		console.log("tab " + this.props.data.tab.value);
+
+		console.log("addNewData");
+	};
+	isMinOneItemChecked = () => {
+		//TODO
+		return false;
 	};
 
 	render() {
@@ -157,7 +175,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 													index={indexRow}
 													callback={this.setCheckbox}
 													callbackValue="event"
-													isChecked={this.state.checkboxes[indexRow]}
+													isChecked={this.state.checkboxes[indexRow] || false}
 													obj={true}
 												/>
 											</TableCell>
@@ -283,8 +301,19 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 					/>
 				) : null}
 				{this.state.openCopyPopup ? (
-					<PopupContainer title="Copy" class="PopupContainer__copy" callback={() => this.closeCopyModal()}>
-						<AppContentTabActionContentRowEditorCopyModal {...this.props} checkboxes={this.state.checkboxes} />
+					//TODO Add isOK
+					<PopupContainer
+						title="Copy"
+						class="PopupContainer__copy"
+						isOK={this.isMinOneItemChecked()}
+						labelBtnOK="save"
+						callback={({ value }: EventButton) => this.closeCopyModal(value as boolean)}
+					>
+						<AppContentTabActionContentRowEditorCopyModal
+							data={{ ...this.props.data }}
+							callback={{ ...this.props.callback, setStateRowEditor: this.setState.bind(this) }}
+							checkboxes={this.state.checkboxes}
+						/>
 					</PopupContainer>
 				) : null}
 			</div>

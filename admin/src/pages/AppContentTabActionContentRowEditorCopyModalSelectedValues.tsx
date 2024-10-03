@@ -1,20 +1,22 @@
 import Checkbox from "@components/btn-Input/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Echart, Events, Get, HttpRequest, Pic, Set } from "admin/app";
+import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
 import React, { Component } from "react";
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
+	callback: { setStateRowEditor: SetStateFunction };
 }
 type Rows = Get | Set | Pic | HttpRequest | Echart | Events;
 
-class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Component<Props> {
-	constructor(props) {
+interface State {
+	checked: { [key: number]: boolean };
+}
+class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
-		this.state = {};
-	}
-
-	componentDidMount(): void {
-		console.log(this.props.value ? Object.keys(this.props.value) : null);
+		this.state = {
+			checked: {},
+		};
 	}
 
 	//TODO Translation und vervollständigen
@@ -30,6 +32,13 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		text: "Text",
 		IDs: "IDs",
 	};
+	checkboxChecked = ({ isChecked, index }: EventCheckbox) => {
+		const copy = { ...this.state.checked };
+		copy[index] = isChecked;
+		console.log(copy);
+		this.props.callback.setStateRowEditor({ copyToRowIndex: copy });
+		this.setState({ checked: copy });
+	};
 
 	render() {
 		return (
@@ -37,7 +46,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell align="left"></TableCell>
+							<TableCell align="left" />
 							{this.props.value?.[0]
 								? Object.keys(this.props.value[0]).map((item, index) => (
 										<TableCell align="left" key={index}>
@@ -52,7 +61,12 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 							? this.props.value.map((row: Rows, index: number) => (
 									<TableRow key={index}>
 										<TableCell align="left">
-											<Checkbox callback={() => {}} id="test" isChecked={false} />
+											<Checkbox
+												callback={this.checkboxChecked}
+												id="checkbox"
+												index={index}
+												isChecked={this.state.checked[index]}
+											/>
 										</TableCell>
 										{Object.keys(row).map((val, i) => (
 											<TableCell align="left" key={i}>

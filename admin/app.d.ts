@@ -2,6 +2,7 @@ import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
 import { Tab } from '@mui/material';
 import { AdminConnection } from '@iobroker/socket-client';
 import { LegacyRef, ReactNode } from "react";
+import { EventButton } from "@components/btn-Input/Button";
 
 export type Nullable<T> = T | null | undefined;
 
@@ -215,7 +216,7 @@ export interface ButtonProps {
 }
 export type CallbackValue = boolean | string | number | undefined;
 
-export interface PropsCheckbox {
+export interface PropsCheckbox_legacy {
 	id: string;
 	label?: string;
 	isChecked: boolean;
@@ -223,7 +224,21 @@ export interface PropsCheckbox {
 	callbackValue?: string;
 	setNative?: boolean;
 	obj?: boolean;
-	index?: number;
+	index: number;
+	title?: string;
+	width?: string;
+	marginLeft?: string;
+	marginTop?: string;
+	class?: string;
+}
+export interface PropsCheckbox {
+	id: string;
+	label?: string;
+	isChecked: boolean;
+	callback: any;
+	callbackValue?: string;
+	obj?: boolean;
+	index: number;
 	title?: string;
 	width?: string;
 	marginLeft?: string;
@@ -258,7 +273,7 @@ export interface SelectProps {
 	placeholder?: string;
 	options: string[];
 	selected: string;
-	callback: SetStateFunction;
+	callback: ({ }: EventSelect) => void;
 	setNative?: boolean;
 	width?: string;
 	callbackValue?: CallbackValue;
@@ -418,6 +433,8 @@ export interface PropsPopupContainer {
 	top?: string;
 	left?: string;
 	right?: string;
+	labelBtnAbort?: string;
+	labelBtnOK?: string;
 	reference?: LegacyRef<HTMLDivElement> | undefined;
 	onDragStart?: (event: any, setState: SetStateFunction | undefined) => void | undefined;
 	onDragEnd?: (event: any, setState: SetStateFunction | undefined) => void;
@@ -476,6 +493,8 @@ export interface StateRowEditPopupCard {
 	checkboxes: boolean[];
 	isMinOneCheckboxChecked: boolean
 	copyModalOpen: boolean;
+	copyToRowIndex: { [key: number]: boolean };
+	copyToMenu: string;
 }
 export interface RowsSetState {
 	IDs: string;
@@ -541,7 +560,7 @@ export interface StateDropBox {
 export interface PropsRenameCard {
 	data: { newMenuName: string };
 	id?: string;
-	callback: { setState: SetStateFunction, renameMenu: (value: boolean) => void };
+	callback: { setState: SetStateFunction, renameMenu: ({ }: EventButton) => void };
 	value?: string;
 }
 

@@ -121,8 +121,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	openConfirmDialog = () => {
 		this.setState({ confirmDialog: true });
 	};
-	renameMenu = (value) => {
-		if (!value) {
+	renameMenu = ({ value: cbValue }: EventButton) => {
+		if (!cbValue) {
 			this.setState({ renameDialog: false });
 			return;
 		}
@@ -142,10 +142,10 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		this.setState({ renamedMenuName: this.state.oldMenuName });
 		this.setState({ renameDialog: true });
 	};
-	buttonAddNewMenuHandler = ({ cbValue }: EventButton) => {
-		this.addNewMenu(cbValue, false);
+	buttonAddNewMenuHandler = ({ value }: EventButton) => {
+		this.addNewMenu(value as string, false);
 	};
-	appSetStateHandler = ({ id, cbValue }: EventButton) => {
+	appSetStateHandler = ({ id, value: cbValue }: EventButton) => {
 		this.props.callback.setStateApp({ [id]: cbValue });
 	};
 

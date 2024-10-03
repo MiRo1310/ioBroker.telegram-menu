@@ -4,7 +4,7 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import Square from "./AppTriggerOverviewContentSquare.js";
 import { deleteDoubleEntriesInArray } from "../lib/Utils.js";
 import { updateTriggerForSelect } from "../lib/actionUtils.js";
-import Select from "../components/btn-Input/select.js";
+import Select, { EventSelect } from "../components/btn-Input/select.js";
 import { deepCopy } from "../lib/Utils.js";
 import { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from "admin/app.js";
 
@@ -163,9 +163,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 			this.setState({ ulPadding: this.ulPadding });
 		}
 	}
-	updateHandler = (value) => {
-		this.setState({ selected: value.startMenu });
-		this.createdData(value.startMenu);
+	updateHandler = ({ val }: EventSelect) => {
+		this.setState({ selected: val });
+		this.createdData(val);
 	};
 
 	render() {

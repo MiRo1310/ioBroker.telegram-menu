@@ -1,33 +1,38 @@
 import { DropBoxType, SetStateFunction } from "admin/app";
-export const handleMouseOver = (e): void => {
-	if (e.target.classList.contains("noneDraggable")) {
-		let currentElement = e.target;
+export const handleMouseOver = (e: React.MouseEvent<HTMLSpanElement> | undefined): void => {
+	const target = e?.target as HTMLElement;
+	if (target.classList.contains("noneDraggable")) {
+		let currentElement: HTMLElement | null = target;
 
 		while (currentElement) {
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
 				currentElement.draggable = false;
 				return;
 			}
-			currentElement = currentElement.parentNode;
+			currentElement = currentElement.parentElement;
 		}
 	}
 };
-export const handleMouseOut = (e): void => {
-	if (e.target.classList.contains("noneDraggable") && !e.target.classList.contains("draggingDropBox")) {
-		let currentElement = e.target;
+
+export const handleMouseOut = (e: React.MouseEvent<HTMLSpanElement> | undefined): void => {
+	const target = e?.target as HTMLElement;
+	if (target.classList.contains("noneDraggable") && !target.classList.contains("draggingDropBox")) {
+		let currentElement: HTMLElement | null = target;
 		while (currentElement) {
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
 				currentElement.draggable = true;
 				return;
 			}
-			currentElement = currentElement.parentNode;
+			currentElement = currentElement.parentElement;
 		}
 	}
 };
 
-export const handleDragStart = (index: number, event, mouseOverNoneDraggable, setState: SetStateFunction, cb?): boolean | undefined => {
-	if (mouseOverNoneDraggable) {
-		event.target.style.userSelect = "text";
+export const handleDragStart = (index: number, event: React.DragEvent<HTMLTableRowElement> | undefined
+	, mouseOverNoneDraggable: boolean, setState: SetStateFunction, cb?: any): boolean | undefined => {
+	if (mouseOverNoneDraggable && event) {
+		const target = event.target as HTMLElement;
+		target.style.userSelect = "text";
 		return false;
 	}
 	setState({ dropStart: index });
@@ -35,7 +40,7 @@ export const handleDragStart = (index: number, event, mouseOverNoneDraggable, se
 		cb();
 	}
 };
-export const handleDragOver = (_, event): void => {
+export const handleDragOver = (_, event: React.DragEvent<HTMLTableRowElement>): void => {
 	event.preventDefault();
 };
 

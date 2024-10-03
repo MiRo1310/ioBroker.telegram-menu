@@ -7,6 +7,7 @@ import TableNavHelper from "@/pages/AppContentTabNavigationTableHelper";
 
 import { deepCopy } from "@/lib/Utils.js";
 import { RowsNav, PropsTabNavigation, StateTabNavigation } from "admin/app";
+import { EventButton } from "@components/btn-Input/Button";
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 	constructor(props) {
@@ -88,8 +89,8 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ newRow: copyNewRow });
 	};
 
-	popupRowCard = (isOK) => {
-		if (!isOK) {
+	popupRowCard = ({ value }: EventButton) => {
+		if (!value) {
 			this.setState({ rowPopup: false, editRow: false });
 			return;
 		}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Select from "../components/btn-Input/select";
+import Select, { EventSelect } from "../components/btn-Input/select";
 import { Radio } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { updateTriggerForSelect } from "../lib/actionUtils.js";
@@ -7,6 +7,7 @@ import { deepCopy } from "../lib/Utils.js";
 import PopupContainer from "../components/popupCards/PopupContainer";
 import RenameCard from "../components/popupCards/RenameCard";
 import { PropsDropBox, StateDropBox } from "admin/app";
+import { EventButton } from "@components/btn-Input/Button";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
 	constructor(props) {
@@ -206,7 +207,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 	handleChange = (event) => {
 		this.setState({ selectedValue: event.target.value });
 	};
-	renameMenu = (value: boolean) => {
+	renameMenu = ({ value }: EventButton) => {
 		if (!value) {
 			this.setState({ openRenamePopup: false, newTrigger: "" });
 			return;
@@ -217,7 +218,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 
 			return;
 		}
-		this.setState({ newTrigger: value });
+		this.setState({ newTrigger: value as string });
 	};
 	render() {
 		return (
@@ -228,7 +229,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 						options={this.state.menuList}
 						selected={this.state.selectedMenu}
 						id="selectedMenu"
-						callback={this.setState.bind(this)}
+						callback={({ val }: EventSelect) => this.setState({ selectedMenu: val })}
 						placeholder={I18n.t("Select a target menu")}
 					></Select>
 					<label>
@@ -279,7 +280,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
 								id="newTrigger"
 								data={{ newMenuName: this.state.newTrigger }}
-							></RenameCard>
+							/>
 						</PopupContainer>
 					</div>
 				) : null}

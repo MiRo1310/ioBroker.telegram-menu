@@ -12,6 +12,7 @@ import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionCont
 import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
 import { ActionData, PropsActionCard, StateActionCard } from "admin/app";
 import { ActionNewRowProps } from "../../app";
+import { EventButton } from "@components/btn-Input/Button";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props) {
@@ -114,10 +115,10 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ rowPopup: true, rowIndex: index });
 	};
 
-	closeAddRowCard = (isOk: boolean) => {
+	closeAddRowCard = ({ value: cbValue }: EventButton) => {
 		const { native, activeMenu } = this.props.data.state;
 		const { value: subCard } = this.props.data.tab;
-		if (isOk) {
+		if (cbValue) {
 			const data = deepCopy(native.data);
 			if (!data.action[activeMenu][subCard]) {
 				data.action[activeMenu][subCard] = [];
@@ -173,8 +174,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ editedValueFromHelperText: this.state.editedValueFromHelperText + " " + value });
 	};
 
-	popupHelperCard = (isOK: boolean) => {
-		if (isOK) {
+	popupHelperCard = ({ value }: EventButton) => {
+		if (value) {
 			const row = deepCopy(this.state.newRow);
 			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: row });

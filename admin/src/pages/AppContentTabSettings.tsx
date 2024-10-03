@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Input from "@components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Checkbox from "@components/btn-Input/checkbox_legacy";
+import Checkbox from "@components/btn-Input/checkbox";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Select from "@/components/btn-Input/select";
-import { PropsSettings } from "admin/app";
+import Select from "@components/btn-Input/select";
+import { EventCheckbox, PropsSettings } from "admin/app";
+import { EventSelect } from "@components/btn-Input/select";
 
 class Settings extends Component<PropsSettings> {
 	constructor(props) {
@@ -14,9 +15,9 @@ class Settings extends Component<PropsSettings> {
 			options: ["One", "Two", "Three"],
 		};
 	}
-	onClickCheckbox = (event, id) => {
+	onClickCheckbox = ({ isChecked, id }: EventCheckbox) => {
 		const checkbox = { ...this.props.data.state.native.checkbox };
-		checkbox[id] = event.target.checked;
+		checkbox[id] = isChecked;
 		this.props.callback.updateNative("checkbox", checkbox);
 	};
 
@@ -41,9 +42,9 @@ class Settings extends Component<PropsSettings> {
 							name="instance"
 							selected={this.props.data.state.native.instance}
 							id="instance"
-							callback={this.props.callback.updateNative}
+							callback={({ id, val }: EventSelect) => this.props.callback.updateNative(id, val)}
 							setNative={true}
-						></Select>
+						/>
 					</Grid>
 					<Grid item xs={4}>
 						<Input
@@ -63,6 +64,7 @@ class Settings extends Component<PropsSettings> {
 							isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound}
 							callbackValue="event"
 							callback={this.onClickCheckbox}
+							index={0}
 						/>
 					</Grid>
 					<Grid item xs={3}>
@@ -72,9 +74,9 @@ class Settings extends Component<PropsSettings> {
 							isChecked={this.props.data.state.native.checkbox.resKey || false}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
-							setNative={true}
 							title="Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard."
 							class="title"
+							index={1}
 						/>
 					</Grid>
 					<Grid item xs={3}>
@@ -84,9 +86,9 @@ class Settings extends Component<PropsSettings> {
 							isChecked={this.props.data.state.native.checkbox.oneTiKey || false}
 							callback={this.onClickCheckbox}
 							callbackValue="event"
-							setNative={true}
 							title="Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again."
 							class="title"
+							index={2}
 						/>
 					</Grid>
 					<Grid item xs={6}></Grid>
@@ -124,7 +126,7 @@ class Settings extends Component<PropsSettings> {
 							}
 							callbackValue="event"
 							callback={this.onClickCheckbox}
-							setNative={true}
+							index={3}
 						/>
 					</Grid>
 				</Grid>

@@ -3,14 +3,16 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import RowNavCard from "@/components/popupCards/RowNavCard";
 
 import { deepCopy } from "@/lib/Utils.js";
-import { ChangeInputNav, TabValueEntries } from "admin/app";
+import { ChangeInputNav, SetStateFunction, TabValueEntries, StateTabNavigation } from "admin/app";
+import { EventButton } from "@components/btn-Input/Button";
+import { DataMainContent } from "../../app";
 
 interface PropsTableNAvEditRow {
-	state: any;
-	setState: ({}) => void;
-	data: any;
+	state: StateTabNavigation;
+	setState: SetStateFunction;
+	data: DataMainContent & { entries: TabValueEntries[] };
 	entries: TabValueEntries[];
-	popupRowCard: any;
+	popupRowCard: ({}: EventButton) => void;
 }
 
 class TableNavEditRow extends Component<PropsTableNAvEditRow> {

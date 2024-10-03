@@ -4,21 +4,19 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 
 import helperText from "@/config/helper.js";
 import { PropsTableNavHelper } from "admin/app";
+import { EventButton } from "@components/btn-Input/Button";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
-	onchangeValueFromHelper = (value) => {
-		let newValue;
-
+	onchangeValueFromHelper = ({ value }: EventButton) => {
 		if (this.props.state.editedValueFromHelperText === null) {
-			newValue = value;
-		} else {
-			newValue = this.props.state.editedValueFromHelperText + " " + value;
+			this.props.setState({ editedValueFromHelperText: value });
 		}
-		this.props.setState({ editedValueFromHelperText: newValue });
+
+		this.props.setState({ editedValueFromHelperText: this.props.state.editedValueFromHelperText + " " + value });
 	};
 
 	render() {

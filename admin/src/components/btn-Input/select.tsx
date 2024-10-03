@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { SelectProps } from "admin/app";
-
+export interface EventSelect {
+	id: string;
+	val: string;
+}
 class Select extends Component<SelectProps> {
-	onChangeHandler = (event) => {
-		if (this.props.setNative) {
-			this.props.callback(this.props.id, event.target.value);
-		} else if (this.props.id) {
-			this.props.callback({ [this.props.id]: event.target.value });
-		} else {
-			this.props.callback(event.target.value);
-		}
+	onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement> | undefined) => {
+		const target = event?.target;
+		this.props.callback({ id: this.props.id, val: target?.value });
 	};
 	render() {
 		return (

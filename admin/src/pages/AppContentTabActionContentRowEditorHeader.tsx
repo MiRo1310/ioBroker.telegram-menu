@@ -1,4 +1,4 @@
-import Select from "@/components/btn-Input/select";
+import Select, { EventSelect } from "@components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
 import { isChecked } from "@/lib/Utils.js";
 import Button from "@components/btn-Input/Button";
@@ -49,7 +49,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 							selected={newRow.trigger[0]}
 							options={newUnUsedTrigger}
 							id="trigger"
-							callback={(value: { trigger: string }) => updateTrigger(value, this.props, this.setState.bind(this))}
+							callback={({ val }: EventSelect) => updateTrigger({ trigger: val }, this.props, this.setState.bind(this))}
 							callbackValue="event.target.value"
 							label="Trigger"
 							placeholder="Select a Trigger"

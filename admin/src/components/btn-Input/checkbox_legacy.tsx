@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { PropsCheckbox } from "admin/app";
+import { PropsCheckbox_legacy } from "admin/app";
 
-class Checkbox extends Component<PropsCheckbox> {
+class Checkbox extends Component<PropsCheckbox_legacy> {
 	onChangeHandler = (event) => {
 		if (!(this.props.callbackValue === "event")) {
 			if (this.props.setNative) {
