@@ -14,17 +14,17 @@ import {
 } from "@/lib/dragNDrop.js";
 import { isTruthy } from "@/lib/string";
 import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabActionContentRowEditorTableHead";
+import { EventButton } from "@components/btn-Input/Button";
 import Checkbox from "@components/btn-Input/checkbox";
 import PopupContainer from "@components/popupCards/PopupContainer";
 import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 import React, { Component } from "react";
+import { EventCheckbox } from "../../app";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
 import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
 import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
-import { EventButton } from "@components/btn-Input/Button";
-import { EventCheckbox } from "../../app";
 
 const theme: IobTheme = Theme("light");
 
@@ -283,7 +283,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 					/>
 				) : null}
 				{this.state.openCopyPopup ? (
-					<PopupContainer title="Copy" class="PopupContainer__copy" callback={(val: boolean) => this.closeCopyModal()}>
+					<PopupContainer title="Copy" class="PopupContainer__copy" callback={() => this.closeCopyModal()}>
 						<AppContentTabActionContentRowEditorCopyModal {...this.props} checkboxes={this.state.checkboxes} />
 					</PopupContainer>
 				) : null}

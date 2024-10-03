@@ -1,15 +1,7 @@
 import Select from "@/components/btn-Input/select";
-import { Echart, Events, Get, HttpRequest, Pic, Set } from "../../app";
-import {
-	CallbackFunctionsApp,
-	CallbackTabActionContent,
-	DataMainContent,
-	DataTabActionContent,
-	RowsSetState,
-	SetStateFunction,
-	TabActionContentTableProps,
-} from "admin/app";
+import { CallbackFunctionsApp, CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps } from "admin/app";
 import React, { Component } from "react";
+import { Echart, Events, Get, HttpRequest, Pic, Set } from "../../app";
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 
 export interface PropsRowEditorCopyModal {

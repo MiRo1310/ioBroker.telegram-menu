@@ -1,4 +1,4 @@
-import { DropBoxType } from "admin/app";
+import { DropBoxType, SetStateFunction } from "admin/app";
 export const handleMouseOver = (e): void => {
 	if (e.target.classList.contains("noneDraggable")) {
 		let currentElement = e.target;
@@ -25,7 +25,7 @@ export const handleMouseOut = (e): void => {
 	}
 };
 
-export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, cb?): boolean | undefined => {
+export const handleDragStart = (index: number, event, mouseOverNoneDraggable, setState: SetStateFunction, cb?): boolean | undefined => {
 	if (mouseOverNoneDraggable) {
 		event.target.style.userSelect = "text";
 		return false;
@@ -38,23 +38,27 @@ export const handleDragStart = (index, event, mouseOverNoneDraggable, setState, 
 export const handleDragOver = (_, event): void => {
 	event.preventDefault();
 };
-export const handleDragEnter = (index, setState): void => {
+
+export const handleDragEnter = (index: number, setState: SetStateFunction): void => {
 	setState({ dropOver: index });
 };
-export const handleStyleDragOver = (index, dropOver, dropStart): { borderTop?: string; borderBottom?: string } => {
+
+export const handleStyleDragOver = (index: number, dropOver: number, dropStart: number): { borderTop?: string; borderBottom?: string } => {
 	return dropOver === index && dropStart > index
 		? { borderTop: "2px solid #3399cc" }
 		: dropOver === index && dropStart < index
 			? { borderBottom: "2px solid #3399cc" }
 			: {};
 };
-export const handleDragEnd = (setState, props?): void => {
+
+export const handleDragEnd = (setState: SetStateFunction, setStateApp?: SetStateFunction): void => {
 	setState({ dropStart: 0 });
 	setState({ dropOver: 0 });
-	if (props) {
-		props.callback.setState({ draggingRowIndex: null });
+	if (setStateApp) {
+		setStateApp({ draggingRowIndex: null });
 	}
 };
+
 export const handleDraggable = (index: number): "true" | "false" => {
 	return index === 0 ? "false" : "true";
 };

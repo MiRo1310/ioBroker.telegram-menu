@@ -1,6 +1,6 @@
 import { NativeData, SetStateFunction, UsersInGroup } from "admin/app";
 import React from "react";
-import { ActionNewRowProps, RowsSetState, TabValueEntries, EventCheckbox } from '../../app';
+import { ActionNewRowProps, RowsSetState, TabValueEntries, EventCheckbox } from "../../app";
 import { tabValues } from "../config/entries";
 import { isTruthy } from "./string";
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from "./Utils";

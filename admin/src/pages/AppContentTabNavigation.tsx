@@ -105,9 +105,9 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ rowPopup: false, editRow: false });
 	};
 
-	openAddRowCard = (value) => {
-		if (value) {
-			this.setState({ rowIndex: value });
+	openAddRowCard = (index: number) => {
+		if (index) {
+			this.setState({ rowIndex: index });
 		}
 		const obj = {} as RowsNav;
 		this.props.data.entries.forEach((entry) => {
@@ -125,7 +125,6 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
-
 	render() {
 		return (
 			<>

@@ -2,6 +2,7 @@
 @import "./edit-container.css";
 @import "./button.css";
 @import "./editor-header.css";
+@import "./table.css";
 
 body {
 	height: 100vh;
@@ -202,10 +203,7 @@ div.MuiTabPanel-root {
 
 /* NavigationMenu */
 /* Table ist in Allgemein */
-.dark th,
-.blue th {
-	color: black;
-}
+
 .MenuNavigation-Container .startSideActive {
 	background-color: #96d15a !important;
 }
@@ -218,11 +216,6 @@ div.MuiTabPanel-root {
 .MenuNavigation-Container .textSubmenuInfo {
 	font-size: 1rem;
 	font-weight: 900;
-}
-
-.dark .MenuNavigation-Container table tbody tr:first-child td,
-.blue .MenuNavigation-Container table tbody tr:first-child td {
-	color: black !important;
 }
 
 .MenuNavigation-Container,
@@ -528,59 +521,7 @@ label p {
 	color: #777;
 	/* margin-left: px; */
 }
-/* Table */
-.MuiTableHead-root tr th {
-	background-color: #3399cc !important;
-}
-.Tab-Box table th {
-	padding: 5px 5px 2px 5px;
-	top: 0;
-}
-.TableDndAction-Body {
-	width: 95% !important;
-}
 
-table {
-	border-collapse: collapse !important;
-	width: calc(100% - 0) !important;
-}
-
-tr[draggable="true"] {
-	cursor: grab;
-	padding-right: 10px !important;
-	margin-right: 10px;
-}
-
-tr[draggable="true"]:hover {
-	background-color: rgba(51, 153, 204, 0.5) !important;
-}
-
-tr[draggable="true"] span i {
-	cursor: pointer;
-}
-
-tr td {
-	padding: 0 0px !important;
-
-	font-size: 0.8rem !important;
-}
-.light tr:not(.SubTable):nth-child(even),
-.colored tr:not(.SubTable):nth-child(even) {
-	background-color: #eee;
-}
-.dark tr:not(.SubTable):nth-child(even) {
-	background-color: #333;
-}
-.light tr:not(.SubTable):nth-child(odd),
-.colored tr:not(.SubTable):nth-child(odd) {
-	background-color: #fff;
-}
-.dark tr:not(.SubTable):nth-child(odd) {
-	background-color: #555;
-}
-.blue tr:not(.SubTable):nth-child(odd) {
-	background-color: rgb(62, 68, 72);
-}
 /* Button */
 
 button {

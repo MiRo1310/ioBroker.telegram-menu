@@ -171,7 +171,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								this.props.callback.setStateApp({ draggingRowIndex: index }),
 							);
 						}}
-						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
+						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props.callback.setStateApp)}
 						onDragOver={(event) => handleDragOver(index, event)}
 						onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
 						style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}

@@ -83,7 +83,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 				upDown: index - this.state.dropStart,
 				data: this.props.data.state.native.data,
 				activeMenu: this.props.data.state.activeMenu,
-				updateNative: this.props.callback.setStateApp,
+				updateNative: this.props.callback.updateNative,
 			});
 		}
 	};
@@ -121,7 +121,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 								this.props.callback.setStateApp ? this.props.callback.setStateApp({ draggingRowIndex: indexRow }) : "",
 							)
 						}
-						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
+						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props.callback.setStateApp)}
 						onDragOver={(event) => handleDragOver(indexRow, event)}
 						onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
 						style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}

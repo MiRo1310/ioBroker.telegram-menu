@@ -1,6 +1,24 @@
-import { NativeData, UpdateNativeFunction } from '../../app';
+import { NativeData, UpdateNativeFunction } from "../../app";
 
-export const moveItem = ({ index, data, card, subCard, activeMenu, updateNative, upDown, newPositionIndex }: { newPositionIndex?: number, upDown: number, updateNative: UpdateNativeFunction, activeMenu: string, index: number, data: NativeData, card: string, subCard?: string }): void => {
+export const moveItem = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+	upDown,
+	newPositionIndex,
+}: {
+	newPositionIndex?: number;
+	upDown: number;
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
 	const dataCopy = JSON.parse(JSON.stringify(data));
 
 	let userArray = [];
@@ -26,7 +44,23 @@ export const moveItem = ({ index, data, card, subCard, activeMenu, updateNative,
 	}
 	updateNative("data", dataCopy);
 };
-export const moveDown = ({ index, data, card, subCard, activeMenu, updateNative, upDown }: { upDown: number, updateNative: UpdateNativeFunction, activeMenu: string, index: number, data: NativeData, card: string, subCard?: string }): void => {
+export const moveDown = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+	upDown,
+}: {
+	upDown: number;
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
 	const dataCopy = JSON.parse(JSON.stringify(data));
 	let userArray = [];
 	if (subCard) {
@@ -45,7 +79,21 @@ export const moveDown = ({ index, data, card, subCard, activeMenu, updateNative,
 	updateNative("data", dataCopy);
 };
 
-export const moveUp = ({ index, data, card, subCard, activeMenu, updateNative }: { updateNative: UpdateNativeFunction, activeMenu: string, index: number, data: NativeData, card: string, subCard?: string }): void => {
+export const moveUp = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+}: {
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
 	const dataCopy = JSON.parse(JSON.stringify(data));
 	let userArray = [];
 	if (subCard) {
@@ -64,7 +112,21 @@ export const moveUp = ({ index, data, card, subCard, activeMenu, updateNative }:
 	updateNative("data", dataCopy);
 };
 
-export const deleteRow = ({ index, data, card, subCard, activeMenu, updateNative }: { updateNative: UpdateNativeFunction, activeMenu: string, index: number, data: NativeData, card: string, subCard?: string }): void => {
+export const deleteRow = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+}: {
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
 	const dataCopy = JSON.parse(JSON.stringify(data));
 	let userArray = [];
 	if (subCard) {

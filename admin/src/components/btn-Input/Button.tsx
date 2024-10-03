@@ -1,5 +1,5 @@
 import { Properties } from "csstype";
-import React, { Component, MouseEventHandler } from "react";
+import React, { Component } from "react";
 import { ButtonProps } from "../../../app";
 
 export interface EventButton {

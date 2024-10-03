@@ -1,5 +1,5 @@
 import Checkbox from "@components/btn-Input/checkbox";
-import { Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Echart, Events, Get, HttpRequest, Pic, Set } from "admin/app";
 import React, { Component } from "react";
 interface Props {
@@ -16,10 +16,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 	componentDidMount(): void {
 		console.log(this.props.value ? Object.keys(this.props.value) : null);
 	}
-	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any): void {
-		console.log(this.props.value ? Object.keys(this.props.value) : null);
-		console.log(this.props.value);
-	}
+
 	//TODO Translation und vervollständigen
 	valueMapping = {
 		trigger: "Trigger",
@@ -37,7 +34,6 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 	render() {
 		return (
 			<>
-				//TODO Subtable
 				<Table>
 					<TableHead>
 						<TableRow>
@@ -62,11 +58,11 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 											<TableCell align="left" key={i}>
 												{typeof row[val] === "string"
 													? row[val]
-													: row[val].map((entry: string | number | boolean) => {
+													: row[val].map((entry: string | number | boolean, index) => {
 															return (
-																<Table>
+																<Table key={index}>
 																	<TableBody>
-																		<TableRow>
+																		<TableRow className="SubTable">
 																			<TableCell align="left">{entry}</TableCell>
 																		</TableRow>
 																	</TableBody>
