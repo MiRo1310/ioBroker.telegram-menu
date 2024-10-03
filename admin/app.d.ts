@@ -362,7 +362,7 @@ export interface TabActionContentTableProps { tab: TabValues; card: string; show
 
 export interface StateActionCard {
 	rowPopup: boolean;
-	rowIndex: number;
+	rowIndexToEdit: number;
 	editRow: boolean;
 	newRow: ActionNewRowProps;
 	rowsLength: number;
@@ -455,7 +455,7 @@ export interface StatePopupContainer {
 	inUse: boolean;
 }
 export interface PropsRowEditPopupCard {
-	data: DataMainContent & TabActionContentTableProps & DataTabActionContent
+	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rowIndexToEdit: number }
 	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void }
 }
 export interface DataTabActionContent { newRow: ActionNewRowProps; newUnUsedTrigger: string[]; }
@@ -493,7 +493,6 @@ export interface StateRowEditPopupCard {
 	checkboxes: boolean[];
 	isMinOneCheckboxChecked: boolean
 	copyModalOpen: boolean;
-	copyToRowIndex: { [key: number]: boolean };
 	copyToMenu: string;
 }
 export interface RowsSetState {

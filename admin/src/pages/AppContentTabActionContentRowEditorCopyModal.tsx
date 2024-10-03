@@ -1,13 +1,18 @@
 import Select from "@components/btn-Input/select";
 import { CallbackFunctionsApp, CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps } from "admin/app";
 import React, { Component } from "react";
-import { Echart, Events, Get, HttpRequest, Pic, Set } from "../../app";
+import { Echart, Events, Get, HttpRequest, Pic, Set, Data } from "../../app";
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 import { EventSelect } from "@components/btn-Input/select";
 
 export interface PropsRowEditorCopyModal {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
-	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void; setStateRowEditor: (value: any) => void };
+	callback: CallbackFunctionsApp &
+		CallbackTabActionContent & {
+			openHelperText: (value: any) => void;
+			setStateRowEditor: (value: any) => void;
+			setFunctionSave: (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => void;
+		};
 	checkboxes: boolean[];
 }
 interface State {
@@ -55,7 +60,8 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 				{this.state.action !== "" ? (
 					<AppContentTabActionContentRowEditorCopyModalSelectedValues
 						value={this.getValuesInSelectedAction()}
-						callback={{ setStateRowEditor: this.props.callback.setStateRowEditor }}
+						data={this.props.data.state.native.data}
+						callback={{ setStateRowEditor: this.props.callback.setStateRowEditor, setFunctionSave: this.props.callback.setFunctionSave }}
 					/>
 				) : null}
 			</div>

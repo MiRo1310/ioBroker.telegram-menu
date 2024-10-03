@@ -19,7 +19,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		super(props);
 		this.state = {
 			rowPopup: false,
-			rowIndex: 0,
+			rowIndexToEdit: 0,
 			editRow: false,
 			newRow: {} as ActionNewRowProps,
 			rowsLength: 0,
@@ -112,7 +112,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 	openAddRowCard = (index: number) => {
 		this.addEditedTrigger(null);
-		this.setState({ rowPopup: true, rowIndex: index });
+		this.setState({ rowPopup: true, rowIndexToEdit: index });
 	};
 
 	closeAddRowCard = ({ value: cbValue }: EventButton) => {
@@ -124,9 +124,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 				data.action[activeMenu][subCard] = [];
 			}
 			if (this.state.editRow) {
-				data.action[activeMenu][subCard].splice(this.state.rowIndex, 1, this.state.newRow);
+				data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit, 1, this.state.newRow);
 			} else {
-				data.action[activeMenu][subCard].splice(this.state.rowIndex + 1, 0, this.state.newRow);
+				data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit + 1, 0, this.state.newRow);
 			}
 
 			this.props.callback.updateNative("data", data);
@@ -244,6 +244,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 								...this.props.data,
 								newRow: this.state.newRow,
 								newUnUsedTrigger: this.state.newUnUsedTrigger || this.props.data.state.unUsedTrigger,
+								rowIndexToEdit: this.state.rowIndexToEdit,
 							}}
 							callback={{
 								...this.props.callback,

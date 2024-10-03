@@ -126,7 +126,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			});
 		}
 	};
-
+	//TODO
 	editRow = (index: number) => {
 		const { activeMenu } = this.props.data.state;
 		const { data } = this.props.data.state.native;
@@ -136,7 +136,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		if (newRow.trigger) {
 			this.props.callback.addEditedTrigger(newRow.trigger[0]);
 		}
-		setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndex: index });
+		setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index });
 	};
 
 	deleteRow = (index: number) => {

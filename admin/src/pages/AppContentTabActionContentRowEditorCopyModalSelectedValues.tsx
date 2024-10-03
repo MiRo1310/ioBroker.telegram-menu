@@ -2,14 +2,23 @@ import Checkbox from "@components/btn-Input/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
 import React, { Component } from "react";
+import { NativeData } from "../../app";
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
-	callback: { setStateRowEditor: SetStateFunction };
+	data: NativeData;
+	callback: { setStateRowEditor: SetStateFunction; setFunctionSave: (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => void };
 }
 type Rows = Get | Set | Pic | HttpRequest | Echart | Events;
 
 interface State {
 	checked: { [key: number]: boolean };
+}
+export interface SaveDataObject {
+	checkboxesToCopy: boolean[];
+	copyToMenu: string;
+	activeMenu: string;
+	tab: string;
+	rowIndexToEdit: number;
 }
 class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Component<Props, State> {
 	constructor(props: Props) {
@@ -35,9 +44,44 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 	checkboxChecked = ({ isChecked, index }: EventCheckbox) => {
 		const copy = { ...this.state.checked };
 		copy[index] = isChecked;
-		console.log(copy);
-		this.props.callback.setStateRowEditor({ copyToRowIndex: copy });
 		this.setState({ checked: copy });
+	};
+	componentDidMount(): void {
+		this.props.callback.setFunctionSave(this);
+	}
+	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit }: SaveDataObject) => {
+		console.log("what should copy " + JSON.stringify(checkboxesToCopy));
+		console.log("copyto index " + JSON.stringify(this.state.checked));
+		console.log("copyto menu " + JSON.stringify(copyToMenu));
+		console.log("activemenu " + activeMenu);
+		console.log("tab " + tab);
+		console.log("rowIndexToEdit " + rowIndexToEdit);
+
+		// exist nicht
+		if (this.props.data.action[copyToMenu]?.[tab].length) {
+			console.log("existiert");
+			const rowToCopy = this.props.data.action[activeMenu][tab][rowIndexToEdit];
+
+			checkboxesToCopy.forEach((value, i) => {
+				if (value) {
+					Object.keys(this.state.checked).forEach((key, index) => {
+						if (!this.state.checked[index]) {
+							return;
+						}
+						console.log("das soll kopiert werden " + JSON.stringify(rowToCopy));
+						Object.keys(rowToCopy).forEach((rowKey) => {
+							if (rowKey === "trigger") {
+								return;
+							}
+							console.log(this.props.data.action[copyToMenu][tab][i]);
+							this.props.data.action[copyToMenu][tab][i][rowKey].push(rowToCopy[rowKey]);
+						});
+					});
+				}
+			});
+			return;
+		}
+		console.log("existiert nicht");
 	};
 
 	render() {

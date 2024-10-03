@@ -25,6 +25,8 @@ import { EventCheckbox } from "../../app";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
 import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
 import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
+import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
+import { SaveDataObject } from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 
 const theme: IobTheme = Theme("light");
 
@@ -47,7 +49,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			checkboxes: [],
 			isMinOneCheckboxChecked: false,
 			copyModalOpen: false,
-			copyToRowIndex: {},
 			copyToMenu: "",
 		};
 	}
@@ -121,17 +122,26 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.setState({ openCopyPopup: false });
 	};
 	addSelectedDataToSelected = () => {
-		console.log("what should copy " + JSON.stringify(this.state.checkboxes));
-		console.log("copyto index " + JSON.stringify(this.state.copyToRowIndex));
-		console.log("copyto menu " + JSON.stringify(this.state.copyToMenu));
-		console.log("activemenu " + this.props.data.state.activeMenu);
-		console.log("tab " + this.props.data.tab.value);
-
-		console.log("addNewData");
+		if (this.functionSave) {
+			const obj: SaveDataObject = {
+				checkboxesToCopy: this.state.checkboxes,
+				copyToMenu: this.state.copyToMenu,
+				activeMenu: this.props.data.state.activeMenu,
+				tab: this.props.data.tab.value,
+				rowIndexToEdit: this.props.data.rowIndexToEdit,
+			};
+			this.functionSave.saveData(obj);
+		}
 	};
+
 	isMinOneItemChecked = () => {
 		//TODO
-		return false;
+		return true;
+	};
+	functionSave: AppContentTabActionContentRowEditorCopyModalSelectedValues | null = null;
+
+	setFunctionSave = (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => {
+		this.functionSave = ref;
 	};
 
 	render() {
@@ -301,7 +311,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 					/>
 				) : null}
 				{this.state.openCopyPopup ? (
-					//TODO Add isOK
 					<PopupContainer
 						title="Copy"
 						class="PopupContainer__copy"
@@ -311,7 +320,11 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 					>
 						<AppContentTabActionContentRowEditorCopyModal
 							data={{ ...this.props.data }}
-							callback={{ ...this.props.callback, setStateRowEditor: this.setState.bind(this) }}
+							callback={{
+								...this.props.callback,
+								setStateRowEditor: this.setState.bind(this),
+								setFunctionSave: this.setFunctionSave.bind(this),
+							}}
 							checkboxes={this.state.checkboxes}
 						/>
 					</PopupContainer>
