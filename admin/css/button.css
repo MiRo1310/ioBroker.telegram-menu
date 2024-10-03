@@ -1,11 +1,24 @@
 .button__copy {
 	background-color: green !important;
 	color: white !important;
+}
+.button__add {
+	background-color: #ddd !important;
+}
+.button__delete {
+	background-color: red !important;
+	color: white !important;
+}
+.button__edit,
+.button__info {
+	background-color: blue !important;
+	color: white !important;
+}
+.button {
 	border-radius: 5px !important;
 	width: 100px !important;
 	height: 40px !important;
-	margin-left: 1rem !important;
-	margin-right: 1rem !important;
+	margin-left: 0.1rem !important;
 }
 
 .button--hover:hover {

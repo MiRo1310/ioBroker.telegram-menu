@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Input from "../components/btn-Input/input";
 import { Grid } from "@mui/material";
-import Button from "../components/btn-Input/Button_legacy";
+import Button from "../components/btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
 import PopupContainer from "../components/popupCards/PopupContainer";
@@ -11,6 +11,7 @@ import { deepCopy } from "../lib/Utils.js";
 import { PropsBtnCard, StateBtnCard } from "admin/app";
 import { replaceSpaceWithUnderscore } from "../lib/string";
 import { NativeData } from "../../app";
+import { EventButton } from "@components/btn-Input/Button";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	constructor(props) {
@@ -141,6 +142,12 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		this.setState({ renamedMenuName: this.state.oldMenuName });
 		this.setState({ renameDialog: true });
 	};
+	buttonAddNewMenuHandler = ({ cbValue }: EventButton) => {
+		this.addNewMenu(cbValue, false);
+	};
+	appSetStateHandler = ({ id, cbValue }: EventButton) => {
+		this.props.callback.setStateApp({ [id]: cbValue });
+	};
 
 	render() {
 		return (
@@ -159,43 +166,22 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 				<Grid container item xs={8} spacing={1}>
 					<Grid item xs="auto">
 						<Button
-							b_color="#ddd"
-							margin="1px"
-							width="100px"
-							height="40px"
 							callbackValue={this.state.newMenuName}
-							callback={this.addNewMenu}
+							callback={this.buttonAddNewMenuHandler}
 							disabled={!this.state.newMenuName || this.state.newMenuName === ""}
-							className={!this.state.newMenuName || this.state.newMenuName === "" ? "button--disabled" : "button--hover"}
+							className={`${!this.state.newMenuName || this.state.newMenuName === "" ? "button--disabled" : "button--hover"} button button__add`}
 						>
 							<i className="material-icons">group_add</i>Add
 						</Button>
 					</Grid>
 
 					<Grid item xs="auto">
-						<Button
-							b_color="red"
-							color="white"
-							margin="1px"
-							width="100px"
-							height="40px"
-							callback={this.openConfirmDialog}
-							className="button--hover"
-						>
+						<Button callback={this.openConfirmDialog} className="button button__delete button--hover">
 							<i className="material-icons">delete</i>Delete
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
-						<Button
-							b_color="blue"
-							color="white"
-							margin="1px"
-							width="100px"
-							height="40px"
-							id="openRenameMenu"
-							callback={this.openRenameDialog}
-							className="button--hover"
-						>
+						<Button id="openRenameMenu" callback={this.openRenameDialog} className="button button--hover button__edit">
 							<i className="material-icons">edit</i>Edit
 						</Button>
 					</Grid>
@@ -203,23 +189,18 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 						<Button
 							id="showDropBox"
 							callbackValue={true}
-							callback={this.props.callback.setStateApp}
-							className="button--hover button__copy"
+							callback={this.appSetStateHandler}
+							className="button button--hover button__copy"
 						>
 							<i className="material-icons translate ">content_copy</i>Copy
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
 						<Button
-							b_color="blue"
-							color="white"
-							margin="1px"
-							width="100px"
-							height="40px"
 							id="showTriggerInfo"
 							callbackValue={true}
-							callback={this.props.callback.setStateApp}
-							className="button--hover"
+							callback={this.appSetStateHandler}
+							className=" button button__info button--hover"
 						>
 							<i className="material-icons translate ">info</i>Overview
 						</Button>

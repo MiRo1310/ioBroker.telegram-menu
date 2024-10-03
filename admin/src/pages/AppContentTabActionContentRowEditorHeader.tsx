@@ -37,7 +37,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 					id="showDropBox"
 					callbackValue={true}
 					callback={this.props.callback.openCopyModal}
-					className={`${!this.props.data.isMinOneCheckboxChecked ? "button--disabled" : "button--hover"} button__copy`}
+					className={`${!this.props.data.isMinOneCheckboxChecked ? "button--disabled" : "button--hover"} button button__copy`}
 					disabled={!this.props.data.isMinOneCheckboxChecked}
 				>
 					<i className="material-icons translate">content_copy</i>Copy
