@@ -54,44 +54,106 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		this.props.callback.setFunctionSave(this);
 	}
 	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit }: SaveDataObject) => {
-		console.log("what should copy " + JSON.stringify(checkboxesToCopy));
-		console.log("copyto index " + JSON.stringify(this.state.checked));
-		console.log("copyto menu " + JSON.stringify(copyToMenu));
-		console.log("activemenu " + activeMenu);
-		console.log("tab " + tab);
-		console.log("rowIndexToEdit " + rowIndexToEdit);
-
-		// exist nicht
-		if (this.props.data.action[copyToMenu]?.[tab].length) {
-			console.log("existiert");
-			const rowToCopy: Rows = this.props.data.action[activeMenu][tab][rowIndexToEdit];
-			let copyData: NativeData = deepCopy(this.props.data);
-			checkboxesToCopy.forEach((value, i) => {
-				if (value) {
-					Object.keys(this.state.checked).forEach((key, copyToIndex) => {
-						if (!this.state.checked[copyToIndex]) {
-							return;
-						}
-						console.log("das soll kopiert werden " + JSON.stringify(rowToCopy));
-						Object.keys(rowToCopy).forEach((rowKey) => {
-							if (rowKey === "trigger") {
-								return;
-							}
-							console.log(this.props.data.action[copyToMenu][tab][i]);
-							console.log(this.props.data.action[copyToMenu][tab]);
-							console.log(rowToCopy[rowKey][copyToIndex]);
-							copyData.action[copyToMenu][tab][copyToIndex][rowKey].push(rowToCopy[rowKey][i]);
-						});
-					});
-				}
-			});
-			//TODO
-			console.log("copyData " + JSON.stringify(copyData));
-			this.props.callback.updateNative("data", copyData);
-			return;
-		}
-		console.log("existiert nicht");
+		const addTrigger = this.props.data.action[copyToMenu]?.[tab].length ? false : true;
+		const ob: NativeData = this.copySelectedRowsToMenu({ addTrigger, activeMenu, tab, rowIndexToEdit, checkboxesToCopy, copyToMenu });
+		console.log(ob);
+		this.props.callback.updateNative("data", ob);
 	};
+
+	copySelectedRowsToMenu({
+		activeMenu,
+		tab,
+		rowIndexToEdit,
+		checkboxesToCopy,
+		copyToMenu,
+		addTrigger,
+	}: {
+		addTrigger: boolean;
+		activeMenu: string;
+		tab: string;
+		rowIndexToEdit: number;
+		checkboxesToCopy: boolean[];
+		copyToMenu: string;
+	}): NativeData {
+		const rowToCopy: Rows = this.props.data.action[activeMenu][tab][rowIndexToEdit];
+		let copyData: NativeData = deepCopy(this.props.data);
+		checkboxesToCopy.forEach((value, i) => {
+			if (value) {
+				if (copyData.action[copyToMenu][tab].length === 0) {
+					console.log("No rows selected");
+					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, 0, i);
+					return copyData;
+				}
+				Object.keys(this.state.checked).forEach((key, copyToIndex) => {
+					if (!this.state.checked[copyToIndex]) {
+						return;
+					}
+
+					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, copyToIndex, i);
+				});
+			}
+		});
+		return copyData;
+	}
+
+	saveToGlobalObject(
+		rowToCopy: Rows,
+		addTrigger: boolean,
+		copyData: NativeData,
+		menuName: string,
+		tabActionName: string,
+		rowNumber: number,
+		i: number,
+	): NativeData {
+		Object.keys(rowToCopy).forEach((rowParam) => {
+			console.log(rowToCopy);
+			// FIXME - i überprüfen
+			console.log(i);
+			if (rowParam === "trigger") {
+				if (addTrigger) {
+					if (!copyData.action[menuName][tabActionName].length) {
+						// console.log(rowToCopy[rowKey][i]);
+						// console.log(copyData.action[copyToMenu][tab]);
+						if (rowParam === "trigger") {
+							i = 0;
+						}
+						//TODO - trigger muss umbenannt werden
+						copyData.action[menuName][tabActionName].push({ [rowParam]: [rowToCopy[rowParam][i]] });
+						console.log(copyData.action[menuName]);
+						return;
+					}
+					// console.log(copyData.action[copyToMenu][tab][copyToIndex][tab]);
+					if (rowParam === "trigger") {
+						return;
+					}
+					copyData.action[menuName][tabActionName][0][rowParam] = [rowToCopy[rowParam][i]];
+					console.log(copyData.action[menuName][tabActionName]);
+				}
+
+				return;
+			}
+
+			if (addTrigger) {
+				//FIXME - trigger anpassen wenn nicht existiert
+				if (!copyData.action[menuName][tabActionName].length) {
+					// console.log(rowToCopy[rowKey][i]);
+					// console.log(copyData.action[copyToMenu][tab]);
+					copyData.action[menuName][tabActionName].push({ [rowParam]: [rowToCopy[rowParam][i]] });
+					return;
+				}
+				// console.log(copyData.action[copyToMenu][tab][copyToIndex][tab]);
+				copyData.action[menuName][tabActionName][0][rowParam] = [rowToCopy[rowParam][i]];
+				return;
+			}
+			// console.log(copyData.action[copyToMenu][tab][copyToIndex]);
+			// console.log(rowKey);
+			// console.log(rowToCopy[rowKey][i]);
+
+			copyData.action[menuName][tabActionName][rowNumber][rowParam].push(rowToCopy[rowParam][i]);
+		});
+		console.log(copyData.action[menuName][tabActionName]);
+		return copyData;
+	}
 
 	render() {
 		return (
