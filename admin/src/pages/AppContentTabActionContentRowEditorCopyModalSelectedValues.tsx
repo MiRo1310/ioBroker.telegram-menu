@@ -4,6 +4,7 @@ import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunc
 import React, { Component } from "react";
 import { NativeData } from "../../app";
 import { deepCopy } from "@/lib/Utils";
+import { copy } from "@iobroker/adapter-react-v5";
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
 	data: NativeData;
@@ -56,7 +57,6 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit }: SaveDataObject) => {
 		const addTrigger = this.props.data.action[copyToMenu]?.[tab].length ? false : true;
 		const ob: NativeData = this.copySelectedRowsToMenu({ addTrigger, activeMenu, tab, rowIndexToEdit, checkboxesToCopy, copyToMenu });
-		console.log(ob);
 		this.props.callback.updateNative("data", ob);
 	};
 
@@ -77,10 +77,13 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 	}): NativeData {
 		const rowToCopy: Rows = this.props.data.action[activeMenu][tab][rowIndexToEdit];
 		let copyData: NativeData = deepCopy(this.props.data);
+		let emptyObject = false;
+		if (copyData.action[copyToMenu][tab].length === 0) {
+			emptyObject = true;
+		}
 		checkboxesToCopy.forEach((value, i) => {
 			if (value) {
-				if (copyData.action[copyToMenu][tab].length === 0) {
-					console.log("No rows selected");
+				if (emptyObject) {
 					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, 0, i);
 					return copyData;
 				}
@@ -106,54 +109,38 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		i: number,
 	): NativeData {
 		Object.keys(rowToCopy).forEach((rowParam) => {
-			console.log(rowToCopy);
-			// FIXME - i überprüfen
-			console.log(i);
-			if (rowParam === "trigger") {
+			if (rowParam === "trigger" || rowParam === "parse_mode") {
 				if (addTrigger) {
-					if (!copyData.action[menuName][tabActionName].length) {
-						// console.log(rowToCopy[rowKey][i]);
-						// console.log(copyData.action[copyToMenu][tab]);
-						if (rowParam === "trigger") {
-							i = 0;
-						}
-						//TODO - trigger muss umbenannt werden
-						copyData.action[menuName][tabActionName].push({ [rowParam]: [rowToCopy[rowParam][i]] });
-						console.log(copyData.action[menuName]);
-						return;
-					}
-					// console.log(copyData.action[copyToMenu][tab][copyToIndex][tab]);
-					if (rowParam === "trigger") {
-						return;
-					}
-					copyData.action[menuName][tabActionName][0][rowParam] = [rowToCopy[rowParam][i]];
-					console.log(copyData.action[menuName][tabActionName]);
+					copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: 0 });
+					// if (rowParam === "trigger") {
+					// 	return;
+					// }
+					// copyData.action[menuName][tabActionName][rowNumber][rowParam] = [rowToCopy[rowParam][0]];
 				}
-
 				return;
 			}
-
 			if (addTrigger) {
-				//FIXME - trigger anpassen wenn nicht existiert
-				if (!copyData.action[menuName][tabActionName].length) {
-					// console.log(rowToCopy[rowKey][i]);
-					// console.log(copyData.action[copyToMenu][tab]);
-					copyData.action[menuName][tabActionName].push({ [rowParam]: [rowToCopy[rowParam][i]] });
+				copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: i });
+
+				if (!copyData.action[menuName][tabActionName][rowNumber]?.[rowParam]) {
+					copyData.action[menuName][tabActionName][rowNumber][rowParam] = [rowToCopy[rowParam][i]];
 					return;
 				}
-				// console.log(copyData.action[copyToMenu][tab][copyToIndex][tab]);
-				copyData.action[menuName][tabActionName][0][rowParam] = [rowToCopy[rowParam][i]];
+
+				copyData.action[menuName][tabActionName][rowNumber][rowParam].push(rowToCopy[rowParam][i]);
 				return;
 			}
-			// console.log(copyData.action[copyToMenu][tab][copyToIndex]);
-			// console.log(rowKey);
-			// console.log(rowToCopy[rowKey][i]);
 
 			copyData.action[menuName][tabActionName][rowNumber][rowParam].push(rowToCopy[rowParam][i]);
 		});
-		console.log(copyData.action[menuName][tabActionName]);
 		return copyData;
 	}
+	setDataWhenNoTabLength = ({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow }) => {
+		if (!copyData.action[menuName][tabActionName].length) {
+			copyData.action[menuName][tabActionName].push({ [rowParam]: [rowToCopy[rowParam][elInRow]] });
+		}
+		return copyData;
+	};
 
 	render() {
 		return (
