@@ -4,7 +4,9 @@ import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunc
 import React, { Component } from "react";
 import { NativeData } from "../../app";
 import { deepCopy } from "@/lib/Utils";
-import { copy } from "@iobroker/adapter-react-v5";
+import { copy, I18n } from "@iobroker/adapter-react-v5";
+import RenameModal from "@components/RenameModal";
+import { EventButton } from "@components/btn-Input/Button";
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
 	data: NativeData;
@@ -17,6 +19,7 @@ type Rows = Get | Set | Pic | HttpRequest | Echart | Events;
 
 interface State {
 	checked: { [key: number]: boolean };
+	isOK: boolean;
 }
 export interface SaveDataObject {
 	checkboxesToCopy: boolean[];
@@ -24,12 +27,14 @@ export interface SaveDataObject {
 	activeMenu: string;
 	tab: string;
 	rowIndexToEdit: number;
+	newTriggerName: string;
 }
 class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			checked: {},
+			isOK: false,
 		};
 	}
 
@@ -50,13 +55,25 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		const copy = { ...this.state.checked };
 		copy[index] = isChecked;
 		this.setState({ checked: copy });
+		this.props.callback.setStateRowEditor({ targetCheckboxes: this.state.checked });
 	};
 	componentDidMount(): void {
 		this.props.callback.setFunctionSave(this);
 	}
-	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit }: SaveDataObject) => {
+	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit, newTriggerName }: SaveDataObject) => {
 		const addTrigger = this.props.data.action[copyToMenu]?.[tab].length ? false : true;
-		const ob: NativeData = this.copySelectedRowsToMenu({ addTrigger, activeMenu, tab, rowIndexToEdit, checkboxesToCopy, copyToMenu });
+		const ob: NativeData | undefined = this.copySelectedRowsToMenu({
+			addTrigger,
+			activeMenu,
+			tab,
+			rowIndexToEdit,
+			checkboxesToCopy,
+			copyToMenu,
+			newTriggerName,
+		});
+		if (!ob) {
+			return;
+		}
 		this.props.callback.updateNative("data", ob);
 	};
 
@@ -67,6 +84,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		checkboxesToCopy,
 		copyToMenu,
 		addTrigger,
+		newTriggerName,
 	}: {
 		addTrigger: boolean;
 		activeMenu: string;
@@ -74,7 +92,8 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		rowIndexToEdit: number;
 		checkboxesToCopy: boolean[];
 		copyToMenu: string;
-	}): NativeData {
+		newTriggerName: string;
+	}): NativeData | undefined {
 		const rowToCopy: Rows = this.props.data.action[activeMenu][tab][rowIndexToEdit];
 		let copyData: NativeData = deepCopy(this.props.data);
 		let emptyObject = false;
@@ -84,7 +103,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		checkboxesToCopy.forEach((value, i) => {
 			if (value) {
 				if (emptyObject) {
-					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, 0, i);
+					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, 0, i, newTriggerName);
 					return copyData;
 				}
 				Object.keys(this.state.checked).forEach((key, copyToIndex) => {
@@ -99,7 +118,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		return copyData;
 	}
 
-	saveToGlobalObject(
+	saveToGlobalObject = (
 		rowToCopy: Rows,
 		addTrigger: boolean,
 		copyData: NativeData,
@@ -107,11 +126,12 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		tabActionName: string,
 		rowNumber: number,
 		i: number,
-	): NativeData {
+		newTriggerName?: string,
+	): NativeData => {
 		Object.keys(rowToCopy).forEach((rowParam) => {
 			if (rowParam === "trigger" || rowParam === "parse_mode") {
 				if (addTrigger) {
-					copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: 0 });
+					copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: 0, newTriggerName });
 					// if (rowParam === "trigger") {
 					// 	return;
 					// }
@@ -120,23 +140,25 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 				return;
 			}
 			if (addTrigger) {
-				copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: i });
+				copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: i, newTriggerName: "" });
 
 				if (!copyData.action[menuName][tabActionName][rowNumber]?.[rowParam]) {
 					copyData.action[menuName][tabActionName][rowNumber][rowParam] = [rowToCopy[rowParam][i]];
 					return;
 				}
-
 				copyData.action[menuName][tabActionName][rowNumber][rowParam].push(rowToCopy[rowParam][i]);
 				return;
 			}
-
 			copyData.action[menuName][tabActionName][rowNumber][rowParam].push(rowToCopy[rowParam][i]);
 		});
 		return copyData;
-	}
-	setDataWhenNoTabLength = ({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow }) => {
+	};
+	setDataWhenNoTabLength = ({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow, newTriggerName }) => {
 		if (!copyData.action[menuName][tabActionName].length) {
+			if (rowParam === "trigger") {
+				copyData.action[menuName][tabActionName].push({ [rowParam]: [newTriggerName] });
+				return copyData;
+			}
 			copyData.action[menuName][tabActionName].push({ [rowParam]: [rowToCopy[rowParam][elInRow]] });
 		}
 		return copyData;

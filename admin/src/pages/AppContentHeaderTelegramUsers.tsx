@@ -3,8 +3,8 @@ import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
 import Button from "../components/btn-Input/Button_legacy";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Checkbox from "../components/btn-Input/checkbox_legacy";
-import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
+import Checkbox from "../components/btn-Input/checkbox";
+import { EventCheckbox, PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
 	constructor(props) {
@@ -18,7 +18,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 
 	componentDidUpdate = (prevProps) => {
 		if (prevProps.data.usersInGroup !== this.props.data.usersInGroup) {
-			this.checkAktivUsers();
+			this.checkActiveUsers();
 		}
 		if (prevProps.data.activeMenu !== this.props.data.activeMenu) {
 			this.setState({ menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu] });
@@ -29,24 +29,21 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
 	menuActiveChecked = () => {
-		if (this.props.data.userActiveCheckbox[this.props.data.activeMenu]) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.props.data.userActiveCheckbox[this.props.data.activeMenu] ? true : false;
 	};
-	clickCheckbox = (event) => {
-		if (event.target.checked) {
-			if (!this.checkAktivUsers(true)) {
+	clickCheckbox = ({ isChecked }: EventCheckbox) => {
+		if (isChecked) {
+			if (!this.checkActiveUsers(true)) {
 				return;
 			}
 		} else {
 			this.setState({ errorUserChecked: false });
 		}
-		this.setState({ menuChecked: event.target.checked });
-		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, event.target.checked);
+		this.setState({ menuChecked: isChecked });
+		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, isChecked);
 	};
-	checkAktivUsers = (val?) => {
+
+	checkActiveUsers = (val?: boolean) => {
 		const usersInGroup = this.props.data.usersInGroup;
 		if (this.state.menuChecked || val) {
 			if (usersInGroup && usersInGroup[this.props.data.activeMenu] && usersInGroup[this.props.data.activeMenu].length <= 0) {
@@ -118,6 +115,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 							isChecked={this.menuActiveChecked()}
 							callbackValue="event"
 							callback={this.clickCheckbox}
+							index={0}
 						/>
 					) : null}
 				</Grid>

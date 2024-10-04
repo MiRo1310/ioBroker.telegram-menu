@@ -12,6 +12,7 @@ import { PropsBtnCard, StateBtnCard } from "admin/app";
 import { replaceSpaceWithUnderscore } from "../lib/string";
 import { NativeData } from "../../app";
 import { EventButton } from "@components/btn-Input/Button";
+import RenameModal from "@components/RenameModal";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	constructor(props) {
@@ -223,13 +224,14 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							/>
 						) : null}
 						{this.state.renameDialog ? (
-							<PopupContainer title={I18n.t("Rename menu name")} callback={this.renameMenu} isOK={this.state.isOK}>
-								<RenameCard
-									value={this.props.data.state.activeMenu}
-									callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
-									data={{ newMenuName: this.state.renamedMenuName }}
-								/>
-							</PopupContainer>
+							<RenameModal
+								rename={this.renameMenu}
+								isOK={this.state.isOK}
+								title={I18n.t("Rename menu name")}
+								value={this.state.renamedMenuName}
+								setState={this.setState.bind(this)}
+								id="renamedMenuName"
+							/>
 						) : null}
 					</Grid>
 				</Grid>

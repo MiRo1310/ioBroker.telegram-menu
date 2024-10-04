@@ -17,7 +17,7 @@ import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabA
 import { EventButton } from "@components/btn-Input/Button";
 import Checkbox from "@components/btn-Input/checkbox";
 import PopupContainer from "@components/popupCards/PopupContainer";
-import { type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
+import { type IobTheme, SelectID, Theme, I18n } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 import React, { Component } from "react";
@@ -27,6 +27,7 @@ import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionC
 import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 import { SaveDataObject } from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
+import RenameModal from "@components/RenameModal";
 
 const theme: IobTheme = Theme("light");
 
@@ -50,6 +51,12 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			isMinOneCheckboxChecked: false,
 			copyModalOpen: false,
 			copyToMenu: "",
+			openRenameModal: false,
+			isValueChanged: false,
+			triggerName: "",
+			renamedTriggerName: "",
+			saveData: { checkboxesToCopy: [], copyToMenu: "", activeMenu: "", tab: "", rowIndexToEdit: 0 },
+			targetCheckboxes: {},
 		};
 	}
 	tableHeadRef: AppContentTabActionContentRowEditorTableHead | null = null;
@@ -71,6 +78,9 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		if (prevState.checkboxes !== this.state.checkboxes) {
 			const isMinOneCheckboxChecked = this.state.checkboxes.some((checkbox) => checkbox);
 			this.setState({ isMinOneCheckboxChecked });
+		}
+		if (prevState.renamedTriggerName !== this.state.renamedTriggerName && this.state.renamedTriggerName !== this.state.triggerName) {
+			this.setState({ isValueChanged: true });
 		}
 	}
 
@@ -129,14 +139,26 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 				activeMenu: this.props.data.state.activeMenu,
 				tab: this.props.data.tab.value,
 				rowIndexToEdit: this.props.data.rowIndexToEdit,
+				newTriggerName: "",
 			};
+			this.setState({ saveData: obj });
+			const { isEmpty, action } = this.isActionTabEmpty(obj);
+			if (isEmpty) {
+				const triggerName = action[obj.activeMenu][obj.tab][obj.rowIndexToEdit].trigger[0];
+				this.setState({ openRenameModal: true, triggerName: triggerName, renamedTriggerName: triggerName });
+				return;
+			}
 			this.functionSave.saveData(obj);
 		}
 	};
 
 	isMinOneItemChecked = () => {
-		//TODO
-		return true;
+		//FIXME - this is not working
+		const { isEmpty } = this.isActionTabEmpty(this.state.saveData);
+		console.log("isEmpty", isEmpty);
+		console.log("this.state.checkboxes", this.state.checkboxes);
+		console.log("target", this.state.targetCheckboxes);
+		return Object.keys(this.state.targetCheckboxes).some((item) => item) || isEmpty;
 	};
 	functionSave: AppContentTabActionContentRowEditorCopyModalSelectedValues | null = null;
 
@@ -144,9 +166,37 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.functionSave = ref;
 	};
 
+	renameMenu = ({ value }: EventButton) => {
+		if (value) {
+			if (!this.functionSave) {
+				return;
+			}
+			const obj: SaveDataObject = this.state.saveData;
+			obj.newTriggerName = this.state.renamedTriggerName;
+			this.functionSave.saveData(obj);
+		}
+		this.setState({ openRenameModal: false });
+	};
+
+	private isActionTabEmpty(obj: SaveDataObject) {
+		const action = this.props.data.state.native.data.action;
+		const isEmpty = action[obj.copyToMenu]?.[obj.tab].length ? false : true;
+		return { isEmpty, action };
+	}
+
 	render() {
 		return (
 			<div className="edit__container">
+				{this.state.openRenameModal ? (
+					<RenameModal
+						rename={this.renameMenu}
+						isOK={this.state.isValueChanged}
+						title={I18n.t("Rename trigger name")}
+						value={this.state.renamedTriggerName}
+						setState={this.setState.bind(this)}
+						id="renamedTriggerName"
+					/>
+				) : null}
 				<AppContentTabActionContentRowEditorHeader
 					callback={{
 						...this.props.callback,

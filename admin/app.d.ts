@@ -494,6 +494,12 @@ export interface StateRowEditPopupCard {
 	isMinOneCheckboxChecked: boolean
 	copyModalOpen: boolean;
 	copyToMenu: string;
+	openRenameModal: boolean;
+	isValueChanged: boolean;
+	triggerName: string;
+	renamedTriggerName: string;
+	saveData: SaveDataObject
+	targetCheckboxes: { [key: number]: boolean };
 }
 export interface RowsSetState {
 	IDs: string;
@@ -557,9 +563,8 @@ export interface StateDropBox {
 	oldTrigger: string;
 }
 export interface PropsRenameCard {
-	data: { newMenuName: string };
-	id?: string;
-	callback: { setState: SetStateFunction, renameMenu: ({ }: EventButton) => void };
+	id: string;
+	callback: { setState: SetStateFunction };
 	value?: string;
 }
 
