@@ -159,6 +159,7 @@ interface GetData {
 }
 type BooleanString = "false" | "true";
 type ParseModeType = "HTML" | "Markdown";
+export type Location = any
 
 interface SetDynamicValueObj {
 	[key: string]: SetDynamicValue;

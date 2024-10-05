@@ -9,7 +9,7 @@ import { deepCopy } from "../lib/Utils.js";
 import { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from "admin/app.js";
 
 class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOverview> {
-	constructor(props) {
+	constructor(props: PropsTriggerOverview) {
 		super(props);
 		this.state = {
 			ulPadding: {},
@@ -21,9 +21,10 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 	}
 	dataOfIterate = { menu: "" };
 	ulPadding = {};
-	colorArray: { color: string; menu: AnalyserNode; index: number }[] = [];
+	colorArray: { color: string; menu: string; index: number }[] = [];
 	menuArray: string[] = [];
-	getMenusWithUserOrIndexOfMenu(menuCall) {
+
+	getMenusWithUserOrIndexOfMenu(menuCall: string): { menusWithUser: MenuWithUser[]; arrayUsersInGroup: string[] } {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const menusWithUser: MenuWithUser[] = [];
 		const userInMenu = this.props.usersInGroup[menuCall];
@@ -37,7 +38,8 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 
 		return { menusWithUser: menusWithUser, arrayUsersInGroup: arrayUsersInGroup };
 	}
-	getIndexOfMenu(menuCall) {
+
+	getIndexOfMenu(menuCall: string): number {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		let colorIndex = 0;
 		const userInMenu = this.props.usersInGroup[menuCall];
@@ -50,7 +52,14 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		});
 		return colorIndex;
 	}
-	getColorUsedTriggerNav(_, menuCall: string, trigger) {
+	getColorUsedTriggerNav({
+		menuCall,
+		trigger,
+	}: {
+		index: number;
+		menuCall: string;
+		trigger: string;
+	}): { color: string; menu: string; index: number | null; used?: string }[] | undefined {
 		this.menuArray = [];
 		const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
 		if (typeof result == "number") {
@@ -88,7 +97,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		}
 		return [{ color: "white", menu: "Is not assigned ", index: null, used: I18n.t("not created") }];
 	}
-	getColorNavElemente(index, menu, trigger) {
+	getColorNavElemente(index: number, menu: string, trigger: string): undefined | string {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const result = this.getMenusWithUserOrIndexOfMenu(menu);
 		if (typeof result == "number") {
@@ -96,7 +105,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		}
 		const menusWithUser = result.menusWithUser;
 		// Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
-		let menu2;
+		let menu2 = "";
 		for (const menuObj of menusWithUser) {
 			menu2 = menuObj.menu;
 			// Die Trigger durchlaufen die in dem Menü in nav sind
@@ -135,15 +144,15 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		return "black";
 	}
 
-	getMenu() {
+	getMenu(): string {
 		return this.dataOfIterate.menu;
 	}
 
-	createdData(menu) {
+	createdData(menu: string): void {
 		const result = updateTriggerForSelect(this.props.data, this.props.usersInGroup, menu);
 		this.setState({ trigger: deepCopy(result?.triggerObj) });
 	}
-	getOptions() {
+	getOptions(): void {
 		const options: string[] = [];
 		for (const menu in this.props.data.nav) {
 			if (this.props.data.nav[menu][0].call != "-") {
@@ -154,21 +163,21 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		this.createdData(options[0]);
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		this.getOptions();
 		this.setState({ ulPadding: this.ulPadding });
 	}
-	componentDidUpdate(prevProps: Readonly<PropsTriggerOverview>, prevState: Readonly<StateTriggerOverview>) {
+	componentDidUpdate(prevProps: Readonly<PropsTriggerOverview>, prevState: Readonly<StateTriggerOverview>): void {
 		if (prevState.trigger != this.state.trigger) {
 			this.setState({ ulPadding: this.ulPadding });
 		}
 	}
-	updateHandler = ({ val }: EventSelect) => {
+	updateHandler = ({ val }: EventSelect): void => {
 		this.setState({ selected: val });
 		this.createdData(val);
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<Select
@@ -246,9 +255,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 												{this.state.trigger.usedTrigger.nav[menu].map((trigger, indexTrigger) => {
 													return (
 														<div key={indexTrigger} style={{ position: "relative" }}>
-															{this.getColorUsedTriggerNav(indexUsedTrigger, menu, trigger)?.map((item, i) => (
-																<Square key={i} position={i} color={item.color} trigger={trigger} />
-															))}
+															{this.getColorUsedTriggerNav({ index: indexUsedTrigger, menuCall: menu, trigger })?.map(
+																(item, i) => <Square key={i} position={i} color={item.color} trigger={trigger} />,
+															)}
 															<li
 																className={
 																	indexTrigger == 0 && trigger == "-"
@@ -275,9 +284,11 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 														{this.state.trigger.usedTrigger.action[menu][action].map((trigger, index3) => {
 															return (
 																<div key={index3} style={{ position: "relative" }}>
-																	{this.getColorUsedTriggerNav(indexUsedTrigger, menu, trigger)?.map((item, i) => (
-																		<Square key={i} position={i} color={item.color} />
-																	))}
+																	{this.getColorUsedTriggerNav({
+																		index: indexUsedTrigger,
+																		menuCall: menu,
+																		trigger,
+																	})?.map((item, i) => <Square key={i} position={i} color={item.color} />)}
 																	<li
 																		key={index3}
 																		title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}

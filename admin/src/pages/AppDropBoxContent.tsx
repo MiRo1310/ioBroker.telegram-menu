@@ -6,11 +6,11 @@ import { updateTriggerForSelect } from "../lib/actionUtils.js";
 import { deepCopy } from "../lib/Utils.js";
 import PopupContainer from "../components/popupCards/PopupContainer";
 import RenameCard from "../components/popupCards/RenameCard";
-import { PropsDropBox, StateDropBox } from "admin/app";
+import { NativeData, PropsDropBox, StateDropBox } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
-	constructor(props) {
+	constructor(props: PropsDropBox) {
 		super(props);
 		this.state = {
 			inDropBox: false,
@@ -26,10 +26,10 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			oldTrigger: "",
 		};
 	}
-	componentDidMount() {
+	componentDidMount(): void {
 		this.updateMenuList();
 	}
-	componentDidUpdate(prevProps: Readonly<PropsDropBox>, prevState: Readonly<StateDropBox>) {
+	componentDidUpdate(prevProps: Readonly<PropsDropBox>, prevState: Readonly<StateDropBox>): void {
 		if (prevProps.data.state.activeMenu !== this.props.data.state.activeMenu) {
 			this.setState({ selectedMenu: "" });
 			this.updateMenuList();
@@ -50,16 +50,16 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			}
 		}
 	}
-	updateMenuList = () => {
+	updateMenuList = (): void => {
 		const menuList = Object.keys(this.props.data.state.native.usersInGroup);
 		this.setState({ menuList: menuList });
 	};
 
-	handleDragOver = (e) => {
+	handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
 		e.preventDefault();
 	};
 
-	handleOnDrop = () => {
+	handleOnDrop = (): void => {
 		if (this.state.selectedMenu === "") {
 			return;
 		}
@@ -92,7 +92,8 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 					}
 				} else {
 					// Move Item
-					if (this.countItemsInArray(usedTrigger, rowToWorkWith.trigger[0]) <= 1) {
+					const items = this.countItemsInArray(usedTrigger, rowToWorkWith.trigger[0]);
+					if (items && items <= 1) {
 						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger });
 						this.move(rowToWorkWith, data);
 					} else {
@@ -117,7 +118,8 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 					}
 				} else {
 					// Move Item
-					if (this.countItemsInArray(usedTrigger, rowToWorkWith.call) <= 1) {
+					const items = this.countItemsInArray(usedTrigger, rowToWorkWith.call);
+					if (items && items <= 1) {
 						this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call });
 						this.move(rowToWorkWith, data);
 					} else {
@@ -147,8 +149,12 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			}
 		}
 	};
-	countItemsInArray = (data, searchedString) => {
+
+	countItemsInArray = (data: string[] | undefined, searchedString: string): number | undefined => {
 		let count = 0;
+		if (!data) {
+			return;
+		}
 		data.forEach((element) => {
 			if (element.trim() === searchedString.trim()) {
 				count++;
@@ -157,7 +163,8 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 
 		return count;
 	};
-	move = (rowToWorkWith, data) => {
+
+	move = (rowToWorkWith, data: NativeData) => {
 		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events") {
 			if (this.state.newTrigger !== "") {
 				rowToWorkWith.trigger[0] = this.state.newTrigger;
@@ -187,7 +194,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		this.props.callback.updateNative("data", data);
 		this.setState({ newTrigger: "" });
 	};
-	copy = (rowToWorkWith, data) => {
+	copy = (rowToWorkWith, data: NativeData) => {
 		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events") {
 			rowToWorkWith.trigger[0] = this.state.newTrigger;
 			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
@@ -201,13 +208,13 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		this.setState({ newTrigger: "" });
 	};
 
-	handleDrag = (val: boolean) => {
+	handleDrag = (val: boolean): void => {
 		this.setState({ inDropBox: val });
 	};
-	handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		this.setState({ selectedValue: event.target.value });
 	};
-	renameMenu = ({ value }: EventButton) => {
+	renameMenu = ({ value }: EventButton): void => {
 		if (!value) {
 			this.setState({ openRenamePopup: false, newTrigger: "" });
 			return;
@@ -220,7 +227,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		}
 		this.setState({ newTrigger: value as string });
 	};
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="Dropbox--outerContainer">
 				<div className="DropBox-Container">
@@ -256,7 +263,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 						className="DropBox"
 						draggable
 						onDrop={() => this.handleOnDrop()}
-						onDragOver={(event) => this.handleDragOver(event)}
+						onDragOver={(event: React.DragEvent<HTMLDivElement>) => this.handleDragOver(event)}
 						onDragEnter={() => this.handleDrag(true)}
 						onDragLeave={() => this.handleDrag(false)}
 					>

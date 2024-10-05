@@ -5,12 +5,12 @@ import { PropsMainTriggerOverview } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
 
 class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
-	constructor(props) {
+	constructor(props: PropsMainTriggerOverview) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				title="Trigger Info"

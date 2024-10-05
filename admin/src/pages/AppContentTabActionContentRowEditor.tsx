@@ -138,7 +138,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.initCheckboxesForEachRow();
 		this.setState({ openCopyPopup: false });
 	};
-	addSelectedDataToSelected = () => {
+	addSelectedDataToSelected = (): void => {
 		if (this.functionSave) {
 			const obj = this.getSaveData();
 			const { isEmpty, action } = this.isActionTabEmpty(obj);

@@ -71,7 +71,7 @@ const bindingFunc = async (
 	}
 };
 
-function calcValue(_this: any, textToSend: string, val: string): { textToSend: string; val: string } | undefined {
+function calcValue(_this: TelegramMenu, textToSend: string, val: string): { textToSend: string; val: string } | undefined {
 	const { substring } = decomposeText(textToSend, "{math:", "}");
 	const mathValue = substring.replace("{math:", "").replace("}", "");
 	try {
@@ -94,7 +94,7 @@ function checkValueForOneLine(text: string): string {
 	return text;
 }
 
-async function editArrayButtons(val: EditArrayButtons[], _this: any): Promise<GeneratedNavMenu[] | null> {
+async function editArrayButtons(val: EditArrayButtons[], _this: TelegramMenu): Promise<GeneratedNavMenu[] | null> {
 	const newVal: GeneratedNavMenu[] = [];
 	try {
 		val.forEach((element) => {
@@ -136,7 +136,7 @@ async function editArrayButtons(val: EditArrayButtons[], _this: any): Promise<Ge
 }
 
 const idBySelector = async (
-	_this: any,
+	_this: TelegramMenu,
 	selector: string,
 	text: string,
 	userToSend: string,
@@ -153,7 +153,7 @@ const idBySelector = async (
 		}
 
 		const functions = selector.replace("functions=", "");
-		let enums = [];
+		let enums: string[] | undefined = [];
 		const result = await _this.getEnumsAsync();
 
 		if (!result || !result["enum.functions"][`enum.functions.${functions}`]) {
@@ -171,16 +171,16 @@ const idBySelector = async (
 
 				if (text.includes("{common.name}")) {
 					res = await _this.getForeignObjectAsync(id);
-					_this.log.debug("Name " + JSON.stringify(res.common.name));
+					_this.log.debug("Name " + JSON.stringify(res?.common.name));
 
 					if (res && res.common.name) {
-						newText = newText.replace("{common.name}", res.common.name);
+						newText = newText.replace("{common.name}", res.common.name as string);
 					}
 				}
 				if (text.includes("&amp;&amp;")) {
-					text2Send += newText.replace("&amp;&amp;", value.val);
+					text2Send += newText.replace("&amp;&amp;", value.val as string);
 				} else if (text.includes("&&")) {
-					text2Send += newText.replace("&&", value.val);
+					text2Send += newText.replace("&&", value.val as string);
 				} else {
 					text2Send += newText;
 					text2Send += " " + value.val;

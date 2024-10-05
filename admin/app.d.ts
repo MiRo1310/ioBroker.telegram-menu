@@ -677,6 +677,8 @@ export interface Actions {
 	echarts: Echart[];
 	events: Events[];
 }
+export type DataRow = Get | Set | Pic | HttpRequest | Echart | Events | RowsNav;
+
 export interface HttpRequest {
 	url: string[];
 	user: string[];
