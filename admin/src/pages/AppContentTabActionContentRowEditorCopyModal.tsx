@@ -1,9 +1,8 @@
-import Select from "@components/btn-Input/select";
+import Select, { EventSelect } from "@components/btn-Input/select";
 import { CallbackFunctionsApp, CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps } from "admin/app";
 import React, { Component } from "react";
-import { Echart, Events, Get, HttpRequest, Pic, Set, Data } from "../../app";
+import { Echart, Events, Get, HttpRequest, Pic, Set } from "../../app";
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
-import { EventSelect } from "@components/btn-Input/select";
 
 export interface PropsRowEditorCopyModal {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
@@ -28,21 +27,23 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 			action: "",
 		};
 	}
+
 	componentDidMount(): void {
 		this.setState({ action: this.props.data.tab.value });
 	}
 
 	getAllMenusWithoutActiveMenu() {
 		return Object.keys(this.props.data.state.native.usersInGroup);
-		//REVIEW - habe ich raus genommen damit man in das gleich menu speichern kann
-		// .filter((menu) => menu !== this.props.data.state.activeMenu);
 	}
+
 	getValuesInSelectedAction(): Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] {
 		return this.props.data.state.native.data.action?.[this.state.selectedMenu]?.[this.state.action] || [];
 	}
+
 	updateSelect = ({ val }: EventSelect) => {
 		this.setState({ selectedMenu: val });
 		this.props.callback.setStateRowEditor({ copyToMenu: val });
+		this.props.callback.setStateApp({ copyDataObject: { targetActionName: val } });
 	};
 
 	render() {

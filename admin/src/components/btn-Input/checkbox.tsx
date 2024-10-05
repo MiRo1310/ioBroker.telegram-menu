@@ -1,6 +1,5 @@
-import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { PropsCheckbox_legacy } from "admin/app";
+import React, { Component } from "react";
 import { PropsCheckbox } from "../../../app";
 
 class Checkbox extends Component<PropsCheckbox> {

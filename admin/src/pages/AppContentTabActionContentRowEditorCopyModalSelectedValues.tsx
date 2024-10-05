@@ -1,12 +1,9 @@
+import { deepCopy } from "@/lib/Utils";
 import Checkbox from "@components/btn-Input/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction, CallbackFunctionsApp } from "admin/app";
+import { CallbackFunctionsApp, Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
 import React, { Component } from "react";
 import { NativeData } from "../../app";
-import { deepCopy } from "@/lib/Utils";
-import { copy, I18n } from "@iobroker/adapter-react-v5";
-import RenameModal from "@components/RenameModal";
-import { EventButton } from "@components/btn-Input/Button";
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
 	data: NativeData;
@@ -56,6 +53,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		copy[index] = isChecked;
 		this.setState({ checked: copy });
 		this.props.callback.setStateRowEditor({ targetCheckboxes: this.state.checked });
+		this.props.callback.setStateApp({ copyDataObject: { targetCheckboxes: copy } });
 	};
 	componentDidMount(): void {
 		this.props.callback.setFunctionSave(this);
@@ -132,10 +130,6 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 			if (rowParam === "trigger" || rowParam === "parse_mode") {
 				if (addTrigger) {
 					copyData = this.setDataWhenNoTabLength({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow: 0, newTriggerName });
-					// if (rowParam === "trigger") {
-					// 	return;
-					// }
-					// copyData.action[menuName][tabActionName][rowNumber][rowParam] = [rowToCopy[rowParam][0]];
 				}
 				return;
 			}

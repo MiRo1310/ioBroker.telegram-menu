@@ -1,6 +1,6 @@
 import { NativeData, SetStateFunction, UsersInGroup } from "admin/app";
 import React from "react";
-import { ActionNewRowProps, RowsSetState, TabValueEntries, EventCheckbox } from "../../app";
+import { ActionNewRowProps, RowsSetState, TabValueEntries } from "../../app";
 import { tabValues } from "../config/entries";
 import { isTruthy } from "./string";
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from "./Utils";
@@ -67,8 +67,11 @@ export interface UpdateProps {
 	callback?: { setStateTabActionContent: SetStateFunction };
 }
 
-export const updateData = ({ index, val, id }: { id: string, val: string | number | boolean, index: number }, props: UpdateProps, setState: SetStateFunction): void => {
-
+export const updateData = (
+	{ index, val, id }: { id: string; val: string | number | boolean; index: number },
+	props: UpdateProps,
+	setState: SetStateFunction,
+): void => {
 	const newRow = deepCopy(props.data.newRow);
 	newRow[id][index] = val.toString();
 	if (props.callback?.setStateTabActionContent) {

@@ -57,6 +57,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			renamedTriggerName: "",
 			saveData: { checkboxesToCopy: [], copyToMenu: "", activeMenu: "", tab: "", rowIndexToEdit: 0 },
 			targetCheckboxes: {},
+			isValueOk: false,
 		};
 	}
 	tableHeadRef: AppContentTabActionContentRowEditorTableHead | null = null;
@@ -81,6 +82,12 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		}
 		if (prevState.renamedTriggerName !== this.state.renamedTriggerName && this.state.renamedTriggerName !== this.state.triggerName) {
 			this.setState({ isValueChanged: true });
+		}
+		if (
+			prevProps.data.state.copyDataObject.targetCheckboxes !== this.props.data.state.copyDataObject.targetCheckboxes ||
+			prevProps.data.state.copyDataObject.targetActionName !== this.props.data.state.copyDataObject.targetActionName
+		) {
+			this.isMinOneItemChecked();
 		}
 	}
 
@@ -107,11 +114,11 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 
 	checkAll = (check: boolean) => {
 		const rows = [...this.state.rows];
-		const checkboxes: boolean[] = [];
+		const checkboxesRowToCopy: boolean[] = [];
 		rows.forEach((_, index) => {
-			checkboxes[index] = check;
+			checkboxesRowToCopy[index] = check;
 		});
-		this.setState({ checkboxes });
+		this.setState({ checkboxes: checkboxesRowToCopy });
 	};
 
 	setCheckbox = (event: EventCheckbox) => {
@@ -133,15 +140,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 	};
 	addSelectedDataToSelected = () => {
 		if (this.functionSave) {
-			const obj: SaveDataObject = {
-				checkboxesToCopy: this.state.checkboxes,
-				copyToMenu: this.state.copyToMenu,
-				activeMenu: this.props.data.state.activeMenu,
-				tab: this.props.data.tab.value,
-				rowIndexToEdit: this.props.data.rowIndexToEdit,
-				newTriggerName: "",
-			};
-			this.setState({ saveData: obj });
+			const obj = this.getSaveData();
 			const { isEmpty, action } = this.isActionTabEmpty(obj);
 			if (isEmpty) {
 				const triggerName = action[obj.activeMenu][obj.tab][obj.rowIndexToEdit].trigger[0];
@@ -151,14 +150,36 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			this.functionSave.saveData(obj);
 		}
 	};
+	getSaveData = () => {
+		const obj: SaveDataObject = {
+			checkboxesToCopy: this.state.checkboxes,
+			copyToMenu: this.state.copyToMenu,
+			activeMenu: this.props.data.state.activeMenu,
+			tab: this.props.data.tab.value,
+			rowIndexToEdit: this.props.data.rowIndexToEdit,
+			newTriggerName: "",
+		};
+		return obj;
+	};
 
 	isMinOneItemChecked = () => {
-		//FIXME - this is not working
-		const { isEmpty } = this.isActionTabEmpty(this.state.saveData);
-		console.log("isEmpty", isEmpty);
-		console.log("this.state.checkboxes", this.state.checkboxes);
-		console.log("target", this.state.targetCheckboxes);
-		return Object.keys(this.state.targetCheckboxes).some((item) => item) || isEmpty;
+		const isOneMenuSelected = this.props.data.state.copyDataObject.targetActionName ? true : false;
+		const { isEmpty } = this.isActionTabEmpty(this.getSaveData());
+
+		if (isEmpty && isOneMenuSelected) {
+			this.setState({ isValueOk: true });
+			return;
+		}
+		const targetCheckboxes = this.props.data.state.copyDataObject.targetCheckboxes;
+
+		if (!targetCheckboxes || !Object.keys(targetCheckboxes)?.length) {
+			this.setState({ isValueOk: false });
+			return;
+		}
+
+		this.setState({
+			isValueOk: Object.keys(targetCheckboxes).some((item) => targetCheckboxes[item]),
+		});
 	};
 	functionSave: AppContentTabActionContentRowEditorCopyModalSelectedValues | null = null;
 
@@ -171,7 +192,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			if (!this.functionSave) {
 				return;
 			}
-			const obj: SaveDataObject = this.state.saveData;
+			const obj: SaveDataObject = this.getSaveData();
 			obj.newTriggerName = this.state.renamedTriggerName;
 			this.functionSave.saveData(obj);
 		}
@@ -368,7 +389,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 					<PopupContainer
 						title="Copy"
 						class="PopupContainer__copy"
-						isOK={this.isMinOneItemChecked()}
+						isOK={this.state.isValueOk}
 						labelBtnOK="save"
 						callback={({ value }: EventButton) => this.closeCopyModal(value as boolean)}
 					>

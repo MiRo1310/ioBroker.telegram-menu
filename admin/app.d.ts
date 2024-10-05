@@ -30,6 +30,7 @@ export interface AdditionalStateInfo extends GenericAppState {
 	showPopupMenuList: boolean;
 	dropBoxTop: number;
 	dropBoxRight: number;
+	copyDataObject: { targetCheckboxes: { [key: number]: boolean }, targetActionName: string };
 
 }
 
@@ -500,6 +501,7 @@ export interface StateRowEditPopupCard {
 	renamedTriggerName: string;
 	saveData: SaveDataObject
 	targetCheckboxes: { [key: number]: boolean };
+	isValueOk: boolean;
 }
 export interface RowsSetState {
 	IDs: string;

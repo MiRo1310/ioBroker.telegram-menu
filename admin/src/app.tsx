@@ -64,6 +64,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 			dropBoxRight: 5,
 			dropDifferenzX: 0,
 			dropDifferenzY: 0,
+			copyDataObject: { targetCheckboxes: {}, targetActionName: "" },
 		};
 
 		this.setState = this.setState.bind(this);

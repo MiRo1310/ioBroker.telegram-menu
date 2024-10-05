@@ -28,8 +28,13 @@ export const handleMouseOut = (e: React.MouseEvent<HTMLSpanElement> | undefined)
 	}
 };
 
-export const handleDragStart = (index: number, event: React.DragEvent<HTMLTableRowElement> | undefined
-	, mouseOverNoneDraggable: boolean, setState: SetStateFunction, cb?: any): boolean | undefined => {
+export const handleDragStart = (
+	index: number,
+	event: React.DragEvent<HTMLTableRowElement> | undefined,
+	mouseOverNoneDraggable: boolean,
+	setState: SetStateFunction,
+	cb?: any,
+): boolean | undefined => {
 	if (mouseOverNoneDraggable && event) {
 		const target = event.target as HTMLElement;
 		target.style.userSelect = "text";

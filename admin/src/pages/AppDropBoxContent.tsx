@@ -201,10 +201,10 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		this.setState({ newTrigger: "" });
 	};
 
-	handleDrag = (val) => {
+	handleDrag = (val: boolean) => {
 		this.setState({ inDropBox: val });
 	};
-	handleChange = (event) => {
+	handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({ selectedValue: event.target.value });
 	};
 	renameMenu = ({ value }: EventButton) => {
@@ -276,11 +276,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 							class="DropBox-Background"
 							isOK={this.state.isOK}
 						>
-							<RenameCard
-								callback={{ setState: this.setState.bind(this), renameMenu: this.renameMenu }}
-								id="newTrigger"
-								data={{ newMenuName: this.state.newTrigger }}
-							/>
+							<RenameCard callback={{ setState: this.setState.bind(this) }} id="newTrigger" value={this.state.newTrigger} />
 						</PopupContainer>
 					</div>
 				) : null}

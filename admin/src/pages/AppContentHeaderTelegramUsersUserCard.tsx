@@ -62,7 +62,8 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 						callbackValue="event"
 						callback={this.checkboxClicked.bind(this)}
 						isChecked={this.isUserChecked()}
-					></Checkbox>
+						index={0}
+					/>
 				</div>
 				<p className="TelegramUserCard-ChatID">
 					ChatID :<span className="TelegramUserCard-ChatID">{this.props.chatID}</span>

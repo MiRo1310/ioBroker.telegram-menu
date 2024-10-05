@@ -1,18 +1,16 @@
-import React, { Component } from "react";
-import Input from "../components/btn-Input/input";
-import { Grid } from "@mui/material";
-import Button from "../components/btn-Input/Button";
 import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
-import PopupContainer from "../components/popupCards/PopupContainer";
-import RenameCard from "../components/popupCards/RenameCard";
+import { Grid } from "@mui/material";
+import React, { Component } from "react";
+import Button from "../components/btn-Input/Button";
+import Input from "../components/btn-Input/input";
 
-import { deepCopy } from "../lib/Utils.js";
-import { PropsBtnCard, StateBtnCard } from "admin/app";
-import { replaceSpaceWithUnderscore } from "../lib/string";
-import { NativeData } from "../../app";
 import { EventButton } from "@components/btn-Input/Button";
 import RenameModal from "@components/RenameModal";
+import { PropsBtnCard, StateBtnCard } from "admin/app";
+import { NativeData } from "../../app";
+import { replaceSpaceWithUnderscore } from "../lib/string";
+import { deepCopy } from "../lib/Utils.js";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	constructor(props) {
