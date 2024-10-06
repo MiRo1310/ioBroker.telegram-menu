@@ -46,8 +46,18 @@ const globalItems = [
 		],
 	},
 ];
-
-const helperText = {
+export interface HelperText {
+	nav: {
+		value: { text: string; head?: string; info: string }[];
+		text: { text: string; info: string }[];
+	};
+	get: { text: { text: string; info: string }[] };
+	set: {
+		returnText: { text: string; info: string }[];
+		values: { text: string; info: string }[];
+	};
+}
+const helperText: HelperText = {
 	// Nav
 	nav: {
 		value: [

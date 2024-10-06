@@ -16,14 +16,8 @@ import {
 import { getElementIcon } from "../lib/actionUtils.js";
 import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
 import { EventButton } from "../types/event";
-
-function createData(entriesOfParentComponent, element) {
-	const obj: RowForButton = {} as RowForButton;
-	entriesOfParentComponent.forEach((entry) => {
-		obj[entry.name] = element[entry.name];
-	});
-	return obj;
-}
+import { TabValueEntries, DataRowAction } from "../../app";
+import TabActionTabs from "./AppContentTabActionTabsListing";
 
 class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction> {
 	mounted: boolean;
@@ -38,6 +32,14 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			mouseOverNoneDraggable: false,
 		};
 	}
+
+	createData(entriesOfParentComponent: TabValueEntries[], element: DataRowAction) {
+		const obj: RowForButton = {} as RowForButton;
+		entriesOfParentComponent.forEach((entry) => {
+			obj[entry.name] = element[entry.name];
+		});
+		return obj;
+	}
 	getRows = (): void => {
 		const { activeMenu, native } = this.props.data.state;
 		const action = native.data.action;
@@ -45,14 +47,14 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		if (!action) {
 			return;
 		}
-		const elements = action[activeMenu][this.props.data.tab.value];
+		const elements = action[activeMenu][this.props.data.tab.value] as DataRowAction[];
 
 		const rows: RowForButton[] = [];
 		if (elements === undefined) {
 			return;
 		}
 		for (const entry of elements) {
-			rows.push(createData(this.props.data.tab.entries, entry));
+			rows.push(this.createData(this.props.data.tab.entries, entry));
 		}
 		this.setState({ rows: rows });
 	};
@@ -100,10 +102,6 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 
 	componentWillUnmount(): void {
 		window.removeEventListener("resize", this.updateHeight);
-	}
-
-	componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-		console.log(error, errorInfo);
 	}
 
 	handleDrop = (index: number, event: React.DragEvent<HTMLTableRowElement> | undefined): void => {
@@ -199,7 +197,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 									key={indexEntry}
 									style={entry.width ? { width: entry.width } : undefined}
 								>
-									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} name={entry.name} entry={entry} />
+									<SubTable data={row[entry.name] as []} setState={this.setState.bind(this)} name={entry.name} entry={entry} />
 								</TableCell>
 							) : null,
 						)}

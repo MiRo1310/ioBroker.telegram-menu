@@ -4,6 +4,7 @@ import { AdminConnection } from '@iobroker/socket-client';
 import { LegacyRef, ReactNode } from "react";
 import { EventButton } from "@components/btn-Input/button";
 import { setState } from '../src/lib/setstate';
+import { HelperText } from "@/config/helper";
 
 export type Nullable<T> = T | null | undefined;
 
@@ -13,22 +14,10 @@ export interface AdditionalPropInfo extends GenericAppProps {
 interface AppProps {
 	encryptedFields: string[];
 	Connection: AdminConnection;
-	translations: TransLation;
+	translations: any;
 	// Fügen Sie hier weitere Eigenschaften hinzu, die `props` enthalten kann
 }
-interface Translations {
-	en: any;
-	de: any;
-	ru: any;
-	pt: any;
-	nl: any;
-	fr: any;
-	it: any;
-	es: any;
-	pl: any;
-	uk: any;
-	'zh-cn': any;
-}
+
 
 export type ExtendedAppProps = AppProps & AdditionalPropInfo;
 export interface AdditionalStateInfo extends GenericAppState {
@@ -102,7 +91,7 @@ export interface SearchRoot {
 	root: string;
 	type: ObjectBrowserType | ObjectBrowserType[] | undefined;
 }
-export type ObjectBrowserType = any
+export type ObjectBrowserType = 'state' | 'instance' | 'channel' | 'device' | 'chart'
 export interface TabValueEntries {
 	name: string;
 	width?: string;
@@ -297,14 +286,14 @@ export interface PropsHelperCard {
 	val: string;
 	editedValueFromHelperText: string;
 	setState: SetStateFunction;
-	data: any;
+	data: { adapterName?: string, themeType?: string, socket?: socket };
 	callback: (val: EventButton) => void;
 	name: string;
 	text: string;
 	helperTextForInput: string;
 }
 export interface StateHelperCard {
-	rows: any;
+	rows: HelperText["get"] | HelperText["set"] | HelperText["nav"];
 	showSelectId: boolean;
 	selectedId: string;
 }
@@ -350,9 +339,9 @@ export interface StateActionCard {
 	newUnUsedTrigger: string[] | null;
 	helperText: boolean;
 	helperTextFor: string;
-	editedValueFromHelperText: any;
+	editedValueFromHelperText: string | null;
 	isOK: boolean;
-	valueForSave: any;
+	valueForSave: { subCard: string; entry: string; index: number } | null;
 	inputValuesAreOK: boolean;
 	disableInput: boolean;
 	nav: string;
@@ -422,12 +411,13 @@ export interface PropsPopupContainer {
 	onDragOver?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
 	onDrop?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
 	onDrag?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
-	onMouseEnter?: (event: any, setState: SetStateFunction | undefined) => void;
-	onMouseLeave?: (event: any, setState: SetStateFunction | undefined) => void;
+	onMouseEnter?: (event: React.MouseEvent<HTMLDivElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (event: React.MouseEvent<HTMLDivElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
 	callback: (val) => void;
 	value?: string;
 	setState?: SetStateFunction;
-	data?: { [key: string]: any };
 	children?: ReactNode;
 }
 export interface StatePopupContainer {
@@ -540,7 +530,7 @@ export interface StateDropBox {
 	trigger: string;
 	newTrigger: string;
 	usedTrigger: string[];
-	rowToWorkWith: any;
+	rowToWorkWith: DataRow;
 	isOK: boolean;
 	oldTrigger: string;
 }
@@ -557,11 +547,17 @@ export interface PropsTriggerOverview {
 	userActiveCheckbox: UserActiveCheckbox;
 }
 export interface StateTriggerOverview {
-	ulPadding: any;
-	trigger: any;
+	ulPadding: { [key: string]: number };
+	trigger: TriggerObj | undefined | null;
 	groupsOfMenus: any;
 	selected: string;
-	options: any;
+	options: string[];
+}
+// FIXME - any
+export interface TriggerObj {
+	unUsedTrigger: string[];
+	everyTrigger: { [key: string]: string[] };
+	usedTrigger: { nav: { [key: string]: string[] }; action: any };
 }
 export interface MenuWithUser {
 	menu: string;
@@ -657,7 +653,9 @@ export interface Actions {
 	echarts: Echart[];
 	events: Events[];
 }
+export type ActionTabs = Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[];
 export type DataRow = Get | Set | Pic | HttpRequest | Echart | Events | RowsNav;
+export type DataRowAction = Get | Set | Pic | HttpRequest | Echart | Events;
 
 export interface HttpRequest {
 	url: string[];
@@ -785,7 +783,8 @@ export interface TabListingType {
 export interface RowForButton {
 	trigger: string;
 	parse_mode: string[];
-	[key: string]: any;
+	call: string;
+
 
 }
 export interface EventCheckbox {

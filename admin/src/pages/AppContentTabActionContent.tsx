@@ -173,7 +173,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 	onchangeValueFromHelper = ({ value }: EventButton): void => {
 		if (this.state.editedValueFromHelperText === null) {
-			this.setState({ editedValueFromHelperText: value });
+			this.setState({ editedValueFromHelperText: value as string });
 			return;
 		}
 		this.setState({ editedValueFromHelperText: this.state.editedValueFromHelperText + " " + value });
@@ -185,7 +185,10 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			if (!row) {
 				return;
 			}
-			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
+			if (!this.state.valueForSave) {
+				return;
+			}
+			row[this.state.valueForSave?.entry][this.state.valueForSave?.index] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: row as ActionNewRowProps });
 		}
 		this.setState({ helperText: false, editedValueFromHelperText: null });
@@ -280,7 +283,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 							text={this.state.text}
 							helperTextForInput={this.state.helperTextForInput}
 							callback={this.onchangeValueFromHelper}
-							editedValueFromHelperText={this.state.editedValueFromHelperText}
+							editedValueFromHelperText={this.state.editedValueFromHelperText as string}
 							setState={this.setState.bind(this)}
 						/>
 					</PopupContainer>

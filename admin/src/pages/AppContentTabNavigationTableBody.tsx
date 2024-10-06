@@ -17,6 +17,7 @@ import {
 import { I18n } from "@iobroker/adapter-react-v5";
 import { NavData, PropsTableDndNav, RowForButton, StateTableDndNav } from "admin/app";
 import { EventButton } from "../types/event";
+import { RowsNav } from "../../app";
 
 function createData(entriesOfParentComponent, element) {
 	const obj: RowForButton = {} as RowForButton;

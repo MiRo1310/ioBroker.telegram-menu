@@ -22,7 +22,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			trigger: "",
 			newTrigger: "",
 			usedTrigger: [],
-			rowToWorkWith: {},
+			rowToWorkWith: {} as DataRow,
 			isOK: false,
 			oldTrigger: "",
 		};
@@ -283,7 +283,6 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 							title={I18n.t("Rename trigger")}
 							value={this.state.trigger}
 							callback={this.renameMenu}
-							data={{ newMenuName: this.state.newTrigger }}
 							class="DropBox-Background"
 							isOK={this.state.isOK}
 						>

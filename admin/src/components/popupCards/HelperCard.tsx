@@ -12,6 +12,7 @@ import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
 import { PropsHelperCard, StateHelperCard } from "admin/app";
 import { EventButton } from "../../types/event";
+import { socket } from "../../../app";
 
 const theme: IobTheme = Theme("light");
 
@@ -102,7 +103,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 						dialogName={this.props.data.adapterName}
 						themeType={this.props.data.themeType}
 						theme={theme}
-						socket={this.props.data.socket}
+						socket={this.props.data.socket as socket}
 						filters={{}}
 						selected={""}
 						onClose={() => this.setState({ showSelectId: false })}

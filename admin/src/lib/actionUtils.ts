@@ -1,6 +1,6 @@
-import { NativeData, SetStateFunction, UsersInGroup } from "admin/app";
+import { NativeData, SetStateFunction, TriggerObj, UsersInGroup } from "admin/app";
 import React from "react";
-import { ActionNewRowProps, RowsSetState, TabValueEntries } from "../../app";
+import { ActionNewRowProps, RowsSetState, TabValueEntries, TriggerObject } from '../../app';
 import { tabValues } from "../config/entries";
 import { isTruthy } from "./string";
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from "./Utils";
@@ -194,7 +194,7 @@ export const updateTriggerForSelect = (
 	data: NativeData,
 	usersInGroup: UsersInGroup,
 	activeMenu: string,
-): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: any } | undefined => {
+): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
 	const submenu: string[] = [];
 	tabValues.forEach((element) => {
 		if (element.trigger) {
@@ -223,7 +223,7 @@ export const updateTriggerForSelect = (
 	const triggerArray: string[] = [];
 	const everyTrigger = {};
 
-	const triggerObj = { unUsedTrigger: [""], everyTrigger: everyTrigger, usedTrigger: { nav: {}, action: {} } };
+	const triggerObj: TriggerObj = { unUsedTrigger: [""], everyTrigger: everyTrigger, usedTrigger: { nav: {}, action: {} } };
 	menusToSearchIn.forEach((menu) => {
 		let triggerInMenu: string[] = [];
 		if (!data.nav[menu]) {
@@ -245,7 +245,7 @@ export const updateTriggerForSelect = (
 			}
 		});
 
-		triggerObj.usedTrigger.action[menu] = {};
+		triggerObj.usedTrigger.action[menu] = [];
 		const actionTrigger: string[] = [];
 		submenu.forEach((sub) => {
 			if (!data.action[menu][sub]) {

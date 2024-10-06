@@ -30,7 +30,7 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
 				class="HelperText"
 			>
 				<HelperCard
-					data={this.props.data}
+					data={{ adapterName: this.props.data.adapterName, socket: this.props.data.socket, themeType: this.props.data.themeType }}
 					helper={helperText}
 					name="nav"
 					val="nav"
