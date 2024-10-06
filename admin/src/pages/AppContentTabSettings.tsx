@@ -8,20 +8,20 @@ import { EventCheckbox, PropsSettings } from "admin/app";
 import { EventSelect } from "@components/btn-Input/select";
 
 class Settings extends Component<PropsSettings> {
-	constructor(props) {
+	constructor(props: PropsSettings) {
 		super(props);
 		this.state = {
 			value: "/opt/iobroker/grafana/",
 			options: ["One", "Two", "Three"],
 		};
 	}
-	onClickCheckbox = ({ isChecked, id }: EventCheckbox) => {
+	onClickCheckbox = ({ isChecked, id }: EventCheckbox): void => {
 		const checkbox = { ...this.props.data.state.native.checkbox };
 		checkbox[id] = isChecked;
 		this.props.callback.updateNative("checkbox", checkbox);
 	};
 
-	componentDidMount() {
+	componentDidMount(): void {
 		if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
 			const checkbox = { ...this.props.data.state.native.checkbox };
 			checkbox.sendMenuAfterRestart = true;
@@ -29,7 +29,7 @@ class Settings extends Component<PropsSettings> {
 		}
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="Settings">
 				<h1>{I18n.t("Settings")}</h1>

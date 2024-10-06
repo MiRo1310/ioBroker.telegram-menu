@@ -8,7 +8,7 @@ import { Properties } from "csstype";
 import { PropsMainContent } from "admin/app";
 
 class MainContent extends Component<PropsMainContent> {
-	constructor(props) {
+	constructor(props: PropsMainContent) {
 		super(props);
 		this.state = {};
 	}
@@ -18,7 +18,7 @@ class MainContent extends Component<PropsMainContent> {
 		height: "calc(100vh - 112px)",
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid item xs={12} className="App-main-content">
 				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={this.tabBox}>

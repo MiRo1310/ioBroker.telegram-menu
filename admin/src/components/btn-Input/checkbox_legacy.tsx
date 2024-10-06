@@ -3,23 +3,23 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsCheckbox_legacy } from "admin/app";
 
 class Checkbox extends Component<PropsCheckbox_legacy> {
-	onChangeHandler = (event) => {
+	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | undefined): void => {
 		if (!(this.props.callbackValue === "event")) {
 			if (this.props.setNative) {
-				this.props.callback(this.props.id, event.target.checked);
+				this.props.callback(this.props.id, event?.target.checked);
 			} else {
-				this.props.callback({ [this.props.id]: event.target.checked });
+				this.props.callback({ [this.props.id]: event?.target.checked });
 			}
+			return;
+		}
+		if (this.props.obj) {
+			this.props.callback({ val: event?.target.checked, id: this.props.id, index: this.props.index });
 		} else {
-			if (this.props.obj) {
-				this.props.callback({ val: event.target.checked, id: this.props.id, index: this.props.index });
-			} else {
-				this.props.callback(event, this.props.id);
-			}
+			this.props.callback(event, this.props.id);
 		}
 	};
 
-	render() {
+	render(): React.ReactNode {
 		const container = {
 			display: "inline-block",
 			width: this.props.width ? this.props.width : "auto",

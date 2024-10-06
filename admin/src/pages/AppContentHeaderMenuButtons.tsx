@@ -13,7 +13,7 @@ import { replaceSpaceWithUnderscore } from "../lib/string";
 import { deepCopy } from "../lib/Utils.js";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
-	constructor(props) {
+	constructor(props: PropsBtnCard) {
 		super(props);
 		this.state = {
 			oldMenuName: "",
@@ -25,7 +25,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			isOK: false,
 		};
 	}
-	componentDidUpdate(_, prevState: Readonly<StateBtnCard>) {
+	componentDidUpdate(prevProps: Readonly<PropsBtnCard>, prevState: Readonly<StateBtnCard>): void {
 		if (prevState.oldMenuName !== this.props.data.state.activeMenu) {
 			this.setState({ oldMenuName: this.props.data.state.activeMenu, renamedMenuName: this.props.data.state.activeMenu });
 		}
@@ -57,7 +57,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}
 	}
 
-	addNewMenu = (newMenu: string, copyMenu: boolean) => {
+	addNewMenu = (newMenu: string, copyMenu: boolean): void => {
 		newMenu = replaceSpaceWithUnderscore(newMenu);
 		let addNewMenu = false;
 		const data = JSON.parse(JSON.stringify(this.props.data.state.native.data));
@@ -96,7 +96,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}, 500);
 	};
 
-	removeMenu = (menu: string, renamed: boolean, newMenu?: string) => {
+	removeMenu = (menu: string, renamed: boolean, newMenu?: string): void => {
 		const newObject: NativeData = deepCopy(this.props.data.state.native.data);
 		const copyOfUsersInGroup = deepCopy(this.props.data.state.native.usersInGroup);
 		const userActiveCheckbox = deepCopy(this.props.data.state.native.userActiveCheckbox);
@@ -117,10 +117,12 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}
 		this.props.callback.setStateApp({ activeMenu: firstMenu });
 	};
-	openConfirmDialog = () => {
+
+	openConfirmDialog = (): void => {
 		this.setState({ confirmDialog: true });
 	};
-	renameMenu = ({ value: cbValue }: EventButton) => {
+
+	renameMenu = ({ value: cbValue }: EventButton): void => {
 		if (!cbValue) {
 			this.setState({ renameDialog: false });
 			return;
@@ -137,18 +139,19 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		this.setState({ renameDialog: false });
 	};
 
-	openRenameDialog = () => {
+	openRenameDialog = (): void => {
 		this.setState({ renamedMenuName: this.state.oldMenuName });
 		this.setState({ renameDialog: true });
 	};
-	buttonAddNewMenuHandler = ({ value }: EventButton) => {
+	buttonAddNewMenuHandler = ({ value }: EventButton): void => {
 		this.addNewMenu(value as string, false);
 	};
-	appSetStateHandler = ({ id, value: cbValue }: EventButton) => {
+
+	appSetStateHandler = ({ id, value: cbValue }: EventButton): void => {
 		this.props.callback.setStateApp({ [id]: cbValue });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={4}>

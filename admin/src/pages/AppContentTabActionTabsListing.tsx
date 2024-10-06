@@ -9,17 +9,19 @@ interface PropsTabActionTabs {
 }
 
 class TabActionTabs extends Component<PropsTabActionTabs> {
-	constructor(props) {
+	constructor(props: PropsTabActionTabs) {
 		super(props);
 		this.state = {};
 	}
-	handleChange = (event, newValue) => {
+
+	handleChange = (event: React.SyntheticEvent, newValue: string): void => {
 		if (this.props.callback.setStateApp) {
 			this.props.callback.setStateApp({ subTab: newValue });
 		}
 		this.props.setState({ value: newValue });
 	};
-	render() {
+
+	render(): React.ReactNode {
 		return (
 			<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 				<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList TabList-Action">

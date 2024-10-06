@@ -7,12 +7,12 @@ import React, { Component } from "react";
 import { PropsMainTabs } from "../types/props-types";
 
 class Tabs extends Component<PropsMainTabs> {
-	constructor(props) {
+	constructor(props: PropsMainTabs) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<TabPanel value="nav">

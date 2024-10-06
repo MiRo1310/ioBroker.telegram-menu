@@ -1,33 +1,56 @@
+import { DropBoxType, SetStateFunction } from "../../app";
+
 const drag = { dragStartX: 0, dragStartY: 0, dragEndX: 0, dragEndY: 0 };
 
-export function onDragStart(event): void {
+export function onDragStart(event: React.DragEvent<HTMLDivElement> | undefined): void {
+	if (!event) {
+		return;
+	}
 	drag.dragStartX = event.clientX;
 	drag.dragStartY = event.clientY;
 }
-export function onDragEnd(event, setState): void {
+
+export function onDragEnd(event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined): void {
+	if (!event) {
+		return;
+	}
 	event.preventDefault();
 	drag.dragEndX = event.clientX;
 	drag.dragEndY = event.clientY;
 	const dropDifferenzY = drag.dragEndY - drag.dragStartY;
 	const dropDifferenzX = drag.dragEndX - drag.dragStartX;
-
-	setState({ dropDifferenzY: dropDifferenzY, dropDifferenzX: dropDifferenzX });
-}
-export function onDragOver(event): void {
-	event.preventDefault();
-}
-export function onDrop(event): void {
-	event.preventDefault();
+	if (setState) {
+		setState({ dropDifferenzY: dropDifferenzY, dropDifferenzX: dropDifferenzX });
+	}
 }
 
-export function onDrag(event): void {
+export function onDragOver(event: React.DragEvent<HTMLDivElement> | undefined): void {
+	if (!event) {
+		return;
+	}
 	event.preventDefault();
 }
+
+export function onDrop(event: React.DragEvent<HTMLDivElement> | undefined): void {
+	if (!event) {
+		return;
+	}
+	event.preventDefault();
+}
+
+export function onDrag(event: React.DragEvent<HTMLDivElement> | undefined): void {
+	if (!event) {
+		return;
+	}
+	event.preventDefault();
+}
+
 export function onMouseEnter(): void {
 	document.querySelectorAll("tr[draggable],span[draggable]").forEach((element) => {
 		element.classList.add("draggingDropBox");
 	});
 }
+
 export function onMouseLeave(): void {
 	document.querySelectorAll("tr[draggable],span[draggable]").forEach((element) => {
 		(element as HTMLElement).draggable = true;
@@ -35,7 +58,13 @@ export function onMouseLeave(): void {
 	});
 }
 
-export const updatePositionDropBox = (newX, newY, dropboxRef, showDropBox, dropbox): void => {
+export const updatePositionDropBox = (
+	newX: number | null | undefined,
+	newY: number | null | undefined,
+	dropboxRef: React.RefObject<HTMLDivElement> | undefined,
+	showDropBox: boolean,
+	dropbox: DropBoxType,
+): void => {
 	if (dropboxRef && dropboxRef.current && dropboxRef.current != null && showDropBox) {
 		if (!(newX || newY)) {
 			console.log("updatePositionDropBox");
@@ -49,7 +78,7 @@ export const updatePositionDropBox = (newX, newY, dropboxRef, showDropBox, dropb
 		const widthDropBox = dropboxRef.current.offsetWidth;
 		const maxTop = heightContainer - heightDropBox;
 		const maxRight = widthContainer - widthDropBox;
-		let x, y;
+		let x: number, y: number;
 		if (newY && newX) {
 			if (newY < 1) {
 				y = 1;

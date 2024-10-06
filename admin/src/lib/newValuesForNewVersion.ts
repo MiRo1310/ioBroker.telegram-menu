@@ -1,6 +1,7 @@
+import { NativeData, UpdateNativeFunction } from "admin/app.js";
 import { deepCopy } from "./Utils.js";
 
-const insertParseModeCheckbox = (data: { action: []; nav: [] }): { action: []; nav: [] } => {
+const insertParseModeCheckbox = (data: NativeData): NativeData => {
 	const actions = ["set", "get"];
 	Object.keys(data.action).forEach((menu) => {
 		actions.forEach((action) => {
@@ -58,11 +59,12 @@ const insertAckCheckbox = (data, updateNative): void => {
 
 	updateNative("data", data);
 };
-export const insertNewItemsInData = (data, updateNative): void => {
+
+export const insertNewItemsInData = (data: NativeData, updateNative: UpdateNativeFunction): void => {
 	if (Object.keys(data).length == 0) {
 		return;
 	}
-	data = deepCopy(data);
+	data = deepCopy(data) as NativeData;
 	data = insertParseModeCheckbox(data);
 	insertAckCheckbox(data, updateNative);
 };

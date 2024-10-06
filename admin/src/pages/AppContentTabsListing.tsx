@@ -5,11 +5,11 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsMainTabList, TabListingType } from "admin/app";
 
 class TabListing extends Component<PropsMainTabList> {
-	constructor(props) {
+	constructor(props: PropsMainTabList) {
 		super(props);
 		this.state = {};
 	}
-	handleChange = (event, val) => {
+	handleChange = (event: React.SyntheticEvent, val: string): void => {
 		this.props.callback.setStateApp({ tab: val });
 	};
 
@@ -27,7 +27,7 @@ class TabListing extends Component<PropsMainTabList> {
 			value: "settings",
 		},
 	];
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 				<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList">

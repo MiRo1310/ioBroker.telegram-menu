@@ -4,12 +4,12 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsTableNavHeader } from "admin/app";
 
 class TabNavHeader extends Component<PropsTableNavHeader> {
-	constructor(props) {
+	constructor(props: PropsTableNavHeader) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TableHead>
 				<TableRow>

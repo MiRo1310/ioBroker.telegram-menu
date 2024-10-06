@@ -48,17 +48,20 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		text: "Text",
 		IDs: "IDs",
 	};
-	checkboxChecked = ({ isChecked, index }: EventCheckbox) => {
+
+	checkboxChecked = ({ isChecked, index }: EventCheckbox): void => {
 		const copy = { ...this.state.checked };
 		copy[index] = isChecked;
 		this.setState({ checked: copy });
 		this.props.callback.setStateRowEditor({ targetCheckboxes: this.state.checked });
 		this.props.callback.setStateApp({ copyDataObject: { targetCheckboxes: copy } });
 	};
+
 	componentDidMount(): void {
 		this.props.callback.setFunctionSave(this);
 	}
-	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit, newTriggerName }: SaveDataObject) => {
+
+	saveData = ({ activeMenu, copyToMenu, tab, checkboxesToCopy, rowIndexToEdit, newTriggerName }: SaveDataObject): void => {
 		const addTrigger = this.props.data.action[copyToMenu]?.[tab].length ? false : true;
 		const ob: NativeData | undefined = this.copySelectedRowsToMenu({
 			addTrigger,
@@ -147,7 +150,24 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		});
 		return copyData;
 	};
-	setDataWhenNoTabLength = ({ copyData, menuName, tabActionName, rowParam, rowToCopy, elInRow, newTriggerName }) => {
+
+	setDataWhenNoTabLength = ({
+		copyData,
+		menuName,
+		tabActionName,
+		rowParam,
+		rowToCopy,
+		elInRow,
+		newTriggerName,
+	}: {
+		copyData: NativeData;
+		menuName: string;
+		tabActionName: string;
+		rowParam: string;
+		rowToCopy: Rows;
+		elInRow: number;
+		newTriggerName: string | undefined;
+	}): NativeData => {
 		if (!copyData.action[menuName][tabActionName].length) {
 			if (rowParam === "trigger") {
 				copyData.action[menuName][tabActionName].push({ [rowParam]: [newTriggerName] });
@@ -158,7 +178,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		return copyData;
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<Table>

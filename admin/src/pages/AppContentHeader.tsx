@@ -5,12 +5,12 @@ import HeaderTelegramUsers from "@/pages/AppContentHeaderTelegramUsers";
 import { PropsMainActions } from "admin/app";
 
 class MainActions extends Component<PropsMainActions> {
-	constructor(props) {
+	constructor(props: PropsMainActions) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="Grid-HeaderMenu ">
 				<Grid item xs={12}>

@@ -17,7 +17,7 @@ import { PropsHelperCard, StateHelperCard } from "admin/app";
 const theme: IobTheme = Theme("light");
 
 class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
-	constructor(props) {
+	constructor(props: PropsHelperCard) {
 		super(props);
 		this.state = {
 			rows: this.props.helper[this.props.val],
@@ -25,18 +25,21 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 			selectedId: "",
 		};
 	}
-	updateId = (selected) => {
+
+	updateId = (selected: string | string[] | undefined): void => {
 		const value = this.props.editedValueFromHelperText;
 		if (value.includes("ID")) {
-			this.props.setState({ editedValueFromHelperText: value.replace("ID", selected) });
+			this.props.setState({ editedValueFromHelperText: value.replace("ID", selected as string) });
+			return;
 		} else if (value.includes("'id':'")) {
 			const oldId = value.split("'id':'")[1].split("'}")[0];
-			this.props.setState({ editedValueFromHelperText: value.replace(oldId, selected) });
-		} else {
-			this.props.setState({ editedValueFromHelperText: value + " " + selected });
+			this.props.setState({ editedValueFromHelperText: value.replace(oldId, selected as string) });
+			return;
 		}
+		this.props.setState({ editedValueFromHelperText: value + " " + selected });
 	};
-	openSelectId = () => {
+
+	openSelectId = (): void => {
 		if (this.props.editedValueFromHelperText) {
 			if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("ID")) {
 				const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];
@@ -44,12 +47,10 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 			}
 
 			this.setState({ showSelectId: true });
-		} else {
-			return;
 		}
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<TableContainer component={Paper} className="HelperCard">

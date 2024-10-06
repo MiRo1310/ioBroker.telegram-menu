@@ -3,11 +3,11 @@ import React, { Component } from "react";
 import { PropsCheckbox } from "../../../app";
 
 class Checkbox extends Component<PropsCheckbox> {
-	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		this.props.callback({ isChecked: event.target.checked, id: this.props?.id, index: this.props?.index });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		const container = {
 			display: "inline-block",
 			width: this.props.width ? this.props.width : "auto",

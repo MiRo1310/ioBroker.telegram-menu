@@ -3,25 +3,26 @@ import { Component, ErrorInfo } from "react";
 interface State {
 	hasError: boolean;
 }
+type ErrorBoundaryProps = any;
 
-class ErrorBoundary extends Component<any, State> {
-	constructor(props) {
+class ErrorBoundary extends Component<ErrorBoundaryProps, State> {
+	constructor(props: ErrorBoundaryProps) {
 		super(props);
 		this.state = { hasError: false };
 	}
 
-	static getDerivedStateFromError(error: Error) {
+	static getDerivedStateFromError(error: Error): { hasError: boolean } {
 		// Aktualisieren Sie den Zustand, sodass der nächste Render einen Fallback-UI zeigt
 		console.error("ErrorBoundary getDerivedStateFromError:", error);
 		return { hasError: true };
 	}
 
-	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+	componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
 		// Fehlerprotokollierung
 		console.error("Error caught by ErrorBoundary:", error, errorInfo);
 	}
 
-	render() {
+	render(): React.ReactNode {
 		// if (this.state.hasError) {
 		// 	// Fallback-UI anzeigen
 		// 	return <h1>Etwas ist schief gelaufen.</h1>;

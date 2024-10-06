@@ -6,15 +6,15 @@ import { PropsMainDropBox } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
 
 class MainDropBox extends Component<PropsMainDropBox> {
-	constructor(props) {
+	constructor(props: PropsMainDropBox) {
 		super(props);
 		this.state = {};
 	}
-	closeDropBox = ({}: EventButton) => {
+	closeDropBox = ({}: EventButton): void => {
 		this.props.callback.setStateApp({ showDropBox: false });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				class="DropBox-PopupContainer"

@@ -4,8 +4,8 @@ interface BtnCircleAddType {
 	callbackValue: any;
 }
 
-export const BtnCircleAdd = (props: BtnCircleAddType) => {
-	const clickHandler = () => {
+export const BtnCircleAdd = (props: BtnCircleAddType): React.JSX.Element => {
+	const clickHandler = (): void => {
 		props.callback(props.callbackValue);
 	};
 	return (

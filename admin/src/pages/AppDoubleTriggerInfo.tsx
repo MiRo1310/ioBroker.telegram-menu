@@ -3,12 +3,12 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsMainDoubleTriggerInfo } from "admin/app";
 
 class DoubleTriggerInfo extends Component<PropsMainDoubleTriggerInfo> {
-	constructor(props) {
+	constructor(props: PropsMainDoubleTriggerInfo) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="ErrorDoubleTrigger-Container">
 				<p className="Error-Header">{I18n.t("You have double triggers, please remove them!")}</p>

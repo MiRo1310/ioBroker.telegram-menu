@@ -8,6 +8,7 @@ import PopupContainer from "../components/popupCards/PopupContainer";
 import RenameCard from "../components/popupCards/RenameCard";
 import { NativeData, PropsDropBox, StateDropBox } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
+import { DataRow } from "../../app";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
 	constructor(props: PropsDropBox) {
@@ -64,7 +65,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			return;
 		}
 		const data = deepCopy(this.props.data.state.native.data);
-		let rowToWorkWith;
+		let rowToWorkWith: DataRow = {} as DataRow;
 		const moveOrCopy = this.state.selectedValue;
 
 		if (this.state.newTrigger === "" && !(this.props.data.state.subTab === "events")) {
@@ -80,34 +81,34 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			const usedTrigger = updateTriggerForSelect(data, this.props.data.state.native?.usersInGroup, this.state.selectedMenu)?.usedTrigger;
 
 			this.setState({ usedTrigger: usedTrigger || [] });
-			if (this.props.data.state.tab === "action") {
+			if (this.props.data.state.tab === "action" && "trigger" in rowToWorkWith) {
 				if (moveOrCopy === "copy") {
 					if (rowToWorkWith.trigger && usedTrigger?.includes(rowToWorkWith.trigger[0])) {
 						this.setState({
-							trigger: rowToWorkWith.trigger,
-							newTrigger: rowToWorkWith.trigger,
+							trigger: rowToWorkWith.trigger[0],
+							newTrigger: rowToWorkWith.trigger[0],
 							openRenamePopup: true,
-							oldTrigger: rowToWorkWith.trigger,
+							oldTrigger: rowToWorkWith.trigger[0],
 						});
 					}
 				} else {
 					// Move Item
 					const items = this.countItemsInArray(usedTrigger, rowToWorkWith.trigger[0]);
 					if (items && items <= 1) {
-						this.setState({ trigger: rowToWorkWith.trigger, newTrigger: rowToWorkWith.trigger });
+						this.setState({ trigger: rowToWorkWith.trigger[0], newTrigger: rowToWorkWith.trigger[0] });
 						this.move(rowToWorkWith, data);
 					} else {
 						this.setState({
-							trigger: rowToWorkWith.trigger,
-							newTrigger: rowToWorkWith.trigger,
+							trigger: rowToWorkWith.trigger[0],
+							newTrigger: rowToWorkWith.trigger[0],
 							openRenamePopup: true,
-							oldTrigger: rowToWorkWith.trigger,
+							oldTrigger: rowToWorkWith.trigger[0],
 						});
 					}
 				}
 			} else {
 				// Navigation
-				if (moveOrCopy === "copy") {
+				if (moveOrCopy === "copy" && "call" in rowToWorkWith) {
 					if (usedTrigger?.includes(rowToWorkWith.call)) {
 						this.setState({
 							trigger: rowToWorkWith.call,
@@ -116,7 +117,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 							oldTrigger: rowToWorkWith.call,
 						});
 					}
-				} else {
+				} else if ("call" in rowToWorkWith) {
 					// Move Item
 					const items = this.countItemsInArray(usedTrigger, rowToWorkWith.call);
 					if (items && items <= 1) {
@@ -164,9 +165,9 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		return count;
 	};
 
-	move = (rowToWorkWith, data: NativeData) => {
+	move = (rowToWorkWith: DataRow, data: NativeData): void => {
 		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events") {
-			if (this.state.newTrigger !== "") {
+			if (this.state.newTrigger !== "" && "trigger" in rowToWorkWith) {
 				rowToWorkWith.trigger[0] = this.state.newTrigger;
 			}
 
@@ -185,7 +186,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
 			data[this.props.data.state.tab][this.props.data.state.activeMenu][this.props.data.state.subTab].splice(this.props.index, 1);
 		} else {
-			if (this.state.newTrigger !== "") {
+			if (this.state.newTrigger !== "" && "call" in rowToWorkWith) {
 				rowToWorkWith.call = this.state.newTrigger;
 			}
 			data[this.props.data.state.tab][this.state.selectedMenu].push(rowToWorkWith);
@@ -194,13 +195,13 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 		this.props.callback.updateNative("data", data);
 		this.setState({ newTrigger: "" });
 	};
-	copy = (rowToWorkWith, data: NativeData) => {
-		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events") {
+	copy = (rowToWorkWith: DataRow, data: NativeData): void => {
+		if (this.props.data.state.tab === "action" && this.props.data.state.subTab !== "events" && "trigger" in rowToWorkWith) {
 			rowToWorkWith.trigger[0] = this.state.newTrigger;
 			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
 		} else if (this.props.data.state.subTab == "events") {
 			data[this.props.data.state.tab][this.state.selectedMenu][this.props.data.state.subTab].push(rowToWorkWith);
-		} else {
+		} else if ("call" in rowToWorkWith) {
 			rowToWorkWith.call = this.state.newTrigger;
 			data[this.props.data.state.tab][this.state.selectedMenu].push(rowToWorkWith);
 		}

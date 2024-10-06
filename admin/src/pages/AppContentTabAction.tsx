@@ -6,14 +6,14 @@ import AppContentTabActionTabsListing from "./AppContentTabActionTabsListing";
 import { PropsTabAction, StateTabAction } from "admin/app";
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {
-	constructor(props) {
+	constructor(props: PropsTabAction) {
 		super(props);
 		this.state = {
 			value: "set",
 		};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TabContext value={this.state.value}>
 				<AppContentTabActionTabsListing callback={this.props.callback} setState={this.setState.bind(this)} />

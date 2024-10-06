@@ -24,12 +24,12 @@ export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 }
 
 class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppContentTabActionContentRowEditorInputAboveTableProps> {
-	constructor(props) {
+	constructor(props: AppContentTabActionContentRowEditorInputAboveTableProps) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { newRow, newUnUsedTrigger } = this.props.data;
 		return (
 			<div className="editor__header">

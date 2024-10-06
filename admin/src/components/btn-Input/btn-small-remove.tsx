@@ -3,7 +3,7 @@ import Button from "./Button_legacy";
 import { ButtonSmallProps } from "admin/app";
 
 class BtnSmallRemove extends Component<ButtonSmallProps> {
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Button
 				b_color="red"

@@ -9,6 +9,27 @@ export type Nullable<T> = T | null | undefined;
 export interface AdditionalPropInfo extends GenericAppProps {
 	themeName: string;
 }
+interface AppProps {
+	encryptedFields: string[];
+	Connection: AdminConnection;
+	translations: TransLation;
+	// Fügen Sie hier weitere Eigenschaften hinzu, die `props` enthalten kann
+}
+interface Translations {
+	en: any;
+	de: any;
+	ru: any;
+	pt: any;
+	nl: any;
+	fr: any;
+	it: any;
+	es: any;
+	pl: any;
+	uk: any;
+	'zh-cn': any;
+}
+
+export type ExtendedAppProps = AppProps & AdditionalPropInfo;
 export interface AdditionalStateInfo extends GenericAppState {
 	showDropBox: boolean;
 	native: Native;
@@ -437,11 +458,11 @@ export interface PropsPopupContainer {
 	labelBtnAbort?: string;
 	labelBtnOK?: string;
 	reference?: LegacyRef<HTMLDivElement> | undefined;
-	onDragStart?: (event: any, setState: SetStateFunction | undefined) => void | undefined;
-	onDragEnd?: (event: any, setState: SetStateFunction | undefined) => void;
-	onDragOver?: (event: any, setState: SetStateFunction | undefined) => void;
-	onDrop?: (event: any, setState: SetStateFunction | undefined) => void;
-	onDrag?: (event: any, setState: SetStateFunction | undefined) => void;
+	onDragStart?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDragEnd?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDragOver?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDrop?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDrag?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
 	onMouseEnter?: (event: any, setState: SetStateFunction | undefined) => void;
 	onMouseLeave?: (event: any, setState: SetStateFunction | undefined) => void;
 	callback: (val) => void;

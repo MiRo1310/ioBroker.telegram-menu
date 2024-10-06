@@ -8,19 +8,18 @@ import AppDoubleTriggerInfo from "@/pages/AppDoubleTriggerInfo";
 import AppDropBox from "@/pages/AppDropBox";
 import AppHeaderIconBar from "@/pages/AppHeaderIconBar";
 import AppTriggerOverview from "@/pages/AppTriggerOverview";
+import ErrorBoundary from "@components/ErrorBoundary";
 import { AdminConnection, GenericApp } from "@iobroker/adapter-react-v5";
 import { Grid } from "@mui/material";
-import { AdditionalPropInfo, AdditionalStateInfo, Native, Nullable, TriggerObject } from "admin/app";
+import { AdditionalPropInfo, AdditionalStateInfo, ExtendedAppProps, Native, Nullable, TriggerObject } from "admin/app";
 import React from "react";
 import { getDefaultDropBoxCoordinates } from "./lib/dragNDrop";
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from "./lib/object";
-import { LegacyRef } from "react";
-import ErrorBoundary from "@components/ErrorBoundary";
 
 class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
-	dropBoxRef: LegacyRef<HTMLDivElement> | undefined;
-	constructor(props) {
-		const extendedProps = {
+	dropBoxRef: React.RefObject<HTMLDivElement> | undefined;
+	constructor(props: any) {
+		const extendedProps: ExtendedAppProps = {
 			...props,
 			encryptedFields: [],
 			Connection: AdminConnection,
@@ -38,7 +37,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 				"zh-cn": require("../../admin/i18n/zh-cn/translations.json"),
 			},
 		};
-		super(props, extendedProps);
+		super(extendedProps);
 		this.dropBoxRef = React.createRef();
 		this.state = {
 			...this.state,
@@ -70,22 +69,22 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		this.setState = this.setState.bind(this);
 	}
 
-	handleResize = () => {
+	handleResize = (): void => {
 		updatePositionDropBox(null, null, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 	};
 
-	componentDidMount() {
+	componentDidMount(): void {
 		updatePositionDropBox(this.newX, this.newY, this.dropBoxRef, this.state.showDropBox, this.state.native.dropbox);
 		window.addEventListener("resize", this.handleResize);
 	}
 
-	componentWillUnmount() {
+	componentWillUnmount(): void {
 		window.removeEventListener("resize", this.handleResize);
 	}
 
 	newX: Nullable<number> = null;
 	newY: Nullable<number> = null;
-	componentDidUpdate(prevProps: Readonly<AdditionalPropInfo>, prevState: Readonly<AdditionalStateInfo>) {
+	componentDidUpdate(prevProps: Readonly<AdditionalPropInfo>, prevState: Readonly<AdditionalStateInfo>): void {
 		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
 			this.getUsersFromTelegram();
 		}
@@ -113,7 +112,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		}
 	}
 
-	onConnectionReady() {
+	onConnectionReady(): void {
 		insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
 		this.updateNativeValue("usersInGroup", sortObjectByKey(this.state.native.usersInGroup));
 		this.getUsersFromTelegram();
@@ -123,11 +122,11 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		const firstMenu = getFirstObjectKey(this.state.native.usersInGroup);
 		this.setState({ activeMenu: firstMenu });
 		updateActiveMenuAndTrigger(firstMenu, this.setState, this.state.native.data, this.state.native.usersInGroup);
-		console.log(this.state.native);
+
 		this.setState({ connectionReady: true });
 	}
 
-	getUsersFromTelegram() {
+	getUsersFromTelegram(): void {
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || "telegram.0", (data) => {
 			!this.state.native.instance
 				? this.updateNativeValue("instance", "telegram.0")
@@ -135,7 +134,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		});
 	}
 
-	render() {
+	render(): React.ReactElement {
 		if (!this.state.loaded) {
 			return super.render();
 		}

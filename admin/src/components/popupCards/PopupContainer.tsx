@@ -5,7 +5,7 @@ import { Properties } from "csstype";
 import { PropsPopupContainer, StatePopupContainer } from "admin/app";
 
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
-	constructor(props) {
+	constructor(props: PropsPopupContainer) {
 		super(props);
 		this.state = {
 			menuName: this.props.value || "",
@@ -13,14 +13,14 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 			inUse: false,
 		};
 	}
-	componentDidMount() {
+	componentDidMount(): void {
 		if (this.props.drag) {
 			const element = document.querySelector(".DialogBackground") as HTMLElement;
 			element.draggable = true;
 		}
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const DialogContainer: Properties<string | number, string> = {
 			position: "absolute",
 			top: this.props.top ? this.props.top : "50%",

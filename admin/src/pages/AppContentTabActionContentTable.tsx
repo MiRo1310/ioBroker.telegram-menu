@@ -26,7 +26,7 @@ function createData(entriesOfParentComponent, element) {
 
 class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction> {
 	mounted: boolean;
-	constructor(props) {
+	constructor(props: PropsTableDndAction) {
 		super(props);
 		this.mounted = false;
 		this.state = {
@@ -37,7 +37,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			mouseOverNoneDraggable: false,
 		};
 	}
-	getRows = () => {
+	getRows = (): void => {
 		const { activeMenu, native } = this.props.data.state;
 		const action = native.data.action;
 
@@ -56,7 +56,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		this.setState({ rows: rows });
 	};
 
-	componentDidUpdate(prevProps: Readonly<PropsTableDndAction>) {
+	componentDidUpdate(prevProps: Readonly<PropsTableDndAction>): void {
 		const { activeMenu, native } = this.props.data.state;
 		if (prevProps.data.state.activeMenu !== activeMenu) {
 			this.getRows();
@@ -67,7 +67,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		}
 	}
 
-	updateHeight = () => {
+	updateHeight = (): void => {
 		// Diese Funktion setzt die Höhe der Tabelle auf die Höhe des darüber liegenden Td Tags da es herkömmlich anscheinen nicht funktioniert
 		const tBodies = Array.from(document.getElementsByClassName("dynamicHeight")) as HTMLTableSectionElement[];
 		const tds = Array.from(document.getElementsByClassName("tdWithHeightForSubTable")) as HTMLTableCellElement[];
@@ -87,7 +87,8 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			});
 		}
 	};
-	componentDidMount() {
+
+	componentDidMount(): void {
 		this.mounted = true;
 		this.getRows();
 		window.addEventListener("resize", this.updateHeight);
@@ -96,7 +97,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		}, 100);
 	}
 
-	componentWillUnmount() {
+	componentWillUnmount(): void {
 		window.removeEventListener("resize", this.updateHeight);
 	}
 
@@ -104,15 +105,15 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		console.log(error, errorInfo);
 	}
 
-	handleDrop = (index: number, event) => {
-		let currentElement = event.target;
+	handleDrop = (index: number, event: React.DragEvent<HTMLTableRowElement> | undefined): void => {
+		let currentElement = event?.target as HTMLElement;
 		while (currentElement) {
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
 				if (currentElement.classList.contains("draggingDropBox")) {
 					return;
 				}
 			}
-			currentElement = currentElement.parentNode;
+			currentElement = currentElement.parentElement as HTMLElement;
 		}
 		if (index !== this.state.dropStart) {
 			moveItem({
@@ -127,7 +128,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		}
 	};
 	//TODO
-	editRow = (index: number) => {
+	editRow = (index: number): void => {
 		const { activeMenu } = this.props.data.state;
 		const { data } = this.props.data.state.native;
 		const { setStateTabActionContent } = this.props.callback;
@@ -139,7 +140,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index });
 	};
 
-	deleteRow = (index: number) => {
+	deleteRow = (index: number): void => {
 		const { activeMenu } = this.props.data.state;
 		const { updateNative } = this.props.callback;
 		deleteRow({
@@ -152,7 +153,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		});
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TableBody className="TableDndAction-Body">
 				{this.state.rows.map((row, index) => (

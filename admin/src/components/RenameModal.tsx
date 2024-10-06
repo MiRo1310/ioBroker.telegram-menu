@@ -14,12 +14,12 @@ interface RenameProps {
 }
 
 class RenameModal extends Component<RenameProps> {
-	constructor(props) {
+	constructor(props: RenameProps) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer title={this.props.title} callback={this.props.rename} isOK={this.props.isOK}>
 				<RenameCard value={this.props.value} callback={{ setState: this.props.setState }} id={this.props.id} />

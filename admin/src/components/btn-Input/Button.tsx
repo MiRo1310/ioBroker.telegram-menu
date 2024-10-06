@@ -11,7 +11,7 @@ export interface EventButton {
 }
 
 class Button extends Component<ButtonProps> {
-	eventOnclickButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+	eventOnclickButton = (event: React.MouseEvent<HTMLButtonElement>): void => {
 		this.props.callback({
 			innerText: (event.target as HTMLButtonElement).innerText,
 			id: this.props.id,
@@ -21,7 +21,7 @@ class Button extends Component<ButtonProps> {
 		});
 	};
 
-	render() {
+	render(): React.ReactNode {
 		const buttonStyle: Properties<string | number, string> = {
 			backgroundColor: this.props.b_color || "#ddd",
 			color: this.props.color || "black",

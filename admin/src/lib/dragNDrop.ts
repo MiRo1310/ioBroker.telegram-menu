@@ -33,7 +33,7 @@ export const handleDragStart = (
 	event: React.DragEvent<HTMLTableRowElement> | undefined,
 	mouseOverNoneDraggable: boolean,
 	setState: SetStateFunction,
-	cb?: any,
+	cb?: () => void,
 ): boolean | undefined => {
 	if (mouseOverNoneDraggable && event) {
 		const target = event.target as HTMLElement;
@@ -45,7 +45,7 @@ export const handleDragStart = (
 		cb();
 	}
 };
-export const handleDragOver = (_, event: React.DragEvent<HTMLTableRowElement>): void => {
+export const handleDragOver = (indexRow: number, event: React.DragEvent<HTMLTableRowElement>): void => {
 	event.preventDefault();
 };
 

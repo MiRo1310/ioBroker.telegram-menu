@@ -27,7 +27,7 @@ class Button extends Component<ButtonProps_legacy> {
 		}
 	};
 
-	render() {
+	render(): React.ReactNode {
 		const buttonStyle: Properties<string | number, string> = {
 			backgroundColor: this.props.b_color || "#ddd",
 			color: this.props.color || "black",

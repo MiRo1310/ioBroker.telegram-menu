@@ -7,12 +7,12 @@ import { isChecked } from "../../lib/Utils.js";
 import { PropsRowNavCard } from "admin/app";
 
 class RowNavCard extends Component<PropsRowNavCard> {
-	constructor(props) {
+	constructor(props: PropsRowNavCard) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="edit__container">
 				{this.props.entries.map((entry, i) =>

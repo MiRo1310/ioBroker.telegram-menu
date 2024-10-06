@@ -20,7 +20,7 @@ interface State {
 }
 
 class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEditorCopyModal, State> {
-	constructor(props) {
+	constructor(props: PropsRowEditorCopyModal) {
 		super(props);
 		this.state = {
 			selectedMenu: "",
@@ -32,7 +32,7 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 		this.setState({ action: this.props.data.tab.value });
 	}
 
-	getAllMenusWithoutActiveMenu() {
+	getAllMenusWithoutActiveMenu(): string[] {
 		return Object.keys(this.props.data.state.native.usersInGroup);
 	}
 
@@ -40,13 +40,13 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 		return this.props.data.state.native.data.action?.[this.state.selectedMenu]?.[this.state.action] || [];
 	}
 
-	updateSelect = ({ val }: EventSelect) => {
+	updateSelect = ({ val }: EventSelect): void => {
 		this.setState({ selectedMenu: val });
 		this.props.callback.setStateRowEditor({ copyToMenu: val });
 		this.props.callback.setStateApp({ copyDataObject: { targetActionName: val } });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="editor__modal_container">
 				<div className="editor__modal_inputs">

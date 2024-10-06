@@ -7,7 +7,7 @@ import { ChangeInputNav, SetStateFunction, TabValueEntries, StateTabNavigation }
 import { EventButton } from "@components/btn-Input/Button";
 import { DataMainContent } from "../../app";
 
-interface PropsTableNAvEditRow {
+interface PropsTableNavEditRow {
 	state: StateTabNavigation;
 	setState: SetStateFunction;
 	data: DataMainContent & { entries: TabValueEntries[] };
@@ -15,13 +15,13 @@ interface PropsTableNAvEditRow {
 	popupRowCard: ({}: EventButton) => void;
 }
 
-class TableNavEditRow extends Component<PropsTableNAvEditRow> {
-	constructor(props) {
+class TableNavEditRow extends Component<PropsTableNavEditRow> {
+	constructor(props: PropsTableNavEditRow) {
 		super(props);
 		this.state = {};
 	}
 
-	changeInput = (data: ChangeInputNav) => {
+	changeInput = (data: ChangeInputNav): void => {
 		const copyNewRow = deepCopy(this.props.state.newRow);
 		if (data.id) {
 			copyNewRow[data.id] = data.val.toString();
@@ -32,7 +32,8 @@ class TableNavEditRow extends Component<PropsTableNAvEditRow> {
 		}
 		this.props.setState({ newRow: copyNewRow });
 	};
-	openHelperText = (value) => {
+
+	openHelperText = (value: string): void => {
 		if (value) {
 			this.props.setState({ editedValueFromHelperText: this.props.state.newRow[value] });
 			this.props.setState({ helperTextFor: value });
@@ -41,7 +42,7 @@ class TableNavEditRow extends Component<PropsTableNAvEditRow> {
 		this.props.setState({ helperText: true });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				callback={this.props.popupRowCard}

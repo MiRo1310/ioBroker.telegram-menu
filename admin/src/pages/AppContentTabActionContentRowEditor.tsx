@@ -19,7 +19,7 @@ import Checkbox from "@components/btn-Input/checkbox";
 import PopupContainer from "@components/popupCards/PopupContainer";
 import { type IobTheme, SelectID, Theme, I18n } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
-import { PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
+import { PropsRowEditPopupCard, StateRowEditPopupCard, NativeData } from "admin/app";
 import React, { Component } from "react";
 import { EventCheckbox } from "../../app";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
@@ -32,7 +32,7 @@ import RenameModal from "@components/RenameModal";
 const theme: IobTheme = Theme("light");
 
 class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCard, StateRowEditPopupCard> {
-	constructor(props) {
+	constructor(props: PropsRowEditPopupCard) {
 		super(props);
 		this.state = {
 			rows: [],
@@ -61,11 +61,12 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		};
 	}
 	tableHeadRef: AppContentTabActionContentRowEditorTableHead | null = null;
-	setTableHeadRef = (ref: AppContentTabActionContentRowEditorTableHead) => {
+
+	setTableHeadRef = (ref: AppContentTabActionContentRowEditorTableHead): void => {
 		this.tableHeadRef = ref;
 	};
 
-	componentDidMount() {
+	componentDidMount(): void {
 		saveRows(this.props, this.setState.bind(this), [], this.state.rows);
 		this.initCheckboxesForEachRow();
 	}
@@ -91,11 +92,11 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		}
 	}
 
-	updateData = (obj: { id: string; val: string | number | boolean; index: number }) => {
+	updateData = (obj: { id: string; val: string | number | boolean; index: number }): void => {
 		updateData(obj, this.props, this.setState.bind(this));
 	};
 
-	handleDrop = (index: number) => {
+	handleDrop = (index: number): void => {
 		if (index !== this.state.dropStart) {
 			moveItem(this.state.dropStart, this.props, this.setState.bind(this), index - this.state.dropStart);
 		}
@@ -104,7 +105,8 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 	disableInput = (name: string, index: number): boolean => {
 		return isTruthy(this.state?.rows?.[index]?.switch_checkbox) && name === "values" ? true : false;
 	};
-	initCheckboxesForEachRow = () => {
+
+	initCheckboxesForEachRow = (): void => {
 		const checkboxes: boolean[] = [];
 		this.state.rows.forEach((_, index) => {
 			checkboxes[index] = false;
@@ -112,7 +114,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.setState({ checkboxes: checkboxes });
 	};
 
-	checkAll = (check: boolean) => {
+	checkAll = (check: boolean): void => {
 		const rows = [...this.state.rows];
 		const checkboxesRowToCopy: boolean[] = [];
 		rows.forEach((_, index) => {
@@ -121,16 +123,17 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.setState({ checkboxes: checkboxesRowToCopy });
 	};
 
-	setCheckbox = (event: EventCheckbox) => {
+	setCheckbox = (event: EventCheckbox): void => {
 		const checkboxes = [...this.state.checkboxes];
 		checkboxes[event.index] = event.isChecked;
 		this.setState({ checkboxes });
 	};
 
-	openCopyModal = ({}: EventButton) => {
+	openCopyModal = ({}: EventButton): void => {
 		this.setState({ openCopyPopup: true });
 	};
-	closeCopyModal = (val: boolean) => {
+
+	closeCopyModal = (val: boolean): void => {
 		if (val) {
 			this.addSelectedDataToSelected();
 		}
@@ -138,6 +141,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.initCheckboxesForEachRow();
 		this.setState({ openCopyPopup: false });
 	};
+
 	addSelectedDataToSelected = (): void => {
 		if (this.functionSave) {
 			const obj = this.getSaveData();
@@ -150,7 +154,8 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			this.functionSave.saveData(obj);
 		}
 	};
-	getSaveData = () => {
+
+	getSaveData = (): SaveDataObject => {
 		const obj: SaveDataObject = {
 			checkboxesToCopy: this.state.checkboxes,
 			copyToMenu: this.state.copyToMenu,
@@ -162,7 +167,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		return obj;
 	};
 
-	isMinOneItemChecked = () => {
+	isMinOneItemChecked = (): void => {
 		const isOneMenuSelected = this.props.data.state.copyDataObject.targetActionName ? true : false;
 		const { isEmpty } = this.isActionTabEmpty(this.getSaveData());
 
@@ -183,11 +188,11 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 	};
 	functionSave: AppContentTabActionContentRowEditorCopyModalSelectedValues | null = null;
 
-	setFunctionSave = (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => {
+	setFunctionSave = (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues): void => {
 		this.functionSave = ref;
 	};
 
-	renameMenu = ({ value }: EventButton) => {
+	renameMenu = ({ value }: EventButton): void => {
 		if (value) {
 			if (!this.functionSave) {
 				return;
@@ -199,13 +204,13 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 		this.setState({ openRenameModal: false });
 	};
 
-	private isActionTabEmpty(obj: SaveDataObject) {
+	private isActionTabEmpty(obj: SaveDataObject): { isEmpty: boolean; action: NativeData["action"] } {
 		const action = this.props.data.state.native.data.action;
 		const isEmpty = action[obj.copyToMenu]?.[obj.tab].length ? false : true;
 		return { isEmpty, action };
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="edit__container">
 				{this.state.openRenameModal ? (

@@ -7,7 +7,10 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsHeaderMenu } from "admin/app";
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
-	eventOnMouse = (event) => {
+	eventOnMouse = (event: React.MouseEvent<HTMLDivElement> | undefined): void => {
+		if (!event) {
+			return;
+		}
 		if (event.type === "mouseenter") {
 			this.props.callback.setStateApp({ showPopupMenuList: true });
 		}
@@ -15,10 +18,12 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 			this.props.callback.setStateApp({ showPopupMenuList: false });
 		}
 	};
-	handleClick = () => {
+
+	handleClick = (): void => {
 		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
-	render() {
+
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
 				<Grid item xs={2}>

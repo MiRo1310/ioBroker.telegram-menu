@@ -3,7 +3,7 @@ import Button from "./Button_legacy";
 import { ButtonSmallProps } from "admin/app";
 
 class BtnSmallCopy extends Component<ButtonSmallProps> {
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Button
 				b_color="blue"

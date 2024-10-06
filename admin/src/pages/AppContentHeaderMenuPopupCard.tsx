@@ -3,23 +3,24 @@ import Button from "../components/btn-Input/Button_legacy";
 import { PropsMenuPopupCard } from "admin/app";
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {
-	constructor(props) {
+	constructor(props: PropsMenuPopupCard) {
 		super(props);
 		this.state = {};
 	}
 
-	componentDidUpdate(prevProps: Readonly<PropsMenuPopupCard>) {
+	componentDidUpdate(prevProps: Readonly<PropsMenuPopupCard>): void {
 		if (prevProps.usersInGroup !== this.props.usersInGroup) {
 			this.menuList = Object.keys(this.props.usersInGroup);
 		}
 	}
-	secondCallback = () => {
+
+	secondCallback = (): void => {
 		this.props.callback.setStateApp({ showPopupMenuList: false });
 	};
 
 	menuList = Object.keys(this.props.usersInGroup);
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="MenuPopupCard-Popup">
 				{this.menuList.map((menu, index) => {

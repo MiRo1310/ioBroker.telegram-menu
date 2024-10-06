@@ -1,12 +1,11 @@
-function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb): void {
+import { socket } from "../../app";
+
+function getUsersFromTelegram(socket: socket, telegramInstance = "telegram.0", cb: (val: string) => void): void {
 	try {
-		new Promise((resolve, reject) => {
-			socket.getState(telegramInstance + ".communicate.users").then((state, err) => {
-				if (state && state.val && !err) {
+		new Promise((resolve) => {
+			socket.getState(telegramInstance + ".communicate.users").then((state: any) => {
+				if (state && state.val) {
 					resolve(cb(state.val));
-				} else if (err) {
-					reject(err);
-					console.error("Error get Users vom Telegram: " + JSON.stringify(err));
 				}
 			});
 		});
@@ -15,7 +14,7 @@ function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb): void
 	}
 }
 
-function getAllTelegramInstances(socket, callback): void {
+function getAllTelegramInstances(socket: socket, callback: (val: string[]) => void): void {
 	const IDs: string[] = [];
 	try {
 		socket.getObjectViewCustom("system", "instance", "", "\u9999").then((objects) => {

@@ -7,11 +7,11 @@ import { PropsTableNavHelper } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
-	constructor(props) {
+	constructor(props: PropsTableNavHelper) {
 		super(props);
 		this.state = {};
 	}
-	onchangeValueFromHelper = ({ value }: EventButton) => {
+	onchangeValueFromHelper = ({ value }: EventButton): void => {
 		if (this.props.state.editedValueFromHelperText === null) {
 			this.props.setState({ editedValueFromHelperText: value });
 		}
@@ -19,7 +19,7 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
 		this.props.setState({ editedValueFromHelperText: this.props.state.editedValueFromHelperText + " " + value });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				callback={this.props.popupHelperCard}

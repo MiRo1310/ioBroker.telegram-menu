@@ -3,12 +3,12 @@ import Input from "../btn-Input/input";
 import { PropsRenameCard, StateRenameCard } from "admin/app";
 
 class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
-	constructor(props) {
+	constructor(props: PropsRenameCard) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="RenameCard">
 				<Input

@@ -11,7 +11,7 @@ export interface StateActionEditHeader {
 }
 
 class AppContentTabActionContentRowEditorTableHead extends Component<PropsActionEditHeader, StateActionEditHeader> {
-	constructor(props) {
+	constructor(props: PropsActionEditHeader) {
 		super(props);
 		this.state = {
 			checkAll: false,
@@ -21,14 +21,14 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
 	componentDidMount(): void {
 		this.props.setRef(this);
 	}
-	clickCheckBox = (event: EventCheckbox) => {
+	clickCheckBox = (event: EventCheckbox): void => {
 		this.setState({ isChecked: event.isChecked });
 		this.props.callback.checkAll(event.isChecked);
 	};
-	resetCheckboxHeader() {
+	resetCheckboxHeader(): void {
 		this.setState({ isChecked: false });
 	}
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TableHead>
 				<TableRow>

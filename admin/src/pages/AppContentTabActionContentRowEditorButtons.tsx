@@ -14,7 +14,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 	AppContentTabActionContentRowEditorButtonsProps,
 	AppContentTabActionContentRowEditorButtonsState
 > {
-	constructor(props) {
+	constructor(props: AppContentTabActionContentRowEditorButtonsProps) {
 		super(props);
 		this.state = {
 			openCopyPopup: false,
@@ -22,7 +22,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 		};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { buttons } = this.props.data.tab.popupCard;
 		const { indexRow, rows } = this.props.data;
 		const { setStateEditor } = this.props.callback;

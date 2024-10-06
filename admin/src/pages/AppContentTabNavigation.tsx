@@ -10,7 +10,7 @@ import { RowsNav, PropsTabNavigation, StateTabNavigation } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
-	constructor(props) {
+	constructor(props: PropsTabNavigation) {
 		super(props);
 		this.state = {
 			rowPopup: false,
@@ -28,7 +28,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			text: "",
 		};
 	}
-	componentDidUpdate(_, prevState: Readonly<StateTabNavigation>) {
+	componentDidUpdate(prevProps: Readonly<PropsTabNavigation>, prevState: Readonly<StateTabNavigation>): void {
 		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
 			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
 				if (this.state.editedValueFromHelperText !== "") {
@@ -40,7 +40,8 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			this.checkValueAlreadyUsed();
 		}
 	}
-	checkValueAlreadyUsed = () => {
+
+	checkValueAlreadyUsed = (): void => {
 		// Row.call darf ab jetzt leer oder auch nur ein - sein um es zu deaktivieren. Das Value darf ab jetzt auch leer sein.
 		if (this.state.newRow.text !== "") {
 			if (this.state.editRow) {
@@ -64,7 +65,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 	};
 
-	checkNewValueIsOK = () => {
+	checkNewValueIsOK = (): boolean => {
 		if (
 			this.state.editedValueFromHelperText !== null &&
 			this.state.editedValueFromHelperText !== undefined &&
@@ -77,19 +78,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 	};
 
-	changeInput = (data) => {
-		const copyNewRow = deepCopy(this.state.newRow);
-		if (data.id) {
-			copyNewRow[data.id] = data.val.toString();
-		} else {
-			Object.keys(data).forEach((key) => {
-				copyNewRow[key] = data[key];
-			});
-		}
-		this.setState({ newRow: copyNewRow });
-	};
-
-	popupRowCard = ({ value }: EventButton) => {
+	popupRowCard = ({ value }: EventButton): void => {
 		if (!value) {
 			this.setState({ rowPopup: false, editRow: false });
 			return;
@@ -106,7 +95,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ rowPopup: false, editRow: false });
 	};
 
-	openAddRowCard = (index: number) => {
+	openAddRowCard = (index: number): void => {
 		if (index) {
 			this.setState({ rowIndex: index });
 		}
@@ -126,7 +115,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<TableContainer component={Paper} className="MenuNavigation-Container">

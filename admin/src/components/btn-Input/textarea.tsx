@@ -3,18 +3,19 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsTextarea, StateTextarea } from "admin/app";
 
 class Textarea extends Component<PropsTextarea, StateTextarea> {
-	onChangeHandler = (event) => {
+	onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement> | undefined): void => {
 		if (!(this.props.function === "manual")) {
 			if (this.props.setNative) {
-				this.props.callback(this.props.id, event.target.value);
+				this.props.callback(this.props.id, event?.target.value);
 			} else {
-				this.props.callback({ [this.props.id]: event.target.value });
+				this.props.callback({ [this.props.id]: event?.target.value });
 			}
-		} else {
-			this.props.callback({ val: event.target.value, index: this.props.index, id: this.props.id });
+			return;
 		}
+		this.props.callback({ val: event?.target.value, index: this.props.index, id: this.props.id });
 	};
-	render() {
+
+	render(): React.ReactNode {
 		const container = {
 			width: this.props.width ? this.props.width : "auto",
 			display: "inline-block",

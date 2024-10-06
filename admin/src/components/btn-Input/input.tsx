@@ -15,8 +15,7 @@ class Input extends Component<InputProps> {
 		}
 	};
 
-	getClassName = () => {};
-	render() {
+	render(): React.ReactNode {
 		const container = {
 			width: this.props.width ? this.props.width : "auto",
 			display: "inline-block",

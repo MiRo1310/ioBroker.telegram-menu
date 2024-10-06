@@ -26,7 +26,7 @@ function createData(entriesOfParentComponent, element) {
 }
 
 class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
-	constructor(props) {
+	constructor(props: PropsTableDndNav) {
 		super(props);
 		this.state = {
 			dropStart: 0,
@@ -52,29 +52,30 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		}
 		this.setState({ rows: rows });
 	}
-	componentDidMount() {
+	componentDidMount(): void {
 		const { native, activeMenu } = this.props.data.state;
 		if (native.data.nav) {
 			this.getRows(native.data.nav, activeMenu);
 		}
 	}
 
-	componentDidUpdate(prevProps: Readonly<PropsTableDndNav>) {
+	componentDidUpdate(prevProps: Readonly<PropsTableDndNav>): void {
 		const { native, activeMenu } = this.props.data.state;
 		const { nav } = native.data;
 		if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
 			this.getRows(native.data.nav, activeMenu);
 		}
 	}
-	handleDrop = (event, index: number) => {
-		let currentElement = event.target;
+
+	handleDrop = (event: React.DragEvent<HTMLTableRowElement>, index: number): void => {
+		let currentElement = event.target as HTMLElement;
 		while (currentElement) {
 			if (currentElement.tagName === "TR") {
 				if (currentElement.classList.contains("draggingDropBox")) {
 					return;
 				}
 			}
-			currentElement = currentElement.parentNode;
+			currentElement = currentElement.parentElement as HTMLElement;
 		}
 		if (index !== this.state.dropStart && index != 0) {
 			moveItem({
@@ -88,7 +89,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		}
 	};
 
-	editRow = (index: number) => {
+	editRow = (index: number): void => {
 		const { native, activeMenu } = this.props.data.state;
 
 		if (native.data.nav && activeMenu) {
@@ -100,7 +101,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		this.props.setState({ editRow: true });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TableBody>
 				{this.state.rows.map((row, indexRow) => (

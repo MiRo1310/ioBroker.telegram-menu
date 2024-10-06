@@ -15,7 +15,7 @@ import { ActionNewRowProps } from "../../app";
 import { EventButton } from "@components/btn-Input/Button";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
-	constructor(props) {
+	constructor(props: PropsActionCard) {
 		super(props);
 		this.state = {
 			rowPopup: false,
@@ -36,7 +36,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			text: "",
 		};
 	}
-	componentDidUpdate(prevProps: Readonly<PropsActionCard>, prevState: Readonly<StateActionCard>) {
+
+	componentDidUpdate(prevProps: Readonly<PropsActionCard>, prevState: Readonly<StateActionCard>): void {
 		const { native, activeMenu } = this.props.data.state;
 		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
 			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
@@ -54,7 +55,8 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			this.disableButtonHandler();
 		}
 	}
-	checkNewValueIsOK = () => {
+
+	checkNewValueIsOK = (): boolean => {
 		if (
 			this.state.editedValueFromHelperText &&
 			this.state.editedValueFromHelperText !== "" &&
@@ -65,7 +67,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		return false;
 	};
 
-	addEditedTrigger = (trigger: string | null) => {
+	addEditedTrigger = (trigger: string | null): void => {
 		const unUsedTrigger: string[] = deepCopy(this.props.data.state.unUsedTrigger);
 		if (trigger) {
 			this.setState({ newUnUsedTrigger: [...unUsedTrigger, trigger] });
@@ -74,7 +76,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ newUnUsedTrigger: unUsedTrigger });
 	};
 
-	private disableButtonHandler() {
+	private disableButtonHandler(): void {
 		const { tab } = this.props.data;
 		let inputValuesAreOk = true;
 		const row = this.state.newRow;
@@ -104,18 +106,18 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		}
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		const { native, activeMenu } = this.props.data.state;
 		this.resetNewRow();
 		this.getLengthOfData(native.data?.action, activeMenu);
 	}
 
-	openAddRowCard = (index: number) => {
+	openAddRowCard = (index: number): void => {
 		this.addEditedTrigger(null);
 		this.setState({ rowPopup: true, rowIndexToEdit: index });
 	};
 
-	closeAddRowCard = ({ value: cbValue }: EventButton) => {
+	closeAddRowCard = ({ value: cbValue }: EventButton): void => {
 		const { native, activeMenu } = this.props.data.state;
 		const { value: subCard } = this.props.data.tab;
 		if (cbValue) {
@@ -135,7 +137,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.resetNewRow();
 	};
 
-	resetNewRow = () => {
+	resetNewRow = (): void => {
 		const newRow = {} as ActionNewRowProps;
 		this.props.data.tab.entries.forEach((entry) => {
 			newRow[entry.name] = [entry.val || ""];
@@ -143,7 +145,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ newRow: newRow });
 	};
 
-	getLengthOfData = (data: ActionData, activeMenu: string) => {
+	getLengthOfData = (data: ActionData, activeMenu: string): void => {
 		const { value: subCard } = this.props.data.tab;
 
 		if (data?.[activeMenu]?.[subCard]?.length) {
@@ -153,7 +155,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ rowsLength: 0 });
 	};
 
-	openHelperText = (value) => {
+	openHelperText = (value: { subCard: string; entry: string; index: number }): void => {
 		this.setState({ valueForSave: value });
 		if (value) {
 			this.setState({
@@ -166,7 +168,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ helperText: true });
 	};
 
-	onchangeValueFromHelper = (value: string) => {
+	onchangeValueFromHelper = (value: string): void => {
 		if (this.state.editedValueFromHelperText === null) {
 			this.setState({ editedValueFromHelperText: value });
 			return;
@@ -174,7 +176,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ editedValueFromHelperText: this.state.editedValueFromHelperText + " " + value });
 	};
 
-	popupHelperCard = ({ value }: EventButton) => {
+	popupHelperCard = ({ value }: EventButton): void => {
 		if (value) {
 			const row = deepCopy(this.state.newRow);
 			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
@@ -183,7 +185,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
 
-	addNewRow = (index: number) => {
+	addNewRow = (index: number): void => {
 		this.setState({ rowPopup: true });
 		const combinedProps: UpdateProps = {
 			data: {
@@ -194,7 +196,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		addNewRow(index, combinedProps, this.props.callback.setStateApp, this.props.callback.setStateApp);
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				{this.state.rowsLength == 0 ? (

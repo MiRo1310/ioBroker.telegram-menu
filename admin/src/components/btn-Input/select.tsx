@@ -6,11 +6,11 @@ export interface EventSelect {
 	val: string;
 }
 class Select extends Component<SelectProps> {
-	onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement> | undefined) => {
+	onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement> | undefined): void => {
 		const target = event?.target;
 		this.props.callback({ id: this.props.id, val: target?.value });
 	};
-	render() {
+	render(): React.ReactNode {
 		return (
 			<label className="Select">
 				<span>{I18n.t(this.props.label || "")}</span>

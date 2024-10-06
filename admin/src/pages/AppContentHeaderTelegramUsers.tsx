@@ -7,7 +7,7 @@ import Checkbox from "../components/btn-Input/checkbox";
 import { EventCheckbox, PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
-	constructor(props) {
+	constructor(props: PropsHeaderTelegramUsers) {
 		super(props);
 		this.state = {
 			menuOpen: true,
@@ -16,7 +16,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		};
 	}
 
-	componentDidUpdate = (prevProps) => {
+	componentDidUpdate = (prevProps: Readonly<PropsHeaderTelegramUsers>): void => {
 		if (prevProps.data.usersInGroup !== this.props.data.usersInGroup) {
 			this.checkActiveUsers();
 		}
@@ -25,13 +25,15 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		}
 	};
 
-	updateMenuOpen = () => {
+	updateMenuOpen = (): void => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
-	menuActiveChecked = () => {
+
+	menuActiveChecked = (): boolean => {
 		return this.props.data.userActiveCheckbox[this.props.data.activeMenu] ? true : false;
 	};
-	clickCheckbox = ({ isChecked }: EventCheckbox) => {
+
+	clickCheckbox = ({ isChecked }: EventCheckbox): void => {
 		if (isChecked) {
 			if (!this.checkActiveUsers(true)) {
 				return;
@@ -43,7 +45,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, isChecked);
 	};
 
-	checkActiveUsers = (val?: boolean) => {
+	checkActiveUsers = (val?: boolean): boolean | undefined => {
 		const usersInGroup = this.props.data.usersInGroup;
 		if (this.state.menuChecked || val) {
 			if (usersInGroup && usersInGroup[this.props.data.activeMenu] && usersInGroup[this.props.data.activeMenu].length <= 0) {
@@ -54,7 +56,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		}
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={2}>
 				<Grid item lg={2} md={2} xs={2}>
