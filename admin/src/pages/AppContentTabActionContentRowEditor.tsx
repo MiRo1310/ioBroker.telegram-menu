@@ -279,8 +279,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 															id="IDs"
 															index={indexRow}
 															callback={this.updateData}
-															callbackValue="event.target.value"
-															function="manual"
 															className="noneDraggable"
 														/>
 													</span>
@@ -307,8 +305,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 															id={entry.name}
 															index={indexRow}
 															callback={this.updateData}
-															callbackValue="event.target.value"
-															function="manual"
 															disabled={this.disableInput(entry.name, indexRow)}
 															type={entry.type}
 															inputWidth={

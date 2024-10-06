@@ -11,3 +11,9 @@ export interface EventButton {
     index: number;
     event: React.MouseEvent<HTMLButtonElement>;
 }
+
+export interface EventInput {
+    val: string | number | undefined;
+    id: string;
+    index: number | undefined;
+}

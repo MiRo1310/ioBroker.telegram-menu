@@ -24,6 +24,7 @@ function getAllTelegramInstances(socket: socket, callback: (val: string[]) => vo
 						objects[obj] &&
 						objects[obj].common &&
 						objects[obj].common.titleLang &&
+						typeof objects[obj].common.titleLang !== "string" &&
 						objects[obj].common.titleLang.en &&
 						objects[obj].common.titleLang.en == "Telegram") ||
 					objects[obj].common.title == "Telegram"

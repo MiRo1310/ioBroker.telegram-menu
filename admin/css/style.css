@@ -190,9 +190,7 @@ img[alt="logo"] {
 }
 /* get mistake */
 /* Grid Main Content */
-.App-main-content {
-	padding-top: 0 !important;
-}
+
 div.MuiTabPanel-root {
 	overflow: hidden;
 	flex-grow: 1;

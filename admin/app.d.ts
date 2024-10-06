@@ -3,6 +3,7 @@ import { Tab } from '@mui/material';
 import { AdminConnection } from '@iobroker/socket-client';
 import { LegacyRef, ReactNode } from "react";
 import { EventButton } from "@components/btn-Input/button";
+import { setState } from '../src/lib/setstate';
 
 export type Nullable<T> = T | null | undefined;
 
@@ -268,19 +269,17 @@ export interface InputProps {
 	value: string;
 	callback: SetStateFunction;
 	label?: string;
-	setNative?: boolean;
 	spellCheck?: boolean;
 	width?: string | number;
 	inputWidth?: string;
 	margin?: string;
 	class?: string;
 	children?: ReactNode;
-	function?: string;
 	index?: number;
 	disabled?: boolean;
+	setState?: SetStateFunction;
 	onMouseOver?: (e: any, setState: any) => void;
 	onMouseLeave?: (e: any, setState: any) => void;
-	setState?: SetStateFunction;
 	callbackValue?: CallbackValue;
 	className?: string;
 }

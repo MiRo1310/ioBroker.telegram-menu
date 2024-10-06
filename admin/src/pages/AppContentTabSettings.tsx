@@ -6,6 +6,7 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import Select from "@components/btn-Input/select";
 import { EventCheckbox, PropsSettings } from "admin/app";
 import { EventSelect } from "@components/btn-Input/select";
+import { EventInput } from "@/types/event";
 
 class Settings extends Component<PropsSettings> {
 	constructor(props: PropsSettings) {
@@ -50,10 +51,9 @@ class Settings extends Component<PropsSettings> {
 						<Input
 							label={I18n.t("Text will be send if no entry was found!")}
 							placeholder="No entry found"
-							callback={this.props.callback.updateNative}
+							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="textNoEntry"
 							value={this.props.data.state.native.textNoEntry || I18n.t("Entry not found!")}
-							setNative={true}
 							width="100%"
 						/>
 					</Grid>
@@ -96,10 +96,9 @@ class Settings extends Component<PropsSettings> {
 						<Input
 							label={I18n.t("Token Grafana")}
 							placeholder="Token Grafana"
-							callback={this.props.callback.updateNative}
+							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="tokenGrafana"
 							value={this.props.data.state.native.tokenGrafana}
-							setNative={true}
 							width="100%"
 						/>
 					</Grid>
@@ -107,10 +106,9 @@ class Settings extends Component<PropsSettings> {
 						<Input
 							label={I18n.t("Directory")}
 							placeholder="/opt/iobroker/grafana/"
-							callback={this.props.callback.updateNative}
+							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="directory"
 							value={this.props.data.state.native.directory || "/opt/iobroker/grafana/"}
-							setNative={true}
 							width="100%"
 						/>
 					</Grid>

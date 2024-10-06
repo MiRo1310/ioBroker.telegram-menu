@@ -7,21 +7,16 @@ import AppContentTab from "@/pages/AppContentTab";
 import { Properties } from "csstype";
 import { PropsMainContent } from "admin/app";
 
-class MainContent extends Component<PropsMainContent> {
+class AppContent extends Component<PropsMainContent> {
 	constructor(props: PropsMainContent) {
 		super(props);
 		this.state = {};
 	}
-	tabBox: Properties<string | number, string> = {
-		display: "flex",
-		flexDirection: "column",
-		height: "calc(100vh - 112px)",
-	};
 
 	render(): React.ReactNode {
 		return (
-			<Grid item xs={12} className="App-main-content">
-				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={this.tabBox}>
+			<Grid item xs={12} className="app__content">
+				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="app__box">
 					<TabContext value={this.props.data.state.tab}>
 						<AppContentTabsListing callback={this.props.callback} />
 						<AppContentHeader data={this.props.data} callback={this.props.callback} />
@@ -33,4 +28,4 @@ class MainContent extends Component<PropsMainContent> {
 	}
 }
 
-export default MainContent;
+export default AppContent;

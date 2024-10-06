@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import Button from "../components/btn-Input/button";
 import Input from "../components/btn-Input/input";
 import RenameModal from "@components/RenameModal";
-import { PropsBtnCard, StateBtnCard } from "admin/app";
+import { NativeData, PropsBtnCard, StateBtnCard } from "admin/app";
 import { replaceSpaceWithUnderscore } from "../lib/string";
 import { deepCopy } from "../lib/Utils.js";
 import { EventButton } from "../types/event";
@@ -36,29 +36,31 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		}
 		if (this.state.renamedMenuName) {
 			if (prevState.renamedMenuName !== this.state.renamedMenuName) {
-				if (this.state.renamedMenuName !== this.props.data.state.activeMenu) {
-					// check edit menu name
-					if (this.props.data.state.native.usersInGroup) {
-						if (
-							this.state.renamedMenuName !== "" &&
-							this.props.data.state.native.usersInGroup.hasOwnProperty(this.state.renamedMenuName.replace(/ /g, "_"))
-						) {
-							this.setState({ isOK: false });
-						} else {
-							this.setState({ isOK: true });
-						}
-					}
-				} else {
+				if (this.state.renamedMenuName === this.props.data.state.activeMenu) {
 					this.setState({ isOK: false });
+				}
+				// check edit menu name
+				if (this.props.data.state.native.usersInGroup) {
+					if (
+						this.state.renamedMenuName !== "" &&
+						this.props.data.state.native.usersInGroup.hasOwnProperty(this.state.renamedMenuName.replace(/ /g, "_"))
+					) {
+						this.setState({ isOK: false });
+						return;
+					}
+					this.setState({ isOK: true });
 				}
 			}
 		}
 	}
 
-	addNewMenu = (newMenu: string, copyMenu: boolean): void => {
-		newMenu = replaceSpaceWithUnderscore(newMenu);
+	addNewMenu = (newMenuName: string, copyMenu: boolean): void => {
+		newMenuName = replaceSpaceWithUnderscore(newMenuName);
 		let addNewMenu = false;
-		const data = JSON.parse(JSON.stringify(this.props.data.state.native.data));
+		const data = deepCopy(this.props.data.state.native.data);
+		if (!data) {
+			return;
+		}
 		let userActiveCheckbox = JSON.parse(JSON.stringify(this.props.data.state.native.userActiveCheckbox));
 		const usersInGroup = { ...this.props.data.state.native.usersInGroup };
 		if (!this.props.data.state.native.data.nav) {
@@ -66,12 +68,12 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			data.action = {};
 			userActiveCheckbox = {};
 			addNewMenu = true;
-		} else if (newMenu !== "" && newMenu && !this.props.data.state.native.data.nav[newMenu]) {
+		} else if (newMenuName !== "" && newMenuName && !this.props.data.state.native.data.nav[newMenuName]) {
 			if (copyMenu) {
-				data.nav[newMenu] = data.nav[this.state.oldMenuName];
-				data.action[newMenu] = data.action[this.state.oldMenuName];
-				userActiveCheckbox[newMenu] = userActiveCheckbox[this.state.oldMenuName];
-				usersInGroup[newMenu] = usersInGroup[this.state.oldMenuName];
+				data.nav[newMenuName] = data.nav[this.state.oldMenuName];
+				data.action[newMenuName] = data.action[this.state.oldMenuName];
+				userActiveCheckbox[newMenuName] = userActiveCheckbox[this.state.oldMenuName];
+				usersInGroup[newMenuName] = usersInGroup[this.state.oldMenuName];
 			} else {
 				addNewMenu = true;
 			}
@@ -79,54 +81,59 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			return;
 		}
 		if (addNewMenu) {
-			data.nav[newMenu] = [{ call: "Startside", value: "Iobroker, Light, Grafana, Weather", text: "Choose an action" }];
-			data.action[newMenu] = { get: [], set: [], pic: [] };
-			userActiveCheckbox[newMenu] = false;
-			usersInGroup[newMenu] = [];
+			data.nav[newMenuName] = [
+				{ call: "StartSide", value: "Iobroker, Light, Grafana, Weather", text: "Choose an action", parse_mode: "false" },
+			];
+			data.action[newMenuName] = { get: [], set: [], pic: [], echarts: [], events: [], httpRequest: [] };
+			userActiveCheckbox[newMenuName] = false;
+			usersInGroup[newMenuName] = [];
 			this.setState({ newMenuName: "" });
 		}
-		const cb = () => this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
-		const cb2 = () => this.props.callback.updateNative("usersInGroup", usersInGroup, cb);
-		this.props.callback.updateNative("data", data, cb2);
+
+		this.props.callback.updateNative("data", data, () =>
+			this.props.callback.updateNative("usersInGroup", usersInGroup, () =>
+				this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox),
+			),
+		);
 
 		setTimeout(() => {
-			this.props.callback.setStateApp({ activeMenu: newMenu });
+			this.props.callback.setStateApp({ activeMenu: newMenuName });
 		}, 500);
 	};
 
 	removeMenu = (menu: string, renamed: boolean, newMenu?: string): void => {
 		const newObject = deepCopy(this.props.data.state.native.data);
-		if (!newObject) {
-			return;
-		}
 		const copyOfUsersInGroup = deepCopy(this.props.data.state.native.usersInGroup);
 		const userActiveCheckbox = deepCopy(this.props.data.state.native.userActiveCheckbox);
-		if (!copyOfUsersInGroup || !userActiveCheckbox) {
+
+		if (!copyOfUsersInGroup || !userActiveCheckbox || !newObject) {
 			return;
 		}
+
 		delete newObject.nav[menu];
 		delete newObject.action[menu];
 		delete userActiveCheckbox[menu];
 		delete copyOfUsersInGroup[menu];
 
-		const firstMenu = Object.keys(newObject.nav)[0];
-		const cb2 = () => this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox);
-		const cb = () => this.props.callback.updateNative("usersInGroup", copyOfUsersInGroup, cb2);
-		this.props.callback.updateNative("data", newObject, cb);
+		this.props.callback.updateNative("data", newObject, () =>
+			this.props.callback.updateNative("usersInGroup", copyOfUsersInGroup, () =>
+				this.props.callback.updateNative("userActiveCheckbox", userActiveCheckbox),
+			),
+		);
 
 		if (renamed) {
 			this.props.callback.setStateApp({ activeMenu: newMenu });
 			return;
 		}
-		this.props.callback.setStateApp({ activeMenu: firstMenu });
+		this.setFirstMenuInList(newObject);
 	};
 
 	openConfirmDialog = (): void => {
 		this.setState({ confirmDialog: true });
 	};
 
-	renameMenu = ({ value: cbValue }: EventButton): void => {
-		if (!cbValue) {
+	renameMenu = ({ value }: EventButton): void => {
+		if (!value) {
 			this.setState({ renameDialog: false });
 			return;
 		}
@@ -146,6 +153,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 		this.setState({ renamedMenuName: this.state.oldMenuName });
 		this.setState({ renameDialog: true });
 	};
+
 	buttonAddNewMenuHandler = ({ value }: EventButton): void => {
 		this.addNewMenu(value as string, false);
 	};
@@ -153,6 +161,11 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	appSetStateHandler = ({ id, value: cbValue }: EventButton): void => {
 		this.props.callback.setStateApp({ [id]: cbValue });
 	};
+
+	private setFirstMenuInList(newObject: NativeData) {
+		const firstMenu = Object.keys(newObject.nav)[0];
+		this.props.callback.setStateApp({ activeMenu: firstMenu });
+	}
 
 	render(): React.ReactNode {
 		return (
