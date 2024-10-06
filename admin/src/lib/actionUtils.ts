@@ -12,15 +12,16 @@ function createData(element: ActionNewRowProps, index: string, rowElements: TabV
 	});
 	return obj;
 }
-let rows: { [key: string]: string }[] = [];
+
 
 function getRows(element: ActionNewRowProps, rowElements: TabValueEntries[]): { rows: { [key: string]: string }[] | null; trigger: string } {
 	if (!element) {
 		return { rows: null, trigger: "" };
 	}
 
-	rows = [];
-	let trigger: string = "";
+	let rows: { [key: string]: string }[] = [];
+
+	let trigger = "";
 	if (element.trigger && element.trigger[0]) {
 		trigger = element.trigger[0];
 	}
@@ -62,6 +63,7 @@ export const saveRows = (
 	}
 	setState({ trigger, rows });
 };
+
 export interface UpdateProps {
 	data: { newRow: ActionNewRowProps; tab: { entries: TabValueEntries[] } };
 	callback?: { setStateTabActionContent: SetStateFunction };
@@ -97,13 +99,13 @@ export const updateTrigger = (value: { trigger: string }, props: UpdateProps, se
 };
 
 export const addNewRow = (index: number, props: UpdateProps, setState: SetStateFunction, cb: SetStateFunction): void => {
-	let newRow;
-	if (index >= 0 && index != null) {
+	let newRow: ActionNewRowProps | undefined;
+	if (index >= 0) {
 		newRow = deepCopy(props.data.newRow);
-	} else {
-		newRow = {};
 	}
-
+	if (!newRow) {
+		return;
+	}
 	props.data.tab.entries.forEach((element) => {
 		if (!index && index !== 0) {
 			newRow[element.name] = [element.val];
@@ -274,7 +276,6 @@ export const updateTriggerForSelect = (
 		triggerObj.unUsedTrigger = unUsedTrigger;
 	}
 	unUsedTrigger = sortArray(unUsedTrigger);
-	console.log(triggerObj.usedTrigger.action["1_Gruppe_1"]["set"])
 
 	return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger, triggerObj: triggerObj };
 };

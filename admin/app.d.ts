@@ -552,7 +552,7 @@ export interface StateTriggerOverview {
 	selected: string;
 	options: string[];
 }
-// FIXME - any
+
 export interface TriggerObj {
 	unUsedTrigger: string[];
 	everyTrigger: { [key: string]: string[] };
