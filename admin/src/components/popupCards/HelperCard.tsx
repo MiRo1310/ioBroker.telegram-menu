@@ -13,6 +13,7 @@ import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
 import { PropsHelperCard, StateHelperCard } from "admin/app";
+import { EventButton } from "@components/btn-Input/button";
 
 const theme: IobTheme = Theme("light");
 
@@ -39,7 +40,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 		this.props.setState({ editedValueFromHelperText: value + " " + selected });
 	};
 
-	openSelectId = (): void => {
+	openSelectId = ({}: EventButton): void => {
 		if (this.props.editedValueFromHelperText) {
 			if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("ID")) {
 				const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];

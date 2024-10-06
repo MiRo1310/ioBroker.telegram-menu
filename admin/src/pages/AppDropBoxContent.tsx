@@ -7,7 +7,7 @@ import { deepCopy } from "../lib/Utils.js";
 import PopupContainer from "../components/popupCards/PopupContainer";
 import RenameCard from "../components/popupCards/RenameCard";
 import { NativeData, PropsDropBox, StateDropBox } from "admin/app";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 import { DataRow } from "../../app";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
@@ -65,6 +65,9 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 			return;
 		}
 		const data = deepCopy(this.props.data.state.native.data);
+		if (!data) {
+			return;
+		}
 		let rowToWorkWith: DataRow = {} as DataRow;
 		const moveOrCopy = this.state.selectedValue;
 

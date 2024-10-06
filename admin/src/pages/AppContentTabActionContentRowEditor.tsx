@@ -14,7 +14,7 @@ import {
 } from "@/lib/dragNDrop.js";
 import { isTruthy } from "@/lib/string";
 import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabActionContentRowEditorTableHead";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 import Checkbox from "@components/btn-Input/checkbox";
 import PopupContainer from "@components/popupCards/PopupContainer";
 import { type IobTheme, SelectID, Theme, I18n } from "@iobroker/adapter-react-v5";
@@ -334,7 +334,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 														</Input>
 														{entry.search ? (
 															<BtnSmallSearch
-																callback={() =>
+																callback={({}: EventButton) =>
 																	this.setState({
 																		showSelectId: true,
 																		selectIdValue: row[entry.name],

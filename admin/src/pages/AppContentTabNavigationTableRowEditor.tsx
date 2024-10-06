@@ -4,7 +4,7 @@ import RowNavCard from "@/components/popupCards/RowNavCard";
 
 import { deepCopy } from "@/lib/Utils.js";
 import { ChangeInputNav, SetStateFunction, TabValueEntries, StateTabNavigation, EventCheckbox } from "admin/app";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 import { DataMainContent } from "../../app";
 
 interface PropsTableNavEditRow {

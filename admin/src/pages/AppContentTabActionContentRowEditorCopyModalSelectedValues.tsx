@@ -96,7 +96,10 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		newTriggerName: string;
 	}): NativeData | undefined {
 		const rowToCopy: Rows = this.props.data.action[activeMenu][tab][rowIndexToEdit];
-		let copyData: NativeData = deepCopy(this.props.data);
+		let copyData = deepCopy(this.props.data);
+		if (!copyData) {
+			return;
+		}
 		let emptyObject = false;
 		if (copyData.action[copyToMenu][tab].length === 0) {
 			emptyObject = true;
@@ -104,7 +107,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		checkboxesToCopy.forEach((value, i) => {
 			if (value) {
 				if (emptyObject) {
-					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, 0, i, newTriggerName);
+					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData as NativeData, copyToMenu, tab, 0, i, newTriggerName);
 					return copyData;
 				}
 				Object.keys(this.state.checked).forEach((key, copyToIndex) => {
@@ -112,7 +115,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 						return;
 					}
 
-					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData, copyToMenu, tab, copyToIndex, i);
+					copyData = this.saveToGlobalObject(rowToCopy, addTrigger, copyData as NativeData, copyToMenu, tab, copyToIndex, i);
 				});
 			}
 		});

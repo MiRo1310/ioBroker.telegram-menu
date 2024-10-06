@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
-import Button from "../components/btn-Input/Button_legacy";
+import Button, { EventButton } from "../components/btn-Input/button";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../components/btn-Input/checkbox";
@@ -25,7 +25,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		}
 	};
 
-	updateMenuOpen = (): void => {
+	updateMenuOpen = ({}: EventButton): void => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
 

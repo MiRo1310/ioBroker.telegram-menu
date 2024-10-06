@@ -4,6 +4,7 @@ import BtnSmallRemove from "@components/btn-Input/btn-small-remove";
 import { TableCell } from "@mui/material";
 import React, { Component } from "react";
 import { AppContentTabActionContentRowEditorButtonsProps } from "../types/props-types";
+import { EventButton } from "@components/btn-Input/button";
 
 interface AppContentTabActionContentRowEditorButtonsState {
 	openCopyPopup: boolean;
@@ -31,7 +32,9 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 				{buttons.add ? (
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallAdd // Buttons sind einstellbar in entries.ts
-							callback={() => addNewRow(indexRow, this.props, setStateEditor, this.props.callback.setStateTabActionContent)}
+							callback={({}: EventButton) =>
+								addNewRow(indexRow, this.props, setStateEditor, this.props.callback.setStateTabActionContent)
+							}
 							index={indexRow}
 						/>
 					</TableCell>
@@ -39,7 +42,7 @@ class AppContentTabActionContentRowEditorButtons extends Component<
 				{buttons.remove ? (
 					<TableCell align="center" className="cellIcon">
 						<BtnSmallRemove
-							callback={(index: number) => deleteRow(index, this.props, setStateEditor)}
+							callback={({ index }: EventButton) => deleteRow(index, this.props, setStateEditor)}
 							index={indexRow}
 							disabled={rows.length == 1 ? "disabled" : ""}
 						/>

@@ -2,7 +2,7 @@ import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
 import { Tab } from '@mui/material';
 import { AdminConnection } from '@iobroker/socket-client';
 import { LegacyRef, ReactNode } from "react";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 
 export type Nullable<T> = T | null | undefined;
 
@@ -127,7 +127,7 @@ export interface SetState {
 
 export interface PropsTableDndNav {
 	card: string;
-	openAddRowCard: (value: any) => void;
+	openAddRowCard: ({ }: EventButton) => void;
 	showButtons: ShowButtons;
 	data: DataMainContent & { entries: TabValueEntries[] }
 	setState: SetStateFunction;
@@ -182,35 +182,11 @@ export interface StateTabAction {
 export interface ButtonSmallProps {
 	index?: number;
 	callbackValue?: CallbackValue;
-	callback: any;
+	callback: (e: EventButton) => void;
 	disabled?: string;
 	class?: string;
 }
-export interface ButtonProps_legacy {
-	color?: string;
-	b_color?: string;
-	padding?: string;
-	small?: BooleanString;
-	fontSize?: string;
-	border?: string;
-	width?: string;
-	margin?: string;
-	height?: string;
-	round?: string;
-	maxWidth?: string;
-	verticalAlign?: string;
-	secondCallback?: Function;
-	index?: number | null;
-	callback: Function;
-	callbackValue?: CallbackValue;
-	id?: string;
-	setNative?: boolean;
-	title?: string;
-	name?: string;
-	disabled?: string | boolean;
-	className?: string;
-	children?: ReactNode;
-}
+
 export interface ButtonProps {
 	color?: string;
 	b_color?: string;
@@ -224,7 +200,6 @@ export interface ButtonProps {
 	round?: string;
 	maxWidth?: string;
 	verticalAlign?: string;
-	secondCallback?: Function;
 	index?: number | null;
 	callback: Function;
 	callbackValue?: CallbackValue;
@@ -238,21 +213,6 @@ export interface ButtonProps {
 }
 export type CallbackValue = boolean | string | number | undefined;
 
-export interface PropsCheckbox_legacy {
-	id: string;
-	label?: string;
-	isChecked: boolean;
-	callback: any;
-	callbackValue?: string;
-	setNative?: boolean;
-	obj?: boolean;
-	index: number;
-	title?: string;
-	width?: string;
-	marginLeft?: string;
-	marginTop?: string;
-	class?: string;
-}
 export interface PropsCheckbox {
 	id: string;
 	label?: string;
@@ -340,7 +300,7 @@ export interface PropsHelperCard {
 	editedValueFromHelperText: string;
 	setState: SetStateFunction;
 	data: any;
-	callback: any;
+	callback: (val: EventButton) => void;
 	name: string;
 	text: string;
 	helperTextForInput: string;
@@ -406,7 +366,7 @@ export interface PropsTableDndAction {
 }
 export interface TabActionContentCallback {
 	addEditedTrigger: (trigger: string | null) => void;
-	openAddRowCard: (index: number) => void;
+	openAddRowCard: (val: EventButton) => void;
 }
 export interface StateTableDndAction {
 	dropStart: number;
@@ -802,11 +762,11 @@ export interface PropsActionEditHeader {
 
 export interface PropsButtonCard {
 	showButtons: ShowButtons;
-	openAddRowCard: (index: number) => void;
-	editRow: (index: number) => void;
-	moveUp: (index: number) => void;
-	moveDown: (index: number) => void;
-	deleteRow: (index: number) => void;
+	openAddRowCard: (val: EventButton) => void;
+	editRow: (e: EventButton) => void;
+	moveUp: (e: EventButton) => void;
+	moveDown: (e: EventButton) => void;
+	deleteRow: (e: EventButton) => void;
 	index: number;
 	rows: RowForButton[];
 	notShowDelete?: boolean;

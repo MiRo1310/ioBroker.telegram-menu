@@ -7,7 +7,7 @@ import BtnSmallDown from "../btn-Input/btn-small-down";
 import BtnSmallRemove from "../btn-Input/btn-small-remove";
 import { PropsButtonCard } from "admin/app";
 
-export const ButtonCard = (props: PropsButtonCard): React.ReactNode => {
+export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
 	return (
 		<>
 			{props.showButtons && props.showButtons.add ? (

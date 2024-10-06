@@ -158,7 +158,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
         let res;
         if (text2.includes("{common.name}")) {
           res = await _this2.getForeignObjectAsync(id);
-          _this2.log.debug("Name " + JSON.stringify(res.common.name));
+          _this2.log.debug("Name " + JSON.stringify(res == null ? void 0 : res.common.name));
           if (res && res.common.name) {
             newText = newText.replace("{common.name}", res.common.name);
           }

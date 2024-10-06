@@ -73,6 +73,9 @@ export const updateData = (
 	setState: SetStateFunction,
 ): void => {
 	const newRow = deepCopy(props.data.newRow);
+	if (!newRow) {
+		return;
+	}
 	newRow[id][index] = val.toString();
 	if (props.callback?.setStateTabActionContent) {
 		props.callback.setStateTabActionContent({ newRow: newRow });
@@ -83,6 +86,9 @@ export const updateData = (
 
 export const updateTrigger = (value: { trigger: string }, props: UpdateProps, setState: SetStateFunction): void => {
 	const newRow = deepCopy(props.data.newRow);
+	if (!newRow) {
+		return;
+	}
 	newRow.trigger[0] = value.trigger;
 	if (props.callback?.setStateTabActionContent) {
 		props.callback.setStateTabActionContent({ newRow: newRow });
@@ -111,6 +117,9 @@ export const addNewRow = (index: number, props: UpdateProps, setState: SetStateF
 
 export const deleteRow = (index: number, props: UpdateProps, setState: SetStateFunction): void => {
 	const newRow = deepCopy(props.data.newRow);
+	if (!newRow) {
+		return;
+	}
 	props.data.tab.entries.forEach((element) => {
 		newRow[element.name].splice(index, 1);
 	});
@@ -122,6 +131,9 @@ export const deleteRow = (index: number, props: UpdateProps, setState: SetStateF
 
 export const moveItem = (index: number, props: UpdateProps, setState: SetStateFunction, val: number): void => {
 	const newRow = deepCopy(props.data.newRow);
+	if (!newRow) {
+		return;
+	}
 	props.data.tab.entries.forEach((element) => {
 		if (element.name !== "trigger") {
 			newRow[element.name].splice(index + val, 0, newRow[element.name].splice(index, 1)[0]);
@@ -141,6 +153,9 @@ export const updateId = (
 	ID: string,
 ): void => {
 	const newRow = deepCopy(props.data.newRow);
+	if (!newRow) {
+		return;
+	}
 	newRow[ID][indexID] = selected;
 	if (props.callback?.setStateTabActionContent) {
 		props.callback.setStateTabActionContent({ newRow: newRow });

@@ -2,13 +2,12 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import ConfirmDialog from "@iobroker/adapter-react-v5/Dialogs/Confirm";
 import { Grid } from "@mui/material";
 import React, { Component } from "react";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/button";
 import Input from "../components/btn-Input/input";
 
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 import RenameModal from "@components/RenameModal";
 import { PropsBtnCard, StateBtnCard } from "admin/app";
-import { NativeData } from "../../app";
 import { replaceSpaceWithUnderscore } from "../lib/string";
 import { deepCopy } from "../lib/Utils.js";
 
@@ -97,10 +96,15 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	};
 
 	removeMenu = (menu: string, renamed: boolean, newMenu?: string): void => {
-		const newObject: NativeData = deepCopy(this.props.data.state.native.data);
+		const newObject = deepCopy(this.props.data.state.native.data);
+		if (!newObject) {
+			return;
+		}
 		const copyOfUsersInGroup = deepCopy(this.props.data.state.native.usersInGroup);
 		const userActiveCheckbox = deepCopy(this.props.data.state.native.userActiveCheckbox);
-
+		if (!copyOfUsersInGroup || !userActiveCheckbox) {
+			return;
+		}
 		delete newObject.nav[menu];
 		delete newObject.action[menu];
 		delete userActiveCheckbox[menu];

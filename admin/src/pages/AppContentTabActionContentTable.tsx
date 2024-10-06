@@ -15,6 +15,7 @@ import {
 } from "../lib/dragNDrop.js";
 import { getElementIcon } from "../lib/actionUtils.js";
 import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
+import { EventButton } from "@components/btn-Input/button.js";
 
 function createData(entriesOfParentComponent, element) {
 	const obj: RowForButton = {} as RowForButton;
@@ -128,11 +129,14 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		}
 	};
 	//TODO
-	editRow = (index: number): void => {
+	editRow = ({ index }: EventButton): void => {
 		const { activeMenu } = this.props.data.state;
 		const { data } = this.props.data.state.native;
 		const { setStateTabActionContent } = this.props.callback;
 		const dataCopy = deepCopy(data);
+		if (!dataCopy) {
+			return;
+		}
 		const newRow = dataCopy[this.props.data.card][activeMenu][this.props.data.tab.value][index];
 		if (newRow.trigger) {
 			this.props.callback.addEditedTrigger(newRow.trigger[0]);
@@ -169,7 +173,8 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setStateApp({ draggingRowIndex: index }),
+								{ draggingRowIndex: index },
+								this.props.callback.setStateApp,
 							);
 						}}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props.callback.setStateApp)}
@@ -210,7 +215,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={(index) =>
+							deleteRow={({ index }: EventButton) =>
 								deleteRow({
 									index,
 									activeMenu: this.props.data.state.activeMenu,

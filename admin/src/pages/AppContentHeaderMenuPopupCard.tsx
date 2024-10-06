@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "../components/btn-Input/Button_legacy";
+import Button, { EventButton } from "../components/btn-Input/button";
 import { PropsMenuPopupCard } from "admin/app";
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {
@@ -35,9 +35,10 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 							width="90%"
 							height="40px"
 							fontSize="16px"
-							callback={this.props.callback.setStateApp}
+							callback={({ id, innerText }: EventButton) => {
+								this.props.callback.setStateApp({ [id]: innerText }), this.secondCallback();
+							}}
 							callbackValue="event.target.innerText"
-							secondCallback={this.secondCallback}
 						>
 							{menu}
 						</Button>

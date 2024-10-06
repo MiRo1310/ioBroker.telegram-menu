@@ -3,7 +3,7 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React, { Component } from "react";
 
-import Button from "@components/btn-Input/Button_legacy";
+import Button from "@components/btn-Input/button";
 import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import helperText from "@/config/helper.js";
@@ -12,7 +12,7 @@ import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionCont
 import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
 import { ActionData, PropsActionCard, StateActionCard } from "admin/app";
 import { ActionNewRowProps } from "../../app";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props: PropsActionCard) {
@@ -68,7 +68,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	};
 
 	addEditedTrigger = (trigger: string | null): void => {
-		const unUsedTrigger: string[] = deepCopy(this.props.data.state.unUsedTrigger);
+		const unUsedTrigger = deepCopy(this.props.data.state.unUsedTrigger);
 		if (!unUsedTrigger) {
 			return;
 		}
@@ -114,7 +114,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.getLengthOfData(native.data?.action, activeMenu);
 	}
 
-	openAddRowCard = (index: number): void => {
+	openAddRowCard = ({ index }: EventButton): void => {
 		this.addEditedTrigger(null);
 		this.setState({ rowPopup: true, rowIndexToEdit: index });
 	};
@@ -191,7 +191,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
 
-	addNewRow = (index: number): void => {
+	addNewRow = ({ index }: EventButton): void => {
 		this.setState({ rowPopup: true });
 		const combinedProps: UpdateProps = {
 			data: {

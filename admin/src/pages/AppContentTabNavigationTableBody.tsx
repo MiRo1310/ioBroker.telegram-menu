@@ -16,6 +16,7 @@ import {
 } from "@/lib/dragNDrop.js";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { NavData, PropsTableDndNav, RowForButton, StateTableDndNav } from "admin/app";
+import { EventButton } from "@components/btn-Input/button";
 
 function createData(entriesOfParentComponent, element) {
 	const obj: RowForButton = {} as RowForButton;
@@ -89,7 +90,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		}
 	};
 
-	editRow = (index: number): void => {
+	editRow = ({ index }: EventButton): void => {
 		const { native, activeMenu } = this.props.data.state;
 
 		if (native.data.nav && activeMenu) {
@@ -119,7 +120,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setStateApp ? this.props.callback.setStateApp({ draggingRowIndex: indexRow }) : "",
+								{ draggingRowIndex: indexRow },
+								this.props.callback.setStateApp,
 							)
 						}
 						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props.callback.setStateApp)}
@@ -166,7 +168,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 							index={indexRow}
 							showButtons={this.props.showButtons}
 							notShowDelete={indexRow == 0}
-						></ButtonCard>
+						/>
 					</TableRow>
 				))}
 			</TableBody>

@@ -4,7 +4,7 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 
 import helperText from "@/config/helper.js";
 import { PropsTableNavHelper } from "admin/app";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
 	constructor(props: PropsTableNavHelper) {
@@ -40,7 +40,7 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
 					callback={this.onchangeValueFromHelper}
 					editedValueFromHelperText={this.props.state.editedValueFromHelperText || ""}
 					setState={this.props.setState.bind(this)}
-				></HelperCard>
+				/>
 			</PopupContainer>
 		);
 	}

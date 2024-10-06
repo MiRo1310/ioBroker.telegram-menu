@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import Button from "../components/btn-Input/Button_legacy";
+import Button from "../components/btn-Input/button";
 import BtnCard from "./AppContentHeaderMenuButtons";
 import MenuPopupCard from "./AppContentHeaderMenuPopupCard";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsHeaderMenu } from "admin/app";
+import { EventButton } from "@components/btn-Input/button";
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
 	eventOnMouse = (event: React.MouseEvent<HTMLDivElement> | undefined): void => {
@@ -19,7 +20,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 		}
 	};
 
-	handleClick = (): void => {
+	handleClick = ({}: EventButton): void => {
 		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
 

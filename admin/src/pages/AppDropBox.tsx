@@ -3,7 +3,7 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import DropBox from "@/pages/AppDropBoxContent";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave } from "@/lib/movePosition";
 import { PropsMainDropBox } from "admin/app";
-import { EventButton } from "@components/btn-Input/Button";
+import { EventButton } from "@components/btn-Input/button";
 
 class MainDropBox extends Component<PropsMainDropBox> {
 	constructor(props: PropsMainDropBox) {
