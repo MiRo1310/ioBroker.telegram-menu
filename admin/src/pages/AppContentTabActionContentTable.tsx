@@ -15,7 +15,7 @@ import {
 } from "../lib/dragNDrop.js";
 import { getElementIcon } from "../lib/actionUtils.js";
 import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
-import { EventButton } from "@components/btn-Input/button.js";
+import { EventButton } from "../types/event";
 
 function createData(entriesOfParentComponent, element) {
 	const obj: RowForButton = {} as RowForButton;

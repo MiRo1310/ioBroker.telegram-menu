@@ -4,6 +4,7 @@ import { isChecked } from "@/lib/Utils.js";
 import Button from "@components/btn-Input/button";
 import Checkbox from "@components/btn-Input/checkbox";
 import React, { Component } from "react";
+import { EventButton } from "../types/event";
 import {
 	CallbackFunctionsApp,
 	CallbackTabActionContent,
@@ -12,7 +13,6 @@ import {
 	EventCheckbox,
 	TabActionContentTableProps,
 } from "../../app";
-import { EventButton } from "../components/btn-Input/button";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { isMinOneCheckboxChecked: boolean };

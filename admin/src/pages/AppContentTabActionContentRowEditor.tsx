@@ -14,7 +14,6 @@ import {
 } from "@/lib/dragNDrop.js";
 import { isTruthy } from "@/lib/string";
 import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabActionContentRowEditorTableHead";
-import { EventButton } from "@components/btn-Input/button";
 import Checkbox from "@components/btn-Input/checkbox";
 import PopupContainer from "@components/popupCards/PopupContainer";
 import { type IobTheme, SelectID, Theme, I18n } from "@iobroker/adapter-react-v5";
@@ -28,6 +27,7 @@ import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionCont
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 import { SaveDataObject } from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 import RenameModal from "@components/RenameModal";
+import { EventButton } from "../types/event";
 
 const theme: IobTheme = Theme("light");
 

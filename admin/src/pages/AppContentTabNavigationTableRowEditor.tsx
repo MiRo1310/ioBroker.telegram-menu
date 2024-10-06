@@ -1,19 +1,10 @@
-import React, { Component } from "react";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import RowNavCard from "@/components/popupCards/RowNavCard";
+import React, { Component } from "react";
 
 import { deepCopy } from "@/lib/Utils.js";
-import { ChangeInputNav, SetStateFunction, TabValueEntries, StateTabNavigation, EventCheckbox } from "admin/app";
-import { EventButton } from "@components/btn-Input/button";
-import { DataMainContent } from "../../app";
-
-interface PropsTableNavEditRow {
-	state: StateTabNavigation;
-	setState: SetStateFunction;
-	data: DataMainContent & { entries: TabValueEntries[] };
-	entries: TabValueEntries[];
-	popupRowCard: ({}: EventButton) => void;
-}
+import { ChangeInputNav, EventCheckbox } from "admin/app";
+import { PropsTableNavEditRow } from "@/types/props-types";
 
 class TableNavEditRow extends Component<PropsTableNavEditRow> {
 	constructor(props: PropsTableNavEditRow) {

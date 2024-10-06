@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PopupContainer from "./popupCards/PopupContainer";
 import RenameCard from "./popupCards/RenameCard";
-import { EventButton } from "./btn-Input/button";
 import { SetStateFunction } from "admin/app";
+import { EventButton } from "../types/event";
 
 interface RenameProps {
 	title: string;

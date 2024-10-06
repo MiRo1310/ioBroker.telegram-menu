@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,12 +7,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { type IobTheme, Theme, I18n, SelectID } from "@iobroker/adapter-react-v5";
-
 import BtnSmallAdd from "../btn-Input/btn-small-add";
 import BtnSmallSearch from "../btn-Input/btn-small-search";
 import Textarea from "../btn-Input/textarea";
 import { PropsHelperCard, StateHelperCard } from "admin/app";
-import { EventButton } from "@components/btn-Input/button";
+import { EventButton } from "../../types/event";
 
 const theme: IobTheme = Theme("light");
 
@@ -85,9 +83,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 				</TableContainer>
 
 				<Textarea
-					width="99%"
 					value={this.props.editedValueFromHelperText.replace(/&amp;/g, "&")}
-					margin="0px 0.5% 0 0.5%"
 					id="editedValueFromHelperText"
 					callback={this.props.setState}
 					callbackValue="event.target.value"

@@ -4,12 +4,11 @@ import { Grid } from "@mui/material";
 import React, { Component } from "react";
 import Button from "../components/btn-Input/button";
 import Input from "../components/btn-Input/input";
-
-import { EventButton } from "@components/btn-Input/button";
 import RenameModal from "@components/RenameModal";
 import { PropsBtnCard, StateBtnCard } from "admin/app";
 import { replaceSpaceWithUnderscore } from "../lib/string";
 import { deepCopy } from "../lib/Utils.js";
+import { EventButton } from "../types/event";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	constructor(props: PropsBtnCard) {

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
-import Button, { EventButton } from "../components/btn-Input/button";
+import Button from "../components/btn-Input/button";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../components/btn-Input/checkbox";
 import { EventCheckbox, PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
+import { EventButton } from "../types/event";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
 	constructor(props: PropsHeaderTelegramUsers) {

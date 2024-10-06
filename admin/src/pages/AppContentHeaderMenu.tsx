@@ -5,7 +5,7 @@ import BtnCard from "./AppContentHeaderMenuButtons";
 import MenuPopupCard from "./AppContentHeaderMenuPopupCard";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsHeaderMenu } from "admin/app";
-import { EventButton } from "@components/btn-Input/button";
+import { EventButton } from "../types/event";
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
 	eventOnMouse = (event: React.MouseEvent<HTMLDivElement> | undefined): void => {

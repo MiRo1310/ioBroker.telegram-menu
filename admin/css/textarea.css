@@ -1,0 +1,24 @@
+.textarea__container {
+	box-sizing: border-box;
+	margin-top: 20px !important;
+	background-color: #eee;
+	padding: 10px !important;
+	margin-bottom: 10px !important;
+	width: 99%;
+	margin: 0px 0.5% 0 0.5%;
+	display: inline-block;
+}
+
+.textarea__content {
+	width: "100%";
+	padding: "8px 0px";
+	margin: "8px";
+	font-size: "16px";
+	border: "none";
+	border-color: "transparent";
+	border-bottom: "1px solid #ccc";
+}
+.textarea__children {
+	display: inline;
+	vertical-align: "bottom";
+}

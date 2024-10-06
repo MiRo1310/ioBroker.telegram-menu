@@ -7,8 +7,8 @@ import { deepCopy } from "../lib/Utils.js";
 import PopupContainer from "../components/popupCards/PopupContainer";
 import RenameCard from "../components/popupCards/RenameCard";
 import { NativeData, PropsDropBox, StateDropBox } from "admin/app";
-import { EventButton } from "@components/btn-Input/button";
 import { DataRow } from "../../app";
+import { EventButton } from "../types/event";
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
 	constructor(props: PropsDropBox) {

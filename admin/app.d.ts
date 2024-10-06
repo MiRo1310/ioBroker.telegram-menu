@@ -314,7 +314,7 @@ export type SetStateFunction = React.Component["setState"];
 export interface PropsTextarea {
 	id: string;
 	value: string;
-	callback: any;
+	callback: (val: EventTextarea) => void;
 	placeholder?: string;
 	class?: string;
 	width?: string;
@@ -322,17 +322,18 @@ export interface PropsTextarea {
 	margin?: string;
 	label: string;
 	children?: ReactNode;
-	function?: string;
-	setNative?: boolean;
 	spellCheck?: boolean;
-	onMouseOver?: (e: any, setState: any) => void;
-	onMouseLeave?: (e: any, setState: any) => void;
+	onMouseOver?: (e: React.MouseEvent<HTMLTextAreaElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (e: React.MouseEvent<HTMLTextAreaElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
 	setState?: SetStateFunction;
 	rows?: number;
 	cols?: number;
 	index?: number;
 	callbackValue?: CallbackValue;
 }
+
 export interface StateTextarea {
 	value: string;
 }

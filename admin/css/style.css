@@ -3,6 +3,7 @@
 @import "./button.css";
 @import "./editor-header.css";
 @import "./table.css";
+@import "./textarea.css";
 
 body {
 	height: 100vh;
@@ -417,13 +418,7 @@ div.MuiTabPanel-root {
 	margin-left: 0.5% !important;
 	margin-top: 0 !important;
 }
-.HelperText .Textarea-Container textarea {
-	box-sizing: border-box;
-	margin-top: 20px !important;
-	background-color: #eee;
-	padding: 10px !important;
-	margin-bottom: 10px !important;
-}
+
 .HelperCard-BtnSearch {
 	position: absolute;
 	margin-left: 8px !important;

@@ -2,14 +2,6 @@ import { Properties } from "csstype";
 import React, { Component } from "react";
 import { ButtonProps } from "../../../app";
 
-export interface EventButton {
-	innerText: string;
-	id: string;
-	value: string | number | boolean;
-	index: number;
-	event: React.MouseEvent<HTMLButtonElement>;
-}
-
 class Button extends Component<ButtonProps> {
 	eventOnclickButton = (event: React.MouseEvent<HTMLButtonElement>): void => {
 		this.props.callback({

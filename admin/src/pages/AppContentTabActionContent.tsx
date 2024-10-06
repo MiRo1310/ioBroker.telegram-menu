@@ -3,16 +3,16 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React, { Component } from "react";
 
-import Button from "@components/btn-Input/button";
 import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import helperText from "@/config/helper.js";
 import { addNewRow, UpdateProps } from "@/lib/actionUtils.js";
 import AppContentTabActionContentRowEditor from "@/pages/AppContentTabActionContentRowEditor";
 import AppContentTabActionContentTable from "@/pages/AppContentTabActionContentTable";
+import Button from "@components/btn-Input/button";
 import { ActionData, PropsActionCard, StateActionCard } from "admin/app";
 import { ActionNewRowProps } from "../../app";
-import { EventButton } from "@components/btn-Input/button";
+import { EventButton } from "../types/event";
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	constructor(props: PropsActionCard) {

@@ -16,7 +16,7 @@ import {
 } from "@/lib/dragNDrop.js";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { NavData, PropsTableDndNav, RowForButton, StateTableDndNav } from "admin/app";
-import { EventButton } from "@components/btn-Input/button";
+import { EventButton } from "../types/event";
 
 function createData(entriesOfParentComponent, element) {
 	const obj: RowForButton = {} as RowForButton;

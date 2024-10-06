@@ -4,7 +4,7 @@ import BtnSmallRemove from "@components/btn-Input/btn-small-remove";
 import { TableCell } from "@mui/material";
 import React, { Component } from "react";
 import { AppContentTabActionContentRowEditorButtonsProps } from "../types/props-types";
-import { EventButton } from "@components/btn-Input/button";
+import { EventButton } from "../types/event";
 
 interface AppContentTabActionContentRowEditorButtonsState {
 	openCopyPopup: boolean;
