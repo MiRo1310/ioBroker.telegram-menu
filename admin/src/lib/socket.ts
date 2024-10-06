@@ -19,16 +19,7 @@ function getAllTelegramInstances(socket: socket, callback: (val: string[]) => vo
 	try {
 		socket.getObjectViewCustom("system", "instance", "", "\u9999").then((objects) => {
 			Object.keys(objects).forEach((obj) => {
-				if (
-					(objects &&
-						objects[obj] &&
-						objects[obj].common &&
-						objects[obj].common.titleLang &&
-						typeof objects[obj].common.titleLang !== "string" &&
-						objects[obj].common.titleLang.en &&
-						objects[obj].common.titleLang.en == "Telegram") ||
-					objects[obj].common.title == "Telegram"
-				) {
+				if (isAdapterTelegram(objects, obj)) {
 					IDs.push(objects[obj]["_id"].replace(/^system\.adapter\./, ""));
 				}
 			});
@@ -36,6 +27,14 @@ function getAllTelegramInstances(socket: socket, callback: (val: string[]) => vo
 		});
 	} catch (err) {
 		console.error("Error getAllTelegramInstance: " + JSON.stringify(err));
+	}
+
+	function isAdapterTelegram(objects: Record<string, ioBroker.InstanceObject & { type: "instance" }>, obj: string): boolean {
+		const titleLang = objects?.[obj]?.common?.titleLang;
+		if (!titleLang) {
+			return false;
+		}
+		return typeof titleLang === "object" && "en" in titleLang && titleLang.en === "Telegram";
 	}
 }
 

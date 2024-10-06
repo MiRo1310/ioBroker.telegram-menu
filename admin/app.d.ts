@@ -218,8 +218,7 @@ export interface PropsCheckbox {
 	id: string;
 	label?: string;
 	isChecked: boolean;
-	callback: any;
-	callbackValue?: string;
+	callback: (event: EventCheckbox) => void;
 	obj?: boolean;
 	index: number;
 	title?: string;
@@ -278,8 +277,8 @@ export interface InputProps {
 	index?: number;
 	disabled?: boolean;
 	setState?: SetStateFunction;
-	onMouseOver?: (e: any, setState: any) => void;
-	onMouseLeave?: (e: any, setState: any) => void;
+	onMouseOver?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
 	callbackValue?: CallbackValue;
 	className?: string;
 }

@@ -49,7 +49,6 @@ class RowNavCard extends Component<PropsRowNavCard> {
 							id={entry.name}
 							index={i}
 							callback={this.props.callback.onChangeCheckbox}
-							callbackValue="event"
 							isChecked={isChecked(this.props.newRow[entry.name])}
 							obj={true}
 							label={I18n.t(entry.headline)}

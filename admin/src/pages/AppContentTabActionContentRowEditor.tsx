@@ -264,7 +264,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 													id="checkbox"
 													index={indexRow}
 													callback={this.setCheckbox}
-													callbackValue="event"
 													isChecked={this.state.checkboxes[indexRow] || false}
 													obj={true}
 												/>
@@ -347,8 +346,9 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 														<Checkbox
 															id={entry.name}
 															index={indexRow}
-															callback={this.updateData}
-															callbackValue="event"
+															callback={({ id, index, isChecked }: EventCheckbox) =>
+																this.updateData({ id, index, val: isChecked })
+															}
 															isChecked={isChecked(row[entry.name])}
 															obj={true}
 														/>

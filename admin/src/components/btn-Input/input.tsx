@@ -4,7 +4,7 @@ import { InputProps } from "admin/app";
 import { EventInput } from "../../types/event";
 
 class Input extends Component<InputProps> {
-	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | undefined) => {
+	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | undefined): void => {
 		const obj: EventInput = { val: event?.target.value, index: this.props.index, id: this.props.id };
 		this.props.callback(obj);
 	};

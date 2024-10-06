@@ -37,7 +37,7 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 		}
 	};
 
-	checkboxClicked = ({ isChecked }: EventCheckbox, name: string): void => {
+	checkboxClicked = ({ isChecked, id: name }: EventCheckbox): void => {
 		if (isChecked) {
 			this.props.setState({ errorUserChecked: false });
 		}
@@ -61,7 +61,6 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 					<Checkbox
 						class="TelegramUserCard-checkbox"
 						id={this.props.name}
-						callbackValue="event"
 						callback={this.checkboxClicked.bind(this)}
 						isChecked={this.isUserChecked()}
 						index={0}

@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { TabContext } from "@mui/lab";
-import { Grid, Box } from "@mui/material";
-import AppContentTabsListing from "@/pages/AppContentTabsListing";
 import AppContentHeader from "@/pages/AppContentHeader";
 import AppContentTab from "@/pages/AppContentTab";
-import { Properties } from "csstype";
+import AppContentTabsListing from "@/pages/AppContentTabsListing";
+import { TabContext } from "@mui/lab";
+import { Box, Grid } from "@mui/material";
 import { PropsMainContent } from "admin/app";
+import React, { Component } from "react";
 
 class AppContent extends Component<PropsMainContent> {
 	constructor(props: PropsMainContent) {
