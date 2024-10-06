@@ -13,7 +13,7 @@ const processUserData = (data: string): { name: string; chatID: string }[] | und
 	}
 };
 
-export const deepCopy = (obj: object): object | undefined => {
+export const deepCopy = <T>(obj: T): T | undefined => {
 	try {
 		return JSON.parse(JSON.stringify(obj));
 	} catch (err) {

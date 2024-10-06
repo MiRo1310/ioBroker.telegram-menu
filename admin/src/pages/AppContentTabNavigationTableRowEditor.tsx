@@ -3,7 +3,7 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import RowNavCard from "@/components/popupCards/RowNavCard";
 
 import { deepCopy } from "@/lib/Utils.js";
-import { ChangeInputNav, SetStateFunction, TabValueEntries, StateTabNavigation } from "admin/app";
+import { ChangeInputNav, SetStateFunction, TabValueEntries, StateTabNavigation, EventCheckbox } from "admin/app";
 import { EventButton } from "@components/btn-Input/Button";
 import { DataMainContent } from "../../app";
 
@@ -21,14 +21,29 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
 		this.state = {};
 	}
 
-	changeInput = (data: ChangeInputNav): void => {
+	changeInput = ({ val, id }: ChangeInputNav): void => {
 		const copyNewRow = deepCopy(this.props.state.newRow);
-		if (data.id) {
-			copyNewRow[data.id] = data.val.toString();
-		} else {
-			Object.keys(data).forEach((key) => {
-				copyNewRow[key] = data[key];
-			});
+		if (!copyNewRow) {
+			return;
+		}
+		if (id) {
+			copyNewRow[id] = val.toString();
+		}
+		//REVIEW -
+		// else {
+		// 	Object.keys(data).forEach((key) => {
+		// 		copyNewRow[key] = data[key];
+		// 	});
+		// }
+		this.props.setState({ newRow: copyNewRow });
+	};
+	changeCheckbox = ({ isChecked, id }: EventCheckbox): void => {
+		const copyNewRow = deepCopy(this.props.state.newRow);
+		if (!copyNewRow) {
+			return;
+		}
+		if (id) {
+			copyNewRow[id] = isChecked.toString();
 		}
 		this.props.setState({ newRow: copyNewRow });
 	};
@@ -57,7 +72,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
 				isOK={this.props.state.valuesAreOk}
 			>
 				<RowNavCard
-					callback={{ onchange: this.changeInput }}
+					callback={{ onChangeInput: this.changeInput, onChangeCheckbox: this.changeCheckbox }}
 					inUse={this.props.state.callInUse}
 					openHelperText={this.openHelperText}
 					entries={this.props.entries}

@@ -69,11 +69,13 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 
 	addEditedTrigger = (trigger: string | null): void => {
 		const unUsedTrigger: string[] = deepCopy(this.props.data.state.unUsedTrigger);
+		if (!unUsedTrigger) {
+			return;
+		}
 		if (trigger) {
 			this.setState({ newUnUsedTrigger: [...unUsedTrigger, trigger] });
 			return;
 		}
-		this.setState({ newUnUsedTrigger: unUsedTrigger });
 	};
 
 	private disableButtonHandler(): void {
@@ -122,6 +124,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		const { value: subCard } = this.props.data.tab;
 		if (cbValue) {
 			const data = deepCopy(native.data);
+			if (!data) {
+				return;
+			}
 			if (!data.action[activeMenu][subCard]) {
 				data.action[activeMenu][subCard] = [];
 			}
@@ -130,8 +135,6 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 			} else {
 				data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit + 1, 0, this.state.newRow);
 			}
-
-			this.props.callback.updateNative("data", data);
 		}
 		this.setState({ newUnUsedTrigger: null, rowPopup: false, editRow: false });
 		this.resetNewRow();
@@ -168,7 +171,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ helperText: true });
 	};
 
-	onchangeValueFromHelper = (value: string): void => {
+	onchangeValueFromHelper = ({ value }: EventButton): void => {
 		if (this.state.editedValueFromHelperText === null) {
 			this.setState({ editedValueFromHelperText: value });
 			return;
@@ -179,8 +182,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 	popupHelperCard = ({ value }: EventButton): void => {
 		if (value) {
 			const row = deepCopy(this.state.newRow);
+			if (!row) {
+				return;
+			}
 			row[this.state.valueForSave.entry][this.state.valueForSave.index] = this.state.editedValueFromHelperText;
-			this.setState({ newRow: row });
+			this.setState({ newRow: row as ActionNewRowProps });
 		}
 		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};

@@ -2,7 +2,7 @@ import Select, { EventSelect } from "@components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
 import { isChecked } from "@/lib/Utils.js";
 import Button from "@components/btn-Input/Button";
-import Checkbox from "@components/btn-Input/checkbox_legacy";
+import Checkbox from "@components/btn-Input/checkbox";
 import React, { Component } from "react";
 import {
 	CallbackFunctionsApp,

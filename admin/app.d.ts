@@ -271,7 +271,7 @@ export interface PropsCheckbox {
 export interface PropsRowNavCard {
 	entries: TabValueEntries[];
 	newRow: RowsNav;
-	callback: { onchange: (data: ChangeInputNav) => void };
+	callback: { onChangeInput: (data: ChangeInputNav) => void, onChangeCheckbox: (data: EventCheckbox) => void };
 	inUse: boolean;
 	openHelperText: (value: string) => void;
 }
