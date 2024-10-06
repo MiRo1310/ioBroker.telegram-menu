@@ -37,7 +37,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 				"zh-cn": require("../../admin/i18n/zh-cn/translations.json"),
 			},
 		};
-		super(extendedProps);
+		super(props, extendedProps);
 		this.dropBoxRef = React.createRef();
 		this.state = {
 			...this.state,

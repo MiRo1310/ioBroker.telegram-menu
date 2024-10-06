@@ -195,6 +195,7 @@ export const updateTriggerForSelect = (
 	usersInGroup: UsersInGroup,
 	activeMenu: string,
 ): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
+
 	const submenu: string[] = [];
 	tabValues.forEach((element) => {
 		if (element.trigger) {
@@ -245,7 +246,7 @@ export const updateTriggerForSelect = (
 			}
 		});
 
-		triggerObj.usedTrigger.action[menu] = [];
+		triggerObj.usedTrigger.action[menu] = {};
 		const actionTrigger: string[] = [];
 		submenu.forEach((sub) => {
 			if (!data.action[menu][sub]) {
@@ -273,6 +274,7 @@ export const updateTriggerForSelect = (
 		triggerObj.unUsedTrigger = unUsedTrigger;
 	}
 	unUsedTrigger = sortArray(unUsedTrigger);
+	console.log(triggerObj.usedTrigger.action["1_Gruppe_1"]["set"])
 
 	return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger, triggerObj: triggerObj };
 };

@@ -13,7 +13,6 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		this.state = {
 			ulPadding: {},
 			trigger: null,
-			groupsOfMenus: [],
 			selected: "",
 			options: [],
 		};
@@ -276,32 +275,40 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 											</ul>
 										</li>
 
-										{Object.keys(this.state.trigger?.usedTrigger.action[menu]).map((action, index2) => {
-											return (
-												<li key={index2}>
-													<p className="menuDespription">{action}</p>
-													<ul>
-														{this.state.trigger?.usedTrigger.action[menu][action].map((trigger, index3) => {
-															return (
-																<div key={index3} style={{ position: "relative" }}>
-																	{this.getColorUsedTriggerNav({
-																		index: indexUsedTrigger,
-																		menuCall: menu,
-																		trigger,
-																	})?.map((item, i) => <Square key={i} position={i} color={item.color} />)}
-																	<li
-																		key={index3}
-																		title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}
-																	>
-																		{trigger}
-																	</li>
-																</div>
-															);
-														})}
-													</ul>
-												</li>
-											);
-										})}
+										{this.state.trigger?.usedTrigger.action[menu]
+											? Object.keys(this.state.trigger?.usedTrigger.action[menu]).map((action, index2) => {
+													return (
+														<li key={index2}>
+															<p className="menuDespription">{action}</p>
+															<ul>
+																{(this.state.trigger?.usedTrigger.action[menu][action] as string[]).map(
+																	(trigger, index3) => {
+																		return (
+																			<div key={index3} style={{ position: "relative" }}>
+																				{this.getColorUsedTriggerNav({
+																					index: indexUsedTrigger,
+																					menuCall: menu,
+																					trigger,
+																				})?.map((item, i) => (
+																					<Square key={i} position={i} color={item.color} />
+																				))}
+																				<li
+																					key={index3}
+																					title={
+																						I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")
+																					}
+																				>
+																					{trigger}
+																				</li>
+																			</div>
+																		);
+																	},
+																)}
+															</ul>
+														</li>
+													);
+												})
+											: null}
 									</ul>
 								</div>
 							);

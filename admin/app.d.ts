@@ -549,7 +549,6 @@ export interface PropsTriggerOverview {
 export interface StateTriggerOverview {
 	ulPadding: { [key: string]: number };
 	trigger: TriggerObj | undefined | null;
-	groupsOfMenus: any;
 	selected: string;
 	options: string[];
 }
@@ -557,7 +556,10 @@ export interface StateTriggerOverview {
 export interface TriggerObj {
 	unUsedTrigger: string[];
 	everyTrigger: { [key: string]: string[] };
-	usedTrigger: { nav: { [key: string]: string[] }; action: any };
+	usedTrigger: { nav: { [key: string]: string[] }; action: { [key: string]: { [key: string]: string[] } } };
+}
+export interface ObjectWithStringArray {
+	[key: string]: string[];
 }
 export interface MenuWithUser {
 	menu: string;
