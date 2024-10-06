@@ -283,6 +283,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 													</span>
 
 													<BtnSmallSearch
+														index={indexRow}
 														callback={() =>
 															this.setState({
 																showSelectId: true,
@@ -330,6 +331,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 														</Input>
 														{entry.search ? (
 															<BtnSmallSearch
+																index={indexRow}
 																callback={({}: EventButton) =>
 																	this.setState({
 																		showSelectId: true,

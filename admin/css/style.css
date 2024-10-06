@@ -4,6 +4,7 @@
 @import "./editor-header.css";
 @import "./table.css";
 @import "./textarea.css";
+@import "./app-content.css";
 
 body {
 	height: 100vh;
@@ -445,9 +446,6 @@ div.MuiTabPanel-root {
 	padding: 1px !important;
 	width: 35px !important;
 }
-tr td:last-child button {
-	margin-right: 6px !important;
-}
 
 .checkbox {
 	width: 60px;
@@ -771,7 +769,4 @@ span[title],
 .editor__modal_container {
 	margin-top: 4rem;
 	margin-left: 2rem;
-}
-.TableHead__Checkbox {
-	width: 1rem;
 }

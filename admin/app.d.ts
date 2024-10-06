@@ -170,7 +170,7 @@ export interface StateTabAction {
 	value: string;
 }
 export interface ButtonSmallProps {
-	index?: number;
+	index: number;
 	callbackValue?: CallbackValue;
 	callback: (e: EventButton) => void;
 	disabled?: string;
@@ -197,6 +197,7 @@ export interface ButtonProps {
 	setNative?: boolean;
 	title?: string;
 	name?: string;
+	index: number;
 	disabled?: string | boolean;
 	className?: string;
 	children?: ReactNode;

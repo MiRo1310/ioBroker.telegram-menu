@@ -1,19 +1,29 @@
 /* Table */
-.MuiTableHead-root tr th {
-	background-color: #3399cc !important;
+
+#root table {
+	border-collapse: collapse !important;
+	width: 100% !important;
 }
-.Tab-Box table th {
+#root tr th {
+	background-color: #3399cc;
 	padding: 5px 5px 2px 5px;
 	top: 0;
 }
-.TableDndAction-Body {
+
+/* .TableDndAction-Body {
 	width: 95% !important;
+} */
+
+.table__head_checkbox {
+	width: 1rem;
+}
+.table__head_button {
+	width: 1rem;
 }
 
-table {
-	border-collapse: collapse !important;
-	width: calc(100% - 0) !important;
-}
+/* tr td:last-child button {
+	margin-right: 6px !important;
+} */
 
 tr[draggable="true"] {
 	cursor: grab;
@@ -35,9 +45,11 @@ tr td {
 	border-bottom: none !important;
 }
 
-tr td td {
+tr td td,
+#root table input {
 	background-color: transparent !important;
 }
+
 .light tr:not(.SubTable):nth-child(even),
 .colored tr:not(.SubTable):nth-child(even) {
 	background-color: #eee;

@@ -136,6 +136,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			return;
 		}
 		const newRow = dataCopy[this.props.data.card][activeMenu][this.props.data.tab.value][index];
+		console.log(newRow);
 		if (newRow.trigger) {
 			this.props.callback.addEditedTrigger(newRow.trigger[0]);
 		}

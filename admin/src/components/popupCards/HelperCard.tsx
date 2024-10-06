@@ -74,7 +74,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 									</TableCell>
 									{row.text ? (
 										<TableCell align="center">
-											<BtnSmallAdd callback={this.props.callback} callbackValue={row.text} />
+											<BtnSmallAdd index={index} callback={this.props.callback} callbackValue={row.text} />
 										</TableCell>
 									) : null}
 								</TableRow>
@@ -92,7 +92,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 					rows={4}
 				>
 					{["nav", "text", "set", "get", "value"].includes(this.props.val) ? (
-						<BtnSmallSearch class="HelperCard-BtnSearch" callback={this.openSelectId} />
+						<BtnSmallSearch class="HelperCard-BtnSearch" index={0} callback={this.openSelectId} />
 					) : null}
 				</Textarea>
 
