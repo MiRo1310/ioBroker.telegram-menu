@@ -323,12 +323,13 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 														>
 															{entry.btnCircleAdd ? (
 																<BtnCircleAdd
-																	callbackValue={{
-																		index: indexRow,
-																		entry: entry.name,
-																		subCard: this.props.data.tab.value,
-																	}}
-																	callback={this.props.callback.openHelperText}
+																	callback={() =>
+																		this.props.callback.openHelperText({
+																			index: indexRow,
+																			entry: entry.name,
+																			subCard: this.props.data.tab.value,
+																		})
+																	}
 																/>
 															) : null}
 														</Input>

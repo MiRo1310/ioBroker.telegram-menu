@@ -1,13 +1,11 @@
 import React from "react";
-interface BtnCircleAddType {
-	callback: (value: string) => void;
-	callbackValue: any;
-}
+import { BtnCircleAddTypeProps } from "../../types/props-types";
 
-export const BtnCircleAdd = (props: BtnCircleAddType): React.JSX.Element => {
+export const BtnCircleAdd = (props: BtnCircleAddTypeProps): React.JSX.Element => {
 	const clickHandler = (): void => {
-		props.callback(props.callbackValue);
+		props.callback();
 	};
+
 	return (
 		<div className="BtnCircleAdd">
 			<a onClick={clickHandler}>

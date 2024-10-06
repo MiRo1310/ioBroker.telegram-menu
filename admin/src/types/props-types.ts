@@ -27,3 +27,7 @@ export interface PropsTableNavEditRow {
 	entries: TabValueEntries[];
 	popupRowCard: ({ }: EventButton) => void;
 }
+
+export interface BtnCircleAddTypeProps {
+	callback: () => void;
+}

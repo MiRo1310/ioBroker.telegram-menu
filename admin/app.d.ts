@@ -439,7 +439,7 @@ export interface StatePopupContainer {
 }
 export interface PropsRowEditPopupCard {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rowIndexToEdit: number }
-	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: any) => void }
+	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: { subCard: string; entry: string; index: number }) => void }
 }
 export interface DataTabActionContent { newRow: ActionNewRowProps; newUnUsedTrigger: string[]; }
 

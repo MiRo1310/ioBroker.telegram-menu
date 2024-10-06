@@ -40,7 +40,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 							inputWidth="calc(100% - 28px)"
 							width={entry.editWidth ? entry.editWidth : "15%"} // Add the width prop here
 						>
-							<BtnCircleAdd callbackValue={entry.name} callback={this.props.openHelperText}></BtnCircleAdd>
+							<BtnCircleAdd callback={() => this.props.openHelperText(entry.name)} />
 						</Input>
 					) : (
 						<Checkbox
