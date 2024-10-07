@@ -22,15 +22,7 @@ export const deepCopy = <T>(obj: T): T | undefined => {
 };
 
 export const isChecked = (value: string | boolean): boolean => {
-	try {
-		if (value == "true" || value == true) {
-			return true;
-		}
-		return false;
-	} catch (err) {
-		console.error("Error isChecked: " + JSON.stringify(err));
-		return false;
-	}
+	return ["true", true].includes(value) ? true : false;
 };
 
 const helperFunction = {
@@ -61,9 +53,10 @@ export const sortArray = (arr: string[]): string[] => {
 export const checkObjectOrArray = (obj: object): "object" | "array" | string => {
 	if (typeof obj == "object" && Array.isArray(obj)) {
 		return "array";
-	} else if (typeof obj == "object") {
-		return "object";
-	} else {
-		return typeof obj;
 	}
+	if (typeof obj == "object") {
+		return "object";
+	}
+	return typeof obj;
+
 };

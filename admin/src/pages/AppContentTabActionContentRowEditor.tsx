@@ -344,7 +344,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 														) : null}
 													</TableCell>
 												) : entry.checkbox && entry.name != "parse_mode" ? (
-													<TableCell align="left" className="checkbox" key={i}>
+													<TableCell align="left" className="table__head_checkbox" key={i}>
 														<Checkbox
 															id={entry.name}
 															index={indexRow}

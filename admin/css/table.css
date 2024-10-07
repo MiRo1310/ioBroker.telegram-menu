@@ -14,8 +14,8 @@
 	width: 95% !important;
 } */
 
-.table__head_checkbox {
-	width: 1rem;
+#root table .table__head_checkbox {
+	width: 25px;
 }
 .table__head_button {
 	width: 1rem;

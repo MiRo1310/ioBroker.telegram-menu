@@ -25,9 +25,10 @@ const insertParseModeCheckbox = (data: NativeData): NativeData => {
 	});
 	return data;
 };
-const insertAckCheckbox = (data, updateNative): void => {
+
+const insertAckCheckbox = (data: NativeData, updateNative: UpdateNativeFunction): void => {
 	Object.keys(data.action).forEach((menu) => {
-		data.action[menu].set.forEach((_, indexItem) => {
+		data.action[menu].set.forEach((item, indexItem) => {
 			const element = data.action[menu].set[indexItem];
 
 			if (!element.ack) {
@@ -36,23 +37,19 @@ const insertAckCheckbox = (data, updateNative): void => {
 				return;
 			}
 			element.returnText.map((textItem, textIndex) => {
-				let substring;
+				let substring: string = "";
 				if (textItem.includes("ack:")) {
 					if (textItem.includes("ack:true")) {
 						substring = textItem.replace("ack:true", "").replace("  ", " ");
 						data.action[menu].set[indexItem].ack[textIndex] = "true";
 					} else {
-						if (textItem.includes("ack:false")) {
-							substring = textItem.replace("ack:false", "").replace("  ", " ");
-						} else {
-							substring = textItem;
-						}
+						substring = textItem.includes("ack:false") ? textItem.replace("ack:false", "").replace("  ", " ") : textItem;
 						data.action[menu].set[indexItem].ack[textIndex] = "false";
 					}
 					data.action[menu].set[indexItem].returnText[textIndex] = substring;
-				} else {
-					data.action[menu].set[indexItem].ack[textIndex] = "false";
+					return
 				}
+				data.action[menu].set[indexItem].ack[textIndex] = "false";
 			});
 		});
 	});
@@ -64,9 +61,11 @@ export const insertNewItemsInData = (data: NativeData, updateNative: UpdateNativ
 	if (Object.keys(data).length == 0) {
 		return;
 	}
-	data = deepCopy(data) as NativeData;
-	data = insertParseModeCheckbox(data);
-	insertAckCheckbox(data, updateNative);
+	let copyData = deepCopy(data)
+	if (!copyData) {
+		return;
+	}
+	insertAckCheckbox(insertParseModeCheckbox(copyData), updateNative);
 };
 
 export function decomposeText(

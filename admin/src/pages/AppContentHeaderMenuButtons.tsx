@@ -9,6 +9,7 @@ import { NativeData, PropsBtnCard, StateBtnCard } from "admin/app";
 import { replaceSpaceWithUnderscore } from "../lib/string";
 import { deepCopy } from "../lib/Utils.js";
 import { EventButton } from "../types/event";
+import { EventInput } from "@/types/event";
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 	constructor(props: PropsBtnCard) {
@@ -176,7 +177,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 						width="80%"
 						id="newMenuName"
 						value={this.state.newMenuName}
-						callback={this.setState.bind(this)}
+						callback={({ val }: EventInput) => this.setState({ newMenuName: val as string })}
 						class={this.state.menuNameExists ? "inUse" : undefined}
 					/>
 				</Grid>

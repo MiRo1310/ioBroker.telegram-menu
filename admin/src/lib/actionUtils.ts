@@ -30,7 +30,7 @@ function getRows(element: ActionNewRowProps, rowElements: TabValueEntries[]): { 
 		return { rows: null, trigger: "" };
 	}
 	if (!(element && element[generateBy])) {
-		console.error(`GenerateBy not found in element, actionUtilis.js. Check entrys.mjs for ${generateBy} is not a name of an element`);
+		console.error(`GenerateBy not found in element, actionUtils.js. Check entries.mjs for ${generateBy} is not a name of an element`);
 	}
 
 	for (const index in element[generateBy]) {
@@ -107,9 +107,9 @@ export const addNewRow = (index: number, props: UpdateProps, setState: SetStateF
 		return;
 	}
 	props.data.tab.entries.forEach((element) => {
-		if (!index && index !== 0) {
+		if (!index && index !== 0 && newRow) {
 			newRow[element.name] = [element.val];
-		} else if (element.name !== "trigger") {
+		} else if (newRow && element.name !== "trigger") {
 			newRow[element.name].splice(index + 1, 0, element.val);
 		}
 	});

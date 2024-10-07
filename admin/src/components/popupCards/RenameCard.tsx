@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Input from "../btn-Input/input";
 import { PropsRenameCard, StateRenameCard } from "admin/app";
+import { EventInput } from "@/types/event";
 
 class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
 	constructor(props: PropsRenameCard) {
@@ -17,7 +18,7 @@ class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
 					margin="0px 10% 0 10%"
 					id={this.props.id}
 					callbackValue="event.target.value"
-					callback={this.props.callback.setState}
+					callback={({ val }: EventInput) => this.props.callback.setState({ [this.props.id]: val })}
 				/>
 			</div>
 		);
