@@ -1,7 +1,8 @@
 import { deepCopy } from "@/lib/Utils";
+import { EventCheckbox } from "@/types/event";
 import Checkbox from "@components/btn-Input/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { CallbackFunctionsApp, Echart, EventCheckbox, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
+import { CallbackFunctionsApp, Echart, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
 import React, { Component } from "react";
 import { NativeData } from "../../app";
 interface Props {

@@ -3,8 +3,9 @@ import RowNavCard from "@/components/popupCards/RowNavCard";
 import React, { Component } from "react";
 
 import { deepCopy } from "@/lib/Utils.js";
-import { ChangeInputNav, EventCheckbox } from "admin/app";
+import { ChangeInputNav } from "admin/app";
 import { PropsTableNavEditRow } from "@/types/props-types";
+import { EventCheckbox } from "../types/event";
 
 class TableNavEditRow extends Component<PropsTableNavEditRow> {
 	constructor(props: PropsTableNavEditRow) {

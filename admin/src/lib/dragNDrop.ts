@@ -1,4 +1,4 @@
-import { DropBoxType, SetStateFunction } from "admin/app";
+import { Dropbox, SetStateFunction } from "admin/app";
 export const handleMouseOver = (e: React.MouseEvent<HTMLSpanElement> | undefined): void => {
 	const target = e?.target as HTMLElement;
 	if (target.classList.contains("noneDraggable")) {
@@ -74,7 +74,11 @@ export const handleDraggable = (index: number): "true" | "false" => {
 	return index === 0 ? "false" : "true";
 };
 
-export function getDefaultDropBoxCoordinates(dropBox: DropBoxType, dropDifferenzX: number, dropDifferenzY: number): { newX: number; newY: number } {
+export function getDefaultDropBoxCoordinates(
+	dropBox: Dropbox.Position,
+	dropDifferenzX: number,
+	dropDifferenzY: number,
+): { newX: number; newY: number } {
 	if (dropBox && dropBox.dropboxRight && dropBox.dropboxTop) {
 		return { newX: dropBox.dropboxRight - dropDifferenzX, newY: dropBox.dropboxTop + dropDifferenzY };
 	}

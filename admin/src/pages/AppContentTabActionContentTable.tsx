@@ -1,23 +1,22 @@
-import React, { Component } from "react";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import { deleteRow, moveItem } from "../lib/button.js";
+import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
+import React, { Component } from "react";
+import { DataRowAction, TabValueEntries } from "../../app";
 import { ButtonCard } from "../components/popupCards/buttonCard.js";
-import SubTable from "./AppContentTabActionContentTableSubTable.js";
 import { deepCopy } from "../lib/Utils.js";
+import { getElementIcon } from "../lib/actionUtils.js";
+import { deleteRow, moveItem } from "../lib/button.js";
 import {
+	handleDragEnd,
+	handleDragEnter,
+	handleDragOver,
+	handleDragStart,
 	handleMouseOut,
 	handleMouseOver,
-	handleDragStart,
-	handleDragOver,
-	handleDragEnter,
 	handleStyleDragOver,
-	handleDragEnd,
 } from "../lib/dragNDrop.js";
-import { getElementIcon } from "../lib/actionUtils.js";
-import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
 import { EventButton } from "../types/event";
-import { TabValueEntries, DataRowAction } from "../../app";
-import TabActionTabs from "./AppContentTabActionTabsListing";
+import SubTable from "./AppContentTabActionContentTableSubTable.js";
 
 class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction> {
 	mounted: boolean;
@@ -33,13 +32,14 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 		};
 	}
 
-	createData(entriesOfParentComponent: TabValueEntries[], element: DataRowAction) {
+	createData(entriesOfParentComponent: TabValueEntries[], element: DataRowAction): RowForButton {
 		const obj: RowForButton = {} as RowForButton;
 		entriesOfParentComponent.forEach((entry) => {
 			obj[entry.name] = element[entry.name];
 		});
 		return obj;
 	}
+
 	getRows = (): void => {
 		const { activeMenu, native } = this.props.data.state;
 		const action = native.data.action;

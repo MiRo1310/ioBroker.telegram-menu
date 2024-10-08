@@ -1,4 +1,4 @@
-import { DropBoxType, SetStateFunction } from "../../app";
+import { Dropbox, SetStateFunction } from "../../app";
 
 const drag = { dragStartX: 0, dragStartY: 0, dragEndX: 0, dragEndY: 0 };
 
@@ -59,55 +59,65 @@ export function onMouseLeave(): void {
 }
 
 export const updatePositionDropBox = (
-	newX: number | null | undefined,
-	newY: number | null | undefined,
-	dropboxRef: React.RefObject<HTMLDivElement> | undefined,
+	newX: Dropbox.newX,
+	newY: Dropbox.newY,
+	dropboxRef: Dropbox.Ref,
 	showDropBox: boolean,
-	dropbox: DropBoxType,
+	dropbox: Dropbox.Position,
 ): void => {
 	if (dropboxRef && dropboxRef.current && dropboxRef.current != null && showDropBox) {
 		if (!(newX || newY)) {
-			console.log("updatePositionDropBox");
 			newX = parseInt(dropboxRef.current.style.right.replace("px", ""));
 			newY = parseInt(dropboxRef.current.style.top.replace("px", ""));
 		}
 		const element = document.querySelector(".adapter-container") as HTMLElement;
-		const heightContainer = element?.offsetHeight;
-		const widthContainer = element?.offsetWidth;
-		const heightDropBox = dropboxRef.current.offsetHeight;
-		const widthDropBox = dropboxRef.current.offsetWidth;
-		const maxTop = heightContainer - heightDropBox;
-		const maxRight = widthContainer - widthDropBox;
+		const { maxTop, maxRight } = computeMaxPosition(element, dropboxRef);
 
-		const { y, x } = calculateNewPosition({ maxTop, maxRight });
+		const { y, x } = calculateNewPosition({ maxTop, maxRight, newX, newY, dropbox });
 
 		dropboxRef.current.style.top = y + "px";
 		dropboxRef.current.style.right = x + "px";
 	}
-
-	function calculateNewPosition({ maxTop, maxRight }: { maxTop: number; maxRight: number; }) {
-
-		if (newY && newX) {
-			return { y: adjustYCoordinate(newY, maxTop), x: adjustXCoordinate(newX, maxRight) };
-		}
-		if (dropbox && dropbox.dropboxRight && dropbox.dropboxTop) {
-			return { x: dropbox.dropboxRight, y: dropbox.dropboxTop }
-		}
-		return { y: 105, x: 5 };
-	}
 };
+function computeMaxPosition(element: HTMLElement, dropboxRef: Dropbox.Ref): { maxTop: number; maxRight: number } {
+	return {
+		maxTop: element?.offsetHeight - (dropboxRef?.current?.offsetHeight || 0),
+		maxRight: element?.offsetWidth - (dropboxRef?.current?.offsetWidth || 0),
+	};
+}
 
-function adjustXCoordinate(newX: number, maxRight: number) {
+function calculateNewPosition({
+	maxTop,
+	maxRight,
+	newX,
+	newY,
+	dropbox,
+}: {
+	dropbox: Dropbox.Position;
+	newX: Dropbox.newX;
+	newY: Dropbox.newY;
+	maxTop: number;
+	maxRight: number;
+}): { y: number; x: number } {
+	if (newY && newX) {
+		return { y: adjustYCoordinate(newY, maxTop), x: adjustXCoordinate(newX, maxRight) };
+	}
+	if (dropbox && dropbox.dropboxRight && dropbox.dropboxTop) {
+		return { x: dropbox.dropboxRight, y: dropbox.dropboxTop };
+	}
+	return { y: 105, x: 5 };
+}
+
+function adjustXCoordinate(newX: number, maxRight: number): number {
 	if (newX < 1) {
 		return 1;
 	}
 	return newX > maxRight ? maxRight : newX;
 }
 
-function adjustYCoordinate(newY: number, maxTop: number) {
+function adjustYCoordinate(newY: number, maxTop: number): number {
 	if (newY < 1) {
 		return 1;
 	}
 	return newY > maxTop ? maxTop : newY;
 }
-

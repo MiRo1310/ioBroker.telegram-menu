@@ -2,8 +2,8 @@ import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import React, { Component } from "react";
 import helperText from "@/config/helper.js";
-import { PropsTableNavHelper } from "admin/app";
 import { EventButton } from "../types/event";
+import { PropsTableNavHelper } from "../types/props-types";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
 	constructor(props: PropsTableNavHelper) {

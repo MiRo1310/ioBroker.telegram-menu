@@ -1,18 +1,12 @@
-import Select, { EventSelect } from "@components/btn-Input/select";
 import { updateTrigger } from "@/lib/actionUtils.js";
 import { isChecked } from "@/lib/Utils.js";
+import { EventCheckbox } from "@/types/event";
 import Button from "@components/btn-Input/button";
 import Checkbox from "@components/btn-Input/checkbox";
+import Select, { EventSelect } from "@components/btn-Input/select";
 import React, { Component } from "react";
+import { CallbackFunctionsApp, CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps } from "../../app";
 import { EventButton } from "../types/event";
-import {
-	CallbackFunctionsApp,
-	CallbackTabActionContent,
-	DataMainContent,
-	DataTabActionContent,
-	EventCheckbox,
-	TabActionContentTableProps,
-} from "../../app";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { isMinOneCheckboxChecked: boolean };

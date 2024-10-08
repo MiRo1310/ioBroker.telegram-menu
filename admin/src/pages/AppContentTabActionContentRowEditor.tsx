@@ -14,20 +14,20 @@ import {
 } from "@/lib/dragNDrop.js";
 import { isTruthy } from "@/lib/string";
 import AppContentTabActionContentRowEditorTableHead from "@/pages/AppContentTabActionContentRowEditorTableHead";
+import RenameModal from "@components/RenameModal";
 import Checkbox from "@components/btn-Input/checkbox";
 import PopupContainer from "@components/popupCards/PopupContainer";
-import { type IobTheme, SelectID, Theme, I18n } from "@iobroker/adapter-react-v5";
+import { I18n, type IobTheme, SelectID, Theme } from "@iobroker/adapter-react-v5";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
-import { PropsRowEditPopupCard, StateRowEditPopupCard, NativeData } from "admin/app";
+import { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from "admin/app";
 import React, { Component } from "react";
-import { EventCheckbox } from "../../app";
+import { EventButton, EventCheckbox } from "../types/event";
 import AppContentTabActionContentRowEditorButtons from "./AppContentTabActionContentRowEditorButtons";
 import AppContentTabActionContentRowEditorCopyModal from "./AppContentTabActionContentRowEditorCopyModal";
+import AppContentTabActionContentRowEditorCopyModalSelectedValues, {
+	SaveDataObject,
+} from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
 import AppContentTabActionContentRowEditorHeader from "./AppContentTabActionContentRowEditorHeader";
-import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
-import { SaveDataObject } from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
-import RenameModal from "@components/RenameModal";
-import { EventButton } from "../types/event";
 
 const theme: IobTheme = Theme("light");
 

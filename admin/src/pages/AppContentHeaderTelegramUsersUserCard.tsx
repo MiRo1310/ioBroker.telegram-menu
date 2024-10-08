@@ -1,6 +1,7 @@
+import { PropsTelegramUserCard, StateTelegramUserCard } from "admin/app";
 import React, { Component } from "react";
 import Checkbox from "../components/btn-Input/checkbox";
-import { EventCheckbox, PropsTelegramUserCard, StateTelegramUserCard } from "admin/app";
+import { EventCheckbox } from "@/types/event";
 
 class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUserCard> {
 	constructor(props: PropsTelegramUserCard) {

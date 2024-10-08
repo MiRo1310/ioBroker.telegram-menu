@@ -1,6 +1,6 @@
 import { NativeData, SetStateFunction, TriggerObj, UsersInGroup } from "admin/app";
 import React from "react";
-import { ActionNewRowProps, RowsSetState, TabValueEntries, TriggerObject } from '../../app';
+import { ActionNewRowProps, RowsSetState, TabValueEntries } from "../../app";
 import { tabValues } from "../config/entries";
 import { isTruthy } from "./string";
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from "./Utils";
@@ -13,13 +13,12 @@ function createData(element: ActionNewRowProps, index: string, rowElements: TabV
 	return obj;
 }
 
-
 function getRows(element: ActionNewRowProps, rowElements: TabValueEntries[]): { rows: { [key: string]: string }[] | null; trigger: string } {
 	if (!element) {
 		return { rows: null, trigger: "" };
 	}
 
-	let rows: { [key: string]: string }[] = [];
+	const rows: { [key: string]: string }[] = [];
 
 	let trigger = "";
 	if (element.trigger && element.trigger[0]) {
@@ -197,7 +196,6 @@ export const updateTriggerForSelect = (
 	usersInGroup: UsersInGroup,
 	activeMenu: string,
 ): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
-
 	const submenu: string[] = [];
 	tabValues.forEach((element) => {
 		if (element.trigger) {

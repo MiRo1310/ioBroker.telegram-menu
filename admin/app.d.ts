@@ -15,7 +15,6 @@ interface AppProps {
 	encryptedFields: string[];
 	Connection: AdminConnection;
 	translations: any;
-	// Fügen Sie hier weitere Eigenschaften hinzu, die `props` enthalten kann
 }
 
 
@@ -620,7 +619,7 @@ export interface PropsMenuButton {
 }
 
 export interface Native {
-	dropbox: DropBoxType;
+	dropbox: Dropbox.Position;
 	usersInGroup: UsersInGroup;
 	instance: string;
 	data: NativeData;
@@ -638,10 +637,7 @@ export interface Native {
 	userListWithChatID: { name: string, chatID: string }[];
 }
 
-export interface DropBoxType {
-	dropboxTop: number;
-	dropboxRight: number;
-}
+
 export type UserActiveCheckbox = { [key: string]: boolean };
 export interface NativeData {
 	action: ActionData;
@@ -732,7 +728,7 @@ export interface PropsMainContent {
 	callback: CallbackFunctionsApp;
 }
 export interface DataMainContent { state: AdditionalStateInfo, adapterName: string, socket: Socket }
-//FIXME - Evtl passt das nicht
+
 export type Socket = AdminConnection;
 
 export interface PropsMainDropBox {
@@ -740,37 +736,10 @@ export interface PropsMainDropBox {
 	data: DataDropBox;
 }
 export interface DataDropBox {
-	dropBoxRef: LegacyRef<HTMLDivElement> | undefined,
+	dropBoxRef: Dropbox.Ref;
 	state: AdditionalStateInfo
 }
-export interface PropsTableNavHeader {
-	entries: TabValueEntries[];
-}
 
-export interface PropsTableNavHelper {
-	state: StateTabNavigation;
-	setState: SetStateFunction;
-	data: Data;
-	popupHelperCard: (isOkay: boolean) => void;
-}
-
-export interface PropsActionEditHeader {
-	tab: TabValues
-	callback: { checkAll: (check) => void };
-	setRef: (ref: AppContentTabActionContentRowEditorTableHead) => void;
-}
-
-export interface PropsButtonCard {
-	showButtons: ShowButtons;
-	openAddRowCard: (val: EventButton) => void;
-	editRow: (e: EventButton) => void;
-	moveUp: (e: EventButton) => void;
-	moveDown: (e: EventButton) => void;
-	deleteRow: (e: EventButton) => void;
-	index: number;
-	rows: RowForButton[];
-	notShowDelete?: boolean;
-}
 export interface ShowButtons {
 	add: boolean;
 	edit: boolean;
@@ -778,6 +747,7 @@ export interface ShowButtons {
 	moveDown?: boolean;
 	remove: boolean;
 }
+
 export interface TabListingType {
 	label: string;
 	value: string;
@@ -787,11 +757,15 @@ export interface RowForButton {
 	trigger: string;
 	parse_mode: string[];
 	call: string;
-
-
 }
-export interface EventCheckbox {
-	isChecked: boolean;
-	id: string;
-	index: number;
+
+export namespace Dropbox {
+	type newX = Nullable<number>;
+	type newY = Nullable<number>;
+	type Ref = React.RefObject<HTMLDivElement> | undefined;
+	interface Position {
+		dropboxTop: number;
+		dropboxRight: number;
+	}
+
 }

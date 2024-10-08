@@ -4,9 +4,10 @@ import { Grid } from "@mui/material";
 import Checkbox from "@components/btn-Input/checkbox";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Select from "@components/btn-Input/select";
-import { EventCheckbox, PropsSettings } from "admin/app";
+import { PropsSettings } from "admin/app";
 import { EventSelect } from "@components/btn-Input/select";
 import { EventInput } from "@/types/event";
+import { EventCheckbox } from "../types/event";
 
 class Settings extends Component<PropsSettings> {
 	constructor(props: PropsSettings) {

@@ -58,5 +58,4 @@ export const checkObjectOrArray = (obj: object): "object" | "array" | string => 
 		return "object";
 	}
 	return typeof obj;
-
 };

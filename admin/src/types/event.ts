@@ -17,3 +17,9 @@ export interface EventInput {
 	id: string;
 	index: number | undefined;
 }
+
+export interface EventCheckbox {
+	isChecked: boolean;
+	id: string;
+	index: number;
+}

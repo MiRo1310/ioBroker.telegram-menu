@@ -47,7 +47,7 @@ const insertAckCheckbox = (data: NativeData, updateNative: UpdateNativeFunction)
 						data.action[menu].set[indexItem].ack[textIndex] = "false";
 					}
 					data.action[menu].set[indexItem].returnText[textIndex] = substring;
-					return
+					return;
 				}
 				data.action[menu].set[indexItem].ack[textIndex] = "false";
 			});
@@ -61,7 +61,7 @@ export const insertNewItemsInData = (data: NativeData, updateNative: UpdateNativ
 	if (Object.keys(data).length == 0) {
 		return;
 	}
-	let copyData = deepCopy(data)
+	const copyData = deepCopy(data);
 	if (!copyData) {
 		return;
 	}
