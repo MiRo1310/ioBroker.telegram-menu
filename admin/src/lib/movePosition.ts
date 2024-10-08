@@ -78,33 +78,36 @@ export const updatePositionDropBox = (
 		const widthDropBox = dropboxRef.current.offsetWidth;
 		const maxTop = heightContainer - heightDropBox;
 		const maxRight = widthContainer - widthDropBox;
-		let x: number, y: number;
-		if (newY && newX) {
-			if (newY < 1) {
-				y = 1;
-			} else if (newY > maxTop) {
-				y = maxTop;
-			} else {
-				y = newY;
-			}
-			if (newX < 1) {
-				x = 1;
-			} else if (newX > maxRight) {
-				x = maxRight;
-			} else {
-				x = newX;
-			}
-		} else if (dropbox && dropbox.dropboxRight && dropbox.dropboxTop) {
-			{
-				x = dropbox.dropboxRight;
-				y = dropbox.dropboxTop;
-			}
-		} else {
-			x = 5;
-			y = 105;
-		}
+
+		const { y, x } = calculateNewPosition({ maxTop, maxRight });
 
 		dropboxRef.current.style.top = y + "px";
 		dropboxRef.current.style.right = x + "px";
 	}
+
+	function calculateNewPosition({ maxTop, maxRight }: { maxTop: number; maxRight: number; }) {
+
+		if (newY && newX) {
+			return { y: adjustYCoordinate(newY, maxTop), x: adjustXCoordinate(newX, maxRight) };
+		}
+		if (dropbox && dropbox.dropboxRight && dropbox.dropboxTop) {
+			return { x: dropbox.dropboxRight, y: dropbox.dropboxTop }
+		}
+		return { y: 105, x: 5 };
+	}
 };
+
+function adjustXCoordinate(newX: number, maxRight: number) {
+	if (newX < 1) {
+		return 1;
+	}
+	return newX > maxRight ? maxRight : newX;
+}
+
+function adjustYCoordinate(newY: number, maxTop: number) {
+	if (newY < 1) {
+		return 1;
+	}
+	return newY > maxTop ? maxTop : newY;
+}
+

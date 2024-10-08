@@ -32,7 +32,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
 				onDrag={onDrag}
 				onMouseEnter={onMouseEnter}
 				onMouseLeave={onMouseLeave}
-				setState={this.setState.bind(this)}
+				setState={this.props.callback.setStateApp}
 			>
 				<DropBox data={this.props.data} index={this.props.data.state.draggingRowIndex} callback={this.props.callback} />
 			</PopupContainer>
