@@ -144,7 +144,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 											(indexCell === 0 && (row.call === "" || row.call === "-") ? "" : "startSideHideInfo")
 										}
 									>
-										{indexRow === 0 && (row.call === "" || row.call === "-") ? <span>{I18n.t("This is a Submenu!")}</span> : null}
+										{indexRow === 0 && (row.call === "" || row.call === "-") ? <span>{I18n.t("isSubmenu")}</span> : null}
 									</span>
 								</span>
 							</TableCell>

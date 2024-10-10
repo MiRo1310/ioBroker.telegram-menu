@@ -1,7 +1,7 @@
 import {
 	CallbackFunctionsApp,
 	CallbackTabActionContent,
-	Data,
+	AppData,
 	DataMainContent,
 	DataTabActionContent,
 	Native,
@@ -112,6 +112,6 @@ export interface PropsTableNavHeader {
 export interface PropsTableNavHelper {
 	state: StateTabNavigation;
 	setState: SetStateFunction;
-	data: Data;
+	data: AppData;
 	popupHelperCard: (isOkay: boolean) => void;
 }

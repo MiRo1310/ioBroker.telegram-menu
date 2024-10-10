@@ -105,7 +105,7 @@ export interface PropsTabAction {
 	callback: CallbackFunctionsApp;
 }
 
-export interface Data {
+export interface AppData {
 	activeMenu?: string;
 	nav?: NavData;
 	state: AdditionalStateInfo;

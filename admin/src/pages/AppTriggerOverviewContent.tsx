@@ -181,7 +181,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 			<>
 				<Select
 					options={this.state.options}
-					label={I18n.t("Start Menus")}
+					label={I18n.t("startMenus")}
 					name="instance"
 					selected={this.state.selected}
 					id="startMenu"
@@ -190,7 +190,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 				{this.state.trigger ? (
 					<div className="Menu-list-container">
 						<div className="Menu-list-card">
-							<p>{I18n.t("Unused Trigger")}</p>
+							<p>{I18n.t("unusedTrigger")}</p>
 							<ul>
 								{this.state.trigger.unUsedTrigger.map((trigger, index) => {
 									return (
@@ -208,7 +208,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 									<div className={this.state.trigger?.usedTrigger.nav[menu][0] == "-" ? "menu-disabled" : "menu-startside"}>
 										<div style={{ display: "flex", flexWrap: "wrap" }}>
 											<p className="noMargin inlineBlock strong">
-												{this.state.trigger?.usedTrigger.nav[menu][0] == "-" ? "Submenu" : "Startside"}
+												{this.state.trigger?.usedTrigger.nav[menu][0] == "-" ? "submenu" : "startSide"}
 											</p>
 											{this.props.userActiveCheckbox[menu] ? (
 												<span className="textRight active"> {I18n.t("Active")}</span>
@@ -217,11 +217,11 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 											)}
 										</div>
 										<p className="noMargin">
-											{I18n.t("Set menu")}: {menu}
+											{I18n.t("setMenu")}: {menu}
 										</p>
 									</div>
 									<div className="User-list-container" style={{ border: `4px solid ${colors[this.getIndexOfMenu(menu)]}` }}>
-										<p className="User-list">{I18n.t("User List")}</p>
+										<p className="User-list">{I18n.t("userList")}</p>
 										{this.props.usersInGroup[menu].map((user, indexUser) => {
 											return <p key={indexUser}>{user}</p>;
 										})}
@@ -229,7 +229,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 
 									<ul key={indexUsedTrigger} className="Action-list" style={{ paddingLeft: this.state.ulPadding[menu] }}>
 										<li>
-											<p className="strong">{I18n.t("Navigation Buttons")}</p>
+											<p className="strong">{I18n.t("navigationButtons")}</p>
 											<ul className="createdTrigger">
 												{this.state.trigger?.everyTrigger[menu].map((trigger, indexTrigger) => {
 													return (
@@ -247,7 +247,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 												})}
 											</ul>
 										</li>
-										<li className="strong">{I18n.t("Used Trigger")}</li>
+										<li className="strong">{I18n.t("usedTrigger")}</li>
 										<li>
 											<p className="menuDespription">nav</p>
 											<ul>

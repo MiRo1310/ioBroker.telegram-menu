@@ -44,18 +44,18 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 								<i className="material-icons">chevron_right</i>
 							)}
 						</Button>
-						<span>{I18n.t("Menu list")}</span>
+						<span>{I18n.t("menuList")}</span>
 						{this.props.data.state.showPopupMenuList && this.props.data.state.activeMenu != undefined ? (
 							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
 						) : null}
 					</div>
 
 					<div className="MenuHeader-ActiveMenu">
-						<p>{I18n.t("Active Menu:")}</p>
+						<p>{I18n.t("activeMenu")}</p>
 						{this.props.data.state.activeMenu != undefined ? (
 							<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
 						) : (
-							<span className="MenuHeader-borderActiveMenu">{I18n.t("Please create a menu!")}</span>
+							<span className="MenuHeader-borderActiveMenu">{I18n.t("createMenu")}</span>
 						)}
 					</div>
 				</Grid>

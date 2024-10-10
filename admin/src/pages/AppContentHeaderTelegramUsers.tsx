@@ -64,7 +64,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 				<Grid item lg={2} md={2} xs={2}>
 					{this.state.errorUserChecked ? (
 						<div>
-							<p className="errorString">{I18n.t("Please select a user, or deaktivate the Menu, bevor you can save!")}</p>
+							<p className="errorString">{I18n.t("userSelect")}</p>
 							<div className="disableSaveBtn"></div>
 						</div>
 					) : null}
@@ -88,12 +88,12 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 										<i className="material-icons">chevron_right</i>
 									)}
 								</Button>
-								<span>{I18n.t("")}</span>
+								<span></span>
 							</div>
 						) : null}
 						{this.state.menuOpen && Object.keys(this.props.data.usersInGroup).length != 0 ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
-								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
+								<p className="TelegramUserCard-description">{I18n.t("telegramUser")}</p>
 								{this.props.data.state.native?.userListWithChatID.map((user, key) => {
 									return (
 										<TelegramUserCard

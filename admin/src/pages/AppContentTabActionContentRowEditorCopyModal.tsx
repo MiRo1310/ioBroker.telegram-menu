@@ -3,6 +3,7 @@ import { CallbackFunctionsApp, CallbackTabActionContent, DataMainContent, DataTa
 import React, { Component } from "react";
 import { Echart, Events, Get, HttpRequest, Pic, Set } from "../../app";
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from "./AppContentTabActionContentRowEditorCopyModalSelectedValues";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 export interface PropsRowEditorCopyModal {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent;
@@ -50,8 +51,8 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
 		return (
 			<div className="editor__modal_container">
 				<div className="editor__modal_inputs">
-					Active Menu: {this.props.data.state.activeMenu}
-					<p>Menu to copy to</p>
+					{I18n.t("activeMenu")}: {this.props.data.state.activeMenu}
+					<p>{I18n.t("menuToCopy")}</p>
 					<Select
 						options={this.getAllMenusWithoutActiveMenu()}
 						id="selectedMenu"

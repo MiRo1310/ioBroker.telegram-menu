@@ -209,9 +209,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		return (
 			<>
 				{this.state.rowsLength == 0 ? (
-					<Button b_color="#96d15a" title="Add new Action" width="50%" margin="0 18px" height="50px" index={null} callback={this.addNewRow}>
+					<Button b_color="#96d15a" title="addAction" width="50%" margin="0 18px" height="50px" index={null} callback={this.addNewRow}>
 						<i className="material-icons translate">add</i>
-						{I18n.t("Add new Action")}
+						{I18n.t("addAction")}
 					</Button>
 				) : (
 					<TableContainer component={Paper} className="ActionCard-Container">

@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import { CallbackFunctionsApp, Echart, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from "admin/app";
 import React, { Component } from "react";
 import { NativeData } from "../../app";
+import { I18n } from "@iobroker/adapter-react-v5";
+
 interface Props {
 	value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
 	data: NativeData;
@@ -36,18 +38,26 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
 		};
 	}
 
-	//TODO Translation und vervollständigen
 	valueMapping = {
-		trigger: "Trigger",
-		values: "Values",
-		returnText: "Return Text",
-		ack: "Ack",
-		confirm: "Confirm",
-		switch_checkbox: "Switch Checkbox",
-		parse_mode: "Parse Mode",
-		newline_checkbox: "Newline Checkbox",
-		text: "Text",
-		IDs: "IDs",
+		trigger: I18n.t("trigger"),
+		values: I18n.t("values"),
+		returnText: I18n.t("returnText"),
+		ack: I18n.t("ack"),
+		confirm: I18n.t("confirm"),
+		switch_checkbox: I18n.t("switchCheckbox"),
+		parse_mode: I18n.t("parseMode"),
+		newline_checkbox: I18n.t("newlineCheckbox"),
+		text: I18n.t("text"),
+		IDs: I18n.t("ids"),
+		url: I18n.t("url"),
+		user: I18n.t("user"),
+		password: I18n.t("password"),
+		filename: I18n.t("filename"),
+		delay: I18n.t("delay"),
+		ID: I18n.t("id"),
+		menu: I18n.t("menu"),
+		condition: I18n.t("condition"),
+		picSendDelay: I18n.t("picSendDelay"),
 	};
 
 	checkboxChecked = ({ isChecked, index }: EventCheckbox): void => {

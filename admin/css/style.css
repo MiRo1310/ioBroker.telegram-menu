@@ -5,6 +5,7 @@
 @import "./table.css";
 @import "./textarea.css";
 @import "./app-content.css";
+@import "./row-editor.css";
 
 body {
 	height: 100vh;

@@ -82,9 +82,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			return;
 		}
 		if (addNewMenu) {
-			data.nav[newMenuName] = [
-				{ call: "StartSide", value: "Iobroker, Light, Grafana, Weather", text: "Choose an action", parse_mode: "false" },
-			];
+			data.nav[newMenuName] = [{ call: "StartSide", value: "Iobroker, Light, Grafana, Weather", text: "chooseAction", parse_mode: "false" }];
 			data.action[newMenuName] = { get: [], set: [], pic: [], echarts: [], events: [], httpRequest: [] };
 			userActiveCheckbox[newMenuName] = false;
 			usersInGroup[newMenuName] = [];
@@ -173,7 +171,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			<Grid container spacing={1} className="MenuCard">
 				<Grid item xs={4}>
 					<Input
-						placeholder={I18n.t("Add new Menu Name")}
+						placeholder={I18n.t("addMenu")}
 						width="80%"
 						id="newMenuName"
 						value={this.state.newMenuName}
@@ -227,10 +225,10 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 					<Grid item xs="auto">
 						{this.state.confirmDialog ? (
 							<ConfirmDialog
-								title={I18n.t("Do you really want to delete this menu?")}
-								text={I18n.t("All data will be lost. Confirm?")}
-								ok={I18n.t("Yes")}
-								cancel={I18n.t("Cancel")}
+								title={I18n.t("reallyDelete")}
+								text={I18n.t("confirmDelete")}
+								ok={I18n.t("yes")}
+								cancel={I18n.t("cancel")}
 								dialogName="myConfirmDialogThatCouldBeSuppressed"
 								onClose={(isYes) => {
 									if (isYes) {
@@ -245,7 +243,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							<RenameModal
 								rename={this.renameMenu}
 								isOK={this.state.isOK}
-								title={I18n.t("Rename menu name")}
+								title={I18n.t("renameMenu")}
 								value={this.state.renamedMenuName}
 								setState={this.setState.bind(this)}
 								id="renamedMenuName"

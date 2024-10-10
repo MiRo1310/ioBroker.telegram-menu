@@ -34,13 +34,13 @@ class Settings extends Component<PropsSettings> {
 	render(): React.ReactNode {
 		return (
 			<div className="Settings">
-				<h1>{I18n.t("Settings")}</h1>
+				<h1>{I18n.t("settings")}</h1>
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<Select
-							placeholder="--Please choose a telegram instance--"
+							placeholder="placeholderInstance"
 							options={this.props.data.state.instances}
-							label={I18n.t("Telegram Instance")}
+							label={I18n.t("telegramInstance")}
 							name="instance"
 							selected={this.props.data.state.native.instance}
 							id="instance"
@@ -50,11 +50,11 @@ class Settings extends Component<PropsSettings> {
 					</Grid>
 					<Grid item xs={4}>
 						<Input
-							label={I18n.t("Text will be send if no entry was found!")}
+							label={I18n.t("textNoEntry")}
 							placeholder="No entry found"
 							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="textNoEntry"
-							value={this.props.data.state.native.textNoEntry || I18n.t("Entry not found!")}
+							value={this.props.data.state.native.textNoEntry || I18n.t("entryNotFound")}
 							width="100%"
 						/>
 					</Grid>
@@ -84,7 +84,7 @@ class Settings extends Component<PropsSettings> {
 							id="oneTiKey"
 							isChecked={this.props.data.state.native.checkbox.oneTiKey || false}
 							callback={this.onClickCheckbox}
-							title="Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again."
+							title="oneTimeKey"
 							class="title"
 							index={2}
 						/>
@@ -112,7 +112,7 @@ class Settings extends Component<PropsSettings> {
 					</Grid>
 					<Grid item xs={8}>
 						<Checkbox
-							label={I18n.t("Send Menu after Restart")}
+							label={I18n.t("sendMenuAfterRestart")}
 							id="sendMenuAfterRestart"
 							isChecked={
 								this.props.data.state.native.checkbox.sendMenuAfterRestart === null ||

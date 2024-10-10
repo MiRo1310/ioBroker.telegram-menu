@@ -20,6 +20,9 @@
 .table__head_button {
 	width: 1rem;
 }
+table input {
+	border: none !important;
+}
 
 /* tr td:last-child button {
 	margin-right: 6px !important;

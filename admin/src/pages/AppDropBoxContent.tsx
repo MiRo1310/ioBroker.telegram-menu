@@ -241,7 +241,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 						selected={this.state.selectedMenu}
 						id="selectedMenu"
 						callback={({ val }: EventSelect) => this.setState({ selectedMenu: val })}
-						placeholder={I18n.t("Select a target menu")}
+						placeholder={I18n.t("selectTargetMenu")}
 					></Select>
 					<label>
 						<Radio
@@ -272,9 +272,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 						onDragLeave={() => this.handleDrag(false)}
 					>
 						<p className="DropBox-Header">Drop here!!!</p>
-						<p className="DropBox-Content">
-							{I18n.t("Select a Menu,select move or copy. Watch out! A user must be active in the selected menu!")}{" "}
-						</p>
+						<p className="DropBox-Content">{I18n.t("selectAMenuDropBox")}</p>
 					</div>
 				</div>
 				{this.state.openRenamePopup ? (

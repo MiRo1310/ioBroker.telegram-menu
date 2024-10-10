@@ -15,15 +15,15 @@ class TabListing extends Component<PropsMainTabList> {
 
 	tabs: TabListingType[] = [
 		{
-			label: "Navigation",
+			label: "navigation",
 			value: "nav",
 		},
 		{
-			label: "Action",
+			label: "action",
 			value: "action",
 		},
 		{
-			label: "Settings",
+			label: "settings",
 			value: "settings",
 		},
 	];

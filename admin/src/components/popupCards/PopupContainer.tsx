@@ -19,7 +19,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 			element.draggable = true;
 		}
 	}
-
+	//FIXME - css verwenden
 	render(): React.ReactNode {
 		const DialogContainer: Properties<string | number, string> = {
 			position: "absolute",
