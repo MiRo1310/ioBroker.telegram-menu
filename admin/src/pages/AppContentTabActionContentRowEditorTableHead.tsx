@@ -22,9 +22,9 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
 	componentDidMount(): void {
 		this.props.setRef(this);
 	}
-	clickCheckBox = (event: EventCheckbox): void => {
-		this.setState({ isChecked: event.isChecked });
-		this.props.callback.checkAll(event.isChecked);
+	clickCheckBox = ({ isChecked }: EventCheckbox): void => {
+		this.setState({ isChecked });
+		this.props.callback.checkAll(isChecked);
 	};
 	resetCheckboxHeader(): void {
 		this.setState({ isChecked: false });

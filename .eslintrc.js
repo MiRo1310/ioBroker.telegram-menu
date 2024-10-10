@@ -57,6 +57,7 @@ module.exports = {
 		"arrow-parens": ["error", "always"],
 		curly: ["error", "all"],
 		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/no-namespace": "off",
 	},
 	overrides: [
 		{

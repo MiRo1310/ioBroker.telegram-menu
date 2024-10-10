@@ -8,42 +8,6 @@ import { HelperText } from "@/config/helper";
 
 export type Nullable<T> = T | null | undefined;
 
-export interface AdditionalPropInfo extends GenericAppProps {
-	themeName: string;
-}
-interface AppProps {
-	encryptedFields: string[];
-	Connection: AdminConnection;
-	translations: any;
-}
-
-
-export type ExtendedAppProps = AppProps & AdditionalPropInfo;
-export interface AdditionalStateInfo extends GenericAppState {
-	showDropBox: boolean;
-	native: Native;
-	connectionReady: boolean;
-	activeMenu: string;
-	usedTrigger: string[];
-	dropDifferenzX: number;
-	dropDifferenzY: number;
-	instances: string[];
-	doubleTrigger: string[];
-	unUsedTrigger: string[];
-	triggerObject: TriggerObject;
-	tab: string;
-	popupMenuOpen: boolean;
-	subTab: string;
-	draggingRowIndex: number | null;
-	showTriggerInfo: boolean;
-	data: {};
-	showPopupMenuList: boolean;
-	dropBoxTop: number;
-	dropBoxRight: number;
-	copyDataObject: { targetCheckboxes: { [key: number]: boolean }, targetActionName: string };
-
-}
-
 export interface PropsSettings {
 	data: DataMainContent;
 	callback: CallbackFunctionsApp;
@@ -106,12 +70,6 @@ export interface TabValueEntries {
 	noIcon?: boolean;
 	password?: boolean;
 	type?: string;
-}
-export type UpdateNative = {
-	updateNative: UpdateNativeFunction;
-};
-export interface SetState {
-	setState: SetStateFunction;
 }
 
 export interface PropsTableDndNav {

@@ -11,15 +11,16 @@ import AppTriggerOverview from "@/pages/AppTriggerOverview";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { AdminConnection, GenericApp } from "@iobroker/adapter-react-v5";
 import { Grid } from "@mui/material";
-import { AdditionalPropInfo, AdditionalStateInfo, ExtendedAppProps, Native, Nullable, TriggerObject } from "admin/app";
+import { Dropbox, Native, Nullable, TriggerObject } from "admin/app";
 import React from "react";
 import { getDefaultDropBoxCoordinates } from "./lib/dragNDrop";
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from "./lib/object";
+import { TelegramMenuApp } from "./types/props-types";
 
-class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
-	dropBoxRef: React.RefObject<HTMLDivElement> | undefined;
+class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.AdditionalState> {
+	dropBoxRef: Dropbox.Ref;
 	constructor(props: any) {
-		const extendedProps: ExtendedAppProps = {
+		const extendedProps: TelegramMenuApp.ExtendedProps = {
 			...props,
 			encryptedFields: [],
 			Connection: AdminConnection,
@@ -42,7 +43,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 		this.state = {
 			...this.state,
 			native: {} as Native,
-			data: {},
+			// data: {},
 			tab: "nav",
 			subTab: "set",
 			draggingRowIndex: null,
@@ -84,7 +85,7 @@ class App extends GenericApp<AdditionalPropInfo, AdditionalStateInfo> {
 
 	newX: Nullable<number> = null;
 	newY: Nullable<number> = null;
-	componentDidUpdate(prevProps: Readonly<AdditionalPropInfo>, prevState: Readonly<AdditionalStateInfo>): void {
+	componentDidUpdate(prevProps: Readonly<TelegramMenuApp.AdditionalProps>, prevState: Readonly<TelegramMenuApp.AdditionalState>): void {
 		if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
 			this.getUsersFromTelegram();
 		}
