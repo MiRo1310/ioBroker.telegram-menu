@@ -1,6 +1,7 @@
 import TelegramMenu from "../main";
 import { error } from "./logging";
 import { sendToTelegram } from "./telegram";
+import { Echart, UserListWithChatId } from "./telegram-menu";
 function getChart(
 	echarts: Echart[],
 	directoryPicture: string,

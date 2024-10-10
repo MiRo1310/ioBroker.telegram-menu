@@ -45,11 +45,11 @@ declare class GenericApp<P = {}, S = {}> extends Router<
 		isConfigurationError: string;
 		expertMode: boolean;
 		toast: string;
-		theme: import("./types").Theme;
+		theme: import("./src/types").Theme;
 		themeName: string;
 		themeType: string;
 		bottomButtons: boolean;
-		width: import("./types").Width;
+		width: import("./src/types").Width;
 		confirmClose: boolean;
 		_alert: boolean;
 		_alertType: string;
@@ -80,19 +80,19 @@ declare class GenericApp<P = {}, S = {}> extends Router<
 	 * @param {string} name Theme name
 	 * @returns {import('./types').Theme}
 	 */
-	createTheme(name?: string): import("./types").Theme;
+	createTheme(name?: string): import("./src/types").Theme;
 	/**
 	 * Get the theme name
 	 * @param {import('./types').Theme} currentTheme Theme
 	 * @returns {string} Theme name
 	 */
-	getThemeName(currentTheme: import("./types").Theme): string;
+	getThemeName(currentTheme: import("./src/types").Theme): string;
 	/**
 	 * Get the theme type
 	 * @param {import('./types').Theme} currentTheme Theme
 	 * @returns {string} Theme type
 	 */
-	getThemeType(currentTheme: import("./types").Theme): string;
+	getThemeType(currentTheme: import("./src/types").Theme): string;
 	/**
 	 * Changes the current theme
 	 * @param {string} newThemeName Theme name

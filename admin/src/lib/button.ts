@@ -1,19 +1,30 @@
-/**
- *
- * @param {number} index Position of the element in the array
- * @param {*} props  Props of the component
- * @param {string} card Action of the component
- * @param {string} subcard SubData of the Action ("set", "get", "pic")
- * @param {number} upDown Positions to move up or down
- * @param {number} newPositionIndex New position of the element in the array
- */
-export const moveItem = (index: number, props, card: string, subcard: string | null, upDown: number, newPositionIndex?: number): void => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
-	const activeMenu = props.activeMenu;
+import { NativeData, UpdateNativeFunction } from "../../app";
+
+export const moveItem = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+	upDown,
+	newPositionIndex,
+}: {
+	newPositionIndex?: number;
+	upDown: number;
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
+	const dataCopy = JSON.parse(JSON.stringify(data));
+
 	let userArray = [];
 
-	if (subcard) {
-		userArray = dataCopy[card][activeMenu][subcard];
+	if (subCard) {
+		userArray = dataCopy[card][activeMenu][subCard];
 	} else {
 		userArray = dataCopy[card][activeMenu];
 	}
@@ -26,65 +37,108 @@ export const moveItem = (index: number, props, card: string, subcard: string | n
 	if (newPositionIndex) {
 		userArray.splice(newPositionIndex, 0, element);
 	}
-	if (subcard) {
-		dataCopy[card][activeMenu][subcard] = userArray;
+	if (subCard) {
+		dataCopy[card][activeMenu][subCard] = userArray;
 	} else {
 		dataCopy[card][activeMenu] = userArray;
 	}
-	props.callback.updateNative("data", dataCopy);
+	updateNative("data", dataCopy);
 };
-export const moveDown = (index, props, card, subcard, upDown): void => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
-	const activeMenu = props.activeMenu;
+export const moveDown = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+	upDown,
+}: {
+	upDown: number;
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
+	const dataCopy = JSON.parse(JSON.stringify(data));
 	let userArray = [];
-	if (subcard) {
-		userArray = dataCopy[card][activeMenu][subcard];
+	if (subCard) {
+		userArray = dataCopy[card][activeMenu][subCard];
 	} else {
 		userArray = dataCopy[card][activeMenu];
 	}
 	const element = userArray[index];
 	userArray.splice(index, 1);
 	userArray.splice(index + upDown, 0, element);
-	if (subcard) {
-		dataCopy[card][activeMenu][subcard] = userArray;
+	if (subCard) {
+		dataCopy[card][activeMenu][subCard] = userArray;
 	} else {
 		dataCopy[card][activeMenu] = userArray;
 	}
-	props.callback.updateNative("data", dataCopy);
+	updateNative("data", dataCopy);
 };
-export const moveUp = (index, props, card, subcard): void => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
-	const activeMenu = props.activeMenu;
+
+export const moveUp = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+}: {
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
+	const dataCopy = JSON.parse(JSON.stringify(data));
 	let userArray = [];
-	if (subcard) {
-		userArray = dataCopy[card][activeMenu][subcard];
+	if (subCard) {
+		userArray = dataCopy[card][activeMenu][subCard];
 	} else {
 		userArray = dataCopy[card][activeMenu];
 	}
 	const element = userArray[index];
 	userArray.splice(index, 1);
 	userArray.splice(index - 1, 0, element);
-	if (subcard) {
-		dataCopy[card][activeMenu][subcard] = userArray;
+	if (subCard) {
+		dataCopy[card][activeMenu][subCard] = userArray;
 	} else {
 		dataCopy[card][activeMenu] = userArray;
 	}
-	props.callback.updateNative("data", dataCopy);
+	updateNative("data", dataCopy);
 };
-export const deleteRow = (index, props, card, subcard?): void => {
-	const dataCopy = JSON.parse(JSON.stringify(props.data.data));
-	const activeMenu = props.activeMenu;
+
+export const deleteRow = ({
+	index,
+	data,
+	card,
+	subCard,
+	activeMenu,
+	updateNative,
+}: {
+	updateNative: UpdateNativeFunction;
+	activeMenu: string;
+	index: number;
+	data: NativeData;
+	card: string;
+	subCard?: string;
+}): void => {
+	const dataCopy = JSON.parse(JSON.stringify(data));
 	let userArray = [];
-	if (subcard) {
-		userArray = dataCopy[card][activeMenu][subcard];
+	if (subCard) {
+		userArray = dataCopy[card][activeMenu][subCard];
 	} else {
 		userArray = dataCopy[card][activeMenu];
 	}
 	userArray.splice(index, 1);
-	if (subcard) {
-		dataCopy[card][activeMenu][subcard] = userArray;
+	if (subCard) {
+		dataCopy[card][activeMenu][subCard] = userArray;
 	} else {
 		dataCopy[card][activeMenu] = userArray;
 	}
-	props.callback.updateNative("data", dataCopy);
+	updateNative("data", dataCopy);
 };

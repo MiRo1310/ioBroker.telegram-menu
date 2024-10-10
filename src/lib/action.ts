@@ -5,6 +5,26 @@ import { sendNav } from "./sendNav.js";
 import { backMenuFunc } from "./backMenu.js";
 import { debug, error } from "./logging.js";
 import TelegramMenu from "../main.js";
+import {
+	UserListWithChatId,
+	BooleanString,
+	BindingObject,
+	EditArrayButtons,
+	GeneratedNavMenu,
+	Newline,
+	NewObjectNavStructure,
+	Actions,
+	GenerateActionsArrayOfEntries,
+	Switch,
+	UserObjectActions,
+	GenerateActionsNewObject,
+	NewObjectNavStructureKey,
+	Part,
+	DataObject,
+	MenuData,
+	UserInGroup,
+	MenusWithUsers,
+} from "./telegram-menu.js";
 
 const bindingFunc = async (
 	text: string,
@@ -51,7 +71,7 @@ const bindingFunc = async (
 	}
 };
 
-function calcValue(_this: any, textToSend: string, val: string): { textToSend: string; val: string } | undefined {
+function calcValue(_this: TelegramMenu, textToSend: string, val: string): { textToSend: string; val: string } | undefined {
 	const { substring } = decomposeText(textToSend, "{math:", "}");
 	const mathValue = substring.replace("{math:", "").replace("}", "");
 	try {
@@ -74,7 +94,7 @@ function checkValueForOneLine(text: string): string {
 	return text;
 }
 
-async function editArrayButtons(val: EditArrayButtons[], _this: any): Promise<GeneratedNavMenu[] | null> {
+async function editArrayButtons(val: EditArrayButtons[], _this: TelegramMenu): Promise<GeneratedNavMenu[] | null> {
 	const newVal: GeneratedNavMenu[] = [];
 	try {
 		val.forEach((element) => {
@@ -116,7 +136,7 @@ async function editArrayButtons(val: EditArrayButtons[], _this: any): Promise<Ge
 }
 
 const idBySelector = async (
-	_this: any,
+	_this: TelegramMenu,
 	selector: string,
 	text: string,
 	userToSend: string,
@@ -133,7 +153,7 @@ const idBySelector = async (
 		}
 
 		const functions = selector.replace("functions=", "");
-		let enums = [];
+		let enums: string[] | undefined = [];
 		const result = await _this.getEnumsAsync();
 
 		if (!result || !result["enum.functions"][`enum.functions.${functions}`]) {
@@ -151,16 +171,16 @@ const idBySelector = async (
 
 				if (text.includes("{common.name}")) {
 					res = await _this.getForeignObjectAsync(id);
-					_this.log.debug("Name " + JSON.stringify(res.common.name));
+					_this.log.debug("Name " + JSON.stringify(res?.common.name));
 
 					if (res && res.common.name) {
-						newText = newText.replace("{common.name}", res.common.name);
+						newText = newText.replace("{common.name}", res.common.name as string);
 					}
 				}
 				if (text.includes("&amp;&amp;")) {
-					text2Send += newText.replace("&amp;&amp;", value.val);
+					text2Send += newText.replace("&amp;&amp;", value.val as string);
 				} else if (text.includes("&&")) {
-					text2Send += newText.replace("&&", value.val);
+					text2Send += newText.replace("&&", value.val as string);
 				} else {
 					text2Send += newText;
 					text2Send += " " + value.val;
@@ -262,9 +282,9 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 		const listOfSetStateIds: string[] = [];
 		action.set.forEach(function (element, key) {
 			if (key == 0) {
-				userObject[element.trigger] = { switch: [] };
+				userObject[element.trigger[0]] = { switch: [] };
 			}
-			userObject[element.trigger] = { switch: [] };
+			userObject[element.trigger[0]] = { switch: [] };
 			element.IDs.forEach(function (id: string, index: number) {
 				listOfSetStateIds.push(id);
 				const toggle = element.switch_checkbox[index] === "true";
@@ -277,15 +297,15 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 				}
 				const newObj: Switch = {
 					id: element.IDs[index],
-					value: value,
+					value: value.toString(),
 					toggle: toggle,
 					confirm: element.confirm[index],
 					returnText: element.returnText[index],
-					ack: element.ack ? element.ack[index] : false,
-					parse_mode: element.parse_mode ? element.parse_mode[0] : false,
+					ack: element.ack ? element.ack[index] : "false",
+					parse_mode: element.parse_mode ? element.parse_mode[0] : "false",
 				};
-				if (userObject[element.trigger] && userObject[element.trigger]?.switch) {
-					userObject[element.trigger].switch!.push(newObj);
+				if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
+					userObject[element.trigger[0]].switch!.push(newObj);
 				}
 			});
 		});
@@ -293,12 +313,12 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 		arrayOfEntries.forEach((item) => {
 			if (action[item.objName as keyof Actions]) {
 				action[item.objName as keyof Actions].forEach(function (element, index: number) {
-					userObject[element.trigger] = { [item.name]: [] };
+					userObject[element.trigger[0]] = { [item.name]: [] };
 					if (index == 0) {
-						userObject[element.trigger] = { [item.name as keyof UserObjectActions]: [] };
+						userObject[element.trigger[0]] = { [item.name as keyof UserObjectActions]: [] };
 					}
 
-					element[item.loop].forEach(function (id: string, key: number) {
+					(element[item.loop as keyof typeof element] as string[]).forEach(function (id: string, key: number) {
 						const newObj: GenerateActionsNewObject = {};
 						item.elements.forEach((elementItem) => {
 							const name = elementItem.name;
@@ -306,13 +326,10 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 							const newKey = elementItem.key ? elementItem.key : key;
 							let val: string | boolean;
 
-							if (!element[value]) {
+							if (!element[value as keyof typeof element]) {
 								val = false;
 							} else {
-								val = element[value][newKey];
-							}
-							if (val == undefined) {
-								val = "false";
+								val = element[value as keyof typeof element][newKey] || "false";
 							}
 
 							if (elementItem.type == "text" && typeof val === "string") {

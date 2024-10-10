@@ -1,6 +1,7 @@
 import TelegramMenu from "../main";
 import { isJSON, replaceAll } from "./global";
 import { debug, error } from "./logging";
+import { UserListWithChatId, ProzessTimeValue } from "./telegram-menu";
 
 const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
 	const string = obj.val?.toString();
@@ -33,7 +34,7 @@ const exchangeValue = (textToSend: string, stateVal: string | number | boolean):
 	let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
 
 	let objChangeValue;
-	match = match.replaceAll("'", '"');
+	match = match.replace(/'/g, '"');
 
 	if (isJSON("{" + match + "}")) {
 		objChangeValue = JSON.parse("{" + match + "}");

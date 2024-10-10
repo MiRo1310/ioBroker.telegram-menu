@@ -1,25 +1,13 @@
-import React, { Component } from "react";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { PropsCheckbox } from "admin/app";
+import React, { Component } from "react";
+import { PropsCheckbox } from "../../../app";
 
 class Checkbox extends Component<PropsCheckbox> {
-	onChangeHandler = (event) => {
-		if (!(this.props.callbackValue === "event")) {
-			if (this.props.setNative) {
-				this.props.callback(this.props.id, event.target.checked);
-			} else {
-				this.props.callback({ [this.props.id]: event.target.checked });
-			}
-		} else {
-			if (this.props.obj) {
-				this.props.callback({ val: event.target.checked, id: this.props.id, index: this.props.index });
-			} else {
-				this.props.callback(event, this.props.id);
-			}
-		}
+	onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+		this.props.callback({ isChecked: event.target.checked, id: this.props?.id, index: this.props?.index });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		const container = {
 			display: "inline-block",
 			width: this.props.width ? this.props.width : "auto",

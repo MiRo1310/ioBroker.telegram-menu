@@ -1,12 +1,11 @@
-function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb): void {
+import { socket } from "../../app";
+
+function getUsersFromTelegram(socket: socket, telegramInstance = "telegram.0", cb: (val: string) => void): void {
 	try {
-		new Promise((resolve, reject) => {
-			socket.getState(telegramInstance + ".communicate.users").then((state, err) => {
-				if (state && state.val && !err) {
+		new Promise((resolve) => {
+			socket.getState(telegramInstance + ".communicate.users").then((state: any) => {
+				if (state && state.val) {
 					resolve(cb(state.val));
-				} else if (err) {
-					reject(err);
-					console.error("Error get Users vom Telegram: " + JSON.stringify(err));
 				}
 			});
 		});
@@ -15,20 +14,12 @@ function getUsersFromTelegram(socket, telegramInstance = "telegram.0", cb): void
 	}
 }
 
-function getAllTelegramInstances(socket, callback): void {
+function getAllTelegramInstances(socket: socket, callback: (val: string[]) => void): void {
 	const IDs: string[] = [];
 	try {
 		socket.getObjectViewCustom("system", "instance", "", "\u9999").then((objects) => {
 			Object.keys(objects).forEach((obj) => {
-				if (
-					(objects &&
-						objects[obj] &&
-						objects[obj].common &&
-						objects[obj].common.titleLang &&
-						objects[obj].common.titleLang.en &&
-						objects[obj].common.titleLang.en == "Telegram") ||
-					objects[obj].common.title == "Telegram"
-				) {
+				if (isAdapterTelegram(objects, obj)) {
 					IDs.push(objects[obj]["_id"].replace(/^system\.adapter\./, ""));
 				}
 			});
@@ -37,7 +28,16 @@ function getAllTelegramInstances(socket, callback): void {
 	} catch (err) {
 		console.error("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
+
+	function isAdapterTelegram(objects: Record<string, ioBroker.InstanceObject & { type: "instance" }>, obj: string): boolean {
+		const titleLang = objects?.[obj]?.common?.titleLang;
+		if (!titleLang) {
+			return false;
+		}
+		return typeof titleLang === "object" && "en" in titleLang && titleLang.en === "Telegram";
+	}
 }
+
 const getIobrokerData = {
 	getUsersFromTelegram,
 	getAllTelegramInstances,

@@ -1,25 +1,27 @@
-import React, { Component } from "react";
-import { Box, Tab } from "@mui/material";
-import { TabList } from "@mui/lab";
 import { tabValues } from "@/config/entries";
-import { CallbackFunctions } from "admin/app";
+import { TabList } from "@mui/lab";
+import { Box, Tab } from "@mui/material";
+import React, { Component } from "react";
+import { CallbackFunctionsApp } from "../../app";
 interface PropsTabActionTabs {
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 	setState: ({}) => void;
 }
 
 class TabActionTabs extends Component<PropsTabActionTabs> {
-	constructor(props) {
+	constructor(props: PropsTabActionTabs) {
 		super(props);
 		this.state = {};
 	}
-	handleChange = (event, newValue) => {
-		if (this.props.callback.setState) {
-			this.props.callback.setState({ subTab: newValue });
+
+	handleChange = (event: React.SyntheticEvent, newValue: string): void => {
+		if (this.props.callback.setStateApp) {
+			this.props.callback.setStateApp({ subTab: newValue });
 		}
 		this.props.setState({ value: newValue });
 	};
-	render() {
+
+	render(): React.ReactNode {
 		return (
 			<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 				<TabList onChange={this.handleChange} aria-label="lab API tabs example" className="App-TabList TabList-Action">

@@ -5,6 +5,7 @@ import { processTimeIdLc, processTimeValue, changeValue } from "./utilities";
 import { decomposeText } from "./global";
 import { debug } from "./logging";
 import TelegramMenu from "../main";
+import { Part, UserListWithChatId } from "./telegram-menu";
 
 function getState(
 	part: Part,

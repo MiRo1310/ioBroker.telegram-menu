@@ -3,6 +3,7 @@ import { replaceAll } from "./utilities";
 import { exec } from "child_process";
 import { debug, error } from "./logging";
 import TelegramMenu from "../main";
+import { Part, UserListWithChatId, Timeouts } from "./telegram-menu";
 
 function sendPic(
 	part: Part,

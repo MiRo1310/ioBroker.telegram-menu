@@ -23,6 +23,7 @@ module.exports = {
 	rules: {
 		"@typescript-eslint/no-parameter-properties": "off",
 		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "warn",
 		"@typescript-eslint/no-use-before-define": [
 			"error",
 			{
@@ -56,6 +57,7 @@ module.exports = {
 		"arrow-parens": ["error", "always"],
 		curly: ["error", "all"],
 		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/no-namespace": "off",
 	},
 	overrides: [
 		{

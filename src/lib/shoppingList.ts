@@ -4,6 +4,7 @@ import { sendToTelegramSubmenu, sendToTelegram } from "./telegram.js";
 import { _subscribeAndUnSubscribeForeignStatesAsync } from "./subscribeStates.js";
 import { debug, error } from "./logging.js";
 import TelegramMenu from "../main.js";
+import { UserListWithChatId } from "./telegram-menu.js";
 
 interface ObjectData {
 	[key: string]: {

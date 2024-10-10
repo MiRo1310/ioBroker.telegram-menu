@@ -1,6 +1,7 @@
 import TelegramMenu from "../main";
 import { deleteDoubleEntriesInArray } from "./global";
 import { debug } from "./logging";
+import { SetStateIds } from "./telegram-menu";
 
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj: { array?: SetStateIds[]; id?: string }): Promise<void> {
 	const _this = TelegramMenu.getInstance();

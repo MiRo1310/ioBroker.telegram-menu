@@ -2,6 +2,7 @@ import { error } from "console";
 import { debug } from "./logging";
 import { sendToTelegram } from "./telegram";
 import { checkStatusInfo } from "./utilities";
+import { Part, UserListWithChatId } from "./telegram-menu";
 
 async function sendNav(
 	part: Part,

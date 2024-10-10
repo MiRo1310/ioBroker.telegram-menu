@@ -1,24 +1,30 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/button";
 import BtnCard from "./AppContentHeaderMenuButtons";
 import MenuPopupCard from "./AppContentHeaderMenuPopupCard";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsHeaderMenu } from "admin/app";
+import { EventButton } from "../types/event";
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
-	eventOnMouse = (event) => {
+	eventOnMouse = (event: React.MouseEvent<HTMLDivElement> | undefined): void => {
+		if (!event) {
+			return;
+		}
 		if (event.type === "mouseenter") {
-			this.props.callback.setState({ showPopupMenuList: true });
+			this.props.callback.setStateApp({ showPopupMenuList: true });
 		}
 		if (event.type === "mouseleave") {
-			this.props.callback.setState({ showPopupMenuList: false });
+			this.props.callback.setStateApp({ showPopupMenuList: false });
 		}
 	};
-	handleClick = () => {
-		this.props.callback.setState({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
+
+	handleClick = ({}: EventButton): void => {
+		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
-	render() {
+
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
 				<Grid item xs={2}>
@@ -38,18 +44,18 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 								<i className="material-icons">chevron_right</i>
 							)}
 						</Button>
-						<span>{I18n.t("Menu list")}</span>
+						<span>{I18n.t("menuList")}</span>
 						{this.props.data.state.showPopupMenuList && this.props.data.state.activeMenu != undefined ? (
-							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback}></MenuPopupCard>
+							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
 						) : null}
 					</div>
 
 					<div className="MenuHeader-ActiveMenu">
-						<p>{I18n.t("Active Menu:")}</p>
+						<p>{I18n.t("activeMenu")}</p>
 						{this.props.data.state.activeMenu != undefined ? (
 							<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
 						) : (
-							<span className="MenuHeader-borderActiveMenu">{I18n.t("Please create a menu!")}</span>
+							<span className="MenuHeader-borderActiveMenu">{I18n.t("createMenu")}</span>
 						)}
 					</div>
 				</Grid>

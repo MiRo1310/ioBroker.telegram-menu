@@ -110,7 +110,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           parse_mode: element.parse_mode
         });
       } else {
-        returnText = returnText.replaceAll("'", '"');
+        returnText = returnText.replace(/'/g, '"');
         const textToSend = returnText.slice(0, returnText.indexOf("{")).trim();
         const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
         returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);

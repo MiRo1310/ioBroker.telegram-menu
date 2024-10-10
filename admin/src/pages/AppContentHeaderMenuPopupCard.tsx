@@ -1,24 +1,27 @@
 import React, { Component } from "react";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/button";
 import { PropsMenuPopupCard } from "admin/app";
+import { EventButton } from "../types/event";
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {
-	constructor(props) {
+	constructor(props: PropsMenuPopupCard) {
 		super(props);
 		this.state = {};
 	}
-	componentDidUpdate(prevProps) {
+
+	componentDidUpdate(prevProps: Readonly<PropsMenuPopupCard>): void {
 		if (prevProps.usersInGroup !== this.props.usersInGroup) {
 			this.menuList = Object.keys(this.props.usersInGroup);
 		}
 	}
-	secondCallback = () => {
-		this.props.callback.setState({ showPopupMenuList: false });
+
+	secondCallback = (): void => {
+		this.props.callback.setStateApp({ showPopupMenuList: false });
 	};
 
 	menuList = Object.keys(this.props.usersInGroup);
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div className="MenuPopupCard-Popup">
 				{this.menuList.map((menu, index) => {
@@ -33,9 +36,10 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 							width="90%"
 							height="40px"
 							fontSize="16px"
-							callback={this.props.callback.setState}
+							callback={({ id, innerText }: EventButton) => {
+								this.props.callback.setStateApp({ [id]: innerText }), this.secondCallback();
+							}}
 							callbackValue="event.target.innerText"
-							secondCallback={this.secondCallback}
 						>
 							{menu}
 						</Button>

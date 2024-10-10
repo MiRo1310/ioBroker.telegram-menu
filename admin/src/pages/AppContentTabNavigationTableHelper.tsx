@@ -1,27 +1,24 @@
-import React, { Component } from "react";
 import HelperCard from "@/components/popupCards/HelperCard";
 import PopupContainer from "@/components/popupCards/PopupContainer";
-
+import React, { Component } from "react";
 import helperText from "@/config/helper.js";
-import { PropsTableNavHelper } from "admin/app";
+import { EventButton } from "../types/event";
+import { PropsTableNavHelper } from "../types/props-types";
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
-	constructor(props) {
+	constructor(props: PropsTableNavHelper) {
 		super(props);
 		this.state = {};
 	}
-	onchangeValueFromHelper = (value) => {
-		let newValue;
-
+	onchangeValueFromHelper = ({ value }: EventButton): void => {
 		if (this.props.state.editedValueFromHelperText === null) {
-			newValue = value;
-		} else {
-			newValue = this.props.state.editedValueFromHelperText + " " + value;
+			this.props.setState({ editedValueFromHelperText: value });
 		}
-		this.props.setState({ editedValueFromHelperText: newValue });
+
+		this.props.setState({ editedValueFromHelperText: this.props.state.editedValueFromHelperText + " " + value });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				callback={this.props.popupHelperCard}
@@ -33,7 +30,7 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
 				class="HelperText"
 			>
 				<HelperCard
-					data={this.props.data}
+					data={{ adapterName: this.props.data.adapterName, socket: this.props.data.socket, themeType: this.props.data.themeType }}
 					helper={helperText}
 					name="nav"
 					val="nav"
@@ -42,7 +39,7 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
 					callback={this.onchangeValueFromHelper}
 					editedValueFromHelperText={this.props.state.editedValueFromHelperText || ""}
 					setState={this.props.setState.bind(this)}
-				></HelperCard>
+				/>
 			</PopupContainer>
 		);
 	}

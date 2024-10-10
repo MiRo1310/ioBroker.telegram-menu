@@ -4,6 +4,7 @@ import { setDynamicValue } from "./dynamicValue";
 import { decomposeText } from "./global";
 import TelegramMenu from "../main";
 import { debug, error } from "./logging";
+import { Part, UserListWithChatId, SetStateIds } from "./telegram-menu";
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
 	if (value && typeof value === "string" && value.includes("{value}")) {
@@ -95,7 +96,7 @@ export const setState = async (
 					parse_mode: element.parse_mode,
 				});
 			} else {
-				returnText = returnText.replaceAll("'", '"');
+				returnText = returnText.replace(/'/g, '"');
 				const textToSend = returnText.slice(0, returnText.indexOf("{")).trim();
 				const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
 

@@ -1,6 +1,7 @@
 import { debug, error } from "./logging";
 import { newLine, getChatID, checkStatusInfo } from "./utilities";
 import TelegramMenu from "../main";
+import { NavPart, UserListWithChatId, BooleanString, ParseModeType, Location } from "./telegram-menu";
 
 async function sendToTelegram(
 	user = "",
@@ -95,7 +96,7 @@ function sendToTelegramSubmenu(
 	}
 }
 
-const sendLocationToTelegram = async (user: string, data: any, instance: string, userListWithChatID: UserListWithChatId[]): Promise<void> => {
+const sendLocationToTelegram = async (user: string, data: Location[], instance: string, userListWithChatID: UserListWithChatId[]): Promise<void> => {
 	const _this = TelegramMenu.getInstance();
 	try {
 		const chatId = getChatID(userListWithChatID, user);

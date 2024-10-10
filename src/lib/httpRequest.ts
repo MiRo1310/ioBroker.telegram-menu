@@ -3,6 +3,7 @@ import { sendToTelegram } from "./telegram";
 import path from "path";
 import fs from "fs";
 import { debug, error } from "./logging";
+import { Part, UserListWithChatId } from "./telegram-menu";
 async function httpRequest(
 	parts: Part,
 	userToSend: string,

@@ -1,5 +1,6 @@
 import { decomposeText } from "./global";
 import { debug, error } from "./logging";
+import { LastText, ValArray, FirstRow, RowArray } from "./telegram-menu";
 const lastText: LastText = {};
 const createKeyboardFromJson = (val: string, text: string | null, id: string, user: string): { text: string; keyboard: string } | undefined => {
 	try {

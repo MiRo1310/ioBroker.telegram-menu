@@ -67,7 +67,7 @@ const exchangeValue = (textToSend, stateVal) => {
   const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
   let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
   let objChangeValue;
-  match = match.replaceAll("'", '"');
+  match = match.replace(/'/g, '"');
   if ((0, import_global.isJSON)("{" + match + "}")) {
     objChangeValue = JSON.parse("{" + match + "}");
   } else {

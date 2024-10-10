@@ -1,0 +1,54 @@
+.button__copy {
+	background-color: green !important;
+	color: white !important;
+}
+.button__add {
+	background-color: #ddd !important;
+}
+.button__delete {
+	background-color: red !important;
+	color: white !important;
+}
+.button__edit,
+.button__info {
+	background-color: blue !important;
+	color: white !important;
+}
+.button__ok {
+	background-color: #3399cc !important;
+	color: white !important;
+	opacity: 1 !important;
+}
+.button__ok:not([disabled]):hover {
+	background-color: rgb(35, 107, 142) !important;
+	transition: background-color 0.5s ease;
+}
+
+.button__close {
+	background-color: #cdcdcd !important;
+	color: black !important;
+	opacity: 1 !important;
+}
+
+.button {
+	border-radius: 5px !important;
+	width: 100px !important;
+	height: 40px !important;
+	margin-left: 0.1rem !important;
+}
+
+.button--hover:hover {
+	border: 3px solid rgb(103, 103, 103) !important;
+	opacity: 0.8 !important;
+}
+
+.button--disabled {
+	pointer-events: none;
+	opacity: 0.4 !important;
+}
+
+.button--children {
+	display: flex;
+	align-items: end;
+	justify-content: center;
+}

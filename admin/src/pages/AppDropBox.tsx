@@ -3,21 +3,22 @@ import PopupContainer from "@/components/popupCards/PopupContainer";
 import DropBox from "@/pages/AppDropBoxContent";
 import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave } from "@/lib/movePosition";
 import { PropsMainDropBox } from "admin/app";
+import { EventButton } from "../types/event";
 
 class MainDropBox extends Component<PropsMainDropBox> {
-	constructor(props) {
+	constructor(props: PropsMainDropBox) {
 		super(props);
 		this.state = {};
 	}
-	closeDropBox = () => {
-		this.props.callback.setState({ showDropBox: false });
+	closeDropBox = ({}: EventButton): void => {
+		this.props.callback.setStateApp({ showDropBox: false });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				class="DropBox-PopupContainer"
-				reference={this.props.dropBoxRef}
+				reference={this.props.data.dropBoxRef}
 				width="99%"
 				height="25%"
 				title="DropBox"
@@ -31,16 +32,9 @@ class MainDropBox extends Component<PropsMainDropBox> {
 				onDrag={onDrag}
 				onMouseEnter={onMouseEnter}
 				onMouseLeave={onMouseLeave}
-				setState={this.setState.bind(this)}
+				setState={this.props.callback.setStateApp}
 			>
-				<DropBox
-					tab={this.props.state.tab}
-					subTab={this.props.state.subTab}
-					index={this.props.state.draggingRowIndex}
-					activeMenu={this.props.state.activeMenu}
-					native={this.props.state.native}
-					callback={this.props.callback}
-				/>
+				<DropBox data={this.props.data} index={this.props.data.state.draggingRowIndex} callback={this.props.callback} />
 			</PopupContainer>
 		);
 	}

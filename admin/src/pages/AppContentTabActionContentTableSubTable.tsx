@@ -5,7 +5,7 @@ import { getElementIcon } from "../lib/actionUtils.js";
 import { PropsSubTable } from "admin/app.js";
 
 class SubTable extends Component<PropsSubTable> {
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Table>
 				<TableBody className="dynamicHeight">

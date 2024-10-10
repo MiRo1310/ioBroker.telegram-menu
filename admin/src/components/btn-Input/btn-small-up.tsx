@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Button from "./Button";
+import Button from "./button";
 import { ButtonSmallProps } from "admin/app";
 
 class BtnSmallUp extends Component<ButtonSmallProps> {
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Button
 				b_color="blue"
