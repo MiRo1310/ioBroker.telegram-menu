@@ -79,7 +79,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 									margin="0 5px 0 20px"
 									border="1px solid black"
 									round="4px"
-									id="expandTelegramusers"
+									id="expandTelegramUsers"
 									callback={this.updateMenuOpen}
 								>
 									{this.state.menuOpen ? (
@@ -88,7 +88,6 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 										<i className="material-icons">chevron_right</i>
 									)}
 								</Button>
-								<span></span>
 							</div>
 						) : null}
 						{this.state.menuOpen && Object.keys(this.props.data.usersInGroup).length != 0 ? (
