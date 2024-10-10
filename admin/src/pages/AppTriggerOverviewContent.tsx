@@ -239,7 +239,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 																color={this.getColorNavElemente(indexUsedTrigger, menu, trigger) || ""}
 															/>
 
-															<li key={indexTrigger} title={I18n.t("Is linked with: ") + " " + this.getMenu()}>
+															<li key={indexTrigger} title={I18n.t("linkedWith") + " " + this.getMenu()}>
 																{trigger}
 															</li>
 														</div>
@@ -265,7 +265,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 																			? "menu-startside"
 																			: ""
 																}
-																title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}
+																title={I18n.t("linkedWith") + " " + this.menuArray.join(", ")}
 															>
 																{trigger}
 															</li>
@@ -294,9 +294,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 																				))}
 																				<li
 																					key={index3}
-																					title={
-																						I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")
-																					}
+																					title={I18n.t("linkedWith") + " " + this.menuArray.join(", ")}
 																				>
 																					{trigger}
 																				</li>
