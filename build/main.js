@@ -239,7 +239,7 @@ class TelegramMenu extends utils.Adapter {
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    element.parse_mode
+                    element.parseMode
                   );
                 } else if (element.confirm != "false" && (state == null ? void 0 : state.ack)) {
                   (0, import_logging.debug)([{ text: "User:", val: element.userToSend }]);
@@ -271,7 +271,7 @@ class TelegramMenu extends utils.Adapter {
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    element.parse_mode
+                    element.parseMode
                   );
                   setStateIdsToListenTo.splice(key, 1);
                 }

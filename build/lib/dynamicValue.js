@@ -26,20 +26,20 @@ module.exports = __toCommonJS(dynamicValue_exports);
 var import_utilities = require("./utilities");
 var import_telegram = require("./telegram");
 const setDynamicValueObj = {};
-const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode, confirm) => {
+const setDynamicValue = (returnText, ack, id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parseMode, confirm) => {
   const { substring } = (0, import_utilities.decomposeText)(returnText, "{setDynamicValue:", "}");
   let array = substring.split(":");
   array = isBraceDeleteEntry(array);
   const text = array[1];
   if (text) {
-    (0, import_telegram.sendToTelegram)(userToSend, text, void 0, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
+    (0, import_telegram.sendToTelegram)(userToSend, text, void 0, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parseMode);
   }
   setDynamicValueObj[userToSend] = {
     id,
     ack,
     returnText: text,
     userToSend,
-    parse_mode,
+    parseMode,
     confirm,
     telegramInstance,
     one_time_keyboard,

@@ -89,7 +89,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           one_time_keyboard,
           resize_keyboard,
           userListWithChatID,
-          element.parse_mode,
+          element.parseMode,
           element.confirm
         );
         if (element.confirm) {
@@ -107,7 +107,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           confirm: element.confirm,
           returnText,
           userToSend,
-          parse_mode: element.parse_mode
+          parseMode: element.parseMode
         });
       } else {
         returnText = returnText.replace(/'/g, '"');
@@ -123,7 +123,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
             one_time_keyboard,
             resize_keyboard,
             userListWithChatID,
-            element.parse_mode
+            element.parseMode
           );
         }
         setStateIds.push({

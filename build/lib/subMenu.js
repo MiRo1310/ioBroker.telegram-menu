@@ -301,7 +301,7 @@ async function callSubMenu(calledValue, newObjectNavStructure, userToSend, insta
       (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
     }
     if (obj && typeof obj.text == "string" && obj.text && typeof obj.keyboard == "string") {
-      (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, instanceTelegram, userListWithChatID, part.parse_mode || "false");
+      (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, instanceTelegram, userListWithChatID, part.parseMode || "false");
     }
     return { setStateIdsToListenTo, newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {

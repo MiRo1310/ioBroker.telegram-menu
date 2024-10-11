@@ -50,6 +50,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		});
 		return colorIndex;
 	}
+
 	getColorUsedTriggerNav({
 		menuCall,
 		trigger,
@@ -148,9 +149,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 
 	createdData(menu: string): void {
 		const result = updateTriggerForSelect(this.props.data, this.props.usersInGroup, menu);
-
 		this.setState({ trigger: deepCopy(result?.triggerObj) });
 	}
+
 	getOptions(): void {
 		const options: string[] = [];
 		for (const menu in this.props.data.nav) {
@@ -166,11 +167,13 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		this.getOptions();
 		this.setState({ ulPadding: this.ulPadding });
 	}
+
 	componentDidUpdate(prevProps: Readonly<PropsTriggerOverview>, prevState: Readonly<StateTriggerOverview>): void {
 		if (prevState.trigger != this.state.trigger) {
 			this.setState({ ulPadding: this.ulPadding });
 		}
 	}
+
 	updateHandler = ({ val }: EventSelect): void => {
 		this.setState({ selected: val });
 		this.createdData(val);
@@ -249,7 +252,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 										</li>
 										<li className="strong">{I18n.t("usedTrigger")}</li>
 										<li>
-											<p className="menuDespription">nav</p>
+											<p className="menuDescription">nav</p>
 											<ul>
 												{this.state.trigger?.usedTrigger.nav[menu].map((trigger, indexTrigger) => {
 													return (
@@ -279,7 +282,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 											? Object.keys(this.state.trigger?.usedTrigger.action[menu]).map((action, index2) => {
 													return (
 														<li key={index2}>
-															<p className="menuDespription">{action}</p>
+															<p className="menuDescription">{action}</p>
 															<ul>
 																{(this.state.trigger?.usedTrigger.action[menu][action] as string[]).map(
 																	(trigger, index3) => {
