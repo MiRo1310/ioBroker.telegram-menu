@@ -31,7 +31,7 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
 	}
 
 	private shouldShowInHeader(entry: TabValueEntries): boolean {
-		return entry.name != "trigger" && entry.name != "parse_mode";
+		return entry.name != "trigger" && entry.name != "parseMode";
 	}
 	isHeaderForDataCheckbox(name: string): string {
 		return ["Con", "Swi", "Ack"].includes(name) ? "table__head_checkbox" : "";

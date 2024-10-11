@@ -1,6 +1,6 @@
 {
-    "ID": "ID",
-    "IDs": "IDs",
+    "identification": "identification",
+    "identification": "Identification",
     "ack": "Ack",
     "action": "Action",
     "active": "active",
@@ -105,7 +105,6 @@
     "valueRound": "Rounds the value for example to 2 decimal places",
     "values": "Values",
     "yes": "Yes",
-    "toggle": "Toggle",
-    "identification": "Identification"
+    "toggle": "Toggle"
 
 }

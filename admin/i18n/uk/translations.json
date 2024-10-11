@@ -1,6 +1,6 @@
 {
-    "ID": "ID",
-    "IDs": "ідентифікатори",
+    "identification": "identification",
+    "identification": "ідентифікатори",
     "ack": "Ack",
     "action": "Дія",
     "active": "активний",

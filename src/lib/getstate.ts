@@ -19,7 +19,7 @@ function getState(
 	let text = "";
 	let i = 1;
 	// Parse Mode ist nur immer im ersten Element
-	const parse_mode = part.getData?.[0].parse_mode || "false";
+	const parseMode = part.getData?.[0].parseMode || "false";
 
 	part.getData?.forEach(async (element) => {
 		try {
@@ -45,7 +45,7 @@ function getState(
 
 			if (element.text.includes("binding:")) {
 				debug([{ text: "Binding" }]);
-				bindingFunc(element.text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+				bindingFunc(element.text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parseMode);
 				return;
 			}
 
@@ -101,7 +101,7 @@ function getState(
 									one_time_keyboard,
 									resize_keyboard,
 									userListWithChatID,
-									parse_mode,
+									parseMode,
 								);
 								return;
 							} else {
@@ -111,7 +111,7 @@ function getState(
 							const result = createKeyboardFromJson(valueForJson, textToSend, element.id, userToSend);
 							if (valueForJson && valueForJson.length > 0) {
 								if (result && result.text && result.keyboard) {
-									sendToTelegramSubmenu(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parse_mode);
+									sendToTelegramSubmenu(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parseMode);
 								}
 								return;
 							} else {
@@ -123,7 +123,7 @@ function getState(
 									one_time_keyboard,
 									resize_keyboard,
 									userListWithChatID,
-									parse_mode,
+									parseMode,
 								);
 								_this.log.debug("The state is empty!");
 								return;
@@ -160,7 +160,7 @@ function getState(
 							one_time_keyboard,
 							resize_keyboard,
 							userListWithChatID,
-							parse_mode,
+							parseMode,
 						);
 					}
 				}

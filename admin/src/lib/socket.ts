@@ -15,15 +15,15 @@ function getUsersFromTelegram(socket: socket, telegramInstance = "telegram.0", c
 }
 
 function getAllTelegramInstances(socket: socket, callback: (val: string[]) => void): void {
-	const IDs: string[] = [];
+	const identification: string[] = [];
 	try {
 		socket.getObjectViewCustom("system", "instance", "", "\u9999").then((objects) => {
 			Object.keys(objects).forEach((obj) => {
 				if (isAdapterTelegram(objects, obj)) {
-					IDs.push(objects[obj]["_id"].replace(/^system\.adapter\./, ""));
+					identification.push(objects[obj]["_id"].replace(/^system\.adapter\./, ""));
 				}
 			});
-			callback(IDs);
+			callback(identification);
 		});
 	} catch (err) {
 		console.error("Error getAllTelegramInstance: " + JSON.stringify(err));

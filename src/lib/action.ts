@@ -33,7 +33,7 @@ const bindingFunc = async (
 	one_time_keyboard: boolean,
 	resize_keyboard: boolean,
 	userListWithChatID: UserListWithChatId[],
-	parse_mode: BooleanString,
+	parseMode: BooleanString,
 ): Promise<void> => {
 	const _this = TelegramMenu.getInstance();
 	let value;
@@ -62,7 +62,7 @@ const bindingFunc = async (
 				value = eval(item);
 			}
 		}
-		sendToTelegram(userToSend, value, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+		sendToTelegram(userToSend, value, undefined, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parseMode);
 	} catch (e: any) {
 		error([
 			{ text: "Error:", val: e.message },
@@ -122,7 +122,7 @@ async function editArrayButtons(val: EditArrayButtons[], _this: TelegramMenu): P
 				});
 			}
 
-			newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
+			newVal.push({ call: element.call, text: element.text, parseMode: element.parseMode, nav: array });
 		});
 
 		return newVal;
@@ -226,7 +226,7 @@ async function generateNewObjectStructure(val: GeneratedNavMenu[] | null): Promi
 			obj[call] = {
 				nav: element.nav,
 				text: element.text,
-				parse_mode: element.parse_mode == "true" || element.parse_mode == "false" ? element.parse_mode : "false",
+				parseMode: element.parseMode == "true" || element.parseMode == "false" ? element.parseMode : "false",
 			};
 		});
 		return obj;
@@ -252,23 +252,23 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 				objName: "loc",
 				name: "location",
 				loop: "latitude",
-				elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", key: 0 }],
+				elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parseMode", key: 0 }],
 			},
 			{
 				objName: "pic",
 				name: "sendPic",
-				loop: "IDs",
-				elements: [{ name: "id", value: "IDs" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }],
+				loop: "identification",
+				elements: [{ name: "id", value: "identification" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }],
 			},
 			{
 				objName: "get",
 				name: "getData",
-				loop: "IDs",
+				loop: "identification",
 				elements: [
-					{ name: "id", value: "IDs" },
+					{ name: "id", value: "identification" },
 					{ name: "text", type: "text" },
-					{ name: "newline", value: "newline_checkbox" },
-					{ name: "parse_mode", key: 0 },
+					{ name: "newline", value: "newlineCheckbox" },
+					{ name: "parseMode", key: 0 },
 				],
 			},
 			{
@@ -285,9 +285,9 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 				userObject[element.trigger[0]] = { switch: [] };
 			}
 			userObject[element.trigger[0]] = { switch: [] };
-			element.IDs.forEach(function (id: string, index: number) {
+			element.identification.forEach(function (id: string, index: number) {
 				listOfSetStateIds.push(id);
-				const toggle = element.switch_checkbox[index] === "true";
+				const toggle = element.toggleCheckbox[index] === "true";
 				let value;
 
 				if (element.values[index] === "true" || element.values[index] === "false") {
@@ -296,13 +296,13 @@ function generateActions(action: Actions, userObject: NewObjectNavStructure): { 
 					value = element.values[index];
 				}
 				const newObj: Switch = {
-					id: element.IDs[index],
+					id: element.identification[index],
 					value: value.toString(),
 					toggle: toggle,
 					confirm: element.confirm[index],
 					returnText: element.returnText[index],
 					ack: element.ack ? element.ack[index] : "false",
-					parse_mode: element.parse_mode ? element.parse_mode[0] : "false",
+					parseMode: element.parseMode ? element.parseMode[0] : "false",
 				};
 				if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
 					userObject[element.trigger[0]].switch!.push(newObj);

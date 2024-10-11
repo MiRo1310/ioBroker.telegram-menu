@@ -11,7 +11,7 @@ const setDynamicValue = (
 	one_time_keyboard: boolean,
 	resize_keyboard: boolean,
 	userListWithChatID: UserListWithChatId[],
-	parse_mode: BooleanString,
+	parseMode: BooleanString,
 	confirm: string,
 ): { confirmText: string; id: string | undefined } => {
 	const { substring } = decomposeText(returnText, "{setDynamicValue:", "}");
@@ -19,14 +19,14 @@ const setDynamicValue = (
 	array = isBraceDeleteEntry(array);
 	const text = array[1];
 	if (text) {
-		sendToTelegram(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode);
+		sendToTelegram(userToSend, text, undefined, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parseMode);
 	}
 	setDynamicValueObj[userToSend] = {
 		id: id,
 		ack: ack,
 		returnText: text,
 		userToSend: userToSend,
-		parse_mode: parse_mode,
+		parseMode: parseMode,
 		confirm: confirm,
 		telegramInstance: telegramInstance,
 		one_time_keyboard: one_time_keyboard,

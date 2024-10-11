@@ -189,7 +189,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							</TableCell>
 						) : null}
 						{this.props.data.tab.entries.map((entry, indexEntry) =>
-							entry.name != "trigger" && entry.name != "parse_mode" ? (
+							entry.name != "trigger" && entry.name != "parseMode" ? (
 								<TableCell
 									className="tdWithHeightForSubTable"
 									align="left"
@@ -202,10 +202,10 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								</TableCell>
 							) : null,
 						)}
-						{row.parse_mode ? (
+						{row.parseMode ? (
 							<TableCell align="left" component="td" scope="row">
 								<span className="noneDraggable" onMouseOver={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
-									{getElementIcon(row.parse_mode[0])}
+									{getElementIcon(row.parseMode[0])}
 								</span>
 							</TableCell>
 						) : null}

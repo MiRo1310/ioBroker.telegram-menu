@@ -95,7 +95,7 @@ export interface StateTableDndNav {
 }
 export interface RowsNav {
 	call: string;
-	parse_mode: BooleanString;
+	parseMode: BooleanString;
 	text: string;
 	value: string;
 }
@@ -396,14 +396,14 @@ export interface CallbackTabActionContent {
 export type BooleanString = "true" | "false";
 
 export interface ActionNewRowProps {
-	IDs: string[];
+	identification: string[];
 	ack: BooleanString[];
 	confirm: BooleanString[];
-	parse_mode: BooleanString[];
+	parseMode: BooleanString[];
 	returnText: string[];
 	values: string[];
 	trigger: string[];
-	switch_checkbox: BooleanString[];
+	toggleCheckbox: BooleanString[];
 
 }
 export interface StateRowEditPopupCard {
@@ -432,14 +432,14 @@ export interface StateRowEditPopupCard {
 	isValueOk: boolean;
 }
 export interface RowsSetState {
-	IDs: string;
+	identification: string;
 	ack: ActionNewRowProps;
 	confirm: BooleanString;
-	parse_mode: BooleanString;
+	parseMode: BooleanString;
 	returnText: string;
 	values: string;
 	trigger: string;
-	switch_checkbox: BooleanString;
+	toggleCheckbox: BooleanString;
 }
 
 export interface AppState {
@@ -625,17 +625,17 @@ export interface HttpRequest {
 export interface Set {
 	ack: BooleanString[];
 	confirm: BooleanString[];
-	parse_mode: BooleanString[];
-	switch_checkbox: BooleanString[];
-	IDs: string[];
+	parseMode: BooleanString[];
+	toggleCheckbox: BooleanString[];
+	identification: string[];
 	returnText: string[];
 	trigger: string[];
 	values: string[];
 }
 export interface Get {
-	newline_checkbox: BooleanString[];
-	parse_mode: BooleanString[];
-	IDs: string[];
+	newlineCheckbox: BooleanString[];
+	parseMode: BooleanString[];
+	identification: string[];
 	text: string[];
 	trigger: string[];
 }
@@ -646,7 +646,7 @@ export interface Events {
 	condition: string;
 }
 export interface Pic {
-	IDs: string[];
+	identification: string[];
 	filename: string[];
 	trigger: string[];
 	picSendDelay: string[];
@@ -713,7 +713,7 @@ export interface TabListingType {
 
 export interface RowForButton {
 	trigger: string;
-	parse_mode: string[];
+	parseMode: string[];
 	call: string;
 }
 

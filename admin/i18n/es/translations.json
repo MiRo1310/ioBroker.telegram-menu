@@ -1,6 +1,6 @@
 {
-    "ID": "IDENTIFICACIÓN",
-    "IDs": "identificaciones",
+    "identification": "IDENTIFICACIÓN",
+    "identification": "identificaciones",
     "ack": "Ack",
     "action": "Acción",
     "active": "activo",

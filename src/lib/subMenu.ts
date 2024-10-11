@@ -336,7 +336,7 @@ async function callSubMenu(
 		}
 
 		if (obj && typeof obj.text == "string" && obj.text && typeof obj.keyboard == "string") {
-			sendToTelegramSubmenu(userToSend, obj.text, obj.keyboard, instanceTelegram, userListWithChatID, part.parse_mode || "false");
+			sendToTelegramSubmenu(userToSend, obj.text, obj.keyboard, instanceTelegram, userListWithChatID, part.parseMode || "false");
 		}
 		return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
 	} catch (e: any) {

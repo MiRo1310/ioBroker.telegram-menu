@@ -1,6 +1,6 @@
 {
-    "ID": "EU IA",
-    "IDs": "IDs",
+    "identification": "EU IA",
+    "identification": "identification",
     "ack": "Confirmar",
     "action": "Ação",
     "active": "ativo",

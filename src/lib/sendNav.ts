@@ -26,7 +26,7 @@ async function sendNav(
 				resize_keyboard,
 				one_time_keyboard,
 				userListWithChatID,
-				part.parse_mode || "",
+				part.parseMode || "",
 			);
 		}
 	} catch (e: any) {

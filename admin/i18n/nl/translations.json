@@ -1,6 +1,6 @@
 {
-    "ID": "Identiteitskaart",
-    "IDs": "ID's",
+    "identification": "Identiteitskaart",
+    "identification": "ID's",
     "ack": "Ak",
     "action": "Actie",
     "active": "actief",

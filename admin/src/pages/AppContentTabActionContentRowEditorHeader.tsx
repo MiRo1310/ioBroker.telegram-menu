@@ -50,13 +50,13 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 						/>
 					</div>
 				) : null}
-				{newRow.parse_mode ? (
+				{newRow.parseMode ? (
 					<div className="editor__header_parseMode">
 						<Checkbox
-							id="parse_mode"
+							id="parseMode"
 							index={0}
 							callback={this.props.callback.updateData}
-							isChecked={isChecked(newRow.parse_mode[0])}
+							isChecked={isChecked(newRow.parseMode[0])}
 							obj={true}
 							label="Parse Mode"
 						/>

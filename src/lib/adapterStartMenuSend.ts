@@ -30,7 +30,7 @@ function adapterStartMenuSend(
 					resize_keyboard,
 					one_time_keyboard,
 					userListWithChatID,
-					menuData.data[menu][startSide].parse_mode as BooleanString,
+					menuData.data[menu][startSide].parseMode as BooleanString,
 				);
 			});
 		} else {

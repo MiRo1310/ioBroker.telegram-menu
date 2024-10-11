@@ -1,6 +1,6 @@
 {
-    "ID": "ID",
-    "IDs": "ID",
+    "identification": "identification",
+    "identification": "identification",
     "ack": "确认",
     "action": "行动",
     "active": "积极的",

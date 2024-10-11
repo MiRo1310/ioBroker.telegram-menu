@@ -11,19 +11,19 @@ async function sendToTelegram(
 	resize_keyboard = true,
 	one_time_keyboard = true,
 	userListWithChatID: UserListWithChatId[],
-	parse_mode: BooleanString | "",
+	parseMode: BooleanString | "",
 ): Promise<void> {
 	try {
 		const _this = TelegramMenu.getInstance();
 		const chatId = getChatID(userListWithChatID, user);
-		const parse_modeType: ParseModeType = getParseMode(parse_mode);
+		const parseModeType: ParseModeType = getParseMode(parseMode);
 		debug([
 			{ text: `Send to: ${user} => ${textToSend}` },
 			{ text: "Instance:", val: instance },
 			{ text: "UserListWithChatID	:", val: userListWithChatID },
-			{ text: "Parse_mode	:", val: parse_mode },
+			{ text: "Parse_mode	:", val: parseMode },
 			{ text: "ChatId	:", val: chatId },
-			{ text: "ParseModeType:", val: parse_modeType },
+			{ text: "ParseModeType:", val: parseModeType },
 		]);
 
 		textToSend = newLine(textToSend);
@@ -34,7 +34,7 @@ async function sendToTelegram(
 				{
 					text: textToSend,
 					chatId: chatId,
-					parse_mode: parse_modeType,
+					parseMode: parseModeType,
 				},
 				function (res: any) {
 					_this.log.debug("Sent Value to " + JSON.stringify(res) + " users!");
@@ -47,7 +47,7 @@ async function sendToTelegram(
 				"send",
 				{
 					chatId: chatId,
-					parse_mode: parse_modeType,
+					parseMode: parseModeType,
 					text: text,
 					reply_markup: {
 						keyboard: keyboard,
@@ -74,17 +74,17 @@ function sendToTelegramSubmenu(
 	keyboard: string,
 	instance = "telegram.0",
 	userListWithChatID: UserListWithChatId[],
-	parse_mode: BooleanString,
+	parseMode: BooleanString,
 ): void {
 	const _this = TelegramMenu.getInstance();
-	const parseModeType = getParseMode(parse_mode);
+	const parseModeType = getParseMode(parseMode);
 	debug([{ text: "Send this ParseMode:", val: parseModeType }]);
 	try {
 		const chatId = getChatID(userListWithChatID, user);
 		textToSend = newLine(textToSend);
 		_this.sendTo(instance, "send", {
 			chatId: chatId,
-			parse_mode: parseModeType,
+			parseMode: parseModeType,
 			text: textToSend,
 			reply_markup: keyboard,
 		});
