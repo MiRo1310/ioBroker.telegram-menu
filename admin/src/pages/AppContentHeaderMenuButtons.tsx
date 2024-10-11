@@ -188,18 +188,21 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							disabled={!this.state.newMenuName || this.state.newMenuName === ""}
 							className={`${!this.state.newMenuName || this.state.newMenuName === "" ? "button--disabled" : "button--hover"} button button__add`}
 						>
-							<i className="material-icons">group_add</i>Add
+							<i className="material-icons">group_add</i>
+							{I18n.t("add")}
 						</Button>
 					</Grid>
 
 					<Grid item xs="auto">
 						<Button callback={this.openConfirmDialog} className="button button__delete button--hover">
-							<i className="material-icons">delete</i>Delete
+							<i className="material-icons">delete</i>
+							{I18n.t("delete")}
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
 						<Button id="openRenameMenu" callback={this.openRenameDialog} className="button button--hover button__edit">
-							<i className="material-icons">edit</i>Edit
+							<i className="material-icons">edit</i>
+							{I18n.t("edit")}
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
@@ -209,7 +212,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							callback={this.appSetStateHandler}
 							className="button button--hover button__copy"
 						>
-							<i className="material-icons translate ">content_copy</i>Copy
+							<i className="material-icons translate ">content_copy</i>
+							{I18n.t("copy")}
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
@@ -219,7 +223,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 							callback={this.appSetStateHandler}
 							className=" button button__info button--hover"
 						>
-							<i className="material-icons translate ">info</i>Overview
+							<i className="material-icons translate ">info</i>
+							{I18n.t("overview")}
 						</Button>
 					</Grid>
 					<Grid item xs="auto">
