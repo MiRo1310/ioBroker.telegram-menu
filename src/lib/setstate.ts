@@ -73,7 +73,7 @@ export const setState = async (
 					one_time_keyboard,
 					resize_keyboard,
 					userListWithChatID,
-					element.parseMode,
+					element.parse_mode,
 					element.confirm,
 				);
 
@@ -93,7 +93,7 @@ export const setState = async (
 					confirm: element.confirm,
 					returnText: returnText,
 					userToSend: userToSend,
-					parseMode: element.parseMode,
+					parse_mode: element.parse_mode,
 				});
 			} else {
 				returnText = returnText.replace(/'/g, '"');
@@ -110,7 +110,7 @@ export const setState = async (
 						one_time_keyboard,
 						resize_keyboard,
 						userListWithChatID,
-						element.parseMode,
+						element.parse_mode,
 					);
 				}
 

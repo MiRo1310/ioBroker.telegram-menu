@@ -276,7 +276,7 @@ export default class TelegramMenu extends utils.Adapter {
 										resize_keyboard,
 										one_time_keyboard,
 										userListWithChatID,
-										element.parseMode as BooleanString,
+										element.parse_mode as BooleanString,
 									);
 								} else if (element.confirm != "false" && state?.ack) {
 									debug([{ text: "User:", val: element.userToSend }]);
@@ -315,7 +315,7 @@ export default class TelegramMenu extends utils.Adapter {
 										resize_keyboard,
 										one_time_keyboard,
 										userListWithChatID,
-										element.parseMode as BooleanString,
+										element.parse_mode as BooleanString,
 									);
 
 									setStateIdsToListenTo.splice(key, 1);

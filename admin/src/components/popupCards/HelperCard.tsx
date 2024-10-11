@@ -28,8 +28,8 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 
 	updateId = (selected: string | string[] | undefined): void => {
 		const value = this.props.editedValueFromHelperText;
-		if (value.includes("identification")) {
-			this.props.setState({ editedValueFromHelperText: value.replace("identification", selected as string) });
+		if (value.includes("ID")) {
+			this.props.setState({ editedValueFromHelperText: value.replace("ID", selected as string) });
 			return;
 		} else if (value.includes("'id':'")) {
 			const oldId = value.split("'id':'")[1].split("'}")[0];
@@ -41,7 +41,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 
 	openSelectId = ({}: EventButton): void => {
 		if (this.props.editedValueFromHelperText) {
-			if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("identification")) {
+			if (this.props.editedValueFromHelperText.includes("'id':'") && !this.props.editedValueFromHelperText.includes("ID")) {
 				const id = this.props.editedValueFromHelperText.split("'id':'")[1].split("'}")[0];
 				this.setState({ selectedId: id });
 			}

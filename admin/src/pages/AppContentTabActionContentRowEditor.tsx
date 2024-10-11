@@ -103,7 +103,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 	};
 
 	disableInput = (name: string, index: number): boolean => {
-		return isTruthy(this.state?.rows?.[index]?.toggleCheckbox) && name === "values" ? true : false;
+		return isTruthy(this.state?.rows?.[index]?.switch_checkbox) && name === "values" ? true : false;
 	};
 
 	initCheckboxesForEachRow = (): void => {
@@ -268,14 +268,14 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 													obj={true}
 												/>
 											</TableCell>
-											{row.identification || row.identification === "" ? (
+											{row.IDs || row.IDs === "" ? (
 												<TableCell component="td" scope="row" align="left">
 													<span onMouseEnter={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
 														<Input
 															width="calc(100% - 50px)"
-															value={row.identification}
+															value={row.IDs}
 															margin="0px 2px 0 2px"
-															id="identification"
+															id="IDs"
 															index={indexRow}
 															callback={this.updateData}
 															className="noneDraggable"
@@ -287,16 +287,16 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 														callback={() =>
 															this.setState({
 																showSelectId: true,
-																selectIdValue: row.identification,
+																selectIdValue: row.IDs,
 																indexID: indexRow,
-																itemForID: "identification",
+																itemForID: "IDs",
 															})
 														}
 													/>
 												</TableCell>
 											) : null}
 											{this.props.data.tab.entries.map((entry, i) =>
-												!entry.checkbox && entry.name != "identification" && entry.name != "trigger" ? (
+												!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
 													<TableCell align="left" key={i}>
 														<Input
 															width={entry.search ? "calc(100% - 50px)" : "100%"}
@@ -343,7 +343,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 															/>
 														) : null}
 													</TableCell>
-												) : entry.checkbox && entry.name != "parseMode" ? (
+												) : entry.checkbox && entry.name != "parse_mode" ? (
 													<TableCell align="left" className="table__head_checkbox" key={i}>
 														<Checkbox
 															id={entry.name}

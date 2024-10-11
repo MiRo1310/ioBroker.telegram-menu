@@ -8,8 +8,8 @@ const insertParseModeCheckbox = (data: NativeData): NativeData => {
 			data.action[menu][action].forEach((_, indexItem) => {
 				const element = data.action[menu][action][indexItem];
 
-				if (!element.parseMode) {
-					data.action[menu][action][indexItem].parseMode = ["false"];
+				if (!element.parse_mode) {
+					data.action[menu][action][indexItem].parse_mode = ["false"];
 				}
 			});
 		});
@@ -18,8 +18,8 @@ const insertParseModeCheckbox = (data: NativeData): NativeData => {
 		data.nav[menu].forEach((_, indexItem) => {
 			const element = data.nav[menu][indexItem];
 
-			if (!element.parseMode) {
-				data.nav[menu][indexItem].parseMode = "false";
+			if (!element.parse_mode) {
+				data.nav[menu][indexItem].parse_mode = "false";
 			}
 		});
 	});

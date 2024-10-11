@@ -1,4 +1,6 @@
 {
+    "ID": "IDENTIFIANT",
+    "IDs": "identifiants",
     "ack": "Acquitter",
     "action": "Action",
     "active": "actif",

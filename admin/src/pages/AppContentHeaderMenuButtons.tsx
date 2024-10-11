@@ -82,7 +82,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 			return;
 		}
 		if (addNewMenu) {
-			data.nav[newMenuName] = [{ call: "StartSide", value: "Iobroker, Light, Grafana, Weather", text: "chooseAction", parseMode: "false" }];
+			data.nav[newMenuName] = [{ call: "StartSide", value: "Iobroker, Light, Grafana, Weather", text: "chooseAction", parse_mode: "false" }];
 			data.action[newMenuName] = { get: [], set: [], pic: [], echarts: [], events: [], httpRequest: [] };
 			userActiveCheckbox[newMenuName] = false;
 			usersInGroup[newMenuName] = [];

@@ -46,22 +46,22 @@ interface NavObject {
 interface NavStaticValues {
 	call: string;
 	text: string;
-	parseMode: BooleanString;
+	parse_mode: BooleanString;
 }
 interface Set {
 	ack: BooleanString[];
 	confirm: BooleanString[];
-	parseMode: BooleanString[];
-	toggleCheckbox: BooleanString[];
-	identification: string[];
+	parse_mode: BooleanString[];
+	switch_checkbox: BooleanString[];
+	IDs: string[];
 	returnText: string[];
 	trigger: string[];
 	values: string[];
 }
 interface Get {
-	newlineCheckbox: BooleanString[];
-	parseMode: BooleanString[];
-	identification: string[];
+	newline_checkbox: BooleanString[];
+	parse_mode: BooleanString[];
+	IDs: string[];
 	text: string[];
 	trigger: string[];
 }
@@ -73,7 +73,7 @@ interface Events {
 	trigger: string[];
 }
 interface Pic {
-	identification: string[];
+	IDs: string[];
 	filename: string[];
 	trigger: string[];
 	picSendDelay: string[];
@@ -126,7 +126,7 @@ interface UserObject {
 interface UserObjectActions {
 	[key: string]: {
 		nav?: string[][];
-		parseMode?: BooleanString;
+		parse_mode?: BooleanString;
 		text?: string;
 
 		switch?: Switch[];
@@ -138,7 +138,7 @@ interface UserObjectActions {
 interface Part {
 	text?: string;
 	nav?: any;
-	parseMode?: BooleanString;
+	parse_mode?: BooleanString;
 	getData?: GetData[];
 	switch?: Switch[];
 	sendPic?: SendPic[];
@@ -154,7 +154,7 @@ interface Part {
 interface GetData {
 	id: string;
 	text: string;
-	parseMode: BooleanString;
+	parse_mode: BooleanString;
 	newline: BooleanString;
 }
 type BooleanString = "false" | "true";
@@ -169,7 +169,7 @@ interface SetDynamicValue {
 	ack: boolean;
 	returnText: string;
 	userToSend: string;
-	parseMode: BooleanString;
+	parse_mode: BooleanString;
 	confirm: string;
 	telegramInstance: string;
 	one_time_keyboard: boolean;
@@ -208,7 +208,7 @@ interface Switch {
 	toggle: boolean;
 	confirm: BooleanString;
 	returnText: string;
-	parseMode: BooleanString;
+	parse_mode: BooleanString;
 	ack: BooleanString;
 }
 type ValueType = "string" | "number" | "boolean";
@@ -245,7 +245,7 @@ interface GenerateActionsNewObject {
 	delay?: string;
 	text?: string;
 	newline?: BooleanString;
-	parseMode?: BooleanString;
+	parse_mode?: BooleanString;
 }
 
 interface UserInGroup {
@@ -259,7 +259,7 @@ interface SetStateIds {
 	confirm: BooleanString | boolean;
 	returnText: string;
 	userToSend: string;
-	parseMode?: BooleanString;
+	parse_mode?: BooleanString;
 }
 interface Timeouts {
 	key: string;
