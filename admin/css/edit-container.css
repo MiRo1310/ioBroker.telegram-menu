@@ -14,26 +14,27 @@
 	margin-left: 100px;
 }
 
-.edit__container .Input-Container {
-	/* margin-left: 8px; */
+.edit__container .input__container {
+	width: 100% !important;
 	display: inline-block;
 }
 
-.edit__container .edit__container-TableContainer {
-	max-height: 330px;
+.edit__container .checkbox {
+	margin-top: 1rem !important;
 }
-.edit__container input {
-	box-sizing: border-box;
-	font-size: 0.9rem !important;
-	margin: 0 !important;
 
-	padding-left: 5px !important;
-	border-color: black !important;
+.edit__container label p {
+	margin-left: 8px !important;
 }
+.edit__container .input__icon {
+	width: 10px !important;
+}
+
 .colored .edit__container input,
 .light .edit__container input {
 	background-color: white !important;
 }
+
 .edit__container input[type="checkbox"] {
 	margin-left: 8px;
 }

@@ -448,10 +448,6 @@ div.MuiTabPanel-root {
 	width: 35px !important;
 }
 
-.checkbox {
-	width: 60px;
-}
-
 .MenuHeader-ActiveMenu {
 	margin-left: 19px;
 }
@@ -501,6 +497,7 @@ button {
 .blue .Btn-Expand span {
 	color: white !important;
 }
+
 button.buttonTrue,
 button.buttonFalse {
 	border-radius: 5px;
@@ -511,6 +508,7 @@ button.buttonFalse {
 }
 button.buttonTrue i,
 button.buttonFalse i {
+	margin-top: 2px;
 	font-size: 1.2rem;
 	text-align: center;
 }
@@ -528,6 +526,7 @@ button.buttonFalse {
 	background-color: #ff0033 !important;
 	color: #333;
 }
+
 /* Select */
 
 .dark select {
@@ -770,4 +769,5 @@ span[title],
 .editor__modal_container {
 	margin-top: 4rem;
 	margin-left: 2rem;
+	margin-right: 2rem;
 }

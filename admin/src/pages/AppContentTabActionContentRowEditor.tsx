@@ -234,7 +234,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 						isMinOneCheckboxChecked: this.state.isMinOneCheckboxChecked,
 					}}
 				/>
-				<TableContainer component={Paper} className="edit__container-TableContainer">
+				<TableContainer component={Paper} className="edit__container_action">
 					<Table stickyHeader aria-label="sticky table">
 						<AppContentTabActionContentRowEditorTableHead
 							tab={this.props.data.tab}
@@ -279,20 +279,20 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 															index={indexRow}
 															callback={this.updateData}
 															className="noneDraggable"
-														/>
+														>
+															<BtnSmallSearch
+																index={indexRow}
+																callback={() =>
+																	this.setState({
+																		showSelectId: true,
+																		selectIdValue: row.IDs,
+																		indexID: indexRow,
+																		itemForID: "IDs",
+																	})
+																}
+															/>
+														</Input>
 													</span>
-
-													<BtnSmallSearch
-														index={indexRow}
-														callback={() =>
-															this.setState({
-																showSelectId: true,
-																selectIdValue: row.IDs,
-																indexID: indexRow,
-																itemForID: "IDs",
-															})
-														}
-													/>
 												</TableCell>
 											) : null}
 											{this.props.data.tab.entries.map((entry, i) =>
@@ -394,7 +394,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 						title="Copy"
 						class="popupContainer__copy"
 						isOK={this.state.isValueOk}
-						labelBtnOK="save"
+						labelBtnOK="add"
 						callback={({ value }: EventButton) => this.closeCopyModal(value as boolean)}
 					>
 						<AppContentTabActionContentRowEditorCopyModal

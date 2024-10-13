@@ -40,7 +40,7 @@ function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menus
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          menuData.data[menu][startSide].parseMode
+          menuData.data[menu][startSide].parse_mode
         );
       });
     } else {

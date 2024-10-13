@@ -10,29 +10,10 @@ class Input extends Component<InputProps> {
 	};
 
 	render(): React.ReactNode {
-		const container = {
-			width: this.props.width ? this.props.width : "auto",
-			display: "inline-block",
-		};
-		const inputStyle = {
-			width: this.props.inputWidth ? this.props.inputWidth : "100%",
-			padding: "8px 0px",
-			margin: this.props.margin ? this.props.margin : "8px",
-			fontSize: "16px",
-			border: "none",
-			borderColor: "transparent",
-			borderBottom: "1px solid #ccc ",
-		};
-		const styleChildren = {
-			display: "inline",
-			verticalAlign: "bottom",
-		};
-
 		return (
-			<div className={"Input-Container " + (this.props.class || "")} style={container}>
+			<div className={"input__container " + (this.props.class || "")}>
 				<label>
 					<input
-						style={inputStyle}
 						type={this.props.type ? this.props.type : "text"}
 						className="InputField noneDraggable"
 						placeholder={I18n.t(this.props.placeholder || "")}
@@ -43,7 +24,7 @@ class Input extends Component<InputProps> {
 						onMouseOver={this.props.onMouseOver ? (e) => this.props.onMouseOver?.(e, this.props.setState) : undefined}
 						onMouseLeave={this.props.onMouseLeave ? (e) => this.props?.onMouseLeave?.(e, this.props.setState) : undefined}
 					/>
-					<div style={styleChildren}>{this.props.children}</div>
+					<span className="input__icon">{this.props.children}</span>
 					<p>{this.props.label}</p>
 				</label>
 			</div>

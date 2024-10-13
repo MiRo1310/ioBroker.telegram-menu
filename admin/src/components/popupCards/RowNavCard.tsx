@@ -27,7 +27,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 							callbackValue="event.target.value"
 							label={I18n.t(entry.headline)}
 							class={this.props.inUse ? "inUse" : ""}
-						></Input>
+						/>
 					) : entry.name == "value" || entry.name == "text" ? (
 						<Input
 							key={i}

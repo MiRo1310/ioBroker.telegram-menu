@@ -45,7 +45,7 @@ var import_sendNav = require("./sendNav.js");
 var import_backMenu = require("./backMenu.js");
 var import_logging = require("./logging.js");
 var import_main = __toESM(require("../main.js"));
-const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parseMode) => {
+const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
   const _this = import_main.default.getInstance();
   let value;
@@ -70,7 +70,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         value = eval(item);
       }
     }
-    (0, import_telegram.sendToTelegram)(userToSend, value, void 0, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parseMode);
+    (0, import_telegram.sendToTelegram)(userToSend, value, void 0, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
   } catch (e) {
     (0, import_logging.error)([
       { text: "Error:", val: e.message },
@@ -124,7 +124,7 @@ async function editArrayButtons(val2, _this2) {
           array[index] = [element2.trim()];
         });
       }
-      newVal.push({ call: element.call, text: element.text, parseMode: element.parseMode, nav: array });
+      newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
     });
     return newVal;
   } catch (err) {
@@ -209,7 +209,7 @@ async function generateNewObjectStructure(val2) {
       obj[call] = {
         nav: element.nav,
         text: element.text,
-        parseMode: element.parseMode == "true" || element.parseMode == "false" ? element.parseMode : "false"
+        parse_mode: element.parse_mode == "true" || element.parse_mode == "false" ? element.parse_mode : "false"
       };
     });
     return obj;
@@ -234,23 +234,23 @@ function generateActions(action, userObject) {
         objName: "loc",
         name: "location",
         loop: "latitude",
-        elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parseMode", key: 0 }]
+        elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", key: 0 }]
       },
       {
         objName: "pic",
         name: "sendPic",
-        loop: "identification",
-        elements: [{ name: "id", value: "identification" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }]
+        loop: "IDs",
+        elements: [{ name: "id", value: "IDs" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }]
       },
       {
         objName: "get",
         name: "getData",
-        loop: "identification",
+        loop: "IDs",
         elements: [
-          { name: "id", value: "identification" },
+          { name: "id", value: "IDs" },
           { name: "text", type: "text" },
-          { name: "newline", value: "newlineCheckbox" },
-          { name: "parseMode", key: 0 }
+          { name: "newline", value: "newline_checkbox" },
+          { name: "parse_mode", key: 0 }
         ]
       },
       {
@@ -266,10 +266,10 @@ function generateActions(action, userObject) {
         userObject[element.trigger[0]] = { switch: [] };
       }
       userObject[element.trigger[0]] = { switch: [] };
-      element.identification.forEach(function(id, index) {
+      element.IDs.forEach(function(id, index) {
         var _a;
         listOfSetStateIds.push(id);
-        const toggle = element.toggleCheckbox[index] === "true";
+        const toggle = element.switch_checkbox[index] === "true";
         let value2;
         if (element.values[index] === "true" || element.values[index] === "false") {
           value2 = element.values[index] === "true";
@@ -277,13 +277,13 @@ function generateActions(action, userObject) {
           value2 = element.values[index];
         }
         const newObj = {
-          id: element.identification[index],
+          id: element.IDs[index],
           value: value2.toString(),
           toggle,
           confirm: element.confirm[index],
           returnText: element.returnText[index],
           ack: element.ack ? element.ack[index] : "false",
-          parseMode: element.parseMode ? element.parseMode[0] : "false"
+          parse_mode: element.parse_mode ? element.parse_mode[0] : "false"
         };
         if (userObject[element.trigger[0]] && ((_a = userObject[element.trigger[0]]) == null ? void 0 : _a.switch)) {
           userObject[element.trigger[0]].switch.push(newObj);

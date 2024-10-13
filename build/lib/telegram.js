@@ -32,18 +32,18 @@ module.exports = __toCommonJS(telegram_exports);
 var import_logging = require("./logging");
 var import_utilities = require("./utilities");
 var import_main = __toESM(require("../main"));
-async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "telegram.0", resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parseMode) {
+async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "telegram.0", resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode) {
   try {
     const _this = import_main.default.getInstance();
     const chatId = (0, import_utilities.getChatID)(userListWithChatID, user);
-    const parseModeType = getParseMode(parseMode);
+    const parse_modeType = getParseMode(parse_mode);
     (0, import_logging.debug)([
       { text: `Send to: ${user} => ${textToSend}` },
       { text: "Instance:", val: instance },
       { text: "UserListWithChatID	:", val: userListWithChatID },
-      { text: "Parse_mode	:", val: parseMode },
+      { text: "Parse_mode	:", val: parse_mode },
       { text: "ChatId	:", val: chatId },
-      { text: "ParseModeType:", val: parseModeType }
+      { text: "ParseModeType:", val: parse_modeType }
     ]);
     textToSend = (0, import_utilities.newLine)(textToSend);
     if (keyboard.length == 0) {
@@ -53,7 +53,7 @@ async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "
         {
           text: textToSend,
           chatId,
-          parseMode: parseModeType
+          parse_mode: parse_modeType
         },
         function(res) {
           _this.log.debug("Sent Value to " + JSON.stringify(res) + " users!");
@@ -66,7 +66,7 @@ async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "
         "send",
         {
           chatId,
-          parseMode: parseModeType,
+          parse_mode: parse_modeType,
           text,
           reply_markup: {
             keyboard,
@@ -86,16 +86,16 @@ async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "
     ]);
   }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parseMode) {
+function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
   const _this = import_main.default.getInstance();
-  const parseModeType = getParseMode(parseMode);
+  const parseModeType = getParseMode(parse_mode);
   (0, import_logging.debug)([{ text: "Send this ParseMode:", val: parseModeType }]);
   try {
     const chatId = (0, import_utilities.getChatID)(userListWithChatID, user);
     textToSend = (0, import_utilities.newLine)(textToSend);
     _this.sendTo(instance, "send", {
       chatId,
-      parseMode: parseModeType,
+      parse_mode: parseModeType,
       text: textToSend,
       reply_markup: keyboard
     });

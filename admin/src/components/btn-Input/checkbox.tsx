@@ -8,25 +8,17 @@ class Checkbox extends Component<PropsCheckbox> {
 	};
 
 	render(): React.ReactNode {
-		const container = {
-			display: "inline-block",
-			width: this.props.width ? this.props.width : "auto",
-			marginLeft: this.props.marginLeft ? this.props.marginLeft : "0px",
-			marginTop: this.props.marginTop ? this.props.marginTop : "0px",
-		};
 		return (
-			<div className="Checkbox" style={container}>
-				<label>
-					<input
-						type="checkbox"
-						checked={this.props.isChecked}
-						onChange={this.onChangeHandler}
-						title={this.props.title ? I18n.t(this.props.title) : ""}
-						className={this.props.class}
-					/>
-					<p>{this.props.label}</p>
-				</label>
-			</div>
+			<label className="checkbox">
+				<input
+					type="checkbox"
+					checked={this.props.isChecked}
+					onChange={this.onChangeHandler}
+					title={this.props.title ? I18n.t(this.props.title) : ""}
+					className={this.props.class}
+				/>
+				<p>{this.props.label}</p>
+			</label>
 		);
 	}
 }

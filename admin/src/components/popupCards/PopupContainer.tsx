@@ -62,11 +62,11 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 								name={this.props.labelBtnOK ? this.props.labelBtnOK : "ok"}
 								disabled={this.state.disable && !this.props.isOK}
 							>
-								{I18n.t(this.props.labelBtnOK ? this.props.labelBtnOK : "OK")}
+								{I18n.t(this.props.labelBtnOK ? this.props.labelBtnOK : "ok")}
 							</Button>
 						) : null}
 						<Button className="button button__close" callbackValue={false} callback={this.props.callback} maxWidth="200px" name="cancel">
-							{!this.props.closeBtn ? I18n.t("Cancel") : I18n.t("Close")}
+							{!this.props.closeBtn ? I18n.t("abort") : I18n.t("close")}
 						</Button>
 					</div>
 				</div>

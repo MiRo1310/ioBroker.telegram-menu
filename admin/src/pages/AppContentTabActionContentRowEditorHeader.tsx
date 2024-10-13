@@ -7,6 +7,7 @@ import Select, { EventSelect } from "@components/btn-Input/select";
 import React, { Component } from "react";
 import { CallbackFunctionsApp, CallbackTabActionContent, DataMainContent, DataTabActionContent, TabActionContentTableProps } from "../../app";
 import { EventButton } from "../types/event";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
 	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { isMinOneCheckboxChecked: boolean };
@@ -28,13 +29,13 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
 		return (
 			<div className="editor__header">
 				<Button
-					id="showDropBox"
 					callbackValue={true}
 					callback={this.props.callback.openCopyModal}
 					className={`${!this.props.data.isMinOneCheckboxChecked ? "button--disabled" : "button--hover"} button button__copy`}
 					disabled={!this.props.data.isMinOneCheckboxChecked}
 				>
-					<i className="material-icons translate">content_copy</i>Copy
+					<i className="material-icons translate">content_copy</i>
+					{I18n.t("copy")}
 				</Button>
 				{newRow.trigger ? (
 					<div className="editor__header_trigger">

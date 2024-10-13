@@ -1,6 +1,7 @@
 import { Properties } from "csstype";
 import React, { Component } from "react";
 import { ButtonProps } from "../../../app";
+import { I18n } from "@iobroker/adapter-react-v5";
 
 class Button extends Component<ButtonProps> {
 	eventOnclickButton = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -36,7 +37,7 @@ class Button extends Component<ButtonProps> {
 			<button
 				style={buttonStyle}
 				onClick={this.eventOnclickButton}
-				title={this.props.title}
+				title={I18n.t(this.props.title || "")}
 				name={this.props.name}
 				disabled={this.props.disabled ? true : false}
 				className={this.props.className}

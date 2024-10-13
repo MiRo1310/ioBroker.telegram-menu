@@ -8,7 +8,7 @@ class BtnSmallCopy extends Component<ButtonSmallProps> {
 			<Button
 				b_color="blue"
 				color="white"
-				title="Copy"
+				title="copy"
 				small="true"
 				round="true"
 				index={this.props.index}
