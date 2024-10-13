@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Button from "./Button";
+import Button from "./button";
 import { ButtonSmallProps } from "admin/app";
 
 class BtnSmallEdit extends Component<ButtonSmallProps> {
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Button
 				b_color="blue"
@@ -11,7 +11,8 @@ class BtnSmallEdit extends Component<ButtonSmallProps> {
 				title="Edit"
 				small="true"
 				round="true"
-				callbackValue={this.props.index}
+				callbackValue={this.props.callbackValue}
+				index={this.props.index}
 				callback={this.props.callback}
 			>
 				<i className="material-icons">edit</i>

@@ -1,51 +1,16 @@
 import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
 import { Tab } from '@mui/material';
+import { AdminConnection } from '@iobroker/socket-client';
+import { LegacyRef, ReactNode } from "react";
+import { EventButton } from "@components/btn-Input/button";
+import { setState } from '../src/lib/setstate';
+import { HelperText } from "@/config/helper";
 
-export interface AdditionalPropInfo extends GenericAppProps {
-	themeName: string;
-}
-export interface AdditionalStateInfo extends GenericAppState {
-	showDropBox: boolean;
-	native: Native;
-	connectionReady: boolean;
-	activeMenu: string;
-	usedTrigger: string[];
-	dropDifferenzX: number;
-	dropDifferenzY: number;
-	instances: string[];
-	doubleTrigger: string[];
-	unUsedTrigger: string[];
-	triggerObject: TriggerObject;
-	tab: string;
-	popupMenuOpen: boolean;
-	subTab: string;
-	draggingRowIndex: number | null;
-	showTriggerInfo: boolean;
-	data: {};
-	showPopupMenuList: boolean;
-	dropBoxTop: number;
-	dropBoxRight: number;
-
-}
+export type Nullable<T> = T | null | undefined;
 
 export interface PropsSettings {
-	data: {
-		state: {
-			native: {
-				instance: string;
-				textNoEntry: string;
-				tokenGrafana: string;
-				directory: string;
-				checkbox: {
-					[key: string]: boolean;
-				};
-			};
-		};
-
-		instances: string[];
-		checkbox: Object;
-	};
-	callback: CallbackFunctions;
+	data: DataMainContent;
+	callback: CallbackFunctionsApp;
 }
 
 export interface StateTabNavigation {
@@ -64,20 +29,33 @@ export interface StateTabNavigation {
 	text: string;
 }
 export interface PropsTabNavigation {
-	data: Data;
-	entries: NavEntries[];
-	activeMenu: string;
-	callback: Callback;
+	data: DataMainContent & { entries: TabValueEntries[] }
+	callback: CallbackFunctionsApp;
 }
 export interface TabValues {
 	label: string;
 	value: string;
 	trigger: boolean;
-	entries: NavEntries[];
-	popupCard: any;
-	searchRoot?: { root: string; type: string[] };
+	entries: TabValueEntries[];
+	popupCard: PopupCard;
+	searchRoot?: SearchRoot | null;
 }
-export interface NavEntries {
+
+export interface PopupCard {
+	buttons: PopupCardButtons, width: string, height: string
+}
+export interface PopupCardButtons {
+	add?: boolean;
+	remove?: boolean;
+	copy?: boolean;
+}
+
+export interface SearchRoot {
+	root: string;
+	type: ObjectBrowserType | ObjectBrowserType[] | undefined;
+}
+export type ObjectBrowserType = 'state' | 'instance' | 'channel' | 'device' | 'chart'
+export interface TabValueEntries {
 	name: string;
 	width?: string;
 	checkbox?: boolean;
@@ -93,31 +71,23 @@ export interface NavEntries {
 	password?: boolean;
 	type?: string;
 }
-type UpdateNative = {
-	updateNative: UpdateNativeFunction;
-};
-export interface SetState {
-	setState: SetStateFunction;
-}
 
 export interface PropsTableDndNav {
-	entries: NavEntries[];
-	tableData: NavData | undefined;
 	card: string;
-	activeMenu?: string;
-	openAddRowCard: (value: any) => void;
+	openAddRowCard: ({ }: EventButton) => void;
 	showButtons: ShowButtons;
-	data: Data;
+	data: DataMainContent & { entries: TabValueEntries[] }
 	setState: SetStateFunction;
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 
-interface NavData {
+
+export interface NavData {
 	[key: string]: RowsNav[];
 }
 
 export interface StateTableDndNav {
-	rows: RowsNav[];
+	rows: RowForButton[];
 	dropStart: number;
 	dropOver: number;
 	dropEnd: number;
@@ -131,35 +101,39 @@ export interface RowsNav {
 }
 
 export interface PropsTabAction {
-	callback: Callback;
-	activeMenu: string;
-	data: Data;
+	data: DataMainContent
+	callback: CallbackFunctionsApp;
 }
 
-export interface Data {
+export interface AppData {
 	activeMenu?: string;
 	nav?: NavData;
 	state: AdditionalStateInfo;
-	data?: any;
-	action?: any;
-	socket?: any;
+	data?: NativeData;
+	action?: ActionData;
+	socket?: Socket;
 	themeName?: string;
 	themeType?: string;
 	adapterName?: string;
 	unUsedTrigger?: string[];
-	usersInGroup?: string[];
-	userActiveCheckbox?: IsUserActiveCheckbox;
+	usersInGroup?: UsersInGroup;
+	userActiveCheckbox?: UserActiveCheckbox;
 }
+
+export type UsersInGroup = { [key: string]: string[] };
+export type socket = AdminConnection;
+
 export interface StateTabAction {
 	value: string;
 }
 export interface ButtonSmallProps {
-	index?: number;
+	index: number;
 	callbackValue?: CallbackValue;
-	callback: any;
+	callback: (e: EventButton) => void;
 	disabled?: string;
 	class?: string;
 }
+
 export interface ButtonProps {
 	color?: string;
 	b_color?: string;
@@ -173,7 +147,6 @@ export interface ButtonProps {
 	round?: string;
 	maxWidth?: string;
 	verticalAlign?: string;
-	secondCallback?: Function;
 	index?: number | null;
 	callback: Function;
 	callbackValue?: CallbackValue;
@@ -181,33 +154,31 @@ export interface ButtonProps {
 	setNative?: boolean;
 	title?: string;
 	name?: string;
+	index: number;
 	disabled?: string | boolean;
 	className?: string;
 	children?: ReactNode;
 }
-type CallbackValue = boolean | string | number | undefined;
+export type CallbackValue = boolean | string | number | undefined;
 
 export interface PropsCheckbox {
 	id: string;
 	label?: string;
 	isChecked: boolean;
-	callback: any;
-	callbackValue?: string;
-	setNative?: boolean;
+	callback: (event: EventCheckbox) => void;
 	obj?: boolean;
-	index?: number;
+	index: number;
 	title?: string;
 	width?: string;
 	marginLeft?: string;
 	marginTop?: string;
 	class?: string;
 }
-type BooleanString = "true" | "false";
 
 export interface PropsRowNavCard {
-	entries: NavEntries[];
+	entries: TabValueEntries[];
 	newRow: RowsNav;
-	callback: { onchange: (data: ChangeInputNav) => void };
+	callback: { onChangeInput: (data: ChangeInputNav) => void, onChangeCheckbox: (data: EventCheckbox) => void };
 	inUse: boolean;
 	openHelperText: (value: string) => void;
 }
@@ -231,12 +202,12 @@ export interface SelectProps {
 	placeholder?: string;
 	options: string[];
 	selected: string;
-	callback: SetStateFunction;
+	callback: ({ }: EventSelect) => void;
 	setNative?: boolean;
 	width?: string;
 	callbackValue?: CallbackValue;
 }
-type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
+export type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
 export interface InputProps {
 	id: string;
 	type?: string;
@@ -244,28 +215,26 @@ export interface InputProps {
 	value: string;
 	callback: SetStateFunction;
 	label?: string;
-	setNative?: boolean;
 	spellCheck?: boolean;
 	width?: string | number;
 	inputWidth?: string;
 	margin?: string;
 	class?: string;
 	children?: ReactNode;
-	function?: string;
 	index?: number;
 	disabled?: boolean;
-	onMouseOver?: (e: any, setState: any) => void;
-	onMouseLeave?: (e: any, setState: any) => void;
 	setState?: SetStateFunction;
+	onMouseOver?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
 	callbackValue?: CallbackValue;
 	className?: string;
 }
 export interface PropsHeaderIconBar {
 	instance: number;
-	common: Record<string, any>;
-	native: any;
+	common: ioBroker.InstanceCommon | null;
+	native: Native;
 	onLoad: (error: Record<string, null>) => void;
-	onError: (text: any) => void;
+	onError: (text: string | number) => void;
 	adapterName: string;
 	changed: boolean;
 	onChange: UpdateNativeFunction;
@@ -275,22 +244,22 @@ export interface PropsHelperCard {
 	val: string;
 	editedValueFromHelperText: string;
 	setState: SetStateFunction;
-	data: any;
-	callback: any;
+	data: { adapterName?: string, themeType?: string, socket?: socket };
+	callback: (val: EventButton) => void;
 	name: string;
 	text: string;
 	helperTextForInput: string;
 }
 export interface StateHelperCard {
-	rows: any;
+	rows: HelperText["get"] | HelperText["set"] | HelperText["nav"];
 	showSelectId: boolean;
 	selectedId: string;
 }
-type SetStateFunction = React.Component["setState"];
+export type SetStateFunction = React.Component["setState"];
 export interface PropsTextarea {
 	id: string;
 	value: string;
-	callback: any;
+	callback: (val: EventTextarea) => void;
 	placeholder?: string;
 	class?: string;
 	width?: string;
@@ -298,44 +267,39 @@ export interface PropsTextarea {
 	margin?: string;
 	label: string;
 	children?: ReactNode;
-	function?: string;
-	setNative?: boolean;
 	spellCheck?: boolean;
-	onMouseOver?: (e: any, setState: any) => void;
-	onMouseLeave?: (e: any, setState: any) => void;
+	onMouseOver?: (e: React.MouseEvent<HTMLTextAreaElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (e: React.MouseEvent<HTMLTextAreaElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
 	setState?: SetStateFunction;
 	rows?: number;
 	cols?: number;
 	index?: number;
 	callbackValue?: CallbackValue;
 }
+
 export interface StateTextarea {
 	value: string;
 }
 export interface PropsActionCard {
-	data: any;
-	activeMenu: string;
-	card: string;
-	subCard: string;
-	entries: any;
-	popupCard: any;
-	titlePopup: string;
-	showButtons: any;
-	callback: any;
-	searchRoot: any;
+	data: DataMainContent & TabActionContentTableProps
+	callback: CallbackFunctionsApp;
 }
+export interface TabActionContentTableProps { tab: TabValues; card: string; showButtons: ShowButtons; }
+
 export interface StateActionCard {
 	rowPopup: boolean;
-	rowIndex: number;
+	rowIndexToEdit: number;
 	editRow: boolean;
-	newRow: any;
+	newRow: ActionNewRowProps;
 	rowsLength: number;
-	newUnUsedTrigger: any;
+	newUnUsedTrigger: string[] | null;
 	helperText: boolean;
 	helperTextFor: string;
-	editedValueFromHelperText: any;
+	editedValueFromHelperText: string | null;
 	isOK: boolean;
-	valueForSave: any;
+	valueForSave: { subCard: string; entry: string; index: number } | null;
 	inputValuesAreOK: boolean;
 	disableInput: boolean;
 	nav: string;
@@ -343,42 +307,42 @@ export interface StateActionCard {
 	helperTextForInput: string;
 }
 export interface PropsTableDndAction {
-	tableData: any;
-	activeMenu: string;
-	subCard: string;
-	entries: any;
-	data: any;
-	setState: SetStateFunction;
-	showButtons: ShowButtons;
-	openAddRowCard: any;
-	callback: any;
-	addEditedTrigger: any;
-	card: string;
+	data: DataMainContent & TabActionContentTableProps
+	callback: CallbackFunctionsApp & CallbackTabActionContent & TabActionContentCallback;
+}
+export interface TabActionContentCallback {
+	addEditedTrigger: (trigger: string | null) => void;
+	openAddRowCard: (val: EventButton) => void;
 }
 export interface StateTableDndAction {
 	dropStart: number;
 	dropEnd: number;
 	dropOver: number;
-	rows: any;
+	rows: RowForButton[];
 	mouseOverNoneDraggable: boolean;
 }
 export interface PropsSubTable {
 	data: [];
 	name: string;
-	entry: any;
+	entry: TabValueEntries;
 	setState: SetStateFunction;
 }
 export interface PropsTelegramUserCard {
 	name: string;
 	chatID: string;
-	data: any;
-	callback: any;
+	data: {
+		state: AdditionalStateInfo;
+		activeMenu: string;
+		usersInGroup: UsersInGroup;
+		userActiveCheckbox: UserActiveCheckbox
+	};
+	callback: CallbackFunctionsApp;
 	setState: SetStateFunction;
 	class?: string;
 	key?: number;
 }
 export interface StateTelegramUserCard {
-	usersInGroup: any;
+	usersInGroup: UsersInGroup;
 	name: string;
 	activeMenu: string;
 }
@@ -395,18 +359,23 @@ export interface PropsPopupContainer {
 	class?: string;
 	drag?: string;
 	top?: string;
-	reference?: any;
-	onDragStart?: any;
-	onDragEnd?: any;
-	onDragOver?: any;
-	onDrop?: any;
-	onDrag?: any;
-	onMouseEnter?: any;
-	onMouseLeave?: any;
-	callback: any;
+	left?: string;
+	right?: string;
+	labelBtnAbort?: string;
+	labelBtnOK?: string;
+	reference?: LegacyRef<HTMLDivElement> | undefined;
+	onDragStart?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDragEnd?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDragOver?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDrop?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onDrag?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
+	onMouseEnter?: (event: React.MouseEvent<HTMLDivElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
+	onMouseLeave?: (event: React.MouseEvent<HTMLDivElement> | undefined
+		, setState: SetStateFunction | undefined) => void;
+	callback: (val) => void;
 	value?: string;
 	setState?: SetStateFunction;
-	data?: { [key: string]: any };
 	children?: ReactNode;
 }
 export interface StatePopupContainer {
@@ -415,15 +384,13 @@ export interface StatePopupContainer {
 	inUse: boolean;
 }
 export interface PropsRowEditPopupCard {
-	entries: any;
-	newRow: ActionNewRowProps;
-	data: any;
-	openHelperText: any;
-	subCard: any;
-	searchRoot: any;
-	buttons: any;
-	newUnUsedTrigger: any;
-	callback?: { setState: SetStateFunction };
+	data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rowIndexToEdit: number }
+	callback: CallbackFunctionsApp & CallbackTabActionContent & { openHelperText: (value: { subCard: string; entry: string; index: number }) => void }
+}
+export interface DataTabActionContent { newRow: ActionNewRowProps; newUnUsedTrigger: string[]; }
+
+export interface CallbackTabActionContent {
+	setStateTabActionContent: SetStateFunction;
 }
 
 export type BooleanString = "true" | "false";
@@ -442,7 +409,6 @@ export interface ActionNewRowProps {
 export interface StateRowEditPopupCard {
 	rows: RowsSetState[];
 	trigger: string;
-	data: any;
 	showSelectId: boolean;
 	selectIdValue: string;
 	indexID: number;
@@ -451,6 +417,19 @@ export interface StateRowEditPopupCard {
 	dropOver: number;
 	mouseOverNoneDraggable: boolean;
 	itemForID: string;
+	openCopyPopup: boolean,
+	indexOfRowToCopyForModal: number,
+	checkboxes: boolean[];
+	isMinOneCheckboxChecked: boolean
+	copyModalOpen: boolean;
+	copyToMenu: string;
+	openRenameModal: boolean;
+	isValueChanged: boolean;
+	triggerName: string;
+	renamedTriggerName: string;
+	saveData: SaveDataObject
+	targetCheckboxes: { [key: number]: boolean };
+	isValueOk: boolean;
 }
 export interface RowsSetState {
 	IDs: string;
@@ -464,7 +443,7 @@ export interface RowsSetState {
 }
 
 export interface AppState {
-	selectedTab: any;
+	selectedTab: string;
 	selectedTabNum: number;
 	native: {};
 	errorText: string;
@@ -474,11 +453,11 @@ export interface AppState {
 	isConfigurationError: string;
 	expertMode: boolean;
 	toast: string;
-	theme: import("./types").Theme;
+	theme: import("./src/types").Theme;
 	themeName: string;
 	themeType: string;
 	bottomButtons: boolean;
-	width: import("./types").Width;
+	width: import("./src/types").Width;
 	confirmClose: boolean;
 	_alert: boolean;
 	_alertType: string;
@@ -496,12 +475,9 @@ export interface TriggerObject {
 }
 
 export interface PropsDropBox {
-	native: Native;
-	callback: any;
-	tab: string;
-	subTab: string;
+	callback: CallbackFunctionsApp;
+	data: DataDropBox;
 	index: number | null;
-	activeMenu: string;
 }
 export interface StateDropBox {
 	inDropBox: boolean;
@@ -512,29 +488,36 @@ export interface StateDropBox {
 	trigger: string;
 	newTrigger: string;
 	usedTrigger: string[];
-	rowToWorkWith: any;
+	rowToWorkWith: DataRow;
 	isOK: boolean;
 	oldTrigger: string;
 }
 export interface PropsRenameCard {
-	data: any;
-	id?: string;
-	callback: any;
+	id: string;
+	callback: { setState: SetStateFunction };
 	value?: string;
 }
 
 export interface StateRenameCard { }
 export interface PropsTriggerOverview {
-	data: any;
-	usersInGroup: any;
-	userActiveCheckbox: any;
+	data: NativeData;
+	usersInGroup: UsersInGroup;
+	userActiveCheckbox: UserActiveCheckbox;
 }
 export interface StateTriggerOverview {
-	ulPadding: any;
-	trigger: any;
-	groupsOfMenus: any;
+	ulPadding: { [key: string]: number };
+	trigger: TriggerObj | undefined | null;
 	selected: string;
-	options: any;
+	options: string[];
+}
+
+export interface TriggerObj {
+	unUsedTrigger: string[];
+	everyTrigger: { [key: string]: string[] };
+	usedTrigger: { nav: { [key: string]: string[] }; action: { [key: string]: { [key: string]: string[] } } };
+}
+export interface ObjectWithStringArray {
+	[key: string]: string[];
 }
 export interface MenuWithUser {
 	menu: string;
@@ -556,9 +539,8 @@ export interface StateSquare {
 	fontWeight: string;
 }
 export interface PropsHeaderTelegramUsers {
-	callback: any;
-	data: any;
-	menuPopupOpen: boolean;
+	callback: CallbackFunctionsApp;
+	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox };
 }
 export interface StateHeaderTelegramUsers {
 	menuOpen: boolean;
@@ -566,12 +548,12 @@ export interface StateHeaderTelegramUsers {
 	menuChecked: boolean;
 }
 export interface PropsHeaderMenu {
-	data: any;
-	callback: any;
+	data: DataMainContent;
+	callback: CallbackFunctionsApp;
 }
 export interface PropsBtnCard {
-	callback: any;
-	data: any;
+	callback: CallbackFunctionsApp;
+	data: DataMainContent
 }
 export interface StateBtnCard {
 	oldMenuName: string;
@@ -583,8 +565,8 @@ export interface StateBtnCard {
 	isOK: boolean;
 }
 export interface PropsMenuPopupCard {
-	usersInGroup: any;
-	callback: any;
+	usersInGroup: UsersInGroup;
+	callback: CallbackFunctionsApp;
 }
 export interface PropsMenuButton {
 	b_color?: string;
@@ -595,13 +577,8 @@ export interface PropsMenuButton {
 }
 
 export interface Native {
-	dropbox: {
-		dropboxTop: number;
-		dropboxRight: number;
-	};
-	data: DataObject;
-	usersInGroup: string[];
-	nav: any;
+	dropbox: Dropbox.Position;
+	usersInGroup: UsersInGroup;
 	instance: string;
 	data: NativeData;
 	checkbox: {
@@ -611,19 +588,20 @@ export interface Native {
 		oneTiKey: boolean;
 	};
 	usersForGlobal: string;
-	users: never[];
-	startsides: never[];
 	tokenGrafana: string;
 	directory: string;
-	userActiveCheckbox: {};
-	usersInGroup: {};
+	userActiveCheckbox: UserActiveCheckbox
 	textNoEntry: string;
-	userListWithChatID: never[];
+	userListWithChatID: { name: string, chatID: string }[];
 }
+
+
+export type UserActiveCheckbox = { [key: string]: boolean };
 export interface NativeData {
-	action: { [key: string]: Actions };
-	nav: { [key: string]: RowsNav };
+	action: ActionData;
+	nav: NavData;
 }
+export interface ActionData { [key: string]: Actions }
 export interface Actions {
 	get: Get[];
 	set: Set[];
@@ -632,6 +610,10 @@ export interface Actions {
 	echarts: Echart[];
 	events: Events[];
 }
+export type ActionTabs = Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[];
+export type DataRow = Get | Set | Pic | HttpRequest | Echart | Events | RowsNav;
+export type DataRowAction = Get | Set | Pic | HttpRequest | Echart | Events;
+
 export interface HttpRequest {
 	url: string[];
 	user: string[];
@@ -678,15 +660,18 @@ export interface Echart {
 	trigger: string[];
 }
 export interface PropsMainTabList {
-	callback: CallbackFunctions;
+	callback: CallbackFunctionsApp;
 }
 export interface PropsMainActions {
-	data: any;
-	tab: string;
-	callback: CallbackFunctions;
+	data: DataMainContent;
+	callback: CallbackFunctionsApp;
 }
 export interface CallbackFunctions {
 	setState: SetStateFunction;
+	updateNative: UpdateNativeFunction;
+}
+export interface CallbackFunctionsApp {
+	setStateApp: SetStateFunction;
 	updateNative: UpdateNativeFunction;
 }
 export interface PropsMainTriggerOverview {
@@ -697,45 +682,22 @@ export interface PropsMainDoubleTriggerInfo {
 	state: AdditionalStateInfo;
 }
 export interface PropsMainContent {
-	state: AdditionalStateInfo;
-	socket: any;
-	data: any;
-	callback: CallbackFunctions;
-	adapterName: string;
+	data: DataMainContent;
+	callback: CallbackFunctionsApp;
 }
+export interface DataMainContent { state: AdditionalStateInfo, adapterName: string, socket: Socket }
+
+export type Socket = AdminConnection;
+
 export interface PropsMainDropBox {
-	state: AdditionalStateInfo;
-	callback: CallbackFunctions;
-	dropBoxRef: any;
+	callback: CallbackFunctionsApp;
+	data: DataDropBox;
 }
-export interface PropsTableNavHeader {
-	entries: NavEntries[];
+export interface DataDropBox {
+	dropBoxRef: Dropbox.Ref;
+	state: AdditionalStateInfo
 }
 
-export interface PropsTableNavHelper {
-	state: any;
-	setState: SetStateFunction;
-	data: any;
-	popupHelperCard: any;
-}
-export interface PropsActionEditHeader {
-	entries: NavEntries[];
-	buttons: {
-		add: boolean;
-		remove: boolean;
-	};
-}
-export interface PropsButtonCard {
-	showButtons: ShowButtons;
-	openAddRowCard: (index: number) => void;
-	editRow: (index: number) => void;
-	moveUp: (index: number) => void;
-	moveDown: (index: number) => void;
-	deleteRow: (index: number) => void;
-	index: number;
-	rows: any[];
-	notShowDelete?: boolean;
-}
 export interface ShowButtons {
 	add: boolean;
 	edit: boolean;
@@ -743,7 +705,25 @@ export interface ShowButtons {
 	moveDown?: boolean;
 	remove: boolean;
 }
+
 export interface TabListingType {
 	label: string;
 	value: string;
+}
+
+export interface RowForButton {
+	trigger: string;
+	parse_mode: string[];
+	call: string;
+}
+
+export namespace Dropbox {
+	type newX = Nullable<number>;
+	type newY = Nullable<number>;
+	type Ref = React.RefObject<HTMLDivElement> | undefined;
+	interface Position {
+		dropboxTop: number;
+		dropboxRight: number;
+	}
+
 }

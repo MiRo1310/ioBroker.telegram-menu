@@ -1,0 +1,9 @@
+.app__content {
+	padding-top: 0 !important;
+}
+
+.app__box {
+	display: "flex";
+	flex-direction: "column";
+	height: calc(100vh - 112px);
+}

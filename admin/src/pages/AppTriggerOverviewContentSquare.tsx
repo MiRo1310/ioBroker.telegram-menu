@@ -3,7 +3,7 @@ import { PropsSquare, StateSquare } from "admin/app";
 import React, { Component } from "react";
 
 class Square extends Component<PropsSquare, StateSquare> {
-	constructor(props) {
+	constructor(props: PropsSquare) {
 		super(props);
 		this.state = {
 			bColor: "",
@@ -14,7 +14,7 @@ class Square extends Component<PropsSquare, StateSquare> {
 			fontWeight: "normal",
 		};
 	}
-	getValuesForSquare() {
+	getValuesForSquare(): void {
 		switch (this.props.color) {
 			case "white":
 				if (this.props.trigger == "-") {
@@ -43,15 +43,15 @@ class Square extends Component<PropsSquare, StateSquare> {
 				break;
 		}
 	}
-	componentDidMount() {
+	componentDidMount(): void {
 		this.getValuesForSquare();
 	}
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Readonly<PropsSquare>): void {
 		if (this.props.color !== prevProps.color || this.props.trigger !== prevProps.trigger || this.props.position !== prevProps.position) {
 			this.getValuesForSquare();
 		}
 	}
-	render() {
+	render(): React.ReactNode {
 		return (
 			<div>
 				<div

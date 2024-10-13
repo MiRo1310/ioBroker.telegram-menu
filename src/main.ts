@@ -26,6 +26,20 @@ import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppin
 import { exchangePlaceholderWithValue, checkEvent } from "./lib/action";
 import { debug, error } from "./lib/logging";
 import { checkIsTelegramActive } from "./lib/connection";
+import { BooleanString } from "../admin/app";
+import {
+	Checkboxes,
+	ListOfMenus,
+	IsUserActiveCheckbox,
+	MenusWithUsers,
+	UserListWithChatId,
+	DataObject,
+	StartSides,
+	MenuData,
+	GeneratedActions,
+	SetStateIds,
+	NewObjectNavStructureKey,
+} from "./lib/telegram-menu";
 
 const timeoutKey: string = "0";
 let subscribeForeignStateIds: string[];

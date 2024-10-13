@@ -1,6 +1,7 @@
 import { sendToTelegram } from "./telegram";
 import { backMenuFunc } from "./backMenu";
 import { debug } from "./logging";
+import { ListOfMenus, StartSides, IsUserActiveCheckbox, MenusWithUsers, MenuData, UserListWithChatId, NavPart, BooleanString } from "./telegram-menu";
 function adapterStartMenuSend(
 	listOfMenus: ListOfMenus,
 	startSides: StartSides,

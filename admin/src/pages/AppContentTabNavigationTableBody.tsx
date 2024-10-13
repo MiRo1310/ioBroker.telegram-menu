@@ -15,11 +15,11 @@ import {
 	handleStyleDragOver,
 } from "@/lib/dragNDrop.js";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { NavData, PropsTableDndNav, StateTableDndNav } from "admin/app";
-import { RowsNav } from "../../app";
+import { NavData, PropsTableDndNav, RowForButton, StateTableDndNav } from "admin/app";
+import { EventButton } from "../types/event";
 
 function createData(entriesOfParentComponent, element) {
-	const obj: RowsNav = {} as RowsNav;
+	const obj: RowForButton = {} as RowForButton;
 	entriesOfParentComponent.forEach((entry) => {
 		obj[entry.name] = element[entry.name];
 	});
@@ -27,7 +27,7 @@ function createData(entriesOfParentComponent, element) {
 }
 
 class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
-	constructor(props) {
+	constructor(props: PropsTableDndNav) {
 		super(props);
 		this.state = {
 			dropStart: 0,
@@ -44,44 +44,57 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		}
 
 		const elements = nav[activeMenu];
-		const rows: RowsNav[] = [];
+		const rows: RowForButton[] = [];
 		if (!elements) {
 			return;
 		}
 		for (const entry of elements) {
-			rows.push(createData(this.props.entries, entry));
+			rows.push(createData(this.props.data.entries, entry));
 		}
 		this.setState({ rows: rows });
 	}
-	componentDidMount() {
-		if (this.props.tableData) {
-			this.getRows(this.props.tableData, this.props.data.activeMenu);
+	componentDidMount(): void {
+		const { native, activeMenu } = this.props.data.state;
+		if (native.data.nav) {
+			this.getRows(native.data.nav, activeMenu);
 		}
 	}
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.data.activeMenu || prevProps.tableData !== this.props.tableData) {
-			this.getRows(this.props.tableData, this.props.data.activeMenu);
+	componentDidUpdate(prevProps: Readonly<PropsTableDndNav>): void {
+		const { native, activeMenu } = this.props.data.state;
+		const { nav } = native.data;
+		if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
+			this.getRows(native.data.nav, activeMenu);
 		}
 	}
-	handleDrop = (event, index) => {
-		let currentElement = event.target;
+
+	handleDrop = (event: React.DragEvent<HTMLTableRowElement>, index: number): void => {
+		let currentElement = event.target as HTMLElement;
 		while (currentElement) {
 			if (currentElement.tagName === "TR") {
 				if (currentElement.classList.contains("draggingDropBox")) {
 					return;
 				}
 			}
-			currentElement = currentElement.parentNode;
+			currentElement = currentElement.parentElement as HTMLElement;
 		}
 		if (index !== this.state.dropStart && index != 0) {
-			moveItem(this.state.dropStart, this.props, this.props.card, null, index - this.state.dropStart);
+			moveItem({
+				index: this.state.dropStart,
+				card: this.props.card,
+				upDown: index - this.state.dropStart,
+				data: this.props.data.state.native.data,
+				activeMenu: this.props.data.state.activeMenu,
+				updateNative: this.props.callback.updateNative,
+			});
 		}
 	};
 
-	editRow = (index) => {
-		if (this.props.data.nav && this.props.activeMenu) {
-			const rowToEdit = this.props?.data?.nav[this.props?.activeMenu][index];
+	editRow = ({ index }: EventButton): void => {
+		const { native, activeMenu } = this.props.data.state;
+
+		if (native.data.nav && activeMenu) {
+			const rowToEdit = native.data.nav[activeMenu][index];
 			this.props.setState({ newRow: rowToEdit });
 		}
 		this.props.setState({ rowPopup: true });
@@ -89,7 +102,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 		this.props.setState({ editRow: true });
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TableBody>
 				{this.state.rows.map((row, indexRow) => (
@@ -107,15 +120,16 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setState ? this.props.callback.setState({ draggingRowIndex: indexRow }) : "",
+								{ draggingRowIndex: indexRow },
+								this.props.callback.setStateApp,
 							)
 						}
-						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
+						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props.callback.setStateApp)}
 						onDragOver={(event) => handleDragOver(indexRow, event)}
 						onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
 						style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
 					>
-						{this.props.entries.map((entry, indexCell) => (
+						{this.props.data.entries.map((entry, indexCell) => (
 							<TableCell key={indexCell} component="td" style={{ width: entry.width ? entry.width : undefined }}>
 								<span
 									className="noneDraggable"
@@ -130,7 +144,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 											(indexCell === 0 && (row.call === "" || row.call === "-") ? "" : "startSideHideInfo")
 										}
 									>
-										{indexRow === 0 && (row.call === "" || row.call === "-") ? <span>{I18n.t("This is a Submenu!")}</span> : null}
+										{indexRow === 0 && (row.call === "" || row.call === "-") ? <span>{I18n.t("isSubmenu")}</span> : null}
 									</span>
 								</span>
 							</TableCell>
@@ -141,12 +155,20 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={() => deleteRow(indexRow, this.props, this.props.card)}
+							deleteRow={() =>
+								deleteRow({
+									index: indexRow,
+									card: this.props.card,
+									activeMenu: this.props.data.state.activeMenu,
+									data: this.props.data.state.native.data,
+									updateNative: this.props.callback.setStateApp,
+								})
+							}
 							rows={this.state.rows}
 							index={indexRow}
 							showButtons={this.props.showButtons}
 							notShowDelete={indexRow == 0}
-						></ButtonCard>
+						/>
 					</TableRow>
 				))}
 			</TableBody>

@@ -1,4 +1,4 @@
-const processUserData = (data): { name: string; chatID: string }[] | undefined => {
+const processUserData = (data: string): { name: string; chatID: string }[] | undefined => {
 	try {
 		const array: { name: string; chatID: string }[] = [];
 
@@ -13,7 +13,7 @@ const processUserData = (data): { name: string; chatID: string }[] | undefined =
 	}
 };
 
-export const deepCopy = (obj: any): any => {
+export const deepCopy = <T>(obj: T): T | undefined => {
 	try {
 		return JSON.parse(JSON.stringify(obj));
 	} catch (err) {
@@ -22,15 +22,7 @@ export const deepCopy = (obj: any): any => {
 };
 
 export const isChecked = (value: string | boolean): boolean => {
-	try {
-		if (value == "true" || value == true) {
-			return true;
-		}
-		return false;
-	} catch (err) {
-		console.error("Error isChecked: " + JSON.stringify(err));
-		return false;
-	}
+	return ["true", true].includes(value) ? true : false;
 };
 
 const helperFunction = {
@@ -38,7 +30,7 @@ const helperFunction = {
 };
 export default helperFunction;
 
-export const deleteDoubleEntriesInArray = (arr: any): any => {
+export const deleteDoubleEntriesInArray = <T>(arr: T[]): T[] => {
 	return arr.filter((item, index) => arr.indexOf(item) === index);
 };
 
@@ -58,12 +50,12 @@ export const sortArray = (arr: string[]): string[] => {
 	return arr;
 };
 
-export const checkObjectOrArray = (obj): "object" | "array" | string => {
+export const checkObjectOrArray = (obj: object): "object" | "array" | string => {
 	if (typeof obj == "object" && Array.isArray(obj)) {
 		return "array";
-	} else if (typeof obj == "object") {
-		return "object";
-	} else {
-		return typeof obj;
 	}
+	if (typeof obj == "object") {
+		return "object";
+	}
+	return typeof obj;
 };

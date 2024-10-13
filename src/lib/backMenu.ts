@@ -1,4 +1,5 @@
 import { debug, error } from "./logging";
+import { BackMenu, NavPart, AllMenusWithData, BooleanString } from "./telegram-menu";
 import { checkStatusInfo } from "./utilities";
 const backMenu: BackMenu = {};
 

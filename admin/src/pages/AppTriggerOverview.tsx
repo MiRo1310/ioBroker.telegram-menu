@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import PopupContainer from "@/components/popupCards/PopupContainer";
 import TriggerOverview from "@/pages/AppTriggerOverviewContent";
 import { PropsMainTriggerOverview } from "admin/app";
+import { EventButton } from "../types/event";
 
 class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
-	constructor(props) {
+	constructor(props: PropsMainTriggerOverview) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<PopupContainer
 				title="Trigger Info"
@@ -18,7 +19,7 @@ class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
 				top="60%"
 				class="TriggerOverview-PopupContainer"
 				closeBtn={true}
-				callback={(val) => this.props.callback.setState({ showTriggerInfo: val })}
+				callback={({ value }: EventButton) => this.props.callback.setState({ showTriggerInfo: value })}
 			>
 				<TriggerOverview
 					usersInGroup={this.props.state.native.usersInGroup}

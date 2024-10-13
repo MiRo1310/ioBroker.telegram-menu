@@ -1,63 +1,28 @@
-import React, { Component } from "react";
-import TabNavigation from "@/pages/AppContentTabNavigation";
+import { navEntries } from "@/config/entries";
 import TabAction from "@/pages/AppContentTabAction";
+import TabNavigation from "@/pages/AppContentTabNavigation";
 import Settings from "@/pages/AppContentTabSettings";
 import { TabPanel } from "@mui/lab";
-import { navEntries } from "@/config/entries";
-import { AdditionalStateInfo, CallbackFunctions } from "admin/app";
-interface PropsMainTabs {
-	state: AdditionalStateInfo;
-	socket: any;
-	callback: CallbackFunctions;
-	adapterName: string;
-}
+import React, { Component } from "react";
+import { PropsMainTabs } from "../types/props-types";
+
 class Tabs extends Component<PropsMainTabs> {
-	constructor(props) {
+	constructor(props: PropsMainTabs) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<TabPanel value="nav">
-					<TabNavigation
-						activeMenu={this.props.state.activeMenu}
-						data={{
-							nav: this.props.state.native.data.nav,
-							data: this.props.state.native.data,
-							activeMenu: this.props.state.activeMenu,
-							state: this.props.state,
-							socket: this.props.socket,
-							themeName: this.props.state.themeName,
-							themeType: this.props.state.themeType,
-							adapterName: this.props.adapterName,
-						}}
-						callback={this.props.callback}
-						entries={navEntries}
-					/>
+					<TabNavigation data={{ ...this.props.data, entries: navEntries }} callback={this.props.callback} />
 				</TabPanel>
 				<TabPanel value="action" className="tabAction">
-					<TabAction
-						data={{
-							action: this.props.state.native.data.action,
-							data: this.props.state.native.data,
-							state: this.props.state,
-							socket: this.props.socket,
-							themeName: this.props.state.themeName,
-							themeType: this.props.state.themeType,
-							adapterName: this.props.adapterName,
-							unUsedTrigger: this.props.state.unUsedTrigger,
-						}}
-						activeMenu={this.props.state.activeMenu}
-						callback={this.props.callback}
-					/>
+					<TabAction data={this.props.data} callback={this.props.callback} />
 				</TabPanel>
 				<TabPanel value="settings">
-					<Settings
-						data={{ instances: this.props.state.instances, state: this.props.state, checkbox: this.props.state.native.checkbox }}
-						callback={this.props.callback}
-					/>
+					<Settings data={this.props.data} callback={this.props.callback} />
 				</TabPanel>
 			</>
 		);

@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
-import Button from "../components/btn-Input/Button";
+import Button from "../components/btn-Input/button";
 import { Grid } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import Checkbox from "../components/btn-Input/checkbox";
 import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
+import { EventButton } from "../types/event";
+import { EventCheckbox } from "@/types/event";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
-	constructor(props) {
+	constructor(props: PropsHeaderTelegramUsers) {
 		super(props);
 		this.state = {
 			menuOpen: true,
@@ -16,56 +18,53 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		};
 	}
 
-	componentDidUpdate = (prevProps) => {
+	componentDidUpdate = (prevProps: Readonly<PropsHeaderTelegramUsers>): void => {
 		if (prevProps.data.usersInGroup !== this.props.data.usersInGroup) {
-			this.checkAktivUsers();
+			this.checkActiveUsers();
 		}
 		if (prevProps.data.activeMenu !== this.props.data.activeMenu) {
 			this.setState({ menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu] });
 		}
 	};
 
-	updateMenuOpen = () => {
+	updateMenuOpen = ({}: EventButton): void => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
-	menuActiveChecked = () => {
-		if (this.props.data.userActiveCheckbox[this.props.data.activeMenu]) {
-			return true;
-		} else {
-			return false;
-		}
+
+	menuActiveChecked = (): boolean => {
+		return this.props.data.userActiveCheckbox[this.props.data.activeMenu] ? true : false;
 	};
-	clickCheckbox = (event) => {
-		if (event.target.checked) {
-			if (!this.checkAktivUsers(true)) {
+
+	clickCheckbox = ({ isChecked }: EventCheckbox): void => {
+		if (isChecked) {
+			if (!this.checkActiveUsers(true)) {
 				return;
 			}
 		} else {
 			this.setState({ errorUserChecked: false });
 		}
-		this.setState({ menuChecked: event.target.checked });
-		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, event.target.checked);
+		this.setState({ menuChecked: isChecked });
+		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, isChecked);
 	};
-	checkAktivUsers = (val?) => {
+
+	checkActiveUsers = (val?: boolean): boolean | undefined => {
 		const usersInGroup = this.props.data.usersInGroup;
 		if (this.state.menuChecked || val) {
 			if (usersInGroup && usersInGroup[this.props.data.activeMenu] && usersInGroup[this.props.data.activeMenu].length <= 0) {
-				// TelegramUserCard.jsx setzt zurück
 				this.setState({ errorUserChecked: true });
 				return false;
-			} else {
-				return true;
 			}
+			return true;
 		}
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={2}>
 				<Grid item lg={2} md={2} xs={2}>
 					{this.state.errorUserChecked ? (
 						<div>
-							<p className="errorString">{I18n.t("Please select a user, or deaktivate the Menu, bevor you can save!")}</p>
+							<p className="errorString">{I18n.t("userSelect")}</p>
 							<div className="disableSaveBtn"></div>
 						</div>
 					) : null}
@@ -80,7 +79,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 									margin="0 5px 0 20px"
 									border="1px solid black"
 									round="4px"
-									id="expandTelegramusers"
+									id="expandTelegramUsers"
 									callback={this.updateMenuOpen}
 								>
 									{this.state.menuOpen ? (
@@ -89,12 +88,11 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 										<i className="material-icons">chevron_right</i>
 									)}
 								</Button>
-								<span>{I18n.t("")}</span>
 							</div>
 						) : null}
 						{this.state.menuOpen && Object.keys(this.props.data.usersInGroup).length != 0 ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
-								<p className="TelegramUserCard-description">{I18n.t("Users from Telegram")}</p>
+								<p className="TelegramUserCard-description">{I18n.t("telegramUser")}</p>
 								{this.props.data.state.native?.userListWithChatID.map((user, key) => {
 									return (
 										<TelegramUserCard
@@ -118,8 +116,8 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 							label={this.props.data.state.activeMenu + " " + I18n.t("active")}
 							id="checkboxActiveMenu"
 							isChecked={this.menuActiveChecked()}
-							callbackValue="event"
 							callback={this.clickCheckbox}
+							index={0}
 						/>
 					) : null}
 				</Grid>

@@ -4,11 +4,11 @@ import { Grid } from "@mui/material";
 import { PropsHeaderIconBar } from "admin/app";
 
 class AppHeaderIconBar extends Component<PropsHeaderIconBar> {
-	constructor(props) {
+	constructor(props: PropsHeaderIconBar) {
 		super(props);
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid item xs={12}>
 				<form className="Tab-Header">

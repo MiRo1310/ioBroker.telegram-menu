@@ -1,5 +1,6 @@
 import { decomposeText } from "./utilities";
 import { sendToTelegram } from "./telegram";
+import { SetDynamicValueObj, UserListWithChatId, BooleanString, SetDynamicValue } from "./telegram-menu";
 const setDynamicValueObj: SetDynamicValueObj = {};
 const setDynamicValue = (
 	returnText: string,

@@ -1,32 +1,26 @@
-import React, { Component } from "react";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import { deleteRow, moveItem } from "../lib/button.js";
+import { PropsTableDndAction, RowForButton, StateTableDndAction } from "admin/app.js";
+import React, { Component } from "react";
+import { DataRowAction, TabValueEntries } from "../../app";
 import { ButtonCard } from "../components/popupCards/buttonCard.js";
-import SubTable from "./AppContentTabActionContentTableSubTable.js";
 import { deepCopy } from "../lib/Utils.js";
+import { getElementIcon } from "../lib/actionUtils.js";
+import { deleteRow, moveItem } from "../lib/button.js";
 import {
+	handleDragEnd,
+	handleDragEnter,
+	handleDragOver,
+	handleDragStart,
 	handleMouseOut,
 	handleMouseOver,
-	handleDragStart,
-	handleDragOver,
-	handleDragEnter,
 	handleStyleDragOver,
-	handleDragEnd,
 } from "../lib/dragNDrop.js";
-import { getElementIcon } from "../lib/actionUtils.js";
-import { PropsTableDndAction, StateTableDndAction } from "admin/app.js";
-
-function createData(entriesOfParentComponent, element) {
-	const obj = {};
-	entriesOfParentComponent.forEach((entry) => {
-		obj[entry.name] = element[entry.name];
-	});
-	return obj;
-}
+import { EventButton } from "../types/event";
+import SubTable from "./AppContentTabActionContentTableSubTable.js";
 
 class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction> {
 	mounted: boolean;
-	constructor(props) {
+	constructor(props: PropsTableDndAction) {
 		super(props);
 		this.mounted = false;
 		this.state = {
@@ -37,34 +31,46 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			mouseOverNoneDraggable: false,
 		};
 	}
-	getRows = () => {
-		const action = this.props.tableData;
-		const activeMenu = this.props.activeMenu;
+
+	createData(entriesOfParentComponent: TabValueEntries[], element: DataRowAction): RowForButton {
+		const obj: RowForButton = {} as RowForButton;
+		entriesOfParentComponent.forEach((entry) => {
+			obj[entry.name] = element[entry.name];
+		});
+		return obj;
+	}
+
+	getRows = (): void => {
+		const { activeMenu, native } = this.props.data.state;
+		const action = native.data.action;
+
 		if (!action) {
 			return;
 		}
-		const elements = action[activeMenu][this.props.subCard];
+		const elements = action[activeMenu][this.props.data.tab.value] as DataRowAction[];
 
-		const rows: any[] = [];
+		const rows: RowForButton[] = [];
 		if (elements === undefined) {
 			return;
 		}
 		for (const entry of elements) {
-			rows.push(createData(this.props.entries, entry));
+			rows.push(this.createData(this.props.data.tab.entries, entry));
 		}
 		this.setState({ rows: rows });
 	};
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.activeMenu !== this.props.activeMenu) {
+	componentDidUpdate(prevProps: Readonly<PropsTableDndAction>): void {
+		const { activeMenu, native } = this.props.data.state;
+		if (prevProps.data.state.activeMenu !== activeMenu) {
 			this.getRows();
 			this.updateHeight();
 		}
-		if (prevProps.tableData !== this.props.tableData) {
+		if (prevProps.data.state.native.data.action !== native.data.action) {
 			this.getRows();
 		}
 	}
-	updateHeight = () => {
+
+	updateHeight = (): void => {
 		// Diese Funktion setzt die Höhe der Tabelle auf die Höhe des darüber liegenden Td Tags da es herkömmlich anscheinen nicht funktioniert
 		const tBodies = Array.from(document.getElementsByClassName("dynamicHeight")) as HTMLTableSectionElement[];
 		const tds = Array.from(document.getElementsByClassName("tdWithHeightForSubTable")) as HTMLTableCellElement[];
@@ -82,11 +88,10 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 					}
 				}
 			});
-		} else {
-			console.log("Error get Tds");
 		}
 	};
-	componentDidMount() {
+
+	componentDidMount(): void {
 		this.mounted = true;
 		this.getRows();
 		window.addEventListener("resize", this.updateHeight);
@@ -94,44 +99,64 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 			this.updateHeight();
 		}, 100);
 	}
-	componentWillUnmount() {
+
+	componentWillUnmount(): void {
 		window.removeEventListener("resize", this.updateHeight);
 	}
-	handleDrop = (index, event) => {
-		let currentElement = event.target;
+
+	handleDrop = (index: number, event: React.DragEvent<HTMLTableRowElement> | undefined): void => {
+		let currentElement = event?.target as HTMLElement;
 		while (currentElement) {
-			// Überprüfe, ob das Element eine tr ist und nicht die Klasse SubTable hat
 			if (currentElement.tagName === "TR" && !currentElement.classList.contains("SubTable")) {
-				// Setze draggable auf true oder false, je nach Bedarf
 				if (currentElement.classList.contains("draggingDropBox")) {
 					return;
-				} // Beende die Schleife, wenn das passende Element gefunden wurde
+				}
 			}
-			// Gehe eine Ebene höher im DOM
-			currentElement = currentElement.parentNode;
+			currentElement = currentElement.parentElement as HTMLElement;
 		}
 		if (index !== this.state.dropStart) {
-			moveItem(this.state.dropStart, this.props, this.props.card, this.props.subCard, index - this.state.dropStart);
+			moveItem({
+				index: this.state.dropStart,
+				card: this.props.data.card,
+				subCard: this.props.data.tab.value,
+				upDown: index - this.state.dropStart,
+				activeMenu: this.props.data.state.activeMenu,
+				data: this.props.data.state.native.data,
+				updateNative: this.props.callback.updateNative,
+			});
 		}
 	};
-
-	editRow = (index) => {
-		const data = deepCopy(this.props.data.data);
-		const newRow = data[this.props.card][this.props.activeMenu][this.props.subCard][index];
+	//TODO
+	editRow = ({ index }: EventButton): void => {
+		const { activeMenu } = this.props.data.state;
+		const { data } = this.props.data.state.native;
+		const { setStateTabActionContent } = this.props.callback;
+		const dataCopy = deepCopy(data);
+		if (!dataCopy) {
+			return;
+		}
+		const newRow = dataCopy[this.props.data.card][activeMenu][this.props.data.tab.value][index];
+		console.log(newRow);
 		if (newRow.trigger) {
-			this.props.addEditedTrigger(newRow.trigger[0]);
+			this.props.callback.addEditedTrigger(newRow.trigger[0]);
 		}
-		this.props.setState({ newRow: newRow });
-		this.props.setState({ editRow: true });
-		this.props.setState({ rowPopup: true });
-		this.props.setState({ rowIndex: index });
+		setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index });
 	};
 
-	deleteRow = (index) => {
-		deleteRow(index, this.props, this.props.card, this.props.subCard);
+	deleteRow = (index: number): void => {
+		const { activeMenu } = this.props.data.state;
+		const { updateNative } = this.props.callback;
+		deleteRow({
+			index,
+			activeMenu,
+			card: this.props.data.card,
+			data: this.props.data.state.native.data,
+			updateNative,
+			subCard: this.props.data.tab.value,
+		});
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<TableBody className="TableDndAction-Body">
 				{this.state.rows.map((row, index) => (
@@ -147,10 +172,11 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								event,
 								this.state.mouseOverNoneDraggable,
 								this.setState.bind(this),
-								this.props.callback.setState({ draggingRowIndex: index }),
+								{ draggingRowIndex: index },
+								this.props.callback.setStateApp,
 							);
 						}}
-						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props)}
+						onDragEnd={() => handleDragEnd(this.setState.bind(this), this.props.callback.setStateApp)}
 						onDragOver={(event) => handleDragOver(index, event)}
 						onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
 						style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
@@ -162,7 +188,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 								</span>
 							</TableCell>
 						) : null}
-						{this.props.entries.map((entry, indexEntry) =>
+						{this.props.data.tab.entries.map((entry, indexEntry) =>
 							entry.name != "trigger" && entry.name != "parse_mode" ? (
 								<TableCell
 									className="tdWithHeightForSubTable"
@@ -172,7 +198,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 									key={indexEntry}
 									style={entry.width ? { width: entry.width } : undefined}
 								>
-									<SubTable data={row[entry.name]} setState={this.setState.bind(this)} name={entry.name} entry={entry} />
+									<SubTable data={row[entry.name] as []} setState={this.setState.bind(this)} name={entry.name} entry={entry} />
 								</TableCell>
 							) : null,
 						)}
@@ -184,15 +210,24 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
 							</TableCell>
 						) : null}
 						<ButtonCard
-							openAddRowCard={this.props.openAddRowCard}
+							openAddRowCard={this.props.callback.openAddRowCard}
 							editRow={this.editRow}
 							moveDown={() => {}}
 							moveUp={() => {}}
-							deleteRow={(index) => deleteRow(index, this.props, this.props.card, this.props.subCard)}
+							deleteRow={({ index }: EventButton) =>
+								deleteRow({
+									index,
+									activeMenu: this.props.data.state.activeMenu,
+									card: this.props.data.card,
+									subCard: this.props.data.tab.value,
+									updateNative: this.props.callback.updateNative,
+									data: this.props.data.state.native.data,
+								})
+							}
 							rows={this.state.rows}
 							index={index}
-							showButtons={this.props.showButtons}
-						></ButtonCard>
+							showButtons={this.props.data.showButtons}
+						/>
 					</TableRow>
 				))}
 			</TableBody>

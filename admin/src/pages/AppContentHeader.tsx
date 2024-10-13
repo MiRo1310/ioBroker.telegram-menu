@@ -5,19 +5,19 @@ import HeaderTelegramUsers from "@/pages/AppContentHeaderTelegramUsers";
 import { PropsMainActions } from "admin/app";
 
 class MainActions extends Component<PropsMainActions> {
-	constructor(props) {
+	constructor(props: PropsMainActions) {
 		super(props);
 		this.state = {};
 	}
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="Grid-HeaderMenu ">
 				<Grid item xs={12}>
-					{this.props.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback} /> : null}
+					{this.props.data.state.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback} /> : null}
 				</Grid>
 				<Grid item xs={12}>
-					{this.props.tab != "settings" ? (
+					{this.props.data.state.tab != "settings" ? (
 						<HeaderTelegramUsers
 							data={{
 								state: this.props.data.state,
@@ -26,7 +26,6 @@ class MainActions extends Component<PropsMainActions> {
 								activeMenu: this.props.data.state.activeMenu,
 							}}
 							callback={this.props.callback}
-							menuPopupOpen={this.props.data.state.popupMenuOpen}
 						/>
 					) : null}
 				</Grid>

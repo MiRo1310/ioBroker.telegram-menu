@@ -5,25 +5,25 @@ const globalItems = [
 		data: [
 			{
 				text: "{status:'ID':true}",
-				info: "Queries the value of the ID and then replaces it with the value, so text can be written around it, it is also possible to use it more than one time in a row. The parameter true is a option to change Value by function change. You have to set it to false if you don´t change this value, but behind this there is anoter {status: ... request with change:true.",
+				info: "statusMenu",
 			},
 		],
 	},
-	{ newline: "", places: ["text", "set", "get"], data: [{ text: "\\n", info: "Breakpoint for a new line, Only insert this in the Text" }] },
+	{ newline: "", places: ["text", "set", "get"], data: [{ text: "\\n", info: "breakpointNewline" }] },
 	{
 		parse_Mode: "",
 		places: ["text", "set", "get"],
 		data: [
-			{ text: "<b> </b>", info: "Text in Parse-Mode is Bold" },
-			{ text: "<i> </i>", info: "Text in Parse-Mode is Italic" },
-			{ text: "<code> </code>", info: "Text in Parse-Mode is Code" },
-			{ text: "<a href=“URL“>Link</a>", info: "Text in Parse-Mode is Link" },
+			{ text: "<b> </b>", info: "parseModeBold" },
+			{ text: "<i> </i>", info: "parseModeItalic" },
+			{ text: "<code> </code>", info: "parseModeCode" },
+			{ text: "<a href=“URL“>Link</a>", info: "parseModeLink" },
 		],
 	},
 	{
 		time: "",
 		places: ["text", "get"],
-		data: [{ text: "{time}", info: "Converts a Unix timestamp to a local time" }],
+		data: [{ text: "{time}", info: "convertsUnixTimestamp" }],
 	},
 	{
 		change: "",
@@ -31,7 +31,7 @@ const globalItems = [
 		data: [
 			{
 				text: 'change{"true":"an","false":"aus"}',
-				info: "Changes the value in the return text, in this case from true to on and false to off",
+				info: "changeFunction",
 			},
 		],
 	},
@@ -41,107 +41,117 @@ const globalItems = [
 		data: [
 			{
 				text: "",
-				info: "To insert an ID, simply insert the block first, select the ID. This will then be automatically inserted in the appropriate place, even if the ID is to be changed. If the code does not recognize the block, the ID is appended to the end.",
+				info: "insertID",
 			},
 		],
 	},
 ];
-
-const helperText = {
+export interface HelperText {
+	nav: {
+		value: { text: string; head?: string; info: string }[];
+		text: { text: string; info: string }[];
+	};
+	get: { text: { text: string; info: string }[] };
+	set: {
+		returnText: { text: string; info: string }[];
+		values: { text: string; info: string }[];
+	};
+}
+const helperText: HelperText = {
 	// Nav
 	nav: {
 		value: [
 			{
 				text: "menu:percent10:TRIGGER:",
 				head: "<strong>Submenu Percent</strong><br>",
-				info: "10 can be replaced and indicates the step size 0%, 10%, 20%...! Replace TRIGGER with a unique value. This is used in action SetState. Enter the desired ID. Below value ! insert",
+				info: "menuPercent",
 			},
 			{
 				text: "menu:number0-6-1-UNIT:TRIGGER:",
 				head: "<strong>Submenu Number</strong><br>",
-				info: "The numbers can be completely exchanged. 0-6 indicates the range, and 1 the step size, UNIT is replaced by a unit, but can also be left empty. Replace TRIGGER with a unique value.",
+				info: "menuNumber",
 			},
 			{
 				text: "menu:switch-ein.true-aus.false:TRIGGER:",
 				head: "<strong>Submenu Switch</strong><br>",
-				info: "Generates two buttons, in this case on and off with the respective values true and false. Replace TRIGGER with a unique value.",
+				info: "menuSwitch",
 			},
 			{
 				text: "menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LengthOfRow:",
 				head: "<strong>Submenu Dynamic Switch</strong><br>",
-				info: "Generates multiply buttons, values can be insert individual. Replace TRIGGER with a unique value. LengthOfRow is optional and can be used to set the number of buttons per row. <br><strong class='breakingChange'>Breaking Change!!!</strong> &nbsp; Please change manually: `[Name1:Value1, Name2:Value2]` to `[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values.",
+				info: "menuDynamicSwitch",
 			},
 			{
 				text: "menu:deleteAll:Navigation",
 				head: "<strong>Submenu Delete All</strong><br>",
-				info: "Generates a button to delete all messages from the bot. The navigation is optional. Simply leave it blank otherwise you can enter a menu that should be called up.",
+				info: "menuDeleteAll",
 			},
 
 			{
 				text: "menu:back",
-				info: "When pressed, you jump back to the previous menu",
+				info: "menuBack",
 			},
 		],
 		text: [
 			{
 				text: "{set:'id':'ID',val,ack}",
-				info: "Sets the value of the ID to the val, with ack(confirmed)",
+				info: "setID",
 			},
 			{
 				text: "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}",
-				info: "LastChange. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+				info: "lcTimestamp",
 			},
 			{
 				text: "{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'ID'}",
-				info: "TimeStamp. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+				info: "tsTimestamp",
 			},
 		],
 	},
 	get: {
 		text: [
-			{ text: "{math:/10}", info: "Converts the value, /10 can be replaced" },
+			{ text: "{math:/10}", info: "math" },
 
-			{ text: "{common.name}", info: "Outputs the name of the data point" },
-			{ text: "&&", info: "Placeholder for the value" },
-			{ text: "{round:2}", info: "Rounds the value for example to 2 decimal places" },
+			{ text: "{common.name}", info: "commonName" },
+			{ text: "&&", info: "placeholderValue" },
+			{ text: "{round:2}", info: "valueRound" },
 			{
 				text: "{time.lc,(DD MM YYYY hh:mm:ss:sss)}",
-				info: "LastChange. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+				info: "lcTimeStamp",
 			},
 			{
 				text: "{time.ts,(DD MM YYYY hh:mm:ss:sss)}",
-				info: "TimeStamp. Converts a Unix timestamp to a local time, the format can be changed, for example to DD.MM.YYYY YY hh:mm:ss:sss",
+				info: "tsTimeStamp",
 			},
 
 			{
 				text: '{var1:ID;var2:ID; var1 ==var2 ? "equal" : var1 < var2 ? "var1 is smaller" : "var1 is greater"}',
-				info: "Bindings: First Var with id then the condition and the text.",
+				info: "binding",
 			},
 			{
 				text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}",
-				info: "Creats a table from a JSON as Inline-keyboard. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in.",
+				info: "jsonTable",
 			},
 			{
 				text: "{json;[name:Name];Header;shoppinglist;}",
-				info: "The same as above, but when you click on a button, the item will be deleted,the Key for the Items is `name:`, you can also add `time:`. <strong>Important!!!</strong>  'shoppinglist' may not be changed.",
+				info: "jsonShoppingList",
 			},
 			{
 				text: "{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}",
-				info: "!!! To use it, parseMode must not be active !!! Creates a table from a JSON as Text-Table. The first value is one key of the JSON ,behind it is the name of the column. You can use more than two values.The header must be filled in. Don´t change TextTable.",
+				info: "jsonTable",
 			},
 		],
 	},
 	set: {
 		returnText: [
-			{ text: "{novalue}", info: "The Value is not specified in the return text" },
-			{ text: "&&", info: "Placeholder for the value" },
+			{ text: "{novalue}", info: "noValue" },
+			{ text: "&&", info: "placeholderValue" },
 			{
 				text: "{'id':'ID','text':'Your Text'}",
-				info: "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.",
+				info: "notifiedByChangeOfAnotherState",
 			},
 			{
 				text: "{confirmSet:The value has been set:noValue}",
-				info: "Attention. The value has only been set but not yet confirmed by the Adapter. You can remove noValue, then the value will displayed. Position && replaced by Value or will be put at the End",
+				info: "confirmSet",
 			},
 			{
 				text: "{setDynamicValue:RequestText:Type:ConfirmText:ID:}",
@@ -151,11 +161,11 @@ const helperText = {
 		values: [
 			{
 				text: "{id:ID}",
-				info: "This allows you to set a  manually value in combination with ID Value, like this: staticValue{id:ID}staticValue",
+				info: "manuallyValue",
 			},
 			{
 				text: "{value}",
-				info: "This allows you to set a modified Submenu Value in combination with a static part , like this: staticValue{value}staticValue",
+				info: "modifiedSubmenuValue",
 			},
 		],
 	},

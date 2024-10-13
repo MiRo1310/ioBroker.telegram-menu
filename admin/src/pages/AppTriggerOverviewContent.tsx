@@ -1,29 +1,28 @@
-import React, { Component } from "react";
-import { colors } from "../lib/color.js";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Square from "./AppTriggerOverviewContentSquare.js";
-import { deleteDoubleEntriesInArray } from "../lib/Utils.js";
-import { updateTriggerForSelect } from "../lib/actionUtils.js";
-import Select from "../components/btn-Input/select.js";
-import { deepCopy } from "../lib/Utils.js";
 import { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from "admin/app.js";
+import React, { Component } from "react";
+import Select, { EventSelect } from "../components/btn-Input/select.js";
+import { deepCopy, deleteDoubleEntriesInArray } from "../lib/Utils.js";
+import { updateTriggerForSelect } from "../lib/actionUtils.js";
+import { colors } from "../lib/color.js";
+import Square from "./AppTriggerOverviewContentSquare.js";
 
 class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOverview> {
-	constructor(props) {
+	constructor(props: PropsTriggerOverview) {
 		super(props);
 		this.state = {
 			ulPadding: {},
 			trigger: null,
-			groupsOfMenus: [],
 			selected: "",
 			options: [],
 		};
 	}
 	dataOfIterate = { menu: "" };
 	ulPadding = {};
-	colorArray: { color: string; menu: AnalyserNode; index: number }[] = [];
+	colorArray: { color: string; menu: string; index: number }[] = [];
 	menuArray: string[] = [];
-	getMenusWithUserOrIndexOfMenu(menuCall) {
+
+	getMenusWithUserOrIndexOfMenu(menuCall: string): { menusWithUser: MenuWithUser[]; arrayUsersInGroup: string[] } {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const menusWithUser: MenuWithUser[] = [];
 		const userInMenu = this.props.usersInGroup[menuCall];
@@ -37,7 +36,8 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 
 		return { menusWithUser: menusWithUser, arrayUsersInGroup: arrayUsersInGroup };
 	}
-	getIndexOfMenu(menuCall) {
+
+	getIndexOfMenu(menuCall: string): number {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		let colorIndex = 0;
 		const userInMenu = this.props.usersInGroup[menuCall];
@@ -50,7 +50,15 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		});
 		return colorIndex;
 	}
-	getColorUsedTriggerNav(_, menuCall: string, trigger) {
+
+	getColorUsedTriggerNav({
+		menuCall,
+		trigger,
+	}: {
+		index: number;
+		menuCall: string;
+		trigger: string;
+	}): { color: string; menu: string; index: number | null; used?: string }[] | undefined {
 		this.menuArray = [];
 		const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
 		if (typeof result == "number") {
@@ -64,7 +72,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 				this.ulPadding[menuCall] = 0;
 			}
 
-			if (this.state.trigger.everyTrigger[menu["menu"]] && this.state.trigger.everyTrigger[menu["menu"]].includes(trigger)) {
+			if (this.state.trigger?.everyTrigger[menu["menu"]] && this.state.trigger?.everyTrigger[menu["menu"]].includes(trigger)) {
 				for (let key = 0; key < result.arrayUsersInGroup.length; key++) {
 					if (result.arrayUsersInGroup[key] === menu["menu"]) {
 						if (!this.menuArray.includes(menu["menu"])) {
@@ -88,7 +96,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		}
 		return [{ color: "white", menu: "Is not assigned ", index: null, used: I18n.t("not created") }];
 	}
-	getColorNavElemente(index, menu, trigger) {
+	getColorNavElemente(index: number, menu: string, trigger: string): undefined | string {
 		const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
 		const result = this.getMenusWithUserOrIndexOfMenu(menu);
 		if (typeof result == "number") {
@@ -96,11 +104,11 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		}
 		const menusWithUser = result.menusWithUser;
 		// Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
-		let menu2;
+		let menu2 = "";
 		for (const menuObj of menusWithUser) {
 			menu2 = menuObj.menu;
 			// Die Trigger durchlaufen die in dem Menü in nav sind
-			if (this.state.trigger.usedTrigger.nav[menu2] && this.state.trigger.usedTrigger.nav[menu2].includes(trigger)) {
+			if (this.state.trigger?.usedTrigger.nav[menu2] && this.state.trigger?.usedTrigger.nav[menu2].includes(trigger)) {
 				// Dann ermitteln welchen key das menu hat
 				for (let key = 0; key < arrayUsersInGroup.length; key++) {
 					if (arrayUsersInGroup[key] === menu2) {
@@ -112,7 +120,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 			}
 			// Wenn es nicht in Nav ist muss es in Action sein, ansonsten ist der Trigger unbenutzt
 			else {
-				for (const action in this.state.trigger.usedTrigger.action[menu2]) {
+				for (const action in this.state.trigger?.usedTrigger.action[menu2]) {
 					if (this.state.trigger.usedTrigger.action[menu2][action].includes(trigger)) {
 						for (let key = 0; key < arrayUsersInGroup.length; key++) {
 							if (arrayUsersInGroup[key] === menu2) {
@@ -135,15 +143,16 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		return "black";
 	}
 
-	getMenu() {
+	getMenu(): string {
 		return this.dataOfIterate.menu;
 	}
 
-	createdData(menu) {
+	createdData(menu: string): void {
 		const result = updateTriggerForSelect(this.props.data, this.props.usersInGroup, menu);
 		this.setState({ trigger: deepCopy(result?.triggerObj) });
 	}
-	getOptions() {
+
+	getOptions(): void {
 		const options: string[] = [];
 		for (const menu in this.props.data.nav) {
 			if (this.props.data.nav[menu][0].call != "-") {
@@ -154,26 +163,28 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 		this.createdData(options[0]);
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		this.getOptions();
 		this.setState({ ulPadding: this.ulPadding });
 	}
-	componentDidUpdate(prevProps, prevState) {
+
+	componentDidUpdate(prevProps: Readonly<PropsTriggerOverview>, prevState: Readonly<StateTriggerOverview>): void {
 		if (prevState.trigger != this.state.trigger) {
 			this.setState({ ulPadding: this.ulPadding });
 		}
 	}
-	updateHandler = (value) => {
-		this.setState({ selected: value.startMenu });
-		this.createdData(value.startMenu);
+
+	updateHandler = ({ val }: EventSelect): void => {
+		this.setState({ selected: val });
+		this.createdData(val);
 	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<Select
 					options={this.state.options}
-					label={I18n.t("Start Menus")}
+					label={I18n.t("startMenus")}
 					name="instance"
 					selected={this.state.selected}
 					id="startMenu"
@@ -182,7 +193,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 				{this.state.trigger ? (
 					<div className="Menu-list-container">
 						<div className="Menu-list-card">
-							<p>{I18n.t("Unused Trigger")}</p>
+							<p>{I18n.t("unusedTrigger")}</p>
 							<ul>
 								{this.state.trigger.unUsedTrigger.map((trigger, index) => {
 									return (
@@ -197,10 +208,10 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 						{Object.keys(this.state.trigger.usedTrigger.action).map((menu, indexUsedTrigger) => {
 							return (
 								<div key={indexUsedTrigger} className="Menu-list-card">
-									<div className={this.state.trigger.usedTrigger.nav[menu][0] == "-" ? "menu-disabled" : "menu-startside"}>
+									<div className={this.state.trigger?.usedTrigger.nav[menu][0] == "-" ? "menu-disabled" : "menu-startside"}>
 										<div style={{ display: "flex", flexWrap: "wrap" }}>
 											<p className="noMargin inlineBlock strong">
-												{this.state.trigger.usedTrigger.nav[menu][0] == "-" ? "Submenu" : "Startside"}
+												{this.state.trigger?.usedTrigger.nav[menu][0] == "-" ? "submenu" : "startSide"}
 											</p>
 											{this.props.userActiveCheckbox[menu] ? (
 												<span className="textRight active"> {I18n.t("Active")}</span>
@@ -209,11 +220,11 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 											)}
 										</div>
 										<p className="noMargin">
-											{I18n.t("Set menu")}: {menu}
+											{I18n.t("setMenu")}: {menu}
 										</p>
 									</div>
 									<div className="User-list-container" style={{ border: `4px solid ${colors[this.getIndexOfMenu(menu)]}` }}>
-										<p className="User-list">{I18n.t("User List")}</p>
+										<p className="User-list">{I18n.t("userList")}</p>
 										{this.props.usersInGroup[menu].map((user, indexUser) => {
 											return <p key={indexUser}>{user}</p>;
 										})}
@@ -221,9 +232,9 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 
 									<ul key={indexUsedTrigger} className="Action-list" style={{ paddingLeft: this.state.ulPadding[menu] }}>
 										<li>
-											<p className="strong">{I18n.t("Navigation Buttons")}</p>
+											<p className="strong">{I18n.t("navigationButtons")}</p>
 											<ul className="createdTrigger">
-												{this.state.trigger.everyTrigger[menu].map((trigger, indexTrigger) => {
+												{this.state.trigger?.everyTrigger[menu].map((trigger, indexTrigger) => {
 													return (
 														<div key={indexTrigger} style={{ position: "relative" }}>
 															<Square
@@ -231,7 +242,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 																color={this.getColorNavElemente(indexUsedTrigger, menu, trigger) || ""}
 															/>
 
-															<li key={indexTrigger} title={I18n.t("Is linked with: ") + " " + this.getMenu()}>
+															<li key={indexTrigger} title={I18n.t("linkedWith") + " " + this.getMenu()}>
 																{trigger}
 															</li>
 														</div>
@@ -239,16 +250,16 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 												})}
 											</ul>
 										</li>
-										<li className="strong">{I18n.t("Used Trigger")}</li>
+										<li className="strong">{I18n.t("usedTrigger")}</li>
 										<li>
-											<p className="menuDespription">nav</p>
+											<p className="menuDescription">nav</p>
 											<ul>
-												{this.state.trigger.usedTrigger.nav[menu].map((trigger, indexTrigger) => {
+												{this.state.trigger?.usedTrigger.nav[menu].map((trigger, indexTrigger) => {
 													return (
 														<div key={indexTrigger} style={{ position: "relative" }}>
-															{this.getColorUsedTriggerNav(indexUsedTrigger, menu, trigger)?.map((item, i) => (
-																<Square key={i} position={i} color={item.color} trigger={trigger} />
-															))}
+															{this.getColorUsedTriggerNav({ index: indexUsedTrigger, menuCall: menu, trigger })?.map(
+																(item, i) => <Square key={i} position={i} color={item.color} trigger={trigger} />,
+															)}
 															<li
 																className={
 																	indexTrigger == 0 && trigger == "-"
@@ -257,7 +268,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 																			? "menu-startside"
 																			: ""
 																}
-																title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}
+																title={I18n.t("linkedWith") + " " + this.menuArray.join(", ")}
 															>
 																{trigger}
 															</li>
@@ -267,30 +278,38 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 											</ul>
 										</li>
 
-										{Object.keys(this.state.trigger.usedTrigger.action[menu]).map((action, index2) => {
-											return (
-												<li key={index2}>
-													<p className="menuDespription">{action}</p>
-													<ul>
-														{this.state.trigger.usedTrigger.action[menu][action].map((trigger, index3) => {
-															return (
-																<div key={index3} style={{ position: "relative" }}>
-																	{this.getColorUsedTriggerNav(indexUsedTrigger, menu, trigger)?.map((item, i) => (
-																		<Square key={i} position={i} color={item.color} />
-																	))}
-																	<li
-																		key={index3}
-																		title={I18n.t("Is linked with: ") + " " + this.menuArray.join(", ")}
-																	>
-																		{trigger}
-																	</li>
-																</div>
-															);
-														})}
-													</ul>
-												</li>
-											);
-										})}
+										{this.state.trigger?.usedTrigger.action[menu]
+											? Object.keys(this.state.trigger?.usedTrigger.action[menu]).map((action, index2) => {
+													return (
+														<li key={index2}>
+															<p className="menuDescription">{action}</p>
+															<ul>
+																{(this.state.trigger?.usedTrigger.action[menu][action] as string[]).map(
+																	(trigger, index3) => {
+																		return (
+																			<div key={index3} style={{ position: "relative" }}>
+																				{this.getColorUsedTriggerNav({
+																					index: indexUsedTrigger,
+																					menuCall: menu,
+																					trigger,
+																				})?.map((item, i) => (
+																					<Square key={i} position={i} color={item.color} />
+																				))}
+																				<li
+																					key={index3}
+																					title={I18n.t("linkedWith") + " " + this.menuArray.join(", ")}
+																				>
+																					{trigger}
+																				</li>
+																			</div>
+																		);
+																	},
+																)}
+															</ul>
+														</li>
+													);
+												})
+											: null}
 									</ul>
 								</div>
 							);

@@ -1,9 +1,10 @@
+import { PropsTelegramUserCard, StateTelegramUserCard } from "admin/app";
 import React, { Component } from "react";
 import Checkbox from "../components/btn-Input/checkbox";
-import { PropsTelegramUserCard, StateTelegramUserCard } from "admin/app";
+import { EventCheckbox } from "@/types/event";
 
 class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUserCard> {
-	constructor(props) {
+	constructor(props: PropsTelegramUserCard) {
 		super(props);
 		this.state = {
 			usersInGroup: this.props.data.usersInGroup,
@@ -11,7 +12,8 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 			activeMenu: this.props.data.state.activeMenu,
 		};
 	}
-	componentDidUpdate = () => {
+
+	componentDidUpdate = (): void => {
 		if (this.props.data.usersInGroup !== this.state.usersInGroup) {
 			this.setState({ usersInGroup: this.props.data.usersInGroup });
 		}
@@ -20,7 +22,7 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 		}
 	};
 
-	isUserChecked = () => {
+	isUserChecked = (): boolean => {
 		if (this.props.data.usersInGroup && this.props.data.usersInGroup[this.state.activeMenu]) {
 			if (
 				this.state.activeMenu &&
@@ -36,12 +38,12 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 		}
 	};
 
-	checkboxClicked = (event, name) => {
-		if (event.target.checked) {
+	checkboxClicked = ({ isChecked, id: name }: EventCheckbox): void => {
+		if (isChecked) {
 			this.props.setState({ errorUserChecked: false });
 		}
 		const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
-		if (event.target.checked && !listOfUsers.includes(name)) {
+		if (isChecked && !listOfUsers.includes(name)) {
 			listOfUsers.push(name);
 		} else {
 			const index = listOfUsers.indexOf(name);
@@ -51,7 +53,8 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 		}
 		this.props.callback.updateNative("usersInGroup." + this.state.activeMenu, listOfUsers);
 	};
-	render() {
+
+	render(): React.ReactNode {
 		return (
 			<div className="TeleGrammUserCard-content">
 				<div className="TelegramUserCard-User">
@@ -59,10 +62,10 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 					<Checkbox
 						class="TelegramUserCard-checkbox"
 						id={this.props.name}
-						callbackValue="event"
 						callback={this.checkboxClicked.bind(this)}
 						isChecked={this.isUserChecked()}
-					></Checkbox>
+						index={0}
+					/>
 				</div>
 				<p className="TelegramUserCard-ChatID">
 					ChatID :<span className="TelegramUserCard-ChatID">{this.props.chatID}</span>

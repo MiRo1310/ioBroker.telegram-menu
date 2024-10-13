@@ -1,7 +1,8 @@
 import TelegramMenu from "../main";
 import { deleteMessageByBot } from "./botAction";
-import { getChatID } from "./utilities";
 import { error } from "./logging";
+import { UserListWithChatId, WhatShouldDelete } from "./telegram-menu";
+import { getChatID } from "./utilities";
 
 interface Messages {
 	[key: string]: MessageInfos[];
@@ -16,7 +17,7 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
 	const _this = TelegramMenu.getInstance();
 	try {
 		let requestMessageId: Messages = {};
-		let requestMessageIdObj = null;
+		let requestMessageIdObj: ioBroker.State | null | undefined = null;
 		if (!isDeleting) {
 			requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
 		}
@@ -29,7 +30,7 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
 			return;
 		}
 
-		requestMessageId = requestMessageIdObj && requestMessageIdObj.val ? JSON.parse(requestMessageIdObj.val.toString()) : {};
+		requestMessageId = requestMessageIdObj?.val ? JSON.parse(requestMessageIdObj?.val.toString()) : {};
 
 		if (!requestMessageId[requestUserIdObj.val.toString()]) {
 			requestMessageId[requestUserIdObj.val.toString()] = [];
@@ -102,4 +103,4 @@ async function deleteMessageIds(
 	}
 }
 
-export { saveMessageIds, deleteMessageIds };
+export { deleteMessageIds, saveMessageIds };

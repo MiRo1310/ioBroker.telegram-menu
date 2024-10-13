@@ -158,7 +158,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
         let res;
         if (text2.includes("{common.name}")) {
           res = await _this2.getForeignObjectAsync(id);
-          _this2.log.debug("Name " + JSON.stringify(res.common.name));
+          _this2.log.debug("Name " + JSON.stringify(res == null ? void 0 : res.common.name));
           if (res && res.common.name) {
             newText = newText.replace("{common.name}", res.common.name);
           }
@@ -263,9 +263,9 @@ function generateActions(action, userObject) {
     const listOfSetStateIds = [];
     action.set.forEach(function(element, key) {
       if (key == 0) {
-        userObject[element.trigger] = { switch: [] };
+        userObject[element.trigger[0]] = { switch: [] };
       }
-      userObject[element.trigger] = { switch: [] };
+      userObject[element.trigger[0]] = { switch: [] };
       element.IDs.forEach(function(id, index) {
         var _a;
         listOfSetStateIds.push(id);
@@ -278,24 +278,24 @@ function generateActions(action, userObject) {
         }
         const newObj = {
           id: element.IDs[index],
-          value: value2,
+          value: value2.toString(),
           toggle,
           confirm: element.confirm[index],
           returnText: element.returnText[index],
-          ack: element.ack ? element.ack[index] : false,
-          parse_mode: element.parse_mode ? element.parse_mode[0] : false
+          ack: element.ack ? element.ack[index] : "false",
+          parse_mode: element.parse_mode ? element.parse_mode[0] : "false"
         };
-        if (userObject[element.trigger] && ((_a = userObject[element.trigger]) == null ? void 0 : _a.switch)) {
-          userObject[element.trigger].switch.push(newObj);
+        if (userObject[element.trigger[0]] && ((_a = userObject[element.trigger[0]]) == null ? void 0 : _a.switch)) {
+          userObject[element.trigger[0]].switch.push(newObj);
         }
       });
     });
     arrayOfEntries.forEach((item2) => {
       if (action[item2.objName]) {
         action[item2.objName].forEach(function(element, index) {
-          userObject[element.trigger] = { [item2.name]: [] };
+          userObject[element.trigger[0]] = { [item2.name]: [] };
           if (index == 0) {
-            userObject[element.trigger] = { [item2.name]: [] };
+            userObject[element.trigger[0]] = { [item2.name]: [] };
           }
           element[item2.loop].forEach(function(id, key) {
             const newObj = {};
@@ -307,10 +307,7 @@ function generateActions(action, userObject) {
               if (!element[value2]) {
                 val2 = false;
               } else {
-                val2 = element[value2][newKey];
-              }
-              if (val2 == void 0) {
-                val2 = "false";
+                val2 = element[value2][newKey] || "false";
               }
               if (elementItem.type == "text" && typeof val2 === "string") {
                 newObj[name] = val2.replace(/&amp;/g, "&");

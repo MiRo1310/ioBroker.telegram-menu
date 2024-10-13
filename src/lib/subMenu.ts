@@ -7,13 +7,33 @@ import { deleteMessageIds } from "./messageIds";
 import { dynamicSwitch } from "./dynamicSwitch";
 import { debug } from "./logging";
 import { error } from "console";
+import {
+	SetStateIds,
+	SplittedData,
+	SplitText,
+	DeleteMessageIds,
+	SetDynamicValueType,
+	CreateSubmenuPercent,
+	ArrayOfEntriesDynamicSwitch,
+	Keyboard,
+	SetFirstMenuValue,
+	SetSecondMenuValue,
+	CreateSubmenuNumber,
+	CreateSwitchMenu,
+	SetValueForSubmenuPercent,
+	SetValueForSubmenuNumber,
+	BackMenuType,
+	NewObjectNavStructure,
+	UserListWithChatId,
+	Part,
+} from "./telegram-menu";
 
 let step = 0;
 let returnIDToListenTo: SetStateIds[] = [];
 let splittedData: SplittedData = [];
 
 const splitText = (obj: SplitText): { callbackData: string; device: string; val: string } => {
-	let splittedText = [];
+	let splittedText: string[] = [];
 	if (obj.calledValue.includes('"')) {
 		splittedText = obj.calledValue.split(`"`)[1].split(":");
 	} else {
@@ -148,7 +168,7 @@ const createSubmenuNumber = (obj: CreateSubmenuNumber): { text: string | undefin
 	}
 	const splittedData = callbackData.replace("number", "").split("-");
 	let rowEntries = 0;
-	let menu = [];
+	let menu: { text: string; callback_data: string }[] = [];
 	const keyboard = {
 		inline_keyboard: [] as any[],
 	};

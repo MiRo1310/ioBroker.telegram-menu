@@ -1,36 +1,25 @@
-import React, { Component } from "react";
+import AppContentHeader from "@/pages/AppContentHeader";
+import AppContentTab from "@/pages/AppContentTab";
+import AppContentTabsListing from "@/pages/AppContentTabsListing";
 import { TabContext } from "@mui/lab";
-import { Grid, Box } from "@mui/material";
-import TabListing from "@/pages/AppContentTabsListing";
-import MainActions from "@/pages/AppContentHeader";
-import Tabs from "@/pages/AppContentTab";
-import { Properties } from "csstype";
+import { Box, Grid } from "@mui/material";
 import { PropsMainContent } from "admin/app";
+import React, { Component } from "react";
 
-class MainContent extends Component<PropsMainContent> {
-	constructor(props) {
+class AppContent extends Component<PropsMainContent> {
+	constructor(props: PropsMainContent) {
 		super(props);
 		this.state = {};
 	}
-	tabBox: Properties<string | number, string> = {
-		display: "flex",
-		flexDirection: "column",
-		height: "calc(100vh - 112px)",
-	};
 
-	render() {
+	render(): React.ReactNode {
 		return (
-			<Grid item xs={12} className="App-main-content">
-				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="Tab-Box" style={this.tabBox}>
-					<TabContext value={this.props.state.tab}>
-						<TabListing callback={this.props.callback} />
-						<MainActions tab={this.props.state.tab} data={this.props.data} callback={this.props.callback} />
-						<Tabs
-							callback={this.props.callback}
-							adapterName={this.props.adapterName}
-							socket={this.props.socket}
-							state={this.props.state}
-						/>
+			<Grid item xs={12} className="app__content">
+				<Box component="div" sx={{ width: "100%", typography: "body1" }} className="app__box">
+					<TabContext value={this.props.data.state.tab}>
+						<AppContentTabsListing callback={this.props.callback} />
+						<AppContentHeader data={this.props.data} callback={this.props.callback} />
+						<AppContentTab callback={this.props.callback} data={this.props.data} />
 					</TabContext>
 				</Box>
 			</Grid>
@@ -38,4 +27,4 @@ class MainContent extends Component<PropsMainContent> {
 	}
 }
 
-export default MainContent;
+export default AppContent;

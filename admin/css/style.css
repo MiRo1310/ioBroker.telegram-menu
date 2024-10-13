@@ -1,3 +1,12 @@
+@import "./input.css";
+@import "./edit-container.css";
+@import "./button.css";
+@import "./editor-header.css";
+@import "./table.css";
+@import "./textarea.css";
+@import "./app-content.css";
+@import "./row-editor.css";
+
 body {
 	height: 100vh;
 	overflow: auto;
@@ -132,11 +141,7 @@ img[alt="logo"] {
 .HeaderMenu-GridContainer {
 	font-size: 0.8rem;
 }
-.HeaderMenu-GridContainer input {
-	margin-top: 0 !important;
-	margin-left: 0 !important;
-	font-size: 0.8rem !important;
-}
+
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
 	display: inline-block;
@@ -187,9 +192,7 @@ img[alt="logo"] {
 }
 /* get mistake */
 /* Grid Main Content */
-.App-main-content {
-	padding-top: 0 !important;
-}
+
 div.MuiTabPanel-root {
 	overflow: hidden;
 	flex-grow: 1;
@@ -201,10 +204,7 @@ div.MuiTabPanel-root {
 
 /* NavigationMenu */
 /* Table ist in Allgemein */
-.dark th,
-.blue th {
-	color: black;
-}
+
 .MenuNavigation-Container .startSideActive {
 	background-color: #96d15a !important;
 }
@@ -217,11 +217,6 @@ div.MuiTabPanel-root {
 .MenuNavigation-Container .textSubmenuInfo {
 	font-size: 1rem;
 	font-weight: 900;
-}
-
-.dark .MenuNavigation-Container table tbody tr:first-child td,
-.blue .MenuNavigation-Container table tbody tr:first-child td {
-	color: black !important;
 }
 
 .MenuNavigation-Container,
@@ -276,9 +271,6 @@ div.MuiTabPanel-root {
 	border: none;
 	border-bottom: 1px solid #aaa;
 }
-.Settings input[type="checkbox"] {
-	margin-left: 8px;
-}
 
 /* DialogContainer */
 
@@ -331,49 +323,7 @@ div.MuiTabPanel-root {
 .blue .DialogContainer {
 	background-color: rgb(34, 42, 46) !important;
 }
-.DialogContainer .DialogContainer-Footer button[disabled] {
-	opacity: 0.5 !important;
-}
-.DialogContainer button[name="ok"] {
-	background-color: #3399cc !important;
-	color: white !important;
-	opacity: 1 !important;
-}
-.DialogContainer button[name="ok"]:not([disabled]):hover {
-	background-color: rgb(35, 107, 142) !important;
-	transition: background-color 0.5s ease;
-}
-.DialogContainer button[name="cancel"] {
-	background-color: #cdcdcd !important;
-	color: black !important;
-	opacity: 1 !important;
-}
-.light .DialogContainer button[name="cancel"]:not([disabled]),
-.colored .DialogContainer button[name="cancel"]:not([disabled]) {
-	background-color: #aaa !important;
-	transition: background-color 0.5s ease;
-}
-.dark .DialogContainer button[name="cancel"]:not([disabled]) {
-	background-color: #555 !important;
-	color: white !important;
-	border: 2px solid #ddd !important;
-}
-.blue .DialogContainer button[name="cancel"]:not([disabled]) {
-	background-color: rgb(62, 68, 72) !important;
-	color: white !important;
-	border: 2px solid #ddd !important;
-}
 
-.light .DialogContainer button[name="cancel"]:hover,
-.colored .DialogContainer button[name="cancel"]:hover {
-	background-color: #aaa !important;
-	transition: background-color 0.5s ease;
-}
-.dark .DialogContainer button[name="cancel"]:hover,
-.blue .DialogContainer button[name="cancel"]:hover {
-	background-color: #333 !important;
-	transition: background-color 0.5s ease;
-}
 .DialogContainer select {
 	color: #3399cc;
 	width: 200px;
@@ -468,13 +418,7 @@ div.MuiTabPanel-root {
 	margin-left: 0.5% !important;
 	margin-top: 0 !important;
 }
-.HelperText .Textarea-Container textarea {
-	box-sizing: border-box;
-	margin-top: 20px !important;
-	background-color: #eee;
-	padding: 10px !important;
-	margin-bottom: 10px !important;
-}
+
 .HelperCard-BtnSearch {
 	position: absolute;
 	margin-left: 8px !important;
@@ -492,71 +436,16 @@ div.MuiTabPanel-root {
 }
 
 /* Edit cards */
-.Edit-Container p {
-	font-size: 0.8rem;
-	color: #777;
-	margin: 0 !important;
-}
-.Edit-Container input {
-	box-sizing: border-box;
-	font-size: 0.9rem !important;
-	margin: 0 !important;
 
-	padding-left: 5px !important;
-	border-color: black !important;
-}
-.colored .Edit-Container input,
-.light .Edit-Container input {
-	background-color: #eee !important;
-}
-/* .blue .Edit-Container input,
-.dark .Edit-Container input {
-	background-color: #555 !important;
-} */
-.Edit-Container-Trigger {
-	margin-left: 20px;
-	margin-bottom: 30px;
-	display: inline-block;
-}
-.Edit-Container-ParseMode {
-	display: inline-block;
-	margin-left: 100px;
-}
-
-.Edit-Container .Input-Container {
-	margin-left: 8px;
-	display: inline-block;
-}
-
-.Edit-Container input[type="checkbox"] {
-	margin-left: 8px;
-}
-.Edit-Container input[type="checkbox"]:checked {
-	color: #96d15a;
-	accent-color: rgb(33, 150, 243);
-}
-.Edit-Container .Edit-Container-TableContainer {
-	max-height: 330px;
-}
 .RenameCard .Input-Container {
 	display: block !important;
 	margin-left: auto !important;
 	margin-right: auto !important;
 }
-.RenameCard input {
-	text-align: center;
-}
 
 .cellIcon {
 	padding: 1px !important;
 	width: 35px !important;
-}
-tr td:last-child button {
-	margin-right: 6px !important;
-}
-
-.checkbox {
-	width: 60px;
 }
 
 .MenuHeader-ActiveMenu {
@@ -578,71 +467,7 @@ label p {
 	color: #777;
 	/* margin-left: px; */
 }
-/* Table */
-.MuiTableHead-root tr th {
-	background-color: #3399cc !important;
-}
-.Tab-Box table th {
-	padding: 5px 5px 2px 5px;
-	top: 0;
-}
-.TableDndAction-Body {
-	width: 95% !important;
-}
 
-table {
-	border-collapse: collapse !important;
-	width: calc(100% - 0) !important;
-}
-
-tr[draggable="true"] {
-	cursor: grab;
-	padding-right: 10px !important;
-	margin-right: 10px;
-}
-
-tr[draggable="true"]:hover {
-	background-color: rgba(51, 153, 204, 0.5) !important;
-}
-tr[draggable="true"] span,
-tr[draggable="true"] input {
-	cursor: text;
-	user-select: text; /* Standard */
-	-moz-user-select: text; /* Firefox */
-	-webkit-user-select: text; /* Safari */
-	-ms-user-select: text; /* Internet Explorer/Edge */
-	/* padding: 5px 0; */
-}
-tr[draggable="true"] span::selection {
-	background-color: #96d15a;
-	color: white;
-}
-
-tr[draggable="true"] span i {
-	cursor: pointer;
-}
-
-tr td {
-	padding: 2px 5px !important;
-	font-size: 0.8rem !important;
-}
-.light tr:not(.SubTable):nth-child(even),
-.colored tr:not(.SubTable):nth-child(even) {
-	background-color: #eee;
-}
-.dark tr:not(.SubTable):nth-child(even) {
-	background-color: #333;
-}
-.light tr:not(.SubTable):nth-child(odd),
-.colored tr:not(.SubTable):nth-child(odd) {
-	background-color: #fff;
-}
-.dark tr:not(.SubTable):nth-child(odd) {
-	background-color: #555;
-}
-.blue tr:not(.SubTable):nth-child(odd) {
-	background-color: rgb(62, 68, 72);
-}
 /* Button */
 
 button {
@@ -672,6 +497,7 @@ button {
 .blue .Btn-Expand span {
 	color: white !important;
 }
+
 button.buttonTrue,
 button.buttonFalse {
 	border-radius: 5px;
@@ -682,6 +508,7 @@ button.buttonFalse {
 }
 button.buttonTrue i,
 button.buttonFalse i {
+	margin-top: 2px;
 	font-size: 1.2rem;
 	text-align: center;
 }
@@ -699,7 +526,9 @@ button.buttonFalse {
 	background-color: #ff0033 !important;
 	color: #333;
 }
+
 /* Select */
+
 .dark select {
 	background-color: #333 !important;
 	color: white !important;
@@ -711,55 +540,11 @@ button.buttonFalse {
 	border: 2px solid #aaa !important;
 }
 
-.inUse,
-.inUse input {
-	color: red !important;
-	border-color: red !important;
-}
 p.inUse {
 	position: absolute;
 	top: 60px;
 	left: 5px;
 }
-.dark input,
-.blue input {
-	background-color: inherit;
-	color: white;
-	border-bottom: 1px solid white !important;
-}
-.dark .HeaderMenu-GridContainer input:hover,
-.blue .HeaderMenu-GridContainer input:hover {
-	border-width: 2px !important;
-}
-
-input ~ p {
-	margin-left: 5px !important;
-}
-input ~ p {
-	margin-top: 0px !important;
-	display: block;
-}
-input:focus {
-	outline: none;
-}
-
-input:disabled {
-	opacity: 0.3;
-}
-
-/* checkbox */
-input[type="checkbox"] {
-	width: 20px;
-	height: 20px;
-	margin-bottom: 0;
-	vertical-align: text-bottom;
-	cursor: pointer !important;
-}
-
-input[type="checkbox"]:checked {
-	accent-color: rgb(33, 150, 243);
-}
-
 .Select span {
 	display: block;
 	margin-left: 5px;
@@ -817,9 +602,7 @@ input[type="checkbox"]:checked {
 .TelegramUserCard-content > div.Checkbox {
 	display: inline !important;
 }
-.TelegramUserCard-checkbox input[type="checkbox"] {
-	margin-bottom: 0px;
-}
+
 .TelegramUserCard-ChatID {
 	font-size: 0.7rem;
 }
@@ -954,7 +737,7 @@ span[title],
 .inactive {
 	background-color: #ff0033;
 }
-.menuDespription {
+.menuDescription {
 	margin: 2px 0 4px 0;
 	text-decoration: underline;
 	font-size: 0.8rem;
@@ -975,7 +758,16 @@ span[title],
 .cursoerPointer {
 	cursor: pointer;
 }
-.buttonHover:hover {
-	border: 3px solid rgb(103, 103, 103) !important;
-	opacity: 0.8 !important;
+
+.PopupContainer__copy .DialogContainer {
+	width: 100% !important;
+	height: 100% !important;
+	top: 52rem !important;
+	margin-left: 0.9rem;
+	cursor: default;
+}
+.editor__modal_container {
+	margin-top: 4rem;
+	margin-left: 2rem;
+	margin-right: 2rem;
 }

@@ -7,9 +7,10 @@ import TableNavHelper from "@/pages/AppContentTabNavigationTableHelper";
 
 import { deepCopy } from "@/lib/Utils.js";
 import { RowsNav, PropsTabNavigation, StateTabNavigation } from "admin/app";
+import { EventButton } from "../types/event";
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
-	constructor(props) {
+	constructor(props: PropsTabNavigation) {
 		super(props);
 		this.state = {
 			rowPopup: false,
@@ -27,7 +28,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			text: "",
 		};
 	}
-	componentDidUpdate(_, prevState) {
+	componentDidUpdate(prevProps: Readonly<PropsTabNavigation>, prevState: Readonly<StateTabNavigation>): void {
 		if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
 			if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
 				if (this.state.editedValueFromHelperText !== "") {
@@ -39,7 +40,8 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 			this.checkValueAlreadyUsed();
 		}
 	}
-	checkValueAlreadyUsed = () => {
+
+	checkValueAlreadyUsed = (): void => {
 		// Row.call darf ab jetzt leer oder auch nur ein - sein um es zu deaktivieren. Das Value darf ab jetzt auch leer sein.
 		if (this.state.newRow.text !== "") {
 			if (this.state.editRow) {
@@ -63,7 +65,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 	};
 
-	checkNewValueIsOK = () => {
+	checkNewValueIsOK = (): boolean => {
 		if (
 			this.state.editedValueFromHelperText !== null &&
 			this.state.editedValueFromHelperText !== undefined &&
@@ -76,24 +78,12 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 	};
 
-	changeInput = (data) => {
-		const copyNewRow = deepCopy(this.state.newRow);
-		if (data.id) {
-			copyNewRow[data.id] = data.val.toString();
-		} else {
-			Object.keys(data).forEach((key) => {
-				copyNewRow[key] = data[key];
-			});
-		}
-		this.setState({ newRow: copyNewRow });
-	};
-	popupRowCard = (isOK) => {
-		if (!isOK) {
-			this.setState({ rowPopup: false });
-			this.setState({ editRow: false });
+	popupRowCard = ({ value }: EventButton): void => {
+		if (!value) {
+			this.setState({ rowPopup: false, editRow: false });
 			return;
 		}
-		const dataCopy = JSON.parse(JSON.stringify(this.props.data.data));
+		const dataCopy = JSON.parse(JSON.stringify(this.props.data.state.native.data));
 		const navUserArray = dataCopy.nav[this.props.data.state.activeMenu];
 		if (this.state.editRow) {
 			navUserArray.splice(this.state.rowIndex, 1, this.state.newRow);
@@ -102,47 +92,45 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		}
 		dataCopy.nav[this.props.data.state.activeMenu] = navUserArray;
 		this.props.callback.updateNative("data", dataCopy);
-		this.setState({ rowPopup: false });
-		this.setState({ editRow: false });
+		this.setState({ rowPopup: false, editRow: false });
 	};
-	openAddRowCard = (value) => {
-		if (value) {
-			this.setState({ rowIndex: value });
+
+	openAddRowCard = ({ index }: EventButton): void => {
+		if (index) {
+			this.setState({ rowIndex: index });
 		}
 		const obj = {} as RowsNav;
-		this.props.entries.forEach((entry) => {
+		this.props.data.entries.forEach((entry) => {
 			obj[entry.name] = entry.val;
 		});
 		this.setState({ newRow: obj, rowPopup: true });
 	};
 
-	popupHelperCard = (isOK) => {
+	popupHelperCard = (isOK: boolean): void => {
 		if (isOK) {
 			const copyNewRow = deepCopy(this.state.newRow);
+			if (!copyNewRow) {
+				return;
+			}
 			const name = this.state.helperTextFor;
 			copyNewRow[name] = this.state.editedValueFromHelperText;
 			this.setState({ newRow: copyNewRow });
 		}
-		this.setState({ helperText: false });
-		this.setState({ editedValueFromHelperText: null });
+		this.setState({ helperText: false, editedValueFromHelperText: null });
 	};
-
-	render() {
+	render(): React.ReactNode {
 		return (
 			<>
 				<TableContainer component={Paper} className="MenuNavigation-Container">
 					<Table stickyHeader aria-label="sticky table">
-						<TabNavHeader entries={this.props.entries} />
+						<TabNavHeader entries={this.props.data.entries} />
 						<TableNavBody
-							tableData={this.props.data.nav}
 							data={this.props.data}
 							callback={this.props.callback}
 							card={"nav"}
 							showButtons={{ add: true, remove: true, edit: true }}
 							openAddRowCard={this.openAddRowCard}
 							setState={this.setState.bind(this)}
-							activeMenu={this.props.data.state.activeMenu}
-							entries={this.props.entries}
 						/>
 					</Table>
 				</TableContainer>
@@ -151,7 +139,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 						state={this.state}
 						setState={this.setState.bind(this)}
 						data={this.props.data}
-						entries={this.props.entries}
+						entries={this.props.data.entries}
 						popupRowCard={this.popupRowCard}
 					/>
 				) : null}
