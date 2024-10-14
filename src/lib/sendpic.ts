@@ -17,13 +17,14 @@ function sendPic(
 	timeouts: Timeouts[],
 	timeoutKey: string,
 ): Timeouts[] {
-	part.sendPic?.forEach((element) => {
-		const _this = TelegramMenu.getInstance();
-		let path = "";
-		if (element.id != "-") {
-			const url = element.id;
-			const newUrl = replaceAll(url, "&amp;", "&");
-			try {
+	try {
+		part.sendPic?.forEach((element) => {
+			const _this = TelegramMenu.getInstance();
+			let path = "";
+			if (element.id != "-") {
+				const url = element.id;
+				const newUrl = replaceAll(url, "&amp;", "&");
+
 				exec(
 					`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
 					(error: any, stdout: any, stderr: any) => {
@@ -39,21 +40,15 @@ function sendPic(
 						}
 					},
 				);
-			} catch (e: any) {
-				error([
-					{ text: "Error:", val: e.message },
-					{ text: "Stack:", val: e.stack },
-				]);
+
+				debug([{ text: "Delay Time:", val: element.delay }]);
+				timeoutKey += 1;
+				path = `${directoryPicture}${element.fileName}`;
+				debug([{ text: "Path : ", val: path }]);
+			} else {
+				return;
 			}
 
-			debug([{ text: "Delay Time:", val: element.delay }]);
-			timeoutKey += 1;
-			path = `${directoryPicture}${element.fileName}`;
-			return;
-		}
-
-		try {
-			path = element.fileName;
 			const timeout = _this.setTimeout(async () => {
 				sendToTelegram(userToSend, path, undefined, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
 				let timeoutToClear: Timeouts[] = [];
@@ -63,19 +58,20 @@ function sendPic(
 				});
 
 				timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+				debug([{ text: "Picture sended" }]);
 			}, parseInt(element.delay));
 
 			if (timeout) {
 				timeouts.push({ key: timeoutKey, timeout: timeout });
 			}
-		} catch (e: any) {
-			error([
-				{ text: "Error:", val: e.message },
-				{ text: "Stack:", val: e.stack },
-			]);
-		}
-	});
-	debug([{ text: "Picture sended" }]);
+		});
+		return timeouts;
+	} catch (e: any) {
+		error([
+			{ text: "Error:", val: e.message },
+			{ text: "Stack:", val: e.stack },
+		]);
+	}
 	return timeouts;
 }
 

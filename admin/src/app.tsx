@@ -19,11 +19,11 @@ import { TelegramMenuApp } from "./types/props-types";
 
 class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.AdditionalState> {
 	dropBoxRef: Dropbox.Ref;
-	constructor(props: any) {
+	constructor(props: TelegramMenuApp.AdditionalProps) {
 		const extendedProps: TelegramMenuApp.ExtendedProps = {
 			...props,
 			encryptedFields: [],
-			Connection: AdminConnection,
+			Connection: {} as AdminConnection,
 			translations: {
 				en: require("../../admin/i18n/en/translations.json"),
 				de: require("../../admin/i18n/de/translations.json"),
