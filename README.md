@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   FIX: #191 No picture can be send
 -   FEAT: #175 Copy function in Action, Renamed Switch to Toggle
 -   FIX: #176 Error in setDynamic value
 -   FIX: #181 Required values in setState

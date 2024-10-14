@@ -34,13 +34,13 @@ var import_logging = require("./logging");
 var import_main = __toESM(require("../main"));
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
-  (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
-    const _this = import_main.default.getInstance();
-    let path = "";
-    if (element.id != "-") {
-      const url = element.id;
-      const newUrl = (0, import_utilities.replaceAll)(url, "&amp;", "&");
-      try {
+  try {
+    (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
+      const _this = import_main.default.getInstance();
+      let path = "";
+      if (element.id != "-") {
+        const url = element.id;
+        const newUrl = (0, import_utilities.replaceAll)(url, "&amp;", "&");
         (0, import_child_process.exec)(
           `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
           (error2, stdout, stderr) => {
@@ -56,19 +56,12 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
             }
           }
         );
-      } catch (e) {
-        (0, import_logging.error)([
-          { text: "Error:", val: e.message },
-          { text: "Stack:", val: e.stack }
-        ]);
+        (0, import_logging.debug)([{ text: "Delay Time:", val: element.delay }]);
+        timeoutKey += 1;
+        path = `${directoryPicture}${element.fileName}`;
+      } else {
+        return;
       }
-      (0, import_logging.debug)([{ text: "Delay Time:", val: element.delay }]);
-      timeoutKey += 1;
-      path = `${directoryPicture}${element.fileName}`;
-      return;
-    }
-    try {
-      path = element.fileName;
       const timeout = _this.setTimeout(async () => {
         (0, import_telegram.sendToTelegram)(userToSend, path, void 0, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
         let timeoutToClear = [];
@@ -77,18 +70,19 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
           clearTimeout(item.timeout);
         });
         timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+        (0, import_logging.debug)([{ text: "Picture sended" }]);
       }, parseInt(element.delay));
       if (timeout) {
         timeouts.push({ key: timeoutKey, timeout });
       }
-    } catch (e) {
-      (0, import_logging.error)([
-        { text: "Error:", val: e.message },
-        { text: "Stack:", val: e.stack }
-      ]);
-    }
-  });
-  (0, import_logging.debug)([{ text: "Picture sended" }]);
+    });
+    return timeouts;
+  } catch (e) {
+    (0, import_logging.error)([
+      { text: "Error:", val: e.message },
+      { text: "Stack:", val: e.stack }
+    ]);
+  }
   return timeouts;
 }
 // Annotate the CommonJS export names for ESM import in node:
