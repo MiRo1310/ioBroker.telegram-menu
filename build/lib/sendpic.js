@@ -59,6 +59,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
         (0, import_logging.debug)([{ text: "Delay Time:", val: element.delay }]);
         timeoutKey += 1;
         path = `${directoryPicture}${element.fileName}`;
+        (0, import_logging.debug)([{ text: "Path : ", val: path }]);
       } else {
         return;
       }
