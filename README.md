@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+-   FIX: Adapter ui cannot be loaded
+
 ### 2.1.0 (2024-10-15)
 
 -   FIX: #191 No picture can be send

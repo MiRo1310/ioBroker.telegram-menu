@@ -19,11 +19,12 @@ import { TelegramMenuApp } from "./types/props-types";
 
 class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.AdditionalState> {
 	dropBoxRef: Dropbox.Ref;
-	constructor(props: TelegramMenuApp.AdditionalProps) {
+	/* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types */
+	constructor(props: any) {
 		const extendedProps: TelegramMenuApp.ExtendedProps = {
 			...props,
 			encryptedFields: [],
-			Connection: {} as AdminConnection,
+			Connection: AdminConnection,
 			translations: {
 				en: require("../../admin/i18n/en/translations.json"),
 				de: require("../../admin/i18n/de/translations.json"),
@@ -43,7 +44,6 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
 		this.state = {
 			...this.state,
 			native: {} as Native,
-			// data: {},
 			tab: "nav",
 			subTab: "set",
 			draggingRowIndex: null,
