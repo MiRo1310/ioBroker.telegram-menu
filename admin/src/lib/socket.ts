@@ -31,11 +31,18 @@ function getAllTelegramInstances(socket: socket, callback: (val: string[]) => vo
 
 	function isAdapterTelegram(objects: Record<string, ioBroker.InstanceObject & { type: "instance" }>, obj: string): boolean {
 		const titleLang = objects?.[obj]?.common?.titleLang;
+		if (objects[obj].common.title === "Telegram") {
+			return true;
+		}
 		if (!titleLang) {
 			return false;
 		}
-		return typeof titleLang === "object" && "en" in titleLang && titleLang.en === "Telegram";
+
+		return isInLanguage(["en", "de"], titleLang);
 	}
+}
+function isInLanguage(val: string[], titleLang: ioBroker.StringOrTranslated): boolean {
+	return val.some((lang) => typeof titleLang === "object" && lang in titleLang && titleLang[lang] === "Telegram");
 }
 
 const getIobrokerData = {
