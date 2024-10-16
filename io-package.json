@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
+      "2.1.1": {
+        "en": "FIX: Adapter ui cannot be loaded",
+        "de": "FIX: Adapter ui kann nicht geladen werden",
+        "ru": "FIX: Адаптер ui не может быть загружен",
+        "pt": "FIX: Adaptador ui não pode ser carregado",
+        "nl": "FIX: Adapter ui kan niet geladen worden",
+        "fr": "FIX: Adaptateur ui ne peut pas être chargé",
+        "it": "FIX: Adattatore ui non può essere caricato",
+        "es": "FIX: Adaptador ui no se puede cargar",
+        "pl": "FIX: Adapter ui nie może być załadowany",
+        "uk": "FIX: Адаптер ui не завантажується",
+        "zh-cn": "FIX: 适应器 ui 无法装入"
+      },
       "2.1.0": {
         "en": "FIX: #191 No picture can be send\nFEAT: #175 Copy function in Action, Renamed Switch to Toggle\nFIX: #176 Error in setDynamic value\nFIX: #181 Required values in setState",
         "de": "FIX: #191 Kein Bild kann gesendet werden\nFEAT: #175 Kopieren Funktion in Aktion, Umbenannt Umschalten in Toggle\nFIX: #176 Fehler in setDynamic Wert\nFIX: #181 Erforderliche Werte in setState",
@@ -80,19 +93,6 @@
         "pl": "Fix: Usuń wiadomości\nFix: Dodaj nowy wiersz w akcji\nFix: Wartość błędu setState \". zawiera nie jest funkcją\"\n# 144 Dodaj nową funkcję w setState: Teraz jest możliwe ustawienie wartości statycznej z dynamiczną wartością z id",
         "uk": "Виправлення: Видалити повідомлення\nВиправлення: Додати новий ряд в дії\nВиправлення: Помилка setState \"value. включає не функцію\n#144 Додати нову функцію в setState: Тепер можна встановити статичну вартість з динамічним значенням від id",
         "zh-cn": "修正: 删除信件\n修正: 在动作中添加新行\nFix: 错误设置状态\"值 。 包含不是一个函数\"\n144号 在设置状态中添加新特性: 现在可以从 id 中设置一个具有动态值的静态值"
-      },
-      "1.7.0": {
-        "en": "Switched to typescript",
-        "de": "Umgestellt in die Schrift",
-        "ru": "Переключение на типscript",
-        "pt": "Mudado para o typescript",
-        "nl": "Overgeschakeld naar typescript",
-        "fr": "Passé au dactylographié",
-        "it": "Passato alla scrittura",
-        "es": "Interruptor a tiposcript",
-        "pl": "Przełączono na maszynopis",
-        "uk": "Перемкнено до типу",
-        "zh-cn": "切换到打字符"
       }
     },
     "titleLang": {
