@@ -17,7 +17,7 @@ class Checkbox extends Component<PropsCheckbox> {
 					title={this.props.title ? I18n.t(this.props.title) : ""}
 					className={this.props.class}
 				/>
-				<p>{this.props.label}</p>
+				{this.props.label ? <span>{this.props.label}</span> : null}
 			</label>
 		);
 	}

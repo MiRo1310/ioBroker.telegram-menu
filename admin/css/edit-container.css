@@ -19,10 +19,6 @@
 	display: inline-block;
 }
 
-.edit__container .checkbox {
-	margin-top: 1rem !important;
-}
-
 .edit__container label p {
 	margin-left: 8px !important;
 }

@@ -272,9 +272,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 												<TableCell component="td" scope="row" align="left">
 													<span onMouseEnter={(e) => handleMouseOver(e)} onMouseLeave={(e) => handleMouseOut(e)}>
 														<Input
-															width="calc(100% - 50px)"
 															value={row.IDs}
-															margin="0px 2px 0 2px"
 															id="IDs"
 															index={indexRow}
 															callback={this.updateData}
@@ -299,19 +297,12 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 												!entry.checkbox && entry.name != "IDs" && entry.name != "trigger" ? (
 													<TableCell align="left" key={i}>
 														<Input
-															width={entry.search ? "calc(100% - 50px)" : "100%"}
 															value={typeof row[entry.name] === "string" ? row[entry.name].replace(/&amp;/g, "&") : ""}
-															margin="0px 2px 0 5px"
 															id={entry.name}
 															index={indexRow}
 															callback={this.updateData}
 															disabled={this.disableInput(entry.name, indexRow)}
 															type={entry.type}
-															inputWidth={
-																!entry.search || entry.name === "returnText" || entry.name === "text"
-																	? "calc(100% - 28px)"
-																	: ""
-															}
 															className="noneDraggable"
 															onMouseOver={handleMouseOver}
 															onMouseLeave={handleMouseOut}

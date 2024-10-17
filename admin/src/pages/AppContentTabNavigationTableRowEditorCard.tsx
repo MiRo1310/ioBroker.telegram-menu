@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Input from "../btn-Input/input";
-import { BtnCircleAdd } from "../btn-Input/btn-circle-add";
+import Input from "../components/btn-Input/input";
+import { BtnCircleAdd } from "../components/btn-Input/btn-circle-add";
 import { I18n } from "@iobroker/adapter-react-v5";
-import Checkbox from "../btn-Input/checkbox";
-import { isChecked } from "../../lib/Utils.js";
+import Checkbox from "../components/btn-Input/checkbox";
+import { isChecked } from "../lib/Utils.js";
 import { PropsRowNavCard } from "admin/app";
 
-class RowNavCard extends Component<PropsRowNavCard> {
+class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCard> {
 	constructor(props: PropsRowNavCard) {
 		super(props);
 		this.state = {};
@@ -19,9 +19,7 @@ class RowNavCard extends Component<PropsRowNavCard> {
 					!(entry.name == "value") && !(entry.name == "text") && !entry.checkbox ? (
 						<Input
 							key={i}
-							width={entry.editWidth ? entry.editWidth : "15%"}
 							value={this.props.newRow[entry.name]}
-							margin="0px 2px 0 5px"
 							id={entry.name}
 							callback={this.props.callback.onChangeInput}
 							callbackValue="event.target.value"
@@ -32,28 +30,23 @@ class RowNavCard extends Component<PropsRowNavCard> {
 						<Input
 							key={i}
 							value={this.props.newRow[entry.name]}
-							margin="0px 2px 0 2px"
 							id={entry.name}
 							callback={this.props.callback.onChangeInput}
 							callbackValue="event.target.value"
 							label={I18n.t(entry.headline)}
-							inputWidth="calc(100% - 28px)"
-							width={entry.editWidth ? entry.editWidth : "15%"} // Add the width prop here
 						>
 							<BtnCircleAdd callback={() => this.props.openHelperText(entry.name)} />
 						</Input>
 					) : (
 						<Checkbox
 							key={i}
-							width={entry.editWidth && typeof entry.editWidth === "string" ? entry.width : "5%"}
 							id={entry.name}
 							index={i}
+							class="checkbox__line"
 							callback={this.props.callback.onChangeCheckbox}
 							isChecked={isChecked(this.props.newRow[entry.name])}
 							obj={true}
 							label={I18n.t(entry.headline)}
-							marginLeft="8px"
-							marginTop="10px"
 						/>
 					),
 				)}
@@ -62,4 +55,4 @@ class RowNavCard extends Component<PropsRowNavCard> {
 	}
 }
 
-export default RowNavCard;
+export default AppContentTabNavigationTableRowEditorCard;

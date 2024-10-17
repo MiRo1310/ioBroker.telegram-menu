@@ -1,5 +1,5 @@
 import PopupContainer from "@/components/popupCards/PopupContainer";
-import RowNavCard from "@/components/popupCards/RowNavCard";
+import AppContentTabNavigationTableRowEditorCard from "@/pages/AppContentTabNavigationTableRowEditorCard";
 import React, { Component } from "react";
 
 import { deepCopy } from "@/lib/Utils.js";
@@ -63,7 +63,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
 				setState={this.props.setState.bind(this)}
 				isOK={this.props.state.valuesAreOk}
 			>
-				<RowNavCard
+				<AppContentTabNavigationTableRowEditorCard
 					callback={{ onChangeInput: this.changeInput, onChangeCheckbox: this.changeCheckbox }}
 					inUse={this.props.state.callInUse}
 					openHelperText={this.openHelperText}
