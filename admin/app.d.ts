@@ -169,7 +169,6 @@ export interface PropsCheckbox {
 	obj?: boolean;
 	index: number;
 	title?: string;
-	width?: string;
 	marginLeft?: string;
 	marginTop?: string;
 	class?: string;
@@ -216,9 +215,6 @@ export interface InputProps {
 	callback: SetStateFunction;
 	label?: string;
 	spellCheck?: boolean;
-	width?: string | number;
-	inputWidth?: string;
-	margin?: string;
 	class?: string;
 	children?: ReactNode;
 	index?: number;

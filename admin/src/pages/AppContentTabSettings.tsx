@@ -55,7 +55,6 @@ class Settings extends Component<PropsSettings> {
 							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="textNoEntry"
 							value={this.props.data.state.native.textNoEntry || I18n.t("entryNotFound")}
-							width="100%"
 						/>
 					</Grid>
 					<Grid item xs={8}>
@@ -97,7 +96,6 @@ class Settings extends Component<PropsSettings> {
 							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="tokenGrafana"
 							value={this.props.data.state.native.tokenGrafana}
-							width="100%"
 						/>
 					</Grid>
 					<Grid item xs={4}>
@@ -107,7 +105,6 @@ class Settings extends Component<PropsSettings> {
 							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
 							id="directory"
 							value={this.props.data.state.native.directory || "/opt/iobroker/grafana/"}
-							width="100%"
 						/>
 					</Grid>
 					<Grid item xs={8}>

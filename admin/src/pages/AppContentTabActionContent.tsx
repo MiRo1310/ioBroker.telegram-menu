@@ -119,26 +119,32 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 		this.setState({ rowPopup: true, rowIndexToEdit: index });
 	};
 
-	closeAddRowCard = ({ value: cbValue }: EventButton): void => {
-		const { native, activeMenu } = this.props.data.state;
-		const { value: subCard } = this.props.data.tab;
-		if (cbValue) {
-			const data = deepCopy(native.data);
-			if (!data) {
-				return;
-			}
-			if (!data.action[activeMenu][subCard]) {
-				data.action[activeMenu][subCard] = [];
-			}
-			if (this.state.editRow) {
-				data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit, 1, this.state.newRow);
-			} else {
-				data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit + 1, 0, this.state.newRow);
-			}
+	eventModalButtonClick = ({ value: saveData }: EventButton): void => {
+		if (saveData) {
+			this.saveData();
 		}
 		this.setState({ newUnUsedTrigger: null, rowPopup: false, editRow: false });
 		this.resetNewRow();
 	};
+
+	saveData(): void {
+		const { value: subCard } = this.props.data.tab;
+		const { native, activeMenu } = this.props.data.state;
+		const data = deepCopy(native.data);
+		if (!data) {
+			return;
+		}
+		if (!data.action[activeMenu][subCard]) {
+			data.action[activeMenu][subCard] = [];
+		}
+		if (this.state.editRow) {
+			data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit, 1, this.state.newRow);
+		} else {
+			data.action[activeMenu][subCard].splice(this.state.rowIndexToEdit + 1, 0, this.state.newRow);
+		}
+
+		this.props.callback.updateNative("data", data);
+	}
 
 	resetNewRow = (): void => {
 		const newRow = {} as ActionNewRowProps;
@@ -244,7 +250,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
 				)}
 				{this.state.rowPopup ? (
 					<PopupContainer
-						callback={this.closeAddRowCard}
+						callback={this.eventModalButtonClick}
 						width={this.props.data.tab.popupCard.width}
 						height={this.props.data.tab.popupCard.height}
 						title={this.props.data.tab.label}

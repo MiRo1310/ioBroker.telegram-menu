@@ -172,7 +172,6 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 				<Grid item xs={4}>
 					<Input
 						placeholder={I18n.t("addMenu")}
-						width="80%"
 						id="newMenuName"
 						value={this.state.newMenuName}
 						callback={({ val }: EventInput) => this.setState({ newMenuName: val as string })}
