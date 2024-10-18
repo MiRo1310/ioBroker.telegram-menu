@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
 import Button from "../components/btn-Input/button";
-import BtnCard from "./AppContentHeaderMenuButtons";
+import AppContentHeaderMenuButtons from "./AppContentHeaderMenuButtons";
 import MenuPopupCard from "./AppContentHeaderMenuPopupCard";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsHeaderMenu } from "admin/app";
@@ -35,7 +35,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
-				<Grid item xs={2}>
+				<Grid item xs={12} sm={6} xl={1}>
 					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="HeaderMenu-menuPopupCard Btn-Expand">
 						<Button
 							b_color="#fff"
@@ -62,9 +62,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 						</span>
 					</div>
 				</Grid>
-				<Grid item xs={10}>
-					<BtnCard callback={this.props.callback} data={this.props.data} />
-				</Grid>
+				<AppContentHeaderMenuButtons callback={this.props.callback} data={this.props.data} />
 			</Grid>
 		);
 	}
