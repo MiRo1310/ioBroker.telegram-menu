@@ -77,19 +77,12 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 						{this.isUserGroupLength() ? (
 							<span className="Btn-Expand">
 								<Button
-									b_color="#fff"
-									small="true"
-									margin="0 5px 0 20px"
-									border="1px solid black"
-									round="4px"
+									className="button__icon button__white"
 									id="expandTelegramUsers"
 									callback={this.updateMenuOpen}
+									disableButtonStyleByComponent={true}
 								>
-									{this.state.menuOpen ? (
-										<i className="material-icons">expand_more</i>
-									) : (
-										<i className="material-icons">chevron_right</i>
-									)}
+									<i className="material-icons">{this.state.menuOpen ? "expand_more" : "chevron_right"}</i>
 								</Button>
 							</span>
 						) : null}

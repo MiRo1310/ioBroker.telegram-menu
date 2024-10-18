@@ -52,3 +52,16 @@
 	align-items: end;
 	justify-content: center;
 }
+
+.button__icon {
+	width: 30px !important;
+	min-width: none !important;
+	height: 30px !important;
+	margin: 0 5px 0 5px !important;
+	border: 1px solid black !important;
+	border-radius: 6px !important;
+}
+.button__white {
+	background-color: white !important;
+	color: black !important;
+}

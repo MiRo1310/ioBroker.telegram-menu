@@ -1,4 +1,5 @@
-import { Dropbox, SetStateFunction } from "../../app";
+import { Dropbox, SetStateFunction } from "admin/app";
+
 
 const drag = { dragStartX: 0, dragStartY: 0, dragEndX: 0, dragEndY: 0 };
 

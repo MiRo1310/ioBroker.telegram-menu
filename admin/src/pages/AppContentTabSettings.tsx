@@ -57,7 +57,6 @@ class Settings extends Component<PropsSettings> {
 							value={this.props.data.state.native.textNoEntry || I18n.t("entryNotFound")}
 						/>
 					</Grid>
-
 					<Grid item xs={12} sm={12} lg={4}>
 						<Input
 							label={I18n.t("Token Grafana")}
