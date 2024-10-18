@@ -36,7 +36,7 @@ class Settings extends Component<PropsSettings> {
 			<div className="Settings">
 				<h1>{I18n.t("settings")}</h1>
 				<Grid container spacing={1}>
-					<Grid item xs={12}>
+					<Grid item sm={12}>
 						<Select
 							placeholder="placeholderInstance"
 							options={this.props.data.state.instances}
@@ -48,7 +48,7 @@ class Settings extends Component<PropsSettings> {
 							setNative={true}
 						/>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={12} lg={4}>
 						<Input
 							label={I18n.t("textNoEntry")}
 							placeholder="No entry found"
@@ -57,7 +57,26 @@ class Settings extends Component<PropsSettings> {
 							value={this.props.data.state.native.textNoEntry || I18n.t("entryNotFound")}
 						/>
 					</Grid>
-					<Grid item xs={8}>
+
+					<Grid item xs={12} sm={12} lg={4}>
+						<Input
+							label={I18n.t("Token Grafana")}
+							placeholder="Token Grafana"
+							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
+							id="tokenGrafana"
+							value={this.props.data.state.native.tokenGrafana}
+						/>
+					</Grid>
+					<Grid item xs={12} sm={12} lg={4}>
+						<Input
+							label={I18n.t("Directory")}
+							placeholder="/opt/iobroker/grafana/"
+							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
+							id="directory"
+							value={this.props.data.state.native.directory || "/opt/iobroker/grafana/"}
+						/>
+					</Grid>
+					<Grid item xs={12}>
 						<Checkbox
 							label={I18n.t("Active")}
 							id="checkboxNoValueFound"
@@ -66,7 +85,7 @@ class Settings extends Component<PropsSettings> {
 							index={0}
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12}>
 						<Checkbox
 							label="Resize Keyboard"
 							id="resKey"
@@ -77,7 +96,7 @@ class Settings extends Component<PropsSettings> {
 							index={1}
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12}>
 						<Checkbox
 							label="One Time Keyboard"
 							id="oneTiKey"
@@ -88,26 +107,7 @@ class Settings extends Component<PropsSettings> {
 							index={2}
 						/>
 					</Grid>
-					<Grid item xs={6}></Grid>
-					<Grid item xs={6}>
-						<Input
-							label={I18n.t("Token Grafana")}
-							placeholder="Token Grafana"
-							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
-							id="tokenGrafana"
-							value={this.props.data.state.native.tokenGrafana}
-						/>
-					</Grid>
-					<Grid item xs={4}>
-						<Input
-							label={I18n.t("Directory")}
-							placeholder="/opt/iobroker/grafana/"
-							callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
-							id="directory"
-							value={this.props.data.state.native.directory || "/opt/iobroker/grafana/"}
-						/>
-					</Grid>
-					<Grid item xs={8}>
+					<Grid item xs={12}>
 						<Checkbox
 							label={I18n.t("sendMenuAfterRestart")}
 							id="sendMenuAfterRestart"

@@ -453,11 +453,6 @@ button {
 	cursor: pointer;
 }
 
-.HeaderTelegramUser-Container .Btn-Expand {
-	position: absolute;
-	top: -35px;
-	left: -55px;
-}
 .dark .Btn-Expand button {
 	background-color: #555 !important;
 	border-color: #aaa !important;
@@ -544,7 +539,9 @@ p.inUse {
 .blue .Settings {
 	color: white;
 }
-
+.HeaderTelegramUsers-TelegramUserCard {
+	width: 100%;
+}
 .light .HeaderTelegramUsers-TelegramUserCard,
 .colored .HeaderTelegramUsers-TelegramUserCard {
 	background-color: #eee;
@@ -598,7 +595,9 @@ p.inUse {
 }
 
 .HeaderTelegramUser-Container {
-	position: relative;
+	display: flex;
+}
+.HeaderTelegramUser-Container .Btn-Expand {
 }
 span[title],
 .title {

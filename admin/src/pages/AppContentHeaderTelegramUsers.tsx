@@ -57,6 +57,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 			return true;
 		}
 	};
+	isUserGroupLength() {
+		return Object.keys(this.props.data.usersInGroup).length;
+	}
 
 	render(): React.ReactNode {
 		return (
@@ -70,9 +73,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 					) : null}
 				</Grid>
 				<Grid item lg={8} md={8} xs={8}>
-					<div className={"HeaderTelegramUser-Container"}>
-						{Object.keys(this.props.data.usersInGroup).length != 0 ? (
-							<div className={"Btn-Expand"}>
+					<div className="HeaderTelegramUser-Container">
+						{this.isUserGroupLength() ? (
+							<span className="Btn-Expand">
 								<Button
 									b_color="#fff"
 									small="true"
@@ -88,9 +91,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 										<i className="material-icons">chevron_right</i>
 									)}
 								</Button>
-							</div>
+							</span>
 						) : null}
-						{this.state.menuOpen && Object.keys(this.props.data.usersInGroup).length != 0 ? (
+						{this.state.menuOpen && this.isUserGroupLength() ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("telegramUser")}</p>
 								{this.props.data.state.native?.userListWithChatID.map((user, key) => {
