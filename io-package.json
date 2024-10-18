@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "news": {
+      "2.1.2": {
+        "en": "FIX: Different telegram instances cannot be selected\nFIX: Cannot set values in setState\nStyling",
+        "de": "FIX: Verschiedene Telegramminstanzen können nicht ausgewählt werden\nFIX: Nicht gesetzte Werte in setState\nStyling",
+        "ru": "FIX: Различные телеграммы не могут быть выбраны\nFIX: не может устанавливать значения в установленном состоянии\nСтиль",
+        "pt": "FIX: Diferentes instâncias de telegrama não podem ser selecionadas\nFIX: Não é possível definir valores no setState\nStyling",
+        "nl": "FIX: Er kunnen geen verschillende telegraminstellingen worden geselecteerd\nFIX: Kan waarden in setState niet instellen\nStyling",
+        "fr": "FIX : différentes instances télégrammes ne peuvent pas être sélectionnées\nFIX: Impossible de définir des valeurs dans setState\nStyle",
+        "it": "FIX: diverse istanze di telegramma non possono essere selezionate\nFIX: Non impostare i valori in setState\nStyling",
+        "es": "FIX: No se pueden seleccionar diferentes instancias de telegrama\nFIX: No se pueden establecer valores en el estado establecido\nStyling",
+        "pl": "FIX: Nie można wybrać różnych instancji telegraficznych\nFIX: Nie można ustawić wartości w setState\nStyling",
+        "uk": "FIX: Різні телеграми не можна вибрати\nFIX: Неможливо встановити значення в setState\nСтилінг",
+        "zh-cn": "FIX: 无法选择不同的电报实例\nFIX: 无法在设置状态中设置值\n样式"
+      },
       "2.1.1": {
         "en": "FIX: Adapter ui cannot be loaded",
         "de": "FIX: Adapter ui kann nicht geladen werden",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 158 Połączenie menu telegramowego\nFIX: # 155 DynSwitch",
         "uk": "FIX: #158 Телеграма-меню підключення\nFIX: #155 DynSwitch",
         "zh-cn": "FIX: #158 Telegram-菜单连接\nFIX: #155 DynSwitch 打开"
-      },
-      "1.7.1": {
-        "en": "Fix: Delete Messages\nFix: Add new row in action\nFix: Error setState \"value.includes is not a function\"\n#144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id",
-        "de": "Fix: Nachrichten löschen\nFix: Neue Zeile in Aktion hinzufügen\nFix: Fehler setState \"Wert. enthält keine Funktion\"\n#44 Neue Funktion in setState hinzufügen: Jetzt ist es möglich, einen statischen Wert mit einem dynamischen Wert von id einzustellen",
-        "ru": "Исключить сообщения\nFix: Добавить новый ряд в действие\nFix: Ошибка устанавливает состояние \"значение. включает не функцию»\n#144 Добавить новую функцию в setState: Теперь можно установить статическое значение с динамическим значением от id",
-        "pt": "Corrigir: Excluir mensagens\nFix: Adicionar nova linha em ação\nCorrigir: erro setState \"valor. inclui não é uma função\"\n144 Adicionar novo recurso no setState: Agora é possível definir um valor estático com um valor dinâmico do id",
-        "nl": "Fix: Berichten verwijderen\nFix: nieuwe rij toevoegen in actie\nFix: Error setState \"waarde. bevat geen functie\"\n#144 Nieuwe functie toevoegen in setState: Nu is het mogelijk om een statische waarde in te stellen met een dynamische waarde van id",
-        "fr": "Correction: Supprimer les messages\nCorrection : Ajouter une nouvelle ligne en action\nCorrection : erreur setState \"value. comprend n'est pas une fonction\"\n#144 Ajouter une nouvelle fonctionnalité dans setState: Maintenant, il est possible de définir une valeur statique avec une valeur dynamique à partir de l'id",
-        "it": "Correzione: Cancella messaggi\nFix: Aggiungi una nuova riga in azione\nRisolvere: Impostazione errore \"valore. include non è una funzione\"\n#144 # Aggiungi nuova funzionalità in setState: Ora è possibile impostare un valore statico con un valore dinamico da id",
-        "es": "Corrección: Eliminar mensajes\nFijación: Agregue nueva fila en acción\nCorrección: Juego de errores Valor estatal. incluye no es una función\"\n#144 Añadir nueva característica en setState: Ahora es posible establecer un valor estático con un valor dinámico de id",
-        "pl": "Fix: Usuń wiadomości\nFix: Dodaj nowy wiersz w akcji\nFix: Wartość błędu setState \". zawiera nie jest funkcją\"\n# 144 Dodaj nową funkcję w setState: Teraz jest możliwe ustawienie wartości statycznej z dynamiczną wartością z id",
-        "uk": "Виправлення: Видалити повідомлення\nВиправлення: Додати новий ряд в дії\nВиправлення: Помилка setState \"value. включає не функцію\n#144 Додати нову функцію в setState: Тепер можна встановити статичну вартість з динамічним значенням від id",
-        "zh-cn": "修正: 删除信件\n修正: 在动作中添加新行\nFix: 错误设置状态\"值 。 包含不是一个函数\"\n144号 在设置状态中添加新特性: 现在可以从 id 中设置一个具有动态值的静态值"
       }
     },
     "titleLang": {
