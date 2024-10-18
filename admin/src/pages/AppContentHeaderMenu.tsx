@@ -35,7 +35,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
-				<Grid item xs={12} sm={6} xl={1}>
+				<Grid item xs={12} sm={2} xl={1}>
 					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="HeaderMenu-menuPopupCard Btn-Expand">
 						<Button
 							b_color="#fff"

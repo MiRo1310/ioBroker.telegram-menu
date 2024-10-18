@@ -115,6 +115,11 @@ body {
 .HeaderMenu-GridContainer {
 	font-size: 0.8rem;
 }
+.HeaderMenu-GridContainer button.header__button_actions {
+	margin-top: 10px !important;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
+}
 
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
