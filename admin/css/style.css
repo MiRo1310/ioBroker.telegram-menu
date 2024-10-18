@@ -6,39 +6,13 @@
 @import "./textarea.css";
 @import "./app-content.css";
 @import "./row-editor.css";
+@import "./header.css";
 
 body {
 	height: 100vh;
 	overflow: auto;
 }
 
-/* IconBar */
-img[alt="logo"] {
-	padding: 0px !important;
-	width: 40px !important;
-}
-.iconBar {
-	height: 40px;
-}
-.Tab-Header {
-	margin-bottom: 0;
-}
-.light .Tab-Header,
-.colored .Tab-Header {
-	background-color: #3399cc;
-}
-.dark form.Tab-Header {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
-}
-.blue form.Tab-Header {
-	background-color: rgb(62, 68, 72);
-}
-.Tab-Header button {
-	margin-left: 5px;
-}
-.Tab-Header img {
-	margin: 5px;
-}
 /* Tab-Navigation */
 .App-TabList button {
 	border-radius: 6px;

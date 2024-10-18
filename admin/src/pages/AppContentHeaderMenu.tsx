@@ -24,6 +24,14 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
 
+	showList() {
+		return this.props.data.state.showPopupMenuList;
+	}
+
+	isActiveMenu() {
+		return this.props.data.state.activeMenu != undefined;
+	}
+
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
@@ -38,25 +46,20 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 							id="menuCard"
 							callback={this.handleClick}
 						>
-							{this.props.data.state.showPopupMenuList ? (
-								<i className="material-icons">expand_more</i>
-							) : (
-								<i className="material-icons">chevron_right</i>
-							)}
+							{this.showList() ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 						</Button>
 						<span>{I18n.t("menuList")}</span>
-						{this.props.data.state.showPopupMenuList && this.props.data.state.activeMenu != undefined ? (
+						{this.showList() && this.isActiveMenu() ? (
 							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
 						) : null}
 					</div>
 
 					<div className="MenuHeader-ActiveMenu">
 						<p>{I18n.t("activeMenu")}</p>
-						{this.props.data.state.activeMenu != undefined ? (
-							<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
-						) : (
-							<span className="MenuHeader-borderActiveMenu">{I18n.t("createMenu")}</span>
-						)}
+
+						<span className="MenuHeader-borderActiveMenu">
+							{this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t("createMenu")}
+						</span>
 					</div>
 				</Grid>
 				<Grid item xs={10}>

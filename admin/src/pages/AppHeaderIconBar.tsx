@@ -11,7 +11,7 @@ class AppHeaderIconBar extends Component<PropsHeaderIconBar> {
 	render(): React.ReactNode {
 		return (
 			<Grid item xs={12}>
-				<form className="Tab-Header">
+				<form className="header__icons">
 					<Logo
 						instance={this.props.instance}
 						common={this.props.common}

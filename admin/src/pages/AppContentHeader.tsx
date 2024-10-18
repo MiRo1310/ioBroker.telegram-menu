@@ -9,15 +9,20 @@ class MainActions extends Component<PropsMainActions> {
 		super(props);
 		this.state = {};
 	}
+	isSettings(): boolean {
+		return this.props.data.state.tab === "settings";
+	}
 
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="Grid-HeaderMenu ">
+				{!this.isSettings() ? (
+					<Grid item xs={12}>
+						<HeaderMenu data={this.props.data} callback={this.props.callback} />
+					</Grid>
+				) : null}
 				<Grid item xs={12}>
-					{this.props.data.state.tab != "settings" ? <HeaderMenu data={this.props.data} callback={this.props.callback} /> : null}
-				</Grid>
-				<Grid item xs={12}>
-					{this.props.data.state.tab != "settings" ? (
+					{!this.isSettings() ? (
 						<HeaderTelegramUsers
 							data={{
 								state: this.props.data.state,
