@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-   FIX: Different telegram instances cannot be selected
 -   FIX: Cannot set values in setState
 -   Styling
 
