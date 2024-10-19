@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
-import Button from "../components/btn-Input/button";
-import { Grid } from "@mui/material";
-import { I18n } from "@iobroker/adapter-react-v5";
-import Checkbox from "../components/btn-Input/checkbox";
-import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
-import { EventButton } from "../types/event";
 import { EventCheckbox } from "@/types/event";
+import ButtonExpand from "@components/btn-Input/btn-expand";
+import { I18n } from "@iobroker/adapter-react-v5";
+import { Grid } from "@mui/material";
+import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
+import React, { Component } from "react";
+import Checkbox from "../components/btn-Input/checkbox";
+import { EventButton } from "../types/event";
+import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
 	constructor(props: PropsHeaderTelegramUsers) {
@@ -74,18 +74,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 				</Grid>
 				<Grid item lg={8} md={8} xs={8}>
 					<div className="HeaderTelegramUser-Container">
-						{this.isUserGroupLength() ? (
-							<span className="Btn-Expand">
-								<Button
-									className="button__icon button__white"
-									id="expandTelegramUsers"
-									callback={this.updateMenuOpen}
-									disableButtonStyleByComponent={true}
-								>
-									<i className="material-icons">{this.state.menuOpen ? "expand_more" : "chevron_right"}</i>
-								</Button>
-							</span>
-						) : null}
+						{this.isUserGroupLength() ? <ButtonExpand isOpen={this.state.menuOpen} callback={this.updateMenuOpen} /> : null}
 						{this.state.menuOpen && this.isUserGroupLength() ? (
 							<div className="HeaderTelegramUsers-TelegramUserCard">
 								<p className="TelegramUserCard-description">{I18n.t("telegramUser")}</p>

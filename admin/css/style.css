@@ -453,22 +453,22 @@ button {
 	cursor: pointer;
 }
 
-.dark .Btn-Expand button {
+.dark .button__expand button {
 	background-color: #555 !important;
 	border-color: #aaa !important;
 }
-.blue .Btn-Expand button {
+.blue .button__expand button {
 	background-color: rgb(62, 68, 72) !important;
 	border-color: #aaa !important;
 }
-.dark .Btn-Expand button:hover,
-.blue .Btn-Expand button:hover {
+.dark .button__expand button:hover,
+.blue .button__expand button:hover {
 	background-color: #333 !important;
 	border-color: #888 !important;
 }
 
-.dark .Btn-Expand span,
-.blue .Btn-Expand span {
+.dark .button__expand span,
+.blue .button__expand span {
 	color: white !important;
 }
 
@@ -597,7 +597,7 @@ p.inUse {
 .HeaderTelegramUser-Container {
 	display: flex;
 }
-.HeaderTelegramUser-Container .Btn-Expand {
+.HeaderTelegramUser-Container .button__expand {
 }
 span[title],
 .title {

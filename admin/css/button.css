@@ -61,7 +61,7 @@
 	border: 1px solid black !important;
 	border-radius: 6px !important;
 }
-.button__white {
+.button__primary {
 	background-color: white !important;
 	color: black !important;
 }

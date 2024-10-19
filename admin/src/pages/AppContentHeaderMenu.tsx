@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Grid } from "@mui/material";
-import Button from "../components/btn-Input/button";
-import AppContentHeaderMenuButtons from "./AppContentHeaderMenuButtons";
-import MenuPopupCard from "./AppContentHeaderMenuPopupCard";
+import ButtonExpand from "@components/btn-Input/btn-expand";
 import { I18n } from "@iobroker/adapter-react-v5";
+import { Grid } from "@mui/material";
 import { PropsHeaderMenu } from "admin/app";
+import React, { Component } from "react";
 import { EventButton } from "../types/event";
+import AppContentHeaderMenuButtons from "./AppContentHeaderMenuButtons";
+import AppContentHeaderMenuList from "./AppContentHeaderMenuList";
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
 	eventOnMouse = (event: React.MouseEvent<HTMLDivElement> | undefined): void => {
@@ -36,21 +36,12 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
 				<Grid item xs={12} sm={2} xl={1}>
-					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="HeaderMenu-menuPopupCard Btn-Expand">
-						<Button
-							b_color="#fff"
-							small="true"
-							margin="0 5px 0 5px"
-							border="1px solid black"
-							round="4px"
-							id="menuCard"
-							callback={this.handleClick}
-						>
-							{this.showList() ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
-						</Button>
+					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="HeaderMenu-menuPopupCard">
+						<ButtonExpand isOpen={this.showList()} callback={this.handleClick} />
+
 						<span>{I18n.t("menuList")}</span>
 						{this.showList() && this.isActiveMenu() ? (
-							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
+							<AppContentHeaderMenuList usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
 						) : null}
 					</div>
 
