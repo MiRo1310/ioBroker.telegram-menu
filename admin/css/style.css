@@ -6,39 +6,13 @@
 @import "./textarea.css";
 @import "./app-content.css";
 @import "./row-editor.css";
+@import "./header.css";
 
 body {
 	height: 100vh;
 	overflow: auto;
 }
 
-/* IconBar */
-img[alt="logo"] {
-	padding: 0px !important;
-	width: 40px !important;
-}
-.iconBar {
-	height: 40px;
-}
-.Tab-Header {
-	margin-bottom: 0;
-}
-.light .Tab-Header,
-.colored .Tab-Header {
-	background-color: #3399cc;
-}
-.dark form.Tab-Header {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
-}
-.blue form.Tab-Header {
-	background-color: rgb(62, 68, 72);
-}
-.Tab-Header button {
-	margin-left: 5px;
-}
-.Tab-Header img {
-	margin: 5px;
-}
 /* Tab-Navigation */
 .App-TabList button {
 	border-radius: 6px;
@@ -140,6 +114,11 @@ img[alt="logo"] {
 }
 .HeaderMenu-GridContainer {
 	font-size: 0.8rem;
+}
+.HeaderMenu-GridContainer button.header__button_actions {
+	margin-top: 10px !important;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
 }
 
 /* Header Telegram User */
@@ -474,11 +453,6 @@ button {
 	cursor: pointer;
 }
 
-.HeaderTelegramUser-Container .Btn-Expand {
-	position: absolute;
-	top: -35px;
-	left: -55px;
-}
 .dark .Btn-Expand button {
 	background-color: #555 !important;
 	border-color: #aaa !important;
@@ -565,7 +539,9 @@ p.inUse {
 .blue .Settings {
 	color: white;
 }
-
+.HeaderTelegramUsers-TelegramUserCard {
+	width: 100%;
+}
 .light .HeaderTelegramUsers-TelegramUserCard,
 .colored .HeaderTelegramUsers-TelegramUserCard {
 	background-color: #eee;
@@ -619,7 +595,9 @@ p.inUse {
 }
 
 .HeaderTelegramUser-Container {
-	position: relative;
+	display: flex;
+}
+.HeaderTelegramUser-Container .Btn-Expand {
 }
 span[title],
 .title {

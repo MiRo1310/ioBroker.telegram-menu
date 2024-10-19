@@ -8,6 +8,10 @@ input {
 	border-bottom: 1px solid #ccc !important;
 }
 
+#newMenuName {
+	min-width: 300px;
+}
+
 .HeaderMenu-GridContainer input {
 	margin-top: 0 !important;
 	margin-left: 0 !important;

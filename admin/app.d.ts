@@ -1,10 +1,13 @@
-import { GenericAppProps, GenericAppState } from "@iobroker/adapter-react-v5";
-import { Tab } from '@mui/material';
-import { AdminConnection } from '@iobroker/socket-client';
-import { LegacyRef, ReactNode } from "react";
-import { EventButton } from "@components/btn-Input/button";
-import { setState } from '../src/lib/setstate';
 import { HelperText } from "@/config/helper";
+import { SaveDataObject } from "@/pages/AppContentTabActionContentRowEditorCopyModalSelectedValues";
+import { EventButton, EventCheckbox, EventTextarea } from "@/types/event";
+import { TelegramMenuApp } from "@/types/props-types.js";
+import { EventSelect } from "@components/btn-Input/select";
+import { Theme } from "@emotion/react";
+import { AdminConnection, Width } from "@iobroker/adapter-react-v5";
+
+import { LegacyRef, ReactNode } from "react";
+
 
 export type Nullable<T> = T | null | undefined;
 
@@ -108,7 +111,7 @@ export interface PropsTabAction {
 export interface AppData {
 	activeMenu?: string;
 	nav?: NavData;
-	state: AdditionalStateInfo;
+	state: TelegramMenuApp.AdditionalState;
 	data?: NativeData;
 	action?: ActionData;
 	socket?: Socket;
@@ -154,10 +157,10 @@ export interface ButtonProps {
 	setNative?: boolean;
 	title?: string;
 	name?: string;
-	index: number;
 	disabled?: string | boolean;
 	className?: string;
 	children?: ReactNode;
+	disableButtonStyleByComponent?: boolean;
 }
 export type CallbackValue = boolean | string | number | undefined;
 
@@ -227,7 +230,7 @@ export interface InputProps {
 }
 export interface PropsHeaderIconBar {
 	instance: number;
-	common: ioBroker.InstanceCommon | null;
+	common: any | null;
 	native: Native;
 	onLoad: (error: Record<string, null>) => void;
 	onError: (text: string | number) => void;
@@ -327,7 +330,7 @@ export interface PropsTelegramUserCard {
 	name: string;
 	chatID: string;
 	data: {
-		state: AdditionalStateInfo;
+		state: TelegramMenuApp.AdditionalState;
 		activeMenu: string;
 		usersInGroup: UsersInGroup;
 		userActiveCheckbox: UserActiveCheckbox
@@ -369,7 +372,7 @@ export interface PropsPopupContainer {
 		, setState: SetStateFunction | undefined) => void;
 	onMouseLeave?: (event: React.MouseEvent<HTMLDivElement> | undefined
 		, setState: SetStateFunction | undefined) => void;
-	callback: (val) => void;
+	callback: (val: EventButton) => void;
 	value?: string;
 	setState?: SetStateFunction;
 	children?: ReactNode;
@@ -449,11 +452,11 @@ export interface AppState {
 	isConfigurationError: string;
 	expertMode: boolean;
 	toast: string;
-	theme: import("./src/types").Theme;
+	theme: Theme;
 	themeName: string;
 	themeType: string;
 	bottomButtons: boolean;
-	width: import("./src/types").Width;
+	width: Width;
 	confirmClose: boolean;
 	_alert: boolean;
 	_alertType: string;
@@ -536,7 +539,7 @@ export interface StateSquare {
 }
 export interface PropsHeaderTelegramUsers {
 	callback: CallbackFunctionsApp;
-	data: { state: AdditionalStateInfo, activeMenu: string, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox };
+	data: { state: TelegramMenuApp.AdditionalState, activeMenu: string, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox };
 }
 export interface StateHeaderTelegramUsers {
 	menuOpen: boolean;
@@ -671,17 +674,17 @@ export interface CallbackFunctionsApp {
 	updateNative: UpdateNativeFunction;
 }
 export interface PropsMainTriggerOverview {
-	state: AdditionalStateInfo;
+	state: TelegramMenuApp.AdditionalState;
 	callback: CallbackFunctions;
 }
 export interface PropsMainDoubleTriggerInfo {
-	state: AdditionalStateInfo;
+	state: TelegramMenuApp.AdditionalState;
 }
 export interface PropsMainContent {
 	data: DataMainContent;
 	callback: CallbackFunctionsApp;
 }
-export interface DataMainContent { state: AdditionalStateInfo, adapterName: string, socket: Socket }
+export interface DataMainContent { state: TelegramMenuApp.AdditionalState, adapterName: string, socket: Socket }
 
 export type Socket = AdminConnection;
 
@@ -691,7 +694,7 @@ export interface PropsMainDropBox {
 }
 export interface DataDropBox {
 	dropBoxRef: Dropbox.Ref;
-	state: AdditionalStateInfo
+	state: TelegramMenuApp.AdditionalState
 }
 
 export interface ShowButtons {
@@ -714,10 +717,10 @@ export interface RowForButton {
 }
 
 export namespace Dropbox {
-	type newX = Nullable<number>;
-	type newY = Nullable<number>;
-	type Ref = React.RefObject<HTMLDivElement> | undefined;
-	interface Position {
+	export type newX = Nullable<number>;
+	export type newY = Nullable<number>;
+	export type Ref = React.RefObject<HTMLDivElement> | undefined;
+	export interface Position {
 		dropboxTop: number;
 		dropboxRight: number;
 	}

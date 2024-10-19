@@ -168,8 +168,8 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
 	render(): React.ReactNode {
 		return (
-			<Grid container spacing={1} className="MenuCard">
-				<Grid item xs={4}>
+			<>
+				<Grid item xs={12} sm={8} lg={4}>
 					<Input
 						placeholder={I18n.t("addMenu")}
 						id="newMenuName"
@@ -179,83 +179,73 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 					/>
 				</Grid>
 
-				<Grid container item xs={8} spacing={1}>
-					<Grid item xs="auto">
-						<Button
-							callbackValue={this.state.newMenuName}
-							callback={this.buttonAddNewMenuHandler}
-							disabled={!this.state.newMenuName || this.state.newMenuName === ""}
-							className={`${!this.state.newMenuName || this.state.newMenuName === "" ? "button--disabled" : "button--hover"} button button__add`}
-						>
-							<i className="material-icons">group_add</i>
-							{I18n.t("add")}
-						</Button>
-					</Grid>
+				<Button
+					callbackValue={this.state.newMenuName}
+					callback={this.buttonAddNewMenuHandler}
+					disabled={!this.state.newMenuName || this.state.newMenuName === ""}
+					className={`${!this.state.newMenuName || this.state.newMenuName === "" ? "button--disabled" : "button--hover"} header__button_actions button button__add`}
+				>
+					<i className="material-icons">group_add</i>
+					{I18n.t("add")}
+				</Button>
 
-					<Grid item xs="auto">
-						<Button callback={this.openConfirmDialog} className="button button__delete button--hover">
-							<i className="material-icons">delete</i>
-							{I18n.t("delete")}
-						</Button>
-					</Grid>
-					<Grid item xs="auto">
-						<Button id="openRenameMenu" callback={this.openRenameDialog} className="button button--hover button__edit">
-							<i className="material-icons">edit</i>
-							{I18n.t("edit")}
-						</Button>
-					</Grid>
-					<Grid item xs="auto">
-						<Button
-							id="showDropBox"
-							callbackValue={true}
-							callback={this.appSetStateHandler}
-							className="button button--hover button__copy"
-						>
-							<i className="material-icons translate ">content_copy</i>
-							{I18n.t("copy")}
-						</Button>
-					</Grid>
-					<Grid item xs="auto">
-						<Button
-							id="showTriggerInfo"
-							callbackValue={true}
-							callback={this.appSetStateHandler}
-							className=" button button__info button--hover"
-						>
-							<i className="material-icons translate ">info</i>
-							{I18n.t("overview")}
-						</Button>
-					</Grid>
-					<Grid item xs="auto">
-						{this.state.confirmDialog ? (
-							<ConfirmDialog
-								title={I18n.t("reallyDelete")}
-								text={I18n.t("confirmDelete")}
-								ok={I18n.t("yes")}
-								cancel={I18n.t("cancel")}
-								dialogName="myConfirmDialogThatCouldBeSuppressed"
-								onClose={(isYes) => {
-									if (isYes) {
-										this.removeMenu(this.state.oldMenuName, false);
-									}
+				<Button callback={this.openConfirmDialog} className="button button__delete button--hover header__button_actions">
+					<i className="material-icons">delete</i>
+					{I18n.t("delete")}
+				</Button>
 
-									this.setState({ confirmDialog: false });
-								}}
-							/>
-						) : null}
-						{this.state.renameDialog ? (
-							<RenameModal
-								rename={this.renameMenu}
-								isOK={this.state.isOK}
-								title={I18n.t("renameMenu")}
-								value={this.state.renamedMenuName}
-								setState={this.setState.bind(this)}
-								id="renamedMenuName"
-							/>
-						) : null}
-					</Grid>
-				</Grid>
-			</Grid>
+				<Button id="openRenameMenu" callback={this.openRenameDialog} className="button button--hover button__edit header__button_actions">
+					<i className="material-icons">edit</i>
+					{I18n.t("edit")}
+				</Button>
+
+				<Button
+					id="showDropBox"
+					callbackValue={true}
+					callback={this.appSetStateHandler}
+					className="button button--hover button__copy header__button_actions"
+				>
+					<i className="material-icons translate ">content_copy</i>
+					{I18n.t("copy")}
+				</Button>
+
+				<Button
+					id="showTriggerInfo"
+					callbackValue={true}
+					callback={this.appSetStateHandler}
+					className=" button button__info button--hover header__button_actions"
+				>
+					<i className="material-icons translate ">info</i>
+					{I18n.t("overview")}
+				</Button>
+
+				{this.state.confirmDialog ? (
+					<ConfirmDialog
+						title={I18n.t("reallyDelete")}
+						text={I18n.t("confirmDelete")}
+						ok={I18n.t("yes")}
+						cancel={I18n.t("cancel")}
+						dialogName="myConfirmDialogThatCouldBeSuppressed"
+						onClose={(isYes) => {
+							if (isYes) {
+								this.removeMenu(this.state.oldMenuName, false);
+							}
+
+							this.setState({ confirmDialog: false });
+						}}
+					/>
+				) : null}
+				{this.state.renameDialog ? (
+					<RenameModal
+						rename={this.renameMenu}
+						isOK={this.state.isOK}
+						title={I18n.t("renameMenu")}
+						value={this.state.renamedMenuName}
+						setState={this.setState.bind(this)}
+						id="renamedMenuName"
+					/>
+				) : null}
+			</>
 		);
 	}
 }

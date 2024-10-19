@@ -55,7 +55,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 			isValueChanged: false,
 			triggerName: "",
 			renamedTriggerName: "",
-			saveData: { checkboxesToCopy: [], copyToMenu: "", activeMenu: "", tab: "", rowIndexToEdit: 0 },
+			saveData: { checkboxesToCopy: [], copyToMenu: "", activeMenu: "", tab: "", rowIndexToEdit: 0, newTriggerName: "" },
 			targetCheckboxes: {},
 			isValueOk: false,
 		};

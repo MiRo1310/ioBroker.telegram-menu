@@ -29,7 +29,7 @@ function getAllTelegramInstances(socket: socket, callback: (val: string[]) => vo
 		console.error("Error getAllTelegramInstance: " + JSON.stringify(err));
 	}
 
-	function isAdapterTelegram(objects: Record<string, ioBroker.InstanceObject & { type: "instance" }>, obj: string): boolean {
+	function isAdapterTelegram(objects: Record<string, any & { type: "instance" }>, obj: string): boolean {
 		return "telegram" === objects?.[obj]?.common.name;
 	}
 }

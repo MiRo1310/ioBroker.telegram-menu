@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@mui/material";
 import Button from "../components/btn-Input/button";
-import BtnCard from "./AppContentHeaderMenuButtons";
+import AppContentHeaderMenuButtons from "./AppContentHeaderMenuButtons";
 import MenuPopupCard from "./AppContentHeaderMenuPopupCard";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { PropsHeaderMenu } from "admin/app";
@@ -24,10 +24,18 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
 
+	showList(): boolean {
+		return this.props.data.state.showPopupMenuList;
+	}
+
+	isActiveMenu(): boolean {
+		return this.props.data.state.activeMenu != undefined;
+	}
+
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={1} className="HeaderMenu-GridContainer">
-				<Grid item xs={2}>
+				<Grid item xs={12} sm={2} xl={1}>
 					<div onMouseEnter={this.eventOnMouse} onMouseLeave={this.eventOnMouse} className="HeaderMenu-menuPopupCard Btn-Expand">
 						<Button
 							b_color="#fff"
@@ -38,30 +46,23 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 							id="menuCard"
 							callback={this.handleClick}
 						>
-							{this.props.data.state.showPopupMenuList ? (
-								<i className="material-icons">expand_more</i>
-							) : (
-								<i className="material-icons">chevron_right</i>
-							)}
+							{this.showList() ? <i className="material-icons">expand_more</i> : <i className="material-icons">chevron_right</i>}
 						</Button>
 						<span>{I18n.t("menuList")}</span>
-						{this.props.data.state.showPopupMenuList && this.props.data.state.activeMenu != undefined ? (
+						{this.showList() && this.isActiveMenu() ? (
 							<MenuPopupCard usersInGroup={this.props.data.state.native.usersInGroup} callback={this.props.callback} />
 						) : null}
 					</div>
 
 					<div className="MenuHeader-ActiveMenu">
 						<p>{I18n.t("activeMenu")}</p>
-						{this.props.data.state.activeMenu != undefined ? (
-							<span className="MenuHeader-borderActiveMenu">{this.props.data.state.activeMenu}</span>
-						) : (
-							<span className="MenuHeader-borderActiveMenu">{I18n.t("createMenu")}</span>
-						)}
+
+						<span className="MenuHeader-borderActiveMenu">
+							{this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t("createMenu")}
+						</span>
 					</div>
 				</Grid>
-				<Grid item xs={10}>
-					<BtnCard callback={this.props.callback} data={this.props.data} />
-				</Grid>
+				<AppContentHeaderMenuButtons callback={this.props.callback} data={this.props.data} />
 			</Grid>
 		);
 	}
