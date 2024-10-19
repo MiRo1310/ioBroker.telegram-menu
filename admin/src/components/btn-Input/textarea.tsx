@@ -4,7 +4,10 @@ import { PropsTextarea, StateTextarea } from "admin/app";
 
 class Textarea extends Component<PropsTextarea, StateTextarea> {
 	onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement> | undefined): void => {
-		this.props.callback({ val: event?.target.value, index: this.props.index, id: this.props.id });
+		if (!event) {
+			return;
+		}
+		this.props.callback({ val: event?.target.value, index: this.props.index as number, id: this.props.id });
 	};
 
 	render(): React.ReactNode {

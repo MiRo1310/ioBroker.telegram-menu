@@ -80,7 +80,6 @@ export interface PropsTableNavEditRow {
 	state: StateTabNavigation;
 	setState: SetStateFunction;
 	data: DataMainContent & { entries: TabValueEntries[] };
-	entries: TabValueEntries[];
 	popupRowCard: ({ }: EventButton) => void;
 }
 

@@ -24,11 +24,11 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 		this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
 	};
 
-	showList() {
+	showList(): boolean {
 		return this.props.data.state.showPopupMenuList;
 	}
 
-	isActiveMenu() {
+	isActiveMenu(): boolean {
 		return this.props.data.state.activeMenu != undefined;
 	}
 

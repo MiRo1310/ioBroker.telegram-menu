@@ -7,7 +7,10 @@ export interface EventSelect {
 }
 class Select extends Component<SelectProps> {
 	onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement> | undefined): void => {
-		this.props.callback({ id: this.props.id, val: event?.target?.value });
+		if (!event) {
+			return;
+		}
+		this.props.callback({ id: this.props.id, val: event.target.value });
 	};
 
 	render(): React.ReactNode {

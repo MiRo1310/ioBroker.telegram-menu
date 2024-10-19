@@ -57,8 +57,8 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 			return true;
 		}
 	};
-	isUserGroupLength() {
-		return Object.keys(this.props.data.usersInGroup).length;
+	isUserGroupLength(): boolean {
+		return Object.keys(this.props.data.usersInGroup).length !== 0;
 	}
 
 	render(): React.ReactNode {

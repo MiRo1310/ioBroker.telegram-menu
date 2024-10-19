@@ -21,12 +21,6 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
 		if (id) {
 			copyNewRow[id] = val.toString();
 		}
-		//REVIEW -
-		// else {
-		// 	Object.keys(data).forEach((key) => {
-		// 		copyNewRow[key] = data[key];
-		// 	});
-		// }
 		this.props.setState({ newRow: copyNewRow });
 	};
 	changeCheckbox = ({ isChecked, id }: EventCheckbox): void => {
@@ -67,7 +61,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
 					callback={{ onChangeInput: this.changeInput, onChangeCheckbox: this.changeCheckbox }}
 					inUse={this.props.state.callInUse}
 					openHelperText={this.openHelperText}
-					entries={this.props.entries}
+					entries={this.props.data.entries}
 					newRow={this.props.state.newRow}
 				/>
 			</PopupContainer>

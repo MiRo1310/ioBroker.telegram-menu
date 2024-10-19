@@ -106,8 +106,8 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 		this.setState({ newRow: obj, rowPopup: true });
 	};
 
-	popupHelperCard = (isOK: boolean): void => {
-		if (isOK) {
+	popupHelperCard = ({ value }: EventButton): void => {
+		if (value) {
 			const copyNewRow = deepCopy(this.state.newRow);
 			if (!copyNewRow) {
 				return;
@@ -135,13 +135,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 					</Table>
 				</TableContainer>
 				{this.state.rowPopup ? (
-					<TableNavEditRow
-						state={this.state}
-						setState={this.setState.bind(this)}
-						data={this.props.data}
-						entries={this.props.data.entries}
-						popupRowCard={this.popupRowCard}
-					/>
+					<TableNavEditRow state={this.state} setState={this.setState.bind(this)} data={this.props.data} popupRowCard={this.popupRowCard} />
 				) : null}
 				{this.state.helperText ? (
 					<TableNavHelper
