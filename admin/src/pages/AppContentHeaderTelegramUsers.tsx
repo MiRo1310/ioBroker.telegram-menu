@@ -68,7 +68,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 					{this.state.errorUserChecked ? (
 						<div>
 							<p className="errorString">{I18n.t("userSelect")}</p>
-							<div className="disableSaveBtn"></div>
+							<div className="disableSaveBtn" />
 						</div>
 					) : null}
 				</Grid>
