@@ -327,8 +327,7 @@ export interface PropsSubTable {
 	setState: SetStateFunction;
 }
 export interface PropsTelegramUserCard {
-	name: string;
-	chatID: string;
+	user: UserListWithChatID
 	data: {
 		state: TelegramMenuApp.AdditionalState;
 		activeMenu: string;

@@ -131,25 +131,22 @@ body {
 	display: inline-block;
 	width: 200px;
 }
-.errorString {
+.telegram__errorMessage {
 	color: red;
-	position: absolute;
-	top: 150px;
-	max-width: 200px;
-	left: 50%;
-	transform: translateX(-50%);
 	font-size: 0.7rem;
 	padding: 0.5rem 1rem;
+	border: 1px solid red;
+	margin-left: 20px
 }
-.disableSaveBtn {
+.cover__save_btn {
 	position: absolute;
 	bottom: 0;
-	width: 100vw;
+	width: 34vw;
 	height: 65px;
-	background-color: rgba(0, 0, 0, 0.5);
-
+	background-color: rgba(0, 0, 0, 0.3);
 	z-index: 1200;
 }
+
 /* error */
 .ErrorDoubleTrigger-Container {
 	color: red;
@@ -539,21 +536,29 @@ p.inUse {
 .blue .Settings {
 	color: white;
 }
-.HeaderTelegramUsers-TelegramUserCard {
+.telegram__users_card {
 	width: 100%;
+	padding-bottom:10px;
+
 }
-.light .HeaderTelegramUsers-TelegramUserCard,
-.colored .HeaderTelegramUsers-TelegramUserCard {
+.telegram__users_card p {
+	margin-bottom: 0;
+	margin-top:10px;
+}
+.light .telegram__users_card,
+.colored .telegram__users_card {
 	background-color: #eee;
 }
-.dark .HeaderTelegramUsers-TelegramUserCard {
+.dark .telegram__users_card {
 	background-color: #333;
 	color: white;
 }
-.blue .HeaderTelegramUsers-TelegramUserCard {
+.blue .telegram__users_card {
 	background-color: rgb(62, 68, 72);
 	color: white;
 }
+
+
 .TeleGrammUserCard-content {
 	padding: 0.1rem 1rem;
 	margin: 0;
@@ -563,11 +568,11 @@ p.inUse {
 .TeleGrammUserCard-content p {
 	margin: 0;
 }
-.TelegramUserCard-description {
+.telegram__users_description {
 	color: #96d15a;
 	font-size: 12px;
+	margin-left: 16px;
 	text-decoration: underline;
-	padding: 5px 0 0 16px;
 	margin-bottom: 4px;
 	margin-top: 0px;
 }
@@ -594,11 +599,11 @@ p.inUse {
 	z-index: 100;
 }
 
-.HeaderTelegramUser-Container {
+.telegram__users_container {
 	display: flex;
+	margin-top:10px;
 }
-.HeaderTelegramUser-Container .button__expand {
-}
+
 span[title],
 .title {
 	cursor: help;

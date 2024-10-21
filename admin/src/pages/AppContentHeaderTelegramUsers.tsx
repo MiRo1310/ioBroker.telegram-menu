@@ -6,7 +6,9 @@ import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID,
 import React, { Component } from "react";
 import Checkbox from "../components/btn-Input/checkbox";
 import { EventButton } from "../types/event";
-import TelegramUserCard from "./AppContentHeaderTelegramUsersUserCard";
+import AppContentHeaderTelegramUsersUserCard from "./AppContentHeaderTelegramUsersUserCard";
+import AppContentHeaderTelegramUsersErrorMessage from "./AppContentHeaderTelegramUsersErrorMessage";
+import CoverSaveBtn from "@components/CoverSaveBtn";
 
 class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeaderTelegramUsers> {
 	constructor(props: PropsHeaderTelegramUsers) {
@@ -60,6 +62,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		}
 		return false;
 	};
+
 	private checkUsersAreActiveInTelegram(activeGroup: string[], userListWithChatID: UserListWithChatID[]): boolean {
 		for (const user of activeGroup) {
 			if (this.isUserActiveInTelegram(user, userListWithChatID)) {
@@ -84,25 +87,19 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={2}>
-				<Grid item lg={2} md={2} xs={2}>
-					{this.state.errorUserChecked ? (
-						<div>
-							<p className="errorString">{I18n.t("userSelect")}</p>
-							<div className="disableSaveBtn" />
-						</div>
-					) : null}
-				</Grid>
 				<Grid item lg={8} md={8} xs={8}>
-					<div className="HeaderTelegramUser-Container">
+					<div className="telegram__users_container">
 						{this.isUserGroupLength() ? <ButtonExpand isOpen={this.state.menuOpen} callback={this.updateMenuOpen} /> : null}
 						{this.state.menuOpen && this.isUserGroupLength() ? (
-							<div className="HeaderTelegramUsers-TelegramUserCard">
-								<p className="TelegramUserCard-description">{I18n.t("telegramUser")}</p>
+							<div className="telegram__users_card">
+								<p>
+									<span className="telegram__users_description">{I18n.t("telegramUser")} </span>
+									{this.state.errorUserChecked ? (<AppContentHeaderTelegramUsersErrorMessage />) : null}
+								</p>
 								{this.props.data.state.native?.userListWithChatID.map((user, key) => {
 									return (
-										<TelegramUserCard
-											name={user.name}
-											chatID={user.chatID}
+										<AppContentHeaderTelegramUsersUserCard
+											user={user}
 											key={key}
 											callback={this.props.callback}
 											data={this.props.data}
@@ -110,11 +107,12 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 										/>
 									);
 								})}
+
+
 							</div>
 						) : null}
 					</div>
 				</Grid>
-
 				<Grid item lg={1} md={1} xs={1}>
 					{this.state.menuOpen && this.props.data.state.activeMenu != undefined ? (
 						<Checkbox
@@ -126,6 +124,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 						/>
 					) : null}
 				</Grid>
+				{this.state.errorUserChecked ? <CoverSaveBtn /> : null}
 			</Grid>
 		);
 	}
