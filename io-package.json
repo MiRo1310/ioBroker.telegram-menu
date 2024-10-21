@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "news": {
+      "2.1.3": {
+        "en": "FIX: User checkbox error message\nFEAT: #194 Styling",
+        "de": "FIX: Benutzer-Checkbox Fehlermeldung\nFEAT: #194 Styling",
+        "ru": "FIX: Сообщение об ошибке в флажке пользователя\n#194 Стиль",
+        "pt": "FIX: Mensagem de erro da caixa de seleção do usuário\nFEAT: #194 Styling",
+        "nl": "FIX: foutmelding gebruikerscontrolevak\n#194 Styling",
+        "fr": "FIX: Message d'erreur de la case à cocher\nVIANDE: #194 Styling",
+        "it": "FIX: messaggio di errore della casella di controllo utente\nFEAT: #194 Styling",
+        "es": "FIX: Mensaje de error de la casilla de verificación del usuario\nFEAT: #194 Styling",
+        "pl": "FIX: Komunikat błędu w polu wyboru użytkownika\nFEAT: # 194 Styling",
+        "uk": "FIX: Повідомлення про помилку користувача\nFEAT: #194 Стилування",
+        "zh-cn": "FIX: 用户复选框错误消息\nFEAT: #194 时尚"
+      },
       "2.1.2": {
         "en": "FIX: Different telegram instances cannot be selected\nFIX: Cannot set values in setState\nStyling",
         "de": "FIX: Verschiedene Telegramminstanzen können nicht ausgewählt werden\nFIX: Nicht gesetzte Werte in setState\nStyling",
@@ -80,19 +93,6 @@
         "pl": "FIX: Multi- użytkownik stały\nFIX: # 159 Funkcje stałe",
         "uk": "FIX: Multi-user фіксований\nFIX: #159 Функції фіксовані",
         "zh-cn": "FIX: 多用户固定\nFIX: # 159 函数固定"
-      },
-      "1.7.2": {
-        "en": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
-        "de": "FIX: #158 Telegram-menu-Verbindung\nFIX: #155 DynSwitch",
-        "ru": "FIX: #158\n#155 DynSwitch",
-        "pt": "FIX: #158 Conexão telegrama-menu\nFIX: #155 DynSwitch",
-        "nl": "FIX: #158 Telegram-menuverbinding\nFIX: #155 DynSwitch",
-        "fr": "FIXE: #158 Connexion au télégramme-menu\nFIXE : 1 55 DynSwitch",
-        "it": "FIX: #158 Connessione Telegram-menu\nFIX: #155 DynSwitch",
-        "es": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
-        "pl": "FIX: # 158 Połączenie menu telegramowego\nFIX: # 155 DynSwitch",
-        "uk": "FIX: #158 Телеграма-меню підключення\nFIX: #155 DynSwitch",
-        "zh-cn": "FIX: #158 Telegram-菜单连接\nFIX: #155 DynSwitch 打开"
       }
     },
     "titleLang": {
