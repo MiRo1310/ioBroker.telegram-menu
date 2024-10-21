@@ -2,7 +2,7 @@ import { EventCheckbox } from "@/types/event";
 import ButtonExpand from "@components/btn-Input/btn-expand";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { Grid } from "@mui/material";
-import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers } from "admin/app";
+import { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from "admin/app";
 import React, { Component } from "react";
 import Checkbox from "../components/btn-Input/checkbox";
 import { EventButton } from "../types/event";
@@ -20,14 +20,14 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 
 	componentDidUpdate = (prevProps: Readonly<PropsHeaderTelegramUsers>): void => {
 		if (prevProps.data.usersInGroup !== this.props.data.usersInGroup) {
-			this.checkActiveUsers();
+			this.isMinOneUserChecked();
 		}
 		if (prevProps.data.activeMenu !== this.props.data.activeMenu) {
 			this.setState({ menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu] });
 		}
 	};
 
-	updateMenuOpen = ({}: EventButton): void => {
+	updateMenuOpen = ({ }: EventButton): void => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
 
@@ -37,7 +37,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 
 	clickCheckbox = ({ isChecked }: EventCheckbox): void => {
 		if (isChecked) {
-			if (!this.checkActiveUsers(true)) {
+			if (!this.isMinOneUserChecked(true)) {
+				console.log("here")
+				this.setState({ errorUserChecked: true });
 				return;
 			}
 		} else {
@@ -47,16 +49,30 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		this.props.callback.updateNative("userActiveCheckbox." + this.props.data.activeMenu, isChecked);
 	};
 
-	checkActiveUsers = (val?: boolean): boolean | undefined => {
+	isMinOneUserChecked = (val?: boolean): boolean | undefined => {
 		const usersInGroup = this.props.data.usersInGroup;
 		if (this.state.menuChecked || val) {
-			if (usersInGroup && usersInGroup[this.props.data.activeMenu] && usersInGroup[this.props.data.activeMenu].length <= 0) {
-				this.setState({ errorUserChecked: true });
+			if (usersInGroup?.[this.props.data.activeMenu]?.length <= 0) {
 				return false;
 			}
-			return true;
+
+			console.log(this.isUserActiveInTelegram(usersInGroup, this.props.data.state.native.userListWithChatID))
+
+			return this.isUserActiveInTelegram(usersInGroup, this.props.data.state.native.userListWithChatID);
 		}
 	};
+
+	private isUserActiveInTelegram(usersInGroup: UsersInGroup, userListWithChatID: UserListWithChatID[]): boolean {
+		let isChecked = false;
+		for (const user in usersInGroup?.[this.props.data.activeMenu]) {
+			if (userListWithChatID.find((item) => item.name === user)) {
+				isChecked = true;
+				break;
+			}
+		}
+		return isChecked;
+	}
+
 	isUserGroupLength(): boolean {
 		return Object.keys(this.props.data.usersInGroup).length !== 0;
 	}

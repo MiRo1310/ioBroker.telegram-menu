@@ -591,7 +591,12 @@ export interface Native {
 	directory: string;
 	userActiveCheckbox: UserActiveCheckbox
 	textNoEntry: string;
-	userListWithChatID: { name: string, chatID: string }[];
+	userListWithChatID: UserListWithChatID[];
+}
+
+export interface UserListWithChatID {
+	name: string;
+	chatID: string;
 }
 
 
