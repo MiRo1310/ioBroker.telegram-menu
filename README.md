@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+-	FIX: User checkbox error message
 -   FEAT: #194 Styling
 
 ### 2.1.2 (2024-10-18)

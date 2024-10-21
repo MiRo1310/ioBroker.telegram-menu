@@ -31,5 +31,8 @@
 		"roma",
 		"Rückgabetext",
 		"shoppinglist"
-	]
+	],
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	}
 }

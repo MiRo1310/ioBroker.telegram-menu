@@ -1,4 +1,4 @@
-const processUserData = (data: string): { name: string; chatID: string }[] | undefined => {
+export const processUserData = (data: string): { name: string; chatID: string }[] | undefined => {
 	try {
 		const array: { name: string; chatID: string }[] = [];
 
@@ -24,11 +24,6 @@ export const deepCopy = <T>(obj: T): T | undefined => {
 export const isChecked = (value: string | boolean): boolean => {
 	return ["true", true].includes(value) ? true : false;
 };
-
-const helperFunction = {
-	processUserData,
-};
-export default helperFunction;
 
 export const deleteDoubleEntriesInArray = <T>(arr: T[]): T[] => {
 	return arr.filter((item, index) => arr.indexOf(item) === index);

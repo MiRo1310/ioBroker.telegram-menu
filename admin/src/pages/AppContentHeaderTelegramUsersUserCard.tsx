@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import Checkbox from "../components/btn-Input/checkbox";
 import { EventCheckbox } from "@/types/event";
 
-class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUserCard> {
+class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserCard, StateTelegramUserCard> {
 	constructor(props: PropsTelegramUserCard) {
 		super(props);
 		this.state = {
 			usersInGroup: this.props.data.usersInGroup,
-			name: this.props.name,
+			name: this.props.user.name,
 			activeMenu: this.props.data.state.activeMenu,
 		};
 	}
@@ -22,21 +22,19 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 		}
 	};
 
-	isUserChecked = (): boolean => {
-		if (this.props.data.usersInGroup && this.props.data.usersInGroup[this.state.activeMenu]) {
-			if (
-				this.state.activeMenu &&
-				this.props.data.usersInGroup[this.state.activeMenu].length != 0 &&
-				this.props.data.usersInGroup[this.state.activeMenu].includes(this.props.name)
-			) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
+	private isUserChecked = (): boolean => {
+		if (!this.props.data.usersInGroup || !this.props.data.usersInGroup[this.state.activeMenu]) {
 			return false;
 		}
+		return this.isUserInList();
 	};
+
+	private isUserInList(): boolean {
+		if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu].length == 0) {
+			return false;
+		}
+		return this.props.data.usersInGroup[this.state.activeMenu].includes(this.props.user.name);
+	}
 
 	checkboxClicked = ({ isChecked, id: name }: EventCheckbox): void => {
 		if (isChecked) {
@@ -55,24 +53,25 @@ class TelegramUserCard extends Component<PropsTelegramUserCard, StateTelegramUse
 	};
 
 	render(): React.ReactNode {
+		const { name, chatID } = this.props.user;
 		return (
 			<div className="TeleGrammUserCard-content">
 				<div className="TelegramUserCard-User">
-					<p className="TelegramUserCard-name">{this.props.name}</p>
+					<p className="TelegramUserCard-name">{name}</p>
 					<Checkbox
 						class="TelegramUserCard-checkbox"
-						id={this.props.name}
+						id={name}
 						callback={this.checkboxClicked.bind(this)}
 						isChecked={this.isUserChecked()}
 						index={0}
 					/>
 				</div>
 				<p className="TelegramUserCard-ChatID">
-					ChatID :<span className="TelegramUserCard-ChatID">{this.props.chatID}</span>
+					ChatID :<span className="TelegramUserCard-ChatID">{chatID}</span>
 				</p>
 			</div>
 		);
 	}
 }
 
-export default TelegramUserCard;
+export default AppContentHeaderTelegramUsersUserCard;

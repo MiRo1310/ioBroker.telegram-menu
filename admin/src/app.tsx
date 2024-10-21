@@ -2,7 +2,6 @@ import { sortObjectByKey, updateActiveMenuAndTrigger } from "@/lib/actionUtils";
 import { updatePositionDropBox } from "@/lib/movePosition";
 import { insertNewItemsInData } from "@/lib/newValuesForNewVersion";
 import getIobrokerData from "@/lib/socket";
-import helperFunction from "@/lib/Utils";
 import AppContent from "@/pages/AppContent";
 import AppDoubleTriggerInfo from "@/pages/AppDoubleTriggerInfo";
 import AppDropBox from "@/pages/AppDropBox";
@@ -16,6 +15,7 @@ import React from "react";
 import { getDefaultDropBoxCoordinates } from "./lib/dragNDrop";
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from "./lib/object";
 import { TelegramMenuApp } from "./types/props-types";
+import { processUserData } from "./lib/Utils";
 
 class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.AdditionalState> {
 	dropBoxRef: Dropbox.Ref;
@@ -131,7 +131,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
 		getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || "telegram.0", (data) => {
 			!this.state.native.instance
 				? this.updateNativeValue("instance", "telegram.0")
-				: this.updateNativeValue("userListWithChatID", helperFunction.processUserData(data));
+				: this.updateNativeValue("userListWithChatID", processUserData(data));
 		});
 	}
 
