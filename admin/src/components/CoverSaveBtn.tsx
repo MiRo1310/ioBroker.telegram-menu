@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-
+interface CoverSaveBtnProps {}
 class CoverSaveBtn extends Component {
-	constructor(props: any) {
+	constructor(props: CoverSaveBtnProps) {
 		super(props);
 		this.state = {};
 	}
 
 	render(): React.ReactNode {
-		return <div className="cover__save_btn" />
+		return <div className="cover__save_btn" />;
 	}
 }
 

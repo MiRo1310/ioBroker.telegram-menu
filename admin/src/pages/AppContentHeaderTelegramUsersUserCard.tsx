@@ -26,13 +26,12 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
 		if (!this.props.data.usersInGroup || !this.props.data.usersInGroup[this.state.activeMenu]) {
 			return false;
 		}
-		return this.isUserInList()
-
+		return this.isUserInList();
 	};
 
 	private isUserInList(): boolean {
 		if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu].length == 0) {
-			return false
+			return false;
 		}
 		return this.props.data.usersInGroup[this.state.activeMenu].includes(this.props.user.name);
 	}

@@ -29,7 +29,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 		}
 	};
 
-	updateMenuOpen = ({ }: EventButton): void => {
+	updateMenuOpen = ({}: EventButton): void => {
 		this.setState({ menuOpen: !this.state.menuOpen });
 	};
 
@@ -73,7 +73,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 	}
 
 	private isMinOneUserChecked(usersInGroup: UsersInGroup): boolean {
-		return usersInGroup[this.props.data.activeMenu]?.length > 0
+		return usersInGroup[this.props.data.activeMenu]?.length > 0;
 	}
 
 	private isUserActiveInTelegram(user: string, userListWithChatID: UserListWithChatID[]): boolean {
@@ -87,42 +87,40 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 	render(): React.ReactNode {
 		return (
 			<Grid container spacing={2}>
-				<Grid item lg={8} md={8} xs={8}>
+				<Grid item lg={12} md={12} xs={12}>
 					<div className="telegram__users_container">
 						{this.isUserGroupLength() ? <ButtonExpand isOpen={this.state.menuOpen} callback={this.updateMenuOpen} /> : null}
 						{this.state.menuOpen && this.isUserGroupLength() ? (
 							<div className="telegram__users_card">
-								<p>
-									<span className="telegram__users_description">{I18n.t("telegramUser")} </span>
-									{this.state.errorUserChecked ? (<AppContentHeaderTelegramUsersErrorMessage />) : null}
-								</p>
-								{this.props.data.state.native?.userListWithChatID.map((user, key) => {
-									return (
-										<AppContentHeaderTelegramUsersUserCard
-											user={user}
-											key={key}
-											callback={this.props.callback}
-											data={this.props.data}
-											setState={this.setState.bind(this)}
-										/>
-									);
-								})}
-
-
+								<div>
+									<p>
+										<span className="telegram__users_description">{I18n.t("telegramUser")} </span>
+										{this.state.errorUserChecked ? <AppContentHeaderTelegramUsersErrorMessage /> : null}
+									</p>
+									{this.props.data.state.native?.userListWithChatID.map((user, key) => {
+										return (
+											<AppContentHeaderTelegramUsersUserCard
+												user={user}
+												key={key}
+												callback={this.props.callback}
+												data={this.props.data}
+												setState={this.setState.bind(this)}
+											/>
+										);
+									})}
+								</div>
+								{this.props.data.state.activeMenu != undefined ? (
+									<Checkbox
+										label={this.props.data.state.activeMenu + " " + I18n.t("active")}
+										id="checkboxActiveMenu"
+										isChecked={this.menuActiveChecked()}
+										callback={this.clickCheckbox}
+										index={0}
+									/>
+								) : null}
 							</div>
 						) : null}
 					</div>
-				</Grid>
-				<Grid item lg={1} md={1} xs={1}>
-					{this.state.menuOpen && this.props.data.state.activeMenu != undefined ? (
-						<Checkbox
-							label={this.props.data.state.activeMenu + " " + I18n.t("active")}
-							id="checkboxActiveMenu"
-							isChecked={this.menuActiveChecked()}
-							callback={this.clickCheckbox}
-							index={0}
-						/>
-					) : null}
 				</Grid>
 				{this.state.errorUserChecked ? <CoverSaveBtn /> : null}
 			</Grid>
