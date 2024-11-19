@@ -214,7 +214,7 @@ div.MuiTabPanel-root {
 .TabPanel-Action > div.MuiTabPanel-root {
 	height: calc(100% - 30px) !important;
 	padding-left: 0 !important;
-}
+	}
 
 /* Für Webkit-Browser wie Chrome und Safari */
 .MenuNavigation-Container::-webkit-scrollbar,
