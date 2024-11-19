@@ -21,6 +21,12 @@ table input {
 	border: none !important;
 }
 
+table {
+	overflow-y: auto;
+	flex: 1;
+}
+
+
 tr[draggable="true"] {
 	cursor: grab;
 	padding-right: 10px !important;

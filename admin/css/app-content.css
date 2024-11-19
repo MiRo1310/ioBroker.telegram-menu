@@ -3,7 +3,8 @@
 }
 
 .app__box {
-	display: "flex";
-	flex-direction: "column";
-	height: calc(100vh - 112px);
+		height: calc(100vh - 112px);
+		display: flex;
+	flex-direction: column;
+
 }
