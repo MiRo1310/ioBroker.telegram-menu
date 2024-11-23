@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "news": {
+      "2.1.4": {
+        "en": "FIX: #203 Scrolling in table",
+        "de": "FIX: #203 Scrolling in Tabelle",
+        "ru": "FIX: #203",
+        "pt": "FIX: #203 Rolagem na mesa",
+        "nl": "FIX: #203 Scrollen in tabel",
+        "fr": "FIXE: #203 Faire défiler le tableau",
+        "it": "FIX: #203 Scorrelare in tavola",
+        "es": "FIX: #203 Scrolling in table",
+        "pl": "FIX: # 203 Przewijanie w tabeli",
+        "uk": "FIX: #203 Прокручування в таблиці",
+        "zh-cn": "FIX: # 203 在表格中滚动"
+      },
       "2.1.3": {
         "en": "FIX: User checkbox error message\nFEAT: #194 Styling",
         "de": "FIX: Benutzer-Checkbox Fehlermeldung\nFEAT: #194 Styling",
@@ -80,19 +93,6 @@
         "pl": "FEAT: # 160 Expand setDynamic Wartość",
         "uk": "FEAT: #160 Комплект динаміки Ціна",
         "zh-cn": "FEAT: # 160 扩展设置 Dynamic 数值"
-      },
-      "1.7.3": {
-        "en": "FIX: Multi-user fixed\nFIX: #159 Functions fixed",
-        "de": "FIX: Multi-User fixiert\nFIX: #159 Funktionen fixiert",
-        "ru": "FIX: Многопользовательская фиксированная\nFIX: #159",
-        "pt": "FIX: Multiusuário fixo\nFIX: #159 Funções fixas",
-        "nl": "FIX: Multi-user vast\nFIX: #159 Functies vast",
-        "fr": "FIX: Multi-utilisateur fixe\nFIXE: #159 Fonctions fixes",
-        "it": "FIX: Multi-utente fisso\nFIX: #159 Funzioni fisse",
-        "es": "FIX: fijo multiusuario\nFIX: #159 Funciones fijas",
-        "pl": "FIX: Multi- użytkownik stały\nFIX: # 159 Funkcje stałe",
-        "uk": "FIX: Multi-user фіксований\nFIX: #159 Функції фіксовані",
-        "zh-cn": "FIX: 多用户固定\nFIX: # 159 函数固定"
       }
     },
     "titleLang": {
