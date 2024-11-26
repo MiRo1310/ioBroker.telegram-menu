@@ -1,9 +1,0 @@
-package.json
-package-lock.json
-node_modules/
-admin/build/
-admin/i18n/
-build/
-src/main.test.ts
-.vscode/
-.github/
