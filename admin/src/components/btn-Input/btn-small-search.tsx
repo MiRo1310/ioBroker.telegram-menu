@@ -1,25 +1,27 @@
-import React, { Component } from "react";
-import Button from "./button";
-import { ButtonSmallProps } from "admin/app";
+import React, { Component } from 'react';
+import Button from './button';
+import type { ButtonSmallProps } from 'admin/app';
 
 class BtnSmallUp extends Component<ButtonSmallProps> {
-	render(): React.ReactNode {
-		return (
-			<Button
-				b_color="blue"
-				color="white"
-				title="Search ID"
-				small="true"
-				round="true"
-				verticalAlign="inherit"
-				callback={this.props.callback}
-				callbackValue={this.props.index}
-				className={this.props.disabled ? this.props.disabled : "" + " " + this.props.class ? this.props.class : ""}
-			>
-				<i className="material-icons">search</i>
-			</Button>
-		);
-	}
+    render(): React.ReactNode {
+        return (
+            <Button
+                b_color="blue"
+                color="white"
+                title="Search ID"
+                small="true"
+                round="true"
+                verticalAlign="inherit"
+                callback={this.props.callback}
+                callbackValue={this.props.index}
+                className={
+                    this.props.disabled ? this.props.disabled : `` + ` ${this.props.class}` ? this.props.class : ''
+                }
+            >
+                <i className="material-icons">search</i>
+            </Button>
+        );
+    }
 }
 
 export default BtnSmallUp;

@@ -75,7 +75,7 @@ export const setState = async (
             ack = element?.ack ? element.ack === 'true' : false;
 
             if (returnText.includes('{setDynamicValue')) {
-                const { confirmText, id } = setDynamicValue(
+                const { confirmText, id } = await setDynamicValue(
                     returnText,
                     ack,
                     element.id,
