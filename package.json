@@ -95,8 +95,6 @@
     "lint": "eslint -c eslint.config.mjs .",
     "translate": "translate-adapter",
     "release": "release-script",
-    "lint:fix": "eslint --fix --ext .ts,.tsx src/ admin/src/",
-    "prettier": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"admin/src/**/*.ts\" \"admin/src/**/*.tsx\"",
     "checker": "node skript.mjs",
     "dev": " dev-server run",
     "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))",
