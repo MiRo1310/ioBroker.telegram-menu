@@ -1,4 +1,4 @@
-import type { Dropbox, SetStateFunction } from 'admin/app';
+import type { Dropbox, SetStateFunction } from '@/types/app';
 
 const drag = { dragStartX: 0, dragStartY: 0, dragEndX: 0, dragEndY: 0 };
 
@@ -68,7 +68,7 @@ export const updatePositionDropBox = (
     showDropBox: boolean,
     dropbox: Dropbox.Position,
 ): void => {
-    if (dropboxRef && dropboxRef.current && dropboxRef.current != null && showDropBox) {
+    if (dropboxRef?.current != null && showDropBox) {
         if (!(newX || newY)) {
             newX = parseInt(dropboxRef.current.style.right.replace('px', ''));
             newY = parseInt(dropboxRef.current.style.top.replace('px', ''));

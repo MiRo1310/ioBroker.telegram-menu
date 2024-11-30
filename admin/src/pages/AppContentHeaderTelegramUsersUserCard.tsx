@@ -1,4 +1,4 @@
-import type { PropsTelegramUserCard, StateTelegramUserCard } from 'admin/app';
+import type { PropsTelegramUserCard, StateTelegramUserCard } from '@/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import type { EventCheckbox } from '@/types/event';

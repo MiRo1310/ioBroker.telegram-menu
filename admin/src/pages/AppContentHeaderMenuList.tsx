@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../components/btn-Input/button';
-import type { PropsMenuPopupCard } from 'admin/app';
-import type { EventButton } from '../types/event';
+import type { PropsMenuPopupCard } from '@/app';
+import type { EventButton } from '@/types/event';
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {
     constructor(props: PropsMenuPopupCard) {
@@ -37,7 +37,8 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
                             height="40px"
                             fontSize="16px"
                             callback={({ id, innerText }: EventButton) => {
-                                this.props.callback.setStateApp({ [id]: innerText }), this.secondCallback();
+                                this.props.callback.setStateApp({ [id]: innerText });
+                                this.secondCallback();
                             }}
                             callbackValue="event.target.innerText"
                         >

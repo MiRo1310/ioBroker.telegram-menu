@@ -19,7 +19,7 @@ import Checkbox from '@components/btn-Input/checkbox';
 import PopupContainer from '@components/popupCards/PopupContainer';
 import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
-import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from 'admin/app';
+import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from '@/app';
 import React, { Component } from 'react';
 import type { EventButton, EventCheckbox } from '@/types/event';
 import AppContentTabActionContentRowEditorButtons from './AppContentTabActionContentRowEditorButtons';
@@ -108,7 +108,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
     };
 
     disableInput = (name: string, index: number): boolean => {
-        return isTruthy(this.state?.rows?.[index]?.switch_checkbox) && name === 'values' ? true : false;
+        return isTruthy(this.state?.rows?.[index]?.switch_checkbox) && name === 'values';
     };
 
     initCheckboxesForEachRow = (): void => {
@@ -160,7 +160,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
     };
 
     getSaveData = (): SaveDataObject => {
-        const obj: SaveDataObject = {
+        return {
             checkboxesToCopy: this.state.checkboxes,
             copyToMenu: this.state.copyToMenu,
             activeMenu: this.props.data.state.activeMenu,
@@ -168,11 +168,10 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
             rowIndexToEdit: this.props.data.rowIndexToEdit,
             newTriggerName: '',
         };
-        return obj;
     };
 
     isMinOneItemChecked = (): void => {
-        const isOneMenuSelected = this.props.data.state.copyDataObject.targetActionName ? true : false;
+        const isOneMenuSelected = !!this.props.data.state.copyDataObject.targetActionName;
         const { isEmpty } = this.isActionTabEmpty(this.getSaveData());
 
         if (isEmpty && isOneMenuSelected) {
@@ -210,7 +209,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 
     private isActionTabEmpty(obj: SaveDataObject): { isEmpty: boolean; action: NativeData['action'] } {
         const action = this.props.data.state.native.data.action;
-        const isEmpty = action[obj.copyToMenu]?.[obj.tab].length ? false : true;
+        const isEmpty = !action[obj.copyToMenu]?.[obj.tab].length;
         return { isEmpty, action };
     }
 

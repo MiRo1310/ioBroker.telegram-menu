@@ -1,7 +1,14 @@
-import type { NativeData, SetStateFunction, TriggerObj, UsersInGroup } from 'admin/app';
+import type {
+    NativeData,
+    SetStateFunction,
+    TriggerObj,
+    UsersInGroup,
+    ActionNewRowProps,
+    RowsSetState,
+    TabValueEntries,
+} from '@/types/app';
 import React from 'react';
-import type { ActionNewRowProps, RowsSetState, TabValueEntries } from '../../app';
-import { tabValues } from '../config/entries';
+import { tabValues } from '@/config/entries';
 import { isTruthy } from './string';
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from './Utils';
 import type { UpdateProps } from '@/types/props-types';
@@ -175,7 +182,7 @@ export const updateId = (
 };
 const disassembleTextToTriggers = (text: string): string[] => {
     const triggerArray: string[] = [];
-    let textArray: string[] = [];
+    let textArray: string[];
     if (text.includes('&&')) {
         textArray = text.split('&&');
     } else {
@@ -245,10 +252,9 @@ export const updateTriggerForSelect = (
             return;
         }
         data.nav[menu].forEach((element, index) => {
-            let triggerInRow: string[] = [];
             usedTrigger.push(element.call);
             triggerArray.push(element.call);
-            triggerInRow = disassembleTextToTriggers(element.value);
+            const triggerInRow = disassembleTextToTriggers(element.value);
             triggerInMenu = triggerInMenu.concat(triggerInRow);
             allTrigger = allTrigger.concat(triggerInRow);
 

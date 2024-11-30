@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
-import type { PropsTableDndAction, RowForButton, StateTableDndAction } from 'admin/app.js';
+import type { PropsTableDndAction, RowForButton, StateTableDndAction } from '@/app.js';
 import React, { Component } from 'react';
-import type { DataRowAction, TabValueEntries } from '../../app';
+import type { DataRowAction, TabValueEntries } from '../app';
 import { ButtonCard } from '@components/popupCards/buttonCard';
 import { deepCopy } from '@/lib/Utils';
 import { getElementIcon } from '@/lib/actionUtils';

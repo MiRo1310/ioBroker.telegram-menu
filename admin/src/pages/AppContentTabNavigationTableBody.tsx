@@ -14,7 +14,7 @@ import {
     handleStyleDragOver,
 } from '@/lib/dragNDrop.js';
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries } from 'admin/app';
+import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries } from '@/types/app';
 import type { EventButton } from '@/types/event';
 
 function createData(entriesOfParentComponent: TabValueEntries[], element: RowsNav): RowForButton {

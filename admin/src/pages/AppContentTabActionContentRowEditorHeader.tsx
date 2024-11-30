@@ -11,11 +11,12 @@ import type {
     DataMainContent,
     DataTabActionContent,
     TabActionContentTableProps,
-} from '../../app';
+} from '@/types/app';
 import { I18n } from '@iobroker/adapter-react-v5';
 
 export interface AppContentTabActionContentRowEditorInputAboveTableProps {
     data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { isMinOneCheckboxChecked: boolean };
+
     callback: CallbackFunctionsApp &
         CallbackTabActionContent & { openHelperText: (value: any) => void } & {
             updateData: (obj: EventCheckbox) => void;

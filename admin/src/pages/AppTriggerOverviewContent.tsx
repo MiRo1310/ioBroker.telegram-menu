@@ -1,5 +1,5 @@
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from 'admin/app.js';
+import type { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from '@/app.js';
 import React, { Component } from 'react';
 import Select from '../components/btn-Input/select.js';
 import { deepCopy, deleteDoubleEntriesInArray } from '@/lib/Utils';
@@ -63,9 +63,6 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
     }): { color: string; menu: string; index: number | null; used?: string }[] | undefined {
         this.menuArray = [];
         const result = this.getMenusWithUserOrIndexOfMenu(menuCall);
-        if (typeof result == 'number') {
-            return;
-        }
         const menusWithUser = deleteDoubleEntriesInArray(result.menusWithUser);
         this.colorArray = [];
 
@@ -105,9 +102,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
     getColorNavElemente(index: number, menu: string, trigger: string): undefined | string {
         const arrayUsersInGroup = Object.keys(this.props.usersInGroup);
         const result = this.getMenusWithUserOrIndexOfMenu(menu);
-        if (typeof result == 'number') {
-            return;
-        }
+
         const menusWithUser = result.menusWithUser;
         // Jedes Menü durchlaufen das zu dem User oder den Usern gehört in dem das Item ist
         let menu2 = '';

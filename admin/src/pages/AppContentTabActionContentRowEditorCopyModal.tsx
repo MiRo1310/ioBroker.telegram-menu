@@ -5,9 +5,14 @@ import type {
     DataMainContent,
     DataTabActionContent,
     TabActionContentTableProps,
-} from 'admin/app';
+    Echart,
+    Events,
+    Get,
+    HttpRequest,
+    Pic,
+    Set,
+} from '@/types/app';
 import React, { Component } from 'react';
-import type { Echart, Events, Get, HttpRequest, Pic, Set } from '../../app';
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from './AppContentTabActionContentRowEditorCopyModalSelectedValues';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { EventSelect } from '@/types/event';

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BtnCircleAddTypeProps } from '../../types/props-types';
+import type { BtnCircleAddTypeProps } from '@/types/props-types';
 
 export const BtnCircleAdd = (props: BtnCircleAddTypeProps): React.JSX.Element => {
     const clickHandler = (): void => {

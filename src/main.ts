@@ -26,7 +26,7 @@ import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from './lib
 import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from './lib/shoppingList';
 import { debug, error } from './lib/logging';
 import { checkIsTelegramActive } from './lib/connection';
-import type { BooleanString } from '../admin/app';
+import type { BooleanString } from '@/app';
 import type {
     Checkboxes,
     ListOfMenus,

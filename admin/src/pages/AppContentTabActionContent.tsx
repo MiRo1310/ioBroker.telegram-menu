@@ -9,8 +9,8 @@ import { addNewRow } from '@/lib/actionUtils.js';
 import AppContentTabActionContentRowEditor from '@/pages/AppContentTabActionContentRowEditor';
 import AppContentTabActionContentTable from '@/pages/AppContentTabActionContentTable';
 import Button from '@components/btn-Input/button';
-import type { ActionData, PropsActionCard, StateActionCard } from 'admin/app';
-import type { ActionNewRowProps } from '../../app';
+import type { ActionData, PropsActionCard, StateActionCard } from '@/app';
+import type { ActionNewRowProps } from '../app';
 import type { EventButton } from '@/types/event';
 import type { UpdateProps } from '@/types/props-types';
 
@@ -57,14 +57,11 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
     }
 
     checkNewValueIsOK = (): boolean => {
-        if (
+        return !!(
             this.state.editedValueFromHelperText &&
             this.state.editedValueFromHelperText !== '' &&
             this.state.editedValueFromHelperText !== this.state[this.state.helperTextFor]
-        ) {
-            return true;
-        }
-        return false;
+        );
     };
 
     addEditedTrigger = (trigger: string | null): void => {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Input from '../components/btn-Input/input';
-import { BtnCircleAdd } from '../components/btn-Input/btn-circle-add';
+import Input from '@/components/btn-Input/input';
+import { BtnCircleAdd } from '@components/btn-Input/btn-circle-add';
 import { I18n } from '@iobroker/adapter-react-v5';
-import Checkbox from '../components/btn-Input/checkbox';
-import { isChecked } from '../lib/Utils.js';
-import type { PropsRowNavCard } from 'admin/app';
+import Checkbox from '@/components/btn-Input/checkbox';
+import { isChecked } from '@/lib/Utils';
+import type { PropsRowNavCard } from '@/app';
 
 class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCard> {
     constructor(props: PropsRowNavCard) {

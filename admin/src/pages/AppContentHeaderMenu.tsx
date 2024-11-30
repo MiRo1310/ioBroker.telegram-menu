@@ -1,7 +1,7 @@
 import ButtonExpand from '@components/btn-Input/btn-expand';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
-import type { PropsHeaderMenu } from 'admin/app';
+import type { PropsHeaderMenu } from '@/app';
 import React, { Component } from 'react';
 import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
 import AppContentHeaderMenuList from './AppContentHeaderMenuList';

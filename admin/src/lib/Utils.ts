@@ -22,7 +22,7 @@ export const deepCopy = <T>(obj: T): T | undefined => {
 };
 
 export const isChecked = (value: string | boolean): boolean => {
-    return ['true', true].includes(value) ? true : false;
+    return ['true', true].includes(value);
 };
 
 export const deleteDoubleEntriesInArray = <T>(arr: T[]): T[] => {

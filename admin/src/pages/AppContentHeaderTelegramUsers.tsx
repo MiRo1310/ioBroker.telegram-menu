@@ -2,7 +2,7 @@ import type { EventCheckbox } from '@/types/event';
 import ButtonExpand from '@components/btn-Input/btn-expand';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
-import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from 'admin/app';
+import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from '@/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import AppContentHeaderTelegramUsersUserCard from './AppContentHeaderTelegramUsersUserCard';
@@ -33,7 +33,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
     };
 
     menuActiveChecked = (): boolean => {
-        return this.props.data.userActiveCheckbox[this.props.data.activeMenu] ? true : false;
+        return this.props.data.userActiveCheckbox[this.props.data.activeMenu];
     };
 
     clickCheckbox = ({ isChecked }: EventCheckbox): void => {

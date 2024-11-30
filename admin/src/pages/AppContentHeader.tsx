@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid } from '@mui/material';
 import HeaderMenu from '@/pages/AppContentHeaderMenu';
 import HeaderTelegramUsers from '@/pages/AppContentHeaderTelegramUsers';
-import type { PropsMainActions } from 'admin/app';
+import type { PropsMainActions } from '@/app';
 
 class MainActions extends Component<PropsMainActions> {
     constructor(props: PropsMainActions) {

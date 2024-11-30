@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tab, Box } from '@mui/material';
 import { TabList } from '@mui/lab';
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { PropsMainTabList, TabListingType } from 'admin/app';
+import type { PropsMainTabList, TabListingType } from '@/app';
 
 class TabListing extends Component<PropsMainTabList> {
     constructor(props: PropsMainTabList) {

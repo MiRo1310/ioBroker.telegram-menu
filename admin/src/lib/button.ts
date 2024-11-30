@@ -1,4 +1,31 @@
-import type { NativeData, UpdateNativeFunction } from '../../app';
+import { deepCopy } from '@/lib/Utils';
+import type { NativeData, UpdateNativeFunction } from '@/types/app';
+
+function getUserArray(
+    data: NativeData,
+    card: string,
+    subCard: string | undefined,
+    activeMenu: string,
+    index: number,
+): {
+    userArray: string[];
+    element: string;
+    dataCopy: NativeData | undefined;
+} {
+    const dataCopy = deepCopy(data);
+
+    let userArray: string[];
+
+    if (subCard) {
+        userArray = dataCopy?.[card][activeMenu][subCard];
+    } else {
+        userArray = dataCopy?.[card][activeMenu];
+    }
+
+    const element = userArray[index];
+    userArray.splice(index, 1);
+    return { userArray, element, dataCopy };
+}
 
 export const moveItem = ({
     index,
@@ -19,31 +46,22 @@ export const moveItem = ({
     card: string;
     subCard?: string;
 }): void => {
-    const dataCopy = JSON.parse(JSON.stringify(data));
+    const { element, userArray, dataCopy } = getUserArray(data, card, subCard, activeMenu, index);
 
-    let userArray = [];
-
-    if (subCard) {
-        userArray = dataCopy[card][activeMenu][subCard];
-    } else {
-        userArray = dataCopy[card][activeMenu];
-    }
-
-    const element = userArray[index];
-    userArray.splice(index, 1);
     if (upDown) {
         userArray.splice(index + upDown, 0, element);
     }
     if (newPositionIndex) {
         userArray.splice(newPositionIndex, 0, element);
     }
-    if (subCard) {
+    if (subCard && dataCopy) {
         dataCopy[card][activeMenu][subCard] = userArray;
-    } else {
+    } else if (dataCopy) {
         dataCopy[card][activeMenu] = userArray;
     }
     updateNative('data', dataCopy);
 };
+
 export const moveDown = ({
     index,
     data,
@@ -61,19 +79,11 @@ export const moveDown = ({
     card: string;
     subCard?: string;
 }): void => {
-    const dataCopy = JSON.parse(JSON.stringify(data));
-    let userArray = [];
-    if (subCard) {
-        userArray = dataCopy[card][activeMenu][subCard];
-    } else {
-        userArray = dataCopy[card][activeMenu];
-    }
-    const element = userArray[index];
-    userArray.splice(index, 1);
+    const { element, userArray, dataCopy } = getUserArray(data, card, subCard, activeMenu, index);
     userArray.splice(index + upDown, 0, element);
-    if (subCard) {
+    if (subCard && dataCopy) {
         dataCopy[card][activeMenu][subCard] = userArray;
-    } else {
+    } else if (dataCopy) {
         dataCopy[card][activeMenu] = userArray;
     }
     updateNative('data', dataCopy);
@@ -94,19 +104,12 @@ export const moveUp = ({
     card: string;
     subCard?: string;
 }): void => {
-    const dataCopy = JSON.parse(JSON.stringify(data));
-    let userArray = [];
-    if (subCard) {
-        userArray = dataCopy[card][activeMenu][subCard];
-    } else {
-        userArray = dataCopy[card][activeMenu];
-    }
-    const element = userArray[index];
-    userArray.splice(index, 1);
+    const { element, userArray, dataCopy } = getUserArray(data, card, subCard, activeMenu, index);
+
     userArray.splice(index - 1, 0, element);
-    if (subCard) {
+    if (subCard && dataCopy) {
         dataCopy[card][activeMenu][subCard] = userArray;
-    } else {
+    } else if (dataCopy) {
         dataCopy[card][activeMenu] = userArray;
     }
     updateNative('data', dataCopy);
@@ -127,17 +130,11 @@ export const deleteRow = ({
     card: string;
     subCard?: string;
 }): void => {
-    const dataCopy = JSON.parse(JSON.stringify(data));
-    let userArray = [];
-    if (subCard) {
-        userArray = dataCopy[card][activeMenu][subCard];
-    } else {
-        userArray = dataCopy[card][activeMenu];
-    }
-    userArray.splice(index, 1);
-    if (subCard) {
+    const { userArray, dataCopy } = getUserArray(data, card, subCard, activeMenu, index);
+
+    if (subCard && dataCopy) {
         dataCopy[card][activeMenu][subCard] = userArray;
-    } else {
+    } else if (dataCopy) {
         dataCopy[card][activeMenu] = userArray;
     }
     updateNative('data', dataCopy);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Logo } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
-import type { PropsHeaderIconBar } from 'admin/app';
+import type { PropsHeaderIconBar } from '@/app';
 
 class AppHeaderIconBar extends Component<PropsHeaderIconBar> {
     constructor(props: PropsHeaderIconBar) {

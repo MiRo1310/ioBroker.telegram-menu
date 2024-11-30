@@ -1,4 +1,4 @@
-import type { Dropbox, SetStateFunction } from 'admin/app';
+import type { Dropbox, SetStateFunction } from '@/app';
 export const handleMouseOver = (e: React.MouseEvent<HTMLSpanElement> | undefined): void => {
     const target = e?.target as HTMLElement;
     if (target.classList.contains('noneDraggable')) {

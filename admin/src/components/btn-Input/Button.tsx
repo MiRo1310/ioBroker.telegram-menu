@@ -1,6 +1,6 @@
 import type { Properties } from 'csstype';
 import React, { Component } from 'react';
-import type { ButtonProps } from '../../../app';
+import type { ButtonProps } from '../../app';
 import { I18n } from '@iobroker/adapter-react-v5';
 
 class Button extends Component<ButtonProps> {
@@ -39,7 +39,7 @@ class Button extends Component<ButtonProps> {
                 onClick={this.eventOnclickButton}
                 title={I18n.t(this.props.title || '')}
                 name={this.props.name}
-                disabled={this.props.disabled ? true : false}
+                disabled={!!this.props.disabled}
                 className={this.props.className}
             >
                 <span className="button--children">{this.props.children}</span>

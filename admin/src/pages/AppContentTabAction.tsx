@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { TabContext, TabPanel } from '@mui/lab';
 import AppContentTabActionContent from './AppContentTabActionContent';
-import { tabValues } from '../config/entries';
+import { tabValues } from '@/config/entries';
 import AppContentTabActionTabsListing from './AppContentTabActionTabsListing';
-import type { PropsTabAction, StateTabAction } from 'admin/app';
+import type { PropsTabAction, StateTabAction } from '@/app';
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {
     constructor(props: PropsTabAction) {

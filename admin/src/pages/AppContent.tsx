@@ -3,7 +3,7 @@ import AppContentTab from '@/pages/AppContentTab';
 import AppContentTabsListing from '@/pages/AppContentTabsListing';
 import { TabContext } from '@mui/lab';
 import { Box, Grid } from '@mui/material';
-import type { PropsMainContent } from 'admin/app';
+import type { PropsMainContent } from '@/app';
 import React, { Component } from 'react';
 
 class AppContent extends Component<PropsMainContent> {

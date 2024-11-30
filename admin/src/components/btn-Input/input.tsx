@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { InputProps } from 'admin/app';
-import type { EventInput } from '../../types/event';
+import type { InputProps } from '@/app';
+import type { EventInput } from '@/types/event';
 
 class Input extends Component<InputProps> {
     onChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | undefined): void => {

@@ -6,8 +6,8 @@ import TableNavEditRow from '@/pages/AppContentTabNavigationTableRowEditor';
 import TableNavHelper from '@/pages/AppContentTabNavigationTableHelper';
 
 import { deepCopy } from '@/lib/Utils.js';
-import type { RowsNav, PropsTabNavigation, StateTabNavigation } from 'admin/app';
-import type { EventButton } from '../types/event';
+import type { RowsNav, PropsTabNavigation, StateTabNavigation } from '@/app';
+import type { EventButton } from '@/types/event';
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
     constructor(props: PropsTabNavigation) {
@@ -72,15 +72,12 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
     };
 
     checkNewValueIsOK = (): boolean => {
-        if (
+        return (
             this.state.editedValueFromHelperText !== null &&
             this.state.editedValueFromHelperText !== undefined &&
             this.state.editedValueFromHelperText !== '' &&
             this.state.editedValueFromHelperText !== this.state[this.state.helperTextFor]
-        ) {
-            return true;
-        }
-        return false;
+        );
     };
 
     popupRowCard = ({ value }: EventButton): void => {

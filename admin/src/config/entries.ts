@@ -1,4 +1,4 @@
-import type { TabValueEntries, TabValues } from 'admin/app';
+import type { TabValueEntries, TabValues } from '@/app';
 
 export const tabValues: TabValues[] = [
     // Danach noch generateActions anpassen in action.js

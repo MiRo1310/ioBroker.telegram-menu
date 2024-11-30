@@ -14,8 +14,8 @@ import type {
     TabValueEntries,
     TabValues,
     TriggerObject,
-} from '../../app';
-import type { SetStateFunction } from 'admin/app';
+} from '../app';
+import type { SetStateFunction } from '@/app';
 import type { EventButton } from './event';
 import type { AdminConnection, GenericAppProps, GenericAppState } from '@iobroker/adapter-react-v5';
 
@@ -23,12 +23,15 @@ export namespace TelegramMenuApp {
     export interface AdditionalProps extends GenericAppProps {
         themeName: string;
     }
+
     interface AppProps {
         encryptedFields: string[];
         Connection: AdminConnection;
         translations: Translation;
     }
+
     export type ExtendedProps = AppProps & AdditionalProps;
+
     export interface AdditionalState extends GenericAppState {
         showDropBox: boolean;
         native: Native;
@@ -51,6 +54,7 @@ export namespace TelegramMenuApp {
         dropBoxRight: number;
         copyDataObject: { targetCheckboxes: { [key: number]: boolean }; targetActionName: string };
     }
+
     interface Translation {
         en: Record<string, string>;
         de: Record<string, string>;
@@ -67,9 +71,14 @@ export namespace TelegramMenuApp {
 }
 
 export interface AppContentTabActionContentRowEditorButtonsProps {
+    /* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
     data: DataMainContent &
         TabActionContentTableProps &
-        DataTabActionContent & { rows: RowsSetState[]; indexRow: number };
+        DataTabActionContent & {
+            rows: RowsSetState[];
+            indexRow: number;
+        };
+    /* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
     callback: CallbackFunctionsApp & CallbackTabActionContent & { setStateEditor: SetStateFunction };
 }
 
@@ -81,6 +90,7 @@ export interface PropsMainTabs {
 export interface PropsTableNavEditRow {
     state: StateTabNavigation;
     setState: SetStateFunction;
+    /* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
     data: DataMainContent & { entries: TabValueEntries[] };
     popupRowCard: (obj: EventButton) => void;
 }
@@ -116,10 +126,12 @@ export interface PropsTableNavHelper {
     data: AppData;
     popupHelperCard: (val: EventButton) => void;
 }
+
 export interface UpdateProps {
     data: { newRow: ActionNewRowProps; tab: { entries: TabValueEntries[] } };
     callback?: { setStateTabActionContent: SetStateFunction };
 }
+
 export interface SaveDataObject {
     checkboxesToCopy: boolean[];
     copyToMenu: string;

@@ -2,9 +2,18 @@ import { deepCopy } from '@/lib/Utils';
 import type { EventCheckbox } from '@/types/event';
 import Checkbox from '@components/btn-Input/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import type { CallbackFunctionsApp, Echart, Events, Get, HttpRequest, Pic, Set, SetStateFunction } from 'admin/app';
+import type {
+    CallbackFunctionsApp,
+    Echart,
+    Events,
+    Get,
+    HttpRequest,
+    NativeData,
+    Pic,
+    Set,
+    SetStateFunction,
+} from '@/types/app';
 import React, { Component } from 'react';
-import type { NativeData } from '../../app';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { SaveDataObject } from '@/types/props-types';
 

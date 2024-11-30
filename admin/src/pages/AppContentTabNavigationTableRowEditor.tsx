@@ -3,9 +3,9 @@ import AppContentTabNavigationTableRowEditorCard from '@/pages/AppContentTabNavi
 import React, { Component } from 'react';
 
 import { deepCopy } from '@/lib/Utils.js';
-import type { ChangeInputNav } from 'admin/app';
+import type { ChangeInputNav } from '@/app';
 import type { PropsTableNavEditRow } from '@/types/props-types';
-import type { EventCheckbox } from '../types/event';
+import type { EventCheckbox } from '@/types/event';
 
 class TableNavEditRow extends Component<PropsTableNavEditRow> {
     constructor(props: PropsTableNavEditRow) {

@@ -4,7 +4,7 @@ import TabNavigation from '@/pages/AppContentTabNavigation';
 import Settings from '@/pages/AppContentTabSettings';
 import { TabPanel } from '@mui/lab';
 import React, { Component } from 'react';
-import type { PropsMainTabs } from '../types/props-types';
+import type { PropsMainTabs } from '@/types/props-types';
 
 class Tabs extends Component<PropsMainTabs> {
     constructor(props: PropsMainTabs) {

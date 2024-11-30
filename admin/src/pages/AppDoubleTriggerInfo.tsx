@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { PropsMainDoubleTriggerInfo } from 'admin/app';
+import type { PropsMainDoubleTriggerInfo } from '@/app';
 
 class DoubleTriggerInfo extends Component<PropsMainDoubleTriggerInfo> {
     constructor(props: PropsMainDoubleTriggerInfo) {
