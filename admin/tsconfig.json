@@ -15,7 +15,7 @@
 		"./**/*.ts",
 		"./**/*.tsx",
 		"../src/lib/adapter-config.d.ts",
-		"./admin.d.ts",
+      "./src/admin.d.ts",
 		"./**/*.ts",
 		// Include the adapter-config definition if it exists.
 		// It should be at either on of these paths:
