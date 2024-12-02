@@ -2,11 +2,11 @@
 
 #root table {
 	border-collapse: collapse !important;
-	width: 100% !important;
+	width: calc(100% - 1rem) !important;
 }
 #root tr th {
 	background-color: #3399cc;
-	padding: 5px 5px 2px 5px;
+	padding: 0.5rem 0.5rem 0.2rem 0.5rem;
 	top: 0;
 }
 
@@ -17,6 +17,7 @@
 .table__head_button {
 	width: 1rem;
 }
+
 table input {
 	border: none !important;
 }
@@ -25,7 +26,6 @@ table {
 	overflow-y: auto;
 	flex: 1;
 }
-
 
 tr[draggable="true"] {
 	cursor: grab;
