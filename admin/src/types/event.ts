@@ -1,7 +1,5 @@
 export interface EventTextarea {
-    val: string;
-    index: number;
-    id: string;
+    [key: string]: string;
 }
 
 export interface EventButton {

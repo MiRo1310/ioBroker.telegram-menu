@@ -116,9 +116,8 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                     callbackValue="event.target.value"
                     label=""
                     rows={4}
-                >
-                </Textarea>
-                {this.state.showSelectId ? (
+                />
+                               {this.state.showSelectId ? (
                     <SelectID
                         key="tableSelect"
                         imagePrefix="../.."
