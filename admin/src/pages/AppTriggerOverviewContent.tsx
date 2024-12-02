@@ -1,5 +1,5 @@
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from '@/app.js';
+import type { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from '@/types/app.js';
 import React, { Component } from 'react';
 import Select from '../components/btn-Input/select.js';
 import { deepCopy, deleteDoubleEntriesInArray } from '@/lib/Utils';

@@ -69,14 +69,13 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode || "false";
           backMenu[userToSend].last = list.pop();
           return { texttosend: textToSend, menuToSend, parseMode };
-        } else {
-          parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode || "false";
-          return {
-            texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
-            menuToSend,
-            parseMode
-          };
         }
+        parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode || "false";
+        return {
+          texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
+          menuToSend,
+          parseMode
+        };
       }
     }
   } catch (e) {

@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -68,15 +72,18 @@ const exchangeValue = (textToSend, stateVal) => {
   let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
   let objChangeValue;
   match = match.replace(/'/g, '"');
-  if ((0, import_global.isJSON)("{" + match + "}")) {
-    objChangeValue = JSON.parse("{" + match + "}");
+  if ((0, import_global.isJSON)(`{${match}}`)) {
+    objChangeValue = JSON.parse(`{${match}}`);
   } else {
     (0, import_logging.error)([{ text: `There is a error in your input:`, val: (0, import_global.replaceAll)(match, '"', "'") }]);
     return false;
   }
   let newValue;
   objChangeValue[String(stateVal)] ? newValue = objChangeValue[String(stateVal)] : newValue = stateVal;
-  return { valueChange: newValue, textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1) };
+  return {
+    valueChange: newValue,
+    textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1)
+  };
 };
 function decomposeText(text, searchValue, secondValue) {
   const startindex = text.indexOf(searchValue);
@@ -99,7 +106,7 @@ function changeValue(textToSend, val) {
     if (typeof result === "boolean") {
       return;
     }
-    return { textToSend: result["textToSend"], val: result["valueChange"] };
+    return { textToSend: result.textToSend, val: result.valueChange };
   }
 }
 const processTimeIdLc = async (textToSend, id) => {
@@ -147,12 +154,12 @@ const processTimeIdLc = async (textToSend, id) => {
   const month = timeObj.getMonth() + 1;
   const year = timeObj.getFullYear();
   const time = {
-    ms: milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds,
-    s: seconds < 10 ? "0" + seconds : seconds,
-    m: minutes < 10 ? "0" + minutes : minutes,
-    h: hours < 10 ? "0" + hours : hours,
-    d: day < 10 ? "0" + day : day,
-    mo: month < 10 ? "0" + month : month,
+    ms: milliseconds < 10 ? `00${milliseconds}` : milliseconds < 100 ? `0${milliseconds}` : milliseconds,
+    s: seconds < 10 ? `0${seconds}` : seconds,
+    m: minutes < 10 ? `0${minutes}` : minutes,
+    h: hours < 10 ? `0${hours}` : hours,
+    d: day < 10 ? `0${day}` : day,
+    mo: month < 10 ? `0${month}` : month,
     y: year
   };
   if (timeStringUser) {
@@ -185,56 +192,52 @@ const processTimeIdLc = async (textToSend, id) => {
   }
   return textToSend;
 };
-const checkStatus = (text, processTimeValue2) => {
-  return new Promise(async (resolve) => {
-    try {
-      const _this = import_main.default.getInstance();
-      (0, import_logging.debug)([{ text: "CheckStatusInfo:", val: text }]);
-      const substring = decomposeText(text, "{status:", "}").substring;
-      let id, valueChange;
-      if (substring.includes("status:'id':")) {
-        id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-        valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
-      } else {
-        id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-        valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
-      }
-      const stateValue = await _this.getForeignStateAsync(id);
-      if (!stateValue) {
-        (0, import_logging.debug)([{ text: "Error getting Value from:", val: id }]);
-        return;
-      }
-      if (text.includes("{time}") && processTimeValue2) {
-        text = text.replace(substring, "");
-        if (stateValue.val && typeof stateValue.val === "string") {
-          const newValue2 = processTimeValue2(text, stateValue).replace(stateValue.val, "");
-          return resolve(newValue2);
-        }
-      }
-      if (stateValue.val === void 0 || stateValue.val === null) {
-        (0, import_logging.debug)([{ text: "Id", val: id }, { text: "Value is null or undefined!" }]);
-        return resolve(text.replace(substring, ""));
-      }
-      if (!valueChange) {
-        resolve(text.replace(substring, stateValue.val.toString()));
-        return;
-      }
-      const changedResult = changeValue(text, stateValue.val);
-      let newValue;
-      if (changedResult) {
-        text = changedResult.textToSend;
-        newValue = changedResult.val;
-      } else {
-        newValue = stateValue.val;
-      }
-      resolve(text.replace(substring, newValue.toString()));
-    } catch (e) {
-      (0, import_logging.error)([
-        { text: "Error checkStatus:", val: e.message },
-        { text: "Stack:", val: e.stack }
-      ]);
+const checkStatus = async (text, processTimeValue2) => {
+  try {
+    const _this = import_main.default.getInstance();
+    (0, import_logging.debug)([{ text: "CheckStatusInfo:", val: text }]);
+    const substring = decomposeText(text, "{status:", "}").substring;
+    let id, valueChange;
+    if (substring.includes("status:'id':")) {
+      id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
+      valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
+    } else {
+      id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
+      valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
     }
-  });
+    const stateValue = await _this.getForeignStateAsync(id);
+    if (!stateValue) {
+      (0, import_logging.debug)([{ text: "Error getting Value from:", val: id }]);
+      return;
+    }
+    if (text.includes("{time}") && processTimeValue2) {
+      text = text.replace(substring, "");
+      if (stateValue.val && typeof stateValue.val === "string") {
+        return processTimeValue2(text, stateValue).replace(stateValue.val, "");
+      }
+    }
+    if (stateValue.val === void 0 || stateValue.val === null) {
+      (0, import_logging.debug)([{ text: "Id", val: id }, { text: "Value is null or undefined!" }]);
+      return text.replace(substring, "");
+    }
+    if (!valueChange) {
+      return text.replace(substring, stateValue.val.toString());
+    }
+    const changedResult = changeValue(text, stateValue.val);
+    let newValue;
+    if (changedResult) {
+      text = changedResult.textToSend;
+      newValue = changedResult.val;
+    } else {
+      newValue = stateValue.val;
+    }
+    return text.replace(substring, newValue.toString());
+  } catch (e) {
+    (0, import_logging.error)([
+      { text: "Error checkStatus:", val: e.message },
+      { text: "Stack:", val: e.stack }
+    ]);
+  }
 };
 const checkStatusInfo = async (text) => {
   const _this = import_main.default.getInstance();
@@ -242,7 +245,7 @@ const checkStatusInfo = async (text) => {
     if (!text) {
       return;
     }
-    _this.log.debug("Text: " + JSON.stringify(text));
+    _this.log.debug(`Text: ${JSON.stringify(text)}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
         const result = await checkStatus(text, processTimeValue);
@@ -299,7 +302,7 @@ async function checkTypeOfId(id, value) {
       return value;
     }
     if (obj.common.type === "string") {
-      return value.toString();
+      return JSON.stringify(value);
     }
     if (obj && obj.common && obj.common.type === "number" && typeof value === "string") {
       return parseFloat(value);

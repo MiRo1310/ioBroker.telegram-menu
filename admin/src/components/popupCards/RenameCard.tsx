@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Input from '../btn-Input/input';
-import type { PropsRenameCard, StateRenameCard } from '@/app';
+import type { PropsRenameCard, StateRenameCard } from '@/types/app';
 import type { EventInput } from '@/types/event';
 
 class RenameCard extends Component<PropsRenameCard, StateRenameCard> {

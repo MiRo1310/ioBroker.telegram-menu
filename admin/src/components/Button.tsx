@@ -1,6 +1,6 @@
 import type { Properties } from 'csstype';
 import React, { Component } from 'react';
-import type { ButtonProps } from '../../app';
+import type { ButtonProps } from '@/types/app';
 import { I18n } from '@iobroker/adapter-react-v5';
 
 class Button extends Component<ButtonProps> {

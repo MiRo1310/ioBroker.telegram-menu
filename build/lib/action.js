@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -70,7 +74,16 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         value = eval(item);
       }
     }
-    (0, import_telegram.sendToTelegram)(userToSend, value, void 0, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+    await (0, import_telegram.sendToTelegram)(
+      userToSend,
+      value,
+      void 0,
+      telegramInstance,
+      one_time_keyboard,
+      resize_keyboard,
+      userListWithChatID,
+      parse_mode
+    );
   } catch (e) {
     (0, import_logging.error)([
       { text: "Error:", val: e.message },
@@ -94,11 +107,11 @@ function calcValue(_this, textToSend, val) {
 }
 function checkValueForOneLine(text2) {
   if (!text2.includes("&&")) {
-    return text2 + "&&";
+    return `${text2}&&`;
   }
   return text2;
 }
-async function editArrayButtons(val2, _this2) {
+function editArrayButtons(val2, _this2) {
   const newVal = [];
   try {
     val2.forEach((element) => {
@@ -158,7 +171,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
         let res;
         if (text2.includes("{common.name}")) {
           res = await _this2.getForeignObjectAsync(id);
-          _this2.log.debug("Name " + JSON.stringify(res == null ? void 0 : res.common.name));
+          _this2.log.debug(`Name ${JSON.stringify(res == null ? void 0 : res.common.name)}`);
           if (res && res.common.name) {
             newText = newText.replace("{common.name}", res.common.name);
           }
@@ -169,7 +182,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
           text2Send += newText.replace("&&", value2.val);
         } else {
           text2Send += newText;
-          text2Send += " " + value2.val;
+          text2Send += ` ${value2.val}`;
         }
       }
       if (newline === "true") {
@@ -177,10 +190,24 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
       } else {
         text2Send += " ";
       }
-      _this2.log.debug("text2send " + JSON.stringify(text2Send));
+      _this2.log.debug(`text2send ${JSON.stringify(text2Send)}`);
     });
     Promise.all(promises).then(() => {
-      (0, import_telegram.sendToTelegram)(userToSend2, text2Send, void 0, telegramInstance2, one_time_keyboard2, resize_keyboard2, userListWithChatID2, "");
+      (0, import_telegram.sendToTelegram)(
+        userToSend2,
+        text2Send,
+        void 0,
+        telegramInstance2,
+        one_time_keyboard2,
+        resize_keyboard2,
+        userListWithChatID2,
+        ""
+      ).catch((e) => {
+        (0, import_logging.error)([
+          { text: "Error SendToTelegram:", val: e.message },
+          { text: "Stack:", val: e.stack }
+        ]);
+      });
       (0, import_logging.debug)([
         { text: "TextToSend:", val: text2Send },
         { text: "UserToSend:", val: userToSend2 }
@@ -198,7 +225,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
     ]);
   }
 };
-async function generateNewObjectStructure(val2) {
+function generateNewObjectStructure(val2) {
   try {
     if (!val2) {
       return null;
@@ -228,7 +255,13 @@ function generateActions(action, userObject) {
         objName: "echarts",
         name: "echarts",
         loop: "preset",
-        elements: [{ name: "preset" }, { name: "echartInstance" }, { name: "background" }, { name: "theme" }, { name: "filename" }]
+        elements: [
+          { name: "preset" },
+          { name: "echartInstance" },
+          { name: "background" },
+          { name: "theme" },
+          { name: "filename" }
+        ]
       },
       {
         objName: "loc",
@@ -240,7 +273,11 @@ function generateActions(action, userObject) {
         objName: "pic",
         name: "sendPic",
         loop: "IDs",
-        elements: [{ name: "id", value: "IDs" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }]
+        elements: [
+          { name: "id", value: "IDs" },
+          { name: "fileName" },
+          { name: "delay", value: "picSendDelay" }
+        ]
       },
       {
         objName: "get",
@@ -316,7 +353,9 @@ function generateActions(action, userObject) {
               }
             });
             if (item2.name && typeof item2.name === "string") {
-              userObject[element.trigger][item2 == null ? void 0 : item2.name].push(newObj);
+              userObject[element.trigger][item2 == null ? void 0 : item2.name].push(
+                newObj
+              );
             }
           });
         });
@@ -351,7 +390,7 @@ const exchangePlaceholderWithValue = (textToSend2, text2) => {
   } else if (textToSend2.includes("&amp;&amp;")) {
     searchString = "&amp;&amp;";
   }
-  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, text2.toString()) : textToSend2 += " " + text2;
+  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, text2.toString()) : textToSend2 += ` ${text2}`;
   return textToSend2;
 };
 const adjustValueType = (value2, valueType) => {
@@ -371,13 +410,13 @@ const adjustValueType = (value2, valueType) => {
   }
   return value2;
 };
-const checkEvent = (dataObject, id, state, menuData, userListWithChatID2, instanceTelegram, resize_keyboard2, one_time_keyboard2, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, instanceTelegram, resize_keyboard2, one_time_keyboard2, usersInGroup) => {
   const menuArray = [];
   let ok = false;
   let calledNav = "";
   Object.keys(dataObject.action).forEach((menu) => {
-    if (dataObject.action[menu] && dataObject.action[menu]["events"]) {
-      dataObject.action[menu]["events"].forEach((event) => {
+    if (dataObject.action[menu] && dataObject.action[menu].events) {
+      dataObject.action[menu].events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
           if ((state.val == true || state.val == "true") && event.condition == "true") {
             ok = true;
@@ -402,16 +441,16 @@ const checkEvent = (dataObject, id, state, menuData, userListWithChatID2, instan
   });
   if (ok) {
     if (menuArray.length >= 1) {
-      menuArray.forEach((menu) => {
+      for (const menu of menuArray) {
         if (usersInGroup[menu] && menuData.data[menu][calledNav]) {
-          usersInGroup[menu].forEach((user) => {
+          for (const user of usersInGroup[menu]) {
             const part = menuData.data[menu][calledNav];
             const menus = Object.keys(menuData.data);
             if (part.nav) {
               (0, import_backMenu.backMenuFunc)(calledNav, part.nav, user);
             }
             if (part && part.nav && JSON.stringify(part == null ? void 0 : part.nav[0]).includes("menu:")) {
-              (0, import_subMenu.callSubMenu)(
+              await (0, import_subMenu.callSubMenu)(
                 JSON.stringify(part == null ? void 0 : part.nav[0]),
                 menuData,
                 user,
@@ -425,11 +464,18 @@ const checkEvent = (dataObject, id, state, menuData, userListWithChatID2, instan
                 null
               );
             } else {
-              (0, import_sendNav.sendNav)(part, user, instanceTelegram, userListWithChatID2, resize_keyboard2, one_time_keyboard2);
+              await (0, import_sendNav.sendNav)(
+                part,
+                user,
+                instanceTelegram,
+                userListWithChatID2,
+                resize_keyboard2,
+                one_time_keyboard2
+              );
             }
-          });
+          }
         }
-      });
+      }
     }
   }
   return ok;

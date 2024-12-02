@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/createState.ts"],
-  "sourcesContent": ["import TelegramMenu from \"../main\";\r\nconst createState = async (_this: TelegramMenu): Promise<void> => {\r\n\tawait _this.setObjectNotExistsAsync(\"communication.requestIds\", {\r\n\t\ttype: \"state\",\r\n\t\tcommon: {\r\n\t\t\tname: \"RequestIds\",\r\n\t\t\ttype: \"string\",\r\n\t\t\trole: \"state\",\r\n\t\t\tread: true,\r\n\t\t\twrite: false,\r\n\t\t\tdef: \"\",\r\n\t\t},\r\n\t\tnative: {},\r\n\t});\r\n};\r\nexport { createState };\r\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,MAAM,cAAc,OAAO,UAAuC;AACjE,QAAM,MAAM,wBAAwB,4BAA4B;AAAA,IAC/D,MAAM;AAAA,IACN,QAAQ;AAAA,MACP,MAAM;AAAA,MACN,MAAM;AAAA,MACN,MAAM;AAAA,MACN,MAAM;AAAA,MACN,OAAO;AAAA,MACP,KAAK;AAAA,IACN;AAAA,IACA,QAAQ,CAAC;AAAA,EACV,CAAC;AACF;",
+  "sourcesContent": ["import type TelegramMenu from '../main';\nconst createState = async (_this: TelegramMenu): Promise<void> => {\n    await _this.setObjectNotExistsAsync('communication.requestIds', {\n        type: 'state',\n        common: {\n            name: 'RequestIds',\n            type: 'string',\n            role: 'state',\n            read: true,\n            write: false,\n            def: '',\n        },\n        native: {},\n    });\n};\nexport { createState };\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,MAAM,cAAc,OAAO,UAAuC;AAC9D,QAAM,MAAM,wBAAwB,4BAA4B;AAAA,IAC5D,MAAM;AAAA,IACN,QAAQ;AAAA,MACJ,MAAM;AAAA,MACN,MAAM;AAAA,MACN,MAAM;AAAA,MACN,MAAM;AAAA,MACN,OAAO;AAAA,MACP,KAAK;AAAA,IACT;AAAA,IACA,QAAQ,CAAC;AAAA,EACb,CAAC;AACL;",
   "names": []
 }

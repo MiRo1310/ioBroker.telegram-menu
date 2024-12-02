@@ -19,6 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var global_exports = {};
 __export(global_exports, {
   decomposeText: () => decomposeText,
+  deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
   isJSON: () => isJSON,
   replaceAll: () => replaceAll
@@ -35,6 +36,7 @@ function isJSON(_string) {
     JSON.parse(_string);
     return true;
   } catch (error) {
+    console.error([{ text: "Error:", val: error }]);
     return false;
   }
 }
@@ -50,9 +52,17 @@ function decomposeText(text, searchValue, secondValue) {
     textWithoutSubstring
   };
 }
+const deepCopy = (obj) => {
+  try {
+    return JSON.parse(JSON.stringify(obj));
+  } catch (err) {
+    console.error(`Error deepCopy: ${JSON.stringify(err)}`);
+  }
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
+  deepCopy,
   deleteDoubleEntriesInArray,
   isJSON,
   replaceAll

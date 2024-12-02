@@ -19,7 +19,7 @@ import Checkbox from '@components/btn-Input/checkbox';
 import PopupContainer from '@components/popupCards/PopupContainer';
 import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
-import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from '@/app';
+import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from '@/types/app';
 import React, { Component } from 'react';
 import type { EventButton, EventCheckbox } from '@/types/event';
 import AppContentTabActionContentRowEditorButtons from './AppContentTabActionContentRowEditorButtons';

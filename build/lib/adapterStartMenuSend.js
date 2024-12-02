@@ -24,15 +24,15 @@ module.exports = __toCommonJS(adapterStartMenuSend_exports);
 var import_telegram = require("./telegram");
 var import_backMenu = require("./backMenu");
 var import_logging = require("./logging");
-function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
-  listOfMenus.forEach((menu) => {
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
+  for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
     if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
       (0, import_logging.debug)([{ text: "Startseite:", val: startSide }]);
-      menusWithUsers[menu].forEach((user) => {
+      for (const user of menusWithUsers[menu]) {
         (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
         (0, import_logging.debug)([{ text: "User List:", val: userListWithChatID }]);
-        (0, import_telegram.sendToTelegram)(
+        await (0, import_telegram.sendToTelegram)(
           user,
           menuData.data[menu][startSide].text,
           menuData.data[menu][startSide].nav,
@@ -42,15 +42,15 @@ function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menus
           userListWithChatID,
           menuData.data[menu][startSide].parse_mode
         );
-      });
+      }
     } else {
       if (startSide == "-") {
         (0, import_logging.debug)([{ text: `Menu "${menu}" is a Submenu.` }]);
-        return;
+        continue;
       }
       (0, import_logging.debug)([{ text: `Menu "${menu}" is inactive.` }]);
     }
-  });
+  }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

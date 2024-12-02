@@ -3,7 +3,7 @@ import { TabContext, TabPanel } from '@mui/lab';
 import AppContentTabActionContent from './AppContentTabActionContent';
 import { tabValues } from '@/config/entries';
 import AppContentTabActionTabsListing from './AppContentTabActionTabsListing';
-import type { PropsTabAction, StateTabAction } from '@/app';
+import type { PropsTabAction, StateTabAction } from '@/types/app';
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {
     constructor(props: PropsTabAction) {

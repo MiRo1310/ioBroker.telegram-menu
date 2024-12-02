@@ -14,8 +14,8 @@ import type {
     TabValueEntries,
     TabValues,
     TriggerObject,
-} from '../app';
-import type { SetStateFunction } from '@/app';
+    SetStateFunction,
+} from '@/types/app';
 import type { EventButton } from './event';
 import type { AdminConnection, GenericAppProps, GenericAppState } from '@iobroker/adapter-react-v5';
 
@@ -71,14 +71,13 @@ export namespace TelegramMenuApp {
 }
 
 export interface AppContentTabActionContentRowEditorButtonsProps {
-    /* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
     data: DataMainContent &
         TabActionContentTableProps &
         DataTabActionContent & {
             rows: RowsSetState[];
             indexRow: number;
         };
-    /* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
+
     callback: CallbackFunctionsApp & CallbackTabActionContent & { setStateEditor: SetStateFunction };
 }
 
@@ -90,7 +89,7 @@ export interface PropsMainTabs {
 export interface PropsTableNavEditRow {
     state: StateTabNavigation;
     setState: SetStateFunction;
-    /* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
+
     data: DataMainContent & { entries: TabValueEntries[] };
     popupRowCard: (obj: EventButton) => void;
 }

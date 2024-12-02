@@ -6,8 +6,7 @@ import { updateTriggerForSelect } from '@/lib/actionUtils';
 import { deepCopy } from '@/lib/Utils';
 import PopupContainer from '@/components/popupCards/PopupContainer';
 import RenameCard from '@/components/popupCards/RenameCard';
-import type { NativeData, PropsDropBox, StateDropBox } from '@/app';
-import type { DataRow } from '../app';
+import type { DataRow, NativeData, PropsDropBox, StateDropBox } from '@/types/app';
 import type { EventButton, EventSelect } from '@/types/event';
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {

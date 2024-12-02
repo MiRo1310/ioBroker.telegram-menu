@@ -158,7 +158,7 @@ export interface ButtonProps {
     maxWidth?: string;
     verticalAlign?: string;
     index?: number | null;
-    callback: () => void;
+    callback: (obj) => void;
     callbackValue?: CallbackValue;
     id?: string;
     setNative?: boolean;
@@ -549,7 +549,7 @@ export interface PropsRenameCard {
 }
 
 export interface StateRenameCard {
-    any: any;
+
 }
 
 export interface PropsTriggerOverview {
