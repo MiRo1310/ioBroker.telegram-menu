@@ -3,6 +3,7 @@ import { deleteMessageByBot } from './botAction';
 import { error } from './logging';
 import type { UserListWithChatId, WhatShouldDelete } from './telegram-menu';
 import { getChatID } from './utilities';
+import { deepCopy } from '@/lib/Utils';
 
 interface Messages {
     [key: string]: MessageInfos[];
@@ -99,7 +100,7 @@ async function deleteMessageIds(
         }
 
         isDeleting = true;
-        const copyMessageIds = JSON.parse(JSON.stringify(messageIds));
+        const copyMessageIds = deepCopy(messageIds);
         messageIds[chat_id].forEach((element, index) => {
             if (whatShouldDelete === 'all' && element.id) {
                 deleteMessageByBot(
@@ -108,12 +109,7 @@ async function deleteMessageIds(
                     userListWithChatID,
                     parseInt(element.id?.toString()),
                     chat_id,
-                ).catch((e: any) => {
-                    error([
-                        { text: 'Error', val: e.message },
-                        { text: 'Stack', val: e.stack },
-                    ]);
-                });
+                );
             }
             if (whatShouldDelete === 'last' && index === messageIds[chat_id].length - 1 && element.id) {
                 deleteMessageByBot(
@@ -122,12 +118,10 @@ async function deleteMessageIds(
                     userListWithChatID,
                     parseInt(element.id?.toString()),
                     chat_id,
-                ).catch((e: any) => {
-                    error([
-                        { text: 'Error', val: e.message },
-                        { text: 'Stack', val: e.stack },
-                    ]);
-                });
+                );
+            }
+            if (!copyMessageIds) {
+                return;
             }
             copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
         });

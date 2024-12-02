@@ -36,6 +36,7 @@ var import_main = __toESM(require("../main"));
 var import_botAction = require("./botAction");
 var import_logging = require("./logging");
 var import_utilities = require("./utilities");
+var import_Utils = require("@/lib/Utils");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
   var _a;
@@ -99,7 +100,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
       messageIds[chat_id].push({ id: lastMessageId.val.toString() });
     }
     isDeleting = true;
-    const copyMessageIds = JSON.parse(JSON.stringify(messageIds));
+    const copyMessageIds = (0, import_Utils.deepCopy)(messageIds);
     messageIds[chat_id].forEach((element, index) => {
       var _a, _b;
       if (whatShouldDelete === "all" && element.id) {
@@ -109,12 +110,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
           userListWithChatID,
           parseInt((_a = element.id) == null ? void 0 : _a.toString()),
           chat_id
-        ).catch((e) => {
-          (0, import_logging.error)([
-            { text: "Error", val: e.message },
-            { text: "Stack", val: e.stack }
-          ]);
-        });
+        );
       }
       if (whatShouldDelete === "last" && index === messageIds[chat_id].length - 1 && element.id) {
         (0, import_botAction.deleteMessageByBot)(
@@ -123,12 +119,10 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
           userListWithChatID,
           parseInt((_b = element.id) == null ? void 0 : _b.toString()),
           chat_id
-        ).catch((e) => {
-          (0, import_logging.error)([
-            { text: "Error", val: e.message },
-            { text: "Stack", val: e.stack }
-          ]);
-        });
+        );
+      }
+      if (!copyMessageIds) {
+        return;
       }
       copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
     });
