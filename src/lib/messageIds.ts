@@ -3,7 +3,7 @@ import { deleteMessageByBot } from './botAction';
 import { error } from './logging';
 import type { UserListWithChatId, WhatShouldDelete } from './telegram-menu';
 import { getChatID } from './utilities';
-import { deepCopy } from '@/lib/Utils';
+import { deepCopy } from './global';
 
 interface Messages {
     [key: string]: MessageInfos[];
