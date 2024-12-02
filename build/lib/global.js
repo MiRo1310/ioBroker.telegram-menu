@@ -35,6 +35,7 @@ function isJSON(_string) {
     JSON.parse(_string);
     return true;
   } catch (error) {
+    console.error([{ text: "Error:", val: error }]);
     return false;
   }
 }

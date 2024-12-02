@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -37,7 +41,6 @@ var import_backMenu = require("./backMenu");
 var import_setstate = require("./setstate");
 var import_getstate = require("./getstate");
 var import_sendpic = require("./sendpic");
-var import_telegram2 = require("./telegram");
 var import_dynamicValue = require("./dynamicValue");
 var import_action = require("./action");
 var import_subscribeStates = require("./subscribeStates");
@@ -126,7 +129,7 @@ async function processData(obj) {
       if (valueToSet) {
         await _this.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack);
       } else {
-        (0, import_telegram.sendToTelegram)(
+        await (0, import_telegram.sendToTelegram)(
           userToSend,
           `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
           void 0,
@@ -140,22 +143,29 @@ async function processData(obj) {
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
       if (result) {
-        (0, import_telegram.sendToTelegram)(
+        await (0, import_telegram.sendToTelegram)(
           userToSend,
-          result["texttosend"] || "",
-          result["menuToSend"],
+          result.texttosend || "",
+          result.menuToSend,
           instanceTelegram,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          result["parseMode"]
+          result.parseMode
         );
       } else {
-        (0, import_sendNav.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+        await (0, import_sendNav.sendNav)(
+          part,
+          userToSend,
+          instanceTelegram,
+          userListWithChatID,
+          resize_keyboard,
+          one_time_keyboard
+        );
       }
       return true;
     }
-    if (typeof calledValue === "string" && calledValue.includes("menu:")) {
+    if (calledValue.includes("menu:")) {
       call = calledValue.split(":")[2];
     } else {
       call = calledValue;
@@ -184,7 +194,7 @@ async function processData(obj) {
             setStateIdsToListenTo = result.setStateIdsToListenTo;
           }
           if (result && result.newNav) {
-            checkEveryMenuForData({
+            await checkEveryMenuForData({
               menuData,
               calledValue: result.newNav,
               userToSend,
@@ -200,17 +210,33 @@ async function processData(obj) {
             });
           }
         } else {
-          (0, import_sendNav.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+          await (0, import_sendNav.sendNav)(
+            part,
+            userToSend,
+            instanceTelegram,
+            userListWithChatID,
+            resize_keyboard,
+            one_time_keyboard
+          );
         }
         return true;
       }
       if (part.switch) {
-        const result = await (0, import_setstate.setState)(part, userToSend, 0, false, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+        const result = await (0, import_setstate.setState)(
+          part,
+          userToSend,
+          0,
+          false,
+          instanceTelegram,
+          resize_keyboard,
+          one_time_keyboard,
+          userListWithChatID
+        );
         if (result) {
           setStateIdsToListenTo = result;
         }
         if (Array.isArray(setStateIdsToListenTo)) {
-          (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: setStateIdsToListenTo });
+          await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: setStateIdsToListenTo });
         }
         return true;
       }
@@ -240,12 +266,20 @@ async function processData(obj) {
       }
       if (part.location) {
         (0, import_logging.debug)([{ text: "Send Location" }]);
-        (0, import_telegram2.sendLocationToTelegram)(userToSend, part.location, instanceTelegram, userListWithChatID);
+        await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, instanceTelegram, userListWithChatID);
         return true;
       }
       if (part.echarts) {
         (0, import_logging.debug)([{ text: "Echarts" }]);
-        await (0, import_echarts.getChart)(part.echarts, directoryPicture, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+        (0, import_echarts.getChart)(
+          part.echarts,
+          directoryPicture,
+          userToSend,
+          instanceTelegram,
+          userListWithChatID,
+          resize_keyboard,
+          one_time_keyboard
+        );
         return true;
       }
       if (part.httpRequest) {

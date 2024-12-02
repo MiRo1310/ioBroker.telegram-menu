@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -31,16 +35,16 @@ var import_main = __toESM(require("../main"));
 var import_logging = require("./logging");
 const checkIsTelegramActive = async (dataPoint) => {
   const _this = import_main.default.getInstance();
-  _this.setState("info.connection", false, true);
+  await _this.setState("info.connection", false, true);
   const telegramInfoConnection = await _this.getForeignStateAsync(dataPoint);
   (0, import_logging.debug)([{ text: "Telegram Info Connection: ", val: telegramInfoConnection == null ? void 0 : telegramInfoConnection.val }]);
   if (telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) {
-    _this.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
+    await _this.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
   }
   if (!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val)) {
     (0, import_logging.info)([{ text: "Telegram was found, but is not running. Please start!" }]);
   }
-  return (telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) ? true : false;
+  return !!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

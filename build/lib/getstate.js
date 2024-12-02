@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -43,11 +47,11 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
   (_b = part.getData) == null ? void 0 : _b.forEach(async (element) => {
     try {
       (0, import_logging.debug)([{ text: "Get Value ID:", val: element.id }]);
-      const specificatedSelektor = "functions=";
+      const specifiedSelektor = "functions=";
       const id = element.id;
       let textToSend = "";
-      if (id.indexOf(specificatedSelektor) != -1) {
-        (0, import_action.idBySelector)(
+      if (id.indexOf(specifiedSelektor) != -1) {
+        await (0, import_action.idBySelector)(
           _this,
           id,
           element.text,
@@ -62,10 +66,18 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
       }
       if (element.text.includes("binding:")) {
         (0, import_logging.debug)([{ text: "Binding" }]);
-        (0, import_action.bindingFunc)(element.text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+        await (0, import_action.bindingFunc)(
+          element.text,
+          userToSend,
+          telegramInstance,
+          one_time_keyboard,
+          resize_keyboard,
+          userListWithChatID,
+          parse_mode
+        );
         return;
       }
-      _this.getForeignStateAsync(id).then(async (value) => {
+      await _this.getForeignStateAsync(id).then(async (value) => {
         var _a2, _b2;
         if (!value) {
           return;
@@ -99,16 +111,18 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           if (textToSend.includes("round:")) {
             const result = (0, import_action.roundValue)(val, textToSend);
             if (result) {
-              _this.log.debug("The Value was rounded " + JSON.stringify(val) + " to " + JSON.stringify(result.val));
+              _this.log.debug(
+                `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`
+              );
               val = result.val;
               textToSend = result.textToSend;
             }
           }
           if (textToSend.includes("{json")) {
             if ((0, import_global.decomposeText)(textToSend, "{json", "}").substring.includes("TextTable")) {
-              const result = await (0, import_jsonTable.createTextTableFromJson)(valueForJson, textToSend);
+              const result = (0, import_jsonTable.createTextTableFromJson)(valueForJson, textToSend);
               if (result) {
-                (0, import_telegram.sendToTelegram)(
+                await (0, import_telegram.sendToTelegram)(
                   userToSend,
                   result,
                   void 0,
@@ -119,44 +133,49 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                   parse_mode
                 );
                 return;
-              } else {
-                _this.log.debug("Cannot create a Text-Table");
               }
+              _this.log.debug("Cannot create a Text-Table");
             } else {
               const result = (0, import_jsonTable.createKeyboardFromJson)(valueForJson, textToSend, element.id, userToSend);
               if (valueForJson && valueForJson.length > 0) {
                 if (result && result.text && result.keyboard) {
-                  (0, import_telegram.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parse_mode);
+                  (0, import_telegram.sendToTelegramSubmenu)(
+                    userToSend,
+                    result.text,
+                    result.keyboard,
+                    telegramInstance,
+                    userListWithChatID,
+                    parse_mode
+                  );
                 }
                 return;
-              } else {
-                (0, import_telegram.sendToTelegram)(
-                  userToSend,
-                  "The state is empty!",
-                  void 0,
-                  telegramInstance,
-                  one_time_keyboard,
-                  resize_keyboard,
-                  userListWithChatID,
-                  parse_mode
-                );
-                _this.log.debug("The state is empty!");
-                return;
               }
+              await (0, import_telegram.sendToTelegram)(
+                userToSend,
+                "The state is empty!",
+                void 0,
+                telegramInstance,
+                one_time_keyboard,
+                resize_keyboard,
+                userListWithChatID,
+                parse_mode
+              );
+              _this.log.debug("The state is empty!");
+              return;
             }
           }
           const resultChange = (0, import_utilities.changeValue)(textToSend, val);
           if (resultChange) {
             (0, import_logging.debug)([{ text: "Value Changed to:", val: resultChange }]);
-            val = resultChange["val"];
-            textToSend = resultChange["textToSend"];
+            val = resultChange.val;
+            textToSend = resultChange.textToSend;
           } else {
             (0, import_logging.debug)([{ text: "No Change" }]);
           }
           if (textToSend.indexOf("&&") != -1) {
             text += `${textToSend.replace("&&", val.toString())}${newline}`;
           } else {
-            text += textToSend + " " + val + newline;
+            text += `${textToSend} ${val}${newline}`;
           }
         } else {
           text += `${val} ${newline}`;
@@ -164,7 +183,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         (0, import_logging.debug)([{ text: "Text:", val: text }]);
         if (i == ((_b2 = part.getData) == null ? void 0 : _b2.length)) {
           if (userToSend) {
-            (0, import_telegram.sendToTelegram)(
+            await (0, import_telegram.sendToTelegram)(
               userToSend,
               text,
               void 0,

@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -53,10 +57,14 @@ async function saveMessageIds(state, instanceTelegram) {
       requestMessageId[requestUserIdObj.val.toString()] = [];
     }
     if (!((_a = requestMessageId[requestUserIdObj.val.toString()]) == null ? void 0 : _a.find((message) => message.id === state.val))) {
-      requestMessageId[requestUserIdObj.val.toString()].push({ id: state.val, time: Date.now(), request: request == null ? void 0 : request.val });
+      requestMessageId[requestUserIdObj.val.toString()].push({
+        id: state.val,
+        time: Date.now(),
+        request: request == null ? void 0 : request.val
+      });
     }
     requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-    _this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
+    await _this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
   } catch (e) {
     (0, import_logging.error)([
       { text: "Error saveMessageIds:", val: e.message },
@@ -70,7 +78,11 @@ function removeOldMessageIds(messages, chatID) {
   });
   return messages;
 }
-const removeMessageFromList = ({ element, chat_id, copyMessageIds }) => {
+const removeMessageFromList = ({
+  element,
+  chat_id,
+  copyMessageIds
+}) => {
   return copyMessageIds[chat_id].filter((message) => message.id !== element.id);
 };
 async function deleteMessageIds(user, userListWithChatID, instanceTelegram, whatShouldDelete) {
@@ -91,14 +103,36 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
     messageIds[chat_id].forEach((element, index) => {
       var _a, _b;
       if (whatShouldDelete === "all" && element.id) {
-        (0, import_botAction.deleteMessageByBot)(instanceTelegram, user, userListWithChatID, parseInt((_a = element.id) == null ? void 0 : _a.toString()), chat_id);
+        (0, import_botAction.deleteMessageByBot)(
+          instanceTelegram,
+          user,
+          userListWithChatID,
+          parseInt((_a = element.id) == null ? void 0 : _a.toString()),
+          chat_id
+        ).catch((e) => {
+          (0, import_logging.error)([
+            { text: "Error", val: e.message },
+            { text: "Stack", val: e.stack }
+          ]);
+        });
       }
       if (whatShouldDelete === "last" && index === messageIds[chat_id].length - 1 && element.id) {
-        (0, import_botAction.deleteMessageByBot)(instanceTelegram, user, userListWithChatID, parseInt((_b = element.id) == null ? void 0 : _b.toString()), chat_id);
+        (0, import_botAction.deleteMessageByBot)(
+          instanceTelegram,
+          user,
+          userListWithChatID,
+          parseInt((_b = element.id) == null ? void 0 : _b.toString()),
+          chat_id
+        ).catch((e) => {
+          (0, import_logging.error)([
+            { text: "Error", val: e.message },
+            { text: "Stack", val: e.stack }
+          ]);
+        });
       }
       copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
     });
-    _this.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
+    await _this.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
   } catch (e) {
     (0, import_logging.error)([
       { text: "Error deleteMessageIds:", val: e.message },

@@ -35,7 +35,7 @@ let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
 const splitText = (obj) => {
-  let splittedText = [];
+  let splittedText;
   if (obj.calledValue.includes('"')) {
     splittedText = obj.calledValue.split(`"`)[1].split(":");
   } else {
@@ -169,9 +169,13 @@ const createSubmenuNumber = (obj) => {
   if (splittedData2[3] != "") {
     unit = splittedData2[3];
   }
-  let start = 0, end = 0;
-  const firstValueInText = parseFloat(splittedData2[0].includes("negativ") ? splittedData2[0].replace("negativ", "-") : splittedData2[0]);
-  const secondValueInText = parseFloat(splittedData2[1].includes("negativ") ? splittedData2[1].replace("negativ", "-") : splittedData2[1]);
+  let start, end;
+  const firstValueInText = parseFloat(
+    splittedData2[0].includes("negativ") ? splittedData2[0].replace("negativ", "-") : splittedData2[0]
+  );
+  const secondValueInText = parseFloat(
+    splittedData2[1].includes("negativ") ? splittedData2[1].replace("negativ", "-") : splittedData2[1]
+  );
   if (firstValueInText < secondValueInText) {
     start = secondValueInText;
     end = firstValueInText;
@@ -181,7 +185,9 @@ const createSubmenuNumber = (obj) => {
   }
   let index = -1;
   let maxEntriesPerRow = 8;
-  const step2 = parseFloat(splittedData2[2].includes("negativ") ? splittedData2[2].replace("negativ", "-") : splittedData2[2]);
+  const step2 = parseFloat(
+    splittedData2[2].includes("negativ") ? splittedData2[2].replace("negativ", "-") : splittedData2[2]
+  );
   if (step2 < 1) {
     maxEntriesPerRow = 6;
   }
@@ -268,15 +274,15 @@ const setValueForSubmenuNumber = async (obj) => {
 const back = async (obj) => {
   const result = await (0, import_backMenu.switchBack)(obj.userToSend, obj.allMenusWithData, obj.menus);
   if (result) {
-    (0, import_telegram.sendToTelegram)(
+    await (0, import_telegram.sendToTelegram)(
       obj.userToSend,
-      result["texttosend"],
-      result["menuToSend"],
+      result.texttosend,
+      result.menuToSend,
       obj.instanceTelegram,
       obj.resize_keyboard,
       obj.one_time_keyboard,
       obj.userListWithChatID,
-      result["parseMode"]
+      result.parseMode
     );
   }
 };
@@ -298,10 +304,17 @@ async function callSubMenu(calledValue, newObjectNavStructure, userToSend, insta
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj }]);
     if (obj == null ? void 0 : obj.returnIds) {
       setStateIdsToListenTo = obj.returnIds;
-      (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
+      await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
     }
     if (obj && typeof obj.text == "string" && obj.text && typeof obj.keyboard == "string") {
-      (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, instanceTelegram, userListWithChatID, part.parse_mode || "false");
+      (0, import_telegram.sendToTelegramSubmenu)(
+        userToSend,
+        obj.text,
+        obj.keyboard,
+        instanceTelegram,
+        userListWithChatID,
+        part.parse_mode || "false"
+      );
     }
     return { setStateIdsToListenTo, newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {
@@ -321,9 +334,15 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
       text = await (0, import_utilities.checkStatusInfo)(part.text);
     }
     const { callbackData, device, val } = splitText({ calledValue });
-    let device2Switch = device;
+    const device2Switch = device;
     if (callbackData.includes("delete")) {
-      return await deleteMessages({ userToSend, userListWithChatID, instanceTelegram, device2Switch, callbackData });
+      return await deleteMessages({
+        userToSend,
+        userListWithChatID,
+        instanceTelegram,
+        device2Switch,
+        callbackData
+      });
     } else if (callbackData.includes("switch")) {
       return createSwitchMenu({ callbackData, text, device2Switch });
     } else if (callbackData.includes("first")) {
@@ -384,10 +403,17 @@ async function subMenu(calledValue, menuData, userToSend, instanceTelegram, resi
         userListWithChatID,
         part
       });
-      device2Switch = result.device2Switch;
       return result.returnIds ? { returnIds: result.returnIds } : void 0;
     } else if (callbackData === "back") {
-      await back({ userToSend, allMenusWithData, menus, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID });
+      await back({
+        userToSend,
+        allMenusWithData,
+        menus,
+        instanceTelegram,
+        resize_keyboard,
+        one_time_keyboard,
+        userListWithChatID
+      });
     }
     return;
   } catch (error2) {

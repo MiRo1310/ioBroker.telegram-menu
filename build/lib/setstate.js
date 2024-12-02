@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -34,7 +38,7 @@ var import_global = require("./global");
 var import_main = __toESM(require("../main"));
 var import_logging = require("./logging");
 const modifiedValue = (valueFromSubmenu, value) => {
-  if (value && typeof value === "string" && value.includes("{value}")) {
+  if (value && value.includes("{value}")) {
     return value.replace("{value}", valueFromSubmenu);
   }
   return valueFromSubmenu;
@@ -71,16 +75,18 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
   }
 };
 const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
-  var _a;
   const _this = import_main.default.getInstance();
   try {
     const setStateIds = [];
-    (_a = part.switch) == null ? void 0 : _a.forEach((element) => {
+    if (!part.switch) {
+      return;
+    }
+    for (const element of part.switch) {
       let ack = false;
       let returnText = element.returnText;
       ack = (element == null ? void 0 : element.ack) ? element.ack === "true" : false;
       if (returnText.includes("{setDynamicValue")) {
-        const { confirmText, id } = (0, import_dynamicValue.setDynamicValue)(
+        const { confirmText, id } = await (0, import_dynamicValue.setDynamicValue)(
           returnText,
           ack,
           element.id,
@@ -93,12 +99,13 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           element.confirm
         );
         if (element.confirm) {
-          return setStateIds.push({
+          setStateIds.push({
             id: id || element.id,
             confirm: element.confirm,
             returnText: confirmText,
             userToSend
           });
+          return setStateIds;
         }
       }
       if (!returnText.includes("{'id':'")) {
@@ -115,7 +122,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
         returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
         if (textToSend && textToSend !== "") {
-          (0, import_telegram.sendToTelegram)(
+          await (0, import_telegram.sendToTelegram)(
             userToSend,
             textToSend,
             void 0,
@@ -136,7 +143,12 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
       if (element.toggle) {
         _this.getForeignStateAsync(element.id).then((val) => {
           if (val) {
-            _this.setForeignStateAsync(element.id, !val.val, ack);
+            _this.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
+              (0, import_logging.error)([
+                { text: "Error", val: e.message },
+                { text: "Stack", val: e.stack }
+              ]);
+            });
           }
         }).catch((e) => {
           (0, import_logging.error)([
@@ -145,9 +157,9 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           ]);
         });
       } else {
-        setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
+        await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
       }
-    });
+    }
     return setStateIds;
   } catch (error2) {
     error2([

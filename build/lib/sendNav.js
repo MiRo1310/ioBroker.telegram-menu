@@ -31,7 +31,7 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
       (0, import_logging.debug)([{ text: "Send Nav to Telegram" }]);
       const nav = part.nav;
       const text = await (0, import_utilities.checkStatusInfo)(part.text);
-      (0, import_telegram.sendToTelegram)(
+      await (0, import_telegram.sendToTelegram)(
         userToSend,
         text,
         nav,
