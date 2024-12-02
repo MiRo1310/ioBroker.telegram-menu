@@ -102,6 +102,13 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                     </Table>
                 </TableContainer>
 
+                {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
+                    <BtnSmallSearch
+                        class="HelperCard-BtnSearch"
+                        index={0}
+                        callback={this.openSelectId}
+                    />
+                ) : null}
                 <Textarea
                     value={this.props.editedValueFromHelperText.replace(/&amp;/g, '&')}
                     id="editedValueFromHelperText"
@@ -110,15 +117,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                     label=""
                     rows={4}
                 >
-                    {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
-                        <BtnSmallSearch
-                            class="HelperCard-BtnSearch"
-                            index={0}
-                            callback={this.openSelectId}
-                        />
-                    ) : null}
                 </Textarea>
-
                 {this.state.showSelectId ? (
                     <SelectID
                         key="tableSelect"
@@ -136,6 +135,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                         }}
                     />
                 ) : null}
+
             </>
         );
     }
