@@ -132,7 +132,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                                     <Checkbox
                                         label={`${this.props.data.state.activeMenu} ${I18n.t('active')}`}
                                         id="checkboxActiveMenu"
-                                        isChecked={this.menuActiveChecked()}
+                                        isChecked={this.menuActiveChecked() || false}
                                         callback={this.clickCheckbox}
                                         index={0}
                                     />

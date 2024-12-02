@@ -165,11 +165,11 @@ class TelegramMenu extends utils.Adapter {
               return;
             }
           }
-          const obj2 = await this.getChatIDFromState(instanceTelegram, userListWithChatID);
+          const obj2 = await this.getChatIDAndUserToSend(instanceTelegram, userListWithChatID);
           if (!obj2) {
             return;
           }
-          const { chatID, userToSend } = obj2;
+          const { userToSend } = obj2;
           if (state && typeof state.val == "string" && state.val.includes("sList:")) {
             await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(
               state.val,
@@ -200,8 +200,6 @@ class TelegramMenu extends utils.Adapter {
             this.log.info("Event was found");
             return;
           }
-          this.log.debug(`ID: ${chatID}`);
-          this.log.debug(`User vor Abfrage: ${userToSend}`);
           if ((id == botSendMessageID || id == requestMessageID) && state) {
             this.log.debug("Save messageIds");
             await (0, import_messageIds.saveMessageIds)(state, instanceTelegram);
@@ -334,14 +332,12 @@ class TelegramMenu extends utils.Adapter {
     this.log.debug(`User in Abfrage: ${userToSend}`);
     return !!(state && typeof state.val === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
   }
-  async getChatIDFromState(instanceTelegram, userListWithChatID) {
+  async getChatIDAndUserToSend(instanceTelegram, userListWithChatID) {
     const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-    this.log.debug(`ChatID nach Abfrage: ${chatID == null ? void 0 : chatID.val}`);
     if (!(chatID == null ? void 0 : chatID.val)) {
       (0, import_logging.debug)([{ text: "ChatID not found" }]);
       return;
     }
-    (0, import_logging.debug)([{ text: "ChatID found" }]);
     const userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID.val.toString());
     this.log.debug(JSON.stringify(`User to send: ${userToSend}`));
     if (!userToSend) {

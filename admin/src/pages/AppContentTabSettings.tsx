@@ -43,7 +43,7 @@ class Settings extends Component<PropsSettings> {
                     >
                         <Select
                             placeholder="placeholderInstance"
-                            options={this.props.data.state.instances}
+                            options={this.props.data.state.instances || []}
                             label={I18n.t('telegramInstance')}
                             name="instance"
                             selected={this.props.data.state.native.instance}
@@ -77,7 +77,7 @@ class Settings extends Component<PropsSettings> {
                             placeholder="Token Grafana"
                             callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
                             id="tokenGrafana"
-                            value={this.props.data.state.native.tokenGrafana}
+                            value={this.props.data.state.native.tokenGrafana || ''}
                         />
                     </Grid>
                     <Grid
@@ -101,7 +101,7 @@ class Settings extends Component<PropsSettings> {
                         <Checkbox
                             label={I18n.t('Active')}
                             id="checkboxNoValueFound"
-                            isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound}
+                            isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound || false}
                             callback={this.onClickCheckbox}
                             index={0}
                         />
