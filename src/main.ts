@@ -172,22 +172,23 @@ export default class TelegramMenu extends utils.Adapter {
                 }
 
                 this.on('stateChange', async (id, state) => {
-                    let userToSend: string | null = null;
+                    this.log.debug(`${id} ` + ` ${JSON.stringify(state)}`);
+
                     const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
 
                     if (id === infoConnectionOfTelegram) {
                         isTelegramActive = await checkIsTelegramActive(infoConnectionOfTelegram);
                         if (!isTelegramActive) {
+                            this.log.debug('Telegram is not active');
                             return;
                         }
                     }
 
-                    if (id == `${instanceTelegram}.communicate.requestChatId`) {
-                        const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-                        userToSend = getUserToSendFromUserListWithChatID(userListWithChatID, chatID);
-
-                        chatID ? debug([{ text: 'ChatID found' }]) : debug([{ text: 'ChatID not found' }]);
+                    const obj = await this.getChatIDAndUserToSend(instanceTelegram, userListWithChatID);
+                    if (!obj) {
+                        return;
                     }
+                    const { userToSend } = obj;
 
                     if (state && typeof state.val == 'string' && state.val.includes('sList:')) {
                         await shoppingListSubscribeStateAndDeleteItem(
@@ -197,10 +198,12 @@ export default class TelegramMenu extends utils.Adapter {
                             resize_keyboard,
                             one_time_keyboard,
                         );
+                        this.log.debug('Shopping List was found and deleted');
                         return;
                     }
                     if (id.includes('alexa-shoppinglist') && !id.includes('add_position') && userToSend) {
                         await deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend);
+                        this.log.debug('Shopping List was found and deleted');
                         return;
                     }
 
@@ -218,20 +221,19 @@ export default class TelegramMenu extends utils.Adapter {
                             menusWithUsers,
                         ))
                     ) {
+                        this.log.info('Event was found');
                         return;
                     }
 
                     if ((id == botSendMessageID || id == requestMessageID) && state) {
+                        this.log.debug('Save messageIds');
                         await saveMessageIds(state, instanceTelegram);
-                    } else if (
-                        state &&
-                        typeof state.val === 'string' &&
-                        state.val != '' &&
-                        id == telegramID &&
-                        state?.ack &&
-                        userToSend
-                    ) {
-                        const value = state.val;
+                    } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
+                        let value = state?.val;
+                        if (!value || !userToSend) {
+                            return;
+                        }
+                        value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
                         const menus: NewObjectNavStructureKey[] = getMenusWithUserToSend(menusWithUsers, userToSend);
 
@@ -375,6 +377,44 @@ export default class TelegramMenu extends utils.Adapter {
         await this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);
         await this.subscribeForeignStatesAsync(telegramID);
         await this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
+    }
+
+    private isMenuToSend(
+        state: ioBroker.State | null | undefined,
+        id: string,
+        telegramID: string,
+        userToSend: string | null,
+    ): boolean {
+        this.log.debug(`User in Abfrage: ${userToSend}`);
+
+        return !!(
+            state &&
+            typeof state.val === 'string' &&
+            state.val != '' &&
+            id == telegramID &&
+            state?.ack &&
+            userToSend
+        );
+    }
+
+    private async getChatIDAndUserToSend(
+        instanceTelegram: string,
+        userListWithChatID: UserListWithChatId[],
+    ): Promise<{ chatID: string; userToSend: string } | undefined> {
+        const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+
+        if (!chatID?.val) {
+            debug([{ text: 'ChatID not found' }]);
+            return;
+        }
+
+        const userToSend = getUserToSendFromUserListWithChatID(userListWithChatID, chatID.val.toString());
+        this.log.debug(JSON.stringify(`User to send: ${userToSend}`));
+        if (!userToSend) {
+            this.log.debug('User to send not found');
+            return;
+        }
+        return { chatID: chatID.val.toString(), userToSend };
     }
 
     /**

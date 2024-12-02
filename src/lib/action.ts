@@ -533,24 +533,20 @@ const checkEvent = async (
 
 const getUserToSendFromUserListWithChatID = (
     userListWithChatID: UserListWithChatId[],
-    chatID: ioBroker.State | undefined | null,
+    chatID: string,
 ): string | null => {
     let userToSend: string | null = null;
 
-    if (!chatID) {
-        return null;
-    }
-
-    userListWithChatID.forEach(element => {
-        if (element.chatID == chatID.val) {
+    for (const element of userListWithChatID) {
+        if (element.chatID == chatID) {
             userToSend = element.name;
+            debug([
+                { text: 'User and ChatID:', val: element },
+                { text: 'User:', val: userToSend },
+            ]);
+            break;
         }
-
-        debug([
-            { text: 'User and ChatID:', val: element },
-            { text: 'User:', val: userToSend },
-        ]);
-    });
+    }
 
     return userToSend;
 };

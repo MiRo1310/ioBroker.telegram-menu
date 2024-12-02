@@ -482,18 +482,16 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
 };
 const getUserToSendFromUserListWithChatID = (userListWithChatID2, chatID) => {
   let userToSend2 = null;
-  if (!chatID) {
-    return null;
-  }
-  userListWithChatID2.forEach((element) => {
-    if (element.chatID == chatID.val) {
+  for (const element of userListWithChatID2) {
+    if (element.chatID == chatID) {
       userToSend2 = element.name;
+      (0, import_logging.debug)([
+        { text: "User and ChatID:", val: element },
+        { text: "User:", val: userToSend2 }
+      ]);
+      break;
     }
-    (0, import_logging.debug)([
-      { text: "User and ChatID:", val: element },
-      { text: "User:", val: userToSend2 }
-    ]);
-  });
+  }
   return userToSend2;
 };
 const getMenusWithUserToSend = (menusWithUsers, userToSend2) => {
