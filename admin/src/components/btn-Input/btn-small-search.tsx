@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from './button';
+import Button from '../Button';
 import type { ButtonSmallProps } from '@/types/app';
 
 class BtnSmallUp extends Component<ButtonSmallProps> {

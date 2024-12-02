@@ -8,7 +8,7 @@ import helperText from '@/config/helper.js';
 import { addNewRow } from '@/lib/actionUtils.js';
 import AppContentTabActionContentRowEditor from '@/pages/AppContentTabActionContentRowEditor';
 import AppContentTabActionContentTable from '@/pages/AppContentTabActionContentTable';
-import Button from '@components/btn-Input/button';
+import Button from '@components/Button';
 import type { ActionData, PropsActionCard, StateActionCard } from '@/types/app';
 import type { ActionNewRowProps } from '@/types/app';
 import type { EventButton } from '@/types/event';

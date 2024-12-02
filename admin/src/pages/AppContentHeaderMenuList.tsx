@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from '../components/btn-Input/button';
+import Button from '@components/Button';
 import type { PropsMenuPopupCard } from '@/types/app';
 import type { EventButton } from '@/types/event';
 

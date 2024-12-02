@@ -2,7 +2,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import ConfirmDialog from '@iobroker/adapter-react-v5/Dialogs/Confirm';
 import { Grid } from '@mui/material';
 import React, { Component } from 'react';
-import Button from '../components/btn-Input/button';
+import Button from '@components/Button';
 import Input from '../components/btn-Input/input';
 import RenameModal from '@components/RenameModal';
 import type { NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, UsersInGroup } from '@/types/app';
