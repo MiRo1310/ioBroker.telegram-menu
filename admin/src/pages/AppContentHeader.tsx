@@ -41,7 +41,7 @@ class MainActions extends Component<PropsMainActions> {
                                 state: this.props.data.state,
                                 usersInGroup: this.props.data.state.native.usersInGroup,
                                 userActiveCheckbox: this.props.data.state.native.userActiveCheckbox,
-                                activeMenu: this.props.data.state.activeMenu,
+                                activeMenu: this.props.data.state.activeMenu || '',
                             }}
                             callback={this.props.callback}
                         />
