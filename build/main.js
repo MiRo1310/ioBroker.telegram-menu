@@ -156,19 +156,20 @@ class TelegramMenu extends utils.Adapter {
           );
         }
         this.on("stateChange", async (id, state) => {
-          let userToSend = null;
+          this.log.debug(`${id}  ${JSON.stringify(state)}`);
           const setStateIdsToListenTo = (0, import_processData.getStateIdsToListenTo)();
           if (id === infoConnectionOfTelegram) {
             isTelegramActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
             if (!isTelegramActive) {
+              this.log.debug("Telegram is not active");
               return;
             }
           }
-          if (id == `${instanceTelegram}.communicate.requestChatId`) {
-            const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-            userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID);
-            chatID ? (0, import_logging.debug)([{ text: "ChatID found" }]) : (0, import_logging.debug)([{ text: "ChatID not found" }]);
+          const obj2 = await this.getChatIDFromState(instanceTelegram, userListWithChatID);
+          if (!obj2) {
+            return;
           }
+          const { chatID, userToSend } = obj2;
           if (state && typeof state.val == "string" && state.val.includes("sList:")) {
             await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(
               state.val,
@@ -177,10 +178,12 @@ class TelegramMenu extends utils.Adapter {
               resize_keyboard,
               one_time_keyboard
             );
+            this.log.debug("Shopping List was found and deleted");
             return;
           }
           if (id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend) {
             await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(instanceTelegram, userListWithChatID, userToSend);
+            this.log.debug("Shopping List was found and deleted");
             return;
           }
           if (state && await (0, import_action.checkEvent)(
@@ -194,12 +197,20 @@ class TelegramMenu extends utils.Adapter {
             one_time_keyboard,
             menusWithUsers
           )) {
+            this.log.info("Event was found");
             return;
           }
+          this.log.debug(`ID: ${chatID}`);
+          this.log.debug(`User vor Abfrage: ${userToSend}`);
           if ((id == botSendMessageID || id == requestMessageID) && state) {
+            this.log.debug("Save messageIds");
             await (0, import_messageIds.saveMessageIds)(state, instanceTelegram);
-          } else if (state && typeof state.val === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend) {
-            const value = state.val;
+          } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
+            let value = state == null ? void 0 : state.val;
+            if (!value || !userToSend) {
+              return;
+            }
+            value = value.toString();
             const calledValue = value.slice(value.indexOf("]") + 1, value.length);
             const menus = (0, import_action.getMenusWithUserToSend)(menusWithUsers, userToSend);
             const dataFound = await (0, import_processData.checkEveryMenuForData)({
@@ -318,6 +329,26 @@ class TelegramMenu extends utils.Adapter {
     await this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);
     await this.subscribeForeignStatesAsync(telegramID);
     await this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
+  }
+  isMenuToSend(state, id, telegramID, userToSend) {
+    this.log.debug(`User in Abfrage: ${userToSend}`);
+    return !!(state && typeof state.val === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
+  }
+  async getChatIDFromState(instanceTelegram, userListWithChatID) {
+    const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+    this.log.debug(`ChatID nach Abfrage: ${chatID == null ? void 0 : chatID.val}`);
+    if (!(chatID == null ? void 0 : chatID.val)) {
+      (0, import_logging.debug)([{ text: "ChatID not found" }]);
+      return;
+    }
+    (0, import_logging.debug)([{ text: "ChatID found" }]);
+    const userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID.val.toString());
+    this.log.debug(JSON.stringify(`User to send: ${userToSend}`));
+    if (!userToSend) {
+      this.log.debug("User to send not found");
+      return;
+    }
+    return { chatID: chatID.val.toString(), userToSend };
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
