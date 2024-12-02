@@ -1,7 +1,7 @@
 import { updateTrigger } from '@/lib/actionUtils.js';
 import { isChecked } from '@/lib/Utils.js';
 import type { EventButton, EventCheckbox, EventSelect } from '@/types/event';
-import Button from '@components/btn-Input/button';
+import Button from '@components/Button';
 import Checkbox from '@components/btn-Input/checkbox';
 import Select from '@components/btn-Input/select';
 import React, { Component } from 'react';

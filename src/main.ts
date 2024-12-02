@@ -15,18 +15,17 @@ import {
     getMenusWithUserToSend,
     exchangePlaceholderWithValue,
     checkEvent,
-} from './lib/action';
-import { _subscribeForeignStatesAsync } from './lib/subscribeStates';
-import { sendToTelegram } from './lib/telegram';
-import { decomposeText, changeValue } from './lib/utilities';
-import { createState } from './lib/createState';
-import { saveMessageIds } from './lib/messageIds';
-import { adapterStartMenuSend } from './lib/adapterStartMenuSend';
-import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from './lib/processData';
-import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from './lib/shoppingList';
-import { debug, error } from './lib/logging';
-import { checkIsTelegramActive } from './lib/connection';
-import type { BooleanString } from '@/app';
+} from './lib/action.js';
+import { _subscribeForeignStatesAsync } from './lib/subscribeStates.js';
+import { sendToTelegram } from './lib/telegram.js';
+import { decomposeText, changeValue } from './lib/utilities.js';
+import { createState } from './lib/createState.js';
+import { saveMessageIds } from './lib/messageIds.js';
+import { adapterStartMenuSend } from './lib/adapterStartMenuSend.js';
+import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from './lib/processData.js';
+import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from './lib/shoppingList.js';
+import { debug, error } from './lib/logging.js';
+
 import type {
     Checkboxes,
     ListOfMenus,
@@ -39,7 +38,9 @@ import type {
     GeneratedActions,
     SetStateIds,
     NewObjectNavStructureKey,
-} from './lib/telegram-menu';
+} from './lib/telegram-menu.js';
+import type { BooleanString } from '@/types/app.js';
+import { checkIsTelegramActive } from './lib/connection.js';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -305,7 +306,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         one_time_keyboard,
                                         userListWithChatID,
                                         element.parse_mode as BooleanString,
-                                    ).catch(e => {
+                                    ).catch((e: { message: any; stack: any }) => {
                                         error([
                                             { text: 'Error SendToTelegram' },
                                             { val: e.message },
@@ -350,7 +351,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         one_time_keyboard,
                                         userListWithChatID,
                                         element.parse_mode as BooleanString,
-                                    ).catch(e => {
+                                    ).catch((e: { message: any; stack: any }) => {
                                         error([
                                             { text: 'Error sendToTelegram' },
                                             { val: e.message },

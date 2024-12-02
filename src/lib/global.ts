@@ -30,5 +30,11 @@ function decomposeText(text: string, searchValue: string, secondValue: string): 
         textWithoutSubstring: textWithoutSubstring,
     };
 }
-
+export const deepCopy = <T>(obj: T): T | undefined => {
+    try {
+        return JSON.parse(JSON.stringify(obj));
+    } catch (err) {
+        console.error(`Error deepCopy: ${JSON.stringify(err)}`);
+    }
+};
 export { deleteDoubleEntriesInArray, replaceAll, isJSON, decomposeText };

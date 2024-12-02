@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -39,17 +43,17 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
       { text: "Subscribe:", val: await _this.subscribeForeignStatesAsync(obj.id) }
     ]);
   } else if (obj.array) {
-    obj.array.forEach((element) => {
-      _this.subscribeForeignStatesAsync(element["id"]);
-    });
+    for (const element of obj.array) {
+      await _this.subscribeForeignStatesAsync(element.id);
+    }
   }
 }
 async function _subscribeForeignStatesAsync(array) {
   const _this = import_main.default.getInstance();
   array = (0, import_global.deleteDoubleEntriesInArray)(array);
-  array.forEach(async (element) => {
+  for (const element of array) {
     await _this.subscribeForeignStatesAsync(element);
-  });
+  }
   (0, import_logging.debug)([{ text: "Subscribe all States of:", val: array }]);
 }
 // Annotate the CommonJS export names for ESM import in node:

@@ -4,21 +4,25 @@
 	background-color: #eee;
 	padding: 10px !important;
 	margin-bottom: 10px !important;
-	width: 99%;
-	margin: 0px 0.5% 0 0.5%;
+	width: calc(100% - 10px) !important;
+	margin-left: 5px;
 	display: inline-block;
 }
 
 .textarea__content {
-	width: "100%";
-	padding: "8px 0px";
-	margin: "8px";
-	font-size: "16px";
-	border: "none";
-	border-color: "transparent";
-	border-bottom: "1px solid #ccc";
+	width: calc(100% - 10px) ;
+	padding: 8px 2px;
+	margin: 3rem 5px 5px 5px;
+	font-size: 16px;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	height: 45vh;
 }
 .textarea__children {
 	display: inline;
-	vertical-align: "bottom";
+	vertical-align: bottom;
+}
+button.HelperCard-BtnSearch{
+ margin-top:2rem !important;
+	margin-left: 1.2rem !important;
 }

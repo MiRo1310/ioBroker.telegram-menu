@@ -6,12 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { type IobTheme, Theme, I18n, SelectID } from '@iobroker/adapter-react-v5';
+import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
 import BtnSmallAdd from '../btn-Input/btn-small-add';
 import BtnSmallSearch from '../btn-Input/btn-small-search';
 import Textarea from '../btn-Input/textarea';
-import type { PropsHelperCard, StateHelperCard } from '@/app';
-import type { socket } from '../../app';
+import type { PropsHelperCard, socket, StateHelperCard } from '@/types/app';
 
 const theme: IobTheme = Theme('light');
 
@@ -102,6 +101,13 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                     </Table>
                 </TableContainer>
 
+                {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
+                    <BtnSmallSearch
+                        class="HelperCard-BtnSearch"
+                        index={0}
+                        callback={this.openSelectId}
+                    />
+                ) : null}
                 <Textarea
                     value={this.props.editedValueFromHelperText.replace(/&amp;/g, '&')}
                     id="editedValueFromHelperText"
@@ -109,16 +115,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                     callbackValue="event.target.value"
                     label=""
                     rows={4}
-                >
-                    {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
-                        <BtnSmallSearch
-                            class="HelperCard-BtnSearch"
-                            index={0}
-                            callback={this.openSelectId}
-                        />
-                    ) : null}
-                </Textarea>
-
+                />
                 {this.state.showSelectId ? (
                     <SelectID
                         key="tableSelect"

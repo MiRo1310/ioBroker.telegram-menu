@@ -1,5 +1,5 @@
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { PropsSquare, StateSquare } from '@/app';
+import type { PropsSquare, StateSquare } from '@/types/app';
 import React, { Component } from 'react';
 
 class Square extends Component<PropsSquare, StateSquare> {
@@ -14,6 +14,7 @@ class Square extends Component<PropsSquare, StateSquare> {
             fontWeight: 'normal',
         };
     }
+
     getValuesForSquare(): void {
         switch (this.props.color) {
             case 'white':
@@ -43,9 +44,11 @@ class Square extends Component<PropsSquare, StateSquare> {
                 break;
         }
     }
+
     componentDidMount(): void {
         this.getValuesForSquare();
     }
+
     componentDidUpdate(prevProps: Readonly<PropsSquare>): void {
         if (
             this.props.color !== prevProps.color ||
@@ -55,6 +58,7 @@ class Square extends Component<PropsSquare, StateSquare> {
             this.getValuesForSquare();
         }
     }
+
     render(): React.ReactNode {
         return (
             <div>

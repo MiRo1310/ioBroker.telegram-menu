@@ -8,9 +8,8 @@ import helperText from '@/config/helper.js';
 import { addNewRow } from '@/lib/actionUtils.js';
 import AppContentTabActionContentRowEditor from '@/pages/AppContentTabActionContentRowEditor';
 import AppContentTabActionContentTable from '@/pages/AppContentTabActionContentTable';
-import Button from '@components/btn-Input/button';
-import type { ActionData, PropsActionCard, StateActionCard } from '@/app';
-import type { ActionNewRowProps } from '../app';
+import Button from '@components/Button';
+import type { ActionData, ActionNewRowProps, PropsActionCard, StateActionCard } from '@/types/app';
 import type { EventButton } from '@/types/event';
 import type { UpdateProps } from '@/types/props-types';
 

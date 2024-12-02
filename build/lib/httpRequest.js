@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -63,7 +67,16 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       const imagePath = import_path.default.join(directoryPicture, part.filename);
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
       (0, import_logging.debug)([{ text: "Pic saved:", val: imagePath }]);
-      (0, import_telegram.sendToTelegram)(user, imagePath, [], instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, "");
+      await (0, import_telegram.sendToTelegram)(
+        user,
+        imagePath,
+        [],
+        instanceTelegram,
+        resize_keyboard,
+        one_time_keyboard,
+        userListWithChatID,
+        ""
+      );
     } catch (e) {
       (0, import_logging.error)([
         { text: "Error:", val: e.message },

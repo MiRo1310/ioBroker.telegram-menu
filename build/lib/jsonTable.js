@@ -61,11 +61,11 @@ const createKeyboardFromJson = (val, text, id, user) => {
           }
         }
         if (idShoppingList) {
-          const value = element["buttondelete"];
+          const value = element.buttondelete;
           const valueDeleteLinkArray = (0, import_global.decomposeText)(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
           const instanceAlexa = valueDeleteLinkArray[1];
           const valueDeleteId = valueDeleteLinkArray[5];
-          const instanceShoppingListID = id.split(".")[1] + "." + id.split(".")[2];
+          const instanceShoppingListID = `${id.split(".")[1]}.${id.split(".")[2]}`;
           rowArray.push({
             text: element[item.split(":")[0]],
             callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`
@@ -89,7 +89,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
     ]);
   }
 };
-async function createTextTableFromJson(val, textToSend) {
+function createTextTableFromJson(val, textToSend) {
   try {
     if (!val) {
       return;
@@ -115,21 +115,24 @@ async function createTextTableFromJson(val, textToSend) {
     if (textTable != "") {
       textTable += " \n\n";
     }
-    textTable += " " + headline + " \n`";
+    textTable += ` ${headline} 
+\``;
     const enlargeColumn = 1;
     const reduce = lengthArray.length == 1 ? 2 : 0;
     const lineLenght = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
-    textTable += "-".repeat(lineLenght) + " \n";
+    textTable += `${"-".repeat(lineLenght)} 
+`;
     valArray.forEach((element, elementIndex) => {
       itemArray.forEach((item, index) => {
         if (elementIndex == 0 && index == 0) {
           textTable += "|";
           itemArray.forEach((item2, i) => {
             if (item2.split(":")[1].length > 0) {
-              textTable += " " + item2.split(":")[1].toString().padEnd(lengthArray[i] + enlargeColumn, " ") + "|";
+              textTable += ` ${item2.split(":")[1].toString().padEnd(lengthArray[i] + enlargeColumn, " ")}|`;
               if (i == itemArray.length - 1) {
                 textTable += "\n";
-                textTable += "-".repeat(lineLenght) + " \n";
+                textTable += `${"-".repeat(lineLenght)} 
+`;
               }
             } else {
               textTable = textTable.slice(0, -1);
@@ -139,7 +142,7 @@ async function createTextTableFromJson(val, textToSend) {
         if (index == 0) {
           textTable += "|";
         }
-        textTable += " " + element[item.split(":")[0]].toString().padEnd(lengthArray[index] + enlargeColumn, " ") + "|";
+        textTable += ` ${element[item.split(":")[0]].toString().padEnd(lengthArray[index] + enlargeColumn, " ")}|`;
         if (index == itemArray.length - 1) {
           textTable += "\n";
         }

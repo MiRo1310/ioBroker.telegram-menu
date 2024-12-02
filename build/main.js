@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -28,23 +32,24 @@ __export(main_exports, {
 });
 module.exports = __toCommonJS(main_exports);
 var utils = __toESM(require("@iobroker/adapter-core"));
-var import_action = require("./lib/action");
-var import_subscribeStates = require("./lib/subscribeStates");
-var import_telegram = require("./lib/telegram");
-var import_utilities = require("./lib/utilities");
-var import_createState = require("./lib/createState");
-var import_messageIds = require("./lib/messageIds");
-var import_adapterStartMenuSend = require("./lib/adapterStartMenuSend");
-var import_processData = require("./lib/processData");
-var import_shoppingList = require("./lib/shoppingList");
-var import_action2 = require("./lib/action");
-var import_logging = require("./lib/logging");
-var import_connection = require("./lib/connection");
-require("module-alias/register");
+var import_action = require("./lib/action.js");
+var import_subscribeStates = require("./lib/subscribeStates.js");
+var import_telegram = require("./lib/telegram.js");
+var import_utilities = require("./lib/utilities.js");
+var import_createState = require("./lib/createState.js");
+var import_messageIds = require("./lib/messageIds.js");
+var import_adapterStartMenuSend = require("./lib/adapterStartMenuSend.js");
+var import_processData = require("./lib/processData.js");
+var import_shoppingList = require("./lib/shoppingList.js");
+var import_logging = require("./lib/logging.js");
+var import_connection = require("./lib/connection.js");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
 class TelegramMenu extends utils.Adapter {
   static instance;
+  /**
+   * @param [options] - Adapter options
+   */
   constructor(options = {}) {
     super({
       ...options,
@@ -58,8 +63,8 @@ class TelegramMenu extends utils.Adapter {
     return TelegramMenu.instance;
   }
   async onReady() {
-    this.setState("info.connection", false, true);
-    (0, import_createState.createState)(this);
+    await this.setState("info.connection", false, true);
+    await (0, import_createState.createState)(this);
     let instanceTelegram = this.config.instance;
     if (!instanceTelegram || instanceTelegram.length == 0) {
       instanceTelegram = "telegram.0";
@@ -69,10 +74,10 @@ class TelegramMenu extends utils.Adapter {
     const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
     const infoConnectionOfTelegram = `${instanceTelegram}.info.connection`;
     const checkboxes = this.config.checkbox;
-    const one_time_keyboard = checkboxes["oneTiKey"];
-    const resize_keyboard = checkboxes["resKey"];
-    const checkboxNoEntryFound = checkboxes["checkboxNoValueFound"];
-    const sendMenuAfterRestart = checkboxes["sendMenuAfterRestart"];
+    const one_time_keyboard = checkboxes.oneTiKey;
+    const resize_keyboard = checkboxes.resKey;
+    const checkboxNoEntryFound = checkboxes.checkboxNoValueFound;
+    const sendMenuAfterRestart = checkboxes.sendMenuAfterRestart;
     let listOfMenus = [];
     if (this.config.usersInGroup) {
       listOfMenus = Object.keys(this.config.usersInGroup);
@@ -89,25 +94,28 @@ class TelegramMenu extends utils.Adapter {
       data: {}
     };
     Object.keys(menusWithUsers).forEach((element) => {
-      startSides[element] = dataObject.nav[element][0]["call"];
+      startSides[element] = dataObject.nav[element][0].call;
     });
-    this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
+    await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
       try {
         if (err || obj == null) {
-          this.log.error(`The State ${infoConnectionOfTelegram} was not found! ` + err);
+          this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
         }
         let isTelegramActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
-        const nav = dataObject["nav"];
-        const action = dataObject["action"];
+        const nav = dataObject.nav;
+        const action = dataObject.action;
         this.log.info("Telegram was found");
         for (const name in nav) {
-          const value = await (0, import_action.editArrayButtons)(nav[name], this);
-          const newObjectStructure = await (0, import_action.generateNewObjectStructure)(value);
+          const value = (0, import_action.editArrayButtons)(nav[name], this);
+          const newObjectStructure = (0, import_action.generateNewObjectStructure)(value);
           if (newObjectStructure) {
             menuData.data[name] = newObjectStructure;
           }
-          const generatedActions = (0, import_action.generateActions)(action[name], menuData.data[name]);
+          const generatedActions = (0, import_action.generateActions)(
+            action[name],
+            menuData.data[name]
+          );
           if (generatedActions) {
             menuData.data[name] = generatedActions == null ? void 0 : generatedActions.obj;
             subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;
@@ -115,13 +123,13 @@ class TelegramMenu extends utils.Adapter {
             (0, import_logging.debug)([{ text: "No Actions generated!" }]);
           }
           if (subscribeForeignStateIds && (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) > 0) {
-            (0, import_subscribeStates._subscribeForeignStatesAsync)(subscribeForeignStateIds);
+            await (0, import_subscribeStates._subscribeForeignStatesAsync)(subscribeForeignStateIds);
           } else {
             (0, import_logging.debug)([{ text: "Nothing to Subscribe!" }]);
           }
-          if (dataObject["action"][name] && dataObject["action"][name].events) {
-            dataObject["action"][name].events.forEach((event) => {
-              (0, import_subscribeStates._subscribeForeignStatesAsync)([event.ID]);
+          if (dataObject.action[name] && dataObject.action[name].events) {
+            dataObject.action[name].events.forEach(async (event) => {
+              await (0, import_subscribeStates._subscribeForeignStatesAsync)([event.ID]);
             });
           }
           (0, import_logging.debug)([
@@ -135,7 +143,7 @@ class TelegramMenu extends utils.Adapter {
           { text: "MenuList", val: listOfMenus }
         ]);
         if (sendMenuAfterRestart) {
-          (0, import_adapterStartMenuSend.adapterStartMenuSend)(
+          await (0, import_adapterStartMenuSend.adapterStartMenuSend)(
             listOfMenus,
             startSides,
             isUserActiveCheckbox,
@@ -156,20 +164,26 @@ class TelegramMenu extends utils.Adapter {
               return;
             }
           }
-          if (id == `${instanceTelegram}.communicate.requestChatId` || !userToSend) {
+          if (id == `${instanceTelegram}.communicate.requestChatId`) {
             const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
             userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID);
             chatID ? (0, import_logging.debug)([{ text: "ChatID found" }]) : (0, import_logging.debug)([{ text: "ChatID not found" }]);
           }
           if (state && typeof state.val == "string" && state.val.includes("sList:")) {
-            (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(
+              state.val,
+              instanceTelegram,
+              userListWithChatID,
+              resize_keyboard,
+              one_time_keyboard
+            );
             return;
           }
           if (id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend) {
             await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(instanceTelegram, userListWithChatID, userToSend);
             return;
           }
-          if (state && (0, import_action2.checkEvent)(
+          if (state && await (0, import_action.checkEvent)(
             dataObject,
             id,
             state,
@@ -208,7 +222,7 @@ class TelegramMenu extends utils.Adapter {
             ]);
             if (!dataFound && checkboxNoEntryFound && userToSend) {
               (0, import_logging.debug)([{ text: "No Entry found" }]);
-              (0, import_telegram.sendToTelegram)(
+              await (0, import_telegram.sendToTelegram)(
                 userToSend,
                 textNoEntryFound,
                 void 0,
@@ -226,10 +240,14 @@ class TelegramMenu extends utils.Adapter {
               if (element.id == id) {
                 (0, import_logging.debug)([{ text: "Send Value:", val: element }]);
                 if (element.confirm != "false" && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
-                  const substring = (0, import_utilities.decomposeText)(element.returnText, "{confirmSet:", "}").substring.split(":");
+                  const substring = (0, import_utilities.decomposeText)(
+                    element.returnText,
+                    "{confirmSet:",
+                    "}"
+                  ).substring.split(":");
                   let text = "";
                   if (state.val) {
-                    text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action2.exchangePlaceholderWithValue)(substring[1], state.val);
+                    text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action.exchangePlaceholderWithValue)(substring[1], state.val);
                   }
                   (0, import_telegram.sendToTelegram)(
                     element.userToSend,
@@ -240,7 +258,13 @@ class TelegramMenu extends utils.Adapter {
                     one_time_keyboard,
                     userListWithChatID,
                     element.parse_mode
-                  );
+                  ).catch((e) => {
+                    (0, import_logging.error)([
+                      { text: "Error SendToTelegram" },
+                      { val: e.message },
+                      { text: "Error", val: e.stack }
+                    ]);
+                  });
                 } else if (element.confirm != "false" && (state == null ? void 0 : state.ack)) {
                   (0, import_logging.debug)([{ text: "User:", val: element.userToSend }]);
                   let textToSend = element.returnText;
@@ -252,8 +276,8 @@ class TelegramMenu extends utils.Adapter {
                   let valueChange = "";
                   const resultChange = (0, import_utilities.changeValue)(textToSend, state.val);
                   if (resultChange) {
-                    valueChange = resultChange["val"];
-                    textToSend = resultChange["textToSend"];
+                    valueChange = resultChange.val;
+                    textToSend = resultChange.textToSend;
                   }
                   if (textToSend == null ? void 0 : textToSend.toString().includes("{novalue}")) {
                     value = "";
@@ -262,7 +286,7 @@ class TelegramMenu extends utils.Adapter {
                     value = (_a = state.val) == null ? void 0 : _a.toString();
                   }
                   valueChange ? value = valueChange : value;
-                  textToSend = (0, import_action2.exchangePlaceholderWithValue)(textToSend, value);
+                  textToSend = (0, import_action.exchangePlaceholderWithValue)(textToSend, value);
                   (0, import_telegram.sendToTelegram)(
                     element.userToSend,
                     textToSend,
@@ -272,7 +296,13 @@ class TelegramMenu extends utils.Adapter {
                     one_time_keyboard,
                     userListWithChatID,
                     element.parse_mode
-                  );
+                  ).catch((e) => {
+                    (0, import_logging.error)([
+                      { text: "Error sendToTelegram" },
+                      { val: e.message },
+                      { text: "Error", val: e.stack }
+                    ]);
+                  });
                   setStateIdsToListenTo.splice(key, 1);
                 }
               }
@@ -283,12 +313,17 @@ class TelegramMenu extends utils.Adapter {
         (0, import_logging.error)([{ text: "Error onReady" }, { val: e.message }, { text: "Error", val: e.stack }]);
       }
     });
-    this.subscribeForeignStatesAsync(botSendMessageID);
-    this.subscribeForeignStatesAsync(requestMessageID);
-    this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);
-    this.subscribeForeignStatesAsync(telegramID);
-    this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
+    await this.subscribeForeignStatesAsync(botSendMessageID);
+    await this.subscribeForeignStatesAsync(requestMessageID);
+    await this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);
+    await this.subscribeForeignStatesAsync(telegramID);
+    await this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
   }
+  /**
+   * Is called when adapter shuts down - callback has to be called under any circumstances!
+   *
+   * @param callback - Is called when adapter has closed all connections and released all resources
+   */
   onUnload(callback) {
     const timeouts = (0, import_processData.getTimeouts)();
     try {
@@ -297,6 +332,7 @@ class TelegramMenu extends utils.Adapter {
       });
       callback();
     } catch (e) {
+      this.log.error(`Error onUnload  ${e}`);
       callback();
     }
   }
@@ -316,6 +352,4 @@ if (require.main !== module) {
 } else {
   new TelegramMenu();
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {});
 //# sourceMappingURL=main.js.map

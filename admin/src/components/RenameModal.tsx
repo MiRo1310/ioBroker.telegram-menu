@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PopupContainer from './popupCards/PopupContainer';
 import RenameCard from './popupCards/RenameCard';
-import type { SetStateFunction } from '@/app';
+import type { SetStateFunction } from '@/types/app';
 import type { EventButton } from '@/types/event';
 
 interface RenameProps {

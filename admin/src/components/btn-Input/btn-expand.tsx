@@ -1,6 +1,6 @@
 import type { EventButton } from '@/types/event';
 import React, { Component } from 'react';
-import Button from '../../components/btn-Input/button';
+import Button from '@components/Button';
 
 interface ButtonExpandProps {
     isOpen: boolean;

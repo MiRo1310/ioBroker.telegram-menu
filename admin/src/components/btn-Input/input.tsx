@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { InputProps } from '@/app';
+import type { InputProps } from '@/types/app';
 import type { EventInput } from '@/types/event';
 
 class Input extends Component<InputProps> {

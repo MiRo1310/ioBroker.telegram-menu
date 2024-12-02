@@ -18,6 +18,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -54,10 +58,14 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
           await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
           isSubscribed = true;
         }
-        await _this.setForeignStateAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`, true, false);
+        await _this.setForeignStateAsync(
+          `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+          true,
+          false
+        );
         return;
       }
-      (0, import_telegram.sendToTelegram)(
+      await (0, import_telegram.sendToTelegram)(
         user,
         "Cannot delete the Item",
         void 0,
@@ -82,15 +90,22 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
   try {
     const user = userToSend;
     const idList = objData[user].idList;
-    (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+    await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
     await (0, import_messageIds.deleteMessageIds)(user, userListWithChatID, instanceTelegram, "last");
-    const result = await _this.getForeignStateAsync("alexa-shoppinglist." + idList);
+    const result = await _this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result && result.val) {
       (0, import_logging.debug)([{ text: "Result from Shoppinglist:", val: result }]);
       const newId = `alexa-shoppinglist.${idList}`;
       const resultJson = (0, import_jsonTable.createKeyboardFromJson)(result.val, null, newId, user);
       if (resultJson && resultJson.text && resultJson.keyboard) {
-        (0, import_telegram.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, "true");
+        (0, import_telegram.sendToTelegramSubmenu)(
+          user,
+          resultJson.text,
+          resultJson.keyboard,
+          instanceTelegram,
+          userListWithChatID,
+          "true"
+        );
       }
     }
   } catch (e) {

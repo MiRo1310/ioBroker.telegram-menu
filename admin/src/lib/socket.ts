@@ -1,4 +1,4 @@
-import type { socket } from '../app';
+import type { socket } from '@/types/app';
 
 async function getUsersFromTelegram(
     socket: socket,
