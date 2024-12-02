@@ -8,7 +8,7 @@ class Textarea extends Component<PropsTextarea, StateTextarea> {
             return;
         }
 
-        this.props.callback({ [this.props.id] :event?.target.value });
+        this.props.callback({ [this.props.id]: event?.target.value });
     };
 
     render(): React.ReactNode {
@@ -18,7 +18,7 @@ class Textarea extends Component<PropsTextarea, StateTextarea> {
                     <textarea
                         className="textarea__content noneDraggable"
                         placeholder={I18n.t(this.props.placeholder || '')}
-                        value={this.props.value ||""}
+                        value={this.props.value || ''}
                         onChange={this.onChangeHandler}
                         spellCheck={this.props.spellCheck ? this.props.spellCheck : false}
                         onMouseOver={

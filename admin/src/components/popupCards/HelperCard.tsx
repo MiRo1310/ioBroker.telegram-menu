@@ -6,12 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { type IobTheme, Theme, I18n, SelectID } from '@iobroker/adapter-react-v5';
+import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
 import BtnSmallAdd from '../btn-Input/btn-small-add';
 import BtnSmallSearch from '../btn-Input/btn-small-search';
 import Textarea from '../btn-Input/textarea';
-import type { PropsHelperCard, StateHelperCard } from '@/types/app';
-import type { socket } from '@/types/app';
+import type { PropsHelperCard, socket, StateHelperCard } from '@/types/app';
 
 const theme: IobTheme = Theme('light');
 
@@ -117,7 +116,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                     label=""
                     rows={4}
                 />
-                               {this.state.showSelectId ? (
+                {this.state.showSelectId ? (
                     <SelectID
                         key="tableSelect"
                         imagePrefix="../.."
@@ -134,7 +133,6 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                         }}
                     />
                 ) : null}
-
             </>
         );
     }

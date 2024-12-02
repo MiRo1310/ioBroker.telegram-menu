@@ -1,6 +1,6 @@
-import {I18n} from '@iobroker/adapter-react-v5';
-import type {PropsSquare, StateSquare} from '@/types/app';
-import React, {Component} from 'react';
+import { I18n } from '@iobroker/adapter-react-v5';
+import type { PropsSquare, StateSquare } from '@/types/app';
+import React, { Component } from 'react';
 
 class Square extends Component<PropsSquare, StateSquare> {
     constructor(props: PropsSquare) {
@@ -19,10 +19,10 @@ class Square extends Component<PropsSquare, StateSquare> {
         switch (this.props.color) {
             case 'white':
                 if (this.props.trigger == '-') {
-                    this.setState({bColor: 'transparent'});
+                    this.setState({ bColor: 'transparent' });
                     break;
                 }
-                this.setState({bColor: 'white', width: 60, text: 'Not linked', left: '-59px', fontWeight: 'bold'});
+                this.setState({ bColor: 'white', width: 60, text: 'Not linked', left: '-59px', fontWeight: 'bold' });
                 break;
             case 'black':
                 this.setState({
@@ -37,9 +37,9 @@ class Square extends Component<PropsSquare, StateSquare> {
 
             default:
                 if (this.props.trigger != '-') {
-                    this.setState({bColor: this.props.color, left: `${-(this.props.position * 10 + 5)}px`});
+                    this.setState({ bColor: this.props.color, left: `${-(this.props.position * 10 + 5)}px` });
                 } else {
-                    this.setState({bColor: 'transparent'});
+                    this.setState({ bColor: 'transparent' });
                 }
                 break;
         }
