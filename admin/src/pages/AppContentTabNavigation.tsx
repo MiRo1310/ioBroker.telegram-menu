@@ -6,7 +6,7 @@ import TableNavEditRow from '@/pages/AppContentTabNavigationTableRowEditor';
 import TableNavHelper from '@/pages/AppContentTabNavigationTableHelper';
 
 import { deepCopy } from '@/lib/Utils.js';
-import type { RowsNav, PropsTabNavigation, StateTabNavigation } from '@/app';
+import type { RowsNav, PropsTabNavigation, StateTabNavigation } from '@/types/app';
 import type { EventButton } from '@/types/event';
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {

@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import Button from '../components/btn-Input/button';
 import Input from '../components/btn-Input/input';
 import RenameModal from '@components/RenameModal';
-import type { NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, UsersInGroup } from '@/app';
+import type { NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, UsersInGroup } from '@/types/app';
 import { replaceSpaceWithUnderscore } from '@/lib/string';
 import { deepCopy } from '@/lib/Utils';
 import type { EventButton, EventInput } from '@/types/event';

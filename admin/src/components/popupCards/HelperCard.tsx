@@ -10,8 +10,8 @@ import { type IobTheme, Theme, I18n, SelectID } from '@iobroker/adapter-react-v5
 import BtnSmallAdd from '../btn-Input/btn-small-add';
 import BtnSmallSearch from '../btn-Input/btn-small-search';
 import Textarea from '../btn-Input/textarea';
-import type { PropsHelperCard, StateHelperCard } from '@/app';
-import type { socket } from '../../app';
+import type { PropsHelperCard, StateHelperCard } from '@/types/app';
+import type { socket } from '@/types/app';
 
 const theme: IobTheme = Theme('light');
 

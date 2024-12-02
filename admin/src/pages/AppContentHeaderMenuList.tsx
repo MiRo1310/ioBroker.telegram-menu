@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../components/btn-Input/button';
-import type { PropsMenuPopupCard } from '@/app';
+import type { PropsMenuPopupCard } from '@/types/app';
 import type { EventButton } from '@/types/event';
 
 class MenuPopupCard extends Component<PropsMenuPopupCard> {

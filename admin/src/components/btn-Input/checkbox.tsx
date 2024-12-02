@@ -1,6 +1,6 @@
 import { I18n } from '@iobroker/adapter-react-v5';
 import React, { Component } from 'react';
-import type { PropsCheckbox } from '../../app';
+import type { PropsCheckbox } from '../@/types/app';
 
 class Checkbox extends Component<PropsCheckbox> {
     onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {

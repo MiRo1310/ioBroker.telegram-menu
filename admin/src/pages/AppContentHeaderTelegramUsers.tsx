@@ -2,7 +2,7 @@ import type { EventCheckbox } from '@/types/event';
 import ButtonExpand from '@components/btn-Input/btn-expand';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
-import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from '@/app';
+import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import AppContentHeaderTelegramUsersUserCard from './AppContentHeaderTelegramUsersUserCard';

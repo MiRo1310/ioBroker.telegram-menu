@@ -14,8 +14,8 @@ import type {
     TabValueEntries,
     TabValues,
     TriggerObject,
-} from '../app';
-import type { SetStateFunction } from '@/app';
+} from '@/types/app';
+import type { SetStateFunction } from '@/types/app';
 import type { EventButton } from './event';
 import type { AdminConnection, GenericAppProps, GenericAppState } from '@iobroker/adapter-react-v5';
 
