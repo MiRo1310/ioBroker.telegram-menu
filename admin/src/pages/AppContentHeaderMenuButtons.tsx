@@ -1,5 +1,4 @@
-import { I18n } from '@iobroker/adapter-react-v5';
-import ConfirmDialog from '@iobroker/adapter-react-v5/Dialogs/Confirm';
+import { I18n, Confirm } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
 import React, { Component } from 'react';
 import Button from '@components/Button';
@@ -251,7 +250,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                 </Button>
 
                 {this.state.confirmDialog ? (
-                    <ConfirmDialog
+                    <Confirm
                         title={I18n.t('reallyDelete')}
                         text={I18n.t('confirmDelete')}
                         ok={I18n.t('yes')}

@@ -37,4 +37,7 @@ export const deepCopy = <T>(obj: T): T | undefined => {
         console.error(`Error deepCopy: ${JSON.stringify(err)}`);
     }
 };
+export function isString(value: unknown): value is string {
+    return typeof value === 'string';
+}
 export { deleteDoubleEntriesInArray, replaceAll, isJSON, decomposeText };

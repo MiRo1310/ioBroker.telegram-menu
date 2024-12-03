@@ -43,6 +43,7 @@ var import_processData = require("./lib/processData.js");
 var import_shoppingList = require("./lib/shoppingList.js");
 var import_logging = require("./lib/logging.js");
 var import_connection = require("./lib/connection.js");
+var import_global = require("./lib/global");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
 class TelegramMenu extends utils.Adapter {
@@ -102,9 +103,11 @@ class TelegramMenu extends utils.Adapter {
           this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
         }
-        let isTelegramActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
-        const nav = dataObject.nav;
-        const action = dataObject.action;
+        const isTelegramActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
+        if (!isTelegramActive) {
+          return;
+        }
+        const { nav, action } = dataObject;
         this.log.info("Telegram was found");
         for (const name in nav) {
           const value = (0, import_action.editArrayButtons)(nav[name], this);
@@ -128,9 +131,9 @@ class TelegramMenu extends utils.Adapter {
             (0, import_logging.debug)([{ text: "Nothing to Subscribe!" }]);
           }
           if (dataObject.action[name] && dataObject.action[name].events) {
-            dataObject.action[name].events.forEach(async (event) => {
+            for (const event of dataObject.action[name].events) {
               await (0, import_subscribeStates._subscribeForeignStatesAsync)([event.ID]);
-            });
+            }
           }
           (0, import_logging.debug)([
             { text: "Menu: ", val: name },
@@ -156,21 +159,17 @@ class TelegramMenu extends utils.Adapter {
           );
         }
         this.on("stateChange", async (id, state) => {
-          this.log.debug(`${id}  ${JSON.stringify(state)}`);
           const setStateIdsToListenTo = (0, import_processData.getStateIdsToListenTo)();
-          if (id === infoConnectionOfTelegram) {
-            isTelegramActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
-            if (!isTelegramActive) {
-              this.log.debug("Telegram is not active");
-              return;
-            }
+          const isActive = await this.checkInfoConnection(id, infoConnectionOfTelegram);
+          if (!isActive) {
+            return;
           }
           const obj2 = await this.getChatIDAndUserToSend(instanceTelegram, userListWithChatID);
           if (!obj2) {
             return;
           }
           const { userToSend } = obj2;
-          if (state && typeof state.val == "string" && state.val.includes("sList:")) {
+          if ((0, import_global.isString)(state == null ? void 0 : state.val) && state.val.includes("sList:")) {
             await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(
               state.val,
               instanceTelegram,
@@ -181,7 +180,7 @@ class TelegramMenu extends utils.Adapter {
             this.log.debug("Shopping List was found and deleted");
             return;
           }
-          if (id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend) {
+          if (this.isAddToShoppingList(id, userToSend)) {
             await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(instanceTelegram, userListWithChatID, userToSend);
             this.log.debug("Shopping List was found and deleted");
             return;
@@ -200,7 +199,7 @@ class TelegramMenu extends utils.Adapter {
             this.log.info("Event was found");
             return;
           }
-          if ((id == botSendMessageID || id == requestMessageID) && state) {
+          if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
             this.log.debug("Save messageIds");
             await (0, import_messageIds.saveMessageIds)(state, instanceTelegram);
           } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
@@ -242,10 +241,12 @@ class TelegramMenu extends utils.Adapter {
                 ""
               );
             }
-          } else if (state && setStateIdsToListenTo && setStateIdsToListenTo.find((element) => element.id == id)) {
+            return;
+          }
+          if (state && setStateIdsToListenTo && setStateIdsToListenTo.find((element) => element.id == id)) {
             (0, import_logging.debug)([{ text: "State, which is listen to was changed:", val: id }]);
             setStateIdsToListenTo.forEach((element, key) => {
-              var _a;
+              var _a, _b;
               if (element.id == id) {
                 (0, import_logging.debug)([{ text: "Send Value:", val: element }]);
                 if (element.confirm != "false" && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
@@ -274,7 +275,9 @@ class TelegramMenu extends utils.Adapter {
                       { text: "Error", val: e.stack }
                     ]);
                   });
-                } else if (element.confirm != "false" && (state == null ? void 0 : state.ack)) {
+                  return;
+                }
+                if (element.confirm != "false" && (state == null ? void 0 : state.ack)) {
                   (0, import_logging.debug)([{ text: "User:", val: element.userToSend }]);
                   let textToSend = element.returnText;
                   if (textToSend.includes("{confirmSet:")) {
@@ -283,7 +286,7 @@ class TelegramMenu extends utils.Adapter {
                   }
                   let value = "";
                   let valueChange = "";
-                  const resultChange = (0, import_utilities.changeValue)(textToSend, state.val);
+                  const resultChange = (0, import_utilities.changeValue)(textToSend, ((_a = state.val) == null ? void 0 : _a.toString()) || "");
                   if (resultChange) {
                     valueChange = resultChange.val;
                     textToSend = resultChange.textToSend;
@@ -291,8 +294,8 @@ class TelegramMenu extends utils.Adapter {
                   if (textToSend == null ? void 0 : textToSend.toString().includes("{novalue}")) {
                     value = "";
                     textToSend = textToSend.replace("{novalue}", "");
-                  } else if (state.val || state.val == false) {
-                    value = (_a = state.val) == null ? void 0 : _a.toString();
+                  } else if ((state == null ? void 0 : state.val) == false) {
+                    value = (_b = state.val) == null ? void 0 : _b.toString();
                   }
                   valueChange ? value = valueChange : value;
                   textToSend = (0, import_action.exchangePlaceholderWithValue)(textToSend, value);
@@ -328,9 +331,26 @@ class TelegramMenu extends utils.Adapter {
     await this.subscribeForeignStatesAsync(telegramID);
     await this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
   }
+  isMessageID(id, botSendMessageID, requestMessageID) {
+    return id == botSendMessageID || id == requestMessageID;
+  }
+  isAddToShoppingList(id, userToSend) {
+    return !!(id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend);
+  }
   isMenuToSend(state, id, telegramID, userToSend) {
     this.log.debug(`User in Abfrage: ${userToSend}`);
     return !!(state && typeof state.val === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
+  }
+  async checkInfoConnection(id, infoConnectionOfTelegram) {
+    if (id === infoConnectionOfTelegram) {
+      const isActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
+      if (!isActive) {
+        this.log.debug("Telegram is not active");
+        return false;
+      }
+      return true;
+    }
+    return true;
   }
   async getChatIDAndUserToSend(instanceTelegram, userListWithChatID) {
     const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
