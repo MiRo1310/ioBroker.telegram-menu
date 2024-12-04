@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import HeaderMenu from '@/pages/AppContentHeaderMenu';
 import HeaderTelegramUsers from '@/pages/AppContentHeaderTelegramUsers';
 import type { PropsMainActions } from '@/types/app';
@@ -22,8 +22,7 @@ class MainActions extends Component<PropsMainActions> {
             >
                 {!this.isSettings() ? (
                     <Grid
-                        item
-                        xs={12}
+                        size={12}
                     >
                         <HeaderMenu
                             data={this.props.data}
@@ -32,8 +31,7 @@ class MainActions extends Component<PropsMainActions> {
                     </Grid>
                 ) : null}
                 <Grid
-                    item
-                    xs={12}
+                    size={12}
                 >
                     {!this.isSettings() ? (
                         <HeaderTelegramUsers

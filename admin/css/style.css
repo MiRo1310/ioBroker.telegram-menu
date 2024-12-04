@@ -113,6 +113,7 @@ body {
 	color: white;
 }
 .HeaderMenu-GridContainer {
+	margin-top: 0.5rem;
 	font-size: 0.8rem;
 }
 .HeaderMenu-GridContainer button.header__button_actions {
@@ -428,9 +429,9 @@ div.MuiTabPanel-root {
 	margin-left: 19px;
 }
 
-.MenuHeader-borderActiveMenu {
+.menu__header-active {
 	border: 3px solid #96d15a;
-	padding: 2px 3px;
+	padding: 4px 5px;
 }
 .Grid-HeaderMenu {
 	margin-top: 5px !important;

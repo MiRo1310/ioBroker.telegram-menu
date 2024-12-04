@@ -33,7 +33,7 @@
 .button {
 	border-radius: 5px !important;
 	width: 100px !important;
-	height: 40px !important;
+	height: 30px !important;
 	margin-left: 0.1rem !important;
 }
 
@@ -51,6 +51,8 @@
 	display: flex;
 	align-items: end;
 	justify-content: center;
+	height: 100%;
+	margin-top: 0.25rem;
 }
 
 .button__icon {
@@ -61,7 +63,17 @@
 	border: 1px solid black !important;
 	border-radius: 6px !important;
 }
+.button__flex .button--children{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .button__primary {
 	background-color: white !important;
 	color: black !important;
+}
+
+.btn__menu_expand{
+	margin-left: 0.25rem;
 }

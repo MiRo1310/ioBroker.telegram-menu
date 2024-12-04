@@ -1,6 +1,6 @@
 import ButtonExpand from '@components/btn-Input/btn-expand';
 import { I18n } from '@iobroker/adapter-react-v5';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import type { PropsHeaderMenu } from '@/types/app';
 import React, { Component } from 'react';
 import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
@@ -39,10 +39,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                 className="HeaderMenu-GridContainer"
             >
                 <Grid
-                    item
-                    xs={12}
-                    sm={2}
-                    xl={1}
+                    size={{xs: 12, sm:2, xl:1}}
                 >
                     <div
                         onMouseEnter={this.eventOnMouse}
@@ -52,23 +49,15 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                         <ButtonExpand
                             isOpen={this.showList()}
                             callback={this.handleClick}
+                            label={this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t('createMenu')}
+                            class="btn__menu_expand button"
                         />
-
-                        <span>{I18n.t('menuList')}</span>
                         {this.showList() && this.isActiveMenu() ? (
                             <AppContentHeaderMenuList
                                 usersInGroup={this.props.data.state.native.usersInGroup}
                                 callback={this.props.callback}
                             />
                         ) : null}
-                    </div>
-
-                    <div className="MenuHeader-ActiveMenu">
-                        <p>{I18n.t('activeMenu')}</p>
-
-                        <span className="MenuHeader-borderActiveMenu">
-                            {this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t('createMenu')}
-                        </span>
                     </div>
                 </Grid>
                 <AppContentHeaderMenuButtons
