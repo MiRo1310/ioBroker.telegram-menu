@@ -8,7 +8,7 @@ input {
 	border-bottom: 1px solid #ccc !important;
 }
 
-.HeaderMenu-GridContainer input {
+.header__menu_container input {
 	margin-top: 0.5rem !important;
 	margin-left: 0 !important;
 	font-size: 1.0rem !important;
@@ -43,8 +43,8 @@ tr[draggable="true"] input {
 	color: white;
 	border-bottom: 1px solid white !important;
 }
-.dark .HeaderMenu-GridContainer input:hover,
-.blue .HeaderMenu-GridContainer input:hover {
+.dark .header__menu_container input:hover,
+.blue .header__menu_container input:hover {
 	border-width: 2px !important;
 }
 

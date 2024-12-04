@@ -108,13 +108,16 @@ body {
 .HeaderMenu-menuPopupCard {
 	display: inline-block;
 }
-.dark .HeaderMenu-GridContainer,
-.blue .HeaderMenu-GridContainer {
+.dark .header__menu_container,
+.blue .header__menu_container {
 	color: white;
 }
-.HeaderMenu-GridContainer {
+.header__menu_container {
 	margin-top: 0.5rem;
 	font-size: 0.8rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
 }
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
@@ -741,7 +744,7 @@ span[title],
 }
 .header__actions{
 	display: flex;
-	justify-content: space-between;
-	gap:0.5rem
+	gap:0.5rem;
+	flex-wrap: wrap;
 
 }

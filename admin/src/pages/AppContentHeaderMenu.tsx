@@ -1,6 +1,5 @@
 import ButtonExpand from '@components/btn-Input/btn-expand';
 import {I18n} from '@iobroker/adapter-react-v5';
-import {Grid2 as Grid} from '@mui/material';
 import type {PropsHeaderMenu} from '@/types/app';
 import React, {Component} from 'react';
 import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
@@ -33,13 +32,8 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 
     render(): React.ReactNode {
         return (
-            <Grid
-                container
-                spacing={1}
-                className="HeaderMenu-GridContainer"
-            >
-                <Grid size={{xs: 12, sm: 2, xl: 2}}>
-
+            <div className="header__menu_container">
+                <div style={{width: "270px", flexWrap:"nowrap"}}>
                     <div
                         onMouseEnter={this.eventOnMouse}
                         onMouseLeave={this.eventOnMouse}
@@ -60,12 +54,12 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 
                     </div>
                     {this.props.children}
-                </Grid>
+                </div>
                 <AppContentHeaderMenuButtons
                     callback={this.props.callback}
                     data={this.props.data}
                 />
-            </Grid>
+            </div>
         );
     }
 }
