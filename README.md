@@ -34,9 +34,10 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-
+-   FEAT: Styling
+-   CHORE: Update dependencies
 -   FIX: #211 No input is possible
--   FEAT: Migration to ESLint 9 and @iobroker/eslint-config
+-   CHORE: Migration to ESLint 9 and @iobroker/eslint-config
 
 ### 2.1.4 (2024-11-23)
 
