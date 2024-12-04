@@ -38,9 +38,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                 spacing={1}
                 className="HeaderMenu-GridContainer"
             >
-                <Grid
-                    size={{xs: 12, sm:2, xl:1}}
-                >
+                <Grid size={{ xs: 12, sm: 2, xl: 1 }}>
                     <div
                         onMouseEnter={this.eventOnMouse}
                         onMouseLeave={this.eventOnMouse}

@@ -13,8 +13,7 @@ class BtnSmallDown extends Component<ButtonSmallProps> {
                 round="true"
                 callback={this.props.callback}
                 callbackValue={this.props.index}
-                className={this.props.disabled + ' button__icon'}
-
+                className={`${this.props.disabled} button__icon`}
             >
                 <i className="material-icons">arrow_downward</i>
             </Button>

@@ -184,9 +184,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
         return (
             <div className={`App row relative ${this.props.themeName}`}>
                 <ErrorBoundary>
-                    <Grid
-                        container
-                    >
+                    <Grid container>
                         <AppHeaderIconBar
                             common={this.common}
                             native={this.state.native}

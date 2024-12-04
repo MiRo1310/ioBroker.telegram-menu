@@ -17,21 +17,17 @@ class MainActions extends Component<PropsMainActions> {
         return (
             <Grid
                 container
-                            className="Grid-HeaderMenu"
+                className="Grid-HeaderMenu"
             >
                 {!this.isSettings() ? (
-                    <Grid
-                        size={12}
-                    >
+                    <Grid size={12}>
                         <HeaderMenu
                             data={this.props.data}
                             callback={this.props.callback}
                         />
                     </Grid>
                 ) : null}
-                <Grid
-                    size={12}
-                >
+                <Grid size={12}>
                     {!this.isSettings() ? (
                         <HeaderTelegramUsers
                             data={{
