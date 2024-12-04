@@ -33,8 +33,11 @@
 .button {
 	border-radius: 5px !important;
 	width: 100px !important;
-	height: 40px !important;
-	margin-left: 0.1rem !important;
+	height: 30px !important;
+	border:3px solid transparent !important;
+}
+.button .button__label{
+	white-space: nowrap;
 }
 
 .button--hover:hover {
@@ -51,17 +54,60 @@
 	display: flex;
 	align-items: end;
 	justify-content: center;
+	height: 100%;
+	margin-top: 0.5rem;
 }
 
 .button__icon {
 	width: 30px !important;
-	min-width: none !important;
 	height: 30px !important;
 	margin: 0 5px 0 5px !important;
 	border: 1px solid black !important;
 	border-radius: 6px !important;
 }
+.button__icon-table {
+	width: 30px !important;
+	height: 30px !important;
+	border-radius: 6px !important;
+}
+
+
+.button__icon .button--children, .button__icon-table .button--children {
+	margin-top: 0 !important;
+}
+.button__flex .button--children{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .button__primary {
 	background-color: white !important;
 	color: black !important;
 }
+
+.btn__menu_expand{
+	margin-left: 0.25rem;
+	width: auto !important;
+
+}
+.btn__menu_expand .button--children{
+	margin-left: 0.25rem;
+	margin-top: 0 !important;
+}
+.button__menu  {
+	display: flex;
+	align-items: center;
+	margin-top: 0.5rem !important;
+	margin-left: 0.5rem !important;
+	margin-right: 0.5rem !important;
+	width: calc(100% - 1rem) !important;
+}
+.button__menu:last-child{
+	margin-bottom: 0.5rem !important;
+}
+.button__menu .button--children{
+	height: 100%;
+	margin-top: 0 !important;
+}
+

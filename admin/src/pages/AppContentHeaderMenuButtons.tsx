@@ -1,5 +1,4 @@
-import { I18n, Confirm } from '@iobroker/adapter-react-v5';
-import { Grid } from '@mui/material';
+import { Confirm, I18n } from '@iobroker/adapter-react-v5';
 import React, { Component } from 'react';
 import Button from '@components/Button';
 import Input from '../components/btn-Input/input';
@@ -186,22 +185,14 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
     render(): React.ReactNode {
         return (
-            <>
-                <Grid
-                    item
-                    xs={12}
-                    sm={8}
-                    lg={4}
-                >
-                    <Input
-                        placeholder={I18n.t('addMenu')}
-                        id="newMenuName"
-                        value={this.state.newMenuName}
-                        callback={({ val }: EventInput) => this.setState({ newMenuName: val as string })}
-                        class={this.state.menuNameExists ? 'inUse' : undefined}
-                    />
-                </Grid>
-
+            <div className="header__actions">
+                <Input
+                    placeholder={I18n.t('addMenu')}
+                    id="newMenuName"
+                    value={this.state.newMenuName}
+                    callback={({ val }: EventInput) => this.setState({ newMenuName: val as string })}
+                    class={this.state.menuNameExists ? 'inUse' : undefined}
+                />
                 <Button
                     callbackValue={this.state.newMenuName}
                     callback={this.buttonAddNewMenuHandler}
@@ -275,7 +266,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                         id="renamedMenuName"
                     />
                 ) : null}
-            </>
+            </div>
         );
     }
 }

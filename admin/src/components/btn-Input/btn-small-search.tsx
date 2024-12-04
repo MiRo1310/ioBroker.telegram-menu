@@ -15,7 +15,11 @@ class BtnSmallUp extends Component<ButtonSmallProps> {
                 callback={this.props.callback}
                 callbackValue={this.props.index}
                 className={
-                    this.props.disabled ? this.props.disabled : `` + ` ${this.props.class}` ? this.props.class : ''
+                    this.props.disabled
+                        ? this.props.disabled
+                        : `` + ` ${this.props.class} button__icon-table`
+                          ? this.props.class
+                          : 'button__icon-table'
                 }
             >
                 <i className="material-icons">search</i>

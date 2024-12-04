@@ -14,6 +14,7 @@ class BtnSmallEdit extends Component<ButtonSmallProps> {
                 callbackValue={this.props.callbackValue}
                 index={this.props.index}
                 callback={this.props.callback}
+                className="button__icon-table"
             >
                 <i className="material-icons">edit</i>
             </Button>

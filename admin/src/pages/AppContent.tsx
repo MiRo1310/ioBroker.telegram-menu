@@ -2,7 +2,7 @@ import AppContentHeader from '@/pages/AppContentHeader';
 import AppContentTab from '@/pages/AppContentTab';
 import AppContentTabsListing from '@/pages/AppContentTabsListing';
 import { TabContext } from '@mui/lab';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid2 as Grid } from '@mui/material';
 import type { PropsMainContent } from '@/types/app';
 import React, { Component } from 'react';
 
@@ -15,8 +15,7 @@ class AppContent extends Component<PropsMainContent> {
     render(): React.ReactNode {
         return (
             <Grid
-                item
-                xs={12}
+                size={12}
                 className="app__content"
             >
                 <Box
