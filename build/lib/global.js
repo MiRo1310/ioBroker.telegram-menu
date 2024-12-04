@@ -22,6 +22,7 @@ __export(global_exports, {
   deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
   isJSON: () => isJSON,
+  isString: () => isString,
   replaceAll: () => replaceAll
 });
 module.exports = __toCommonJS(global_exports);
@@ -59,12 +60,16 @@ const deepCopy = (obj) => {
     console.error(`Error deepCopy: ${JSON.stringify(err)}`);
   }
 };
+function isString(value) {
+  return typeof value === "string";
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
   deepCopy,
   deleteDoubleEntriesInArray,
   isJSON,
+  isString,
   replaceAll
 });
 //# sourceMappingURL=global.js.map

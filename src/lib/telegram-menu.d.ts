@@ -66,9 +66,9 @@ interface Get {
     trigger: string[];
 }
 interface Events {
-    ack: BooleanString[];
-    ID: string[];
-    menu: string[];
+    ack: BooleanString;
+    ID: string;
+    menu: string;
     condition: string;
     trigger: string[];
 }
