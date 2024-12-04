@@ -186,19 +186,14 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
     render(): React.ReactNode {
         return (
-            <>
-                <Grid
-                    size={{xs: 12, sm: 6, lg: 4}}
-                >
-                    < Input
-                        placeholder={I18n.t('addMenu')}
-                        id="newMenuName"
-                        value={this.state.newMenuName}
-                        callback={({val}: EventInput) => this.setState({newMenuName: val as string})}
-                        class={this.state.menuNameExists ? 'inUse' : undefined}
-                    />
-                </Grid>
-
+            <div className="header__actions">
+                < Input
+                    placeholder={I18n.t('addMenu')}
+                    id="newMenuName"
+                    value={this.state.newMenuName}
+                    callback={({val}: EventInput) => this.setState({newMenuName: val as string})}
+                    class={this.state.menuNameExists ? 'inUse' : undefined}
+                />
                 <Button
                     callbackValue={this.state.newMenuName}
                     callback={this.buttonAddNewMenuHandler}
@@ -272,7 +267,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                         id="renamedMenuName"
                     />
                 ) : null}
-            </>
+            </div>
         );
     }
 }

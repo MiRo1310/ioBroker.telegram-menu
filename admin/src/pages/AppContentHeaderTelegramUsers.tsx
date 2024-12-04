@@ -1,9 +1,9 @@
-import type { EventCheckbox } from '@/types/event';
+import type {EventCheckbox} from '@/types/event';
 import ButtonExpand from '@components/btn-Input/btn-expand';
-import { I18n } from '@iobroker/adapter-react-v5';
-import { Grid } from '@mui/material';
-import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from '@/types/app';
-import React, { Component } from 'react';
+import {I18n} from '@iobroker/adapter-react-v5';
+import {Grid2 as Grid} from '@mui/material';
+import type {PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup} from '@/types/app';
+import React, {Component} from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import AppContentHeaderTelegramUsersUserCard from './AppContentHeaderTelegramUsersUserCard';
 import AppContentHeaderTelegramUsersErrorMessage from './AppContentHeaderTelegramUsersErrorMessage';
@@ -24,27 +24,27 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
             this.checkUserSelection();
         }
         if (prevProps.data.activeMenu !== this.props.data.activeMenu) {
-            this.setState({ menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu] });
+            this.setState({menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu]});
         }
     };
 
     updateMenuOpen = (): void => {
-        this.setState({ menuOpen: !this.state.menuOpen });
+        this.setState({menuOpen: !this.state.menuOpen});
     };
 
     menuActiveChecked = (): boolean => {
         return this.props.data.userActiveCheckbox[this.props.data.activeMenu];
     };
 
-    clickCheckbox = ({ isChecked }: EventCheckbox): void => {
+    clickCheckbox = ({isChecked}: EventCheckbox): void => {
         if (isChecked) {
             if (!this.checkUserSelection(true)) {
                 return;
             }
         } else {
-            this.setState({ errorUserChecked: false });
+            this.setState({errorUserChecked: false});
         }
-        this.setState({ menuChecked: isChecked });
+        this.setState({menuChecked: isChecked});
         this.props.callback.updateNative(`userActiveCheckbox.${this.props.data.activeMenu}`, isChecked);
     };
 
@@ -58,7 +58,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                         this.props.data.state.native?.userListWithChatID,
                     )
                 ) {
-                    this.setState({ errorUserChecked: true });
+                    this.setState({errorUserChecked: true});
                     return false;
                 }
                 return true;
@@ -92,13 +92,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
         return (
             <Grid
                 container
-                spacing={2}
             >
                 <Grid
-                    item
-                    lg={12}
-                    md={12}
-                    xs={12}
+                    size={12}
                 >
                     <div className="telegram__users_container">
                         {this.isUserGroupLength() ? (
@@ -113,7 +109,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                                     <p>
                                         <span className="telegram__users_description">{I18n.t('telegramUser')} </span>
                                         {this.state.errorUserChecked ? (
-                                            <AppContentHeaderTelegramUsersErrorMessage />
+                                            <AppContentHeaderTelegramUsersErrorMessage/>
                                         ) : null}
                                     </p>
                                     {this.props.data.state.native?.userListWithChatID.map((user, key) => {
@@ -141,7 +137,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                         ) : null}
                     </div>
                 </Grid>
-                {this.state.errorUserChecked ? <CoverSaveBtn /> : null}
+                {this.state.errorUserChecked ? <CoverSaveBtn/> : null}
             </Grid>
         );
     }

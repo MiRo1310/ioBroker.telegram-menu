@@ -8,14 +8,12 @@ input {
 	border-bottom: 1px solid #ccc !important;
 }
 
-#newMenuName {
-	min-width: 300px;
-}
-
 .HeaderMenu-GridContainer input {
-	margin-top: 0 !important;
+	margin-top: 0.5rem !important;
 	margin-left: 0 !important;
-	font-size: 1.2rem !important;
+	font-size: 1.0rem !important;
+	width:250px !important;
+
 }
 .Settings input[type="checkbox"] {
 	margin-left: 8px;

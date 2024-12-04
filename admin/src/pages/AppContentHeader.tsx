@@ -17,8 +17,7 @@ class MainActions extends Component<PropsMainActions> {
         return (
             <Grid
                 container
-                spacing={1}
-                className="Grid-HeaderMenu "
+                            className="Grid-HeaderMenu"
             >
                 {!this.isSettings() ? (
                     <Grid

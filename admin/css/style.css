@@ -116,12 +116,6 @@ body {
 	margin-top: 0.5rem;
 	font-size: 0.8rem;
 }
-.HeaderMenu-GridContainer button.header__button_actions {
-	margin-top: 10px !important;
-	margin-left: 5px !important;
-	margin-right: 5px !important;
-}
-
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
 	display: inline-block;
@@ -434,7 +428,7 @@ div.MuiTabPanel-root {
 	padding: 4px 5px;
 }
 .Grid-HeaderMenu {
-	margin-top: 5px !important;
+	margin-top: 0.5rem !important;
 }
 
 /* Allgemein */
@@ -606,8 +600,7 @@ p.inUse {
 
 .telegram__users_container {
 	display: flex;
-	margin-top:10px;
-	margin-right:32px
+	margin-right:0.5rem
 }
 
 span[title],
@@ -760,4 +753,9 @@ span[title],
 	margin-left: 2rem;
 	margin-right: 2rem;
 }
+.header__actions{
+	display: flex;
+	justify-content: space-between;
+	gap:0.5rem
 
+}
