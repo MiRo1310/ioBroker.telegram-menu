@@ -87,7 +87,6 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
             <Grid container>
                 <Grid size={12}>
                     <div className="telegram__users_container">
-
                         {this.props.data.menuOpen && this.isUserGroupLength() ? (
                             <div className="telegram__users_card">
                                 <div>

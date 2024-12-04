@@ -28,8 +28,8 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
                     return (
                         <Button
                             key={index}
-                            b_color="#fff"                                                 id="activeMenu"
-
+                            b_color="#fff"
+                            id="activeMenu"
                             callback={({ id, innerText }: EventButton) => {
                                 this.props.callback.setStateApp({ [id]: innerText });
                                 this.secondCallback();

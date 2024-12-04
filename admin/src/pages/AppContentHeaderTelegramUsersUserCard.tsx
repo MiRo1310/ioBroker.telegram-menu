@@ -69,7 +69,6 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
                         index={0}
                     />
                 </div>
-
             </div>
         );
     }
