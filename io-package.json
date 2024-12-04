@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "news": {
+      "2.1.5": {
+        "en": "FEAT: Styling\nCHORE: Update dependencies\nFIX: #211 No input is possible\nCHORE: Migration to ESLint 9 and @iobroker/eslint-config",
+        "de": "FEAT: Styling\nCHORE: Aktualisieren von Abhängigkeiten\nFIX: #211 Keine Eingabe möglich\nCHORE: Migration auf ESLint 9 und @iobroker/eslint-config",
+        "ru": "FEAT: Styling\nCHORE: зависимости от обновления\n#211 Невозможно ввести\nCHORE: Migration to ESLint 9 and @iobroker/eslint-config",
+        "pt": "FEAT: Styling\nCHORE: Atualizar dependências\nFIX: #211 Nenhuma entrada é possível\nCHORE: Migração para ESLint 9 e @iobroker/eslint-config",
+        "nl": "FEAT: Styling\nAfhankelijkheden bijwerken\nFIX: #211 Geen invoer mogelijk\nCHORE: migratie naar ESLint 9 en @iobroker/eslint-config",
+        "fr": "VIANDE: Styling\nCHORE : Mise à jour des dépendances\nFIXE: #211 Aucune entrée n'est possible\nCHORE: Migration vers ESLint 9 et @iobroker/eslint-config",
+        "it": "CARAT: Styling\nCHORE: dipendenze di aggiornamento\n#211 Nessun input è possibile\nCHORE: Migrazione a ESLint 9 e @iobroker/eslint-config",
+        "es": "FEAT: Styling\nCHORE: Actualizar las dependencias\nFIX: #211 Ninguna entrada es posible\nCHORE: Migración a ESLint 9 y @iobroker/eslint-config",
+        "pl": "FEAT: Styling\nCHORE: Uaktualnij zależności\nFIX: # 211 Brak danych wejściowych\nCHORE: Migracja do ESLint 9 i @ iobroker / eslint- config",
+        "uk": "FEAT: Стилування\nCHORE: Оновити залежності\nFIX: #211 Немає можливості введення\nCHORE: Міграція до ESLint 9 і @iobroker/eslint-config",
+        "zh-cn": "斯图林\nCHORE: 更新依赖性\nFIX: #211 (英语). 无法输入\nCHORE: 迁移到ESLint 9 和 @iobroster/eslint-config"
+      },
       "2.1.4": {
         "en": "FIX: #203 Scrolling in table",
         "de": "FIX: #203 Scrolling in Tabelle",
@@ -80,19 +93,6 @@
         "pl": "Wymagany jest kontroler js- 19\nFIX: Kolory w spustu Przegląd\nFIX: # 154 # 152 Importuj plik konfiguracyjny\nUsuń poprawione wiadomości",
         "uk": "Js-controller >=5.0.19 потрібно\nFIX: Кольори в тригері Огляд\nFIX: #154 #152 Налаштування імпорту з файлу\nВидалити повідомлення регульовані",
         "zh-cn": "需要Js控制器 >=5.0.19\nFIX: 触发中的颜色 概览\nFIX: #154 #152 (英语). 从文件导入配置\n删除调整后的信件"
-      },
-      "1.7.4": {
-        "en": "FEAT: #160 Expand setDynamicValue",
-        "de": "FEAT: #160 Expand setDynamic Wert",
-        "ru": "#160 Expand setDynamic Стоимость",
-        "pt": "FEAT: #160 Expand setDynamic Valor",
-        "nl": "FEAT: #160 Vergroot setDynamic Waarde",
-        "fr": "VIE: #160 Expand setDynamic Valeur",
-        "it": "FEAT: #160 Expand setDynamic Valore",
-        "es": "FEAT: #160 Expand setDynamic Valor",
-        "pl": "FEAT: # 160 Expand setDynamic Wartość",
-        "uk": "FEAT: #160 Комплект динаміки Ціна",
-        "zh-cn": "FEAT: # 160 扩展设置 Dynamic 数值"
       }
     },
     "titleLang": {
