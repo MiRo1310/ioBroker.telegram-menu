@@ -13,6 +13,7 @@ class BtnSmallAdd extends Component<ButtonSmallProps> {
                 index={this.props.index}
                 callbackValue={this.props.callbackValue}
                 callback={this.props.callback}
+                className="button__icon-table"
             >
                 <i className="material-icons">add</i>
             </Button>

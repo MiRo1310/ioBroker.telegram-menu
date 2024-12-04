@@ -159,7 +159,7 @@ body {
 }
 .ErrorDoubleTrigger-Container .Error-Items {
 	display: inline;
-	padding: 0px 10px;
+	padding: 0 10px;
 }
 /* get mistake */
 /* Grid Main Content */
@@ -316,7 +316,7 @@ div.MuiTabPanel-root {
 }
 .DropBox-PopupContainer > div.DialogContainer {
 	transform: none !important;
-	top: 0px !important;
+	top: 0 !important;
 	left: auto !important;
 	height: 100% !important;
 }
@@ -363,7 +363,7 @@ div.MuiTabPanel-root {
 }
 .DropBox p.DropBox-Content {
 	font-size: 0.7rem;
-	margin-top: 0px;
+	margin-top: 0;
 	text-decoration: none;
 }
 .dark .DropBox-Container label,
@@ -470,7 +470,7 @@ button.buttonFalse {
 	border: none;
 	width: 20px;
 	height: 20px;
-	padding: 0px;
+	padding: 0;
 }
 button.buttonTrue i,
 button.buttonFalse i {
@@ -573,7 +573,7 @@ p.inUse {
 	margin-left: 0;
 	text-decoration: underline;
 	margin-bottom: 4px;
-	margin-top: 0px;
+	margin-top: 0;
 }
 .TelegramUserCard-User {
 	margin-top: 5px;
@@ -664,7 +664,7 @@ span[title],
 }
 .User-list-container p {
 	margin-top: 4px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	padding: 0 5px;
 	color: black;
 }

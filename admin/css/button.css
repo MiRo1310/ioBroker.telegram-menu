@@ -57,13 +57,20 @@
 
 .button__icon {
 	width: 30px !important;
-	min-width: none !important;
 	height: 30px !important;
 	margin: 0 5px 0 5px !important;
 	border: 1px solid black !important;
 	border-radius: 6px !important;
 }
-.button__icon .button--children{
+.button__icon-table {
+	width: 30px !important;
+	height: 30px !important;
+	margin: 0 5px 0 5px !important;
+	border-radius: 6px !important;
+}
+
+
+.button__icon .button--children, .button__icon-table .button--children {
 	margin-top: 0 !important;
 }
 .button__flex .button--children{
@@ -83,6 +90,14 @@
 }
 .btn__menu_expand .button--children{
 	margin-left: 0.25rem;
+	margin-top: 0 !important;
+}
+.button__menu  {
+	display: flex;
+	align-items: center;
+}
+.button__menu .button--children{
+	height: 100%;
 	margin-top: 0 !important;
 }
 

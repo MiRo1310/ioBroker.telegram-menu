@@ -41,6 +41,7 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
                                 this.secondCallback();
                             }}
                             callbackValue="event.target.innerText"
+                            className="button__menu"
                         >
                             {menu}
                         </Button>

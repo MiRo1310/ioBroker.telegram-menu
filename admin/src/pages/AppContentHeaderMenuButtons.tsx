@@ -1,5 +1,4 @@
-import {I18n, Confirm} from '@iobroker/adapter-react-v5';
-import {Grid2 as Grid} from '@mui/material';
+import {Confirm, I18n} from '@iobroker/adapter-react-v5';
 import React, {Component} from 'react';
 import Button from '@components/Button';
 import Input from '../components/btn-Input/input';

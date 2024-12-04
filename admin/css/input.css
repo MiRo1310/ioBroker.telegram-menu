@@ -52,7 +52,7 @@ input ~ p {
 	margin-left: 5px !important;
 }
 input ~ p {
-	margin-top: 0px !important;
+	margin-top: 0 !important;
 	display: block;
 }
 input:focus {
