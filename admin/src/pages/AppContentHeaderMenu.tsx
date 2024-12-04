@@ -1,6 +1,5 @@
 import ButtonExpand from '@components/btn-Input/btn-expand';
 import { I18n } from '@iobroker/adapter-react-v5';
-import { Grid } from '@mui/material';
 import type { PropsHeaderMenu } from '@/types/app';
 import React, { Component } from 'react';
 import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
@@ -33,17 +32,8 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 
     render(): React.ReactNode {
         return (
-            <Grid
-                container
-                spacing={1}
-                className="HeaderMenu-GridContainer"
-            >
-                <Grid
-                    item
-                    xs={12}
-                    sm={2}
-                    xl={1}
-                >
+            <div className="header__menu_container">
+                <div style={{ width: '270px', flexWrap: 'nowrap' }}>
                     <div
                         onMouseEnter={this.eventOnMouse}
                         onMouseLeave={this.eventOnMouse}
@@ -52,9 +42,9 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                         <ButtonExpand
                             isOpen={this.showList()}
                             callback={this.handleClick}
+                            label={this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t('createMenu')}
+                            class="btn__menu_expand button"
                         />
-
-                        <span>{I18n.t('menuList')}</span>
                         {this.showList() && this.isActiveMenu() ? (
                             <AppContentHeaderMenuList
                                 usersInGroup={this.props.data.state.native.usersInGroup}
@@ -62,20 +52,13 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                             />
                         ) : null}
                     </div>
-
-                    <div className="MenuHeader-ActiveMenu">
-                        <p>{I18n.t('activeMenu')}</p>
-
-                        <span className="MenuHeader-borderActiveMenu">
-                            {this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t('createMenu')}
-                        </span>
-                    </div>
-                </Grid>
+                    {this.props.children}
+                </div>
                 <AppContentHeaderMenuButtons
                     callback={this.props.callback}
                     data={this.props.data}
                 />
-            </Grid>
+            </div>
         );
     }
 }

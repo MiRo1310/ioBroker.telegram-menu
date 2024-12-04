@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Logo } from '@iobroker/adapter-react-v5';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import type { PropsHeaderIconBar } from '@/types/app';
 
 class AppHeaderIconBar extends Component<PropsHeaderIconBar> {
@@ -10,10 +10,7 @@ class AppHeaderIconBar extends Component<PropsHeaderIconBar> {
 
     render(): React.ReactNode {
         return (
-            <Grid
-                item
-                xs={12}
-            >
+            <Grid size={12}>
                 <form className="header__icons">
                     <Logo
                         instance={this.props.instance}

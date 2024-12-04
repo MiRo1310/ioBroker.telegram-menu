@@ -33,8 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 2.1.5 (2024-12-04)
+	**WORK IN PROGRESS**
+
 -   FEAT: Styling
+
+### 2.1.5 (2024-12-04)
 -   CHORE: Update dependencies
 -   FIX: #211 No input is possible
 -   CHORE: Migration to ESLint 9 and @iobroker/eslint-config

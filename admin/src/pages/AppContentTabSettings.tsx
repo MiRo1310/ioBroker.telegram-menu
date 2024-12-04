@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Input from '@components/btn-Input/input';
-import { Grid } from '@mui/material';
 import Checkbox from '@components/btn-Input/checkbox';
 import { I18n } from '@iobroker/adapter-react-v5';
 import Select from '@components/btn-Input/select';
 import type { PropsSettings } from '@/types/app';
 import type { EventCheckbox, EventInput, EventSelect } from '@/types/event';
+import { Grid2 as Grid } from '@mui/material';
 
 class Settings extends Component<PropsSettings> {
     constructor(props: PropsSettings) {
@@ -15,6 +15,7 @@ class Settings extends Component<PropsSettings> {
             options: ['One', 'Two', 'Three'],
         };
     }
+
     onClickCheckbox = ({ isChecked, id }: EventCheckbox): void => {
         const checkbox = { ...this.props.data.state.native.checkbox };
         checkbox[id] = isChecked;
@@ -37,10 +38,7 @@ class Settings extends Component<PropsSettings> {
                     container
                     spacing={1}
                 >
-                    <Grid
-                        item
-                        sm={12}
-                    >
+                    <Grid size={12}>
                         <Select
                             placeholder="placeholderInstance"
                             options={this.props.data.state.instances || []}
@@ -52,12 +50,7 @@ class Settings extends Component<PropsSettings> {
                             setNative={true}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        lg={4}
-                    >
+                    <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
                         <Input
                             label={I18n.t('textNoEntry')}
                             placeholder="No entry found"
@@ -66,12 +59,7 @@ class Settings extends Component<PropsSettings> {
                             value={this.props.data.state.native.textNoEntry || I18n.t('entryNotFound')}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        lg={4}
-                    >
+                    <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
                         <Input
                             label={I18n.t('Token Grafana')}
                             placeholder="Token Grafana"
@@ -80,12 +68,7 @@ class Settings extends Component<PropsSettings> {
                             value={this.props.data.state.native.tokenGrafana || ''}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        lg={4}
-                    >
+                    <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
                         <Input
                             label={I18n.t('Directory')}
                             placeholder="/opt/iobroker/grafana/"
@@ -94,10 +77,7 @@ class Settings extends Component<PropsSettings> {
                             value={this.props.data.state.native.directory || '/opt/iobroker/grafana/'}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                    >
+                    <Grid size={12}>
                         <Checkbox
                             label={I18n.t('Active')}
                             id="checkboxNoValueFound"
@@ -106,10 +86,7 @@ class Settings extends Component<PropsSettings> {
                             index={0}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                    >
+                    <Grid size={12}>
                         <Checkbox
                             label="Resize Keyboard"
                             id="resKey"
@@ -120,10 +97,7 @@ class Settings extends Component<PropsSettings> {
                             index={1}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                    >
+                    <Grid size={12}>
                         <Checkbox
                             label="One Time Keyboard"
                             id="oneTiKey"
@@ -134,10 +108,7 @@ class Settings extends Component<PropsSettings> {
                             index={2}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                    >
+                    <Grid size={12}>
                         <Checkbox
                             label={I18n.t('sendMenuAfterRestart')}
                             id="sendMenuAfterRestart"

@@ -108,19 +108,17 @@ body {
 .HeaderMenu-menuPopupCard {
 	display: inline-block;
 }
-.dark .HeaderMenu-GridContainer,
-.blue .HeaderMenu-GridContainer {
+.dark .header__menu_container,
+.blue .header__menu_container {
 	color: white;
 }
-.HeaderMenu-GridContainer {
+.header__menu_container {
+	margin-top: 0.5rem;
 	font-size: 0.8rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
 }
-.HeaderMenu-GridContainer button.header__button_actions {
-	margin-top: 10px !important;
-	margin-left: 5px !important;
-	margin-right: 5px !important;
-}
-
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
 	display: inline-block;
@@ -164,7 +162,7 @@ body {
 }
 .ErrorDoubleTrigger-Container .Error-Items {
 	display: inline;
-	padding: 0px 10px;
+	padding: 0 10px;
 }
 /* get mistake */
 /* Grid Main Content */
@@ -260,7 +258,7 @@ div.MuiTabPanel-root {
 	z-index: 1100;
 }
 .DialogContainer-Header {
-	font-family: "Roboto,Helvetica,Arial,sans-serif";
+	font-family: "Roboto,Helvetica,Arial,sans-serif", serif;
 	font-size: 1.25rem;
 	font-weight: 500;
 	line-height: 1.6;
@@ -321,7 +319,7 @@ div.MuiTabPanel-root {
 }
 .DropBox-PopupContainer > div.DialogContainer {
 	transform: none !important;
-	top: 0px !important;
+	top: 0 !important;
 	left: auto !important;
 	height: 100% !important;
 }
@@ -368,7 +366,7 @@ div.MuiTabPanel-root {
 }
 .DropBox p.DropBox-Content {
 	font-size: 0.7rem;
-	margin-top: 0px;
+	margin-top: 0;
 	text-decoration: none;
 }
 .dark .DropBox-Container label,
@@ -421,19 +419,19 @@ div.MuiTabPanel-root {
 
 .cellIcon {
 	padding: 1px !important;
-	width: 35px !important;
+	width: 30px !important;
 }
 
 .MenuHeader-ActiveMenu {
 	margin-left: 19px;
 }
 
-.MenuHeader-borderActiveMenu {
+.menu__header-active {
 	border: 3px solid #96d15a;
-	padding: 2px 3px;
+	padding: 4px 5px;
 }
 .Grid-HeaderMenu {
-	margin-top: 5px !important;
+	margin-top: 0.5rem !important;
 }
 
 /* Allgemein */
@@ -475,7 +473,8 @@ button.buttonFalse {
 	border: none;
 	width: 20px;
 	height: 20px;
-	padding: 0px;
+	padding: 0;
+	margin-top:4px
 }
 button.buttonTrue i,
 button.buttonFalse i {
@@ -538,8 +537,7 @@ p.inUse {
 }
 .telegram__users_card {
 	width: 100%;
-	padding:16px;
-	margin-bottom: 10px;
+	margin-bottom: 0.25rem;
 	display:flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -548,37 +546,23 @@ p.inUse {
 	margin-bottom: 0;
 	margin-top:0;
 }
-.light .telegram__users_card,
-.colored .telegram__users_card {
-	background-color: #eee;
-}
-.dark .telegram__users_card {
-	background-color: #333;
-	color: white;
-}
-.blue .telegram__users_card {
-	background-color: rgb(62, 68, 72);
-	color: white;
-}
 
-
-.TeleGrammUserCard-content {
-	padding: 0.1rem 1rem;
-	margin: 0;
-	margin-left:-16px;
+.telegramm__userCard-content {
+	padding: 0.25rem 0.5rem;
+border: 1px solid #000000;
 	width: 100px;
 	display: inline-block;
+
 }
-.TeleGrammUserCard-content p {
+.telegramm__userCard-content p {
 	margin: 0;
 }
 .telegram__users_description {
-	color: #96d15a;
-	font-size: 12px;
+
+	font-size: 0.70rem !important;
 	margin-left: 0;
-	text-decoration: underline;
 	margin-bottom: 4px;
-	margin-top: 0px;
+	margin-top: 0;
 }
 .TelegramUserCard-User {
 	margin-top: 5px;
@@ -605,8 +589,7 @@ p.inUse {
 
 .telegram__users_container {
 	display: flex;
-	margin-top:10px;
-	margin-right:32px
+	margin-right:0.5rem
 }
 
 span[title],
@@ -670,7 +653,7 @@ span[title],
 }
 .User-list-container p {
 	margin-top: 4px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	padding: 0 5px;
 	color: black;
 }
@@ -759,4 +742,9 @@ span[title],
 	margin-left: 2rem;
 	margin-right: 2rem;
 }
+.header__actions{
+	display: flex;
+	gap:0.5rem;
+	flex-wrap: wrap;
 
+}
