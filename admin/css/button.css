@@ -94,6 +94,13 @@
 .button__menu  {
 	display: flex;
 	align-items: center;
+	margin-top: 0.5rem !important;
+	margin-left: 0.5rem !important;
+	margin-right: 0.5rem !important;
+	width: calc(100% - 1rem) !important;
+}
+.button__menu:last-child{
+	margin-bottom: 0.5rem !important;
 }
 .button__menu .button--children{
 	height: 100%;

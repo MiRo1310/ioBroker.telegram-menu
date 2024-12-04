@@ -534,8 +534,7 @@ p.inUse {
 }
 .telegram__users_card {
 	width: 100%;
-	padding:16px;
-	margin-bottom: 10px;
+	margin-bottom: 0.25rem;
 	display:flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -544,35 +543,21 @@ p.inUse {
 	margin-bottom: 0;
 	margin-top:0;
 }
-.light .telegram__users_card,
-.colored .telegram__users_card {
-	background-color: #eee;
-}
-.dark .telegram__users_card {
-	background-color: #333;
-	color: white;
-}
-.blue .telegram__users_card {
-	background-color: rgb(62, 68, 72);
-	color: white;
-}
 
-
-.TeleGrammUserCard-content {
-	padding: 0.1rem 1rem;
-	margin: 0;
-	margin-left:-16px;
+.telegramm__userCard-content {
+	padding: 0.25rem 0.5rem;
+border: 1px solid #000000;
 	width: 100px;
 	display: inline-block;
+
 }
-.TeleGrammUserCard-content p {
+.telegramm__userCard-content p {
 	margin: 0;
 }
 .telegram__users_description {
-	color: #96d15a;
-	font-size: 12px;
+
+	font-size: 0.70rem !important;
 	margin-left: 0;
-	text-decoration: underline;
 	margin-bottom: 4px;
 	margin-top: 0;
 }

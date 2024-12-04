@@ -55,9 +55,12 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
     render(): React.ReactNode {
         const { name, chatID } = this.props.user;
         return (
-            <div className="TeleGrammUserCard-content">
+            <div className="telegramm__userCard-content">
                 <div className="TelegramUserCard-User">
                     <p className="TelegramUserCard-name">{name}</p>
+                    <p className="TelegramUserCard-ChatID">
+                        ChatID :<span className="TelegramUserCard-ChatID">{chatID}</span>
+                    </p>
                     <Checkbox
                         class="TelegramUserCard-checkbox"
                         id={name}
@@ -66,9 +69,7 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
                         index={0}
                     />
                 </div>
-                <p className="TelegramUserCard-ChatID">
-                    ChatID :<span className="TelegramUserCard-ChatID">{chatID}</span>
-                </p>
+
             </div>
         );
     }

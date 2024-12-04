@@ -28,20 +28,14 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
                     return (
                         <Button
                             key={index}
-                            b_color="#fff"
-                            margin="10px 5% 10px 5%"
-                            border="1px solid black"
-                            round="4px"
-                            id="activeMenu"
-                            width="90%"
-                            height="40px"
-                            fontSize="16px"
+                            b_color="#fff"                                                 id="activeMenu"
+
                             callback={({ id, innerText }: EventButton) => {
                                 this.props.callback.setStateApp({ [id]: innerText });
                                 this.secondCallback();
                             }}
                             callbackValue="event.target.innerText"
-                            className="button__menu"
+                            className="button__menu button"
                         >
                             {menu}
                         </Button>
