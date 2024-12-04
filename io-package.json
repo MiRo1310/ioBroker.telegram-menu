@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.5",
+    "version": "2.1.6",
     "news": {
+      "2.1.6": {
+        "en": "FEAT: Styling",
+        "de": "FEAT: Styling",
+        "ru": "FEAT: Styling",
+        "pt": "FEAT: Styling",
+        "nl": "FEAT: Styling",
+        "fr": "VIANDE: Styling",
+        "it": "CARAT: Styling",
+        "es": "FEAT: Styling",
+        "pl": "FEAT: Styling",
+        "uk": "FEAT: Стилування",
+        "zh-cn": "斯图林"
+      },
       "2.1.5": {
         "en": "FEAT: Styling\nCHORE: Update dependencies\nFIX: #211 No input is possible\nCHORE: Migration to ESLint 9 and @iobroker/eslint-config",
         "de": "FEAT: Styling\nCHORE: Aktualisieren von Abhängigkeiten\nFIX: #211 Keine Eingabe möglich\nCHORE: Migration auf ESLint 9 und @iobroker/eslint-config",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 191 Nie można wysłać zdjęcia\nFEAT: # 175 Funkcja kopiowania w akcji, Zmiana nazwy Przełącz na Toggle\nFIX: # 176 Błąd w wartości setDynamic\nFIX: # 181 Wymagane wartości w setState",
         "uk": "FIX: #191 Немає зображення\nFEAT: #175 Функція копіювання в дії, Перейменований перемикач для Toggle\nFIX: #176 Помилка в налаштуванні\nFIX: #181 Необхідні значення в setState",
         "zh-cn": "FIX: #191 (英语). 无法发送图片\nFEAT: # 175 复制功能在动作中, 重命名为切换\nFIX: # 176 设置错误 Dynamic 值\nFIX: # 181 设定状态下的必要值"
-      },
-      "2.0.0": {
-        "en": "Js-controller >=5.0.19 is required\nFIX: Colors in triggerOverview\nFIX: #154 #152 Import config from file\nDelete messages adjusted",
-        "de": "Js-Controller >=5.0.19 ist erforderlich\nFIX: Farben im Trigger Überblick\nFIX: #154 #152 Import config aus Datei\nLöschen von Nachrichten angepasst",
-        "ru": "Js-контроллер >=5.0.19 требуется\nFIX: Цвета на триггере Обзор\n#154 #152 Импорт конфигурации из файла\nИсключить сообщения",
-        "pt": "Js-controller >=5.0.19 é necessário\nFIX: Cores no gatilho Visão geral\nFIX: #154 #152 Importar config do arquivo\nExcluir mensagens ajustadas",
-        "nl": "Js-controller > 5.0.19 is vereist\nFIX: Kleuren in trigger Overzicht\nFIX: #154 #152 Config importeren uit bestand\nBerichten verwijderen aangepast",
-        "fr": "Js-contrôleur >=5.0.19 est nécessaire\nFIX: Couleurs dans le déclencheur Aperçu général\nFIXE: #154 #152 Importer la configuration à partir du fichier\nSupprimer les messages ajustés",
-        "it": "Js-controller >=5.0.19 è richiesto\nFIX: Colori in trigger Panoramica\n#154 #152 Importa la configurazione dal file\nEliminare i messaggi modificati",
-        "es": "Se requiere Js-controller\nFIX: Colores en el gatillo Sinopsis\nFIX: #154 #152 Importar configuración del archivo\nEliminar mensajes ajustados",
-        "pl": "Wymagany jest kontroler js- 19\nFIX: Kolory w spustu Przegląd\nFIX: # 154 # 152 Importuj plik konfiguracyjny\nUsuń poprawione wiadomości",
-        "uk": "Js-controller >=5.0.19 потрібно\nFIX: Кольори в тригері Огляд\nFIX: #154 #152 Налаштування імпорту з файлу\nВидалити повідомлення регульовані",
-        "zh-cn": "需要Js控制器 >=5.0.19\nFIX: 触发中的颜色 概览\nFIX: #154 #152 (英语). 从文件导入配置\n删除调整后的信件"
       }
     },
     "titleLang": {
