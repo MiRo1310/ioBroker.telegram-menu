@@ -603,11 +603,11 @@ export interface PropsHeaderTelegramUsers {
         activeMenu: string;
         usersInGroup: UsersInGroup;
         userActiveCheckbox: UserActiveCheckbox;
+        menuOpen: boolean;
     };
 }
 
 export interface StateHeaderTelegramUsers {
-    menuOpen: boolean;
     errorUserChecked: boolean;
     menuChecked: boolean;
 }

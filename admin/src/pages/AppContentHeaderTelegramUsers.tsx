@@ -13,7 +13,6 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
     constructor(props: PropsHeaderTelegramUsers) {
         super(props);
         this.state = {
-            menuOpen: true,
             errorUserChecked: false,
             menuChecked: false,
         };
@@ -26,10 +25,6 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
         if (prevProps.data.activeMenu !== this.props.data.activeMenu) {
             this.setState({ menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu] });
         }
-    };
-
-    updateMenuOpen = (): void => {
-        this.setState({ menuOpen: !this.state.menuOpen });
     };
 
     menuActiveChecked = (): boolean => {
@@ -93,17 +88,11 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
             <Grid container>
                 <Grid size={12}>
                     <div className="telegram__users_container">
-                        {this.isUserGroupLength() ? (
-                            <ButtonExpand
-                                isOpen={this.state.menuOpen}
-                                callback={this.updateMenuOpen}
-                            />
-                        ) : null}
-                        {this.state.menuOpen && this.isUserGroupLength() ? (
+
+                        {this.props.data.menuOpen && this.isUserGroupLength() ? (
                             <div className="telegram__users_card">
                                 <div>
                                     <p>
-                                        <span className="telegram__users_description">{I18n.t('telegramUser')} </span>
                                         {this.state.errorUserChecked ? (
                                             <AppContentHeaderTelegramUsersErrorMessage />
                                         ) : null}

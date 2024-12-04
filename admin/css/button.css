@@ -36,6 +36,9 @@
 	height: 30px !important;
 	border:3px solid transparent !important;
 }
+.button .button__label{
+	white-space: nowrap;
+}
 
 .button--hover:hover {
 	border: 3px solid rgb(103, 103, 103) !important;
@@ -85,6 +88,7 @@
 
 .btn__menu_expand{
 	margin-left: 0.25rem;
+	width: auto !important;
 
 }
 .btn__menu_expand .button--children{

@@ -1,8 +1,8 @@
 import ButtonExpand from '@components/btn-Input/btn-expand';
-import { I18n } from '@iobroker/adapter-react-v5';
-import { Grid2 as Grid } from '@mui/material';
-import type { PropsHeaderMenu } from '@/types/app';
-import React, { Component } from 'react';
+import {I18n} from '@iobroker/adapter-react-v5';
+import {Grid2 as Grid} from '@mui/material';
+import type {PropsHeaderMenu} from '@/types/app';
+import React, {Component} from 'react';
 import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
 import AppContentHeaderMenuList from './AppContentHeaderMenuList';
 
@@ -12,15 +12,15 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
             return;
         }
         if (event.type === 'mouseenter') {
-            this.props.callback.setStateApp({ showPopupMenuList: true });
+            this.props.callback.setStateApp({showPopupMenuList: true});
         }
         if (event.type === 'mouseleave') {
-            this.props.callback.setStateApp({ showPopupMenuList: false });
+            this.props.callback.setStateApp({showPopupMenuList: false});
         }
     };
 
     handleClick = (): void => {
-        this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
+        this.props.callback.setStateApp({showPopupMenuList: !this.props.data.state.showPopupMenuList});
     };
 
     showList(): boolean {
@@ -38,7 +38,8 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                 spacing={1}
                 className="HeaderMenu-GridContainer"
             >
-                <Grid size={{ xs: 12, sm: 2, xl: 1 }}>
+                <Grid size={{xs: 12, sm: 2, xl: 2}}>
+
                     <div
                         onMouseEnter={this.eventOnMouse}
                         onMouseLeave={this.eventOnMouse}
@@ -56,7 +57,9 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                                 callback={this.props.callback}
                             />
                         ) : null}
+
                     </div>
+                    {this.props.children}
                 </Grid>
                 <AppContentHeaderMenuButtons
                     callback={this.props.callback}
