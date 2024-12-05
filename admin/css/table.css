@@ -2,7 +2,7 @@
 
 #root table {
 	border-collapse: collapse !important;
-	width: calc(100% - 1rem) !important;
+	width: calc(100% - 0.5rem) !important;
 }
 #root tr th {
 	background-color: #3399cc;

@@ -1,11 +1,12 @@
 /* IconBar */
 img[alt="logo"] {
-	padding: 0px !important;
+	padding: 0 !important;
 	width: 40px !important;
 }
 
 .header__icons {
 	margin-bottom: 0;
+	border-radius: 0 !important;
 }
 .light .Header__icons,
 .colored .header__icons {
