@@ -188,10 +188,9 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
             <div className="header__actions">
                 <Input
                     placeholder={I18n.t('addMenu')}
-                    id="newMenuName"
                     value={this.state.newMenuName}
                     callback={({ val }: EventInput) => this.setState({ newMenuName: val as string })}
-                    class={this.state.menuNameExists ? 'inUse' : undefined}
+                    class={this.state.menuNameExists ? 'inUse' : '' }
                 />
                 <Button
                     callbackValue={this.state.newMenuName}

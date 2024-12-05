@@ -224,7 +224,7 @@ export interface SelectProps {
 export type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
 
 export interface InputProps {
-    id: string;
+    id?:string
     type?: string;
     placeholder?: string;
     value: string;

@@ -33,7 +33,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
     render(): React.ReactNode {
         return (
             <div className="header__menu_container">
-                <div style={{ width: '270px', flexWrap: 'nowrap' }}>
+                <div style={{ width: '270px', display:'flex', flexWrap: 'nowrap' }}>
                     <div
                         onMouseEnter={this.eventOnMouse}
                         onMouseLeave={this.eventOnMouse}
