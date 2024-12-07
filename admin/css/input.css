@@ -8,13 +8,10 @@ input {
 	border-bottom: 1px solid #ccc !important;
 }
 
-.header__menu_container input {
-	margin-top: 0.5rem !important;
-	margin-left: 0 !important;
+body .header__actions input {
 	font-size: 1.0rem !important;
-	width:250px !important;
-
-}
+	width: 300px !important;
+	}
 .Settings input[type="checkbox"] {
 	margin-left: 8px;
 }

@@ -16,9 +16,16 @@
 
 .edit__container .input__container {
 	width: 100% !important;
-	display: inline-block;
-}
+	height: auto !important;
 
+}
+.input__container label input{
+	margin-top: 0.5rem !important;
+}
+.input__container label {
+	display :inline-block;
+	height : 1rem
+}
 .edit__container label p {
 	margin-left: 8px !important;
 }
