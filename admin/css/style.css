@@ -7,6 +7,7 @@
 @import "./app-content.css";
 @import "./row-editor.css";
 @import "./header.css";
+@import "./tab-action.css";
 
 body {
 	height: 100vh;
@@ -69,7 +70,7 @@ body {
 	width: 160px;
 	position: absolute;
 	z-index: 1500;
-	top: 146px;
+	top: 154px;
 	left: 5px;
 	border: 2px solid #333;
 	border-radius: 4px;
@@ -122,6 +123,7 @@ body {
 	justify-content: space-between;
 	align-items: start;
 }
+
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
 	display: inline-block;
@@ -476,7 +478,7 @@ button.buttonFalse {
 }
 button.buttonTrue i,
 button.buttonFalse i {
-	margin-top: 2px;
+	margin-top: 1px;
 	font-size: 1.2rem;
 	text-align: center;
 }
@@ -578,7 +580,7 @@ p.inUse {
 	opacity: 0.4;
 }
 .MuiTabs-root div.MuiTabs-fixed {
-	position: fixed;
+	/*position: fixed;*/
 	background-color: white;
 	width: 100%;
 	z-index: 100;

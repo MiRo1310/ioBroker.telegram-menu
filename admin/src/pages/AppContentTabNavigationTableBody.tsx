@@ -174,7 +174,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                     card: this.props.card,
                                     activeMenu: this.props.data.state.activeMenu,
                                     data: this.props.data.state.native.data,
-                                    updateNative: this.props.callback.setStateApp,
+                                    updateNative: this.props.callback.updateNative,
                                 })
                             }
                             rows={this.state.rows}

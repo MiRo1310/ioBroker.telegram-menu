@@ -3,6 +3,9 @@
 	color: #777;
 	margin: 0 !important;
 }
+.edit__container label {
+	width : 100%;
+}
 
 .edit__container-Trigger {
 	margin-left: 20px;
