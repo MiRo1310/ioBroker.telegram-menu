@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "news": {
+      "2.1.7": {
+        "en": "FIX: #220 Delete button doesn´t work\nFEAT: Styling",
+        "de": "FIX: #220 Löschen Taste funktioniert nicht\nFEAT: Styling",
+        "ru": "FIX: #220 Удаление кнопки ́t работа\nFEAT: Styling",
+        "pt": "CORREÇÃO: #220 Apagar botão não funciona\nFEAT: Styling",
+        "nl": "FIX: #220 Delete button doesn śet werk\nFEAT: Styling",
+        "fr": "FIX: #220 Le bouton Supprimer ne fonctionne pas\nVIANDE: Styling",
+        "it": "FIX: #220 Pulsante Cancella non funziona\nCARAT: Styling",
+        "es": "FIX: #220 Borrar botón no funciona\nFEAT: Styling",
+        "pl": "FIX: # 220 Usuń przycisk nie działa\nFEAT: Styling",
+        "uk": "FIX: #220 Видалити кнопка не працює\nFEAT: Стилування",
+        "zh-cn": "FIX: # 220 删除按钮不起作用\n斯图林"
+      },
       "2.1.6": {
         "en": "FEAT: Styling",
         "de": "FEAT: Styling",
@@ -80,19 +93,6 @@
         "pl": "FIX: Adapter ui nie może być załadowany",
         "uk": "FIX: Адаптер ui не завантажується",
         "zh-cn": "FIX: 适应器 ui 无法装入"
-      },
-      "2.1.0": {
-        "en": "FIX: #191 No picture can be send\nFEAT: #175 Copy function in Action, Renamed Switch to Toggle\nFIX: #176 Error in setDynamic value\nFIX: #181 Required values in setState",
-        "de": "FIX: #191 Kein Bild kann gesendet werden\nFEAT: #175 Kopieren Funktion in Aktion, Umbenannt Umschalten in Toggle\nFIX: #176 Fehler in setDynamic Wert\nFIX: #181 Erforderliche Werte in setState",
-        "ru": "#191 Невозможно отправить изображение\nFEAT: #175 Функция копирования в действии, переименованный переключатель в переключатель\nFIX: #176 Ошибка в значении setDynamic\nFIX: #181",
-        "pt": "FIX: #191 Nenhuma imagem pode ser enviada\nCARACTERÍSTICA: #175 Função de cópia em ação, interruptor de Renamed para alternar\nFIX: #176 Erro no valor setDynamic\nFIX: #181 Valores exigidos no setState",
-        "nl": "FIX: #191 Geen foto kan verzonden worden\nFEAT: #175 Kopieerfunctie in actie, Renamed Schakelen naar Schakelen\nFIX: #176 Fout in setDynamische waarde\nFIX: #181 Vereiste waarden in setState",
-        "fr": "FIXE: 191 Aucune image ne peut être envoyée\nFeat: #175 Fonction Copier dans Action, Renommé Switch to Toggle\nFIX: #176 Erreur dans setValeur dynamique\nFIX: #181 Valeurs obligatoires dans setState",
-        "it": "#191 Nessuna immagine può essere inviata\nFEAT: #175 Funzione di copia in azione, Interruttore rinominato a Toggle\nFIX: #176 Errore nel valore setDynamic\nFIX: #181 Valori richiesti in setState",
-        "es": "FIX: #191 No se puede enviar ninguna foto\nFEAT: #175 Función de copia en acción, cambio renombrado a toggle\nFIX: #176 Error en el valor dinámico\nFIX: #181 Valores obligatorios en setState",
-        "pl": "FIX: # 191 Nie można wysłać zdjęcia\nFEAT: # 175 Funkcja kopiowania w akcji, Zmiana nazwy Przełącz na Toggle\nFIX: # 176 Błąd w wartości setDynamic\nFIX: # 181 Wymagane wartości w setState",
-        "uk": "FIX: #191 Немає зображення\nFEAT: #175 Функція копіювання в дії, Перейменований перемикач для Toggle\nFIX: #176 Помилка в налаштуванні\nFIX: #181 Необхідні значення в setState",
-        "zh-cn": "FIX: #191 (英语). 无法发送图片\nFEAT: # 175 复制功能在动作中, 重命名为切换\nFIX: # 176 设置错误 Dynamic 值\nFIX: # 181 设定状态下的必要值"
       }
     },
     "titleLang": {
