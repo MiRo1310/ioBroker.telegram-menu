@@ -55,7 +55,6 @@
 	align-items: end;
 	justify-content: center;
 	height: 100%;
-	margin-top: 0.5rem;
 }
 
 .button__icon {
@@ -65,6 +64,10 @@
 	border: 1px solid black !important;
 	border-radius: 6px !important;
 }
+.button__icon_text .button--children{
+	margin-top: 0.5rem !important;
+}
+
 .button__icon-table {
 	width: 30px !important;
 	height: 30px !important;

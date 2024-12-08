@@ -35,7 +35,6 @@ class TabListing extends Component<PropsMainTabList> {
                     aria-label="lab API tabs example"
                     className="App-TabList"
                 >
-                    Test
                     {this.tabs.map(tab => (
                         <Tab
                             label={I18n.t(tab.label)}
