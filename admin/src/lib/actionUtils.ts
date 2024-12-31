@@ -180,21 +180,18 @@ export const updateId = (
     }
     saveRows(props, setState, newRow);
 };
+
 const disassembleTextToTriggers = (text: string): string[] => {
-    const triggerArray: string[] = [];
+    let triggerArray: string[] = [];
     let textArray: string[];
     if (text.includes('&&')) {
         textArray = text.split('&&');
     } else {
         textArray = [text];
     }
-    if (textArray[0].includes('menu:')) {
-        const array = text[0].split(':');
 
-        const trigger = array[2];
-        if (trigger) {
-            triggerArray.push(trigger.trim());
-        }
+    if (text.includes('menu:')) {
+        triggerArray = getTriggerFromSubmenu(text, triggerArray);
     } else {
         textArray.forEach(element => {
             element.split(',').forEach(word => {
@@ -207,6 +204,17 @@ const disassembleTextToTriggers = (text: string): string[] => {
 
     return triggerArray;
 };
+
+function getTriggerFromSubmenu(text: string, triggerArray: string[]): string[] {
+    const trigger = text.split(':')?.[2];
+
+    if (!trigger) {
+        return triggerArray;
+    }
+    triggerArray.push(trigger.trim());
+
+    return triggerArray;
+}
 
 export const updateTriggerForSelect = (
     data: NativeData,
@@ -246,6 +254,7 @@ export const updateTriggerForSelect = (
         everyTrigger: everyTrigger,
         usedTrigger: { nav: {}, action: {} },
     };
+
     menusToSearchIn.forEach(menu => {
         let triggerInMenu: string[] = [];
         if (!data.nav[menu]) {
@@ -254,6 +263,7 @@ export const updateTriggerForSelect = (
         data.nav[menu].forEach((element, index) => {
             usedTrigger.push(element.call);
             triggerArray.push(element.call);
+
             const triggerInRow = disassembleTextToTriggers(element.value);
             triggerInMenu = triggerInMenu.concat(triggerInRow);
             allTrigger = allTrigger.concat(triggerInRow);
