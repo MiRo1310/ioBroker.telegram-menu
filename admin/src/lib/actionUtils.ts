@@ -5,13 +5,14 @@ import type {
     UsersInGroup,
     ActionNewRowProps,
     RowsSetState,
-    TabValueEntries,
+    TabValueEntries, Pic,
 } from '@/types/app';
 import React from 'react';
-import { tabValues } from '@/config/entries';
-import { isTruthy } from './string';
-import { deepCopy, deleteDoubleEntriesInArray, sortArray } from './Utils';
-import type { UpdateProps } from '@/types/props-types';
+import {tabValues} from '@/config/entries';
+import {isTruthy} from './string';
+import {deepCopy, deleteDoubleEntriesInArray, sortArray} from './Utils';
+import type {UpdateProps} from '@/types/props-types';
+import {ActionTypes} from "../../../src/lib/telegram-menu";
 
 function createData(
     element: ActionNewRowProps,
@@ -30,7 +31,7 @@ function getRows(
     rowElements: TabValueEntries[],
 ): { rows: { [key: string]: string }[] | null; trigger: string } {
     if (!element) {
-        return { rows: null, trigger: '' };
+        return {rows: null, trigger: ''};
     }
 
     const rows: { [key: string]: string }[] = [];
@@ -41,7 +42,7 @@ function getRows(
     }
     const generateBy = rowElements.find(element => element.elementGetRows !== undefined)?.elementGetRows;
     if (!generateBy) {
-        return { rows: null, trigger: '' };
+        return {rows: null, trigger: ''};
     }
     if (!(element && element[generateBy])) {
         console.error(
@@ -55,7 +56,7 @@ function getRows(
             rows.push(row);
         }
     }
-    return { rows: rows, trigger: trigger };
+    return {rows: rows, trigger: trigger};
 }
 
 export const saveRows = (
@@ -65,23 +66,23 @@ export const saveRows = (
     existingRow?: RowsSetState[],
 ): void => {
     if (existingRow?.length == 0) {
-        const { rows, trigger } = getRows(props.data.newRow, props.data.tab.entries);
+        const {rows, trigger} = getRows(props.data.newRow, props.data.tab.entries);
         if (!rows) {
             return;
         }
-        setState({ trigger, rows });
+        setState({trigger, rows});
         return;
     }
 
-    const { rows, trigger } = getRows(newRow as ActionNewRowProps, props.data.tab.entries);
+    const {rows, trigger} = getRows(newRow as ActionNewRowProps, props.data.tab.entries);
     if (!rows) {
         return;
     }
-    setState({ trigger, rows });
+    setState({trigger, rows});
 };
 
 export const updateData = (
-    { index, val, id }: { id: string; val: string | number | boolean; index: number },
+    {index, val, id}: { id: string; val: string | number | boolean; index: number },
     props: UpdateProps,
     setState: SetStateFunction,
 ): void => {
@@ -91,7 +92,7 @@ export const updateData = (
     }
     newRow[id][index] = val.toString();
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({ newRow: newRow });
+        props.callback.setStateTabActionContent({newRow: newRow});
     }
 
     saveRows(props, setState, newRow);
@@ -104,7 +105,7 @@ export const updateTrigger = (value: { trigger: string }, props: UpdateProps, se
     }
     newRow.trigger[0] = value.trigger;
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({ newRow: newRow });
+        props.callback.setStateTabActionContent({newRow: newRow});
     }
     saveRows(props, setState, newRow);
 };
@@ -129,7 +130,7 @@ export const addNewRow = (
             newRow[element.name].splice(index + 1, 0, element.val);
         }
     });
-    cb({ newRow: newRow });
+    cb({newRow: newRow});
     saveRows(props, setState, newRow);
 };
 
@@ -142,7 +143,7 @@ export const deleteRow = (index: number, props: UpdateProps, setState: SetStateF
         newRow[element.name].splice(index, 1);
     });
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({ newRow: newRow });
+        props.callback.setStateTabActionContent({newRow: newRow});
     }
     saveRows(props, setState, newRow);
 };
@@ -158,7 +159,7 @@ export const moveItem = (index: number, props: UpdateProps, setState: SetStateFu
         }
     });
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({ newRow: newRow });
+        props.callback.setStateTabActionContent({newRow: newRow});
     }
     saveRows(props, setState, newRow);
 };
@@ -176,65 +177,72 @@ export const updateId = (
     }
     newRow[ID][indexID] = selected;
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({ newRow: newRow });
+        props.callback.setStateTabActionContent({newRow: newRow});
     }
     saveRows(props, setState, newRow);
 };
 
-const disassembleTextToTriggers = (text: string): string[] => {
-    let triggerArray: string[] = [];
-    let textArray: string[];
+const splitTextToTriggers = (text: string): string[] => {
+    let textArray: string[] = [];
+
+    if (text.includes('menu:')) {
+        return getTriggerFromSubmenu(text);
+    }
+
     if (text.includes('&&')) {
         textArray = text.split('&&');
     } else {
         textArray = [text];
     }
 
-    if (text.includes('menu:')) {
-        triggerArray = getTriggerFromSubmenu(text, triggerArray);
-    } else {
-        textArray.forEach(element => {
-            element.split(',').forEach(word => {
-                if (word.trim() != '-') {
-                    triggerArray.push(word.trim());
-                }
-            });
+    const triggerArray: string[] = [];
+    textArray.forEach(element => {
+        element.split(',').forEach(word => {
+            if (word.trim() != '-') {
+                triggerArray.push(word.trim());
+            }
         });
-    }
-
+    });
     return triggerArray;
 };
 
-function getTriggerFromSubmenu(text: string, triggerArray: string[]): string[] {
+function getTriggerFromSubmenu(text: string): string[] {
     const trigger = text.split(':')?.[2];
 
-    if (!trigger) {
-        return triggerArray;
-    }
-    triggerArray.push(trigger.trim());
-
-    return triggerArray;
+    return !trigger ? [] : [trigger.trim()]
 }
 
-export const updateTriggerForSelect = (
-    data: NativeData,
-    usersInGroup: UsersInGroup,
-    activeMenu: string,
-): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
+function getUsedTriggerFromActionTab(submenu: string[], data: NativeData, menu: string, usedTrigger: string[], triggerObj: TriggerObj) {
+    const actionTrigger: string[] = [];
+    submenu.forEach(sub => {
+        if (!data.action[menu][sub]) return;
+
+        data.action[menu][sub].forEach((element: ActionTypes, index: number) => {
+            usedTrigger = usedTrigger.concat(element.trigger);
+            actionTrigger.push(element.trigger[0]);
+
+            if (index == data.action[menu][sub].length - 1) {
+                triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
+                actionTrigger.length = 0;
+            }
+        });
+    });
+    return usedTrigger;
+}
+
+function getSubmenuStrings(): string[] {
     const submenu: string[] = [];
     tabValues.forEach(element => {
         if (element.trigger) {
             submenu.push(element.value);
         }
     });
+    return submenu;
+}
 
-    const users = usersInGroup[activeMenu];
-
+function getMenusToSearchIn(users: string[], usersInGroup: UsersInGroup): string[] {
     let menusToSearchIn: string[] = [];
 
-    if (!users) {
-        return;
-    }
     users.forEach(user => {
         Object.keys(usersInGroup).forEach(group => {
             if (usersInGroup[group].includes(user)) {
@@ -242,6 +250,21 @@ export const updateTriggerForSelect = (
             }
         });
     });
+
+    return menusToSearchIn;
+}
+
+export const updateTriggerForSelect = (
+    data: NativeData,
+    usersInGroup: UsersInGroup,
+    activeMenu: string,
+): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
+
+    const submenus = getSubmenuStrings();
+    const users = usersInGroup[activeMenu];
+
+    if (!users) return;
+    let menusToSearchIn = getMenusToSearchIn(users, usersInGroup);
     menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
 
     let usedTrigger: string[] = [];
@@ -252,21 +275,20 @@ export const updateTriggerForSelect = (
     const triggerObj: TriggerObj = {
         unUsedTrigger: [''],
         everyTrigger: everyTrigger,
-        usedTrigger: { nav: {}, action: {} },
+        usedTrigger: {nav: {}, action: {}},
     };
 
     menusToSearchIn.forEach(menu => {
         let triggerInMenu: string[] = [];
-        if (!data.nav[menu]) {
-            return;
-        }
+        if (!data.nav[menu]) return;
+
         data.nav[menu].forEach((element, index) => {
             usedTrigger.push(element.call);
             triggerArray.push(element.call);
 
-            const triggerInRow = disassembleTextToTriggers(element.value);
-            triggerInMenu = triggerInMenu.concat(triggerInRow);
-            allTrigger = allTrigger.concat(triggerInRow);
+            const triggersFromRow = splitTextToTriggers(element.value);
+            triggerInMenu = triggerInMenu.concat(triggersFromRow);
+            allTrigger = allTrigger.concat(triggersFromRow);
 
             if (index == data.nav[menu].length - 1) {
                 triggerObj.usedTrigger.nav[menu] = [...triggerArray];
@@ -279,50 +301,29 @@ export const updateTriggerForSelect = (
         });
 
         triggerObj.usedTrigger.action[menu] = {};
-        const actionTrigger: string[] = [];
-        submenu.forEach(sub => {
-            if (!data.action[menu][sub]) {
-                return;
-            }
-            data.action[menu][sub].forEach((element, index) => {
-                usedTrigger = usedTrigger.concat(element.trigger);
-                actionTrigger.push(element.trigger[0]);
-
-                if (index == data.action[menu][sub].length - 1) {
-                    triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
-                    actionTrigger.length = 0;
-                }
-            });
-        });
+        usedTrigger = getUsedTriggerFromActionTab(submenus, data, menu, usedTrigger, triggerObj);
     });
 
-    if (Array.isArray(allTrigger)) {
-        allTrigger = deleteDoubleEntriesInArray(allTrigger);
-    }
+    let unUsedTrigger = deleteDoubleEntriesInArray(allTrigger).filter(trigger => !usedTrigger.includes(trigger));
 
-    let unUsedTrigger = allTrigger.filter(x => !usedTrigger.includes(x));
+    triggerObj.unUsedTrigger = unUsedTrigger;
 
-    if (unUsedTrigger.length > 0) {
-        triggerObj.unUsedTrigger = unUsedTrigger;
-    }
-    unUsedTrigger = sortArray(unUsedTrigger);
-
-    return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger, triggerObj: triggerObj };
+    return {usedTrigger: usedTrigger, unUsedTrigger: sortArray(unUsedTrigger), triggerObj: triggerObj};
 };
 
 const buttonCheck = (): React.ReactElement => {
     return React.createElement(
         'button',
-        { className: 'buttonTrue' },
-        React.createElement('span', null, React.createElement('i', { className: 'material-icons' }, 'done')),
+        {className: 'buttonTrue'},
+        React.createElement('span', null, React.createElement('i', {className: 'material-icons'}, 'done')),
     );
 };
 
 const buttonClose = (): React.ReactElement => {
     return React.createElement(
         'button',
-        { className: 'buttonFalse' },
-        React.createElement('span', null, React.createElement('i', { className: 'material-icons' }, 'close')),
+        {className: 'buttonFalse'},
+        React.createElement('span', null, React.createElement('i', {className: 'material-icons'}, 'close')),
     );
 };
 
@@ -330,9 +331,8 @@ export const getElementIcon = (
     element: string | boolean,
     entry?: TabValueEntries,
 ): undefined | React.ReactElement | string => {
-    if (!element) {
-        return;
-    }
+
+    if (!element) return;
 
     if (!entry?.noIcon) {
         if (isTruthy(element)) {
@@ -346,14 +346,14 @@ export const getElementIcon = (
 };
 
 export const sortObjectByKey = (usersInGroup: UsersInGroup): UsersInGroup => {
-    const newObject = {};
+    const sortedObject = {};
     Object.entries(usersInGroup)
         .sort()
         .forEach(element => {
-            newObject[element[0]] = element[1];
+            sortedObject[element[0]] = element[1];
         });
 
-    return newObject;
+    return sortedObject;
 };
 
 export function updateActiveMenuAndTrigger(
