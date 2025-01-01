@@ -17,16 +17,16 @@ class Settings extends Component<PropsSettings> {
     }
 
     onClickCheckbox = ({isChecked, id}: EventCheckbox): void => {
-        const checkbox = {...this.props.data.state.native.checkbox};
-        checkbox[id] = isChecked;
-        this.props.callback.updateNative('checkbox', checkbox);
+        const checkboxes = {...this.props.data.state.native.checkbox};
+        checkboxes[id] = isChecked;
+        this.props.callback.updateNative('checkbox', checkboxes);
     };
 
     componentDidMount(): void {
         if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
-            const checkbox = {...this.props.data.state.native.checkbox};
-            checkbox.sendMenuAfterRestart = true;
-            this.props.callback.updateNative('checkbox', checkbox);
+            const checkboxes = {...this.props.data.state.native.checkbox};
+            checkboxes.sendMenuAfterRestart = true;
+            this.props.callback.updateNative('checkbox', checkboxes);
         }
     }
 
