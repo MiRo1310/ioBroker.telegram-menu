@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.7",
+    "version": "2.1.8",
     "news": {
+      "2.1.8": {
+        "en": "FIX: #224 Submenu trigger",
+        "de": "FIX: #224 Submenu Trigger",
+        "ru": "FIX: #224",
+        "pt": "FIX: #224 Submenu gatilho",
+        "nl": "FIX: #224 Submenu-starter",
+        "fr": "FIXE: Déclencheur du sous-menu #224",
+        "it": "FIX: #224 Submenu trigger",
+        "es": "FIX: #224 El gatillo Submenu",
+        "pl": "FIX: # 224 Uruchom podmenu",
+        "uk": "FIX: #224 Запобігання підменю",
+        "zh-cn": "FIX: # 224 子菜单触发器"
+      },
       "2.1.7": {
         "en": "FIX: #220 Delete button doesn´t work\nFEAT: Styling",
         "de": "FIX: #220 Löschen Taste funktioniert nicht\nFEAT: Styling",
@@ -80,19 +93,6 @@
         "pl": "FIX: Nie można wybrać różnych instancji telegraficznych\nFIX: Nie można ustawić wartości w setState\nStyling",
         "uk": "FIX: Різні телеграми не можна вибрати\nFIX: Неможливо встановити значення в setState\nСтилінг",
         "zh-cn": "FIX: 无法选择不同的电报实例\nFIX: 无法在设置状态中设置值\n样式"
-      },
-      "2.1.1": {
-        "en": "FIX: Adapter ui cannot be loaded",
-        "de": "FIX: Adapter ui kann nicht geladen werden",
-        "ru": "FIX: Адаптер ui не может быть загружен",
-        "pt": "FIX: Adaptador ui não pode ser carregado",
-        "nl": "FIX: Adapter ui kan niet geladen worden",
-        "fr": "FIX: Adaptateur ui ne peut pas être chargé",
-        "it": "FIX: Adattatore ui non può essere caricato",
-        "es": "FIX: Adaptador ui no se puede cargar",
-        "pl": "FIX: Adapter ui nie może być załadowany",
-        "uk": "FIX: Адаптер ui не завантажується",
-        "zh-cn": "FIX: 适应器 ui 无法装入"
       }
     },
     "titleLang": {
