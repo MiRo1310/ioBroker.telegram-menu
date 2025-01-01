@@ -9,8 +9,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.telegram-menu.png?downloads=true)](https://nodei.co/npm/iobroker.telegram-menu/)
 
-**Tests:
-** ![Test and Release](https://github.com/MiRo1310/ioBroker.telegram-menu/workflows/Test%20and%20Release/badge.svg)
+![Test and Release](https://github.com/MiRo1310/ioBroker.telegram-menu/workflows/Test%20and%20Release/badge.svg)
 
 ## ioBroker telegram-menu adapter
 
