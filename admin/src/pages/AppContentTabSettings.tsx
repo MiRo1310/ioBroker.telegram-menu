@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Input from '@components/btn-Input/input';
 import Checkbox from '@components/btn-Input/checkbox';
-import { I18n } from '@iobroker/adapter-react-v5';
+import {I18n} from '@iobroker/adapter-react-v5';
 import Select from '@components/btn-Input/select';
-import type { PropsSettings } from '@/types/app';
-import type { EventCheckbox, EventInput, EventSelect } from '@/types/event';
-import { Grid2 as Grid } from '@mui/material';
+import type {PropsSettings} from '@/types/app';
+import type {EventCheckbox, EventInput, EventSelect} from '@/types/event';
+import {Grid2 as Grid} from '@mui/material';
 
 class Settings extends Component<PropsSettings> {
     constructor(props: PropsSettings) {
@@ -16,15 +16,15 @@ class Settings extends Component<PropsSettings> {
         };
     }
 
-    onClickCheckbox = ({ isChecked, id }: EventCheckbox): void => {
-        const checkbox = { ...this.props.data.state.native.checkbox };
+    onClickCheckbox = ({isChecked, id}: EventCheckbox): void => {
+        const checkbox = {...this.props.data.state.native.checkbox};
         checkbox[id] = isChecked;
         this.props.callback.updateNative('checkbox', checkbox);
     };
 
     componentDidMount(): void {
         if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
-            const checkbox = { ...this.props.data.state.native.checkbox };
+            const checkbox = {...this.props.data.state.native.checkbox};
             checkbox.sendMenuAfterRestart = true;
             this.props.callback.updateNative('checkbox', checkbox);
         }
@@ -46,35 +46,38 @@ class Settings extends Component<PropsSettings> {
                             name="instance"
                             selected={this.props.data.state.native.instance}
                             id="instance"
-                            callback={({ id, val }: EventSelect) => this.props.callback.updateNative(id, val)}
+                            callback={({id, val}: EventSelect) => this.props.callback.updateNative(id, val)}
                             setNative={true}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
+                    <Grid size={{xs: 12, sm: 12, lg: 6}}>
                         <Input
                             label={I18n.t('textNoEntry')}
                             placeholder="No entry found"
-                            callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
+                            callback={({id, val}: EventInput) => this.props.callback.updateNative(id, val)}
                             id="textNoEntry"
                             value={this.props.data.state.native.textNoEntry || I18n.t('entryNotFound')}
+                            class={'input__container--settings'}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
+                    <Grid size={{xs: 12, sm: 12, lg: 6}}>
                         <Input
                             label={I18n.t('Token Grafana')}
                             placeholder="Token Grafana"
-                            callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
+                            callback={({id, val}: EventInput) => this.props.callback.updateNative(id, val)}
                             id="tokenGrafana"
                             value={this.props.data.state.native.tokenGrafana || ''}
+                            class={'input__container--settings'}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
+                    <Grid size={{xs: 12, sm: 12, lg: 6}}>
                         <Input
                             label={I18n.t('Directory')}
                             placeholder="/opt/iobroker/grafana/"
-                            callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
+                            callback={({id, val}: EventInput) => this.props.callback.updateNative(id, val)}
                             id="directory"
                             value={this.props.data.state.native.directory || '/opt/iobroker/grafana/'}
+                            class={'input__container--settings'}
                         />
                     </Grid>
                     <Grid size={12}>
