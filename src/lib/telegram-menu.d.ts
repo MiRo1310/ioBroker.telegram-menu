@@ -4,15 +4,20 @@ interface Checkboxes {
     checkboxNoValueFound: boolean;
     sendMenuAfterRestart: boolean;
 }
+
 type ListOfMenus = string[];
+
 interface IsUserActiveCheckbox {
     [key: string]: boolean;
 }
+
 type MenusArray = keyof NewObjectNavStructure[];
 type Menus = string;
+
 interface MenusWithUsers {
     [key: string]: string[];
 }
+
 interface UserListWithChatId {
     chatID: string;
     name: string;
@@ -21,6 +26,9 @@ interface UserListWithChatId {
 interface Action {
     [key: string]: Actions;
 }
+
+export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
+
 interface Actions {
     get: Get[];
     set: Set[];
@@ -29,6 +37,7 @@ interface Actions {
     echarts: Echart[];
     events: Events[];
 }
+
 interface HttpRequest {
     url: string;
     user: string;
@@ -39,6 +48,7 @@ interface HttpRequest {
 }
 
 type NavPart = string[] | string[][];
+
 interface NavObject {
     [key: string]: Nav[];
 }
@@ -48,6 +58,7 @@ interface NavStaticValues {
     text: string;
     parse_mode: BooleanString;
 }
+
 interface Set {
     ack: BooleanString[];
     confirm: BooleanString[];
@@ -58,6 +69,7 @@ interface Set {
     trigger: string[];
     values: string[];
 }
+
 interface Get {
     newline_checkbox: BooleanString[];
     parse_mode: BooleanString[];
@@ -65,6 +77,7 @@ interface Get {
     text: string[];
     trigger: string[];
 }
+
 interface Events {
     ack: BooleanString;
     ID: string;
@@ -72,12 +85,14 @@ interface Events {
     condition: string;
     trigger: string[];
 }
+
 interface Pic {
     IDs: string[];
     filename: string[];
     trigger: string[];
     picSendDelay: string[];
 }
+
 interface Echart {
     background: string[];
     echartsInstance: string[];
@@ -86,9 +101,11 @@ interface Echart {
     theme: string[];
     trigger: string[];
 }
+
 interface StartSides {
     [key: Menus]: string;
 }
+
 interface NewObjectNavStructure {
     [key: NewObjectNavStructureKey]: Part;
 }
@@ -99,25 +116,33 @@ interface Nav extends NavStaticValues {
     nav: string;
     value: string;
 }
+
 interface MenuData {
     data: AllMenusWithData;
+
     [key: string]: { nav: string[] };
 }
+
 interface AllMenusWithData {
     [key: MenuNames]: NewObjectNavStructure;
+
     [key: string]: DataObject;
 }
+
 type MenuNames = string;
 
 export interface DataObject {
     action: Action;
     nav: NavObject;
+
     [key: MenusArray]: Nav;
 }
+
 interface GeneratedActions {
     obj: NewObjectNavStructure;
     ids: string[];
 }
+
 // interface UserObject {
 //     [key: string]: { switch?: Switch[] };
 //     [key: string]: { [key: UserObjectActions]: [] };
@@ -157,6 +182,7 @@ interface GetData {
     parse_mode: BooleanString;
     newline: BooleanString;
 }
+
 type BooleanString = 'false' | 'true';
 type ParseModeType = 'HTML' | 'Markdown';
 export type Location = any;
@@ -164,6 +190,7 @@ export type Location = any;
 interface SetDynamicValueObj {
     [key: string]: SetDynamicValue;
 }
+
 interface SetDynamicValue {
     id: string;
     ack: boolean;
@@ -177,6 +204,7 @@ interface SetDynamicValue {
     userListWithChatID: UserListWithChatId[];
     valueType: string;
 }
+
 // interface TelegramResult {
 //     error: string;
 // }
@@ -186,7 +214,9 @@ interface DecomposeText {
     substring: string;
     textWithoutSubstring: string;
 }
+
 type Newline = 'true' | 'false';
+
 interface BindingObject {
     values: { [key: string]: string };
 }
@@ -209,6 +239,7 @@ interface Switch {
     parse_mode: BooleanString;
     ack: BooleanString;
 }
+
 // type ValueType = 'string' | 'number' | 'boolean';
 //
 // interface Event {
@@ -224,12 +255,14 @@ interface GenerateActionsArrayOfEntries {
     loop: string;
     elements: GenerateActionsArrayOfElements[];
 }
+
 interface GenerateActionsArrayOfElements {
     name: string;
     value?: string;
     key?: number;
     type?: string;
 }
+
 interface GenerateActionsNewObject {
     preset?: string;
     echartsInstance?: string;
@@ -259,10 +292,12 @@ interface SetStateIds {
     userToSend: string;
     parse_mode?: BooleanString;
 }
+
 interface Timeouts {
     key: string;
     timeout: iobroker.Timeout;
 }
+
 // interface TimeoutToClear {
 //     key: string;
 //     timeout: NodeJS.Timeout;
@@ -275,11 +310,14 @@ type GroupWithUser = string;
 interface Message {
     time: number;
 }
+
 type WhatShouldDelete = 'all' | 'last';
+
 interface Keyboard {
     FirstRow?: FirstRow[];
     inline_keyboard: ArrayOfEntriesDynamicSwitch[][];
 }
+
 interface ArrayOfEntriesDynamicSwitch {
     text: string;
     callback_data: string;
@@ -288,13 +326,16 @@ interface ArrayOfEntriesDynamicSwitch {
 interface LastText {
     [key: string]: string;
 }
+
 interface ValArray {
     [key: string]: string;
 }
+
 interface FirstRow {
     text: string;
     callback_data: string;
 }
+
 interface RowArray {
     [key: string]: string;
 }
@@ -302,6 +343,7 @@ interface RowArray {
 interface BackMenu {
     [key: string]: BackMenuList;
 }
+
 interface CheckEveryMenuForDataType {
     menuData: MenuData; // checked !!!!
     calledValue: string;
@@ -316,6 +358,7 @@ interface CheckEveryMenuForDataType {
     directoryPicture: string;
     timeoutKey: string;
 }
+
 interface ProcessDataType {
     _this: any;
     menuData: MenuData;
@@ -334,6 +377,7 @@ interface ProcessDataType {
     timeoutKey: string;
     groupData: NewObjectNavStructure;
 }
+
 type ProzessTimeValue = (textToSend: string, obj: ioBroker.State) => string;
 
 interface SetValueForSubmenuNumber extends GlobalTelegramValues {
@@ -342,11 +386,13 @@ interface SetValueForSubmenuNumber extends GlobalTelegramValues {
     userListWithChatID: UserListWithChatId[];
     part: Part;
 }
+
 interface BackMenuType extends GlobalTelegramValues {
     allMenusWithData: AllMenusWithData;
     menus: string[];
     userListWithChatID: UserListWithChatId[];
 }
+
 interface SetValueForSubmenuPercent extends GlobalTelegramValues {
     callbackData: string;
     calledValue: string;
@@ -355,40 +401,48 @@ interface SetValueForSubmenuPercent extends GlobalTelegramValues {
     allMenusWithData: { [key: string]: NewObjectNavStructure };
     menus: string[];
 }
+
 interface GlobalTelegramValues {
     instanceTelegram: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
     userToSend: string;
 }
+
 interface CreateSwitchMenu {
     callbackData: string;
     device2Switch: string;
     text: string | undefined;
 }
+
 interface SetFirstMenuValue extends GlobalTelegramValues {
     part: Part;
     userListWithChatID: UserListWithChatId[];
 }
+
 interface SetSecondMenuValue extends GlobalTelegramValues {
     part: Part;
     userListWithChatID: UserListWithChatId[];
 }
+
 interface CreateSubmenuNumber {
     callbackData: string;
     device2Switch: string;
     text: string | undefined;
 }
+
 interface CreateSubmenuPercent {
     callbackData: string;
     device2Switch: string;
     text: string | undefined;
 }
+
 interface SetDynamicValueType extends GlobalTelegramValues {
     val: string;
     part: Part;
     userListWithChatID: UserListWithChatId[];
 }
+
 interface DeleteMessageIds {
     userToSend: string;
     userListWithChatID: UserListWithChatId[];
@@ -396,6 +450,7 @@ interface DeleteMessageIds {
     device2Switch: string;
     callbackData: string;
 }
+
 interface SplitText {
     calledValue: string;
 }

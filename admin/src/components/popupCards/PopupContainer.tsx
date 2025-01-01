@@ -13,12 +13,14 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
             inUse: false,
         };
     }
+
     componentDidMount(): void {
         if (this.props.drag) {
             const element = document.querySelector('.DialogBackground') as HTMLElement;
             element.draggable = true;
         }
     }
+
     //FIXME - css verwenden
     render(): React.ReactNode {
         const DialogContainer: Properties<string | number, string> = {
@@ -62,7 +64,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                     style={DialogContainer}
                 >
                     <div className="DialogContainer-Header">{this.props.title}</div>
-                    <div className="DialogContainer-Body">
+                    <div className="dialogContainer__body">
                         {this.state.inUse ? <p className="inUse">{I18n.t('Call is already in use!')}</p> : null}
                         {this.props.children}
                     </div>

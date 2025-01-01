@@ -1,116 +1,132 @@
 .button__copy {
-	background-color: green !important;
-	color: white !important;
+    background-color: green !important;
+    color: white !important;
 }
+
 .button__add {
-	background-color: #ddd !important;
+    background-color: #ddd !important;
 }
+
 .button__delete {
-	background-color: red !important;
-	color: white !important;
+    background-color: red !important;
+    color: white !important;
 }
+
 .button__edit,
 .button__info {
-	background-color: blue !important;
-	color: white !important;
+    background-color: blue !important;
+    color: white !important;
 }
+
 .button__ok {
-	background-color: #3399cc !important;
-	color: white !important;
-	opacity: 1 !important;
+    background-color: #3399cc !important;
+    color: white !important;
+    opacity: 1 !important;
 }
+
 .button__ok:not([disabled]):hover {
-	background-color: rgb(35, 107, 142) !important;
-	transition: background-color 0.5s ease;
+    background-color: rgb(35, 107, 142) !important;
+    transition: background-color 0.5s ease;
 }
 
 .button__close {
-	background-color: #cdcdcd !important;
-	color: black !important;
-	opacity: 1 !important;
+    background-color: #cdcdcd !important;
+    color: black !important;
+    opacity: 1 !important;
 }
 
 .button {
-	border-radius: 5px !important;
-	width: 100px !important;
-	height: 30px !important;
-	border:3px solid transparent !important;
+    border-radius: 5px !important;
+    width: 100px !important;
+    height: 30px !important;
+    border: 3px solid transparent !important;
 }
-.button .button__label{
-	white-space: nowrap;
+
+.button .button__label {
+    white-space: nowrap;
 }
 
 .button--hover:hover {
-	border: 3px solid rgb(103, 103, 103) !important;
-	opacity: 0.8 !important;
+    border: 3px solid rgb(103, 103, 103) !important;
+    opacity: 0.8 !important;
 }
 
 .button--disabled {
-	pointer-events: none;
-	opacity: 0.4 !important;
+    pointer-events: none;
+    opacity: 0.4 !important;
 }
 
 .button--children {
-	display: flex;
-	align-items: end;
-	justify-content: center;
-	height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.header__actions .button--children {
+    align-items: end;
 }
 
 .button__icon {
-	width: 30px !important;
-	height: 30px !important;
-	margin: 0 5px 0 5px !important;
-	border: 1px solid black !important;
-	border-radius: 6px !important;
+    width: 30px !important;
+    height: 30px !important;
+    margin: 0 5px 0 5px !important;
+    border: 1px solid black !important;
+    border-radius: 6px !important;
 }
-.button__icon_text .button--children{
-	margin-top: 0.5rem !important;
+
+.button__icon_text .button--children {
+    margin-top: 0.5rem !important;
 }
 
 .button__icon-table {
-	width: 30px !important;
-	height: 30px !important;
-	border-radius: 6px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 6px !important;
 }
 
 
 .button__icon .button--children, .button__icon-table .button--children {
-	margin-top: 0 !important;
+    margin-top: 0 !important;
 }
-.button__flex .button--children{
-	display: flex;
-	align-items: center;
-	justify-content: center;
+
+.button__flex .button--children {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button__primary {
-	background-color: white !important;
-	color: black !important;
+    background-color: white !important;
+    color: black !important;
 }
 
-.btn__menu_expand{
-	margin-left: 0.25rem;
-	width: auto !important;
+.btn__menu_expand {
+    margin-left: 0.25rem;
+    width: auto !important;
 
 }
-.btn__menu_expand .button--children{
-	margin-left: 0.25rem;
-	margin-top: 0 !important;
+
+.btn__menu_expand .button--children {
+    margin-left: 0.25rem;
+    margin-top: 0 !important;
 }
-.button__menu  {
-	display: flex;
-	align-items: center;
-	margin-top: 0.5rem !important;
-	margin-left: 0.5rem !important;
-	margin-right: 0.5rem !important;
-	width: calc(100% - 1rem) !important;
+
+.button__menu {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0.5rem !important;
+    width: calc(100% - 1rem) !important;
 }
-.button__menu:last-child{
-	margin-bottom: 0.5rem !important;
+
+.button__menu:last-child {
+    margin-bottom: 0.5rem !important;
 }
-.button__menu .button--children{
-	height: 100%;
-	margin-top: 0 !important;
+
+.button__menu .button--children {
+    height: 100%;
+    margin-top: 0 !important;
 }
 

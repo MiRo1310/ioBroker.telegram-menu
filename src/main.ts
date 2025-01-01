@@ -200,13 +200,12 @@ export default class TelegramMenu extends utils.Adapter {
                             resize_keyboard,
                             one_time_keyboard,
                         );
-                        this.log.debug('Shopping List was found and deleted');
+
                         return;
                     }
 
                     if (this.isAddToShoppingList(id, userToSend)) {
                         await deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend);
-                        this.log.debug('Shopping List was found and deleted');
                         return;
                     }
 
@@ -224,18 +223,17 @@ export default class TelegramMenu extends utils.Adapter {
                             menusWithUsers,
                         ))
                     ) {
-                        this.log.info('Event was found');
                         return;
                     }
 
                     if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
-                        this.log.debug('Save messageIds');
                         await saveMessageIds(state, instanceTelegram);
                     } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
                         let value = state?.val;
                         if (!value || !userToSend) {
                             return;
                         }
+
                         value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
                         const menus: NewObjectNavStructureKey[] = getMenusWithUserToSend(menusWithUsers, userToSend);

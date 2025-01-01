@@ -12,6 +12,7 @@ import { tabValues } from '@/config/entries';
 import { isTruthy } from './string';
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from './Utils';
 import type { UpdateProps } from '@/types/props-types';
+import type { ActionTypes } from '../../../src/lib/telegram-menu';
 
 function createData(
     element: ActionNewRowProps,
@@ -181,60 +182,75 @@ export const updateId = (
     saveRows(props, setState, newRow);
 };
 
-const disassembleTextToTriggers = (text: string): string[] => {
-    let triggerArray: string[] = [];
-    let textArray: string[];
+const splitTextToTriggers = (text: string): string[] => {
+    let textArray: string[] = [];
+
+    if (text.includes('menu:')) {
+        return getTriggerFromSubmenu(text);
+    }
+
     if (text.includes('&&')) {
         textArray = text.split('&&');
     } else {
         textArray = [text];
     }
 
-    if (text.includes('menu:')) {
-        triggerArray = getTriggerFromSubmenu(text, triggerArray);
-    } else {
-        textArray.forEach(element => {
-            element.split(',').forEach(word => {
-                if (word.trim() != '-') {
-                    triggerArray.push(word.trim());
-                }
-            });
+    const triggerArray: string[] = [];
+    textArray.forEach(element => {
+        element.split(',').forEach(word => {
+            if (word.trim() != '-') {
+                triggerArray.push(word.trim());
+            }
         });
-    }
-
+    });
     return triggerArray;
 };
 
-function getTriggerFromSubmenu(text: string, triggerArray: string[]): string[] {
+function getTriggerFromSubmenu(text: string): string[] {
     const trigger = text.split(':')?.[2];
 
-    if (!trigger) {
-        return triggerArray;
-    }
-    triggerArray.push(trigger.trim());
-
-    return triggerArray;
+    return !trigger ? [] : [trigger.trim()];
 }
 
-export const updateTriggerForSelect = (
+function getUsedTriggerFromActionTab(
+    submenu: string[],
     data: NativeData,
-    usersInGroup: UsersInGroup,
-    activeMenu: string,
-): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
+    menu: string,
+    usedTrigger: string[],
+    triggerObj: TriggerObj,
+): string[] {
+    const actionTrigger: string[] = [];
+    submenu.forEach(sub => {
+        if (!data.action[menu][sub]) {
+            return;
+        }
+
+        data.action[menu][sub].forEach((element: ActionTypes, index: number) => {
+            usedTrigger = usedTrigger.concat(element.trigger);
+            actionTrigger.push(element.trigger[0]);
+
+            if (index == data.action[menu][sub].length - 1) {
+                triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
+                actionTrigger.length = 0;
+            }
+        });
+    });
+    return usedTrigger;
+}
+
+function getSubmenuStrings(): string[] {
     const submenu: string[] = [];
     tabValues.forEach(element => {
         if (element.trigger) {
             submenu.push(element.value);
         }
     });
+    return submenu;
+}
 
-    const users = usersInGroup[activeMenu];
+function getMenusToSearchIn(users: string[], usersInGroup: UsersInGroup): string[] {
+    const menusToSearchIn: string[] = [];
 
-    let menusToSearchIn: string[] = [];
-
-    if (!users) {
-        return;
-    }
     users.forEach(user => {
         Object.keys(usersInGroup).forEach(group => {
             if (usersInGroup[group].includes(user)) {
@@ -242,6 +258,22 @@ export const updateTriggerForSelect = (
             }
         });
     });
+
+    return menusToSearchIn;
+}
+
+export const updateTriggerForSelect = (
+    data: NativeData,
+    usersInGroup: UsersInGroup,
+    activeMenu: string,
+): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
+    const submenus = getSubmenuStrings();
+    const users = usersInGroup[activeMenu];
+
+    if (!users) {
+        return;
+    }
+    let menusToSearchIn = getMenusToSearchIn(users, usersInGroup);
     menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
 
     let usedTrigger: string[] = [];
@@ -260,13 +292,14 @@ export const updateTriggerForSelect = (
         if (!data.nav[menu]) {
             return;
         }
+
         data.nav[menu].forEach((element, index) => {
             usedTrigger.push(element.call);
             triggerArray.push(element.call);
 
-            const triggerInRow = disassembleTextToTriggers(element.value);
-            triggerInMenu = triggerInMenu.concat(triggerInRow);
-            allTrigger = allTrigger.concat(triggerInRow);
+            const triggersFromRow = splitTextToTriggers(element.value);
+            triggerInMenu = triggerInMenu.concat(triggersFromRow);
+            allTrigger = allTrigger.concat(triggersFromRow);
 
             if (index == data.nav[menu].length - 1) {
                 triggerObj.usedTrigger.nav[menu] = [...triggerArray];
@@ -279,35 +312,14 @@ export const updateTriggerForSelect = (
         });
 
         triggerObj.usedTrigger.action[menu] = {};
-        const actionTrigger: string[] = [];
-        submenu.forEach(sub => {
-            if (!data.action[menu][sub]) {
-                return;
-            }
-            data.action[menu][sub].forEach((element, index) => {
-                usedTrigger = usedTrigger.concat(element.trigger);
-                actionTrigger.push(element.trigger[0]);
-
-                if (index == data.action[menu][sub].length - 1) {
-                    triggerObj.usedTrigger.action[menu][sub] = [...actionTrigger];
-                    actionTrigger.length = 0;
-                }
-            });
-        });
+        usedTrigger = getUsedTriggerFromActionTab(submenus, data, menu, usedTrigger, triggerObj);
     });
 
-    if (Array.isArray(allTrigger)) {
-        allTrigger = deleteDoubleEntriesInArray(allTrigger);
-    }
+    const unUsedTrigger = deleteDoubleEntriesInArray(allTrigger).filter(trigger => !usedTrigger.includes(trigger));
 
-    let unUsedTrigger = allTrigger.filter(x => !usedTrigger.includes(x));
+    triggerObj.unUsedTrigger = unUsedTrigger;
 
-    if (unUsedTrigger.length > 0) {
-        triggerObj.unUsedTrigger = unUsedTrigger;
-    }
-    unUsedTrigger = sortArray(unUsedTrigger);
-
-    return { usedTrigger: usedTrigger, unUsedTrigger: unUsedTrigger, triggerObj: triggerObj };
+    return { usedTrigger: usedTrigger, unUsedTrigger: sortArray(unUsedTrigger), triggerObj: triggerObj };
 };
 
 const buttonCheck = (): React.ReactElement => {
@@ -346,14 +358,14 @@ export const getElementIcon = (
 };
 
 export const sortObjectByKey = (usersInGroup: UsersInGroup): UsersInGroup => {
-    const newObject = {};
+    const sortedObject = {};
     Object.entries(usersInGroup)
         .sort()
         .forEach(element => {
-            newObject[element[0]] = element[1];
+            sortedObject[element[0]] = element[1];
         });
 
-    return newObject;
+    return sortedObject;
 };
 
 export function updateActiveMenuAndTrigger(

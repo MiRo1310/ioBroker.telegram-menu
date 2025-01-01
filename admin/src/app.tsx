@@ -96,6 +96,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
 
     newX: Nullable<number> = null;
     newY: Nullable<number> = null;
+
     async componentDidUpdate(
         prevProps: Readonly<TelegramMenuApp.AdditionalProps>,
         prevState: Readonly<TelegramMenuApp.AdditionalState>,
@@ -161,7 +162,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
         await getIobrokerData.getAllTelegramInstances(this.socket, (data: string[]) => {
             this.setState({ instances: data });
         });
-        const firstMenu = getFirstObjectKey(this.state.native.usersInGroup);
+        const firstMenu: string = getFirstObjectKey(this.state.native.usersInGroup);
         this.setState({ activeMenu: firstMenu });
         updateActiveMenuAndTrigger(firstMenu, this.setState, this.state.native.data, this.state.native.usersInGroup);
 

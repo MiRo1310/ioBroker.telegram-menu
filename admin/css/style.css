@@ -10,742 +10,841 @@
 @import "./tab-action.css";
 
 body {
-	height: 100vh;
-	overflow: auto;
+    height: 100vh;
+    overflow: auto;
 }
 
 /* Tab-Navigation */
 .App-TabList button {
-	border-radius: 6px;
-	border: 2px solid !important;
-	margin: 5px 5px 5px 5px;
-	border-color: #aaa !important;
+    border-radius: 6px;
+    border: 2px solid !important;
+    margin: 5px 5px 5px 5px;
+    border-color: #aaa !important;
 }
+
 .App-TabList button span {
-	margin-bottom: 2px !important;
+    margin-bottom: 2px !important;
 }
+
 .light .App-TabList button,
 .colored .App-TabList button {
-	background-color: #ddd !important;
+    background-color: #ddd !important;
 }
+
 .dark .App-TabList button {
-	background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .light .App-TabList > div > div,
 .colored .App-TabList > div > div {
-	background-color: #3399cc;
+    background-color: #3399cc;
 }
+
 .light .App-TabList.TabList-Action > div > div,
 .colored .App-TabList.TabList-Action > div > div {
-	background-color: white;
+    background-color: white;
 }
 
 .dark .App-TabList > div > div {
-	background-color: rgb(59, 59, 59);
+    background-color: rgb(59, 59, 59);
 }
+
 .blue .App-TabList > div > div {
-	background-color: rgb(62, 68, 72);
+    background-color: rgb(62, 68, 72);
 }
+
 /* Hover */
 .light .App-TabList button:hover,
 .light .MenuPopupCard-Popup button:hover .colored .App-TabList button:hover,
 .colored .MenuPopupCard-Popup button:hover {
-	background-color: #eee !important;
-	border-color: #888 !important;
+    background-color: #eee !important;
+    border-color: #888 !important;
 }
+
 .dark .App-TabList button:hover,
 .dark .MenuPopupCard-Popup button:hover {
-	background-color: #333 !important;
-	border-color: #888 !important;
+    background-color: #333 !important;
+    border-color: #888 !important;
 }
+
 .blue .App-TabList button:hover,
 .blue .MenuPopupCard-Popup button:hover {
-	background-color: #333 !important;
-	border-color: #888 !important;
+    background-color: #333 !important;
+    border-color: #888 !important;
 }
+
 /* HeaderMenu */
 .MenuPopupCard-Popup {
-	display: inline-block;
-	width: 160px;
-	position: absolute;
-	z-index: 1500;
-	top: 154px;
-	left: 5px;
-	border: 2px solid #333;
-	border-radius: 4px;
-	max-height: 74%;
-	overflow: auto;
+    display: inline-block;
+    width: 160px;
+    position: absolute;
+    z-index: 1500;
+    top: 154px;
+    left: 5px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    max-height: 74%;
+    overflow: auto;
 }
+
 .light .MenuPopupCard-Popup,
 .colored .MenuPopupCard-Popup {
-	background-color: #fff;
+    background-color: #fff;
 }
+
 .dark .MenuPopupCard-Popup {
-	background-color: #333;
+    background-color: #333;
 }
+
 .blue .MenuPopupCard-Popup {
-	background-color: rgb(62, 68, 72);
+    background-color: rgb(62, 68, 72);
 }
 
 .MenuPopupCard-Popup button {
-	color: #3399cc !important;
-	border: 2px solid #aaa !important;
+    color: #3399cc !important;
+    border: 2px solid #aaa !important;
 }
+
 .light .MenuPopupCard-Popup button,
 .colored .MenuPopupCard-Popup button {
-	background-color: #ddd !important;
+    background-color: #ddd !important;
 }
+
 .dark .MenuPopupCard-Popup button {
-	background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }
+
 .blue .MenuPopupCard-Popup button {
-	background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }
+
 .MenuCard button {
-	border-radius: 5px !important;
+    border-radius: 5px !important;
 }
 
 .HeaderMenu-menuPopupCard {
-	display: inline-block;
+    display: inline-block;
 }
+
 .dark .header__menu_container,
 .blue .header__menu_container {
-	color: white;
+    color: white;
 }
+
 .header__menu_container {
-	margin-top: 0.5rem;
-	font-size: 0.8rem;
-	padding-top:0.25rem;
-	height : auto !important;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: start;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    padding-top: 0.25rem;
+    height: auto !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: start;
 }
 
 /* Header Telegram User */
 .HeaderThirdRow-ButtonAction {
-	display: inline-block;
-	width: 200px;
+    display: inline-block;
+    width: 200px;
 }
 
 .telegram__errorMessage {
-	color: red;
-	font-size: 0.7rem;
-	padding: 0.5rem 1rem;
-	border: 1px solid red;
-	margin-left: 20px
+    color: red;
+    font-size: 0.7rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid red;
+    margin-left: 20px
 }
+
 .cover__save_btn {
-	position: absolute;
-	bottom: 0;
-	width: 34vw;
-	height: 65px;
-	background-color: rgba(0, 0, 0, 0.3);
-	z-index: 1200;
+    position: absolute;
+    bottom: 0;
+    width: 34vw;
+    height: 65px;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1200;
 }
 
 /* error */
 .ErrorDoubleTrigger-Container {
-	color: red;
-	position: absolute;
-	top: 5px;
-	max-width: 400px;
-	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
-	border: 1px solid red;
-	background-color: white;
+    color: red;
+    position: absolute;
+    top: 5px;
+    max-width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    border: 1px solid red;
+    background-color: white;
 }
+
 .ErrorDoubleTrigger-Container .Error-Header {
-	margin: 2px 5px;
+    margin: 2px 5px;
 }
+
 .ErrorDoubleTrigger-Container .Error-Items {
-	display: inline;
-	padding: 0 10px;
+    display: inline;
+    padding: 0 10px;
 }
+
 /* get mistake */
 /* Grid Main Content */
 
 div.MuiTabPanel-root {
-	overflow: hidden;
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: auto;
-	width: calc(100%) !important;
-	padding: 2px 5px 5px 5px;
+    overflow: hidden;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    width: calc(100%) !important;
+    padding: 2px 5px 5px 5px;
 }
 
 /* NavigationMenu */
 /* Table ist in Allgemein */
 
 .MenuNavigation-Container .startSideActive {
-	background-color: #96d15a !important;
+    background-color: #96d15a !important;
 }
+
 .MenuNavigation-Container .startSideInactive {
-	background-color: #99c0f9 !important;
+    background-color: #99c0f9 !important;
 }
+
 .MenuNavigation-Container .startSideHideInfo {
-	display: none;
+    display: none;
 }
+
 .MenuNavigation-Container .textSubmenuInfo {
-	font-size: 1rem;
-	font-weight: 900;
+    font-size: 1rem;
+    font-weight: 900;
 }
 
 .MenuNavigation-Container,
 .ActionCard-Container {
-	padding: 0 !important;
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: auto;
-	overflow-y: auto;
+    padding: 0 !important;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    overflow-y: auto;
 }
-.MenuNavigation-Container  {
-	height: calc(100% - 10px) !important;
+
+.MenuNavigation-Container {
+    height: calc(100% - 10px) !important;
 }
+
 .ActionCard-Container {
-	height: inherit;
+    height: inherit;
 }
 
 .TabPanel-Action,
 .TabPanel-Action > div.MuiTabPanel-root {
-	height: calc(100% - 30px) !important;
-	padding-left: 0 !important;
-	}
+    height: calc(100% - 30px) !important;
+    padding-left: 0 !important;
+}
 
 /* Für Webkit-Browser wie Chrome und Safari */
 .MenuNavigation-Container::-webkit-scrollbar,
 .ActionCard-Container::-webkit-scrollbar {
-	width: 10px; /* Breite der Scrollbar */
+    width: 10px; /* Breite der Scrollbar */
 }
 
 .MenuNavigation-Container::-webkit-scrollbar-thumb,
 .ActionCard-Container::-webkit-scrollbar-thumb {
-	background: #888; /* Farbe des beweglichen Teils der Scrollbar */
+    background: #888; /* Farbe des beweglichen Teils der Scrollbar */
 }
 
 .MenuNavigation-Container::-webkit-scrollbar-thumb:hover,
 .ActionCard-Container::-webkit-scrollbar-thumb:hover {
-	background: #555; /* Farbe des beweglichen Teils der Scrollbar beim Überfahren mit der Maus */
+    background: #555; /* Farbe des beweglichen Teils der Scrollbar beim Überfahren mit der Maus */
 }
 
 /* Für Firefox */
 .MenuNavigation-Container, .ActionCard-Container {
-	scrollbar-width: thin; /* Breite der Scrollbar */
-	scrollbar-color: #888 #f5f5f5; /* Farbe des beweglichen Teils der Scrollbar und Hintergrundfarbe der Scrollbar */
+    scrollbar-width: thin; /* Breite der Scrollbar */
+    scrollbar-color: #888 #f5f5f5; /* Farbe des beweglichen Teils der Scrollbar und Hintergrundfarbe der Scrollbar */
 }
-
 
 
 /* Settings */
 .Settings h1 {
-	text-decoration: underline;
-	padding-bottom: 2rem;
-	padding-left: 5px;
+    text-decoration: underline;
+    padding-bottom: 2rem;
+    padding-left: 5px;
 }
+
 .Settings select {
-	border: none;
-	border-bottom: 1px solid #aaa;
+    border: none;
+    border-bottom: 1px solid #aaa;
 }
 
 /* DialogContainer */
 
 .DialogBackground {
-	background-color: rgba(0, 0, 0, 0.5);
-	width: 100vw;
-	height: 100vh;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	z-index: 1100;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1100;
 }
+
 .DialogContainer-Header {
-	font-family: "Roboto,Helvetica,Arial,sans-serif", serif;
-	font-size: 1.25rem;
-	font-weight: 500;
-	line-height: 1.6;
-	padding: 10px 10px 10px 30px;
-	margin: 5px 5px 5px 5px;
-	border-radius: 4px;
+    font-family: "Roboto,Helvetica,Arial,sans-serif", serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+    padding: 10px 10px 10px 30px;
+    margin: 5px 5px 5px 5px;
+    border-radius: 4px;
 }
+
 .light .DialogContainer-Header,
 .colored .DialogContainer-Header {
-	background-color: #3399cc;
+    background-color: #3399cc;
 }
+
 .dark .DialogContainer-Header {
-	background-color: #333;
-	color: white;
+    background-color: #333;
+    color: white;
 }
+
 .blue .DialogContainer-Header {
-	background-color: rgb(62, 68, 72);
-	color: white;
+    background-color: rgb(62, 68, 72);
+    color: white;
 }
 
 .DialogContainer-Footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	text-align: right;
-}
-.DialogContainer-Footer button {
-	padding: 0 30px !important;
-	margin: 0 8px 10px 8px !important;
-	border: none !important;
-	font-size: 1.2rem !important;
-}
-.dark .DialogContainer {
-	background-color: #444 !important;
-}
-.blue .DialogContainer {
-	background-color: rgb(34, 42, 46) !important;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: right;
 }
 
+.DialogContainer-Footer button {
+    padding: 0 30px !important;
+    margin: 0 8px 10px 8px !important;
+    border: none !important;
+    font-size: 1.2rem !important;
+    width: 150px !important;
+    height: 40px !important;
+}
+
+.dark .DialogContainer {
+    background-color: #444 !important;
+}
+
+.blue .DialogContainer {
+    background-color: rgb(34, 42, 46) !important;
+}
+
+.dialogContainer__body {
+    padding: 0 0 0 0.5rem;
+}
+
+
 .DialogContainer select {
-	color: #3399cc;
-	width: 200px;
-	border: none;
-	border-bottom: 1px solid black;
+    color: #3399cc;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid black;
 }
+
 .DialogContainer select:focus {
-	outline: none;
+    outline: none;
 }
+
 /* DropBox */
 .DropBox-PopupContainer {
-	background-color: transparent !important;
-	/* top: 105px !important; */
-	height: 44% !important;
-	width: 212px !important;
-	/* right: 5px !important; */
-	left: auto !important;
-	cursor: move;
+    background-color: transparent !important;
+    /* top: 105px !important; */
+    height: 44% !important;
+    width: 212px !important;
+    /* right: 5px !important; */
+    left: auto !important;
+    cursor: move;
 }
+
 .DropBox-PopupContainer > div.DialogContainer {
-	transform: none !important;
-	top: 0 !important;
-	left: auto !important;
-	height: 100% !important;
+    transform: none !important;
+    top: 0 !important;
+    left: auto !important;
+    height: 100% !important;
 }
 
 .Dropbox--PopupContainer-RenameCard {
-	position: fixed;
-	top: -200px;
-	right: 0;
-	left: 0;
-	height: 100vh;
-	bottom: 500px;
+    position: fixed;
+    top: -200px;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    bottom: 500px;
 }
+
 .DropBox {
-	background-color: #eee;
-	width: 90%;
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
-	height: 40%;
-	border: 2px solid black;
+    background-color: #eee;
+    width: 90%;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40%;
+    border: 2px solid black;
 }
+
 .dark .DropBox {
-	background-color: #333;
-	color: white;
+    background-color: #333;
+    color: white;
 }
+
 .blue .DropBox {
-	background-color: rgb(62, 68, 72);
-	color: white;
+    background-color: rgb(62, 68, 72);
+    color: white;
 }
+
 .DropBox .Select select {
-	font-size: 0.9rem !important;
+    font-size: 0.9rem !important;
 }
+
 .DropBox-Background {
-	bottom: -250px !important;
+    bottom: -250px !important;
 }
+
 .DropBox p {
-	text-align: center;
-	font-weight: 500;
-	font-size: 1.5rem;
-	margin-top: 10px;
-	color: #3399cc;
-	text-decoration: underline;
-	margin-bottom: 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    color: #3399cc;
+    text-decoration: underline;
+    margin-bottom: 10px;
 }
+
 .DropBox p.DropBox-Content {
-	font-size: 0.7rem;
-	margin-top: 0;
-	text-decoration: none;
+    font-size: 0.7rem;
+    margin-top: 0;
+    text-decoration: none;
 }
+
 .dark .DropBox-Container label,
 .blue .DropBox-Container label {
-	color: white !important;
+    color: white !important;
 }
+
 /* HelperCard */
 .HelperText .DialogContainer {
-	min-width: 750px !important;
+    min-width: 750px !important;
 }
+
 .HelperCard {
-	max-height: 320px;
+    max-height: 320px;
 }
+
 .HelperCard button {
-	background-color: #3399cc !important;
+    background-color: #3399cc !important;
 }
+
 .HelperCard ~ .Input-Container .InputField {
-	width: 90% !important;
-	margin-top: 40px !important;
-	font-size: 0.9rem !important;
+    width: 90% !important;
+    margin-top: 40px !important;
+    font-size: 0.9rem !important;
 }
+
 .HelperText label p {
-	margin-left: 0.5% !important;
-	margin-top: 0 !important;
+    margin-left: 0.5% !important;
+    margin-top: 0 !important;
 }
 
 .HelperCard-BtnSearch {
-	position: absolute;
-	margin-left: 8px !important;
+    position: absolute;
+    margin-left: 8px !important;
 }
 
 .BtnCircleAdd {
-	border-radius: 50%;
-	width: 24px;
-	height: 24px;
-	color: #3399cc;
-	border: none;
-	display: inline-block;
-	cursor: pointer;
-	margin-left: 4px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    color: #3399cc;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 4px;
 }
 
 /* Edit cards */
 
 .RenameCard .Input-Container {
-	display: block !important;
-	margin-left: auto !important;
-	margin-right: auto !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .cellIcon {
-	padding: 1px !important;
-	width: 30px !important;
+    padding: 1px !important;
+    width: 30px !important;
 }
 
 .MenuHeader-ActiveMenu {
-	margin-left: 19px;
+    margin-left: 19px;
 }
 
 .menu__header-active {
-	border: 3px solid #96d15a;
-	padding: 4px 5px;
+    border: 3px solid #96d15a;
+    padding: 4px 5px;
 }
+
 /* Allgemein */
 /* label */
 label p {
-	font-size: 0.8rem;
-	color: #777;
-	/* margin-left: px; */
+    font-size: 0.8rem;
+    color: #777;
+    /* margin-left: px; */
 }
 
 /* Button */
 
 button {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .dark .button__expand button {
-	background-color: #555 !important;
-	border-color: #aaa !important;
+    background-color: #555 !important;
+    border-color: #aaa !important;
 }
+
 .blue .button__expand button {
-	background-color: rgb(62, 68, 72) !important;
-	border-color: #aaa !important;
+    background-color: rgb(62, 68, 72) !important;
+    border-color: #aaa !important;
 }
+
 .dark .button__expand button:hover,
 .blue .button__expand button:hover {
-	background-color: #333 !important;
-	border-color: #888 !important;
+    background-color: #333 !important;
+    border-color: #888 !important;
 }
 
 .dark .button__expand span,
 .blue .button__expand span {
-	color: white !important;
+    color: white !important;
 }
 
 button.buttonTrue,
 button.buttonFalse {
-	border-radius: 5px;
-	border: none;
-	width: 20px;
-	height: 20px;
-	padding: 0;
-	margin-top:4px
+    border-radius: 5px;
+    border: none;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-top: 4px
 }
+
 button.buttonTrue i,
 button.buttonFalse i {
-	margin-top: 1px;
-	font-size: 1.2rem;
-	text-align: center;
+    margin-top: 1px;
+    font-size: 1.2rem;
+    text-align: center;
 }
+
 tr td:has(button.buttonTrue),
 tr td:has(button.buttonFalse) {
-	padding: 0 !important;
-	margin: 0 !important;
-	width: 20px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 20px !important;
 }
+
 button.buttonTrue {
-	background-color: #96d15a !important;
-	color: #333;
+    background-color: #96d15a !important;
+    color: #333;
 }
+
 button.buttonFalse {
-	background-color: #ff0033 !important;
-	color: #333;
+    background-color: #ff0033 !important;
+    color: #333;
 }
 
 /* Select */
 
 .dark select {
-	background-color: #333 !important;
-	color: white !important;
-	border: 2px solid #aaa !important;
+    background-color: #333 !important;
+    color: white !important;
+    border: 2px solid #aaa !important;
 }
+
 .blue select {
-	background-color: rgb(62, 68, 72) !important;
-	color: white !important;
-	border: 2px solid #aaa !important;
+    background-color: rgb(62, 68, 72) !important;
+    color: white !important;
+    border: 2px solid #aaa !important;
 }
 
 p.inUse {
-	position: absolute;
-	top: 60px;
-	left: 5px;
+    position: absolute;
+    top: 60px;
+    left: 5px;
 }
+
 .Select span {
-	display: block;
-	margin-left: 5px;
+    display: block;
+    margin-left: 5px;
 }
+
 .Select select {
-	margin: 5px;
+    margin: 5px;
 }
 
 /* Settings */
 .Settings h1 {
-	margin: 1px;
+    margin: 1px;
 }
+
 .light .Settings,
 .colored .Settings {
-	color: black;
+    color: black;
 }
+
 .dark .Settings,
 .blue .Settings {
-	color: white;
+    color: white;
 }
+
 .telegram__users_card {
-	width: 100%;
-	margin-bottom: 0.25rem;
-	display:flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
+
 .telegram__users_card p {
-	margin-bottom: 0;
-	margin-top:0;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .telegramm__userCard-content {
-	padding: 0.25rem 0.5rem;
-	border: 1px solid #000000;
-	width: auto;
-	display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #000000;
+    width: auto;
+    display: inline-block;
 
 }
+
 .telegramm__userCard-content p {
-	margin: 0;
+    margin: 0;
 }
+
 .telegram__users_description {
-	font-size: 0.70rem !important;
-	margin-left: 0;
-	margin-bottom: 4px;
-	margin-top: 0;
+    font-size: 0.70rem !important;
+    margin-left: 0;
+    margin-bottom: 4px;
+    margin-top: 0;
 }
+
 .TelegramUserCard-User {
-	margin-top: 5px;
+    margin-top: 5px;
 }
+
 .TelegramUserCard-name,
 .TelegramUserCard-content > div.Checkbox {
-	display: inline !important;
+    display: inline !important;
 }
 
 .TelegramUserCard-ChatID {
-	font-size: 0.7rem;
+    font-size: 0.7rem;
 }
 
 .disabled {
-	pointer-events: none;
-	opacity: 0.4;
+    pointer-events: none;
+    opacity: 0.4;
 }
+
 .MuiTabs-root div.MuiTabs-fixed {
-	/*position: fixed;*/
-	background-color: white;
-	width: 100%;
-	z-index: 100;
+    /*position: fixed;*/
+    background-color: white;
+    width: 100%;
+    z-index: 100;
 }
 
 .telegram__users_container {
-	display: flex;
-	margin-right:0.5rem;
-	margin-left:0.25rem
+    display: flex;
+    margin-right: 0.5rem;
+    margin-left: 0.25rem
 }
 
 span[title],
 .title {
-	cursor: help;
+    cursor: help;
 }
 
 /* Trigger Overview */
 .Menu-list-container {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: stretch;
-	height: calc(100vh - 180px);
-	overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    height: calc(100vh - 180px);
+    overflow: auto;
 }
+
 .Menu-list-container li {
-	cursor: help;
-	padding-left: 4px;
+    cursor: help;
+    padding-left: 4px;
 }
+
 /* Für die .Menu-list-card Elemente */
 .Menu-list-card {
-	display: inline-block;
-	vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
-	margin: 3px 3px;
-	padding: 0 3px;
-	background-color: #eee;
-	width: max-content;
+    display: inline-block;
+    vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
+    margin: 3px 3px;
+    padding: 0 3px;
+    background-color: #eee;
+    width: max-content;
 }
+
 .dark .Menu-list-card,
 .blue .Menu-list-card {
-	background-color: #333;
-	color: #ddd;
+    background-color: #333;
+    color: #ddd;
 }
 
 .Action-list li,
 .Menu-list-card li {
-	list-style-type: none;
-	font-size: 0.7rem;
-	line-height: 0.75rem;
+    list-style-type: none;
+    font-size: 0.7rem;
+    line-height: 0.75rem;
 }
 
 /* Für die <p> und <ul> Elemente innerhalb der .Menu-list-card */
 .Menu-list-card > p,
 .Menu-list-card > ul {
-	display: block;
+    display: block;
 }
+
 .Menu-list-card ul {
-	padding-left: 20px;
+    padding-left: 20px;
 }
+
 .Menu-list {
-	margin: 2px 0 0 0;
-	font-weight: 500;
-	border-bottom: 1px solid currentColor;
+    margin: 2px 0 0 0;
+    font-weight: 500;
+    border-bottom: 1px solid currentColor;
 }
+
 .User-list-container {
-	background-color: #ddd;
+    background-color: #ddd;
 }
+
 .dark .User-list-container,
 .blue .User-list-container {
-	background-color: #aaa;
+    background-color: #aaa;
 }
+
 .User-list-container p {
-	margin-top: 4px;
-	margin-bottom: 0;
-	padding: 0 5px;
-	color: black;
+    margin-top: 4px;
+    margin-bottom: 0;
+    padding: 0 5px;
+    color: black;
 }
+
 .User-list ~ p {
-	font-size: 0.75rem;
-	padding-bottom: 2px;
-	font-weight: 500;
-	display: inline-block;
-	margin-top: 0;
+    font-size: 0.75rem;
+    padding-bottom: 2px;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 0;
 }
+
 .createdTrigger li {
-	padding-left: 5px;
+    padding-left: 5px;
 }
 
 .menu-startside {
-	background-color: #96d15a;
-	color: black;
+    background-color: #96d15a;
+    color: black;
 }
+
 .menu-disabled {
-	background-color: rgb(242, 101, 101);
-	color: black;
+    background-color: rgb(242, 101, 101);
+    color: black;
 }
 
 .Menu-list-container ul li ul li {
-	font-size: 0.75rem;
-	line-height: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 0.75rem;
 }
+
 .strong {
-	margin-top: 5px;
-	font-weight: 500;
-	text-decoration: underline;
+    margin-top: 5px;
+    font-weight: 500;
+    text-decoration: underline;
 }
+
 .squareText {
-	font-size: 0.7rem;
-	cursor: default;
+    font-size: 0.7rem;
+    cursor: default;
 }
+
 .noMargin {
-	margin: 0;
-	padding-left: 5px;
+    margin: 0;
+    padding-left: 5px;
 }
+
 .textRight {
-	padding: 0 5px 0 5px;
-	margin: 3px 3px 0 0;
+    padding: 0 5px 0 5px;
+    margin: 3px 3px 0 0;
 }
+
 .inlineBlock {
-	display: inline-block;
-	flex-grow: 1;
+    display: inline-block;
+    flex-grow: 1;
 }
+
 .active {
-	background-color: #b5fb6f;
+    background-color: #b5fb6f;
 }
+
 .inactive {
-	background-color: #ff0033;
+    background-color: #ff0033;
 }
+
 .menuDescription {
-	margin: 2px 0 4px 0;
-	text-decoration: underline;
-	font-size: 0.8rem;
-	font-weight: 500;
+    margin: 2px 0 4px 0;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
 #ar_dialog_selectid_title ~ div.MuiDialogContent-root {
-	overflow: auto !important;
+    overflow: auto !important;
 }
+
 .breakingChange {
-	color: red;
-	font-weight: 500;
+    color: red;
+    font-weight: 500;
 }
 
 .cursorDefault {
-	cursor: default;
+    cursor: default;
 }
+
 .cursorPointer {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .PopupContainer__copy .DialogContainer {
-	width: 100% !important;
-	height: 100% !important;
-	top: 52rem !important;
-	margin-left: 0.9rem;
-	cursor: default;
+    width: 100% !important;
+    height: 100% !important;
+    top: 52rem !important;
+    margin-left: 0.9rem;
+    cursor: default;
 }
+
 .editor__modal_container {
-	margin-top: 4rem;
-	margin-left: 2rem;
-	margin-right: 2rem;
+    margin-top: 4rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
-.header__actions{
-	display: flex;
-	gap:0.25rem;
-	flex-wrap: wrap;
-	margin-left:0.25rem;
-	margin-right:0.25rem;
+
+.header__actions {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
 }
