@@ -177,12 +177,10 @@ class TelegramMenu extends utils.Adapter {
               resize_keyboard,
               one_time_keyboard
             );
-            this.log.debug("Shopping List was found and deleted");
             return;
           }
           if (this.isAddToShoppingList(id, userToSend)) {
             await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(instanceTelegram, userListWithChatID, userToSend);
-            this.log.debug("Shopping List was found and deleted");
             return;
           }
           if (state && await (0, import_action.checkEvent)(
@@ -196,11 +194,9 @@ class TelegramMenu extends utils.Adapter {
             one_time_keyboard,
             menusWithUsers
           )) {
-            this.log.info("Event was found");
             return;
           }
           if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
-            this.log.debug("Save messageIds");
             await (0, import_messageIds.saveMessageIds)(state, instanceTelegram);
           } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
             let value = state == null ? void 0 : state.val;

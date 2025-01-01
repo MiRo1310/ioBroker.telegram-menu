@@ -5,14 +5,14 @@ import type {
     UsersInGroup,
     ActionNewRowProps,
     RowsSetState,
-    TabValueEntries, Pic,
+    TabValueEntries,
 } from '@/types/app';
 import React from 'react';
-import {tabValues} from '@/config/entries';
-import {isTruthy} from './string';
-import {deepCopy, deleteDoubleEntriesInArray, sortArray} from './Utils';
-import type {UpdateProps} from '@/types/props-types';
-import {ActionTypes} from "../../../src/lib/telegram-menu";
+import { tabValues } from '@/config/entries';
+import { isTruthy } from './string';
+import { deepCopy, deleteDoubleEntriesInArray, sortArray } from './Utils';
+import type { UpdateProps } from '@/types/props-types';
+import type { ActionTypes } from '../../../src/lib/telegram-menu';
 
 function createData(
     element: ActionNewRowProps,
@@ -31,7 +31,7 @@ function getRows(
     rowElements: TabValueEntries[],
 ): { rows: { [key: string]: string }[] | null; trigger: string } {
     if (!element) {
-        return {rows: null, trigger: ''};
+        return { rows: null, trigger: '' };
     }
 
     const rows: { [key: string]: string }[] = [];
@@ -42,7 +42,7 @@ function getRows(
     }
     const generateBy = rowElements.find(element => element.elementGetRows !== undefined)?.elementGetRows;
     if (!generateBy) {
-        return {rows: null, trigger: ''};
+        return { rows: null, trigger: '' };
     }
     if (!(element && element[generateBy])) {
         console.error(
@@ -56,7 +56,7 @@ function getRows(
             rows.push(row);
         }
     }
-    return {rows: rows, trigger: trigger};
+    return { rows: rows, trigger: trigger };
 }
 
 export const saveRows = (
@@ -66,23 +66,23 @@ export const saveRows = (
     existingRow?: RowsSetState[],
 ): void => {
     if (existingRow?.length == 0) {
-        const {rows, trigger} = getRows(props.data.newRow, props.data.tab.entries);
+        const { rows, trigger } = getRows(props.data.newRow, props.data.tab.entries);
         if (!rows) {
             return;
         }
-        setState({trigger, rows});
+        setState({ trigger, rows });
         return;
     }
 
-    const {rows, trigger} = getRows(newRow as ActionNewRowProps, props.data.tab.entries);
+    const { rows, trigger } = getRows(newRow as ActionNewRowProps, props.data.tab.entries);
     if (!rows) {
         return;
     }
-    setState({trigger, rows});
+    setState({ trigger, rows });
 };
 
 export const updateData = (
-    {index, val, id}: { id: string; val: string | number | boolean; index: number },
+    { index, val, id }: { id: string; val: string | number | boolean; index: number },
     props: UpdateProps,
     setState: SetStateFunction,
 ): void => {
@@ -92,7 +92,7 @@ export const updateData = (
     }
     newRow[id][index] = val.toString();
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({newRow: newRow});
+        props.callback.setStateTabActionContent({ newRow: newRow });
     }
 
     saveRows(props, setState, newRow);
@@ -105,7 +105,7 @@ export const updateTrigger = (value: { trigger: string }, props: UpdateProps, se
     }
     newRow.trigger[0] = value.trigger;
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({newRow: newRow});
+        props.callback.setStateTabActionContent({ newRow: newRow });
     }
     saveRows(props, setState, newRow);
 };
@@ -130,7 +130,7 @@ export const addNewRow = (
             newRow[element.name].splice(index + 1, 0, element.val);
         }
     });
-    cb({newRow: newRow});
+    cb({ newRow: newRow });
     saveRows(props, setState, newRow);
 };
 
@@ -143,7 +143,7 @@ export const deleteRow = (index: number, props: UpdateProps, setState: SetStateF
         newRow[element.name].splice(index, 1);
     });
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({newRow: newRow});
+        props.callback.setStateTabActionContent({ newRow: newRow });
     }
     saveRows(props, setState, newRow);
 };
@@ -159,7 +159,7 @@ export const moveItem = (index: number, props: UpdateProps, setState: SetStateFu
         }
     });
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({newRow: newRow});
+        props.callback.setStateTabActionContent({ newRow: newRow });
     }
     saveRows(props, setState, newRow);
 };
@@ -177,7 +177,7 @@ export const updateId = (
     }
     newRow[ID][indexID] = selected;
     if (props.callback?.setStateTabActionContent) {
-        props.callback.setStateTabActionContent({newRow: newRow});
+        props.callback.setStateTabActionContent({ newRow: newRow });
     }
     saveRows(props, setState, newRow);
 };
@@ -209,13 +209,21 @@ const splitTextToTriggers = (text: string): string[] => {
 function getTriggerFromSubmenu(text: string): string[] {
     const trigger = text.split(':')?.[2];
 
-    return !trigger ? [] : [trigger.trim()]
+    return !trigger ? [] : [trigger.trim()];
 }
 
-function getUsedTriggerFromActionTab(submenu: string[], data: NativeData, menu: string, usedTrigger: string[], triggerObj: TriggerObj) {
+function getUsedTriggerFromActionTab(
+    submenu: string[],
+    data: NativeData,
+    menu: string,
+    usedTrigger: string[],
+    triggerObj: TriggerObj,
+): string[] {
     const actionTrigger: string[] = [];
     submenu.forEach(sub => {
-        if (!data.action[menu][sub]) return;
+        if (!data.action[menu][sub]) {
+            return;
+        }
 
         data.action[menu][sub].forEach((element: ActionTypes, index: number) => {
             usedTrigger = usedTrigger.concat(element.trigger);
@@ -241,7 +249,7 @@ function getSubmenuStrings(): string[] {
 }
 
 function getMenusToSearchIn(users: string[], usersInGroup: UsersInGroup): string[] {
-    let menusToSearchIn: string[] = [];
+    const menusToSearchIn: string[] = [];
 
     users.forEach(user => {
         Object.keys(usersInGroup).forEach(group => {
@@ -259,11 +267,12 @@ export const updateTriggerForSelect = (
     usersInGroup: UsersInGroup,
     activeMenu: string,
 ): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
-
     const submenus = getSubmenuStrings();
     const users = usersInGroup[activeMenu];
 
-    if (!users) return;
+    if (!users) {
+        return;
+    }
     let menusToSearchIn = getMenusToSearchIn(users, usersInGroup);
     menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
 
@@ -275,12 +284,14 @@ export const updateTriggerForSelect = (
     const triggerObj: TriggerObj = {
         unUsedTrigger: [''],
         everyTrigger: everyTrigger,
-        usedTrigger: {nav: {}, action: {}},
+        usedTrigger: { nav: {}, action: {} },
     };
 
     menusToSearchIn.forEach(menu => {
         let triggerInMenu: string[] = [];
-        if (!data.nav[menu]) return;
+        if (!data.nav[menu]) {
+            return;
+        }
 
         data.nav[menu].forEach((element, index) => {
             usedTrigger.push(element.call);
@@ -304,26 +315,26 @@ export const updateTriggerForSelect = (
         usedTrigger = getUsedTriggerFromActionTab(submenus, data, menu, usedTrigger, triggerObj);
     });
 
-    let unUsedTrigger = deleteDoubleEntriesInArray(allTrigger).filter(trigger => !usedTrigger.includes(trigger));
+    const unUsedTrigger = deleteDoubleEntriesInArray(allTrigger).filter(trigger => !usedTrigger.includes(trigger));
 
     triggerObj.unUsedTrigger = unUsedTrigger;
 
-    return {usedTrigger: usedTrigger, unUsedTrigger: sortArray(unUsedTrigger), triggerObj: triggerObj};
+    return { usedTrigger: usedTrigger, unUsedTrigger: sortArray(unUsedTrigger), triggerObj: triggerObj };
 };
 
 const buttonCheck = (): React.ReactElement => {
     return React.createElement(
         'button',
-        {className: 'buttonTrue'},
-        React.createElement('span', null, React.createElement('i', {className: 'material-icons'}, 'done')),
+        { className: 'buttonTrue' },
+        React.createElement('span', null, React.createElement('i', { className: 'material-icons' }, 'done')),
     );
 };
 
 const buttonClose = (): React.ReactElement => {
     return React.createElement(
         'button',
-        {className: 'buttonFalse'},
-        React.createElement('span', null, React.createElement('i', {className: 'material-icons'}, 'close')),
+        { className: 'buttonFalse' },
+        React.createElement('span', null, React.createElement('i', { className: 'material-icons' }, 'close')),
     );
 };
 
@@ -331,8 +342,9 @@ export const getElementIcon = (
     element: string | boolean,
     entry?: TabValueEntries,
 ): undefined | React.ReactElement | string => {
-
-    if (!element) return;
+    if (!element) {
+        return;
+    }
 
     if (!entry?.noIcon) {
         if (isTruthy(element)) {
