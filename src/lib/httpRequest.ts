@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { debug, error } from './logging';
 import type { Part, UserListWithChatId } from './telegram-menu';
+
 async function httpRequest(
     parts: Part,
     userToSend: string,
@@ -18,29 +19,29 @@ async function httpRequest(
     }
     for (const part of parts.httpRequest) {
         const url = part.url;
-        const user = part.user;
+        const userName = part.user;
         const password = part.password;
         const method = 'get';
 
         try {
             //prettier-ignore
             const response = await axios(
-				user && password
-					? {
-						method: method,
-						url: url,
-						responseType: "arraybuffer",
-						auth: {
-							username: user,
-							password: password,
-						},
-					}
-					: {
-						method: method,
-						url: url,
-						responseType: "arraybuffer",
-					},
-			);
+                userName && password
+                    ? {
+                        method: method,
+                        url: url,
+                        responseType: "arraybuffer",
+                        auth: {
+                            username: userName,
+                            password: password,
+                        },
+                    }
+                    : {
+                        method: method,
+                        url: url,
+                        responseType: "arraybuffer",
+                    },
+            );
             if (!part.filename) {
                 return;
             }
@@ -50,7 +51,7 @@ async function httpRequest(
             debug([{ text: 'Pic saved:', val: imagePath }]);
 
             await sendToTelegram(
-                user,
+                userToSend,
                 imagePath,
                 [],
                 instanceTelegram,
@@ -70,4 +71,5 @@ async function httpRequest(
     }
     return true;
 }
+
 export { httpRequest };

@@ -36,7 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
-- Navigation styling and selectable menus
+- FIX: HttpRequest
+- FEAT: Navigation styling and selectable menus
 
 ### 2.1.10 (2025-01-02)
 
