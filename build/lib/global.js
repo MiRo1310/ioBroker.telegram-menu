@@ -21,6 +21,8 @@ __export(global_exports, {
   decomposeText: () => decomposeText,
   deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
+  isDefined: () => isDefined,
+  isFalsy: () => isFalsy,
   isJSON: () => isJSON,
   isString: () => isString,
   replaceAll: () => replaceAll
@@ -63,11 +65,19 @@ const deepCopy = (obj) => {
 function isString(value) {
   return typeof value === "string";
 }
+function isFalsy(value) {
+  return ["0", 0, false, "false", void 0, null].includes(value);
+}
+function isDefined(value) {
+  return value !== null && value !== void 0;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
   deepCopy,
   deleteDoubleEntriesInArray,
+  isDefined,
+  isFalsy,
   isJSON,
   isString,
   replaceAll

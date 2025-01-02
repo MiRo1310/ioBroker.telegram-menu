@@ -240,21 +240,29 @@ class TelegramMenu extends utils.Adapter {
             return;
           }
           if (state && setStateIdsToListenTo && setStateIdsToListenTo.find((element) => element.id == id)) {
-            (0, import_logging.debug)([{ text: "State, which is listen to was changed:", val: id }]);
+            (0, import_logging.debug)([
+              { text: "State, which is listen to was changed:", val: id },
+              { text: "State:", val: state }
+            ]);
             setStateIdsToListenTo.forEach((element, key) => {
               var _a, _b;
               if (element.id == id) {
-                (0, import_logging.debug)([{ text: "Send Value:", val: element }]);
-                if (element.confirm != "false" && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
+                (0, import_logging.debug)([
+                  { text: "Send Value:", val: element },
+                  { text: "Ack:", val: state.ack }
+                ]);
+                if (!(0, import_global.isFalsy)(element.confirm) && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
                   const substring = (0, import_utilities.decomposeText)(
                     element.returnText,
                     "{confirmSet:",
                     "}"
                   ).substring.split(":");
+                  (0, import_logging.debug)([{ text: "Substring:", val: substring }]);
                   let text = "";
                   if (state.val) {
                     text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action.exchangePlaceholderWithValue)(substring[1], state.val);
                   }
+                  (0, import_logging.debug)([{ text: "Text:", val: text }]);
                   (0, import_telegram.sendToTelegram)(
                     element.userToSend,
                     text,
@@ -273,15 +281,20 @@ class TelegramMenu extends utils.Adapter {
                   });
                   return;
                 }
-                if (element.confirm != "false" && (state == null ? void 0 : state.ack)) {
-                  (0, import_logging.debug)([{ text: "User:", val: element.userToSend }]);
+                (0, import_logging.debug)([
+                  {
+                    text: "Data: ",
+                    val: { confirm: element.confirm, ack: state == null ? void 0 : state.ack, val: state == null ? void 0 : state.val }
+                  }
+                ]);
+                if (!(0, import_global.isFalsy)(element.confirm) && (state == null ? void 0 : state.ack)) {
                   let textToSend = element.returnText;
                   if (textToSend.includes("{confirmSet:")) {
                     const substring = (0, import_utilities.decomposeText)(textToSend, "{confirmSet:", "}").substring;
                     textToSend = textToSend.replace(substring, "");
                   }
                   let value = "";
-                  let valueChange = "";
+                  let valueChange = null;
                   const resultChange = (0, import_utilities.changeValue)(textToSend, ((_a = state.val) == null ? void 0 : _a.toString()) || "");
                   if (resultChange) {
                     valueChange = resultChange.val;
@@ -290,10 +303,13 @@ class TelegramMenu extends utils.Adapter {
                   if (textToSend == null ? void 0 : textToSend.toString().includes("{novalue}")) {
                     value = "";
                     textToSend = textToSend.replace("{novalue}", "");
-                  } else if ((state == null ? void 0 : state.val) == false) {
-                    value = (_b = state.val) == null ? void 0 : _b.toString();
+                  } else if ((0, import_global.isDefined)(state == null ? void 0 : state.val)) {
+                    value = ((_b = state.val) == null ? void 0 : _b.toString()) || "";
                   }
-                  valueChange ? value = valueChange : value;
+                  if (valueChange) {
+                    value = valueChange;
+                  }
+                  (0, import_logging.debug)([{ text: "Value to send:", val: value }]);
                   textToSend = (0, import_action.exchangePlaceholderWithValue)(textToSend, value);
                   (0, import_telegram.sendToTelegram)(
                     element.userToSend,
@@ -334,7 +350,6 @@ class TelegramMenu extends utils.Adapter {
     return !!(id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend);
   }
   isMenuToSend(state, id, telegramID, userToSend) {
-    this.log.debug(`User in Abfrage: ${userToSend}`);
     return !!(state && typeof state.val === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
   }
   async checkInfoConnection(id, infoConnectionOfTelegram) {
@@ -355,7 +370,6 @@ class TelegramMenu extends utils.Adapter {
       return;
     }
     const userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID.val.toString());
-    this.log.debug(JSON.stringify(`User to send: ${userToSend}`));
     if (!userToSend) {
       this.log.debug("User to send not found");
       return;

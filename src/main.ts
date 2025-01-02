@@ -8,40 +8,40 @@
 import * as utils from '@iobroker/adapter-core';
 
 import {
+    checkEvent,
+    editArrayButtons,
+    exchangePlaceholderWithValue,
     generateActions,
     generateNewObjectStructure,
-    editArrayButtons,
-    getUserToSendFromUserListWithChatID,
     getMenusWithUserToSend,
-    exchangePlaceholderWithValue,
-    checkEvent,
+    getUserToSendFromUserListWithChatID,
 } from './lib/action.js';
 import { _subscribeForeignStatesAsync } from './lib/subscribeStates.js';
 import { sendToTelegram } from './lib/telegram.js';
-import { decomposeText, changeValue } from './lib/utilities.js';
+import { changeValue, decomposeText } from './lib/utilities.js';
 import { createState } from './lib/createState.js';
 import { saveMessageIds } from './lib/messageIds.js';
 import { adapterStartMenuSend } from './lib/adapterStartMenuSend.js';
-import { getStateIdsToListenTo, checkEveryMenuForData, getTimeouts } from './lib/processData.js';
-import { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList } from './lib/shoppingList.js';
+import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './lib/processData.js';
+import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './lib/shoppingList.js';
 import { debug, error } from './lib/logging.js';
 
 import type {
     Checkboxes,
-    ListOfMenus,
-    IsUserActiveCheckbox,
-    MenusWithUsers,
-    UserListWithChatId,
     DataObject,
-    StartSides,
-    MenuData,
     GeneratedActions,
-    SetStateIds,
+    IsUserActiveCheckbox,
+    ListOfMenus,
+    MenuData,
+    MenusWithUsers,
     NewObjectNavStructureKey,
+    SetStateIds,
+    StartSides,
+    UserListWithChatId,
 } from './lib/telegram-menu.js';
 import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './lib/connection.js';
-import { isString } from './lib/global';
+import { isDefined, isFalsy, isString } from './lib/global';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -278,14 +278,20 @@ export default class TelegramMenu extends utils.Adapter {
                         setStateIdsToListenTo &&
                         setStateIdsToListenTo.find((element: { id: string }) => element.id == id)
                     ) {
-                        debug([{ text: 'State, which is listen to was changed:', val: id }]);
+                        debug([
+                            { text: 'State, which is listen to was changed:', val: id },
+                            { text: 'State:', val: state },
+                        ]);
 
                         setStateIdsToListenTo.forEach((element, key: number) => {
                             if (element.id == id) {
-                                debug([{ text: 'Send Value:', val: element }]);
+                                debug([
+                                    { text: 'Send Value:', val: element },
+                                    { text: 'Ack:', val: state.ack },
+                                ]);
 
                                 if (
-                                    element.confirm != 'false' &&
+                                    !isFalsy(element.confirm) &&
                                     !state?.ack &&
                                     element.returnText.includes('{confirmSet:')
                                 ) {
@@ -294,6 +300,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         '{confirmSet:',
                                         '}',
                                     ).substring.split(':');
+                                    debug([{ text: 'Substring:', val: substring }]);
                                     let text = '';
                                     if (state.val) {
                                         text =
@@ -301,6 +308,7 @@ export default class TelegramMenu extends utils.Adapter {
                                                 ? substring[1]
                                                 : exchangePlaceholderWithValue(substring[1], state.val as string);
                                     }
+                                    debug([{ text: 'Text:', val: text }]);
 
                                     sendToTelegram(
                                         element.userToSend,
@@ -320,8 +328,13 @@ export default class TelegramMenu extends utils.Adapter {
                                     });
                                     return;
                                 }
-                                if (element.confirm != 'false' && state?.ack) {
-                                    debug([{ text: 'User:', val: element.userToSend }]);
+                                debug([
+                                    {
+                                        text: 'Data: ',
+                                        val: { confirm: element.confirm, ack: state?.ack, val: state?.val },
+                                    },
+                                ]);
+                                if (!isFalsy(element.confirm) && state?.ack) {
                                     let textToSend = element.returnText;
 
                                     if (textToSend.includes('{confirmSet:')) {
@@ -330,7 +343,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     }
 
                                     let value: string | number = '';
-                                    let valueChange: string | number = '';
+                                    let valueChange: string | number | null = null;
                                     const resultChange = changeValue(textToSend, state.val?.toString() || '');
                                     if (resultChange) {
                                         valueChange = resultChange.val;
@@ -340,11 +353,14 @@ export default class TelegramMenu extends utils.Adapter {
                                     if (textToSend?.toString().includes('{novalue}')) {
                                         value = '';
                                         textToSend = textToSend.replace('{novalue}', '');
-                                    } else if (state?.val == false) {
-                                        value = state.val?.toString();
+                                    } else if (isDefined(state?.val)) {
+                                        value = state.val?.toString() || '';
+                                    }
+                                    if (valueChange) {
+                                        value = valueChange;
                                     }
 
-                                    valueChange ? (value = valueChange) : value;
+                                    debug([{ text: 'Value to send:', val: value }]);
                                     textToSend = exchangePlaceholderWithValue(textToSend, value);
 
                                     sendToTelegram(
@@ -396,8 +412,6 @@ export default class TelegramMenu extends utils.Adapter {
         telegramID: string,
         userToSend: string | null,
     ): boolean {
-        this.log.debug(`User in Abfrage: ${userToSend}`);
-
         return !!(
             state &&
             typeof state.val === 'string' &&
@@ -432,7 +446,6 @@ export default class TelegramMenu extends utils.Adapter {
         }
 
         const userToSend = getUserToSendFromUserListWithChatID(userListWithChatID, chatID.val.toString());
-        this.log.debug(JSON.stringify(`User to send: ${userToSend}`));
         if (!userToSend) {
             this.log.debug('User to send not found');
             return;

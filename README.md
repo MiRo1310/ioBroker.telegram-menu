@@ -33,6 +33,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+- FIX: Return text for menus was not send
+
 ### 2.1.9 (2025-01-01)
 
 - FIX: #224 Submenu trigger
