@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Input from '@/components/btn-Input/input';
-import {BtnCircleAdd} from '@components/btn-Input/btn-circle-add';
-import {I18n} from '@iobroker/adapter-react-v5';
+import { BtnCircleAdd } from '@components/btn-Input/btn-circle-add';
+import { I18n } from '@iobroker/adapter-react-v5';
 import Checkbox from '@/components/btn-Input/checkbox';
-import {isChecked} from '@/lib/Utils';
-import type {PropsRowNavCard} from '@/types/app';
-import {splitTrimAndJoin} from "@/lib/string";
+import { isChecked } from '@/lib/Utils';
+import type { PropsRowNavCard } from '@/types/app';
 
 class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCard> {
     constructor(props: PropsRowNavCard) {
@@ -36,7 +35,7 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
                             callbackValue="event.target.value"
                             label={I18n.t(entry.headline)}
                         >
-                            <BtnCircleAdd callback={() => this.props.openHelperText(entry.name)}/>
+                            <BtnCircleAdd callback={() => this.props.openHelperText(entry.name)} />
                         </Input>
                     ) : (
                         <Checkbox

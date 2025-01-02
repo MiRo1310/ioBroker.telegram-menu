@@ -848,3 +848,34 @@ span[title],
     margin-left: 0.25rem;
     margin-right: 0.25rem;
 }
+
+.row__container:has(.row__button) {
+    margin: 0.5rem 0 0.5rem 0;
+    border: 1px solid black;
+    background: #84b9ec !important;
+}
+
+.nav__row {
+    margin: 0;
+    padding: 1px 1px !important;
+    font-size: 0.7rem;
+    display: flex;
+    justify-content: stretch;
+
+}
+
+.row__button {
+    margin: 1px 0.1rem 1px 0.1rem !important;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.7rem !important;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+    display: inline-block !important;
+    flex: 1;
+    text-align: center;
+    background: #eee;
+}
+
+.row__submenu {
+    background: peachpuff !important;
+}
