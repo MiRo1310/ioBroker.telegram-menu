@@ -248,7 +248,7 @@ function getSubmenuStrings(): string[] {
     return submenu;
 }
 
-function getMenusToSearchIn(users: string[], usersInGroup: UsersInGroup): string[] {
+export function getMenusToSearchIn(users: string[], usersInGroup: UsersInGroup): string[] {
     const menusToSearchIn: string[] = [];
 
     users.forEach(user => {

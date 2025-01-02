@@ -8,6 +8,7 @@
     "activeMenu": "活动菜单：",
     "add": "添加",
     "addAction": "添加新动作",
+    "addCreatedMenus": "添加已创建的菜单作为按钮",
     "addMenu": "添加新菜单名称",
     "binding": "绑定：首先是带有 id 的 Var，然后是条件和文本。",
     "breakpointNewline": "新行的断点，仅将其插入文本中",

@@ -623,7 +623,16 @@ p.inUse {
     border: 1px solid #000000;
     width: auto;
     display: inline-block;
+    margin-right: 0.5rem !important;
+}
 
+.dark .telegramm__userCard-content {
+    border: 1px solid white;
+    color: white
+}
+
+.dark label.checkbox {
+    color: white;
 }
 
 .telegramm__userCard-content p {
@@ -847,4 +856,45 @@ span[title],
     flex-wrap: wrap;
     margin-left: 0.25rem;
     margin-right: 0.25rem;
+}
+
+.row__container:has(.row__button) {
+    margin: 0.5rem 0 0.5rem 0;
+    border: 1px solid black;
+    background: #84b9ec !important;
+}
+
+.nav__row {
+    margin: 0;
+    padding: 1px 1px !important;
+    font-size: 0.7rem;
+    display: flex;
+    justify-content: stretch;
+}
+
+.row__button {
+    margin: 1px 0.1rem 1px 0.1rem !important;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.7rem !important;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+    display: inline-block !important;
+    flex: 1;
+    text-align: center;
+    background: #f1e4b0;
+}
+
+.dark .row__button {
+    background: #333;
+    color: white;
+}
+
+.row__submenu {
+    background: peachpuff !important;
+}
+
+.nav__trigger_list {
+    margin: 1rem 0 1rem 0;
+    display: flex;
+    justify-content: start;
 }

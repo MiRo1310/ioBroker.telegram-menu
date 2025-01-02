@@ -5,12 +5,17 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import Checkbox from '@/components/btn-Input/checkbox';
 import { isChecked } from '@/lib/Utils';
 import type { PropsRowNavCard } from '@/types/app';
+import AppContentTabNavigationTableRowEditorCardTriggerSelection from '@/pages/AppContentTabNavigationTableRowEditorCardTriggerSelection';
 
 class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCard> {
     constructor(props: PropsRowNavCard) {
         super(props);
         this.state = {};
     }
+
+    addSelectedToNewRow = (e: string): void => {
+        this.props.callback.onChangeInput({ val: `${this.props.newRow.value} , ${e}`, id: 'value' });
+    };
 
     render(): React.ReactNode {
         return (
@@ -36,6 +41,12 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
                             label={I18n.t(entry.headline)}
                         >
                             <BtnCircleAdd callback={() => this.props.openHelperText(entry.name)} />
+                            {entry.name == 'value' ? (
+                                <AppContentTabNavigationTableRowEditorCardTriggerSelection
+                                    data={this.props.data}
+                                    callback={this.addSelectedToNewRow}
+                                />
+                            ) : null}
                         </Input>
                     ) : (
                         <Checkbox

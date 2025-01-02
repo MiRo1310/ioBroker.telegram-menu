@@ -8,6 +8,7 @@ import TableNavHelper from '@/pages/AppContentTabNavigationTableHelper';
 import { deepCopy } from '@/lib/Utils.js';
 import type { RowsNav, PropsTabNavigation, StateTabNavigation } from '@/types/app';
 import type { EventButton } from '@/types/event';
+import { splitTrimAndJoin } from '@/lib/string';
 
 class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
     constructor(props: PropsTabNavigation) {
@@ -28,6 +29,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
             text: '',
         };
     }
+
     componentDidUpdate(prevProps: Readonly<PropsTabNavigation>, prevState: Readonly<StateTabNavigation>): void {
         if (prevState.editedValueFromHelperText !== this.state.editedValueFromHelperText) {
             if (this.state.editedValueFromHelperText !== null && this.state.editedValueFromHelperText !== undefined) {
@@ -80,17 +82,25 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
         );
     };
 
+    modifyValueFromNewRow(): RowsNav {
+        const row = this.state.newRow;
+        row.value = splitTrimAndJoin(splitTrimAndJoin(row.value, ',', ' , '), '&&', ' && ');
+        return row;
+    }
+
     popupRowCard = ({ value }: EventButton): void => {
         if (!value) {
             this.setState({ rowPopup: false, editRow: false });
             return;
         }
+
         const dataCopy = JSON.parse(JSON.stringify(this.props.data.state.native.data));
         const navUserArray = dataCopy.nav[this.props.data.state.activeMenu];
+        const newRow = this.modifyValueFromNewRow();
         if (this.state.editRow) {
-            navUserArray.splice(this.state.rowIndex, 1, this.state.newRow);
+            navUserArray.splice(this.state.rowIndex, 1, newRow);
         } else {
-            navUserArray.splice(this.state.rowIndex + 1, 0, this.state.newRow);
+            navUserArray.splice(this.state.rowIndex + 1, 0, newRow);
         }
         dataCopy.nav[this.props.data.state.activeMenu] = navUserArray;
         this.props.callback.updateNative('data', dataCopy);
@@ -120,6 +130,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
         }
         this.setState({ helperText: false, editedValueFromHelperText: null });
     };
+
     render(): React.ReactNode {
         return (
             <>
@@ -162,4 +173,5 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
         );
     }
 }
+
 export default TabNavigation;

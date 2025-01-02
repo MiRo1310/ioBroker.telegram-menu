@@ -71,7 +71,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                     <div className="DialogContainer-Footer">
                         {!this.props.closeBtn ? (
                             <Button
-                                className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button--disabled'}`}
+                                className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button__disabled'}`}
                                 callbackValue={true}
                                 callback={this.props.callback}
                                 name={this.props.labelBtnOK ? this.props.labelBtnOK : 'ok'}

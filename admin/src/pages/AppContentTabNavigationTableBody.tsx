@@ -1,7 +1,6 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
 import React, { Component } from 'react';
 import { ButtonCard } from '@/components/popupCards/buttonCard.js';
-import { getElementIcon } from '@/lib/actionUtils.js';
 import { deleteRow, moveItem } from '@/lib/button.js';
 import {
     handleDragEnd,
@@ -16,6 +15,7 @@ import {
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries } from '@/types/app';
 import type { EventButton } from '@/types/event';
+import AppContentTabNavigationTableBodyValueModifier from '@/pages/AppContentTabNavigationTableBodyValueModifier';
 
 function createData(entriesOfParentComponent: TabValueEntries[], element: RowsNav): RowForButton {
     const obj: RowForButton = {} as RowForButton;
@@ -52,6 +52,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         }
         this.setState({ rows: rows });
     }
+
     componentDidMount(): void {
         const { native, activeMenu } = this.props.data.state;
         if (native.data.nav) {
@@ -146,7 +147,11 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                     onMouseOver={e => handleMouseOver(e)}
                                     onMouseLeave={indexRow == 0 ? undefined : e => handleMouseOut(e)}
                                 >
-                                    {getElementIcon(row[entry.name])}{' '}
+                                    <AppContentTabNavigationTableBodyValueModifier
+                                        row={row}
+                                        entry={entry}
+                                    />
+
                                     <span
                                         draggable={false}
                                         className={`textSubmenuInfo noneDraggable ${

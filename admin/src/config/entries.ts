@@ -179,8 +179,8 @@ export const tabValues: TabValues[] = [
 // Danach noch generateActions anpassen in action.js
 
 export const navEntries: TabValueEntries[] = [
-    { name: 'call', val: '', headline: 'trigger', width: '25%', editWidth: '98%' },
-    { name: 'value', val: '', headline: 'navigation', width: '45%', editWidth: '98%' },
+    { name: 'call', val: '', headline: 'trigger', width: 'auto', editWidth: '98%' },
+    { name: 'value', val: '', headline: 'navigation', width: 'auto', editWidth: '98%' },
     { name: 'text', val: 'chooseAction', headline: 'text', width: '35%', editWidth: '98%' },
     { name: 'parse_mode', val: 'false', headline: 'Par', title: 'Parse Mode HTML', checkbox: true, width: '10%' },
 ];

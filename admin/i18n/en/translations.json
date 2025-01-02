@@ -8,6 +8,7 @@
     "activeMenu": "Active Menu:",
     "add": "Add",
     "addAction": "Add new Action",
+    "addCreatedMenus": "Add already created menus as buttons",
     "addMenu": "Add new Menu Name",
     "binding": "Bindings: First Var with id then the condition and the text.",
     "breakpointNewline": "Breakpoint for a new line, Only insert this in the Text",

@@ -8,6 +8,7 @@
     "activeMenu": "Actief menu:",
     "add": "Toevoegen",
     "addAction": "Nieuwe actie toevoegen",
+    "addCreatedMenus": "Voeg reeds gemaakte menu's toe als knoppen",
     "addMenu": "Nieuwe menunaam toevoegen",
     "binding": "Bindingen: eerst Var met id, daarna de voorwaarde en de tekst.",
     "breakpointNewline": "Breekpunt voor een nieuwe regel. Voeg dit alleen in de tekst in",

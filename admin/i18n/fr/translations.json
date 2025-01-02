@@ -8,6 +8,7 @@
     "activeMenu": "Menu actif :",
     "add": "Ajouter",
     "addAction": "Ajouter une nouvelle action",
+    "addCreatedMenus": "Ajouter des menus déjà créés sous forme de boutons",
     "addMenu": "Ajouter un nouveau nom de menu",
     "binding": "Reliures : D'abord Var avec l'identifiant puis la condition et le texte.",
     "breakpointNewline": "Point d'arrêt pour une nouvelle ligne, insérez-le uniquement dans le texte",

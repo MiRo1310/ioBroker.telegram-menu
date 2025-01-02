@@ -33,6 +33,11 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+- Navigation styling and selectable menus
+
 ### 2.1.10 (2025-01-02)
 
 - FIX: Return text for menus was not send
