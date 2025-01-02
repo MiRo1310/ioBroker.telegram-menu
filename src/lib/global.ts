@@ -30,6 +30,7 @@ function decomposeText(text: string, searchValue: string, secondValue: string): 
         textWithoutSubstring: textWithoutSubstring,
     };
 }
+
 export const deepCopy = <T>(obj: T): T | undefined => {
     try {
         return JSON.parse(JSON.stringify(obj));
@@ -37,7 +38,17 @@ export const deepCopy = <T>(obj: T): T | undefined => {
         console.error(`Error deepCopy: ${JSON.stringify(err)}`);
     }
 };
+
 export function isString(value: unknown): value is string {
     return typeof value === 'string';
 }
+
 export { deleteDoubleEntriesInArray, replaceAll, isJSON, decomposeText };
+
+export function isFalsy(value: string | number | boolean | undefined | null): boolean {
+    return ['0', 0, false, 'false', undefined, null].includes(value);
+}
+
+export function isDefined<T>(value: T | null | undefined): value is T {
+    return value !== null && value !== undefined;
+}
