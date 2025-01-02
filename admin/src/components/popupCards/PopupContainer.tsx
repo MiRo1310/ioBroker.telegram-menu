@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from '../Button';
-import { I18n } from '@iobroker/adapter-react-v5';
-import type { Properties } from 'csstype';
-import type { PropsPopupContainer, StatePopupContainer } from '@/types/app';
+import {I18n} from '@iobroker/adapter-react-v5';
+import type {Properties} from 'csstype';
+import type {PropsPopupContainer, StatePopupContainer} from '@/types/app';
 
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
     constructor(props: PropsPopupContainer) {
@@ -71,7 +71,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                     <div className="DialogContainer-Footer">
                         {!this.props.closeBtn ? (
                             <Button
-                                className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button--disabled'}`}
+                                className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button__disabled'}`}
                                 callbackValue={true}
                                 callback={this.props.callback}
                                 name={this.props.labelBtnOK ? this.props.labelBtnOK : 'ok'}
