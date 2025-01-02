@@ -166,7 +166,7 @@ export const tabValues: TabValues[] = [
                 headline: 'url',
                 width: '20%',
                 elementGetRows: 'url',
-                search: true,
+                search: false,
                 required: true,
             },
             { name: 'user', val: '', headline: 'user', width: '20%' },

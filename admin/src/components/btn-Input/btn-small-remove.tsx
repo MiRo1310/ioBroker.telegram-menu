@@ -12,7 +12,7 @@ class BtnSmallRemove extends Component<ButtonSmallProps> {
                 small="true"
                 round="true"
                 callback={this.props.callback}
-                callbackValue={this.props.index}
+                index={this.props.index}
                 className={`${this.props.disabled} button__icon-table`}
                 disabled={this.props.disabled}
             >

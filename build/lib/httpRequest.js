@@ -42,17 +42,17 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
   }
   for (const part of parts.httpRequest) {
     const url = part.url;
-    const user = part.user;
+    const userName = part.user;
     const password = part.password;
     const method = "get";
     try {
       const response = await (0, import_axios.default)(
-        user && password ? {
+        userName && password ? {
           method,
           url,
           responseType: "arraybuffer",
           auth: {
-            username: user,
+            username: userName,
             password
           }
         } : {
@@ -68,7 +68,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
       (0, import_logging.debug)([{ text: "Pic saved:", val: imagePath }]);
       await (0, import_telegram.sendToTelegram)(
-        user,
+        userToSend,
         imagePath,
         [],
         instanceTelegram,
