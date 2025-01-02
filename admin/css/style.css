@@ -623,7 +623,16 @@ p.inUse {
     border: 1px solid #000000;
     width: auto;
     display: inline-block;
+    margin-right: 0.5rem !important;
+}
 
+.dark .telegramm__userCard-content {
+    border: 1px solid white;
+    color: white
+}
+
+.dark label.checkbox {
+    color: white;
 }
 
 .telegramm__userCard-content p {
@@ -861,7 +870,6 @@ span[title],
     font-size: 0.7rem;
     display: flex;
     justify-content: stretch;
-
 }
 
 .row__button {
@@ -873,7 +881,12 @@ span[title],
     display: inline-block !important;
     flex: 1;
     text-align: center;
-    background: #eee;
+    background: #f1e4b0;
+}
+
+.dark .row__button {
+    background: #333;
+    color: white;
 }
 
 .row__submenu {
