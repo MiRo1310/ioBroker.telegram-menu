@@ -8,6 +8,7 @@
     "activeMenu": "Aktywne menu:",
     "add": "Dodać",
     "addAction": "Dodaj nową akcję",
+    "addCreatedMenus": "Dodaj już utworzone menu jako przyciski",
     "addMenu": "Dodaj nową nazwę menu",
     "binding": "Powiązania: Najpierw Var z identyfikatorem, potem warunek i tekst.",
     "breakpointNewline": "Punkt przerwania nowej linii. Wstaw go tylko w tekście",

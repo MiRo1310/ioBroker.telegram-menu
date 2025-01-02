@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Button from '../Button';
-import {I18n} from '@iobroker/adapter-react-v5';
-import type {Properties} from 'csstype';
-import type {PropsPopupContainer, StatePopupContainer} from '@/types/app';
+import { I18n } from '@iobroker/adapter-react-v5';
+import type { Properties } from 'csstype';
+import type { PropsPopupContainer, StatePopupContainer } from '@/types/app';
 
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
     constructor(props: PropsPopupContainer) {

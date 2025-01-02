@@ -1,12 +1,12 @@
-import type { HelperText } from '@/config/helper';
-import type { SaveDataObject } from '@/pages/AppContentTabActionContentRowEditorCopyModalSelectedValues';
-import type { EventButton, EventCheckbox, EventTextarea } from '@/types/event';
-import type { TelegramMenuApp } from '@/types/props-types.js';
-import type { EventSelect } from '@components/btn-Input/select';
-import type { Theme } from '@emotion/react';
-import type { AdminConnection, Width } from '@iobroker/adapter-react-v5';
+import type {HelperText} from '@/config/helper';
+import type {SaveDataObject} from '@/pages/AppContentTabActionContentRowEditorCopyModalSelectedValues';
+import type {EventButton, EventCheckbox, EventTextarea} from '@/types/event';
+import type {TelegramMenuApp} from '@/types/props-types.js';
+import type {EventSelect} from '@components/btn-Input/select';
+import type {Theme} from '@emotion/react';
+import type {AdminConnection, Width} from '@iobroker/adapter-react-v5';
 
-import type { LegacyRef, ReactNode } from 'react';
+import type {LegacyRef, ReactNode} from 'react';
 
 export type Nullable<T> = T | null | undefined;
 
@@ -191,6 +191,7 @@ export interface PropsRowNavCard {
     callback: { onChangeInput: (data: ChangeInputNav) => void; onChangeCheckbox: (data: EventCheckbox) => void };
     inUse: boolean;
     openHelperText: (value: string) => void;
+    data: DataMainContent & { entries: TabValueEntries[] };
 }
 
 export interface ChangeInputNav {
@@ -224,7 +225,7 @@ export interface SelectProps {
 export type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
 
 export interface InputProps {
-    id?:string
+    id?: string
     type?: string;
     placeholder?: string;
     value: string;
@@ -426,8 +427,8 @@ export interface PropsRowEditPopupCard {
     data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rowIndexToEdit: number };
     callback: CallbackFunctionsApp &
         CallbackTabActionContent & {
-            openHelperText: (value: { subCard: string; entry: string; index: number }) => void;
-        };
+        openHelperText: (value: { subCard: string; entry: string; index: number }) => void;
+    };
 }
 
 export interface DataTabActionContent {

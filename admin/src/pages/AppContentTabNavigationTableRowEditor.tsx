@@ -63,6 +63,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
                     openHelperText={this.openHelperText}
                     entries={this.props.data.entries}
                     newRow={this.props.state.newRow}
+                    data={this.props.data}
                 />
             </PopupContainer>
         );

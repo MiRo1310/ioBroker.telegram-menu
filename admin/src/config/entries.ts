@@ -1,4 +1,4 @@
-import type {TabValueEntries, TabValues} from '@/types/app';
+import type { TabValueEntries, TabValues } from '@/types/app';
 
 export const tabValues: TabValues[] = [
     // Danach noch generateActions anpassen in action.js
@@ -7,10 +7,10 @@ export const tabValues: TabValues[] = [
         value: 'set',
         trigger: true, // Wenn Trigger true ist wird hierfür UsedTrigger gesucht
         entries: [
-            {name: 'trigger', val: '', headline: 'trigger', elementGetRows: 'IDs', required: true},
-            {name: 'IDs', val: '', headline: 'ID', width: '20%', required: true},
-            {name: 'values', val: '', headline: 'value', width: '10%', required: true, btnCircleAdd: true},
-            {name: 'returnText', val: '', headline: 'returnText', width: '40%', required: true, btnCircleAdd: true},
+            { name: 'trigger', val: '', headline: 'trigger', elementGetRows: 'IDs', required: true },
+            { name: 'IDs', val: '', headline: 'ID', width: '20%', required: true },
+            { name: 'values', val: '', headline: 'value', width: '10%', required: true, btnCircleAdd: true },
+            { name: 'returnText', val: '', headline: 'returnText', width: '40%', required: true, btnCircleAdd: true },
             {
                 name: 'ack',
                 val: 'false',
@@ -48,16 +48,16 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: {buttons: {add: true, remove: true, copy: true}, width: '99%', height: '70%'},
+        popupCard: { buttons: { add: true, remove: true, copy: true }, width: '99%', height: '70%' },
     },
     {
         label: 'GetState',
         value: 'get',
         trigger: true,
         entries: [
-            {name: 'trigger', val: '', headline: 'trigger', width: '20%', elementGetRows: 'IDs', required: true},
-            {name: 'IDs', val: '', headline: 'ID', width: '40%', required: true},
-            {name: 'text', val: '', headline: 'text', width: '40%', required: true, btnCircleAdd: true},
+            { name: 'trigger', val: '', headline: 'trigger', width: '20%', elementGetRows: 'IDs', required: true },
+            { name: 'IDs', val: '', headline: 'ID', width: '40%', required: true },
+            { name: 'text', val: '', headline: 'text', width: '40%', required: true, btnCircleAdd: true },
             {
                 name: 'newline_checkbox',
                 val: 'true',
@@ -77,7 +77,7 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: {buttons: {add: true, remove: true, copy: true}, width: '99%', height: '70%'},
+        popupCard: { buttons: { add: true, remove: true, copy: true }, width: '99%', height: '70%' },
     },
 
     {
@@ -85,21 +85,21 @@ export const tabValues: TabValues[] = [
         value: 'pic',
         trigger: true,
         entries: [
-            {name: 'trigger', val: '', headline: 'trigger', width: '20%', elementGetRows: 'IDs', required: true},
-            {name: 'IDs', val: '', headline: 'ID', width: '40%', required: true},
-            {name: 'fileName', val: '', headline: 'filename', width: '40%', required: true},
-            {name: 'picSendDelay', val: '', headline: 'delay', width: '40%', type: 'number', required: true},
+            { name: 'trigger', val: '', headline: 'trigger', width: '20%', elementGetRows: 'IDs', required: true },
+            { name: 'IDs', val: '', headline: 'ID', width: '40%', required: true },
+            { name: 'fileName', val: '', headline: 'filename', width: '40%', required: true },
+            { name: 'picSendDelay', val: '', headline: 'delay', width: '40%', type: 'number', required: true },
         ],
-        popupCard: {buttons: {add: true, remove: true}, width: '99%', height: '70%'},
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
     },
     {
         label: 'Send Location',
         value: 'loc',
         trigger: true,
         entries: [
-            {name: 'trigger', val: '', headline: 'trigger', width: '20%', elementGetRows: 'latitude', required: true},
-            {name: 'latitude', val: '', headline: 'latitude', width: '20%', search: true, required: true},
-            {name: 'longitude', val: '', headline: 'longitude', width: '20%', search: true, required: true},
+            { name: 'trigger', val: '', headline: 'trigger', width: '20%', elementGetRows: 'latitude', required: true },
+            { name: 'latitude', val: '', headline: 'latitude', width: '20%', search: true, required: true },
+            { name: 'longitude', val: '', headline: 'longitude', width: '20%', search: true, required: true },
             {
                 name: 'parse_mode',
                 val: 'false',
@@ -110,16 +110,16 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: {buttons: {add: true, remove: true}, width: '99%', height: '70%'},
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
     },
     {
         label: 'Events',
         value: 'events',
         trigger: false,
         entries: [
-            {name: 'ID', val: '', headline: 'ID', width: '40%', search: true, required: true},
-            {name: 'menu', val: '', headline: 'executedMenu', width: '20%', elementGetRows: 'menu', required: true},
-            {name: 'condition', val: '', headline: 'conditionMenu', width: '20%', noIcon: true, required: true},
+            { name: 'ID', val: '', headline: 'ID', width: '40%', search: true, required: true },
+            { name: 'menu', val: '', headline: 'executedMenu', width: '20%', elementGetRows: 'menu', required: true },
+            { name: 'condition', val: '', headline: 'conditionMenu', width: '20%', noIcon: true, required: true },
             {
                 name: 'ack',
                 val: 'false',
@@ -130,15 +130,15 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: {buttons: {add: false, remove: false}, width: '99%', height: '40%'},
+        popupCard: { buttons: { add: false, remove: false }, width: '99%', height: '40%' },
     },
     {
         label: 'Echarts',
         value: 'echarts',
-        searchRoot: {root: 'echarts', type: ['chart']}, // Search Root for SelectID
+        searchRoot: { root: 'echarts', type: ['chart'] }, // Search Root for SelectID
         trigger: true,
         entries: [
-            {name: 'trigger', val: '', headline: 'trigger', width: '20%', required: true},
+            { name: 'trigger', val: '', headline: 'trigger', width: '20%', required: true },
             {
                 name: 'preset',
                 val: '',
@@ -148,18 +148,18 @@ export const tabValues: TabValues[] = [
                 search: true,
                 required: true,
             },
-            {name: 'background', val: '#FFFFFF', headline: 'background', width: '10%', required: true},
-            {name: 'theme', val: 'light', headline: 'theme', width: '10%', required: true},
-            {name: 'filename', val: 'echarts-temp-photo.jpg', headline: 'filename', width: '20%', required: true},
+            { name: 'background', val: '#FFFFFF', headline: 'background', width: '10%', required: true },
+            { name: 'theme', val: 'light', headline: 'theme', width: '10%', required: true },
+            { name: 'filename', val: 'echarts-temp-photo.jpg', headline: 'filename', width: '20%', required: true },
         ],
-        popupCard: {buttons: {add: true, remove: true}, width: '99%', height: '70%'},
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
     },
     {
         label: 'Http Request',
         value: 'httpRequest',
         trigger: true,
         entries: [
-            {name: 'trigger', val: '', headline: 'trigger', width: '20%', required: true},
+            { name: 'trigger', val: '', headline: 'trigger', width: '20%', required: true },
             {
                 name: 'url',
                 val: '',
@@ -169,18 +169,18 @@ export const tabValues: TabValues[] = [
                 search: true,
                 required: true,
             },
-            {name: 'user', val: '', headline: 'user', width: '20%'},
-            {name: 'password', val: '', headline: 'password', password: true, width: '20%'},
-            {name: 'filename', val: 'http-request-photo.jpg', headline: 'filename', width: '20%', required: true},
+            { name: 'user', val: '', headline: 'user', width: '20%' },
+            { name: 'password', val: '', headline: 'password', password: true, width: '20%' },
+            { name: 'filename', val: 'http-request-photo.jpg', headline: 'filename', width: '20%', required: true },
         ],
-        popupCard: {buttons: {add: true, remove: true}, width: '99%', height: '70%'},
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
     },
 ];
 // Danach noch generateActions anpassen in action.js
 
 export const navEntries: TabValueEntries[] = [
-    {name: 'call', val: '', headline: 'trigger', width: 'auto', editWidth: '98%'},
-    {name: 'value', val: '', headline: 'navigation', width: 'auto', editWidth: '98%'},
-    {name: 'text', val: 'chooseAction', headline: 'text', width: '35%', editWidth: '98%'},
-    {name: 'parse_mode', val: 'false', headline: 'Par', title: 'Parse Mode HTML', checkbox: true, width: '10%'},
+    { name: 'call', val: '', headline: 'trigger', width: 'auto', editWidth: '98%' },
+    { name: 'value', val: '', headline: 'navigation', width: 'auto', editWidth: '98%' },
+    { name: 'text', val: 'chooseAction', headline: 'text', width: '35%', editWidth: '98%' },
+    { name: 'parse_mode', val: 'false', headline: 'Par', title: 'Parse Mode HTML', checkbox: true, width: '10%' },
 ];
