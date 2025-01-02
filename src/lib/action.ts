@@ -216,7 +216,7 @@ const idBySelector = async (
                     one_time_keyboard,
                     resize_keyboard,
                     userListWithChatID,
-                    '',
+                    'false',
                 ).catch(e => {
                     error([
                         { text: 'Error SendToTelegram:', val: e.message },

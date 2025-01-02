@@ -137,7 +137,7 @@ async function processData(obj) {
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          ""
+          "false"
         );
       }
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);

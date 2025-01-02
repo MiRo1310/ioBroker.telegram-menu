@@ -36,6 +36,7 @@ var import_utilities = require("./utilities");
 var import_child_process = require("child_process");
 var import_logging = require("./logging");
 var import_main = __toESM(require("../main"));
+var import_global = require("./global");
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
@@ -62,6 +63,9 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
         );
         (0, import_logging.debug)([{ text: "Delay Time:", val: element.delay }]);
         timeoutKey += 1;
+        if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
+          return;
+        }
         path = `${directoryPicture}${element.fileName}`;
         (0, import_logging.debug)([{ text: "Path : ", val: path }]);
       } else {
@@ -76,7 +80,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          ""
+          "false"
         );
         let timeoutToClear = [];
         timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
@@ -84,7 +88,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
           clearTimeout(item.timeout);
         });
         timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-        (0, import_logging.debug)([{ text: "Picture sended" }]);
+        (0, import_logging.debug)([{ text: "Picture sent" }]);
       }, parseInt(element.delay));
       if (timeout) {
         timeouts.push({ key: timeoutKey, timeout });

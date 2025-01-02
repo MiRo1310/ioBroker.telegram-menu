@@ -2,6 +2,8 @@ import TelegramMenu from '../main';
 import { error } from './logging';
 import { sendToTelegram } from './telegram';
 import type { Echart, UserListWithChatId } from './telegram-menu';
+import { checkDirectoryIsOk } from './global';
+
 function getChart(
     echarts: Echart[],
     directoryPicture: string,
@@ -17,11 +19,14 @@ function getChart(
             return;
         }
         for (const echart of echarts) {
-            const splitted = echart.preset.split('.');
-            const echartInstance = `${splitted[0]}.${splitted[1]}`;
-            //TODO: Is filename ein string?
+            const splitPreset = echart.preset.split('.');
+            const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
+
+            if (!checkDirectoryIsOk(directoryPicture)) {
+                return;
+            }
             _this.sendTo(
-                echartInstance,
+                instanceOfEchart,
                 {
                     preset: echart.preset,
                     renderer: 'jpg',
@@ -39,7 +44,7 @@ function getChart(
                         resize_keyboard,
                         one_time_keyboard,
                         userListWithChatID,
-                        '',
+                        'false',
                     ).catch((e: any) => {
                         error([
                             { text: 'Error', val: e.message },
@@ -56,4 +61,5 @@ function getChart(
         ]);
     }
 }
+
 export { getChart };

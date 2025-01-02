@@ -18,6 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var global_exports = {};
 __export(global_exports, {
+  checkDirectoryIsOk: () => checkDirectoryIsOk,
   decomposeText: () => decomposeText,
   deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
@@ -25,9 +26,11 @@ __export(global_exports, {
   isFalsy: () => isFalsy,
   isJSON: () => isJSON,
   isString: () => isString,
+  isTruthy: () => isTruthy,
   replaceAll: () => replaceAll
 });
 module.exports = __toCommonJS(global_exports);
+var import_logging = require("./logging");
 function deleteDoubleEntriesInArray(arr) {
   return arr.filter((item, index) => arr.indexOf(item) === index);
 }
@@ -38,8 +41,8 @@ function isJSON(_string) {
   try {
     JSON.parse(_string);
     return true;
-  } catch (error) {
-    console.error([{ text: "Error:", val: error }]);
+  } catch (error2) {
+    console.error([{ text: "Error:", val: error2 }]);
     return false;
   }
 }
@@ -65,14 +68,30 @@ const deepCopy = (obj) => {
 function isString(value) {
   return typeof value === "string";
 }
+function isTruthy(value) {
+  return value === "1" || value === 1 || value === true || value === "true";
+}
 function isFalsy(value) {
   return ["0", 0, false, "false", void 0, null].includes(value);
 }
 function isDefined(value) {
   return value !== null && value !== void 0;
 }
+function checkDirectoryIsOk(directory) {
+  if (["", null, void 0].includes(directory)) {
+    (0, import_logging.error)([
+      {
+        text: "Error:",
+        val: "No directory to save the picture. Please add a directory in the settings with full read and write permissions."
+      }
+    ]);
+    return false;
+  }
+  return true;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  checkDirectoryIsOk,
   decomposeText,
   deepCopy,
   deleteDoubleEntriesInArray,
@@ -80,6 +99,7 @@ function isDefined(value) {
   isFalsy,
   isJSON,
   isString,
+  isTruthy,
   replaceAll
 });
 //# sourceMappingURL=global.js.map

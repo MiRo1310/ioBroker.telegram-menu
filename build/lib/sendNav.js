@@ -39,7 +39,7 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
         resize_keyboard,
         one_time_keyboard,
         userListWithChatID,
-        part.parse_mode || ""
+        part.parse_mode || "false"
       );
     }
   } catch (e) {
