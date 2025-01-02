@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { debug, error } from './logging';
 import type { Part, UserListWithChatId } from './telegram-menu';
+import { checkDirectoryIsOk } from './global';
 
 async function httpRequest(
     parts: Part,
@@ -22,7 +23,7 @@ async function httpRequest(
         const userName = part.user;
         const password = part.password;
         const method = 'get';
-
+        debug([{ text: 'URL:', val: url }]);
         try {
             //prettier-ignore
             const response = await axios(
@@ -45,6 +46,9 @@ async function httpRequest(
             if (!part.filename) {
                 return;
             }
+            if (!checkDirectoryIsOk(directoryPicture)) {
+                return;
+            }
             const imagePath = path.join(directoryPicture, part.filename);
 
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
@@ -58,7 +62,7 @@ async function httpRequest(
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,
-                '',
+                'false',
             );
         } catch (e: any) {
             error([

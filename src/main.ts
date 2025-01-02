@@ -89,7 +89,8 @@ export default class TelegramMenu extends utils.Adapter {
             listOfMenus = Object.keys(this.config.usersInGroup);
         }
         const token = this.config.tokenGrafana;
-        const directoryPicture: string = this.config.directory;
+        const directoryPicture: string =
+            this.config.directory !== '' ? this.config.directory : '/opt/iobroker/grafana/';
         const isUserActiveCheckbox: IsUserActiveCheckbox = this.config.userActiveCheckbox;
         const menusWithUsers: MenusWithUsers = this.config.usersInGroup;
         const textNoEntryFound: string = this.config.textNoEntry;
@@ -268,7 +269,7 @@ export default class TelegramMenu extends utils.Adapter {
                                 resize_keyboard,
                                 one_time_keyboard,
                                 userListWithChatID,
-                                '',
+                                'false',
                             );
                         }
                         return;

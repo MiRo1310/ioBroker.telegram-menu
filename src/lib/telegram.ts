@@ -2,6 +2,7 @@ import { debug, error } from './logging';
 import { newLine, getChatID, checkStatusInfo } from './utilities';
 import TelegramMenu from '../main';
 import type { NavPart, UserListWithChatId, BooleanString, ParseModeType, Location } from './telegram-menu';
+import { isTruthy } from './global';
 
 async function sendToTelegram(
     user = '',
@@ -11,7 +12,7 @@ async function sendToTelegram(
     resize_keyboard = true,
     one_time_keyboard = true,
     userListWithChatID: UserListWithChatId[],
-    parse_mode: BooleanString | '',
+    parse_mode: BooleanString,
 ): Promise<void> {
     try {
         const _this = TelegramMenu.getInstance();
@@ -28,6 +29,7 @@ async function sendToTelegram(
 
         textToSend = newLine(textToSend);
         if (keyboard.length == 0) {
+            _this.log.debug('No Keyboard');
             _this.sendTo(
                 instance,
                 'send',
@@ -130,8 +132,8 @@ const sendLocationToTelegram = async (
     }
 };
 
-function getParseMode(val: BooleanString | boolean | ''): ParseModeType {
-    if (val === 'true' || val === true) {
+function getParseMode(val: BooleanString | boolean): ParseModeType {
+    if (isTruthy(val)) {
         return 'HTML';
     }
     return 'Markdown';

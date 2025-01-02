@@ -201,7 +201,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
         one_time_keyboard2,
         resize_keyboard2,
         userListWithChatID2,
-        ""
+        "false"
       ).catch((e) => {
         (0, import_logging.error)([
           { text: "Error SendToTelegram:", val: e.message },

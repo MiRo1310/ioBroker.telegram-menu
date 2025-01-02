@@ -4,6 +4,7 @@ import { exec } from 'child_process';
 import { debug, error } from './logging';
 import TelegramMenu from '../main';
 import type { Part, UserListWithChatId, Timeouts } from './telegram-menu';
+import { checkDirectoryIsOk } from './global';
 
 function sendPic(
     part: Part,
@@ -43,6 +44,11 @@ function sendPic(
 
                 debug([{ text: 'Delay Time:', val: element.delay }]);
                 timeoutKey += 1;
+
+                if (!checkDirectoryIsOk(directoryPicture)) {
+                    return;
+                }
+
                 path = `${directoryPicture}${element.fileName}`;
                 debug([{ text: 'Path : ', val: path }]);
             } else {
@@ -58,7 +64,7 @@ function sendPic(
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    '',
+                    'false',
                 );
                 let timeoutToClear: Timeouts[] = [];
                 timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
@@ -67,7 +73,7 @@ function sendPic(
                 });
 
                 timeouts = timeouts.filter(item => item.key !== timeoutKey);
-                debug([{ text: 'Picture sended' }]);
+                debug([{ text: 'Picture sent' }]);
             }, parseInt(element.delay));
 
             if (timeout) {

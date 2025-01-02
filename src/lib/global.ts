@@ -1,4 +1,5 @@
 import type { DecomposeText } from './telegram-menu';
+import { error } from './logging';
 
 function deleteDoubleEntriesInArray(arr: string[]): string[] {
     return arr.filter((item, index) => arr.indexOf(item) === index);
@@ -45,10 +46,27 @@ export function isString(value: unknown): value is string {
 
 export { deleteDoubleEntriesInArray, replaceAll, isJSON, decomposeText };
 
+export function isTruthy(value: string | number | boolean): boolean {
+    return value === '1' || value === 1 || value === true || value === 'true';
+}
+
 export function isFalsy(value: string | number | boolean | undefined | null): boolean {
     return ['0', 0, false, 'false', undefined, null].includes(value);
 }
 
 export function isDefined<T>(value: T | null | undefined): value is T {
     return value !== null && value !== undefined;
+}
+
+export function checkDirectoryIsOk(directory: string): boolean {
+    if (['', null, undefined].includes(directory)) {
+        error([
+            {
+                text: 'Error:',
+                val: 'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
+            },
+        ]);
+        return false;
+    }
+    return true;
 }

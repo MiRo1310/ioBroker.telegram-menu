@@ -36,6 +36,7 @@ module.exports = __toCommonJS(telegram_exports);
 var import_logging = require("./logging");
 var import_utilities = require("./utilities");
 var import_main = __toESM(require("../main"));
+var import_global = require("./global");
 async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "telegram.0", resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode) {
   try {
     const _this = import_main.default.getInstance();
@@ -51,6 +52,7 @@ async function sendToTelegram(user = "", textToSend, keyboard = [], instance = "
     ]);
     textToSend = (0, import_utilities.newLine)(textToSend);
     if (keyboard.length == 0) {
+      _this.log.debug("No Keyboard");
       _this.sendTo(
         instance,
         "send",
@@ -138,7 +140,7 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
   }
 };
 function getParseMode(val) {
-  if (val === "true" || val === true) {
+  if ((0, import_global.isTruthy)(val)) {
     return "HTML";
   }
   return "Markdown";

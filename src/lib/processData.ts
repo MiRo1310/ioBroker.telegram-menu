@@ -119,7 +119,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    '',
+                    'false',
                 );
             }
             removeUserFromDynamicValue(userToSend);
@@ -328,6 +328,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 function getStateIdsToListenTo(): SetStateIds[] {
     return setStateIdsToListenTo;
 }
+
 function getTimeouts(): Timeouts[] {
     return timeouts;
 }
