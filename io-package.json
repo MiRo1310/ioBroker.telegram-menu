@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.1.9",
+    "version": "2.1.10",
     "news": {
+      "2.1.10": {
+        "en": "FIX: Return text for menus was not send",
+        "de": "FIX: Rückgabetext für Menüs wurde nicht gesendet",
+        "ru": "FIX: Возвращаемый текст для меню не был отправлен",
+        "pt": "FIX: O texto de retorno para menus não foi enviado",
+        "nl": "FIX: Retourtekst voor menu's is niet verstuurd",
+        "fr": "FIX: Retour de texte pour les menus n'a pas été envoyé",
+        "it": "FIX: Il testo di ritorno per i menu non è stato inviato",
+        "es": "FIX: El texto devuelto para los menús no fue enviado",
+        "pl": "FIX: Tekst zwrotny dla menu nie został wysłany",
+        "uk": "FIX: Повернути текст для меню не відправлено",
+        "zh-cn": "FIX: 菜单的返回文本没有发送"
+      },
       "2.1.9": {
         "en": "FIX: #224 Submenu trigger",
         "de": "FIX: #224 Submenu Trigger",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 203 Przewijanie w tabeli",
         "uk": "FIX: #203 Прокручування в таблиці",
         "zh-cn": "FIX: # 203 在表格中滚动"
-      },
-      "2.1.3": {
-        "en": "FIX: User checkbox error message\nFEAT: #194 Styling",
-        "de": "FIX: Benutzer-Checkbox Fehlermeldung\nFEAT: #194 Styling",
-        "ru": "FIX: Сообщение об ошибке в флажке пользователя\n#194 Стиль",
-        "pt": "FIX: Mensagem de erro da caixa de seleção do usuário\nFEAT: #194 Styling",
-        "nl": "FIX: foutmelding gebruikerscontrolevak\n#194 Styling",
-        "fr": "FIX: Message d'erreur de la case à cocher\nVIANDE: #194 Styling",
-        "it": "FIX: messaggio di errore della casella di controllo utente\nFEAT: #194 Styling",
-        "es": "FIX: Mensaje de error de la casilla de verificación del usuario\nFEAT: #194 Styling",
-        "pl": "FIX: Komunikat błędu w polu wyboru użytkownika\nFEAT: # 194 Styling",
-        "uk": "FIX: Повідомлення про помилку користувача\nFEAT: #194 Стилування",
-        "zh-cn": "FIX: 用户复选框错误消息\nFEAT: #194 时尚"
       }
     },
     "titleLang": {
