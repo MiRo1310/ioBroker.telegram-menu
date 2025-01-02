@@ -133,25 +133,12 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
             return;
         }
         const newRow = dataCopy[this.props.data.card][activeMenu][this.props.data.tab.value][index];
-        console.log(newRow);
+
         if (newRow.trigger) {
             this.props.callback.addEditedTrigger(newRow.trigger[0]);
         }
         setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index });
     };
-
-    // deleteRow = (index: number): void => {
-    //     const { activeMenu } = this.props.data.state;
-    //     const { updateNative } = this.props.callback;
-    //     deleteRow({
-    //         index,
-    //         activeMenu,
-    //         card: this.props.data.card,
-    //         data: this.props.data.state.native.data,
-    //         updateNative,
-    //         subCard: this.props.data.tab.value,
-    //     });
-    // };
 
     render(): React.ReactNode {
         return (
