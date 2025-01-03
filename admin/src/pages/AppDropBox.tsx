@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PopupContainer from '@/components/popupCards/PopupContainer';
 import DropBox from '@/pages/AppDropBoxContent';
-import {onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave} from '@/lib/movePosition';
-import type {PropsMainDropBox} from '@/types/app';
+import { onDragStart, onDragEnd, onDragOver, onDrop, onDrag, onMouseEnter, onMouseLeave } from '@/lib/movePosition';
+import type { PropsMainDropBox } from '@/types/app';
 
 class MainDropBox extends Component<PropsMainDropBox> {
     constructor(props: PropsMainDropBox) {
@@ -11,7 +11,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
     }
 
     closeDropBox = (): void => {
-        this.props.callback.setStateApp({showDropBox: false});
+        this.props.callback.setStateApp({ showDropBox: false });
     };
 
     render(): React.ReactNode {

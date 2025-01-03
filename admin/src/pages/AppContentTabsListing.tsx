@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Tab, Box} from '@mui/material';
-import {TabList} from '@mui/lab';
-import {I18n} from '@iobroker/adapter-react-v5';
-import type {PropsMainTabList, TabListingType} from '@/types/app';
+import React, { Component } from 'react';
+import { Tab, Box } from '@mui/material';
+import { TabList } from '@mui/lab';
+import { I18n } from '@iobroker/adapter-react-v5';
+import type { PropsMainTabList, TabListingType } from '@/types/app';
 
 class TabListing extends Component<PropsMainTabList> {
     constructor(props: PropsMainTabList) {
@@ -11,7 +11,7 @@ class TabListing extends Component<PropsMainTabList> {
     }
 
     handleChange = (event: React.SyntheticEvent, val: string): void => {
-        this.props.callback.setStateApp({tab: val});
+        this.props.callback.setStateApp({ tab: val });
     };
 
     tabs: TabListingType[] = [
@@ -31,7 +31,7 @@ class TabListing extends Component<PropsMainTabList> {
 
     render(): React.ReactNode {
         return (
-            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList
                     onChange={this.handleChange}
                     aria-label="lab API tabs example"

@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {TabContext, TabPanel} from '@mui/lab';
+import React, { Component } from 'react';
+import { TabContext, TabPanel } from '@mui/lab';
 import AppContentTabActionContent from './AppContentTabActionContent';
-import {tabValues} from '@/config/entries';
+import { tabValues } from '@/config/entries';
 import AppContentTabActionTabsListing from './AppContentTabActionTabsListing';
-import type {PropsTabAction, StateTabAction} from '@/types/app';
+import type { PropsTabAction, StateTabAction } from '@/types/app';
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {
     constructor(props: PropsTabAction) {
@@ -13,9 +13,8 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
         };
     }
 
-
-    componentDidMount() {
-        this.setState({value: this.props.data.state.subTab});
+    componentDidMount(): void {
+        this.setState({ value: this.props.data.state.subTab });
     }
 
     render(): React.ReactNode {
@@ -37,7 +36,7 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
                                 ...this.props.data,
                                 tab,
                                 card: 'action',
-                                showButtons: {add: true, remove: true, edit: true},
+                                showButtons: { add: true, remove: true, edit: true },
                             }}
                         />
                     </TabPanel>

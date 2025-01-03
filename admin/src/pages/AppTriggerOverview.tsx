@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PopupContainer from '@/components/popupCards/PopupContainer';
 import TriggerOverview from '@/pages/AppTriggerOverviewContent';
-import type {PropsMainTriggerOverview} from '@/types/app';
-import type {EventButton} from '@/types/event';
+import type { PropsMainTriggerOverview } from '@/types/app';
+import type { EventButton } from '@/types/event';
 
 class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
     constructor(props: PropsMainTriggerOverview) {
@@ -19,7 +19,7 @@ class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
                 top="60%"
                 class="TriggerOverview-PopupContainer"
                 onlyCloseBtn={true}
-                callback={({value}: EventButton) => this.props.callback.setState({showTriggerInfo: value})}
+                callback={({ value }: EventButton) => this.props.callback.setState({ showTriggerInfo: value })}
             >
                 <TriggerOverview
                     usersInGroup={this.props.state.native.usersInGroup}
