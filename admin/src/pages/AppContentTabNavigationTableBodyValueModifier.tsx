@@ -32,23 +32,28 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props> {
 
     findMenuInNav = (button: string): string | undefined => {
         const nav = this.props.data.state.native.data.nav
-        console.log(nav)
-        let menu = ""
+
         const menuKeyValue = Object.entries(nav).find(([key, value]) => value.find((element) => element.call === button))
 
         if (!menuKeyValue) return
-        menu = menuKeyValue[0]
 
-        console.log(menuKeyValue)
-        return menu
+        return menuKeyValue[0]
     }
 
     buttonClick = (button: string) => {
-        console.log(button)
-        const menu = this.findMenuInNav(button);
+
+        const string = this.getTriggerValue(button)
+        const menu = this.findMenuInNav(string);
         if (menu) {
             this.props.callback.setStateApp({activeMenu: menu})
         }
+    }
+
+    getTriggerValue(buttonText: string): string {
+        if (buttonText.includes("menu:")) {
+            return buttonText.split(":")[2].trim()
+        }
+        return buttonText
     }
 
 
