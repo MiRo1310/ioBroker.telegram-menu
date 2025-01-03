@@ -13,6 +13,11 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
         };
     }
 
+
+    componentDidMount() {
+        this.setState({value: this.props.data.state.subTab});
+    }
+
     render(): React.ReactNode {
         return (
             <TabContext value={this.state.value}>

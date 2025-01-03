@@ -1,6 +1,6 @@
-import { sortObjectByKey, updateActiveMenuAndTrigger } from '@/lib/actionUtils';
-import { updatePositionDropBox } from '@/lib/movePosition';
-import { insertNewItemsInData } from '@/lib/newValuesForNewVersion';
+import {sortObjectByKey, updateActiveMenuAndTrigger} from '@/lib/actionUtils';
+import {updatePositionDropBox} from '@/lib/movePosition';
+import {insertNewItemsInData} from '@/lib/newValuesForNewVersion';
 import getIobrokerData from '@/lib/socket';
 import AppContent from '@/pages/AppContent';
 import AppDoubleTriggerInfo from '@/pages/AppDoubleTriggerInfo';
@@ -8,14 +8,14 @@ import AppDropBox from '@/pages/AppDropBox';
 import AppHeaderIconBar from '@/pages/AppHeaderIconBar';
 import AppTriggerOverview from '@/pages/AppTriggerOverview';
 import ErrorBoundary from '@components/ErrorBoundary';
-import { AdminConnection, GenericApp } from '@iobroker/adapter-react-v5';
-import { Grid2 as Grid } from '@mui/material';
-import type { Dropbox, Native, Nullable, TriggerObject } from '@/types/app.d.ts';
+import {AdminConnection, GenericApp} from '@iobroker/adapter-react-v5';
+import {Grid2 as Grid} from '@mui/material';
+import type {Dropbox, Native, Nullable, TriggerObject} from '@/types/app.d.ts';
 import React from 'react';
-import { getDefaultDropBoxCoordinates } from './lib/dragNDrop';
-import { getDoubleEntries, getFirstItem as getFirstObjectKey } from './lib/object';
-import type { TelegramMenuApp } from './types/props-types';
-import { processUserData } from './lib/Utils';
+import {getDefaultDropBoxCoordinates} from './lib/dragNDrop';
+import {getDoubleEntries, getFirstItem as getFirstObjectKey} from './lib/object';
+import type {TelegramMenuApp} from './types/props-types';
+import {processUserData} from './lib/Utils';
 import en from '../i18n/en/translations.json';
 import de from '../i18n/de/translations.json';
 import ru from '../i18n/ru/translations.json';
@@ -75,7 +75,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
             dropBoxRight: 5,
             dropDifferenzX: 0,
             dropDifferenzY: 0,
-            copyDataObject: { targetCheckboxes: {}, targetActionName: '' },
+            copyDataObject: {targetCheckboxes: {}, targetActionName: ''},
         };
 
         this.setState = this.setState.bind(this);
@@ -118,7 +118,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
             this.updateNativeValue('usersInGroup', sortObjectByKey(this.state.native.usersInGroup));
         }
         if (prevState.usedTrigger !== this.state.usedTrigger) {
-            this.setState({ doubleTrigger: getDoubleEntries(this.state.usedTrigger) });
+            this.setState({doubleTrigger: getDoubleEntries(this.state.usedTrigger)});
         }
         if (
             prevState.native.dropbox !== this.state.native.dropbox ||
@@ -136,14 +136,14 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
             prevState.dropDifferenzX !== this.state.dropDifferenzX ||
             prevState.dropDifferenzY !== this.state.dropDifferenzY
         ) {
-            const { newX, newY } = getDefaultDropBoxCoordinates(
+            const {newX, newY} = getDefaultDropBoxCoordinates(
                 this.state.native.dropbox,
                 this.state.dropDifferenzX,
                 this.state.dropDifferenzY,
             );
             this.newX = newX;
             this.newY = newY;
-            const dropbox = { dropboxRight: newX, dropboxTop: newY };
+            const dropbox = {dropboxRight: newX, dropboxTop: newY};
             this.updateNativeValue('dropbox', dropbox);
             updatePositionDropBox(
                 this.newX,
@@ -160,13 +160,13 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
         this.updateNativeValue('usersInGroup', sortObjectByKey(this.state.native.usersInGroup));
         await this.getUsersFromTelegram();
         await getIobrokerData.getAllTelegramInstances(this.socket, (data: string[]) => {
-            this.setState({ instances: data });
+            this.setState({instances: data});
         });
         const firstMenu: string = getFirstObjectKey(this.state.native.usersInGroup);
-        this.setState({ activeMenu: firstMenu });
+        this.setState({activeMenu: firstMenu});
         updateActiveMenuAndTrigger(firstMenu, this.setState, this.state.native.data, this.state.native.usersInGroup);
 
-        this.setState({ connectionReady: true });
+        this.setState({connectionReady: true});
     }
 
     async getUsersFromTelegram(): Promise<void> {
@@ -189,25 +189,24 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
                         <AppHeaderIconBar
                             common={this.common}
                             native={this.state.native}
-                            onError={(text: string | number) => this.setState({ errorText: text.toString() })}
+                            onError={(text: string | number) => this.setState({errorText: text.toString()})}
                             onLoad={native => this.onLoadConfig(native)}
                             instance={this.instance}
                             adapterName={this.adapterName}
                             changed={this.state.changed}
                             onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
                         />
-
                         <AppContent
                             callback={{
                                 setStateApp: this.setState,
                                 updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
                             }}
-                            data={{ state: this.state, adapterName: this.adapterName, socket: this.socket }}
+                            data={{state: this.state, adapterName: this.adapterName, socket: this.socket}}
                         />
                     </Grid>
                     {this.state.showDropBox ? (
                         <AppDropBox
-                            data={{ state: this.state, dropBoxRef: this.dropBoxRef }}
+                            data={{state: this.state, dropBoxRef: this.dropBoxRef}}
                             callback={{
                                 setStateApp: this.setState,
                                 updateNative: (attr, value, cb) => this.updateNativeValue(attr, value, cb),
@@ -223,7 +222,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
                             }}
                         />
                     ) : null}
-                    {this.state.doubleTrigger.length > 0 ? <AppDoubleTriggerInfo state={this.state} /> : null}
+                    {this.state.doubleTrigger.length > 0 ? <AppDoubleTriggerInfo state={this.state}/> : null}
                     {this.renderError()}
                     {this.renderToast()}
                     {this.renderSaveCloseButtons()}

@@ -1,10 +1,10 @@
-import { navEntries } from '@/config/entries';
+import {navEntries} from '@/config/entries';
 import TabAction from '@/pages/AppContentTabAction';
 import TabNavigation from '@/pages/AppContentTabNavigation';
 import Settings from '@/pages/AppContentTabSettings';
-import { TabPanel } from '@mui/lab';
-import React, { Component } from 'react';
-import type { PropsMainTabs } from '@/types/props-types';
+import {TabPanel} from '@mui/lab';
+import React, {Component} from 'react';
+import type {PropsMainTabs} from '@/types/props-types';
 
 class Tabs extends Component<PropsMainTabs> {
     constructor(props: PropsMainTabs) {
@@ -17,7 +17,7 @@ class Tabs extends Component<PropsMainTabs> {
             <>
                 <TabPanel value="nav">
                     <TabNavigation
-                        data={{ ...this.props.data, entries: navEntries }}
+                        data={{...this.props.data, entries: navEntries}}
                         callback={this.props.callback}
                     />
                 </TabPanel>

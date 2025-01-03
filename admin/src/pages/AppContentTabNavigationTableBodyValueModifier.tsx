@@ -63,7 +63,6 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
             for (let submenu of Object.keys(action[menu])) {
                 for (let element of action[menu][submenu]) {
                     if (element?.['trigger']?.[0] === button) {
-                        console.log(menu + ' ' + submenu);
                         return {menu, submenu};
                     }
                 }
@@ -83,6 +82,8 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
 
         const menuAction = this.findMenuInAction(string)
         if (menuAction) {
+            //TODO remove console.log
+            console.log("Submenu: " + menuAction.submenu)
             this.props.callback.setStateApp({tab: "action", activeMenu: menuAction.menu, subTab: menuAction.submenu})
             return
         }
