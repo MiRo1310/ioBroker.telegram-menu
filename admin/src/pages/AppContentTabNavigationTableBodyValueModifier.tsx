@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import type { CallbackFunctionsApp, DataMainContent, RowForButton, TabValueEntries } from '@/types/app';
 import { getElementIcon } from '@/lib/actionUtils';
 import { splitTrimAndJoin } from '@/lib/string';
-import PopupContainer from '@components/popupCards/PopupContainer';
-import { I18n } from '@iobroker/adapter-react-v5';
+import AppContentTabNavigationTableBodyValueModifierPopup from '@/pages/AppContentTabNavigationTableBodyValueModifierPopup';
 
 interface Props {
     row: RowForButton;
@@ -64,7 +63,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
     };
 
     buttonClick = (button: string): void => {
-        const string = AppContentTabNavigationTableBodyValueModifier.getTriggerValue(button);
+        const string = AppContentTabNavigationTableBodyValueModifier.getButtonTriggerValue(button);
         const menu = this.findMenuInNav(string);
 
         if (menu) {
@@ -84,7 +83,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
         return button.includes('menu:');
     }
 
-    static getTriggerValue = (buttonText: string): string => {
+    static getButtonTriggerValue = (buttonText: string): string => {
         if (AppContentTabNavigationTableBodyValueModifier.isMenuFunction(buttonText)) {
             return buttonText.split(':')[2].trim();
         }
@@ -95,15 +94,9 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
         return (
             <>
                 {this.state.menuNotFound ? (
-                    <PopupContainer
-                        onlyCloseBtn={true}
-                        title={I18n.t('info')}
-                        height={'20%'}
+                    <AppContentTabNavigationTableBodyValueModifierPopup
                         callback={() => this.setState({ menuNotFound: false })}
-                    >
-                        <p className={'flex justify-center text-lg'}>{I18n.t('menuCannotBeFound')}</p>
-                        <p className={'text-center'}>{I18n.t('contactDeveloperForExistingMenu')}</p>
-                    </PopupContainer>
+                    />
                 ) : null}
                 {this.isValue() ? (
                     <div className={'row__container'}>
