@@ -29,19 +29,6 @@
         "uk": "FIX: #224 Запобігання підменю",
         "zh-cn": "FIX: # 224 子菜单触发器"
       },
-      "2.1.8": {
-        "en": "FIX: #224 Submenu trigger",
-        "de": "FIX: #224 Submenu Trigger",
-        "ru": "FIX: #224",
-        "pt": "FIX: #224 Submenu gatilho",
-        "nl": "FIX: #224 Submenu-starter",
-        "fr": "FIXE: Déclencheur du sous-menu #224",
-        "it": "FIX: #224 Submenu trigger",
-        "es": "FIX: #224 El gatillo Submenu",
-        "pl": "FIX: # 224 Uruchom podmenu",
-        "uk": "FIX: #224 Запобігання підменю",
-        "zh-cn": "FIX: # 224 子菜单触发器"
-      },
       "2.1.7": {
         "en": "FIX: #220 Delete button doesn´t work\nFEAT: Styling",
         "de": "FIX: #220 Löschen Taste funktioniert nicht\nFEAT: Styling",
