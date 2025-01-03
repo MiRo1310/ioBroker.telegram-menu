@@ -18,9 +18,8 @@ body {
 /* Tab-Navigation */
 .App-TabList button {
     border-radius: 6px;
-    border: 2px solid !important;
+    border: 2px solid #aaa !important;
     margin: 5px 5px 5px 5px;
-    border-color: #aaa !important;
 }
 
 .App-TabList button span {
@@ -827,14 +826,6 @@ span[title],
 .breakingChange {
     color: red;
     font-weight: 500;
-}
-
-.cursorDefault {
-    cursor: default;
-}
-
-.cursorPointer {
-    cursor: pointer;
 }
 
 .PopupContainer__copy .DialogContainer {
