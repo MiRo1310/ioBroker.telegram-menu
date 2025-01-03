@@ -50,15 +50,24 @@ class Settings extends Component<PropsSettings> {
                             setNative={true}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, lg: 6 }}>
-                        <Input
-                            label={I18n.t('textNoEntry')}
-                            placeholder="No entry found"
-                            callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
-                            id="textNoEntry"
-                            value={this.props.data.state.native.textNoEntry || I18n.t('entryNotFound')}
-                            class={'input__container--settings'}
-                        />
+                    <Grid size={{ xs: 12, sm: 12, lg: 8 }}>
+                        <div className={'flex items-center'}>
+                            <Input
+                                label={I18n.t('textNoEntry')}
+                                placeholder="No entry found"
+                                callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
+                                id="textNoEntry"
+                                value={this.props.data.state.native.textNoEntry || I18n.t('entryNotFound')}
+                                class={'input__container--settings'}
+                            />
+                            <Checkbox
+                                label={I18n.t('active')}
+                                id="checkboxNoValueFound"
+                                isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound || false}
+                                callback={this.onClickCheckbox}
+                                index={0}
+                            />
+                        </div>
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12, lg: 6 }}>
                         <Input
@@ -73,20 +82,11 @@ class Settings extends Component<PropsSettings> {
                     <Grid size={{ xs: 12, sm: 12, lg: 6 }}>
                         <Input
                             label={I18n.t('Directory')}
-                            placeholder="/opt/iobroker/grafana/"
+                            placeholder="/opt/iobroker/media/"
                             callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
                             id="directory"
-                            value={this.props.data.state.native.directory || '/opt/iobroker/grafana/'}
+                            value={this.props.data.state.native.directory || '/opt/iobroker/media/'}
                             class={'input__container--settings'}
-                        />
-                    </Grid>
-                    <Grid size={12}>
-                        <Checkbox
-                            label={I18n.t('Active')}
-                            id="checkboxNoValueFound"
-                            isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound || false}
-                            callback={this.onClickCheckbox}
-                            index={0}
                         />
                     </Grid>
                     <Grid size={12}>

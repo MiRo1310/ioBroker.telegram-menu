@@ -291,7 +291,7 @@
     "users": [],
     "startsides": [],
     "tokenGrafana": "",
-    "directory": "",
+    "directory": "/opt/iobroker/media",
     "userActiveCheckbox": {},
     "usersInGroup": {},
     "textNoEntry": "",

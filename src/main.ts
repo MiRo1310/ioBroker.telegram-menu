@@ -89,8 +89,7 @@ export default class TelegramMenu extends utils.Adapter {
             listOfMenus = Object.keys(this.config.usersInGroup);
         }
         const token = this.config.tokenGrafana;
-        const directoryPicture: string =
-            this.config.directory !== '' ? this.config.directory : '/opt/iobroker/grafana/';
+        const directoryPicture: string = this.config.directory;
         const isUserActiveCheckbox: IsUserActiveCheckbox = this.config.userActiveCheckbox;
         const menusWithUsers: MenusWithUsers = this.config.usersInGroup;
         const textNoEntryFound: string = this.config.textNoEntry;
