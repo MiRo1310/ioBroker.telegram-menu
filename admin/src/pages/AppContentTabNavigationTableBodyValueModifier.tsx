@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
-import {CallbackFunctionsApp, DataMainContent, RowForButton, TabValueEntries} from '@/types/app';
+import {
+    ActionTabs,
+    CallbackFunctionsApp,
+    DataMainContent,
+    DataRow,
+    DataRowAction,
+    RowForButton,
+    TabValueEntries
+} from '@/types/app';
 import {getElementIcon} from '@/lib/actionUtils';
 import {splitTrimAndJoin} from '@/lib/string';
+import PopupContainer from "@components/popupCards/PopupContainer";
+import {I18n} from "@iobroker/adapter-react-v5";
 
 interface Props {
     row: RowForButton;
@@ -10,10 +20,16 @@ interface Props {
     callback: CallbackFunctionsApp;
 }
 
-class AppContentTabNavigationTableBodyValueModifier extends Component<Props> {
+interface State {
+    menuNotFound: boolean;
+}
+
+class AppContentTabNavigationTableBodyValueModifier extends Component<Props, State> {
     constructor(props: any) {
         super(props);
-        this.state = {};
+        this.state = {
+            menuNotFound: false,
+        };
     }
 
     getValue(): string[] {
@@ -31,35 +47,65 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props> {
     }
 
     findMenuInNav = (button: string): string | undefined => {
-        const nav = this.props.data.state.native.data.nav
+        const nav = this.props.data.state.native.data.nav;
+        const menuKeyValue = Object.entries(nav).find(([_, value]) => value.find(element => element.call === button));
 
-        const menuKeyValue = Object.entries(nav).find(([key, value]) => value.find((element) => element.call === button))
+        if (!menuKeyValue) {
+            return;
+        }
+        return menuKeyValue[0];
+    };
 
-        if (!menuKeyValue) return
+    findMenuInAction = (button: string): { menu: string, submenu: string } | undefined => {
+        const action = this.props.data.state.native.data.action;
 
-        return menuKeyValue[0]
+        for (let menu of Object.keys(action)) {
+            for (let submenu of Object.keys(action[menu])) {
+                for (let element of action[menu][submenu]) {
+                    if (element?.['trigger']?.[0] === button) {
+                        console.log(menu + ' ' + submenu);
+                        return {menu, submenu};
+                    }
+                }
+            }
+        }
+        return
     }
 
-    buttonClick = (button: string) => {
-
-        const string = this.getTriggerValue(button)
+    buttonClick = (button: string): void => {
+        const string = this.getTriggerValue(button);
         const menu = this.findMenuInNav(string);
+
         if (menu) {
-            this.props.callback.setStateApp({activeMenu: menu})
+            this.props.callback.setStateApp({tab: "nav", activeMenu: menu});
+            return
         }
-    }
 
-    getTriggerValue(buttonText: string): string {
-        if (buttonText.includes("menu:")) {
-            return buttonText.split(":")[2].trim()
+        const menuAction = this.findMenuInAction(string)
+        if (menuAction) {
+            this.props.callback.setStateApp({tab: "action", activeMenu: menuAction.menu, subTab: menuAction.submenu})
+            return
         }
-        return buttonText
-    }
+        this.setState({menuNotFound: true});
+    };
 
+    getTriggerValue = (buttonText: string): string => {
+        if (buttonText.includes('menu:')) {
+            return buttonText.split(':')[2].trim();
+        }
+        return buttonText;
+    };
 
     render(): React.ReactNode {
         return (
             <>
+                {this.state.menuNotFound ?
+                    <PopupContainer onlyCloseBtn={true} title={I18n.t("info")} height={"20%"}
+                                    callback={() => this.setState({menuNotFound: false})}>
+                        <p className={"flex justify-center text-lg"}>{I18n.t("menuCannotBeFound")}</p>
+                        <p className={"text-center"}>{I18n.t("contactDeveloperForExistingMenu")}</p>
+                    </PopupContainer>
+                    : null}
                 {this.isValue() ? (
                     <div className={'row__container'}>
                         {this.getValue().map((row, i) =>
@@ -68,15 +114,17 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props> {
                                     className={'nav__row noneDraggable'}
                                     key={i}
                                 >
-                                    {(!row.includes('menu:') ? row.split(',') : [row]).map((button) => button.trim()).map((button, index) => (
-                                        <span
-                                            className={`row__button cursor-pointer ${button.includes('menu:') ? 'row__submenu' : ''}`}
-                                            key={index}
-                                            onClick={() => this.buttonClick(button)}
-                                        >
-                                            {button}{' '}
-                                        </span>
-                                    ))}
+                                    {(!row.includes('menu:') ? row.split(',') : [row])
+                                        .map(button => button.trim())
+                                        .map((button, index) => (
+                                            <span
+                                                className={`row__button cursor-pointer ${button.includes('menu:') ? 'row__submenu' : ''}`}
+                                                key={index}
+                                                onClick={() => this.buttonClick(button)}
+                                            >
+                                                {button}{' '}
+                                            </span>
+                                        ))}
                                 </p>
                             ) : null,
                         )}
