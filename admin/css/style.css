@@ -8,6 +8,7 @@
 @import "./row-editor.css";
 @import "./header.css";
 @import "./tab-action.css";
+@import "./custom_classes.css";
 
 body {
     height: 100vh;
