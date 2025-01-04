@@ -1,10 +1,10 @@
 import AppContentHeader from '@/pages/AppContentHeader';
 import AppContentTab from '@/pages/AppContentTab';
 import AppContentTabsListing from '@/pages/AppContentTabsListing';
-import {TabContext} from '@mui/lab';
-import {Box, Grid2 as Grid} from '@mui/material';
-import type {PropsMainContent} from '@/types/app';
-import React, {Component} from 'react';
+import { TabContext } from '@mui/lab';
+import { Box, Grid2 as Grid } from '@mui/material';
+import type { PropsMainContent } from '@/types/app';
+import React, { Component } from 'react';
 
 class AppContent extends Component<PropsMainContent> {
     constructor(props: PropsMainContent) {
@@ -20,11 +20,14 @@ class AppContent extends Component<PropsMainContent> {
             >
                 <Box
                     component="div"
-                    sx={{width: '100%', typography: 'body1'}}
+                    sx={{ width: '100%', typography: 'body1' }}
                     className="app__box"
                 >
                     <TabContext value={this.props.data.state.tab}>
-                        <AppContentTabsListing callback={this.props.callback} data={this.props.data}/>
+                        <AppContentTabsListing
+                            callback={this.props.callback}
+                            data={this.props.data}
+                        />
                         <AppContentHeader
                             data={this.props.data}
                             callback={this.props.callback}
