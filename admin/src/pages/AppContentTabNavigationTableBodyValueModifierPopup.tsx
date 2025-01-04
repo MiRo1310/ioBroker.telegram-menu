@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PopupContainer from '@components/popupCards/PopupContainer';
-import { I18n } from '@iobroker/adapter-react-v5';
+import {I18n} from '@iobroker/adapter-react-v5';
 
 class AppContentTabNavigationTableBodyValueModifierPopup extends Component<{ callback: () => void }> {
     render(): React.ReactNode {
@@ -9,6 +9,8 @@ class AppContentTabNavigationTableBodyValueModifierPopup extends Component<{ cal
                 onlyCloseBtn={true}
                 title={I18n.t('info')}
                 height={'20%'}
+                width={'600px'}
+
                 callback={this.props.callback}
             >
                 <p className={'flex justify-center text-lg'}>{I18n.t('menuCannotBeFound')}</p>

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Box } from '@mui/material';
-import { I18n } from '@iobroker/adapter-react-v5';
-import type { PropsMainTabList, TabListingType } from '@/types/app';
-import { tabValues } from '@/config/entries';
+import React, {Component} from 'react';
+import {Box} from '@mui/material';
+import {I18n} from '@iobroker/adapter-react-v5';
+import type {PropsMainTabList, TabListingType} from '@/types/app';
+import {tabValues} from '@/config/entries';
 
 class TabListing extends Component<PropsMainTabList> {
     constructor(props: PropsMainTabList) {
@@ -12,10 +12,11 @@ class TabListing extends Component<PropsMainTabList> {
 
     handleChange = (val: string): void => {
         if (['nav', 'settings'].includes(val)) {
-            this.props.callback.setStateApp({ tab: val });
+            this.props.callback.setStateApp({tab: val, clickedTriggerInNav: null});
             return;
         }
-        this.props.callback.setStateApp({ tab: 'action', subTab: val });
+        this.props.callback.setStateApp({tab: 'action', subTab: val, clickedTriggerInNav: null});
+
     };
 
     tabs: TabListingType[] = [
@@ -29,7 +30,7 @@ class TabListing extends Component<PropsMainTabList> {
             if (this.tabs.find(t => t.value === tab.value)) {
                 return;
             }
-            this.tabs.push({ label: tab.label, value: tab.value });
+            this.tabs.push({label: tab.label, value: tab.value});
         });
 
         return this.tabs;
@@ -44,7 +45,7 @@ class TabListing extends Component<PropsMainTabList> {
 
     render(): React.ReactNode {
         return (
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <div className={'flex justify-between App-TabList'}>
                     <div className={'flex flex-wrap'}>
                         {this.getTabs().map(tab => (

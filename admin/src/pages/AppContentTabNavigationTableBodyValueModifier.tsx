@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import type { CallbackFunctionsApp, DataMainContent, RowForButton, TabValueEntries } from '@/types/app';
-import { getElementIcon } from '@/lib/actionUtils';
-import { splitTrimAndJoin } from '@/lib/string';
-import AppContentTabNavigationTableBodyValueModifierPopup from '@/pages/AppContentTabNavigationTableBodyValueModifierPopup';
+import React, {Component} from 'react';
+import type {CallbackFunctionsApp, DataMainContent, RowForButton, TabValueEntries} from '@/types/app';
+import {getElementIcon} from '@/lib/actionUtils';
+import {splitTrimAndJoin} from '@/lib/string';
+import AppContentTabNavigationTableBodyValueModifierPopup
+    from '@/pages/AppContentTabNavigationTableBodyValueModifierPopup';
 
 interface Props {
     row: RowForButton;
@@ -54,7 +55,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
             for (const submenu of Object.keys(action[menu])) {
                 for (const element of action[menu][submenu]) {
                     if (element?.trigger?.[0] === button) {
-                        return { menu, submenu };
+                        return {menu, submenu};
                     }
                 }
             }
@@ -67,16 +68,21 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
         const menu = this.findMenuInNav(string);
 
         if (menu) {
-            this.props.callback.setStateApp({ tab: 'nav', activeMenu: menu });
+            this.props.callback.setStateApp({tab: 'nav', activeMenu: menu, clickedTriggerInNav: string});
             return;
         }
 
         const menuAction = this.findMenuInAction(string);
         if (menuAction) {
-            this.props.callback.setStateApp({ tab: 'action', activeMenu: menuAction.menu, subTab: menuAction.submenu });
+            this.props.callback.setStateApp({
+                tab: 'action',
+                activeMenu: menuAction.menu,
+                subTab: menuAction.submenu,
+                clickedTriggerInNav: string
+            });
             return;
         }
-        this.setState({ menuNotFound: true });
+        this.setState({menuNotFound: true});
     };
 
     static isMenuFunction(button: string): boolean {
@@ -95,7 +101,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
             <>
                 {this.state.menuNotFound ? (
                     <AppContentTabNavigationTableBodyValueModifierPopup
-                        callback={() => this.setState({ menuNotFound: false })}
+                        callback={() => this.setState({menuNotFound: false})}
                     />
                 ) : null}
                 {this.isValue() ? (
@@ -107,8 +113,8 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                                     key={i}
                                 >
                                     {(!AppContentTabNavigationTableBodyValueModifier.isMenuFunction(row)
-                                        ? row.split(',')
-                                        : [row]
+                                            ? row.split(',')
+                                            : [row]
                                     )
                                         .map(button => button.trim())
                                         .map((button, index) => (
@@ -125,7 +131,10 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                         )}
                     </div>
                 ) : (
-                    <span>{getElementIcon(this.props.row[this.props.entry.name])}</span>
+                    this.props.entry.name === "parse_mode" ?
+                        <span>{getElementIcon(this.props.row[this.props.entry.name as string])}</span>
+                        : <span>{this.props.row[this.props.entry.name]}</span>
+
                 )}
             </>
         );

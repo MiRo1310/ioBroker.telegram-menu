@@ -16,8 +16,8 @@ import type {
     TriggerObject,
     SetStateFunction,
 } from '@/types/app';
-import type { EventButton } from './event';
-import type { AdminConnection, GenericAppProps, GenericAppState } from '@iobroker/adapter-react-v5';
+import type {EventButton} from './event';
+import type {AdminConnection, GenericAppProps, GenericAppState} from '@iobroker/adapter-react-v5';
 
 export namespace TelegramMenuApp {
     export interface AdditionalProps extends GenericAppProps {
@@ -53,6 +53,7 @@ export namespace TelegramMenuApp {
         dropBoxTop: number;
         dropBoxRight: number;
         copyDataObject: { targetCheckboxes: { [key: number]: boolean }; targetActionName: string };
+        clickedTriggerInNav: null | string
     }
 
     interface Translation {
@@ -74,9 +75,9 @@ export interface AppContentTabActionContentRowEditorButtonsProps {
     data: DataMainContent &
         TabActionContentTableProps &
         DataTabActionContent & {
-            rows: RowsSetState[];
-            indexRow: number;
-        };
+        rows: RowsSetState[];
+        indexRow: number;
+    };
 
     callback: CallbackFunctionsApp & CallbackTabActionContent & { setStateEditor: SetStateFunction };
 }
