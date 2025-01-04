@@ -875,12 +875,16 @@ span[title],
 }
 
 .dark .row__button {
-    background: #333;
+    background: #777;
     color: white;
 }
 
 .row__submenu {
     background: peachpuff !important;
+}
+
+.dark .row__submenu {
+    color: black
 }
 
 .nav__trigger_list {
