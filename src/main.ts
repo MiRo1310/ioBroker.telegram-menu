@@ -302,13 +302,17 @@ export default class TelegramMenu extends utils.Adapter {
                                     ).substring.split(':');
                                     debug([{ text: 'Substring:', val: substring }]);
                                     let text = '';
-                                    if (state.val) {
+                                    if (isDefined(state.val)) {
                                         text =
                                             substring[2] && substring[2].includes('noValue')
                                                 ? substring[1]
-                                                : exchangePlaceholderWithValue(substring[1], state.val as string);
+                                                : exchangePlaceholderWithValue(substring[1], state.val.toString());
                                     }
-                                    debug([{ text: 'Text:', val: text }]);
+                                    debug([{ text: 'Return-text:', val: text }]);
+
+                                    if (text === '') {
+                                        error([{ text: 'The return text cannot be empty, please check.' }]);
+                                    }
 
                                     sendToTelegram(
                                         element.userToSend,

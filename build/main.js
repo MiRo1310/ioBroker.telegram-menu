@@ -259,10 +259,13 @@ class TelegramMenu extends utils.Adapter {
                   ).substring.split(":");
                   (0, import_logging.debug)([{ text: "Substring:", val: substring }]);
                   let text = "";
-                  if (state.val) {
-                    text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action.exchangePlaceholderWithValue)(substring[1], state.val);
+                  if ((0, import_global.isDefined)(state.val)) {
+                    text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action.exchangePlaceholderWithValue)(substring[1], state.val.toString());
                   }
-                  (0, import_logging.debug)([{ text: "Text:", val: text }]);
+                  (0, import_logging.debug)([{ text: "Return-text:", val: text }]);
+                  if (text === "") {
+                    (0, import_logging.error)([{ text: "The return text cannot be empty, please check." }]);
+                  }
                   (0, import_telegram.sendToTelegram)(
                     element.userToSend,
                     text,
