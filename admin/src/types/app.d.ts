@@ -747,6 +747,7 @@ export interface Echart {
 
 export interface PropsMainTabList {
     callback: CallbackFunctionsApp;
+    data: DataMainContent;
 }
 
 export interface PropsMainActions {

@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { TabContext, TabPanel } from '@mui/lab';
+import React, {Component} from 'react';
+import {TabContext, TabPanel} from '@mui/lab';
 import AppContentTabActionContent from './AppContentTabActionContent';
-import { tabValues } from '@/config/entries';
-import AppContentTabActionTabsListing from './AppContentTabActionTabsListing';
-import type { PropsTabAction, StateTabAction } from '@/types/app';
+import {tabValues} from '@/config/entries';
+import type {PropsTabAction, StateTabAction} from '@/types/app';
 
 class TabAction extends Component<PropsTabAction, StateTabAction> {
     constructor(props: PropsTabAction) {
@@ -14,16 +13,19 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
     }
 
     componentDidMount(): void {
-        this.setState({ value: this.props.data.state.subTab });
+        this.setState({value: this.props.data.state.subTab});
+    }
+
+    componentDidUpdate(prevProps: Readonly<PropsTabAction>, prevState: Readonly<StateTabAction>) {
+        if (prevProps.data.state.subTab !== this.props.data.state.subTab) {
+            this.setState({value: this.props.data.state.subTab});
+        }
     }
 
     render(): React.ReactNode {
         return (
             <TabContext value={this.state.value}>
-                <AppContentTabActionTabsListing
-                    callback={this.props.callback}
-                    setState={this.setState.bind(this)}
-                />
+
                 {tabValues.map((tab, index) => (
                     <TabPanel
                         key={index}
@@ -36,7 +38,7 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
                                 ...this.props.data,
                                 tab,
                                 card: 'action',
-                                showButtons: { add: true, remove: true, edit: true },
+                                showButtons: {add: true, remove: true, edit: true},
                             }}
                         />
                     </TabPanel>

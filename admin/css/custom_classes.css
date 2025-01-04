@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
 .justify-between {
     justify-content: space-between;
 }
@@ -12,6 +16,10 @@
 
 .items-center {
     align-items: center;
+}
+
+.text-white {
+    color: #fff;
 }
 
 .cursor-default {
@@ -89,4 +97,12 @@
 
 .text-end {
     text-align: end;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
 }
