@@ -16,6 +16,7 @@ import {I18n} from '@iobroker/adapter-react-v5';
 import type {NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries} from '@/types/app';
 import type {EventButton} from '@/types/event';
 import AppContentTabNavigationTableBodyValueModifier from '@/pages/AppContentTabNavigationTableBodyValueModifier';
+import {scrollToId} from "@/lib/Utils";
 
 function createData(entriesOfParentComponent: TabValueEntries[], element: RowsNav): RowForButton {
     const obj: RowForButton = {} as RowForButton;
@@ -36,6 +37,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
             rows: [],
         };
     }
+
 
     getRows(nav: NavData | undefined, activeMenu: string | undefined): void {
         if (!nav || !activeMenu) {
@@ -65,6 +67,10 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         const {nav} = native.data;
         if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
             this.getRows(native.data.nav, activeMenu);
+        }
+        if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
+            if (!this.props.data.state.clickedTriggerInNav) return
+            scrollToId(this.props.data.state.clickedTriggerInNav);
         }
     }
 
