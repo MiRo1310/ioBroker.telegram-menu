@@ -114,5 +114,8 @@
     "value": "价值",
     "valueRound": "例如，将值四舍五入到小数点后两位",
     "values": "价值观",
-    "yes": "是的"
+    "yes": "是的",
+    "info": "信息",
+    "menuCannotBeFound": "找不到点击的菜单！",
+    "contactDeveloperForExistingMenu": "如果菜单存在但未找到，请在 Github 上创建问题！"
 }

@@ -150,6 +150,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                     <AppContentTabNavigationTableBodyValueModifier
                                         row={row}
                                         entry={entry}
+                                        data={this.props.data}
+                                        callback={this.props.callback}
                                     />
 
                                     <span

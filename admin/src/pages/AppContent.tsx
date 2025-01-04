@@ -24,7 +24,10 @@ class AppContent extends Component<PropsMainContent> {
                     className="app__box"
                 >
                     <TabContext value={this.props.data.state.tab}>
-                        <AppContentTabsListing callback={this.props.callback} />
+                        <AppContentTabsListing
+                            callback={this.props.callback}
+                            data={this.props.data}
+                        />
                         <AppContentHeader
                             data={this.props.data}
                             callback={this.props.callback}

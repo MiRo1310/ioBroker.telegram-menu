@@ -196,7 +196,6 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
                             changed={this.state.changed}
                             onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
                         />
-
                         <AppContent
                             callback={{
                                 setStateApp: this.setState,

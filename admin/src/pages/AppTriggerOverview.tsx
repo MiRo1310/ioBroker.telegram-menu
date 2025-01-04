@@ -18,7 +18,7 @@ class MainTriggerOverview extends Component<PropsMainTriggerOverview> {
                 height="99%"
                 top="60%"
                 class="TriggerOverview-PopupContainer"
-                closeBtn={true}
+                onlyCloseBtn={true}
                 callback={({ value }: EventButton) => this.props.callback.setState({ showTriggerInfo: value })}
             >
                 <TriggerOverview

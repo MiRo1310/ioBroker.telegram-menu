@@ -9,6 +9,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
         super(props);
         this.state = {};
     }
+
     closeDropBox = (): void => {
         this.props.callback.setStateApp({ showDropBox: false });
     };
@@ -22,7 +23,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
                 height="25%"
                 title="DropBox"
                 callback={this.closeDropBox}
-                closeBtn={true}
+                onlyCloseBtn={true}
                 drag="true"
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}

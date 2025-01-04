@@ -114,5 +114,8 @@
     "value": "Wartość",
     "valueRound": "Zaokrągla wartość na przykład do 2 miejsc po przecinku",
     "values": "Wartości",
-    "yes": "Tak"
+    "yes": "Tak",
+    "info": "Informacje",
+    "menuCannotBeFound": "Nie można znaleźć klikniętego menu!",
+    "contactDeveloperForExistingMenu": "Jeśli menu istnieje, ale nie zostało znalezione, utwórz problem na Githubie!"
 }

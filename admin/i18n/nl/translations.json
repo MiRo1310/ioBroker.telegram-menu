@@ -114,5 +114,8 @@
     "value": "Waarde",
     "valueRound": "Rondt de waarde bijvoorbeeld af op 2 decimalen",
     "values": "Waarden",
-    "yes": "Ja"
+    "yes": "Ja",
+    "info": "Info",
+    "menuCannotBeFound": "Het aangeklikte menu kan niet worden gevonden!",
+    "contactDeveloperForExistingMenu": "Als het menu bestaat maar niet is gevonden, maak dan een probleem aan op Github!"
 }

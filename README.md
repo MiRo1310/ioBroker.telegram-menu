@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+- FEAT: #237 Navigate by nav-button-click to action
 - FIX: Cannot get value false in return text
 - FIX: Delete row in Actions
 - FIX: HttpRequest

@@ -114,5 +114,8 @@
     "value": "Valor",
     "valueRound": "Redondea el valor, por ejemplo, a 2 decimales.",
     "values": "Valores",
-    "yes": "Sí"
+    "yes": "Sí",
+    "info": "Información",
+    "menuCannotBeFound": "¡No se puede encontrar el menú en el que se hizo clic!",
+    "contactDeveloperForExistingMenu": "Si el menú existe pero no se encontró, ¡cree un problema en Github!"
 }

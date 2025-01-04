@@ -383,7 +383,7 @@ export interface StateTelegramUserCard {
 export interface PropsPopupContainer {
     title: string;
     isOK?: boolean;
-    closeBtn?: boolean;
+    onlyCloseBtn?: boolean;
     width?: string;
     call?: string;
     nav?: string;
@@ -747,6 +747,7 @@ export interface Echart {
 
 export interface PropsMainTabList {
     callback: CallbackFunctionsApp;
+    data: DataMainContent;
 }
 
 export interface PropsMainActions {
