@@ -8,6 +8,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import { ButtonCard } from '@components/popupCards/buttonCard';
 import { moveRows } from '@/lib/button';
 import Input from '@/components/btn-Input/input';
+import InputWithOptions from '@components/btn-Input/inputWithOptions';
 
 interface DescriptionRow {
     description: string;
@@ -64,6 +65,10 @@ class TabNavigation extends Component<{ data: DataMainContent; callback: Callbac
         this.props.callback.updateNative('description', rows);
     };
 
+    getOptions = (): string[] => {
+        return this.props.data.state.unUsedTrigger.sort();
+    };
+
     render(): React.ReactNode {
         return (
             <>
@@ -109,11 +114,12 @@ class TabNavigation extends Component<{ data: DataMainContent; callback: Callbac
                                         component="td"
                                         width={'30%'}
                                     >
-                                        <Input
+                                        <InputWithOptions
                                             value={row.call}
                                             callback={this.handleUpdateInput}
                                             index={indexRow}
                                             id={'call'}
+                                            options={this.getOptions()}
                                         />
                                     </TableCell>
                                     <TableCell component="td">
