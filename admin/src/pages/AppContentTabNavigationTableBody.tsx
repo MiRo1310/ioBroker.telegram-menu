@@ -1,7 +1,7 @@
-import {TableBody, TableCell, TableRow} from '@mui/material';
-import React, {Component} from 'react';
-import {ButtonCard} from '@/components/popupCards/buttonCard.js';
-import {deleteRow, moveItem} from '@/lib/button.js';
+import { TableBody, TableCell, TableRow } from '@mui/material';
+import React, { Component } from 'react';
+import { ButtonCard } from '@/components/popupCards/buttonCard.js';
+import { deleteRow, moveItem } from '@/lib/button.js';
 import {
     handleDragEnd,
     handleDragEnter,
@@ -12,11 +12,11 @@ import {
     handleMouseOver,
     handleStyleDragOver,
 } from '@/lib/dragNDrop.js';
-import {I18n} from '@iobroker/adapter-react-v5';
-import type {NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries} from '@/types/app';
-import type {EventButton} from '@/types/event';
+import { I18n } from '@iobroker/adapter-react-v5';
+import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries } from '@/types/app';
+import type { EventButton } from '@/types/event';
 import AppContentTabNavigationTableBodyValueModifier from '@/pages/AppContentTabNavigationTableBodyValueModifier';
-import {scrollToId} from "@/lib/Utils";
+import { scrollToId } from '@/lib/Utils';
 
 function createData(entriesOfParentComponent: TabValueEntries[], element: RowsNav): RowForButton {
     const obj: RowForButton = {} as RowForButton;
@@ -38,7 +38,6 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         };
     }
 
-
     getRows(nav: NavData | undefined, activeMenu: string | undefined): void {
         if (!nav || !activeMenu) {
             return;
@@ -52,24 +51,26 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         for (const entry of elements) {
             rows.push(createData(this.props.data.entries, entry));
         }
-        this.setState({rows: rows});
+        this.setState({ rows: rows });
     }
 
     componentDidMount(): void {
-        const {native, activeMenu} = this.props.data.state;
+        const { native, activeMenu } = this.props.data.state;
         if (native.data.nav) {
             this.getRows(native.data.nav, activeMenu);
         }
     }
 
     componentDidUpdate(prevProps: Readonly<PropsTableDndNav>): void {
-        const {native, activeMenu} = this.props.data.state;
-        const {nav} = native.data;
+        const { native, activeMenu } = this.props.data.state;
+        const { nav } = native.data;
         if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
             this.getRows(native.data.nav, activeMenu);
         }
         if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
-            if (!this.props.data.state.clickedTriggerInNav) return
+            if (!this.props.data.state.clickedTriggerInNav) {
+                return;
+            }
             scrollToId(this.props.data.state.clickedTriggerInNav);
         }
     }
@@ -96,24 +97,24 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         }
     };
 
-    editRow = ({index}: EventButton): void => {
-        const {native, activeMenu} = this.props.data.state;
+    editRow = ({ index }: EventButton): void => {
+        const { native, activeMenu } = this.props.data.state;
 
         if (native.data.nav && activeMenu) {
             const rowToEdit = native.data.nav[activeMenu][index];
-            this.props.setState({newRow: rowToEdit});
+            this.props.setState({ newRow: rowToEdit });
         }
-        this.props.setState({rowPopup: true});
-        this.props.setState({rowIndex: index});
-        this.props.setState({editRow: true});
+        this.props.setState({ rowPopup: true });
+        this.props.setState({ rowIndex: index });
+        this.props.setState({ editRow: true });
     };
 
     jumpedToTrigger = (call: string): string => {
         if (this.props.data.state.clickedTriggerInNav === call) {
-            return "row__active"
+            return 'row__active';
         }
-        return ""
-    }
+        return '';
+    };
 
     render(): React.ReactNode {
         return (
@@ -121,7 +122,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                 {this.state.rows.map((row, indexRow) => (
                     <TableRow
                         key={indexRow}
-                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         className={
                             `no-select` +
                             ` ${this.jumpedToTrigger(row.call)}` +
@@ -141,7 +142,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                 event,
                                 this.state.mouseOverNoneDraggable,
                                 this.setState.bind(this),
-                                {draggingRowIndex: indexRow},
+                                { draggingRowIndex: indexRow },
                                 this.props.callback.setStateApp,
                             )
                         }
@@ -154,7 +155,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                             <TableCell
                                 key={indexCell}
                                 component="td"
-                                style={{width: entry.width ? entry.width : undefined}}
+                                style={{ width: entry.width ? entry.width : undefined }}
                                 id={row[entry.name]}
                             >
                                 <span
@@ -188,10 +189,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                         <ButtonCard
                             openAddRowCard={this.props.openAddRowCard}
                             editRow={this.editRow}
-                            moveDown={() => {
-                            }}
-                            moveUp={() => {
-                            }}
+                            moveDown={() => {}}
+                            moveUp={() => {}}
                             deleteRow={() =>
                                 deleteRow({
                                     index: indexRow,

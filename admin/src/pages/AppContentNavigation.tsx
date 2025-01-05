@@ -4,19 +4,18 @@ import {I18n} from '@iobroker/adapter-react-v5';
 import type {PropsMainTabList, TabListingType} from '@/types/app';
 import {tabValues} from '@/config/entries';
 
-class TabListing extends Component<PropsMainTabList> {
+class AppContentNavigation extends Component<PropsMainTabList> {
     constructor(props: PropsMainTabList) {
         super(props);
         this.state = {};
     }
 
     handleChange = (val: string): void => {
-        if (['nav', 'settings'].includes(val)) {
+        if (['nav', 'settings', 'description'].includes(val)) {
             this.props.callback.setStateApp({tab: val, clickedTriggerInNav: null});
             return;
         }
         this.props.callback.setStateApp({tab: 'action', subTab: val, clickedTriggerInNav: null});
-
     };
 
     tabs: TabListingType[] = [
@@ -58,17 +57,26 @@ class TabListing extends Component<PropsMainTabList> {
                             </button>
                         ))}
                     </div>
-                    <button
-                        key={'settings'}
-                        className={`icon ${this.isActive('settings') ? 'active' : ''}`}
-                        onClick={() => this.handleChange('settings')}
-                    >
-                        <i className="material-icons">settings</i>
-                    </button>
+                    <div className={'flex items-center '}>
+                        <button
+                            key={'description'}
+                            className={`${this.isActive('description') ? 'active' : ''}`}
+                            onClick={() => this.handleChange('description')}
+                        >
+                            {I18n.t('descriptions')}
+                        </button>
+                        <button
+                            key={'settings'}
+                            className={`icon ${this.isActive('settings') ? 'active' : ''}`}
+                            onClick={() => this.handleChange('settings')}
+                        >
+                            <i className="material-icons">settings</i>
+                        </button>
+                    </div>
                 </div>
             </Box>
         );
     }
 }
 
-export default TabListing;
+export default AppContentNavigation;

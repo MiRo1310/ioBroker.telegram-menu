@@ -1,0 +1,19 @@
+.table__container_description td p {
+    display: none;
+}
+
+.table__container_description td input {
+    height: 30px;
+    color: #4caaf4 !important;
+}
+
+.popup__description_header {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+}
+
+.popup__description {
+    border: 1px solid black;
+    padding: 10px;
+}

@@ -117,5 +117,6 @@
     "yes": "Да",
     "info": "Информация",
     "menuCannotBeFound": "Выбранное меню не может быть найдено!",
-    "contactDeveloperForExistingMenu": "Если меню существует, но не найдено, создайте проблему на Github!"
+    "contactDeveloperForExistingMenu": "Если меню существует, но не найдено, создайте проблему на Github!",
+    "description": "Описание"
 }

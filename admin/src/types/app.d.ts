@@ -239,7 +239,6 @@ export interface InputProps {
     setState?: SetStateFunction;
     onMouseOver?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
     onMouseLeave?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
-    callbackValue?: CallbackValue;
     className?: string;
 }
 
@@ -663,6 +662,7 @@ export interface Native {
     userActiveCheckbox: UserActiveCheckbox;
     textNoEntry: string;
     userListWithChatID: UserListWithChatID[];
+    description: DescriptionRow[];
 }
 
 export interface UserListWithChatID {

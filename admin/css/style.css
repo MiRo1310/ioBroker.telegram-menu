@@ -9,6 +9,7 @@
 @import "./header.css";
 @import "./tab-action.css";
 @import "./custom_classes.css";
+@import "./description.css";
 
 body {
     height: 100vh;

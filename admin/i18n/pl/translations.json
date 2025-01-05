@@ -117,5 +117,6 @@
     "yes": "Tak",
     "info": "Informacje",
     "menuCannotBeFound": "Nie można znaleźć klikniętego menu!",
-    "contactDeveloperForExistingMenu": "Jeśli menu istnieje, ale nie zostało znalezione, utwórz problem na Githubie!"
+    "contactDeveloperForExistingMenu": "Jeśli menu istnieje, ale nie zostało znalezione, utwórz problem na Githubie!",
+    "description": "Opis"
 }

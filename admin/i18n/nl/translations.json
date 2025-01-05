@@ -117,5 +117,6 @@
     "yes": "Ja",
     "info": "Info",
     "menuCannotBeFound": "Het aangeklikte menu kan niet worden gevonden!",
-    "contactDeveloperForExistingMenu": "Als het menu bestaat maar niet is gevonden, maak dan een probleem aan op Github!"
+    "contactDeveloperForExistingMenu": "Als het menu bestaat maar niet is gevonden, maak dan een probleem aan op Github!",
+    "description": "Beschrijving"
 }

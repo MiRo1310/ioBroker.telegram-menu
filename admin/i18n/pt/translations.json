@@ -117,5 +117,6 @@
     "yes": "Sim",
     "info": "Informações",
     "menuCannotBeFound": "O menu clicado não pode ser encontrado!",
-    "contactDeveloperForExistingMenu": "Se o menu existir, mas não foi encontrado, crie um problema no Github!"
+    "contactDeveloperForExistingMenu": "Se o menu existir, mas não foi encontrado, crie um problema no Github!",
+    "description": "Descrição"
 }
