@@ -117,5 +117,8 @@
     "yes": "Tak",
     "info": "Informacje",
     "menuCannotBeFound": "Nie można znaleźć klikniętego menu!",
-    "contactDeveloperForExistingMenu": "Jeśli menu istnieje, ale nie zostało znalezione, utwórz problem na Githubie!"
+    "contactDeveloperForExistingMenu": "Jeśli menu istnieje, ale nie zostało znalezione, utwórz problem na Githubie!",
+    "description": "Opis",
+    "descriptions": "Opisy",
+    "descriptionInfo": "Tutaj możesz wprowadzić informacje o połączeniach. Są one wyświetlane po kliknięciu przycisku nawigacyjnego w nawigacji i nie mają bezpośredniego łącza, ale są przechwytywane za pomocą własnego skryptu. W ten sposób będziesz mieć lepszy przegląd."
 }

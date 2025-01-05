@@ -22,6 +22,14 @@
     color: #fff;
 }
 
+.font-bold {
+    font-weight: 700
+}
+
+.inline-block {
+    display: inline-block;
+}
+
 .cursor-default {
     cursor: default;
 }

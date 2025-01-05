@@ -117,5 +117,8 @@
     "yes": "是的",
     "info": "信息",
     "menuCannotBeFound": "找不到点击的菜单！",
-    "contactDeveloperForExistingMenu": "如果菜单存在但未找到，请在 Github 上创建问题！"
+    "contactDeveloperForExistingMenu": "如果菜单存在但未找到，请在 Github 上创建问题！",
+    "description": "描述",
+    "descriptions": "描述",
+    "descriptionInfo": "您可以在此处输入有关呼叫的信息。当您单击导航中的导航按钮时会显示这些内容，并且它没有直接链接，而是通过其自己的脚本拦截。这样您就可以更好地了解情况。"
 }

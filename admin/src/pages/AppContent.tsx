@@ -1,6 +1,6 @@
 import AppContentHeader from '@/pages/AppContentHeader';
 import AppContentTab from '@/pages/AppContentTab';
-import AppContentTabsListing from '@/pages/AppContentTabsListing';
+import AppContentNavigation from '@/pages/AppContentNavigation';
 import { TabContext } from '@mui/lab';
 import { Box, Grid2 as Grid } from '@mui/material';
 import type { PropsMainContent } from '@/types/app';
@@ -24,7 +24,7 @@ class AppContent extends Component<PropsMainContent> {
                     className="app__box"
                 >
                     <TabContext value={this.props.data.state.tab}>
-                        <AppContentTabsListing
+                        <AppContentNavigation
                             callback={this.props.callback}
                             data={this.props.data}
                         />

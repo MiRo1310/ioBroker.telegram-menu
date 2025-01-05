@@ -16,6 +16,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries } from '@/types/app';
 import type { EventButton } from '@/types/event';
 import AppContentTabNavigationTableBodyValueModifier from '@/pages/AppContentTabNavigationTableBodyValueModifier';
+import { scrollToId } from '@/lib/Utils';
 
 function createData(entriesOfParentComponent: TabValueEntries[], element: RowsNav): RowForButton {
     const obj: RowForButton = {} as RowForButton;
@@ -66,6 +67,12 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
             this.getRows(native.data.nav, activeMenu);
         }
+        if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
+            if (!this.props.data.state.clickedTriggerInNav) {
+                return;
+            }
+            scrollToId(this.props.data.state.clickedTriggerInNav);
+        }
     }
 
     handleDrop = (event: React.DragEvent<HTMLTableRowElement>, index: number): void => {
@@ -102,6 +109,13 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         this.props.setState({ editRow: true });
     };
 
+    jumpedToTrigger = (call: string): string => {
+        if (this.props.data.state.clickedTriggerInNav === call) {
+            return 'row__active';
+        }
+        return '';
+    };
+
     render(): React.ReactNode {
         return (
             <TableBody>
@@ -111,6 +125,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         className={
                             `no-select` +
+                            ` ${this.jumpedToTrigger(row.call)}` +
                             ` ${
                                 indexRow === 0
                                     ? row.call != '' && row.call != '-'
@@ -141,6 +156,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                 key={indexCell}
                                 component="td"
                                 style={{ width: entry.width ? entry.width : undefined }}
+                                id={row[entry.name]}
                             >
                                 <span
                                     className="noneDraggable"

@@ -13,6 +13,7 @@ interface Props {
 
 interface State {
     menuNotFound: boolean;
+    clickedTrigger: string | null;
 }
 
 class AppContentTabNavigationTableBodyValueModifier extends Component<Props, State> {
@@ -20,6 +21,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
         super(props);
         this.state = {
             menuNotFound: false,
+            clickedTrigger: null,
         };
     }
 
@@ -65,15 +67,20 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
     buttonClick = (button: string): void => {
         const string = AppContentTabNavigationTableBodyValueModifier.getButtonTriggerValue(button);
         const menu = this.findMenuInNav(string);
-
+        this.setState({ clickedTrigger: string });
         if (menu) {
-            this.props.callback.setStateApp({ tab: 'nav', activeMenu: menu });
+            this.props.callback.setStateApp({ tab: 'nav', activeMenu: menu, clickedTriggerInNav: string });
             return;
         }
 
         const menuAction = this.findMenuInAction(string);
         if (menuAction) {
-            this.props.callback.setStateApp({ tab: 'action', activeMenu: menuAction.menu, subTab: menuAction.submenu });
+            this.props.callback.setStateApp({
+                tab: 'action',
+                activeMenu: menuAction.menu,
+                subTab: menuAction.submenu,
+                clickedTriggerInNav: string,
+            });
             return;
         }
         this.setState({ menuNotFound: true });
@@ -96,6 +103,8 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                 {this.state.menuNotFound ? (
                     <AppContentTabNavigationTableBodyValueModifierPopup
                         callback={() => this.setState({ menuNotFound: false })}
+                        data={this.props.data}
+                        clickedTrigger={this.state.clickedTrigger}
                     />
                 ) : null}
                 {this.isValue() ? (
@@ -124,8 +133,10 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                             ) : null,
                         )}
                     </div>
+                ) : this.props.entry.name === 'parse_mode' ? (
+                    <span>{getElementIcon(this.props.row[this.props.entry.name as string])}</span>
                 ) : (
-                    <span>{getElementIcon(this.props.row[this.props.entry.name])}</span>
+                    <span>{this.props.row[this.props.entry.name]}</span>
                 )}
             </>
         );

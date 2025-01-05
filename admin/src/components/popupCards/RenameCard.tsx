@@ -15,7 +15,6 @@ class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
                 <Input
                     value={this.props.value as string}
                     id={this.props.id}
-                    callbackValue="event.target.value"
                     callback={({ val }: EventInput) => this.props.callback.setState({ [this.props.id]: val })}
                 />
             </div>

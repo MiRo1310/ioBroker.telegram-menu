@@ -117,5 +117,8 @@
     "yes": "Sí",
     "info": "Información",
     "menuCannotBeFound": "¡No se puede encontrar el menú en el que se hizo clic!",
-    "contactDeveloperForExistingMenu": "Si el menú existe pero no se encontró, ¡cree un problema en Github!"
+    "contactDeveloperForExistingMenu": "Si el menú existe pero no se encontró, ¡cree un problema en Github!",
+    "description": "Descripción",
+    "descriptions": "Descripciones",
+    "descriptionInfo": "Aquí puede ingresar información sobre las llamadas. Estos se muestran cuando hace clic en un botón de navegación en la navegación y no tiene un enlace directo, sino que se intercepta a través de su propio script. De esta manera podrá tener una mejor visión general."
 }

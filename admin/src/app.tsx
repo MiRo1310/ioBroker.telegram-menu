@@ -76,6 +76,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
             dropDifferenzX: 0,
             dropDifferenzY: 0,
             copyDataObject: { targetCheckboxes: {}, targetActionName: '' },
+            clickedTriggerInNav: null,
         };
 
         this.setState = this.setState.bind(this);

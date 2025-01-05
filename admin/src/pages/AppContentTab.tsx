@@ -5,6 +5,7 @@ import Settings from '@/pages/AppContentTabSettings';
 import { TabPanel } from '@mui/lab';
 import React, { Component } from 'react';
 import type { PropsMainTabs } from '@/types/props-types';
+import AppContentTabDescripton from '@/pages/AppContentTabDescripton';
 
 class Tabs extends Component<PropsMainTabs> {
     constructor(props: PropsMainTabs) {
@@ -26,6 +27,15 @@ class Tabs extends Component<PropsMainTabs> {
                     className="tabAction"
                 >
                     <TabAction
+                        data={this.props.data}
+                        callback={this.props.callback}
+                    />
+                </TabPanel>
+                <TabPanel
+                    value="description"
+                    className="tabAction"
+                >
+                    <AppContentTabDescripton
                         data={this.props.data}
                         callback={this.props.callback}
                     />

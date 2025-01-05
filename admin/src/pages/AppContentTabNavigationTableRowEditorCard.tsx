@@ -27,7 +27,6 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
                             value={this.props.newRow[entry.name]}
                             id={entry.name}
                             callback={this.props.callback.onChangeInput}
-                            callbackValue="event.target.value"
                             label={I18n.t(entry.headline)}
                             class={this.props.inUse ? 'inUse' : ''}
                         />
@@ -37,7 +36,6 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
                             value={this.props.newRow[entry.name]}
                             id={entry.name}
                             callback={this.props.callback.onChangeInput}
-                            callbackValue="event.target.value"
                             label={I18n.t(entry.headline)}
                         >
                             <BtnCircleAdd callback={() => this.props.openHelperText(entry.name)} />

@@ -9,6 +9,7 @@
 @import "./header.css";
 @import "./tab-action.css";
 @import "./custom_classes.css";
+@import "./description.css";
 
 body {
     height: 100vh;
@@ -201,7 +202,7 @@ div.MuiTabPanel-root {
 /* NavigationMenu */
 /* Table ist in Allgemein */
 
-.MenuNavigation-Container .startSideActive {
+.MenuNavigation-Container .startSideActive:not(.row__active) {
     background-color: #96d15a !important;
 }
 
@@ -891,4 +892,8 @@ span[title],
     margin: 1rem 0 1rem 0;
     display: flex;
     justify-content: start;
+}
+
+.row__active {
+    background: #ffb8b1 !important;
 }

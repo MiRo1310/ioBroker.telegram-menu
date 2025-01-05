@@ -3,7 +3,7 @@ import type { PropsTableDndAction, RowForButton, StateTableDndAction } from '@/t
 import React, { Component } from 'react';
 import type { DataRowAction, TabValueEntries } from '@/types/app';
 import { ButtonCard } from '@components/popupCards/buttonCard';
-import { deepCopy } from '@/lib/Utils';
+import { deepCopy, scrollToId } from '@/lib/Utils';
 import { getElementIcon } from '@/lib/actionUtils';
 import { deleteRow, moveItem } from '@/lib/button';
 import {
@@ -66,6 +66,12 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
         if (prevProps.data.state.native.data.action !== native.data.action) {
             this.getRows();
         }
+        if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
+            if (!this.props.data.state.clickedTriggerInNav) {
+                return;
+            }
+            scrollToId(this.props.data.state.clickedTriggerInNav);
+        }
     }
 
     static updateHeight = (): void => {
@@ -123,7 +129,7 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
             });
         }
     };
-    //TODO
+
     editRow = ({ index }: EventButton): void => {
         const { activeMenu } = this.props.data.state;
         const { data } = this.props.data.state.native;
@@ -139,6 +145,12 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
         }
         setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index });
     };
+    jumpedToTrigger = (call: string): string => {
+        if (this.props.data.state.clickedTriggerInNav === call) {
+            return 'row__active';
+        }
+        return '';
+    };
 
     render(): React.ReactNode {
         return (
@@ -147,7 +159,8 @@ class TableDndAction extends Component<PropsTableDndAction, StateTableDndAction>
                     <TableRow
                         key={index}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        className="no-select"
+                        className={`no-select ${this.jumpedToTrigger(row.trigger[0])}`}
+                        id={row.trigger[0]}
                         draggable
                         onDrop={event => this.handleDrop(index, event)}
                         onDragStart={event => {

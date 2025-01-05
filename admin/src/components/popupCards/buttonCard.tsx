@@ -10,7 +10,7 @@ import type { PropsButtonCard } from '@/types/props-types';
 export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
     return (
         <>
-            {props.showButtons && props.showButtons.add ? (
+            {props.showButtons.add ? (
                 <TableCell
                     align="center"
                     className="cellIcon"
@@ -22,7 +22,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
                 </TableCell>
             ) : null}
 
-            {props.showButtons && props.showButtons.edit ? (
+            {props.showButtons.edit ? (
                 <TableCell
                     align="center"
                     className="cellIcon"
@@ -33,7 +33,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
                     />
                 </TableCell>
             ) : null}
-            {props.showButtons && props.showButtons.moveUp ? (
+            {props.showButtons.moveUp ? (
                 <TableCell
                     align="center"
                     className="cellIcon"
@@ -45,7 +45,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
                     />
                 </TableCell>
             ) : null}
-            {props.showButtons && props.showButtons.moveDown ? (
+            {props.showButtons.moveDown ? (
                 <TableCell
                     align="center"
                     className="cellIcon"
@@ -57,7 +57,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
                     />
                 </TableCell>
             ) : null}
-            {props.showButtons && props.showButtons.remove ? (
+            {props.showButtons.remove ? (
                 <TableCell
                     align="center"
                     className="cellIcon"

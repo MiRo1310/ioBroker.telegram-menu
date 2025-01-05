@@ -6,15 +6,14 @@ import type {
     DataMainContent,
     DataTabActionContent,
     Native,
-    RowForButton,
     RowsSetState,
+    SetStateFunction,
     ShowButtons,
     StateTabNavigation,
     TabActionContentTableProps,
     TabValueEntries,
     TabValues,
     TriggerObject,
-    SetStateFunction,
 } from '@/types/app';
 import type { EventButton } from './event';
 import type { AdminConnection, GenericAppProps, GenericAppState } from '@iobroker/adapter-react-v5';
@@ -53,6 +52,7 @@ export namespace TelegramMenuApp {
         dropBoxTop: number;
         dropBoxRight: number;
         copyDataObject: { targetCheckboxes: { [key: number]: boolean }; targetActionName: string };
+        clickedTriggerInNav: null | string;
     }
 
     interface Translation {
@@ -105,7 +105,7 @@ export interface PropsButtonCard {
     moveDown: (e: EventButton) => void;
     deleteRow: (e: EventButton) => void;
     index: number;
-    rows: RowForButton[];
+    rows: any[];
     notShowDelete?: boolean;
 }
 
