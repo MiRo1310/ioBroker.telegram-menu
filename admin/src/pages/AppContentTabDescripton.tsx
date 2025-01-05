@@ -101,10 +101,10 @@ class TabNavigation extends Component<{ data: DataMainContent, callback: Callbac
                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     className={`no-select`}
                                 >
-                                    <TableCell component="td">
-                                        <Input value={row.call} callback={this.handleUpdateInput} index={indexRow}
-                                               id={"call"}/>
-                                    </TableCell>
+                                    table width <TableCell component="td" width={"30%"}>
+                                    <Input value={row.call} callback={this.handleUpdateInput} index={indexRow}
+                                           id={"call"}/>
+                                </TableCell>
                                     <TableCell component="td">
                                         <Input value={row.description} callback={this.handleUpdateInput}
                                                index={indexRow}

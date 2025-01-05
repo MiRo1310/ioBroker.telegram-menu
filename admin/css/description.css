@@ -2,9 +2,15 @@
     display: none;
 }
 
+.table__container_description td label {
+    width: 100% !important;
+    display: inline-block;
+}
+
 .table__container_description td input {
     height: 30px;
     color: #4caaf4 !important;
+    width: 100%;
 }
 
 .popup__description_header {
