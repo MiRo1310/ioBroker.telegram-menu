@@ -1,5 +1,5 @@
-import {deepCopy} from '@/lib/Utils';
-import type {NativeData, UpdateNativeFunction} from '@/types/app';
+import { deepCopy } from '@/lib/Utils';
+import type { NativeData, UpdateNativeFunction } from '@/types/app';
 
 function getActiveMenuArray(
     data: NativeData,
@@ -17,19 +17,19 @@ function getActiveMenuArray(
 
     const element = userArray[index];
     userArray.splice(index, 1);
-    return {activeMenuArray: userArray, element, dataCopy};
+    return { activeMenuArray: userArray, element, dataCopy };
 }
 
 export const moveItem = ({
-                             index,
-                             data,
-                             card,
-                             subCard,
-                             activeMenu,
-                             updateNative,
-                             upDown,
-                             newPositionIndex,
-                         }: {
+    index,
+    data,
+    card,
+    subCard,
+    activeMenu,
+    updateNative,
+    upDown,
+    newPositionIndex,
+}: {
     newPositionIndex?: number;
     upDown: number;
     updateNative: UpdateNativeFunction;
@@ -39,7 +39,7 @@ export const moveItem = ({
     card: string;
     subCard?: string;
 }): void => {
-    const {element, activeMenuArray, dataCopy} = getActiveMenuArray(data, card, subCard, activeMenu, index);
+    const { element, activeMenuArray, dataCopy } = getActiveMenuArray(data, card, subCard, activeMenu, index);
 
     if (upDown) {
         activeMenuArray.splice(index + upDown, 0, element);
@@ -56,13 +56,13 @@ export const moveItem = ({
 };
 
 export const deleteRow = ({
-                              index,
-                              data,
-                              card,
-                              subCard,
-                              activeMenu,
-                              updateNative,
-                          }: {
+    index,
+    data,
+    card,
+    subCard,
+    activeMenu,
+    updateNative,
+}: {
     updateNative: UpdateNativeFunction;
     activeMenu: string;
     index: number;
@@ -70,7 +70,7 @@ export const deleteRow = ({
     card: string;
     subCard?: string;
 }): void => {
-    const {activeMenuArray, dataCopy} = getActiveMenuArray(data, card, subCard, activeMenu, index);
+    const { activeMenuArray, dataCopy } = getActiveMenuArray(data, card, subCard, activeMenu, index);
 
     if (subCard && dataCopy) {
         dataCopy[card][activeMenu][subCard] = activeMenuArray;
@@ -80,20 +80,23 @@ export const deleteRow = ({
     updateNative('data', dataCopy);
 };
 
-export const moveRows = (action: "up" | "down" | "delete", index: number, data: any[]) => {
-
-    const copyData = deepCopy(data)
-    if (action === "delete") {
-        if (!copyData || copyData.length === 1) return
-        copyData.splice(index, 1)
-        return copyData
+export const moveRows = (action: 'up' | 'down' | 'delete', index: number, data: any[]): any[] | undefined => {
+    const copyData = deepCopy(data);
+    if (action === 'delete') {
+        if (!copyData || copyData.length === 1) {
+            return;
+        }
+        copyData.splice(index, 1);
+        return copyData;
     }
-    if (index === (action === "up" ? 0 : data.length - 1) || !copyData) return
+    if (index === (action === 'up' ? 0 : data.length - 1) || !copyData) {
+        return;
+    }
 
-    const temp = copyData[index]
-    copyData.splice(index, 1)
+    const temp = copyData[index];
+    copyData.splice(index, 1);
 
-    const newIndex = action === "up" ? index - 1 : index + 1
-    copyData.splice(newIndex, 0, temp)
-    return copyData
-}
+    const newIndex = action === 'up' ? index - 1 : index + 1;
+    copyData.splice(newIndex, 0, temp);
+    return copyData;
+};

@@ -10,7 +10,7 @@
 .table__container_description td input {
     height: 30px;
     color: #4caaf4 !important;
-    width: 100%;
+    width: calc(100% - 0.5rem) !important;
 }
 
 .popup__description_header {

@@ -6,15 +6,14 @@ import type {
     DataMainContent,
     DataTabActionContent,
     Native,
-    RowForButton,
     RowsSetState,
+    SetStateFunction,
     ShowButtons,
     StateTabNavigation,
     TabActionContentTableProps,
     TabValueEntries,
     TabValues,
     TriggerObject,
-    SetStateFunction,
 } from '@/types/app';
 import type { EventButton } from './event';
 import type { AdminConnection, GenericAppProps, GenericAppState } from '@iobroker/adapter-react-v5';

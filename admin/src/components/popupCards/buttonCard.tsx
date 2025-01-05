@@ -1,11 +1,11 @@
 import React from 'react';
-import {TableCell} from '@mui/material';
+import { TableCell } from '@mui/material';
 import BtnSmallAdd from '../btn-Input/btn-small-add';
 import BtnSmallEdit from '../btn-Input/btn-small-edit';
 import BtnSmallUp from '../btn-Input/btn-small-up';
 import BtnSmallDown from '../btn-Input/btn-small-down';
 import BtnSmallRemove from '../btn-Input/btn-small-remove';
-import type {PropsButtonCard} from '@/types/props-types';
+import type { PropsButtonCard } from '@/types/props-types';
 
 export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
     return (
