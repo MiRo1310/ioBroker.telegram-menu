@@ -63,7 +63,7 @@ class TabNavigation extends Component<{ data: DataMainContent, callback: Callbac
     render(): React.ReactNode {
         return (
             <>
-                <p>{I18n.t("descriptionInfo")}</p>
+                <p className={"tab__description_text"}>{I18n.t("descriptionInfo")}</p>
                 <TableContainer
                     component={Paper}
                     className="table__container_description"
@@ -127,7 +127,7 @@ class TabNavigation extends Component<{ data: DataMainContent, callback: Callbac
                                             moveUp: true,
                                             moveDown: true
                                         }}
-                                        notShowDelete={indexRow == 0}
+                                        notShowDelete={this.state.rows.length === 1}
                                     />
                                 </TableRow>
                             ))}

@@ -118,5 +118,7 @@
     "info": "Info",
     "menuCannotBeFound": "Het aangeklikte menu kan niet worden gevonden!",
     "contactDeveloperForExistingMenu": "Als het menu bestaat maar niet is gevonden, maak dan een probleem aan op Github!",
-    "description": "Beschrijving"
+    "description": "Beschrijving",
+    "descriptions": "Beschrijvingen",
+    "descriptionInfo": "Hier kunt u informatie over oproepen invoeren. Deze worden weergegeven wanneer u op een navigatieknop in de navigatie klikt en deze heeft geen directe link, maar wordt via een eigen script onderschept. Zo behoud je een beter overzicht."
 }

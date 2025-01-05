@@ -81,12 +81,18 @@ export const deleteRow = ({
 };
 
 export const moveRows = (action: "up" | "down" | "delete", index: number, data: any[]) => {
+
     const copyData = deepCopy(data)
+    if (action === "delete") {
+        if (!copyData || copyData.length === 1) return
+        copyData.splice(index, 1)
+        return copyData
+    }
     if (index === (action === "up" ? 0 : data.length - 1) || !copyData) return
 
     const temp = copyData[index]
     copyData.splice(index, 1)
-    if (action === "delete") return copyData
+
     const newIndex = action === "up" ? index - 1 : index + 1
     copyData.splice(newIndex, 0, temp)
     return copyData

@@ -118,5 +118,7 @@
     "info": "Informazioni",
     "menuCannotBeFound": "Impossibile trovare il menu cliccato!",
     "contactDeveloperForExistingMenu": "Se il menu esiste ma non è stato trovato, crea un problema su Github!",
-    "description": "Descrizione"
+    "description": "Descrizione",
+    "descriptions": "Descrizioni",
+    "descriptionInfo": "Qui è possibile inserire le informazioni sulle chiamate. Questi vengono visualizzati quando si fa clic su un pulsante di navigazione nella navigazione e non hanno un collegamento diretto, ma vengono intercettati tramite un proprio script. In questo modo puoi mantenere una migliore visione d'insieme."
 }
