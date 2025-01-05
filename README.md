@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.2.0 (2025-01-05)
 
 - FEAT: #237 Navigate by nav-button-click to action
 - FIX: Cannot get value false in return text
