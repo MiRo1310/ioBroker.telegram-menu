@@ -1,54 +1,60 @@
 .edit__container p {
-	font-size: 0.8rem;
-	color: #777;
-	margin: 0 !important;
+    font-size: 0.8rem;
+    color: #777;
+    margin: 0 !important;
 }
+
 .edit__container label {
-	width : 100%;
+    width: 100%;
 }
 
 .edit__container-Trigger {
-	margin-left: 20px;
-	margin-bottom: 30px;
-	display: inline-block;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    display: inline-block;
 }
+
 .edit__container-ParseMode {
-	display: inline-block;
-	margin-left: 100px;
+    display: inline-block;
+    margin-left: 100px;
 }
 
 .edit__container .input__container {
-	width: 100% !important;
-	height: auto !important;
+    width: 100% !important;
+    height: auto !important;
 
 }
-.input__container label input{
-	margin-top: 0.5rem !important;
+
+.input__container label input {
+    margin-top: 0.5rem !important;
 }
+
 .input__container label {
-	display :inline-block;
-	height : 1rem
-}
-.edit__container label p {
-	margin-left: 8px !important;
-}
-.edit__container .input__icon {
-	width: 10px !important;
+    display: inline-block;
+    height: 1rem
 }
 
-.colored .edit__container input,
-.light .edit__container input {
-	background-color: white !important;
+.edit__container label p {
+    margin-left: 8px !important;
+}
+
+.edit__container .input__icon {
+    width: 10px !important;
+}
+
+.edit__container input {
+    background-color: var(--background-primary) !important;
 }
 
 .edit__container input[type="checkbox"] {
-	margin-left: 8px;
+    margin-left: 8px;
 }
+
 .edit__container input[type="checkbox"]:checked {
-	color: #96d15a;
-	accent-color: rgb(33, 150, 243);
+    color: #96d15a;
+    accent-color: rgb(33, 150, 243);
 }
 
 .edit__container td:nth-child(1) {
-	padding-left: 0.35rem !important;
+    padding-left: 0.35rem !important;
 }

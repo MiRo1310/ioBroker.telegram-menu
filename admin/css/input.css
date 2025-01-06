@@ -4,8 +4,10 @@ input {
     border: none !important;
     width: calc(100% - 50px) !important;
     font-size: 16px !important;
-    border-color: #ccc !important;
-    border-bottom: 1px solid #ccc !important;
+    border-bottom: 1px solid var(--border-input) !important;
+    color: var(--text-input);
+    background: var(--bg-input);
+    height: 100%
 }
 
 body .header__actions input {
@@ -27,24 +29,15 @@ tr[draggable="true"] input {
     -moz-user-select: text; /* Firefox */
     -webkit-user-select: text; /* Safari */
     -ms-user-select: text; /* Internet Explorer/Edge */
-    /* padding: 5px 0; */
 }
 
 .inUse,
 .inUse input {
-    color: red !important;
-    border-color: red !important;
+    color: var(--destructive) !important;
+    border-color: var(--destructive) !important;
 }
 
-.dark input,
-.blue input {
-    background-color: inherit;
-    color: white;
-    border-bottom: 1px solid white !important;
-}
-
-.dark .header__menu_container input:hover,
-.blue .header__menu_container input:hover {
+.dark .header__menu_container input:hover {
     border-width: 2px !important;
 }
 
@@ -91,7 +84,7 @@ label.checkbox span {
 }
 
 input[type="checkbox"]:checked {
-    accent-color: rgb(33, 150, 243);
+    accent-color: var(--bg-checkbox);
 }
 
 .checkbox__line {

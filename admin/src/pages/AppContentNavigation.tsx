@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Box } from '@mui/material';
-import { I18n } from '@iobroker/adapter-react-v5';
-import type { PropsMainTabList, TabListingType } from '@/types/app';
-import { tabValues } from '@/config/entries';
+import React, {Component} from 'react';
+import {Box} from '@mui/material';
+import {I18n} from '@iobroker/adapter-react-v5';
+import type {PropsMainTabList, TabListingType} from '@/types/app';
+import {tabValues} from '@/config/entries';
 
 class AppContentNavigation extends Component<PropsMainTabList> {
     constructor(props: PropsMainTabList) {
@@ -12,10 +12,10 @@ class AppContentNavigation extends Component<PropsMainTabList> {
 
     handleChange = (val: string): void => {
         if (['nav', 'settings', 'description'].includes(val)) {
-            this.props.callback.setStateApp({ tab: val, clickedTriggerInNav: null });
+            this.props.callback.setStateApp({tab: val, clickedTriggerInNav: null});
             return;
         }
-        this.props.callback.setStateApp({ tab: 'action', subTab: val, clickedTriggerInNav: null });
+        this.props.callback.setStateApp({tab: 'action', subTab: val, clickedTriggerInNav: null});
     };
 
     tabs: TabListingType[] = [
@@ -29,7 +29,7 @@ class AppContentNavigation extends Component<PropsMainTabList> {
             if (this.tabs.find(t => t.value === tab.value)) {
                 return;
             }
-            this.tabs.push({ label: tab.label, value: tab.value });
+            this.tabs.push({label: tab.label, value: tab.value});
         });
 
         return this.tabs;
@@ -44,13 +44,13 @@ class AppContentNavigation extends Component<PropsMainTabList> {
 
     render(): React.ReactNode {
         return (
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <div className={'flex justify-between App-TabList'}>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <div className={'flex justify-between app__navigation'}>
                     <div className={'flex flex-wrap'}>
                         {this.getTabs().map(tab => (
                             <button
                                 key={tab.label}
-                                className={`${this.isActive(tab.value) ? 'active' : ''}`}
+                                className={`button__primary ${this.isActive(tab.value) ? 'button__active' : ''}`}
                                 onClick={() => this.handleChange(tab.value)}
                             >
                                 {I18n.t(tab.label)}
@@ -60,14 +60,14 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                     <div className={'flex items-center '}>
                         <button
                             key={'description'}
-                            className={`${this.isActive('description') ? 'active' : ''}`}
+                            className={`button__primary ${this.isActive('description') ? 'button__active' : ''}`}
                             onClick={() => this.handleChange('description')}
                         >
                             {I18n.t('descriptions')}
                         </button>
                         <button
                             key={'settings'}
-                            className={`icon ${this.isActive('settings') ? 'active' : ''}`}
+                            className={`icon button__primary ${this.isActive('settings') ? 'button__active' : ''}`}
                             onClick={() => this.handleChange('settings')}
                         >
                             <i className="material-icons">settings</i>

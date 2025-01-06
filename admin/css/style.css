@@ -10,6 +10,7 @@
 @import "./tab-action.css";
 @import "./custom_classes.css";
 @import "./description.css";
+@import "./colors.css";
 
 body {
     height: 100vh;
@@ -17,60 +18,26 @@ body {
 }
 
 /* Tab-Navigation */
-.App-TabList {
-    background-color: #3399cc;
+.app__navigation {
+    background-color: var(--iobroker-color);
     padding-bottom: 5px;
 }
 
-.dark .App-TabList {
-    background-color: rgb(59, 59, 59);
-}
-
-.App-TabList button {
+.app__navigation button {
     border-radius: 6px;
-    border: 3px solid #aaa !important;
     margin: 5px 0 0 5px;
     width: 110px;
     height: 30px;
-    background-color: #ddd !important;
-}
-
-.App-TabList button.active {
-    border: 3px solid #333 !important;
 }
 
 
-.App-TabList button:last-child {
+.app__navigation button:last-child {
     margin-right: 5px;
 }
 
-.App-TabList button.icon {
+.app__navigation button.icon {
     width: 30px;
     padding: 0;
-}
-
-
-.dark .App-TabList button {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Hover */
-.light .App-TabList button:hover,
-.light .MenuPopupCard-Popup button:hover .colored .App-TabList button:hover {
-    background-color: #eee !important;
-    border-color: #888 !important;
-}
-
-.dark .App-TabList button:hover,
-.dark .MenuPopupCard-Popup button:hover {
-    background-color: #333 !important;
-    border-color: #888 !important;
-}
-
-.blue .App-TabList button:hover,
-.blue .MenuPopupCard-Popup button:hover {
-    background-color: #333 !important;
-    border-color: #888 !important;
 }
 
 /* HeaderMenu */
@@ -87,35 +54,14 @@ body {
     overflow: auto;
 }
 
-.light .MenuPopupCard-Popup,
-.colored .MenuPopupCard-Popup {
-    background-color: #fff;
-}
-
-.dark .MenuPopupCard-Popup {
-    background-color: #333;
-}
-
-.blue .MenuPopupCard-Popup {
-    background-color: rgb(62, 68, 72);
+.MenuPopupCard-Popup {
+    background-color: var(--background-primary);
 }
 
 .MenuPopupCard-Popup button {
-    color: #3399cc !important;
-    border: 2px solid #aaa !important;
-}
-
-.light .MenuPopupCard-Popup button,
-.colored .MenuPopupCard-Popup button {
-    background-color: #ddd !important;
-}
-
-.dark .MenuPopupCard-Popup button {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.blue .MenuPopupCard-Popup button {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--iobroker-blue) !important;
+    border: 2px solid var(--border-secondary) !important;
+    background: var(--background-primary) !important;
 }
 
 .MenuCard button {
@@ -124,11 +70,6 @@ body {
 
 .HeaderMenu-menuPopupCard {
     display: inline-block;
-}
-
-.dark .header__menu_container,
-.blue .header__menu_container {
-    color: white;
 }
 
 .header__menu_container {
@@ -149,10 +90,10 @@ body {
 }
 
 .telegram__errorMessage {
-    color: red;
+    color: var(--destructive);
     font-size: 0.7rem;
     padding: 0.5rem 1rem;
-    border: 1px solid red;
+    border: 1px solid var(--destructive);
     margin-left: 20px
 }
 
@@ -167,15 +108,15 @@ body {
 
 /* error */
 .ErrorDoubleTrigger-Container {
-    color: red;
+    color: var(--destructive);
     position: absolute;
     top: 5px;
     max-width: 400px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    border: 1px solid red;
-    background-color: white;
+    border: var(--destructive);
+    background-color: var(--background-primary);
 }
 
 .ErrorDoubleTrigger-Container .Error-Header {
@@ -187,7 +128,6 @@ body {
     padding: 0 10px;
 }
 
-/* get mistake */
 /* Grid Main Content */
 
 div.MuiTabPanel-root {
@@ -200,16 +140,16 @@ div.MuiTabPanel-root {
 }
 
 /* NavigationMenu */
-/* Table ist in Allgemein */
 
-.MenuNavigation-Container .startSideActive:not(.row__active) {
-    background-color: #96d15a !important;
+.MenuNavigation-Container .startSideActive:not(.row__navigate_to-active) {
+    background-color: var(--startside) !important;
 }
 
 .MenuNavigation-Container .startSideInactive {
-    background-color: #99c0f9 !important;
+    background-color: var(--startside-none) !important;
 }
 
+/*TODO  remove and add to custom classes*/
 .MenuNavigation-Container .startSideHideInfo {
     display: none;
 }
@@ -250,18 +190,18 @@ div.MuiTabPanel-root {
 
 .MenuNavigation-Container::-webkit-scrollbar-thumb,
 .ActionCard-Container::-webkit-scrollbar-thumb {
-    background: #888; /* Farbe des beweglichen Teils der Scrollbar */
+    background: var(--scrollbar); /* Farbe des beweglichen Teils der Scrollbar */
 }
 
 .MenuNavigation-Container::-webkit-scrollbar-thumb:hover,
 .ActionCard-Container::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Farbe des beweglichen Teils der Scrollbar beim Überfahren mit der Maus */
+    background: var(--scrollbar-hover); /* Farbe des beweglichen Teils der Scrollbar beim Überfahren mit der Maus */
 }
 
 /* Für Firefox */
 .MenuNavigation-Container, .ActionCard-Container {
     scrollbar-width: thin; /* Breite der Scrollbar */
-    scrollbar-color: #888 #f5f5f5; /* Farbe des beweglichen Teils der Scrollbar und Hintergrundfarbe der Scrollbar */
+    scrollbar-color: var(--scrollbar) var(--scrollbar-static); /* Farbe des beweglichen Teils der Scrollbar und Hintergrundfarbe der Scrollbar */
 }
 
 
@@ -274,13 +214,13 @@ div.MuiTabPanel-root {
 
 .Settings select {
     border: none;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid var(--border-secondary);
 }
 
 /* DialogContainer */
 
 .DialogBackground {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--dialog-bg);
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -297,21 +237,8 @@ div.MuiTabPanel-root {
     padding: 10px 10px 10px 30px;
     margin: 5px 5px 5px 5px;
     border-radius: 4px;
-}
-
-.light .DialogContainer-Header,
-.colored .DialogContainer-Header {
-    background-color: #3399cc;
-}
-
-.dark .DialogContainer-Header {
-    background-color: #333;
-    color: white;
-}
-
-.blue .DialogContainer-Header {
-    background-color: rgb(62, 68, 72);
-    color: white;
+    color: var(--text-primary);
+    background: var(--iobroker-color);
 }
 
 .DialogContainer-Footer {
@@ -330,12 +257,8 @@ div.MuiTabPanel-root {
     height: 40px !important;
 }
 
-.dark .DialogContainer {
-    background-color: #444 !important;
-}
-
-.blue .DialogContainer {
-    background-color: rgb(34, 42, 46) !important;
+.DialogContainer {
+    background-color: var(--background-primary) !important;
 }
 
 .dialogContainer__body {
@@ -343,10 +266,10 @@ div.MuiTabPanel-root {
 }
 
 .DialogContainer select {
-    color: #3399cc;
+    color: var(--iobroker-blue);
     width: 200px;
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--dark);
 }
 
 .DialogContainer select:focus {
@@ -356,10 +279,8 @@ div.MuiTabPanel-root {
 /* DropBox */
 .DropBox-PopupContainer {
     background-color: transparent !important;
-    /* top: 105px !important; */
     height: 44% !important;
     width: 212px !important;
-    /* right: 5px !important; */
     left: auto !important;
     cursor: move;
 }
@@ -381,23 +302,14 @@ div.MuiTabPanel-root {
 }
 
 .DropBox {
-    background-color: #eee;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
     width: 90%;
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     height: 40%;
-    border: 2px solid black;
-}
-
-.dark .DropBox {
-    background-color: #333;
-    color: white;
-}
-
-.blue .DropBox {
-    background-color: rgb(62, 68, 72);
-    color: white;
+    border: 2px solid var(--dark);
 }
 
 .DropBox .Select select {
@@ -413,7 +325,7 @@ div.MuiTabPanel-root {
     font-weight: 500;
     font-size: 1.5rem;
     margin-top: 10px;
-    color: #3399cc;
+    color: var(--iobroker-blue);
     text-decoration: underline;
     margin-bottom: 10px;
 }
@@ -424,9 +336,8 @@ div.MuiTabPanel-root {
     text-decoration: none;
 }
 
-.dark .DropBox-Container label,
-.blue .DropBox-Container label {
-    color: white !important;
+.DropBox-Container label {
+    color: var(--text-primary) !important;
 }
 
 /* HelperCard */
@@ -439,7 +350,7 @@ div.MuiTabPanel-root {
 }
 
 .HelperCard button {
-    background-color: #3399cc !important;
+    background-color: var(--iobroker-blue) !important;
 }
 
 .HelperCard ~ .Input-Container .InputField {
@@ -462,7 +373,7 @@ div.MuiTabPanel-root {
     border-radius: 50%;
     width: 24px;
     height: 24px;
-    color: #3399cc;
+    color: var(--iobroker-blue);
     border: none;
     display: inline-block;
     cursor: pointer;
@@ -487,7 +398,7 @@ div.MuiTabPanel-root {
 }
 
 .menu__header-active {
-    border: 3px solid #96d15a;
+    border: 3px solid var(--success);
     padding: 4px 5px;
 }
 
@@ -495,35 +406,8 @@ div.MuiTabPanel-root {
 /* label */
 label p {
     font-size: 0.8rem;
-    color: #777;
+    color: var(--text-primary);
     /* margin-left: px; */
-}
-
-/* Button */
-
-button {
-    cursor: pointer;
-}
-
-.dark .button__expand button {
-    background-color: #555 !important;
-    border-color: #aaa !important;
-}
-
-.blue .button__expand button {
-    background-color: rgb(62, 68, 72) !important;
-    border-color: #aaa !important;
-}
-
-.dark .button__expand button:hover,
-.blue .button__expand button:hover {
-    background-color: #333 !important;
-    border-color: #888 !important;
-}
-
-.dark .button__expand span,
-.blue .button__expand span {
-    color: white !important;
 }
 
 button.buttonTrue,
@@ -543,35 +427,29 @@ button.buttonFalse i {
     text-align: center;
 }
 
-tr td:has(button.buttonTrue),
-tr td:has(button.buttonFalse) {
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 20px !important;
-}
-
 button.buttonTrue {
-    background-color: #96d15a !important;
-    color: #333;
+    background-color: var(--button-bg-true) !important;
 }
 
 button.buttonFalse {
-    background-color: #ff0033 !important;
-    color: #333;
+    background-color: var(--button-bg-false) !important;
+}
+
+button.buttonTrue, button.buttonFalse {
+    color: var(--button-color-boolean);
 }
 
 /* Select */
 
-.dark select {
-    background-color: #333 !important;
-    color: white !important;
-    border: 2px solid #aaa !important;
+select {
+    background-color: var(--select-bg) !important;
+    color: var(--select-color) !important;
+    border: 2px solid var(--select-border) !important;
 }
 
-.blue select {
-    background-color: rgb(62, 68, 72) !important;
-    color: white !important;
-    border: 2px solid #aaa !important;
+select:hover {
+    border-color: var(--select-border-hover);
+    background: var(--select-bg-hover);
 }
 
 p.inUse {
@@ -594,15 +472,10 @@ p.inUse {
     margin: 1px;
 }
 
-.light .Settings,
-.colored .Settings {
-    color: black;
+.Settings {
+    color: var(--text-primary);
 }
 
-.dark .Settings,
-.blue .Settings {
-    color: white;
-}
 
 .telegram__users_card {
     width: 100%;
@@ -619,19 +492,15 @@ p.inUse {
 
 .telegramm__userCard-content {
     padding: 0.25rem 0.5rem;
-    border: 1px solid #000000;
+    border: 1px solid var(--border-primary);
     width: auto;
     display: inline-block;
     margin-right: 0.5rem !important;
+    color: var(--text-primary)
 }
 
-.dark .telegramm__userCard-content {
-    border: 1px solid white;
-    color: white
-}
-
-.dark label.checkbox {
-    color: white;
+label.checkbox {
+    color: var(--text-primary)
 }
 
 .telegramm__userCard-content p {
@@ -665,7 +534,7 @@ p.inUse {
 
 .MuiTabs-root div.MuiTabs-fixed {
     /*position: fixed;*/
-    background-color: white;
+    background-color: var(--background-primary);
     width: 100%;
     z-index: 100;
 }
@@ -701,14 +570,9 @@ span[title],
     vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
     margin: 3px 3px;
     padding: 0 3px;
-    background-color: #eee;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
     width: max-content;
-}
-
-.dark .Menu-list-card,
-.blue .Menu-list-card {
-    background-color: #333;
-    color: #ddd;
 }
 
 .Action-list li,
@@ -735,19 +599,15 @@ span[title],
 }
 
 .User-list-container {
-    background-color: #ddd;
+    background-color: var(--background-primary);
 }
 
-.dark .User-list-container,
-.blue .User-list-container {
-    background-color: #aaa;
-}
 
 .User-list-container p {
     margin-top: 4px;
     margin-bottom: 0;
     padding: 0 5px;
-    color: black;
+    color: var(--dark);
 }
 
 .User-list ~ p {
@@ -763,13 +623,8 @@ span[title],
 }
 
 .menu-startside {
-    background-color: #96d15a;
-    color: black;
-}
-
-.menu-disabled {
-    background-color: rgb(242, 101, 101);
-    color: black;
+    background-color: var(--success);
+    color: var(--dark);
 }
 
 .Menu-list-container ul li ul li {
@@ -804,11 +659,11 @@ span[title],
 }
 
 .active {
-    background-color: #b5fb6f;
+    background-color: var(--success);
 }
 
 .inactive {
-    background-color: #ff0033;
+    background-color: var(--destructive);
 }
 
 .menuDescription {
@@ -820,11 +675,6 @@ span[title],
 
 #ar_dialog_selectid_title ~ div.MuiDialogContent-root {
     overflow: auto !important;
-}
-
-.breakingChange {
-    color: red;
-    font-weight: 500;
 }
 
 .PopupContainer__copy .DialogContainer {
@@ -849,10 +699,10 @@ span[title],
     margin-right: 0.25rem;
 }
 
-.row__container:has(.row__button) {
+.table__row_container:has(.row__button) {
     margin: 0.5rem 0 0.5rem 0;
-    border: 1px solid black;
-    background: #84b9ec !important;
+    border: 1px solid var(--border-row-container);
+    background: var(--iobroker-blue) !important;
 }
 
 .nav__row {
@@ -867,25 +717,18 @@ span[title],
     margin: 1px 0.1rem 1px 0.1rem !important;
     padding: 0.1rem 0.5rem;
     font-size: 0.7rem !important;
-    border: 2px solid #aaa;
+    border: 2px solid var(--border-row-buttons) !important;
     border-radius: 5px;
     display: inline-block !important;
     flex: 1;
     text-align: center;
-    background: #f1e4b0;
-}
-
-.dark .row__button {
-    background: #777;
-    color: white;
+    background: var(--row-button) !important;
+    color: var(--text-primary)
 }
 
 .row__submenu {
-    background: peachpuff !important;
-}
-
-.dark .row__submenu {
-    color: black
+    background: var(--menu-function-row) !important;
+    color: var(--dark)
 }
 
 .nav__trigger_list {
@@ -894,6 +737,7 @@ span[title],
     justify-content: start;
 }
 
-.row__active {
-    background: #ffb8b1 !important;
+.row__navigate_to-active {
+    border: 1px solid var(--destructive);
 }
+

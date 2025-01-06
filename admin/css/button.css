@@ -1,37 +1,37 @@
 .button__copy {
-    background-color: green !important;
-    color: white !important;
+    background-color: var(--button--bg-copy) !important;
+    color: var(--button-text-secondary) !important;
 }
 
 .button__add {
-    background-color: #ddd !important;
+    background-color: var(--button--bg-add) !important;
 }
 
 .button__delete {
-    background-color: red !important;
-    color: white !important;
+    background-color: var(--button--bg-delete) !important;
+    color: var(--button-text-secondary) !important;
 }
 
 .button__edit,
 .button__info {
-    background-color: blue !important;
-    color: white !important;
+    background-color: var(--button-bg-infoEdit) !important;
+    color: var(--button-text-secondary) !important;
 }
 
 .button__ok {
-    background-color: #3399cc !important;
-    color: white !important;
+    background-color: var(--iobroker-blue) !important;
+    color: var(--button-text-secondary) !important;
     opacity: 1 !important;
 }
 
 .button__ok:not([disabled]):hover {
-    background-color: rgb(35, 107, 142) !important;
+    background-color: var(--button-ok-bg-hover) !important;
     transition: background-color 0.5s ease;
 }
 
 .button__close {
-    background-color: #cdcdcd !important;
-    color: black !important;
+    background-color: var(--button-bg-close) !important;
+    color: var(--dark) !important;
     opacity: 1 !important;
 }
 
@@ -39,7 +39,23 @@
     border-radius: 5px !important;
     width: 100px !important;
     height: 30px !important;
-    border: 3px solid transparent !important;
+    cursor: pointer;
+}
+
+.button__primary {
+    background-color: var(--button-bg-primary) !important;
+    border: 3px solid var(--button-border-primary) !important;
+    color: var(--button-text-primary) !important;
+}
+
+.button__primary:hover {
+    background-color: var(--button-bg-hover) !important;
+    border: 3px solid var(--button-border-hover) !important;
+}
+
+.button__active {
+    border: 3px solid var(--button-border-active) !important;
+    background-color: var(--button-bg-active) !important;
 }
 
 .button .button__label {
@@ -47,7 +63,7 @@
 }
 
 .button--hover:hover {
-    border: 3px solid rgb(103, 103, 103) !important;
+    border: 3px solid var(--button-border-hover) !important;
     opacity: 0.8 !important;
 }
 
@@ -71,7 +87,6 @@
     width: 30px !important;
     height: 30px !important;
     margin: 0 5px 0 5px !important;
-    border: 1px solid black !important;
     border-radius: 6px !important;
 }
 
@@ -96,15 +111,9 @@
     justify-content: center;
 }
 
-.button__primary {
-    background-color: white !important;
-    color: black !important;
-}
-
 .btn__menu_expand {
     margin-left: 0.25rem;
     width: auto !important;
-
 }
 
 .btn__menu_expand .button--children {

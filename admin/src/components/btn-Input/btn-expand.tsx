@@ -1,5 +1,5 @@
-import type { EventButton } from '@/types/event';
-import React, { Component } from 'react';
+import type {EventButton} from '@/types/event';
+import React, {Component} from 'react';
 import Button from '@components/Button';
 
 interface ButtonExpandProps {
@@ -19,10 +19,10 @@ class ButtonExpand extends Component<ButtonExpandProps> {
         return (
             <span className="button__expand">
                 <Button
-                    className={
-                        this.props.label
-                            ? `button__flex ${this.props.class}`
-                            : `button__icon button__primary ${this.props.class}`
+                    className={"button__primary " +
+                    this.props.label
+                        ? `button__flex ${this.props.class}`
+                        : `button__icon button__primary ${this.props.class}`
                     }
                     id="expandTelegramUsers"
                     callback={this.props.callback}

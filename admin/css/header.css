@@ -1,26 +1,22 @@
 /* IconBar */
 img[alt="logo"] {
-	padding: 0 !important;
-	width: 40px !important;
+    padding: 0 !important;
+    width: 40px !important;
 }
 
 .header__icons {
-	margin-bottom: 0;
-	border-radius: 0 !important;
+    margin-bottom: 0;
+    border-radius: 0 !important;
 }
-.light .Header__icons,
-.colored .header__icons {
-	background-color: #3399cc;
+
+.light .header__icons {
+    background-color: var(--iobroker-blue);
 }
-.dark form.header__icons {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
-}
-.blue form.header__icons {
-	background-color: rgb(62, 68, 72);
-}
+
 .header__icons button {
-	margin-left: 5px;
+    margin-left: 5px;
 }
+
 .header__icons img {
-	margin: 5px;
+    margin: 5px;
 }
