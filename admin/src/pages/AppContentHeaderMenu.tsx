@@ -45,7 +45,6 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                             label={this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t('createMenu')}
                             class="btn__menu_expand button button__primary"
                         />
-                        {/*TODO menulist von position anpassen , da sie nicht mehr passend ist wenn die Buttons umbrechen*/}
                         {this.showList() && this.isActiveMenu() ? (
                             <AppContentHeaderMenuList
                                 usersInGroup={this.props.data.state.native.usersInGroup}

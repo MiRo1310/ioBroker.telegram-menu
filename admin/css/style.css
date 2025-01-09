@@ -24,20 +24,12 @@ body {
 }
 
 .app__navigation button {
-    border-radius: 6px;
     margin: 5px 0 0 5px;
-    width: 110px;
-    height: 30px;
 }
 
 
 .app__navigation button:last-child {
     margin-right: 5px;
-}
-
-.app__navigation button.icon {
-    width: 30px;
-    padding: 0;
 }
 
 /* HeaderMenu */
@@ -46,22 +38,16 @@ body {
     width: 160px;
     position: absolute;
     z-index: 1500;
-    top: 138px;
-    left: 5px;
+    top: 30px;
+    left: 2px;
     border: 2px solid #333;
     border-radius: 4px;
-    max-height: 74%;
+    max-height: 74vh;
     overflow: auto;
 }
 
 .MenuPopupCard-Popup {
     background-color: var(--background-primary);
-}
-
-.MenuPopupCard-Popup button {
-    color: var(--iobroker-blue) !important;
-    border: 2px solid var(--border-secondary) !important;
-    background: var(--background-primary) !important;
 }
 
 .MenuCard button {
@@ -70,6 +56,7 @@ body {
 
 .HeaderMenu-menuPopupCard {
     display: inline-block;
+    position: relative;
 }
 
 .header__menu_container {
@@ -212,11 +199,6 @@ div.MuiTabPanel-root {
     padding-left: 5px;
 }
 
-.Settings select {
-    border: none;
-    border-bottom: 1px solid var(--border-secondary);
-}
-
 /* DialogContainer */
 
 .DialogBackground {
@@ -267,7 +249,6 @@ div.MuiTabPanel-root {
 
 .DialogContainer select {
     color: var(--iobroker-blue);
-    width: 200px;
     border: none;
     border-bottom: 1px solid var(--dark);
 }
@@ -280,7 +261,7 @@ div.MuiTabPanel-root {
 .DropBox-PopupContainer {
     background-color: transparent !important;
     height: 44% !important;
-    width: 212px !important;
+    width: 250px !important;
     left: auto !important;
     cursor: move;
 }
@@ -310,6 +291,7 @@ div.MuiTabPanel-root {
     margin-right: auto;
     height: 40%;
     border: 2px solid var(--dark);
+    padding: 10px;
 }
 
 .DropBox .Select select {
@@ -444,7 +426,10 @@ button.buttonTrue, button.buttonFalse {
 select {
     background-color: var(--select-bg) !important;
     color: var(--select-color) !important;
-    border: 2px solid var(--select-border) !important;
+    border: none;
+    border-bottom: 1px solid var(--border-secondary);
+    padding: 0.5rem !important;
+    margin-top: -5px !important;
 }
 
 select:hover {
@@ -702,7 +687,7 @@ span[title],
 .table__row_container:has(.row__button) {
     margin: 0.5rem 0 0.5rem 0;
     border: 1px solid var(--border-row-container);
-    background: var(--iobroker-blue) !important;
+    background: var(--row-container);
 }
 
 .nav__row {
@@ -729,12 +714,6 @@ span[title],
 .row__submenu {
     background: var(--menu-function-row) !important;
     color: var(--dark)
-}
-
-.nav__trigger_list {
-    margin: 1rem 0 1rem 0;
-    display: flex;
-    justify-content: start;
 }
 
 .row__navigate_to-active {

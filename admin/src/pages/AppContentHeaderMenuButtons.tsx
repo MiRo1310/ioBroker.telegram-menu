@@ -204,7 +204,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
                 <Button
                     callback={this.openConfirmDialog}
-                    className="button button__delete button--hover header__button_actions button__icon_text"
+                    className="button button__delete button--hover header__button_actions"
                 >
                     <i className="material-icons">delete</i>
                     {I18n.t('delete')}
@@ -213,7 +213,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                 <Button
                     id="openRenameMenu"
                     callback={this.openRenameDialog}
-                    className="button button--hover button__edit header__button_actions button__icon_text"
+                    className="button button--hover button__edit header__button_actions"
                 >
                     <i className="material-icons">edit</i>
                     {I18n.t('edit')}
@@ -223,7 +223,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                     id="showDropBox"
                     callbackValue={true}
                     callback={this.appSetStateHandler}
-                    className="button button--hover button__copy header__button_actions button__icon_text"
+                    className="button button--hover button__copy header__button_actions"
                 >
                     <i className="material-icons translate ">content_copy</i>
                     {I18n.t('copy')}
@@ -233,7 +233,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                     id="showTriggerInfo"
                     callbackValue={true}
                     callback={this.appSetStateHandler}
-                    className=" button button__info button--hover header__button_actions button__icon_text"
+                    className=" button button__info button--hover header__button_actions"
                 >
                     <i className="material-icons translate ">info</i>
                     {I18n.t('overview')}

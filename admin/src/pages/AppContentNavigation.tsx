@@ -50,7 +50,7 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                         {this.getTabs().map(tab => (
                             <button
                                 key={tab.label}
-                                className={`button__primary ${this.isActive(tab.value) ? 'button__active' : ''}`}
+                                className={`button button__primary ${this.isActive(tab.value) ? 'button__active' : ''}`}
                                 onClick={() => this.handleChange(tab.value)}
                             >
                                 {I18n.t(tab.label)}
@@ -60,7 +60,7 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                     <div className={'flex items-center '}>
                         <button
                             key={'description'}
-                            className={`button__primary ${this.isActive('description') ? 'button__active' : ''}`}
+                            className={`button button__primary ${this.isActive('description') ? 'button__active' : ''}`}
                             onClick={() => this.handleChange('description')}
                         >
                             {I18n.t('descriptions')}

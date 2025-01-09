@@ -42,10 +42,6 @@
     width: 10px !important;
 }
 
-.edit__container input {
-    background-color: var(--background-primary) !important;
-}
-
 .edit__container input[type="checkbox"] {
     margin-left: 8px;
 }

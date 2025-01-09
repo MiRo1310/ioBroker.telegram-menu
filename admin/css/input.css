@@ -1,13 +1,12 @@
 input {
     margin: 0 !important;
-    padding-left: 5px !important;
+    padding: 0.5rem !important;
     border: none !important;
     width: calc(100% - 50px) !important;
     font-size: 16px !important;
     border-bottom: 1px solid var(--border-input) !important;
     color: var(--text-input);
     background: var(--bg-input);
-    height: 100%
 }
 
 body .header__actions input {
