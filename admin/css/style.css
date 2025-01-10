@@ -60,7 +60,6 @@ body {
 }
 
 .header__menu_container {
-    margin-top: 0.5rem;
     font-size: 0.8rem;
     padding-top: 0.25rem;
     height: auto !important;
@@ -219,7 +218,7 @@ div.MuiTabPanel-root {
     padding: 10px 10px 10px 30px;
     margin: 5px 5px 5px 5px;
     border-radius: 4px;
-    color: var(--text-primary);
+    color: var(--text-header);
     background: var(--iobroker-color);
 }
 
@@ -431,33 +430,11 @@ button.buttonTrue, button.buttonFalse {
     color: var(--button-color-boolean);
 }
 
-/* Select */
-
-select {
-    background-color: var(--select-bg) !important;
-    color: var(--select-color) !important;
-    border: none;
-    border-bottom: 1px solid var(--border-secondary);
-    padding: 0.5rem !important;
-    margin-top: -5px !important;
-}
-
-select:hover {
-    border-color: var(--select-border-hover);
-    background: var(--select-bg-hover);
-}
-
 p.inUse {
     position: absolute;
     top: 60px;
     left: 5px;
 }
-
-.Select span {
-    display: block;
-    margin-left: 5px;
-}
-
 
 /* Settings */
 .Settings h1 {

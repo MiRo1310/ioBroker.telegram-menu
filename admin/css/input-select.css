@@ -4,9 +4,9 @@ input {
     border: none !important;
     width: calc(100% - 50px) !important;
     font-size: 16px !important;
-    border-bottom: 1px solid var(--border-input) !important;
-    color: var(--text-input);
-    background: var(--bg-input);
+    border-bottom: 1px solid var(--input-border) !important;
+    color: var(--input-text);
+    background: var(--input-bg);
 }
 
 body .header__actions input {
@@ -79,7 +79,7 @@ label.checkbox span {
 }
 
 input[type="checkbox"]:checked {
-    accent-color: var(--bg-checkbox);
+    accent-color: var(--checkbox-bg);
 }
 
 .checkbox__line {
@@ -94,6 +94,23 @@ input[type="checkbox"]:checked {
 
 .select__label {
     margin-bottom: 0.5rem;
+    display: block;
+    margin-left: 5px;
 }
+
+select {
+    background-color: var(--select-bg) !important;
+    color: var(--select-color) !important;
+    border: none;
+    border-bottom: 1px solid var(--border-secondary);
+    padding: 0.5rem !important;
+    margin: -5px 0.5rem 0 0 !important;
+}
+
+select:hover {
+    border-color: var(--select-border-hover);
+    background: var(--select-bg-hover);
+}
+
 
 

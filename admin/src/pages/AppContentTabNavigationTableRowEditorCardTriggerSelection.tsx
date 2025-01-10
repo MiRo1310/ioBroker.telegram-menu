@@ -57,7 +57,7 @@ class AppContentTabNavigationTableRowEditorCardTriggerSelection extends Componen
     render(): React.ReactNode {
         return (
             <div className="flex items-center mt-2">
-                <p className="mr-4">{I18n.t('addCreatedMenus')}</p>
+                <p className="mr-2">{I18n.t('addCreatedMenus')}</p>
                 <div>
                     <Select
                         id={'nav-triggers'}

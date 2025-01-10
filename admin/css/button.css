@@ -131,6 +131,7 @@ button.icon i.material-icons {
 .btn__menu_expand {
     margin-left: 0.25rem;
     width: auto !important;
+    margin-bottom: 0.5rem !important;
 }
 
 .btn__menu_expand .button--children {

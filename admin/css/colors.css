@@ -14,7 +14,8 @@
     --gray-light: #888;
     --gray: #777;
     --gray-dark: #555;
-    --gray--darker: #1e1e1e;
+    --gray-darker: #333;
+    --gray-darkest: #1e1e1e;
     --dark: black;
     --transparent-dark: rgba(0, 0, 0, 0.5);
 
@@ -31,9 +32,10 @@
 
     --text-primary: black;
     --text-secondary: white;
+    --text-header: black;
 
     --button-bg-primary: white;
-    --button-border-primary: var(--gray--darker);
+    --button-border-primary: var(--gray-darkest);
     --button-text-primary: black;
     --button-border: var(--gray);
 
@@ -76,23 +78,23 @@
     --border-dark: var(--gray-dark);
     --border-primary: var(--iobroker-blue);
     --border-secondary: var(--gray-light);
-    --border-input: var(--gray-light);
 
+    --input-bg: white;
+    --input-text: black;
+    --input-border: var(--gray-light);
+
+    --checkbox-bg: var(--blue-light);
 
     --background-primary: var(--gray-lightest);
-    --bg-input: white;
-    --bg-checkbox: var(--blue-light);
-
-    --text-input: black;
 
     --hover-dark: var(--gray-dark);
-    --input: var(--gray-lightest)
+
 }
 
 .dark {
-    --text-primary: var(--gray);
+    --text-primary: white;
     --text-secondary: black;
-    --text-input: white;
+    --text-header: var(--iobroker-blue);
 
     --button-text-primary: var(--iobroker-blue);
 
@@ -107,18 +109,20 @@
     --button-bg-primary: var(--gray-dark);
     --button-border-primary: var(--gray);
 
-    --select-bg: var(--gray-dark);
+    --select-bg: var(--gray-light);
     --select-border: var(--gray-lightest);
     --select-border-hover: var(--gray-dark);
     --select-bg-hover: var(--gray-lightest);
     --select-color: white;
 
-    --iobroker-color: var(--gray--darker);
+    --iobroker-color: var(--gray-darkest);
 
+    --input-bg: var(--gray-light);
+    --input-text: white;
+    --input-border: var(--gray-darkest);
 
-    --primary-color: var(--gray--darker);
-    --row-button: var(--gray);
+    --primary-color: var(--gray-darkest);
+    --row-button: var(--gray-darker);
     --row-button-text: white;
-    --background-primary: var(--gray-dark);
-    --bg-input: var(--gray-dark);
+    --background-primary: var(--gray-darker);
 }

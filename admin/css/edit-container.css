@@ -1,9 +1,3 @@
-.edit__container p {
-    font-size: 0.8rem;
-    color: #777;
-    margin: 0 !important;
-}
-
 .edit__container label {
     width: 100%;
 }
@@ -22,7 +16,6 @@
 .edit__container .input__container {
     width: 100% !important;
     height: auto !important;
-
 }
 
 .input__container label input {

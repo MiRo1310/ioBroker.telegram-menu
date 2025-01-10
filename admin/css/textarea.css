@@ -1,7 +1,7 @@
 .textarea__container {
     box-sizing: border-box;
     margin-top: 20px !important;
-    background-color: var(--input);
+    background-color: var(--input-bg);
     padding: 10px !important;
     margin-bottom: 10px !important;
     width: calc(100% - 10px) !important;
@@ -15,7 +15,7 @@
     margin: 3rem 5px 5px 5px;
     font-size: 16px;
     border: none;
-    border-bottom: 1px solid var(--border-input);
+    border-bottom: 1px solid var(--input-border);
     height: 100px !important;
 }
 
