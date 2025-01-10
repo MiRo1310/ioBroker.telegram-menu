@@ -103,10 +103,6 @@ button.icon i.material-icons {
     height: 100%;
 }
 
-.header__actions .button--children {
-    align-items: end;
-}
-
 .button__icon {
     width: 30px !important;
     height: 30px !important;

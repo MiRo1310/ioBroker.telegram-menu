@@ -76,7 +76,7 @@
     --border-dark: var(--gray-dark);
     --border-primary: var(--iobroker-blue);
     --border-secondary: var(--gray-light);
-    --border-input: var(--gray-lightest);
+    --border-input: var(--gray-light);
 
 
     --background-primary: var(--gray-lightest);

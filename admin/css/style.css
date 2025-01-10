@@ -364,10 +364,20 @@ div.MuiTabPanel-root {
 
 /* Edit cards */
 
+.RenameCard {
+    display: flex;
+    justify-content: center;
+}
+
 .RenameCard .Input-Container {
     display: block !important;
     margin-left: auto !important;
     margin-right: auto !important;
+}
+
+.RenameCard input {
+    text-align: center;
+    margin-top: 1rem !important;
 }
 
 .cellIcon {

@@ -31,7 +31,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
         }
 
         if (prevState.newMenuName !== this.state.newMenuName) {
-            this.setState({menuNameExists: this.validateMenuName()});
+            this.setState({menuNameExists: this.validateMenuName(this.state.newMenuName)});
         }
 
         if (this.state.renamedMenuName) {
@@ -43,15 +43,15 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                 if (!this.props.data.state.native.usersInGroup) {
                     return;
                 }
-                this.setState({isOK: !this.validateMenuName()});
+                this.setState({isOK: !this.validateMenuName(this.state.renamedMenuName)});
             }
         }
     }
 
-    validateMenuName(): boolean {
+    validateMenuName(str: string): boolean {
         return (
-            this.state.renamedMenuName !== '' &&
-            !!this.props.data.state.native.usersInGroup?.[this.state.renamedMenuName.replace(/ /g, '_')]
+            str !== '' &&
+            !!this.props.data.state.native.usersInGroup?.[str.replace(/ /g, '_')]
         );
     }
 
@@ -189,7 +189,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                 <Input
                     placeholder={I18n.t('addMenu')}
                     value={this.state.newMenuName}
-                    callback={({val}: EventInput) => this.setState({newMenuName: val as string})}
+                    callback={({val}: EventInput) => this.setState({newMenuName: val?.toString() || ""})}
                     class={this.state.menuNameExists ? 'inUse' : ''}
                 />
                 <Button
@@ -244,7 +244,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                         title={I18n.t('reallyDelete')}
                         text={I18n.t('confirmDelete')}
                         ok={I18n.t('yes')}
-                        cancel={I18n.t('cancel')}
+                        cancel={I18n.t('abort')}
                         dialogName="myConfirmDialogThatCouldBeSuppressed"
                         onClose={isYes => {
                             if (isYes) {

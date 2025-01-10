@@ -36,10 +36,6 @@ tr[draggable="true"] input {
     border-color: var(--destructive) !important;
 }
 
-.dark .header__menu_container input:hover {
-    border-width: 2px !important;
-}
-
 input ~ p {
     margin-left: 5px !important;
 }
@@ -94,3 +90,10 @@ input[type="checkbox"]:checked {
 .input__container--settings {
     width: 100% !important;
 }
+
+
+.select__label {
+    margin-bottom: 0.5rem;
+}
+
+
