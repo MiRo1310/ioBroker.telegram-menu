@@ -45,7 +45,7 @@ class AppContentNavigation extends Component<PropsMainTabList> {
     render(): React.ReactNode {
         return (
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                <div className={'flex justify-between app__navigation'}>
+                <div className={'flex justify-between items-start app__navigation_row'}>
                     <div className={'flex flex-wrap'}>
                         {this.getTabs().map(tab => (
                             <button

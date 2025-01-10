@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Select from '@/components/btn-Input/select';
-import {Radio} from '@mui/material';
-import {I18n} from '@iobroker/adapter-react-v5';
-import {updateTriggerForSelect} from '@/lib/actionUtils';
-import {deepCopy} from '@/lib/Utils';
+import { Radio } from '@mui/material';
+import { I18n } from '@iobroker/adapter-react-v5';
+import { updateTriggerForSelect } from '@/lib/actionUtils';
+import { deepCopy } from '@/lib/Utils';
 import PopupContainer from '@/components/popupCards/PopupContainer';
 import RenameCard from '@/components/popupCards/RenameCard';
-import type {DataRow, NativeData, PropsDropBox, StateDropBox} from '@/types/app';
-import type {EventButton, EventSelect} from '@/types/event';
+import type { DataRow, NativeData, PropsDropBox, StateDropBox } from '@/types/app';
+import type { EventButton, EventSelect } from '@/types/event';
 
 class DropBox extends Component<PropsDropBox, StateDropBox> {
     constructor(props: PropsDropBox) {
@@ -33,7 +33,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
 
     componentDidUpdate(prevProps: Readonly<PropsDropBox>, prevState: Readonly<StateDropBox>): void {
         if (prevProps.data.state.activeMenu !== this.props.data.state.activeMenu) {
-            this.setState({selectedMenu: ''});
+            this.setState({ selectedMenu: '' });
             this.updateMenuList();
         }
         if (prevState.newTrigger !== this.state.newTrigger) {
@@ -43,19 +43,19 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                     this.state.newTrigger === '' ||
                     this.state.newTrigger === this.state.oldTrigger
                 ) {
-                    this.setState({isOK: false});
+                    this.setState({ isOK: false });
                 } else {
-                    this.setState({isOK: true});
+                    this.setState({ isOK: true });
                 }
             } else {
-                this.setState({isOK: true});
+                this.setState({ isOK: true });
             }
         }
     }
 
     updateMenuList = (): void => {
         const menuList = Object.keys(this.props.data.state.native.usersInGroup);
-        this.setState({menuList: menuList});
+        this.setState({ menuList: menuList });
     };
 
     static handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
@@ -78,21 +78,21 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                 rowToWorkWith =
                     this.props.data.state.native.data[this.props.data.state.tab][this.props.data.state.activeMenu][
                         this.props.data.state.subTab
-                        ][this.props.index];
+                    ][this.props.index];
             } else {
                 rowToWorkWith =
                     this.props.data.state.native.data[this.props.data.state.tab][this.props.data.state.activeMenu][
                         this.props.index
-                        ];
+                    ];
             }
-            this.setState({rowToWorkWith: rowToWorkWith});
+            this.setState({ rowToWorkWith: rowToWorkWith });
             const usedTrigger = updateTriggerForSelect(
                 data,
                 this.props.data.state.native?.usersInGroup,
                 this.state.selectedMenu,
             )?.usedTrigger;
 
-            this.setState({usedTrigger: usedTrigger || []});
+            this.setState({ usedTrigger: usedTrigger || [] });
             if (this.props.data.state.tab === 'action' && 'trigger' in rowToWorkWith) {
                 if (moveOrCopy === 'copy') {
                     if (rowToWorkWith.trigger && usedTrigger?.includes(rowToWorkWith.trigger[0])) {
@@ -107,7 +107,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                     // Move Item
                     const items = DropBox.countItemsInArray(usedTrigger, rowToWorkWith.trigger[0]);
                     if (items && items <= 1) {
-                        this.setState({trigger: rowToWorkWith.trigger[0], newTrigger: rowToWorkWith.trigger[0]});
+                        this.setState({ trigger: rowToWorkWith.trigger[0], newTrigger: rowToWorkWith.trigger[0] });
                         this.move(rowToWorkWith, data);
                     } else {
                         this.setState({
@@ -133,7 +133,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                     // Move Item
                     const items = DropBox.countItemsInArray(usedTrigger, rowToWorkWith.call);
                     if (items && items <= 1) {
-                        this.setState({trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call});
+                        this.setState({ trigger: rowToWorkWith.call, newTrigger: rowToWorkWith.call });
                         this.move(rowToWorkWith, data);
                     } else {
                         this.setState({
@@ -150,7 +150,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                 rowToWorkWith =
                     this.props.data.state.native.data[this.props.data.state.tab][this.props.data.state.activeMenu][
                         this.props.data.state.subTab
-                        ][this.props.index];
+                    ][this.props.index];
             } else if (!rowToWorkWith) {
                 rowToWorkWith = this.state.rowToWorkWith;
             }
@@ -211,7 +211,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
             data[this.props.data.state.tab][this.props.data.state.activeMenu].splice(this.props.index, 1);
         }
         this.props.callback.updateNative('data', data);
-        this.setState({newTrigger: ''});
+        this.setState({ newTrigger: '' });
     };
     copy = (rowToWorkWith: DataRow, data: NativeData): void => {
         if (
@@ -228,39 +228,39 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
             data[this.props.data.state.tab][this.state.selectedMenu].push(rowToWorkWith);
         }
         this.props.callback.updateNative('data', data);
-        this.setState({newTrigger: ''});
+        this.setState({ newTrigger: '' });
     };
 
     handleDrag = (val: boolean): void => {
-        this.setState({inDropBox: val});
+        this.setState({ inDropBox: val });
     };
     handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        this.setState({selectedValue: event.target.value});
+        this.setState({ selectedValue: event.target.value });
     };
-    renameMenu = ({value}: EventButton): void => {
+    renameMenu = ({ value }: EventButton): void => {
         if (!value) {
-            this.setState({openRenamePopup: false, newTrigger: ''});
+            this.setState({ openRenamePopup: false, newTrigger: '' });
             return;
         }
         if (value) {
-            this.setState({openRenamePopup: false});
+            this.setState({ openRenamePopup: false });
             this.handleOnDrop();
 
             return;
         }
-        this.setState({newTrigger: value as string});
+        this.setState({ newTrigger: value as string });
     };
 
     render(): React.ReactNode {
         return (
-            <div className="Dropbox--outerContainer">
-                <div className="DropBox-Container">
+            <div className="dropbox__content_wrapper">
+                <div className="dropbox__content">
                     <p>{this.state.isOK}</p>
                     <Select
                         options={this.state.menuList}
                         selected={this.state.selectedMenu}
                         id="selectedMenu"
-                        callback={({val}: EventSelect) => this.setState({selectedMenu: val})}
+                        callback={({ val }: EventSelect) => this.setState({ selectedMenu: val })}
                         placeholder={I18n.t('selectTargetMenu')}
                     />
                     <label>
@@ -269,7 +269,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                             onChange={this.handleChange}
                             value="move"
                             name="radio-buttons"
-                            inputProps={{'aria-label': 'A'}}
+                            inputProps={{ 'aria-label': 'A' }}
                         />
                         {I18n.t('Move')}
                     </label>
@@ -279,12 +279,12 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                             onChange={this.handleChange}
                             value="copy"
                             name="radio-buttons"
-                            inputProps={{'aria-label': 'B'}}
+                            inputProps={{ 'aria-label': 'B' }}
                         />
                         {I18n.t('Copy')}
                     </label>
                     <div
-                        className="DropBox"
+                        className="dropbox__drag_in_field"
                         draggable
                         onDrop={() => this.handleOnDrop()}
                         onDragOver={(event: React.DragEvent<HTMLDivElement>) => DropBox.handleDragOver(event)}
@@ -296,16 +296,16 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                     </div>
                 </div>
                 {this.state.openRenamePopup ? (
-                    <div className="Dropbox--PopupContainer-RenameCard">
+                    <div className="dropbox__dialog_rename-wrapper">
                         <PopupContainer
                             title={I18n.t('Rename trigger')}
                             value={this.state.trigger}
                             callback={this.renameMenu}
-                            class="DropBox-Background"
+                            class="dropbox__dialog_rename-card"
                             isOK={this.state.isOK}
                         >
                             <RenameCard
-                                callback={{setState: this.setState.bind(this)}}
+                                callback={{ setState: this.setState.bind(this) }}
                                 id="newTrigger"
                                 value={this.state.newTrigger}
                             />

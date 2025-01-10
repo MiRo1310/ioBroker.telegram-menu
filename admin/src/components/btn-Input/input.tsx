@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {I18n} from '@iobroker/adapter-react-v5';
-import type {InputProps} from '@/types/app';
-import type {EventInput} from '@/types/event';
+import React, { Component } from 'react';
+import { I18n } from '@iobroker/adapter-react-v5';
+import type { InputProps } from '@/types/app';
+import type { EventInput } from '@/types/event';
 
 class Input extends Component<InputProps> {
     onChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | undefined): void => {
-        const obj: EventInput = {val: event?.target.value, index: this.props.index, id: this.props?.id || ''};
+        const obj: EventInput = { val: event?.target.value, index: this.props.index, id: this.props?.id || '' };
         this.props.callback(obj);
     };
 

@@ -87,19 +87,19 @@ class TabNavigation extends Component<{ data: DataMainContent; callback: Callbac
                                 <TableCell>{I18n.t('description')}</TableCell>
                                 <TableCell
                                     align="center"
-                                    className="cellIcon"
+                                    className="table__cell_icon"
                                 />
                                 <TableCell
                                     align="center"
-                                    className="cellIcon"
+                                    className="table__cell_icon"
                                 />
                                 <TableCell
                                     align="center"
-                                    className="cellIcon"
+                                    className="table__cell_icon"
                                 />
                                 <TableCell
                                     align="center"
-                                    className="cellIcon"
+                                    className="table__cell_icon"
                                 />
                             </TableRow>
                         </TableHead>

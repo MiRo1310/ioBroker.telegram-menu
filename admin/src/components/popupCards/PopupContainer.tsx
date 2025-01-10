@@ -16,7 +16,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 
     componentDidMount(): void {
         if (this.props.drag) {
-            const element = document.querySelector('.DialogBackground') as HTMLElement;
+            const element = document.querySelector('.dialog__card_wrapper') as HTMLElement;
             element.draggable = true;
         }
     }
@@ -39,7 +39,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 
         return (
             <div
-                className={`DialogBackground ${this.props.class || ''}`}
+                className={`dialog__card_wrapper ${this.props.class || ''}`}
                 ref={this.props.reference ? this.props.reference : null}
                 onDragStart={
                     this.props.onDragStart ? event => this.props.onDragStart!(event, this.props.setState) : undefined
@@ -60,15 +60,15 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                 }
             >
                 <div
-                    className="DialogContainer"
+                    className="dialog__card"
                     style={DialogContainer}
                 >
-                    <div className="DialogContainer-Header">{this.props.title}</div>
-                    <div className="dialogContainer__body">
+                    <div className="dialog__card_header">{this.props.title}</div>
+                    <div className="dialog__card_content">
                         {this.state.inUse ? <p className="inUse">{I18n.t('Call is already in use!')}</p> : null}
                         {this.props.children}
                     </div>
-                    <div className="DialogContainer-Footer">
+                    <div className="dialog__card_footer">
                         {!this.props.onlyCloseBtn ? (
                             <Button
                                 className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button__disabled'}`}

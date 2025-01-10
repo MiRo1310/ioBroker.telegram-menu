@@ -130,3 +130,7 @@
 .mr-2 {
     margin-right: 0.5rem;
 }
+
+.relative {
+    position: relative;
+}

@@ -16,9 +16,9 @@
     --gray-dark: #555;
     --gray-darker: #333;
     --gray-darkest: #1e1e1e;
+    --light: #eee;
     --dark: black;
     --transparent-dark: rgba(0, 0, 0, 0.5);
-
 
     --destructive: var(--red-dark);
     --success: var(--green-lighter);
@@ -82,6 +82,7 @@
     --input-bg: white;
     --input-text: black;
     --input-border: var(--gray-light);
+    --input-placeholder-color: var(--gray);
 
     --checkbox-bg: var(--blue-light);
 
@@ -120,6 +121,7 @@
     --input-bg: var(--gray-light);
     --input-text: white;
     --input-border: var(--gray-darkest);
+    --input-placeholder-color: var(--gray-dark);
 
     --primary-color: var(--gray-darkest);
     --row-button: var(--gray-darker);

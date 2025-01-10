@@ -24,7 +24,7 @@
     vertical-align: bottom;
 }
 
-button.HelperCard-BtnSearch {
+button.helper__btn_search {
     margin-top: 2rem !important;
     margin-left: 1.2rem !important;
 }

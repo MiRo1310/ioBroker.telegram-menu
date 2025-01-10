@@ -170,15 +170,9 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                         callback={this.props.callback}
                                     />
 
-                                    <span
-                                        draggable={false}
-                                        className={`textSubmenuInfo noneDraggable ${
-                                            indexCell === 0 && (row.call === '' || row.call === '-')
-                                                ? ''
-                                                : 'startSideHideInfo'
-                                        }`}
+                                    <span draggable={false} className={`textSubmenuInfo noneDraggable`}
                                     >
-                                        {indexRow === 0 && (row.call === '' || row.call === '-') ? (
+                                        {indexRow === 0 && (row.call === '' || row.call === '-') && entry.name === "call" ? (
                                             <span>{I18n.t('isSubmenu')}</span>
                                         ) : null}
                                     </span>

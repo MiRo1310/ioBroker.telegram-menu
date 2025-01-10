@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {I18n} from '@iobroker/adapter-react-v5';
-import type {SelectProps} from '@/types/app';
+import React, { Component } from 'react';
+import { I18n } from '@iobroker/adapter-react-v5';
+import type { SelectProps } from '@/types/app';
 
 class Select extends Component<SelectProps> {
     onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement> | undefined): void => {
         if (!event) {
             return;
         }
-        this.props.callback({id: this.props.id, val: event.target.value});
+        this.props.callback({ id: this.props.id, val: event.target.value });
     };
 
     render(): React.ReactNode {

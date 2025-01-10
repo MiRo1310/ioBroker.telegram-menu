@@ -56,10 +56,10 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
         const { name, chatID } = this.props.user;
         return (
             <div className="telegramm__userCard-content">
-                <div className="TelegramUserCard-User">
-                    <p className="TelegramUserCard-name">{name}</p>
-                    <p className="TelegramUserCard-ChatID">
-                        ChatID :<span className="TelegramUserCard-ChatID">{chatID}</span>
+                <div className="telegram__user">
+                    <p className="telegram__user-name">{name}</p>
+                    <p className="telegram__user_chat-id">
+                        ChatID :<span className="telegram__user_chat-id">{chatID}</span>
                     </p>
                     <Checkbox
                         class="TelegramUserCard-checkbox"

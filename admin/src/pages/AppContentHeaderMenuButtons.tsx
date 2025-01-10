@@ -1,12 +1,12 @@
-import {Confirm, I18n} from '@iobroker/adapter-react-v5';
-import React, {Component} from 'react';
+import { Confirm, I18n } from '@iobroker/adapter-react-v5';
+import React, { Component } from 'react';
 import Button from '@components/Button';
 import Input from '../components/btn-Input/input';
 import RenameModal from '@components/RenameModal';
-import type {NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, UsersInGroup} from '@/types/app';
-import {replaceSpaceWithUnderscore} from '@/lib/string';
-import {deepCopy} from '@/lib/Utils';
-import type {EventButton, EventInput} from '@/types/event';
+import type { NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, UsersInGroup } from '@/types/app';
+import { replaceSpaceWithUnderscore } from '@/lib/string';
+import { deepCopy } from '@/lib/Utils';
+import type { EventButton, EventInput } from '@/types/event';
 
 class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
     constructor(props: PropsBtnCard) {
@@ -31,28 +31,25 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
         }
 
         if (prevState.newMenuName !== this.state.newMenuName) {
-            this.setState({menuNameExists: this.validateMenuName(this.state.newMenuName)});
+            this.setState({ menuNameExists: this.validateMenuName(this.state.newMenuName) });
         }
 
         if (this.state.renamedMenuName) {
             if (prevState.renamedMenuName !== this.state.renamedMenuName) {
                 if (this.userChangedMenuName()) {
-                    this.setState({isOK: false});
+                    this.setState({ isOK: false });
                 }
 
                 if (!this.props.data.state.native.usersInGroup) {
                     return;
                 }
-                this.setState({isOK: !this.validateMenuName(this.state.renamedMenuName)});
+                this.setState({ isOK: !this.validateMenuName(this.state.renamedMenuName) });
             }
         }
     }
 
     validateMenuName(str: string): boolean {
-        return (
-            str !== '' &&
-            !!this.props.data.state.native.usersInGroup?.[str.replace(/ /g, '_')]
-        );
+        return str !== '' && !!this.props.data.state.native.usersInGroup?.[str.replace(/ /g, '_')];
     }
 
     userChangedMenuName(): boolean {
@@ -69,7 +66,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
             return;
         }
 
-        const usersInGroup = {...this.props.data.state.native.usersInGroup};
+        const usersInGroup = { ...this.props.data.state.native.usersInGroup };
         if (!this.props.data.state.native.data.nav) {
             data.nav = {};
             data.action = {};
@@ -96,16 +93,16 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                     parse_mode: 'false',
                 },
             ];
-            data.action[newMenuName] = {get: [], set: [], pic: [], echarts: [], events: [], httpRequest: []};
+            data.action[newMenuName] = { get: [], set: [], pic: [], echarts: [], events: [], httpRequest: [] };
             userActiveCheckbox[newMenuName] = false;
             usersInGroup[newMenuName] = [];
-            this.setState({newMenuName: ''});
+            this.setState({ newMenuName: '' });
         }
 
         this.updateNative(data, usersInGroup, userActiveCheckbox);
 
         setTimeout(() => {
-            this.props.callback.setStateApp({activeMenu: newMenuName});
+            this.props.callback.setStateApp({ activeMenu: newMenuName });
         }, 500);
     };
 
@@ -134,19 +131,19 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
         this.updateNative(newObject, copyOfUsersInGroup, userActiveCheckbox);
 
         if (renameMenu) {
-            this.props.callback.setStateApp({activeMenu: newMenu});
+            this.props.callback.setStateApp({ activeMenu: newMenu });
             return;
         }
         this.setFirstMenuInList(newObject);
     };
 
     openConfirmDialog = (): void => {
-        this.setState({confirmDialog: true});
+        this.setState({ confirmDialog: true });
     };
 
-    renameMenu = ({value}: EventButton): void => {
+    renameMenu = ({ value }: EventButton): void => {
         if (!value) {
-            this.setState({renameDialog: false});
+            this.setState({ renameDialog: false });
             return;
         }
         const oldMenuName = this.state.oldMenuName;
@@ -158,7 +155,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
         setTimeout(() => {
             this.removeMenu(oldMenuName, true, newMenu);
         }, 1000);
-        this.setState({renameDialog: false});
+        this.setState({ renameDialog: false });
     };
 
     static validateNewMenuName(newMenu: string, oldMenuName: string): boolean {
@@ -166,30 +163,30 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
     }
 
     openRenameDialog = (): void => {
-        this.setState({renamedMenuName: this.state.oldMenuName});
-        this.setState({renameDialog: true});
+        this.setState({ renamedMenuName: this.state.oldMenuName });
+        this.setState({ renameDialog: true });
     };
 
-    buttonAddNewMenuHandler = ({value}: EventButton): void => {
+    buttonAddNewMenuHandler = ({ value }: EventButton): void => {
         this.addNewMenu(value as string, false);
     };
 
-    appSetStateHandler = ({id, value: cbValue}: EventButton): void => {
-        this.props.callback.setStateApp({[id]: cbValue});
+    appSetStateHandler = ({ id, value: cbValue }: EventButton): void => {
+        this.props.callback.setStateApp({ [id]: cbValue });
     };
 
     private setFirstMenuInList(newObject: NativeData): void {
         const firstMenu = Object.keys(newObject.nav)[0];
-        this.props.callback.setStateApp({activeMenu: firstMenu});
+        this.props.callback.setStateApp({ activeMenu: firstMenu });
     }
 
     render(): React.ReactNode {
         return (
-            <div className="header__actions">
+            <div className="header__menu_buttons">
                 <Input
                     placeholder={I18n.t('addMenu')}
                     value={this.state.newMenuName}
-                    callback={({val}: EventInput) => this.setState({newMenuName: val?.toString() || ""})}
+                    callback={({ val }: EventInput) => this.setState({ newMenuName: val?.toString() || '' })}
                     class={this.state.menuNameExists ? 'inUse' : ''}
                 />
                 <Button
@@ -251,7 +248,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                                 this.removeMenu(this.state.oldMenuName, false);
                             }
 
-                            this.setState({confirmDialog: false});
+                            this.setState({ confirmDialog: false });
                         }}
                     />
                 ) : null}

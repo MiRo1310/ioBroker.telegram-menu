@@ -225,7 +225,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                 ) : (
                     <TableContainer
                         component={Paper}
-                        className="ActionCard-Container"
+                        className="action__container"
                     >
                         <Table
                             stickyHeader
@@ -246,7 +246,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                                             <TableCell
                                                 key={i}
                                                 align="center"
-                                                className="cellIcon"
+                                                className="table__cell_icon"
                                             />
                                         ))}
                                 </TableRow>

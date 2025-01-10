@@ -7,7 +7,7 @@ export const BtnCircleAdd = (props: BtnCircleAddTypeProps): React.JSX.Element =>
     };
 
     return (
-        <div className="BtnCircleAdd">
+        <div className="btn__circle_add">
             <a onClick={clickHandler}>
                 <i className="material-icons">add_circle</i>
             </a>

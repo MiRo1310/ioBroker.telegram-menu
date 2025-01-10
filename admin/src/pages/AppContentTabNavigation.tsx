@@ -136,7 +136,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
             <>
                 <TableContainer
                     component={Paper}
-                    className="MenuNavigation-Container"
+                    className="navigation__container"
                 >
                     <Table
                         stickyHeader

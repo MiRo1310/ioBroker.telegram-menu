@@ -103,7 +103,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
 
                 {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
                     <BtnSmallSearch
-                        class="HelperCard-BtnSearch"
+                        class="helper__btn_search"
                         index={0}
                         callback={this.openSelectId}
                     />

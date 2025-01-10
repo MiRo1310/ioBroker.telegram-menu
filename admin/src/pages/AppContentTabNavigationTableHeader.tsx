@@ -24,15 +24,15 @@ class TabNavHeader extends Component<PropsTableNavHeader> {
 
                     <TableCell
                         align="center"
-                        className="cellIcon"
+                        className="table__cell_icon"
                     ></TableCell>
                     <TableCell
                         align="center"
-                        className="cellIcon"
+                        className="table__cell_icon"
                     ></TableCell>
                     <TableCell
                         align="center"
-                        className="cellIcon"
+                        className="table__cell_icon"
                     ></TableCell>
                 </TableRow>
             </TableHead>

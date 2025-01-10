@@ -29,7 +29,7 @@ class TabAction extends Component<PropsTabAction, StateTabAction> {
                     <TabPanel
                         key={index}
                         value={tab.value}
-                        className="TabPanel-Action"
+                        className="tab__action"
                     >
                         <AppContentTabActionContent
                             callback={this.props.callback}

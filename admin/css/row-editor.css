@@ -1,5 +1,5 @@
-.popupContainer__copy .DialogContainer {
-	width: 90% !important;
-	height: 80% !important;
-	margin-top: 400px;
+.popupContainer__copy .dialog__card {
+    width: 90% !important;
+    height: 80% !important;
+    margin-top: 400px;
 }

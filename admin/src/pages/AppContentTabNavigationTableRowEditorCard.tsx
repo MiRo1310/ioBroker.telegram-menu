@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Input from '@/components/btn-Input/input';
-import {BtnCircleAdd} from '@components/btn-Input/btn-circle-add';
-import {I18n} from '@iobroker/adapter-react-v5';
+import { BtnCircleAdd } from '@components/btn-Input/btn-circle-add';
+import { I18n } from '@iobroker/adapter-react-v5';
 import Checkbox from '@/components/btn-Input/checkbox';
-import {isChecked} from '@/lib/Utils';
-import type {PropsRowNavCard} from '@/types/app';
-import AppContentTabNavigationTableRowEditorCardTriggerSelection
-    from '@/pages/AppContentTabNavigationTableRowEditorCardTriggerSelection';
+import { isChecked } from '@/lib/Utils';
+import type { PropsRowNavCard } from '@/types/app';
+import AppContentTabNavigationTableRowEditorCardTriggerSelection from '@/pages/AppContentTabNavigationTableRowEditorCardTriggerSelection';
 
 class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCard> {
     constructor(props: PropsRowNavCard) {
@@ -15,7 +14,7 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
     }
 
     addSelectedToNewRow = (e: string): void => {
-        this.props.callback.onChangeInput({val: `${this.props.newRow.value} , ${e}`, id: 'value'});
+        this.props.callback.onChangeInput({ val: `${this.props.newRow.value} , ${e}`, id: 'value' });
     };
 
     render(): React.ReactNode {
@@ -39,7 +38,7 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
                             callback={this.props.callback.onChangeInput}
                             label={I18n.t(entry.headline)}
                         >
-                            <BtnCircleAdd callback={() => this.props.openHelperText(entry.name)}/>
+                            <BtnCircleAdd callback={() => this.props.openHelperText(entry.name)} />
                             {entry.name == 'value' ? (
                                 <AppContentTabNavigationTableRowEditorCardTriggerSelection
                                     data={this.props.data}

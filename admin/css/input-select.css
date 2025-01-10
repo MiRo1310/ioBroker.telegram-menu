@@ -9,16 +9,20 @@ input {
     background: var(--input-bg);
 }
 
-body .header__actions input {
+input::placeholder {
+    color: var(--input-placeholder-color); /* Replace with your desired color */
+}
+
+body .header__menu_buttons input {
     font-size: 1.0rem !important;
     width: 300px !important;
 }
 
-.Settings input[type="checkbox"] {
+.settings__tab input[type="checkbox"] {
     margin-left: 8px;
 }
 
-.RenameCard input {
+.rename__card input {
     text-align: center;
 }
 
@@ -100,16 +104,25 @@ input[type="checkbox"]:checked {
 
 select {
     background-color: var(--select-bg) !important;
-    color: var(--select-color) !important;
+    color: var(--text-primary) !important;
     border: none;
     border-bottom: 1px solid var(--border-secondary);
     padding: 0.5rem !important;
     margin: -5px 0.5rem 0 0 !important;
 }
 
+select option:disabled {
+    background-color: var(--iobroker-blue);
+    color: var(--light);
+}
+
 select:hover {
     border-color: var(--select-border-hover);
     background: var(--select-bg-hover);
+}
+
+select:focus {
+    outline: none;
 }
 
 
