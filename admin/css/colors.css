@@ -52,22 +52,25 @@
     --button-bg-delete: var(--destructive);
     --button-bg-infoEdit: var(--blue);
     --button-bg-close: var(--gray-light);
+    --button-text-secondary: white;
 
     --button-bg-true: var(--green-lighter);
     --button-bg-false: var(--destructive);
     --button-color-boolean: var(--gray-dark);
+
     --select-bg: white;
     --select-border: var(--gray-light);
     --select-border-hover: var(--gray-dark);
     --select-bg-hover: var(--gray-lightest);
     --select-color: black;
 
-    --button-text-secondary: white;
-
     --iobroker-color: var(--iobroker-blue);
     --menu-function-row: peachpuff;
+
     --row-button: var(--yellow-lighter);
+    --row-button-text: black;
     --row-container: var(--blue-lighter);
+
     --border-row-buttons: black;
     --border-row-container: black;
     --border-dark: var(--gray-dark);
@@ -115,6 +118,7 @@
 
     --primary-color: var(--gray--darker);
     --row-button: var(--gray);
+    --row-button-text: white;
     --background-primary: var(--gray-dark);
     --bg-input: var(--gray-dark);
 }

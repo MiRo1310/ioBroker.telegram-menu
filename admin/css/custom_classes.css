@@ -18,6 +18,10 @@
     align-items: center;
 }
 
+.items-start {
+    align-items: start;
+}
+
 .text-white {
     color: #fff;
 }

@@ -1,4 +1,4 @@
-@import "./input.css";
+@import "input-select.css";
 @import "./edit-container.css";
 @import "./button.css";
 @import "./editor-header.css";
@@ -448,9 +448,6 @@ p.inUse {
     margin-left: 5px;
 }
 
-.Select select {
-    margin: 5px;
-}
 
 /* Settings */
 .Settings h1 {
@@ -459,6 +456,10 @@ p.inUse {
 
 .Settings {
     color: var(--text-primary);
+}
+
+.Settings select {
+    margin-bottom: 1rem;
 }
 
 
@@ -708,7 +709,7 @@ span[title],
     flex: 1;
     text-align: center;
     background: var(--row-button) !important;
-    color: var(--text-primary)
+    color: var(--row-button-text)
 }
 
 .row__submenu {

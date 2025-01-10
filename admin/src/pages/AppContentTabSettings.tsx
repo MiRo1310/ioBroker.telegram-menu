@@ -51,7 +51,7 @@ class Settings extends Component<PropsSettings> {
                         />
                     </Grid>
                     <Grid size={{xs: 10, sm: 10, lg: 8}}>
-                        <div className={'flex items-center'}>
+                        <div className={'flex items-start'}>
                             <Input
                                 label={I18n.t('textNoEntry')}
                                 placeholder="No entry found"
