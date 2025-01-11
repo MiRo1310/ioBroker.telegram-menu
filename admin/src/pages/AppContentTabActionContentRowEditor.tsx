@@ -1,8 +1,8 @@
-import { BtnCircleAdd } from '@/components/btn-Input/btn-circle-add';
+import {BtnCircleAdd} from '@/components/btn-Input/btn-circle-add';
 import BtnSmallSearch from '@/components/btn-Input/btn-small-search';
 import Input from '@/components/btn-Input/input';
-import { isChecked } from '@/lib/Utils.js';
-import { moveItem, saveRows, updateData, updateId } from '@/lib/actionUtils.js';
+import {isChecked} from '@/lib/Utils.js';
+import {moveItem, saveRows, updateData, updateId} from '@/lib/actionUtils.js';
 import {
     handleDragEnd,
     handleDragEnter,
@@ -12,21 +12,22 @@ import {
     handleMouseOver,
     handleStyleDragOver,
 } from '@/lib/dragNDrop.js';
-import { isTruthy } from '@/lib/string';
+import {isTruthy} from '@/lib/string';
 import AppContentTabActionContentRowEditorTableHead from '@/pages/AppContentTabActionContentRowEditorTableHead';
 import RenameModal from '@components/RenameModal';
 import Checkbox from '@components/btn-Input/checkbox';
 import PopupContainer from '@components/popupCards/PopupContainer';
-import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
-import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from '@/types/app';
-import React, { Component } from 'react';
-import type { EventButton, EventCheckbox } from '@/types/event';
+import {I18n, type IobTheme, SelectID, Theme} from '@iobroker/adapter-react-v5';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableRow} from '@mui/material';
+import type {NativeData, PropsRowEditPopupCard, StateRowEditPopupCard} from '@/types/app';
+import React, {Component} from 'react';
+import type {EventButton, EventCheckbox} from '@/types/event';
 import AppContentTabActionContentRowEditorButtons from './AppContentTabActionContentRowEditorButtons';
 import AppContentTabActionContentRowEditorCopyModal from './AppContentTabActionContentRowEditorCopyModal';
-import type AppContentTabActionContentRowEditorCopyModalSelectedValues from './AppContentTabActionContentRowEditorCopyModalSelectedValues';
+import type AppContentTabActionContentRowEditorCopyModalSelectedValues
+    from './AppContentTabActionContentRowEditorCopyModalSelectedValues';
 import AppContentTabActionContentRowEditorHeader from './AppContentTabActionContentRowEditorHeader';
-import type { SaveDataObject } from '@/types/props-types';
+import type {SaveDataObject} from '@/types/props-types';
 
 const theme: IobTheme = Theme('light');
 
@@ -66,40 +67,44 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
             isValueOk: false,
         };
     }
+
     componentDidMount(): void {
         saveRows(this.props, this.setState.bind(this), [], this.state.rows);
         this.initCheckboxesForEachRow();
     }
 
     componentDidUpdate(prevProps: Readonly<PropsRowEditPopupCard>, prevState: Readonly<StateRowEditPopupCard>): void {
-        const { newRow } = this.props.data;
+        const {newRow} = this.props.data;
         if (prevProps.data.newRow !== newRow) {
             saveRows(this.props, this.setState.bind(this), newRow);
             this.initCheckboxesForEachRow();
         }
         if (prevState.checkboxes !== this.state.checkboxes) {
             const isMinOneCheckboxChecked = this.state.checkboxes.some(checkbox => checkbox);
-            this.setState({ isMinOneCheckboxChecked });
+            this.setState({isMinOneCheckboxChecked});
         }
         if (
             prevState.renamedTriggerName !== this.state.renamedTriggerName &&
             this.state.renamedTriggerName !== this.state.triggerName
         ) {
-            this.setState({ isValueChanged: true });
+            this.setState({isValueChanged: true});
         }
         if (
             prevProps.data.state.copyDataObject.targetCheckboxes !==
-                this.props.data.state.copyDataObject.targetCheckboxes ||
+            this.props.data.state.copyDataObject.targetCheckboxes ||
             prevProps.data.state.copyDataObject.targetActionName !==
-                this.props.data.state.copyDataObject.targetActionName
+            this.props.data.state.copyDataObject.targetActionName
         ) {
             this.isMinOneItemChecked();
         }
     }
 
-    updateData = (obj: { id: string; val: string | number | boolean; index: number }): void => {
-        updateData(obj, this.props, this.setState.bind(this));
-    };
+    updateData = (obj: {
+        id: string;
+        val: string | number | boolean;
+        index: number
+    }): void => updateData(obj, this.props, this.setState.bind(this));
+
 
     handleDrop = (index: number): void => {
         if (index !== this.state.dropStart) {
@@ -116,7 +121,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
         this.state.rows.forEach((_, index) => {
             checkboxes[index] = false;
         });
-        this.setState({ checkboxes: checkboxes });
+        this.setState({checkboxes: checkboxes});
     };
 
     checkAll = (check: boolean): void => {
@@ -125,17 +130,17 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
         rows.forEach((_, index) => {
             checkboxesRowToCopy[index] = check;
         });
-        this.setState({ checkboxes: checkboxesRowToCopy });
+        this.setState({checkboxes: checkboxesRowToCopy});
     };
 
     setCheckbox = (event: EventCheckbox): void => {
         const checkboxes = [...this.state.checkboxes];
         checkboxes[event.index] = event.isChecked;
-        this.setState({ checkboxes });
+        this.setState({checkboxes});
     };
 
     openCopyModal = (): void => {
-        this.setState({ openCopyPopup: true });
+        this.setState({openCopyPopup: true});
     };
 
     closeCopyModal = (val: boolean): void => {
@@ -143,16 +148,16 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
             this.addSelectedDataToSelected();
         }
         this.initCheckboxesForEachRow();
-        this.setState({ openCopyPopup: false });
+        this.setState({openCopyPopup: false});
     };
 
     addSelectedDataToSelected = (): void => {
         if (this.functionSave) {
             const obj = this.getSaveData();
-            const { isEmpty, action } = this.isActionTabEmpty(obj);
+            const {isEmpty, action} = this.isActionTabEmpty(obj);
             if (isEmpty) {
                 const triggerName = action[obj.activeMenu][obj.tab][obj.rowIndexToEdit].trigger[0];
-                this.setState({ openRenameModal: true, triggerName: triggerName, renamedTriggerName: triggerName });
+                this.setState({openRenameModal: true, triggerName: triggerName, renamedTriggerName: triggerName});
                 return;
             }
             this.functionSave.saveData(obj);
@@ -172,16 +177,16 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
 
     isMinOneItemChecked = (): void => {
         const isOneMenuSelected = !!this.props.data.state.copyDataObject.targetActionName;
-        const { isEmpty } = this.isActionTabEmpty(this.getSaveData());
+        const {isEmpty} = this.isActionTabEmpty(this.getSaveData());
 
         if (isEmpty && isOneMenuSelected) {
-            this.setState({ isValueOk: true });
+            this.setState({isValueOk: true});
             return;
         }
         const targetCheckboxes = this.props.data.state.copyDataObject.targetCheckboxes;
 
         if (!targetCheckboxes || !Object.keys(targetCheckboxes)?.length) {
-            this.setState({ isValueOk: false });
+            this.setState({isValueOk: false});
             return;
         }
 
@@ -195,7 +200,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
         this.functionSave = ref;
     };
 
-    renameMenu = ({ value }: EventButton): void => {
+    renameMenu = ({value}: EventButton): void => {
         if (value) {
             if (!this.functionSave) {
                 return;
@@ -204,13 +209,13 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
             obj.newTriggerName = this.state.renamedTriggerName;
             this.functionSave.saveData(obj);
         }
-        this.setState({ openRenameModal: false });
+        this.setState({openRenameModal: false});
     };
 
     private isActionTabEmpty(obj: SaveDataObject): { isEmpty: boolean; action: NativeData['action'] } {
         const action = this.props.data.state.native.data.action;
         const isEmpty = !action[obj.copyToMenu]?.[obj.tab].length;
-        return { isEmpty, action };
+        return {isEmpty, action};
     }
 
     render(): React.ReactNode {
@@ -229,8 +234,8 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                 <AppContentTabActionContentRowEditorHeader
                     callback={{
                         ...this.props.callback,
-                        updateData: ({ id, index, isChecked: val }: EventCheckbox) =>
-                            this.updateData({ id, index, val }),
+                        updateData: ({id, index, isChecked: val}: EventCheckbox) =>
+                            this.updateData({id, index, val}),
                         openCopyModal: this.openCopyModal.bind(this),
                     }}
                     data={{
@@ -248,55 +253,55 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                     >
                         <AppContentTabActionContentRowEditorTableHead
                             tab={this.props.data.tab}
-                            callback={{ checkAll: this.checkAll }}
+                            callback={{checkAll: this.checkAll}}
                         />
 
                         <TableBody>
                             {this.state.rows
                                 ? this.state.rows.map((row, indexRow: number) => (
-                                      <TableRow
-                                          key={indexRow}
-                                          sx={{ '&:last-child td, &:last-child td': { border: 0 } }}
-                                          draggable
-                                          onDrop={() => this.handleDrop(indexRow)}
-                                          onDragStart={event =>
-                                              handleDragStart(
-                                                  indexRow,
-                                                  event,
-                                                  this.state.mouseOverNoneDraggable,
-                                                  this.setState.bind(this),
-                                              )
-                                          }
-                                          onDragEnd={() => handleDragEnd(this.setState.bind(this))}
-                                          onDragOver={event => handleDragOver(indexRow, event)}
-                                          onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
-                                          onDragLeave={() => handleDragEnter(indexRow, this.setState.bind(this))}
-                                          style={handleStyleDragOver(
-                                              indexRow,
-                                              this.state.dropOver,
-                                              this.state.dropStart,
-                                          )}
-                                      >
-                                          <TableCell
-                                              component="td"
-                                              scope="row"
-                                              align="left"
-                                              className="td--checkbox"
-                                          >
-                                              <Checkbox
-                                                  id="checkbox"
-                                                  index={indexRow}
-                                                  callback={this.setCheckbox}
-                                                  isChecked={this.state.checkboxes[indexRow] || false}
-                                                  obj={true}
-                                              />
-                                          </TableCell>
-                                          {row.IDs || row.IDs === '' ? (
-                                              <TableCell
-                                                  component="td"
-                                                  scope="row"
-                                                  align="left"
-                                              >
+                                    <TableRow
+                                        key={indexRow}
+                                        sx={{'&:last-child td, &:last-child td': {border: 0}}}
+                                        draggable
+                                        onDrop={() => this.handleDrop(indexRow)}
+                                        onDragStart={event =>
+                                            handleDragStart(
+                                                indexRow,
+                                                event,
+                                                this.state.mouseOverNoneDraggable,
+                                                this.setState.bind(this),
+                                            )
+                                        }
+                                        onDragEnd={() => handleDragEnd(this.setState.bind(this))}
+                                        onDragOver={event => handleDragOver(indexRow, event)}
+                                        onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
+                                        onDragLeave={() => handleDragEnter(indexRow, this.setState.bind(this))}
+                                        style={handleStyleDragOver(
+                                            indexRow,
+                                            this.state.dropOver,
+                                            this.state.dropStart,
+                                        )}
+                                    >
+                                        <TableCell
+                                            component="td"
+                                            scope="row"
+                                            align="left"
+                                            className="td--checkbox"
+                                        >
+                                            <Checkbox
+                                                id="checkbox"
+                                                index={indexRow}
+                                                callback={this.setCheckbox}
+                                                isChecked={this.state.checkboxes[indexRow] || false}
+                                                obj={true}
+                                            />
+                                        </TableCell>
+                                        {row.IDs || row.IDs === '' ? (
+                                            <TableCell
+                                                component="td"
+                                                scope="row"
+                                                align="left"
+                                            >
                                                   <span
                                                       onMouseEnter={e => handleMouseOver(e)}
                                                       onMouseLeave={e => handleMouseOut(e)}
@@ -321,83 +326,83 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                                           />
                                                       </Input>
                                                   </span>
-                                              </TableCell>
-                                          ) : null}
-                                          {this.props.data.tab.entries.map((entry, i) =>
-                                              !entry.checkbox && entry.name != 'IDs' && entry.name != 'trigger' ? (
-                                                  <TableCell
-                                                      align="left"
-                                                      key={i}
-                                                  >
-                                                      <Input
-                                                          value={
-                                                              typeof row[entry.name] === 'string'
-                                                                  ? row[entry.name].replace(/&amp;/g, '&')
-                                                                  : ''
-                                                          }
-                                                          id={entry.name}
-                                                          index={indexRow}
-                                                          callback={this.updateData}
-                                                          disabled={this.disableInput(entry.name, indexRow)}
-                                                          type={entry.type}
-                                                          className="noneDraggable"
-                                                          onMouseOver={handleMouseOver}
-                                                          onMouseLeave={handleMouseOut}
-                                                          setState={this.setState.bind(this)}
-                                                      >
-                                                          {entry.btnCircleAdd ? (
-                                                              <BtnCircleAdd
-                                                                  callback={() =>
-                                                                      this.props.callback.openHelperText({
-                                                                          index: indexRow,
-                                                                          entry: entry.name,
-                                                                          subCard: this.props.data.tab.value,
-                                                                      })
-                                                                  }
-                                                              />
-                                                          ) : null}
-                                                      </Input>
-                                                      {entry.search ? (
-                                                          <BtnSmallSearch
-                                                              index={indexRow}
-                                                              callback={() =>
-                                                                  this.setState({
-                                                                      showSelectId: true,
-                                                                      selectIdValue: row[entry.name],
-                                                                      indexID: indexRow,
-                                                                      itemForID: entry.name,
-                                                                  })
-                                                              }
-                                                          />
-                                                      ) : null}
-                                                  </TableCell>
-                                              ) : entry.checkbox && entry.name != 'parse_mode' ? (
-                                                  <TableCell
-                                                      align="left"
-                                                      className="table__head_checkbox"
-                                                      key={i}
-                                                  >
-                                                      <Checkbox
-                                                          id={entry.name}
-                                                          index={indexRow}
-                                                          callback={({ id, index, isChecked }: EventCheckbox) =>
-                                                              this.updateData({ id, index, val: isChecked })
-                                                          }
-                                                          isChecked={isChecked(row[entry.name])}
-                                                          obj={true}
-                                                      />
-                                                  </TableCell>
-                                              ) : null,
-                                          )}
-                                          <AppContentTabActionContentRowEditorButtons
-                                              callback={{
-                                                  ...this.props.callback,
-                                                  setStateEditor: this.setState.bind(this),
-                                              }}
-                                              data={{ ...this.props.data, rows: this.state.rows, indexRow }}
-                                          />
-                                      </TableRow>
-                                  ))
+                                            </TableCell>
+                                        ) : null}
+                                        {this.props.data.tab.entries.map((entry, i) =>
+                                            !entry.checkbox && entry.name != 'IDs' && entry.name != 'trigger' ? (
+                                                <TableCell
+                                                    align="left"
+                                                    key={i}
+                                                >
+                                                    <Input
+                                                        value={
+                                                            typeof row[entry.name] === 'string'
+                                                                ? row[entry.name].replace(/&amp;/g, '&')
+                                                                : ''
+                                                        }
+                                                        id={entry.name}
+                                                        index={indexRow}
+                                                        callback={this.updateData}
+                                                        disabled={this.disableInput(entry.name, indexRow)}
+                                                        type={entry.type}
+                                                        className="noneDraggable"
+                                                        onMouseOver={handleMouseOver}
+                                                        onMouseLeave={handleMouseOut}
+                                                        setState={this.setState.bind(this)}
+                                                    >
+                                                        {entry.btnCircleAdd ? (
+                                                            <BtnCircleAdd
+                                                                callback={() =>
+                                                                    this.props.callback.openHelperText({
+                                                                        index: indexRow,
+                                                                        entry: entry.name,
+                                                                        subCard: this.props.data.tab.value,
+                                                                    })
+                                                                }
+                                                            />
+                                                        ) : null}
+                                                    </Input>
+                                                    {entry.search ? (
+                                                        <BtnSmallSearch
+                                                            index={indexRow}
+                                                            callback={() =>
+                                                                this.setState({
+                                                                    showSelectId: true,
+                                                                    selectIdValue: row[entry.name],
+                                                                    indexID: indexRow,
+                                                                    itemForID: entry.name,
+                                                                })
+                                                            }
+                                                        />
+                                                    ) : null}
+                                                </TableCell>
+                                            ) : entry.checkbox && entry.name != 'parse_mode' ? (
+                                                <TableCell
+                                                    align="left"
+                                                    className="table__head_checkbox"
+                                                    key={i}
+                                                >
+                                                    <Checkbox
+                                                        id={entry.name}
+                                                        index={indexRow}
+                                                        callback={({id, index, isChecked}: EventCheckbox) =>
+                                                            this.updateData({id, index, val: isChecked})
+                                                        }
+                                                        isChecked={isChecked(row[entry.name])}
+                                                        obj={true}
+                                                    />
+                                                </TableCell>
+                                            ) : null,
+                                        )}
+                                        <AppContentTabActionContentRowEditorButtons
+                                            callback={{
+                                                ...this.props.callback,
+                                                setStateEditor: this.setState.bind(this),
+                                            }}
+                                            data={{...this.props.data, rows: this.state.rows, indexRow}}
+                                        />
+                                    </TableRow>
+                                ))
                                 : null}
                         </TableBody>
                     </Table>
@@ -412,11 +417,11 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                         socket={this.props.data.socket}
                         filters={{}}
                         selected={this.state.selectIdValue}
-                        onClose={() => this.setState({ showSelectId: false })}
+                        onClose={() => this.setState({showSelectId: false})}
                         root={this.props.data.tab.searchRoot?.root}
                         types={this.props.data.tab.searchRoot?.type ? this.props.data.tab.searchRoot.type : undefined}
                         onOk={selected => {
-                            this.setState({ showSelectId: false });
+                            this.setState({showSelectId: false});
                             updateId(
                                 selected,
                                 this.props,
@@ -433,10 +438,10 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                         class="popupContainer__copy"
                         isOK={this.state.isValueOk}
                         labelBtnOK="add"
-                        callback={({ value }: EventButton) => this.closeCopyModal(value as boolean)}
+                        callback={({value}: EventButton) => this.closeCopyModal(value as boolean)}
                     >
                         <AppContentTabActionContentRowEditorCopyModal
-                            data={{ ...this.props.data }}
+                            data={{...this.props.data}}
                             callback={{
                                 ...this.props.callback,
                                 setStateRowEditor: this.setState.bind(this),
