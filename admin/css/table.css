@@ -11,11 +11,24 @@ table input {
     border: none !important;
 }
 
-/*thead ~ tbody{*/
-/*    display: block;*/
+/*thead ~ tbody {*/
+/*    display: block !important;*/
 /*    max-height: 400px; !* Adjust the height as needed *!*/
-/*    overflow-y: auto;*/
+/*    overflow: auto !important;*/
 /*    width: 100%;*/
+/*}*/
+
+/*#root table thead,*/
+/*#root table tfoot {*/
+/*    display: table;*/
+/*    width: 100%;*/
+/*    table-layout: fixed; !* Ensures the columns align *!*/
+/*}*/
+
+/*#root table tr {*/
+/*    display: table;*/
+/*    width: 100%;*/
+/*    table-layout: fixed; !* Ensures the columns align *!*/
 /*}*/
 
 thead ~ tbody > tr {
