@@ -113,7 +113,7 @@ div.MuiTabPanel-root {
     flex-shrink: 1;
     flex-basis: auto;
     width: calc(100%) !important;
-    padding: 2px 5px 5px 5px;
+    padding: 2px 5px 5px 0;
 }
 
 /* NavigationMenu */

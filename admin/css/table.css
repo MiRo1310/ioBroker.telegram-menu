@@ -2,7 +2,7 @@
 
 #root table {
     border-collapse: collapse !important;
-    width: calc(100% - 0.5rem) !important;
+    width: calc(100%) !important;
     overflow-y: auto;
     flex: 1;
 }
@@ -11,28 +11,9 @@ table input {
     border: none !important;
 }
 
-/*thead ~ tbody {*/
-/*    display: block !important;*/
-/*    max-height: 400px; !* Adjust the height as needed *!*/
-/*    overflow: auto !important;*/
-/*    width: 100%;*/
-/*}*/
-
-/*#root table thead,*/
-/*#root table tfoot {*/
-/*    display: table;*/
-/*    width: 100%;*/
-/*    table-layout: fixed; !* Ensures the columns align *!*/
-/*}*/
-
-/*#root table tr {*/
-/*    display: table;*/
-/*    width: 100%;*/
-/*    table-layout: fixed; !* Ensures the columns align *!*/
-/*}*/
-
 thead ~ tbody > tr {
-    border: 3px solid inherit;
+    border: 3px solid transparent;
+
 }
 
 #root tr th {
