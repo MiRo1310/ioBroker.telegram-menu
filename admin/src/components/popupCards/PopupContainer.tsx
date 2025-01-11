@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from '../Button';
-import { I18n } from '@iobroker/adapter-react-v5';
-import type { Properties } from 'csstype';
-import type { PropsPopupContainer, StatePopupContainer } from '@/types/app';
+import {I18n} from '@iobroker/adapter-react-v5';
+import type {Properties} from 'csstype';
+import type {PropsPopupContainer, StatePopupContainer} from '@/types/app';
 
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
     constructor(props: PropsPopupContainer) {
@@ -28,7 +28,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
             top: this.props.top ? this.props.top : '50%',
             left: this.props.left ? this.props.left : '50%',
             right: this.props.right ? this.props.right : '50%',
-            transform: 'translate(-50%, -60%)',
+            transform: 'translate(-50%, -50%)',
             backgroundColor: '#fff',
             width: this.props.width || '400px',
             height: this.props.height || '200px',

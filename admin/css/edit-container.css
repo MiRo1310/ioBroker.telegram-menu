@@ -1,3 +1,7 @@
+.edit__container {
+    padding-top: 1rem;
+}
+
 .edit__container label {
     width: 100%;
 }
@@ -27,6 +31,17 @@
     height: 1rem
 }
 
+.edit__container {
+    display: flex;
+    flex-direction: column;
+    max-height: 100% !important;
+}
+
+.edit__container table {
+    overflow: auto;
+    max-height: 100%;
+}
+
 .edit__container label p {
     margin-left: 8px !important;
 }
@@ -46,4 +61,10 @@
 
 .edit__container td:nth-child(1) {
     padding-left: 0.35rem !important;
+}
+
+.edit__container_action {
+    overflow: auto;
+    flex: 1;
+    max-height: 100%;
 }

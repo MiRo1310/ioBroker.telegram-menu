@@ -195,8 +195,8 @@ div.MuiTabPanel-root {
 
 .dialog__card_content {
     padding: 0 0.5rem 0 0.5rem;
+    height: calc(100% - 145px);
 }
-
 
 .dropbox__container {
     background-color: transparent !important;
