@@ -57,19 +57,12 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
     };
 
     componentDidUpdate(prevProps: Readonly<PropsTableDndAction>): void {
-
         if (prevProps.data.state.activeMenu !== this.props.data.state.activeMenu) {
             this.getRows();
             AppContentTabActionContentTable.updateHeight();
         }
         if (prevProps.data.state.native.data.action !== this.props.data.state.native.data.action) {
             this.getRows();
-        }
-        if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
-            if (!this.props.data.state.clickedTriggerInNav) {
-                return;
-            }
-            scrollToId(this.props.data.state.clickedTriggerInNav);
         }
     }
 
@@ -100,6 +93,11 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
         setTimeout(() => {
             AppContentTabActionContentTable.updateHeight();
         }, 100);
+        setTimeout(() => {
+            if (this.props.data.state.clickedTriggerInNav) {
+                scrollToId(this.props.data.state.clickedTriggerInNav);
+            }
+        }, 500);
     }
 
     static componentWillUnmount(): void {
@@ -155,7 +153,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                         key={index}
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         className={`no-select ${this.jumpedToTrigger(row?.trigger?.[0])}`}
-                        id={row?.trigger?.[0]}
+
                         draggable
                         onDrop={event => this.handleDrop(index, event)}
                         onDragStart={event => {
@@ -173,18 +171,20 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                         onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
                         style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
                     >
-                        {row.trigger ? (
+
+                        {row?.trigger?.[0] ? (
                             <TableCell
                                 align="left"
                                 component="td"
                                 scope="row"
                             >
+                                <span className="table__ghost_id" id={row?.trigger?.[0]}/>
                                 <span
                                     className="noneDraggable"
                                     onMouseOver={e => handleMouseOver(e)}
                                     onMouseLeave={e => handleMouseOut(e)}
                                 >
-                                    {row.trigger}
+                                    {row?.trigger?.[0]}
                                 </span>
                             </TableCell>
                         ) : null}

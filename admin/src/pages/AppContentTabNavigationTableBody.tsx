@@ -149,13 +149,14 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                         onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
                         style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
                     >
-                        <span className="table__ghost_id" id={row.call}/>
+
                         {this.props.data.entries.map((entry, indexCell) => (
                             <TableCell
                                 key={indexCell}
                                 component="td"
                                 style={{width: entry.width ? entry.width : undefined}}
                             >
+                                <span className="table__ghost_id" id={row.call}/>
                                 <span
                                     className="noneDraggable"
                                     onMouseOver={e => handleMouseOver(e)}
