@@ -5,7 +5,7 @@ export const processUserData = (data: string): { name: string; chatID: string }[
         const newData = JSON.parse(data);
         Object.keys(newData).forEach(key => {
             const name = newData[key].firstName;
-            array.push({name: name, chatID: key});
+            array.push({ name: name, chatID: key });
         });
         return array;
     } catch (err) {
@@ -58,6 +58,6 @@ export const checkObjectOrArray = (obj: object): string => {
 export function scrollToId(id: string): void {
     const element = document.getElementById(id);
     if (element) {
-        element.scrollIntoView({behavior: 'smooth'});
+        element.scrollIntoView({ behavior: 'smooth' });
     }
 }

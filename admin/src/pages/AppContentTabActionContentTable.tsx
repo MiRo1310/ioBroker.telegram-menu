@@ -1,11 +1,11 @@
-import {TableBody, TableCell, TableRow} from '@mui/material';
-import type {PropsTableDndAction, RowForButton, StateTableDndAction} from '@/types/app.js';
-import React, {Component} from 'react';
-import type {DataRowAction, TabValueEntries} from '@/types/app';
-import {ButtonCard} from '@components/popupCards/buttonCard';
-import {deepCopy, scrollToId} from '@/lib/Utils';
-import {getElementIcon} from '@/lib/actionUtils';
-import {deleteRow, moveItem} from '@/lib/button';
+import { TableBody, TableCell, TableRow } from '@mui/material';
+import type { PropsTableDndAction, RowForButton, StateTableDndAction } from '@/types/app.js';
+import React, { Component } from 'react';
+import type { DataRowAction, TabValueEntries } from '@/types/app';
+import { ButtonCard } from '@components/popupCards/buttonCard';
+import { deepCopy, scrollToId } from '@/lib/Utils';
+import { getElementIcon } from '@/lib/actionUtils';
+import { deleteRow, moveItem } from '@/lib/button';
 import {
     handleDragEnd,
     handleDragEnter,
@@ -15,7 +15,7 @@ import {
     handleMouseOver,
     handleStyleDragOver,
 } from '@/lib/dragNDrop';
-import type {EventButton} from '@/types/event';
+import type { EventButton } from '@/types/event';
 import SubTable from './AppContentTabActionContentTableSubTable.js';
 
 class AppContentTabActionContentTable extends Component<PropsTableDndAction, StateTableDndAction> {
@@ -39,7 +39,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
     }
 
     getRows = (): void => {
-        const {activeMenu, native} = this.props.data.state;
+        const { activeMenu, native } = this.props.data.state;
         const action = native.data.action;
 
         if (!action) {
@@ -53,7 +53,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
         for (const entry of elements) {
             rows.push(AppContentTabActionContentTable.createData(this.props.data.tab.entries, entry));
         }
-        this.setState({rows: rows});
+        this.setState({ rows: rows });
     };
 
     componentDidUpdate(prevProps: Readonly<PropsTableDndAction>): void {
@@ -127,10 +127,10 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
         }
     };
 
-    editRow = ({index}: EventButton): void => {
-        const {activeMenu} = this.props.data.state;
-        const {data} = this.props.data.state.native;
-        const {setStateTabActionContent} = this.props.callback;
+    editRow = ({ index }: EventButton): void => {
+        const { activeMenu } = this.props.data.state;
+        const { data } = this.props.data.state.native;
+        const { setStateTabActionContent } = this.props.callback;
         const dataCopy = deepCopy(data);
         if (!dataCopy) {
             return;
@@ -140,10 +140,11 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
         if (newRow.trigger) {
             this.props.callback.addEditedTrigger(newRow.trigger[0]);
         }
-        setStateTabActionContent({newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index});
+        setStateTabActionContent({ newRow: newRow, editRow: true, rowPopup: true, rowIndexToEdit: index });
     };
 
-    jumpedToTrigger = (call: string | undefined): string => !call || this.props.data.state.clickedTriggerInNav !== call ? '' : 'row__navigate_to-active';
+    jumpedToTrigger = (call: string | undefined): string =>
+        !call || this.props.data.state.clickedTriggerInNav !== call ? '' : 'row__navigate_to-active';
 
     render(): React.ReactNode {
         return (
@@ -151,9 +152,8 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                 {this.state.rows.map((row, index) => (
                     <TableRow
                         key={index}
-                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         className={`no-select ${this.jumpedToTrigger(row?.trigger?.[0])}`}
-
                         draggable
                         onDrop={event => this.handleDrop(index, event)}
                         onDragStart={event => {
@@ -162,7 +162,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                                 event,
                                 this.state.mouseOverNoneDraggable,
                                 this.setState.bind(this),
-                                {draggingRowIndex: index},
+                                { draggingRowIndex: index },
                                 this.props.callback.setStateApp,
                             );
                         }}
@@ -171,14 +171,16 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                         onDragEnter={() => handleDragEnter(index, this.setState.bind(this))}
                         style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
                     >
-
                         {row?.trigger?.[0] ? (
                             <TableCell
                                 align="left"
                                 component="td"
                                 scope="row"
                             >
-                                <span className="table__ghost_id" id={row?.trigger?.[0]}/>
+                                <span
+                                    className="table__ghost_id"
+                                    id={row?.trigger?.[0]}
+                                />
                                 <span
                                     className="noneDraggable"
                                     onMouseOver={e => handleMouseOver(e)}
@@ -196,7 +198,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                                     component="td"
                                     scope="row"
                                     key={indexEntry}
-                                    style={entry.width ? {width: entry.width} : undefined}
+                                    style={entry.width ? { width: entry.width } : undefined}
                                 >
                                     <SubTable
                                         data={row[entry.name] as []}
@@ -225,11 +227,9 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                         <ButtonCard
                             openAddRowCard={this.props.callback.openAddRowCard}
                             editRow={this.editRow}
-                            moveDown={() => {
-                            }}
-                            moveUp={() => {
-                            }}
-                            deleteRow={({index}: EventButton) =>
+                            moveDown={() => {}}
+                            moveUp={() => {}}
+                            deleteRow={({ index }: EventButton) =>
                                 deleteRow({
                                     index,
                                     activeMenu: this.props.data.state.activeMenu,

@@ -1,11 +1,11 @@
 import PopupContainer from '@/components/popupCards/PopupContainer';
 import AppContentTabNavigationTableRowEditorCard from '@/pages/AppContentTabNavigationTableRowEditorCard';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {deepCopy} from '@/lib/Utils.js';
-import type {ChangeInputNav} from '@/types/app';
-import type {PropsTableNavEditRow} from '@/types/props-types';
-import type {EventCheckbox} from '@/types/event';
+import { deepCopy } from '@/lib/Utils.js';
+import type { ChangeInputNav } from '@/types/app';
+import type { PropsTableNavEditRow } from '@/types/props-types';
+import type { EventCheckbox } from '@/types/event';
 
 class TableNavEditRow extends Component<PropsTableNavEditRow> {
     constructor(props: PropsTableNavEditRow) {
@@ -13,7 +13,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
         this.state = {};
     }
 
-    changeInput = ({val, id}: ChangeInputNav): void => {
+    changeInput = ({ val, id }: ChangeInputNav): void => {
         const copyNewRow = deepCopy(this.props.state.newRow);
         if (!copyNewRow) {
             return;
@@ -21,9 +21,9 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
         if (id) {
             copyNewRow[id] = val.toString();
         }
-        this.props.setState({newRow: copyNewRow});
+        this.props.setState({ newRow: copyNewRow });
     };
-    changeCheckbox = ({isChecked, id}: EventCheckbox): void => {
+    changeCheckbox = ({ isChecked, id }: EventCheckbox): void => {
         const copyNewRow = deepCopy(this.props.state.newRow);
         if (!copyNewRow) {
             return;
@@ -31,16 +31,16 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
         if (id) {
             copyNewRow[id] = isChecked.toString();
         }
-        this.props.setState({newRow: copyNewRow});
+        this.props.setState({ newRow: copyNewRow });
     };
 
     openHelperText = (value: string): void => {
         if (value) {
-            this.props.setState({editedValueFromHelperText: this.props.state.newRow[value]});
-            this.props.setState({helperTextFor: value});
+            this.props.setState({ editedValueFromHelperText: this.props.state.newRow[value] });
+            this.props.setState({ helperTextFor: value });
         }
 
-        this.props.setState({helperText: true});
+        this.props.setState({ helperText: true });
     };
 
     render(): React.ReactNode {
@@ -58,7 +58,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
                 isOK={this.props.state.valuesAreOk}
             >
                 <AppContentTabNavigationTableRowEditorCard
-                    callback={{onChangeInput: this.changeInput, onChangeCheckbox: this.changeCheckbox}}
+                    callback={{ onChangeInput: this.changeInput, onChangeCheckbox: this.changeCheckbox }}
                     inUse={this.props.state.callInUse}
                     openHelperText={this.openHelperText}
                     entries={this.props.data.entries}
