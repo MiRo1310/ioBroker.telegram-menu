@@ -23,7 +23,7 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 
     render(): React.ReactNode {
         return (
-            <div className="MenuPopupCard-Popup">
+            <div className="menu__list_popup">
                 {this.menuList.map((menu, index) => {
                     return (
                         <Button
@@ -35,7 +35,7 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
                                 this.secondCallback();
                             }}
                             callbackValue="event.target.innerText"
-                            className="button__menu button"
+                            className="button__menu button__primary button"
                         >
                             {menu}
                         </Button>
@@ -45,4 +45,5 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
         );
     }
 }
+
 export default MenuPopupCard;

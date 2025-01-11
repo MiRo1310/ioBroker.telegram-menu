@@ -11,7 +11,7 @@ class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
 
     render(): React.ReactNode {
         return (
-            <div className="RenameCard">
+            <div className="rename__card">
                 <Input
                     value={this.props.value as string}
                     id={this.props.id}

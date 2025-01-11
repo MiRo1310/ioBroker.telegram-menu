@@ -32,7 +32,7 @@ class Settings extends Component<PropsSettings> {
 
     render(): React.ReactNode {
         return (
-            <div className="Settings">
+            <div className="settings__tab">
                 <h1>{I18n.t('settings')}</h1>
                 <Grid
                     container
@@ -50,8 +50,8 @@ class Settings extends Component<PropsSettings> {
                             setNative={true}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, lg: 8 }}>
-                        <div className={'flex items-center'}>
+                    <Grid size={{ xs: 10, sm: 10, lg: 8 }}>
+                        <div className={'flex items-start'}>
                             <Input
                                 label={I18n.t('textNoEntry')}
                                 placeholder="No entry found"

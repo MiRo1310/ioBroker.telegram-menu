@@ -12,6 +12,7 @@ import Button from '@components/Button';
 import type { ActionData, ActionNewRowProps, PropsActionCard, StateActionCard } from '@/types/app';
 import type { EventButton } from '@/types/event';
 import type { UpdateProps } from '@/types/props-types';
+import ErrorBoundary from '@components/ErrorBoundary';
 
 class ActionCard extends Component<PropsActionCard, StateActionCard> {
     constructor(props: PropsActionCard) {
@@ -225,7 +226,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                 ) : (
                     <TableContainer
                         component={Paper}
-                        className="ActionCard-Container"
+                        className="action__container"
                     >
                         <Table
                             stickyHeader
@@ -246,20 +247,22 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                                             <TableCell
                                                 key={i}
                                                 align="center"
-                                                className="cellIcon"
+                                                className="table__cell_icon"
                                             />
                                         ))}
                                 </TableRow>
                             </TableHead>
-                            <AppContentTabActionContentTable
-                                data={this.props.data}
-                                callback={{
-                                    ...this.props.callback,
-                                    setStateTabActionContent: this.setState.bind(this),
-                                    openAddRowCard: this.openAddRowCard,
-                                    addEditedTrigger: this.addEditedTrigger,
-                                }}
-                            />
+                            <ErrorBoundary>
+                                <AppContentTabActionContentTable
+                                    data={this.props.data}
+                                    callback={{
+                                        ...this.props.callback,
+                                        setStateTabActionContent: this.setState.bind(this),
+                                        openAddRowCard: this.openAddRowCard,
+                                        addEditedTrigger: this.addEditedTrigger,
+                                    }}
+                                />
+                            </ErrorBoundary>
                         </Table>
                     </TableContainer>
                 )}

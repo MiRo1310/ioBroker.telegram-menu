@@ -21,7 +21,7 @@ class ButtonExpand extends Component<ButtonExpandProps> {
                 <Button
                     className={
                         this.props.label
-                            ? `button__flex ${this.props.class}`
+                            ? `button__primary button__flex ${this.props.class}`
                             : `button__icon button__primary ${this.props.class}`
                     }
                     id="expandTelegramUsers"

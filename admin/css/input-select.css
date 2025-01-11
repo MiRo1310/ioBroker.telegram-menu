@@ -1,0 +1,129 @@
+input {
+    margin: 0 !important;
+    padding: 0.5rem !important;
+    border: none !important;
+    width: calc(100% - 50px) !important;
+    font-size: 16px !important;
+    border-bottom: 1px solid var(--input-border) !important;
+    color: var(--input-text);
+    background: var(--input-bg);
+}
+
+input::placeholder {
+    color: var(--input-placeholder-color); /* Replace with your desired color */
+}
+
+body .header__menu_buttons input {
+    font-size: 1.0rem !important;
+    width: 300px !important;
+}
+
+.settings__tab input[type="checkbox"] {
+    margin-left: 8px;
+}
+
+.rename__card input {
+    text-align: center;
+}
+
+tr[draggable="true"] input {
+    cursor: text;
+    user-select: text; /* Standard */
+    -moz-user-select: text; /* Firefox */
+    -webkit-user-select: text; /* Safari */
+    -ms-user-select: text; /* Internet Explorer/Edge */
+}
+
+.inUse,
+.inUse input {
+    color: var(--destructive) !important;
+    border-color: var(--destructive) !important;
+}
+
+input ~ p {
+    margin-left: 5px !important;
+}
+
+input ~ p {
+    margin-top: 0 !important;
+    display: block;
+}
+
+input:focus {
+    outline: none;
+}
+
+input:disabled {
+    opacity: 0.3;
+}
+
+/* checkbox */
+/* Allgemein */
+label.checkbox {
+    display: flex;
+    align-items: center;
+    height: 20px;
+}
+
+label.checkbox input {
+    display: inline-block !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+label.checkbox span {
+    margin-left: 5px;
+}
+
+#root table tbody input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    vertical-align: text-bottom;
+    cursor: pointer !important;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: var(--checkbox-bg);
+}
+
+.checkbox__line {
+    margin-left: 8px !important;
+    margin-top: 5px !important;
+}
+
+.input__container--settings {
+    width: 100% !important;
+}
+
+
+.select__label {
+    margin-bottom: 0.5rem;
+    display: block;
+    margin-left: 5px;
+}
+
+select {
+    background-color: var(--select-bg) !important;
+    color: var(--text-primary) !important;
+    border: none;
+    border-bottom: 1px solid var(--border-secondary);
+    padding: 0.5rem !important;
+    margin: -5px 0.5rem 0 0 !important;
+}
+
+select option:disabled {
+    background-color: var(--iobroker-blue);
+    color: var(--light);
+}
+
+select:hover {
+    border-color: var(--select-border-hover);
+    background: var(--select-bg-hover);
+}
+
+select:focus {
+    outline: none;
+}
+
+
+

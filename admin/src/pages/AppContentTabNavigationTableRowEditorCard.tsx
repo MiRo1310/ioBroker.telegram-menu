@@ -55,7 +55,7 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
                             callback={this.props.callback.onChangeCheckbox}
                             isChecked={isChecked(this.props.newRow[entry.name])}
                             obj={true}
-                            label={I18n.t(entry.headline)}
+                            label="Parse Mode"
                         />
                     ),
                 )}

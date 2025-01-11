@@ -52,7 +52,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
                 text={this.props.state.text}
                 usedTrigger={this.props.data.state.usedTrigger}
                 width="99%"
-                height="40%"
+                height="450px"
                 title="Navigation"
                 setState={this.props.setState.bind(this)}
                 isOK={this.props.state.valuesAreOk}

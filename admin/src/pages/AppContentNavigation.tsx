@@ -45,12 +45,12 @@ class AppContentNavigation extends Component<PropsMainTabList> {
     render(): React.ReactNode {
         return (
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <div className={'flex justify-between App-TabList'}>
+                <div className={'flex justify-between items-start app__navigation_row'}>
                     <div className={'flex flex-wrap'}>
                         {this.getTabs().map(tab => (
                             <button
                                 key={tab.label}
-                                className={`${this.isActive(tab.value) ? 'active' : ''}`}
+                                className={`button button__primary ${this.isActive(tab.value) ? 'button__active' : ''}`}
                                 onClick={() => this.handleChange(tab.value)}
                             >
                                 {I18n.t(tab.label)}
@@ -60,14 +60,14 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                     <div className={'flex items-center '}>
                         <button
                             key={'description'}
-                            className={`${this.isActive('description') ? 'active' : ''}`}
+                            className={`button button__primary ${this.isActive('description') ? 'button__active' : ''}`}
                             onClick={() => this.handleChange('description')}
                         >
                             {I18n.t('descriptions')}
                         </button>
                         <button
                             key={'settings'}
-                            className={`icon ${this.isActive('settings') ? 'active' : ''}`}
+                            className={`icon button__primary ${this.isActive('settings') ? 'button__active' : ''}`}
                             onClick={() => this.handleChange('settings')}
                         >
                             <i className="material-icons">settings</i>

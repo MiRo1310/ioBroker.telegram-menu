@@ -26,9 +26,11 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
             oldTrigger: '',
         };
     }
+
     componentDidMount(): void {
         this.updateMenuList();
     }
+
     componentDidUpdate(prevProps: Readonly<PropsDropBox>, prevState: Readonly<StateDropBox>): void {
         if (prevProps.data.state.activeMenu !== this.props.data.state.activeMenu) {
             this.setState({ selectedMenu: '' });
@@ -50,6 +52,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
             }
         }
     }
+
     updateMenuList = (): void => {
         const menuList = Object.keys(this.props.data.state.native.usersInGroup);
         this.setState({ menuList: menuList });
@@ -247,10 +250,11 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
         }
         this.setState({ newTrigger: value as string });
     };
+
     render(): React.ReactNode {
         return (
-            <div className="Dropbox--outerContainer">
-                <div className="DropBox-Container">
+            <div className="dropbox__content_wrapper">
+                <div className="dropbox__content">
                     <p>{this.state.isOK}</p>
                     <Select
                         options={this.state.menuList}
@@ -258,7 +262,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                         id="selectedMenu"
                         callback={({ val }: EventSelect) => this.setState({ selectedMenu: val })}
                         placeholder={I18n.t('selectTargetMenu')}
-                    ></Select>
+                    />
                     <label>
                         <Radio
                             checked={this.state.selectedValue === 'move'}
@@ -280,7 +284,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                         {I18n.t('Copy')}
                     </label>
                     <div
-                        className="DropBox"
+                        className="dropbox__drag_in_field"
                         draggable
                         onDrop={() => this.handleOnDrop()}
                         onDragOver={(event: React.DragEvent<HTMLDivElement>) => DropBox.handleDragOver(event)}
@@ -292,12 +296,12 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                     </div>
                 </div>
                 {this.state.openRenamePopup ? (
-                    <div className="Dropbox--PopupContainer-RenameCard">
+                    <div className="dropbox__dialog_rename-wrapper">
                         <PopupContainer
                             title={I18n.t('Rename trigger')}
                             value={this.state.trigger}
                             callback={this.renameMenu}
-                            class="DropBox-Background"
+                            class="dropbox__dialog_rename-card"
                             isOK={this.state.isOK}
                         >
                             <RenameCard

@@ -1,0 +1,21 @@
+/* Für Webkit-Browser wie Chrome und Safari */
+.navigation__container::-webkit-scrollbar,
+.action__container::-webkit-scrollbar {
+    width: 10px; /* Breite der Scrollbar */
+}
+
+.navigation__container::-webkit-scrollbar-thumb,
+.action__container::-webkit-scrollbar-thumb {
+    background: var(--scrollbar); /* Farbe des beweglichen Teils der Scrollbar */
+}
+
+.navigation__container::-webkit-scrollbar-thumb:hover,
+.action__container::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover); /* Farbe des beweglichen Teils der Scrollbar beim Überfahren mit der Maus */
+}
+
+/* Für Firefox */
+.navigation__container, .action__container {
+    scrollbar-width: thin; /* Breite der Scrollbar */
+    scrollbar-color: var(--scrollbar) var(--scrollbar-static); /* Farbe des beweglichen Teils der Scrollbar und Hintergrundfarbe der Scrollbar */
+}

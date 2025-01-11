@@ -9,7 +9,7 @@
 
 .table__container_description td input {
     height: 30px;
-    color: #4caaf4 !important;
+    color: var(--iobroker-blue) !important;
     width: calc(100% - 0.5rem) !important;
 }
 
@@ -20,10 +20,10 @@
 }
 
 .popup__description {
-    border: 1px solid black;
+    border: 1px solid var(--border-dark);
     padding: 10px;
 }
 
-.dark .tab__description_text {
-    color: white
+.tab__description_text {
+    color: var(--text-primary)
 }

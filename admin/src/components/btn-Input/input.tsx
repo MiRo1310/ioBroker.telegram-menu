@@ -14,7 +14,7 @@ class Input extends Component<InputProps> {
             <label className={`input__container ${this.props.class || ''}`}>
                 <input
                     type={this.props.type ? this.props.type : 'text'}
-                    className="InputField noneDraggable"
+                    className="noneDraggable"
                     placeholder={I18n.t(this.props.placeholder || '')}
                     value={this.props.value}
                     disabled={this.props.disabled}
@@ -28,7 +28,7 @@ class Input extends Component<InputProps> {
                     }
                 />
                 <span className="input__icon">{this.props.children}</span>
-                <p>{this.props.label}</p>
+                {this.props.label ? <p>{this.props.label}</p> : null}
             </label>
         );
     }

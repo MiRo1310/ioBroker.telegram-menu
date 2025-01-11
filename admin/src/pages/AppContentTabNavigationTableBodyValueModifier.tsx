@@ -108,7 +108,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                     />
                 ) : null}
                 {this.isValue() ? (
-                    <div className={'row__container'}>
+                    <div className={'table__row_container'}>
                         {this.getValue().map((row, i) =>
                             row !== '' ? (
                                 <p
@@ -135,9 +135,9 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                     </div>
                 ) : this.props.entry.name === 'parse_mode' ? (
                     <span>{getElementIcon(this.props.row[this.props.entry.name as string])}</span>
-                ) : (
+                ) : this.props.row[this.props.entry.name] !== '-' ? (
                     <span>{this.props.row[this.props.entry.name]}</span>
-                )}
+                ) : null}
             </>
         );
     }

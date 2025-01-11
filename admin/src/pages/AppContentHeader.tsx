@@ -17,6 +17,7 @@ class MainActions extends Component<PropsMainActions, StateMainActions> {
             menuOpen: false,
         };
     }
+
     isSettings(): boolean {
         return this.props.data.state.tab === 'settings';
     }
@@ -37,7 +38,7 @@ class MainActions extends Component<PropsMainActions, StateMainActions> {
                                 isOpen={this.state.menuOpen}
                                 callback={() => this.setState({ menuOpen: !this.state.menuOpen })}
                                 label={I18n.t('telegramUser')}
-                                class="btn__menu_expand button"
+                                class="btn__menu_expand button button__primary"
                             />
                         </HeaderMenu>
                     </Grid>

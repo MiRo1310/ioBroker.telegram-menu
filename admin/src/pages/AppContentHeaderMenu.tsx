@@ -32,18 +32,18 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 
     render(): React.ReactNode {
         return (
-            <div className="header__menu_container">
-                <div style={{ width: '270px', display: 'flex', flexWrap: 'nowrap' }}>
+            <div className="header__button_row">
+                <div style={{ width: 'auto', display: 'flex', flexWrap: 'nowrap' }}>
                     <div
                         onMouseEnter={this.eventOnMouse}
                         onMouseLeave={this.eventOnMouse}
-                        className="HeaderMenu-menuPopupCard"
+                        className="inline-block relative"
                     >
                         <ButtonExpand
                             isOpen={this.showList()}
                             callback={this.handleClick}
                             label={this.isActiveMenu() ? this.props.data.state.activeMenu : I18n.t('createMenu')}
-                            class="btn__menu_expand button"
+                            class="btn__menu_expand button button__primary"
                         />
                         {this.showList() && this.isActiveMenu() ? (
                             <AppContentHeaderMenuList

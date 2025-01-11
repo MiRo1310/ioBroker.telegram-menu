@@ -17,7 +17,7 @@ class MainDropBox extends Component<PropsMainDropBox> {
     render(): React.ReactNode {
         return (
             <PopupContainer
-                class="DropBox-PopupContainer"
+                class="dropbox__container"
                 reference={this.props.data.dropBoxRef}
                 width="99%"
                 height="25%"

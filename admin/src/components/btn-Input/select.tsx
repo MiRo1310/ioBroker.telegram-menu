@@ -13,7 +13,7 @@ class Select extends Component<SelectProps> {
     render(): React.ReactNode {
         return (
             <label className="Select">
-                <span>{I18n.t(this.props.label || '')}</span>
+                {this.props.label ? <span className="select__label">{I18n.t(this.props.label || '')}</span> : null}
                 <select
                     name={this.props.name}
                     value={this.props.selected}

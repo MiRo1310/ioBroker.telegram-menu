@@ -811,7 +811,7 @@ export interface TabListingType {
 }
 
 export interface RowForButton {
-    trigger: string[];
+    trigger?: string[];
     parse_mode: string[];
     call: string;
 }

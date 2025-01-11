@@ -66,6 +66,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
             isValueOk: false,
         };
     }
+
     componentDidMount(): void {
         saveRows(this.props, this.setState.bind(this), [], this.state.rows);
         this.initCheckboxesForEachRow();
@@ -97,9 +98,8 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
         }
     }
 
-    updateData = (obj: { id: string; val: string | number | boolean; index: number }): void => {
+    updateData = (obj: { id: string; val: string | number | boolean; index: number }): void =>
         updateData(obj, this.props, this.setState.bind(this));
-    };
 
     handleDrop = (index: number): void => {
         if (index !== this.state.dropStart) {

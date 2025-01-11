@@ -67,10 +67,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
             this.getRows(native.data.nav, activeMenu);
         }
-        if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
-            if (!this.props.data.state.clickedTriggerInNav) {
-                return;
-            }
+        if (this.props.data.state.clickedTriggerInNav) {
             scrollToId(this.props.data.state.clickedTriggerInNav);
         }
     }
@@ -111,7 +108,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 
     jumpedToTrigger = (call: string): string => {
         if (this.props.data.state.clickedTriggerInNav === call) {
-            return 'row__active';
+            return 'row__navigate_to-active';
         }
         return '';
     };
@@ -156,8 +153,11 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                 key={indexCell}
                                 component="td"
                                 style={{ width: entry.width ? entry.width : undefined }}
-                                id={row[entry.name]}
                             >
+                                <span
+                                    className="table__ghost_id"
+                                    id={row.call}
+                                />
                                 <span
                                     className="noneDraggable"
                                     onMouseOver={e => handleMouseOver(e)}
@@ -172,13 +172,11 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
 
                                     <span
                                         draggable={false}
-                                        className={`textSubmenuInfo noneDraggable ${
-                                            indexCell === 0 && (row.call === '' || row.call === '-')
-                                                ? ''
-                                                : 'startSideHideInfo'
-                                        }`}
+                                        className={`textSubmenuInfo noneDraggable`}
                                     >
-                                        {indexRow === 0 && (row.call === '' || row.call === '-') ? (
+                                        {indexRow === 0 &&
+                                        (row.call === '' || row.call === '-') &&
+                                        entry.name === 'call' ? (
                                             <span>{I18n.t('isSubmenu')}</span>
                                         ) : null}
                                     </span>

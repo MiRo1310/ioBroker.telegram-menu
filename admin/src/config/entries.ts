@@ -48,7 +48,7 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: { buttons: { add: true, remove: true, copy: true }, width: '99%', height: '70%' },
+        popupCard: { buttons: { add: true, remove: true, copy: true }, width: '99%', height: '80vh' },
     },
     {
         label: 'GetState',
@@ -77,7 +77,7 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: { buttons: { add: true, remove: true, copy: true }, width: '99%', height: '70%' },
+        popupCard: { buttons: { add: true, remove: true, copy: true }, width: '99%', height: '80vh' },
     },
 
     {
@@ -90,7 +90,7 @@ export const tabValues: TabValues[] = [
             { name: 'fileName', val: '', headline: 'filename', width: '40%', required: true },
             { name: 'picSendDelay', val: '', headline: 'delay', width: '40%', type: 'number', required: true },
         ],
-        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '80vh' },
     },
     {
         label: 'Send Location',
@@ -110,7 +110,7 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
         ],
-        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '80vh' },
     },
     {
         label: 'Events',
@@ -152,7 +152,7 @@ export const tabValues: TabValues[] = [
             { name: 'theme', val: 'light', headline: 'theme', width: '10%', required: true },
             { name: 'filename', val: 'echarts-temp-photo.jpg', headline: 'filename', width: '20%', required: true },
         ],
-        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '80vh' },
     },
     {
         label: 'Http Request',
@@ -173,7 +173,7 @@ export const tabValues: TabValues[] = [
             { name: 'password', val: '', headline: 'password', password: true, width: '20%' },
             { name: 'filename', val: 'http-request-photo.jpg', headline: 'filename', width: '20%', required: true },
         ],
-        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '70%' },
+        popupCard: { buttons: { add: true, remove: true }, width: '99%', height: '80vh' },
     },
 ];
 // Danach noch generateActions anpassen in action.js

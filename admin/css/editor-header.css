@@ -1,15 +1,17 @@
 .editor__header {
-	display: flex;
-	align-items: center;
-	margin-bottom: 1rem;
-	margin-left: 5px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-left: 5px;
 }
 
 .editor__header_trigger {
-	margin-left: 1rem !important;
-	margin-right: 1rem !important;
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+    margin-bottom: 1.7rem !important;
 }
+
 .editor__header_parseMode {
-	margin-left: 1rem !important;
-	margin-right: 1rem !important;
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
 }
