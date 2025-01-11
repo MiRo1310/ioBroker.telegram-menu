@@ -67,10 +67,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
         if (prevProps.data.state.activeMenu !== activeMenu || prevProps.data.state.native.data.nav !== nav) {
             this.getRows(native.data.nav, activeMenu);
         }
-        if (prevProps.data.state.clickedTriggerInNav !== this.props.data.state.clickedTriggerInNav) {
-            if (!this.props.data.state.clickedTriggerInNav) {
-                return;
-            }
+        if (this.props.data.state.clickedTriggerInNav) {
             scrollToId(this.props.data.state.clickedTriggerInNav);
         }
     }
@@ -123,6 +120,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                     <TableRow
                         key={indexRow}
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                        id={row.call}
                         className={
                             `no-select` +
                             ` ${this.jumpedToTrigger(row.call)}` +
@@ -156,7 +154,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                 key={indexCell}
                                 component="td"
                                 style={{width: entry.width ? entry.width : undefined}}
-                                id={row[entry.name]}
+
                             >
                                 <span
                                     className="noneDraggable"

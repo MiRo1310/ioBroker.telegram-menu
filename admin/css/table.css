@@ -11,6 +11,13 @@ table input {
     border: none !important;
 }
 
+/*thead ~ tbody{*/
+/*    display: block;*/
+/*    max-height: 400px; !* Adjust the height as needed *!*/
+/*    overflow-y: auto;*/
+/*    width: 100%;*/
+/*}*/
+
 thead ~ tbody > tr {
     border: 3px solid inherit;
 }
@@ -60,6 +67,7 @@ tr td td,
     background-color: transparent !important;
 }
 
+/*TODO refactor, add color vars*/
 .light tr:not(.SubTable):nth-child(even) {
     background-color: #eee;
 }

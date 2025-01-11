@@ -56,6 +56,7 @@ export const checkObjectOrArray = (obj: object): string => {
 };
 
 export function scrollToId(id: string): void {
+    console.log('scrollToId', id);
     const element = document.getElementById(id);
     if (element) {
         element.scrollIntoView({block: "start", behavior: 'smooth'});
