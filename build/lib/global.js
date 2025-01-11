@@ -31,12 +31,9 @@ __export(global_exports, {
 });
 module.exports = __toCommonJS(global_exports);
 var import_logging = require("./logging");
-function deleteDoubleEntriesInArray(arr) {
-  return arr.filter((item, index) => arr.indexOf(item) === index);
-}
-function replaceAll(text, searchValue, replaceValue) {
-  return text.replace(new RegExp(searchValue, "g"), replaceValue);
-}
+const isDefined = (value) => value !== void 0 && value !== null;
+const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
+const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, "g"), replaceValue);
 function isJSON(_string) {
   try {
     JSON.parse(_string);
@@ -65,18 +62,9 @@ const deepCopy = (obj) => {
     console.error(`Error deepCopy: ${JSON.stringify(err)}`);
   }
 };
-function isString(value) {
-  return typeof value === "string";
-}
-function isTruthy(value) {
-  return value === "1" || value === 1 || value === true || value === "true";
-}
-function isFalsy(value) {
-  return ["0", 0, false, "false", void 0, null].includes(value);
-}
-function isDefined(value) {
-  return value !== null && value !== void 0;
-}
+const isString = (value) => typeof value === "string";
+const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
+const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
 function checkDirectoryIsOk(directory) {
   if (["", null, void 0].includes(directory)) {
     (0, import_logging.error)([

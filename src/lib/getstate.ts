@@ -2,8 +2,8 @@ import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc, roundValue, calcValue, idBySelector } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc, processTimeValue, changeValue } from './utilities';
-import { decomposeText } from './global';
-import { debug } from './logging';
+import { decomposeText, isDefined } from './global';
+import { debug, error } from './logging';
 import TelegramMenu from '../main';
 import type { Part, UserListWithChatId } from './telegram-menu';
 
@@ -58,7 +58,8 @@ function getState(
             }
 
             await _this.getForeignStateAsync(id).then(async (value: ioBroker.State | null | undefined) => {
-                if (!value) {
+                if (!isDefined(value)) {
+                    error([{ text: 'The state is empty!' }]);
                     return;
                 }
                 const valueForJson: string = value.val?.toString() || '';

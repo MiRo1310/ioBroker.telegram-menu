@@ -1,22 +1,26 @@
 import TelegramMenu from '../main';
-import { isJSON, replaceAll } from './global';
+import { isDefined, isJSON, replaceAll } from './global';
 import { debug, error } from './logging';
 import type { UserListWithChatId, ProzessTimeValue } from './telegram-menu';
 
 const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
-    const string = obj.val?.toString();
-    if (!string) {
+    const date = Number(obj.val);
+
+    if (!isDefined(date)) {
         return textToSend;
     }
-    const time = new Date(string);
+    const time = new Date(date);
+    if (isNaN(time.getTime())) {
+        error([{ text: 'Invalid Date:', val: date }]);
+        return textToSend;
+    }
     const timeString = time.toLocaleDateString('de-DE', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
     });
-    textToSend = textToSend.replace('{time}', timeString);
-    return textToSend;
+    return textToSend.replace('{time}', timeString);
 };
 
 const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string => {
@@ -86,6 +90,7 @@ function changeValue(
         return { textToSend: result.textToSend, val: result.valueChange };
     }
 }
+
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
     const _this = TelegramMenu.getInstance();
 
@@ -319,6 +324,7 @@ async function checkTypeOfId(
         ]);
     }
 }
+
 const newLine = (text: string): string => {
     if (text && text.includes('\\n')) {
         return text.replace(/\\n/g, '\n');

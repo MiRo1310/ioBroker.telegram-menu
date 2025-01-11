@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/string.ts"],
+  "sourcesContent": ["export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,YAAY,CAAI,UAA4C,UAAU,UAAa,UAAU;",
+  "names": []
+}
