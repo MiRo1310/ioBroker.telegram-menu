@@ -120,7 +120,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                     <TableRow
                         key={indexRow}
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                        id={row.call}
+
                         className={
                             `no-select` +
                             ` ${this.jumpedToTrigger(row.call)}` +
@@ -149,6 +149,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                         onDragEnter={() => handleDragEnter(indexRow, this.setState.bind(this))}
                         style={handleStyleDragOver(indexRow, this.state.dropOver, this.state.dropStart)}
                     >
+                        <span className="table__ghost_id" id={row.call}/>
                         {this.props.data.entries.map((entry, indexCell) => (
                             <TableCell
                                 key={indexCell}

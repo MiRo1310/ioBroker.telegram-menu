@@ -11,6 +11,15 @@ table input {
     border: none !important;
 }
 
+tbody tr {
+    position: relative;
+}
+
+.table__ghost_id {
+    position: absolute;
+    top: -40px;
+}
+
 #root tr th {
     background-color: #3399cc;
     padding: 0.5rem 0.5rem 0.2rem 0.5rem;
