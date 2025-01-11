@@ -36,6 +36,8 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+- FIX: #248 Error converting time
+
 ### 2.2.0 (2025-01-02)
 
 - FEAT: #237 Navigate by nav-button-click to action

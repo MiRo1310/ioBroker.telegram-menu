@@ -43,20 +43,22 @@ var import_main = __toESM(require("../main"));
 var import_global = require("./global");
 var import_logging = require("./logging");
 const processTimeValue = (textToSend, obj) => {
-  var _a;
-  const string = (_a = obj.val) == null ? void 0 : _a.toString();
-  if (!string) {
+  const date = Number(obj.val);
+  if (!(0, import_global.isDefined)(date)) {
     return textToSend;
   }
-  const time = new Date(string);
+  const time = new Date(date);
+  if (isNaN(time.getTime())) {
+    (0, import_logging.error)([{ text: "Invalid Date:", val: date }]);
+    return textToSend;
+  }
   const timeString = time.toLocaleDateString("de-DE", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false
   });
-  textToSend = textToSend.replace("{time}", timeString);
-  return textToSend;
+  return textToSend.replace("{time}", timeString);
 };
 const getChatID = (userListWithChatID, user) => {
   let chatId = "";

@@ -79,7 +79,8 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
       }
       await _this.getForeignStateAsync(id).then(async (value) => {
         var _a2, _b2;
-        if (!value) {
+        if (!(0, import_global.isDefined)(value)) {
+          (0, import_logging.error)([{ text: "The state is empty!" }]);
           return;
         }
         const valueForJson = ((_a2 = value.val) == null ? void 0 : _a2.toString()) || "";
@@ -197,11 +198,11 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         }
         i++;
       });
-    } catch (error) {
-      error({
+    } catch (error2) {
+      error2({
         array: [
-          { text: "Error GetData:", val: error.message },
-          { text: "Stack:", val: error.stack }
+          { text: "Error GetData:", val: error2.message },
+          { text: "Stack:", val: error2.stack }
         ]
       });
     }
