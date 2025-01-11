@@ -11,10 +11,6 @@ table input {
     border: none !important;
 }
 
-thead ~ tbody > tr {
-    border: 3px solid transparent;
-
-}
 
 #root tr th {
     background-color: #3399cc;

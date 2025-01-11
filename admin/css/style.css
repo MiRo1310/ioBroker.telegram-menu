@@ -112,13 +112,13 @@ div.MuiTabPanel-root {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: auto;
-    width: calc(100%) !important;
-    padding: 2px 5px 5px 0;
+    width: 100% !important;
+    padding: 2px 5px 0 0;
 }
 
 /* NavigationMenu */
 .navigation__container {
-    height: calc(100% - 10px) !important;
+    height: calc(100% - 0.5rem) !important;
 }
 
 .navigation__container .startSideInactive {
@@ -145,7 +145,7 @@ div.MuiTabPanel-root {
 
 .tab__action,
 .tab__action > div.MuiTabPanel-root {
-    height: calc(100% - 30px) !important;
+    height: calc(100% - 0.5rem) !important;
     padding-left: 0 !important;
 }
 
