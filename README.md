@@ -36,6 +36,7 @@ You can create different groups with separate menus, and then assign users to th
 
 ### **WORK IN PROGRESS**
 
+- FIX: Infinite loop on open events
 - FIX: #248 Error converting time
 
 ### 2.2.0 (2025-01-02)
