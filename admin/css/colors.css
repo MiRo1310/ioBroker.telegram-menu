@@ -2,6 +2,7 @@
     --red-dark: red;
     --iobroker-blue: #3399cc;
     --iobroker-blue-hover: #236B8EFF;
+    --blue-hover: rgba(51, 153, 204, 0.5); /*Is lighter than it seems, because of opacity , and much lighter than --iobroker-blue-hover*/
     --blue-lighter: #99c0f9;
     --blue-light: #2196F3FF;
     --blue: blue;
@@ -84,6 +85,11 @@
     --input-border: var(--gray-light);
     --input-placeholder-color: var(--gray);
 
+    --table-head: var(--iobroker-blue);
+    --table-hover: var(--blue-hover);
+    --table-row-even: var(--light);
+    --table-row-odd: white;
+
     --checkbox-bg: var(--blue-light);
 
     --background-primary: var(--gray-lightest);
@@ -122,6 +128,10 @@
     --input-text: white;
     --input-border: var(--gray-darkest);
     --input-placeholder-color: var(--gray-dark);
+
+    --table-head: var(--gray-dark);
+    --table-row-even: var(--gray-darker);
+    --table-row-odd: var(--gray-dark);
 
     --primary-color: var(--gray-darkest);
     --row-button: var(--gray-darker);
