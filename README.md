@@ -33,8 +33,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.2.1 (2025-01-12)
 
 - FIX: Infinite loop on open events
 - FIX: #248 Error converting time

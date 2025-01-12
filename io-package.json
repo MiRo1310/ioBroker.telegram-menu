@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "news": {
+      "2.2.1": {
+        "en": "FIX: Infinite loop on open events\nFIX: #248 Error converting time",
+        "de": "FIX: Unendliche Schleife auf offenen Veranstaltungen\nFIX: #248 Zeit ändern",
+        "ru": "FIX: Бесконечный цикл на открытых мероприятиях\nFIX: #248 Ошибка преобразования времени",
+        "pt": "FIX: loop infinito em eventos abertos\nFIX: #248 Tempo de conversão de erro",
+        "nl": "FIX: Oneindige lus op open gebeurtenissen\nFIX: #248 Fout bij het omzetten tijd",
+        "fr": "FIX: Boucle infinie sur les événements ouverts\nFIX: #248 Temps de conversion des erreurs",
+        "it": "FIX: Ciclo infinito sugli eventi aperti\nFIX: #248 Tempo di conversione di errore",
+        "es": "FIX: bucle infinito en eventos abiertos\nFIX: #248 Tiempo de conversión del error",
+        "pl": "FIX: Nieskończona pętla na otwartych zdarzeniach\nFIX: # 248 Czas konwersji błędów",
+        "uk": "FIX: Нескінченна петля на відкритих заходах\nFIX: #248 Час перетворення помилки",
+        "zh-cn": "FIX:关于公开事件的无限循环\nFIX: # 248 转换时间出错"
+      },
       "2.2.0": {
         "en": "FEAT: #237 Navigate by nav-button-click to action\nFIX: Cannot get value false in return text\nFIX: Delete row in Actions\nFIX: HttpRequest\nFEAT: Navigation styling and selectable menus",
         "de": "FEAT: #237 Navigieren Sie mit nav-button-klick auf Aktion\nFIX: Kann nicht Wert falsch im Rückgabetext erhalten\nFIX: Zeile in Aktion löschen\nFIX: HttpRequest\nFEAT: Navigations-Styling und wählbare Menüs",
@@ -80,19 +93,6 @@
         "pl": "FEAT: Styling\nCHORE: Uaktualnij zależności\nFIX: # 211 Brak danych wejściowych\nCHORE: Migracja do ESLint 9 i @ iobroker / eslint- config",
         "uk": "FEAT: Стилування\nCHORE: Оновити залежності\nFIX: #211 Немає можливості введення\nCHORE: Міграція до ESLint 9 і @iobroker/eslint-config",
         "zh-cn": "斯图林\nCHORE: 更新依赖性\nFIX: #211 (英语). 无法输入\nCHORE: 迁移到ESLint 9 和 @iobroster/eslint-config"
-      },
-      "2.1.4": {
-        "en": "FIX: #203 Scrolling in table",
-        "de": "FIX: #203 Scrolling in Tabelle",
-        "ru": "FIX: #203",
-        "pt": "FIX: #203 Rolagem na mesa",
-        "nl": "FIX: #203 Scrollen in tabel",
-        "fr": "FIXE: #203 Faire défiler le tableau",
-        "it": "FIX: #203 Scorrelare in tavola",
-        "es": "FIX: #203 Scrolling in table",
-        "pl": "FIX: # 203 Przewijanie w tabeli",
-        "uk": "FIX: #203 Прокручування в таблиці",
-        "zh-cn": "FIX: # 203 在表格中滚动"
       }
     },
     "titleLang": {
