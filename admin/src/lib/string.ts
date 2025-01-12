@@ -1,17 +1,11 @@
-export function replaceSpaceWithUnderscore(menu: string): string {
-    return menu.replace(/ /g, '_');
-}
+export const replaceSpaceWithUnderscore = (menu: string): string => menu.replace(/ /g, '_');
 
-export function isTruthy(value: string | number | boolean): boolean {
-    return value === '1' || value === 1 || value === true || value === 'true';
-}
+export const isTruthy = (val: string | number | boolean): boolean => ['1', 1, true, 'true'].includes(val);
 
-export function splitTrimAndJoin(str: string, separator: string, newSeparator: string): string {
-    return str
+export const isFalsy = (val: string | number | boolean): boolean => ['0', 0, false, 'false'].includes(val);
+
+export const splitTrimAndJoin = (str: string, separator: string, newSeparator?: string): string =>
+    str
         .split(separator)
         .map((s: string) => s.trim())
-        .join(newSeparator);
-}
-export function isFalsy(value: string | number | boolean): boolean {
-    return value === '0' || value === 0 || value === false || value === 'false';
-}
+        .join(newSeparator || separator);

@@ -50,14 +50,10 @@
     width: 10px !important;
 }
 
-.edit__container input[type="checkbox"] {
-    margin-left: 8px;
-}
-
-.edit__container input[type="checkbox"]:checked {
-    color: #96d15a;
-    accent-color: rgb(33, 150, 243);
-}
+/*.edit__container input[type="checkbox"]:checked {*/
+/*    color: #96d15a;*/
+/*    accent-color: rgb(33, 150, 243);*/
+/*}*/
 
 .edit__container td:nth-child(1) {
     padding-left: 0.35rem !important;

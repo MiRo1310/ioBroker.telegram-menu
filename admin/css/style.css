@@ -121,7 +121,15 @@ div.MuiTabPanel-root {
     height: calc(100% - 0.5rem) !important;
 }
 
-.navigation__container .startSideInactive {
+.navigation__container .startside__active {
+    background-color: var(--startside) !important;
+}
+
+.navigation__container .startside__active td {
+    color: var(--dark) !important;
+}
+
+.navigation__container .startside__inactive {
     background-color: var(--startside-none) !important;
 }
 
@@ -511,6 +519,10 @@ p.inUse {
     color: var(--row-button-text)
 }
 
+.row__button:hover {
+    opacity: 0.8;
+}
+
 .row__submenu {
     background: var(--menu-function-row) !important;
     color: var(--dark)
@@ -565,11 +577,6 @@ p.inUse {
     width: 100%;
     z-index: 100;
 }
-
-label.checkbox {
-    color: var(--text-primary)
-}
-
 
 span[title],
 .title {

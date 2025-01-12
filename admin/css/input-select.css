@@ -58,21 +58,24 @@ input:disabled {
 }
 
 /* checkbox */
-/* Allgemein */
+
 label.checkbox {
-    display: flex;
-    align-items: center;
     height: 20px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: end;
 }
 
 label.checkbox input {
     display: inline-block !important;
     width: 20px !important;
     height: 20px !important;
+    margin-bottom: 6px !important;
 }
 
 label.checkbox span {
-    margin-left: 5px;
+    margin-left: 0.5rem;
+    display: inline-block;
 }
 
 #root table tbody input[type="checkbox"] {
@@ -86,15 +89,14 @@ input[type="checkbox"]:checked {
     accent-color: var(--checkbox-bg);
 }
 
-.checkbox__line {
-    margin-left: 8px !important;
-    margin-top: 5px !important;
-}
+/*.checkbox__line {*/
+/*    margin-left: 8px !important;*/
+/*    margin-top: 5px !important;*/
+/*}*/
 
 .input__container--settings {
     width: 100% !important;
 }
-
 
 .select__label {
     margin-bottom: 0.5rem;

@@ -1,6 +1,5 @@
 export const colors = [
     'Aqua',
-    // "Aquamarine",
     'Blue',
     'BlueViolet',
     'Brown',

@@ -62,6 +62,7 @@ class AppContentTabNavigationTableRowEditorCardTriggerSelection extends Componen
                     <Select
                         id={'nav-triggers'}
                         options={this.getSelectOptions()}
+                        placeholder={I18n.t('choose')}
                         selected={this.state.selected}
                         callback={e => this.setSelectedItem(e)}
                     />

@@ -126,8 +126,8 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                             ` ${
                                 indexRow === 0
                                     ? row.call != '' && row.call != '-'
-                                        ? 'startSideActive'
-                                        : 'startSideInactive'
+                                        ? 'startside__active'
+                                        : 'startside__inactive'
                                     : ''
                             }`
                         }
