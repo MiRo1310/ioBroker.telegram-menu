@@ -7,7 +7,7 @@ async function getUsersFromTelegram(
 ): Promise<void> {
     try {
         await socket.getState(`${telegramInstance}.communicate.users`).then((state: any) => {
-            if (state && state.val) {
+            if (state?.val) {
                 return cb(state.val);
             }
         });

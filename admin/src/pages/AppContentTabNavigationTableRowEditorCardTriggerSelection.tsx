@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Select from '@components/btn-Input/select';
-import type {EventSelect} from '@/types/event';
+import type { EventSelect } from '@/types/event';
 import Button from '../components/Button';
-import type {DataMainContent, TabValueEntries} from '@/types/app';
-import {getMenusToSearchIn} from '@/lib/actionUtils';
-import {deleteDoubleEntriesInArray} from '@/lib/Utils';
-import {I18n} from '@iobroker/adapter-react-v5';
+import type { DataMainContent, TabValueEntries } from '@/types/app';
+import { getMenusToSearchIn } from '@/lib/actionUtils';
+import { deleteDoubleEntriesInArray } from '@/lib/Utils';
+import { I18n } from '@iobroker/adapter-react-v5';
 
 interface Props {
     callback: (e: string) => void;
@@ -26,11 +26,11 @@ class AppContentTabNavigationTableRowEditorCardTriggerSelection extends Componen
 
     addSelectedMenuToInputAsButton = (): void => {
         this.props.callback(this.state.selected);
-        this.setState({selected: ''});
+        this.setState({ selected: '' });
     };
 
     setSelectedItem(e: EventSelect): void {
-        this.setState({selected: e.val});
+        this.setState({ selected: e.val });
     }
 
     getSelectOptions = (): string[] => {

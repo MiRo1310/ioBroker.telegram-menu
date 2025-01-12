@@ -21,13 +21,10 @@ export const deepCopy = <T>(obj: T): T | undefined => {
     }
 };
 
-export const isChecked = (value: string | boolean): boolean => {
-    return ['true', true].includes(value);
-};
+export const isChecked = (value: string | boolean): boolean => ['true', true].includes(value);
 
-export const deleteDoubleEntriesInArray = <T>(arr: T[]): T[] => {
-    return arr.filter((item, index) => arr.indexOf(item) === index);
-};
+export const deleteDoubleEntriesInArray = <T>(arr: T[]): T[] =>
+    arr.filter((item, index) => arr.indexOf(item) === index);
 
 export const sortArray = (arr: string[]): string[] => {
     arr.sort((a, b) => {
