@@ -37,7 +37,7 @@
     "@iobroker/adapter-react-v5": "^7.4.10",
     "@iobroker/eslint-config": "^1.0.0",
     "@iobroker/testing": "^5.0.0",
-    "@mui/icons-material": "^6.1.9",
+    "@mui/icons-material": "^6.4.2",
     "@mui/lab": "^6.0.0-beta.23",
     "@mui/material": "^6.1.9",
     "@mui/styled-engine-sc": "^6.3.0",
