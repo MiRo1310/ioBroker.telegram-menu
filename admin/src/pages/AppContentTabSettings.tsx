@@ -5,7 +5,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import Select from '@components/btn-Input/select';
 import type { PropsSettings } from '@/types/app';
 import type { EventCheckbox, EventInput, EventSelect } from '@/types/event';
-import { Grid2 as Grid } from '@mui/material';
+import { Grid2 as Grid  } from '@mui/material';
 
 class Settings extends Component<PropsSettings> {
     constructor(props: PropsSettings) {

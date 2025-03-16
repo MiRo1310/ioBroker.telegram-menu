@@ -14,6 +14,7 @@ Let´s get started!
 - Alle im Anschluss vorgestellten Submenüs und speziellen Einstellungen sind direkt im Adapter zu finden . Diese
   Einstellungen sind sortiert und genau dort platziert, wo sie eingesetzt werden können.
   Über diesen Button kann man die "HelperText"aufrufen ![Button HelperText](../pic/btnHelperTexte.png)
+- Wichtig: Damit das Menu genutzt werden kann muss unter "Bernuter von Telegram" im Adapter, mindestens ein Menu aktiv gesetzt werden. Dazu einfach die Checkbox auf der rechten Seite setzen. 
 
 ### Navigation
 
