@@ -86,9 +86,9 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
         return (
             <Grid container>
                 <Grid size={12}>
-                    <div className="telegram__users_container">
+                    <div className="telegram__users-container">
                         {this.props.data.menuOpen && this.isUserGroupLength() ? (
-                            <div className="telegram__users_card">
+                            <div className="telegram__user-cards">
                                 <div>
                                     <p>
                                         {this.state.errorUserChecked ? (
@@ -108,6 +108,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                                     })}
                                 </div>
                                 {this.props.data.state.activeMenu != undefined ? (
+                                        <div className="telegramm__users-active-group">
                                     <Checkbox
                                         label={`${this.props.data.state.activeMenu} ${I18n.t('active')}`}
                                         id="checkboxActiveMenu"
@@ -115,6 +116,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                                         callback={this.clickCheckbox}
                                         index={0}
                                     />
+                                        </div>
                                 ) : null}
                             </div>
                         ) : null}
