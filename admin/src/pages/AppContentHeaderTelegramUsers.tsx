@@ -108,15 +108,15 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                                     })}
                                 </div>
                                 {this.props.data.state.activeMenu != undefined ? (
-                                        <div className="telegramm__users-active-group">
-                                    <Checkbox
-                                        label={`${this.props.data.state.activeMenu} ${I18n.t('active')}`}
-                                        id="checkboxActiveMenu"
-                                        isChecked={this.menuActiveChecked() || false}
-                                        callback={this.clickCheckbox}
-                                        index={0}
-                                    />
-                                        </div>
+                                    <div className="telegramm__users-active-group">
+                                        <Checkbox
+                                            label={`${this.props.data.state.activeMenu} ${I18n.t('active')}`}
+                                            id="checkboxActiveMenu"
+                                            isChecked={this.menuActiveChecked() || false}
+                                            callback={this.clickCheckbox}
+                                            index={0}
+                                        />
+                                    </div>
                                 ) : null}
                             </div>
                         ) : null}
