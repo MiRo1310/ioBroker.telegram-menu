@@ -16,7 +16,9 @@ interface Props {
     index?: number;
     disabled?: boolean;
     setState?: SetStateFunction;
+
     onMouseOver?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
+
     onMouseLeave?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
     className?: string;
     options?: string[];

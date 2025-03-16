@@ -25,7 +25,6 @@ export default [
             '.github/',
             '.idea/',
             'admin/'
-
         ]
     },
 
@@ -34,6 +33,7 @@ export default [
         // as this improves maintainability. jsdoc warnings will not block build process.
         rules: {
              'jsdoc/require-jsdoc': 'off',
+            '@typescript-eslint/no-redundant-type-constituents': 'off',
         },
     },
 
