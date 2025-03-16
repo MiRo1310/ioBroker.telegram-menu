@@ -11,7 +11,7 @@ export function onDragStart(event: DragEvent<HTMLDivElement>): void {
     drag.dragStartY = event.clientY;
 }
 
-export function onDragEnd(event: DragEvent<HTMLDivElement>, setState: SetStateFunction): void {
+export function onDragEnd(event: DragEvent<HTMLDivElement>, setState?: SetStateFunction): void {
     if (!event) {
         return;
     }

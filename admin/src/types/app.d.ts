@@ -398,7 +398,7 @@ export interface PropsPopupContainer {
     labelBtnOK?: string;
     reference?: LegacyRef<HTMLDivElement> | undefined;
     onDragStart?: (event: DragEvent<HTMLDivElement>, setState?: SetStateFunction) => void;
-    onDragEnd?: (event: DragEvent<HTMLDivElement>, setState: SetStateFunction) => void;
+    onDragEnd?: (event: DragEvent<HTMLDivElement>, setState?: SetStateFunction) => void;
     onDragOver?: (event: DragEvent<HTMLDivElement>, setState?: SetStateFunction) => void;
     onDrop?: (event: DragEvent<HTMLDivElement>, setState: SetStateFunction | undefined) => void;
     onDrag?: (event: DragEvent<HTMLDivElement>, setState: SetStateFunction | undefined) => void;
