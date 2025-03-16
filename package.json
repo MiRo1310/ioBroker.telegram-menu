@@ -24,6 +24,7 @@
     "@iobroker/adapter-core": "^3.2.3",
     "@sentry/integrations": "^7.114.0",
     "@types/module-alias": "^2.0.4",
+    "axios": "^1.8.3",
     "module-alias": "^2.2.3"
   },
   "devDependencies": {
