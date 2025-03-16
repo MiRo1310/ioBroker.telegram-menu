@@ -104,7 +104,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
         window.removeEventListener('resize', AppContentTabActionContentTable.updateHeight);
     }
 
-    handleDrop = (index: number, event: React.DragEvent<HTMLTableRowElement> | undefined): void => {
+    handleDrop = (index: number, event: React.DragEvent<HTMLTableRowElement>): void => {
         let currentElement = event?.target as HTMLElement;
         while (currentElement) {
             if (currentElement.tagName === 'TR' && !currentElement.classList.contains('SubTable')) {
