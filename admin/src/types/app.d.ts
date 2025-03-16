@@ -1,12 +1,12 @@
-import type {HelperText} from '@/config/helper';
-import type {SaveDataObject} from '@/pages/AppContentTabActionContentRowEditorCopyModalSelectedValues';
-import type {EventButton, EventCheckbox, EventTextarea} from '@/types/event';
-import type {TelegramMenuApp} from '@/types/props-types.js';
-import type {EventSelect} from '@components/btn-Input/select';
-import type {Theme} from '@emotion/react';
-import type {AdminConnection, Width} from '@iobroker/adapter-react-v5';
+import type { HelperText } from '@/config/helper';
+import type { SaveDataObject } from '@/pages/AppContentTabActionContentRowEditorCopyModalSelectedValues';
+import type { EventButton, EventCheckbox, EventTextarea } from '@/types/event';
+import type { TelegramMenuApp } from '@/types/props-types.js';
+import type { EventSelect } from '@components/btn-Input/select';
+import type { Theme } from '@emotion/react';
+import type { AdminConnection, Width } from '@iobroker/adapter-react-v5';
 
-import type {LegacyRef, ReactNode} from 'react';
+import type { LegacyRef, ReactNode, DragEvent } from 'react';
 
 export type Nullable<T> = T | null | undefined;
 
@@ -225,7 +225,7 @@ export interface SelectProps {
 export type UpdateNativeFunction = (key: string, value?: any, cb?: () => void) => void;
 
 export interface InputProps {
-    id?: string
+    id?: string;
     type?: string;
     placeholder?: string;
     value: string;
@@ -237,8 +237,8 @@ export interface InputProps {
     index?: number;
     disabled?: boolean;
     setState?: SetStateFunction;
-    onMouseOver?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
-    onMouseLeave?: (e: React.MouseEvent<HTMLInputElement> | undefined, setState: SetStateFunction | undefined) => void;
+    onMouseOver?: (e: React.MouseEvent<HTMLInputElement>, setState: SetStateFunction | undefined) => void;
+    onMouseLeave?: (e: React.MouseEvent<HTMLInputElement>, setState: SetStateFunction | undefined) => void;
     className?: string;
 }
 
@@ -397,19 +397,13 @@ export interface PropsPopupContainer {
     labelBtnAbort?: string;
     labelBtnOK?: string;
     reference?: LegacyRef<HTMLDivElement> | undefined;
-    onDragStart?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
-    onDragEnd?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
-    onDragOver?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
-    onDrop?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
-    onDrag?: (event: React.DragEvent<HTMLDivElement> | undefined, setState: SetStateFunction | undefined) => void;
-    onMouseEnter?: (
-        event: React.MouseEvent<HTMLDivElement> | undefined,
-        setState: SetStateFunction | undefined,
-    ) => void;
-    onMouseLeave?: (
-        event: React.MouseEvent<HTMLDivElement> | undefined,
-        setState: SetStateFunction | undefined,
-    ) => void;
+    onDragStart?: (event: DragEvent<HTMLDivElement>, setState?: SetStateFunction) => void;
+    onDragEnd?: (event: DragEvent<HTMLDivElement>, setState: SetStateFunction) => void;
+    onDragOver?: (event: DragEvent<HTMLDivElement>, setState?: SetStateFunction) => void;
+    onDrop?: (event: DragEvent<HTMLDivElement>, setState: SetStateFunction | undefined) => void;
+    onDrag?: (event: DragEvent<HTMLDivElement>, setState: SetStateFunction | undefined) => void;
+    onMouseEnter?: (event: MouseEvent<HTMLDivElement>, setState: SetStateFunction | undefined) => void;
+    onMouseLeave?: (event: MouseEvent<HTMLDivElement>, setState: SetStateFunction | undefined) => void;
     callback: (val: EventButton) => void;
     value?: string;
     setState?: SetStateFunction;
@@ -426,8 +420,8 @@ export interface PropsRowEditPopupCard {
     data: DataMainContent & TabActionContentTableProps & DataTabActionContent & { rowIndexToEdit: number };
     callback: CallbackFunctionsApp &
         CallbackTabActionContent & {
-        openHelperText: (value: { subCard: string; entry: string; index: number }) => void;
-    };
+            openHelperText: (value: { subCard: string; entry: string; index: number }) => void;
+        };
 }
 
 export interface DataTabActionContent {
@@ -515,10 +509,10 @@ export interface AppState {
 
 export interface TriggerObject {
     unUsedTrigger: string[];
-    everyTrigger: {};
+    everyTrigger: Record<string, any>;
     usedTrigger: {
-        nav: {};
-        action: {};
+        nav: Record<string, any>;
+        action: Record<string, any>;
     };
 }
 
@@ -546,10 +540,6 @@ export interface PropsRenameCard {
     id: string;
     callback: { setState: SetStateFunction };
     value?: string;
-}
-
-export interface StateRenameCard {
-
 }
 
 export interface PropsTriggerOverview {
