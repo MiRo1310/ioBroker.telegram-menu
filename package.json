@@ -34,7 +34,7 @@
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.14.0",
     "@iobroker/adapter-dev": "^1.4.0",
-    "@iobroker/adapter-react-v5": "^7.4.10",
+    "@iobroker/adapter-react-v5": "^7.6.2",
     "@iobroker/eslint-config": "^1.0.0",
     "@iobroker/testing": "^5.0.3",
     "@mui/icons-material": "^6.4.7",
