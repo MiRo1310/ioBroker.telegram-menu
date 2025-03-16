@@ -338,14 +338,7 @@ const buttonClose = (): React.ReactElement => {
     );
 };
 
-export const getElementIcon = (
-    element: string | boolean,
-    entry?: TabValueEntries,
-): undefined | React.ReactElement | string => {
-    if (!element) {
-        return;
-    }
-
+export const getElementIcon = (element: string | boolean, entry?: TabValueEntries): React.ReactElement | string => {
     if (!entry?.noIcon) {
         if (isTruthy(element)) {
             return buttonCheck();

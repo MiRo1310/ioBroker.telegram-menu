@@ -3,7 +3,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { PropsTextarea, StateTextarea } from '@/types/app';
 
 class Textarea extends Component<PropsTextarea, StateTextarea> {
-    onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement> | undefined): void => {
+    onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
         if (!event) {
             return;
         }

@@ -16,14 +16,14 @@ interface Props {
     index?: number;
     disabled?: boolean;
     setState?: SetStateFunction;
-    onMouseOver?: (e: React.MouseEvent<HTMLInputElement>, setState: SetStateFunction | undefined) => void;
-    onMouseLeave?: (e: React.MouseEvent<HTMLInputElement>, setState: SetStateFunction | undefined) => void;
+    onMouseOver?: (e: React.MouseEvent<HTMLInputElement>, setState?: SetStateFunction) => void;
+    onMouseLeave?: (e: React.MouseEvent<HTMLInputElement>, setState?: SetStateFunction) => void;
     className?: string;
     options?: string[];
 }
 
 class InputWithOptions extends Component<Props> {
-    onChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | undefined): void => {
+    onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const obj: EventInput = { val: event?.target.value, index: this.props.index, id: this.props?.id || '' };
         this.props.callback(obj);
     };

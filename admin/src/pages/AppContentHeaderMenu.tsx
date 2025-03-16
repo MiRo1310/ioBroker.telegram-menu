@@ -6,7 +6,7 @@ import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
 import AppContentHeaderMenuList from './AppContentHeaderMenuList';
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
-    eventOnMouse = (event: React.MouseEvent<HTMLDivElement> | undefined): void => {
+    eventOnMouse = (event: React.MouseEvent<HTMLDivElement>): void => {
         if (!event) {
             return;
         }
