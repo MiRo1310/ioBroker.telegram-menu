@@ -340,13 +340,17 @@ p.inUse {
     color: var(--text-primary);
 }
 
-.telegram__users_container {
+.telegram__users-container {
     display: flex;
     margin-right: 0.5rem;
     margin-left: 0.25rem
 }
+.telegramm__users-active-group{
+    margin-top:0.5rem;
+    padding-top: 0.5rem;
+}
 
-.telegram__users_card {
+.telegram__user-cards {
     width: 100%;
     margin-bottom: 0.25rem;
     display: flex;
@@ -354,22 +358,19 @@ p.inUse {
     justify-content: space-between;
 }
 
-.telegram__users_card p {
+.telegram__user-cards p {
     margin-bottom: 0;
     margin-top: 0;
 }
 
-.telegramm__userCard-content {
+.telegramm__user-content {
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--border-primary);
     width: auto;
     display: inline-block;
     margin-right: 0.5rem !important;
+    margin-top: 0.5rem !important;
     color: var(--text-primary)
-}
-
-.telegramm__userCard-content p {
-    margin: 0;
 }
 
 .telegram__users_description {
@@ -379,15 +380,14 @@ p.inUse {
     margin-top: 0;
 }
 
-.telegram__user {
-    margin-top: 5px;
-}
-
 .telegram__user-name {
     display: inline !important;
 }
+.telegram__user-checkbox{
+    margin-top: 0.5rem !important;
+}
 
-.telegram__user_chat-id {
+.telegram__user-chat-id {
     font-size: 0.7rem;
 }
 

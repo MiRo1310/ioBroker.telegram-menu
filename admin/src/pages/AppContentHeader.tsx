@@ -29,7 +29,10 @@ class MainActions extends Component<PropsMainActions, StateMainActions> {
                 className="Grid-HeaderMenu"
             >
                 {!this.isSettings() ? (
-                    <Grid size={12}>
+                    <Grid
+                        container
+                        size={12}
+                    >
                         <HeaderMenu
                             data={this.props.data}
                             callback={this.props.callback}
@@ -43,7 +46,10 @@ class MainActions extends Component<PropsMainActions, StateMainActions> {
                         </HeaderMenu>
                     </Grid>
                 ) : null}
-                <Grid size={12}>
+                <Grid
+                    size={12}
+                    container
+                >
                     {!this.isSettings() ? (
                         <HeaderTelegramUsers
                             data={{

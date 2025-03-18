@@ -338,13 +338,8 @@ const buttonClose = (): React.ReactElement => {
     );
 };
 
-export const getElementIcon = (
-    element: string | boolean,
-    entry?: TabValueEntries,
-): undefined | React.ReactElement | string => {
-    if (!element) {
-        return;
-    }
+export const getElementIcon = (element: string | boolean, entry?: TabValueEntries): any => {
+    //TODO  React.ReactElement | string Der return type gibt ein Error
 
     if (!entry?.noIcon) {
         if (isTruthy(element)) {

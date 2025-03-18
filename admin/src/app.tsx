@@ -9,7 +9,7 @@ import AppHeaderIconBar from '@/pages/AppHeaderIconBar';
 import AppTriggerOverview from '@/pages/AppTriggerOverview';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { AdminConnection, GenericApp } from '@iobroker/adapter-react-v5';
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import type { Dropbox, Native, Nullable, TriggerObject } from '@/types/app.d.ts';
 import React from 'react';
 import { getDefaultDropBoxCoordinates } from './lib/dragNDrop';

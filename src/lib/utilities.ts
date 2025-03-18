@@ -248,7 +248,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
                 const result = await checkStatus(text, processTimeValue);
-                text = result?.toString() || '';
+                text = result ? JSON.stringify(result) : '';
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {

@@ -25,7 +25,6 @@ export default [
             '.github/',
             '.idea/',
             'admin/'
-
         ]
     },
 

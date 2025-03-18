@@ -1,14 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 import { ThemeProvider } from '@mui/material/styles';
 import { Theme, Utils } from '@iobroker/adapter-react-v5';
-
+import { createRoot } from 'react-dom/client';
 import App from './app';
 
 let themeName = Utils.getThemeName();
 
+const root = createRoot(document.getElementById('root')!);
+
 function build(): void {
-    ReactDOM.render(
+    root.render(
         <ThemeProvider theme={Theme(themeName)}>
             <App
                 onThemeChange={_theme => {
@@ -18,7 +20,6 @@ function build(): void {
                 themeName={themeName}
             />
         </ThemeProvider>,
-        document.getElementById('root'),
     );
 }
 

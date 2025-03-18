@@ -3,7 +3,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { SelectProps } from '@/types/app';
 
 class Select extends Component<SelectProps> {
-    onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement> | undefined): void => {
+    onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>): void => {
         if (!event) {
             return;
         }

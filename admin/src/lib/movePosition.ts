@@ -1,8 +1,9 @@
 import type { Dropbox, SetStateFunction } from '@/types/app';
+import type { DragEvent } from 'react';
 
 const drag = { dragStartX: 0, dragStartY: 0, dragEndX: 0, dragEndY: 0 };
 
-export function onDragStart(event: React.DragEvent<HTMLDivElement> | undefined): void {
+export function onDragStart(event: DragEvent<HTMLDivElement>): void {
     if (!event) {
         return;
     }
@@ -10,10 +11,7 @@ export function onDragStart(event: React.DragEvent<HTMLDivElement> | undefined):
     drag.dragStartY = event.clientY;
 }
 
-export function onDragEnd(
-    event: React.DragEvent<HTMLDivElement> | undefined,
-    setState: SetStateFunction | undefined,
-): void {
+export function onDragEnd(event: DragEvent<HTMLDivElement>, setState?: SetStateFunction): void {
     if (!event) {
         return;
     }
@@ -27,21 +25,21 @@ export function onDragEnd(
     }
 }
 
-export function onDragOver(event: React.DragEvent<HTMLDivElement> | undefined): void {
+export function onDragOver(event: React.DragEvent<HTMLDivElement>): void {
     if (!event) {
         return;
     }
     event.preventDefault();
 }
 
-export function onDrop(event: React.DragEvent<HTMLDivElement> | undefined): void {
+export function onDrop(event: React.DragEvent<HTMLDivElement>): void {
     if (!event) {
         return;
     }
     event.preventDefault();
 }
 
-export function onDrag(event: React.DragEvent<HTMLDivElement> | undefined): void {
+export function onDrag(event: React.DragEvent<HTMLDivElement>): void {
     if (!event) {
         return;
     }

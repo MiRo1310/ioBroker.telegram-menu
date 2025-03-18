@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Input from '../btn-Input/input';
-import type { PropsRenameCard, StateRenameCard } from '@/types/app';
+import type { PropsRenameCard } from '@/types/app';
 import type { EventInput } from '@/types/event';
 
-class RenameCard extends Component<PropsRenameCard, StateRenameCard> {
+class RenameCard extends Component<PropsRenameCard, any> {
     constructor(props: PropsRenameCard) {
         super(props);
         this.state = {};

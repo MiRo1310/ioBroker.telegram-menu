@@ -55,19 +55,20 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
     render(): React.ReactNode {
         const { name, chatID } = this.props.user;
         return (
-            <div className="telegramm__userCard-content">
+            <div className="telegramm__user-content">
                 <div className="telegram__user">
                     <p className="telegram__user-name">{name}</p>
-                    <p className="telegram__user_chat-id">
-                        ChatID :<span className="telegram__user_chat-id">{chatID}</span>
+                    <p className="telegram__user-chat-id">
+                        ChatID :<span className="telegram__user-chat-id">{chatID}</span>
                     </p>
-                    <Checkbox
-                        class="TelegramUserCard-checkbox"
-                        id={name}
-                        callback={this.checkboxClicked.bind(this)}
-                        isChecked={this.isUserChecked()}
-                        index={0}
-                    />
+                    <div className="telegram__user-checkbox">
+                        <Checkbox
+                            id={name}
+                            callback={this.checkboxClicked.bind(this)}
+                            isChecked={this.isUserChecked()}
+                            index={0}
+                        />
+                    </div>
                 </div>
             </div>
         );

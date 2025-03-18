@@ -1,5 +1,5 @@
 import type { Dropbox, SetStateFunction } from '@/types/app';
-export const handleMouseOver = (e: React.MouseEvent<HTMLSpanElement> | undefined): void => {
+export const handleMouseOver = (e: React.MouseEvent<HTMLSpanElement>): void => {
     const target = e?.target as HTMLElement;
     if (target.classList.contains('noneDraggable')) {
         let currentElement: HTMLElement | null = target;
@@ -14,7 +14,7 @@ export const handleMouseOver = (e: React.MouseEvent<HTMLSpanElement> | undefined
     }
 };
 
-export const handleMouseOut = (e: React.MouseEvent<HTMLSpanElement> | undefined): void => {
+export const handleMouseOut = (e: React.MouseEvent<HTMLSpanElement>): void => {
     const target = e?.target as HTMLElement;
     if (target.classList.contains('noneDraggable') && !target.classList.contains('draggingDropBox')) {
         let currentElement: HTMLElement | null = target;
@@ -30,7 +30,7 @@ export const handleMouseOut = (e: React.MouseEvent<HTMLSpanElement> | undefined)
 
 export const handleDragStart = (
     index: number,
-    event: React.DragEvent<HTMLTableRowElement> | undefined,
+    event: React.DragEvent<HTMLTableRowElement>,
     mouseOverNoneDraggable: boolean,
     setState: SetStateFunction,
     cbVal?: object,
