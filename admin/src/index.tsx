@@ -6,8 +6,8 @@ import { createRoot } from 'react-dom/client';
 import App from './app';
 
 let themeName = Utils.getThemeName();
-const container = document.getElementById('app');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+
+const root = createRoot(document.getElementById('root')!);
 
 function build(): void {
     root.render(
@@ -20,7 +20,6 @@ function build(): void {
                 themeName={themeName}
             />
         </ThemeProvider>,
-        document.getElementById('root'),
     );
 }
 

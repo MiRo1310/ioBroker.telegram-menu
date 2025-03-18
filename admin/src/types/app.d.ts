@@ -605,6 +605,7 @@ export interface StateHeaderTelegramUsers {
 export interface PropsHeaderMenu {
     data: DataMainContent;
     callback: CallbackFunctionsApp;
+    children?: ReactNode;
 }
 
 export interface PropsBtnCard {
@@ -809,7 +810,7 @@ export interface RowForButton {
 export namespace Dropbox {
     export type newX = Nullable<number>;
     export type newY = Nullable<number>;
-    export type Ref = React.RefObject<HTMLDivElement> | undefined;
+    export type Ref = React.RefObject<HTMLDivElement | null> | undefined | null;
 
     export interface Position {
         dropboxTop: number;
