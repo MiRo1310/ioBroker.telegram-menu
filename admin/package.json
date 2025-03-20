@@ -21,28 +21,24 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.1.4",
-    "@sentry/integrations": "^7.114.0",
-    "@types/module-alias": "^2.0.4",
-    "module-alias": "^2.2.3"
+    "@sentry/integrations": "^7.114.0"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@iobroker/adapter-dev": "^1.2.0",
-    "@iobroker/adapter-react-v5": "^7.6.2",
+    "@iobroker/adapter-react-v5": "^7.6.3",
     "@iobroker/eslint-config": "^2.0.1",
     "@mui/icons-material": "^6.4.8",
     "@mui/lab": "^6.0.0-beta.31",
     "@mui/material": "^6.4.8",
-    "@tsconfig/node20": "^20.1.4",
-    "@types/react": "^19.0.11",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
-    "mocha": "^10.3.0",
+    "mocha": "^11.1.0",
     "prettier": "^3.2.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "~5.7.3",
+    "typescript": "~5.8.2",
     "rimraf": "^3.0.2"
   },
   "main": "build/src/main.js",
