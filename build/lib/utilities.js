@@ -318,10 +318,10 @@ async function checkTypeOfId(id, value) {
   }
 }
 const newLine = (text) => {
-  if (text && text.includes("\\n")) {
-    return text.replace(/\\n/g, "\n");
+  if ((0, import_global.isJSON)(text)) {
+    text = JSON.parse(text);
   }
-  return text;
+  return text.replace(/""/g, '"').replace(/\\n/g, "\n");
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
