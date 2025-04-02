@@ -326,10 +326,11 @@ async function checkTypeOfId(
 }
 
 const newLine = (text: string): string => {
-    if (text && text.includes('\\n')) {
-        return text.replace(/\\n/g, '\n');
+    if (isJSON(text)) {
+        text = JSON.parse(text);
     }
-    return text;
+
+    return text.replace(/""/g, '"').replace(/\\n/g, '\n');
 };
 
 export {
