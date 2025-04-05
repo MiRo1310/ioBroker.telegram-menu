@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.2.2",
+    "version": "2.2.3",
     "news": {
+      "2.2.3": {
+        "en": "FIX: #279 Backslash is in the message when using newline",
+        "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
+        "ru": "FIX: #279 Backslash находится в сообщении при использовании новой линии",
+        "pt": "FIX: #279 Backslash está na mensagem ao usar newline",
+        "nl": "FIX: #279 Backslash zit in het bericht bij het gebruik van nieuwe regel",
+        "fr": "FIX: #279 Backslash est dans le message lorsque vous utilisez newline",
+        "it": "FIX: #279 Backslash è nel messaggio quando si utilizza la nuova linea",
+        "es": "FIX: #279 Backslash está en el mensaje al usar newline",
+        "pl": "FIX: # 279 Backslash jest w wiadomości przy użyciu nowej linii",
+        "uk": "FIX: #279 Backslash знаходиться в повідомленні при використанні newline",
+        "zh-cn": "FIX: # 279 使用新线时反斜线在信件中"
+      },
       "2.2.2": {
         "en": "FIX: Style and update dependencies",
         "de": "FIX: Stil- und Updateabhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 220 Usuń przycisk nie działa\nFEAT: Styling",
         "uk": "FIX: #220 Видалити кнопка не працює\nFEAT: Стилування",
         "zh-cn": "FIX: # 220 删除按钮不起作用\n斯图林"
-      },
-      "2.1.6": {
-        "en": "FEAT: Styling",
-        "de": "FEAT: Styling",
-        "ru": "FEAT: Styling",
-        "pt": "FEAT: Styling",
-        "nl": "FEAT: Styling",
-        "fr": "VIANDE: Styling",
-        "it": "CARAT: Styling",
-        "es": "FEAT: Styling",
-        "pl": "FEAT: Styling",
-        "uk": "FEAT: Стилування",
-        "zh-cn": "斯图林"
       }
     },
     "titleLang": {
