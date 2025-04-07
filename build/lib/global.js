@@ -57,6 +57,9 @@ function decomposeText(text, searchValue, secondValue) {
 }
 const deepCopy = (obj) => {
   try {
+    if (!obj) {
+      return void 0;
+    }
     return JSON.parse(JSON.stringify(obj));
   } catch (err) {
     console.error(`Error deepCopy: ${JSON.stringify(err)}`);

@@ -34,6 +34,9 @@ export function decomposeText(text: string, searchValue: string, secondValue: st
 
 export const deepCopy = <T>(obj: T): T | undefined => {
     try {
+        if (!obj) {
+            return undefined;
+        }
         return JSON.parse(JSON.stringify(obj));
     } catch (err) {
         console.error(`Error deepCopy: ${JSON.stringify(err)}`);
