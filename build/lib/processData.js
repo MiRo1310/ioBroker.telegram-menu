@@ -91,6 +91,7 @@ async function checkEveryMenuForData(obj) {
       groupData
     })) {
       (0, import_logging.debug)([{ text: "CalledText found" }]);
+      (0, import_logging.debug)([{ text: "CalledText found" }]);
       return true;
     }
   }
@@ -177,6 +178,8 @@ async function processData(obj) {
         (0, import_backMenu.backMenuFunc)(call, part.nav, userToSend);
         if (JSON.stringify(part.nav).includes("menu:")) {
           (0, import_logging.debug)([{ text: "Submenu" }]);
+          (0, import_logging.debug)([{ text: "Val", val: part.nav }]);
+          (0, import_logging.debug)([{ text: "Val", val: JSON.stringify(part.nav) }]);
           const result = await (0, import_subMenu.callSubMenu)(
             JSON.stringify(part.nav),
             groupData,

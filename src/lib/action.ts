@@ -540,10 +540,6 @@ const getUserToSendFromUserListWithChatID = (
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
             userToSend = element.name;
-            debug([
-                { text: 'User and ChatID:', val: element },
-                { text: 'User:', val: userToSend },
-            ]);
             break;
         }
     }

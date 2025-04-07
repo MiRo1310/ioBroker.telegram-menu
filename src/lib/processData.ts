@@ -54,7 +54,7 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
             await processData({
                 _this,
                 menuData,
-                calledValue: calledValue,
+                calledValue,
                 userToSend,
                 groupWithUser: menu,
                 instanceTelegram,
@@ -70,6 +70,8 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
                 groupData,
             })
         ) {
+            debug([{ text: 'CalledText found' }]);
+            //TODO - Remove
             debug([{ text: 'CalledText found' }]);
             return true;
         }
@@ -171,6 +173,9 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
                 if (JSON.stringify(part.nav).includes('menu:')) {
                     debug([{ text: 'Submenu' }]);
+                    debug([{ text: 'Val', val: part.nav }]);
+                    debug([{ text: 'Val', val: JSON.stringify(part.nav) }]);
+
                     const result = await callSubMenu(
                         JSON.stringify(part.nav),
                         groupData,
