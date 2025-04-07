@@ -57,16 +57,15 @@ function getState(
                 return;
             }
 
-            await _this.getForeignStateAsync(id).then(async (value: ioBroker.State | null | undefined) => {
+            await _this.getForeignStateAsync(id).then(async (value?: ioBroker.State | null) => {
                 if (!isDefined(value)) {
                     error([{ text: 'The state is empty!' }]);
                     return;
                 }
-                const valueForJson: string = value.val?.toString() || '';
+                const valueForJson: string = value.val?.toString() ?? '';
                 debug([{ text: 'State:', val: value }]);
 
-                let val: string | number = JSON.stringify(value.val);
-                val = val.replace(/\\/g, '').replace(/"/g, '');
+                let val: string | number = valueForJson.replace(/\\/g, '').replace(/"/g, '');
 
                 let newline = '';
                 if (element.newline === 'true') {

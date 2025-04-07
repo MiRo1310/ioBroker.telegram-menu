@@ -78,15 +78,14 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         return;
       }
       await _this.getForeignStateAsync(id).then(async (value) => {
-        var _a2, _b2;
+        var _a2, _b2, _c;
         if (!(0, import_global.isDefined)(value)) {
           (0, import_logging.error)([{ text: "The state is empty!" }]);
           return;
         }
-        const valueForJson = ((_a2 = value.val) == null ? void 0 : _a2.toString()) || "";
+        const valueForJson = (_b2 = (_a2 = value.val) == null ? void 0 : _a2.toString()) != null ? _b2 : "";
         (0, import_logging.debug)([{ text: "State:", val: value }]);
-        let val = JSON.stringify(value.val);
-        val = val.replace(/\\/g, "").replace(/"/g, "");
+        let val = valueForJson.replace(/\\/g, "").replace(/"/g, "");
         let newline = "";
         if (element.newline === "true") {
           newline = "\n";
@@ -182,7 +181,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           text += `${val} ${newline}`;
         }
         (0, import_logging.debug)([{ text: "Text:", val: text }]);
-        if (i == ((_b2 = part.getData) == null ? void 0 : _b2.length)) {
+        if (i == ((_c = part.getData) == null ? void 0 : _c.length)) {
           if (userToSend) {
             await (0, import_telegram.sendToTelegram)(
               userToSend,
