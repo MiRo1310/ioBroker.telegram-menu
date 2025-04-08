@@ -32,7 +32,6 @@ var import_dynamicSwitch = require("./dynamicSwitch");
 var import_logging = require("./logging");
 var import_console = require("console");
 var import_global = require("./global");
-var import_main = require("../main");
 let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
@@ -99,7 +98,7 @@ const createSubmenuPercent = (obj) => {
   if (rowEntries != 0) {
     keyboard.inline_keyboard.push(menu);
   }
-  return { text: obj.text, keyboard, device: device2Switch };
+  return { text: obj.text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 };
 const setFirstMenuValue = async (obj) => {
   let val;
@@ -211,30 +210,26 @@ const createSubmenuNumber = (obj) => {
   if (rowEntries != 0) {
     keyboard.inline_keyboard.push(menu);
   }
-  (0, import_logging.debug)([{ text: "keyboard:", val: keyboard }]);
-  return { text: obj.text, keyboard, device: device2Switch };
+  (0, import_logging.debug)([{ text: "keyboard:", val: keyboard.inline_keyboard }]);
+  return { text: obj.text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 };
-const createSwitchMenu = ({
-  device2Switch,
-  callbackData,
-  text
-}) => {
-  splittedData = callbackData.split("-");
+const createSwitchMenu = (obj) => {
+  splittedData = obj.callbackData.split("-");
   const keyboard = {
     inline_keyboard: [
       [
         {
           text: splittedData[1].split(".")[0],
-          callback_data: `menu:first:${device2Switch}`
+          callback_data: `menu:first:${obj.device2Switch}`
         },
         {
           text: splittedData[2].split(".")[0],
-          callback_data: `menu:second:${device2Switch}`
+          callback_data: `menu:second:${obj.device2Switch}`
         }
       ]
     ]
   };
-  return { text, keyboard, device: device2Switch };
+  return { text: obj.text, keyboard: JSON.stringify(keyboard), device: obj.device2Switch };
 };
 const setValueForSubmenuPercent = async (obj) => {
   const value = parseInt(obj.calledValue.split(":")[1].split(",")[1]);
@@ -275,22 +270,23 @@ const setValueForSubmenuNumber = async (obj) => {
 const back = async (obj) => {
   const result = await (0, import_backMenu.switchBack)(obj.userToSend, obj.allMenusWithData, obj.menus);
   if (result) {
-    await (0, import_telegram.sendToTelegram)({
-      user: obj.userToSend,
-      textToSend: result.texttosend,
-      keyboard: result.menuToSend,
-      instance: obj.instanceTelegram,
-      resize_keyboard: obj.resize_keyboard,
-      one_time_keyboard: obj.one_time_keyboard,
-      userListWithChatID: obj.userListWithChatID,
-      parse_mode: result.parseMode
-    });
+    await (0, import_telegram.sendToTelegram)(
+      obj.userToSend,
+      result.texttosend,
+      result.menuToSend,
+      obj.instanceTelegram,
+      obj.resize_keyboard,
+      obj.one_time_keyboard,
+      obj.userListWithChatID,
+      result.parseMode
+    );
   }
 };
-async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, navObj) {
+async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo) {
   try {
-    const obj = await subMenu({
+    const obj = await subMenu(
       jsonStringNav,
+      newObjectNavStructure,
       userToSend,
       instanceTelegram,
       resize_keyboard,
@@ -298,9 +294,8 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
       userListWithChatID,
       part,
       allMenusWithData,
-      menus,
-      navObj
-    });
+      menus
+    );
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.text }]);
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.keyboard }]);
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.device }]);
@@ -329,20 +324,9 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
     });
   }
 }
-async function subMenu({
-  jsonStringNav,
-  userToSend,
-  instanceTelegram,
-  resize_keyboard,
-  one_time_keyboard,
-  userListWithChatID,
-  part,
-  allMenusWithData,
-  menus,
-  navObj
-}) {
+async function subMenu(jsonStringNav, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus) {
   try {
-    import_main._this.log.debug(`Menu : ${navObj[0][0]}`);
+    (0, import_logging.debug)([{ text: "CalledValue:", val: jsonStringNav }]);
     let text = "";
     if ((part == null ? void 0 : part.text) && part.text != "") {
       text = await (0, import_utilities.checkStatusInfo)(part.text);
