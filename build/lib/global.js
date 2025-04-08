@@ -27,6 +27,7 @@ __export(global_exports, {
   isJSON: () => isJSON,
   isString: () => isString,
   isTruthy: () => isTruthy,
+  parseJSON: () => parseJSON,
   replaceAll: () => replaceAll
 });
 module.exports = __toCommonJS(global_exports);
@@ -80,6 +81,14 @@ function checkDirectoryIsOk(directory) {
   }
   return true;
 }
+function parseJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch (error2) {
+    error2([{ text: "Error:", val: error2 }]);
+    return void 0;
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   checkDirectoryIsOk,
@@ -91,6 +100,7 @@ function checkDirectoryIsOk(directory) {
   isJSON,
   isString,
   isTruthy,
+  parseJSON,
   replaceAll
 });
 //# sourceMappingURL=global.js.map

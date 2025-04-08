@@ -173,9 +173,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
                 if (JSON.stringify(part.nav).includes('menu:')) {
                     debug([{ text: 'Submenu' }]);
-                    debug([{ text: 'Val', val: part.nav }]);
-                    debug([{ text: 'Val', val: JSON.stringify(part.nav) }]);
-
                     const result = await callSubMenu(
                         JSON.stringify(part.nav),
                         groupData,

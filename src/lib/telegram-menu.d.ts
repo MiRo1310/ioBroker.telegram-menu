@@ -47,7 +47,7 @@ interface HttpRequest {
     delay: string;
 }
 
-type NavPart = string[] | string[][];
+type NavPart = string[][];
 
 interface NavObject {
     [key: string]: Nav[];

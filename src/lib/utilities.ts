@@ -1,7 +1,7 @@
 import TelegramMenu from '../main';
 import { isDefined, isJSON, replaceAll } from './global';
 import { debug, error } from './logging';
-import type { UserListWithChatId, ProzessTimeValue } from './telegram-menu';
+import type { ProzessTimeValue, UserListWithChatId } from './telegram-menu';
 
 const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
     const date = Number(obj.val);
@@ -229,6 +229,8 @@ const checkStatus = async (
         } else {
             newValue = stateValue.val;
         }
+
+        debug([{ text: 'Return Value:', val: text.replace(substring, newValue.toString()) }]);
         return text.replace(substring, newValue.toString());
     } catch (e: any) {
         error([

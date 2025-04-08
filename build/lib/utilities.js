@@ -233,6 +233,7 @@ const checkStatus = async (text, processTimeValue2) => {
     } else {
       newValue = stateValue.val;
     }
+    (0, import_logging.debug)([{ text: "Return Value:", val: text.replace(substring, newValue.toString()) }]);
     return text.replace(substring, newValue.toString());
   } catch (e) {
     (0, import_logging.error)([
