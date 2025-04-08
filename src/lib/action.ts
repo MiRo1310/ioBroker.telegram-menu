@@ -498,7 +498,7 @@ const checkEvent = async (
                         if (part.nav) {
                             backMenuFunc(calledNav, part.nav, user);
                         }
-                        if (part && part.nav && JSON.stringify(part?.nav[0]).includes('menu:')) {
+                        if (part?.nav && part?.nav[0][0].includes('menu:')) {
                             await callSubMenu(
                                 JSON.stringify(part?.nav[0]),
                                 menuData,
@@ -511,6 +511,7 @@ const checkEvent = async (
                                 menuData.data,
                                 menus,
                                 null,
+                                part.nav,
                             );
                         } else {
                             await sendNav(

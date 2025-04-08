@@ -189,7 +189,8 @@ async function processData(obj) {
             part,
             allMenusWithData,
             menus,
-            setStateIdsToListenTo
+            setStateIdsToListenTo,
+            part.nav
           );
           if (result && result.setStateIdsToListenTo) {
             setStateIdsToListenTo = result.setStateIdsToListenTo;
@@ -312,7 +313,8 @@ async function processData(obj) {
         part,
         allMenusWithData,
         menus,
-        setStateIdsToListenTo
+        setStateIdsToListenTo,
+        part.nav
       );
       if (result && result.setStateIdsToListenTo) {
         setStateIdsToListenTo = result.setStateIdsToListenTo;

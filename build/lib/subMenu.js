@@ -32,6 +32,7 @@ var import_dynamicSwitch = require("./dynamicSwitch");
 var import_logging = require("./logging");
 var import_console = require("console");
 var import_global = require("./global");
+var import_main = require("../main");
 let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
@@ -282,11 +283,10 @@ const back = async (obj) => {
     );
   }
 };
-async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo) {
+async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, navObj) {
   try {
-    const obj = await subMenu(
+    const obj = await subMenu({
       jsonStringNav,
-      newObjectNavStructure,
       userToSend,
       instanceTelegram,
       resize_keyboard,
@@ -294,8 +294,9 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
       userListWithChatID,
       part,
       allMenusWithData,
-      menus
-    );
+      menus,
+      navObj
+    });
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.text }]);
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.keyboard }]);
     (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.device }]);
@@ -324,9 +325,20 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
     });
   }
 }
-async function subMenu(jsonStringNav, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus) {
+async function subMenu({
+  jsonStringNav,
+  userToSend,
+  instanceTelegram,
+  resize_keyboard,
+  one_time_keyboard,
+  userListWithChatID,
+  part,
+  allMenusWithData,
+  menus,
+  navObj
+}) {
   try {
-    (0, import_logging.debug)([{ text: "CalledValue:", val: jsonStringNav }]);
+    import_main._this.log.debug(`Menu : ${navObj[0][0]}`);
     let text = "";
     if ((part == null ? void 0 : part.text) && part.text != "") {
       text = await (0, import_utilities.checkStatusInfo)(part.text);

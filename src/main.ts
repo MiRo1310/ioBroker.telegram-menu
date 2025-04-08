@@ -45,6 +45,7 @@ import { isDefined, isFalsy, isString } from './lib/global';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
+export let _this: TelegramMenu;
 
 export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;
@@ -67,6 +68,7 @@ export default class TelegramMenu extends utils.Adapter {
     }
 
     private async onReady(): Promise<void> {
+        _this = this;
         await this.setState('info.connection', false, true);
         await createState(this);
 

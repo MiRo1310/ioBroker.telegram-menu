@@ -1,4 +1,4 @@
-import TelegramMenu from '../main';
+import TelegramMenu, { _this } from '../main';
 import { isDefined, isJSON, replaceAll } from './global';
 import { debug, error } from './logging';
 import type { ProzessTimeValue, UserListWithChatId } from './telegram-menu';
@@ -181,17 +181,12 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
     return textToSend;
 };
 
-const checkStatus = async (
-    text: string,
-    processTimeValue?: ProzessTimeValue,
-): Promise<string | undefined | ioBroker.State | null> => {
+const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): Promise<string> => {
     try {
         const _this = TelegramMenu.getInstance();
-        debug([{ text: 'CheckStatusInfo:', val: text }]);
-
         const substring = decomposeText(text, '{status:', '}').substring;
         let id, valueChange;
-
+        _this.log.debug(`Substring ${substring}`);
         if (substring.includes("status:'id':")) {
             id = substring.split(':')[2].replace("'}", '').replace(/'/g, '').replace(/}/g, '');
 
@@ -204,8 +199,8 @@ const checkStatus = async (
         const stateValue = await _this.getForeignStateAsync(id);
 
         if (!stateValue) {
-            debug([{ text: 'Error getting Value from:', val: id }]);
-            return;
+            _this.log.debug(`State not found: ${id}`);
+            return '';
         }
 
         if (text.includes('{time}') && processTimeValue) {
@@ -214,8 +209,8 @@ const checkStatus = async (
                 return processTimeValue(text, stateValue).replace(stateValue.val, '');
             }
         }
-        if (stateValue.val === undefined || stateValue.val === null) {
-            debug([{ text: 'Id', val: id }, { text: 'Value is null or undefined!' }]);
+        if (!isDefined(stateValue.val)) {
+            _this.log.debug(`State Value is undefined: ${id}`);
             return text.replace(substring, '');
         }
         if (!valueChange) {
@@ -229,14 +224,15 @@ const checkStatus = async (
         } else {
             newValue = stateValue.val;
         }
+        _this.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+        _this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
 
-        debug([{ text: 'Return Value:', val: text.replace(substring, newValue.toString()) }]);
         return text.replace(substring, newValue.toString());
     } catch (e: any) {
-        error([
-            { text: 'Error checkStatus:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        _this.log.error(`Error checkStatus:${e.message}`);
+        _this.log.error(`Stack:${e.stack}`);
+
+        return '';
     }
 };
 const checkStatusInfo = async (text: string): Promise<string | undefined> => {
@@ -246,11 +242,11 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
         if (!text) {
             return;
         }
-        _this.log.debug(`Text: ${JSON.stringify(text)}`);
+        _this.log.debug(`Text: ${text}`);
+
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
-                const result = await checkStatus(text, processTimeValue);
-                text = result ? JSON.stringify(result) : '';
+                text = await checkStatus(text, processTimeValue);
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
@@ -274,6 +270,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             }
         }
         if (text) {
+            _this.log.debug(`CheckStatusInfo: ${text}`);
             return text;
         }
     } catch (e: any) {

@@ -28,6 +28,7 @@ import type {
     NavPart,
 } from './telegram-menu';
 import { parseJSON } from './global';
+import { _this } from '../main';
 
 let step = 0;
 let returnIDToListenTo: SetStateIds[] = [];
@@ -230,8 +231,8 @@ const createSubmenuNumber = (
     debug([{ text: 'keyboard:', val: keyboard.inline_keyboard }]);
     return { text: obj.text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 };
-
-const createSwitchMenu = (obj: CreateSwitchMenu): { text: string | undefined; keyboard: string; device: string } => {
+interface Keyboard {
+const createSwitchMenu = (obj: CreateSwitchMenu): { text?: string; keyboard: string; device: string } => {
     splittedData = obj.callbackData.split('-');
     const keyboard = {
         inline_keyboard: [
@@ -320,20 +321,21 @@ async function callSubMenu(
     allMenusWithData: { [key: string]: NewObjectNavStructure },
     menus: string[],
     setStateIdsToListenTo: SetStateIds[] | null,
+    navObj: NavPart,
 ): Promise<{ setStateIdsToListenTo: SetStateIds[] | null; newNav: string | undefined } | undefined> {
     try {
-        const obj = await subMenu(
-            jsonStringNav,
-            newObjectNavStructure,
-            userToSend,
-            instanceTelegram,
-            resize_keyboard,
-            one_time_keyboard,
-            userListWithChatID,
+        const obj = await subMenu({
+            jsonStringNav: jsonStringNav,
+            userToSend: userToSend,
+            instanceTelegram: instanceTelegram,
+            resize_keyboard: resize_keyboard,
+            one_time_keyboard: one_time_keyboard,
+            userListWithChatID: userListWithChatID,
             part,
-            allMenusWithData,
+            allMenusWithData: allMenusWithData,
             menus,
-        );
+            navObj,
+        });
         debug([{ text: 'Submenu data:', val: obj?.text }]);
         debug([{ text: 'Submenu data:', val: obj?.keyboard }]);
         debug([{ text: 'Submenu data:', val: obj?.device }]);
@@ -366,22 +368,34 @@ async function callSubMenu(
     }
 }
 
-async function subMenu(
-    jsonStringNav: string,
-    menuData: NewObjectNavStructure,
-    userToSend: string,
-    instanceTelegram: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
-    userListWithChatID: UserListWithChatId[],
-    part: Part,
-    allMenusWithData: { [key: string]: NewObjectNavStructure },
-    menus: string[],
-): Promise<
+async function subMenu({
+    jsonStringNav,
+    userToSend,
+    instanceTelegram,
+    resize_keyboard,
+    one_time_keyboard,
+    userListWithChatID,
+    part,
+    allMenusWithData,
+    menus,
+    navObj,
+}: {
+    jsonStringNav: string;
+    userToSend: string;
+    instanceTelegram: string;
+    resize_keyboard: boolean;
+    one_time_keyboard: boolean;
+    userListWithChatID: UserListWithChatId[];
+    part: Part;
+    allMenusWithData: { [p: string]: NewObjectNavStructure };
+    menus: string[];
+    navObj: NavPart;
+}): Promise<
     { text?: string; keyboard?: string; device?: string; returnIds?: SetStateIds[]; navToGoBack?: string } | undefined
 > {
     try {
-        debug([{ text: 'CalledValue:', val: jsonStringNav }]);
+        _this.log.debug(`Menu : ${navObj[0][0]}`);
+
         let text: string | undefined = '';
         if (part?.text && part.text != '') {
             text = await checkStatusInfo(part.text);

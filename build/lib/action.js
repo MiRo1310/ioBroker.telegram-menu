@@ -449,7 +449,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
             if (part.nav) {
               (0, import_backMenu.backMenuFunc)(calledNav, part.nav, user);
             }
-            if (part && part.nav && JSON.stringify(part == null ? void 0 : part.nav[0]).includes("menu:")) {
+            if ((part == null ? void 0 : part.nav) && (part == null ? void 0 : part.nav[0][0].includes("menu:"))) {
               await (0, import_subMenu.callSubMenu)(
                 JSON.stringify(part == null ? void 0 : part.nav[0]),
                 menuData,
@@ -461,7 +461,8 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
                 part,
                 menuData.data,
                 menus,
-                null
+                null,
+                part.nav
               );
             } else {
               await (0, import_sendNav.sendNav)(

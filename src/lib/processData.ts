@@ -185,6 +185,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                         allMenusWithData,
                         menus,
                         setStateIdsToListenTo,
+                        part.nav,
                     );
                     if (result && result.setStateIdsToListenTo) {
                         setStateIdsToListenTo = result.setStateIdsToListenTo;
@@ -312,6 +313,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 allMenusWithData,
                 menus,
                 setStateIdsToListenTo,
+                part.nav,
             );
             if (result && result.setStateIdsToListenTo) {
                 setStateIdsToListenTo = result.setStateIdsToListenTo;

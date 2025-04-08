@@ -28,6 +28,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var main_exports = {};
 __export(main_exports, {
+  _this: () => _this,
   adapter: () => adapter,
   default: () => TelegramMenu
 });
@@ -47,6 +48,7 @@ var import_connection = require("./lib/connection.js");
 var import_global = require("./lib/global");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
+let _this;
 class TelegramMenu extends utils.Adapter {
   static instance;
   /**
@@ -65,6 +67,7 @@ class TelegramMenu extends utils.Adapter {
     return TelegramMenu.instance;
   }
   async onReady() {
+    _this = this;
     await this.setState("info.connection", false, true);
     await (0, import_createState.createState)(this);
     let instanceTelegram = this.config.instance;
@@ -416,6 +419,7 @@ if (require.main !== module) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  _this,
   adapter
 });
 //# sourceMappingURL=main.js.map

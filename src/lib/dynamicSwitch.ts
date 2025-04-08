@@ -9,6 +9,7 @@ async function dynamicSwitch(
     try {
         const changedCalledValue = await checkStatusInfo(calledValue);
         const splittedArray: string[] | undefined = changedCalledValue?.replace(/"/g, '').split(':');
+
         if (!splittedArray) {
             return;
         }
