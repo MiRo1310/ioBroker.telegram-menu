@@ -1,5 +1,5 @@
 import { sendToTelegram } from './telegram';
-import { checkTypeOfId } from './utilities';
+import { checkTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { decomposeText } from './global';
 import TelegramMenu from '../main';

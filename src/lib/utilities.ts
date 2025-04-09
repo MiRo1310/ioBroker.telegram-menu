@@ -1,6 +1,6 @@
 import TelegramMenu, { _this } from '../main';
-import { isDefined, isJSON, replaceAll } from './global';
-import { debug, error } from './logging';
+import { isDefined, isJSON, replaceAll } from '../app/global';
+import { debug, error } from '../app/logging';
 import type { UserListWithChatId } from '../types/types';
 
 const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {

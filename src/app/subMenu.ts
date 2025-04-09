@@ -1,7 +1,7 @@
 import { switchBack } from './backMenu';
 import { setState } from './setstate';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { checkStatusInfo } from './utilities';
+import { checkStatusInfo } from '../lib/utilities';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
 import { deleteMessageIds } from './messageIds';
 import { dynamicSwitch } from './dynamicSwitch';

@@ -1,7 +1,7 @@
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc, roundValue, calcValue, idBySelector } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
-import { processTimeIdLc, processTimeValue, changeValue } from './utilities';
+import { processTimeIdLc, processTimeValue, changeValue } from '../lib/utilities';
 import { decomposeText, isDefined } from './global';
 import { debug, error } from './logging';
 import TelegramMenu from '../main';

@@ -1,5 +1,5 @@
 import { debug, error } from './logging';
-import { checkStatusInfo, getChatID, newLine } from './utilities';
+import { checkStatusInfo, getChatID, newLine } from '../lib/utilities';
 import TelegramMenu from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';

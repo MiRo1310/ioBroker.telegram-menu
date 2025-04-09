@@ -1,6 +1,6 @@
 import { debug, error } from './logging';
 import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from '../types/types';
-import { checkStatusInfo } from './utilities';
+import { checkStatusInfo } from '../lib/utilities';
 const backMenu: BackMenu = {};
 
 function backMenuFunc(nav: string, part: NavPart, userToSend: string): void {
