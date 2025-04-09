@@ -15,16 +15,16 @@ import {
     generateNewObjectStructure,
     getMenusWithUserToSend,
     getUserToSendFromUserListWithChatID,
-} from './lib/action.js';
-import { _subscribeForeignStatesAsync } from './lib/subscribeStates.js';
-import { sendToTelegram } from './lib/telegram.js';
+} from './app/action.js';
+import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
+import { sendToTelegram } from './app/telegram.js';
 import { changeValue, decomposeText } from './lib/utilities.js';
-import { createState } from './lib/createState.js';
-import { saveMessageIds } from './lib/messageIds.js';
-import { adapterStartMenuSend } from './lib/adapterStartMenuSend.js';
-import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './lib/processData.js';
-import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './lib/shoppingList.js';
-import { debug, error } from './lib/logging.js';
+import { createState } from './app/createState.js';
+import { saveMessageIds } from './app/messageIds.js';
+import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
+import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app/processData.js';
+import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
+import { debug, error } from './app/logging.js';
 import type {
     Checkboxes,
     DataObject,
@@ -38,8 +38,8 @@ import type {
     UserListWithChatId,
 } from './types/types';
 import type { BooleanString } from '@/types/app.js';
-import { checkIsTelegramActive } from './lib/connection.js';
-import { isDefined, isFalsy, isString } from './lib/global';
+import { checkIsTelegramActive } from './app/connection.js';
+import { isDefined, isFalsy, isString } from './app/global';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
