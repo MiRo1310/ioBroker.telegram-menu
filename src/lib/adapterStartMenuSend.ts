@@ -31,16 +31,16 @@ async function adapterStartMenuSend(
                 backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, user);
                 debug([{ text: 'User List:', val: userListWithChatID }]);
 
-                await sendToTelegram(
-                    user,
-                    menuData.data[menu][startSide].text as string,
-                    menuData.data[menu][startSide].nav,
-                    instanceTelegram,
-                    resize_keyboard,
-                    one_time_keyboard,
-                    userListWithChatID,
-                    menuData.data[menu][startSide].parse_mode as BooleanString,
-                );
+                await sendToTelegram({
+                    user: user,
+                    textToSend: menuData.data[menu][startSide].text as string,
+                    keyboard: menuData.data[menu][startSide].nav,
+                    instance: instanceTelegram,
+                    resize_keyboard: resize_keyboard,
+                    one_time_keyboard: one_time_keyboard,
+                    userListWithChatID: userListWithChatID,
+                    parse_mode: menuData.data[menu][startSide].parse_mode as BooleanString,
+                });
             }
         } else {
             if (startSide == '-') {

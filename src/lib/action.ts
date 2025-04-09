@@ -62,16 +62,16 @@ const bindingFunc = async (
                 value = eval(item);
             }
         }
-        await sendToTelegram(
-            userToSend,
-            value,
-            undefined,
-            telegramInstance,
-            one_time_keyboard,
-            resize_keyboard,
-            userListWithChatID,
-            parse_mode,
-        );
+        await sendToTelegram({
+            user: userToSend,
+            textToSend: value,
+            keyboard: undefined,
+            instance: telegramInstance,
+            resize_keyboard: one_time_keyboard,
+            one_time_keyboard: resize_keyboard,
+            userListWithChatID: userListWithChatID,
+            parse_mode: parse_mode,
+        });
     } catch (e: any) {
         error([
             { text: 'Error:', val: e.message },
@@ -208,16 +208,16 @@ const idBySelector = async (
         });
         Promise.all(promises)
             .then(() => {
-                sendToTelegram(
-                    userToSend,
-                    text2Send,
-                    undefined,
-                    telegramInstance,
-                    one_time_keyboard,
-                    resize_keyboard,
-                    userListWithChatID,
-                    'false',
-                ).catch(e => {
+                sendToTelegram({
+                    user: userToSend,
+                    textToSend: text2Send,
+                    keyboard: undefined,
+                    instance: telegramInstance,
+                    resize_keyboard: one_time_keyboard,
+                    one_time_keyboard: resize_keyboard,
+                    userListWithChatID: userListWithChatID,
+                    parse_mode: 'false',
+                }).catch(e => {
                     error([
                         { text: 'Error SendToTelegram:', val: e.message },
                         { text: 'Stack:', val: e.stack },
@@ -498,7 +498,7 @@ const checkEvent = async (
                         if (part.nav) {
                             backMenuFunc(calledNav, part.nav, user);
                         }
-                        if (part && part.nav && JSON.stringify(part?.nav[0]).includes('menu:')) {
+                        if (part?.nav && part?.nav[0][0].includes('menu:')) {
                             await callSubMenu(
                                 JSON.stringify(part?.nav[0]),
                                 menuData,
@@ -511,6 +511,7 @@ const checkEvent = async (
                                 menuData.data,
                                 menus,
                                 null,
+                                part.nav,
                             );
                         } else {
                             await sendNav(
@@ -540,10 +541,6 @@ const getUserToSendFromUserListWithChatID = (
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
             userToSend = element.name;
-            debug([
-                { text: 'User and ChatID:', val: element },
-                { text: 'User:', val: userToSend },
-            ]);
             break;
         }
     }

@@ -62,3 +62,13 @@ export function checkDirectoryIsOk(directory: string): boolean {
     }
     return true;
 }
+
+export function parseJSON<T>(value: string): T | undefined {
+    try {
+        return JSON.parse(value);
+    } catch (error) {
+        // @ts-expect-error
+        error([{ text: 'Error:', val: error }]);
+        return undefined;
+    }
+}

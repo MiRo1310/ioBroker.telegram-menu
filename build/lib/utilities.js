@@ -112,7 +112,7 @@ function changeValue(textToSend, val) {
   }
 }
 const processTimeIdLc = async (textToSend, id) => {
-  const _this = import_main.default.getInstance();
+  const _this2 = import_main.default.getInstance();
   let key = "";
   const { substring } = decomposeText(textToSend, "{time.", "}");
   const array = substring.split(",");
@@ -137,7 +137,7 @@ const processTimeIdLc = async (textToSend, id) => {
   if (!id && !idFromText) {
     return;
   }
-  const value = await _this.getForeignStateAsync(id || idFromText);
+  const value = await _this2.getForeignStateAsync(id || idFromText);
   let timeValue;
   let timeStringUser;
   if (key && value) {
@@ -196,10 +196,10 @@ const processTimeIdLc = async (textToSend, id) => {
 };
 const checkStatus = async (text, processTimeValue2) => {
   try {
-    const _this = import_main.default.getInstance();
-    (0, import_logging.debug)([{ text: "CheckStatusInfo:", val: text }]);
+    const _this2 = import_main.default.getInstance();
     const substring = decomposeText(text, "{status:", "}").substring;
     let id, valueChange;
+    _this2.log.debug(`Substring ${substring}`);
     if (substring.includes("status:'id':")) {
       id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
@@ -207,10 +207,10 @@ const checkStatus = async (text, processTimeValue2) => {
       id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
     }
-    const stateValue = await _this.getForeignStateAsync(id);
+    const stateValue = await _this2.getForeignStateAsync(id);
     if (!stateValue) {
-      (0, import_logging.debug)([{ text: "Error getting Value from:", val: id }]);
-      return;
+      _this2.log.debug(`State not found: ${id}`);
+      return "";
     }
     if (text.includes("{time}") && processTimeValue2) {
       text = text.replace(substring, "");
@@ -218,8 +218,8 @@ const checkStatus = async (text, processTimeValue2) => {
         return processTimeValue2(text, stateValue).replace(stateValue.val, "");
       }
     }
-    if (stateValue.val === void 0 || stateValue.val === null) {
-      (0, import_logging.debug)([{ text: "Id", val: id }, { text: "Value is null or undefined!" }]);
+    if (!(0, import_global.isDefined)(stateValue.val)) {
+      _this2.log.debug(`State Value is undefined: ${id}`);
       return text.replace(substring, "");
     }
     if (!valueChange) {
@@ -233,25 +233,25 @@ const checkStatus = async (text, processTimeValue2) => {
     } else {
       newValue = stateValue.val;
     }
+    _this2.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+    _this2.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
     return text.replace(substring, newValue.toString());
   } catch (e) {
-    (0, import_logging.error)([
-      { text: "Error checkStatus:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    import_main._this.log.error(`Error checkStatus:${e.message}`);
+    import_main._this.log.error(`Stack:${e.stack}`);
+    return "";
   }
 };
 const checkStatusInfo = async (text) => {
-  const _this = import_main.default.getInstance();
+  const _this2 = import_main.default.getInstance();
   try {
     if (!text) {
       return;
     }
-    _this.log.debug(`Text: ${JSON.stringify(text)}`);
+    _this2.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
-        const result = await checkStatus(text, processTimeValue);
-        text = result ? JSON.stringify(result) : "";
+        text = await checkStatus(text, processTimeValue);
       }
     }
     if (text.includes("{time.lc") || text.includes("{time.ts")) {
@@ -268,10 +268,11 @@ const checkStatusInfo = async (text) => {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await _this.setForeignStateAsync(id, convertedValue, ack);
+        await _this2.setForeignStateAsync(id, convertedValue, ack);
       }
     }
     if (text) {
+      _this2.log.debug(`CheckStatusInfo: ${text}`);
       return text;
     }
   } catch (e) {
@@ -282,10 +283,10 @@ const checkStatusInfo = async (text) => {
   }
 };
 async function checkTypeOfId(id, value) {
-  const _this = import_main.default.getInstance();
+  const _this2 = import_main.default.getInstance();
   try {
     (0, import_logging.debug)([{ text: `Check Type of Id: ${id}` }]);
-    const obj = await _this.getForeignObjectAsync(id);
+    const obj = await _this2.getForeignObjectAsync(id);
     const receivedType = typeof value;
     if (!obj || !value) {
       return value;

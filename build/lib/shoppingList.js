@@ -65,16 +65,16 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
         );
         return;
       }
-      await (0, import_telegram.sendToTelegram)(
+      await (0, import_telegram.sendToTelegram)({
         user,
-        "Cannot delete the Item",
-        void 0,
-        instanceTelegram,
+        textToSend: "Cannot delete the Item",
+        keyboard: void 0,
+        instance: instanceTelegram,
         resize_keyboard,
         one_time_keyboard,
         userListWithChatID,
-        "true"
-      );
+        parse_mode: "true"
+      });
       (0, import_logging.debug)([{ text: "Cannot delete the Item" }]);
       return;
     }

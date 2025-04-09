@@ -36,16 +36,15 @@ function getChart(
                     fileOnDisk: directoryPicture + echart.filename,
                 },
                 (result: any) => {
-                    sendToTelegram(
-                        user,
-                        result.error || directoryPicture + echart.filename,
-                        [],
-                        instanceTelegram,
-                        resize_keyboard,
-                        one_time_keyboard,
-                        userListWithChatID,
-                        'false',
-                    ).catch((e: any) => {
+                    sendToTelegram({
+                        user: user,
+                        textToSend: result.error || directoryPicture + echart.filename,
+                        instance: instanceTelegram,
+                        resize_keyboard: resize_keyboard,
+                        one_time_keyboard: one_time_keyboard,
+                        userListWithChatID: userListWithChatID,
+                        parse_mode: 'false',
+                    }).catch((e: any) => {
                         error([
                             { text: 'Error', val: e.message },
                             { text: 'Stack', val: e.stack },

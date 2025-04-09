@@ -28,6 +28,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var main_exports = {};
 __export(main_exports, {
+  _this: () => _this,
   adapter: () => adapter,
   default: () => TelegramMenu
 });
@@ -47,6 +48,7 @@ var import_connection = require("./lib/connection.js");
 var import_global = require("./lib/global");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
+let _this;
 class TelegramMenu extends utils.Adapter {
   static instance;
   /**
@@ -65,6 +67,7 @@ class TelegramMenu extends utils.Adapter {
     return TelegramMenu.instance;
   }
   async onReady() {
+    _this = this;
     await this.setState("info.connection", false, true);
     await (0, import_createState.createState)(this);
     let instanceTelegram = this.config.instance;
@@ -227,16 +230,15 @@ class TelegramMenu extends utils.Adapter {
             ]);
             if (!dataFound && checkboxNoEntryFound && userToSend) {
               (0, import_logging.debug)([{ text: "No Entry found" }]);
-              await (0, import_telegram.sendToTelegram)(
-                userToSend,
-                textNoEntryFound,
-                void 0,
-                instanceTelegram,
+              await (0, import_telegram.sendToTelegram)({
+                user: userToSend,
+                textToSend: textNoEntryFound,
+                instance: instanceTelegram,
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,
-                "false"
-              );
+                parse_mode: "false"
+              });
             }
             return;
           }
@@ -267,16 +269,15 @@ class TelegramMenu extends utils.Adapter {
                   if (text === "") {
                     (0, import_logging.error)([{ text: "The return text cannot be empty, please check." }]);
                   }
-                  (0, import_telegram.sendToTelegram)(
-                    element.userToSend,
-                    text,
-                    void 0,
-                    instanceTelegram,
+                  (0, import_telegram.sendToTelegram)({
+                    user: element.userToSend,
+                    textToSend: text,
+                    instance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    element.parse_mode
-                  ).catch((e) => {
+                    parse_mode: element.parse_mode
+                  }).catch((e) => {
                     (0, import_logging.error)([
                       { text: "Error SendToTelegram" },
                       { val: e.message },
@@ -315,16 +316,16 @@ class TelegramMenu extends utils.Adapter {
                   }
                   (0, import_logging.debug)([{ text: "Value to send:", val: value }]);
                   textToSend = (0, import_action.exchangePlaceholderWithValue)(textToSend, value);
-                  (0, import_telegram.sendToTelegram)(
-                    element.userToSend,
+                  (0, import_telegram.sendToTelegram)({
+                    user: element.userToSend,
                     textToSend,
-                    void 0,
-                    instanceTelegram,
+                    keyboard: void 0,
+                    instance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    element.parse_mode
-                  ).catch((e) => {
+                    parse_mode: element.parse_mode
+                  }).catch((e) => {
                     (0, import_logging.error)([
                       { text: "Error sendToTelegram" },
                       { val: e.message },
@@ -416,6 +417,7 @@ if (require.main !== module) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  _this,
   adapter
 });
 //# sourceMappingURL=main.js.map

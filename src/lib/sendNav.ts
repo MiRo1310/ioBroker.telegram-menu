@@ -18,16 +18,16 @@ async function sendNav(
             const nav = part.nav;
             const text = await checkStatusInfo(part.text as string);
 
-            await sendToTelegram(
-                userToSend,
-                text as string,
-                nav,
-                instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
-                userListWithChatID,
-                part.parse_mode || 'false',
-            );
+            await sendToTelegram({
+                user: userToSend,
+                textToSend: text as string,
+                keyboard: nav,
+                instance: instanceTelegram,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
+                userListWithChatID: userListWithChatID,
+                parse_mode: part.parse_mode || 'false',
+            });
         }
     } catch (e: any) {
         error([

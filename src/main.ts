@@ -45,6 +45,7 @@ import { isDefined, isFalsy, isString } from './lib/global';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
+export let _this: TelegramMenu;
 
 export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;
@@ -67,6 +68,7 @@ export default class TelegramMenu extends utils.Adapter {
     }
 
     private async onReady(): Promise<void> {
+        _this = this;
         await this.setState('info.connection', false, true);
         await createState(this);
 
@@ -260,16 +262,15 @@ export default class TelegramMenu extends utils.Adapter {
 
                         if (!dataFound && checkboxNoEntryFound && userToSend) {
                             debug([{ text: 'No Entry found' }]);
-                            await sendToTelegram(
-                                userToSend,
-                                textNoEntryFound,
-                                undefined,
-                                instanceTelegram,
-                                resize_keyboard,
-                                one_time_keyboard,
-                                userListWithChatID,
-                                'false',
-                            );
+                            await sendToTelegram({
+                                user: userToSend,
+                                textToSend: textNoEntryFound,
+                                instance: instanceTelegram,
+                                resize_keyboard: resize_keyboard,
+                                one_time_keyboard: one_time_keyboard,
+                                userListWithChatID: userListWithChatID,
+                                parse_mode: 'false',
+                            });
                         }
                         return;
                     }
@@ -314,16 +315,15 @@ export default class TelegramMenu extends utils.Adapter {
                                         error([{ text: 'The return text cannot be empty, please check.' }]);
                                     }
 
-                                    sendToTelegram(
-                                        element.userToSend,
-                                        text,
-                                        undefined,
-                                        instanceTelegram,
-                                        resize_keyboard,
-                                        one_time_keyboard,
-                                        userListWithChatID,
-                                        element.parse_mode as BooleanString,
-                                    ).catch((e: { message: any; stack: any }) => {
+                                    sendToTelegram({
+                                        user: element.userToSend,
+                                        textToSend: text,
+                                        instance: instanceTelegram,
+                                        resize_keyboard: resize_keyboard,
+                                        one_time_keyboard: one_time_keyboard,
+                                        userListWithChatID: userListWithChatID,
+                                        parse_mode: element.parse_mode as BooleanString,
+                                    }).catch((e: { message: any; stack: any }) => {
                                         error([
                                             { text: 'Error SendToTelegram' },
                                             { val: e.message },
@@ -367,16 +367,16 @@ export default class TelegramMenu extends utils.Adapter {
                                     debug([{ text: 'Value to send:', val: value }]);
                                     textToSend = exchangePlaceholderWithValue(textToSend, value);
 
-                                    sendToTelegram(
-                                        element.userToSend,
-                                        textToSend,
-                                        undefined,
-                                        instanceTelegram,
-                                        resize_keyboard,
-                                        one_time_keyboard,
-                                        userListWithChatID,
-                                        element.parse_mode as BooleanString,
-                                    ).catch((e: { message: any; stack: any }) => {
+                                    sendToTelegram({
+                                        user: element.userToSend,
+                                        textToSend: textToSend,
+                                        keyboard: undefined,
+                                        instance: instanceTelegram,
+                                        resize_keyboard: resize_keyboard,
+                                        one_time_keyboard: one_time_keyboard,
+                                        userListWithChatID: userListWithChatID,
+                                        parse_mode: element.parse_mode as BooleanString,
+                                    }).catch((e: { message: any; stack: any }) => {
                                         error([
                                             { text: 'Error sendToTelegram' },
                                             { val: e.message },

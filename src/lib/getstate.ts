@@ -86,7 +86,8 @@ function getState(
                         if (result) {
                             textToSend = result.textToSend;
                             val = result.val;
-                            _this.log.debug(JSON.stringify({ textToSend: textToSend, val: val }));
+
+                            _this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
                         }
                     }
                     if (textToSend.includes('round:')) {
@@ -103,16 +104,16 @@ function getState(
                         if (decomposeText(textToSend, '{json', '}').substring.includes('TextTable')) {
                             const result = createTextTableFromJson(valueForJson, textToSend);
                             if (result) {
-                                await sendToTelegram(
-                                    userToSend,
-                                    result,
-                                    undefined,
-                                    telegramInstance,
-                                    one_time_keyboard,
-                                    resize_keyboard,
-                                    userListWithChatID,
-                                    parse_mode,
-                                );
+                                await sendToTelegram({
+                                    user: userToSend,
+                                    textToSend: result,
+                                    keyboard: undefined,
+                                    instance: telegramInstance,
+                                    resize_keyboard: one_time_keyboard,
+                                    one_time_keyboard: resize_keyboard,
+                                    userListWithChatID: userListWithChatID,
+                                    parse_mode: parse_mode,
+                                });
                                 return;
                             }
                             _this.log.debug('Cannot create a Text-Table');
@@ -131,16 +132,16 @@ function getState(
                                 }
                                 return;
                             }
-                            await sendToTelegram(
-                                userToSend,
-                                'The state is empty!',
-                                undefined,
-                                telegramInstance,
-                                one_time_keyboard,
-                                resize_keyboard,
-                                userListWithChatID,
-                                parse_mode,
-                            );
+                            await sendToTelegram({
+                                user: userToSend,
+                                textToSend: 'The state is empty!',
+                                keyboard: undefined,
+                                instance: telegramInstance,
+                                resize_keyboard: one_time_keyboard,
+                                one_time_keyboard: resize_keyboard,
+                                userListWithChatID: userListWithChatID,
+                                parse_mode: parse_mode,
+                            });
                             _this.log.debug('The state is empty!');
                             return;
                         }
@@ -167,16 +168,16 @@ function getState(
 
                 if (i == part.getData?.length) {
                     if (userToSend) {
-                        await sendToTelegram(
-                            userToSend,
-                            text,
-                            undefined,
-                            telegramInstance,
-                            one_time_keyboard,
-                            resize_keyboard,
-                            userListWithChatID,
-                            parse_mode,
-                        );
+                        await sendToTelegram({
+                            user: userToSend,
+                            textToSend: text,
+                            keyboard: undefined,
+                            instance: telegramInstance,
+                            resize_keyboard: one_time_keyboard,
+                            one_time_keyboard: resize_keyboard,
+                            userListWithChatID: userListWithChatID,
+                            parse_mode: parse_mode,
+                        });
                     }
                 }
                 i++;

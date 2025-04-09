@@ -54,7 +54,7 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
             await processData({
                 _this,
                 menuData,
-                calledValue: calledValue,
+                calledValue,
                 userToSend,
                 groupWithUser: menu,
                 instanceTelegram,
@@ -70,6 +70,8 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
                 groupData,
             })
         ) {
+            debug([{ text: 'CalledText found' }]);
+            //TODO - Remove
             debug([{ text: 'CalledText found' }]);
             return true;
         }
@@ -111,31 +113,31 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             if (valueToSet) {
                 await _this.setForeignStateAsync(res?.id, valueToSet, res?.ack);
             } else {
-                await sendToTelegram(
-                    userToSend,
-                    `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
-                    undefined,
-                    instanceTelegram,
-                    resize_keyboard,
-                    one_time_keyboard,
-                    userListWithChatID,
-                    'false',
-                );
+                await sendToTelegram({
+                    user: userToSend,
+                    textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
+                    keyboard: undefined,
+                    instance: instanceTelegram,
+                    resize_keyboard: resize_keyboard,
+                    one_time_keyboard: one_time_keyboard,
+                    userListWithChatID: userListWithChatID,
+                    parse_mode: 'false',
+                });
             }
             removeUserFromDynamicValue(userToSend);
             const result = await switchBack(userToSend, allMenusWithData, menus, true);
 
             if (result) {
-                await sendToTelegram(
-                    userToSend,
-                    result.texttosend || '',
-                    result.menuToSend,
-                    instanceTelegram,
-                    resize_keyboard,
-                    one_time_keyboard,
-                    userListWithChatID,
-                    result.parseMode,
-                );
+                await sendToTelegram({
+                    user: userToSend,
+                    textToSend: result.texttosend || '',
+                    keyboard: result.menuToSend,
+                    instance: instanceTelegram,
+                    resize_keyboard: resize_keyboard,
+                    one_time_keyboard: one_time_keyboard,
+                    userListWithChatID: userListWithChatID,
+                    parse_mode: result.parseMode,
+                });
             } else {
                 await sendNav(
                     part,
@@ -183,6 +185,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                         allMenusWithData,
                         menus,
                         setStateIdsToListenTo,
+                        part.nav,
                     );
                     if (result && result.setStateIdsToListenTo) {
                         setStateIdsToListenTo = result.setStateIdsToListenTo;
@@ -310,6 +313,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 allMenusWithData,
                 menus,
                 setStateIdsToListenTo,
+                part.nav,
             );
             if (result && result.setStateIdsToListenTo) {
                 setStateIdsToListenTo = result.setStateIdsToListenTo;
