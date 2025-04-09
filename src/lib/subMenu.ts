@@ -12,12 +12,10 @@ import type {
     SplittedData,
     DeleteMessageIds,
     SetDynamicValueType,
-    CreateSubmenuPercent,
     KeyboardItems,
     SetFirstMenuValue,
     SetSecondMenuValue,
-    CreateSubmenuNumber,
-    CreateSwitchMenu,
+    CreateMenu,
     SetValueForSubmenuPercent,
     SetValueForSubmenuNumber,
     BackMenuType,
@@ -26,7 +24,7 @@ import type {
     Part,
     NavPart,
     Keyboard,
-} from './telegram-menu';
+} from '../types/types';
 import { parseJSON } from './global';
 import { _this } from '../main';
 
@@ -72,11 +70,9 @@ const setDynamicValue = async (obj: SetDynamicValueType): Promise<{ returnIds: S
     };
 };
 
-const createSubmenuPercent = (
-    obj: CreateSubmenuPercent,
-): { text: string | undefined; keyboard: Keyboard; device: string } => {
-    const callbackData = obj.callbackData;
-    const device2Switch = obj.device2Switch;
+const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
+    const { callbackData, device2Switch } = obj;
+
     step = parseFloat(callbackData.replace('percent', ''));
     let rowEntries = 0;
     let menu: KeyboardItems[] = [];
@@ -159,9 +155,7 @@ const setSecondMenuValue = async (obj: SetSecondMenuValue): Promise<{ returnIds:
     return { returnIds: returnIDToListenTo };
 };
 
-const createSubmenuNumber = (
-    obj: CreateSubmenuNumber,
-): { text: string | undefined; keyboard: Keyboard; device: string } => {
+const createSubmenuNumber = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
     let callbackData = obj.callbackData;
     const device2Switch = obj.device2Switch;
 
@@ -171,8 +165,8 @@ const createSubmenuNumber = (
     const splittedData = callbackData.replace('number', '').split('-');
     let rowEntries = 0;
     let menu: { text: string; callback_data: string }[] = [];
-    const keyboard = {
-        inline_keyboard: [] as any[],
+    const keyboard: Keyboard = {
+        inline_keyboard: [],
     };
     let unit = '';
     if (splittedData[3] != '') {
@@ -236,7 +230,7 @@ const createSwitchMenu = ({
     device2Switch,
     callbackData,
     text,
-}: CreateSwitchMenu): { text?: string; keyboard: Keyboard; device: string } => {
+}: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
     splittedData = callbackData.split('-');
     const keyboard = {
         inline_keyboard: [

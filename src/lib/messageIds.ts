@@ -1,7 +1,7 @@
 import TelegramMenu from '../main';
 import { deleteMessageByBot } from './botAction';
 import { error } from './logging';
-import type { UserListWithChatId, WhatShouldDelete } from './telegram-menu';
+import type { UserListWithChatId, WhatShouldDelete } from '../types/types';
 import { getChatID } from './utilities';
 import { deepCopy } from './global';
 

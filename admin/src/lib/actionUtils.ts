@@ -12,7 +12,7 @@ import { tabValues } from '@/config/entries';
 import { isTruthy } from './string';
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from './Utils';
 import type { UpdateProps } from '@/types/props-types';
-import type { ActionTypes } from '../../../src/lib/telegram-menu';
+import type { ActionTypes } from '../../../src/types/types';
 
 function createData(
     element: ActionNewRowProps,
