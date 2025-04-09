@@ -1,19 +1,28 @@
 import { debug, error } from './logging';
-import { newLine, getChatID, checkStatusInfo } from './utilities';
+import { checkStatusInfo, getChatID, newLine } from './utilities';
 import TelegramMenu from '../main';
-import type { NavPart, UserListWithChatId, BooleanString, ParseModeType, Location } from './telegram-menu';
+import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from './telegram-menu';
 import { isTruthy } from './global';
 
-async function sendToTelegram(
+async function sendToTelegram({
     user = '',
-    textToSend: string,
-    keyboard: NavPart = [],
+    textToSend,
+    keyboard,
     instance = 'telegram.0',
     resize_keyboard = true,
     one_time_keyboard = true,
-    userListWithChatID: UserListWithChatId[],
-    parse_mode: BooleanString,
-): Promise<void> {
+    userListWithChatID,
+    parse_mode,
+}: {
+    user: string;
+    textToSend: string;
+    keyboard?: Keyboard;
+    instance: string;
+    resize_keyboard: boolean;
+    one_time_keyboard: boolean;
+    userListWithChatID: UserListWithChatId[];
+    parse_mode: BooleanString;
+}): Promise<void> {
     try {
         const _this = TelegramMenu.getInstance();
         const chatId = getChatID(userListWithChatID, user);
@@ -28,7 +37,7 @@ async function sendToTelegram(
         ]);
 
         textToSend = newLine(textToSend);
-        if (keyboard.length == 0) {
+        if (!keyboard) {
             _this.log.debug('No Keyboard');
             _this.sendTo(
                 instance,
@@ -73,7 +82,7 @@ async function sendToTelegram(
 function sendToTelegramSubmenu(
     user: string,
     textToSend: string,
-    keyboard: string,
+    keyboard: Keyboard,
     instance = 'telegram.0',
     userListWithChatID: UserListWithChatId[],
     parse_mode: BooleanString,

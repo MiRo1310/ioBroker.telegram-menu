@@ -43,23 +43,23 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
   var _a, _b, _c, _d;
   try {
     const list = backMenu[userToSend] && ((_a = backMenu[userToSend]) == null ? void 0 : _a.list) ? backMenu[userToSend].list : [];
-    let menuToSend = [];
+    let keyboard = { inline_keyboard: [] };
     let foundedMenu = "";
     if (list.length != 0) {
       for (const menu of menus) {
         if (lastMenu && ((_c = (_b = allMenusWithData[menu]) == null ? void 0 : _b[backMenu[userToSend].last]) == null ? void 0 : _c.nav)) {
-          menuToSend = allMenusWithData[menu][backMenu[userToSend].last].nav;
+          keyboard = allMenusWithData[menu][backMenu[userToSend].last].nav;
           foundedMenu = menu;
           break;
         } else if (((_d = allMenusWithData[menu][list[list.length - 1]]) == null ? void 0 : _d.nav) && !lastMenu) {
-          menuToSend = allMenusWithData[menu][list[list.length - 1]].nav;
+          keyboard = allMenusWithData[menu][list[list.length - 1]].nav;
           (0, import_logging.debug)([{ text: "Menu call found" }]);
           foundedMenu = menu;
           break;
         }
         (0, import_logging.debug)([{ text: "Menu call not found in this Menu" }]);
       }
-      if (menuToSend && foundedMenu != "") {
+      if (keyboard && foundedMenu != "") {
         let parseMode = "";
         if (!lastMenu) {
           let textToSend = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].text;
@@ -68,12 +68,12 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           }
           parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode || "false";
           backMenu[userToSend].last = list.pop();
-          return { texttosend: textToSend, menuToSend, parseMode };
+          return { texttosend: textToSend, menuToSend: keyboard, parseMode };
         }
         parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode || "false";
         return {
           texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
-          menuToSend,
+          menuToSend: keyboard,
           parseMode
         };
       }

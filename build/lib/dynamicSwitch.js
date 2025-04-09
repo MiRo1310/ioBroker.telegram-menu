@@ -23,39 +23,39 @@ __export(dynamicSwitch_exports, {
 module.exports = __toCommonJS(dynamicSwitch_exports);
 var import_logging = require("./logging");
 var import_utilities = require("./utilities");
-async function dynamicSwitch(calledValue, device2Switch, text) {
+async function dynamicSwitch(calledValue, device, text) {
   try {
     const changedCalledValue = await (0, import_utilities.checkStatusInfo)(calledValue);
     const splittedArray = changedCalledValue == null ? void 0 : changedCalledValue.replace(/"/g, "").split(":");
     if (!splittedArray) {
       return;
     }
-    device2Switch = splittedArray[2];
+    device = splittedArray[2];
     const arrayOfValues = splittedArray[1].replace("dynSwitch", "").replace(/\]/g, "").replace(/\[/g, "").split(",");
     const lengthOfRow = parseInt(splittedArray[3]) || 6;
     const array = [];
     const keyboard = { inline_keyboard: array };
     if (arrayOfValues) {
-      let arrayOfEntriesDynamicSwitch = [];
+      let keyboardItemsArray = [];
       arrayOfValues.forEach((value, index) => {
         if (value.includes("|")) {
           const splittedValue = value.split("|");
-          arrayOfEntriesDynamicSwitch.push({
+          keyboardItemsArray.push({
             text: splittedValue[0],
-            callback_data: `menu:dynS:${device2Switch}:${splittedValue[1]}`
+            callback_data: `menu:dynS:${device}:${splittedValue[1]}`
           });
         } else {
-          arrayOfEntriesDynamicSwitch.push({
+          keyboardItemsArray.push({
             text: value,
-            callback_data: `menu:dynS:${device2Switch}:${value}`
+            callback_data: `menu:dynS:${device}:${value}`
           });
         }
         if ((index + 1) % lengthOfRow == 0 && index != 0 && arrayOfValues.length > 0 || index + 1 == arrayOfValues.length) {
-          keyboard.inline_keyboard.push(arrayOfEntriesDynamicSwitch);
-          arrayOfEntriesDynamicSwitch = [];
+          keyboard.inline_keyboard.push(keyboardItemsArray);
+          keyboardItemsArray = [];
         }
       });
-      return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
+      return { text, keyboard, device };
     }
   } catch (e) {
     (0, import_logging.error)([

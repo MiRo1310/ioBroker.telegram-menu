@@ -32,16 +32,16 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
       for (const user of menusWithUsers[menu]) {
         (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
         (0, import_logging.debug)([{ text: "User List:", val: userListWithChatID }]);
-        await (0, import_telegram.sendToTelegram)(
+        await (0, import_telegram.sendToTelegram)({
           user,
-          menuData.data[menu][startSide].text,
-          menuData.data[menu][startSide].nav,
-          instanceTelegram,
+          textToSend: menuData.data[menu][startSide].text,
+          keyboard: menuData.data[menu][startSide].nav,
+          instance: instanceTelegram,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          menuData.data[menu][startSide].parse_mode
-        );
+          parse_mode: menuData.data[menu][startSide].parse_mode
+        });
       }
     } else {
       if (startSide == "-") {

@@ -1,11 +1,11 @@
 import { error } from './logging';
-import type { ArrayOfEntriesDynamicSwitch, Keyboard } from './telegram-menu';
+import type { KeyboardItems, Keyboard } from './telegram-menu';
 import { checkStatusInfo } from './utilities';
 async function dynamicSwitch(
     calledValue: string,
-    device2Switch: string,
+    device: string,
     text: string,
-): Promise<{ text?: string; keyboard: string; device: string } | undefined> {
+): Promise<{ text?: string; keyboard: Keyboard; device: string } | undefined> {
     try {
         const changedCalledValue = await checkStatusInfo(calledValue);
         const splittedArray: string[] | undefined = changedCalledValue?.replace(/"/g, '').split(':');
@@ -13,7 +13,7 @@ async function dynamicSwitch(
         if (!splittedArray) {
             return;
         }
-        device2Switch = splittedArray[2];
+        device = splittedArray[2];
         const arrayOfValues = splittedArray[1]
             .replace('dynSwitch', '')
             .replace(/\]/g, '')
@@ -22,32 +22,32 @@ async function dynamicSwitch(
 
         const lengthOfRow = parseInt(splittedArray[3]) || 6;
 
-        const array: ArrayOfEntriesDynamicSwitch[][] = [];
+        const array: KeyboardItems[][] = [];
         const keyboard: Keyboard = { inline_keyboard: array };
         if (arrayOfValues) {
-            let arrayOfEntriesDynamicSwitch: ArrayOfEntriesDynamicSwitch[] = [];
+            let keyboardItemsArray: KeyboardItems[] = [];
             arrayOfValues.forEach((value, index: number) => {
                 if (value.includes('|')) {
                     const splittedValue = value.split('|');
-                    arrayOfEntriesDynamicSwitch.push({
+                    keyboardItemsArray.push({
                         text: splittedValue[0],
-                        callback_data: `menu:dynS:${device2Switch}:${splittedValue[1]}`,
+                        callback_data: `menu:dynS:${device}:${splittedValue[1]}`,
                     });
                 } else {
-                    arrayOfEntriesDynamicSwitch.push({
+                    keyboardItemsArray.push({
                         text: value,
-                        callback_data: `menu:dynS:${device2Switch}:${value}`,
+                        callback_data: `menu:dynS:${device}:${value}`,
                     });
                 }
                 if (
                     ((index + 1) % lengthOfRow == 0 && index != 0 && arrayOfValues.length > 0) ||
                     index + 1 == arrayOfValues.length
                 ) {
-                    keyboard.inline_keyboard.push(arrayOfEntriesDynamicSwitch);
-                    arrayOfEntriesDynamicSwitch = [];
+                    keyboard.inline_keyboard.push(keyboardItemsArray);
+                    keyboardItemsArray = [];
                 }
             });
-            return { text, keyboard: JSON.stringify(keyboard), device: device2Switch };
+            return { text, keyboard, device };
         }
     } catch (e: any) {
         error([

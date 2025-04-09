@@ -1,13 +1,13 @@
-import { decomposeText } from './global';
+import { decomposeText, parseJSON } from './global';
 import { debug, error } from './logging';
-import type { LastText, ValArray, FirstRow, RowArray } from './telegram-menu';
+import type { LastText, ValArray, KeyboardItem, Keyboard } from './telegram-menu';
 const lastText: LastText = {};
 const createKeyboardFromJson = (
     val: string,
     text: string | null,
     id: string,
     user: string,
-): { text: string; keyboard: string } | undefined => {
+): { text: string; keyboard: Keyboard } | undefined => {
     try {
         if (text) {
             lastText[user] = text;
@@ -22,22 +22,21 @@ const createKeyboardFromJson = (
             idShoppingList = true;
         }
 
-        let valArray: ValArray[] = [];
         debug([
             { text: 'Val:', val },
             { text: 'Type of Val:', val },
         ]);
 
-        if (typeof val == 'string') {
-            valArray = JSON.parse(val);
-        } else {
-            valArray = val;
+        const valArray: ValArray[] | undefined = parseJSON(val);
+        if (!valArray) {
+            return;
         }
-        const keyboard: (FirstRow | RowArray)[][] = [];
+
+        const keyboard: Keyboard = { inline_keyboard: [] };
 
         valArray.forEach((element, index) => {
-            const firstRow: FirstRow[] = [];
-            const rowArray: RowArray[] = [];
+            const firstRow: KeyboardItem[] = [];
+            const rowArray: KeyboardItem[] = [];
             itemArray.forEach(item => {
                 if (index == 0) {
                     const btnText: string = item.split(':')[1];
@@ -64,14 +63,14 @@ const createKeyboardFromJson = (
                 }
             });
             if (index == 0) {
-                keyboard.push(firstRow);
+                keyboard.inline_keyboard.push(firstRow);
             }
-            keyboard.push(rowArray);
+            keyboard.inline_keyboard.push(rowArray);
         });
-        const inline_keyboard = { inline_keyboard: keyboard };
-        debug([{ text: 'keyboard:', val: inline_keyboard }]);
 
-        return { text: headline, keyboard: JSON.stringify(inline_keyboard) };
+        debug([{ text: 'keyboard:', val: keyboard }]);
+
+        return { text: headline, keyboard };
     } catch (err: any) {
         error([
             { text: 'Error createKeyboardFromJson:', val: err.message },
@@ -111,9 +110,9 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
         textTable += ` ${headline} \n\``;
         const enlargeColumn = 1;
         const reduce = lengthArray.length == 1 ? 2 : 0;
-        const lineLenght = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
+        const lineLength = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
         // Breakline
-        textTable += `${'-'.repeat(lineLenght)} \n`;
+        textTable += `${'-'.repeat(lineLength)} \n`;
         valArray.forEach((element, elementIndex) => {
             itemArray.forEach((item, index) => {
                 // TableHead
@@ -128,7 +127,7 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
                             if (i == itemArray.length - 1) {
                                 textTable += '\n';
                                 // Breakline
-                                textTable += `${'-'.repeat(lineLenght)} \n`;
+                                textTable += `${'-'.repeat(lineLength)} \n`;
                             }
                         } else {
                             textTable = textTable.slice(0, -1);
@@ -146,7 +145,7 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
             });
         });
         // Breakline
-        textTable += '-'.repeat(lineLenght);
+        textTable += '-'.repeat(lineLength);
         textTable += '`';
         return textTable;
     } catch (e: any) {

@@ -58,16 +58,15 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
           fileOnDisk: directoryPicture + echart.filename
         },
         (result) => {
-          (0, import_telegram.sendToTelegram)(
+          (0, import_telegram.sendToTelegram)({
             user,
-            result.error || directoryPicture + echart.filename,
-            [],
-            instanceTelegram,
+            textToSend: result.error || directoryPicture + echart.filename,
+            instance: instanceTelegram,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,
-            "false"
-          ).catch((e) => {
+            parse_mode: "false"
+          }).catch((e) => {
             (0, import_logging.error)([
               { text: "Error", val: e.message },
               { text: "Stack", val: e.stack }

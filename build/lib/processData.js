@@ -130,30 +130,30 @@ async function processData(obj) {
       if (valueToSet) {
         await _this.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack);
       } else {
-        await (0, import_telegram.sendToTelegram)(
-          userToSend,
-          `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
-          void 0,
-          instanceTelegram,
+        await (0, import_telegram.sendToTelegram)({
+          user: userToSend,
+          textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
+          keyboard: void 0,
+          instance: instanceTelegram,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          "false"
-        );
+          parse_mode: "false"
+        });
       }
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
       if (result) {
-        await (0, import_telegram.sendToTelegram)(
-          userToSend,
-          result.texttosend || "",
-          result.menuToSend,
-          instanceTelegram,
+        await (0, import_telegram.sendToTelegram)({
+          user: userToSend,
+          textToSend: result.texttosend || "",
+          keyboard: result.menuToSend,
+          instance: instanceTelegram,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          result.parseMode
-        );
+          parse_mode: result.parseMode
+        });
       } else {
         await (0, import_sendNav.sendNav)(
           part,

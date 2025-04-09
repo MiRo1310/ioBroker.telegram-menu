@@ -31,16 +31,16 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
       (0, import_logging.debug)([{ text: "Send Nav to Telegram" }]);
       const nav = part.nav;
       const text = await (0, import_utilities.checkStatusInfo)(part.text);
-      await (0, import_telegram.sendToTelegram)(
-        userToSend,
-        text,
-        nav,
-        instanceTelegram,
+      await (0, import_telegram.sendToTelegram)({
+        user: userToSend,
+        textToSend: text,
+        keyboard: nav,
+        instance: instanceTelegram,
         resize_keyboard,
         one_time_keyboard,
         userListWithChatID,
-        part.parse_mode || "false"
-      );
+        parse_mode: part.parse_mode || "false"
+      });
     }
   } catch (e) {
     (0, import_console.error)([

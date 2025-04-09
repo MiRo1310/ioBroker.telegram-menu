@@ -39,17 +39,15 @@ const createKeyboardFromJson = (val, text, id, user) => {
     if (array.length > 3 && array[3] == "shoppinglist") {
       idShoppingList = true;
     }
-    let valArray = [];
     (0, import_logging.debug)([
       { text: "Val:", val },
       { text: "Type of Val:", val }
     ]);
-    if (typeof val == "string") {
-      valArray = JSON.parse(val);
-    } else {
-      valArray = val;
+    const valArray = (0, import_global.parseJSON)(val);
+    if (!valArray) {
+      return;
     }
-    const keyboard = [];
+    const keyboard = { inline_keyboard: [] };
     valArray.forEach((element, index) => {
       const firstRow = [];
       const rowArray = [];
@@ -75,13 +73,12 @@ const createKeyboardFromJson = (val, text, id, user) => {
         }
       });
       if (index == 0) {
-        keyboard.push(firstRow);
+        keyboard.inline_keyboard.push(firstRow);
       }
-      keyboard.push(rowArray);
+      keyboard.inline_keyboard.push(rowArray);
     });
-    const inline_keyboard = { inline_keyboard: keyboard };
-    (0, import_logging.debug)([{ text: "keyboard:", val: inline_keyboard }]);
-    return { text: headline, keyboard: JSON.stringify(inline_keyboard) };
+    (0, import_logging.debug)([{ text: "keyboard:", val: keyboard }]);
+    return { text: headline, keyboard };
   } catch (err) {
     (0, import_logging.error)([
       { text: "Error createKeyboardFromJson:", val: err.message },
@@ -119,8 +116,8 @@ function createTextTableFromJson(val, textToSend) {
 \``;
     const enlargeColumn = 1;
     const reduce = lengthArray.length == 1 ? 2 : 0;
-    const lineLenght = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
-    textTable += `${"-".repeat(lineLenght)} 
+    const lineLength = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
+    textTable += `${"-".repeat(lineLength)} 
 `;
     valArray.forEach((element, elementIndex) => {
       itemArray.forEach((item, index) => {
@@ -131,7 +128,7 @@ function createTextTableFromJson(val, textToSend) {
               textTable += ` ${item2.split(":")[1].toString().padEnd(lengthArray[i] + enlargeColumn, " ")}|`;
               if (i == itemArray.length - 1) {
                 textTable += "\n";
-                textTable += `${"-".repeat(lineLenght)} 
+                textTable += `${"-".repeat(lineLength)} 
 `;
               }
             } else {
@@ -148,7 +145,7 @@ function createTextTableFromJson(val, textToSend) {
         }
       });
     });
-    textTable += "-".repeat(lineLenght);
+    textTable += "-".repeat(lineLength);
     textTable += "`";
     return textTable;
   } catch (e) {

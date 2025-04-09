@@ -122,16 +122,16 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             if ((0, import_global.decomposeText)(textToSend, "{json", "}").substring.includes("TextTable")) {
               const result = (0, import_jsonTable.createTextTableFromJson)(valueForJson, textToSend);
               if (result) {
-                await (0, import_telegram.sendToTelegram)(
-                  userToSend,
-                  result,
-                  void 0,
-                  telegramInstance,
-                  one_time_keyboard,
-                  resize_keyboard,
+                await (0, import_telegram.sendToTelegram)({
+                  user: userToSend,
+                  textToSend: result,
+                  keyboard: void 0,
+                  instance: telegramInstance,
+                  resize_keyboard: one_time_keyboard,
+                  one_time_keyboard: resize_keyboard,
                   userListWithChatID,
                   parse_mode
-                );
+                });
                 return;
               }
               _this.log.debug("Cannot create a Text-Table");
@@ -150,16 +150,16 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 }
                 return;
               }
-              await (0, import_telegram.sendToTelegram)(
-                userToSend,
-                "The state is empty!",
-                void 0,
-                telegramInstance,
-                one_time_keyboard,
-                resize_keyboard,
+              await (0, import_telegram.sendToTelegram)({
+                user: userToSend,
+                textToSend: "The state is empty!",
+                keyboard: void 0,
+                instance: telegramInstance,
+                resize_keyboard: one_time_keyboard,
+                one_time_keyboard: resize_keyboard,
                 userListWithChatID,
                 parse_mode
-              );
+              });
               _this.log.debug("The state is empty!");
               return;
             }
@@ -183,16 +183,16 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         (0, import_logging.debug)([{ text: "Text:", val: text }]);
         if (i == ((_c = part.getData) == null ? void 0 : _c.length)) {
           if (userToSend) {
-            await (0, import_telegram.sendToTelegram)(
-              userToSend,
-              text,
-              void 0,
-              telegramInstance,
-              one_time_keyboard,
-              resize_keyboard,
+            await (0, import_telegram.sendToTelegram)({
+              user: userToSend,
+              textToSend: text,
+              keyboard: void 0,
+              instance: telegramInstance,
+              resize_keyboard: one_time_keyboard,
+              one_time_keyboard: resize_keyboard,
               userListWithChatID,
               parse_mode
-            );
+            });
           }
         }
         i++;

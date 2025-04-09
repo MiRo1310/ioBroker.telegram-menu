@@ -56,16 +56,16 @@ function sendPic(
             }
 
             const timeout = _this.setTimeout(async () => {
-                await sendToTelegram(
-                    userToSend,
-                    path,
-                    undefined,
-                    instanceTelegram,
-                    resize_keyboard,
-                    one_time_keyboard,
-                    userListWithChatID,
-                    'false',
-                );
+                await sendToTelegram({
+                    user: userToSend,
+                    textToSend: path,
+                    keyboard: undefined,
+                    instance: instanceTelegram,
+                    resize_keyboard: resize_keyboard,
+                    one_time_keyboard: one_time_keyboard,
+                    userListWithChatID: userListWithChatID,
+                    parse_mode: 'false',
+                });
                 let timeoutToClear: Timeouts[] = [];
                 timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
                 timeoutToClear.forEach(item => {

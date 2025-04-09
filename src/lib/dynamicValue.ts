@@ -19,16 +19,16 @@ const setDynamicValue = async (
     array = isBraceDeleteEntry(array);
     const text = array[1];
     if (text) {
-        await sendToTelegram(
-            userToSend,
-            text,
-            undefined,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
-            userListWithChatID,
-            parse_mode,
-        );
+        await sendToTelegram({
+            user: userToSend,
+            textToSend: text,
+            keyboard: undefined,
+            instance: telegramInstance,
+            resize_keyboard: resize_keyboard,
+            one_time_keyboard: one_time_keyboard,
+            userListWithChatID: userListWithChatID,
+            parse_mode: parse_mode,
+        });
     }
     setDynamicValueObj[userToSend] = {
         id: id,

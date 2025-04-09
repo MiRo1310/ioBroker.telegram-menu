@@ -122,16 +122,16 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
         returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
         if (textToSend && textToSend !== "") {
-          await (0, import_telegram.sendToTelegram)(
-            userToSend,
+          await (0, import_telegram.sendToTelegram)({
+            user: userToSend,
             textToSend,
-            void 0,
-            telegramInstance,
-            one_time_keyboard,
-            resize_keyboard,
+            keyboard: void 0,
+            instance: telegramInstance,
+            resize_keyboard: one_time_keyboard,
+            one_time_keyboard: resize_keyboard,
             userListWithChatID,
-            element.parse_mode
-          );
+            parse_mode: element.parse_mode
+          });
         }
         setStateIds.push({
           id: returnObj.id,

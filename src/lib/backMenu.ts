@@ -1,5 +1,5 @@
 import { debug, error } from './logging';
-import type { BackMenu, NavPart, AllMenusWithData, BooleanString } from './telegram-menu';
+import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from './telegram-menu';
 import { checkStatusInfo } from './utilities';
 const backMenu: BackMenu = {};
 
@@ -23,26 +23,26 @@ async function switchBack(
     allMenusWithData: AllMenusWithData,
     menus: string[],
     lastMenu = false,
-): Promise<{ texttosend: string | undefined; menuToSend: NavPart; parseMode: BooleanString } | undefined> {
+): Promise<{ texttosend: string | undefined; menuToSend: Keyboard; parseMode: BooleanString } | undefined> {
     try {
         const list = backMenu[userToSend] && backMenu[userToSend]?.list ? backMenu[userToSend].list : [];
-        let menuToSend: NavPart | undefined = [];
+        let keyboard: Keyboard = { inline_keyboard: [] };
         let foundedMenu = '';
         if (list.length != 0) {
             for (const menu of menus) {
                 if (lastMenu && allMenusWithData[menu]?.[backMenu[userToSend].last]?.nav) {
-                    menuToSend = allMenusWithData[menu][backMenu[userToSend].last].nav;
+                    keyboard = allMenusWithData[menu][backMenu[userToSend].last].nav;
                     foundedMenu = menu;
                     break;
                 } else if (allMenusWithData[menu][list[list.length - 1]]?.nav && !lastMenu) {
-                    menuToSend = allMenusWithData[menu][list[list.length - 1]].nav;
+                    keyboard = allMenusWithData[menu][list[list.length - 1]].nav;
                     debug([{ text: 'Menu call found' }]);
                     foundedMenu = menu;
                     break;
                 }
                 debug([{ text: 'Menu call not found in this Menu' }]);
             }
-            if (menuToSend && foundedMenu != '') {
+            if (keyboard && foundedMenu != '') {
                 let parseMode: BooleanString = '' as BooleanString;
                 if (!lastMenu) {
                     let textToSend =
@@ -56,12 +56,12 @@ async function switchBack(
                             .parse_mode || 'false';
                     backMenu[userToSend].last = list.pop();
 
-                    return { texttosend: textToSend, menuToSend: menuToSend, parseMode: parseMode };
+                    return { texttosend: textToSend, menuToSend: keyboard, parseMode: parseMode };
                 }
                 parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode || 'false';
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
-                    menuToSend: menuToSend,
+                    menuToSend: keyboard,
                     parseMode: parseMode,
                 };
             }

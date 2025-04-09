@@ -74,16 +74,16 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         value = eval(item);
       }
     }
-    await (0, import_telegram.sendToTelegram)(
-      userToSend,
-      value,
-      void 0,
-      telegramInstance,
-      one_time_keyboard,
-      resize_keyboard,
+    await (0, import_telegram.sendToTelegram)({
+      user: userToSend,
+      textToSend: value,
+      keyboard: void 0,
+      instance: telegramInstance,
+      resize_keyboard: one_time_keyboard,
+      one_time_keyboard: resize_keyboard,
       userListWithChatID,
       parse_mode
-    );
+    });
   } catch (e) {
     (0, import_logging.error)([
       { text: "Error:", val: e.message },
@@ -193,16 +193,16 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
       _this2.log.debug(`text2send ${JSON.stringify(text2Send)}`);
     });
     Promise.all(promises).then(() => {
-      (0, import_telegram.sendToTelegram)(
-        userToSend2,
-        text2Send,
-        void 0,
-        telegramInstance2,
-        one_time_keyboard2,
-        resize_keyboard2,
-        userListWithChatID2,
-        "false"
-      ).catch((e) => {
+      (0, import_telegram.sendToTelegram)({
+        user: userToSend2,
+        textToSend: text2Send,
+        keyboard: void 0,
+        instance: telegramInstance2,
+        resize_keyboard: one_time_keyboard2,
+        one_time_keyboard: resize_keyboard2,
+        userListWithChatID: userListWithChatID2,
+        parse_mode: "false"
+      }).catch((e) => {
         (0, import_logging.error)([
           { text: "Error SendToTelegram:", val: e.message },
           { text: "Stack:", val: e.stack }

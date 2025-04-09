@@ -54,16 +54,15 @@ async function httpRequest(
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
             debug([{ text: 'Pic saved:', val: imagePath }]);
 
-            await sendToTelegram(
-                userToSend,
-                imagePath,
-                [],
-                instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
-                userListWithChatID,
-                'false',
-            );
+            await sendToTelegram({
+                user: userToSend,
+                textToSend: imagePath,
+                instance: instanceTelegram,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
+                userListWithChatID: userListWithChatID,
+                parse_mode: 'false',
+            });
         } catch (e: any) {
             error([
                 { text: 'Error:', val: e.message },

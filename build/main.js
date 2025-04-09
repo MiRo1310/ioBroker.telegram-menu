@@ -230,16 +230,15 @@ class TelegramMenu extends utils.Adapter {
             ]);
             if (!dataFound && checkboxNoEntryFound && userToSend) {
               (0, import_logging.debug)([{ text: "No Entry found" }]);
-              await (0, import_telegram.sendToTelegram)(
-                userToSend,
-                textNoEntryFound,
-                void 0,
-                instanceTelegram,
+              await (0, import_telegram.sendToTelegram)({
+                user: userToSend,
+                textToSend: textNoEntryFound,
+                instance: instanceTelegram,
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,
-                "false"
-              );
+                parse_mode: "false"
+              });
             }
             return;
           }
@@ -270,16 +269,15 @@ class TelegramMenu extends utils.Adapter {
                   if (text === "") {
                     (0, import_logging.error)([{ text: "The return text cannot be empty, please check." }]);
                   }
-                  (0, import_telegram.sendToTelegram)(
-                    element.userToSend,
-                    text,
-                    void 0,
-                    instanceTelegram,
+                  (0, import_telegram.sendToTelegram)({
+                    user: element.userToSend,
+                    textToSend: text,
+                    instance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    element.parse_mode
-                  ).catch((e) => {
+                    parse_mode: element.parse_mode
+                  }).catch((e) => {
                     (0, import_logging.error)([
                       { text: "Error SendToTelegram" },
                       { val: e.message },
@@ -318,16 +316,16 @@ class TelegramMenu extends utils.Adapter {
                   }
                   (0, import_logging.debug)([{ text: "Value to send:", val: value }]);
                   textToSend = (0, import_action.exchangePlaceholderWithValue)(textToSend, value);
-                  (0, import_telegram.sendToTelegram)(
-                    element.userToSend,
+                  (0, import_telegram.sendToTelegram)({
+                    user: element.userToSend,
                     textToSend,
-                    void 0,
-                    instanceTelegram,
+                    keyboard: void 0,
+                    instance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    element.parse_mode
-                  ).catch((e) => {
+                    parse_mode: element.parse_mode
+                  }).catch((e) => {
                     (0, import_logging.error)([
                       { text: "Error sendToTelegram" },
                       { val: e.message },

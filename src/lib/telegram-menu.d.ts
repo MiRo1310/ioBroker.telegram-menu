@@ -119,13 +119,11 @@ interface Nav extends NavStaticValues {
 
 interface MenuData {
     data: AllMenusWithData;
-
     [key: string]: { nav: string[] };
 }
 
 interface AllMenusWithData {
     [key: MenuNames]: NewObjectNavStructure;
-
     [key: string]: DataObject;
 }
 
@@ -134,7 +132,6 @@ type MenuNames = string;
 export interface DataObject {
     action: Action;
     nav: NavObject;
-
     [key: MenusArray]: Nav;
 }
 
@@ -143,19 +140,12 @@ interface GeneratedActions {
     ids: string[];
 }
 
-// interface UserObject {
-//     [key: string]: { switch?: Switch[] };
-//     [key: string]: { [key: UserObjectActions]: [] };
-// }
-
 interface UserObjectActions {
     [key: string]: {
         nav?: string[][];
         parse_mode?: BooleanString;
         text?: string;
-
         switch?: Switch[];
-
         echarts?: { background: string; echartsInstance: string; filename: string; preset: string; theme: string }[];
     };
 }
@@ -205,9 +195,6 @@ interface SetDynamicValue {
     valueType: string;
 }
 
-// interface TelegramResult {
-//     error: string;
-// }
 interface DecomposeText {
     startindex: number;
     endindex: number;
@@ -229,7 +216,6 @@ interface GeneratedNavMenu extends NavStaticValues {
     nav: string[] | string[][];
 }
 
-// type UserObjectActions = string;
 interface Switch {
     id: string;
     value: string;
@@ -239,15 +225,6 @@ interface Switch {
     parse_mode: BooleanString;
     ack: BooleanString;
 }
-
-// type ValueType = 'string' | 'number' | 'boolean';
-//
-// interface Event {
-//     ack: boolean[];
-//     condition: string;
-//     ID: string;
-//     menu: string;
-// }
 
 interface GenerateActionsArrayOfEntries {
     objName: string;
@@ -298,15 +275,8 @@ interface Timeouts {
     timeout: iobroker.Timeout;
 }
 
-// interface TimeoutToClear {
-//     key: string;
-//     timeout: NodeJS.Timeout;
-// }
 type GroupWithUser = string;
-// interface Menu {}
-// interface Messages {
-//     [key: string]: Message[];
-// }
+
 interface Message {
     time: number;
 }
@@ -314,11 +284,10 @@ interface Message {
 type WhatShouldDelete = 'all' | 'last';
 
 interface Keyboard {
-    FirstRow?: FirstRow[];
-    inline_keyboard: ArrayOfEntriesDynamicSwitch[][];
+    inline_keyboard: KeyboardItems[][];
 }
 
-interface ArrayOfEntriesDynamicSwitch {
+interface KeyboardItems {
     text: string;
     callback_data: string;
 }
@@ -331,13 +300,9 @@ interface ValArray {
     [key: string]: string;
 }
 
-interface FirstRow {
+interface KeyboardItem {
     text: string;
     callback_data: string;
-}
-
-interface RowArray {
-    [key: string]: string;
 }
 
 interface BackMenu {
@@ -449,8 +414,4 @@ interface DeleteMessageIds {
     instanceTelegram: string;
     device2Switch: string;
     callbackData: string;
-}
-
-interface SplitText {
-    calledValue: string;
 }

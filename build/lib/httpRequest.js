@@ -72,16 +72,15 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       const imagePath = import_path.default.join(directoryPicture, part.filename);
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
       (0, import_logging.debug)([{ text: "Pic saved:", val: imagePath }]);
-      await (0, import_telegram.sendToTelegram)(
-        userToSend,
-        imagePath,
-        [],
-        instanceTelegram,
+      await (0, import_telegram.sendToTelegram)({
+        user: userToSend,
+        textToSend: imagePath,
+        instance: instanceTelegram,
         resize_keyboard,
         one_time_keyboard,
         userListWithChatID,
-        "false"
-      );
+        parse_mode: "false"
+      });
     } catch (e) {
       (0, import_logging.error)([
         { text: "Error:", val: e.message },

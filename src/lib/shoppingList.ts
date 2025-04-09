@@ -47,16 +47,16 @@ async function shoppingListSubscribeStateAndDeleteItem(
                 );
                 return;
             }
-            await sendToTelegram(
-                user,
-                'Cannot delete the Item',
-                undefined,
-                instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
-                userListWithChatID,
-                'true',
-            );
+            await sendToTelegram({
+                user: user,
+                textToSend: 'Cannot delete the Item',
+                keyboard: undefined,
+                instance: instanceTelegram,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
+                userListWithChatID: userListWithChatID,
+                parse_mode: 'true',
+            });
             debug([{ text: 'Cannot delete the Item' }]);
             return;
         }
