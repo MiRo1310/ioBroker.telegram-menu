@@ -18,12 +18,23 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var string_exports = {};
 __export(string_exports, {
-  isDefined: () => isDefined
+  jsonString: () => jsonString,
+  parseJSON: () => parseJSON
 });
 module.exports = __toCommonJS(string_exports);
-const isDefined = (value) => value !== void 0 && value !== null;
+function parseJSON(val) {
+  try {
+    const parsed = JSON.parse(val);
+    return { json: parsed, isValidJson: true };
+  } catch (error) {
+    console.error([{ text: "Error:", val: error }]);
+    return { json: {}, isValidJson: false };
+  }
+}
+const jsonString = (val) => JSON.stringify(val);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  isDefined
+  jsonString,
+  parseJSON
 });
 //# sourceMappingURL=string.js.map

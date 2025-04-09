@@ -4,7 +4,7 @@ import { callSubMenu } from './subMenu.js';
 import { sendNav } from './sendNav.js';
 import { backMenuFunc } from './backMenu.js';
 import { debug, errorLogger } from './logging.js';
-import TelegramMenu from '../main.js';
+import TelegramMenu, { _this } from '../main.js';
 import type {
     UserListWithChatId,
     BooleanString,
@@ -72,10 +72,7 @@ const bindingFunc = async (
             parse_mode: parse_mode,
         });
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error Binding function: ', e);
     }
 };
 
@@ -92,10 +89,7 @@ function calcValue(
 
         return { textToSend: textToSend, val: val };
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error Eval:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error Eval:', e);
     }
 }
 
@@ -139,10 +133,7 @@ function editArrayButtons(val: EditArrayButtons[], _this: TelegramMenu): Generat
 
         return newVal;
     } catch (err: any) {
-        errorLogger([
-            { text: 'Error EditArray:', val: err.message },
-            { text: 'Stack:', val: err.stack },
-        ]);
+        errorLogger('Error EditArray:', err);
         return null;
     }
 }
@@ -217,10 +208,7 @@ const idBySelector = async (
                     userListWithChatID: userListWithChatID,
                     parse_mode: 'false',
                 }).catch(e => {
-                    errorLogger([
-                        { text: 'Error SendToTelegram:', val: e.message },
-                        { text: 'Stack:', val: e.stack },
-                    ]);
+                    errorLogger('Error SendToTelegram:', e);
                 });
                 debug([
                     { text: 'TextToSend:', val: text2Send },
@@ -228,10 +216,7 @@ const idBySelector = async (
                 ]);
             })
             .catch(e => {
-                errorLogger([
-                    { text: 'Error Promise:', val: e.message },
-                    { text: 'Stack:', val: e.stack },
-                ]);
+                errorLogger('Error Promise:', e);
             });
     } catch (error: any) {
         error([
@@ -258,10 +243,7 @@ function generateNewObjectStructure(val: GeneratedNavMenu[] | null): NewObjectNa
         });
         return obj;
     } catch (err: any) {
-        errorLogger([
-            { text: 'Error GenerateNewObjectStructure:', val: err.message },
-            { text: 'Stack:', val: err.stack },
-        ]);
+        errorLogger('Error GenerateNewObjectStructure:', err);
         return null;
     }
 }
@@ -391,10 +373,7 @@ function generateActions(
 
         return { obj: userObject, ids: listOfSetStateIds };
     } catch (err: any) {
-        errorLogger([
-            { text: 'Error generateActions:', val: err.message },
-            { text: 'Stack:', val: err.stack },
-        ]);
+        errorLogger('Error generateActions:', err);
     }
 }
 
@@ -407,10 +386,7 @@ function roundValue(val: string, textToSend: string): { val: string; textToSend:
         const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
         return { val: floatedString, textToSend: textWithoutSubstring };
     } catch (err: any) {
-        errorLogger([
-            { text: 'Error roundValue:', val: err.message },
-            { text: 'Stack:', val: err.stack },
-        ]);
+        errorLogger('Error roundValue:', err);
     }
 }
 
@@ -431,7 +407,7 @@ const exchangePlaceholderWithValue = (textToSend: string, text: string | number)
 const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value as string)) {
-            errorLogger([{ text: 'Error: Value is not a number:', val: value }]);
+            _this.log.error(`Error: Value is not a number: ${value}`);
             return false;
         }
         return parseFloat(value as string);
@@ -440,7 +416,7 @@ const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string):
         if (value == 'true') {
             return true;
         }
-        errorLogger([{ text: 'Error: Value is not a boolean:', val: value }]);
+        _this.log.error(`Error: Value is not a boolean: ${value}`);
         return false;
     }
     return value;

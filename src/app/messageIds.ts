@@ -48,10 +48,7 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
         requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
         await _this.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error saveMessageIds:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error saveMessageIds:', e);
     }
 }
 function removeOldMessageIds(messages: Messages, chatID: string): Messages {
@@ -131,10 +128,7 @@ async function deleteMessageIds(
 
         await _this.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error deleteMessageIds:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error deleteMessageIds:', e);
     }
 }
 

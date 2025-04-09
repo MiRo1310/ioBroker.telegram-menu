@@ -79,10 +79,7 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
       }
     }
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error in switchBack:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error in switchBack:", e);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

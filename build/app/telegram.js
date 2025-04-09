@@ -96,10 +96,7 @@ async function sendToTelegram({
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error sendToTelegram:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error sendToTelegram:", e);
   }
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
@@ -116,10 +113,7 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.
       reply_markup: keyboard
     });
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error sendToTelegramSubmenu:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error sendToTelegramSubmenu:", e);
   }
 }
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
@@ -143,10 +137,7 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
       });
     }
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error sendLocationToTelegram:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error sendLocationToTelegram:", e);
   }
 };
 function getParseMode(val) {

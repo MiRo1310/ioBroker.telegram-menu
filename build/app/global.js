@@ -31,6 +31,7 @@ __export(global_exports, {
 });
 module.exports = __toCommonJS(global_exports);
 var import_logging = require("./logging");
+var import_main = require("../main");
 const isDefined = (value) => value !== void 0 && value !== null;
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, "g"), replaceValue);
@@ -61,12 +62,9 @@ const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
 const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
 function checkDirectoryIsOk(directory) {
   if (["", null, void 0].includes(directory)) {
-    (0, import_logging.errorLogger)([
-      {
-        text: "Error:",
-        val: "No directory to save the picture. Please add a directory in the settings with full read and write permissions."
-      }
-    ]);
+    import_main._this.log.error(
+      "No directory to save the picture. Please add a directory in the settings with full read and write permissions."
+    );
     return false;
   }
   return true;
@@ -75,7 +73,7 @@ function parseJSON(value) {
   try {
     return JSON.parse(value);
   } catch (error) {
-    error([{ text: "Error:", val: error }]);
+    (0, import_logging.errorLogger)("Error parseJson: ", error);
     return void 0;
   }
 }

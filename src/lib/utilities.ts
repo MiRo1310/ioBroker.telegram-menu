@@ -247,10 +247,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             return text;
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error checkStatusInfo:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error checkStatusInfo:', e);
     }
 };
 
@@ -290,10 +287,7 @@ async function checkTypeOfId(
 
         return value;
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error checkTypeOfId:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error checkTypeOfId:', e);
     }
 }
 

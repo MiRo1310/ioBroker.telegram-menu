@@ -80,10 +80,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
     (0, import_logging.debug)([{ text: "keyboard:", val: keyboard }]);
     return { text: headline, keyboard };
   } catch (err) {
-    (0, import_logging.errorLogger)([
-      { text: "Error createKeyboardFromJson:", val: err.message },
-      { text: "Stack:", val: err.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error createKeyboardFromJson:", err);
   }
 };
 function createTextTableFromJson(val, textToSend) {
@@ -149,10 +146,7 @@ function createTextTableFromJson(val, textToSend) {
     textTable += "`";
     return textTable;
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error createTextTableFromJson:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error createTextTableFromJson:", e);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

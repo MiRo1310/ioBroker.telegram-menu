@@ -68,10 +68,7 @@ async function switchBack(
             }
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error in switchBack:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error in switchBack:', e);
     }
 }
 

@@ -83,10 +83,7 @@ function sendPic(
         });
         return timeouts;
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error send pic:', e);
     }
     return timeouts;
 }

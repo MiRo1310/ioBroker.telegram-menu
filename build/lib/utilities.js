@@ -248,10 +248,7 @@ const checkStatusInfo = async (text) => {
       return text;
     }
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error checkStatusInfo:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkStatusInfo:", e);
   }
 };
 async function checkTypeOfId(id, value) {
@@ -284,10 +281,7 @@ async function checkTypeOfId(id, value) {
     }
     return value;
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error checkTypeOfId:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkTypeOfId:", e);
   }
 }
 const newLine = (text) => {

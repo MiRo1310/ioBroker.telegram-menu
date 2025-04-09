@@ -309,10 +309,7 @@ async function processData(obj) {
     }
     return false;
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error processData:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error processData:", e);
   }
 }
 function getStateIdsToListenTo() {

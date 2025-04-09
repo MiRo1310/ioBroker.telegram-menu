@@ -1,5 +1,6 @@
 import type { DecomposeText } from '../types/types';
 import { errorLogger } from './logging';
+import { _this } from '../main';
 
 export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;
 
@@ -42,12 +43,9 @@ export const isFalsy = (value: string | number | boolean | undefined | null): bo
 
 export function checkDirectoryIsOk(directory: string): boolean {
     if (['', null, undefined].includes(directory)) {
-        errorLogger([
-            {
-                text: 'Error:',
-                val: 'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
-            },
-        ]);
+        _this.log.error(
+            'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
+        );
         return false;
     }
     return true;
@@ -57,8 +55,7 @@ export function parseJSON<T>(value: string): T | undefined {
     try {
         return JSON.parse(value);
     } catch (error) {
-        // @ts-expect-error
-        error([{ text: 'Error:', val: error }]);
+        errorLogger('Error parseJson: ', error);
         return undefined;
     }
 }

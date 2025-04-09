@@ -64,12 +64,7 @@ async function httpRequest(
                 parse_mode: 'false',
             });
         } catch (e: any) {
-            errorLogger([
-                { text: 'Error:', val: e.message },
-                { text: 'Stack:', val: e.stack },
-                { text: 'Server Response:', val: e.response.status },
-                { text: 'Server data:', val: e.response.data },
-            ]);
+            errorLogger('Error http request:', e);
         }
     }
     return true;

@@ -48,10 +48,7 @@ const deleteMessageByBot = (instance, user, userListWithChatID, messageId, chat_
       }
     });
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error deleteMessage:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error deleteMessage:", e);
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

@@ -144,17 +144,11 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         _this.getForeignStateAsync(element.id).then((val) => {
           if (val) {
             _this.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
-              (0, import_logging.errorLogger)([
-                { text: "Error", val: e.message },
-                { text: "Stack", val: e.stack }
-              ]);
+              (0, import_logging.errorLogger)("Error setForeignStateAsync:", e);
             });
           }
         }).catch((e) => {
-          (0, import_logging.errorLogger)([
-            { text: "Error", val: e.message },
-            { text: "Stack", val: e.stack }
-          ]);
+          (0, import_logging.errorLogger)("Error getForeignStateAsync:", e);
         });
       } else {
         await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
@@ -162,10 +156,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
     }
     return setStateIds;
   } catch (error) {
-    error([
-      { text: "Error Switch", val: error.message },
-      { text: "Stack", val: error.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error Switch", error);
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

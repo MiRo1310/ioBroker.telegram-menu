@@ -58,10 +58,7 @@ async function dynamicSwitch(calledValue, device, text) {
       return { text, keyboard, device };
     }
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error parsing dynSwitch:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error parsing dynSwitch:", e);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

@@ -139,18 +139,12 @@ export const setState = async (
                     .then(val => {
                         if (val) {
                             _this.setForeignStateAsync(element.id, !val.val, ack).catch((e: any) => {
-                                errorLogger([
-                                    { text: 'Error', val: e.message },
-                                    { text: 'Stack', val: e.stack },
-                                ]);
+                                errorLogger('Error setForeignStateAsync:', e);
                             });
                         }
                     })
                     .catch((e: any) => {
-                        errorLogger([
-                            { text: 'Error', val: e.message },
-                            { text: 'Stack', val: e.stack },
-                        ]);
+                        errorLogger('Error getForeignStateAsync:', e);
                     });
             } else {
                 await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
@@ -158,9 +152,6 @@ export const setState = async (
         }
         return setStateIds;
     } catch (error: any) {
-        error([
-            { text: 'Error Switch', val: error.message },
-            { text: 'Stack', val: error.stack },
-        ]);
+        errorLogger('Error Switch', error);
     }
 };

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/string.ts"],
-  "sourcesContent": ["export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,YAAY,CAAI,UAA4C,UAAU,UAAa,UAAU;",
+  "sourcesContent": ["export function parseJSON<T>(val: string): { json: T; isValidJson: boolean } {\n    try {\n        const parsed = JSON.parse(val);\n        return { json: parsed, isValidJson: true };\n    } catch (error) {\n        console.error([{ text: 'Error:', val: error }]);\n        return { json: {} as T, isValidJson: false };\n    }\n}\n\nexport const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,SAAS,UAAa,KAAgD;AACzE,MAAI;AACA,UAAM,SAAS,KAAK,MAAM,GAAG;AAC7B,WAAO,EAAE,MAAM,QAAQ,aAAa,KAAK;AAAA,EAC7C,SAAS,OAAO;AACZ,YAAQ,MAAM,CAAC,EAAE,MAAM,UAAU,KAAK,MAAM,CAAC,CAAC;AAC9C,WAAO,EAAE,MAAM,CAAC,GAAQ,aAAa,MAAM;AAAA,EAC/C;AACJ;AAEO,MAAM,aAAa,CAAC,QAA4D,KAAK,UAAU,GAAG;",
   "names": []
 }

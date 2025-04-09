@@ -301,7 +301,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     _this.log.debug(`Return-text: ${text}`);
 
                                     if (text === '') {
-                                        errorLogger([{ text: 'The return text cannot be empty, please check.' }]);
+                                        _this.log.error('The return text cannot be empty, please check.');
                                     }
 
                                     sendToTelegram({
@@ -313,11 +313,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode as BooleanString,
                                     }).catch((e: { message: any; stack: any }) => {
-                                        errorLogger([
-                                            { text: 'Error SendToTelegram' },
-                                            { val: e.message },
-                                            { text: 'Error', val: e.stack },
-                                        ]);
+                                        errorLogger('Error SendToTelegram', e);
                                     });
                                     return;
                                 }
@@ -368,7 +364,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode as BooleanString,
                                     }).catch((e: { message: any; stack: any }) => {
-                                        errorLogger(e, 'Error sendToTelegram');
+                                        errorLogger('Error sendToTelegram', e);
                                     });
 
                                     setStateIdsToListenTo.splice(key, 1);
@@ -378,7 +374,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
                 });
             } catch (e: any) {
-                errorLogger(e, 'Error onReady');
+                errorLogger('Error onReady', e);
             }
         });
 

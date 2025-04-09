@@ -67,19 +67,13 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
             userListWithChatID,
             parse_mode: "false"
           }).catch((e) => {
-            (0, import_logging.errorLogger)([
-              { text: "Error", val: e.message },
-              { text: "Stack", val: e.stack }
-            ]);
+            (0, import_logging.errorLogger)("Error send to telegram: ", e);
           });
         }
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error get chart:", e);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
