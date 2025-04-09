@@ -317,10 +317,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         }
         return false;
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error processData:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error processData:', e);
     }
 }
 

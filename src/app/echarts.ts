@@ -45,19 +45,13 @@ function getChart(
                         userListWithChatID: userListWithChatID,
                         parse_mode: 'false',
                     }).catch((e: any) => {
-                        errorLogger([
-                            { text: 'Error', val: e.message },
-                            { text: 'Stack', val: e.stack },
-                        ]);
+                        errorLogger('Error send to telegram: ', e);
                     });
                 },
             );
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error get chart:', e);
     }
 }
 

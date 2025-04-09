@@ -23,10 +23,7 @@ const deleteMessageByBot = (
             },
         });
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error deleteMessage:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error deleteMessage:', e);
     }
 };
 export { deleteMessageByBot };

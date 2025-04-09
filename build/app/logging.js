@@ -60,12 +60,13 @@ const info = (obj) => {
 const debug = (obj) => {
   logging("debug", obj);
 };
-const errorLogger = (e, title) => {
-  if (title) {
-    _this.log.error(title);
-  }
-  _this.log.error(e.message);
-  _this.log.error(`Error: ${e.stack}`);
+const errorLogger = (title, e) => {
+  var _a, _b;
+  _this.log.error(title);
+  _this.log.error(`Error message: ${e.message}`);
+  _this.log.error(`Error stack: ${e.stack}`);
+  _this.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
+  _this.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

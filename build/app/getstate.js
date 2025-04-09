@@ -81,7 +81,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
       await _this.getForeignStateAsync(id).then(async (value) => {
         var _a2, _b2, _c;
         if (!(0, import_global.isDefined)(value)) {
-          (0, import_logging.errorLogger)([{ text: "The state is empty!" }]);
+          _this.log.error("The state is empty!");
           return;
         }
         const valueForJson = (_b2 = (_a2 = value.val) == null ? void 0 : _a2.toString()) != null ? _b2 : "";
