@@ -50,10 +50,7 @@ async function dynamicSwitch(
             return { text, keyboard, device };
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error parsing dynSwitch:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error parsing dynSwitch:', e);
     }
 }
 export { dynamicSwitch };

@@ -85,10 +85,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
       parse_mode
     });
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error Binding function: ", e);
   }
 };
 function calcValue(_this, textToSend, val) {
@@ -99,10 +96,7 @@ function calcValue(_this, textToSend, val) {
     textToSend = textToSend.replace(substring, "");
     return { textToSend, val };
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error Eval:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error Eval:", e);
   }
 }
 function checkValueForOneLine(text2) {
@@ -141,10 +135,7 @@ function editArrayButtons(val2, _this2) {
     });
     return newVal;
   } catch (err) {
-    (0, import_logging.errorLogger)([
-      { text: "Error EditArray:", val: err.message },
-      { text: "Stack:", val: err.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error EditArray:", err);
     return null;
   }
 }
@@ -203,20 +194,14 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
         userListWithChatID: userListWithChatID2,
         parse_mode: "false"
       }).catch((e) => {
-        (0, import_logging.errorLogger)([
-          { text: "Error SendToTelegram:", val: e.message },
-          { text: "Stack:", val: e.stack }
-        ]);
+        (0, import_logging.errorLogger)("Error SendToTelegram:", e);
       });
       (0, import_logging.debug)([
         { text: "TextToSend:", val: text2Send },
         { text: "UserToSend:", val: userToSend2 }
       ]);
     }).catch((e) => {
-      (0, import_logging.errorLogger)([
-        { text: "Error Promise:", val: e.message },
-        { text: "Stack:", val: e.stack }
-      ]);
+      (0, import_logging.errorLogger)("Error Promise:", e);
     });
   } catch (error) {
     error([
@@ -241,10 +226,7 @@ function generateNewObjectStructure(val2) {
     });
     return obj;
   } catch (err) {
-    (0, import_logging.errorLogger)([
-      { text: "Error GenerateNewObjectStructure:", val: err.message },
-      { text: "Stack:", val: err.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error GenerateNewObjectStructure:", err);
     return null;
   }
 }
@@ -361,10 +343,7 @@ function generateActions(action, userObject) {
     });
     return { obj: userObject, ids: listOfSetStateIds };
   } catch (err) {
-    (0, import_logging.errorLogger)([
-      { text: "Error generateActions:", val: err.message },
-      { text: "Stack:", val: err.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error generateActions:", err);
   }
 }
 function roundValue(val2, textToSend2) {
@@ -375,10 +354,7 @@ function roundValue(val2, textToSend2) {
     const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
     return { val: floatedString, textToSend: textWithoutSubstring };
   } catch (err) {
-    (0, import_logging.errorLogger)([
-      { text: "Error roundValue:", val: err.message },
-      { text: "Stack:", val: err.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error roundValue:", err);
   }
 }
 const exchangePlaceholderWithValue = (textToSend2, text2) => {
@@ -394,7 +370,7 @@ const exchangePlaceholderWithValue = (textToSend2, text2) => {
 const adjustValueType = (value2, valueType) => {
   if (valueType == "number") {
     if (!parseFloat(value2)) {
-      (0, import_logging.errorLogger)([{ text: "Error: Value is not a number:", val: value2 }]);
+      import_main._this.log.error(`Error: Value is not a number: ${value2}`);
       return false;
     }
     return parseFloat(value2);
@@ -403,7 +379,7 @@ const adjustValueType = (value2, valueType) => {
     if (value2 == "true") {
       return true;
     }
-    (0, import_logging.errorLogger)([{ text: "Error: Value is not a boolean:", val: value2 }]);
+    import_main._this.log.error(`Error: Value is not a boolean: ${value2}`);
     return false;
   }
   return value2;

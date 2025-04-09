@@ -258,7 +258,7 @@ class TelegramMenu extends utils.Adapter {
                   }
                   _this.log.debug(`Return-text: ${text}`);
                   if (text === "") {
-                    (0, import_logging.errorLogger)([{ text: "The return text cannot be empty, please check." }]);
+                    _this.log.error("The return text cannot be empty, please check.");
                   }
                   (0, import_telegram.sendToTelegram)({
                     user: element.userToSend,
@@ -269,11 +269,7 @@ class TelegramMenu extends utils.Adapter {
                     userListWithChatID,
                     parse_mode: element.parse_mode
                   }).catch((e) => {
-                    (0, import_logging.errorLogger)([
-                      { text: "Error SendToTelegram" },
-                      { val: e.message },
-                      { text: "Error", val: e.stack }
-                    ]);
+                    (0, import_logging.errorLogger)("Error SendToTelegram", e);
                   });
                   return;
                 }
@@ -318,7 +314,7 @@ class TelegramMenu extends utils.Adapter {
                     userListWithChatID,
                     parse_mode: element.parse_mode
                   }).catch((e) => {
-                    (0, import_logging.errorLogger)(e, "Error sendToTelegram");
+                    (0, import_logging.errorLogger)("Error sendToTelegram", e);
                   });
                   setStateIdsToListenTo.splice(key, 1);
                 }
@@ -327,7 +323,7 @@ class TelegramMenu extends utils.Adapter {
           }
         });
       } catch (e) {
-        (0, import_logging.errorLogger)(e, "Error onReady");
+        (0, import_logging.errorLogger)("Error onReady", e);
       }
     });
     await this.subscribeForeignStatesAsync(botSendMessageID);

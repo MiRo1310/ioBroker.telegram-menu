@@ -67,10 +67,7 @@ async function saveMessageIds(state, instanceTelegram) {
     requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
     await _this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error saveMessageIds:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error saveMessageIds:", e);
   }
 }
 function removeOldMessageIds(messages, chatID) {
@@ -131,10 +128,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
     });
     await _this.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error deleteMessageIds:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error deleteMessageIds:", e);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

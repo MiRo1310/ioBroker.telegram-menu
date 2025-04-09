@@ -97,10 +97,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
     });
     return timeouts;
   } catch (e) {
-    (0, import_logging.errorLogger)([
-      { text: "Error:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error send pic:", e);
   }
   return timeouts;
 }

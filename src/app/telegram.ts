@@ -73,10 +73,7 @@ async function sendToTelegram({
             );
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error sendToTelegram:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error sendToTelegram:', e);
     }
 }
 
@@ -101,10 +98,7 @@ function sendToTelegramSubmenu(
             reply_markup: keyboard,
         });
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error sendToTelegramSubmenu:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error sendToTelegramSubmenu:', e);
     }
 }
 
@@ -135,10 +129,7 @@ const sendLocationToTelegram = async (
             });
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error sendLocationToTelegram:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error sendLocationToTelegram:', e);
     }
 };
 

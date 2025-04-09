@@ -61,10 +61,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
             return;
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error shoppingList:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error shoppingList:', e);
     }
 }
 
@@ -97,10 +94,7 @@ async function deleteMessageAndSendNewShoppingList(
             }
         }
     } catch (e: any) {
-        errorLogger([
-            { text: 'Error deleteMessageAndSendNewShoppingList:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error deleteMessageAndSendNewShoppingList:', e);
     }
 }
 
