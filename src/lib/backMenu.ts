@@ -1,5 +1,5 @@
 import { debug, error } from './logging';
-import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from './telegram-menu';
+import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from '../types/types';
 import { checkStatusInfo } from './utilities';
 const backMenu: BackMenu = {};
 
@@ -45,22 +45,23 @@ async function switchBack(
             if (keyboard && foundedMenu != '') {
                 let parseMode: BooleanString = '' as BooleanString;
                 if (!lastMenu) {
-                    let textToSend =
-                        allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]]
-                            .text;
+                    let textToSend = allMenusWithData[foundedMenu][
+                        backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
+                    ].text as string | undefined;
                     if (textToSend) {
                         textToSend = await checkStatusInfo(textToSend);
                     }
-                    parseMode =
-                        allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]]
-                            .parse_mode || 'false';
+                    parseMode = (allMenusWithData[foundedMenu][
+                        backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
+                    ].parse_mode || 'false') as BooleanString;
                     backMenu[userToSend].last = list.pop();
 
                     return { texttosend: textToSend, menuToSend: keyboard, parseMode: parseMode };
                 }
-                parseMode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode || 'false';
+                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ||
+                    'false') as BooleanString;
                 return {
-                    texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
+                    texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text as string,
                     menuToSend: keyboard,
                     parseMode: parseMode,
                 };

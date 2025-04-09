@@ -32,11 +32,10 @@ __export(sendpic_exports, {
 });
 module.exports = __toCommonJS(sendpic_exports);
 var import_telegram = require("./telegram");
-var import_utilities = require("./utilities");
+var import_global = require("./global");
 var import_child_process = require("child_process");
 var import_logging = require("./logging");
 var import_main = __toESM(require("../main"));
-var import_global = require("./global");
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
@@ -45,7 +44,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
       let path = "";
       if (element.id != "-") {
         const url = element.id;
-        const newUrl = (0, import_utilities.replaceAll)(url, "&amp;", "&");
+        const newUrl = (0, import_global.replaceAll)(url, "&amp;", "&");
         (0, import_child_process.exec)(
           `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
           (error2, stdout, stderr) => {
@@ -71,25 +70,27 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
       } else {
         return;
       }
-      const timeout = _this.setTimeout(async () => {
-        await (0, import_telegram.sendToTelegram)({
-          user: userToSend,
-          textToSend: path,
-          keyboard: void 0,
-          instance: instanceTelegram,
-          resize_keyboard,
-          one_time_keyboard,
-          userListWithChatID,
-          parse_mode: "false"
-        });
-        let timeoutToClear = [];
-        timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-        timeoutToClear.forEach((item) => {
-          clearTimeout(item.timeout);
-        });
-        timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-        (0, import_logging.debug)([{ text: "Picture sent" }]);
-      }, parseInt(element.delay));
+      const timeout = _this.setTimeout(
+        async () => {
+          await (0, import_telegram.sendToTelegram)({
+            user: userToSend,
+            textToSend: path,
+            instance: instanceTelegram,
+            resize_keyboard,
+            one_time_keyboard,
+            userListWithChatID,
+            parse_mode: "false"
+          });
+          let timeoutToClear = [];
+          timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
+          timeoutToClear.forEach((item) => {
+            _this.clearTimeout(item.timeout);
+          });
+          timeouts = timeouts.filter((item) => item.key !== timeoutKey);
+          (0, import_logging.debug)([{ text: "Picture sent" }]);
+        },
+        parseInt(String(element.delay))
+      );
       if (timeout) {
         timeouts.push({ key: timeoutKey, timeout });
       }

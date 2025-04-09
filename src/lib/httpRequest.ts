@@ -3,7 +3,7 @@ import { sendToTelegram } from './telegram';
 import path from 'path';
 import fs from 'fs';
 import { debug, error } from './logging';
-import type { Part, UserListWithChatId } from './telegram-menu';
+import type { Part, UserListWithChatId } from '../types/types';
 import { checkDirectoryIsOk } from './global';
 
 async function httpRequest(

@@ -1,5 +1,5 @@
 import { error } from './logging';
-import type { KeyboardItems, Keyboard } from './telegram-menu';
+import type { KeyboardItems, Keyboard } from '../types/types';
 import { checkStatusInfo } from './utilities';
 async function dynamicSwitch(
     calledValue: string,

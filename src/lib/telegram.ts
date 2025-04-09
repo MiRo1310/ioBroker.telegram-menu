@@ -1,7 +1,7 @@
 import { debug, error } from './logging';
 import { checkStatusInfo, getChatID, newLine } from './utilities';
 import TelegramMenu from '../main';
-import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from './telegram-menu';
+import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';
 
 async function sendToTelegram({

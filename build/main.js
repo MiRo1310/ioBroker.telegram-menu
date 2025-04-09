@@ -390,7 +390,7 @@ class TelegramMenu extends utils.Adapter {
     const timeouts = (0, import_processData.getTimeouts)();
     try {
       timeouts.forEach((element) => {
-        clearTimeout(element.timeout);
+        _this.clearTimeout(element.timeout);
       });
       callback();
     } catch (e) {
