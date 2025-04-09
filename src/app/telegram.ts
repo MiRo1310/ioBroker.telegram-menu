@@ -1,8 +1,9 @@
-import { debug, error } from './logging';
-import { checkStatusInfo, getChatID, newLine } from '../lib/utilities';
+import { debug, errorLogger } from './logging';
+import { checkStatusInfo, newLine } from '../lib/utilities';
 import TelegramMenu from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';
+import { getChatID } from '../lib/utils';
 
 async function sendToTelegram({
     user = '',
@@ -72,7 +73,7 @@ async function sendToTelegram({
             );
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error sendToTelegram:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
@@ -100,7 +101,7 @@ function sendToTelegramSubmenu(
             reply_markup: keyboard,
         });
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error sendToTelegramSubmenu:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
@@ -134,7 +135,7 @@ const sendLocationToTelegram = async (
             });
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error sendLocationToTelegram:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

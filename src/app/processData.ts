@@ -11,7 +11,7 @@ import { adjustValueType } from './action';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
 import { getChart } from './echarts';
 import { httpRequest } from './httpRequest';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import type {
     CheckEveryMenuForDataType,
     IsUserActiveCheckbox,
@@ -20,7 +20,6 @@ import type {
     Part,
     ProcessDataType,
     SetStateIds,
-    Timeouts,
 } from '../types/types';
 
 let setStateIdsToListenTo: SetStateIds[] = [];
@@ -318,7 +317,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         }
         return false;
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error processData:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

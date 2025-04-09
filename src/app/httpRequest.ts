@@ -2,7 +2,7 @@ import axios from 'axios';
 import { sendToTelegram } from './telegram';
 import path from 'path';
 import fs from 'fs';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import type { Part, UserListWithChatId } from '../types/types';
 import { checkDirectoryIsOk } from './global';
 
@@ -64,7 +64,7 @@ async function httpRequest(
                 parse_mode: 'false',
             });
         } catch (e: any) {
-            error([
+            errorLogger([
                 { text: 'Error:', val: e.message },
                 { text: 'Stack:', val: e.stack },
                 { text: 'Server Response:', val: e.response.status },

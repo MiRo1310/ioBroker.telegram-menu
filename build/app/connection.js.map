@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/connection.ts"],
+  "sourcesContent": ["import TelegramMenu from '../main';\nimport { debug, info } from './logging';\n\nexport const checkIsTelegramActive = async (dataPoint: string): Promise<boolean | undefined> => {\n    const _this = TelegramMenu.getInstance();\n    await _this.setState('info.connection', false, true);\n    const telegramInfoConnection = await _this.getForeignStateAsync(dataPoint);\n\n    debug([{ text: 'Telegram Info Connection: ', val: telegramInfoConnection?.val }]);\n    if (telegramInfoConnection?.val) {\n        await _this.setState('info.connection', telegramInfoConnection?.val, true);\n    }\n    if (!telegramInfoConnection?.val) {\n        info([{ text: 'Telegram was found, but is not running. Please start!' }]);\n    }\n    return !!telegramInfoConnection?.val;\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAyB;AACzB,qBAA4B;AAErB,MAAM,wBAAwB,OAAO,cAAoD;AAC5F,QAAM,QAAQ,YAAAA,QAAa,YAAY;AACvC,QAAM,MAAM,SAAS,mBAAmB,OAAO,IAAI;AACnD,QAAM,yBAAyB,MAAM,MAAM,qBAAqB,SAAS;AAEzE,4BAAM,CAAC,EAAE,MAAM,8BAA8B,KAAK,iEAAwB,IAAI,CAAC,CAAC;AAChF,MAAI,iEAAwB,KAAK;AAC7B,UAAM,MAAM,SAAS,mBAAmB,iEAAwB,KAAK,IAAI;AAAA,EAC7E;AACA,MAAI,EAAC,iEAAwB,MAAK;AAC9B,6BAAK,CAAC,EAAE,MAAM,wDAAwD,CAAC,CAAC;AAAA,EAC5E;AACA,SAAO,CAAC,EAAC,iEAAwB;AACrC;",
+  "names": ["TelegramMenu"]
+}

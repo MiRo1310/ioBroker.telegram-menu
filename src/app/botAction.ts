@@ -1,5 +1,5 @@
 import TelegramMenu from '../main';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import type { UserListWithChatId } from '../types/types';
 
 const deleteMessageByBot = (
@@ -23,7 +23,7 @@ const deleteMessageByBot = (
             },
         });
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error deleteMessage:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

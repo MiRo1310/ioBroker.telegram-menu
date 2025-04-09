@@ -274,11 +274,6 @@ export interface SetStateIds {
     parse_mode?: BooleanString;
 }
 
-export interface Timeouts {
-    key: string;
-    timeout: ioBroker.Timeout;
-}
-
 export type GroupWithUser = string;
 
 export interface Message {

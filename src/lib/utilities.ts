@@ -1,53 +1,27 @@
 import TelegramMenu, { _this } from '../main';
-import { isDefined, isJSON, replaceAll } from '../app/global';
-import { debug, error } from '../app/logging';
-import type { UserListWithChatId } from '../types/types';
+import { isDefined, replaceAll } from '../app/global';
+import { debug, errorLogger } from '../app/logging';
+import { processTimeValue } from './time';
+import { parseJSON } from './string';
 
-const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
-    const date = Number(obj.val);
-
-    if (!isDefined(date)) {
-        return textToSend;
-    }
-    const time = new Date(date);
-    if (isNaN(time.getTime())) {
-        error([{ text: 'Invalid Date:', val: date }]);
-        return textToSend;
-    }
-    const timeString = time.toLocaleDateString('de-DE', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-    });
-    return textToSend.replace('{time}', timeString);
-};
-
-const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string => {
-    let chatId = '';
-    userListWithChatID.forEach(element => {
-        if (element.name === user) {
-            chatId = element.chatID;
-        }
-    });
-    return chatId;
-};
 const exchangeValue = (
     textToSend: string,
     stateVal: string | number | boolean,
-): { valueChange: string; textToSend: string } | boolean => {
+): { valueChange: string; textToSend: string; error: boolean } => {
     const { startindex, endindex } = decomposeText(textToSend, 'change{', '}');
 
     let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
 
     let objChangeValue;
     match = match.replace(/'/g, '"');
+    // TODO type any
+    const { json, isValidJson } = parseJSON<any>(`{${match}}`);
 
-    if (isJSON(`{${match}}`)) {
-        objChangeValue = JSON.parse(`{${match}}`);
+    if (isValidJson) {
+        objChangeValue = json;
     } else {
-        error([{ text: `There is a error in your input:`, val: replaceAll(match, '"', "'") }]);
-        return false;
+        _this.log.error(`There is a error in your input:${match}`);
+        return { valueChange: '', textToSend: '', error: true };
     }
 
     let newValue;
@@ -55,6 +29,7 @@ const exchangeValue = (
     return {
         valueChange: newValue,
         textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
+        error: false,
     };
 };
 
@@ -78,17 +53,15 @@ function decomposeText(
 function changeValue(
     textToSend: string,
     val: string | number | boolean,
-): { textToSend: string; val: string | number } | undefined {
+): { textToSend: string; val: string | number; error: boolean } {
     if (textToSend.includes('change{')) {
-        const result = exchangeValue(textToSend, val);
-        if (!result) {
-            return;
+        const { valueChange, error, textToSend: text } = exchangeValue(textToSend, val);
+
+        if (!error) {
+            return { textToSend: text, val: valueChange, error: false };
         }
-        if (typeof result === 'boolean') {
-            return;
-        }
-        return { textToSend: result.textToSend, val: result.valueChange };
     }
+    return { textToSend: '', val: '', error: true };
 }
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
@@ -274,7 +247,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             return text;
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error checkStatusInfo:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
@@ -317,7 +290,7 @@ async function checkTypeOfId(
 
         return value;
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error checkTypeOfId:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
@@ -325,21 +298,12 @@ async function checkTypeOfId(
 }
 
 const newLine = (text: string): string => {
-    if (isJSON(text)) {
-        text = JSON.parse(text);
+    const { json, isValidJson } = parseJSON<string>(text);
+    if (isValidJson) {
+        text = json;
     }
 
     return text.replace(/""/g, '"').replace(/\\n/g, '\n');
 };
 
-export {
-    checkStatusInfo,
-    checkTypeOfId,
-    changeValue,
-    newLine,
-    processTimeIdLc,
-    processTimeValue,
-    decomposeText,
-    replaceAll,
-    getChatID,
-};
+export { checkStatusInfo, checkTypeOfId, changeValue, newLine, processTimeIdLc, decomposeText, replaceAll };

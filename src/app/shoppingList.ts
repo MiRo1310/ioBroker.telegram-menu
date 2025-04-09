@@ -2,7 +2,7 @@ import { deleteMessageIds } from './messageIds.js';
 import { createKeyboardFromJson } from './jsonTable.js';
 import { sendToTelegramSubmenu, sendToTelegram } from './telegram.js';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates.js';
-import { debug, error } from './logging.js';
+import { debug, errorLogger } from './logging.js';
 import TelegramMenu from '../main.js';
 import type { UserListWithChatId } from '../types/types.js';
 
@@ -61,7 +61,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
             return;
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error shoppingList:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
@@ -97,7 +97,7 @@ async function deleteMessageAndSendNewShoppingList(
             }
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error deleteMessageAndSendNewShoppingList:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

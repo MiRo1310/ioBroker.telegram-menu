@@ -1,9 +1,9 @@
 import { sendToTelegram } from './telegram';
 import { checkDirectoryIsOk, replaceAll } from './global';
 import { exec } from 'child_process';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import TelegramMenu from '../main';
-import type { Part, Timeouts, UserListWithChatId } from '../types/types';
+import type { Part, UserListWithChatId } from '../types/types';
 
 function sendPic(
     part: Part,
@@ -83,7 +83,7 @@ function sendPic(
         });
         return timeouts;
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

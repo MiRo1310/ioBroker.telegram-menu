@@ -3,7 +3,7 @@ import { checkTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { decomposeText } from './global';
 import TelegramMenu from '../main';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import type { Part, UserListWithChatId, SetStateIds } from '../types/types';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
@@ -139,7 +139,7 @@ export const setState = async (
                     .then(val => {
                         if (val) {
                             _this.setForeignStateAsync(element.id, !val.val, ack).catch((e: any) => {
-                                error([
+                                errorLogger([
                                     { text: 'Error', val: e.message },
                                     { text: 'Stack', val: e.stack },
                                 ]);
@@ -147,7 +147,7 @@ export const setState = async (
                         }
                     })
                     .catch((e: any) => {
-                        error([
+                        errorLogger([
                             { text: 'Error', val: e.message },
                             { text: 'Stack', val: e.stack },
                         ]);
