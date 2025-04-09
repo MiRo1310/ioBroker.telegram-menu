@@ -86,7 +86,8 @@ function getState(
                         if (result) {
                             textToSend = result.textToSend;
                             val = result.val;
-                            _this.log.debug(JSON.stringify({ textToSend: textToSend, val: val }));
+
+                            _this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
                         }
                     }
                     if (textToSend.includes('round:')) {
@@ -164,8 +165,6 @@ function getState(
                     text += `${val} ${newline}`;
                 }
                 debug([{ text: 'Text:', val: text }]);
-                // TODO Remove
-                debug([{ text: 'XXXXX', val: text }]);
 
                 if (i == part.getData?.length) {
                     if (userToSend) {

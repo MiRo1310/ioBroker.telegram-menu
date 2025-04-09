@@ -105,7 +105,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             if (result) {
               textToSend = result.textToSend;
               val = result.val;
-              _this.log.debug(JSON.stringify({ textToSend, val }));
+              _this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
             }
           }
           if (textToSend.includes("round:")) {
@@ -181,7 +181,6 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           text += `${val} ${newline}`;
         }
         (0, import_logging.debug)([{ text: "Text:", val: text }]);
-        (0, import_logging.debug)([{ text: "XXXXX", val: text }]);
         if (i == ((_c = part.getData) == null ? void 0 : _c.length)) {
           if (userToSend) {
             await (0, import_telegram.sendToTelegram)(

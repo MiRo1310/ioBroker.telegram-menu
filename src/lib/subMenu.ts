@@ -14,7 +14,6 @@ import type {
     SetDynamicValueType,
     CreateSubmenuPercent,
     ArrayOfEntriesDynamicSwitch,
-    Keyboard,
     SetFirstMenuValue,
     SetSecondMenuValue,
     CreateSubmenuNumber,
@@ -26,6 +25,7 @@ import type {
     UserListWithChatId,
     Part,
     NavPart,
+    Keyboard,
 } from './telegram-menu';
 import { parseJSON } from './global';
 import { _this } from '../main';
@@ -231,7 +231,7 @@ const createSubmenuNumber = (
     debug([{ text: 'keyboard:', val: keyboard.inline_keyboard }]);
     return { text: obj.text, keyboard: JSON.stringify(keyboard), device: device2Switch };
 };
-interface Keyboard {
+
 const createSwitchMenu = (obj: CreateSwitchMenu): { text?: string; keyboard: string; device: string } => {
     splittedData = obj.callbackData.split('-');
     const keyboard = {
