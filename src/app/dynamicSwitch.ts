@@ -1,4 +1,4 @@
-import { error } from './logging';
+import { errorLogger } from './logging';
 import type { KeyboardItems, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
 async function dynamicSwitch(
@@ -50,7 +50,7 @@ async function dynamicSwitch(
             return { text, keyboard, device };
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error parsing dynSwitch:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

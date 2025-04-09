@@ -34,6 +34,10 @@ export const debug = (obj: LoggingTypes[]): void => {
     logging('debug', obj);
 };
 
-export const error = (obj: LoggingTypes[]): void => {
-    logging('error', obj);
+export const errorLogger = (e: any, title?: string): void => {
+    if (title) {
+        _this.log.error(title);
+    }
+    _this.log.error(e.message);
+    _this.log.error(`Error: ${e.stack}`);
 };

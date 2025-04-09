@@ -1,5 +1,5 @@
 import type { DecomposeText } from '../types/types';
-import { error } from './logging';
+import { errorLogger } from './logging';
 
 export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;
 
@@ -8,16 +8,6 @@ export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
 
 export const replaceAll = (text: string, searchValue: string, replaceValue: string): string =>
     text.replace(new RegExp(searchValue, 'g'), replaceValue);
-
-export function isJSON(_string: string): boolean {
-    try {
-        JSON.parse(_string);
-        return true;
-    } catch (error) {
-        console.error([{ text: 'Error:', val: error }]);
-        return false;
-    }
-}
 
 export function decomposeText(text: string, searchValue: string, secondValue: string): DecomposeText {
     const startindex = text.indexOf(searchValue);
@@ -52,7 +42,7 @@ export const isFalsy = (value: string | number | boolean | undefined | null): bo
 
 export function checkDirectoryIsOk(directory: string): boolean {
     if (['', null, undefined].includes(directory)) {
-        error([
+        errorLogger([
             {
                 text: 'Error:',
                 val: 'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',

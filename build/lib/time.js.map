@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/time.ts"],
+  "sourcesContent": ["import { _this } from '../main';\n\nexport const toLocaleDate = (time: Date): string => {\n    return time.toLocaleDateString('de-DE', {\n        hour: '2-digit',\n        minute: '2-digit',\n        second: '2-digit',\n        hour12: false,\n    });\n};\n\nexport const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {\n    const date = new Date(Number(obj.val));\n\n    if (isNaN(date.getTime())) {\n        _this.log.error(`Invalid Date: ${String(date)}`);\n        return textToSend;\n    }\n\n    return textToSend.replace('{time}', toLocaleDate(date));\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAsB;AAEf,MAAM,eAAe,CAAC,SAAuB;AAChD,SAAO,KAAK,mBAAmB,SAAS;AAAA,IACpC,MAAM;AAAA,IACN,QAAQ;AAAA,IACR,QAAQ;AAAA,IACR,QAAQ;AAAA,EACZ,CAAC;AACL;AAEO,MAAM,mBAAmB,CAAC,YAAoB,QAAgC;AACjF,QAAM,OAAO,IAAI,KAAK,OAAO,IAAI,GAAG,CAAC;AAErC,MAAI,MAAM,KAAK,QAAQ,CAAC,GAAG;AACvB,sBAAM,IAAI,MAAM,iBAAiB,OAAO,IAAI,CAAC,EAAE;AAC/C,WAAO;AAAA,EACX;AAEA,SAAO,WAAW,QAAQ,UAAU,aAAa,IAAI,CAAC;AAC1D;",
+  "names": []
+}
