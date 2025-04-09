@@ -165,8 +165,6 @@ function getState(
                     text += `${val} ${newline}`;
                 }
                 debug([{ text: 'Text:', val: text }]);
-                // TODO Remove
-                debug([{ text: 'XXXXX', val: text }]);
 
                 if (i == part.getData?.length) {
                     if (userToSend) {
