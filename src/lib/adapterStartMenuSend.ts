@@ -10,7 +10,7 @@ import type {
     UserListWithChatId,
     NavPart,
     BooleanString,
-} from './telegram-menu';
+} from '../types/types';
 async function adapterStartMenuSend(
     listOfMenus: ListOfMenus,
     startSides: StartSides,

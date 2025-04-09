@@ -1,10 +1,9 @@
 import { sendToTelegram } from './telegram';
-import { replaceAll } from './utilities';
+import { checkDirectoryIsOk, replaceAll } from './global';
 import { exec } from 'child_process';
 import { debug, error } from './logging';
 import TelegramMenu from '../main';
-import type { Part, UserListWithChatId, Timeouts } from './telegram-menu';
-import { checkDirectoryIsOk } from './global';
+import type { Part, Timeouts, UserListWithChatId } from '../types/types';
 
 function sendPic(
     part: Part,
@@ -55,26 +54,28 @@ function sendPic(
                 return;
             }
 
-            const timeout = _this.setTimeout(async () => {
-                await sendToTelegram({
-                    user: userToSend,
-                    textToSend: path,
-                    keyboard: undefined,
-                    instance: instanceTelegram,
-                    resize_keyboard: resize_keyboard,
-                    one_time_keyboard: one_time_keyboard,
-                    userListWithChatID: userListWithChatID,
-                    parse_mode: 'false',
-                });
-                let timeoutToClear: Timeouts[] = [];
-                timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
-                timeoutToClear.forEach(item => {
-                    clearTimeout(item.timeout);
-                });
+            const timeout = _this.setTimeout(
+                async () => {
+                    await sendToTelegram({
+                        user: userToSend,
+                        textToSend: path,
+                        instance: instanceTelegram,
+                        resize_keyboard: resize_keyboard,
+                        one_time_keyboard: one_time_keyboard,
+                        userListWithChatID: userListWithChatID,
+                        parse_mode: 'false',
+                    });
+                    let timeoutToClear: Timeouts[] = [];
+                    timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
+                    timeoutToClear.forEach(item => {
+                        _this.clearTimeout(item.timeout);
+                    });
 
-                timeouts = timeouts.filter(item => item.key !== timeoutKey);
-                debug([{ text: 'Picture sent' }]);
-            }, parseInt(element.delay));
+                    timeouts = timeouts.filter(item => item.key !== timeoutKey);
+                    debug([{ text: 'Picture sent' }]);
+                },
+                parseInt(String(element.delay)),
+            );
 
             if (timeout) {
                 timeouts.push({ key: timeoutKey, timeout: timeout });

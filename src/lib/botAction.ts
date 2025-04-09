@@ -1,6 +1,6 @@
 import TelegramMenu from '../main';
 import { debug, error } from './logging';
-import type { UserListWithChatId } from './telegram-menu';
+import type { UserListWithChatId } from '../types/types';
 
 const deleteMessageByBot = (
     instance: string,

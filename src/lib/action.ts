@@ -18,13 +18,12 @@ import type {
     Switch,
     UserObjectActions,
     GenerateActionsNewObject,
-    NewObjectNavStructureKey,
     Part,
     DataObject,
     MenuData,
     UserInGroup,
     MenusWithUsers,
-} from './telegram-menu.js';
+} from '../types/types';
 
 const bindingFunc = async (
     text: string,
@@ -383,9 +382,7 @@ function generateActions(
                             }
                         });
                         if (item.name && typeof item.name === 'string') {
-                            userObject[element.trigger as NewObjectNavStructureKey][item?.name as keyof Part].push(
-                                newObj,
-                            );
+                            userObject[element.trigger as string][item?.name as keyof Part].push(newObj);
                         }
                     });
                 });
@@ -547,8 +544,8 @@ const getUserToSendFromUserListWithChatID = (
 
     return userToSend;
 };
-const getMenusWithUserToSend = (menusWithUsers: MenusWithUsers, userToSend: string): NewObjectNavStructureKey[] => {
-    const menus: NewObjectNavStructureKey[] = [];
+const getMenusWithUserToSend = (menusWithUsers: MenusWithUsers, userToSend: string): string[] => {
+    const menus: string[] = [];
     for (const key in menusWithUsers) {
         if (menusWithUsers[key].includes(userToSend)) {
             menus.push(key);

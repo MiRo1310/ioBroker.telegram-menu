@@ -1,4 +1,4 @@
-import type { DecomposeText } from './telegram-menu';
+import type { DecomposeText } from '../types/types';
 import { error } from './logging';
 
 export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;

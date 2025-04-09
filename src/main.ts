@@ -25,7 +25,6 @@ import { adapterStartMenuSend } from './lib/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './lib/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './lib/shoppingList.js';
 import { debug, error } from './lib/logging.js';
-
 import type {
     Checkboxes,
     DataObject,
@@ -34,11 +33,10 @@ import type {
     ListOfMenus,
     MenuData,
     MenusWithUsers,
-    NewObjectNavStructureKey,
     SetStateIds,
     StartSides,
     UserListWithChatId,
-} from './lib/telegram-menu.js';
+} from './types/types';
 import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './lib/connection.js';
 import { isDefined, isFalsy, isString } from './lib/global';
@@ -238,7 +236,7 @@ export default class TelegramMenu extends utils.Adapter {
 
                         value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        const menus: NewObjectNavStructureKey[] = getMenusWithUserToSend(menusWithUsers, userToSend);
+                        const menus = getMenusWithUserToSend(menusWithUsers, userToSend);
 
                         const dataFound = await checkEveryMenuForData({
                             menuData,
@@ -466,8 +464,8 @@ export default class TelegramMenu extends utils.Adapter {
         const timeouts = getTimeouts();
         try {
             // Here you must clear all timeouts or intervals that may still be active
-            timeouts.forEach((element: { timeout: string | number | NodeJS.Timeout | undefined }) => {
-                clearTimeout(element.timeout);
+            timeouts.forEach(element => {
+                _this.clearTimeout(element.timeout);
             });
 
             callback();

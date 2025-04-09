@@ -1,4 +1,4 @@
-import TelegramMenu from '../main';
+import { _this } from '../main';
 import { sendLocationToTelegram, sendToTelegram } from './telegram';
 import { sendNav } from './sendNav';
 import { callSubMenu } from './subMenu';
@@ -21,7 +21,7 @@ import type {
     ProcessDataType,
     SetStateIds,
     Timeouts,
-} from './telegram-menu';
+} from '../types/types';
 
 let setStateIdsToListenTo: SetStateIds[] = [];
 let timeouts: Timeouts[] = [];
@@ -41,7 +41,7 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
         directoryPicture,
         timeoutKey,
     } = obj;
-    const _this = TelegramMenu.getInstance();
+
     for (const menu of menus) {
         const groupData: NewObjectNavStructure = menuData.data[menu];
         debug([
@@ -52,7 +52,6 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
 
         if (
             await processData({
-                _this,
                 menuData,
                 calledValue,
                 userToSend,
@@ -70,9 +69,7 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
                 groupData,
             })
         ) {
-            debug([{ text: 'CalledText found' }]);
-            //TODO - Remove
-            debug([{ text: 'CalledText found' }]);
+            _this.log.debug('CalledText found');
             return true;
         }
     }
@@ -81,7 +78,6 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
 
 async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
     const {
-        _this,
         menuData,
         calledValue,
         userToSend,
@@ -110,7 +106,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             } else {
                 valueToSet = calledValue;
             }
-            if (valueToSet) {
+            if (valueToSet && res?.id) {
                 await _this.setForeignStateAsync(res?.id, valueToSet, res?.ack);
             } else {
                 await sendToTelegram({

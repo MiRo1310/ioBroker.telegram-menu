@@ -1,7 +1,7 @@
 import TelegramMenu from '../main';
 import { error } from './logging';
 import { sendToTelegram } from './telegram';
-import type { Echart, UserListWithChatId } from './telegram-menu';
+import type { Echart, UserListWithChatId } from '../types/types';
 import { checkDirectoryIsOk } from './global';
 
 function getChart(

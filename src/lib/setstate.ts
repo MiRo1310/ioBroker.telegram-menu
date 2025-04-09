@@ -4,7 +4,7 @@ import { setDynamicValue } from './dynamicValue';
 import { decomposeText } from './global';
 import TelegramMenu from '../main';
 import { debug, error } from './logging';
-import type { Part, UserListWithChatId, SetStateIds } from './telegram-menu';
+import type { Part, UserListWithChatId, SetStateIds } from '../types/types';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     if (value && value.includes('{value}')) {
