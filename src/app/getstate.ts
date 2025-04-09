@@ -1,11 +1,12 @@
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc, roundValue, calcValue, idBySelector } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
-import { processTimeIdLc, processTimeValue, changeValue } from '../lib/utilities';
+import { processTimeIdLc, changeValue } from '../lib/utilities';
 import { decomposeText, isDefined } from './global';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import TelegramMenu from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
+import { processTimeValue } from '../lib/time';
 
 function getState(
     part: Part,
@@ -59,7 +60,7 @@ function getState(
 
             await _this.getForeignStateAsync(id).then(async (value?: ioBroker.State | null) => {
                 if (!isDefined(value)) {
-                    error([{ text: 'The state is empty!' }]);
+                    errorLogger([{ text: 'The state is empty!' }]);
                     return;
                 }
                 const valueForJson: string = value.val?.toString() ?? '';
@@ -147,12 +148,12 @@ function getState(
                         }
                     }
 
-                    const resultChange = changeValue(textToSend, val);
+                    const { val: _val, textToSend: _text, error } = changeValue(textToSend, val);
 
-                    if (resultChange) {
-                        debug([{ text: 'Value Changed to:', val: resultChange }]);
-                        val = resultChange.val;
-                        textToSend = resultChange.textToSend;
+                    val = _val;
+                    textToSend = _text;
+                    if (!error) {
+                        debug([{ text: 'Value Changed to:', val: textToSend }]);
                     } else {
                         debug([{ text: 'No Change' }]);
                     }

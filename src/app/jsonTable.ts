@@ -1,5 +1,5 @@
 import { decomposeText, parseJSON } from './global';
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import type { LastText, ValArray, KeyboardItem, Keyboard } from '../types/types';
 const lastText: LastText = {};
 const createKeyboardFromJson = (
@@ -72,7 +72,7 @@ const createKeyboardFromJson = (
 
         return { text: headline, keyboard };
     } catch (err: any) {
-        error([
+        errorLogger([
             { text: 'Error createKeyboardFromJson:', val: err.message },
             { text: 'Stack:', val: err.stack },
         ]);
@@ -149,7 +149,7 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
         textTable += '`';
         return textTable;
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error createTextTableFromJson:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

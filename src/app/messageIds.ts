@@ -1,9 +1,9 @@
 import TelegramMenu from '../main';
 import { deleteMessageByBot } from './botAction';
-import { error } from './logging';
+import { errorLogger } from './logging';
 import type { UserListWithChatId, WhatShouldDelete } from '../types/types';
-import { getChatID } from '../lib/utilities';
 import { deepCopy } from './global';
+import { getChatID } from '../lib/utils';
 
 interface Messages {
     [key: string]: MessageInfos[];
@@ -48,7 +48,7 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
         requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
         await _this.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error saveMessageIds:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
@@ -93,6 +93,9 @@ async function deleteMessageIds(
         }
 
         const chat_id = getChatID(userListWithChatID, user);
+        if (!chat_id) {
+            return;
+        }
         const messageIds: Messages = JSON.parse(requestMessageIdObj.val);
 
         if (lastMessageId && lastMessageId.val) {
@@ -128,7 +131,7 @@ async function deleteMessageIds(
 
         await _this.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error deleteMessageIds:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

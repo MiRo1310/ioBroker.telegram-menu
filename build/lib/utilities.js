@@ -32,59 +32,34 @@ __export(utilities_exports, {
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
   decomposeText: () => decomposeText,
-  getChatID: () => getChatID,
   newLine: () => newLine,
   processTimeIdLc: () => processTimeIdLc,
-  processTimeValue: () => processTimeValue,
   replaceAll: () => import_global.replaceAll
 });
 module.exports = __toCommonJS(utilities_exports);
 var import_main = __toESM(require("../main"));
-var import_global = require("./global");
-var import_logging = require("./logging");
-const processTimeValue = (textToSend, obj) => {
-  const date = Number(obj.val);
-  if (!(0, import_global.isDefined)(date)) {
-    return textToSend;
-  }
-  const time = new Date(date);
-  if (isNaN(time.getTime())) {
-    (0, import_logging.error)([{ text: "Invalid Date:", val: date }]);
-    return textToSend;
-  }
-  const timeString = time.toLocaleDateString("de-DE", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
-  return textToSend.replace("{time}", timeString);
-};
-const getChatID = (userListWithChatID, user) => {
-  let chatId = "";
-  userListWithChatID.forEach((element) => {
-    if (element.name === user) {
-      chatId = element.chatID;
-    }
-  });
-  return chatId;
-};
+var import_global = require("../app/global");
+var import_logging = require("../app/logging");
+var import_time = require("./time");
+var import_string = require("./string");
 const exchangeValue = (textToSend, stateVal) => {
   const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
   let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
   let objChangeValue;
   match = match.replace(/'/g, '"');
-  if ((0, import_global.isJSON)(`{${match}}`)) {
-    objChangeValue = JSON.parse(`{${match}}`);
+  const { json, isValidJson } = (0, import_string.parseJSON)(`{${match}}`);
+  if (isValidJson) {
+    objChangeValue = json;
   } else {
-    (0, import_logging.error)([{ text: `There is a error in your input:`, val: (0, import_global.replaceAll)(match, '"', "'") }]);
-    return false;
+    import_main._this.log.error(`There is a error in your input:${match}`);
+    return { valueChange: "", textToSend: "", error: true };
   }
   let newValue;
   objChangeValue[String(stateVal)] ? newValue = objChangeValue[String(stateVal)] : newValue = stateVal;
   return {
     valueChange: newValue,
-    textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1)
+    textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
+    error: false
   };
 };
 function decomposeText(text, searchValue, secondValue) {
@@ -101,15 +76,12 @@ function decomposeText(text, searchValue, secondValue) {
 }
 function changeValue(textToSend, val) {
   if (textToSend.includes("change{")) {
-    const result = exchangeValue(textToSend, val);
-    if (!result) {
-      return;
+    const { valueChange, error, textToSend: text } = exchangeValue(textToSend, val);
+    if (!error) {
+      return { textToSend: text, val: valueChange, error: false };
     }
-    if (typeof result === "boolean") {
-      return;
-    }
-    return { textToSend: result.textToSend, val: result.valueChange };
   }
+  return { textToSend: "", val: "", error: true };
 }
 const processTimeIdLc = async (textToSend, id) => {
   const _this2 = import_main.default.getInstance();
@@ -251,7 +223,7 @@ const checkStatusInfo = async (text) => {
     _this2.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
-        text = await checkStatus(text, processTimeValue);
+        text = await checkStatus(text, import_time.processTimeValue);
       }
     }
     if (text.includes("{time.lc") || text.includes("{time.ts")) {
@@ -276,7 +248,7 @@ const checkStatusInfo = async (text) => {
       return text;
     }
   } catch (e) {
-    (0, import_logging.error)([
+    (0, import_logging.errorLogger)([
       { text: "Error checkStatusInfo:", val: e.message },
       { text: "Stack:", val: e.stack }
     ]);
@@ -312,15 +284,16 @@ async function checkTypeOfId(id, value) {
     }
     return value;
   } catch (e) {
-    (0, import_logging.error)([
+    (0, import_logging.errorLogger)([
       { text: "Error checkTypeOfId:", val: e.message },
       { text: "Stack:", val: e.stack }
     ]);
   }
 }
 const newLine = (text) => {
-  if ((0, import_global.isJSON)(text)) {
-    text = JSON.parse(text);
+  const { json, isValidJson } = (0, import_string.parseJSON)(text);
+  if (isValidJson) {
+    text = json;
   }
   return text.replace(/""/g, '"').replace(/\\n/g, "\n");
 };
@@ -330,10 +303,8 @@ const newLine = (text) => {
   checkStatusInfo,
   checkTypeOfId,
   decomposeText,
-  getChatID,
   newLine,
   processTimeIdLc,
-  processTimeValue,
   replaceAll
 });
 //# sourceMappingURL=utilities.js.map

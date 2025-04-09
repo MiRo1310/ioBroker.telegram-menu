@@ -1,4 +1,4 @@
-import { debug, error } from './logging';
+import { debug, errorLogger } from './logging';
 import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
 const backMenu: BackMenu = {};
@@ -68,7 +68,7 @@ async function switchBack(
             }
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error in switchBack:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);

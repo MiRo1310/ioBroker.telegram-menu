@@ -1,5 +1,5 @@
 import TelegramMenu from '../main';
-import { error } from './logging';
+import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
 import type { Echart, UserListWithChatId } from '../types/types';
 import { checkDirectoryIsOk } from './global';
@@ -45,7 +45,7 @@ function getChart(
                         userListWithChatID: userListWithChatID,
                         parse_mode: 'false',
                     }).catch((e: any) => {
-                        error([
+                        errorLogger([
                             { text: 'Error', val: e.message },
                             { text: 'Stack', val: e.stack },
                         ]);
@@ -54,7 +54,7 @@ function getChart(
             );
         }
     } catch (e: any) {
-        error([
+        errorLogger([
             { text: 'Error:', val: e.message },
             { text: 'Stack:', val: e.stack },
         ]);
