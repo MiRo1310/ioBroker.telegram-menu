@@ -20,6 +20,7 @@ var string_exports = {};
 __export(string_exports, {
   jsonString: () => jsonString,
   parseJSON: () => parseJSON,
+  replaceAll: () => replaceAll,
   validateNewLine: () => validateNewLine
 });
 module.exports = __toCommonJS(string_exports);
@@ -41,10 +42,12 @@ const validateNewLine = (text) => {
   }
   return text.replace(/""/g, '"').replace(/\\n/g, "\n");
 };
+const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, "g"), replaceValue);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   jsonString,
   parseJSON,
+  replaceAll,
   validateNewLine
 });
 //# sourceMappingURL=string.js.map

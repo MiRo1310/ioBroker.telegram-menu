@@ -22,42 +22,24 @@ __export(utilities_exports, {
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
   decomposeText: () => decomposeText,
-  processTimeIdLc: () => processTimeIdLc,
-  processTimeValue: () => processTimeValue
+  processTimeIdLc: () => processTimeIdLc
 });
 module.exports = __toCommonJS(utilities_exports);
 var import_main = require("../main");
 var import_global = require("../app/global");
-var import_console = require("console");
 var import_string = require("./string");
-const processTimeValue = (textToSend, obj) => {
-  const date = Number(obj.val);
-  if (!(0, import_global.isDefined)(date)) {
-    return textToSend;
-  }
-  const time = new Date(date);
-  if (isNaN(time.getTime())) {
-    import_main._this.log.error(`Invalid Date: ${date}`);
-    return textToSend;
-  }
-  const timeString = time.toLocaleDateString("de-DE", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
-  return textToSend.replace("{time}", timeString);
-};
+var import_logging = require("../app/logging");
+var import_time = require("./time");
 const exchangeValue = (textToSend, stateVal) => {
   const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
   let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
   let objChangeValue;
-  match = match.replace(/'/g, '"');
+  match = (0, import_string.replaceAll)(match, "'", '"');
   const { json, isValidJson } = (0, import_string.parseJSON)(`{${match}}`);
   if (isValidJson) {
     objChangeValue = json;
   } else {
-    (0, import_console.error)([{ text: `There is a error in your input:`, val: (0, import_global.replaceAll)(match, '"', "'") }]);
+    import_main._this.log.error(`There is a error in your input: ${(0, import_string.replaceAll)(match, '"', "'")}`);
     return false;
   }
   let newValue;
@@ -229,7 +211,7 @@ const checkStatusInfo = async (text) => {
     import_main._this.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
-        text = await checkStatus(text, processTimeValue);
+        text = await checkStatus(text, import_time.processTimeValue);
       }
     }
     if (text.includes("{time.lc") || text.includes("{time.ts")) {
@@ -254,10 +236,7 @@ const checkStatusInfo = async (text) => {
       return text;
     }
   } catch (e) {
-    (0, import_console.error)([
-      { text: "Error checkStatusInfo:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkStatusInfo:", e);
   }
 };
 async function checkTypeOfId(id, value) {
@@ -289,10 +268,7 @@ async function checkTypeOfId(id, value) {
     }
     return value;
   } catch (e) {
-    (0, import_console.error)([
-      { text: "Error checkTypeOfId:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkTypeOfId:", e);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
@@ -301,7 +277,6 @@ async function checkTypeOfId(id, value) {
   checkStatusInfo,
   checkTypeOfId,
   decomposeText,
-  processTimeIdLc,
-  processTimeValue
+  processTimeIdLc
 });
 //# sourceMappingURL=utilities.js.map

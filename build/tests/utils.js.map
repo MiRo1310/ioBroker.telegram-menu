@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/tests/utils.ts"],
+  "sourcesContent": ["import { expect } from 'chai';\nimport { getChatID } from '../lib/utils';\nimport type { UserListWithChatId } from '../types/types';\n\ndescribe('getChatID', () => {\n    const mockData: UserListWithChatId[] = [\n        { name: 'Alice', chatID: '123' },\n        { name: 'Bob', chatID: '456' },\n        { name: 'Charlie', chatID: '789' },\n    ];\n\n    it('sollte die richtige chatID zur\u00FCckgeben, wenn der Benutzer existiert', () => {\n        const result = getChatID(mockData, 'Alice');\n        expect(result).to.equal('123');\n    });\n\n    it('sollte undefined zur\u00FCckgeben, wenn der Benutzer nicht existiert', () => {\n        const result = getChatID(mockData, 'David');\n        expect(result).to.be.undefined;\n    });\n\n    it('sollte undefined zur\u00FCckgeben, wenn die Liste leer ist', () => {\n        const result = getChatID([], 'Alice');\n        expect(result).to.be.undefined;\n    });\n});\n"],
+  "mappings": ";AAAA,kBAAuB;AACvB,mBAA0B;AAG1B,SAAS,aAAa,MAAM;AACxB,QAAM,WAAiC;AAAA,IACnC,EAAE,MAAM,SAAS,QAAQ,MAAM;AAAA,IAC/B,EAAE,MAAM,OAAO,QAAQ,MAAM;AAAA,IAC7B,EAAE,MAAM,WAAW,QAAQ,MAAM;AAAA,EACrC;AAEA,KAAG,0EAAuE,MAAM;AAC5E,UAAM,aAAS,wBAAU,UAAU,OAAO;AAC1C,4BAAO,MAAM,EAAE,GAAG,MAAM,KAAK;AAAA,EACjC,CAAC;AAED,KAAG,sEAAmE,MAAM;AACxE,UAAM,aAAS,wBAAU,UAAU,OAAO;AAC1C,4BAAO,MAAM,EAAE,GAAG,GAAG;AAAA,EACzB,CAAC;AAED,KAAG,4DAAyD,MAAM;AAC9D,UAAM,aAAS,wBAAU,CAAC,GAAG,OAAO;AACpC,4BAAO,MAAM,EAAE,GAAG,GAAG;AAAA,EACzB,CAAC;AACL,CAAC;",
+  "names": []
+}

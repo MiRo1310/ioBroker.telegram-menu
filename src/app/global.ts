@@ -7,9 +7,6 @@ export const isDefined = <T>(value: T | undefined | null): value is T => value !
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
 
-export const replaceAll = (text: string, searchValue: string, replaceValue: string): string =>
-    text.replace(new RegExp(searchValue, 'g'), replaceValue);
-
 export function decomposeText(text: string, searchValue: string, secondValue: string): DecomposeText {
     const startindex = text.indexOf(searchValue);
     const endindex = text.indexOf(secondValue, startindex);
