@@ -1,6 +1,5 @@
 import { sendToTelegram } from './telegram';
 import { backMenuFunc } from './backMenu';
-import { debug } from './logging';
 import type {
     ListOfMenus,
     StartSides,
@@ -11,6 +10,9 @@ import type {
     NavPart,
     BooleanString,
 } from '../types/types';
+import { _this } from '../main';
+import { jsonString } from '../lib/string';
+
 async function adapterStartMenuSend(
     listOfMenus: ListOfMenus,
     startSides: StartSides,
@@ -26,10 +28,10 @@ async function adapterStartMenuSend(
         const startSide = [startSides[menu]].toString();
 
         if (userActiveCheckbox[menu] && startSide != '-' && startSide != '') {
-            debug([{ text: 'Startseite:', val: startSide }]);
+            _this.log.debug(`Startseite: ${startSide}`);
             for (const user of menusWithUsers[menu]) {
                 backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, user);
-                debug([{ text: 'User List:', val: userListWithChatID }]);
+                _this.log.debug(`User list: ${jsonString(userListWithChatID)}`);
 
                 await sendToTelegram({
                     user: user,
@@ -44,10 +46,10 @@ async function adapterStartMenuSend(
             }
         } else {
             if (startSide == '-') {
-                debug([{ text: `Menu "${menu}" is a Submenu.` }]);
+                _this.log.debug(`Menu "${menu}" is a Submenu.`);
                 continue;
             }
-            debug([{ text: `Menu "${menu}" is inactive.` }]);
+            _this.log.debug(`Menu "${menu}" is inactive.`);
         }
     }
 }

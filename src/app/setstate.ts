@@ -3,8 +3,9 @@ import { checkTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { decomposeText } from './global';
 import { _this } from '../main';
-import { debug, errorLogger } from './logging';
+import { errorLogger } from './logging';
 import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
+import { jsonString } from '../lib/string';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     if (value && value.includes('{value}')) {
@@ -37,16 +38,14 @@ const setValue = async (
             : (valueToSet = await isDynamicValueToSet(value));
         await checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
             valueToSet = val;
-            debug([{ text: 'Value to Set:', val: valueToSet }]);
+            _this.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
+
             if (valueToSet !== undefined && valueToSet !== null) {
                 _this.setForeignState(id, valueToSet, ack);
             }
         });
     } catch (error: any) {
-        error([
-            { text: 'Error setValue', val: error.message },
-            { text: 'Stack', val: error.stack },
-        ]);
+        errorLogger('Error setValue', error);
     }
 };
 

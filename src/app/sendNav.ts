@@ -1,8 +1,8 @@
-import { error } from 'console';
-import { debug } from './logging';
 import { sendToTelegram } from './telegram';
 import { checkStatusInfo } from '../lib/utilities';
 import type { Part, UserListWithChatId } from '../types/types';
+import { _this } from '../main';
+import { errorLogger } from './logging';
 
 async function sendNav(
     part: Part,
@@ -14,7 +14,7 @@ async function sendNav(
 ): Promise<void> {
     try {
         if (userToSend) {
-            debug([{ text: 'Send Nav to Telegram' }]);
+            _this.log.debug('Send Nav to Telegram');
             const nav = part.nav;
             const text = await checkStatusInfo(part.text as string);
 
@@ -30,10 +30,7 @@ async function sendNav(
             });
         }
     } catch (e: any) {
-        error([
-            { text: 'Error sendNav:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error sendNav:', e);
     }
 }
 

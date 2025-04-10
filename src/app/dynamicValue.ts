@@ -1,6 +1,7 @@
 import { decomposeText } from '../lib/utilities';
 import { sendToTelegram } from './telegram';
 import type { SetDynamicValueObj, UserListWithChatId, BooleanString, SetDynamicValue } from '../types/types';
+
 const setDynamicValueObj: SetDynamicValueObj = {};
 const setDynamicValue = async (
     returnText: string,

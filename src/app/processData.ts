@@ -11,7 +11,7 @@ import { adjustValueType } from './action';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
 import { getChart } from './echarts';
 import { httpRequest } from './httpRequest';
-import { debug, errorLogger } from './logging';
+import { errorLogger } from './logging';
 import type {
     CheckEveryMenuForDataType,
     IsUserActiveCheckbox,
@@ -21,6 +21,7 @@ import type {
     ProcessDataType,
     SetStateIds,
 } from '../types/types';
+import { jsonString } from '../lib/string';
 
 let setStateIdsToListenTo: SetStateIds[] = [];
 let timeouts: Timeouts[] = [];
@@ -43,11 +44,9 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
 
     for (const menu of menus) {
         const groupData: NewObjectNavStructure = menuData.data[menu];
-        debug([
-            { text: 'Nav:', val: menuData.data[menu] },
-            { text: 'Menu:', val: menu },
-            { text: 'Group:', val: menuData.data[menu] },
-        ]);
+
+        _this.log.debug(`Menu: ${menu}`);
+        _this.log.debug(`Nav: ${jsonString(menuData.data[menu])}`);
 
         if (
             await processData({
@@ -162,12 +161,13 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             isUserActiveCheckbox[groupWithUser as keyof IsUserActiveCheckbox]
         ) {
             if (part.nav) {
-                debug([{ text: 'Menu to Send:', val: part.nav }]);
+                _this.log.debug(`Menu to Send: ${part.nav}`);
 
                 backMenuFunc(call, part.nav, userToSend);
 
                 if (JSON.stringify(part.nav).includes('menu:')) {
-                    debug([{ text: 'Submenu' }]);
+                    _this.log.debug(`Submenu: ${part.nav}`);
+
                     const result = await callSubMenu(
                         JSON.stringify(part.nav),
                         groupData,
@@ -253,17 +253,17 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 if (result) {
                     timeouts = result;
                 } else {
-                    debug([{ text: 'Timeouts not found' }]);
+                    _this.log.debug(`Timeouts not found`);
                 }
                 return true;
             }
             if (part.location) {
-                debug([{ text: 'Send Location' }]);
+                _this.log.debug('Send location');
                 await sendLocationToTelegram(userToSend, part.location, instanceTelegram, userListWithChatID);
                 return true;
             }
             if (part.echarts) {
-                debug([{ text: 'Echarts' }]);
+                _this.log.debug('Send echars');
                 getChart(
                     part.echarts,
                     directoryPicture,
@@ -276,7 +276,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return true;
             }
             if (part.httpRequest) {
-                debug([{ text: 'HttpRequest' }]);
+                _this.log.debug('Send http request');
                 const result = await httpRequest(
                     part,
                     userToSend,
@@ -295,7 +295,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             (calledValue.startsWith('menu') || calledValue.startsWith('submenu')) &&
             menuData.data[groupWithUser][call]
         ) {
-            debug([{ text: 'Call Submenu' }]);
+            _this.log.debug('Call Submenu');
             const result = await callSubMenu(
                 calledValue,
                 menuData,

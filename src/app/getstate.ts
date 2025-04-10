@@ -3,10 +3,10 @@ import { bindingFunc, calcValue, idBySelector, roundValue } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { changeValue, processTimeIdLc } from '../lib/utilities';
 import { decomposeText, isDefined } from './global';
-import { debug } from './logging';
 import { _this } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
 import { processTimeValue } from '../lib/time';
+import { jsonString } from '../lib/string';
 
 function getState(
     part: Part,
@@ -23,7 +23,7 @@ function getState(
 
     part.getData?.forEach(async element => {
         try {
-            debug([{ text: 'Get Value ID:', val: element.id }]);
+            _this.log.debug(`Get Value ID: ${element.id}`);
             const specifiedSelektor = 'functions=';
             const id = element.id;
             let textToSend = '';
@@ -43,7 +43,7 @@ function getState(
             }
 
             if (element.text.includes('binding:')) {
-                debug([{ text: 'Binding' }]);
+                _this.log.debug('Binding');
                 await bindingFunc(
                     element.text,
                     userToSend,
@@ -62,7 +62,7 @@ function getState(
                     return;
                 }
                 const valueForJson: string = value.val?.toString() ?? '';
-                debug([{ text: 'State:', val: value }]);
+                _this.log.debug(`State: ${jsonString(value)}`);
 
                 let val: string | number = valueForJson.replace(/\\/g, '').replace(/"/g, '');
 
@@ -151,9 +151,9 @@ function getState(
                     val = _val;
                     textToSend = _text;
                     if (!error) {
-                        debug([{ text: 'Value Changed to:', val: textToSend }]);
+                        _this.log.debug(`Value Changed to: ${textToSend}`);
                     } else {
-                        debug([{ text: 'No Change' }]);
+                        _this.log.debug(`No Change`);
                     }
                     if (textToSend.indexOf('&&') != -1) {
                         text += `${textToSend.replace('&&', val.toString())}${newline}`;
@@ -163,7 +163,7 @@ function getState(
                 } else {
                     text += `${val} ${newline}`;
                 }
-                debug([{ text: 'Text:', val: text }]);
+                _this.log.debug(`Text: ${text}`);
 
                 if (i == part.getData?.length) {
                     if (userToSend) {

@@ -1,6 +1,7 @@
 import { errorLogger } from './logging';
 import type { KeyboardItems, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
+
 async function dynamicSwitch(
     calledValue: string,
     device: string,

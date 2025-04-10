@@ -2,9 +2,10 @@ import axios from 'axios';
 import { sendToTelegram } from './telegram';
 import path from 'path';
 import fs from 'fs';
-import { debug, errorLogger } from './logging';
+import { errorLogger } from './logging';
 import type { Part, UserListWithChatId } from '../types/types';
 import { checkDirectoryIsOk } from './global';
+import { _this } from '../main';
 
 async function httpRequest(
     parts: Part,
@@ -19,21 +20,21 @@ async function httpRequest(
         return;
     }
     for (const part of parts.httpRequest) {
-        const url = part.url;
-        const userName = part.user;
-        const password = part.password;
+        const { url, password, user } = part;
+
         const method = 'get';
-        debug([{ text: 'URL:', val: url }]);
+        _this.log.debug(`URL: ${url}`);
+
         try {
             //prettier-ignore
             const response = await axios(
-                userName && password
+                user && password
                     ? {
                         method: method,
                         url: url,
                         responseType: "arraybuffer",
                         auth: {
-                            username: userName,
+                            username: user,
                             password: password,
                         },
                     }
@@ -52,7 +53,7 @@ async function httpRequest(
             const imagePath = path.join(directoryPicture, part.filename);
 
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
-            debug([{ text: 'Pic saved:', val: imagePath }]);
+            _this.log.debug(`Pic saved: ${imagePath}`);
 
             await sendToTelegram({
                 user: userToSend,

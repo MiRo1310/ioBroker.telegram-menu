@@ -3,7 +3,7 @@ import { decomposeText } from './global';
 import { callSubMenu } from './subMenu.js';
 import { sendNav } from './sendNav.js';
 import { backMenuFunc } from './backMenu.js';
-import { debug, errorLogger } from './logging.js';
+import { errorLogger } from './logging.js';
 import { _this } from '../main.js';
 import type {
     Actions,
@@ -204,10 +204,9 @@ const idBySelector = async (
                 }).catch(e => {
                     errorLogger('Error SendToTelegram:', e);
                 });
-                debug([
-                    { text: 'TextToSend:', val: text2Send },
-                    { text: 'UserToSend:', val: userToSend },
-                ]);
+
+                _this.log.debug(`TextToSend: ${text2Send}`);
+                _this.log.debug(`UserToSend: ${userToSend}`);
             })
             .catch(e => {
                 errorLogger('Error Promise:', e);

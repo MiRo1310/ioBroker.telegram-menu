@@ -2,9 +2,10 @@ import { deleteMessageIds } from './messageIds.js';
 import { createKeyboardFromJson } from './jsonTable.js';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram.js';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates.js';
-import { debug, errorLogger } from './logging.js';
+import { errorLogger } from './logging.js';
 import { _this } from '../main.js';
 import type { UserListWithChatId } from '../types/types.js';
+import { jsonString } from '../lib/string';
 
 interface ObjectData {
     [key: string]: {
@@ -34,7 +35,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
 
             if (res) {
                 objData[user] = { idList: idList };
-                debug([{ text: 'alexa-shoppinglist.', val: idList }]);
+                _this.log.debug(`Alexa-shoppinglist: ${idList}`);
                 if (!isSubscribed) {
                     await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
                     isSubscribed = true;
@@ -56,7 +57,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
                 userListWithChatID: userListWithChatID,
                 parse_mode: 'true',
             });
-            debug([{ text: 'Cannot delete the Item' }]);
+            _this.log.debug('Cannot delete the Item');
             return;
         }
     } catch (e: any) {
@@ -77,7 +78,7 @@ async function deleteMessageAndSendNewShoppingList(
 
         const result = await _this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result && result.val) {
-            debug([{ text: 'Result from Shoppinglist:', val: result }]);
+            _this.log.debug(`Result from Shoppinglist: ${jsonString(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = createKeyboardFromJson(result.val as string, null, newId, user);
             if (resultJson && resultJson.text && resultJson.keyboard) {
