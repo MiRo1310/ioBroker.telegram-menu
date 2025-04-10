@@ -4,25 +4,25 @@ import { callSubMenu } from './subMenu.js';
 import { sendNav } from './sendNav.js';
 import { backMenuFunc } from './backMenu.js';
 import { debug, errorLogger } from './logging.js';
-import TelegramMenu, { _this } from '../main.js';
+import { _this } from '../main.js';
 import type {
-    UserListWithChatId,
-    BooleanString,
+    Actions,
     BindingObject,
+    BooleanString,
+    DataObject,
     EditArrayButtons,
+    GenerateActionsArrayOfEntries,
+    GenerateActionsNewObject,
     GeneratedNavMenu,
+    MenuData,
+    MenusWithUsers,
     Newline,
     NewObjectNavStructure,
-    Actions,
-    GenerateActionsArrayOfEntries,
-    Switch,
-    UserObjectActions,
-    GenerateActionsNewObject,
     Part,
-    DataObject,
-    MenuData,
+    Switch,
     UserInGroup,
-    MenusWithUsers,
+    UserListWithChatId,
+    UserObjectActions,
 } from '../types/types';
 
 const bindingFunc = async (
@@ -34,7 +34,6 @@ const bindingFunc = async (
     userListWithChatID: UserListWithChatId[],
     parse_mode: BooleanString,
 ): Promise<void> => {
-    const _this = TelegramMenu.getInstance();
     let value;
 
     try {
@@ -76,11 +75,7 @@ const bindingFunc = async (
     }
 };
 
-function calcValue(
-    _this: TelegramMenu,
-    textToSend: string,
-    val: string,
-): { textToSend: string; val: string } | undefined {
+function calcValue(textToSend: string, val: string): { textToSend: string; val: string } | undefined {
     const { substring } = decomposeText(textToSend, '{math:', '}');
     const mathValue = substring.replace('{math:', '').replace('}', '');
     try {
@@ -100,7 +95,7 @@ function checkValueForOneLine(text: string): string {
     return text;
 }
 
-function editArrayButtons(val: EditArrayButtons[], _this: TelegramMenu): GeneratedNavMenu[] | null {
+function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
     const newVal: GeneratedNavMenu[] = [];
     try {
         val.forEach(element => {
@@ -139,7 +134,6 @@ function editArrayButtons(val: EditArrayButtons[], _this: TelegramMenu): Generat
 }
 
 const idBySelector = async (
-    _this: TelegramMenu,
     selector: string,
     text: string,
     userToSend: string,

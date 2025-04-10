@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var messageIds_exports = {};
 __export(messageIds_exports, {
@@ -32,7 +22,7 @@ __export(messageIds_exports, {
   saveMessageIds: () => saveMessageIds
 });
 module.exports = __toCommonJS(messageIds_exports);
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_botAction = require("./botAction");
 var import_logging = require("./logging");
 var import_global = require("./global");
@@ -40,16 +30,15 @@ var import_utils = require("../lib/utils");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
   var _a;
-  const _this = import_main.default.getInstance();
   try {
     let requestMessageId = {};
     let requestMessageIdObj = null;
     if (!isDeleting) {
-      requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
+      requestMessageIdObj = await import_main._this.getStateAsync("communication.requestIds");
     }
     isDeleting = false;
-    const requestUserIdObj = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-    const request = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
+    const requestUserIdObj = await import_main._this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+    const request = await import_main._this.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
     if (!(requestUserIdObj && requestUserIdObj.val)) {
       return;
     }
@@ -65,7 +54,7 @@ async function saveMessageIds(state, instanceTelegram) {
       });
     }
     requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-    await _this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
+    await import_main._this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
   } catch (e) {
     (0, import_logging.errorLogger)("Error saveMessageIds:", e);
   }
@@ -84,10 +73,9 @@ const removeMessageFromList = ({
   return copyMessageIds[chat_id].filter((message) => message.id !== element.id);
 };
 async function deleteMessageIds(user, userListWithChatID, instanceTelegram, whatShouldDelete) {
-  const _this = import_main.default.getInstance();
   try {
-    const requestMessageIdObj = await _this.getStateAsync("communication.requestIds");
-    const lastMessageId = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
+    const requestMessageIdObj = await import_main._this.getStateAsync("communication.requestIds");
+    const lastMessageId = await import_main._this.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
     if (!requestMessageIdObj || typeof requestMessageIdObj.val !== "string" || !JSON.parse(requestMessageIdObj.val)) {
       return;
     }
@@ -126,7 +114,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
       }
       copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
     });
-    await _this.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
+    await import_main._this.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
   } catch (e) {
     (0, import_logging.errorLogger)("Error deleteMessageIds:", e);
   }

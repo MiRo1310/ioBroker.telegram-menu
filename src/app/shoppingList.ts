@@ -1,9 +1,9 @@
 import { deleteMessageIds } from './messageIds.js';
 import { createKeyboardFromJson } from './jsonTable.js';
-import { sendToTelegramSubmenu, sendToTelegram } from './telegram.js';
+import { sendToTelegram, sendToTelegramSubmenu } from './telegram.js';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates.js';
 import { debug, errorLogger } from './logging.js';
-import TelegramMenu from '../main.js';
+import { _this } from '../main.js';
 import type { UserListWithChatId } from '../types/types.js';
 
 interface ObjectData {
@@ -22,7 +22,6 @@ async function shoppingListSubscribeStateAndDeleteItem(
     resize_keyboard: boolean,
     one_time_keyboard: boolean,
 ): Promise<void> {
-    const _this = TelegramMenu.getInstance();
     try {
         let array, user, idList, instance, idItem, res;
         if (val != null) {
@@ -70,7 +69,6 @@ async function deleteMessageAndSendNewShoppingList(
     userListWithChatID: UserListWithChatId[],
     userToSend: string,
 ): Promise<void> {
-    const _this = TelegramMenu.getInstance();
     try {
         const user = userToSend;
         const idList = objData[user].idList;

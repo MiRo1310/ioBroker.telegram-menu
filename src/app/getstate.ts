@@ -4,7 +4,7 @@ import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { changeValue, processTimeIdLc } from '../lib/utilities';
 import { decomposeText, isDefined } from './global';
 import { debug } from './logging';
-import TelegramMenu from '../main';
+import { _this } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
 import { processTimeValue } from '../lib/time';
 
@@ -16,7 +16,6 @@ function getState(
     resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): void {
-    const _this = TelegramMenu.getInstance();
     let text = '';
     let i = 1;
     // Parse Mode ist nur immer im ersten Element
@@ -31,7 +30,6 @@ function getState(
 
             if (id.indexOf(specifiedSelektor) != -1) {
                 await idBySelector(
-                    _this,
                     id,
                     element.text,
                     userToSend,
@@ -83,7 +81,7 @@ function getState(
                         val = '';
                     }
                     if (textToSend.includes('math:')) {
-                        const result = calcValue(_this, textToSend, val);
+                        const result = calcValue(textToSend, val);
                         if (result) {
                             textToSend = result.textToSend;
                             val = result.val;

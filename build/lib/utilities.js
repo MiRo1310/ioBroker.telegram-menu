@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
@@ -37,7 +27,7 @@ __export(utilities_exports, {
   replaceAll: () => import_global.replaceAll
 });
 module.exports = __toCommonJS(utilities_exports);
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_global = require("../app/global");
 var import_logging = require("../app/logging");
 var import_time = require("./time");
@@ -84,7 +74,6 @@ function changeValue(textToSend, val) {
   return { textToSend: "", val: "", error: true };
 }
 const processTimeIdLc = async (textToSend, id) => {
-  const _this2 = import_main.default.getInstance();
   let key = "";
   const { substring } = decomposeText(textToSend, "{time.", "}");
   const array = substring.split(",");
@@ -109,7 +98,7 @@ const processTimeIdLc = async (textToSend, id) => {
   if (!id && !idFromText) {
     return;
   }
-  const value = await _this2.getForeignStateAsync(id || idFromText);
+  const value = await import_main._this.getForeignStateAsync(id || idFromText);
   let timeValue;
   let timeStringUser;
   if (key && value) {
@@ -168,10 +157,9 @@ const processTimeIdLc = async (textToSend, id) => {
 };
 const checkStatus = async (text, processTimeValue2) => {
   try {
-    const _this2 = import_main.default.getInstance();
     const substring = decomposeText(text, "{status:", "}").substring;
     let id, valueChange;
-    _this2.log.debug(`Substring ${substring}`);
+    import_main._this.log.debug(`Substring ${substring}`);
     if (substring.includes("status:'id':")) {
       id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
@@ -179,9 +167,9 @@ const checkStatus = async (text, processTimeValue2) => {
       id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
     }
-    const stateValue = await _this2.getForeignStateAsync(id);
+    const stateValue = await import_main._this.getForeignStateAsync(id);
     if (!stateValue) {
-      _this2.log.debug(`State not found: ${id}`);
+      import_main._this.log.debug(`State not found: ${id}`);
       return "";
     }
     if (text.includes("{time}") && processTimeValue2) {
@@ -191,7 +179,7 @@ const checkStatus = async (text, processTimeValue2) => {
       }
     }
     if (!(0, import_global.isDefined)(stateValue.val)) {
-      _this2.log.debug(`State Value is undefined: ${id}`);
+      import_main._this.log.debug(`State Value is undefined: ${id}`);
       return text.replace(substring, "");
     }
     if (!valueChange) {
@@ -205,8 +193,8 @@ const checkStatus = async (text, processTimeValue2) => {
     } else {
       newValue = stateValue.val;
     }
-    _this2.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
-    _this2.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
+    import_main._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+    import_main._this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
     return text.replace(substring, newValue.toString());
   } catch (e) {
     import_main._this.log.error(`Error checkStatus:${e.message}`);
@@ -215,12 +203,11 @@ const checkStatus = async (text, processTimeValue2) => {
   }
 };
 const checkStatusInfo = async (text) => {
-  const _this2 = import_main.default.getInstance();
   try {
     if (!text) {
       return;
     }
-    _this2.log.debug(`Text: ${text}`);
+    import_main._this.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
         text = await checkStatus(text, import_time.processTimeValue);
@@ -240,11 +227,11 @@ const checkStatusInfo = async (text) => {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await _this2.setForeignStateAsync(id, convertedValue, ack);
+        await import_main._this.setForeignStateAsync(id, convertedValue, ack);
       }
     }
     if (text) {
-      _this2.log.debug(`CheckStatusInfo: ${text}`);
+      import_main._this.log.debug(`CheckStatusInfo: ${text}`);
       return text;
     }
   } catch (e) {
@@ -252,10 +239,9 @@ const checkStatusInfo = async (text) => {
   }
 };
 async function checkTypeOfId(id, value) {
-  const _this2 = import_main.default.getInstance();
   try {
     (0, import_logging.debug)([{ text: `Check Type of Id: ${id}` }]);
-    const obj = await _this2.getForeignObjectAsync(id);
+    const obj = await import_main._this.getForeignObjectAsync(id);
     const receivedType = typeof value;
     if (!obj || !value) {
       return value;

@@ -1,6 +1,6 @@
 import { debug, errorLogger } from './logging';
 import { checkStatusInfo, newLine } from '../lib/utilities';
-import TelegramMenu from '../main';
+import { _this } from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';
 import { getChatID } from '../lib/utils';
@@ -25,7 +25,6 @@ async function sendToTelegram({
     parse_mode: BooleanString;
 }): Promise<void> {
     try {
-        const _this = TelegramMenu.getInstance();
         const chatId = getChatID(userListWithChatID, user);
         const parse_modeType: ParseModeType = getParseMode(parse_mode);
         debug([
@@ -85,7 +84,6 @@ function sendToTelegramSubmenu(
     userListWithChatID: UserListWithChatId[],
     parse_mode: BooleanString,
 ): void {
-    const _this = TelegramMenu.getInstance();
     const parseModeType = getParseMode(parse_mode);
     debug([{ text: 'Send this ParseMode:', val: parseModeType }]);
     try {
@@ -108,7 +106,6 @@ const sendLocationToTelegram = async (
     instance: string,
     userListWithChatID: UserListWithChatId[],
 ): Promise<void> => {
-    const _this = TelegramMenu.getInstance();
     try {
         const chatId = getChatID(userListWithChatID, user);
         for (const element of data) {

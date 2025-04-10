@@ -1,4 +1,4 @@
-import TelegramMenu from '../main';
+import { _this } from '../main';
 import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
 import type { Echart, UserListWithChatId } from '../types/types';
@@ -13,7 +13,6 @@ function getChart(
     resize_keyboard: boolean,
     one_time_keyboard: boolean,
 ): void {
-    const _this = TelegramMenu.getInstance();
     try {
         if (!echarts) {
             return;

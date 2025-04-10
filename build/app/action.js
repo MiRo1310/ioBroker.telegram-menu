@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var action_exports = {};
 __export(action_exports, {
@@ -48,10 +38,9 @@ var import_subMenu = require("./subMenu.js");
 var import_sendNav = require("./sendNav.js");
 var import_backMenu = require("./backMenu.js");
 var import_logging = require("./logging.js");
-var import_main = __toESM(require("../main.js"));
+var import_main = require("../main.js");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
-  const _this = import_main.default.getInstance();
   let value;
   try {
     const substring = (0, import_global.decomposeText)(text, "binding:", "}").substring;
@@ -63,7 +52,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
       if (!item.includes("?")) {
         const key = item.split(":")[0];
         const id = item.split(":")[1];
-        const result = await _this.getForeignStateAsync(id);
+        const result = await import_main._this.getForeignStateAsync(id);
         if (result) {
           bindingObject.values[key] = ((_a = result.val) == null ? void 0 : _a.toString()) || "";
         }
@@ -88,7 +77,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     (0, import_logging.errorLogger)("Error Binding function: ", e);
   }
 };
-function calcValue(_this, textToSend, val) {
+function calcValue(textToSend, val) {
   const { substring } = (0, import_global.decomposeText)(textToSend, "{math:", "}");
   const mathValue = substring.replace("{math:", "").replace("}", "");
   try {
@@ -105,7 +94,7 @@ function checkValueForOneLine(text2) {
   }
   return text2;
 }
-function editArrayButtons(val2, _this2) {
+function editArrayButtons(val2) {
   const newVal = [];
   try {
     val2.forEach((element) => {
@@ -139,7 +128,7 @@ function editArrayButtons(val2, _this2) {
     return null;
   }
 }
-const idBySelector = async (_this2, selector, text2, userToSend2, newline, telegramInstance2, one_time_keyboard2, resize_keyboard2, userListWithChatID2) => {
+const idBySelector = async (selector, text2, userToSend2, newline, telegramInstance2, one_time_keyboard2, resize_keyboard2, userListWithChatID2) => {
   let text2Send = "";
   try {
     if (!selector.includes("functions")) {
@@ -147,7 +136,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
     }
     const functions = selector.replace("functions=", "");
     let enums = [];
-    const result = await _this2.getEnumsAsync();
+    const result = await import_main._this.getEnumsAsync();
     if (!result || !result["enum.functions"][`enum.functions.${functions}`]) {
       return;
     }
@@ -156,13 +145,13 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
       return;
     }
     const promises = enums.map(async (id) => {
-      const value2 = await _this2.getForeignStateAsync(id);
+      const value2 = await import_main._this.getForeignStateAsync(id);
       if (value2 && value2.val !== void 0 && value2.val !== null) {
         let newText = text2;
         let res;
         if (text2.includes("{common.name}")) {
-          res = await _this2.getForeignObjectAsync(id);
-          _this2.log.debug(`Name ${JSON.stringify(res == null ? void 0 : res.common.name)}`);
+          res = await import_main._this.getForeignObjectAsync(id);
+          import_main._this.log.debug(`Name ${JSON.stringify(res == null ? void 0 : res.common.name)}`);
           if (res && res.common.name) {
             newText = newText.replace("{common.name}", res.common.name);
           }
@@ -181,7 +170,7 @@ const idBySelector = async (_this2, selector, text2, userToSend2, newline, teleg
       } else {
         text2Send += " ";
       }
-      _this2.log.debug(`text2send ${JSON.stringify(text2Send)}`);
+      import_main._this.log.debug(`text2send ${JSON.stringify(text2Send)}`);
     });
     Promise.all(promises).then(() => {
       (0, import_telegram.sendToTelegram)({

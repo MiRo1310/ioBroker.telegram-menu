@@ -1,4 +1,4 @@
-import TelegramMenu, { _this } from '../main';
+import { _this } from '../main';
 import { isDefined, replaceAll } from '../app/global';
 import { debug, errorLogger } from '../app/logging';
 import { processTimeValue } from './time';
@@ -65,8 +65,6 @@ function changeValue(
 }
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
-    const _this = TelegramMenu.getInstance();
-
     let key = '';
     const { substring } = decomposeText(textToSend, '{time.', '}');
     const array = substring.split(',');
@@ -156,7 +154,6 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 
 const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): Promise<string> => {
     try {
-        const _this = TelegramMenu.getInstance();
         const substring = decomposeText(text, '{status:', '}').substring;
         let id, valueChange;
         _this.log.debug(`Substring ${substring}`);
@@ -209,8 +206,6 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
     }
 };
 const checkStatusInfo = async (text: string): Promise<string | undefined> => {
-    const _this = TelegramMenu.getInstance();
-
     try {
         if (!text) {
             return;
@@ -255,7 +250,6 @@ async function checkTypeOfId(
     id: string,
     value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
 ): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
-    const _this = TelegramMenu.getInstance();
     try {
         debug([{ text: `Check Type of Id: ${id}` }]);
         const obj = await _this.getForeignObjectAsync(id);

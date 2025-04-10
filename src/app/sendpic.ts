@@ -1,8 +1,8 @@
 import { sendToTelegram } from './telegram';
 import { checkDirectoryIsOk, replaceAll } from './global';
 import { exec } from 'child_process';
-import { debug, errorLogger } from './logging';
-import TelegramMenu from '../main';
+import { errorLogger } from './logging';
+import { _this } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
 
 function sendPic(
@@ -19,37 +19,37 @@ function sendPic(
 ): Timeouts[] {
     try {
         part.sendPic?.forEach(element => {
-            const _this = TelegramMenu.getInstance();
+            const { id, delay, fileName } = element;
             let path = '';
-            if (element.id != '-') {
-                const url = element.id;
-                const newUrl = replaceAll(url, '&amp;', '&');
+            if (id != '-') {
+                const newUrl = replaceAll(id, '&amp;', '&');
 
                 exec(
-                    `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+                    `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
                     (error: any, stdout: any, stderr: any) => {
                         if (stdout) {
-                            debug([{ text: 'Stdout:', val: stdout }]);
+                            _this.log.debug(`Stdout: ${stdout}`);
                         }
                         if (stderr) {
-                            debug([{ text: 'Stderr:', val: stderr }]);
+                            _this.log.debug(`Stderr: ${stderr}`);
                         }
                         if (error) {
-                            error([{ text: 'Error:', val: error }]);
+                            errorLogger('Error in exec:', error);
+
                             return;
                         }
                     },
                 );
 
-                debug([{ text: 'Delay Time:', val: element.delay }]);
+                _this.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
 
                 if (!checkDirectoryIsOk(directoryPicture)) {
                     return;
                 }
 
-                path = `${directoryPicture}${element.fileName}`;
-                debug([{ text: 'Path : ', val: path }]);
+                path = `${directoryPicture}${fileName}`;
+                _this.log.debug(`Path: ${path}`);
             } else {
                 return;
             }
@@ -72,7 +72,8 @@ function sendPic(
                     });
 
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);
-                    debug([{ text: 'Picture sent' }]);
+
+                    _this.log.debug('Picture sent');
                 },
                 parseInt(String(element.delay)),
             );

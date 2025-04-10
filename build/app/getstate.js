@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var getstate_exports = {};
 __export(getstate_exports, {
@@ -37,11 +27,10 @@ var import_jsonTable = require("./jsonTable");
 var import_utilities = require("../lib/utilities");
 var import_global = require("./global");
 var import_logging = require("./logging");
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_time = require("../lib/time");
 function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
   var _a, _b;
-  const _this = import_main.default.getInstance();
   let text = "";
   let i = 1;
   const parse_mode = ((_a = part.getData) == null ? void 0 : _a[0].parse_mode) || "false";
@@ -53,7 +42,6 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
       let textToSend = "";
       if (id.indexOf(specifiedSelektor) != -1) {
         await (0, import_action.idBySelector)(
-          _this,
           id,
           element.text,
           userToSend,
@@ -78,10 +66,10 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         );
         return;
       }
-      await _this.getForeignStateAsync(id).then(async (value) => {
+      await import_main._this.getForeignStateAsync(id).then(async (value) => {
         var _a2, _b2, _c;
         if (!(0, import_global.isDefined)(value)) {
-          _this.log.error("The state is empty!");
+          import_main._this.log.error("The state is empty!");
           return;
         }
         const valueForJson = (_b2 = (_a2 = value.val) == null ? void 0 : _a2.toString()) != null ? _b2 : "";
@@ -102,17 +90,17 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             val = "";
           }
           if (textToSend.includes("math:")) {
-            const result = (0, import_action.calcValue)(_this, textToSend, val);
+            const result = (0, import_action.calcValue)(textToSend, val);
             if (result) {
               textToSend = result.textToSend;
               val = result.val;
-              _this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
+              import_main._this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
             }
           }
           if (textToSend.includes("round:")) {
             const result = (0, import_action.roundValue)(val, textToSend);
             if (result) {
-              _this.log.debug(
+              import_main._this.log.debug(
                 `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`
               );
               val = result.val;
@@ -135,7 +123,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 });
                 return;
               }
-              _this.log.debug("Cannot create a Text-Table");
+              import_main._this.log.debug("Cannot create a Text-Table");
             } else {
               const result = (0, import_jsonTable.createKeyboardFromJson)(valueForJson, textToSend, element.id, userToSend);
               if (valueForJson && valueForJson.length > 0) {
@@ -161,7 +149,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 userListWithChatID,
                 parse_mode
               });
-              _this.log.debug("The state is empty!");
+              import_main._this.log.debug("The state is empty!");
               return;
             }
           }
