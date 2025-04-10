@@ -1,4 +1,4 @@
-import TelegramMenu from '../main';
+import { _this } from '../main';
 import { deleteMessageByBot } from './botAction';
 import { errorLogger } from './logging';
 import type { UserListWithChatId, WhatShouldDelete } from '../types/types';
@@ -15,7 +15,6 @@ interface MessageInfos {
 }
 let isDeleting = false;
 async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): Promise<void> {
-    const _this = TelegramMenu.getInstance();
     try {
         let requestMessageId: Messages = {};
         let requestMessageIdObj: ioBroker.State | null | undefined = null;
@@ -76,7 +75,6 @@ async function deleteMessageIds(
     instanceTelegram: string,
     whatShouldDelete: WhatShouldDelete,
 ): Promise<void> {
-    const _this = TelegramMenu.getInstance();
     try {
         const requestMessageIdObj = await _this.getStateAsync('communication.requestIds');
         const lastMessageId = await _this.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);

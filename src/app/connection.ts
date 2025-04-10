@@ -1,17 +1,16 @@
-import TelegramMenu from '../main';
-import { debug, info } from './logging';
+import { _this } from '../main';
+import { jsonString } from '../lib/string';
 
 export const checkIsTelegramActive = async (dataPoint: string): Promise<boolean | undefined> => {
-    const _this = TelegramMenu.getInstance();
     await _this.setState('info.connection', false, true);
     const telegramInfoConnection = await _this.getForeignStateAsync(dataPoint);
 
-    debug([{ text: 'Telegram Info Connection: ', val: telegramInfoConnection?.val }]);
+    _this.log.debug(`Telegram Info Connection: ${jsonString(telegramInfoConnection)}`);
     if (telegramInfoConnection?.val) {
         await _this.setState('info.connection', telegramInfoConnection?.val, true);
     }
     if (!telegramInfoConnection?.val) {
-        info([{ text: 'Telegram was found, but is not running. Please start!' }]);
+        _this.log.info('Telegram was found, but is not running. Please start!');
     }
     return !!telegramInfoConnection?.val;
 };

@@ -2,9 +2,9 @@ import { sendToTelegram } from './telegram';
 import { checkTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { decomposeText } from './global';
-import TelegramMenu from '../main';
+import { _this } from '../main';
 import { debug, errorLogger } from './logging';
-import type { Part, UserListWithChatId, SetStateIds } from '../types/types';
+import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     if (value && value.includes('{value}')) {
@@ -13,7 +13,6 @@ const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return valueFromSubmenu;
 };
 const isDynamicValueToSet = async (value: string | number | boolean): Promise<string | number | boolean> => {
-    const _this = TelegramMenu.getInstance();
     if (typeof value === 'string' && value.includes('{id:')) {
         const result = decomposeText(value, '{id:', '}');
         const id = result.substring.replace('{id:', '').replace('}', '');
@@ -32,7 +31,6 @@ const setValue = async (
     ack: boolean,
 ): Promise<void> => {
     try {
-        const _this = TelegramMenu.getInstance();
         let valueToSet;
         SubmenuValuePriority
             ? (valueToSet = modifiedValue(valueFromSubmenu as string, value))
@@ -62,7 +60,6 @@ export const setState = async (
     one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): Promise<SetStateIds[] | undefined> => {
-    const _this = TelegramMenu.getInstance();
     try {
         const setStateIds: SetStateIds[] = [];
         if (!part.switch) {

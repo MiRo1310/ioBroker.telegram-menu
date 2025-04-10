@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var sendpic_exports = {};
 __export(sendpic_exports, {
@@ -35,42 +25,41 @@ var import_telegram = require("./telegram");
 var import_global = require("./global");
 var import_child_process = require("child_process");
 var import_logging = require("./logging");
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
     (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
-      const _this = import_main.default.getInstance();
+      const { id, delay, fileName } = element;
       let path = "";
-      if (element.id != "-") {
-        const url = element.id;
-        const newUrl = (0, import_global.replaceAll)(url, "&amp;", "&");
+      if (id != "-") {
+        const newUrl = (0, import_global.replaceAll)(id, "&amp;", "&");
         (0, import_child_process.exec)(
-          `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${element.fileName}`,
+          `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
           (error, stdout, stderr) => {
             if (stdout) {
-              (0, import_logging.debug)([{ text: "Stdout:", val: stdout }]);
+              import_main._this.log.debug(`Stdout: ${stdout}`);
             }
             if (stderr) {
-              (0, import_logging.debug)([{ text: "Stderr:", val: stderr }]);
+              import_main._this.log.debug(`Stderr: ${stderr}`);
             }
             if (error) {
-              error([{ text: "Error:", val: error }]);
+              (0, import_logging.errorLogger)("Error in exec:", error);
               return;
             }
           }
         );
-        (0, import_logging.debug)([{ text: "Delay Time:", val: element.delay }]);
+        import_main._this.log.debug(`Delay Time: ${delay}`);
         timeoutKey += 1;
         if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
           return;
         }
-        path = `${directoryPicture}${element.fileName}`;
-        (0, import_logging.debug)([{ text: "Path : ", val: path }]);
+        path = `${directoryPicture}${fileName}`;
+        import_main._this.log.debug(`Path: ${path}`);
       } else {
         return;
       }
-      const timeout = _this.setTimeout(
+      const timeout = import_main._this.setTimeout(
         async () => {
           await (0, import_telegram.sendToTelegram)({
             user: userToSend,
@@ -84,10 +73,10 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
           let timeoutToClear = [];
           timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
           timeoutToClear.forEach((item) => {
-            _this.clearTimeout(item.timeout);
+            import_main._this.clearTimeout(item.timeout);
           });
           timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-          (0, import_logging.debug)([{ text: "Picture sent" }]);
+          import_main._this.log.debug("Picture sent");
         },
         parseInt(String(element.delay))
       );

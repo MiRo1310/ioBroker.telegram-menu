@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var telegram_exports = {};
 __export(telegram_exports, {
@@ -35,7 +25,7 @@ __export(telegram_exports, {
 module.exports = __toCommonJS(telegram_exports);
 var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_global = require("./global");
 var import_utils = require("../lib/utils");
 async function sendToTelegram({
@@ -49,7 +39,6 @@ async function sendToTelegram({
   parse_mode
 }) {
   try {
-    const _this = import_main.default.getInstance();
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     const parse_modeType = getParseMode(parse_mode);
     (0, import_logging.debug)([
@@ -62,8 +51,8 @@ async function sendToTelegram({
     ]);
     textToSend = (0, import_utilities.newLine)(textToSend);
     if (!keyboard) {
-      _this.log.debug("No Keyboard");
-      _this.sendTo(
+      import_main._this.log.debug("No Keyboard");
+      import_main._this.sendTo(
         instance,
         "send",
         {
@@ -72,12 +61,12 @@ async function sendToTelegram({
           parse_mode: parse_modeType
         },
         function(res) {
-          _this.log.debug(`Sent Value to ${JSON.stringify(res)} users!`);
+          import_main._this.log.debug(`Sent Value to ${JSON.stringify(res)} users!`);
         }
       );
     } else {
       const text = await (0, import_utilities.checkStatusInfo)(textToSend);
-      _this.sendTo(
+      import_main._this.sendTo(
         instance,
         "send",
         {
@@ -100,13 +89,12 @@ async function sendToTelegram({
   }
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
-  const _this = import_main.default.getInstance();
   const parseModeType = getParseMode(parse_mode);
   (0, import_logging.debug)([{ text: "Send this ParseMode:", val: parseModeType }]);
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     textToSend = (0, import_utilities.newLine)(textToSend);
-    _this.sendTo(instance, "send", {
+    import_main._this.sendTo(instance, "send", {
       chatId,
       parse_mode: parseModeType,
       text: textToSend,
@@ -117,19 +105,18 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.
   }
 }
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
-  const _this = import_main.default.getInstance();
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     for (const element of data) {
       if (!(element.latitude || element.longitude)) {
         continue;
       }
-      const latitude = await _this.getForeignStateAsync(element.latitude);
-      const longitude = await _this.getForeignStateAsync(element.longitude);
+      const latitude = await import_main._this.getForeignStateAsync(element.latitude);
+      const longitude = await import_main._this.getForeignStateAsync(element.longitude);
       if (!latitude || !longitude) {
         continue;
       }
-      _this.sendTo(instance, {
+      import_main._this.sendTo(instance, {
         chatId,
         latitude: latitude.val,
         longitude: longitude.val,

@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,32 +15,23 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var connection_exports = {};
 __export(connection_exports, {
   checkIsTelegramActive: () => checkIsTelegramActive
 });
 module.exports = __toCommonJS(connection_exports);
-var import_main = __toESM(require("../main"));
-var import_logging = require("./logging");
+var import_main = require("../main");
+var import_string = require("../lib/string");
 const checkIsTelegramActive = async (dataPoint) => {
-  const _this = import_main.default.getInstance();
-  await _this.setState("info.connection", false, true);
-  const telegramInfoConnection = await _this.getForeignStateAsync(dataPoint);
-  (0, import_logging.debug)([{ text: "Telegram Info Connection: ", val: telegramInfoConnection == null ? void 0 : telegramInfoConnection.val }]);
+  await import_main._this.setState("info.connection", false, true);
+  const telegramInfoConnection = await import_main._this.getForeignStateAsync(dataPoint);
+  import_main._this.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
   if (telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) {
-    await _this.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
+    await import_main._this.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
   }
   if (!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val)) {
-    (0, import_logging.info)([{ text: "Telegram was found, but is not running. Please start!" }]);
+    import_main._this.log.info("Telegram was found, but is not running. Please start!");
   }
   return !!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val);
 };
