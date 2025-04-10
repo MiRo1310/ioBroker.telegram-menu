@@ -41,7 +41,7 @@ const exchangeValue = (textToSend, stateVal) => {
   if (isValidJson) {
     objChangeValue = json;
   } else {
-    import_main._this.log.error(`There is a error in your input:${match}`);
+    import_main._this.log.error(`There is a error in your input: ${match}`);
     return { valueChange: "", textToSend: "", error: true };
   }
   let newValue;
@@ -87,7 +87,7 @@ const processTimeIdLc = async (textToSend, id) => {
   let idFromText = "";
   if (!id) {
     if (!changedSubstring.includes("id:")) {
-      (0, import_logging.debug)([{ text: "Error processTimeIdLc: id not found in:", val: changedSubstring }]);
+      import_main._this.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
       return;
     }
     if (array[2]) {
@@ -240,7 +240,7 @@ const checkStatusInfo = async (text) => {
 };
 async function checkTypeOfId(id, value) {
   try {
-    (0, import_logging.debug)([{ text: `Check Type of Id: ${id}` }]);
+    import_main._this.log.debug(`Check Type of Id: ${id}`);
     const obj = await import_main._this.getForeignObjectAsync(id);
     const receivedType = typeof value;
     if (!obj || !value) {
@@ -249,7 +249,7 @@ async function checkTypeOfId(id, value) {
     if (receivedType === obj.common.type || !obj.common.type) {
       return value;
     }
-    (0, import_logging.debug)([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
+    import_main._this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
     if (obj.common.type === "boolean") {
       if (value == "true") {
         value = true;

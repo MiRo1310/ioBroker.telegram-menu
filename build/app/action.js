@@ -185,10 +185,8 @@ const idBySelector = async (selector, text2, userToSend2, newline, telegramInsta
       }).catch((e) => {
         (0, import_logging.errorLogger)("Error SendToTelegram:", e);
       });
-      (0, import_logging.debug)([
-        { text: "TextToSend:", val: text2Send },
-        { text: "UserToSend:", val: userToSend2 }
-      ]);
+      import_main._this.log.debug(`TextToSend: ${text2Send}`);
+      import_main._this.log.debug(`UserToSend: ${userToSend2}`);
     }).catch((e) => {
       (0, import_logging.errorLogger)("Error Promise:", e);
     });

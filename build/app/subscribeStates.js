@@ -24,13 +24,10 @@ __export(subscribeStates_exports, {
 module.exports = __toCommonJS(subscribeStates_exports);
 var import_main = require("../main");
 var import_global = require("./global");
-var import_logging = require("./logging");
+var import_string = require("../lib/string");
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
   if (obj.id) {
-    (0, import_logging.debug)([
-      { text: "ID to subscribe:", val: obj.id },
-      { text: "Subscribe:", val: await import_main._this.subscribeForeignStatesAsync(obj.id) }
-    ]);
+    import_main._this.log.debug(`Subscribe to ${obj.id}`);
   } else if (obj.array) {
     for (const element of obj.array) {
       await import_main._this.subscribeForeignStatesAsync(element.id);
@@ -42,7 +39,7 @@ async function _subscribeForeignStatesAsync(array) {
   for (const element of array) {
     await import_main._this.subscribeForeignStatesAsync(element);
   }
-  (0, import_logging.debug)([{ text: "Subscribe all States of:", val: array }]);
+  import_main._this.log.debug(`Subscribe all States of: ${(0, import_string.jsonString)(array)}`);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

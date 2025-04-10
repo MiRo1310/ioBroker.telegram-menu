@@ -37,24 +37,23 @@ var import_path = __toESM(require("path"));
 var import_fs = __toESM(require("fs"));
 var import_logging = require("./logging");
 var import_global = require("./global");
+var import_main = require("../main");
 async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
   if (!parts.httpRequest) {
     return;
   }
   for (const part of parts.httpRequest) {
-    const url = part.url;
-    const userName = part.user;
-    const password = part.password;
+    const { url, password, user } = part;
     const method = "get";
-    (0, import_logging.debug)([{ text: "URL:", val: url }]);
+    import_main._this.log.debug(`URL: ${url}`);
     try {
       const response = await (0, import_axios.default)(
-        userName && password ? {
+        user && password ? {
           method,
           url,
           responseType: "arraybuffer",
           auth: {
-            username: userName,
+            username: user,
             password
           }
         } : {
@@ -71,7 +70,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       }
       const imagePath = import_path.default.join(directoryPicture, part.filename);
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
-      (0, import_logging.debug)([{ text: "Pic saved:", val: imagePath }]);
+      import_main._this.log.debug(`Pic saved: ${imagePath}`);
       await (0, import_telegram.sendToTelegram)({
         user: userToSend,
         textToSend: imagePath,
