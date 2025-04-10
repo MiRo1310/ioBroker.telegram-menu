@@ -1,9 +1,10 @@
-import { debug, errorLogger } from './logging';
+import { errorLogger } from './logging';
 import { checkStatusInfo, newLine } from '../lib/utilities';
 import { _this } from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';
 import { getChatID } from '../lib/utils';
+import { jsonString } from '../lib/string';
 
 async function sendToTelegram({
     user = '',
@@ -27,14 +28,13 @@ async function sendToTelegram({
     try {
         const chatId = getChatID(userListWithChatID, user);
         const parse_modeType: ParseModeType = getParseMode(parse_mode);
-        debug([
-            { text: `Send to: ${user} => ${textToSend}` },
-            { text: 'Instance:', val: instance },
-            { text: 'UserListWithChatID	:', val: userListWithChatID },
-            { text: 'Parse_mode	:', val: parse_mode },
-            { text: 'ChatId	:', val: chatId },
-            { text: 'ParseModeType:', val: parse_modeType },
-        ]);
+
+        _this.log.debug(`Send to: ${user} => ${textToSend}`);
+        _this.log.debug(`Instance: ${instance}`);
+        _this.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
+        _this.log.debug(`Parse_mode	: ${parse_mode}`);
+        _this.log.debug(`ChatId	: ${chatId}`);
+        _this.log.debug(`ParseModeType: ${parse_modeType}`);
 
         textToSend = newLine(textToSend);
         if (!keyboard) {
@@ -48,7 +48,7 @@ async function sendToTelegram({
                     parse_mode: parse_modeType,
                 },
                 function (res: any) {
-                    _this.log.debug(`Sent Value to ${JSON.stringify(res)} users!`);
+                    _this.log.debug(`Sent Value to ${jsonString(res)} users!`);
                 },
             );
         } else {
@@ -67,7 +67,7 @@ async function sendToTelegram({
                     },
                 },
                 function (res: any) {
-                    debug([{ text: `Sent Value to ${res} users!` }]);
+                    _this.log.debug(`Sent Value to ${jsonString(res)} users!`);
                 },
             );
         }
@@ -85,7 +85,7 @@ function sendToTelegramSubmenu(
     parse_mode: BooleanString,
 ): void {
     const parseModeType = getParseMode(parse_mode);
-    debug([{ text: 'Send this ParseMode:', val: parseModeType }]);
+    _this.log.debug(`Send this ParseMode: ${parseModeType}`);
     try {
         const chatId = getChatID(userListWithChatID, user);
         textToSend = newLine(textToSend);

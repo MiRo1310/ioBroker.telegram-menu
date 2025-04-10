@@ -18,34 +18,10 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var logging_exports = {};
 __export(logging_exports, {
-  debug: () => debug,
-  errorLogger: () => errorLogger,
-  info: () => info
+  errorLogger: () => errorLogger
 });
 module.exports = __toCommonJS(logging_exports);
 var import_main = require("../main");
-[];
-const logging = (type, obj) => {
-  if (obj) {
-    obj.forEach((element) => {
-      let text = "";
-      if (element.text) {
-        text = element.text;
-      }
-      if (element.val) {
-        text += ` ${JSON.stringify(element.val)}`;
-      }
-      import_main._this.log[type](text);
-    });
-    return;
-  }
-};
-const info = (obj) => {
-  logging("info", obj);
-};
-const debug = (obj) => {
-  logging("debug", obj);
-};
 const errorLogger = (title, e) => {
   var _a, _b;
   import_main._this.log.error(title);
@@ -56,8 +32,6 @@ const errorLogger = (title, e) => {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  debug,
-  errorLogger,
-  info
+  errorLogger
 });
 //# sourceMappingURL=logging.js.map

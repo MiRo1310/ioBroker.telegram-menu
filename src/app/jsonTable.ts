@@ -1,6 +1,9 @@
 import { decomposeText, parseJSON } from './global';
-import { debug, errorLogger } from './logging';
+import { errorLogger } from './logging';
 import type { LastText, ValArray, KeyboardItem, Keyboard } from '../types/types';
+import { _this } from '../main';
+import { jsonString } from '../lib/string';
+
 const lastText: LastText = {};
 const createKeyboardFromJson = (
     val: string,
@@ -22,10 +25,7 @@ const createKeyboardFromJson = (
             idShoppingList = true;
         }
 
-        debug([
-            { text: 'Val:', val },
-            { text: 'Type of Val:', val },
-        ]);
+        _this.log.debug(`Val: ${val} with type: ${typeof val}`);
 
         const valArray: ValArray[] | undefined = parseJSON(val);
         if (!valArray) {
@@ -68,7 +68,7 @@ const createKeyboardFromJson = (
             keyboard.inline_keyboard.push(rowArray);
         });
 
-        debug([{ text: 'keyboard:', val: keyboard }]);
+        _this.log.debug(`Keyboard: ${jsonString(keyboard)}`);
 
         return { text: headline, keyboard };
     } catch (err: any) {
@@ -98,7 +98,7 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
                 }
             });
         });
-        debug([{ text: 'Length of rows', val: lengthArray }]);
+        _this.log.debug(`Length of rows: ${jsonString(lengthArray)}`);
         const headline = array[2];
         let textTable = textToSend.replace(substring, '').trim();
         if (textTable != '') {
