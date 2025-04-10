@@ -22,7 +22,6 @@ __export(utilities_exports, {
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
   decomposeText: () => decomposeText,
-  newLine: () => newLine,
   processTimeIdLc: () => processTimeIdLc,
   replaceAll: () => import_global.replaceAll
 });
@@ -270,20 +269,12 @@ async function checkTypeOfId(id, value) {
     (0, import_logging.errorLogger)("Error checkTypeOfId:", e);
   }
 }
-const newLine = (text) => {
-  const { json, isValidJson } = (0, import_string.parseJSON)(text);
-  if (isValidJson) {
-    text = json;
-  }
-  return text.replace(/""/g, '"').replace(/\\n/g, "\n");
-};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   changeValue,
   checkStatusInfo,
   checkTypeOfId,
   decomposeText,
-  newLine,
   processTimeIdLc,
   replaceAll
 });

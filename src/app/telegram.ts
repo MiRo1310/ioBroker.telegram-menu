@@ -1,10 +1,10 @@
 import { errorLogger } from './logging';
-import { checkStatusInfo, newLine } from '../lib/utilities';
+import { checkStatusInfo } from '../lib/utilities';
 import { _this } from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';
 import { getChatID } from '../lib/utils';
-import { jsonString } from '../lib/string';
+import { jsonString, validateNewLine } from '../lib/string';
 
 async function sendToTelegram({
     user = '',
@@ -36,7 +36,7 @@ async function sendToTelegram({
         _this.log.debug(`ChatId	: ${chatId}`);
         _this.log.debug(`ParseModeType: ${parse_modeType}`);
 
-        textToSend = newLine(textToSend);
+        textToSend = validateNewLine(textToSend);
         if (!keyboard) {
             _this.log.debug('No Keyboard');
             _this.sendTo(
@@ -88,7 +88,7 @@ function sendToTelegramSubmenu(
     _this.log.debug(`Send this ParseMode: ${parseModeType}`);
     try {
         const chatId = getChatID(userListWithChatID, user);
-        textToSend = newLine(textToSend);
+        textToSend = validateNewLine(textToSend);
         _this.sendTo(instance, 'send', {
             chatId: chatId,
             parse_mode: parseModeType,

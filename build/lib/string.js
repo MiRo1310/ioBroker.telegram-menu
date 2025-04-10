@@ -19,22 +19,32 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var string_exports = {};
 __export(string_exports, {
   jsonString: () => jsonString,
-  parseJSON: () => parseJSON
+  parseJSON: () => parseJSON,
+  validateNewLine: () => validateNewLine
 });
 module.exports = __toCommonJS(string_exports);
+var import_main = require("../main");
+const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val) {
   try {
     const parsed = JSON.parse(val);
     return { json: parsed, isValidJson: true };
   } catch (error) {
-    console.error([{ text: "Error:", val: error }]);
+    import_main._this.log.error(`Error parse json: ${jsonString(error)}`);
     return { json: {}, isValidJson: false };
   }
 }
-const jsonString = (val) => JSON.stringify(val);
+const validateNewLine = (text) => {
+  const { json, isValidJson } = parseJSON(text);
+  if (isValidJson) {
+    text = json;
+  }
+  return text.replace(/""/g, '"').replace(/\\n/g, "\n");
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   jsonString,
-  parseJSON
+  parseJSON,
+  validateNewLine
 });
 //# sourceMappingURL=string.js.map
