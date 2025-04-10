@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,26 +15,17 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var echarts_exports = {};
 __export(echarts_exports, {
   getChart: () => getChart
 });
 module.exports = __toCommonJS(echarts_exports);
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_logging = require("./logging");
 var import_telegram = require("./telegram");
 var import_global = require("./global");
 function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
-  const _this = import_main.default.getInstance();
   try {
     if (!echarts) {
       return;
@@ -47,7 +36,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
       if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
         return;
       }
-      _this.sendTo(
+      import_main._this.sendTo(
         instanceOfEchart,
         {
           preset: echart.preset,

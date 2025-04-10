@@ -62,10 +62,6 @@ export default class TelegramMenu extends utils.Adapter {
         TelegramMenu.instance = this;
     }
 
-    public static getInstance(): TelegramMenu {
-        return TelegramMenu.instance;
-    }
-
     private async onReady(): Promise<void> {
         _this = this;
         await this.setState('info.connection', false, true);
@@ -123,7 +119,7 @@ export default class TelegramMenu extends utils.Adapter {
                 this.log.info('Telegram was found');
 
                 for (const name in nav) {
-                    const value = editArrayButtons(nav[name], this);
+                    const value = editArrayButtons(nav[name]);
 
                     const newObjectStructure = generateNewObjectStructure(value);
                     if (newObjectStructure) {

@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var shoppingList_exports = {};
 __export(shoppingList_exports, {
@@ -37,11 +27,10 @@ var import_jsonTable = require("./jsonTable.js");
 var import_telegram = require("./telegram.js");
 var import_subscribeStates = require("./subscribeStates.js");
 var import_logging = require("./logging.js");
-var import_main = __toESM(require("../main.js"));
+var import_main = require("../main.js");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
-  const _this = import_main.default.getInstance();
   try {
     let array, user, idList, instance, idItem, res;
     if (val != null) {
@@ -50,7 +39,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
       idList = array[1];
       instance = array[2];
       idItem = array[3];
-      res = await _this.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+      res = await import_main._this.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
       if (res) {
         objData[user] = { idList };
         (0, import_logging.debug)([{ text: "alexa-shoppinglist.", val: idList }]);
@@ -58,7 +47,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
           await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
           isSubscribed = true;
         }
-        await _this.setForeignStateAsync(
+        await import_main._this.setForeignStateAsync(
           `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
           true,
           false
@@ -83,13 +72,12 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
   }
 }
 async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend) {
-  const _this = import_main.default.getInstance();
   try {
     const user = userToSend;
     const idList = objData[user].idList;
     await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
     await (0, import_messageIds.deleteMessageIds)(user, userListWithChatID, instanceTelegram, "last");
-    const result = await _this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
+    const result = await import_main._this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result && result.val) {
       (0, import_logging.debug)([{ text: "Result from Shoppinglist:", val: result }]);
       const newId = `alexa-shoppinglist.${idList}`;

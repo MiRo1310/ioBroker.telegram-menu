@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var setstate_exports = {};
 __export(setstate_exports, {
@@ -35,7 +25,7 @@ var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_dynamicValue = require("./dynamicValue");
 var import_global = require("./global");
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_logging = require("./logging");
 const modifiedValue = (valueFromSubmenu, value) => {
   if (value && value.includes("{value}")) {
@@ -44,11 +34,10 @@ const modifiedValue = (valueFromSubmenu, value) => {
   return valueFromSubmenu;
 };
 const isDynamicValueToSet = async (value) => {
-  const _this = import_main.default.getInstance();
   if (typeof value === "string" && value.includes("{id:")) {
     const result = (0, import_global.decomposeText)(value, "{id:", "}");
     const id = result.substring.replace("{id:", "").replace("}", "");
-    const newValue = await _this.getForeignStateAsync(id);
+    const newValue = await import_main._this.getForeignStateAsync(id);
     if (newValue && newValue.val && typeof newValue.val === "string") {
       return value.replace(result.substring, newValue.val);
     }
@@ -57,14 +46,13 @@ const isDynamicValueToSet = async (value) => {
 };
 const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
   try {
-    const _this = import_main.default.getInstance();
     let valueToSet;
     SubmenuValuePriority ? valueToSet = modifiedValue(valueFromSubmenu, value) : valueToSet = await isDynamicValueToSet(value);
     await (0, import_utilities.checkTypeOfId)(id, valueToSet).then((val) => {
       valueToSet = val;
       (0, import_logging.debug)([{ text: "Value to Set:", val: valueToSet }]);
       if (valueToSet !== void 0 && valueToSet !== null) {
-        _this.setForeignState(id, valueToSet, ack);
+        import_main._this.setForeignState(id, valueToSet, ack);
       }
     });
   } catch (error) {
@@ -75,7 +63,6 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
   }
 };
 const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
-  const _this = import_main.default.getInstance();
   try {
     const setStateIds = [];
     if (!part.switch) {
@@ -141,9 +128,9 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         });
       }
       if (element.toggle) {
-        _this.getForeignStateAsync(element.id).then((val) => {
+        import_main._this.getForeignStateAsync(element.id).then((val) => {
           if (val) {
-            _this.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
+            import_main._this.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
               (0, import_logging.errorLogger)("Error setForeignStateAsync:", e);
             });
           }

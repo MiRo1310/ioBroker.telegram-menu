@@ -1,4 +1,4 @@
-import TelegramMenu from '../main';
+import { _this } from '../main';
 
 interface LoggingTypes {
     text?: string;
@@ -7,11 +7,8 @@ interface LoggingTypes {
 [];
 
 type Logging = 'debug' | 'error' | 'info';
-let _this: TelegramMenu;
+
 const logging = (type: Logging, obj: LoggingTypes[]): void => {
-    if (!_this) {
-        _this = TelegramMenu.getInstance();
-    }
     if (obj) {
         obj.forEach(element => {
             let text = '';
