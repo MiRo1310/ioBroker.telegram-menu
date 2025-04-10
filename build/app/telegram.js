@@ -48,7 +48,7 @@ async function sendToTelegram({
     import_main._this.log.debug(`Parse_mode	: ${parse_mode}`);
     import_main._this.log.debug(`ChatId	: ${chatId}`);
     import_main._this.log.debug(`ParseModeType: ${parse_modeType}`);
-    textToSend = (0, import_utilities.newLine)(textToSend);
+    textToSend = (0, import_string.validateNewLine)(textToSend);
     if (!keyboard) {
       import_main._this.log.debug("No Keyboard");
       import_main._this.sendTo(
@@ -92,7 +92,7 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.
   import_main._this.log.debug(`Send this ParseMode: ${parseModeType}`);
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
-    textToSend = (0, import_utilities.newLine)(textToSend);
+    textToSend = (0, import_string.validateNewLine)(textToSend);
     import_main._this.sendTo(instance, "send", {
       chatId,
       parse_mode: parseModeType,
