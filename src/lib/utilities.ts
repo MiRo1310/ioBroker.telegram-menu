@@ -284,13 +284,4 @@ async function checkTypeOfId(
     }
 }
 
-const newLine = (text: string): string => {
-    const { json, isValidJson } = parseJSON<string>(text);
-    if (isValidJson) {
-        text = json;
-    }
-
-    return text.replace(/""/g, '"').replace(/\\n/g, '\n');
-};
-
-export { checkStatusInfo, checkTypeOfId, changeValue, newLine, processTimeIdLc, decomposeText, replaceAll };
+export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, decomposeText, replaceAll };
