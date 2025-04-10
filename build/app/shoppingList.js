@@ -28,6 +28,7 @@ var import_telegram = require("./telegram.js");
 var import_subscribeStates = require("./subscribeStates.js");
 var import_logging = require("./logging.js");
 var import_main = require("../main.js");
+var import_string = require("../lib/string");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
@@ -42,7 +43,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
       res = await import_main._this.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
       if (res) {
         objData[user] = { idList };
-        (0, import_logging.debug)([{ text: "alexa-shoppinglist.", val: idList }]);
+        import_main._this.log.debug(`Alexa-shoppinglist: ${idList}`);
         if (!isSubscribed) {
           await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
           isSubscribed = true;
@@ -64,7 +65,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
         userListWithChatID,
         parse_mode: "true"
       });
-      (0, import_logging.debug)([{ text: "Cannot delete the Item" }]);
+      import_main._this.log.debug("Cannot delete the Item");
       return;
     }
   } catch (e) {
@@ -79,7 +80,7 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
     await (0, import_messageIds.deleteMessageIds)(user, userListWithChatID, instanceTelegram, "last");
     const result = await import_main._this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result && result.val) {
-      (0, import_logging.debug)([{ text: "Result from Shoppinglist:", val: result }]);
+      import_main._this.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
       const resultJson = (0, import_jsonTable.createKeyboardFromJson)(result.val, null, newId, user);
       if (resultJson && resultJson.text && resultJson.keyboard) {

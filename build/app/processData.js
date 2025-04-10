@@ -37,6 +37,7 @@ var import_subscribeStates = require("./subscribeStates");
 var import_echarts = require("./echarts");
 var import_httpRequest = require("./httpRequest");
 var import_logging = require("./logging");
+var import_string = require("../lib/string");
 let setStateIdsToListenTo = [];
 let timeouts = [];
 async function checkEveryMenuForData(obj) {
@@ -56,11 +57,8 @@ async function checkEveryMenuForData(obj) {
   } = obj;
   for (const menu of menus) {
     const groupData = menuData.data[menu];
-    (0, import_logging.debug)([
-      { text: "Nav:", val: menuData.data[menu] },
-      { text: "Menu:", val: menu },
-      { text: "Group:", val: menuData.data[menu] }
-    ]);
+    import_main._this.log.debug(`Menu: ${menu}`);
+    import_main._this.log.debug(`Nav: ${(0, import_string.jsonString)(menuData.data[menu])}`);
     if (await processData({
       menuData,
       calledValue,
@@ -160,10 +158,10 @@ async function processData(obj) {
     part = groupData[call];
     if (typeof call === "string" && groupData && part && !calledValue.toString().includes("menu:") && userToSend && groupWithUser && isUserActiveCheckbox[groupWithUser]) {
       if (part.nav) {
-        (0, import_logging.debug)([{ text: "Menu to Send:", val: part.nav }]);
+        import_main._this.log.debug(`Menu to Send: ${part.nav}`);
         (0, import_backMenu.backMenuFunc)(call, part.nav, userToSend);
         if (JSON.stringify(part.nav).includes("menu:")) {
-          (0, import_logging.debug)([{ text: "Submenu" }]);
+          import_main._this.log.debug(`Submenu: ${part.nav}`);
           const result = await (0, import_subMenu.callSubMenu)(
             JSON.stringify(part.nav),
             groupData,
@@ -248,17 +246,17 @@ async function processData(obj) {
         if (result) {
           timeouts = result;
         } else {
-          (0, import_logging.debug)([{ text: "Timeouts not found" }]);
+          import_main._this.log.debug(`Timeouts not found`);
         }
         return true;
       }
       if (part.location) {
-        (0, import_logging.debug)([{ text: "Send Location" }]);
+        import_main._this.log.debug("Send location");
         await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, instanceTelegram, userListWithChatID);
         return true;
       }
       if (part.echarts) {
-        (0, import_logging.debug)([{ text: "Echarts" }]);
+        import_main._this.log.debug("Send echars");
         (0, import_echarts.getChart)(
           part.echarts,
           directoryPicture,
@@ -271,7 +269,7 @@ async function processData(obj) {
         return true;
       }
       if (part.httpRequest) {
-        (0, import_logging.debug)([{ text: "HttpRequest" }]);
+        import_main._this.log.debug("Send http request");
         const result = await (0, import_httpRequest.httpRequest)(
           part,
           userToSend,
@@ -287,7 +285,7 @@ async function processData(obj) {
       }
     }
     if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && menuData.data[groupWithUser][call]) {
-      (0, import_logging.debug)([{ text: "Call Submenu" }]);
+      import_main._this.log.debug("Call Submenu");
       const result = await (0, import_subMenu.callSubMenu)(
         calledValue,
         menuData,
