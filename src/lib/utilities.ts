@@ -1,27 +1,46 @@
 import { _this } from '../main';
 import { isDefined, replaceAll } from '../app/global';
-import { errorLogger } from '../app/logging';
-import { processTimeValue } from './time';
+import { error } from 'console';
 import { parseJSON } from './string';
+
+const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
+    const date = Number(obj.val);
+
+    if (!isDefined(date)) {
+        return textToSend;
+    }
+    const time = new Date(date);
+    if (isNaN(time.getTime())) {
+        _this.log.error(`Invalid Date: ${date}`);
+        return textToSend;
+    }
+    const timeString = time.toLocaleDateString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    });
+    return textToSend.replace('{time}', timeString);
+};
 
 const exchangeValue = (
     textToSend: string,
     stateVal: string | number | boolean,
-): { valueChange: string; textToSend: string; error: boolean } => {
+): { valueChange: string; textToSend: string } | boolean => {
     const { startindex, endindex } = decomposeText(textToSend, 'change{', '}');
 
     let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
 
     let objChangeValue;
     match = match.replace(/'/g, '"');
-    // TODO type any
-    const { json, isValidJson } = parseJSON<any>(`{${match}}`);
 
+    // TODO check type
+    const { json, isValidJson } = parseJSON<any>(`{${match}}`);
     if (isValidJson) {
         objChangeValue = json;
     } else {
-        _this.log.error(`There is a error in your input: ${match}`);
-        return { valueChange: '', textToSend: '', error: true };
+        error([{ text: `There is a error in your input:`, val: replaceAll(match, '"', "'") }]);
+        return false;
     }
 
     let newValue;
@@ -29,7 +48,6 @@ const exchangeValue = (
     return {
         valueChange: newValue,
         textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
-        error: false,
     };
 };
 
@@ -53,13 +71,16 @@ function decomposeText(
 function changeValue(
     textToSend: string,
     val: string | number | boolean,
-): { textToSend: string; val: string | number; error: boolean } {
+): { textToSend: string; val: string | number; error?: boolean } {
     if (textToSend.includes('change{')) {
-        const { valueChange, error, textToSend: text } = exchangeValue(textToSend, val);
-
-        if (!error) {
-            return { textToSend: text, val: valueChange, error: false };
+        const result = exchangeValue(textToSend, val);
+        if (!result) {
+            return { textToSend: '', val: '', error: true };
         }
+        if (typeof result === 'boolean') {
+            return { textToSend: '', val: '', error: true };
+        }
+        return { textToSend: result.textToSend, val: result.valueChange, error: false };
     }
     return { textToSend: '', val: '', error: true };
 }
@@ -242,7 +263,10 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             return text;
         }
     } catch (e: any) {
-        errorLogger('Error checkStatusInfo:', e);
+        error([
+            { text: 'Error checkStatusInfo:', val: e.message },
+            { text: 'Stack:', val: e.stack },
+        ]);
     }
 };
 
@@ -262,6 +286,7 @@ async function checkTypeOfId(
         }
 
         _this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+
         if (obj.common.type === 'boolean') {
             if (value == 'true') {
                 value = true;
@@ -280,8 +305,11 @@ async function checkTypeOfId(
 
         return value;
     } catch (e: any) {
-        errorLogger('Error checkTypeOfId:', e);
+        error([
+            { text: 'Error checkTypeOfId:', val: e.message },
+            { text: 'Stack:', val: e.stack },
+        ]);
     }
 }
 
-export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, decomposeText, replaceAll };
+export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, processTimeValue, decomposeText };
