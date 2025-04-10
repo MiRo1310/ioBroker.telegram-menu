@@ -5,8 +5,6 @@ import { checkStatusInfo } from '../lib/utilities';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
 import { deleteMessageIds } from './messageIds';
 import { dynamicSwitch } from './dynamicSwitch';
-import { debug } from './logging';
-import { error } from 'console';
 import type {
     SetStateIds,
     SplittedData,
@@ -27,6 +25,8 @@ import type {
 } from '../types/types';
 import { parseJSON } from './global';
 import { _this } from '../main';
+import { jsonString } from '../lib/string';
+import { errorLogger } from './logging';
 
 let step = 0;
 let returnIDToListenTo: SetStateIds[] = [];
@@ -50,7 +50,7 @@ const deleteMessages = async (obj: DeleteMessageIds): Promise<{ navToGoBack: str
 };
 
 const setDynamicValue = async (obj: SetDynamicValueType): Promise<{ returnIds: SetStateIds[] }> => {
-    debug([{ text: 'SplittedData:', val: obj.val }]);
+    _this.log.debug(`State: ${obj.val}`);
 
     const result = await setState(
         obj.part,
@@ -106,7 +106,8 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
 
 const setFirstMenuValue = async (obj: SetFirstMenuValue): Promise<{ returnIds: SetStateIds[] }> => {
     let val;
-    debug([{ text: 'SplitData:', val: splittedData }]);
+    _this.log.debug(`SplitData: ${jsonString(splittedData)}`);
+
     if (splittedData[1].split('.')[1] == 'false') {
         val = false;
     } else if (splittedData[1].split('.')[1] == 'true') {
@@ -222,7 +223,8 @@ const createSubmenuNumber = (obj: CreateMenu): { text?: string; keyboard: Keyboa
     if (rowEntries != 0) {
         keyboard.inline_keyboard.push(menu);
     }
-    debug([{ text: 'keyboard:', val: keyboard }]);
+    _this.log.debug(`Keyboard: ${jsonString(keyboard)}`);
+
     return { text: obj.text, keyboard, device: device2Switch };
 };
 
@@ -271,7 +273,7 @@ const setValueForSubmenuPercent = async (obj: SetValueForSubmenuPercent): Promis
 const setValueForSubmenuNumber = async (
     obj: SetValueForSubmenuNumber,
 ): Promise<{ returnIds: SetStateIds[]; device2Switch: string }> => {
-    debug([{ text: 'CallbackData:', val: obj.callbackData }]);
+    _this.log.debug(`CallbackData: ${obj.callbackData}`);
 
     const value = parseFloat(obj.calledValue.split(':')[3]);
     const device2Switch = obj.calledValue.split(':')[2];
@@ -334,10 +336,7 @@ async function callSubMenu(
             menus,
             navObj,
         });
-        debug([{ text: 'Submenu data:', val: obj?.text }]);
-        debug([{ text: 'Submenu data:', val: obj?.keyboard }]);
-        debug([{ text: 'Submenu data:', val: obj?.device }]);
-        debug([{ text: 'Submenu data:', val: obj?.navToGoBack }]);
+        _this.log.debug(`Submenu: ${jsonString(obj)}`);
 
         if (obj?.returnIds) {
             setStateIdsToListenTo = obj.returnIds;
@@ -357,12 +356,7 @@ async function callSubMenu(
         }
         return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
     } catch (e: any) {
-        error({
-            array: [
-                { text: 'Error callSubMenu:', val: e.message },
-                { text: 'Stack:', val: e.stack },
-            ],
-        });
+        errorLogger('Error callSubMenu:', e);
     }
 }
 

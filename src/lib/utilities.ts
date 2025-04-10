@@ -1,6 +1,6 @@
 import { _this } from '../main';
 import { isDefined, replaceAll } from '../app/global';
-import { debug, errorLogger } from '../app/logging';
+import { errorLogger } from '../app/logging';
 import { processTimeValue } from './time';
 import { parseJSON } from './string';
 
@@ -20,7 +20,7 @@ const exchangeValue = (
     if (isValidJson) {
         objChangeValue = json;
     } else {
-        _this.log.error(`There is a error in your input:${match}`);
+        _this.log.error(`There is a error in your input: ${match}`);
         return { valueChange: '', textToSend: '', error: true };
     }
 
@@ -79,7 +79,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
     let idFromText = '';
     if (!id) {
         if (!changedSubstring.includes('id:')) {
-            debug([{ text: 'Error processTimeIdLc: id not found in:', val: changedSubstring }]);
+            _this.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
             return;
         }
 
@@ -251,7 +251,7 @@ async function checkTypeOfId(
     value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
 ): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
     try {
-        debug([{ text: `Check Type of Id: ${id}` }]);
+        _this.log.debug(`Check Type of Id: ${id}`);
         const obj = await _this.getForeignObjectAsync(id);
         const receivedType = typeof value;
         if (!obj || !value) {
@@ -261,8 +261,7 @@ async function checkTypeOfId(
             return value;
         }
 
-        debug([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
-
+        _this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
         if (obj.common.type === 'boolean') {
             if (value == 'true') {
                 value = true;
