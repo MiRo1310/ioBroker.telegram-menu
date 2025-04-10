@@ -28,6 +28,7 @@ var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_global = require("./global");
 var import_utils = require("../lib/utils");
+var import_string = require("../lib/string");
 async function sendToTelegram({
   user = "",
   textToSend,
@@ -41,14 +42,12 @@ async function sendToTelegram({
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     const parse_modeType = getParseMode(parse_mode);
-    (0, import_logging.debug)([
-      { text: `Send to: ${user} => ${textToSend}` },
-      { text: "Instance:", val: instance },
-      { text: "UserListWithChatID	:", val: userListWithChatID },
-      { text: "Parse_mode	:", val: parse_mode },
-      { text: "ChatId	:", val: chatId },
-      { text: "ParseModeType:", val: parse_modeType }
-    ]);
+    import_main._this.log.debug(`Send to: ${user} => ${textToSend}`);
+    import_main._this.log.debug(`Instance: ${instance}`);
+    import_main._this.log.debug(`UserListWithChatID	: ${(0, import_string.jsonString)(userListWithChatID)}`);
+    import_main._this.log.debug(`Parse_mode	: ${parse_mode}`);
+    import_main._this.log.debug(`ChatId	: ${chatId}`);
+    import_main._this.log.debug(`ParseModeType: ${parse_modeType}`);
     textToSend = (0, import_utilities.newLine)(textToSend);
     if (!keyboard) {
       import_main._this.log.debug("No Keyboard");
@@ -61,7 +60,7 @@ async function sendToTelegram({
           parse_mode: parse_modeType
         },
         function(res) {
-          import_main._this.log.debug(`Sent Value to ${JSON.stringify(res)} users!`);
+          import_main._this.log.debug(`Sent Value to ${(0, import_string.jsonString)(res)} users!`);
         }
       );
     } else {
@@ -80,7 +79,7 @@ async function sendToTelegram({
           }
         },
         function(res) {
-          (0, import_logging.debug)([{ text: `Sent Value to ${res} users!` }]);
+          import_main._this.log.debug(`Sent Value to ${(0, import_string.jsonString)(res)} users!`);
         }
       );
     }
@@ -90,7 +89,7 @@ async function sendToTelegram({
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
   const parseModeType = getParseMode(parse_mode);
-  (0, import_logging.debug)([{ text: "Send this ParseMode:", val: parseModeType }]);
+  import_main._this.log.debug(`Send this ParseMode: ${parseModeType}`);
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     textToSend = (0, import_utilities.newLine)(textToSend);

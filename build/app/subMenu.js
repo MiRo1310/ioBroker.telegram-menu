@@ -29,10 +29,10 @@ var import_utilities = require("../lib/utilities");
 var import_subscribeStates = require("./subscribeStates");
 var import_messageIds = require("./messageIds");
 var import_dynamicSwitch = require("./dynamicSwitch");
-var import_logging = require("./logging");
-var import_console = require("console");
 var import_global = require("./global");
 var import_main = require("../main");
+var import_string = require("../lib/string");
+var import_logging = require("./logging");
 let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
@@ -51,7 +51,7 @@ const deleteMessages = async (obj) => {
   return;
 };
 const setDynamicValue = async (obj) => {
-  (0, import_logging.debug)([{ text: "SplittedData:", val: obj.val }]);
+  import_main._this.log.debug(`State: ${obj.val}`);
   const result = await (0, import_setstate.setState)(
     obj.part,
     obj.userToSend,
@@ -102,7 +102,7 @@ const createSubmenuPercent = (obj) => {
 };
 const setFirstMenuValue = async (obj) => {
   let val;
-  (0, import_logging.debug)([{ text: "SplitData:", val: splittedData }]);
+  import_main._this.log.debug(`SplitData: ${(0, import_string.jsonString)(splittedData)}`);
   if (splittedData[1].split(".")[1] == "false") {
     val = false;
   } else if (splittedData[1].split(".")[1] == "true") {
@@ -210,7 +210,7 @@ const createSubmenuNumber = (obj) => {
   if (rowEntries != 0) {
     keyboard.inline_keyboard.push(menu);
   }
-  (0, import_logging.debug)([{ text: "keyboard:", val: keyboard }]);
+  import_main._this.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
   return { text: obj.text, keyboard, device: device2Switch };
 };
 const createSwitchMenu = ({
@@ -253,7 +253,7 @@ const setValueForSubmenuPercent = async (obj) => {
   return { returnIds: returnIDToListenTo };
 };
 const setValueForSubmenuNumber = async (obj) => {
-  (0, import_logging.debug)([{ text: "CallbackData:", val: obj.callbackData }]);
+  import_main._this.log.debug(`CallbackData: ${obj.callbackData}`);
   const value = parseFloat(obj.calledValue.split(":")[3]);
   const device2Switch = obj.calledValue.split(":")[2];
   const result = await (0, import_setstate.setState)(
@@ -300,10 +300,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
       menus,
       navObj
     });
-    (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.text }]);
-    (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.keyboard }]);
-    (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.device }]);
-    (0, import_logging.debug)([{ text: "Submenu data:", val: obj == null ? void 0 : obj.navToGoBack }]);
+    import_main._this.log.debug(`Submenu: ${(0, import_string.jsonString)(obj)}`);
     if (obj == null ? void 0 : obj.returnIds) {
       setStateIdsToListenTo = obj.returnIds;
       await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
@@ -320,12 +317,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
     }
     return { setStateIdsToListenTo, newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {
-    (0, import_console.error)({
-      array: [
-        { text: "Error callSubMenu:", val: e.message },
-        { text: "Stack:", val: e.stack }
-      ]
-    });
+    (0, import_logging.errorLogger)("Error callSubMenu:", e);
   }
 }
 async function subMenu({
@@ -432,10 +424,10 @@ async function subMenu({
       });
     }
     return;
-  } catch (error2) {
-    error2([
-      { text: "Error subMenu:", val: error2.message },
-      { text: "Stack", val: error2.stack }
+  } catch (error) {
+    error([
+      { text: "Error subMenu:", val: error.message },
+      { text: "Stack", val: error.stack }
     ]);
   }
 }

@@ -27,6 +27,7 @@ var import_dynamicValue = require("./dynamicValue");
 var import_global = require("./global");
 var import_main = require("../main");
 var import_logging = require("./logging");
+var import_string = require("../lib/string");
 const modifiedValue = (valueFromSubmenu, value) => {
   if (value && value.includes("{value}")) {
     return value.replace("{value}", valueFromSubmenu);
@@ -50,16 +51,13 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     SubmenuValuePriority ? valueToSet = modifiedValue(valueFromSubmenu, value) : valueToSet = await isDynamicValueToSet(value);
     await (0, import_utilities.checkTypeOfId)(id, valueToSet).then((val) => {
       valueToSet = val;
-      (0, import_logging.debug)([{ text: "Value to Set:", val: valueToSet }]);
+      import_main._this.log.debug(`Value to Set: ${(0, import_string.jsonString)(valueToSet)}`);
       if (valueToSet !== void 0 && valueToSet !== null) {
         import_main._this.setForeignState(id, valueToSet, ack);
       }
     });
   } catch (error) {
-    error([
-      { text: "Error setValue", val: error.message },
-      { text: "Stack", val: error.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error setValue", error);
   }
 };
 const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {

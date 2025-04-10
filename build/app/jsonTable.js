@@ -24,6 +24,8 @@ __export(jsonTable_exports, {
 module.exports = __toCommonJS(jsonTable_exports);
 var import_global = require("./global");
 var import_logging = require("./logging");
+var import_main = require("../main");
+var import_string = require("../lib/string");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
   try {
@@ -39,10 +41,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
     if (array.length > 3 && array[3] == "shoppinglist") {
       idShoppingList = true;
     }
-    (0, import_logging.debug)([
-      { text: "Val:", val },
-      { text: "Type of Val:", val }
-    ]);
+    import_main._this.log.debug(`Val: ${val} with type: ${typeof val}`);
     const valArray = (0, import_global.parseJSON)(val);
     if (!valArray) {
       return;
@@ -77,7 +76,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
       }
       keyboard.inline_keyboard.push(rowArray);
     });
-    (0, import_logging.debug)([{ text: "keyboard:", val: keyboard }]);
+    import_main._this.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
     return { text: headline, keyboard };
   } catch (err) {
     (0, import_logging.errorLogger)("Error createKeyboardFromJson:", err);
@@ -103,7 +102,7 @@ function createTextTableFromJson(val, textToSend) {
         }
       });
     });
-    (0, import_logging.debug)([{ text: "Length of rows", val: lengthArray }]);
+    import_main._this.log.debug(`Length of rows: ${(0, import_string.jsonString)(lengthArray)}`);
     const headline = array[2];
     let textTable = textToSend.replace(substring, "").trim();
     if (textTable != "") {

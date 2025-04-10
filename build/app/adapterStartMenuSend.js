@@ -23,15 +23,16 @@ __export(adapterStartMenuSend_exports, {
 module.exports = __toCommonJS(adapterStartMenuSend_exports);
 var import_telegram = require("./telegram");
 var import_backMenu = require("./backMenu");
-var import_logging = require("./logging");
+var import_main = require("../main");
+var import_string = require("../lib/string");
 async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
   for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
     if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
-      (0, import_logging.debug)([{ text: "Startseite:", val: startSide }]);
+      import_main._this.log.debug(`Startseite: ${startSide}`);
       for (const user of menusWithUsers[menu]) {
         (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
-        (0, import_logging.debug)([{ text: "User List:", val: userListWithChatID }]);
+        import_main._this.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
           user,
           textToSend: menuData.data[menu][startSide].text,
@@ -45,10 +46,10 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
       }
     } else {
       if (startSide == "-") {
-        (0, import_logging.debug)([{ text: `Menu "${menu}" is a Submenu.` }]);
+        import_main._this.log.debug(`Menu "${menu}" is a Submenu.`);
         continue;
       }
-      (0, import_logging.debug)([{ text: `Menu "${menu}" is inactive.` }]);
+      import_main._this.log.debug(`Menu "${menu}" is inactive.`);
     }
   }
 }

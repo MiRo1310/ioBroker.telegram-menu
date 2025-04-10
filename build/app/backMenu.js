@@ -24,6 +24,8 @@ __export(backMenu_exports, {
 module.exports = __toCommonJS(backMenu_exports);
 var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
+var import_main = require("../main");
+var import_string = require("../lib/string");
 const backMenu = {};
 function backMenuFunc(nav, part, userToSend) {
   if (!part || !JSON.stringify(part).split(`"`)[1].includes("menu:")) {
@@ -37,7 +39,7 @@ function backMenuFunc(nav, part, userToSend) {
     }
     backMenu[userToSend].last = nav;
   }
-  (0, import_logging.debug)([{ text: "GoBackMenu", val: backMenu }]);
+  import_main._this.log.debug(`BackMenu: ${(0, import_string.jsonString)(backMenu)}`);
 }
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
   var _a, _b, _c, _d;
@@ -53,11 +55,11 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           break;
         } else if (((_d = allMenusWithData[menu][list[list.length - 1]]) == null ? void 0 : _d.nav) && !lastMenu) {
           keyboard = allMenusWithData[menu][list[list.length - 1]].nav;
-          (0, import_logging.debug)([{ text: "Menu call found" }]);
+          import_main._this.log.debug("Menu call found");
           foundedMenu = menu;
           break;
         }
-        (0, import_logging.debug)([{ text: "Menu call not found in this Menu" }]);
+        import_main._this.log.debug(`Menu call not found in this Menu: ${menu}`);
       }
       if (keyboard && foundedMenu != "") {
         let parseMode = "";
