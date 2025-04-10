@@ -1,27 +1,8 @@
 import { _this } from '../main';
-import { isDefined, replaceAll } from '../app/global';
-import { error } from 'console';
-import { parseJSON } from './string';
-
-const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
-    const date = Number(obj.val);
-
-    if (!isDefined(date)) {
-        return textToSend;
-    }
-    const time = new Date(date);
-    if (isNaN(time.getTime())) {
-        _this.log.error(`Invalid Date: ${date}`);
-        return textToSend;
-    }
-    const timeString = time.toLocaleDateString('de-DE', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-    });
-    return textToSend.replace('{time}', timeString);
-};
+import { isDefined } from '../app/global';
+import { parseJSON, replaceAll } from './string';
+import { errorLogger } from '../app/logging';
+import { processTimeValue } from './time';
 
 const exchangeValue = (
     textToSend: string,
@@ -32,14 +13,14 @@ const exchangeValue = (
     let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
 
     let objChangeValue;
-    match = match.replace(/'/g, '"');
+    match = replaceAll(match, "'", '"');
 
     // TODO check type
     const { json, isValidJson } = parseJSON<any>(`{${match}}`);
     if (isValidJson) {
         objChangeValue = json;
     } else {
-        error([{ text: `There is a error in your input:`, val: replaceAll(match, '"', "'") }]);
+        _this.log.error(`There is a error in your input: ${replaceAll(match, '"', "'")}`);
         return false;
     }
 
@@ -263,10 +244,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             return text;
         }
     } catch (e: any) {
-        error([
-            { text: 'Error checkStatusInfo:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error checkStatusInfo:', e);
     }
 };
 
@@ -305,11 +283,8 @@ async function checkTypeOfId(
 
         return value;
     } catch (e: any) {
-        error([
-            { text: 'Error checkTypeOfId:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error checkTypeOfId:', e);
     }
 }
 
-export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, processTimeValue, decomposeText };
+export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, decomposeText };

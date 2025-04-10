@@ -26,6 +26,7 @@ var import_global = require("./global");
 var import_child_process = require("child_process");
 var import_logging = require("./logging");
 var import_main = require("../main");
+var import_string = require("../lib/string");
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
@@ -33,7 +34,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
       const { id, delay, fileName } = element;
       let path = "";
       if (id != "-") {
-        const newUrl = (0, import_global.replaceAll)(id, "&amp;", "&");
+        const newUrl = (0, import_string.replaceAll)(id, "&amp;", "&");
         (0, import_child_process.exec)(
           `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
           (error, stdout, stderr) => {

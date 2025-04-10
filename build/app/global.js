@@ -26,15 +26,13 @@ __export(global_exports, {
   isFalsy: () => isFalsy,
   isString: () => isString,
   isTruthy: () => isTruthy,
-  parseJSON: () => parseJSON,
-  replaceAll: () => replaceAll
+  parseJSON: () => parseJSON
 });
 module.exports = __toCommonJS(global_exports);
 var import_logging = require("./logging");
 var import_main = require("../main");
 const isDefined = (value) => value !== void 0 && value !== null;
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
-const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, "g"), replaceValue);
 function decomposeText(text, searchValue, secondValue) {
   const startindex = text.indexOf(searchValue);
   const endindex = text.indexOf(secondValue, startindex);
@@ -87,7 +85,6 @@ function parseJSON(value) {
   isFalsy,
   isString,
   isTruthy,
-  parseJSON,
-  replaceAll
+  parseJSON
 });
 //# sourceMappingURL=global.js.map

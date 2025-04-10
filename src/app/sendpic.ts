@@ -1,9 +1,10 @@
 import { sendToTelegram } from './telegram';
-import { checkDirectoryIsOk, replaceAll } from './global';
+import { checkDirectoryIsOk } from './global';
 import { exec } from 'child_process';
 import { errorLogger } from './logging';
 import { _this } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
+import { replaceAll } from '../lib/string';
 
 function sendPic(
     part: Part,

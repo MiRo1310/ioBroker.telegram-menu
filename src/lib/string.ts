@@ -20,3 +20,6 @@ export const validateNewLine = (text: string): string => {
 
     return text.replace(/""/g, '"').replace(/\\n/g, '\n');
 };
+
+export const replaceAll = (text: string, searchValue: string, replaceValue: string): string =>
+    text.replace(new RegExp(searchValue, 'g'), replaceValue);
