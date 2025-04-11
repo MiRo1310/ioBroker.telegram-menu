@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/utils.ts"],
+  "sourcesContent": ["import type { UserListWithChatId } from '../types/types';\n\nexport const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string | undefined => {\n    for (const element of userListWithChatID) {\n        if (element.name === user) {\n            return element.chatID;\n        }\n    }\n    return;\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,MAAM,YAAY,CAAC,oBAA0C,SAAqC;AACrG,aAAW,WAAW,oBAAoB;AACtC,QAAI,QAAQ,SAAS,MAAM;AACvB,aAAO,QAAQ;AAAA,IACnB;AAAA,EACJ;AACA;AACJ;",
+  "names": []
+}

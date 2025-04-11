@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var processData_exports = {};
 __export(processData_exports, {
@@ -33,7 +23,7 @@ __export(processData_exports, {
   getTimeouts: () => getTimeouts
 });
 module.exports = __toCommonJS(processData_exports);
-var import_main = __toESM(require("../main"));
+var import_main = require("../main");
 var import_telegram = require("./telegram");
 var import_sendNav = require("./sendNav");
 var import_subMenu = require("./subMenu");
@@ -64,7 +54,6 @@ async function checkEveryMenuForData(obj) {
     directoryPicture,
     timeoutKey
   } = obj;
-  const _this = import_main.default.getInstance();
   for (const menu of menus) {
     const groupData = menuData.data[menu];
     (0, import_logging.debug)([
@@ -73,7 +62,6 @@ async function checkEveryMenuForData(obj) {
       { text: "Group:", val: menuData.data[menu] }
     ]);
     if (await processData({
-      _this,
       menuData,
       calledValue,
       userToSend,
@@ -90,8 +78,7 @@ async function checkEveryMenuForData(obj) {
       timeoutKey,
       groupData
     })) {
-      (0, import_logging.debug)([{ text: "CalledText found" }]);
-      (0, import_logging.debug)([{ text: "CalledText found" }]);
+      import_main._this.log.debug("CalledText found");
       return true;
     }
   }
@@ -99,7 +86,6 @@ async function checkEveryMenuForData(obj) {
 }
 async function processData(obj) {
   const {
-    _this,
     menuData,
     calledValue,
     userToSend,
@@ -127,8 +113,8 @@ async function processData(obj) {
       } else {
         valueToSet = calledValue;
       }
-      if (valueToSet) {
-        await _this.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack);
+      if (valueToSet && (res == null ? void 0 : res.id)) {
+        await import_main._this.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack);
       } else {
         await (0, import_telegram.sendToTelegram)({
           user: userToSend,

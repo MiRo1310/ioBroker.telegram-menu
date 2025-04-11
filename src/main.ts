@@ -15,17 +15,16 @@ import {
     generateNewObjectStructure,
     getMenusWithUserToSend,
     getUserToSendFromUserListWithChatID,
-} from './lib/action.js';
-import { _subscribeForeignStatesAsync } from './lib/subscribeStates.js';
-import { sendToTelegram } from './lib/telegram.js';
+} from './app/action.js';
+import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
+import { sendToTelegram } from './app/telegram.js';
 import { changeValue, decomposeText } from './lib/utilities.js';
-import { createState } from './lib/createState.js';
-import { saveMessageIds } from './lib/messageIds.js';
-import { adapterStartMenuSend } from './lib/adapterStartMenuSend.js';
-import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './lib/processData.js';
-import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './lib/shoppingList.js';
-import { debug, error } from './lib/logging.js';
-
+import { createState } from './app/createState.js';
+import { saveMessageIds } from './app/messageIds.js';
+import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
+import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app/processData.js';
+import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
+import { errorLogger } from './app/logging.js';
 import type {
     Checkboxes,
     DataObject,
@@ -34,14 +33,14 @@ import type {
     ListOfMenus,
     MenuData,
     MenusWithUsers,
-    NewObjectNavStructureKey,
     SetStateIds,
     StartSides,
     UserListWithChatId,
-} from './lib/telegram-menu.js';
+} from './types/types';
 import type { BooleanString } from '@/types/app.js';
-import { checkIsTelegramActive } from './lib/connection.js';
-import { isDefined, isFalsy, isString } from './lib/global';
+import { checkIsTelegramActive } from './app/connection.js';
+import { isDefined, isFalsy, isString } from './app/global';
+import { jsonString } from './lib/string';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -61,10 +60,6 @@ export default class TelegramMenu extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('unload', this.onUnload.bind(this));
         TelegramMenu.instance = this;
-    }
-
-    public static getInstance(): TelegramMenu {
-        return TelegramMenu.instance;
     }
 
     private async onReady(): Promise<void> {
@@ -124,7 +119,7 @@ export default class TelegramMenu extends utils.Adapter {
                 this.log.info('Telegram was found');
 
                 for (const name in nav) {
-                    const value = editArrayButtons(nav[name], this);
+                    const value = editArrayButtons(nav[name]);
 
                     const newObjectStructure = generateNewObjectStructure(value);
                     if (newObjectStructure) {
@@ -139,13 +134,13 @@ export default class TelegramMenu extends utils.Adapter {
                         menuData.data[name] = generatedActions?.obj;
                         subscribeForeignStateIds = generatedActions?.ids;
                     } else {
-                        debug([{ text: 'No Actions generated!' }]);
+                        _this.log.debug('No Actions generated!');
                     }
 
                     if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
                         await _subscribeForeignStatesAsync(subscribeForeignStateIds);
                     } else {
-                        debug([{ text: 'Nothing to Subscribe!' }]);
+                        _this.log.debug('Nothing to Subscribe!');
                     }
 
                     // Subscribe Events
@@ -154,16 +149,12 @@ export default class TelegramMenu extends utils.Adapter {
                             await _subscribeForeignStatesAsync([event.ID]);
                         }
                     }
-                    debug([
-                        { text: 'Menu: ', val: name },
-                        { text: 'Array Buttons: ', val: value },
-                        { text: 'Gen. Actions: ', val: menuData.data[name] },
-                    ]);
+                    _this.log.debug(`Menu: ${name}`);
+                    _this.log.debug(`Array Buttons: ${jsonString(value)}`);
+                    _this.log.debug(`Gen. Actions: ${jsonString(menuData.data[name])}`);
                 }
-                debug([
-                    { text: 'Checkbox', val: checkboxes },
-                    { text: 'MenuList', val: listOfMenus },
-                ]);
+                _this.log.debug(`Checkbox: ${jsonString(checkboxes)}`);
+                _this.log.debug(`MenuList: ${jsonString(listOfMenus)}`);
 
                 if (sendMenuAfterRestart) {
                     await adapterStartMenuSend(
@@ -238,7 +229,7 @@ export default class TelegramMenu extends utils.Adapter {
 
                         value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        const menus: NewObjectNavStructureKey[] = getMenusWithUserToSend(menusWithUsers, userToSend);
+                        const menus = getMenusWithUserToSend(menusWithUsers, userToSend);
 
                         const dataFound = await checkEveryMenuForData({
                             menuData,
@@ -255,13 +246,11 @@ export default class TelegramMenu extends utils.Adapter {
                             timeoutKey,
                         });
 
-                        debug([
-                            { text: 'Groups with searched User:', val: menus },
-                            { text: 'Data found:', val: dataFound },
-                        ]);
+                        this.log.debug(`Groups with searched User: ${jsonString(menus)}`);
+                        this.log.debug(`Data found: ${dataFound}`);
 
                         if (!dataFound && checkboxNoEntryFound && userToSend) {
-                            debug([{ text: 'No Entry found' }]);
+                            _this.log.debug('No Entry found');
                             await sendToTelegram({
                                 user: userToSend,
                                 textToSend: textNoEntryFound,
@@ -279,17 +268,13 @@ export default class TelegramMenu extends utils.Adapter {
                         setStateIdsToListenTo &&
                         setStateIdsToListenTo.find((element: { id: string }) => element.id == id)
                     ) {
-                        debug([
-                            { text: 'State, which is listen to was changed:', val: id },
-                            { text: 'State:', val: state },
-                        ]);
+                        _this.log.debug(`State, which is listen to was changed: ${id}`);
+                        _this.log.debug(`State: ${jsonString(state)}`);
 
                         setStateIdsToListenTo.forEach((element, key: number) => {
                             if (element.id == id) {
-                                debug([
-                                    { text: 'Send Value:', val: element },
-                                    { text: 'Ack:', val: state.ack },
-                                ]);
+                                _this.log.debug(`Send Value: ${jsonString(element)}`);
+                                _this.log.debug(`State: ${jsonString(state)}`);
 
                                 if (
                                     !isFalsy(element.confirm) &&
@@ -301,7 +286,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         '{confirmSet:',
                                         '}',
                                     ).substring.split(':');
-                                    debug([{ text: 'Substring:', val: substring }]);
+                                    _this.log.debug(`Substring: ${jsonString(substring)}`);
                                     let text = '';
                                     if (isDefined(state.val)) {
                                         text =
@@ -309,10 +294,10 @@ export default class TelegramMenu extends utils.Adapter {
                                                 ? substring[1]
                                                 : exchangePlaceholderWithValue(substring[1], state.val.toString());
                                     }
-                                    debug([{ text: 'Return-text:', val: text }]);
+                                    _this.log.debug(`Return-text: ${text}`);
 
                                     if (text === '') {
-                                        error([{ text: 'The return text cannot be empty, please check.' }]);
+                                        _this.log.error('The return text cannot be empty, please check.');
                                     }
 
                                     sendToTelegram({
@@ -324,20 +309,14 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode as BooleanString,
                                     }).catch((e: { message: any; stack: any }) => {
-                                        error([
-                                            { text: 'Error SendToTelegram' },
-                                            { val: e.message },
-                                            { text: 'Error', val: e.stack },
-                                        ]);
+                                        errorLogger('Error SendToTelegram', e);
                                     });
                                     return;
                                 }
-                                debug([
-                                    {
-                                        text: 'Data: ',
-                                        val: { confirm: element.confirm, ack: state?.ack, val: state?.val },
-                                    },
-                                ]);
+                                _this.log.debug(
+                                    `Data: ${jsonString({ confirm: element.confirm, ack: state?.ack, val: state?.val })}`,
+                                );
+
                                 if (!isFalsy(element.confirm) && state?.ack) {
                                     let textToSend = element.returnText;
 
@@ -348,10 +327,14 @@ export default class TelegramMenu extends utils.Adapter {
 
                                     let value: string | number = '';
                                     let valueChange: string | number | null = null;
-                                    const resultChange = changeValue(textToSend, state.val?.toString() || '');
-                                    if (resultChange) {
-                                        valueChange = resultChange.val;
-                                        textToSend = resultChange.textToSend;
+                                    const {
+                                        val,
+                                        textToSend: changedText,
+                                        error,
+                                    } = changeValue(textToSend, state.val?.toString() || '');
+                                    if (!error) {
+                                        valueChange = val;
+                                        textToSend = changedText;
                                     }
 
                                     if (textToSend?.toString().includes('{novalue}')) {
@@ -364,7 +347,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         value = valueChange;
                                     }
 
-                                    debug([{ text: 'Value to send:', val: value }]);
+                                    _this.log.debug(`Value to send: ${value}`);
                                     textToSend = exchangePlaceholderWithValue(textToSend, value);
 
                                     sendToTelegram({
@@ -377,11 +360,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode as BooleanString,
                                     }).catch((e: { message: any; stack: any }) => {
-                                        error([
-                                            { text: 'Error sendToTelegram' },
-                                            { val: e.message },
-                                            { text: 'Error', val: e.stack },
-                                        ]);
+                                        errorLogger('Error sendToTelegram', e);
                                     });
 
                                     setStateIdsToListenTo.splice(key, 1);
@@ -391,7 +370,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
                 });
             } catch (e: any) {
-                error([{ text: 'Error onReady' }, { val: e.message }, { text: 'Error', val: e.stack }]);
+                errorLogger('Error onReady', e);
             }
         });
 
@@ -445,7 +424,7 @@ export default class TelegramMenu extends utils.Adapter {
         const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 
         if (!chatID?.val) {
-            debug([{ text: 'ChatID not found' }]);
+            _this.log.debug('ChatID not found');
             return;
         }
 
@@ -466,13 +445,13 @@ export default class TelegramMenu extends utils.Adapter {
         const timeouts = getTimeouts();
         try {
             // Here you must clear all timeouts or intervals that may still be active
-            timeouts.forEach((element: { timeout: string | number | NodeJS.Timeout | undefined }) => {
-                clearTimeout(element.timeout);
+            timeouts.forEach(element => {
+                _this.clearTimeout(element.timeout);
             });
 
             callback();
         } catch (e: any) {
-            this.log.error(`Error onUnload  ${e}`);
+            errorLogger(e, 'Error onUnload');
             callback();
         }
     }

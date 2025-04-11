@@ -1,37 +1,9 @@
-import TelegramMenu, { _this } from '../main';
-import { isDefined, isJSON, replaceAll } from './global';
-import { debug, error } from './logging';
-import type { ProzessTimeValue, UserListWithChatId } from './telegram-menu';
+import { _this } from '../main';
+import { isDefined } from '../app/global';
+import { parseJSON, replaceAll } from './string';
+import { errorLogger } from '../app/logging';
+import { integrateTimeIntoText } from './time';
 
-const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
-    const date = Number(obj.val);
-
-    if (!isDefined(date)) {
-        return textToSend;
-    }
-    const time = new Date(date);
-    if (isNaN(time.getTime())) {
-        error([{ text: 'Invalid Date:', val: date }]);
-        return textToSend;
-    }
-    const timeString = time.toLocaleDateString('de-DE', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-    });
-    return textToSend.replace('{time}', timeString);
-};
-
-const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string => {
-    let chatId = '';
-    userListWithChatID.forEach(element => {
-        if (element.name === user) {
-            chatId = element.chatID;
-        }
-    });
-    return chatId;
-};
 const exchangeValue = (
     textToSend: string,
     stateVal: string | number | boolean,
@@ -41,12 +13,14 @@ const exchangeValue = (
     let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
 
     let objChangeValue;
-    match = match.replace(/'/g, '"');
+    match = replaceAll(match, "'", '"');
 
-    if (isJSON(`{${match}}`)) {
-        objChangeValue = JSON.parse(`{${match}}`);
+    // TODO check type
+    const { json, isValidJson } = parseJSON<any>(`{${match}}`);
+    if (isValidJson) {
+        objChangeValue = json;
     } else {
-        error([{ text: `There is a error in your input:`, val: replaceAll(match, '"', "'") }]);
+        _this.log.error(`There is a error in your input: ${match}`);
         return false;
     }
 
@@ -78,22 +52,21 @@ function decomposeText(
 function changeValue(
     textToSend: string,
     val: string | number | boolean,
-): { textToSend: string; val: string | number } | undefined {
+): { textToSend: string; val: string | number; error?: boolean } {
     if (textToSend.includes('change{')) {
         const result = exchangeValue(textToSend, val);
         if (!result) {
-            return;
+            return { textToSend: '', val: '', error: true };
         }
         if (typeof result === 'boolean') {
-            return;
+            return { textToSend: '', val: '', error: true };
         }
-        return { textToSend: result.textToSend, val: result.valueChange };
+        return { textToSend: result.textToSend, val: result.valueChange, error: false };
     }
+    return { textToSend: '', val: '', error: true };
 }
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
-    const _this = TelegramMenu.getInstance();
-
     let key = '';
     const { substring } = decomposeText(textToSend, '{time.', '}');
     const array = substring.split(',');
@@ -108,7 +81,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
     let idFromText = '';
     if (!id) {
         if (!changedSubstring.includes('id:')) {
-            debug([{ text: 'Error processTimeIdLc: id not found in:', val: changedSubstring }]);
+            _this.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
             return;
         }
 
@@ -183,7 +156,6 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 
 const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): Promise<string> => {
     try {
-        const _this = TelegramMenu.getInstance();
         const substring = decomposeText(text, '{status:', '}').substring;
         let id, valueChange;
         _this.log.debug(`Substring ${substring}`);
@@ -205,9 +177,9 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
 
         if (text.includes('{time}') && processTimeValue) {
             text = text.replace(substring, '');
-            if (stateValue.val && typeof stateValue.val === 'string') {
-                return processTimeValue(text, stateValue).replace(stateValue.val, '');
-            }
+
+            const val = String(stateValue.val);
+            return processTimeValue(text, val).replace(val, '');
         }
         if (!isDefined(stateValue.val)) {
             _this.log.debug(`State Value is undefined: ${id}`);
@@ -236,8 +208,6 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
     }
 };
 const checkStatusInfo = async (text: string): Promise<string | undefined> => {
-    const _this = TelegramMenu.getInstance();
-
     try {
         if (!text) {
             return;
@@ -246,7 +216,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
 
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
-                text = await checkStatus(text, processTimeValue);
+                text = await checkStatus(text, integrateTimeIntoText);
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
@@ -274,10 +244,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             return text;
         }
     } catch (e: any) {
-        error([
-            { text: 'Error checkStatusInfo:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error checkStatusInfo:', e);
     }
 };
 
@@ -285,9 +252,8 @@ async function checkTypeOfId(
     id: string,
     value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
 ): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
-    const _this = TelegramMenu.getInstance();
     try {
-        debug([{ text: `Check Type of Id: ${id}` }]);
+        _this.log.debug(`Check Type of Id: ${id}`);
         const obj = await _this.getForeignObjectAsync(id);
         const receivedType = typeof value;
         if (!obj || !value) {
@@ -297,7 +263,7 @@ async function checkTypeOfId(
             return value;
         }
 
-        debug([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
+        _this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
 
         if (obj.common.type === 'boolean') {
             if (value == 'true') {
@@ -317,29 +283,8 @@ async function checkTypeOfId(
 
         return value;
     } catch (e: any) {
-        error([
-            { text: 'Error checkTypeOfId:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        errorLogger('Error checkTypeOfId:', e);
     }
 }
 
-const newLine = (text: string): string => {
-    if (isJSON(text)) {
-        text = JSON.parse(text);
-    }
-
-    return text.replace(/""/g, '"').replace(/\\n/g, '\n');
-};
-
-export {
-    checkStatusInfo,
-    checkTypeOfId,
-    changeValue,
-    newLine,
-    processTimeIdLc,
-    processTimeValue,
-    decomposeText,
-    replaceAll,
-    getChatID,
-};
+export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, decomposeText };

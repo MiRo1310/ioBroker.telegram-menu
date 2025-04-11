@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
@@ -32,52 +22,24 @@ __export(utilities_exports, {
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
   decomposeText: () => decomposeText,
-  getChatID: () => getChatID,
-  newLine: () => newLine,
-  processTimeIdLc: () => processTimeIdLc,
-  processTimeValue: () => processTimeValue,
-  replaceAll: () => import_global.replaceAll
+  processTimeIdLc: () => processTimeIdLc
 });
 module.exports = __toCommonJS(utilities_exports);
-var import_main = __toESM(require("../main"));
-var import_global = require("./global");
-var import_logging = require("./logging");
-const processTimeValue = (textToSend, obj) => {
-  const date = Number(obj.val);
-  if (!(0, import_global.isDefined)(date)) {
-    return textToSend;
-  }
-  const time = new Date(date);
-  if (isNaN(time.getTime())) {
-    (0, import_logging.error)([{ text: "Invalid Date:", val: date }]);
-    return textToSend;
-  }
-  const timeString = time.toLocaleDateString("de-DE", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
-  return textToSend.replace("{time}", timeString);
-};
-const getChatID = (userListWithChatID, user) => {
-  let chatId = "";
-  userListWithChatID.forEach((element) => {
-    if (element.name === user) {
-      chatId = element.chatID;
-    }
-  });
-  return chatId;
-};
+var import_main = require("../main");
+var import_global = require("../app/global");
+var import_string = require("./string");
+var import_logging = require("../app/logging");
+var import_time = require("./time");
 const exchangeValue = (textToSend, stateVal) => {
   const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
   let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
   let objChangeValue;
-  match = match.replace(/'/g, '"');
-  if ((0, import_global.isJSON)(`{${match}}`)) {
-    objChangeValue = JSON.parse(`{${match}}`);
+  match = (0, import_string.replaceAll)(match, "'", '"');
+  const { json, isValidJson } = (0, import_string.parseJSON)(`{${match}}`);
+  if (isValidJson) {
+    objChangeValue = json;
   } else {
-    (0, import_logging.error)([{ text: `There is a error in your input:`, val: (0, import_global.replaceAll)(match, '"', "'") }]);
+    import_main._this.log.error(`There is a error in your input: ${match}`);
     return false;
   }
   let newValue;
@@ -103,16 +65,16 @@ function changeValue(textToSend, val) {
   if (textToSend.includes("change{")) {
     const result = exchangeValue(textToSend, val);
     if (!result) {
-      return;
+      return { textToSend: "", val: "", error: true };
     }
     if (typeof result === "boolean") {
-      return;
+      return { textToSend: "", val: "", error: true };
     }
-    return { textToSend: result.textToSend, val: result.valueChange };
+    return { textToSend: result.textToSend, val: result.valueChange, error: false };
   }
+  return { textToSend: "", val: "", error: true };
 }
 const processTimeIdLc = async (textToSend, id) => {
-  const _this2 = import_main.default.getInstance();
   let key = "";
   const { substring } = decomposeText(textToSend, "{time.", "}");
   const array = substring.split(",");
@@ -126,7 +88,7 @@ const processTimeIdLc = async (textToSend, id) => {
   let idFromText = "";
   if (!id) {
     if (!changedSubstring.includes("id:")) {
-      (0, import_logging.debug)([{ text: "Error processTimeIdLc: id not found in:", val: changedSubstring }]);
+      import_main._this.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
       return;
     }
     if (array[2]) {
@@ -137,7 +99,7 @@ const processTimeIdLc = async (textToSend, id) => {
   if (!id && !idFromText) {
     return;
   }
-  const value = await _this2.getForeignStateAsync(id || idFromText);
+  const value = await import_main._this.getForeignStateAsync(id || idFromText);
   let timeValue;
   let timeStringUser;
   if (key && value) {
@@ -194,12 +156,11 @@ const processTimeIdLc = async (textToSend, id) => {
   }
   return textToSend;
 };
-const checkStatus = async (text, processTimeValue2) => {
+const checkStatus = async (text, processTimeValue) => {
   try {
-    const _this2 = import_main.default.getInstance();
     const substring = decomposeText(text, "{status:", "}").substring;
     let id, valueChange;
-    _this2.log.debug(`Substring ${substring}`);
+    import_main._this.log.debug(`Substring ${substring}`);
     if (substring.includes("status:'id':")) {
       id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
@@ -207,19 +168,18 @@ const checkStatus = async (text, processTimeValue2) => {
       id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
     }
-    const stateValue = await _this2.getForeignStateAsync(id);
+    const stateValue = await import_main._this.getForeignStateAsync(id);
     if (!stateValue) {
-      _this2.log.debug(`State not found: ${id}`);
+      import_main._this.log.debug(`State not found: ${id}`);
       return "";
     }
-    if (text.includes("{time}") && processTimeValue2) {
+    if (text.includes("{time}") && processTimeValue) {
       text = text.replace(substring, "");
-      if (stateValue.val && typeof stateValue.val === "string") {
-        return processTimeValue2(text, stateValue).replace(stateValue.val, "");
-      }
+      const val = String(stateValue.val);
+      return processTimeValue(text, val).replace(val, "");
     }
     if (!(0, import_global.isDefined)(stateValue.val)) {
-      _this2.log.debug(`State Value is undefined: ${id}`);
+      import_main._this.log.debug(`State Value is undefined: ${id}`);
       return text.replace(substring, "");
     }
     if (!valueChange) {
@@ -233,8 +193,8 @@ const checkStatus = async (text, processTimeValue2) => {
     } else {
       newValue = stateValue.val;
     }
-    _this2.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
-    _this2.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
+    import_main._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+    import_main._this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
     return text.replace(substring, newValue.toString());
   } catch (e) {
     import_main._this.log.error(`Error checkStatus:${e.message}`);
@@ -243,15 +203,14 @@ const checkStatus = async (text, processTimeValue2) => {
   }
 };
 const checkStatusInfo = async (text) => {
-  const _this2 = import_main.default.getInstance();
   try {
     if (!text) {
       return;
     }
-    _this2.log.debug(`Text: ${text}`);
+    import_main._this.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
-        text = await checkStatus(text, processTimeValue);
+        text = await checkStatus(text, import_time.integrateTimeIntoText);
       }
     }
     if (text.includes("{time.lc") || text.includes("{time.ts")) {
@@ -268,25 +227,21 @@ const checkStatusInfo = async (text) => {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await _this2.setForeignStateAsync(id, convertedValue, ack);
+        await import_main._this.setForeignStateAsync(id, convertedValue, ack);
       }
     }
     if (text) {
-      _this2.log.debug(`CheckStatusInfo: ${text}`);
+      import_main._this.log.debug(`CheckStatusInfo: ${text}`);
       return text;
     }
   } catch (e) {
-    (0, import_logging.error)([
-      { text: "Error checkStatusInfo:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkStatusInfo:", e);
   }
 };
 async function checkTypeOfId(id, value) {
-  const _this2 = import_main.default.getInstance();
   try {
-    (0, import_logging.debug)([{ text: `Check Type of Id: ${id}` }]);
-    const obj = await _this2.getForeignObjectAsync(id);
+    import_main._this.log.debug(`Check Type of Id: ${id}`);
+    const obj = await import_main._this.getForeignObjectAsync(id);
     const receivedType = typeof value;
     if (!obj || !value) {
       return value;
@@ -294,7 +249,7 @@ async function checkTypeOfId(id, value) {
     if (receivedType === obj.common.type || !obj.common.type) {
       return value;
     }
-    (0, import_logging.debug)([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
+    import_main._this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
     if (obj.common.type === "boolean") {
       if (value == "true") {
         value = true;
@@ -312,28 +267,15 @@ async function checkTypeOfId(id, value) {
     }
     return value;
   } catch (e) {
-    (0, import_logging.error)([
-      { text: "Error checkTypeOfId:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkTypeOfId:", e);
   }
 }
-const newLine = (text) => {
-  if ((0, import_global.isJSON)(text)) {
-    text = JSON.parse(text);
-  }
-  return text.replace(/""/g, '"').replace(/\\n/g, "\n");
-};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   changeValue,
   checkStatusInfo,
   checkTypeOfId,
   decomposeText,
-  getChatID,
-  newLine,
-  processTimeIdLc,
-  processTimeValue,
-  replaceAll
+  processTimeIdLc
 });
 //# sourceMappingURL=utilities.js.map

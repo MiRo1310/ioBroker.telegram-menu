@@ -18,12 +18,36 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var string_exports = {};
 __export(string_exports, {
-  isDefined: () => isDefined
+  jsonString: () => jsonString,
+  parseJSON: () => parseJSON,
+  replaceAll: () => replaceAll,
+  validateNewLine: () => validateNewLine
 });
 module.exports = __toCommonJS(string_exports);
-const isDefined = (value) => value !== void 0 && value !== null;
+var import_main = require("../main");
+const jsonString = (val) => JSON.stringify(val);
+function parseJSON(val) {
+  try {
+    const parsed = JSON.parse(val);
+    return { json: parsed, isValidJson: true };
+  } catch (error) {
+    import_main._this.log.error(`Error parse json: ${jsonString(error)}`);
+    return { json: {}, isValidJson: false };
+  }
+}
+const validateNewLine = (text) => {
+  const { json, isValidJson } = parseJSON(text);
+  if (isValidJson) {
+    text = json;
+  }
+  return text.replace(/""/g, '"').replace(/\\n/g, "\n");
+};
+const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, "g"), replaceValue);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  isDefined
+  jsonString,
+  parseJSON,
+  replaceAll,
+  validateNewLine
 });
 //# sourceMappingURL=string.js.map
