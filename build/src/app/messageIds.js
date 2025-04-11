@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveMessageIds = exports.deleteMessageIds = void 0;
+exports.deleteMessageIds = deleteMessageIds;
+exports.saveMessageIds = saveMessageIds;
 const main_1 = require("../main");
 const botAction_1 = require("./botAction");
 const logging_1 = require("./logging");
@@ -38,7 +39,6 @@ async function saveMessageIds(state, instanceTelegram) {
         (0, logging_1.errorLogger)('Error saveMessageIds:', e);
     }
 }
-exports.saveMessageIds = saveMessageIds;
 function removeOldMessageIds(messages, chatID) {
     messages[chatID] = messages[chatID].filter(message => {
         return message.time && message.time > Date.now() - 1000 * 60 * 60 * 24 * 2;
@@ -85,5 +85,4 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
         (0, logging_1.errorLogger)('Error deleteMessageIds:', e);
     }
 }
-exports.deleteMessageIds = deleteMessageIds;
 //# sourceMappingURL=messageIds.js.map

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.callSubMenu = exports.subMenu = void 0;
+exports.subMenu = subMenu;
+exports.callSubMenu = callSubMenu;
 const backMenu_1 = require("./backMenu");
 const setstate_1 = require("./setstate");
 const telegram_1 = require("./telegram");
@@ -245,7 +246,6 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
         (0, logging_1.errorLogger)('Error callSubMenu:', e);
     }
 }
-exports.callSubMenu = callSubMenu;
 async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, navObj, }) {
     try {
         main_1._this.log.debug(`Menu : ${navObj[0][0]}`);
@@ -358,5 +358,4 @@ async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_key
         ]);
     }
 }
-exports.subMenu = subMenu;
 //# sourceMappingURL=subMenu.js.map

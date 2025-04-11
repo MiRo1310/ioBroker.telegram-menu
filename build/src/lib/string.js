@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateNewLine = exports.parseJSON = exports.jsonString = void 0;
+exports.replaceAll = exports.validateNewLine = exports.jsonString = void 0;
+exports.parseJSON = parseJSON;
 const main_1 = require("../main");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
@@ -14,7 +15,6 @@ function parseJSON(val) {
         return { json: {}, isValidJson: false };
     }
 }
-exports.parseJSON = parseJSON;
 const validateNewLine = (text) => {
     const { json, isValidJson } = parseJSON(text);
     if (isValidJson) {
@@ -23,4 +23,6 @@ const validateNewLine = (text) => {
     return text.replace(/""/g, '"').replace(/\\n/g, '\n');
 };
 exports.validateNewLine = validateNewLine;
+const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, 'g'), replaceValue);
+exports.replaceAll = replaceAll;
 //# sourceMappingURL=string.js.map

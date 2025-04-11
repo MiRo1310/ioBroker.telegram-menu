@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backMenuFunc = exports.switchBack = void 0;
+exports.switchBack = switchBack;
+exports.backMenuFunc = backMenuFunc;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
@@ -21,7 +22,6 @@ function backMenuFunc(nav, part, userToSend) {
     }
     main_1._this.log.debug(`BackMenu: ${(0, string_1.jsonString)(backMenu)}`);
 }
-exports.backMenuFunc = backMenuFunc;
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
     try {
         const list = backMenu[userToSend] && backMenu[userToSend]?.list ? backMenu[userToSend].list : [];
@@ -67,5 +67,4 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
         (0, logging_1.errorLogger)('Error in switchBack:', e);
     }
 }
-exports.switchBack = switchBack;
 //# sourceMappingURL=backMenu.js.map

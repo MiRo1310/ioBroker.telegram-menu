@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendLocationToTelegram = exports.sendToTelegramSubmenu = exports.sendToTelegram = void 0;
+exports.sendLocationToTelegram = void 0;
+exports.sendToTelegram = sendToTelegram;
+exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
@@ -48,7 +50,6 @@ async function sendToTelegram({ user = '', textToSend, keyboard, instance = 'tel
         (0, logging_1.errorLogger)('Error sendToTelegram:', e);
     }
 }
-exports.sendToTelegram = sendToTelegram;
 function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.0', userListWithChatID, parse_mode) {
     const parseModeType = getParseMode(parse_mode);
     main_1._this.log.debug(`Send this ParseMode: ${parseModeType}`);
@@ -66,7 +67,6 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.
         (0, logging_1.errorLogger)('Error sendToTelegramSubmenu:', e);
     }
 }
-exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, user);
