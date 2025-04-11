@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { toLocaleDate, integrateTimeIntoText } from '../../src/lib/time';
 import {config} from '../../src/config/config';
 
-describe('toLocaleDate', () => {
+describe('Time', () => {
         const testDate = new Date(1744388803096);
         const expectedDate = '11.4.2025, 18:26:43';
 
@@ -25,4 +25,12 @@ describe('toLocaleDate', () => {
         const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, "abc");
         expect(result).to.equal(`Test at "Invalid Date" created`);
     })
+
+    it("Handle a null value for time", ()=>{
+       [null, undefined].forEach((value) => {
+        const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, value);
+        expect(result).to.equal(`Test at "Invalid Date" created`);
+       })
+    })
+
 });

@@ -24,7 +24,6 @@ __export(time_exports, {
 module.exports = __toCommonJS(time_exports);
 var import_config = require("../config/config");
 const toLocaleDate = (ts) => {
-  console.log(import_config.defaultLocale);
   return ts.toLocaleDateString(import_config.defaultLocale, {
     hour: "2-digit",
     minute: "2-digit",

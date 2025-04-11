@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getChatID } from '../../src/lib/utils';
 import type { UserListWithChatId } from '../../src/types/types';
 
-describe('getChatID', () => {
+describe('Utils', () => {
     const mockData: UserListWithChatId[] = [
         { name: 'Alice', chatID: '123' },
         { name: 'Bob', chatID: '456' },

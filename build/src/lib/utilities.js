@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.processTimeIdLc = exports.checkStatusInfo = void 0;
+exports.decomposeText = exports.processTimeIdLc = exports.checkStatusInfo = void 0;
 exports.checkTypeOfId = checkTypeOfId;
 exports.changeValue = changeValue;
-exports.decomposeText = decomposeText;
 const main_1 = require("../main");
 const global_1 = require("../app/global");
 const string_1 = require("./string");
+Object.defineProperty(exports, "decomposeText", { enumerable: true, get: function () { return string_1.decomposeText; } });
 const logging_1 = require("../app/logging");
 const time_1 = require("./time");
 const exchangeValue = (textToSend, stateVal) => {
-    const { startindex, endindex } = decomposeText(textToSend, 'change{', '}');
+    const { startindex, endindex } = (0, string_1.decomposeText)(textToSend, 'change{', '}');
     let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
     let objChangeValue;
     match = (0, string_1.replaceAll)(match, "'", '"');
@@ -30,18 +30,6 @@ const exchangeValue = (textToSend, stateVal) => {
         textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
     };
 };
-function decomposeText(text, searchValue, secondValue) {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
-    const textWithoutSubstring = text.replace(substring, '').trim();
-    return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
-    };
-}
 function changeValue(textToSend, val) {
     if (textToSend.includes('change{')) {
         const result = exchangeValue(textToSend, val);
@@ -57,7 +45,7 @@ function changeValue(textToSend, val) {
 }
 const processTimeIdLc = async (textToSend, id) => {
     let key = '';
-    const { substring } = decomposeText(textToSend, '{time.', '}');
+    const { substring } = (0, string_1.decomposeText)(textToSend, '{time.', '}');
     const array = substring.split(',');
     let changedSubstring = substring;
     changedSubstring = changedSubstring.replace(array[0], '');
@@ -141,7 +129,7 @@ const processTimeIdLc = async (textToSend, id) => {
 exports.processTimeIdLc = processTimeIdLc;
 const checkStatus = async (text, processTimeValue) => {
     try {
-        const substring = decomposeText(text, '{status:', '}').substring;
+        const substring = (0, string_1.decomposeText)(text, '{status:', '}').substring;
         let id, valueChange;
         main_1._this.log.debug(`Substring ${substring}`);
         if (substring.includes("status:'id':")) {
@@ -203,7 +191,7 @@ const checkStatusInfo = async (text) => {
             text = (await processTimeIdLc(text, null)) || '';
         }
         if (text.includes('{set:')) {
-            const result = decomposeText(text, '{set:', '}');
+            const result = (0, string_1.decomposeText)(text, '{set:', '}');
             const id = result.substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
             const importedValue = result.substring.split(',')[1];
             text = result.textWithoutSubstring;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const utils_1 = require("../../src/lib/utils");
-describe('getChatID', () => {
+describe('Utils', () => {
     const mockData = [
         { name: 'Alice', chatID: '123' },
         { name: 'Bob', chatID: '456' },

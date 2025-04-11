@@ -18,6 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var string_exports = {};
 __export(string_exports, {
+  decomposeText: () => decomposeText,
   jsonString: () => jsonString,
   parseJSON: () => parseJSON,
   replaceAll: () => replaceAll,
@@ -43,8 +44,21 @@ const validateNewLine = (text) => {
   return text.replace(/""/g, '"').replace(/\\n/g, "\n");
 };
 const replaceAll = (text, searchValue, replaceValue) => text.replace(new RegExp(searchValue, "g"), replaceValue);
+function decomposeText(text, searchValue, secondValue) {
+  const startindex = text.indexOf(searchValue);
+  const endindex = text.indexOf(secondValue, startindex);
+  const substring = text.substring(startindex, endindex + secondValue.length);
+  const textWithoutSubstring = text.replace(substring, "").trim();
+  return {
+    startindex,
+    endindex,
+    substring,
+    textWithoutSubstring
+  };
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  decomposeText,
   jsonString,
   parseJSON,
   replaceAll,

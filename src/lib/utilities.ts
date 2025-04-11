@@ -1,6 +1,6 @@
 import { _this } from '../main';
 import { isDefined } from '../app/global';
-import { parseJSON, replaceAll } from './string';
+import { parseJSON, replaceAll, decomposeText } from './string';
 import { errorLogger } from '../app/logging';
 import { integrateTimeIntoText } from './time';
 
@@ -31,23 +31,6 @@ const exchangeValue = (
         textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
     };
 };
-
-function decomposeText(
-    text: string,
-    searchValue: string,
-    secondValue: string,
-): { startindex: number; endindex: number; substring: string; textWithoutSubstring: string } {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
-    const textWithoutSubstring = text.replace(substring, '').trim();
-    return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
-    };
-}
 
 function changeValue(
     textToSend: string,
