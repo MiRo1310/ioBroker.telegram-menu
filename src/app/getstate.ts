@@ -5,7 +5,7 @@ import { changeValue, processTimeIdLc } from '../lib/utilities';
 import { decomposeText, isDefined } from './global';
 import { _this } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
-import { processTimeValue } from '../lib/time';
+import { integrateTimeIntoText } from '../lib/time';
 import { jsonString } from '../lib/string';
 
 function getState(
@@ -56,13 +56,13 @@ function getState(
                 return;
             }
 
-            await _this.getForeignStateAsync(id).then(async (value?: ioBroker.State | null) => {
-                if (!isDefined(value)) {
+            await _this.getForeignStateAsync(id).then(async (state?: ioBroker.State | null) => {
+                if (!isDefined(state)) {
                     _this.log.error('The state is empty!');
                     return;
                 }
-                const valueForJson: string = value.val?.toString() ?? '';
-                _this.log.debug(`State: ${jsonString(value)}`);
+                const valueForJson: string = state.val?.toString() ?? '';
+                _this.log.debug(`State: ${jsonString(state)}`);
 
                 let val: string | number = valueForJson.replace(/\\/g, '').replace(/"/g, '');
 
@@ -77,7 +77,7 @@ function getState(
                         val = '';
                     }
                     if (textToSend.includes('{time}')) {
-                        textToSend = processTimeValue(textToSend, value);
+                        textToSend = integrateTimeIntoText(textToSend, state.val);
                         val = '';
                     }
                     if (textToSend.includes('math:')) {

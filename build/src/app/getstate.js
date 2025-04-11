@@ -29,13 +29,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 await (0, action_1.bindingFunc)(element.text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
                 return;
             }
-            await main_1._this.getForeignStateAsync(id).then(async (value) => {
-                if (!(0, global_1.isDefined)(value)) {
+            await main_1._this.getForeignStateAsync(id).then(async (state) => {
+                if (!(0, global_1.isDefined)(state)) {
                     main_1._this.log.error('The state is empty!');
                     return;
                 }
-                const valueForJson = value.val?.toString() ?? '';
-                main_1._this.log.debug(`State: ${(0, string_1.jsonString)(value)}`);
+                const valueForJson = state.val?.toString() ?? '';
+                main_1._this.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
                 let val = valueForJson.replace(/\\/g, '').replace(/"/g, '');
                 let newline = '';
                 if (element.newline === 'true') {
@@ -48,7 +48,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                         val = '';
                     }
                     if (textToSend.includes('{time}')) {
-                        textToSend = (0, time_1.processTimeValue)(textToSend, value);
+                        textToSend = (0, time_1.integrateTimeIntoText)(textToSend, state.val);
                         val = '';
                     }
                     if (textToSend.includes('math:')) {

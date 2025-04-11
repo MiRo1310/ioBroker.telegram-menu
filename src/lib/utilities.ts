@@ -2,7 +2,7 @@ import { _this } from '../main';
 import { isDefined } from '../app/global';
 import { parseJSON, replaceAll } from './string';
 import { errorLogger } from '../app/logging';
-import { processTimeValue } from './time';
+import { integrateTimeIntoText } from './time';
 
 const exchangeValue = (
     textToSend: string,
@@ -177,9 +177,9 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
 
         if (text.includes('{time}') && processTimeValue) {
             text = text.replace(substring, '');
-            if (stateValue.val && typeof stateValue.val === 'string') {
-                return processTimeValue(text, stateValue).replace(stateValue.val, '');
-            }
+
+            const val = String(stateValue.val);
+            return processTimeValue(text, val).replace(val, '');
         }
         if (!isDefined(stateValue.val)) {
             _this.log.debug(`State Value is undefined: ${id}`);
@@ -216,7 +216,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
 
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
-                text = await checkStatus(text, processTimeValue);
+                text = await checkStatus(text, integrateTimeIntoText);
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {

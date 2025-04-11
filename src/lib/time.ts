@@ -1,7 +1,8 @@
-import { _this } from '../main';
+import { config, defaultLocale } from '../config/config';
 
-export const toLocaleDate = (time: Date): string => {
-    return time.toLocaleDateString('de-DE', {
+export const toLocaleDate = (ts: Date): string => {
+    console.log(defaultLocale);
+    return ts.toLocaleDateString(defaultLocale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
@@ -9,13 +10,11 @@ export const toLocaleDate = (time: Date): string => {
     });
 };
 
-export const processTimeValue = (textToSend: string, obj: ioBroker.State): string => {
-    const date = new Date(Number(obj.val));
-
-    if (isNaN(date.getTime())) {
-        _this.log.error(`Invalid Date: ${String(date)}`);
-        return textToSend;
+export const integrateTimeIntoText = (text: string, val?: ioBroker.StateValue): string => {
+    if (!val) {
+        return text.replace(config.replacer.time, '"Invalid Date"');
     }
+    const date = new Date(Number(String(val)));
 
-    return textToSend.replace('{time}', toLocaleDate(date));
+    return text.replace(config.replacer.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };

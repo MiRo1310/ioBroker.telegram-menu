@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.processTimeValue = exports.toLocaleDate = void 0;
-const main_1 = require("../main");
-const toLocaleDate = (time) => {
-    return time.toLocaleDateString('de-DE', {
+exports.integrateTimeIntoText = exports.toLocaleDate = void 0;
+const config_1 = require("../config/config");
+const toLocaleDate = (ts) => {
+    console.log(config_1.defaultLocale);
+    return ts.toLocaleDateString(config_1.defaultLocale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
@@ -11,13 +12,12 @@ const toLocaleDate = (time) => {
     });
 };
 exports.toLocaleDate = toLocaleDate;
-const processTimeValue = (textToSend, obj) => {
-    const date = new Date(Number(obj.val));
-    if (isNaN(date.getTime())) {
-        main_1._this.log.error(`Invalid Date: ${String(date)}`);
-        return textToSend;
+const integrateTimeIntoText = (text, val) => {
+    if (!val) {
+        return text.replace(config_1.config.replacer.time, '"Invalid Date"');
     }
-    return textToSend.replace('{time}', (0, exports.toLocaleDate)(date));
+    const date = new Date(Number(String(val)));
+    return text.replace(config_1.config.replacer.time, isNaN(date.getTime()) ? '"Invalid Date"' : (0, exports.toLocaleDate)(date));
 };
-exports.processTimeValue = processTimeValue;
+exports.integrateTimeIntoText = integrateTimeIntoText;
 //# sourceMappingURL=time.js.map

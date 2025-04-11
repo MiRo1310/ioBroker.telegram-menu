@@ -159,9 +159,8 @@ const checkStatus = async (text, processTimeValue) => {
         }
         if (text.includes('{time}') && processTimeValue) {
             text = text.replace(substring, '');
-            if (stateValue.val && typeof stateValue.val === 'string') {
-                return processTimeValue(text, stateValue).replace(stateValue.val, '');
-            }
+            const val = String(stateValue.val);
+            return processTimeValue(text, val).replace(val, '');
         }
         if (!(0, global_1.isDefined)(stateValue.val)) {
             main_1._this.log.debug(`State Value is undefined: ${id}`);
@@ -197,7 +196,7 @@ const checkStatusInfo = async (text) => {
         main_1._this.log.debug(`Text: ${text}`);
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
-                text = await checkStatus(text, time_1.processTimeValue);
+                text = await checkStatus(text, time_1.integrateTimeIntoText);
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
