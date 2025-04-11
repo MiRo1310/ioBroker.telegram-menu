@@ -1,12 +1,12 @@
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc, calcValue, idBySelector, roundValue } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
-import { changeValue, processTimeIdLc } from '../lib/utilities';
+import { processTimeIdLc } from '../lib/utilities';
 import { isDefined } from './global';
 import { _this } from '../main';
-import type { Part, UserListWithChatId } from '../types/types';
+import type { Part, PrimitiveType, UserListWithChatId } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
-import { jsonString, decomposeText } from '../lib/string';
+import { decomposeText, getValueToExchange, jsonString } from '../lib/string';
 
 function getState(
     part: Part,
@@ -64,7 +64,7 @@ function getState(
                 const valueForJson: string = state.val?.toString() ?? '';
                 _this.log.debug(`State: ${jsonString(state)}`);
 
-                let val: string | number = valueForJson.replace(/\\/g, '').replace(/"/g, '');
+                let val: PrimitiveType = valueForJson.replace(/\\/g, '').replace(/"/g, '');
 
                 let newline = '';
                 if (element.newline === 'true') {
@@ -146,7 +146,7 @@ function getState(
                         }
                     }
 
-                    const { val: _val, textToSend: _text, error } = changeValue(textToSend, val);
+                    const { newValue: _val, textToSend: _text, error } = getValueToExchange(textToSend, val);
 
                     val = _val;
                     textToSend = _text;

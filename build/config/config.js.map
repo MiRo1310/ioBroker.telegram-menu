@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/config/config.ts"],
-  "sourcesContent": ["export const defaultLocale = 'de-DE';\nexport const timezone = 'Europe/Berlin';\n\nexport const config = {\n    replacer: {\n        time: '{time}',\n    },\n};\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,gBAAgB;AACtB,MAAM,WAAW;AAEjB,MAAM,SAAS;AAAA,EAClB,UAAU;AAAA,IACN,MAAM;AAAA,EACV;AACJ;",
+  "sourcesContent": ["export const defaultLocale = 'de-DE';\nexport const timezone = 'Europe/Berlin';\n\nexport const config = {\n    replacer: {\n        time: '{time}',\n        change: {\n            start: 'change{',\n            end: '}',\n            command: 'change',\n        },\n    },\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,gBAAgB;AACtB,MAAM,WAAW;AAEjB,MAAM,SAAS;AAAA,EAClB,UAAU;AAAA,IACN,MAAM;AAAA,IACN,QAAQ;AAAA,MACJ,OAAO;AAAA,MACP,KAAK;AAAA,MACL,SAAS;AAAA,IACb;AAAA,EACJ;AACJ;",
   "names": []
 }

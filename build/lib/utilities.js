@@ -18,7 +18,6 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
-  changeValue: () => changeValue,
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
   decomposeText: () => import_string.decomposeText,
@@ -30,38 +29,6 @@ var import_global = require("../app/global");
 var import_string = require("./string");
 var import_logging = require("../app/logging");
 var import_time = require("./time");
-const exchangeValue = (textToSend, stateVal) => {
-  const { startindex, endindex } = (0, import_string.decomposeText)(textToSend, "change{", "}");
-  let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
-  let objChangeValue;
-  match = (0, import_string.replaceAll)(match, "'", '"');
-  const { json, isValidJson } = (0, import_string.parseJSON)(`{${match}}`);
-  if (isValidJson) {
-    objChangeValue = json;
-  } else {
-    import_main._this.log.error(`There is a error in your input: ${match}`);
-    return false;
-  }
-  let newValue;
-  objChangeValue[String(stateVal)] ? newValue = objChangeValue[String(stateVal)] : newValue = stateVal;
-  return {
-    valueChange: newValue,
-    textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1)
-  };
-};
-function changeValue(textToSend, val) {
-  if (textToSend.includes("change{")) {
-    const result = exchangeValue(textToSend, val);
-    if (!result) {
-      return { textToSend: "", val: "", error: true };
-    }
-    if (typeof result === "boolean") {
-      return { textToSend: "", val: "", error: true };
-    }
-    return { textToSend: result.textToSend, val: result.valueChange, error: false };
-  }
-  return { textToSend: "", val: "", error: true };
-}
 const processTimeIdLc = async (textToSend, id) => {
   let key = "";
   const { substring } = (0, import_string.decomposeText)(textToSend, "{time.", "}");
@@ -163,8 +130,8 @@ const checkStatus = async (text, processTimeValue) => {
     }
     if (text.includes("{time}") && processTimeValue) {
       text = text.replace(substring, "");
-      const val = String(stateValue.val);
-      return processTimeValue(text, val).replace(val, "");
+      const val2 = String(stateValue.val);
+      return processTimeValue(text, val2).replace(val2, "");
     }
     if (!(0, import_global.isDefined)(stateValue.val)) {
       import_main._this.log.debug(`State Value is undefined: ${id}`);
@@ -173,15 +140,15 @@ const checkStatus = async (text, processTimeValue) => {
     if (!valueChange) {
       return text.replace(substring, stateValue.val.toString());
     }
-    const changedResult = changeValue(text, stateValue.val);
+    const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(text, stateValue.val);
     let newValue;
-    if (changedResult) {
-      text = changedResult.textToSend;
-      newValue = changedResult.val;
+    if (!error) {
+      text = textToSend;
+      newValue = val;
     } else {
       newValue = stateValue.val;
     }
-    import_main._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+    import_main._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
     import_main._this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
     return text.replace(substring, newValue.toString());
   } catch (e) {
@@ -260,7 +227,6 @@ async function checkTypeOfId(id, value) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  changeValue,
   checkStatusInfo,
   checkTypeOfId,
   decomposeText,

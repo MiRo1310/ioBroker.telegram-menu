@@ -2,47 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decomposeText = exports.processTimeIdLc = exports.checkStatusInfo = void 0;
 exports.checkTypeOfId = checkTypeOfId;
-exports.changeValue = changeValue;
 const main_1 = require("../main");
 const global_1 = require("../app/global");
 const string_1 = require("./string");
 Object.defineProperty(exports, "decomposeText", { enumerable: true, get: function () { return string_1.decomposeText; } });
 const logging_1 = require("../app/logging");
 const time_1 = require("./time");
-const exchangeValue = (textToSend, stateVal) => {
-    const { startindex, endindex } = (0, string_1.decomposeText)(textToSend, 'change{', '}');
-    let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
-    let objChangeValue;
-    match = (0, string_1.replaceAll)(match, "'", '"');
-    // TODO check type
-    const { json, isValidJson } = (0, string_1.parseJSON)(`{${match}}`);
-    if (isValidJson) {
-        objChangeValue = json;
-    }
-    else {
-        main_1._this.log.error(`There is a error in your input: ${match}`);
-        return false;
-    }
-    let newValue;
-    objChangeValue[String(stateVal)] ? (newValue = objChangeValue[String(stateVal)]) : (newValue = stateVal);
-    return {
-        valueChange: newValue,
-        textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
-    };
-};
-function changeValue(textToSend, val) {
-    if (textToSend.includes('change{')) {
-        const result = exchangeValue(textToSend, val);
-        if (!result) {
-            return { textToSend: '', val: '', error: true };
-        }
-        if (typeof result === 'boolean') {
-            return { textToSend: '', val: '', error: true };
-        }
-        return { textToSend: result.textToSend, val: result.valueChange, error: false };
-    }
-    return { textToSend: '', val: '', error: true };
-}
 const processTimeIdLc = async (textToSend, id) => {
     let key = '';
     const { substring } = (0, string_1.decomposeText)(textToSend, '{time.', '}');
@@ -157,16 +122,16 @@ const checkStatus = async (text, processTimeValue) => {
         if (!valueChange) {
             return text.replace(substring, stateValue.val.toString());
         }
-        const changedResult = changeValue(text, stateValue.val);
+        const { newValue: val, textToSend, error } = (0, string_1.getValueToExchange)(text, stateValue.val);
         let newValue;
-        if (changedResult) {
-            text = changedResult.textToSend;
-            newValue = changedResult.val;
+        if (!error) {
+            text = textToSend;
+            newValue = val;
         }
         else {
             newValue = stateValue.val;
         }
-        main_1._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+        main_1._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
         main_1._this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
         return text.replace(substring, newValue.toString());
     }

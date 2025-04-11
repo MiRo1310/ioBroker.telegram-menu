@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
+exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
+const main_1 = require("../main");
+const config_1 = require("../config/config");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
 function parseJSON(val) {
@@ -21,6 +23,9 @@ const replaceAll = (text, searchValue, replaceValue) => {
 };
 exports.replaceAll = replaceAll;
 const validateNewLine = (text) => {
+    if (!text) {
+        return '';
+    }
     return text
         .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
         .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
@@ -40,4 +45,24 @@ function decomposeText(text, searchValue, secondValue) {
         textWithoutSubstring: textWithoutSubstring,
     };
 }
+const getValueToExchange = (textToSend, val) => {
+    if (textToSend.includes(config_1.config.replacer.change.start)) {
+        const { start, end, command } = config_1.config.replacer.change;
+        const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
+        const modifiedString = (0, exports.replaceAll)(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
+        const { json, isValidJson } = parseJSON(modifiedString);
+        if (isValidJson) {
+            const _json = json;
+            return {
+                newValue: _json[String(val)] ?? val,
+                textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
+                error: false,
+            };
+        }
+        main_1._this.log.error(`There is a error in your input: ${modifiedString}`);
+        return { newValue: val, textToSend, error: true };
+    }
+    return { textToSend, newValue: val, error: false };
+};
+exports.getValueToExchange = getValueToExchange;
 //# sourceMappingURL=string.js.map

@@ -262,9 +262,9 @@ class TelegramMenu extends utils.Adapter {
                                     }
                                     let value = '';
                                     let valueChange = null;
-                                    const { val, textToSend: changedText, error, } = (0, utilities_js_1.changeValue)(textToSend, state.val?.toString() || '');
+                                    const { newValue, textToSend: changedText, error, } = (0, string_1.getValueToExchange)(textToSend, state.val?.toString() || '');
                                     if (!error) {
-                                        valueChange = val;
+                                        valueChange = newValue;
                                         textToSend = changedText;
                                     }
                                     if (textToSend?.toString().includes('{novalue}')) {
@@ -274,7 +274,7 @@ class TelegramMenu extends utils.Adapter {
                                     else if ((0, global_1.isDefined)(state?.val)) {
                                         value = state.val?.toString() || '';
                                     }
-                                    if (valueChange) {
+                                    if ((0, global_1.isDefined)(valueChange)) {
                                         value = valueChange;
                                     }
                                     exports._this.log.debug(`Value to send: ${value}`);

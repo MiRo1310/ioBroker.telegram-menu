@@ -18,7 +18,7 @@ import {
 } from './app/action.js';
 import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
 import { sendToTelegram } from './app/telegram.js';
-import { changeValue, decomposeText } from './lib/utilities.js';
+import { decomposeText } from './lib/utilities.js';
 import { createState } from './app/createState.js';
 import { saveMessageIds } from './app/messageIds.js';
 import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
@@ -33,6 +33,7 @@ import type {
     ListOfMenus,
     MenuData,
     MenusWithUsers,
+    PrimitiveType,
     SetStateIds,
     StartSides,
     UserListWithChatId,
@@ -40,7 +41,7 @@ import type {
 import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './app/connection.js';
 import { isDefined, isFalsy, isString } from './app/global';
-import { jsonString } from './lib/string';
+import { getValueToExchange, jsonString } from './lib/string';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -325,15 +326,15 @@ export default class TelegramMenu extends utils.Adapter {
                                         textToSend = textToSend.replace(substring, '');
                                     }
 
-                                    let value: string | number = '';
-                                    let valueChange: string | number | null = null;
+                                    let value: PrimitiveType = '';
+                                    let valueChange: PrimitiveType | null = null;
                                     const {
-                                        val,
+                                        newValue,
                                         textToSend: changedText,
                                         error,
-                                    } = changeValue(textToSend, state.val?.toString() || '');
+                                    } = getValueToExchange(textToSend, state.val?.toString() || '');
                                     if (!error) {
-                                        valueChange = val;
+                                        valueChange = newValue;
                                         textToSend = changedText;
                                     }
 
@@ -343,7 +344,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     } else if (isDefined(state?.val)) {
                                         value = state.val?.toString() || '';
                                     }
-                                    if (valueChange) {
+                                    if (isDefined(valueChange)) {
                                         value = valueChange;
                                     }
 

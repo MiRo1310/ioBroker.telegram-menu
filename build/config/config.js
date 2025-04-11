@@ -27,7 +27,12 @@ const defaultLocale = "de-DE";
 const timezone = "Europe/Berlin";
 const config = {
   replacer: {
-    time: "{time}"
+    time: "{time}",
+    change: {
+      start: "change{",
+      end: "}",
+      command: "change"
+    }
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

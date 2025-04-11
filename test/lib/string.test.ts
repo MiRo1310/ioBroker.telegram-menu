@@ -1,7 +1,16 @@
-import {decomposeText, jsonString, parseJSON, replaceAll, validateNewLine} from "../../src/lib/string";
+import {decomposeText, jsonString, parseJSON, replaceAll, validateNewLine, getValueToExchange} from "../../src/lib/string";
 import {expect} from "chai";
+import {  utils } from "@iobroker/testing";
+const {  adapter, database } = utils.unit.createMocks({});
 
 describe("String", () => {
+
+    afterEach(() => {
+        // The mocks keep track of all method invocations - reset them after each single test
+        adapter.resetMockHistory();
+        // We want to start each test with a fresh database
+        database.clear();
+    });
 
     it("jsonString", () => {
         const result = jsonString({ test: "test" });
@@ -54,5 +63,41 @@ describe("String", () => {
         const result3 = decomposeText("Das ist ein __Test.", "?", "-");
         expect(result3).to.deep.equal({startindex: -1, endindex: -1, substring: "", textWithoutSubstring: "Das ist ein __Test." });
     })
+
+    it("soll den Wert erfolgreich austauschen, wenn JSON korrekt ist", () => {
+        const textToSend = 'change{"true":"an","false":"aus"}';
+        const val = "true";
+        const result = getValueToExchange(textToSend, val);
+
+        expect(result).to.deep.equal({
+            newValue: "an",
+            textToSend: "",
+            error: false,
+        });
+    });
+
+    it("soll den ursprünglichen Wert zurückgeben, wenn JSON ungültig ist", () => {
+        const textToSend = 'change{"true":"an","false":aus}';
+        const val = "true";
+        const result = getValueToExchange(textToSend, val);
+        expect(adapter.log.error.calledOnce).to.be.true;
+        expect(result).to.deep.equal({
+            newValue: val,
+            textToSend,
+            error: true,
+        });
+    });
+
+    it("soll den ursprünglichen Text zurückgeben, wenn kein 'change' enthalten ist", () => {
+        const textToSend = "Kein Austausch erforderlich";
+        const val = "true";
+        const result = getValueToExchange(textToSend, val);
+
+        expect(result).to.deep.equal({
+            newValue: val,
+            textToSend,
+            error: false,
+        });
+    });
 
 })

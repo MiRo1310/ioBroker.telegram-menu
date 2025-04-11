@@ -107,7 +107,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                             return;
                         }
                     }
-                    const { val: _val, textToSend: _text, error } = (0, utilities_1.changeValue)(textToSend, val);
+                    const { newValue: _val, textToSend: _text, error } = (0, string_1.getValueToExchange)(textToSend, val);
                     val = _val;
                     textToSend = _text;
                     if (!error) {

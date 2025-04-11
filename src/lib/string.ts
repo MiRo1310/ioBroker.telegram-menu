@@ -1,3 +1,7 @@
+import { _this } from '../main';
+import { config } from '../config/config';
+import type { ExchangeValueReturn, PrimitiveType } from '../types/types';
+
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
 export function parseJSON<T>(val: string): {
@@ -18,7 +22,10 @@ export const replaceAll = (text: string, searchValue: string, replaceValue: stri
     return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue).trim();
 };
 
-export const validateNewLine = (text: string): string => {
+export const validateNewLine = (text?: string): string => {
+    if (!text) {
+        return '';
+    }
     return text
         .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
         .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
@@ -42,3 +49,26 @@ export function decomposeText(
         textWithoutSubstring: textWithoutSubstring,
     };
 }
+
+export const getValueToExchange = (textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
+    if (textToSend.includes(config.replacer.change.start)) {
+        const { start, end, command } = config.replacer.change;
+        const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
+
+        const modifiedString = replaceAll(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
+
+        const { json, isValidJson } = parseJSON<Record<string, string>>(modifiedString);
+
+        if (isValidJson) {
+            const _json = json as Record<string, string>;
+            return {
+                newValue: _json[String(val)] ?? val,
+                textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
+                error: false,
+            };
+        }
+        _this.log.error(`There is a error in your input: ${modifiedString}`);
+        return { newValue: val, textToSend, error: true };
+    }
+    return { textToSend, newValue: val, error: false };
+};

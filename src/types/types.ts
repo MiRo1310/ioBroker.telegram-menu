@@ -402,3 +402,11 @@ export interface DeleteMessageIds {
     device2Switch: string;
     callbackData: string;
 }
+
+export interface ExchangeValueReturn {
+    newValue: string | number | boolean;
+    textToSend: string;
+    error: boolean;
+}
+
+export type PrimitiveType = string | number | boolean;

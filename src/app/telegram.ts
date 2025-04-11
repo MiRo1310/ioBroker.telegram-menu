@@ -17,7 +17,7 @@ async function sendToTelegram({
     parse_mode,
 }: {
     user: string;
-    textToSend: string;
+    textToSend?: string;
     keyboard?: Keyboard;
     instance: string;
     resize_keyboard: boolean;

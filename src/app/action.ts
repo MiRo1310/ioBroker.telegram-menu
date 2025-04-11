@@ -18,6 +18,7 @@ import type {
     Newline,
     NewObjectNavStructure,
     Part,
+    PrimitiveType,
     Switch,
     UserInGroup,
     UserListWithChatId,
@@ -383,7 +384,7 @@ function roundValue(val: string, textToSend: string): { val: string; textToSend:
     }
 }
 
-const exchangePlaceholderWithValue = (textToSend: string, text: string | number): string => {
+const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): string => {
     let searchString = '';
     if (textToSend.includes('&&')) {
         searchString = '&&';
@@ -391,8 +392,8 @@ const exchangePlaceholderWithValue = (textToSend: string, text: string | number)
         searchString = '&amp;&amp;';
     }
     searchString !== '' && textToSend.toString().indexOf(searchString) != -1
-        ? (textToSend = textToSend.replace(searchString, text.toString()))
-        : (textToSend += ` ${text}`);
+        ? (textToSend = textToSend.replace(searchString, val.toString()))
+        : (textToSend += ` ${val}`);
 
     return textToSend;
 };

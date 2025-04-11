@@ -344,14 +344,14 @@ function roundValue(val2, textToSend2) {
     (0, import_logging.errorLogger)("Error roundValue:", err);
   }
 }
-const exchangePlaceholderWithValue = (textToSend2, text2) => {
+const exchangePlaceholderWithValue = (textToSend2, val2) => {
   let searchString = "";
   if (textToSend2.includes("&&")) {
     searchString = "&&";
   } else if (textToSend2.includes("&amp;&amp;")) {
     searchString = "&amp;&amp;";
   }
-  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, text2.toString()) : textToSend2 += ` ${text2}`;
+  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, val2.toString()) : textToSend2 += ` ${val2}`;
   return textToSend2;
 };
 const adjustValueType = (value2, valueType) => {

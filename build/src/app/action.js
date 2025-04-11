@@ -335,7 +335,7 @@ function roundValue(val, textToSend) {
         (0, logging_js_1.errorLogger)('Error roundValue:', err);
     }
 }
-const exchangePlaceholderWithValue = (textToSend, text) => {
+const exchangePlaceholderWithValue = (textToSend, val) => {
     let searchString = '';
     if (textToSend.includes('&&')) {
         searchString = '&&';
@@ -344,8 +344,8 @@ const exchangePlaceholderWithValue = (textToSend, text) => {
         searchString = '&amp;&amp;';
     }
     searchString !== '' && textToSend.toString().indexOf(searchString) != -1
-        ? (textToSend = textToSend.replace(searchString, text.toString()))
-        : (textToSend += ` ${text}`);
+        ? (textToSend = textToSend.replace(searchString, val.toString()))
+        : (textToSend += ` ${val}`);
     return textToSend;
 };
 exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;

@@ -1,53 +1,8 @@
 import { _this } from '../main';
 import { isDefined } from '../app/global';
-import { parseJSON, replaceAll, decomposeText } from './string';
+import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
 import { integrateTimeIntoText } from './time';
-
-const exchangeValue = (
-    textToSend: string,
-    stateVal: string | number | boolean,
-): { valueChange: string; textToSend: string } | boolean => {
-    const { startindex, endindex } = decomposeText(textToSend, 'change{', '}');
-
-    let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
-
-    let objChangeValue;
-    match = replaceAll(match, "'", '"');
-
-    // TODO check type
-    const { json, isValidJson } = parseJSON<any>(`{${match}}`);
-    if (isValidJson) {
-        objChangeValue = json;
-    } else {
-        _this.log.error(`There is a error in your input: ${match}`);
-        return false;
-    }
-
-    let newValue;
-    objChangeValue[String(stateVal)] ? (newValue = objChangeValue[String(stateVal)]) : (newValue = stateVal);
-    return {
-        valueChange: newValue,
-        textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
-    };
-};
-
-function changeValue(
-    textToSend: string,
-    val: string | number | boolean,
-): { textToSend: string; val: string | number; error?: boolean } {
-    if (textToSend.includes('change{')) {
-        const result = exchangeValue(textToSend, val);
-        if (!result) {
-            return { textToSend: '', val: '', error: true };
-        }
-        if (typeof result === 'boolean') {
-            return { textToSend: '', val: '', error: true };
-        }
-        return { textToSend: result.textToSend, val: result.valueChange, error: false };
-    }
-    return { textToSend: '', val: '', error: true };
-}
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
     let key = '';
@@ -171,15 +126,15 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
         if (!valueChange) {
             return text.replace(substring, stateValue.val.toString());
         }
-        const changedResult = changeValue(text, stateValue.val);
+        const { newValue: val, textToSend, error } = getValueToExchange(text, stateValue.val);
         let newValue;
-        if (changedResult) {
-            text = changedResult.textToSend;
-            newValue = changedResult.val;
+        if (!error) {
+            text = textToSend;
+            newValue = val;
         } else {
             newValue = stateValue.val;
         }
-        _this.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
+        _this.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
         _this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
 
         return text.replace(substring, newValue.toString());
@@ -270,4 +225,4 @@ async function checkTypeOfId(
     }
 }
 
-export { checkStatusInfo, checkTypeOfId, changeValue, processTimeIdLc, decomposeText };
+export { checkStatusInfo, checkTypeOfId, processTimeIdLc, decomposeText };

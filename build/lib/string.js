@@ -19,12 +19,15 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var string_exports = {};
 __export(string_exports, {
   decomposeText: () => decomposeText,
+  getValueToExchange: () => getValueToExchange,
   jsonString: () => jsonString,
   parseJSON: () => parseJSON,
   replaceAll: () => replaceAll,
   validateNewLine: () => validateNewLine
 });
 module.exports = __toCommonJS(string_exports);
+var import_main = require("../main");
+var import_config = require("../config/config");
 const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val) {
   try {
@@ -39,6 +42,9 @@ const replaceAll = (text, searchValue, replaceValue) => {
   return text.replace(new RegExp(escapedSearchValue, "g"), replaceValue).trim();
 };
 const validateNewLine = (text) => {
+  if (!text) {
+    return "";
+  }
   return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "");
 };
 function decomposeText(text, searchValue, secondValue) {
@@ -53,9 +59,30 @@ function decomposeText(text, searchValue, secondValue) {
     textWithoutSubstring
   };
 }
+const getValueToExchange = (textToSend, val) => {
+  var _a;
+  if (textToSend.includes(import_config.config.replacer.change.start)) {
+    const { start, end, command } = import_config.config.replacer.change;
+    const { startindex, endindex, substring } = decomposeText(textToSend, start, end);
+    const substring2 = replaceAll(substring, "'", '"').replace(command, "");
+    const { json, isValidJson } = parseJSON(`${substring2}`);
+    if (isValidJson) {
+      const _json = json;
+      return {
+        newValue: (_a = _json[String(val)]) != null ? _a : val,
+        textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
+        error: false
+      };
+    }
+    import_main._this.log.error(`There is a error in your input: ${substring2}`);
+    return { newValue: val, textToSend, error: true };
+  }
+  return { textToSend, newValue: val, error: false };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
+  getValueToExchange,
   jsonString,
   parseJSON,
   replaceAll,
