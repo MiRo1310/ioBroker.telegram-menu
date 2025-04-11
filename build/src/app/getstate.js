@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getState = void 0;
+exports.getState = getState;
 const telegram_1 = require("./telegram");
 const action_1 = require("./action");
 const jsonTable_1 = require("./jsonTable");
@@ -154,5 +154,4 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         }
     });
 }
-exports.getState = getState;
 //# sourceMappingURL=getstate.js.map

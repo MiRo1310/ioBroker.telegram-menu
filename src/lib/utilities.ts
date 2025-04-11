@@ -20,7 +20,7 @@ const exchangeValue = (
     if (isValidJson) {
         objChangeValue = json;
     } else {
-        _this.log.error(`There is a error in your input: ${replaceAll(match, '"', "'")}`);
+        _this.log.error(`There is a error in your input: ${match}`);
         return false;
     }
 

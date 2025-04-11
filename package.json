@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.3",
-    "axios": "^1.8.4"
+    "axios": "^1.8.4",
+    "nyc": "^17.1.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.8.0",
@@ -68,7 +69,9 @@
     "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --exit",
-    "test": "npm run test:js && npm run test:package",
+    "test": "npm run test:ts && npm run test:package",
+    "test:ts": "tsc --noEmit false && npm run test:js",
+    "test:coverage": "nyc mocha",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
     "lint:fix": "eslint -c eslint.config.mjs . --fix && eslint -c admin/eslint.config.mjs admin/src/ --fix",
     "lint:backend": "eslint -c eslint.config.mjs .",

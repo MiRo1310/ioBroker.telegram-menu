@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dynamicSwitch = void 0;
+exports.dynamicSwitch = dynamicSwitch;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 async function dynamicSwitch(calledValue, device, text) {
@@ -48,5 +48,4 @@ async function dynamicSwitch(calledValue, device, text) {
         (0, logging_1.errorLogger)('Error parsing dynSwitch:', e);
     }
 }
-exports.dynamicSwitch = dynamicSwitch;
 //# sourceMappingURL=dynamicSwitch.js.map

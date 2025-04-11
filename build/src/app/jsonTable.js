@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTextTableFromJson = exports.createKeyboardFromJson = void 0;
+exports.createKeyboardFromJson = void 0;
+exports.createTextTableFromJson = createTextTableFromJson;
 const global_1 = require("./global");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
@@ -143,5 +144,4 @@ function createTextTableFromJson(val, textToSend) {
         (0, logging_1.errorLogger)('Error createTextTableFromJson:', e);
     }
 }
-exports.createTextTableFromJson = createTextTableFromJson;
 //# sourceMappingURL=jsonTable.js.map

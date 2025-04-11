@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMessageAndSendNewShoppingList = exports.shoppingListSubscribeStateAndDeleteItem = void 0;
+exports.shoppingListSubscribeStateAndDeleteItem = shoppingListSubscribeStateAndDeleteItem;
+exports.deleteMessageAndSendNewShoppingList = deleteMessageAndSendNewShoppingList;
 const messageIds_js_1 = require("./messageIds.js");
 const jsonTable_js_1 = require("./jsonTable.js");
 const telegram_js_1 = require("./telegram.js");
@@ -48,7 +49,6 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
         (0, logging_js_1.errorLogger)('Error shoppingList:', e);
     }
 }
-exports.shoppingListSubscribeStateAndDeleteItem = shoppingListSubscribeStateAndDeleteItem;
 async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend) {
     try {
         const user = userToSend;
@@ -69,5 +69,4 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
         (0, logging_js_1.errorLogger)('Error deleteMessageAndSendNewShoppingList:', e);
     }
 }
-exports.deleteMessageAndSendNewShoppingList = deleteMessageAndSendNewShoppingList;
 //# sourceMappingURL=shoppingList.js.map

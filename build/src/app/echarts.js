@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChart = void 0;
+exports.getChart = getChart;
 const main_1 = require("../main");
 const logging_1 = require("./logging");
 const telegram_1 = require("./telegram");
@@ -42,5 +42,4 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
         (0, logging_1.errorLogger)('Error get chart:', e);
     }
 }
-exports.getChart = getChart;
 //# sourceMappingURL=echarts.js.map

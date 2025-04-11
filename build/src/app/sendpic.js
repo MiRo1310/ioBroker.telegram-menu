@@ -1,18 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendPic = void 0;
+exports.sendPic = sendPic;
 const telegram_1 = require("./telegram");
 const global_1 = require("./global");
 const child_process_1 = require("child_process");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
+const string_1 = require("../lib/string");
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
     try {
         part.sendPic?.forEach(element => {
             const { id, delay, fileName } = element;
             let path = '';
             if (id != '-') {
-                const newUrl = (0, global_1.replaceAll)(id, '&amp;', '&');
+                const newUrl = (0, string_1.replaceAll)(id, '&amp;', '&');
                 (0, child_process_1.exec)(`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`, (error, stdout, stderr) => {
                     if (stdout) {
                         main_1._this.log.debug(`Stdout: ${stdout}`);
@@ -65,5 +66,4 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
     }
     return timeouts;
 }
-exports.sendPic = sendPic;
 //# sourceMappingURL=sendpic.js.map

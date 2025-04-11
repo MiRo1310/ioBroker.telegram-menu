@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.exchangePlaceholderWithValue = exports.bindingFunc = exports.roundValue = exports.calcValue = exports.generateActions = exports.generateNewObjectStructure = exports.idBySelector = exports.editArrayButtons = void 0;
+exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.exchangePlaceholderWithValue = exports.bindingFunc = exports.idBySelector = void 0;
+exports.editArrayButtons = editArrayButtons;
+exports.generateNewObjectStructure = generateNewObjectStructure;
+exports.generateActions = generateActions;
+exports.calcValue = calcValue;
+exports.roundValue = roundValue;
 const telegram_js_1 = require("./telegram.js");
 const global_1 = require("./global");
 const subMenu_js_1 = require("./subMenu.js");
@@ -60,7 +65,6 @@ function calcValue(textToSend, val) {
         (0, logging_js_1.errorLogger)('Error Eval:', e);
     }
 }
-exports.calcValue = calcValue;
 function checkValueForOneLine(text) {
     if (!text.includes('&&')) {
         return `${text}&&`;
@@ -103,7 +107,6 @@ function editArrayButtons(val) {
         return null;
     }
 }
-exports.editArrayButtons = editArrayButtons;
 const idBySelector = async (selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) => {
     let text2Send = '';
     try {
@@ -201,7 +204,6 @@ function generateNewObjectStructure(val) {
         return null;
     }
 }
-exports.generateNewObjectStructure = generateNewObjectStructure;
 function generateActions(action, userObject) {
     try {
         const arrayOfEntries = [
@@ -321,7 +323,6 @@ function generateActions(action, userObject) {
         (0, logging_js_1.errorLogger)('Error generateActions:', err);
     }
 }
-exports.generateActions = generateActions;
 function roundValue(val, textToSend) {
     try {
         const floatedNumber = parseFloat(val);
@@ -334,7 +335,6 @@ function roundValue(val, textToSend) {
         (0, logging_js_1.errorLogger)('Error roundValue:', err);
     }
 }
-exports.roundValue = roundValue;
 const exchangePlaceholderWithValue = (textToSend, text) => {
     let searchString = '';
     if (textToSend.includes('&&')) {

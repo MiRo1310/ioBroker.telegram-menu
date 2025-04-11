@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports._subscribeForeignStatesAsync = exports._subscribeAndUnSubscribeForeignStatesAsync = void 0;
+exports._subscribeAndUnSubscribeForeignStatesAsync = _subscribeAndUnSubscribeForeignStatesAsync;
+exports._subscribeForeignStatesAsync = _subscribeForeignStatesAsync;
 const main_1 = require("../main");
 const global_1 = require("./global");
 const string_1 = require("../lib/string");
@@ -14,7 +15,6 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
         }
     }
 }
-exports._subscribeAndUnSubscribeForeignStatesAsync = _subscribeAndUnSubscribeForeignStatesAsync;
 async function _subscribeForeignStatesAsync(array) {
     array = (0, global_1.deleteDoubleEntriesInArray)(array);
     for (const element of array) {
@@ -22,5 +22,4 @@ async function _subscribeForeignStatesAsync(array) {
     }
     main_1._this.log.debug(`Subscribe all States of: ${(0, string_1.jsonString)(array)}`);
 }
-exports._subscribeForeignStatesAsync = _subscribeForeignStatesAsync;
 //# sourceMappingURL=subscribeStates.js.map

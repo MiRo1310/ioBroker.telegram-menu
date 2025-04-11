@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendNav = void 0;
+exports.sendNav = sendNav;
 const telegram_1 = require("./telegram");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
@@ -27,5 +27,4 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
         (0, logging_1.errorLogger)('Error sendNav:', e);
     }
 }
-exports.sendNav = sendNav;
 //# sourceMappingURL=sendNav.js.map

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkEveryMenuForData = exports.getTimeouts = exports.getStateIdsToListenTo = void 0;
+exports.getStateIdsToListenTo = getStateIdsToListenTo;
+exports.getTimeouts = getTimeouts;
+exports.checkEveryMenuForData = checkEveryMenuForData;
 const main_1 = require("../main");
 const telegram_1 = require("./telegram");
 const sendNav_1 = require("./sendNav");
@@ -47,7 +49,6 @@ async function checkEveryMenuForData(obj) {
     }
     return false;
 }
-exports.checkEveryMenuForData = checkEveryMenuForData;
 async function processData(obj) {
     const { menuData, calledValue, userToSend, groupWithUser, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, } = obj;
     try {
@@ -201,9 +202,7 @@ async function processData(obj) {
 function getStateIdsToListenTo() {
     return setStateIdsToListenTo;
 }
-exports.getStateIdsToListenTo = getStateIdsToListenTo;
 function getTimeouts() {
     return timeouts;
 }
-exports.getTimeouts = getTimeouts;
 //# sourceMappingURL=processData.js.map

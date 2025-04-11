@@ -1,41 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decomposeText = exports.processTimeValue = exports.processTimeIdLc = exports.changeValue = exports.checkTypeOfId = exports.checkStatusInfo = void 0;
+exports.processTimeIdLc = exports.checkStatusInfo = void 0;
+exports.checkTypeOfId = checkTypeOfId;
+exports.changeValue = changeValue;
+exports.decomposeText = decomposeText;
 const main_1 = require("../main");
 const global_1 = require("../app/global");
-const console_1 = require("console");
 const string_1 = require("./string");
-const processTimeValue = (textToSend, obj) => {
-    const date = Number(obj.val);
-    if (!(0, global_1.isDefined)(date)) {
-        return textToSend;
-    }
-    const time = new Date(date);
-    if (isNaN(time.getTime())) {
-        main_1._this.log.error(`Invalid Date: ${date}`);
-        return textToSend;
-    }
-    const timeString = time.toLocaleDateString('de-DE', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-    });
-    return textToSend.replace('{time}', timeString);
-};
-exports.processTimeValue = processTimeValue;
+const logging_1 = require("../app/logging");
+const time_1 = require("./time");
 const exchangeValue = (textToSend, stateVal) => {
     const { startindex, endindex } = decomposeText(textToSend, 'change{', '}');
     let match = textToSend.substring(startindex + 'change'.length + 1, textToSend.indexOf('}', startindex));
     let objChangeValue;
-    match = match.replace(/'/g, '"');
+    match = (0, string_1.replaceAll)(match, "'", '"');
     // TODO check type
     const { json, isValidJson } = (0, string_1.parseJSON)(`{${match}}`);
     if (isValidJson) {
         objChangeValue = json;
     }
     else {
-        (0, console_1.error)([{ text: `There is a error in your input:`, val: (0, global_1.replaceAll)(match, '"', "'") }]);
+        main_1._this.log.error(`There is a error in your input: ${match}`);
         return false;
     }
     let newValue;
@@ -57,7 +42,6 @@ function decomposeText(text, searchValue, secondValue) {
         textWithoutSubstring: textWithoutSubstring,
     };
 }
-exports.decomposeText = decomposeText;
 function changeValue(textToSend, val) {
     if (textToSend.includes('change{')) {
         const result = exchangeValue(textToSend, val);
@@ -71,7 +55,6 @@ function changeValue(textToSend, val) {
     }
     return { textToSend: '', val: '', error: true };
 }
-exports.changeValue = changeValue;
 const processTimeIdLc = async (textToSend, id) => {
     let key = '';
     const { substring } = decomposeText(textToSend, '{time.', '}');
@@ -214,7 +197,7 @@ const checkStatusInfo = async (text) => {
         main_1._this.log.debug(`Text: ${text}`);
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
-                text = await checkStatus(text, processTimeValue);
+                text = await checkStatus(text, time_1.processTimeValue);
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
@@ -240,10 +223,7 @@ const checkStatusInfo = async (text) => {
         }
     }
     catch (e) {
-        (0, console_1.error)([
-            { text: 'Error checkStatusInfo:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        (0, logging_1.errorLogger)('Error checkStatusInfo:', e);
     }
 };
 exports.checkStatusInfo = checkStatusInfo;
@@ -277,11 +257,7 @@ async function checkTypeOfId(id, value) {
         return value;
     }
     catch (e) {
-        (0, console_1.error)([
-            { text: 'Error checkTypeOfId:', val: e.message },
-            { text: 'Stack:', val: e.stack },
-        ]);
+        (0, logging_1.errorLogger)('Error checkTypeOfId:', e);
     }
 }
-exports.checkTypeOfId = checkTypeOfId;
 //# sourceMappingURL=utilities.js.map

@@ -39,7 +39,7 @@ const exchangeValue = (textToSend, stateVal) => {
   if (isValidJson) {
     objChangeValue = json;
   } else {
-    import_main._this.log.error(`There is a error in your input: ${(0, import_string.replaceAll)(match, '"', "'")}`);
+    import_main._this.log.error(`There is a error in your input: ${match}`);
     return false;
   }
   let newValue;

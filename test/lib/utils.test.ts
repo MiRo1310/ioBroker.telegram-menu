@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { getChatID } from '../lib/utils';
-import type { UserListWithChatId } from '../types/types';
+import { getChatID } from '../../src/lib/utils';
+import type { UserListWithChatId } from '../../src/types/types';
 
 describe('getChatID', () => {
     const mockData: UserListWithChatId[] = [
