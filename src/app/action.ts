@@ -1,5 +1,4 @@
 import { sendToTelegram } from './telegram.js';
-import { decomposeText } from './global';
 import { callSubMenu } from './subMenu.js';
 import { sendNav } from './sendNav.js';
 import { backMenuFunc } from './backMenu.js';
@@ -24,6 +23,7 @@ import type {
     UserListWithChatId,
     UserObjectActions,
 } from '../types/types';
+import { decomposeText } from '../lib/string';
 
 const bindingFunc = async (
     text: string,

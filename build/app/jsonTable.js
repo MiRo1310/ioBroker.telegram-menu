@@ -22,10 +22,10 @@ __export(jsonTable_exports, {
   createTextTableFromJson: () => createTextTableFromJson
 });
 module.exports = __toCommonJS(jsonTable_exports);
-var import_global = require("./global");
 var import_logging = require("./logging");
 var import_main = require("../main");
 var import_string = require("../lib/string");
+var import_global = require("./global");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
   try {
@@ -34,7 +34,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
     } else {
       text = lastText[user];
     }
-    const array = (0, import_global.decomposeText)(text, "{json:", "}").substring.split(";");
+    const array = (0, import_string.decomposeText)(text, "{json:", "}").substring.split(";");
     const headline = array[2];
     const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
     let idShoppingList = false;
@@ -59,7 +59,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
         }
         if (idShoppingList) {
           const value = element.buttondelete;
-          const valueDeleteLinkArray = (0, import_global.decomposeText)(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
+          const valueDeleteLinkArray = (0, import_string.decomposeText)(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
           const instanceAlexa = valueDeleteLinkArray[1];
           const valueDeleteId = valueDeleteLinkArray[5];
           const instanceShoppingListID = `${id.split(".")[1]}.${id.split(".")[2]}`;
@@ -87,7 +87,7 @@ function createTextTableFromJson(val, textToSend) {
     if (!val) {
       return;
     }
-    const substring = (0, import_global.decomposeText)(textToSend, "{json:", "}").substring;
+    const substring = (0, import_string.decomposeText)(textToSend, "{json:", "}").substring;
     const array = substring.split(";");
     const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");
     const valArray = JSON.parse(val);

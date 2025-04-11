@@ -4,7 +4,6 @@ exports.setState = void 0;
 const telegram_1 = require("./telegram");
 const utilities_1 = require("../lib/utilities");
 const dynamicValue_1 = require("./dynamicValue");
-const global_1 = require("./global");
 const main_1 = require("../main");
 const logging_1 = require("./logging");
 const string_1 = require("../lib/string");
@@ -16,7 +15,7 @@ const modifiedValue = (valueFromSubmenu, value) => {
 };
 const isDynamicValueToSet = async (value) => {
     if (typeof value === 'string' && value.includes('{id:')) {
-        const result = (0, global_1.decomposeText)(value, '{id:', '}');
+        const result = (0, string_1.decomposeText)(value, '{id:', '}');
         const id = result.substring.replace('{id:', '').replace('}', '');
         const newValue = await main_1._this.getForeignStateAsync(id);
         if (newValue && newValue.val && typeof newValue.val === 'string') {

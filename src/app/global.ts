@@ -1,4 +1,3 @@
-import type { DecomposeText } from '../types/types';
 import { errorLogger } from './logging';
 import { _this } from '../main';
 
@@ -6,19 +5,6 @@ export const isDefined = <T>(value: T | undefined | null): value is T => value !
 
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
-
-export function decomposeText(text: string, searchValue: string, secondValue: string): DecomposeText {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
-    const textWithoutSubstring = text.replace(substring, '').trim();
-    return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
-    };
-}
 
 export const deepCopy = <T>(obj: T): T | undefined => {
     try {

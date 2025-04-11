@@ -19,7 +19,6 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var global_exports = {};
 __export(global_exports, {
   checkDirectoryIsOk: () => checkDirectoryIsOk,
-  decomposeText: () => decomposeText,
   deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
   isDefined: () => isDefined,
@@ -33,18 +32,6 @@ var import_logging = require("./logging");
 var import_main = require("../main");
 const isDefined = (value) => value !== void 0 && value !== null;
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
-function decomposeText(text, searchValue, secondValue) {
-  const startindex = text.indexOf(searchValue);
-  const endindex = text.indexOf(secondValue, startindex);
-  const substring = text.substring(startindex, endindex + secondValue.length);
-  const textWithoutSubstring = text.replace(substring, "").trim();
-  return {
-    startindex,
-    endindex,
-    substring,
-    textWithoutSubstring
-  };
-}
 const deepCopy = (obj) => {
   try {
     if (!obj) {
@@ -78,7 +65,6 @@ function parseJSON(value) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   checkDirectoryIsOk,
-  decomposeText,
   deepCopy,
   deleteDoubleEntriesInArray,
   isDefined,

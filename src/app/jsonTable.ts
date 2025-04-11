@@ -1,8 +1,8 @@
-import { decomposeText, parseJSON } from './global';
 import { errorLogger } from './logging';
 import type { LastText, ValArray, KeyboardItem, Keyboard } from '../types/types';
 import { _this } from '../main';
-import { jsonString } from '../lib/string';
+import { decomposeText, jsonString } from '../lib/string';
+import { parseJSON } from './global';
 
 const lastText: LastText = {};
 const createKeyboardFromJson = (

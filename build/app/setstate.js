@@ -24,7 +24,6 @@ module.exports = __toCommonJS(setstate_exports);
 var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_dynamicValue = require("./dynamicValue");
-var import_global = require("./global");
 var import_main = require("../main");
 var import_logging = require("./logging");
 var import_string = require("../lib/string");
@@ -36,7 +35,7 @@ const modifiedValue = (valueFromSubmenu, value) => {
 };
 const isDynamicValueToSet = async (value) => {
   if (typeof value === "string" && value.includes("{id:")) {
-    const result = (0, import_global.decomposeText)(value, "{id:", "}");
+    const result = (0, import_string.decomposeText)(value, "{id:", "}");
     const id = result.substring.replace("{id:", "").replace("}", "");
     const newValue = await import_main._this.getForeignStateAsync(id);
     if (newValue && newValue.val && typeof newValue.val === "string") {

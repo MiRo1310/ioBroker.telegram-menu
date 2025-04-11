@@ -1,4 +1,4 @@
-import {jsonString, parseJSON, replaceAll, validateNewLine} from "../../src/lib/string";
+import {decomposeText, jsonString, parseJSON, replaceAll, validateNewLine} from "../../src/lib/string";
 import {expect} from "chai";
 
 describe("String", () => {
@@ -43,5 +43,16 @@ describe("String", () => {
             expect(result).to.equal( expected);
         });
     });
+
+    it("Decompose text", () => {
+        const result = decomposeText("Das ist ein __Test. Das ist ein Test2", "__", ".");
+        expect(result).to.deep.equal({startindex: 12, endindex: 18, substring: "__Test.", textWithoutSubstring: "Das ist ein  Das ist ein Test2" });
+
+        const result2 = decomposeText("Das ist ein __Test.", "?", ".");
+        expect(result2).to.deep.equal({startindex: -1, endindex: 18, substring: "Das ist ein __Test.", textWithoutSubstring: "" });
+
+        const result3 = decomposeText("Das ist ein __Test.", "?", "-");
+        expect(result3).to.deep.equal({startindex: -1, endindex: -1, substring: "", textWithoutSubstring: "Das ist ein __Test." });
+    })
 
 })

@@ -36,5 +36,13 @@ describe("String", () => {
             (0, chai_1.expect)(result).to.equal(expected);
         });
     });
+    it("Decompose text", () => {
+        const result = (0, string_1.decomposeText)("Das ist ein __Test. Das ist ein Test2", "__", ".");
+        (0, chai_1.expect)(result).to.deep.equal({ startindex: 12, endindex: 18, substring: "__Test.", textWithoutSubstring: "Das ist ein  Das ist ein Test2" });
+        const result2 = (0, string_1.decomposeText)("Das ist ein __Test.", "?", ".");
+        (0, chai_1.expect)(result2).to.deep.equal({ startindex: -1, endindex: 18, substring: "Das ist ein __Test.", textWithoutSubstring: "" });
+        const result3 = (0, string_1.decomposeText)("Das ist ein __Test.", "?", "-");
+        (0, chai_1.expect)(result3).to.deep.equal({ startindex: -1, endindex: -1, substring: "", textWithoutSubstring: "Das ist ein __Test." });
+    });
 });
 //# sourceMappingURL=string.test.js.map

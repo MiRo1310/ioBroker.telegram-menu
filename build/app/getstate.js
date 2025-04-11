@@ -108,7 +108,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             }
           }
           if (textToSend.includes("{json")) {
-            if ((0, import_global.decomposeText)(textToSend, "{json", "}").substring.includes("TextTable")) {
+            if ((0, import_string.decomposeText)(textToSend, "{json", "}").substring.includes("TextTable")) {
               const result = (0, import_jsonTable.createTextTableFromJson)(valueForJson, textToSend);
               if (result) {
                 await (0, import_telegram.sendToTelegram)({

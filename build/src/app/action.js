@@ -7,16 +7,16 @@ exports.generateActions = generateActions;
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
 const telegram_js_1 = require("./telegram.js");
-const global_1 = require("./global");
 const subMenu_js_1 = require("./subMenu.js");
 const sendNav_js_1 = require("./sendNav.js");
 const backMenu_js_1 = require("./backMenu.js");
 const logging_js_1 = require("./logging.js");
 const main_js_1 = require("../main.js");
+const string_1 = require("../lib/string");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
     let value;
     try {
-        const substring = (0, global_1.decomposeText)(text, 'binding:', '}').substring;
+        const substring = (0, string_1.decomposeText)(text, 'binding:', '}').substring;
         const arrayOfItems = substring.replace('binding:{', '').replace('}', '').split(';');
         const bindingObject = {
             values: {},
@@ -54,7 +54,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
 };
 exports.bindingFunc = bindingFunc;
 function calcValue(textToSend, val) {
-    const { substring } = (0, global_1.decomposeText)(textToSend, '{math:', '}');
+    const { substring } = (0, string_1.decomposeText)(textToSend, '{math:', '}');
     const mathValue = substring.replace('{math:', '').replace('}', '');
     try {
         val = eval(val + mathValue);
@@ -326,7 +326,7 @@ function generateActions(action, userObject) {
 function roundValue(val, textToSend) {
     try {
         const floatedNumber = parseFloat(val);
-        const { substring, textWithoutSubstring } = (0, global_1.decomposeText)(textToSend, '{round:', '}');
+        const { substring, textWithoutSubstring } = (0, string_1.decomposeText)(textToSend, '{round:', '}');
         const decimalPlaces = substring.split(':')[1].replace('}', '');
         const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
         return { val: floatedString, textToSend: textWithoutSubstring };

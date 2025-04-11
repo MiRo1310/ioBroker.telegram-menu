@@ -2,11 +2,11 @@ import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc, calcValue, idBySelector, roundValue } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { changeValue, processTimeIdLc } from '../lib/utilities';
-import { decomposeText, isDefined } from './global';
+import { isDefined } from './global';
 import { _this } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
-import { jsonString } from '../lib/string';
+import { jsonString, decomposeText } from '../lib/string';
 
 function getState(
     part: Part,

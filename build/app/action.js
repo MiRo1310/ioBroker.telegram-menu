@@ -33,17 +33,17 @@ __export(action_exports, {
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram.js");
-var import_global = require("./global");
 var import_subMenu = require("./subMenu.js");
 var import_sendNav = require("./sendNav.js");
 var import_backMenu = require("./backMenu.js");
 var import_logging = require("./logging.js");
 var import_main = require("../main.js");
+var import_string = require("../lib/string");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
   let value;
   try {
-    const substring = (0, import_global.decomposeText)(text, "binding:", "}").substring;
+    const substring = (0, import_string.decomposeText)(text, "binding:", "}").substring;
     const arrayOfItems = substring.replace("binding:{", "").replace("}", "").split(";");
     const bindingObject = {
       values: {}
@@ -78,7 +78,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
   }
 };
 function calcValue(textToSend, val) {
-  const { substring } = (0, import_global.decomposeText)(textToSend, "{math:", "}");
+  const { substring } = (0, import_string.decomposeText)(textToSend, "{math:", "}");
   const mathValue = substring.replace("{math:", "").replace("}", "");
   try {
     val = eval(val + mathValue);
@@ -336,7 +336,7 @@ function generateActions(action, userObject) {
 function roundValue(val2, textToSend2) {
   try {
     const floatedNumber = parseFloat(val2);
-    const { substring: substring2, textWithoutSubstring } = (0, import_global.decomposeText)(textToSend2, "{round:", "}");
+    const { substring: substring2, textWithoutSubstring } = (0, import_string.decomposeText)(textToSend2, "{round:", "}");
     const decimalPlaces = substring2.split(":")[1].replace("}", "");
     const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
     return { val: floatedString, textToSend: textWithoutSubstring };

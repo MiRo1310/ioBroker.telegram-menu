@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isFalsy = exports.isTruthy = exports.isString = exports.deepCopy = exports.deleteDoubleEntriesInArray = exports.isDefined = void 0;
-exports.decomposeText = decomposeText;
 exports.checkDirectoryIsOk = checkDirectoryIsOk;
 exports.parseJSON = parseJSON;
 const logging_1 = require("./logging");
@@ -10,18 +9,6 @@ const isDefined = (value) => value !== undefined && value !== null;
 exports.isDefined = isDefined;
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 exports.deleteDoubleEntriesInArray = deleteDoubleEntriesInArray;
-function decomposeText(text, searchValue, secondValue) {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
-    const textWithoutSubstring = text.replace(substring, '').trim();
-    return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
-    };
-}
 const deepCopy = (obj) => {
     try {
         if (!obj) {

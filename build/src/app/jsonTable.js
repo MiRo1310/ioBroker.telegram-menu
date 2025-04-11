@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createKeyboardFromJson = void 0;
 exports.createTextTableFromJson = createTextTableFromJson;
-const global_1 = require("./global");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
+const global_1 = require("./global");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
     try {
@@ -15,7 +15,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
         else {
             text = lastText[user];
         }
-        const array = (0, global_1.decomposeText)(text, '{json:', '}').substring.split(';');
+        const array = (0, string_1.decomposeText)(text, '{json:', '}').substring.split(';');
         const headline = array[2];
         const itemArray = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
         let idShoppingList = false;
@@ -40,7 +40,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
                 }
                 if (idShoppingList) {
                     const value = element.buttondelete;
-                    const valueDeleteLinkArray = (0, global_1.decomposeText)(value, "('", "')")
+                    const valueDeleteLinkArray = (0, string_1.decomposeText)(value, "('", "')")
                         .substring.replace("('", '')
                         .replace(",true')", '')
                         .split('.');
@@ -74,7 +74,7 @@ function createTextTableFromJson(val, textToSend) {
         if (!val) {
             return;
         }
-        const substring = (0, global_1.decomposeText)(textToSend, '{json:', '}').substring;
+        const substring = (0, string_1.decomposeText)(textToSend, '{json:', '}').substring;
         const array = substring.split(';');
         const itemArray = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
         const valArray = JSON.parse(val);
