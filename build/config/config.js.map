@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/config/config.ts"],
+  "sourcesContent": ["export const defaultLocale = 'de-DE';\n\nexport const config = {\n    replacer: {\n        time: '{time}',\n    },\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,gBAAgB;AAEtB,MAAM,SAAS;AAAA,EAClB,UAAU;AAAA,IACN,MAAM;AAAA,EACV;AACJ;",
+  "names": []
+}

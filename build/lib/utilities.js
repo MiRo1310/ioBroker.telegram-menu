@@ -156,7 +156,7 @@ const processTimeIdLc = async (textToSend, id) => {
   }
   return textToSend;
 };
-const checkStatus = async (text, processTimeValue2) => {
+const checkStatus = async (text, processTimeValue) => {
   try {
     const substring = decomposeText(text, "{status:", "}").substring;
     let id, valueChange;
@@ -173,11 +173,10 @@ const checkStatus = async (text, processTimeValue2) => {
       import_main._this.log.debug(`State not found: ${id}`);
       return "";
     }
-    if (text.includes("{time}") && processTimeValue2) {
+    if (text.includes("{time}") && processTimeValue) {
       text = text.replace(substring, "");
-      if (stateValue.val && typeof stateValue.val === "string") {
-        return processTimeValue2(text, stateValue).replace(stateValue.val, "");
-      }
+      const val = String(stateValue.val);
+      return processTimeValue(text, val).replace(val, "");
     }
     if (!(0, import_global.isDefined)(stateValue.val)) {
       import_main._this.log.debug(`State Value is undefined: ${id}`);
@@ -211,7 +210,7 @@ const checkStatusInfo = async (text) => {
     import_main._this.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
-        text = await checkStatus(text, import_time.processTimeValue);
+        text = await checkStatus(text, import_time.integrateTimeIntoText);
       }
     }
     if (text.includes("{time.lc") || text.includes("{time.ts")) {

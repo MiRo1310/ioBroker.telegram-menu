@@ -16,32 +16,21 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var time_exports = {};
-__export(time_exports, {
-  integrateTimeIntoText: () => integrateTimeIntoText,
-  toLocaleDate: () => toLocaleDate
+var config_exports = {};
+__export(config_exports, {
+  config: () => config,
+  defaultLocale: () => defaultLocale
 });
-module.exports = __toCommonJS(time_exports);
-var import_config = require("../config/config");
-const toLocaleDate = (ts) => {
-  console.log(import_config.defaultLocale);
-  return ts.toLocaleDateString(import_config.defaultLocale, {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
-};
-const integrateTimeIntoText = (text, val) => {
-  if (!val) {
-    return text.replace(import_config.config.replacer.time, '"Invalid Date"');
+module.exports = __toCommonJS(config_exports);
+const defaultLocale = "de-DE";
+const config = {
+  replacer: {
+    time: "{time}"
   }
-  const date = new Date(Number(String(val)));
-  return text.replace(import_config.config.replacer.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  integrateTimeIntoText,
-  toLocaleDate
+  config,
+  defaultLocale
 });
-//# sourceMappingURL=time.js.map
+//# sourceMappingURL=config.js.map

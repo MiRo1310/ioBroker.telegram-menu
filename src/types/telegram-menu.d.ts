@@ -1,4 +1,4 @@
-type ProzessTimeValue = (textToSend: string, obj: ioBroker.State) => string;
+type ProzessTimeValue = (text: string, val: string | number) => string;
 
 interface Timeouts {
     key: string;
