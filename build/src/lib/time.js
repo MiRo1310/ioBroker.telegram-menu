@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.integrateTimeIntoText = exports.toLocaleDate = void 0;
 const config_1 = require("../config/config");
 const toLocaleDate = (ts) => {
-    console.log(config_1.defaultLocale);
     return ts.toLocaleDateString(config_1.defaultLocale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
+        timeZone: config_1.timezone,
     });
 };
 exports.toLocaleDate = toLocaleDate;
