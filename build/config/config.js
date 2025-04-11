@@ -19,10 +19,12 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var config_exports = {};
 __export(config_exports, {
   config: () => config,
-  defaultLocale: () => defaultLocale
+  defaultLocale: () => defaultLocale,
+  timezone: () => timezone
 });
 module.exports = __toCommonJS(config_exports);
 const defaultLocale = "de-DE";
+const timezone = "Europe/Berlin";
 const config = {
   replacer: {
     time: "{time}"
@@ -31,6 +33,7 @@ const config = {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   config,
-  defaultLocale
+  defaultLocale,
+  timezone
 });
 //# sourceMappingURL=config.js.map

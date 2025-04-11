@@ -1,12 +1,12 @@
-import { config, defaultLocale } from '../config/config';
+import { config, defaultLocale, timezone } from '../config/config';
 
 export const toLocaleDate = (ts: Date): string => {
-    console.log(defaultLocale);
     return ts.toLocaleDateString(defaultLocale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
+        timeZone: timezone,
     });
 };
 
