@@ -415,3 +415,10 @@ export interface ExchangeValueReturn {
 export type PrimitiveType = string | number | boolean;
 
 export type Adapter = MockAdapter | TelegramMenu;
+
+export type ProzessTimeValue = (text: string, val: string | number) => string;
+
+export interface Timeouts {
+    key: string;
+    timeout: ioBroker.Timeout;
+}

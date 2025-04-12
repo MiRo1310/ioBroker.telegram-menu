@@ -16,28 +16,28 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
                 const newUrl = (0, string_1.replaceAll)(id, '&amp;', '&');
                 (0, child_process_1.exec)(`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`, (error, stdout, stderr) => {
                     if (stdout) {
-                        main_1._this.log.debug(`Stdout: ${stdout}`);
+                        main_1.adapter.log.debug(`Stdout: ${stdout}`);
                     }
                     if (stderr) {
-                        main_1._this.log.debug(`Stderr: ${stderr}`);
+                        main_1.adapter.log.debug(`Stderr: ${stderr}`);
                     }
                     if (error) {
                         (0, logging_1.errorLogger)('Error in exec:', error);
                         return;
                     }
                 });
-                main_1._this.log.debug(`Delay Time: ${delay}`);
+                main_1.adapter.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
                 if (!(0, global_1.checkDirectoryIsOk)(directoryPicture)) {
                     return;
                 }
                 path = `${directoryPicture}${fileName}`;
-                main_1._this.log.debug(`Path: ${path}`);
+                main_1.adapter.log.debug(`Path: ${path}`);
             }
             else {
                 return;
             }
-            const timeout = main_1._this.setTimeout(async () => {
+            const timeout = main_1.adapter.setTimeout(async () => {
                 await (0, telegram_1.sendToTelegram)({
                     user: userToSend,
                     textToSend: path,
@@ -50,10 +50,10 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
                 let timeoutToClear = [];
                 timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
                 timeoutToClear.forEach(item => {
-                    main_1._this.clearTimeout(item.timeout);
+                    main_1.adapter.clearTimeout(item.timeout);
                 });
                 timeouts = timeouts.filter(item => item.key !== timeoutKey);
-                main_1._this.log.debug('Picture sent');
+                main_1.adapter.log.debug('Picture sent');
             }, parseInt(String(element.delay)));
             if (timeout) {
                 timeouts.push({ key: timeoutKey, timeout: timeout });

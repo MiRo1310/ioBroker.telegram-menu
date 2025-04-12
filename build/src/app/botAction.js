@@ -6,9 +6,9 @@ const logging_1 = require("./logging");
 const deleteMessageByBot = (instance, user, userListWithChatID, messageId, chat_id) => {
     try {
         if (chat_id) {
-            main_1._this.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
+            main_1.adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
         }
-        main_1._this.sendTo(instance, {
+        main_1.adapter.sendTo(instance, {
             deleteMessage: {
                 options: {
                     chat_id: chat_id,

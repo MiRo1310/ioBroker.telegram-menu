@@ -25,7 +25,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
             if (!item.includes('?')) {
                 const key = item.split(':')[0];
                 const id = item.split(':')[1];
-                const result = await main_js_1._this.getForeignStateAsync(id);
+                const result = await main_js_1.adapter.getForeignStateAsync(id);
                 if (result) {
                     bindingObject.values[key] = result.val?.toString() || '';
                 }
@@ -115,7 +115,7 @@ const idBySelector = async (selector, text, userToSend, newline, telegramInstanc
         }
         const functions = selector.replace('functions=', '');
         let enums = [];
-        const result = await main_js_1._this.getEnumsAsync();
+        const result = await main_js_1.adapter.getEnumsAsync();
         if (!result || !result['enum.functions'][`enum.functions.${functions}`]) {
             return;
         }
@@ -124,13 +124,13 @@ const idBySelector = async (selector, text, userToSend, newline, telegramInstanc
             return;
         }
         const promises = enums.map(async (id) => {
-            const value = await main_js_1._this.getForeignStateAsync(id);
+            const value = await main_js_1.adapter.getForeignStateAsync(id);
             if (value && value.val !== undefined && value.val !== null) {
                 let newText = text;
                 let res;
                 if (text.includes('{common.name}')) {
-                    res = await main_js_1._this.getForeignObjectAsync(id);
-                    main_js_1._this.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
+                    res = await main_js_1.adapter.getForeignObjectAsync(id);
+                    main_js_1.adapter.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
                     if (res && res.common.name) {
                         newText = newText.replace('{common.name}', res.common.name);
                     }
@@ -152,7 +152,7 @@ const idBySelector = async (selector, text, userToSend, newline, telegramInstanc
             else {
                 text2Send += ' ';
             }
-            main_js_1._this.log.debug(`text2send ${JSON.stringify(text2Send)}`);
+            main_js_1.adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
         });
         Promise.all(promises)
             .then(() => {
@@ -168,8 +168,8 @@ const idBySelector = async (selector, text, userToSend, newline, telegramInstanc
             }).catch(e => {
                 (0, logging_js_1.errorLogger)('Error SendToTelegram:', e);
             });
-            main_js_1._this.log.debug(`TextToSend: ${text2Send}`);
-            main_js_1._this.log.debug(`UserToSend: ${userToSend}`);
+            main_js_1.adapter.log.debug(`TextToSend: ${text2Send}`);
+            main_js_1.adapter.log.debug(`UserToSend: ${userToSend}`);
         })
             .catch(e => {
             (0, logging_js_1.errorLogger)('Error Promise:', e);
@@ -352,7 +352,7 @@ exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
 const adjustValueType = (value, valueType) => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
-            main_js_1._this.log.error(`Error: Value is not a number: ${value}`);
+            main_js_1.adapter.log.error(`Error: Value is not a number: ${value}`);
             return false;
         }
         return parseFloat(value);
@@ -361,7 +361,7 @@ const adjustValueType = (value, valueType) => {
         if (value == 'true') {
             return true;
         }
-        main_js_1._this.log.error(`Error: Value is not a boolean: ${value}`);
+        main_js_1.adapter.log.error(`Error: Value is not a boolean: ${value}`);
         return false;
     }
     return value;

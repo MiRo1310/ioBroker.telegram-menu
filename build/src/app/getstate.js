@@ -16,7 +16,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
     const parse_mode = part.getData?.[0].parse_mode || 'false';
     part.getData?.forEach(async (element) => {
         try {
-            main_1._this.log.debug(`Get Value ID: ${element.id}`);
+            main_1.adapter.log.debug(`Get Value ID: ${element.id}`);
             const specifiedSelektor = 'functions=';
             const id = element.id;
             let textToSend = '';
@@ -25,17 +25,17 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 return;
             }
             if (element.text.includes('binding:')) {
-                main_1._this.log.debug('Binding');
+                main_1.adapter.log.debug('Binding');
                 await (0, action_1.bindingFunc)(element.text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
                 return;
             }
-            await main_1._this.getForeignStateAsync(id).then(async (state) => {
+            await main_1.adapter.getForeignStateAsync(id).then(async (state) => {
                 if (!(0, global_1.isDefined)(state)) {
-                    main_1._this.log.error('The state is empty!');
+                    main_1.adapter.log.error('The state is empty!');
                     return;
                 }
                 const valueForJson = state.val?.toString() ?? '';
-                main_1._this.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
+                main_1.adapter.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
                 let val = valueForJson.replace(/\\/g, '').replace(/"/g, '');
                 let newline = '';
                 if (element.newline === 'true') {
@@ -56,13 +56,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                         if (result) {
                             textToSend = result.textToSend;
                             val = result.val;
-                            main_1._this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
+                            main_1.adapter.log.debug(`TextToSend: ${textToSend} val: ${val}`);
                         }
                     }
                     if (textToSend.includes('round:')) {
                         const result = (0, action_1.roundValue)(val, textToSend);
                         if (result) {
-                            main_1._this.log.debug(`The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`);
+                            main_1.adapter.log.debug(`The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`);
                             val = result.val;
                             textToSend = result.textToSend;
                         }
@@ -83,7 +83,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                                 });
                                 return;
                             }
-                            main_1._this.log.debug('Cannot create a Text-Table');
+                            main_1.adapter.log.debug('Cannot create a Text-Table');
                         }
                         else {
                             const result = (0, jsonTable_1.createKeyboardFromJson)(valueForJson, textToSend, element.id, userToSend);
@@ -103,18 +103,18 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                                 userListWithChatID: userListWithChatID,
                                 parse_mode: parse_mode,
                             });
-                            main_1._this.log.debug('The state is empty!');
+                            main_1.adapter.log.debug('The state is empty!');
                             return;
                         }
                     }
-                    const { newValue: _val, textToSend: _text, error } = (0, string_1.getValueToExchange)(textToSend, val);
+                    const { newValue: _val, textToSend: _text, error } = (0, string_1.getValueToExchange)(textToSend, val, main_1.adapter);
                     val = _val;
                     textToSend = _text;
                     if (!error) {
-                        main_1._this.log.debug(`Value Changed to: ${textToSend}`);
+                        main_1.adapter.log.debug(`Value Changed to: ${textToSend}`);
                     }
                     else {
-                        main_1._this.log.debug(`No Change`);
+                        main_1.adapter.log.debug(`No Change`);
                     }
                     if (textToSend.indexOf('&&') != -1) {
                         text += `${textToSend.replace('&&', val.toString())}${newline}`;
@@ -126,7 +126,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 else {
                     text += `${val} ${newline}`;
                 }
-                main_1._this.log.debug(`Text: ${text}`);
+                main_1.adapter.log.debug(`Text: ${text}`);
                 if (i == part.getData?.length) {
                     if (userToSend) {
                         await (0, telegram_1.sendToTelegram)({

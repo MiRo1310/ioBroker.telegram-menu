@@ -3,7 +3,7 @@ import { checkDirectoryIsOk } from './global';
 import { exec } from 'child_process';
 import { errorLogger } from './logging';
 import { adapter } from '../main';
-import type { Part, UserListWithChatId } from '../types/types';
+import type { Part, Timeouts, UserListWithChatId } from '../types/types';
 import { replaceAll } from '../lib/string';
 
 function sendPic(

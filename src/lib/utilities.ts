@@ -3,6 +3,7 @@ import { isDefined } from '../app/global';
 import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
 import { integrateTimeIntoText } from './time';
+import type { ProzessTimeValue } from '../types/types';
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
     let key = '';

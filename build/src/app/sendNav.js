@@ -8,7 +8,7 @@ const logging_1 = require("./logging");
 async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
     try {
         if (userToSend) {
-            main_1._this.log.debug('Send Nav to Telegram');
+            main_1.adapter.log.debug('Send Nav to Telegram');
             const nav = part.nav;
             const text = await (0, utilities_1.checkStatusInfo)(part.text);
             await (0, telegram_1.sendToTelegram)({

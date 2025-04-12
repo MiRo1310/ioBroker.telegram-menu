@@ -29,7 +29,7 @@ const isFalsy = (value) => ['0', 0, false, 'false', undefined, null].includes(va
 exports.isFalsy = isFalsy;
 function checkDirectoryIsOk(directory) {
     if (['', null, undefined].includes(directory)) {
-        main_1._this.log.error('No directory to save the picture. Please add a directory in the settings with full read and write permissions.');
+        main_1.adapter.log.error('No directory to save the picture. Please add a directory in the settings with full read and write permissions.');
         return false;
     }
     return true;

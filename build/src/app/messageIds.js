@@ -13,11 +13,11 @@ async function saveMessageIds(state, instanceTelegram) {
         let requestMessageId = {};
         let requestMessageIdObj = null;
         if (!isDeleting) {
-            requestMessageIdObj = await main_1._this.getStateAsync('communication.requestIds');
+            requestMessageIdObj = await main_1.adapter.getStateAsync('communication.requestIds');
         }
         isDeleting = false;
-        const requestUserIdObj = await main_1._this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-        const request = await main_1._this.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
+        const requestUserIdObj = await main_1.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+        const request = await main_1.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
         if (!(requestUserIdObj && requestUserIdObj.val)) {
             return;
         }
@@ -33,7 +33,7 @@ async function saveMessageIds(state, instanceTelegram) {
             });
         }
         requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-        await main_1._this.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
+        await main_1.adapter.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     }
     catch (e) {
         (0, logging_1.errorLogger)('Error saveMessageIds:', e);
@@ -50,8 +50,8 @@ const removeMessageFromList = ({ element, chat_id, copyMessageIds, }) => {
 };
 async function deleteMessageIds(user, userListWithChatID, instanceTelegram, whatShouldDelete) {
     try {
-        const requestMessageIdObj = await main_1._this.getStateAsync('communication.requestIds');
-        const lastMessageId = await main_1._this.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
+        const requestMessageIdObj = await main_1.adapter.getStateAsync('communication.requestIds');
+        const lastMessageId = await main_1.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
         if (!requestMessageIdObj ||
             typeof requestMessageIdObj.val !== 'string' ||
             !JSON.parse(requestMessageIdObj.val)) {
@@ -79,7 +79,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
             }
             copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
         });
-        await main_1._this.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
+        await main_1.adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
     }
     catch (e) {
         (0, logging_1.errorLogger)('Error deleteMessageIds:', e);

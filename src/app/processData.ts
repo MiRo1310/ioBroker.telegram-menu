@@ -20,6 +20,7 @@ import type {
     Part,
     ProcessDataType,
     SetStateIds,
+    Timeouts,
 } from '../types/types';
 import { jsonString } from '../lib/string';
 

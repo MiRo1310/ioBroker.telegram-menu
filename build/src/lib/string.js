@@ -44,7 +44,7 @@ function decomposeText(text, searchValue, secondValue) {
         textWithoutSubstring: textWithoutSubstring,
     };
 }
-const getValueToExchange = (textToSend, val, _this) => {
+const getValueToExchange = (textToSend, val, adapter) => {
     if (textToSend.includes(config_1.config.replacer.change.start)) {
         const { start, end, command } = config_1.config.replacer.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
@@ -58,7 +58,7 @@ const getValueToExchange = (textToSend, val, _this) => {
                 error: false,
             };
         }
-        _this?.log.error(`There is a error in your input: ${modifiedString}`);
+        adapter.log.error(`There is a error in your input: ${modifiedString}`);
         return { newValue: val, textToSend, error: true };
     }
     return { textToSend, newValue: val, error: false };

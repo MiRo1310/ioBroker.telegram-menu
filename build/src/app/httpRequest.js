@@ -18,7 +18,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
     for (const part of parts.httpRequest) {
         const { url, password, user } = part;
         const method = 'get';
-        main_1._this.log.debug(`URL: ${url}`);
+        main_1.adapter.log.debug(`URL: ${url}`);
         try {
             //prettier-ignore
             const response = await (0, axios_1.default)(user && password
@@ -44,7 +44,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
             }
             const imagePath = path_1.default.join(directoryPicture, part.filename);
             fs_1.default.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
-            main_1._this.log.debug(`Pic saved: ${imagePath}`);
+            main_1.adapter.log.debug(`Pic saved: ${imagePath}`);
             await (0, telegram_1.sendToTelegram)({
                 user: userToSend,
                 textToSend: imagePath,
