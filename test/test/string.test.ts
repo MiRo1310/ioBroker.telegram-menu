@@ -54,6 +54,11 @@ describe('validateNewLine', () => {
         expect(result).to.equal('Das hier ist ein\n Test');
     });
 
+    it('Validate new line with empty text', () => {
+        const result = validateNewLine(undefined);
+        expect(result).to.equal('');
+    });
+
     it('soll \\n in echten Zeilenumbruch umwandeln', () => {
         const input = 'Das\\\\\n hier\\\\n ist ein\\\n Test';
         const expected = 'Das\n hier\n ist ein\n Test';

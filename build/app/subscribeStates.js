@@ -23,8 +23,8 @@ __export(subscribeStates_exports, {
 });
 module.exports = __toCommonJS(subscribeStates_exports);
 var import_main = require("../main");
-var import_global = require("./global");
 var import_string = require("../lib/string");
+var import_object = require("../lib/object");
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
   if (obj.id) {
     import_main.adapter.log.debug(`Subscribe to ${obj.id}`);
@@ -35,7 +35,7 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
   }
 }
 async function _subscribeForeignStatesAsync(array) {
-  array = (0, import_global.deleteDoubleEntriesInArray)(array);
+  array = (0, import_object.deleteDoubleEntriesInArray)(array);
   for (const element of array) {
     await import_main.adapter.subscribeForeignStatesAsync(element);
   }
