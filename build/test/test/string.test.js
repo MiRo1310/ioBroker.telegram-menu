@@ -109,4 +109,18 @@ describe('getValueToExchange', () => {
         });
     });
 });
+describe('isString', () => {
+    it('should return true for string values', () => {
+        (0, chai_1.expect)((0, string_1.isString)('hello')).to.be.true;
+        (0, chai_1.expect)((0, string_1.isString)('')).to.be.true;
+    });
+    it('should return false for non-string values', () => {
+        (0, chai_1.expect)((0, string_1.isString)(123)).to.be.false;
+        (0, chai_1.expect)((0, string_1.isString)(true)).to.be.false;
+        (0, chai_1.expect)((0, string_1.isString)(null)).to.be.false;
+        (0, chai_1.expect)((0, string_1.isString)(undefined)).to.be.false;
+        (0, chai_1.expect)((0, string_1.isString)({})).to.be.false;
+        (0, chai_1.expect)((0, string_1.isString)([])).to.be.false;
+    });
+});
 //# sourceMappingURL=string.test.js.map

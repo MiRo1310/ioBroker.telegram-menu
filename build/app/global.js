@@ -20,19 +20,16 @@ var global_exports = {};
 __export(global_exports, {
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
   isFalsy: () => isFalsy,
-  isString: () => isString,
   isTruthy: () => isTruthy
 });
 module.exports = __toCommonJS(global_exports);
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
-const isString = (value) => typeof value === "string";
 const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
 const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   deleteDoubleEntriesInArray,
   isFalsy,
-  isString,
   isTruthy
 });
 //# sourceMappingURL=global.js.map

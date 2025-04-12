@@ -20,6 +20,7 @@ var string_exports = {};
 __export(string_exports, {
   decomposeText: () => decomposeText,
   getValueToExchange: () => getValueToExchange,
+  isString: () => isString,
   jsonString: () => jsonString,
   parseJSON: () => parseJSON,
   replaceAll: () => replaceAll,
@@ -66,9 +67,8 @@ const getValueToExchange = (adapter, textToSend, val) => {
     const modifiedString = replaceAll(substring, "'", '"').replace(command, "");
     const { json, isValidJson } = parseJSON(modifiedString);
     if (isValidJson) {
-      const _json = json;
       return {
-        newValue: (_a = _json[String(val)]) != null ? _a : val,
+        newValue: (_a = json[String(val)]) != null ? _a : val,
         textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
         error: false
       };
@@ -78,10 +78,12 @@ const getValueToExchange = (adapter, textToSend, val) => {
   }
   return { textToSend, newValue: val, error: false };
 };
+const isString = (value) => typeof value === "string";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
   getValueToExchange,
+  isString,
   jsonString,
   parseJSON,
   replaceAll,

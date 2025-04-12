@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
+exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 const config_1 = require("../config/config");
@@ -51,9 +51,8 @@ const getValueToExchange = (adapter, textToSend, val) => {
         const modifiedString = (0, exports.replaceAll)(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
         const { json, isValidJson } = parseJSON(modifiedString);
         if (isValidJson) {
-            const _json = json;
             return {
-                newValue: _json[String(val)] ?? val,
+                newValue: json[String(val)] ?? val,
                 textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
                 error: false,
             };
@@ -64,4 +63,6 @@ const getValueToExchange = (adapter, textToSend, val) => {
     return { textToSend, newValue: val, error: false };
 };
 exports.getValueToExchange = getValueToExchange;
+const isString = (value) => typeof value === 'string';
+exports.isString = isString;
 //# sourceMappingURL=string.js.map

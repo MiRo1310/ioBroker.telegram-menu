@@ -166,7 +166,7 @@ class TelegramMenu extends utils.Adapter {
             return;
           }
           const { userToSend } = obj2;
-          if ((0, import_global.isString)(state == null ? void 0 : state.val) && state.val.includes("sList:")) {
+          if ((0, import_string.isString)(state == null ? void 0 : state.val) && state.val.includes("sList:")) {
             await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(
               state.val,
               instanceTelegram,

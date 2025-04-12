@@ -1,6 +1,14 @@
-import { decomposeText, jsonString, parseJSON, replaceAll, validateNewLine, getValueToExchange } from '../../src/lib/string';
-import { expect } from 'chai';
-import { utils } from "@iobroker/testing";
+import {
+    decomposeText,
+    getValueToExchange,
+    jsonString,
+    parseJSON,
+    replaceAll,
+    validateNewLine, isString
+
+} from '../../src/lib/string';
+import {expect} from 'chai';
+import {utils} from "@iobroker/testing";
 
 const { adapter, database } = utils.unit.createMocks({});
 
@@ -123,5 +131,21 @@ describe('getValueToExchange', () => {
             textToSend,
             error: false,
         });
+    });
+});
+
+describe('isString', () => {
+    it('should return true for string values', () => {
+        expect(isString('hello')).to.be.true;
+        expect(isString('')).to.be.true;
+    });
+
+    it('should return false for non-string values', () => {
+        expect(isString(123)).to.be.false;
+        expect(isString(true)).to.be.false;
+        expect(isString(null)).to.be.false;
+        expect(isString(undefined)).to.be.false;
+        expect(isString({})).to.be.false;
+        expect(isString([])).to.be.false;
     });
 });

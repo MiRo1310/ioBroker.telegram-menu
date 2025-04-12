@@ -162,7 +162,7 @@ class TelegramMenu extends utils.Adapter {
                         return;
                     }
                     const { userToSend } = obj;
-                    if ((0, global_1.isString)(state?.val) && state.val.includes('sList:')) {
+                    if ((0, string_1.isString)(state?.val) && state.val.includes('sList:')) {
                         await (0, shoppingList_js_1.shoppingListSubscribeStateAndDeleteItem)(state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
                         return;
                     }

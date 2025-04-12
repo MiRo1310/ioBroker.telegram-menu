@@ -56,9 +56,8 @@ export const getValueToExchange = (adapter: Adapter, textToSend: string, val: Pr
         const { json, isValidJson } = parseJSON<Record<string, string>>(modifiedString);
 
         if (isValidJson) {
-            const _json = json;
             return {
-                newValue: _json[String(val)] ?? val,
+                newValue: json[String(val)] ?? val,
                 textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
                 error: false,
             };
@@ -68,3 +67,5 @@ export const getValueToExchange = (adapter: Adapter, textToSend: string, val: Pr
     }
     return { textToSend, newValue: val, error: false };
 };
+
+export const isString = (value: unknown): value is string => typeof value === 'string';
