@@ -64,7 +64,7 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error in switchBack:', e);
+        (0, logging_1.errorLogger)('Error in switchBack:', e, main_1.adapter);
     }
 }
 //# sourceMappingURL=backMenu.js.map

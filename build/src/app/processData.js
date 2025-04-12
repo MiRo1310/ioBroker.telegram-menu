@@ -196,7 +196,7 @@ async function processData(obj) {
         return false;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error processData:', e);
+        (0, logging_1.errorLogger)('Error processData:', e, main_1.adapter);
     }
 }
 function getStateIdsToListenTo() {

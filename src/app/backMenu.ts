@@ -73,7 +73,7 @@ async function switchBack(
             }
         }
     } catch (e: any) {
-        errorLogger('Error in switchBack:', e);
+        errorLogger('Error in switchBack:', e, adapter);
     }
 }
 

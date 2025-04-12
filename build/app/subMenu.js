@@ -317,7 +317,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
     }
     return { setStateIdsToListenTo, newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {
-    (0, import_logging.errorLogger)("Error callSubMenu:", e);
+    (0, import_logging.errorLogger)("Error callSubMenu:", e, import_main.adapter);
   }
 }
 async function subMenu({

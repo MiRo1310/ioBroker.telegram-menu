@@ -39,7 +39,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
             if (!part.filename) {
                 return;
             }
-            if (!(0, utils_1.validateDirectory)(directoryPicture)) {
+            if (!(0, utils_1.validateDirectory)(main_1.adapter, directoryPicture)) {
                 return;
             }
             const imagePath = path_1.default.join(directoryPicture, part.filename);
@@ -56,7 +56,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
             });
         }
         catch (e) {
-            (0, logging_1.errorLogger)('Error http request:', e);
+            (0, logging_1.errorLogger)('Error http request:', e, main_1.adapter);
         }
     }
     return true;

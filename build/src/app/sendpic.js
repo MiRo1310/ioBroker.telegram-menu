@@ -22,13 +22,13 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
                         main_1.adapter.log.debug(`Stderr: ${stderr}`);
                     }
                     if (error) {
-                        (0, logging_1.errorLogger)('Error in exec:', error);
+                        (0, logging_1.errorLogger)('Error in exec:', error, main_1.adapter);
                         return;
                     }
                 });
                 main_1.adapter.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
-                if (!(0, utils_1.validateDirectory)(directoryPicture)) {
+                if (!(0, utils_1.validateDirectory)(main_1.adapter, directoryPicture)) {
                     return;
                 }
                 path = `${directoryPicture}${fileName}`;
@@ -62,7 +62,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
         return timeouts;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error send pic:', e);
+        (0, logging_1.errorLogger)('Error send pic:', e, main_1.adapter);
     }
     return timeouts;
 }

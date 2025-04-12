@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { toLocaleDate, integrateTimeIntoText } from '../../src/lib/time';
-import {config} from '../../src/config/config';
+import { config } from '../../src/config/config';
 
 describe('Time', () => {
-        const testDate = new Date(1744388803096);
-        const expectedDate = '11.4.2025, 18:26:43';
+    const testDate = new Date(1744388803096);
+    const expectedDate = '11.4.2025, 18:26:43';
 
     it('Should return a correct formatted date', () => {
         const result = toLocaleDate(testDate);
@@ -16,21 +16,20 @@ describe('Time', () => {
         expect(() => toLocaleDate(invalidDate)).to.not.throw();
     });
 
-    it("Integrate a valid time into text", ()=>{
+    it('Integrate a valid time into text', () => {
         const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, 1744388803096);
         expect(result).to.equal(`Test at ${expectedDate} created`);
-    })
+    });
 
-    it("Handle a non valid time", ()=>{
-        const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, "abc");
+    it('Handle a non valid time', () => {
+        const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, 'abc');
         expect(result).to.equal(`Test at "Invalid Date" created`);
-    })
+    });
 
-    it("Handle a null value for time", ()=>{
-       [null, undefined].forEach((value) => {
-        const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, value);
-        expect(result).to.equal(`Test at "Invalid Date" created`);
-       })
-    })
-
+    it('Handle a null value for time', () => {
+        [null, undefined].forEach(value => {
+            const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, value);
+            expect(result).to.equal(`Test at "Invalid Date" created`);
+        });
+    });
 });

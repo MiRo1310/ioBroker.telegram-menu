@@ -13,7 +13,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
         for (const echart of echarts) {
             const splitPreset = echart.preset.split('.');
             const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
-            if (!(0, utils_1.validateDirectory)(directoryPicture)) {
+            if (!(0, utils_1.validateDirectory)(main_1.adapter, directoryPicture)) {
                 return;
             }
             main_1.adapter.sendTo(instanceOfEchart, {
@@ -33,13 +33,13 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
                     userListWithChatID: userListWithChatID,
                     parse_mode: 'false',
                 }).catch((e) => {
-                    (0, logging_1.errorLogger)('Error send to telegram: ', e);
+                    (0, logging_1.errorLogger)('Error send to telegram: ', e, main_1.adapter);
                 });
             });
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error get chart:', e);
+        (0, logging_1.errorLogger)('Error get chart:', e, main_1.adapter);
     }
 }
 //# sourceMappingURL=echarts.js.map

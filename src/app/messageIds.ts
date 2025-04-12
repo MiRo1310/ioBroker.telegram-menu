@@ -46,7 +46,7 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
         requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
         await adapter.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     } catch (e: any) {
-        errorLogger('Error saveMessageIds:', e);
+        errorLogger('Error saveMessageIds:', e, adapter);
     }
 }
 function removeOldMessageIds(messages: Messages, chatID: string): Messages {
@@ -97,7 +97,7 @@ async function deleteMessageIds(
         }
 
         isDeleting = true;
-        const copyMessageIds = deepCopy(messageIds);
+        const copyMessageIds = deepCopy(messageIds, adapter);
         messageIds[chat_id].forEach((element, index) => {
             if (whatShouldDelete === 'all' && element.id) {
                 deleteMessageByBot(
@@ -125,7 +125,7 @@ async function deleteMessageIds(
 
         await adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
     } catch (e: any) {
-        errorLogger('Error deleteMessageIds:', e);
+        errorLogger('Error deleteMessageIds:', e, adapter);
     }
 }
 

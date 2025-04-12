@@ -24,7 +24,7 @@ module.exports = __toCommonJS(echarts_exports);
 var import_main = require("../main");
 var import_logging = require("./logging");
 var import_telegram = require("./telegram");
-var import_global = require("./global");
+var import_utils = require("../lib/utils");
 function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
   try {
     if (!echarts) {
@@ -33,7 +33,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
     for (const echart of echarts) {
       const splitPreset = echart.preset.split(".");
       const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
-      if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
+      if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
         return;
       }
       import_main.adapter.sendTo(
@@ -56,13 +56,13 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
             userListWithChatID,
             parse_mode: "false"
           }).catch((e) => {
-            (0, import_logging.errorLogger)("Error send to telegram: ", e);
+            (0, import_logging.errorLogger)("Error send to telegram: ", e, import_main.adapter);
           });
         }
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error get chart:", e);
+    (0, import_logging.errorLogger)("Error get chart:", e, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

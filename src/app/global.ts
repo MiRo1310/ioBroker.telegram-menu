@@ -1,4 +1,5 @@
 import { errorLogger } from './logging';
+import { adapter } from '../main';
 
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
@@ -14,7 +15,7 @@ export function parseJSON<T>(value: string): T | undefined {
     try {
         return JSON.parse(value);
     } catch (error) {
-        errorLogger('Error parseJson: ', error);
+        errorLogger('Error parseJson: ', error, adapter);
         return undefined;
     }
 }

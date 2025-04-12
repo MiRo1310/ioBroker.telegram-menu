@@ -61,7 +61,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
             return;
         }
     } catch (e: any) {
-        errorLogger('Error shoppingList:', e);
+        errorLogger('Error shoppingList:', e, adapter);
     }
 }
 
@@ -93,7 +93,7 @@ async function deleteMessageAndSendNewShoppingList(
             }
         }
     } catch (e: any) {
-        errorLogger('Error deleteMessageAndSendNewShoppingList:', e);
+        errorLogger('Error deleteMessageAndSendNewShoppingList:', e, adapter);
     }
 }
 

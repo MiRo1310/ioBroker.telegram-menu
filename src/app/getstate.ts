@@ -146,7 +146,7 @@ function getState(
                         }
                     }
 
-                    const { newValue: _val, textToSend: _text, error } = getValueToExchange(textToSend, val);
+                    const { newValue: _val, textToSend: _text, error } = getValueToExchange(adapter, textToSend, val);
 
                     val = _val;
                     textToSend = _text;

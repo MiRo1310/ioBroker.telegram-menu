@@ -43,7 +43,7 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
       });
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error sendNav:", e);
+    (0, import_logging.errorLogger)("Error sendNav:", e, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

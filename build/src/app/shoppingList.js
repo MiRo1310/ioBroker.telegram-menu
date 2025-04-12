@@ -46,7 +46,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
         }
     }
     catch (e) {
-        (0, logging_js_1.errorLogger)('Error shoppingList:', e);
+        (0, logging_js_1.errorLogger)('Error shoppingList:', e, main_js_1.adapter);
     }
 }
 async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend) {
@@ -66,7 +66,7 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
         }
     }
     catch (e) {
-        (0, logging_js_1.errorLogger)('Error deleteMessageAndSendNewShoppingList:', e);
+        (0, logging_js_1.errorLogger)('Error deleteMessageAndSendNewShoppingList:', e, main_js_1.adapter);
     }
 }
 //# sourceMappingURL=shoppingList.js.map

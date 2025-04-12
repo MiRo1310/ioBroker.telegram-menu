@@ -22,7 +22,7 @@ __export(sendpic_exports, {
 });
 module.exports = __toCommonJS(sendpic_exports);
 var import_telegram = require("./telegram");
-var import_global = require("./global");
+var import_utils = require("../lib/utils");
 var import_child_process = require("child_process");
 var import_logging = require("./logging");
 var import_main = require("../main");
@@ -45,14 +45,14 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
               import_main.adapter.log.debug(`Stderr: ${stderr}`);
             }
             if (error) {
-              (0, import_logging.errorLogger)("Error in exec:", error);
+              (0, import_logging.errorLogger)("Error in exec:", error, import_main.adapter);
               return;
             }
           }
         );
         import_main.adapter.log.debug(`Delay Time: ${delay}`);
         timeoutKey += 1;
-        if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
+        if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
           return;
         }
         path = `${directoryPicture}${fileName}`;
@@ -87,7 +87,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
     });
     return timeouts;
   } catch (e) {
-    (0, import_logging.errorLogger)("Error send pic:", e);
+    (0, import_logging.errorLogger)("Error send pic:", e, import_main.adapter);
   }
   return timeouts;
 }

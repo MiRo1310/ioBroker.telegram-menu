@@ -43,7 +43,6 @@ const utils = __importStar(require("@iobroker/adapter-core"));
 const action_js_1 = require("./app/action.js");
 const subscribeStates_js_1 = require("./app/subscribeStates.js");
 const telegram_js_1 = require("./app/telegram.js");
-const utilities_js_1 = require("./lib/utilities.js");
 const createState_js_1 = require("./app/createState.js");
 const messageIds_js_1 = require("./app/messageIds.js");
 const adapterStartMenuSend_js_1 = require("./app/adapterStartMenuSend.js");
@@ -228,7 +227,7 @@ class TelegramMenu extends utils.Adapter {
                                 if (!(0, global_1.isFalsy)(element.confirm) &&
                                     !state?.ack &&
                                     element.returnText.includes('{confirmSet:')) {
-                                    const substring = (0, utilities_js_1.decomposeText)(element.returnText, '{confirmSet:', '}').substring.split(':');
+                                    const substring = (0, string_1.decomposeText)(element.returnText, '{confirmSet:', '}').substring.split(':');
                                     exports.adapter.log.debug(`Substring: ${(0, string_1.jsonString)(substring)}`);
                                     let text = '';
                                     if ((0, utils_1.isDefined)(state.val)) {
@@ -250,7 +249,7 @@ class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode,
                                     }).catch((e) => {
-                                        (0, logging_js_1.errorLogger)('Error SendToTelegram', e);
+                                        (0, logging_js_1.errorLogger)('Error SendToTelegram', e, exports.adapter);
                                     });
                                     return;
                                 }
@@ -258,12 +257,12 @@ class TelegramMenu extends utils.Adapter {
                                 if (!(0, global_1.isFalsy)(element.confirm) && state?.ack) {
                                     let textToSend = element.returnText;
                                     if (textToSend.includes('{confirmSet:')) {
-                                        const substring = (0, utilities_js_1.decomposeText)(textToSend, '{confirmSet:', '}').substring;
+                                        const substring = (0, string_1.decomposeText)(textToSend, '{confirmSet:', '}').substring;
                                         textToSend = textToSend.replace(substring, '');
                                     }
                                     let value = '';
                                     let valueChange = null;
-                                    const { newValue, textToSend: changedText, error, } = (0, string_1.getValueToExchange)(textToSend, state.val?.toString() || '');
+                                    const { newValue, textToSend: changedText, error, } = (0, string_1.getValueToExchange)(exports.adapter, textToSend, state.val?.toString() || '');
                                     if (!error) {
                                         valueChange = newValue;
                                         textToSend = changedText;
@@ -290,7 +289,7 @@ class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode,
                                     }).catch((e) => {
-                                        (0, logging_js_1.errorLogger)('Error sendToTelegram', e);
+                                        (0, logging_js_1.errorLogger)('Error sendToTelegram', e, exports.adapter);
                                     });
                                     setStateIdsToListenTo.splice(key, 1);
                                 }
@@ -300,7 +299,7 @@ class TelegramMenu extends utils.Adapter {
                 });
             }
             catch (e) {
-                (0, logging_js_1.errorLogger)('Error onReady', e);
+                (0, logging_js_1.errorLogger)('Error onReady', e, exports.adapter);
             }
         });
         await this.subscribeForeignStatesAsync(botSendMessageID);
@@ -362,7 +361,7 @@ class TelegramMenu extends utils.Adapter {
             callback();
         }
         catch (e) {
-            (0, logging_js_1.errorLogger)(e, 'Error onUnload');
+            (0, logging_js_1.errorLogger)(e, 'Error onUnload', exports.adapter);
             callback();
         }
     }

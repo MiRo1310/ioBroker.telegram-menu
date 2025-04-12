@@ -72,7 +72,7 @@ const bindingFunc = async (
             parse_mode: parse_mode,
         });
     } catch (e: any) {
-        errorLogger('Error Binding function: ', e);
+        errorLogger('Error Binding function: ', e, adapter);
     }
 };
 
@@ -85,7 +85,7 @@ function calcValue(textToSend: string, val: string): { textToSend: string; val: 
 
         return { textToSend: textToSend, val: val };
     } catch (e: any) {
-        errorLogger('Error Eval:', e);
+        errorLogger('Error Eval:', e, adapter);
     }
 }
 
@@ -129,7 +129,7 @@ function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
 
         return newVal;
     } catch (err: any) {
-        errorLogger('Error EditArray:', err);
+        errorLogger('Error EditArray:', err, adapter);
         return null;
     }
 }
@@ -196,21 +196,20 @@ const idBySelector = async (
                 sendToTelegram({
                     user: userToSend,
                     textToSend: text2Send,
-                    keyboard: undefined,
                     instance: telegramInstance,
                     resize_keyboard: one_time_keyboard,
                     one_time_keyboard: resize_keyboard,
                     userListWithChatID: userListWithChatID,
                     parse_mode: 'false',
                 }).catch(e => {
-                    errorLogger('Error SendToTelegram:', e);
+                    errorLogger('Error SendToTelegram:', e, adapter);
                 });
 
                 adapter.log.debug(`TextToSend: ${text2Send}`);
                 adapter.log.debug(`UserToSend: ${userToSend}`);
             })
             .catch(e => {
-                errorLogger('Error Promise:', e);
+                errorLogger('Error Promise:', e, adapter);
             });
     } catch (error: any) {
         error([
@@ -237,7 +236,7 @@ function generateNewObjectStructure(val: GeneratedNavMenu[] | null): NewObjectNa
         });
         return obj;
     } catch (err: any) {
-        errorLogger('Error GenerateNewObjectStructure:', err);
+        errorLogger('Error GenerateNewObjectStructure:', err, adapter);
         return null;
     }
 }
@@ -367,7 +366,7 @@ function generateActions(
 
         return { obj: userObject, ids: listOfSetStateIds };
     } catch (err: any) {
-        errorLogger('Error generateActions:', err);
+        errorLogger('Error generateActions:', err, adapter);
     }
 }
 
@@ -380,7 +379,7 @@ function roundValue(val: string, textToSend: string): { val: string; textToSend:
         const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
         return { val: floatedString, textToSend: textWithoutSubstring };
     } catch (err: any) {
-        errorLogger('Error roundValue:', err);
+        errorLogger('Error roundValue:', err, adapter);
     }
 }
 

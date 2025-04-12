@@ -74,7 +74,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
       parse_mode
     });
   } catch (e) {
-    (0, import_logging.errorLogger)("Error Binding function: ", e);
+    (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
   }
 };
 function calcValue(textToSend, val) {
@@ -85,7 +85,7 @@ function calcValue(textToSend, val) {
     textToSend = textToSend.replace(substring, "");
     return { textToSend, val };
   } catch (e) {
-    (0, import_logging.errorLogger)("Error Eval:", e);
+    (0, import_logging.errorLogger)("Error Eval:", e, import_main.adapter);
   }
 }
 function checkValueForOneLine(text2) {
@@ -124,7 +124,7 @@ function editArrayButtons(val2) {
     });
     return newVal;
   } catch (err) {
-    (0, import_logging.errorLogger)("Error EditArray:", err);
+    (0, import_logging.errorLogger)("Error EditArray:", err, import_main.adapter);
     return null;
   }
 }
@@ -176,19 +176,18 @@ const idBySelector = async (selector, text2, userToSend2, newline, telegramInsta
       (0, import_telegram.sendToTelegram)({
         user: userToSend2,
         textToSend: text2Send,
-        keyboard: void 0,
         instance: telegramInstance2,
         resize_keyboard: one_time_keyboard2,
         one_time_keyboard: resize_keyboard2,
         userListWithChatID: userListWithChatID2,
         parse_mode: "false"
       }).catch((e) => {
-        (0, import_logging.errorLogger)("Error SendToTelegram:", e);
+        (0, import_logging.errorLogger)("Error SendToTelegram:", e, import_main.adapter);
       });
       import_main.adapter.log.debug(`TextToSend: ${text2Send}`);
       import_main.adapter.log.debug(`UserToSend: ${userToSend2}`);
     }).catch((e) => {
-      (0, import_logging.errorLogger)("Error Promise:", e);
+      (0, import_logging.errorLogger)("Error Promise:", e, import_main.adapter);
     });
   } catch (error) {
     error([
@@ -213,7 +212,7 @@ function generateNewObjectStructure(val2) {
     });
     return obj;
   } catch (err) {
-    (0, import_logging.errorLogger)("Error GenerateNewObjectStructure:", err);
+    (0, import_logging.errorLogger)("Error GenerateNewObjectStructure:", err, import_main.adapter);
     return null;
   }
 }
@@ -330,7 +329,7 @@ function generateActions(action, userObject) {
     });
     return { obj: userObject, ids: listOfSetStateIds };
   } catch (err) {
-    (0, import_logging.errorLogger)("Error generateActions:", err);
+    (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
   }
 }
 function roundValue(val2, textToSend2) {
@@ -341,7 +340,7 @@ function roundValue(val2, textToSend2) {
     const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
     return { val: floatedString, textToSend: textWithoutSubstring };
   } catch (err) {
-    (0, import_logging.errorLogger)("Error roundValue:", err);
+    (0, import_logging.errorLogger)("Error roundValue:", err, import_main.adapter);
   }
 }
 const exchangePlaceholderWithValue = (textToSend2, val2) => {

@@ -72,7 +72,7 @@ const createKeyboardFromJson = (
 
         return { text: headline, keyboard };
     } catch (err: any) {
-        errorLogger('Error createKeyboardFromJson:', err);
+        errorLogger('Error createKeyboardFromJson:', err, adapter);
     }
 };
 
@@ -146,7 +146,7 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
         textTable += '`';
         return textTable;
     } catch (e: any) {
-        errorLogger('Error createTextTableFromJson:', e);
+        errorLogger('Error createTextTableFromJson:', e, adapter);
     }
 }
 export { createKeyboardFromJson, createTextTableFromJson };

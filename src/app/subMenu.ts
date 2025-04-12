@@ -356,7 +356,7 @@ async function callSubMenu(
         }
         return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
     } catch (e: any) {
-        errorLogger('Error callSubMenu:', e);
+        errorLogger('Error callSubMenu:', e, adapter);
     }
 }
 

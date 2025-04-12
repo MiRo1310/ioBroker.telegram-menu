@@ -47,7 +47,7 @@ async function httpRequest(
             if (!part.filename) {
                 return;
             }
-            if (!validateDirectory(directoryPicture)) {
+            if (!validateDirectory(adapter, directoryPicture)) {
                 return;
             }
             const imagePath = path.join(directoryPicture, part.filename);
@@ -65,7 +65,7 @@ async function httpRequest(
                 parse_mode: 'false',
             });
         } catch (e: any) {
-            errorLogger('Error http request:', e);
+            errorLogger('Error http request:', e, adapter);
         }
     }
     return true;

@@ -1,6 +1,6 @@
-import { adapter } from './adapterManager';
+import type { Adapter } from '../types/types';
 
-export const errorLogger = (title: string, e: any): void => {
+export const errorLogger = (title: string, e: any, adapter: Adapter): void => {
     adapter.log.error(title);
     adapter.log.error(`Error message: ${e.message}`);
     adapter.log.error(`Error stack: ${e.stack}`);

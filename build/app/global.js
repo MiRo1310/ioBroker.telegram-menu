@@ -26,6 +26,7 @@ __export(global_exports, {
 });
 module.exports = __toCommonJS(global_exports);
 var import_logging = require("./logging");
+var import_main = require("../main");
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 const isString = (value) => typeof value === "string";
 const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
@@ -34,7 +35,7 @@ function parseJSON(value) {
   try {
     return JSON.parse(value);
   } catch (error) {
-    (0, import_logging.errorLogger)("Error parseJson: ", error);
+    (0, import_logging.errorLogger)("Error parseJson: ", error, import_main.adapter);
     return void 0;
   }
 }

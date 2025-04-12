@@ -84,7 +84,7 @@ async function sendToTelegram({
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error sendToTelegram:", e);
+    (0, import_logging.errorLogger)("Error sendToTelegram:", e, import_main.adapter);
   }
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
@@ -100,7 +100,7 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.
       reply_markup: keyboard
     });
   } catch (e) {
-    (0, import_logging.errorLogger)("Error sendToTelegramSubmenu:", e);
+    (0, import_logging.errorLogger)("Error sendToTelegramSubmenu:", e, import_main.adapter);
   }
 }
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
@@ -123,7 +123,7 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
       });
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error sendLocationToTelegram:", e);
+    (0, import_logging.errorLogger)("Error sendLocationToTelegram:", e, import_main.adapter);
   }
 };
 function getParseMode(val) {

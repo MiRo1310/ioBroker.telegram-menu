@@ -307,7 +307,7 @@ async function processData(obj) {
     }
     return false;
   } catch (e) {
-    (0, import_logging.errorLogger)("Error processData:", e);
+    (0, import_logging.errorLogger)("Error processData:", e, import_main.adapter);
   }
 }
 function getStateIdsToListenTo() {

@@ -39,7 +39,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
         });
     }
     catch (error) {
-        (0, logging_1.errorLogger)('Error setValue', error);
+        (0, logging_1.errorLogger)('Error setValue', error, main_1.adapter);
     }
 };
 const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
@@ -103,12 +103,12 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
                     .then(val => {
                     if (val) {
                         main_1.adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
-                            (0, logging_1.errorLogger)('Error setForeignStateAsync:', e);
+                            (0, logging_1.errorLogger)('Error setForeignStateAsync:', e, main_1.adapter);
                         });
                     }
                 })
                     .catch((e) => {
-                    (0, logging_1.errorLogger)('Error getForeignStateAsync:', e);
+                    (0, logging_1.errorLogger)('Error getForeignStateAsync:', e, main_1.adapter);
                 });
             }
             else {
@@ -118,7 +118,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         return setStateIds;
     }
     catch (error) {
-        (0, logging_1.errorLogger)('Error Switch', error);
+        (0, logging_1.errorLogger)('Error Switch', error, main_1.adapter);
     }
 };
 exports.setState = setState;

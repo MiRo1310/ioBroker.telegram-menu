@@ -24,7 +24,7 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error sendNav:', e);
+        (0, logging_1.errorLogger)('Error sendNav:', e, main_1.adapter);
     }
 }
 //# sourceMappingURL=sendNav.js.map

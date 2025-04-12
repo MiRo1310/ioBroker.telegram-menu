@@ -1,6 +1,7 @@
 import { errorLogger } from './logging';
 import type { KeyboardItems, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
+import { adapter } from '../main';
 
 async function dynamicSwitch(
     calledValue: string,
@@ -51,7 +52,7 @@ async function dynamicSwitch(
             return { text, keyboard, device };
         }
     } catch (e: any) {
-        errorLogger('Error parsing dynSwitch:', e);
+        errorLogger('Error parsing dynSwitch:', e, adapter);
     }
 }
 export { dynamicSwitch };

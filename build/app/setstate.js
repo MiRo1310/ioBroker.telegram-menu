@@ -56,7 +56,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
       }
     });
   } catch (error) {
-    (0, import_logging.errorLogger)("Error setValue", error);
+    (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
 const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
@@ -128,11 +128,11 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         import_main.adapter.getForeignStateAsync(element.id).then((val) => {
           if (val) {
             import_main.adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
-              (0, import_logging.errorLogger)("Error setForeignStateAsync:", e);
+              (0, import_logging.errorLogger)("Error setForeignStateAsync:", e, import_main.adapter);
             });
           }
         }).catch((e) => {
-          (0, import_logging.errorLogger)("Error getForeignStateAsync:", e);
+          (0, import_logging.errorLogger)("Error getForeignStateAsync:", e, import_main.adapter);
         });
       } else {
         await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
@@ -140,7 +140,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
     }
     return setStateIds;
   } catch (error) {
-    (0, import_logging.errorLogger)("Error Switch", error);
+    (0, import_logging.errorLogger)("Error Switch", error, import_main.adapter);
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

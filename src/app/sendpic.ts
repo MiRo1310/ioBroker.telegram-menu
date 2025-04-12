@@ -35,7 +35,7 @@ function sendPic(
                             adapter.log.debug(`Stderr: ${stderr}`);
                         }
                         if (error) {
-                            errorLogger('Error in exec:', error);
+                            errorLogger('Error in exec:', error, adapter);
 
                             return;
                         }
@@ -45,7 +45,7 @@ function sendPic(
                 adapter.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
 
-                if (!validateDirectory(directoryPicture)) {
+                if (!validateDirectory(adapter, directoryPicture)) {
                     return;
                 }
 
@@ -85,7 +85,7 @@ function sendPic(
         });
         return timeouts;
     } catch (e: any) {
-        errorLogger('Error send pic:', e);
+        errorLogger('Error send pic:', e, adapter);
     }
     return timeouts;
 }

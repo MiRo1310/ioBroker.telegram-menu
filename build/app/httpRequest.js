@@ -36,7 +36,7 @@ var import_telegram = require("./telegram");
 var import_path = __toESM(require("path"));
 var import_fs = __toESM(require("fs"));
 var import_logging = require("./logging");
-var import_global = require("./global");
+var import_utils = require("../lib/utils");
 var import_main = require("../main");
 async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
   if (!parts.httpRequest) {
@@ -65,7 +65,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       if (!part.filename) {
         return;
       }
-      if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
+      if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
         return;
       }
       const imagePath = import_path.default.join(directoryPicture, part.filename);
@@ -81,7 +81,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
         parse_mode: "false"
       });
     } catch (e) {
-      (0, import_logging.errorLogger)("Error http request:", e);
+      (0, import_logging.errorLogger)("Error http request:", e, import_main.adapter);
     }
   }
   return true;

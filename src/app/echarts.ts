@@ -21,7 +21,7 @@ function getChart(
             const splitPreset = echart.preset.split('.');
             const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
 
-            if (!validateDirectory(directoryPicture)) {
+            if (!validateDirectory(adapter, directoryPicture)) {
                 return;
             }
             adapter.sendTo(
@@ -44,13 +44,13 @@ function getChart(
                         userListWithChatID: userListWithChatID,
                         parse_mode: 'false',
                     }).catch((e: any) => {
-                        errorLogger('Error send to telegram: ', e);
+                        errorLogger('Error send to telegram: ', e, adapter);
                     });
                 },
             );
         }
     } catch (e: any) {
-        errorLogger('Error get chart:', e);
+        errorLogger('Error get chart:', e, adapter);
     }
 }
 

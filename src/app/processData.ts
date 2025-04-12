@@ -318,7 +318,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         }
         return false;
     } catch (e: any) {
-        errorLogger('Error processData:', e);
+        errorLogger('Error processData:', e, adapter);
     }
 }
 

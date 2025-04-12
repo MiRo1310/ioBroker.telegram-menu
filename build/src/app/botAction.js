@@ -18,7 +18,7 @@ const deleteMessageByBot = (instance, user, userListWithChatID, messageId, chat_
         });
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error deleteMessage:', e);
+        (0, logging_1.errorLogger)('Error deleteMessage:', e, main_1.adapter);
     }
 };
 exports.deleteMessageByBot = deleteMessageByBot;

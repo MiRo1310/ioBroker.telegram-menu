@@ -18,7 +18,6 @@ import {
 } from './app/action.js';
 import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
 import { sendToTelegram } from './app/telegram.js';
-import { decomposeText } from './lib/utilities.js';
 import { createState } from './app/createState.js';
 import { saveMessageIds } from './app/messageIds.js';
 import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
@@ -26,10 +25,7 @@ import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
 import type {
-    Checkboxes,
-    DataObject,
     GeneratedActions,
-    IsUserActiveCheckbox,
     ListOfMenus,
     MenuData,
     MenusWithUsers,
@@ -41,7 +37,7 @@ import type {
 import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './app/connection.js';
 import { isFalsy, isString } from './app/global';
-import { getValueToExchange, jsonString } from './lib/string';
+import { getValueToExchange, jsonString, decomposeText } from './lib/string';
 import { isDefined } from './lib/utils';
 
 const timeoutKey = '0';
@@ -69,7 +65,7 @@ export default class TelegramMenu extends utils.Adapter {
         await this.setState('info.connection', false, true);
         await createState(this);
 
-        let instanceTelegram: string = this.config.instance;
+        let instanceTelegram = this.config.instance;
         if (!instanceTelegram || instanceTelegram.length == 0) {
             instanceTelegram = 'telegram.0';
         }
@@ -78,22 +74,22 @@ export default class TelegramMenu extends utils.Adapter {
         const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
         const infoConnectionOfTelegram = `${instanceTelegram}.info.connection`;
 
-        const checkboxes: Checkboxes = this.config.checkbox as Checkboxes;
-        const one_time_keyboard: boolean = checkboxes.oneTiKey;
-        const resize_keyboard: boolean = checkboxes.resKey;
-        const checkboxNoEntryFound: boolean = checkboxes.checkboxNoValueFound;
-        const sendMenuAfterRestart: boolean = checkboxes.sendMenuAfterRestart;
+        const checkboxes = this.config.checkbox;
+        const one_time_keyboard = checkboxes.oneTiKey;
+        const resize_keyboard = checkboxes.resKey;
+        const checkboxNoEntryFound = checkboxes.checkboxNoValueFound;
+        const sendMenuAfterRestart = checkboxes.sendMenuAfterRestart;
         let listOfMenus: ListOfMenus = [];
         if (this.config.usersInGroup) {
             listOfMenus = Object.keys(this.config.usersInGroup);
         }
         const token = this.config.tokenGrafana;
-        const directoryPicture: string = this.config.directory;
-        const isUserActiveCheckbox: IsUserActiveCheckbox = this.config.userActiveCheckbox;
+        const directoryPicture = this.config.directory;
+        const isUserActiveCheckbox = this.config.userActiveCheckbox;
         const menusWithUsers: MenusWithUsers = this.config.usersInGroup;
         const textNoEntryFound: string = this.config.textNoEntry;
-        const userListWithChatID: UserListWithChatId[] = this.config.userListWithChatID;
-        const dataObject: DataObject = this.config.data as DataObject;
+        const userListWithChatID = this.config.userListWithChatID;
+        const dataObject = this.config.data;
         const startSides: StartSides = {};
 
         const menuData: MenuData = {
@@ -311,7 +307,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode as BooleanString,
                                     }).catch((e: { message: any; stack: any }) => {
-                                        errorLogger('Error SendToTelegram', e);
+                                        errorLogger('Error SendToTelegram', e, adapter);
                                     });
                                     return;
                                 }
@@ -333,7 +329,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         newValue,
                                         textToSend: changedText,
                                         error,
-                                    } = getValueToExchange(textToSend, state.val?.toString() || '');
+                                    } = getValueToExchange(adapter, textToSend, state.val?.toString() || '');
                                     if (!error) {
                                         valueChange = newValue;
                                         textToSend = changedText;
@@ -362,7 +358,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode as BooleanString,
                                     }).catch((e: { message: any; stack: any }) => {
-                                        errorLogger('Error sendToTelegram', e);
+                                        errorLogger('Error sendToTelegram', e, adapter);
                                     });
 
                                     setStateIdsToListenTo.splice(key, 1);
@@ -372,7 +368,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
                 });
             } catch (e: any) {
-                errorLogger('Error onReady', e);
+                errorLogger('Error onReady', e, adapter);
             }
         });
 
@@ -453,7 +449,7 @@ export default class TelegramMenu extends utils.Adapter {
 
             callback();
         } catch (e: any) {
-            errorLogger(e, 'Error onUnload');
+            errorLogger(e, 'Error onUnload', adapter);
             callback();
         }
     }

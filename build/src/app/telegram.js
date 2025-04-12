@@ -47,7 +47,7 @@ async function sendToTelegram({ user = '', textToSend, keyboard, instance = 'tel
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error sendToTelegram:', e);
+        (0, logging_1.errorLogger)('Error sendToTelegram:', e, main_1.adapter);
     }
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.0', userListWithChatID, parse_mode) {
@@ -64,7 +64,7 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.
         });
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error sendToTelegramSubmenu:', e);
+        (0, logging_1.errorLogger)('Error sendToTelegramSubmenu:', e, main_1.adapter);
     }
 }
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
@@ -88,7 +88,7 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error sendLocationToTelegram:', e);
+        (0, logging_1.errorLogger)('Error sendLocationToTelegram:', e, main_1.adapter);
     }
 };
 exports.sendLocationToTelegram = sendLocationToTelegram;

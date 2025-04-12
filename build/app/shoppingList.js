@@ -69,7 +69,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
       return;
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error shoppingList:", e);
+    (0, import_logging.errorLogger)("Error shoppingList:", e, import_main.adapter);
   }
 }
 async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend) {
@@ -95,7 +95,7 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
       }
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList:", e);
+    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList:", e, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

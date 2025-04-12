@@ -65,7 +65,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
         return { text: headline, keyboard };
     }
     catch (err) {
-        (0, logging_1.errorLogger)('Error createKeyboardFromJson:', err);
+        (0, logging_1.errorLogger)('Error createKeyboardFromJson:', err, main_1.adapter);
     }
 };
 exports.createKeyboardFromJson = createKeyboardFromJson;
@@ -141,7 +141,7 @@ function createTextTableFromJson(val, textToSend) {
         return textTable;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error createTextTableFromJson:', e);
+        (0, logging_1.errorLogger)('Error createTextTableFromJson:', e, main_1.adapter);
     }
 }
 //# sourceMappingURL=jsonTable.js.map

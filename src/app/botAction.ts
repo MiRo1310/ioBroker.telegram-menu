@@ -22,7 +22,7 @@ const deleteMessageByBot = (
             },
         });
     } catch (e: any) {
-        errorLogger('Error deleteMessage:', e);
+        errorLogger('Error deleteMessage:', e, adapter);
     }
 };
 export { deleteMessageByBot };

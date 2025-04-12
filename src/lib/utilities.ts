@@ -1,9 +1,9 @@
-import { adapter } from '../app/adapterManager';
 import { isDefined } from './utils';
 import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
 import { integrateTimeIntoText } from './time';
 import type { ProzessTimeValue } from '../types/types';
+import { adapter } from '../main';
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
     let key = '';
@@ -127,7 +127,7 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
         if (!valueChange) {
             return text.replace(substring, stateValue.val.toString());
         }
-        const { newValue: val, textToSend, error } = getValueToExchange(text, stateValue.val);
+        const { newValue: val, textToSend, error } = getValueToExchange(adapter, text, stateValue.val);
         let newValue;
         if (!error) {
             text = textToSend;
@@ -183,7 +183,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             return text;
         }
     } catch (e: any) {
-        errorLogger('Error checkStatusInfo:', e);
+        errorLogger('Error checkStatusInfo:', e, adapter);
     }
 };
 
@@ -222,7 +222,7 @@ async function checkTypeOfId(
 
         return value;
     } catch (e: any) {
-        errorLogger('Error checkTypeOfId:', e);
+        errorLogger('Error checkTypeOfId:', e, adapter);
     }
 }
 

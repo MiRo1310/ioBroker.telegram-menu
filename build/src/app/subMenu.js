@@ -243,7 +243,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
         return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error callSubMenu:', e);
+        (0, logging_1.errorLogger)('Error callSubMenu:', e, main_1.adapter);
     }
 }
 async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, navObj, }) {

@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decomposeText = exports.processTimeIdLc = exports.checkStatusInfo = void 0;
 exports.checkTypeOfId = checkTypeOfId;
-const adapterManager_1 = require("../app/adapterManager");
 const utils_1 = require("./utils");
 const string_1 = require("./string");
 Object.defineProperty(exports, "decomposeText", { enumerable: true, get: function () { return string_1.decomposeText; } });
 const logging_1 = require("../app/logging");
 const time_1 = require("./time");
+const main_1 = require("../main");
 const processTimeIdLc = async (textToSend, id) => {
     let key = '';
     const { substring } = (0, string_1.decomposeText)(textToSend, '{time.', '}');
@@ -23,7 +23,7 @@ const processTimeIdLc = async (textToSend, id) => {
     let idFromText = '';
     if (!id) {
         if (!changedSubstring.includes('id:')) {
-            adapterManager_1.adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
+            main_1.adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
             return;
         }
         if (array[2]) {
@@ -34,7 +34,7 @@ const processTimeIdLc = async (textToSend, id) => {
     if (!id && !idFromText) {
         return;
     }
-    const value = await adapterManager_1.adapter.getForeignStateAsync(id || idFromText);
+    const value = await main_1.adapter.getForeignStateAsync(id || idFromText);
     let timeValue;
     let timeStringUser;
     if (key && value) {
@@ -97,7 +97,7 @@ const checkStatus = async (text, processTimeValue) => {
     try {
         const substring = (0, string_1.decomposeText)(text, '{status:', '}').substring;
         let id, valueChange;
-        adapterManager_1.adapter.log.debug(`Substring ${substring}`);
+        main_1.adapter.log.debug(`Substring ${substring}`);
         if (substring.includes("status:'id':")) {
             id = substring.split(':')[2].replace("'}", '').replace(/'/g, '').replace(/}/g, '');
             valueChange = substring.split(':')[3] ? substring.split(':')[3].replace('}', '') !== 'false' : true;
@@ -106,9 +106,9 @@ const checkStatus = async (text, processTimeValue) => {
             id = substring.split(':')[1].replace("'}", '').replace(/'/g, '').replace(/}/g, '');
             valueChange = substring.split(':')[2] ? substring.split(':')[2].replace('}', '') !== 'false' : true;
         }
-        const stateValue = await adapterManager_1.adapter.getForeignStateAsync(id);
+        const stateValue = await main_1.adapter.getForeignStateAsync(id);
         if (!stateValue) {
-            adapterManager_1.adapter.log.debug(`State not found: ${id}`);
+            main_1.adapter.log.debug(`State not found: ${id}`);
             return '';
         }
         if (text.includes('{time}') && processTimeValue) {
@@ -117,13 +117,13 @@ const checkStatus = async (text, processTimeValue) => {
             return processTimeValue(text, val).replace(val, '');
         }
         if (!(0, utils_1.isDefined)(stateValue.val)) {
-            adapterManager_1.adapter.log.debug(`State Value is undefined: ${id}`);
+            main_1.adapter.log.debug(`State Value is undefined: ${id}`);
             return text.replace(substring, '');
         }
         if (!valueChange) {
             return text.replace(substring, stateValue.val.toString());
         }
-        const { newValue: val, textToSend, error } = (0, string_1.getValueToExchange)(text, stateValue.val);
+        const { newValue: val, textToSend, error } = (0, string_1.getValueToExchange)(main_1.adapter, text, stateValue.val);
         let newValue;
         if (!error) {
             text = textToSend;
@@ -132,13 +132,13 @@ const checkStatus = async (text, processTimeValue) => {
         else {
             newValue = stateValue.val;
         }
-        adapterManager_1.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-        adapterManager_1.adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
+        main_1.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
+        main_1.adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
         return text.replace(substring, newValue.toString());
     }
     catch (e) {
-        adapterManager_1.adapter.log.error(`Error checkStatus:${e.message}`);
-        adapterManager_1.adapter.log.error(`Stack:${e.stack}`);
+        main_1.adapter.log.error(`Error checkStatus:${e.message}`);
+        main_1.adapter.log.error(`Stack:${e.stack}`);
         return '';
     }
 };
@@ -147,7 +147,7 @@ const checkStatusInfo = async (text) => {
         if (!text) {
             return;
         }
-        adapterManager_1.adapter.log.debug(`Text: ${text}`);
+        main_1.adapter.log.debug(`Text: ${text}`);
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
                 text = await checkStatus(text, time_1.integrateTimeIntoText);
@@ -167,23 +167,23 @@ const checkStatusInfo = async (text) => {
                 text = 'Wähle eine Aktion';
             }
             if (convertedValue) {
-                await adapterManager_1.adapter.setForeignStateAsync(id, convertedValue, ack);
+                await main_1.adapter.setForeignStateAsync(id, convertedValue, ack);
             }
         }
         if (text) {
-            adapterManager_1.adapter.log.debug(`CheckStatusInfo: ${text}`);
+            main_1.adapter.log.debug(`CheckStatusInfo: ${text}`);
             return text;
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error checkStatusInfo:', e);
+        (0, logging_1.errorLogger)('Error checkStatusInfo:', e, main_1.adapter);
     }
 };
 exports.checkStatusInfo = checkStatusInfo;
 async function checkTypeOfId(id, value) {
     try {
-        adapterManager_1.adapter.log.debug(`Check Type of Id: ${id}`);
-        const obj = await adapterManager_1.adapter.getForeignObjectAsync(id);
+        main_1.adapter.log.debug(`Check Type of Id: ${id}`);
+        const obj = await main_1.adapter.getForeignObjectAsync(id);
         const receivedType = typeof value;
         if (!obj || !value) {
             return value;
@@ -191,7 +191,7 @@ async function checkTypeOfId(id, value) {
         if (receivedType === obj.common.type || !obj.common.type) {
             return value;
         }
-        adapterManager_1.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+        main_1.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
         if (obj.common.type === 'boolean') {
             if (value == 'true') {
                 value = true;
@@ -210,7 +210,7 @@ async function checkTypeOfId(id, value) {
         return value;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error checkTypeOfId:', e);
+        (0, logging_1.errorLogger)('Error checkTypeOfId:', e, main_1.adapter);
     }
 }
 //# sourceMappingURL=utilities.js.map

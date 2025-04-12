@@ -44,7 +44,7 @@ const setValue = async (
             }
         });
     } catch (error: any) {
-        errorLogger('Error setValue', error);
+        errorLogger('Error setValue', error, adapter);
     }
 };
 
@@ -134,12 +134,12 @@ export const setState = async (
                     .then(val => {
                         if (val) {
                             adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e: any) => {
-                                errorLogger('Error setForeignStateAsync:', e);
+                                errorLogger('Error setForeignStateAsync:', e, adapter);
                             });
                         }
                     })
                     .catch((e: any) => {
-                        errorLogger('Error getForeignStateAsync:', e);
+                        errorLogger('Error getForeignStateAsync:', e, adapter);
                     });
             } else {
                 await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
@@ -147,6 +147,6 @@ export const setState = async (
         }
         return setStateIds;
     } catch (error: any) {
-        errorLogger('Error Switch', error);
+        errorLogger('Error Switch', error, adapter);
     }
 };

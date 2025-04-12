@@ -21,14 +21,13 @@ __export(logging_exports, {
   errorLogger: () => errorLogger
 });
 module.exports = __toCommonJS(logging_exports);
-var import_adapterManager = require("./adapterManager");
-const errorLogger = (title, e) => {
+const errorLogger = (title, e, adapter) => {
   var _a, _b;
-  import_adapterManager.adapter.log.error(title);
-  import_adapterManager.adapter.log.error(`Error message: ${e.message}`);
-  import_adapterManager.adapter.log.error(`Error stack: ${e.stack}`);
-  import_adapterManager.adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
-  import_adapterManager.adapter.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
+  adapter.log.error(title);
+  adapter.log.error(`Error message: ${e.message}`);
+  adapter.log.error(`Error stack: ${e.stack}`);
+  adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
+  adapter.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

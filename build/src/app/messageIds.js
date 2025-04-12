@@ -35,7 +35,7 @@ async function saveMessageIds(state, instanceTelegram) {
         await main_1.adapter.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error saveMessageIds:', e);
+        (0, logging_1.errorLogger)('Error saveMessageIds:', e, main_1.adapter);
     }
 }
 function removeOldMessageIds(messages, chatID) {
@@ -65,7 +65,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
             messageIds[chat_id].push({ id: lastMessageId.val.toString() });
         }
         isDeleting = true;
-        const copyMessageIds = (0, utils_1.deepCopy)(messageIds);
+        const copyMessageIds = (0, utils_1.deepCopy)(messageIds, main_1.adapter);
         messageIds[chat_id].forEach((element, index) => {
             if (whatShouldDelete === 'all' && element.id) {
                 (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, userListWithChatID, parseInt(element.id?.toString()), chat_id);
@@ -81,7 +81,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
         await main_1.adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error deleteMessageIds:', e);
+        (0, logging_1.errorLogger)('Error deleteMessageIds:', e, main_1.adapter);
     }
 }
 //# sourceMappingURL=messageIds.js.map

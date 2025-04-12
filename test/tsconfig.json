@@ -5,5 +5,7 @@
 		"noEmit": false,
 		"outDir": "./build/"
 	},
-	"include": ["test/lib/utils.test.ts"]
+	"include": [
+		"./test/lib/utils.test.ts"
+    ]
 }

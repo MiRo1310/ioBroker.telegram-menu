@@ -19,7 +19,7 @@
 		"./**/*.ts",
 		// Include the adapter-config definition if it exists.
 		// It should be at either on of these paths:
-      "../test/lib/adapter-config.d.ts", // JS
+		"../test/test/adapter-config.d.ts", // JS
       "../src/types/adapter-config.d.ts", // TS
 		"src/lib/Utils.ts",
 		"src/lib/socket.ts",

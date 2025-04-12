@@ -23,6 +23,7 @@ __export(dynamicSwitch_exports, {
 module.exports = __toCommonJS(dynamicSwitch_exports);
 var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
+var import_main = require("../main");
 async function dynamicSwitch(calledValue, device, text) {
   try {
     const changedCalledValue = await (0, import_utilities.checkStatusInfo)(calledValue);
@@ -58,7 +59,7 @@ async function dynamicSwitch(calledValue, device, text) {
       return { text, keyboard, device };
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error parsing dynSwitch:", e);
+    (0, import_logging.errorLogger)("Error parsing dynSwitch:", e, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

@@ -30,7 +30,7 @@ async function sendNav(
             });
         }
     } catch (e: any) {
-        errorLogger('Error sendNav:', e);
+        errorLogger('Error sendNav:', e, adapter);
     }
 }
 

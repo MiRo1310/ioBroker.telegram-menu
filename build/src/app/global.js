@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isFalsy = exports.isTruthy = exports.isString = exports.deleteDoubleEntriesInArray = void 0;
 exports.parseJSON = parseJSON;
 const logging_1 = require("./logging");
+const main_1 = require("../main");
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 exports.deleteDoubleEntriesInArray = deleteDoubleEntriesInArray;
 const isString = (value) => typeof value === 'string';
@@ -16,7 +17,7 @@ function parseJSON(value) {
         return JSON.parse(value);
     }
     catch (error) {
-        (0, logging_1.errorLogger)('Error parseJson: ', error);
+        (0, logging_1.errorLogger)('Error parseJson: ', error, main_1.adapter);
         return undefined;
     }
 }
