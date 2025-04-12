@@ -18,10 +18,14 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utils_exports = {};
 __export(utils_exports, {
+  checkDirectoryIsOk: () => checkDirectoryIsOk,
+  deepCopy: () => deepCopy,
   getChatID: () => getChatID,
   isDefined: () => isDefined
 });
 module.exports = __toCommonJS(utils_exports);
+var import_logging = require("../app/logging");
+var import_main = require("../main");
 const getChatID = (userListWithChatID, user) => {
   for (const element of userListWithChatID) {
     if (element.name === user) {
@@ -31,8 +35,26 @@ const getChatID = (userListWithChatID, user) => {
   return;
 };
 const isDefined = (value) => value !== void 0 && value !== null;
+const deepCopy = (obj) => {
+  try {
+    return !isDefined(obj) ? void 0 : JSON.parse(JSON.stringify(obj));
+  } catch (err) {
+    (0, import_logging.errorLogger)(`Error deepCopy: `, err);
+  }
+};
+function checkDirectoryIsOk(directory) {
+  if (["", null, void 0].includes(directory)) {
+    import_main.adapter.log.error(
+      "No directory to save the picture. Please add a directory in the settings with full read and write permissions."
+    );
+    return false;
+  }
+  return true;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  checkDirectoryIsOk,
+  deepCopy,
   getChatID,
   isDefined
 });

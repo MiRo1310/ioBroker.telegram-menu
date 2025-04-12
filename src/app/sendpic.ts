@@ -1,5 +1,5 @@
 import { sendToTelegram } from './telegram';
-import { checkDirectoryIsOk } from './global';
+import { validateDirectory } from '../lib/utils';
 import { exec } from 'child_process';
 import { errorLogger } from './logging';
 import { adapter } from '../main';
@@ -45,7 +45,7 @@ function sendPic(
                 adapter.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
 
-                if (!checkDirectoryIsOk(directoryPicture)) {
+                if (!validateDirectory(directoryPicture)) {
                     return;
                 }
 

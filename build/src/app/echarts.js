@@ -4,7 +4,7 @@ exports.getChart = getChart;
 const main_1 = require("../main");
 const logging_1 = require("./logging");
 const telegram_1 = require("./telegram");
-const global_1 = require("./global");
+const utils_1 = require("../lib/utils");
 function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
     try {
         if (!echarts) {
@@ -13,7 +13,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
         for (const echart of echarts) {
             const splitPreset = echart.preset.split('.');
             const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
-            if (!(0, global_1.checkDirectoryIsOk)(directoryPicture)) {
+            if (!(0, utils_1.validateDirectory)(directoryPicture)) {
                 return;
             }
             main_1.adapter.sendTo(instanceOfEchart, {

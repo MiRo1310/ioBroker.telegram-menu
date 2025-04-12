@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { errorLogger } from './logging';
 import type { Part, UserListWithChatId } from '../types/types';
-import { checkDirectoryIsOk } from './global';
+import { validateDirectory } from '../lib/utils';
 import { adapter } from '../main';
 
 async function httpRequest(
@@ -47,7 +47,7 @@ async function httpRequest(
             if (!part.filename) {
                 return;
             }
-            if (!checkDirectoryIsOk(directoryPicture)) {
+            if (!validateDirectory(directoryPicture)) {
                 return;
             }
             const imagePath = path.join(directoryPicture, part.filename);

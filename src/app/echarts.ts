@@ -2,7 +2,7 @@ import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
 import type { Echart, UserListWithChatId } from '../types/types';
-import { checkDirectoryIsOk } from './global';
+import { validateDirectory } from '../lib/utils';
 
 function getChart(
     echarts: Echart[],
@@ -21,7 +21,7 @@ function getChart(
             const splitPreset = echart.preset.split('.');
             const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
 
-            if (!checkDirectoryIsOk(directoryPicture)) {
+            if (!validateDirectory(directoryPicture)) {
                 return;
             }
             adapter.sendTo(

@@ -9,7 +9,7 @@ const telegram_1 = require("./telegram");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const logging_1 = require("./logging");
-const global_1 = require("./global");
+const utils_1 = require("../lib/utils");
 const main_1 = require("../main");
 async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
     if (!parts.httpRequest) {
@@ -39,7 +39,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
             if (!part.filename) {
                 return;
             }
-            if (!(0, global_1.checkDirectoryIsOk)(directoryPicture)) {
+            if (!(0, utils_1.validateDirectory)(directoryPicture)) {
                 return;
             }
             const imagePath = path_1.default.join(directoryPicture, part.filename);

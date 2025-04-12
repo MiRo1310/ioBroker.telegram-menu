@@ -1,5 +1,4 @@
 import { errorLogger } from './logging';
-import { adapter } from '../main';
 
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
@@ -10,16 +9,6 @@ export const isTruthy = (value: string | number | boolean): boolean => ['1', 1, 
 
 export const isFalsy = (value: string | number | boolean | undefined | null): boolean =>
     ['0', 0, false, 'false', undefined, null].includes(value);
-
-export function checkDirectoryIsOk(directory: string): boolean {
-    if (['', null, undefined].includes(directory)) {
-        adapter.log.error(
-            'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
-        );
-        return false;
-    }
-    return true;
-}
 
 export function parseJSON<T>(value: string): T | undefined {
     try {

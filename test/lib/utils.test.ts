@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {deepCopy, getChatID, isDefined} from '../../src/lib/utils';
+import {validateDirectory, deepCopy, getChatID, isDefined} from '../../src/lib/utils';
 import type {UserListWithChatId} from '../../src/types/types';
 import {adapter} from "../setup";
 
@@ -71,3 +71,25 @@ describe('deepCopy', () => {
         expect(copy).to.be.undefined; // JSON.stringify throws an error for circular references
     });
 });
+
+describe('checkDirectoryIsOk', () => {
+    it('should return false and log an error if the directory is undefined', () => {
+        const result = validateDirectory(undefined as unknown as string);
+        expect(result).to.be.false;
+        expect(adapter.log.error.called).to.be.true;
+        expect(adapter.log.error.firstCall.args[0]).to.equal(
+            'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
+        );
+    });
+
+    it('should return false and log an error if the directory is an empty string', () => {
+        const result = validateDirectory('');
+        expect(result).to.be.false;
+    });
+
+    it('should return true if the directory is valid', () => {
+        const result = validateDirectory('/valid/directory');
+        expect(result).to.be.true;
+        expect(adapter.log.error.called).to.be.false;
+    });
+})

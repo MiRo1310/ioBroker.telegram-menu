@@ -27,6 +27,7 @@ __export(string_exports, {
 });
 module.exports = __toCommonJS(string_exports);
 var import_config = require("../config/config");
+var import_adapterManager = require("../app/adapterManager");
 const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val) {
   try {
@@ -58,7 +59,7 @@ function decomposeText(text, searchValue, secondValue) {
     textWithoutSubstring
   };
 }
-const getValueToExchange = (textToSend, val, adapter) => {
+const getValueToExchange = (textToSend, val) => {
   var _a;
   if (textToSend.includes(import_config.config.replacer.change.start)) {
     const { start, end, command } = import_config.config.replacer.change;
@@ -73,7 +74,7 @@ const getValueToExchange = (textToSend, val, adapter) => {
         error: false
       };
     }
-    adapter.log.error(`There is a error in your input: ${modifiedString}`);
+    import_adapterManager.adapter.log.error(`There is a error in your input: ${modifiedString}`);
     return { newValue: val, textToSend, error: true };
   }
   return { textToSend, newValue: val, error: false };

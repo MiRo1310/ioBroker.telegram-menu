@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendPic = sendPic;
 const telegram_1 = require("./telegram");
-const global_1 = require("./global");
+const utils_1 = require("../lib/utils");
 const child_process_1 = require("child_process");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
@@ -28,7 +28,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
                 });
                 main_1.adapter.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
-                if (!(0, global_1.checkDirectoryIsOk)(directoryPicture)) {
+                if (!(0, utils_1.validateDirectory)(directoryPicture)) {
                     return;
                 }
                 path = `${directoryPicture}${fileName}`;

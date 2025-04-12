@@ -18,8 +18,6 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var global_exports = {};
 __export(global_exports, {
-  checkDirectoryIsOk: () => checkDirectoryIsOk,
-  deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
   isFalsy: () => isFalsy,
   isString: () => isString,
@@ -28,30 +26,10 @@ __export(global_exports, {
 });
 module.exports = __toCommonJS(global_exports);
 var import_logging = require("./logging");
-var import_main = require("../main");
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
-const deepCopy = (obj) => {
-  try {
-    if (!obj) {
-      return void 0;
-    }
-    return JSON.parse(JSON.stringify(obj));
-  } catch (err) {
-    console.error(`Error deepCopy: ${JSON.stringify(err)}`);
-  }
-};
 const isString = (value) => typeof value === "string";
 const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
 const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
-function checkDirectoryIsOk(directory) {
-  if (["", null, void 0].includes(directory)) {
-    import_main.adapter.log.error(
-      "No directory to save the picture. Please add a directory in the settings with full read and write permissions."
-    );
-    return false;
-  }
-  return true;
-}
 function parseJSON(value) {
   try {
     return JSON.parse(value);
@@ -62,8 +40,6 @@ function parseJSON(value) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  checkDirectoryIsOk,
-  deepCopy,
   deleteDoubleEntriesInArray,
   isFalsy,
   isString,

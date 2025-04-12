@@ -25,7 +25,7 @@ var import_telegram = require("./telegram");
 var import_action = require("./action");
 var import_jsonTable = require("./jsonTable");
 var import_utilities = require("../lib/utilities");
-var import_global = require("./global");
+var import_utils = require("../lib/utils");
 var import_main = require("../main");
 var import_time = require("../lib/time");
 var import_string = require("../lib/string");
@@ -68,7 +68,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
       }
       await import_main.adapter.getForeignStateAsync(id).then(async (state) => {
         var _a2, _b2, _c;
-        if (!(0, import_global.isDefined)(state)) {
+        if (!(0, import_utils.isDefined)(state)) {
           import_main.adapter.log.error("The state is empty!");
           return;
         }
@@ -153,7 +153,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
               return;
             }
           }
-          const { newValue: _val, textToSend: _text, error } = (0, import_string.getValueToExchange)(textToSend, val, import_main.adapter);
+          const { newValue: _val, textToSend: _text, error } = (0, import_string.getValueToExchange)(textToSend, val);
           val = _val;
           textToSend = _text;
           if (!error) {

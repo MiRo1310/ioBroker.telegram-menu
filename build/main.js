@@ -46,6 +46,7 @@ var import_logging = require("./app/logging.js");
 var import_connection = require("./app/connection.js");
 var import_global = require("./app/global");
 var import_string = require("./lib/string");
+var import_utils = require("./lib/utils");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
 let adapter;
@@ -249,7 +250,7 @@ class TelegramMenu extends utils.Adapter {
                   ).substring.split(":");
                   adapter.log.debug(`Substring: ${(0, import_string.jsonString)(substring)}`);
                   let text = "";
-                  if ((0, import_global.isDefined)(state.val)) {
+                  if ((0, import_utils.isDefined)(state.val)) {
                     text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action.exchangePlaceholderWithValue)(substring[1], state.val.toString());
                   }
                   adapter.log.debug(`Return-text: ${text}`);
@@ -284,7 +285,7 @@ class TelegramMenu extends utils.Adapter {
                     newValue,
                     textToSend: changedText,
                     error
-                  } = (0, import_string.getValueToExchange)(textToSend, ((_a = state.val) == null ? void 0 : _a.toString()) || "", adapter);
+                  } = (0, import_string.getValueToExchange)(textToSend, ((_a = state.val) == null ? void 0 : _a.toString()) || "");
                   if (!error) {
                     valueChange = newValue;
                     textToSend = changedText;
@@ -292,10 +293,10 @@ class TelegramMenu extends utils.Adapter {
                   if (textToSend == null ? void 0 : textToSend.toString().includes("{novalue}")) {
                     value = "";
                     textToSend = textToSend.replace("{novalue}", "");
-                  } else if ((0, import_global.isDefined)(state == null ? void 0 : state.val)) {
+                  } else if ((0, import_utils.isDefined)(state == null ? void 0 : state.val)) {
                     value = ((_b = state.val) == null ? void 0 : _b.toString()) || "";
                   }
-                  if ((0, import_global.isDefined)(valueChange)) {
+                  if ((0, import_utils.isDefined)(valueChange)) {
                     value = valueChange;
                   }
                   adapter.log.debug(`Value to send: ${value}`);

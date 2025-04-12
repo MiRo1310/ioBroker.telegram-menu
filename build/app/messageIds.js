@@ -25,7 +25,6 @@ module.exports = __toCommonJS(messageIds_exports);
 var import_main = require("../main");
 var import_botAction = require("./botAction");
 var import_logging = require("./logging");
-var import_global = require("./global");
 var import_utils = require("../lib/utils");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
@@ -88,7 +87,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
       messageIds[chat_id].push({ id: lastMessageId.val.toString() });
     }
     isDeleting = true;
-    const copyMessageIds = (0, import_global.deepCopy)(messageIds);
+    const copyMessageIds = (0, import_utils.deepCopy)(messageIds);
     messageIds[chat_id].forEach((element, index) => {
       var _a, _b;
       if (whatShouldDelete === "all" && element.id) {

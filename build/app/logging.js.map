@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/app/logging.ts"],
-  "sourcesContent": ["import { adapter } from '../main';\n\nexport const errorLogger = (title: string, e: any): void => {\n    adapter.log.error(title);\n    adapter.log.error(`Error message: ${e.message}`);\n    adapter.log.error(`Error stack: ${e.stack}`);\n    adapter.log.error(`Server response: ${e?.response?.status}`);\n    adapter.log.error(`Server data: ${e?.response?.data}`);\n};\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAwB;AAEjB,MAAM,cAAc,CAAC,OAAe,MAAiB;AAF5D;AAGI,sBAAQ,IAAI,MAAM,KAAK;AACvB,sBAAQ,IAAI,MAAM,kBAAkB,EAAE,OAAO,EAAE;AAC/C,sBAAQ,IAAI,MAAM,gBAAgB,EAAE,KAAK,EAAE;AAC3C,sBAAQ,IAAI,MAAM,qBAAoB,4BAAG,aAAH,mBAAa,MAAM,EAAE;AAC3D,sBAAQ,IAAI,MAAM,iBAAgB,4BAAG,aAAH,mBAAa,IAAI,EAAE;AACzD;",
+  "sourcesContent": ["import { adapter } from './adapterManager';\n\nexport const errorLogger = (title: string, e: any): void => {\n    adapter.log.error(title);\n    adapter.log.error(`Error message: ${e.message}`);\n    adapter.log.error(`Error stack: ${e.stack}`);\n    adapter.log.error(`Server response: ${e?.response?.status}`);\n    adapter.log.error(`Server data: ${e?.response?.data}`);\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,4BAAwB;AAEjB,MAAM,cAAc,CAAC,OAAe,MAAiB;AAF5D;AAGI,gCAAQ,IAAI,MAAM,KAAK;AACvB,gCAAQ,IAAI,MAAM,kBAAkB,EAAE,OAAO,EAAE;AAC/C,gCAAQ,IAAI,MAAM,gBAAgB,EAAE,KAAK,EAAE;AAC3C,gCAAQ,IAAI,MAAM,qBAAoB,4BAAG,aAAH,mBAAa,MAAM,EAAE;AAC3D,gCAAQ,IAAI,MAAM,iBAAgB,4BAAG,aAAH,mBAAa,IAAI,EAAE;AACzD;",
   "names": []
 }

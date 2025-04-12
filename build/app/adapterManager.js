@@ -16,22 +16,21 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var logging_exports = {};
-__export(logging_exports, {
-  errorLogger: () => errorLogger
+var adapterManager_exports = {};
+__export(adapterManager_exports, {
+  adapter: () => adapter
 });
-module.exports = __toCommonJS(logging_exports);
-var import_adapterManager = require("./adapterManager");
-const errorLogger = (title, e) => {
-  var _a, _b;
-  import_adapterManager.adapter.log.error(title);
-  import_adapterManager.adapter.log.error(`Error message: ${e.message}`);
-  import_adapterManager.adapter.log.error(`Error stack: ${e.stack}`);
-  import_adapterManager.adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
-  import_adapterManager.adapter.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
-};
+module.exports = __toCommonJS(adapterManager_exports);
+var import_main = require("../main");
+var import_setup = require("../../test/setup");
+let adapter;
+if (import_main.adapter) {
+  adapter = import_main.adapter;
+} else {
+  adapter = import_setup.adapter;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  errorLogger
+  adapter
 });
-//# sourceMappingURL=logging.js.map
+//# sourceMappingURL=adapterManager.js.map

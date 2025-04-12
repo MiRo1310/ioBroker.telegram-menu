@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const utils_1 = require("../../src/lib/utils");
+const setup_1 = require("../setup");
 describe('Utils', () => {
     const mockData = [
         { name: 'Alice', chatID: '123' },
@@ -55,8 +56,24 @@ describe('deepCopy', () => {
         const circular = {};
         circular.self = circular;
         const copy = (0, utils_1.deepCopy)(circular);
-        // expect(adapter.log.error.calledOnce).to.be.true;
         (0, chai_1.expect)(copy).to.be.undefined; // JSON.stringify throws an error for circular references
+    });
+});
+describe('checkDirectoryIsOk', () => {
+    it('should return false and log an error if the directory is undefined', () => {
+        const result = (0, utils_1.validateDirectory)(undefined);
+        (0, chai_1.expect)(result).to.be.false;
+        (0, chai_1.expect)(setup_1.adapter.log.error.called).to.be.true;
+        (0, chai_1.expect)(setup_1.adapter.log.error.firstCall.args[0]).to.equal('No directory to save the picture. Please add a directory in the settings with full read and write permissions.');
+    });
+    it('should return false and log an error if the directory is an empty string', () => {
+        const result = (0, utils_1.validateDirectory)('');
+        (0, chai_1.expect)(result).to.be.false;
+    });
+    it('should return true if the directory is valid', () => {
+        const result = (0, utils_1.validateDirectory)('/valid/directory');
+        (0, chai_1.expect)(result).to.be.true;
+        (0, chai_1.expect)(setup_1.adapter.log.error.called).to.be.false;
     });
 });
 //# sourceMappingURL=utils.test.js.map
