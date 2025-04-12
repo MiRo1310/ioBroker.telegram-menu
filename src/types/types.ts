@@ -413,6 +413,7 @@ export interface ExchangeValueReturn {
 }
 
 export type PrimitiveType = string | number | boolean;
+export type PrimitiveNullableType = string | number | boolean | null | undefined;
 
 export type Adapter = MockAdapter | TelegramMenu;
 

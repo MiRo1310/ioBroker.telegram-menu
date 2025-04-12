@@ -43,7 +43,6 @@ var import_processData = require("./app/processData.js");
 var import_shoppingList = require("./app/shoppingList.js");
 var import_logging = require("./app/logging.js");
 var import_connection = require("./app/connection.js");
-var import_global = require("./app/global");
 var import_string = require("./lib/string");
 var import_utils = require("./lib/utils");
 const timeoutKey = "0";
@@ -241,7 +240,7 @@ class TelegramMenu extends utils.Adapter {
               if (element.id == id) {
                 adapter.log.debug(`Send Value: ${(0, import_string.jsonString)(element)}`);
                 adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
-                if (!(0, import_global.isFalsy)(element.confirm) && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
+                if (!(0, import_utils.isFalsy)(element.confirm) && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
                   const substring = (0, import_string.decomposeText)(
                     element.returnText,
                     "{confirmSet:",
@@ -272,7 +271,7 @@ class TelegramMenu extends utils.Adapter {
                 adapter.log.debug(
                   `Data: ${(0, import_string.jsonString)({ confirm: element.confirm, ack: state == null ? void 0 : state.ack, val: state == null ? void 0 : state.val })}`
                 );
-                if (!(0, import_global.isFalsy)(element.confirm) && (state == null ? void 0 : state.ack)) {
+                if (!(0, import_utils.isFalsy)(element.confirm) && (state == null ? void 0 : state.ack)) {
                   let textToSend = element.returnText;
                   if (textToSend.includes("{confirmSet:")) {
                     const substring = (0, import_string.decomposeText)(textToSend, "{confirmSet:", "}").substring;

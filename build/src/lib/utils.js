@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deepCopy = exports.isDefined = exports.getChatID = void 0;
+exports.isFalsy = exports.isTruthy = exports.deepCopy = exports.isDefined = exports.getChatID = void 0;
 exports.validateDirectory = validateDirectory;
 const logging_1 = require("../app/logging");
 const getChatID = (userListWithChatID, user) => {
@@ -30,4 +30,8 @@ function validateDirectory(adapter, directory) {
     }
     return true;
 }
+const isTruthy = (value) => (0, exports.isDefined)(value) && ['1', 1, true, 'true'].includes(value);
+exports.isTruthy = isTruthy;
+const isFalsy = (value) => ['0', 0, false, 'false', undefined, null].includes(value);
+exports.isFalsy = isFalsy;
 //# sourceMappingURL=utils.js.map

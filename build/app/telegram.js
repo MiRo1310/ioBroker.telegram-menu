@@ -26,7 +26,6 @@ module.exports = __toCommonJS(telegram_exports);
 var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
-var import_global = require("./global");
 var import_utils = require("../lib/utils");
 var import_string = require("../lib/string");
 async function sendToTelegram({
@@ -127,7 +126,7 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
   }
 };
 function getParseMode(val) {
-  if ((0, import_global.isTruthy)(val)) {
+  if ((0, import_utils.isTruthy)(val)) {
     return "HTML";
   }
   return "Markdown";

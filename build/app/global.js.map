@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "sources": ["../../src/app/global.ts"],
-  "sourcesContent": ["export const isTruthy = (value: string | number | boolean): boolean => ['1', 1, true, 'true'].includes(value);\n\nexport const isFalsy = (value: string | number | boolean | undefined | null): boolean =>\n    ['0', 0, false, 'false', undefined, null].includes(value);\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,WAAW,CAAC,UAA8C,CAAC,KAAK,GAAG,MAAM,MAAM,EAAE,SAAS,KAAK;AAErG,MAAM,UAAU,CAAC,UACpB,CAAC,KAAK,GAAG,OAAO,SAAS,QAAW,IAAI,EAAE,SAAS,KAAK;",
+  "sources": [],
+  "sourcesContent": [],
+  "mappings": "",
   "names": []
 }

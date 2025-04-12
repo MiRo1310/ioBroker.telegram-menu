@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {deepCopy, getChatID, isDefined, validateDirectory} from '../../src/lib/utils';
+import {deepCopy, getChatID, isDefined, validateDirectory,isFalsy, isTruthy} from '../../src/lib/utils';
 import type {UserListWithChatId} from '../../src/types/types';
 import {utils} from "@iobroker/testing";
 
@@ -96,5 +96,41 @@ describe('checkDirectoryIsOk', () => {
     it('should return true if the directory is valid', () => {
         const result = validateDirectory(adapter, '/valid/directory');
         expect(result).to.be.true;
+    });
+});
+
+describe('isTruthy', () => {
+    it('should return true for truthy values', () => {
+        expect(isTruthy(1)).to.be.true;
+        expect(isTruthy('1')).to.be.true;
+        expect(isTruthy(true)).to.be.true;
+        expect(isTruthy('true')).to.be.true;
+    });
+
+    it('should return false for falsy values', () => {
+        expect(isTruthy(0)).to.be.false;
+        expect(isTruthy('0')).to.be.false;
+        expect(isTruthy(false)).to.be.false;
+        expect(isTruthy('false')).to.be.false;
+        expect(isTruthy(undefined)).to.be.false;
+        expect(isTruthy(null)).to.be.false;
+    });
+});
+
+describe('isFalsy', () => {
+    it('should return true for falsy values', () => {
+        expect(isFalsy(0)).to.be.true;
+        expect(isFalsy('0')).to.be.true;
+        expect(isFalsy(false)).to.be.true;
+        expect(isFalsy('false')).to.be.true;
+        expect(isFalsy(undefined)).to.be.true;
+        expect(isFalsy(null)).to.be.true;
+    });
+
+    it('should return false for truthy values', () => {
+        expect(isFalsy(1)).to.be.false;
+        expect(isFalsy('1')).to.be.false;
+        expect(isFalsy(true)).to.be.false;
+        expect(isFalsy('true')).to.be.false;
     });
 });

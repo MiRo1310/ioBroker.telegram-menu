@@ -1,4 +1,4 @@
-import type { Adapter, UserListWithChatId } from '../types/types';
+import type { Adapter, PrimitiveNullableType, UserListWithChatId } from '../types/types';
 import { errorLogger } from '../app/logging';
 
 export const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string | undefined => {
@@ -29,3 +29,9 @@ export function validateDirectory(adapter: Adapter, directory: string): boolean 
     }
     return true;
 }
+
+export const isTruthy = (value?: PrimitiveNullableType): boolean =>
+    isDefined(value) && ['1', 1, true, 'true'].includes(value);
+
+export const isFalsy = (value?: PrimitiveNullableType): boolean =>
+    ['0', 0, false, 'false', undefined, null].includes(value);

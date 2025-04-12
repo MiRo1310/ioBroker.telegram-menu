@@ -6,7 +6,6 @@ exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
-const global_1 = require("./global");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
 async function sendToTelegram({ user = '', textToSend, keyboard, instance = 'telegram.0', resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode, }) {
@@ -93,7 +92,7 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
 };
 exports.sendLocationToTelegram = sendLocationToTelegram;
 function getParseMode(val) {
-    if ((0, global_1.isTruthy)(val)) {
+    if ((0, utils_1.isTruthy)(val)) {
         return 'HTML';
     }
     return 'Markdown';

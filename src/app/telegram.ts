@@ -2,8 +2,7 @@ import { errorLogger } from './logging';
 import { checkStatusInfo } from '../lib/utilities';
 import { adapter } from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
-import { isTruthy } from './global';
-import { getChatID } from '../lib/utils';
+import { getChatID, isTruthy } from '../lib/utils';
 import { jsonString, validateNewLine } from '../lib/string';
 
 async function sendToTelegram({

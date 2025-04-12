@@ -21,6 +21,8 @@ __export(utils_exports, {
   deepCopy: () => deepCopy,
   getChatID: () => getChatID,
   isDefined: () => isDefined,
+  isFalsy: () => isFalsy,
+  isTruthy: () => isTruthy,
   validateDirectory: () => validateDirectory
 });
 module.exports = __toCommonJS(utils_exports);
@@ -50,11 +52,15 @@ function validateDirectory(adapter, directory) {
   }
   return true;
 }
+const isTruthy = (value) => isDefined(value) && ["1", 1, true, "true"].includes(value);
+const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   deepCopy,
   getChatID,
   isDefined,
+  isFalsy,
+  isTruthy,
   validateDirectory
 });
 //# sourceMappingURL=utils.js.map

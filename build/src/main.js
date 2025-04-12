@@ -50,7 +50,6 @@ const processData_js_1 = require("./app/processData.js");
 const shoppingList_js_1 = require("./app/shoppingList.js");
 const logging_js_1 = require("./app/logging.js");
 const connection_js_1 = require("./app/connection.js");
-const global_1 = require("./app/global");
 const string_1 = require("./lib/string");
 const utils_1 = require("./lib/utils");
 const timeoutKey = '0';
@@ -224,7 +223,7 @@ class TelegramMenu extends utils.Adapter {
                             if (element.id == id) {
                                 exports.adapter.log.debug(`Send Value: ${(0, string_1.jsonString)(element)}`);
                                 exports.adapter.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
-                                if (!(0, global_1.isFalsy)(element.confirm) &&
+                                if (!(0, utils_1.isFalsy)(element.confirm) &&
                                     !state?.ack &&
                                     element.returnText.includes('{confirmSet:')) {
                                     const substring = (0, string_1.decomposeText)(element.returnText, '{confirmSet:', '}').substring.split(':');
@@ -254,7 +253,7 @@ class TelegramMenu extends utils.Adapter {
                                     return;
                                 }
                                 exports.adapter.log.debug(`Data: ${(0, string_1.jsonString)({ confirm: element.confirm, ack: state?.ack, val: state?.val })}`);
-                                if (!(0, global_1.isFalsy)(element.confirm) && state?.ack) {
+                                if (!(0, utils_1.isFalsy)(element.confirm) && state?.ack) {
                                     let textToSend = element.returnText;
                                     if (textToSend.includes('{confirmSet:')) {
                                         const substring = (0, string_1.decomposeText)(textToSend, '{confirmSet:', '}').substring;

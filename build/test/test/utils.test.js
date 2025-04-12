@@ -80,4 +80,36 @@ describe('checkDirectoryIsOk', () => {
         (0, chai_1.expect)(result).to.be.true;
     });
 });
+describe('isTruthy', () => {
+    it('should return true for truthy values', () => {
+        (0, chai_1.expect)((0, utils_1.isTruthy)(1)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isTruthy)('1')).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isTruthy)(true)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isTruthy)('true')).to.be.true;
+    });
+    it('should return false for falsy values', () => {
+        (0, chai_1.expect)((0, utils_1.isTruthy)(0)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isTruthy)('0')).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isTruthy)(false)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isTruthy)('false')).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isTruthy)(undefined)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isTruthy)(null)).to.be.false;
+    });
+});
+describe('isFalsy', () => {
+    it('should return true for falsy values', () => {
+        (0, chai_1.expect)((0, utils_1.isFalsy)(0)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isFalsy)('0')).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isFalsy)(false)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isFalsy)('false')).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isFalsy)(undefined)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isFalsy)(null)).to.be.true;
+    });
+    it('should return false for truthy values', () => {
+        (0, chai_1.expect)((0, utils_1.isFalsy)(1)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isFalsy)('1')).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isFalsy)(true)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isFalsy)('true')).to.be.false;
+    });
+});
 //# sourceMappingURL=utils.test.js.map
