@@ -53,6 +53,7 @@ const logging_js_1 = require("./app/logging.js");
 const connection_js_1 = require("./app/connection.js");
 const global_1 = require("./app/global");
 const string_1 = require("./lib/string");
+const utils_1 = require("./lib/utils");
 const timeoutKey = '0';
 let subscribeForeignStateIds;
 class TelegramMenu extends utils.Adapter {
@@ -230,7 +231,7 @@ class TelegramMenu extends utils.Adapter {
                                     const substring = (0, utilities_js_1.decomposeText)(element.returnText, '{confirmSet:', '}').substring.split(':');
                                     exports.adapter.log.debug(`Substring: ${(0, string_1.jsonString)(substring)}`);
                                     let text = '';
-                                    if ((0, global_1.isDefined)(state.val)) {
+                                    if ((0, utils_1.isDefined)(state.val)) {
                                         text =
                                             substring[2] && substring[2].includes('noValue')
                                                 ? substring[1]
@@ -271,10 +272,10 @@ class TelegramMenu extends utils.Adapter {
                                         value = '';
                                         textToSend = textToSend.replace('{novalue}', '');
                                     }
-                                    else if ((0, global_1.isDefined)(state?.val)) {
+                                    else if ((0, utils_1.isDefined)(state?.val)) {
                                         value = state.val?.toString() || '';
                                     }
-                                    if ((0, global_1.isDefined)(valueChange)) {
+                                    if ((0, utils_1.isDefined)(valueChange)) {
                                         value = valueChange;
                                     }
                                     exports.adapter.log.debug(`Value to send: ${value}`);

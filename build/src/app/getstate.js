@@ -5,7 +5,7 @@ const telegram_1 = require("./telegram");
 const action_1 = require("./action");
 const jsonTable_1 = require("./jsonTable");
 const utilities_1 = require("../lib/utilities");
-const global_1 = require("./global");
+const utils_1 = require("../lib/utils");
 const main_1 = require("../main");
 const time_1 = require("../lib/time");
 const string_1 = require("../lib/string");
@@ -30,7 +30,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 return;
             }
             await main_1.adapter.getForeignStateAsync(id).then(async (state) => {
-                if (!(0, global_1.isDefined)(state)) {
+                if (!(0, utils_1.isDefined)(state)) {
                     main_1.adapter.log.error('The state is empty!');
                     return;
                 }

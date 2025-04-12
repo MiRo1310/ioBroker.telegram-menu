@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChatID = void 0;
+exports.isDefined = exports.getChatID = void 0;
 const getChatID = (userListWithChatID, user) => {
     for (const element of userListWithChatID) {
         if (element.name === user) {
@@ -10,4 +10,6 @@ const getChatID = (userListWithChatID, user) => {
     return;
 };
 exports.getChatID = getChatID;
+const isDefined = (value) => value !== undefined && value !== null;
+exports.isDefined = isDefined;
 //# sourceMappingURL=utils.js.map

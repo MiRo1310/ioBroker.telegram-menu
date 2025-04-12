@@ -2,7 +2,7 @@ import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc, calcValue, idBySelector, roundValue } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc } from '../lib/utilities';
-import { isDefined } from './global';
+import { isDefined } from '../lib/utils';
 import { adapter } from '../main';
 import type { Part, PrimitiveType, UserListWithChatId } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';

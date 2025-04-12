@@ -21,7 +21,6 @@ __export(global_exports, {
   checkDirectoryIsOk: () => checkDirectoryIsOk,
   deepCopy: () => deepCopy,
   deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray,
-  isDefined: () => isDefined,
   isFalsy: () => isFalsy,
   isString: () => isString,
   isTruthy: () => isTruthy,
@@ -30,7 +29,6 @@ __export(global_exports, {
 module.exports = __toCommonJS(global_exports);
 var import_logging = require("./logging");
 var import_main = require("../main");
-const isDefined = (value) => value !== void 0 && value !== null;
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 const deepCopy = (obj) => {
   try {
@@ -67,7 +65,6 @@ function parseJSON(value) {
   checkDirectoryIsOk,
   deepCopy,
   deleteDoubleEntriesInArray,
-  isDefined,
   isFalsy,
   isString,
   isTruthy,

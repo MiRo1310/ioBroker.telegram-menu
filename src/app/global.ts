@@ -1,8 +1,6 @@
 import { errorLogger } from './logging';
 import { adapter } from '../main';
 
-export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;
-
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
 

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.decomposeText = exports.processTimeIdLc = exports.checkStatusInfo = void 0;
 exports.checkTypeOfId = checkTypeOfId;
 const main_1 = require("../main");
-const global_1 = require("../app/global");
+const utils_1 = require("./utils");
 const string_1 = require("./string");
 Object.defineProperty(exports, "decomposeText", { enumerable: true, get: function () { return string_1.decomposeText; } });
 const logging_1 = require("../app/logging");
@@ -116,7 +116,7 @@ const checkStatus = async (text, processTimeValue) => {
             const val = String(stateValue.val);
             return processTimeValue(text, val).replace(val, '');
         }
-        if (!(0, global_1.isDefined)(stateValue.val)) {
+        if (!(0, utils_1.isDefined)(stateValue.val)) {
             main_1.adapter.log.debug(`State Value is undefined: ${id}`);
             return text.replace(substring, '');
         }

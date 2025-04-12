@@ -18,7 +18,8 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utils_exports = {};
 __export(utils_exports, {
-  getChatID: () => getChatID
+  getChatID: () => getChatID,
+  isDefined: () => isDefined
 });
 module.exports = __toCommonJS(utils_exports);
 const getChatID = (userListWithChatID, user) => {
@@ -29,8 +30,10 @@ const getChatID = (userListWithChatID, user) => {
   }
   return;
 };
+const isDefined = (value) => value !== void 0 && value !== null;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  getChatID
+  getChatID,
+  isDefined
 });
 //# sourceMappingURL=utils.js.map

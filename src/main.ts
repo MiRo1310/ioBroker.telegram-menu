@@ -40,8 +40,9 @@ import type {
 } from './types/types';
 import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './app/connection.js';
-import { isDefined, isFalsy, isString } from './app/global';
+import { isFalsy, isString } from './app/global';
 import { getValueToExchange, jsonString } from './lib/string';
+import { isDefined } from './lib/utils';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];

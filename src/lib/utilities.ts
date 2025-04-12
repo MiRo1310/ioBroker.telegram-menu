@@ -1,5 +1,5 @@
 import { adapter } from '../main';
-import { isDefined } from '../app/global';
+import { isDefined } from './utils';
 import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
 import { integrateTimeIntoText } from './time';

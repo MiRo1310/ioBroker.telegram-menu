@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isFalsy = exports.isTruthy = exports.isString = exports.deepCopy = exports.deleteDoubleEntriesInArray = exports.isDefined = void 0;
+exports.isFalsy = exports.isTruthy = exports.isString = exports.deepCopy = exports.deleteDoubleEntriesInArray = void 0;
 exports.checkDirectoryIsOk = checkDirectoryIsOk;
 exports.parseJSON = parseJSON;
 const logging_1 = require("./logging");
 const main_1 = require("../main");
-const isDefined = (value) => value !== undefined && value !== null;
-exports.isDefined = isDefined;
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 exports.deleteDoubleEntriesInArray = deleteDoubleEntriesInArray;
 const deepCopy = (obj) => {
