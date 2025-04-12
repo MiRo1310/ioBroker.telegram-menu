@@ -89,7 +89,7 @@ describe("getValueToExchange", () => {
     it("soll den Wert erfolgreich austauschen, wenn JSON korrekt ist", () => {
         const textToSend = 'change{"true":"an","false":"aus"}';
         const val = "true";
-        const result = getValueToExchange(textToSend, val, adapter);
+        const result = getValueToExchange(textToSend, val);
 
         expect(result).to.deep.equal({
             newValue: "an",
@@ -101,7 +101,7 @@ describe("getValueToExchange", () => {
     it("soll den ursprünglichen Wert zurückgeben, wenn JSON ungültig ist", () => {
         const textToSend = 'change{"true":"an","false":aus}';
         const val = "true";
-        const result = getValueToExchange( textToSend, val, adapter);
+        const result = getValueToExchange( textToSend, val);
         expect(adapter.log.error.calledOnce).to.be.true;
         expect(result).to.deep.equal({
             newValue: val,
@@ -113,7 +113,7 @@ describe("getValueToExchange", () => {
     it("soll den ursprünglichen Text zurückgeben, wenn kein 'change' enthalten ist", () => {
         const textToSend = "Kein Austausch erforderlich";
         const val = "true";
-        const result = getValueToExchange(textToSend, val, adapter);
+        const result = getValueToExchange(textToSend, val);
 
         expect(result).to.deep.equal({
             newValue: val,

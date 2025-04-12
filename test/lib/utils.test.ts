@@ -1,7 +1,7 @@
-import { expect } from 'chai';
-import { getChatID } from '../../src/lib/utils';
-import type { UserListWithChatId } from '../../src/types/types';
-import { isDefined } from '../../src/lib/utils';
+import {expect} from 'chai';
+import {deepCopy, getChatID, isDefined} from '../../src/lib/utils';
+import type {UserListWithChatId} from '../../src/types/types';
+import {adapter} from "../setup";
 
 describe('Utils', () => {
     const mockData: UserListWithChatId[] = [
@@ -38,5 +38,36 @@ describe('isDefined', () => {
     it('should return false for undefined or null values', () => {
         expect(isDefined(undefined)).to.be.false;
         expect(isDefined(null)).to.be.false;
+    });
+});
+
+describe('deepCopy', () => {
+    it('should create a deep copy of an object', () => {
+        const original = { a: 1, b: { c: 2 } };
+        const copy = deepCopy(original);
+
+        expect(copy).to.deep.equal(original);
+        expect(copy).to.not.equal(original); // Ensure it's not the same reference
+    });
+
+    it('should return undefined for undefined or null input', () => {
+        expect(deepCopy(undefined)).to.be.undefined;
+        expect(deepCopy(null)).to.be.undefined;
+    });
+
+    it('should handle arrays correctly', () => {
+        const original = [1, 2, { a: 3 }];
+        const copy = deepCopy(original);
+
+        expect(copy).to.deep.equal(original);
+        expect(copy).to.not.equal(original); // Ensure it's not the same reference
+    });
+
+    it('should return undefined for circular references', () => {
+        const circular: any = {};
+        circular.self = circular;
+
+        const copy = deepCopy(circular);
+        expect(copy).to.be.undefined; // JSON.stringify throws an error for circular references
     });
 });

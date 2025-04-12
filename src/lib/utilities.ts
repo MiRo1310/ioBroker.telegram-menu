@@ -1,4 +1,4 @@
-import { adapter } from '../main';
+import { adapter } from '../app/adapterManager';
 import { isDefined } from './utils';
 import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
@@ -127,7 +127,7 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
         if (!valueChange) {
             return text.replace(substring, stateValue.val.toString());
         }
-        const { newValue: val, textToSend, error } = getValueToExchange(text, stateValue.val, adapter);
+        const { newValue: val, textToSend, error } = getValueToExchange(text, stateValue.val);
         let newValue;
         if (!error) {
             text = textToSend;

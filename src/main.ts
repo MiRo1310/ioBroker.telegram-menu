@@ -333,7 +333,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         newValue,
                                         textToSend: changedText,
                                         error,
-                                    } = getValueToExchange(textToSend, state.val?.toString() || '', adapter);
+                                    } = getValueToExchange(textToSend, state.val?.toString() || '');
                                     if (!error) {
                                         valueChange = newValue;
                                         textToSend = changedText;

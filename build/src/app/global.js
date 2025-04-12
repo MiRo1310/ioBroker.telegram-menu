@@ -1,24 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isFalsy = exports.isTruthy = exports.isString = exports.deepCopy = exports.deleteDoubleEntriesInArray = void 0;
+exports.isFalsy = exports.isTruthy = exports.isString = exports.deleteDoubleEntriesInArray = void 0;
 exports.checkDirectoryIsOk = checkDirectoryIsOk;
 exports.parseJSON = parseJSON;
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 exports.deleteDoubleEntriesInArray = deleteDoubleEntriesInArray;
-const deepCopy = (obj) => {
-    try {
-        if (!obj) {
-            return undefined;
-        }
-        return JSON.parse(JSON.stringify(obj));
-    }
-    catch (err) {
-        console.error(`Error deepCopy: ${JSON.stringify(err)}`);
-    }
-};
-exports.deepCopy = deepCopy;
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
 const isTruthy = (value) => ['1', 1, true, 'true'].includes(value);

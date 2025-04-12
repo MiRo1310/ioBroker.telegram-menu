@@ -263,7 +263,7 @@ class TelegramMenu extends utils.Adapter {
                                     }
                                     let value = '';
                                     let valueChange = null;
-                                    const { newValue, textToSend: changedText, error, } = (0, string_1.getValueToExchange)(textToSend, state.val?.toString() || '', exports.adapter);
+                                    const { newValue, textToSend: changedText, error, } = (0, string_1.getValueToExchange)(textToSend, state.val?.toString() || '');
                                     if (!error) {
                                         valueChange = newValue;
                                         textToSend = changedText;

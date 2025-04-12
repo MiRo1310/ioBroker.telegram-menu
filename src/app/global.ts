@@ -4,17 +4,6 @@ import { adapter } from '../main';
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
 
-export const deepCopy = <T>(obj: T): T | undefined => {
-    try {
-        if (!obj) {
-            return undefined;
-        }
-        return JSON.parse(JSON.stringify(obj));
-    } catch (err) {
-        console.error(`Error deepCopy: ${JSON.stringify(err)}`);
-    }
-};
-
 export const isString = (value: unknown): value is string => typeof value === 'string';
 
 export const isTruthy = (value: string | number | boolean): boolean => ['1', 1, true, 'true'].includes(value);

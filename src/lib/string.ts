@@ -1,5 +1,6 @@
 import { config } from '../config/config';
-import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types';
+import type { ExchangeValueReturn, PrimitiveType } from '../types/types';
+import { adapter } from '../app/adapterManager';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
@@ -49,7 +50,7 @@ export function decomposeText(
     };
 }
 
-export const getValueToExchange = (textToSend: string, val: PrimitiveType, adapter: Adapter): ExchangeValueReturn => {
+export const getValueToExchange = (textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
     if (textToSend.includes(config.replacer.change.start)) {
         const { start, end, command } = config.replacer.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}

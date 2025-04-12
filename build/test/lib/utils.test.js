@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const utils_1 = require("../../src/lib/utils");
-const utils_2 = require("../../src/lib/utils");
 describe('Utils', () => {
     const mockData = [
         { name: 'Alice', chatID: '123' },
@@ -24,15 +23,40 @@ describe('Utils', () => {
 });
 describe('isDefined', () => {
     it('should return true for defined values', () => {
-        (0, chai_1.expect)((0, utils_2.isDefined)(123)).to.be.true;
-        (0, chai_1.expect)((0, utils_2.isDefined)('test')).to.be.true;
-        (0, chai_1.expect)((0, utils_2.isDefined)(true)).to.be.true;
-        (0, chai_1.expect)((0, utils_2.isDefined)({})).to.be.true;
-        (0, chai_1.expect)((0, utils_2.isDefined)([])).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isDefined)(123)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isDefined)('test')).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isDefined)(true)).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isDefined)({})).to.be.true;
+        (0, chai_1.expect)((0, utils_1.isDefined)([])).to.be.true;
     });
     it('should return false for undefined or null values', () => {
-        (0, chai_1.expect)((0, utils_2.isDefined)(undefined)).to.be.false;
-        (0, chai_1.expect)((0, utils_2.isDefined)(null)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isDefined)(undefined)).to.be.false;
+        (0, chai_1.expect)((0, utils_1.isDefined)(null)).to.be.false;
+    });
+});
+describe('deepCopy', () => {
+    it('should create a deep copy of an object', () => {
+        const original = { a: 1, b: { c: 2 } };
+        const copy = (0, utils_1.deepCopy)(original);
+        (0, chai_1.expect)(copy).to.deep.equal(original);
+        (0, chai_1.expect)(copy).to.not.equal(original); // Ensure it's not the same reference
+    });
+    it('should return undefined for undefined or null input', () => {
+        (0, chai_1.expect)((0, utils_1.deepCopy)(undefined)).to.be.undefined;
+        (0, chai_1.expect)((0, utils_1.deepCopy)(null)).to.be.undefined;
+    });
+    it('should handle arrays correctly', () => {
+        const original = [1, 2, { a: 3 }];
+        const copy = (0, utils_1.deepCopy)(original);
+        (0, chai_1.expect)(copy).to.deep.equal(original);
+        (0, chai_1.expect)(copy).to.not.equal(original); // Ensure it's not the same reference
+    });
+    it('should return undefined for circular references', () => {
+        const circular = {};
+        circular.self = circular;
+        const copy = (0, utils_1.deepCopy)(circular);
+        // expect(adapter.log.error.calledOnce).to.be.true;
+        (0, chai_1.expect)(copy).to.be.undefined; // JSON.stringify throws an error for circular references
     });
 });
 //# sourceMappingURL=utils.test.js.map

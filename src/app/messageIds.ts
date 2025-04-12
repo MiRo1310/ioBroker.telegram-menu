@@ -2,8 +2,7 @@ import { adapter } from '../main';
 import { deleteMessageByBot } from './botAction';
 import { errorLogger } from './logging';
 import type { UserListWithChatId, WhatShouldDelete } from '../types/types';
-import { deepCopy } from './global';
-import { getChatID } from '../lib/utils';
+import { deepCopy, getChatID } from '../lib/utils';
 
 interface Messages {
     [key: string]: MessageInfos[];

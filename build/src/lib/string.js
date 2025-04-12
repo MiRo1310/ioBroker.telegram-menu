@@ -4,6 +4,7 @@ exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = expo
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 const config_1 = require("../config/config");
+const adapterManager_1 = require("../app/adapterManager");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
 function parseJSON(val) {
@@ -44,7 +45,7 @@ function decomposeText(text, searchValue, secondValue) {
         textWithoutSubstring: textWithoutSubstring,
     };
 }
-const getValueToExchange = (textToSend, val, adapter) => {
+const getValueToExchange = (textToSend, val) => {
     if (textToSend.includes(config_1.config.replacer.change.start)) {
         const { start, end, command } = config_1.config.replacer.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
@@ -58,7 +59,7 @@ const getValueToExchange = (textToSend, val, adapter) => {
                 error: false,
             };
         }
-        adapter.log.error(`There is a error in your input: ${modifiedString}`);
+        adapterManager_1.adapter.log.error(`There is a error in your input: ${modifiedString}`);
         return { newValue: val, textToSend, error: true };
     }
     return { textToSend, newValue: val, error: false };

@@ -1,4 +1,4 @@
-import { adapter } from '../main';
+import { adapter } from './adapterManager';
 
 export const errorLogger = (title: string, e: any): void => {
     adapter.log.error(title);

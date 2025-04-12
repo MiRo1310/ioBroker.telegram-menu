@@ -5,7 +5,6 @@ exports.saveMessageIds = saveMessageIds;
 const main_1 = require("../main");
 const botAction_1 = require("./botAction");
 const logging_1 = require("./logging");
-const global_1 = require("./global");
 const utils_1 = require("../lib/utils");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
@@ -66,7 +65,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
             messageIds[chat_id].push({ id: lastMessageId.val.toString() });
         }
         isDeleting = true;
-        const copyMessageIds = (0, global_1.deepCopy)(messageIds);
+        const copyMessageIds = (0, utils_1.deepCopy)(messageIds);
         messageIds[chat_id].forEach((element, index) => {
             if (whatShouldDelete === 'all' && element.id) {
                 (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, userListWithChatID, parseInt(element.id?.toString()), chat_id);
