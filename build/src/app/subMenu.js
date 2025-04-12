@@ -9,9 +9,8 @@ const utilities_1 = require("../lib/utilities");
 const subscribeStates_1 = require("./subscribeStates");
 const messageIds_1 = require("./messageIds");
 const dynamicSwitch_1 = require("./dynamicSwitch");
-const global_1 = require("./global");
-const main_1 = require("../main");
 const string_1 = require("../lib/string");
+const main_1 = require("../main");
 const logging_1 = require("./logging");
 let step = 0;
 let returnIDToListenTo = [];
@@ -253,11 +252,11 @@ async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_key
         if (part?.text && part.text != '') {
             text = await (0, utilities_1.checkStatusInfo)(part.text);
         }
-        const called = (0, global_1.parseJSON)(jsonStringNav);
-        if (!called?.length) {
+        const { json, isValidJson } = (0, string_1.parseJSON)(jsonStringNav);
+        if (!isValidJson) {
             return;
         }
-        const { callbackData, device: device2Switch, val } = getMenuValues(called[0]);
+        const { callbackData, device: device2Switch, val } = getMenuValues(json[0]);
         if (callbackData.includes('delete')) {
             return await deleteMessages({
                 userToSend,

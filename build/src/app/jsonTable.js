@@ -5,7 +5,6 @@ exports.createTextTableFromJson = createTextTableFromJson;
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
-const global_1 = require("./global");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
     try {
@@ -23,12 +22,12 @@ const createKeyboardFromJson = (val, text, id, user) => {
             idShoppingList = true;
         }
         main_1.adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
-        const valArray = (0, global_1.parseJSON)(val);
-        if (!valArray) {
+        const { json, isValidJson } = (0, string_1.parseJSON)(val);
+        if (!isValidJson) {
             return;
         }
         const keyboard = { inline_keyboard: [] };
-        valArray.forEach((element, index) => {
+        json.forEach((element, index) => {
             const firstRow = [];
             const rowArray = [];
             itemArray.forEach(item => {

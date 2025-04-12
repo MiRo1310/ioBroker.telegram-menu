@@ -6,26 +6,25 @@ import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
 import { deleteMessageIds } from './messageIds';
 import { dynamicSwitch } from './dynamicSwitch';
 import type {
-    SetStateIds,
-    SplittedData,
+    BackMenuType,
+    CreateMenu,
     DeleteMessageIds,
-    SetDynamicValueType,
+    Keyboard,
     KeyboardItems,
+    NavPart,
+    NewObjectNavStructure,
+    Part,
+    SetDynamicValueType,
     SetFirstMenuValue,
     SetSecondMenuValue,
-    CreateMenu,
-    SetValueForSubmenuPercent,
+    SetStateIds,
     SetValueForSubmenuNumber,
-    BackMenuType,
-    NewObjectNavStructure,
+    SetValueForSubmenuPercent,
+    SplittedData,
     UserListWithChatId,
-    Part,
-    NavPart,
-    Keyboard,
 } from '../types/types';
-import { parseJSON } from './global';
+import { jsonString, parseJSON } from '../lib/string';
 import { adapter } from '../main';
-import { jsonString } from '../lib/string';
 import { errorLogger } from './logging';
 
 let step = 0;
@@ -393,11 +392,11 @@ async function subMenu({
             text = await checkStatusInfo(part.text);
         }
 
-        const called = parseJSON<NavPart>(jsonStringNav);
-        if (!called?.length) {
+        const { json, isValidJson } = parseJSON<NavPart>(jsonStringNav);
+        if (!isValidJson) {
             return;
         }
-        const { callbackData, device: device2Switch, val } = getMenuValues(called[0]);
+        const { callbackData, device: device2Switch, val } = getMenuValues(json[0]);
 
         if (callbackData.includes('delete')) {
             return await deleteMessages({

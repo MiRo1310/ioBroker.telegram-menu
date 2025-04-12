@@ -1,8 +1,7 @@
 import { errorLogger } from './logging';
 import type { LastText, ValArray, KeyboardItem, Keyboard } from '../types/types';
 import { adapter } from '../main';
-import { decomposeText, jsonString } from '../lib/string';
-import { parseJSON } from './global';
+import { decomposeText, jsonString, parseJSON } from '../lib/string';
 
 const lastText: LastText = {};
 const createKeyboardFromJson = (
@@ -27,14 +26,14 @@ const createKeyboardFromJson = (
 
         adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
 
-        const valArray: ValArray[] | undefined = parseJSON(val);
-        if (!valArray) {
+        const { json, isValidJson } = parseJSON<ValArray[]>(val);
+        if (!isValidJson) {
             return;
         }
 
         const keyboard: Keyboard = { inline_keyboard: [] };
 
-        valArray.forEach((element, index) => {
+        json.forEach((element, index) => {
             const firstRow: KeyboardItem[] = [];
             const rowArray: KeyboardItem[] = [];
             itemArray.forEach(item => {

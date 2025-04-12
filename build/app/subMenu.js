@@ -29,9 +29,8 @@ var import_utilities = require("../lib/utilities");
 var import_subscribeStates = require("./subscribeStates");
 var import_messageIds = require("./messageIds");
 var import_dynamicSwitch = require("./dynamicSwitch");
-var import_global = require("./global");
-var import_main = require("../main");
 var import_string = require("../lib/string");
+var import_main = require("../main");
 var import_logging = require("./logging");
 let step = 0;
 let returnIDToListenTo = [];
@@ -338,11 +337,11 @@ async function subMenu({
     if ((part == null ? void 0 : part.text) && part.text != "") {
       text = await (0, import_utilities.checkStatusInfo)(part.text);
     }
-    const called = (0, import_global.parseJSON)(jsonStringNav);
-    if (!(called == null ? void 0 : called.length)) {
+    const { json, isValidJson } = (0, import_string.parseJSON)(jsonStringNav);
+    if (!isValidJson) {
       return;
     }
-    const { callbackData, device: device2Switch, val } = getMenuValues(called[0]);
+    const { callbackData, device: device2Switch, val } = getMenuValues(json[0]);
     if (callbackData.includes("delete")) {
       return await deleteMessages({
         userToSend,

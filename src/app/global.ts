@@ -1,6 +1,3 @@
-import { errorLogger } from './logging';
-import { adapter } from '../main';
-
 export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
     arr.filter((item, index) => arr.indexOf(item) === index);
 
@@ -10,12 +7,3 @@ export const isTruthy = (value: string | number | boolean): boolean => ['1', 1, 
 
 export const isFalsy = (value: string | number | boolean | undefined | null): boolean =>
     ['0', 0, false, 'false', undefined, null].includes(value);
-
-export function parseJSON<T>(value: string): T | undefined {
-    try {
-        return JSON.parse(value);
-    } catch (error) {
-        errorLogger('Error parseJson: ', error, adapter);
-        return undefined;
-    }
-}

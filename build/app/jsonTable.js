@@ -25,7 +25,6 @@ module.exports = __toCommonJS(jsonTable_exports);
 var import_logging = require("./logging");
 var import_main = require("../main");
 var import_string = require("../lib/string");
-var import_global = require("./global");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
   try {
@@ -42,12 +41,12 @@ const createKeyboardFromJson = (val, text, id, user) => {
       idShoppingList = true;
     }
     import_main.adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
-    const valArray = (0, import_global.parseJSON)(val);
-    if (!valArray) {
+    const { json, isValidJson } = (0, import_string.parseJSON)(val);
+    if (!isValidJson) {
       return;
     }
     const keyboard = { inline_keyboard: [] };
-    valArray.forEach((element, index) => {
+    json.forEach((element, index) => {
       const firstRow = [];
       const rowArray = [];
       itemArray.forEach((item) => {

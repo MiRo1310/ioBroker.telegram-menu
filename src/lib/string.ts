@@ -3,10 +3,7 @@ import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
-export function parseJSON<T>(val: string): {
-    json: T | string;
-    isValidJson: boolean;
-} {
+export function parseJSON<T>(val: string): { json: string; isValidJson: false } | { json: T; isValidJson: true } {
     try {
         const parsed = JSON.parse(val);
         return { json: parsed as T, isValidJson: true };
@@ -59,7 +56,7 @@ export const getValueToExchange = (adapter: Adapter, textToSend: string, val: Pr
         const { json, isValidJson } = parseJSON<Record<string, string>>(modifiedString);
 
         if (isValidJson) {
-            const _json = json as Record<string, string>;
+            const _json = json;
             return {
                 newValue: _json[String(val)] ?? val,
                 textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
