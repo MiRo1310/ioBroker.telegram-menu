@@ -43,7 +43,7 @@ const processTimeIdLc = async (textToSend, id) => {
   let idFromText = "";
   if (!id) {
     if (!changedSubstring.includes("id:")) {
-      import_main._this.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
+      import_main.adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
       return;
     }
     if (array[2]) {
@@ -54,7 +54,7 @@ const processTimeIdLc = async (textToSend, id) => {
   if (!id && !idFromText) {
     return;
   }
-  const value = await import_main._this.getForeignStateAsync(id || idFromText);
+  const value = await import_main.adapter.getForeignStateAsync(id || idFromText);
   let timeValue;
   let timeStringUser;
   if (key && value) {
@@ -115,7 +115,7 @@ const checkStatus = async (text, processTimeValue) => {
   try {
     const substring = (0, import_string.decomposeText)(text, "{status:", "}").substring;
     let id, valueChange;
-    import_main._this.log.debug(`Substring ${substring}`);
+    import_main.adapter.log.debug(`Substring ${substring}`);
     if (substring.includes("status:'id':")) {
       id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
@@ -123,9 +123,9 @@ const checkStatus = async (text, processTimeValue) => {
       id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
       valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
     }
-    const stateValue = await import_main._this.getForeignStateAsync(id);
+    const stateValue = await import_main.adapter.getForeignStateAsync(id);
     if (!stateValue) {
-      import_main._this.log.debug(`State not found: ${id}`);
+      import_main.adapter.log.debug(`State not found: ${id}`);
       return "";
     }
     if (text.includes("{time}") && processTimeValue) {
@@ -134,13 +134,13 @@ const checkStatus = async (text, processTimeValue) => {
       return processTimeValue(text, val2).replace(val2, "");
     }
     if (!(0, import_global.isDefined)(stateValue.val)) {
-      import_main._this.log.debug(`State Value is undefined: ${id}`);
+      import_main.adapter.log.debug(`State Value is undefined: ${id}`);
       return text.replace(substring, "");
     }
     if (!valueChange) {
       return text.replace(substring, stateValue.val.toString());
     }
-    const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(text, stateValue.val);
+    const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(text, stateValue.val, import_main.adapter);
     let newValue;
     if (!error) {
       text = textToSend;
@@ -148,12 +148,12 @@ const checkStatus = async (text, processTimeValue) => {
     } else {
       newValue = stateValue.val;
     }
-    import_main._this.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-    import_main._this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
+    import_main.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
+    import_main.adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
     return text.replace(substring, newValue.toString());
   } catch (e) {
-    import_main._this.log.error(`Error checkStatus:${e.message}`);
-    import_main._this.log.error(`Stack:${e.stack}`);
+    import_main.adapter.log.error(`Error checkStatus:${e.message}`);
+    import_main.adapter.log.error(`Stack:${e.stack}`);
     return "";
   }
 };
@@ -162,7 +162,7 @@ const checkStatusInfo = async (text) => {
     if (!text) {
       return;
     }
-    import_main._this.log.debug(`Text: ${text}`);
+    import_main.adapter.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
       while (text.includes("{status:")) {
         text = await checkStatus(text, import_time.integrateTimeIntoText);
@@ -182,11 +182,11 @@ const checkStatusInfo = async (text) => {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await import_main._this.setForeignStateAsync(id, convertedValue, ack);
+        await import_main.adapter.setForeignStateAsync(id, convertedValue, ack);
       }
     }
     if (text) {
-      import_main._this.log.debug(`CheckStatusInfo: ${text}`);
+      import_main.adapter.log.debug(`CheckStatusInfo: ${text}`);
       return text;
     }
   } catch (e) {
@@ -195,8 +195,8 @@ const checkStatusInfo = async (text) => {
 };
 async function checkTypeOfId(id, value) {
   try {
-    import_main._this.log.debug(`Check Type of Id: ${id}`);
-    const obj = await import_main._this.getForeignObjectAsync(id);
+    import_main.adapter.log.debug(`Check Type of Id: ${id}`);
+    const obj = await import_main.adapter.getForeignObjectAsync(id);
     const receivedType = typeof value;
     if (!obj || !value) {
       return value;
@@ -204,7 +204,7 @@ async function checkTypeOfId(id, value) {
     if (receivedType === obj.common.type || !obj.common.type) {
       return value;
     }
-    import_main._this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+    import_main.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
     if (obj.common.type === "boolean") {
       if (value == "true") {
         value = true;

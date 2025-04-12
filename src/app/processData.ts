@@ -1,4 +1,4 @@
-import { _this } from '../main';
+import { adapter } from '../main';
 import { sendLocationToTelegram, sendToTelegram } from './telegram';
 import { sendNav } from './sendNav';
 import { callSubMenu } from './subMenu';
@@ -45,8 +45,8 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
     for (const menu of menus) {
         const groupData: NewObjectNavStructure = menuData.data[menu];
 
-        _this.log.debug(`Menu: ${menu}`);
-        _this.log.debug(`Nav: ${jsonString(menuData.data[menu])}`);
+        adapter.log.debug(`Menu: ${menu}`);
+        adapter.log.debug(`Nav: ${jsonString(menuData.data[menu])}`);
 
         if (
             await processData({
@@ -67,7 +67,7 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
                 groupData,
             })
         ) {
-            _this.log.debug('CalledText found');
+            adapter.log.debug('CalledText found');
             return true;
         }
     }
@@ -105,7 +105,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 valueToSet = calledValue;
             }
             if (valueToSet && res?.id) {
-                await _this.setForeignStateAsync(res?.id, valueToSet, res?.ack);
+                await adapter.setForeignStateAsync(res?.id, valueToSet, res?.ack);
             } else {
                 await sendToTelegram({
                     user: userToSend,
@@ -161,12 +161,12 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             isUserActiveCheckbox[groupWithUser as keyof IsUserActiveCheckbox]
         ) {
             if (part.nav) {
-                _this.log.debug(`Menu to Send: ${part.nav}`);
+                adapter.log.debug(`Menu to Send: ${part.nav}`);
 
                 backMenuFunc(call, part.nav, userToSend);
 
                 if (JSON.stringify(part.nav).includes('menu:')) {
-                    _this.log.debug(`Submenu: ${part.nav}`);
+                    adapter.log.debug(`Submenu: ${part.nav}`);
 
                     const result = await callSubMenu(
                         JSON.stringify(part.nav),
@@ -253,17 +253,17 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 if (result) {
                     timeouts = result;
                 } else {
-                    _this.log.debug(`Timeouts not found`);
+                    adapter.log.debug(`Timeouts not found`);
                 }
                 return true;
             }
             if (part.location) {
-                _this.log.debug('Send location');
+                adapter.log.debug('Send location');
                 await sendLocationToTelegram(userToSend, part.location, instanceTelegram, userListWithChatID);
                 return true;
             }
             if (part.echarts) {
-                _this.log.debug('Send echars');
+                adapter.log.debug('Send echars');
                 getChart(
                     part.echarts,
                     directoryPicture,
@@ -276,7 +276,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return true;
             }
             if (part.httpRequest) {
-                _this.log.debug('Send http request');
+                adapter.log.debug('Send http request');
                 const result = await httpRequest(
                     part,
                     userToSend,
@@ -295,7 +295,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             (calledValue.startsWith('menu') || calledValue.startsWith('submenu')) &&
             menuData.data[groupWithUser][call]
         ) {
-            _this.log.debug('Call Submenu');
+            adapter.log.debug('Call Submenu');
             const result = await callSubMenu(
                 calledValue,
                 menuData,

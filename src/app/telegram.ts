@@ -1,6 +1,6 @@
 import { errorLogger } from './logging';
 import { checkStatusInfo } from '../lib/utilities';
-import { _this } from '../main';
+import { adapter } from '../main';
 import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
 import { isTruthy } from './global';
 import { getChatID } from '../lib/utils';
@@ -29,17 +29,17 @@ async function sendToTelegram({
         const chatId = getChatID(userListWithChatID, user);
         const parse_modeType: ParseModeType = getParseMode(parse_mode);
 
-        _this.log.debug(`Send to: ${user} => ${textToSend}`);
-        _this.log.debug(`Instance: ${instance}`);
-        _this.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
-        _this.log.debug(`Parse_mode	: ${parse_mode}`);
-        _this.log.debug(`ChatId	: ${chatId}`);
-        _this.log.debug(`ParseModeType: ${parse_modeType}`);
+        adapter.log.debug(`Send to: ${user} => ${textToSend}`);
+        adapter.log.debug(`Instance: ${instance}`);
+        adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
+        adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+        adapter.log.debug(`ChatId	: ${chatId}`);
+        adapter.log.debug(`ParseModeType: ${parse_modeType}`);
 
         textToSend = validateNewLine(textToSend);
         if (!keyboard) {
-            _this.log.debug('No Keyboard');
-            _this.sendTo(
+            adapter.log.debug('No Keyboard');
+            adapter.sendTo(
                 instance,
                 'send',
                 {
@@ -48,12 +48,12 @@ async function sendToTelegram({
                     parse_mode: parse_modeType,
                 },
                 function (res: any) {
-                    _this.log.debug(`Sent Value to ${jsonString(res)} users!`);
+                    adapter.log.debug(`Sent Value to ${jsonString(res)} users!`);
                 },
             );
         } else {
             const text = await checkStatusInfo(textToSend);
-            _this.sendTo(
+            adapter.sendTo(
                 instance,
                 'send',
                 {
@@ -67,7 +67,7 @@ async function sendToTelegram({
                     },
                 },
                 function (res: any) {
-                    _this.log.debug(`Sent Value to ${jsonString(res)} users!`);
+                    adapter.log.debug(`Sent Value to ${jsonString(res)} users!`);
                 },
             );
         }
@@ -85,11 +85,11 @@ function sendToTelegramSubmenu(
     parse_mode: BooleanString,
 ): void {
     const parseModeType = getParseMode(parse_mode);
-    _this.log.debug(`Send this ParseMode: ${parseModeType}`);
+    adapter.log.debug(`Send this ParseMode: ${parseModeType}`);
     try {
         const chatId = getChatID(userListWithChatID, user);
         textToSend = validateNewLine(textToSend);
-        _this.sendTo(instance, 'send', {
+        adapter.sendTo(instance, 'send', {
             chatId: chatId,
             parse_mode: parseModeType,
             text: textToSend,
@@ -113,12 +113,12 @@ const sendLocationToTelegram = async (
                 continue;
             }
 
-            const latitude = await _this.getForeignStateAsync(element.latitude);
-            const longitude = await _this.getForeignStateAsync(element.longitude);
+            const latitude = await adapter.getForeignStateAsync(element.latitude);
+            const longitude = await adapter.getForeignStateAsync(element.longitude);
             if (!latitude || !longitude) {
                 continue;
             }
-            _this.sendTo(instance, {
+            adapter.sendTo(instance, {
                 chatId: chatId,
                 latitude: latitude.val,
                 longitude: longitude.val,

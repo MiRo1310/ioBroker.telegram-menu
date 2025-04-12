@@ -47,7 +47,7 @@ const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
 const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
 function checkDirectoryIsOk(directory) {
   if (["", null, void 0].includes(directory)) {
-    import_main._this.log.error(
+    import_main.adapter.log.error(
       "No directory to save the picture. Please add a directory in the settings with full read and write permissions."
     );
     return false;

@@ -2,7 +2,7 @@ import { sendToTelegram } from './telegram';
 import { checkDirectoryIsOk } from './global';
 import { exec } from 'child_process';
 import { errorLogger } from './logging';
-import { _this } from '../main';
+import { adapter } from '../main';
 import type { Part, UserListWithChatId } from '../types/types';
 import { replaceAll } from '../lib/string';
 
@@ -29,10 +29,10 @@ function sendPic(
                     `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
                     (error: any, stdout: any, stderr: any) => {
                         if (stdout) {
-                            _this.log.debug(`Stdout: ${stdout}`);
+                            adapter.log.debug(`Stdout: ${stdout}`);
                         }
                         if (stderr) {
-                            _this.log.debug(`Stderr: ${stderr}`);
+                            adapter.log.debug(`Stderr: ${stderr}`);
                         }
                         if (error) {
                             errorLogger('Error in exec:', error);
@@ -42,7 +42,7 @@ function sendPic(
                     },
                 );
 
-                _this.log.debug(`Delay Time: ${delay}`);
+                adapter.log.debug(`Delay Time: ${delay}`);
                 timeoutKey += 1;
 
                 if (!checkDirectoryIsOk(directoryPicture)) {
@@ -50,12 +50,12 @@ function sendPic(
                 }
 
                 path = `${directoryPicture}${fileName}`;
-                _this.log.debug(`Path: ${path}`);
+                adapter.log.debug(`Path: ${path}`);
             } else {
                 return;
             }
 
-            const timeout = _this.setTimeout(
+            const timeout = adapter.setTimeout(
                 async () => {
                     await sendToTelegram({
                         user: userToSend,
@@ -69,12 +69,12 @@ function sendPic(
                     let timeoutToClear: Timeouts[] = [];
                     timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
                     timeoutToClear.forEach(item => {
-                        _this.clearTimeout(item.timeout);
+                        adapter.clearTimeout(item.timeout);
                     });
 
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);
 
-                    _this.log.debug('Picture sent');
+                    adapter.log.debug('Picture sent');
                 },
                 parseInt(String(element.delay)),
             );

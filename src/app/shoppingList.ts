@@ -3,7 +3,7 @@ import { createKeyboardFromJson } from './jsonTable.js';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram.js';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates.js';
 import { errorLogger } from './logging.js';
-import { _this } from '../main.js';
+import { adapter } from '../main.js';
 import type { UserListWithChatId } from '../types/types.js';
 import { jsonString } from '../lib/string';
 
@@ -31,16 +31,16 @@ async function shoppingListSubscribeStateAndDeleteItem(
             idList = array[1];
             instance = array[2];
             idItem = array[3];
-            res = await _this.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+            res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
 
             if (res) {
                 objData[user] = { idList: idList };
-                _this.log.debug(`Alexa-shoppinglist: ${idList}`);
+                adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
                 if (!isSubscribed) {
                     await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
                     isSubscribed = true;
                 }
-                await _this.setForeignStateAsync(
+                await adapter.setForeignStateAsync(
                     `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
                     true,
                     false,
@@ -57,7 +57,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
                 userListWithChatID: userListWithChatID,
                 parse_mode: 'true',
             });
-            _this.log.debug('Cannot delete the Item');
+            adapter.log.debug('Cannot delete the Item');
             return;
         }
     } catch (e: any) {
@@ -76,9 +76,9 @@ async function deleteMessageAndSendNewShoppingList(
         await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
         await deleteMessageIds(user, userListWithChatID, instanceTelegram, 'last');
 
-        const result = await _this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
+        const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result && result.val) {
-            _this.log.debug(`Result from Shoppinglist: ${jsonString(result)}`);
+            adapter.log.debug(`Result from Shoppinglist: ${jsonString(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = createKeyboardFromJson(result.val as string, null, newId, user);
             if (resultJson && resultJson.text && resultJson.keyboard) {

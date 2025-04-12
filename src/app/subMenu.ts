@@ -24,7 +24,7 @@ import type {
     Keyboard,
 } from '../types/types';
 import { parseJSON } from './global';
-import { _this } from '../main';
+import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import { errorLogger } from './logging';
 
@@ -50,7 +50,7 @@ const deleteMessages = async (obj: DeleteMessageIds): Promise<{ navToGoBack: str
 };
 
 const setDynamicValue = async (obj: SetDynamicValueType): Promise<{ returnIds: SetStateIds[] }> => {
-    _this.log.debug(`State: ${obj.val}`);
+    adapter.log.debug(`State: ${obj.val}`);
 
     const result = await setState(
         obj.part,
@@ -106,7 +106,7 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
 
 const setFirstMenuValue = async (obj: SetFirstMenuValue): Promise<{ returnIds: SetStateIds[] }> => {
     let val;
-    _this.log.debug(`SplitData: ${jsonString(splittedData)}`);
+    adapter.log.debug(`SplitData: ${jsonString(splittedData)}`);
 
     if (splittedData[1].split('.')[1] == 'false') {
         val = false;
@@ -223,7 +223,7 @@ const createSubmenuNumber = (obj: CreateMenu): { text?: string; keyboard: Keyboa
     if (rowEntries != 0) {
         keyboard.inline_keyboard.push(menu);
     }
-    _this.log.debug(`Keyboard: ${jsonString(keyboard)}`);
+    adapter.log.debug(`Keyboard: ${jsonString(keyboard)}`);
 
     return { text: obj.text, keyboard, device: device2Switch };
 };
@@ -273,7 +273,7 @@ const setValueForSubmenuPercent = async (obj: SetValueForSubmenuPercent): Promis
 const setValueForSubmenuNumber = async (
     obj: SetValueForSubmenuNumber,
 ): Promise<{ returnIds: SetStateIds[]; device2Switch: string }> => {
-    _this.log.debug(`CallbackData: ${obj.callbackData}`);
+    adapter.log.debug(`CallbackData: ${obj.callbackData}`);
 
     const value = parseFloat(obj.calledValue.split(':')[3]);
     const device2Switch = obj.calledValue.split(':')[2];
@@ -336,7 +336,7 @@ async function callSubMenu(
             menus,
             navObj,
         });
-        _this.log.debug(`Submenu: ${jsonString(obj)}`);
+        adapter.log.debug(`Submenu: ${jsonString(obj)}`);
 
         if (obj?.returnIds) {
             setStateIdsToListenTo = obj.returnIds;
@@ -386,7 +386,7 @@ async function subMenu({
     { text?: string; keyboard?: Keyboard; device?: string; returnIds?: SetStateIds[]; navToGoBack?: string } | undefined
 > {
     try {
-        _this.log.debug(`Menu : ${navObj[0][0]}`);
+        adapter.log.debug(`Menu : ${navObj[0][0]}`);
 
         let text: string | undefined = '';
         if (part?.text && part.text != '') {

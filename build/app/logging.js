@@ -24,11 +24,11 @@ module.exports = __toCommonJS(logging_exports);
 var import_main = require("../main");
 const errorLogger = (title, e) => {
   var _a, _b;
-  import_main._this.log.error(title);
-  import_main._this.log.error(`Error message: ${e.message}`);
-  import_main._this.log.error(`Error stack: ${e.stack}`);
-  import_main._this.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
-  import_main._this.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
+  import_main.adapter.log.error(title);
+  import_main.adapter.log.error(`Error message: ${e.message}`);
+  import_main.adapter.log.error(`Error stack: ${e.stack}`);
+  import_main.adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
+  import_main.adapter.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

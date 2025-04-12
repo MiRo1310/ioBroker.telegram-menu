@@ -1,3 +1,6 @@
+import type { MockAdapter } from '@iobroker/testing';
+import type TelegramMenu from '../main';
+
 export interface Checkboxes {
     oneTiKey: boolean;
     resKey: boolean;
@@ -410,3 +413,5 @@ export interface ExchangeValueReturn {
 }
 
 export type PrimitiveType = string | number | boolean;
+
+export type Adapter = MockAdapter | TelegramMenu;

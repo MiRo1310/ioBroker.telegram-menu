@@ -1,6 +1,5 @@
-import { _this } from '../main';
 import { config } from '../config/config';
-import type { ExchangeValueReturn, PrimitiveType } from '../types/types';
+import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
@@ -50,7 +49,7 @@ export function decomposeText(
     };
 }
 
-export const getValueToExchange = (textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
+export const getValueToExchange = (textToSend: string, val: PrimitiveType, adapter: Adapter): ExchangeValueReturn => {
     if (textToSend.includes(config.replacer.change.start)) {
         const { start, end, command } = config.replacer.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
@@ -67,7 +66,7 @@ export const getValueToExchange = (textToSend: string, val: PrimitiveType): Exch
                 error: false,
             };
         }
-        _this.log.error(`There is a error in your input: ${modifiedString}`);
+        adapter.log.error(`There is a error in your input: ${modifiedString}`);
         return { newValue: val, textToSend, error: true };
     }
     return { textToSend, newValue: val, error: false };

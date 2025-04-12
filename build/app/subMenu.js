@@ -51,7 +51,7 @@ const deleteMessages = async (obj) => {
   return;
 };
 const setDynamicValue = async (obj) => {
-  import_main._this.log.debug(`State: ${obj.val}`);
+  import_main.adapter.log.debug(`State: ${obj.val}`);
   const result = await (0, import_setstate.setState)(
     obj.part,
     obj.userToSend,
@@ -102,7 +102,7 @@ const createSubmenuPercent = (obj) => {
 };
 const setFirstMenuValue = async (obj) => {
   let val;
-  import_main._this.log.debug(`SplitData: ${(0, import_string.jsonString)(splittedData)}`);
+  import_main.adapter.log.debug(`SplitData: ${(0, import_string.jsonString)(splittedData)}`);
   if (splittedData[1].split(".")[1] == "false") {
     val = false;
   } else if (splittedData[1].split(".")[1] == "true") {
@@ -210,7 +210,7 @@ const createSubmenuNumber = (obj) => {
   if (rowEntries != 0) {
     keyboard.inline_keyboard.push(menu);
   }
-  import_main._this.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
+  import_main.adapter.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
   return { text: obj.text, keyboard, device: device2Switch };
 };
 const createSwitchMenu = ({
@@ -253,7 +253,7 @@ const setValueForSubmenuPercent = async (obj) => {
   return { returnIds: returnIDToListenTo };
 };
 const setValueForSubmenuNumber = async (obj) => {
-  import_main._this.log.debug(`CallbackData: ${obj.callbackData}`);
+  import_main.adapter.log.debug(`CallbackData: ${obj.callbackData}`);
   const value = parseFloat(obj.calledValue.split(":")[3]);
   const device2Switch = obj.calledValue.split(":")[2];
   const result = await (0, import_setstate.setState)(
@@ -300,7 +300,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
       menus,
       navObj
     });
-    import_main._this.log.debug(`Submenu: ${(0, import_string.jsonString)(obj)}`);
+    import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(obj)}`);
     if (obj == null ? void 0 : obj.returnIds) {
       setStateIdsToListenTo = obj.returnIds;
       await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
@@ -333,7 +333,7 @@ async function subMenu({
   navObj
 }) {
   try {
-    import_main._this.log.debug(`Menu : ${navObj[0][0]}`);
+    import_main.adapter.log.debug(`Menu : ${navObj[0][0]}`);
     let text = "";
     if ((part == null ? void 0 : part.text) && part.text != "") {
       text = await (0, import_utilities.checkStatusInfo)(part.text);

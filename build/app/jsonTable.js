@@ -41,7 +41,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
     if (array.length > 3 && array[3] == "shoppinglist") {
       idShoppingList = true;
     }
-    import_main._this.log.debug(`Val: ${val} with type: ${typeof val}`);
+    import_main.adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
     const valArray = (0, import_global.parseJSON)(val);
     if (!valArray) {
       return;
@@ -76,7 +76,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
       }
       keyboard.inline_keyboard.push(rowArray);
     });
-    import_main._this.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
+    import_main.adapter.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
     return { text: headline, keyboard };
   } catch (err) {
     (0, import_logging.errorLogger)("Error createKeyboardFromJson:", err);
@@ -102,7 +102,7 @@ function createTextTableFromJson(val, textToSend) {
         }
       });
     });
-    import_main._this.log.debug(`Length of rows: ${(0, import_string.jsonString)(lengthArray)}`);
+    import_main.adapter.log.debug(`Length of rows: ${(0, import_string.jsonString)(lengthArray)}`);
     const headline = array[2];
     let textTable = textToSend.replace(substring, "").trim();
     if (textTable != "") {

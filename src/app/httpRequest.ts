@@ -5,7 +5,7 @@ import fs from 'fs';
 import { errorLogger } from './logging';
 import type { Part, UserListWithChatId } from '../types/types';
 import { checkDirectoryIsOk } from './global';
-import { _this } from '../main';
+import { adapter } from '../main';
 
 async function httpRequest(
     parts: Part,
@@ -23,7 +23,7 @@ async function httpRequest(
         const { url, password, user } = part;
 
         const method = 'get';
-        _this.log.debug(`URL: ${url}`);
+        adapter.log.debug(`URL: ${url}`);
 
         try {
             //prettier-ignore
@@ -53,7 +53,7 @@ async function httpRequest(
             const imagePath = path.join(directoryPicture, part.filename);
 
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
-            _this.log.debug(`Pic saved: ${imagePath}`);
+            adapter.log.debug(`Pic saved: ${imagePath}`);
 
             await sendToTelegram({
                 user: userToSend,

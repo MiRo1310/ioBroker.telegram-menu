@@ -1,5 +1,5 @@
 import { errorLogger } from './logging';
-import { _this } from '../main';
+import { adapter } from '../main';
 
 export const isDefined = <T>(value: T | undefined | null): value is T => value !== undefined && value !== null;
 
@@ -26,7 +26,7 @@ export const isFalsy = (value: string | number | boolean | undefined | null): bo
 
 export function checkDirectoryIsOk(directory: string): boolean {
     if (['', null, undefined].includes(directory)) {
-        _this.log.error(
+        adapter.log.error(
             'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
         );
         return false;

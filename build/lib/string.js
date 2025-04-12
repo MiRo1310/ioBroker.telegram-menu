@@ -26,7 +26,6 @@ __export(string_exports, {
   validateNewLine: () => validateNewLine
 });
 module.exports = __toCommonJS(string_exports);
-var import_main = require("../main");
 var import_config = require("../config/config");
 const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val) {
@@ -59,13 +58,13 @@ function decomposeText(text, searchValue, secondValue) {
     textWithoutSubstring
   };
 }
-const getValueToExchange = (textToSend, val) => {
+const getValueToExchange = (textToSend, val, adapter) => {
   var _a;
   if (textToSend.includes(import_config.config.replacer.change.start)) {
     const { start, end, command } = import_config.config.replacer.change;
     const { startindex, endindex, substring } = decomposeText(textToSend, start, end);
-    const substring2 = replaceAll(substring, "'", '"').replace(command, "");
-    const { json, isValidJson } = parseJSON(`${substring2}`);
+    const modifiedString = replaceAll(substring, "'", '"').replace(command, "");
+    const { json, isValidJson } = parseJSON(modifiedString);
     if (isValidJson) {
       const _json = json;
       return {
@@ -74,7 +73,7 @@ const getValueToExchange = (textToSend, val) => {
         error: false
       };
     }
-    import_main._this.log.error(`There is a error in your input: ${substring2}`);
+    adapter.log.error(`There is a error in your input: ${modifiedString}`);
     return { newValue: val, textToSend, error: true };
   }
   return { textToSend, newValue: val, error: false };

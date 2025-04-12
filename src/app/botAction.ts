@@ -1,4 +1,4 @@
-import { _this } from '../main';
+import { adapter } from '../main';
 import { errorLogger } from './logging';
 import type { UserListWithChatId } from '../types/types';
 
@@ -11,9 +11,9 @@ const deleteMessageByBot = (
 ): void => {
     try {
         if (chat_id) {
-            _this.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
+            adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
         }
-        _this.sendTo(instance, {
+        adapter.sendTo(instance, {
             deleteMessage: {
                 options: {
                     chat_id: chat_id,

@@ -27,19 +27,19 @@ var import_global = require("./global");
 var import_string = require("../lib/string");
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
   if (obj.id) {
-    import_main._this.log.debug(`Subscribe to ${obj.id}`);
+    import_main.adapter.log.debug(`Subscribe to ${obj.id}`);
   } else if (obj.array) {
     for (const element of obj.array) {
-      await import_main._this.subscribeForeignStatesAsync(element.id);
+      await import_main.adapter.subscribeForeignStatesAsync(element.id);
     }
   }
 }
 async function _subscribeForeignStatesAsync(array) {
   array = (0, import_global.deleteDoubleEntriesInArray)(array);
   for (const element of array) {
-    await import_main._this.subscribeForeignStatesAsync(element);
+    await import_main.adapter.subscribeForeignStatesAsync(element);
   }
-  import_main._this.log.debug(`Subscribe all States of: ${(0, import_string.jsonString)(array)}`);
+  import_main.adapter.log.debug(`Subscribe all States of: ${(0, import_string.jsonString)(array)}`);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

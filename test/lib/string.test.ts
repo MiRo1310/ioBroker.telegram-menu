@@ -1,8 +1,9 @@
 import {decomposeText, jsonString, parseJSON, replaceAll, validateNewLine, getValueToExchange} from "../../src/lib/string";
 import {expect} from "chai";
 import {  utils } from "@iobroker/testing";
+import TelegramMenu from "../../src/main";
 const {  adapter, database } = utils.unit.createMocks({});
-
+const _this= adapter
 describe("String", () => {
 
     afterEach(() => {
@@ -67,7 +68,7 @@ describe("String", () => {
     it("soll den Wert erfolgreich austauschen, wenn JSON korrekt ist", () => {
         const textToSend = 'change{"true":"an","false":"aus"}';
         const val = "true";
-        const result = getValueToExchange(textToSend, val);
+        const result = getValueToExchange(textToSend, val, adapter);
 
         expect(result).to.deep.equal({
             newValue: "an",
@@ -79,8 +80,8 @@ describe("String", () => {
     it("soll den ursprünglichen Wert zurückgeben, wenn JSON ungültig ist", () => {
         const textToSend = 'change{"true":"an","false":aus}';
         const val = "true";
-        const result = getValueToExchange(textToSend, val);
-        expect(adapter.log.error.calledOnce).to.be.true;
+        const result = getValueToExchange( textToSend, val, adapter);
+        expect(_this.log.error.calledOnce).to.be.true;
         expect(result).to.deep.equal({
             newValue: val,
             textToSend,
@@ -91,7 +92,7 @@ describe("String", () => {
     it("soll den ursprünglichen Text zurückgeben, wenn kein 'change' enthalten ist", () => {
         const textToSend = "Kein Austausch erforderlich";
         const val = "true";
-        const result = getValueToExchange(textToSend, val);
+        const result = getValueToExchange(textToSend, val, adapter);
 
         expect(result).to.deep.equal({
             newValue: val,

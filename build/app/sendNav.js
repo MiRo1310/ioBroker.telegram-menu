@@ -28,7 +28,7 @@ var import_logging = require("./logging");
 async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
   try {
     if (userToSend) {
-      import_main._this.log.debug("Send Nav to Telegram");
+      import_main.adapter.log.debug("Send Nav to Telegram");
       const nav = part.nav;
       const text = await (0, import_utilities.checkStatusInfo)(part.text);
       await (0, import_telegram.sendToTelegram)({

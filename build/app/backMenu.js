@@ -39,7 +39,7 @@ function backMenuFunc(nav, part, userToSend) {
     }
     backMenu[userToSend].last = nav;
   }
-  import_main._this.log.debug(`BackMenu: ${(0, import_string.jsonString)(backMenu)}`);
+  import_main.adapter.log.debug(`BackMenu: ${(0, import_string.jsonString)(backMenu)}`);
 }
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
   var _a, _b, _c, _d;
@@ -55,11 +55,11 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           break;
         } else if (((_d = allMenusWithData[menu][list[list.length - 1]]) == null ? void 0 : _d.nav) && !lastMenu) {
           keyboard = allMenusWithData[menu][list[list.length - 1]].nav;
-          import_main._this.log.debug("Menu call found");
+          import_main.adapter.log.debug("Menu call found");
           foundedMenu = menu;
           break;
         }
-        import_main._this.log.debug(`Menu call not found in this Menu: ${menu}`);
+        import_main.adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
       }
       if (keyboard && foundedMenu != "") {
         let parseMode = "";

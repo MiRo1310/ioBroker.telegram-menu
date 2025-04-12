@@ -1,4 +1,4 @@
-import { _this } from '../main';
+import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
 import type { Echart, UserListWithChatId } from '../types/types';
@@ -24,7 +24,7 @@ function getChart(
             if (!checkDirectoryIsOk(directoryPicture)) {
                 return;
             }
-            _this.sendTo(
+            adapter.sendTo(
                 instanceOfEchart,
                 {
                     preset: echart.preset,

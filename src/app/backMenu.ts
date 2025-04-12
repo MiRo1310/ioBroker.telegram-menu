@@ -1,7 +1,7 @@
 import { errorLogger } from './logging';
 import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
-import { _this } from '../main';
+import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 
 const backMenu: BackMenu = {};
@@ -19,7 +19,7 @@ function backMenuFunc(nav: string, part: NavPart, userToSend: string): void {
         backMenu[userToSend].last = nav;
     }
 
-    _this.log.debug(`BackMenu: ${jsonString(backMenu)}`);
+    adapter.log.debug(`BackMenu: ${jsonString(backMenu)}`);
 }
 
 async function switchBack(
@@ -40,12 +40,12 @@ async function switchBack(
                     break;
                 } else if (allMenusWithData[menu][list[list.length - 1]]?.nav && !lastMenu) {
                     keyboard = allMenusWithData[menu][list[list.length - 1]].nav;
-                    _this.log.debug('Menu call found');
+                    adapter.log.debug('Menu call found');
                     foundedMenu = menu;
                     break;
                 }
 
-                _this.log.debug(`Menu call not found in this Menu: ${menu}`);
+                adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
             }
             if (keyboard && foundedMenu != '') {
                 let parseMode: BooleanString = '' as BooleanString;

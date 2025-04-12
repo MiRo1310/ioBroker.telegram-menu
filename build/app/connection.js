@@ -24,14 +24,14 @@ module.exports = __toCommonJS(connection_exports);
 var import_main = require("../main");
 var import_string = require("../lib/string");
 const checkIsTelegramActive = async (dataPoint) => {
-  await import_main._this.setState("info.connection", false, true);
-  const telegramInfoConnection = await import_main._this.getForeignStateAsync(dataPoint);
-  import_main._this.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
+  await import_main.adapter.setState("info.connection", false, true);
+  const telegramInfoConnection = await import_main.adapter.getForeignStateAsync(dataPoint);
+  import_main.adapter.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
   if (telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) {
-    await import_main._this.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
+    await import_main.adapter.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
   }
   if (!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val)) {
-    import_main._this.log.info("Telegram was found, but is not running. Please start!");
+    import_main.adapter.log.info("Telegram was found, but is not running. Please start!");
   }
   return !!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val);
 };

@@ -1,7 +1,7 @@
 import { sendToTelegram } from './telegram';
 import { checkTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
-import { _this } from '../main';
+import { adapter } from '../main';
 import { errorLogger } from './logging';
 import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
 import { jsonString, decomposeText } from '../lib/string';
@@ -16,7 +16,7 @@ const isDynamicValueToSet = async (value: string | number | boolean): Promise<st
     if (typeof value === 'string' && value.includes('{id:')) {
         const result = decomposeText(value, '{id:', '}');
         const id = result.substring.replace('{id:', '').replace('}', '');
-        const newValue = await _this.getForeignStateAsync(id);
+        const newValue = await adapter.getForeignStateAsync(id);
         if (newValue && newValue.val && typeof newValue.val === 'string') {
             return value.replace(result.substring, newValue.val);
         }
@@ -37,10 +37,10 @@ const setValue = async (
             : (valueToSet = await isDynamicValueToSet(value));
         await checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
             valueToSet = val;
-            _this.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
+            adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
 
             if (valueToSet !== undefined && valueToSet !== null) {
-                _this.setForeignState(id, valueToSet, ack);
+                adapter.setForeignState(id, valueToSet, ack);
             }
         });
     } catch (error: any) {
@@ -129,11 +129,11 @@ export const setState = async (
                 });
             }
             if (element.toggle) {
-                _this
+                adapter
                     .getForeignStateAsync(element.id)
                     .then(val => {
                         if (val) {
-                            _this.setForeignStateAsync(element.id, !val.val, ack).catch((e: any) => {
+                            adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e: any) => {
                                 errorLogger('Error setForeignStateAsync:', e);
                             });
                         }

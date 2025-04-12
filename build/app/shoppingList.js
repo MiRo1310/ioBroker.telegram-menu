@@ -40,15 +40,15 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
       idList = array[1];
       instance = array[2];
       idItem = array[3];
-      res = await import_main._this.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+      res = await import_main.adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
       if (res) {
         objData[user] = { idList };
-        import_main._this.log.debug(`Alexa-shoppinglist: ${idList}`);
+        import_main.adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
         if (!isSubscribed) {
           await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
           isSubscribed = true;
         }
-        await import_main._this.setForeignStateAsync(
+        await import_main.adapter.setForeignStateAsync(
           `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
           true,
           false
@@ -65,7 +65,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
         userListWithChatID,
         parse_mode: "true"
       });
-      import_main._this.log.debug("Cannot delete the Item");
+      import_main.adapter.log.debug("Cannot delete the Item");
       return;
     }
   } catch (e) {
@@ -78,9 +78,9 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
     const idList = objData[user].idList;
     await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
     await (0, import_messageIds.deleteMessageIds)(user, userListWithChatID, instanceTelegram, "last");
-    const result = await import_main._this.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
+    const result = await import_main.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result && result.val) {
-      import_main._this.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
+      import_main.adapter.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
       const resultJson = (0, import_jsonTable.createKeyboardFromJson)(result.val, null, newId, user);
       if (resultJson && resultJson.text && resultJson.keyboard) {

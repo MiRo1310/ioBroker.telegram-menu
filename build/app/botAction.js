@@ -26,9 +26,9 @@ var import_logging = require("./logging");
 const deleteMessageByBot = (instance, user, userListWithChatID, messageId, chat_id) => {
   try {
     if (chat_id) {
-      import_main._this.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
+      import_main.adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
     }
-    import_main._this.sendTo(instance, {
+    import_main.adapter.sendTo(instance, {
       deleteMessage: {
         options: {
           chat_id,

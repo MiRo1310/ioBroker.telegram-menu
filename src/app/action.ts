@@ -3,7 +3,7 @@ import { callSubMenu } from './subMenu.js';
 import { sendNav } from './sendNav.js';
 import { backMenuFunc } from './backMenu.js';
 import { errorLogger } from './logging.js';
-import { _this } from '../main.js';
+import { adapter } from '../main.js';
 import type {
     Actions,
     BindingObject,
@@ -49,7 +49,7 @@ const bindingFunc = async (
                 const key = item.split(':')[0];
                 const id = item.split(':')[1];
 
-                const result = await _this.getForeignStateAsync(id);
+                const result = await adapter.getForeignStateAsync(id);
                 if (result) {
                     bindingObject.values[key] = result.val?.toString() || '';
                 }
@@ -152,7 +152,7 @@ const idBySelector = async (
 
         const functions = selector.replace('functions=', '');
         let enums: string[] | undefined = [];
-        const result = await _this.getEnumsAsync();
+        const result = await adapter.getEnumsAsync();
 
         if (!result || !result['enum.functions'][`enum.functions.${functions}`]) {
             return;
@@ -162,14 +162,14 @@ const idBySelector = async (
             return;
         }
         const promises = enums.map(async (id: string) => {
-            const value = await _this.getForeignStateAsync(id);
+            const value = await adapter.getForeignStateAsync(id);
             if (value && value.val !== undefined && value.val !== null) {
                 let newText = text;
                 let res;
 
                 if (text.includes('{common.name}')) {
-                    res = await _this.getForeignObjectAsync(id);
-                    _this.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
+                    res = await adapter.getForeignObjectAsync(id);
+                    adapter.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
 
                     if (res && res.common.name) {
                         newText = newText.replace('{common.name}', res.common.name as string);
@@ -189,7 +189,7 @@ const idBySelector = async (
             } else {
                 text2Send += ' ';
             }
-            _this.log.debug(`text2send ${JSON.stringify(text2Send)}`);
+            adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
         });
         Promise.all(promises)
             .then(() => {
@@ -206,8 +206,8 @@ const idBySelector = async (
                     errorLogger('Error SendToTelegram:', e);
                 });
 
-                _this.log.debug(`TextToSend: ${text2Send}`);
-                _this.log.debug(`UserToSend: ${userToSend}`);
+                adapter.log.debug(`TextToSend: ${text2Send}`);
+                adapter.log.debug(`UserToSend: ${userToSend}`);
             })
             .catch(e => {
                 errorLogger('Error Promise:', e);
@@ -401,7 +401,7 @@ const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): s
 const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value as string)) {
-            _this.log.error(`Error: Value is not a number: ${value}`);
+            adapter.log.error(`Error: Value is not a number: ${value}`);
             return false;
         }
         return parseFloat(value as string);
@@ -410,7 +410,7 @@ const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string):
         if (value == 'true') {
             return true;
         }
-        _this.log.error(`Error: Value is not a boolean: ${value}`);
+        adapter.log.error(`Error: Value is not a boolean: ${value}`);
         return false;
     }
     return value;

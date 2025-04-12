@@ -37,7 +37,7 @@ const isDynamicValueToSet = async (value) => {
   if (typeof value === "string" && value.includes("{id:")) {
     const result = (0, import_string.decomposeText)(value, "{id:", "}");
     const id = result.substring.replace("{id:", "").replace("}", "");
-    const newValue = await import_main._this.getForeignStateAsync(id);
+    const newValue = await import_main.adapter.getForeignStateAsync(id);
     if (newValue && newValue.val && typeof newValue.val === "string") {
       return value.replace(result.substring, newValue.val);
     }
@@ -50,9 +50,9 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     SubmenuValuePriority ? valueToSet = modifiedValue(valueFromSubmenu, value) : valueToSet = await isDynamicValueToSet(value);
     await (0, import_utilities.checkTypeOfId)(id, valueToSet).then((val) => {
       valueToSet = val;
-      import_main._this.log.debug(`Value to Set: ${(0, import_string.jsonString)(valueToSet)}`);
+      import_main.adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(valueToSet)}`);
       if (valueToSet !== void 0 && valueToSet !== null) {
-        import_main._this.setForeignState(id, valueToSet, ack);
+        import_main.adapter.setForeignState(id, valueToSet, ack);
       }
     });
   } catch (error) {
@@ -125,9 +125,9 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         });
       }
       if (element.toggle) {
-        import_main._this.getForeignStateAsync(element.id).then((val) => {
+        import_main.adapter.getForeignStateAsync(element.id).then((val) => {
           if (val) {
-            import_main._this.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
+            import_main.adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
               (0, import_logging.errorLogger)("Error setForeignStateAsync:", e);
             });
           }

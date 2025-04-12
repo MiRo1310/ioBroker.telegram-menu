@@ -1,4 +1,4 @@
-import { _this } from '../main';
+import { adapter } from '../main';
 import { isDefined } from '../app/global';
 import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
@@ -19,7 +19,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
     let idFromText = '';
     if (!id) {
         if (!changedSubstring.includes('id:')) {
-            _this.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
+            adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
             return;
         }
 
@@ -31,7 +31,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
     if (!id && !idFromText) {
         return;
     }
-    const value = await _this.getForeignStateAsync(id || idFromText);
+    const value = await adapter.getForeignStateAsync(id || idFromText);
     let timeValue;
     let timeStringUser;
     if (key && value) {
@@ -91,12 +91,12 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
 
     return textToSend;
 };
-
+// TODO Check Usage of function
 const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): Promise<string> => {
     try {
         const substring = decomposeText(text, '{status:', '}').substring;
         let id, valueChange;
-        _this.log.debug(`Substring ${substring}`);
+        adapter.log.debug(`Substring ${substring}`);
         if (substring.includes("status:'id':")) {
             id = substring.split(':')[2].replace("'}", '').replace(/'/g, '').replace(/}/g, '');
 
@@ -106,10 +106,10 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
             valueChange = substring.split(':')[2] ? substring.split(':')[2].replace('}', '') !== 'false' : true;
         }
 
-        const stateValue = await _this.getForeignStateAsync(id);
+        const stateValue = await adapter.getForeignStateAsync(id);
 
         if (!stateValue) {
-            _this.log.debug(`State not found: ${id}`);
+            adapter.log.debug(`State not found: ${id}`);
             return '';
         }
 
@@ -120,13 +120,13 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
             return processTimeValue(text, val).replace(val, '');
         }
         if (!isDefined(stateValue.val)) {
-            _this.log.debug(`State Value is undefined: ${id}`);
+            adapter.log.debug(`State Value is undefined: ${id}`);
             return text.replace(substring, '');
         }
         if (!valueChange) {
             return text.replace(substring, stateValue.val.toString());
         }
-        const { newValue: val, textToSend, error } = getValueToExchange(text, stateValue.val);
+        const { newValue: val, textToSend, error } = getValueToExchange(text, stateValue.val, adapter);
         let newValue;
         if (!error) {
             text = textToSend;
@@ -134,13 +134,13 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
         } else {
             newValue = stateValue.val;
         }
-        _this.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-        _this.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
+        adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
+        adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
 
         return text.replace(substring, newValue.toString());
     } catch (e: any) {
-        _this.log.error(`Error checkStatus:${e.message}`);
-        _this.log.error(`Stack:${e.stack}`);
+        adapter.log.error(`Error checkStatus:${e.message}`);
+        adapter.log.error(`Stack:${e.stack}`);
 
         return '';
     }
@@ -150,7 +150,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
         if (!text) {
             return;
         }
-        _this.log.debug(`Text: ${text}`);
+        adapter.log.debug(`Text: ${text}`);
 
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
@@ -174,11 +174,11 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
                 text = 'Wähle eine Aktion';
             }
             if (convertedValue) {
-                await _this.setForeignStateAsync(id, convertedValue, ack);
+                await adapter.setForeignStateAsync(id, convertedValue, ack);
             }
         }
         if (text) {
-            _this.log.debug(`CheckStatusInfo: ${text}`);
+            adapter.log.debug(`CheckStatusInfo: ${text}`);
             return text;
         }
     } catch (e: any) {
@@ -191,8 +191,8 @@ async function checkTypeOfId(
     value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
 ): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
     try {
-        _this.log.debug(`Check Type of Id: ${id}`);
-        const obj = await _this.getForeignObjectAsync(id);
+        adapter.log.debug(`Check Type of Id: ${id}`);
+        const obj = await adapter.getForeignObjectAsync(id);
         const receivedType = typeof value;
         if (!obj || !value) {
             return value;
@@ -201,7 +201,7 @@ async function checkTypeOfId(
             return value;
         }
 
-        _this.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+        adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
 
         if (obj.common.type === 'boolean') {
             if (value == 'true') {

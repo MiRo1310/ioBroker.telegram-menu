@@ -1,7 +1,7 @@
 import { sendToTelegram } from './telegram';
 import { checkStatusInfo } from '../lib/utilities';
 import type { Part, UserListWithChatId } from '../types/types';
-import { _this } from '../main';
+import { adapter } from '../main';
 import { errorLogger } from './logging';
 
 async function sendNav(
@@ -14,7 +14,7 @@ async function sendNav(
 ): Promise<void> {
     try {
         if (userToSend) {
-            _this.log.debug('Send Nav to Telegram');
+            adapter.log.debug('Send Nav to Telegram');
             const nav = part.nav;
             const text = await checkStatusInfo(part.text as string);
 

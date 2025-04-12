@@ -10,7 +10,7 @@ import type {
     NavPart,
     BooleanString,
 } from '../types/types';
-import { _this } from '../main';
+import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 
 async function adapterStartMenuSend(
@@ -28,10 +28,10 @@ async function adapterStartMenuSend(
         const startSide = [startSides[menu]].toString();
 
         if (userActiveCheckbox[menu] && startSide != '-' && startSide != '') {
-            _this.log.debug(`Startseite: ${startSide}`);
+            adapter.log.debug(`Startseite: ${startSide}`);
             for (const user of menusWithUsers[menu]) {
                 backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, user);
-                _this.log.debug(`User list: ${jsonString(userListWithChatID)}`);
+                adapter.log.debug(`User list: ${jsonString(userListWithChatID)}`);
 
                 await sendToTelegram({
                     user: user,
@@ -46,10 +46,10 @@ async function adapterStartMenuSend(
             }
         } else {
             if (startSide == '-') {
-                _this.log.debug(`Menu "${menu}" is a Submenu.`);
+                adapter.log.debug(`Menu "${menu}" is a Submenu.`);
                 continue;
             }
-            _this.log.debug(`Menu "${menu}" is inactive.`);
+            adapter.log.debug(`Menu "${menu}" is inactive.`);
         }
     }
 }

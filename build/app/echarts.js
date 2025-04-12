@@ -36,7 +36,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
       if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
         return;
       }
-      import_main._this.sendTo(
+      import_main.adapter.sendTo(
         instanceOfEchart,
         {
           preset: echart.preset,

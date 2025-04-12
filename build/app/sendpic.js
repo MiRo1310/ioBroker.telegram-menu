@@ -39,10 +39,10 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
           `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
           (error, stdout, stderr) => {
             if (stdout) {
-              import_main._this.log.debug(`Stdout: ${stdout}`);
+              import_main.adapter.log.debug(`Stdout: ${stdout}`);
             }
             if (stderr) {
-              import_main._this.log.debug(`Stderr: ${stderr}`);
+              import_main.adapter.log.debug(`Stderr: ${stderr}`);
             }
             if (error) {
               (0, import_logging.errorLogger)("Error in exec:", error);
@@ -50,17 +50,17 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
             }
           }
         );
-        import_main._this.log.debug(`Delay Time: ${delay}`);
+        import_main.adapter.log.debug(`Delay Time: ${delay}`);
         timeoutKey += 1;
         if (!(0, import_global.checkDirectoryIsOk)(directoryPicture)) {
           return;
         }
         path = `${directoryPicture}${fileName}`;
-        import_main._this.log.debug(`Path: ${path}`);
+        import_main.adapter.log.debug(`Path: ${path}`);
       } else {
         return;
       }
-      const timeout = import_main._this.setTimeout(
+      const timeout = import_main.adapter.setTimeout(
         async () => {
           await (0, import_telegram.sendToTelegram)({
             user: userToSend,
@@ -74,10 +74,10 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
           let timeoutToClear = [];
           timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
           timeoutToClear.forEach((item) => {
-            import_main._this.clearTimeout(item.timeout);
+            import_main.adapter.clearTimeout(item.timeout);
           });
           timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-          import_main._this.log.debug("Picture sent");
+          import_main.adapter.log.debug("Picture sent");
         },
         parseInt(String(element.delay))
       );

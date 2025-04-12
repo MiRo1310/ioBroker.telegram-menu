@@ -1,6 +1,6 @@
 import { errorLogger } from './logging';
 import type { LastText, ValArray, KeyboardItem, Keyboard } from '../types/types';
-import { _this } from '../main';
+import { adapter } from '../main';
 import { decomposeText, jsonString } from '../lib/string';
 import { parseJSON } from './global';
 
@@ -25,7 +25,7 @@ const createKeyboardFromJson = (
             idShoppingList = true;
         }
 
-        _this.log.debug(`Val: ${val} with type: ${typeof val}`);
+        adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
 
         const valArray: ValArray[] | undefined = parseJSON(val);
         if (!valArray) {
@@ -68,7 +68,7 @@ const createKeyboardFromJson = (
             keyboard.inline_keyboard.push(rowArray);
         });
 
-        _this.log.debug(`Keyboard: ${jsonString(keyboard)}`);
+        adapter.log.debug(`Keyboard: ${jsonString(keyboard)}`);
 
         return { text: headline, keyboard };
     } catch (err: any) {
@@ -98,7 +98,7 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
                 }
             });
         });
-        _this.log.debug(`Length of rows: ${jsonString(lengthArray)}`);
+        adapter.log.debug(`Length of rows: ${jsonString(lengthArray)}`);
         const headline = array[2];
         let textTable = textToSend.replace(substring, '').trim();
         if (textTable != '') {

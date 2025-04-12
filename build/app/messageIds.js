@@ -34,11 +34,11 @@ async function saveMessageIds(state, instanceTelegram) {
     let requestMessageId = {};
     let requestMessageIdObj = null;
     if (!isDeleting) {
-      requestMessageIdObj = await import_main._this.getStateAsync("communication.requestIds");
+      requestMessageIdObj = await import_main.adapter.getStateAsync("communication.requestIds");
     }
     isDeleting = false;
-    const requestUserIdObj = await import_main._this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
-    const request = await import_main._this.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
+    const requestUserIdObj = await import_main.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+    const request = await import_main.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
     if (!(requestUserIdObj && requestUserIdObj.val)) {
       return;
     }
@@ -54,7 +54,7 @@ async function saveMessageIds(state, instanceTelegram) {
       });
     }
     requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
-    await import_main._this.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
+    await import_main.adapter.setState("communication.requestIds", JSON.stringify(requestMessageId), true);
   } catch (e) {
     (0, import_logging.errorLogger)("Error saveMessageIds:", e);
   }
@@ -74,8 +74,8 @@ const removeMessageFromList = ({
 };
 async function deleteMessageIds(user, userListWithChatID, instanceTelegram, whatShouldDelete) {
   try {
-    const requestMessageIdObj = await import_main._this.getStateAsync("communication.requestIds");
-    const lastMessageId = await import_main._this.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
+    const requestMessageIdObj = await import_main.adapter.getStateAsync("communication.requestIds");
+    const lastMessageId = await import_main.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
     if (!requestMessageIdObj || typeof requestMessageIdObj.val !== "string" || !JSON.parse(requestMessageIdObj.val)) {
       return;
     }
@@ -114,7 +114,7 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
       }
       copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
     });
-    await import_main._this.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
+    await import_main.adapter.setState("communication.requestIds", JSON.stringify(copyMessageIds), true);
   } catch (e) {
     (0, import_logging.errorLogger)("Error deleteMessageIds:", e);
   }

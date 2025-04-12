@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
-const main_1 = require("../main");
 const config_1 = require("../config/config");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
@@ -45,7 +44,7 @@ function decomposeText(text, searchValue, secondValue) {
         textWithoutSubstring: textWithoutSubstring,
     };
 }
-const getValueToExchange = (textToSend, val) => {
+const getValueToExchange = (textToSend, val, _this) => {
     if (textToSend.includes(config_1.config.replacer.change.start)) {
         const { start, end, command } = config_1.config.replacer.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
@@ -59,7 +58,7 @@ const getValueToExchange = (textToSend, val) => {
                 error: false,
             };
         }
-        main_1._this.log.error(`There is a error in your input: ${modifiedString}`);
+        _this?.log.error(`There is a error in your input: ${modifiedString}`);
         return { newValue: val, textToSend, error: true };
     }
     return { textToSend, newValue: val, error: false };

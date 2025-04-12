@@ -3,7 +3,7 @@ import { bindingFunc, calcValue, idBySelector, roundValue } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc } from '../lib/utilities';
 import { isDefined } from './global';
-import { _this } from '../main';
+import { adapter } from '../main';
 import type { Part, PrimitiveType, UserListWithChatId } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
 import { decomposeText, getValueToExchange, jsonString } from '../lib/string';
@@ -23,7 +23,7 @@ function getState(
 
     part.getData?.forEach(async element => {
         try {
-            _this.log.debug(`Get Value ID: ${element.id}`);
+            adapter.log.debug(`Get Value ID: ${element.id}`);
             const specifiedSelektor = 'functions=';
             const id = element.id;
             let textToSend = '';
@@ -43,7 +43,7 @@ function getState(
             }
 
             if (element.text.includes('binding:')) {
-                _this.log.debug('Binding');
+                adapter.log.debug('Binding');
                 await bindingFunc(
                     element.text,
                     userToSend,
@@ -56,13 +56,13 @@ function getState(
                 return;
             }
 
-            await _this.getForeignStateAsync(id).then(async (state?: ioBroker.State | null) => {
+            await adapter.getForeignStateAsync(id).then(async (state?: ioBroker.State | null) => {
                 if (!isDefined(state)) {
-                    _this.log.error('The state is empty!');
+                    adapter.log.error('The state is empty!');
                     return;
                 }
                 const valueForJson: string = state.val?.toString() ?? '';
-                _this.log.debug(`State: ${jsonString(state)}`);
+                adapter.log.debug(`State: ${jsonString(state)}`);
 
                 let val: PrimitiveType = valueForJson.replace(/\\/g, '').replace(/"/g, '');
 
@@ -86,13 +86,13 @@ function getState(
                             textToSend = result.textToSend;
                             val = result.val;
 
-                            _this.log.debug(`TextToSend: ${textToSend} val: ${val}`);
+                            adapter.log.debug(`TextToSend: ${textToSend} val: ${val}`);
                         }
                     }
                     if (textToSend.includes('round:')) {
                         const result = roundValue(val, textToSend);
                         if (result) {
-                            _this.log.debug(
+                            adapter.log.debug(
                                 `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`,
                             );
                             val = result.val;
@@ -115,7 +115,7 @@ function getState(
                                 });
                                 return;
                             }
-                            _this.log.debug('Cannot create a Text-Table');
+                            adapter.log.debug('Cannot create a Text-Table');
                         } else {
                             const result = createKeyboardFromJson(valueForJson, textToSend, element.id, userToSend);
                             if (valueForJson && valueForJson.length > 0) {
@@ -141,19 +141,19 @@ function getState(
                                 userListWithChatID: userListWithChatID,
                                 parse_mode: parse_mode,
                             });
-                            _this.log.debug('The state is empty!');
+                            adapter.log.debug('The state is empty!');
                             return;
                         }
                     }
 
-                    const { newValue: _val, textToSend: _text, error } = getValueToExchange(textToSend, val);
+                    const { newValue: _val, textToSend: _text, error } = getValueToExchange(textToSend, val, adapter);
 
                     val = _val;
                     textToSend = _text;
                     if (!error) {
-                        _this.log.debug(`Value Changed to: ${textToSend}`);
+                        adapter.log.debug(`Value Changed to: ${textToSend}`);
                     } else {
-                        _this.log.debug(`No Change`);
+                        adapter.log.debug(`No Change`);
                     }
                     if (textToSend.indexOf('&&') != -1) {
                         text += `${textToSend.replace('&&', val.toString())}${newline}`;
@@ -163,7 +163,7 @@ function getState(
                 } else {
                     text += `${val} ${newline}`;
                 }
-                _this.log.debug(`Text: ${text}`);
+                adapter.log.debug(`Text: ${text}`);
 
                 if (i == part.getData?.length) {
                     if (userToSend) {

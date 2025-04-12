@@ -4,6 +4,7 @@ const string_1 = require("../../src/lib/string");
 const chai_1 = require("chai");
 const testing_1 = require("@iobroker/testing");
 const { adapter, database } = testing_1.utils.unit.createMocks({});
+const _this = adapter;
 describe("String", () => {
     afterEach(() => {
         // The mocks keep track of all method invocations - reset them after each single test
@@ -65,8 +66,8 @@ describe("String", () => {
     it("soll den ursprünglichen Wert zurückgeben, wenn JSON ungültig ist", () => {
         const textToSend = 'change{"true":"an","false":aus}';
         const val = "true";
-        const result = (0, string_1.getValueToExchange)(textToSend, val);
-        (0, chai_1.expect)(adapter.log.error.calledOnce).to.be.true;
+        const result = (0, string_1.getValueToExchange)(textToSend, val, _this);
+        (0, chai_1.expect)(_this.log.error.calledOnce).to.be.true;
         (0, chai_1.expect)(result).to.deep.equal({
             newValue: val,
             textToSend,

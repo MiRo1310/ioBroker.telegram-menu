@@ -29,10 +29,10 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
   for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
     if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
-      import_main._this.log.debug(`Startseite: ${startSide}`);
+      import_main.adapter.log.debug(`Startseite: ${startSide}`);
       for (const user of menusWithUsers[menu]) {
         (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
-        import_main._this.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
+        import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
           user,
           textToSend: menuData.data[menu][startSide].text,
@@ -46,10 +46,10 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
       }
     } else {
       if (startSide == "-") {
-        import_main._this.log.debug(`Menu "${menu}" is a Submenu.`);
+        import_main.adapter.log.debug(`Menu "${menu}" is a Submenu.`);
         continue;
       }
-      import_main._this.log.debug(`Menu "${menu}" is inactive.`);
+      import_main.adapter.log.debug(`Menu "${menu}" is inactive.`);
     }
   }
 }
