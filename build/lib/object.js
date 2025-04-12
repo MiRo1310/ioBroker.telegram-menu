@@ -16,17 +16,14 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var global_exports = {};
-__export(global_exports, {
-  isFalsy: () => isFalsy,
-  isTruthy: () => isTruthy
+var object_exports = {};
+__export(object_exports, {
+  deleteDoubleEntriesInArray: () => deleteDoubleEntriesInArray
 });
-module.exports = __toCommonJS(global_exports);
-const isTruthy = (value) => ["1", 1, true, "true"].includes(value);
-const isFalsy = (value) => ["0", 0, false, "false", void 0, null].includes(value);
+module.exports = __toCommonJS(object_exports);
+const deleteDoubleEntriesInArray = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  isFalsy,
-  isTruthy
+  deleteDoubleEntriesInArray
 });
-//# sourceMappingURL=global.js.map
+//# sourceMappingURL=object.js.map

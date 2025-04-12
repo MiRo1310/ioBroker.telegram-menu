@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports._subscribeAndUnSubscribeForeignStatesAsync = _subscribeAndUnSubscribeForeignStatesAsync;
 exports._subscribeForeignStatesAsync = _subscribeForeignStatesAsync;
 const main_1 = require("../main");
-const global_1 = require("./global");
 const string_1 = require("../lib/string");
+const object_1 = require("../lib/object");
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
     if (obj.id) {
         main_1.adapter.log.debug(`Subscribe to ${obj.id}`);
@@ -16,7 +16,7 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
     }
 }
 async function _subscribeForeignStatesAsync(array) {
-    array = (0, global_1.deleteDoubleEntriesInArray)(array);
+    array = (0, object_1.deleteDoubleEntriesInArray)(array);
     for (const element of array) {
         await main_1.adapter.subscribeForeignStatesAsync(element);
     }
