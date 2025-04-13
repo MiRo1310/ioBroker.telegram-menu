@@ -146,10 +146,10 @@ const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): P
         return '';
     }
 };
-const checkStatusInfo = async (text: string): Promise<string | undefined> => {
+const checkStatusInfo = async (text: string): Promise<string> => {
     try {
         if (!text) {
-            return;
+            return '';
         }
         adapter.log.debug(`Text: ${text}`);
 
@@ -182,8 +182,10 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             adapter.log.debug(`CheckStatusInfo: ${text}`);
             return text;
         }
+        return '';
     } catch (e: any) {
         errorLogger('Error checkStatusInfo:', e, adapter);
+        return '';
     }
 };
 

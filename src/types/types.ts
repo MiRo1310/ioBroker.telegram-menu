@@ -413,3 +413,20 @@ export interface Telegram extends TelegramParams {
     userListWithChatID: UserListWithChatId[];
     parseMode?: boolean;
 }
+
+export interface TelegramObjectWithOutKeyBoard {
+    text: string;
+    chatId: string;
+    parseMode: ParseModeType;
+}
+
+export interface TelegramObjectWithKeyboard {
+    chatId: string;
+    parseMode: ParseModeType;
+    text: string;
+    reply_markup: {
+        keyboard: Keyboard;
+        resizeKeyboard: boolean;
+        oneTimeKeyboard: boolean;
+    };
+}
