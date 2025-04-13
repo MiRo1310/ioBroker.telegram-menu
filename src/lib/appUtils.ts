@@ -1,8 +1,9 @@
 import { config } from '../config/config';
 import type { Adapter, GetTimeWithPad, MenusWithUsers, ParseModeType } from '../types/types';
-import { decomposeText } from './string';
+import { decomposeText, removeQuotes } from './string';
 import { errorLogger } from '../app/logging';
 import { evaluate } from './math';
+import { isTruthy } from './utils';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -73,3 +74,20 @@ export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, st
     }
     return string;
 };
+
+export function statusIdAndParams(substringExcludeSearch: string): { id: string; shouldChange: boolean } {
+    if (substringExcludeSearch.includes(config.status.oldWithId)) {
+        const splitArray = substringExcludeSearch.split(':');
+        console.log(splitArray);
+        return {
+            id: removeQuotes(splitArray[1]), //'id':'ID':true
+            shouldChange: isTruthy(removeQuotes(splitArray[2])),
+        };
+    }
+    const splitArray = substringExcludeSearch.split(':');
+
+    return {
+        id: removeQuotes(splitArray[0]), //'ID':true
+        shouldChange: isTruthy(removeQuotes(splitArray[1])),
+    };
+}

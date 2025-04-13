@@ -34,23 +34,13 @@ exports.processTimeIdLc = processTimeIdLc;
 // TODO Check Usage of function
 const checkStatus = async (text) => {
     const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(text, config_1.config.status.start, config_1.config.status.end); //{status:'ID':true} new | old {status:'id':'ID':true}
-    let id, valueChange;
-    if (substringExcludeSearch.includes(config_1.config.status.oldWithId)) {
-        const splitArray = substringExcludeSearch.split(':');
-        id = splitArray[1].replace(/'/g, ''); //'id':'ID':true
-        valueChange = (0, utils_1.isTruthy)(splitArray[2]);
-    }
-    else {
-        const splitArray = substringExcludeSearch.split(':');
-        id = splitArray[0].replace(/'/g, ''); //'ID':true
-        valueChange = (0, utils_1.isTruthy)(splitArray[1]);
-    }
+    const { id, shouldChange } = (0, appUtils_1.statusIdAndParams)(substringExcludeSearch);
     const stateValue = await main_1.adapter.getForeignStateAsync(id);
     if (!stateValue) {
         main_1.adapter.log.debug(`State not found: ${id}`);
         return '';
     }
-    if (text.includes('{time}')) {
+    if (text.includes(config_1.config.time)) {
         text = text.replace(substring, '');
         const val = String(stateValue.val);
         return (0, time_1.integrateTimeIntoText)(text, val).replace(val, '');
@@ -59,7 +49,7 @@ const checkStatus = async (text) => {
         main_1.adapter.log.debug(`State Value is undefined: ${id}`);
         return text.replace(substring, '');
     }
-    if (!valueChange) {
+    if (!shouldChange) {
         return text.replace(substring, stateValue.val.toString());
     }
     const { newValue: val, textToSend, error } = (0, string_1.getValueToExchange)(main_1.adapter, text, stateValue.val);

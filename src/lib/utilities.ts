@@ -4,7 +4,7 @@ import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { getTypeofTimestamp, timeStringReplacer } from './appUtils';
+import { getTypeofTimestamp, statusIdAndParams, timeStringReplacer } from './appUtils';
 
 const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
@@ -41,20 +41,8 @@ const processTimeIdLc = async (textToSend: string, id?: string): Promise<string>
 // TODO Check Usage of function
 const checkStatus = async (text: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //{status:'ID':true} new | old {status:'id':'ID':true}
-    let id: string;
-    let shouldChange: boolean;
 
-    if (substringExcludeSearch.includes(config.status.oldWithId)) {
-        const splitArray = substringExcludeSearch.split(':');
-
-        id = removeQuotes(splitArray[1]); //'id':'ID':true
-        shouldChange = isTruthy(removeQuotes(splitArray[2]));
-    } else {
-        const splitArray = substringExcludeSearch.split(':');
-
-        id = removeQuotes(splitArray[0]); //'ID':true
-        shouldChange = isTruthy(removeQuotes(splitArray[1]));
-    }
+    const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
 
     const stateValue = await adapter.getForeignStateAsync(id);
 

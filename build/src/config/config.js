@@ -27,7 +27,7 @@ exports.config = {
     status: {
         start: '{status:',
         end: '}',
-        oldWithId: "status:'id':",
+        oldWithId: "'id':",
     },
 };
 //# sourceMappingURL=config.js.map

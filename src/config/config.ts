@@ -25,6 +25,6 @@ export const config = {
     status: {
         start: '{status:',
         end: '}',
-        oldWithId: "status:'id':",
+        oldWithId: "'id':",
     },
 };

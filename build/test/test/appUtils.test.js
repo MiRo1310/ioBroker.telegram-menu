@@ -195,4 +195,46 @@ describe('getTypeofTimestamp', () => {
         (0, chai_1.expect)(result).to.equal('ts');
     });
 });
+describe('statusIdAndParams', () => {
+    it('should parse id and shouldChange correctly when oldWithId is present', () => {
+        const input = "'id':'test.0.test':true";
+        const result = (0, appUtils_1.statusIdAndParams)(input);
+        (0, chai_1.expect)(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChange: true,
+        });
+    });
+    it('should parse id and shouldChange correctly when oldWithId is not present', () => {
+        const input = '"test.0.test":true';
+        const result = (0, appUtils_1.statusIdAndParams)(input);
+        (0, chai_1.expect)(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChange: true,
+        });
+    });
+    it('should handle input with missing shouldChange value', () => {
+        const input = "'id':'test.0.test':";
+        const result = (0, appUtils_1.statusIdAndParams)(input);
+        (0, chai_1.expect)(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChange: false,
+        });
+    });
+    it('should handle input with missing id value', () => {
+        const input = ":true";
+        const result = (0, appUtils_1.statusIdAndParams)(input);
+        (0, chai_1.expect)(result).to.deep.equal({
+            id: '',
+            shouldChange: true,
+        });
+    });
+    it('should handle empty input gracefully', () => {
+        const input = ':';
+        const result = (0, appUtils_1.statusIdAndParams)(input);
+        (0, chai_1.expect)(result).to.deep.equal({
+            id: '',
+            shouldChange: false,
+        });
+    });
+});
 //# sourceMappingURL=appUtils.test.js.map

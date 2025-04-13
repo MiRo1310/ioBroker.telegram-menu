@@ -2,11 +2,14 @@ import {
     calcValue,
     checkOneLineValue,
     getListOfMenusIncludingUser,
-    getParseMode, getTypeofTimestamp,
-    roundValue
+    getParseMode,
+    getTypeofTimestamp,
+    roundValue,
+    statusIdAndParams
 } from "../../src/lib/appUtils";
 import {expect} from "chai";
 import {utils} from "@iobroker/testing";
+import {config} from '../../src/config/config';
 
 const { adapter } = utils.unit.createMocks({});
 
@@ -223,5 +226,53 @@ describe('getTypeofTimestamp', () => {
     it('should return "ts" when the array contains unrelated values', () => {
         const result = getTypeofTimestamp('random value');
         expect(result).to.equal('ts');
+    });
+});
+
+describe('statusIdAndParams', () => {
+    it('should parse id and shouldChange correctly when oldWithId is present', () => {
+
+        const input = "'id':'test.0.test':true";
+        const result = statusIdAndParams(input);
+        expect(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChange: true,
+        });
+    });
+
+    it('should parse id and shouldChange correctly when oldWithId is not present', () => {
+        const input = '"test.0.test":true';
+        const result = statusIdAndParams(input);
+        expect(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChange: true,
+        });
+    });
+
+    it('should handle input with missing shouldChange value', () => {
+        const input = "'id':'test.0.test':";
+        const result = statusIdAndParams(input);
+        expect(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChange: false,
+        });
+    });
+
+    it('should handle input with missing id value', () => {
+        const input = ":true";
+        const result = statusIdAndParams(input);
+        expect(result).to.deep.equal({
+            id: '',
+            shouldChange: true,
+        });
+    });
+
+    it('should handle empty input gracefully', () => {
+        const input = ':';
+        const result = statusIdAndParams(input);
+        expect(result).to.deep.equal({
+            id: '',
+            shouldChange: false,
+        });
     });
 });

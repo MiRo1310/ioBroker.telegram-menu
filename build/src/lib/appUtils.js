@@ -3,9 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
+exports.statusIdAndParams = statusIdAndParams;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 const math_1 = require("./math");
+const utils_1 = require("./utils");
 const checkOneLineValue = (text) => !text.includes(config_1.config.rowSplitter) ? `${text} ${config_1.config.rowSplitter}` : text;
 exports.checkOneLineValue = checkOneLineValue;
 function calcValue(textToSend, val, adapter) {
@@ -58,4 +60,19 @@ const timeStringReplacer = ({ d, h, m, ms, y, s, mo }, string) => {
     return string;
 };
 exports.timeStringReplacer = timeStringReplacer;
+function statusIdAndParams(substringExcludeSearch) {
+    if (substringExcludeSearch.includes(config_1.config.status.oldWithId)) {
+        const splitArray = substringExcludeSearch.split(':');
+        console.log(splitArray);
+        return {
+            id: (0, string_1.removeQuotes)(splitArray[1]), //'id':'ID':true
+            shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(splitArray[2])),
+        };
+    }
+    const splitArray = substringExcludeSearch.split(':');
+    return {
+        id: (0, string_1.removeQuotes)(splitArray[0]), //'ID':true
+        shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(splitArray[1])),
+    };
+}
 //# sourceMappingURL=appUtils.js.map
