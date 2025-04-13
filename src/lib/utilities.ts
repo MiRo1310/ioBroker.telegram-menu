@@ -4,19 +4,17 @@ import { errorLogger } from '../app/logging';
 import { integrateTimeIntoText } from './time';
 import type { ProzessTimeValue } from '../types/types';
 import { adapter } from '../main';
+import { config } from '../config/config';
+import { getTypeofTimestamp } from './appUtils';
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
-    let key = '';
-    const { substring } = decomposeText(textToSend, '{time.', '}');
+    const { substring } = decomposeText(textToSend, config.timestamp.start, config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const array = substring.split(',');
+
     let changedSubstring = substring;
     changedSubstring = changedSubstring.replace(array[0], '');
+    const key = getTypeofTimestamp(array[0]);
 
-    if (array[0].includes('lc')) {
-        key = 'lc';
-    } else if (array[0].includes('ts')) {
-        key = 'ts';
-    }
     let idFromText = '';
     if (!id) {
         if (!changedSubstring.includes('id:')) {
@@ -37,7 +35,7 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
     let timeStringUser;
     if (key && value) {
         timeStringUser = changedSubstring.replace(',(', '').replace(')', '').replace('}', '');
-        timeValue = value[key as keyof ioBroker.StateValue];
+        timeValue = value[key];
     }
     if (!timeValue) {
         return;

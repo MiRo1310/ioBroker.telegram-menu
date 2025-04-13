@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
+exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
-exports.getParseMode = getParseMode;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 const logging_1 = require("../app/logging");
@@ -45,7 +44,8 @@ const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
     return menus;
 };
 exports.getListOfMenusIncludingUser = getListOfMenusIncludingUser;
-function getParseMode(val = false) {
-    return val ? 'HTML' : 'Markdown';
-}
+const getParseMode = (val = false) => (val ? 'HTML' : 'Markdown');
+exports.getParseMode = getParseMode;
+const getTypeofTimestamp = (val) => (val.includes('lc') ? 'lc' : 'ts');
+exports.getTypeofTimestamp = getTypeofTimestamp;
 //# sourceMappingURL=appUtils.js.map

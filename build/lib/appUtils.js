@@ -22,6 +22,7 @@ __export(appUtils_exports, {
   checkOneLineValue: () => checkOneLineValue,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getParseMode: () => getParseMode,
+  getTypeofTimestamp: () => getTypeofTimestamp,
   roundValue: () => roundValue
 });
 module.exports = __toCommonJS(appUtils_exports);
@@ -69,15 +70,15 @@ const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
   }
   return menus;
 };
-function getParseMode(val = false) {
-  return val ? "HTML" : "Markdown";
-}
+const getParseMode = (val = false) => val ? "HTML" : "Markdown";
+const getTypeofTimestamp = (val) => val.includes("lc") ? "lc" : "ts";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
   getListOfMenusIncludingUser,
   getParseMode,
+  getTypeofTimestamp,
   roundValue
 });
 //# sourceMappingURL=appUtils.js.map

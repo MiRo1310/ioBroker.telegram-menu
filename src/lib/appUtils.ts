@@ -62,6 +62,6 @@ export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, user
     return menus;
 };
 
-export function getParseMode(val = false): ParseModeType {
-    return val ? 'HTML' : 'Markdown';
-}
+export const getParseMode = (val = false): ParseModeType => (val ? 'HTML' : 'Markdown');
+
+export const getTypeofTimestamp = (val: string): 'lc' | 'ts' => (val.includes('lc') ? 'lc' : 'ts');

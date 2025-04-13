@@ -42,6 +42,10 @@ const config = {
   round: {
     start: "{round:",
     end: "}"
+  },
+  timestamp: {
+    start: "{time.",
+    end: "}"
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

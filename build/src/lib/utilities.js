@@ -7,18 +7,14 @@ const string_1 = require("./string");
 const logging_1 = require("../app/logging");
 const time_1 = require("./time");
 const main_1 = require("../main");
+const config_1 = require("../config/config");
+const appUtils_1 = require("./appUtils");
 const processTimeIdLc = async (textToSend, id) => {
-    let key = '';
-    const { substring } = (0, string_1.decomposeText)(textToSend, '{time.', '}');
+    const { substring } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const array = substring.split(',');
     let changedSubstring = substring;
     changedSubstring = changedSubstring.replace(array[0], '');
-    if (array[0].includes('lc')) {
-        key = 'lc';
-    }
-    else if (array[0].includes('ts')) {
-        key = 'ts';
-    }
+    const key = (0, appUtils_1.getTypeofTimestamp)(array[0]);
     let idFromText = '';
     if (!id) {
         if (!changedSubstring.includes('id:')) {
@@ -144,7 +140,7 @@ const checkStatus = async (text, processTimeValue) => {
 const checkStatusInfo = async (text) => {
     try {
         if (!text) {
-            return;
+            return '';
         }
         main_1.adapter.log.debug(`Text: ${text}`);
         if (text.includes('{status:')) {
@@ -173,9 +169,11 @@ const checkStatusInfo = async (text) => {
             main_1.adapter.log.debug(`CheckStatusInfo: ${text}`);
             return text;
         }
+        return '';
     }
     catch (e) {
         (0, logging_1.errorLogger)('Error checkStatusInfo:', e, main_1.adapter);
+        return '';
     }
 };
 exports.checkStatusInfo = checkStatusInfo;

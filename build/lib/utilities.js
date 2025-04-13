@@ -28,17 +28,14 @@ var import_string = require("./string");
 var import_logging = require("../app/logging");
 var import_time = require("./time");
 var import_main = require("../main");
+var import_config = require("../config/config");
+var import_appUtils = require("./appUtils");
 const processTimeIdLc = async (textToSend, id) => {
-  let key = "";
-  const { substring } = (0, import_string.decomposeText)(textToSend, "{time.", "}");
+  const { substring } = (0, import_string.decomposeText)(textToSend, import_config.config.timestamp.start, import_config.config.timestamp.end);
   const array = substring.split(",");
   let changedSubstring = substring;
   changedSubstring = changedSubstring.replace(array[0], "");
-  if (array[0].includes("lc")) {
-    key = "lc";
-  } else if (array[0].includes("ts")) {
-    key = "ts";
-  }
+  const key = (0, import_appUtils.getTypeofTimestamp)(array[0]);
   let idFromText = "";
   if (!id) {
     if (!changedSubstring.includes("id:")) {

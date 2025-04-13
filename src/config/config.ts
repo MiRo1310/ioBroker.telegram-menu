@@ -18,4 +18,8 @@ export const config = {
         start: '{round:',
         end: '}',
     },
+    timestamp: {
+        start: '{time.',
+        end: '}',
+    },
 };

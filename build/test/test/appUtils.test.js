@@ -177,4 +177,22 @@ describe('getParseMode', () => {
         (0, chai_1.expect)(result).to.equal('Markdown');
     });
 });
+describe('getTypeofTimestamp', () => {
+    it('should return "lc" when the array contains "lc"', () => {
+        const result = (0, appUtils_1.getTypeofTimestamp)('lc ts');
+        (0, chai_1.expect)(result).to.equal('lc');
+    });
+    it('should return "ts" when the array does not contain "lc" but contains "ts"', () => {
+        const result = (0, appUtils_1.getTypeofTimestamp)('ts');
+        (0, chai_1.expect)(result).to.equal('ts');
+    });
+    it('should return "ts" when the array is empty or does not contain "lc" or "ts"', () => {
+        const result = (0, appUtils_1.getTypeofTimestamp)("");
+        (0, chai_1.expect)(result).to.equal('ts');
+    });
+    it('should return "ts" when the array contains unrelated values', () => {
+        const result = (0, appUtils_1.getTypeofTimestamp)('random value');
+        (0, chai_1.expect)(result).to.equal('ts');
+    });
+});
 //# sourceMappingURL=appUtils.test.js.map

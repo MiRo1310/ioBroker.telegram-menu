@@ -2,7 +2,7 @@ import {
     calcValue,
     checkOneLineValue,
     getListOfMenusIncludingUser,
-    getParseMode,
+    getParseMode, getTypeofTimestamp,
     roundValue
 } from "../../src/lib/appUtils";
 import {expect} from "chai";
@@ -200,5 +200,28 @@ describe('getParseMode', () => {
     it('should return "Markdown" when the input is undefined', () => {
         const result = getParseMode();
         expect(result).to.equal('Markdown');
+    });
+});
+
+
+describe('getTypeofTimestamp', () => {
+    it('should return "lc" when the array contains "lc"', () => {
+        const result = getTypeofTimestamp('lc ts');
+        expect(result).to.equal('lc');
+    });
+
+    it('should return "ts" when the array does not contain "lc" but contains "ts"', () => {
+        const result = getTypeofTimestamp('ts');
+        expect(result).to.equal('ts');
+    });
+
+    it('should return "ts" when the array is empty or does not contain "lc" or "ts"', () => {
+        const result = getTypeofTimestamp("");
+        expect(result).to.equal('ts');
+    });
+
+    it('should return "ts" when the array contains unrelated values', () => {
+        const result = getTypeofTimestamp('random value');
+        expect(result).to.equal('ts');
     });
 });
