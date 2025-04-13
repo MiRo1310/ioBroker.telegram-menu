@@ -1,5 +1,11 @@
 import { config } from '../config/config';
-import type { Adapter, ExchangeValueReturn, PrimitiveType, StringReplacerObj } from '../types/types';
+import type {
+    Adapter,
+    DecomposeTextReturnType,
+    ExchangeValueReturn,
+    PrimitiveType,
+    StringReplacerObj,
+} from '../types/types';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
@@ -29,20 +35,18 @@ export const validateNewLine = (text?: string): string => {
         .replace(/\\(?!n)/g, ''); // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden
 };
 
-export function decomposeText(
-    text: string,
-    searchValue: string,
-    secondValue: string,
-): { startindex: number; endindex: number; substring: string; textWithoutSubstring: string } {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
+export function decomposeText(text: string, firstSearch: string, secondSearch: string): DecomposeTextReturnType {
+    const startindex = text.indexOf(firstSearch);
+    const endindex = text.indexOf(secondSearch, startindex);
+    const substring = text.substring(startindex, endindex + secondSearch.length);
+    const substringExcludedSearch = stringReplacer(substring, [firstSearch, secondSearch]);
     const textWithoutSubstring = text.replace(substring, '').trim();
     return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
+        startindex,
+        endindex,
+        substring,
+        textWithoutSubstring,
+        substringExcludedSearch,
     };
 }
 

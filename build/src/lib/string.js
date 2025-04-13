@@ -33,16 +33,18 @@ const validateNewLine = (text) => {
         .replace(/\\(?!n)/g, ''); // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden
 };
 exports.validateNewLine = validateNewLine;
-function decomposeText(text, searchValue, secondValue) {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
+function decomposeText(text, firstSearch, secondSearch) {
+    const startindex = text.indexOf(firstSearch);
+    const endindex = text.indexOf(secondSearch, startindex);
+    const substring = text.substring(startindex, endindex + secondSearch.length);
+    const substringExcludedSearch = stringReplacer(substring, [firstSearch, secondSearch]);
     const textWithoutSubstring = text.replace(substring, '').trim();
     return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
+        startindex,
+        endindex,
+        substring,
+        textWithoutSubstring,
+        substringExcludedSearch,
     };
 }
 const getValueToExchange = (adapter, textToSend, val) => {

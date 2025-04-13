@@ -42,7 +42,6 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         await (0, telegram_js_1.sendToTelegram)({
             user: userToSend,
             textToSend: value,
-            keyboard: undefined,
             instance: telegramInstance,
             resize_keyboard: one_time_keyboard,
             one_time_keyboard: resize_keyboard,

@@ -428,3 +428,11 @@ export interface StringReplacerObj {
     val: string;
     newValue: string;
 }
+
+export interface DecomposeTextReturnType {
+    startindex: number;
+    endindex: number;
+    substring: string;
+    textWithoutSubstring: string;
+    substringExcludedSearch: string;
+}

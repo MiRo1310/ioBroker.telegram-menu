@@ -59,6 +59,7 @@ describe('decomposeText', () => {
             endindex: 18,
             substring: '__Test.',
             textWithoutSubstring: 'Das ist ein  Das ist ein Test2',
+            substringExcludedSearch: 'Test',
         });
         const result2 = (0, string_1.decomposeText)('Das ist ein __Test.', '?', '.');
         (0, chai_1.expect)(result2).to.deep.equal({
@@ -66,6 +67,7 @@ describe('decomposeText', () => {
             endindex: 18,
             substring: 'Das ist ein __Test.',
             textWithoutSubstring: '',
+            substringExcludedSearch: "Das ist ein __Test"
         });
         const result3 = (0, string_1.decomposeText)('Das ist ein __Test.', '?', '-');
         (0, chai_1.expect)(result3).to.deep.equal({
@@ -73,6 +75,7 @@ describe('decomposeText', () => {
             endindex: -1,
             substring: '',
             textWithoutSubstring: 'Das ist ein __Test.',
+            substringExcludedSearch: ""
         });
     });
 });
