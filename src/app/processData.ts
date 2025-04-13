@@ -116,7 +116,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                     resize_keyboard: resize_keyboard,
                     one_time_keyboard: one_time_keyboard,
                     userListWithChatID: userListWithChatID,
-                    parse_mode: 'false',
                 });
             }
             removeUserFromDynamicValue(userToSend);

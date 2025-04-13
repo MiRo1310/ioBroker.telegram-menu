@@ -20,7 +20,7 @@ var appUtils_exports = {};
 __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
-  getMenusWithUser: () => getMenusWithUser,
+  getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   roundValue: () => roundValue
 });
 module.exports = __toCommonJS(appUtils_exports);
@@ -59,7 +59,7 @@ function roundValue(val, textToSend, adapter) {
     return { val, textToSend, error: true };
   }
 }
-const getMenusWithUser = (menusWithUsers, userToSend) => {
+const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
   const menus = [];
   for (const key in menusWithUsers) {
     if (menusWithUsers[key].includes(userToSend)) {
@@ -72,7 +72,7 @@ const getMenusWithUser = (menusWithUsers, userToSend) => {
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
-  getMenusWithUser,
+  getListOfMenusIncludingUser,
   roundValue
 });
 //# sourceMappingURL=appUtils.js.map

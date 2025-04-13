@@ -311,7 +311,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
         obj.keyboard,
         instanceTelegram,
         userListWithChatID,
-        part.parse_mode || "false"
+        part.parse_mode
       );
     }
     return { setStateIdsToListenTo, newNav: obj == null ? void 0 : obj.navToGoBack };

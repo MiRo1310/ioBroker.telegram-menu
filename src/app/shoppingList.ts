@@ -55,7 +55,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
                 resize_keyboard: resize_keyboard,
                 one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parse_mode: 'true',
+                parse_mode: true,
             });
             adapter.log.debug('Cannot delete the Item');
             return;
@@ -88,7 +88,7 @@ async function deleteMessageAndSendNewShoppingList(
                     resultJson.keyboard,
                     instanceTelegram,
                     userListWithChatID,
-                    'true',
+                    true,
                 );
             }
         }

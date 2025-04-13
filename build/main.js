@@ -202,7 +202,7 @@ class TelegramMenu extends utils.Adapter {
             }
             value = value.toString();
             const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-            const menus = (0, import_appUtils.getMenusWithUser)(menusWithUsers, userToSend);
+            const menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
             const dataFound = await (0, import_processData.checkEveryMenuForData)({
               menuData,
               calledValue,
@@ -228,7 +228,7 @@ class TelegramMenu extends utils.Adapter {
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,
-                parse_mode: "false"
+                parse_mode: false
               });
             }
             return;

@@ -20,7 +20,6 @@ var utilities_exports = {};
 __export(utilities_exports, {
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
-  decomposeText: () => import_string.decomposeText,
   processTimeIdLc: () => processTimeIdLc
 });
 module.exports = __toCommonJS(utilities_exports);
@@ -229,7 +228,6 @@ async function checkTypeOfId(id, value) {
 0 && (module.exports = {
   checkStatusInfo,
   checkTypeOfId,
-  decomposeText,
   processTimeIdLc
 });
 //# sourceMappingURL=utilities.js.map

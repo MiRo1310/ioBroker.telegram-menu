@@ -1,6 +1,6 @@
-import { decomposeText } from '../lib/utilities';
+import { decomposeText } from '../lib/string';
 import { sendToTelegram } from './telegram';
-import type { SetDynamicValueObj, UserListWithChatId, BooleanString, SetDynamicValue } from '../types/types';
+import type { SetDynamicValueObj, UserListWithChatId, SetDynamicValue } from '../types/types';
 
 const setDynamicValueObj: SetDynamicValueObj = {};
 const setDynamicValue = async (
@@ -12,7 +12,7 @@ const setDynamicValue = async (
     one_time_keyboard: boolean,
     resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
-    parse_mode: BooleanString,
+    parse_mode: boolean,
     confirm: string,
 ): Promise<{ confirmText: string; id: string | undefined }> => {
     const { substring } = decomposeText(returnText, '{setDynamicValue:', '}');
@@ -23,25 +23,24 @@ const setDynamicValue = async (
         await sendToTelegram({
             user: userToSend,
             textToSend: text,
-            keyboard: undefined,
             instance: telegramInstance,
-            resize_keyboard: resize_keyboard,
-            one_time_keyboard: one_time_keyboard,
-            userListWithChatID: userListWithChatID,
-            parse_mode: parse_mode,
+            resize_keyboard,
+            one_time_keyboard,
+            userListWithChatID,
+            parse_mode,
         });
     }
     setDynamicValueObj[userToSend] = {
-        id: id,
-        ack: ack,
+        id,
+        ack,
         returnText: text,
-        userToSend: userToSend,
-        parse_mode: parse_mode,
-        confirm: confirm,
-        telegramInstance: telegramInstance,
-        one_time_keyboard: one_time_keyboard,
-        resize_keyboard: resize_keyboard,
-        userListWithChatID: userListWithChatID,
+        userToSend,
+        parse_mode,
+        confirm,
+        telegramInstance,
+        one_time_keyboard,
+        resize_keyboard,
+        userListWithChatID,
         valueType: array[2],
     };
 

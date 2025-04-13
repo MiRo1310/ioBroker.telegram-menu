@@ -226,4 +226,4 @@ async function checkTypeOfId(
     }
 }
 
-export { checkStatusInfo, checkTypeOfId, processTimeIdLc, decomposeText };
+export { checkStatusInfo, checkTypeOfId, processTimeIdLc };

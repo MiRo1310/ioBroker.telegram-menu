@@ -7,7 +7,6 @@ import { adapter } from '../main.js';
 import type {
     Actions,
     BindingObject,
-    BooleanString,
     DataObject,
     EditArrayButtons,
     GenerateActionsArrayOfEntries,
@@ -26,6 +25,7 @@ import type {
 import { decomposeText } from '../lib/string';
 import { config } from '../config/config';
 import { checkOneLineValue } from '../lib/appUtils';
+import { isTruthy } from '../lib/utils';
 
 const bindingFunc = async (
     text: string,
@@ -34,7 +34,7 @@ const bindingFunc = async (
     one_time_keyboard: boolean,
     resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
-    parse_mode: BooleanString,
+    parse_mode?: boolean,
 ): Promise<void> => {
     let value;
 
@@ -66,10 +66,10 @@ const bindingFunc = async (
             user: userToSend,
             textToSend: value,
             instance: telegramInstance,
-            resize_keyboard: one_time_keyboard,
-            one_time_keyboard: resize_keyboard,
-            userListWithChatID: userListWithChatID,
-            parse_mode: parse_mode,
+            resize_keyboard,
+            one_time_keyboard,
+            userListWithChatID,
+            parse_mode,
         });
     } catch (e: any) {
         errorLogger('Error Binding function: ', e, adapter);
@@ -114,16 +114,25 @@ function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
     }
 }
 
-const idBySelector = async (
-    selector: string,
-    text: string,
-    userToSend: string,
-    newline: Newline,
-    telegramInstance: string,
-    one_time_keyboard: boolean,
-    resize_keyboard: boolean,
-    userListWithChatID: UserListWithChatId[],
-): Promise<void> => {
+const idBySelector = async ({
+    selector,
+    text,
+    userToSend,
+    newline,
+    telegramInstance,
+    one_time_keyboard,
+    resize_keyboard,
+    userListWithChatID,
+}: {
+    selector: string;
+    text: string;
+    userToSend: string;
+    newline: Newline;
+    telegramInstance: string;
+    one_time_keyboard: boolean;
+    resize_keyboard: boolean;
+    userListWithChatID: UserListWithChatId[];
+}): Promise<void> => {
     let text2Send = '';
     try {
         if (!selector.includes('functions')) {
@@ -177,10 +186,9 @@ const idBySelector = async (
                     user: userToSend,
                     textToSend: text2Send,
                     instance: telegramInstance,
-                    resize_keyboard: one_time_keyboard,
-                    one_time_keyboard: resize_keyboard,
-                    userListWithChatID: userListWithChatID,
-                    parse_mode: 'false',
+                    resize_keyboard,
+                    one_time_keyboard,
+                    userListWithChatID,
                 }).catch(e => {
                     errorLogger('Error SendToTelegram:', e, adapter);
                 });
@@ -192,26 +200,21 @@ const idBySelector = async (
                 errorLogger('Error Promise:', e, adapter);
             });
     } catch (error: any) {
-        error([
-            { text: 'Error idBySelector:', val: error.message },
-            { text: 'Stack:', val: error.stack },
-        ]);
+        errorLogger('Error idBySelector: ', error, adapter);
     }
 };
 
-function generateNewObjectStructure(val: GeneratedNavMenu[] | null): NewObjectNavStructure | null {
+function generateNewObjectStructure(val?: GeneratedNavMenu[] | null): NewObjectNavStructure | null {
     try {
         if (!val) {
             return null;
         }
         const obj: NewObjectNavStructure = {};
-        val.forEach(function (element) {
-            const call = element.call;
+        val.forEach(function ({ nav, text, parse_mode, call }) {
             obj[call] = {
-                nav: element.nav,
-                text: element.text,
-                parse_mode:
-                    element.parse_mode == 'true' || element.parse_mode == 'false' ? element.parse_mode : 'false',
+                nav,
+                text,
+                parse_mode: isTruthy(parse_mode),
             };
         });
         return obj;
@@ -297,7 +300,7 @@ function generateActions(
                     confirm: element.confirm[index],
                     returnText: element.returnText[index],
                     ack: element.ack ? element.ack[index] : 'false',
-                    parse_mode: element.parse_mode ? element.parse_mode[0] : 'false',
+                    parse_mode: isTruthy(element.parse_mode[0]),
                 };
                 if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
                     userObject[element.trigger[0]].switch!.push(newObj);

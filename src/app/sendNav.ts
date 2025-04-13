@@ -23,10 +23,10 @@ async function sendNav(
                 textToSend: text as string,
                 keyboard: nav,
                 instance: instanceTelegram,
-                resize_keyboard: resize_keyboard,
-                one_time_keyboard: one_time_keyboard,
-                userListWithChatID: userListWithChatID,
-                parse_mode: part.parse_mode || 'false',
+                resize_keyboard,
+                one_time_keyboard,
+                userListWithChatID,
+                parse_mode: part.parse_mode,
             });
         }
     } catch (e: any) {

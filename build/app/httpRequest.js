@@ -77,8 +77,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
         instance: instanceTelegram,
         resize_keyboard,
         one_time_keyboard,
-        userListWithChatID,
-        parse_mode: "false"
+        userListWithChatID
       });
     } catch (e) {
       (0, import_logging.errorLogger)("Error http request:", e, import_main.adapter);

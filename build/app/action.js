@@ -38,6 +38,7 @@ var import_main = require("../main.js");
 var import_string = require("../lib/string");
 var import_config = require("../config/config");
 var import_appUtils = require("../lib/appUtils");
+var import_utils = require("../lib/utils");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
   let value;
@@ -66,8 +67,8 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
       user: userToSend,
       textToSend: value,
       instance: telegramInstance,
-      resize_keyboard: one_time_keyboard,
-      one_time_keyboard: resize_keyboard,
+      resize_keyboard,
+      one_time_keyboard,
       userListWithChatID,
       parse_mode
     });
@@ -109,7 +110,16 @@ function editArrayButtons(val) {
     return null;
   }
 }
-const idBySelector = async (selector, text2, userToSend2, newline, telegramInstance2, one_time_keyboard2, resize_keyboard2, userListWithChatID2) => {
+const idBySelector = async ({
+  selector,
+  text: text2,
+  userToSend: userToSend2,
+  newline,
+  telegramInstance: telegramInstance2,
+  one_time_keyboard: one_time_keyboard2,
+  resize_keyboard: resize_keyboard2,
+  userListWithChatID: userListWithChatID2
+}) => {
   let text2Send = "";
   try {
     if (!selector.includes("functions")) {
@@ -158,10 +168,9 @@ const idBySelector = async (selector, text2, userToSend2, newline, telegramInsta
         user: userToSend2,
         textToSend: text2Send,
         instance: telegramInstance2,
-        resize_keyboard: one_time_keyboard2,
-        one_time_keyboard: resize_keyboard2,
-        userListWithChatID: userListWithChatID2,
-        parse_mode: "false"
+        resize_keyboard: resize_keyboard2,
+        one_time_keyboard: one_time_keyboard2,
+        userListWithChatID: userListWithChatID2
       }).catch((e) => {
         (0, import_logging.errorLogger)("Error SendToTelegram:", e, import_main.adapter);
       });
@@ -171,10 +180,7 @@ const idBySelector = async (selector, text2, userToSend2, newline, telegramInsta
       (0, import_logging.errorLogger)("Error Promise:", e, import_main.adapter);
     });
   } catch (error) {
-    error([
-      { text: "Error idBySelector:", val: error.message },
-      { text: "Stack:", val: error.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error idBySelector: ", error, import_main.adapter);
   }
 };
 function generateNewObjectStructure(val) {
@@ -183,12 +189,11 @@ function generateNewObjectStructure(val) {
       return null;
     }
     const obj = {};
-    val.forEach(function(element) {
-      const call = element.call;
+    val.forEach(function({ nav, text: text2, parse_mode: parse_mode2, call }) {
       obj[call] = {
-        nav: element.nav,
-        text: element.text,
-        parse_mode: element.parse_mode == "true" || element.parse_mode == "false" ? element.parse_mode : "false"
+        nav,
+        text: text2,
+        parse_mode: (0, import_utils.isTruthy)(parse_mode2)
       };
     });
     return obj;
@@ -269,7 +274,7 @@ function generateActions(action, userObject) {
           confirm: element.confirm[index],
           returnText: element.returnText[index],
           ack: element.ack ? element.ack[index] : "false",
-          parse_mode: element.parse_mode ? element.parse_mode[0] : "false"
+          parse_mode: (0, import_utils.isTruthy)(element.parse_mode[0])
         };
         if (userObject[element.trigger[0]] && ((_a = userObject[element.trigger[0]]) == null ? void 0 : _a.switch)) {
           userObject[element.trigger[0]].switch.push(newObj);

@@ -1,8 +1,8 @@
 import { errorLogger } from './logging';
 import { checkStatusInfo } from '../lib/utilities';
 import { adapter } from '../main';
-import type { BooleanString, Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
-import { getChatID, isTruthy } from '../lib/utils';
+import type { Keyboard, Location, ParseModeType, UserListWithChatId } from '../types/types';
+import { getChatID } from '../lib/utils';
 import { jsonString, validateNewLine } from '../lib/string';
 
 async function sendToTelegram({
@@ -13,7 +13,7 @@ async function sendToTelegram({
     resize_keyboard = true,
     one_time_keyboard = true,
     userListWithChatID,
-    parse_mode,
+    parse_mode = false,
 }: {
     user: string;
     textToSend?: string;
@@ -22,7 +22,7 @@ async function sendToTelegram({
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatId[];
-    parse_mode: BooleanString;
+    parse_mode?: boolean;
 }): Promise<void> {
     try {
         const chatId = getChatID(userListWithChatID, user);
@@ -81,7 +81,7 @@ function sendToTelegramSubmenu(
     keyboard: Keyboard,
     instance = 'telegram.0',
     userListWithChatID: UserListWithChatId[],
-    parse_mode: BooleanString,
+    parse_mode?: boolean,
 ): void {
     const parseModeType = getParseMode(parse_mode);
     adapter.log.debug(`Send this ParseMode: ${parseModeType}`);
@@ -129,11 +129,8 @@ const sendLocationToTelegram = async (
     }
 };
 
-function getParseMode(val: BooleanString | boolean): ParseModeType {
-    if (isTruthy(val)) {
-        return 'HTML';
-    }
-    return 'Markdown';
+function getParseMode(val = false): ParseModeType {
+    return val ? 'HTML' : 'Markdown';
 }
 
 export { sendToTelegram, sendToTelegramSubmenu, sendLocationToTelegram };

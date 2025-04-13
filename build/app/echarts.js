@@ -53,8 +53,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
             instance: instanceTelegram,
             resize_keyboard,
             one_time_keyboard,
-            userListWithChatID,
-            parse_mode: "false"
+            userListWithChatID
           }).catch((e) => {
             (0, import_logging.errorLogger)("Error send to telegram: ", e, import_main.adapter);
           });

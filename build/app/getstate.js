@@ -34,7 +34,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
   var _a, _b;
   let text = "";
   let i = 1;
-  const parse_mode = ((_a = part.getData) == null ? void 0 : _a[0].parse_mode) || "false";
+  const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
   (_b = part.getData) == null ? void 0 : _b.forEach(async (element) => {
     try {
       import_main.adapter.log.debug(`Get Value ID: ${element.id}`);
@@ -42,16 +42,16 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
       const id = element.id;
       let textToSend = "";
       if (id.indexOf(specifiedSelektor) != -1) {
-        await (0, import_action.idBySelector)(
-          id,
-          element.text,
+        await (0, import_action.idBySelector)({
+          selector: id,
+          text: element.text,
           userToSend,
-          element.newline,
+          newline: element.newline,
           telegramInstance,
           one_time_keyboard,
           resize_keyboard,
           userListWithChatID
-        );
+        });
         return;
       }
       if (element.text.includes("binding:")) {
@@ -115,10 +115,9 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 await (0, import_telegram.sendToTelegram)({
                   user: userToSend,
                   textToSend: result,
-                  keyboard: void 0,
                   instance: telegramInstance,
-                  resize_keyboard: one_time_keyboard,
-                  one_time_keyboard: resize_keyboard,
+                  resize_keyboard,
+                  one_time_keyboard,
                   userListWithChatID,
                   parse_mode
                 });
@@ -143,10 +142,9 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
               await (0, import_telegram.sendToTelegram)({
                 user: userToSend,
                 textToSend: "The state is empty!",
-                keyboard: void 0,
                 instance: telegramInstance,
-                resize_keyboard: one_time_keyboard,
-                one_time_keyboard: resize_keyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
                 parse_mode
               });

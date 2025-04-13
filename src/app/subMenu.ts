@@ -350,7 +350,7 @@ async function callSubMenu(
                 obj.keyboard,
                 instanceTelegram,
                 userListWithChatID,
-                part.parse_mode || 'false',
+                part.parse_mode,
             );
         }
         return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };

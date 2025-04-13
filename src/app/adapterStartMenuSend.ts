@@ -8,7 +8,6 @@ import type {
     MenuData,
     UserListWithChatId,
     NavPart,
-    BooleanString,
 } from '../types/types';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
@@ -41,7 +40,7 @@ async function adapterStartMenuSend(
                     resize_keyboard: resize_keyboard,
                     one_time_keyboard: one_time_keyboard,
                     userListWithChatID: userListWithChatID,
-                    parse_mode: menuData.data[menu][startSide].parse_mode as BooleanString,
+                    parse_mode: menuData.data[menu][startSide].parse_mode as boolean,
                 });
             }
         } else {

@@ -121,8 +121,7 @@ async function processData(obj) {
           instance: instanceTelegram,
           resize_keyboard,
           one_time_keyboard,
-          userListWithChatID,
-          parse_mode: "false"
+          userListWithChatID
         });
       }
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);

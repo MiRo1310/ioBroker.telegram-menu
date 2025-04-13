@@ -68,8 +68,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
             instance: instanceTelegram,
             resize_keyboard,
             one_time_keyboard,
-            userListWithChatID,
-            parse_mode: "false"
+            userListWithChatID
           });
           let timeoutToClear = [];
           timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);

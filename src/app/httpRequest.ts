@@ -62,7 +62,6 @@ async function httpRequest(
                 resize_keyboard: resize_keyboard,
                 one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parse_mode: 'false',
             });
         } catch (e: any) {
             errorLogger('Error http request:', e, adapter);

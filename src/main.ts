@@ -33,7 +33,6 @@ import type {
     StartSides,
     UserListWithChatId,
 } from './types/types';
-import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './app/connection.js';
 import { getValueToExchange, jsonString, decomposeText, isString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
@@ -255,7 +254,7 @@ export default class TelegramMenu extends utils.Adapter {
                                 resize_keyboard: resize_keyboard,
                                 one_time_keyboard: one_time_keyboard,
                                 userListWithChatID: userListWithChatID,
-                                parse_mode: 'false',
+                                parse_mode: false,
                             });
                         }
                         return;
@@ -304,7 +303,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         resize_keyboard: resize_keyboard,
                                         one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,
-                                        parse_mode: element.parse_mode as BooleanString,
+                                        parse_mode: element.parse_mode,
                                     }).catch((e: { message: any; stack: any }) => {
                                         errorLogger('Error SendToTelegram', e, adapter);
                                     });
@@ -355,7 +354,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         resize_keyboard: resize_keyboard,
                                         one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,
-                                        parse_mode: element.parse_mode as BooleanString,
+                                        parse_mode: element.parse_mode,
                                     }).catch((e: { message: any; stack: any }) => {
                                         errorLogger('Error sendToTelegram', e, adapter);
                                     });

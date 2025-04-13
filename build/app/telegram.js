@@ -36,7 +36,7 @@ async function sendToTelegram({
   resize_keyboard = true,
   one_time_keyboard = true,
   userListWithChatID,
-  parse_mode
+  parse_mode = false
 }) {
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
@@ -125,11 +125,8 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
     (0, import_logging.errorLogger)("Error sendLocationToTelegram:", e, import_main.adapter);
   }
 };
-function getParseMode(val) {
-  if ((0, import_utils.isTruthy)(val)) {
-    return "HTML";
-  }
-  return "Markdown";
+function getParseMode(val = false) {
+  return val ? "HTML" : "Markdown";
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

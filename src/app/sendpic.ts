@@ -64,7 +64,6 @@ function sendPic(
                         resize_keyboard: resize_keyboard,
                         one_time_keyboard: one_time_keyboard,
                         userListWithChatID: userListWithChatID,
-                        parse_mode: 'false',
                     });
                     let timeoutToClear: Timeouts[] = [];
                     timeoutToClear = timeouts.filter(item => item.key == timeoutKey);

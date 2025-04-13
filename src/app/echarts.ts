@@ -36,13 +36,12 @@ function getChart(
                 },
                 (result: any) => {
                     sendToTelegram({
-                        user: user,
+                        user,
                         textToSend: result.error || directoryPicture + echart.filename,
                         instance: instanceTelegram,
-                        resize_keyboard: resize_keyboard,
-                        one_time_keyboard: one_time_keyboard,
-                        userListWithChatID: userListWithChatID,
-                        parse_mode: 'false',
+                        resize_keyboard,
+                        one_time_keyboard,
+                        userListWithChatID,
                     }).catch((e: any) => {
                         errorLogger('Error send to telegram: ', e, adapter);
                     });

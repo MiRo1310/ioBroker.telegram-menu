@@ -1,5 +1,5 @@
 import { errorLogger } from './logging';
-import type { BackMenu, NavPart, AllMenusWithData, BooleanString, Keyboard } from '../types/types';
+import type { BackMenu, NavPart, AllMenusWithData, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
@@ -27,7 +27,7 @@ async function switchBack(
     allMenusWithData: AllMenusWithData,
     menus: string[],
     lastMenu = false,
-): Promise<{ texttosend: string | undefined; menuToSend: Keyboard; parseMode: BooleanString } | undefined> {
+): Promise<{ texttosend: string | undefined; menuToSend: Keyboard; parseMode: boolean } | undefined> {
     try {
         const list = backMenu[userToSend] && backMenu[userToSend]?.list ? backMenu[userToSend].list : [];
         let keyboard: Keyboard = { inline_keyboard: [] };
@@ -48,7 +48,7 @@ async function switchBack(
                 adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
             }
             if (keyboard && foundedMenu != '') {
-                let parseMode: BooleanString = '' as BooleanString;
+                let parseMode = false;
                 if (!lastMenu) {
                     let textToSend = allMenusWithData[foundedMenu][
                         backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
@@ -58,13 +58,12 @@ async function switchBack(
                     }
                     parseMode = (allMenusWithData[foundedMenu][
                         backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
-                    ].parse_mode || 'false') as BooleanString;
+                    ].parse_mode ?? false) as boolean;
                     backMenu[userToSend].last = list.pop();
 
                     return { texttosend: textToSend, menuToSend: keyboard, parseMode: parseMode };
                 }
-                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ||
-                    'false') as BooleanString;
+                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false) as boolean;
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text as string,
                     menuToSend: keyboard,
