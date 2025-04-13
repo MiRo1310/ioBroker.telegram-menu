@@ -1,5 +1,5 @@
-import { isDefined, isTruthy } from './utils';
-import { decomposeText, getValueToExchange, removeQuotes, replaceAllItems } from './string';
+import { isDefined } from './utils';
+import { decomposeText, getValueToExchange, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
@@ -40,15 +40,15 @@ const processTimeIdLc = async (textToSend: string, id?: string): Promise<string>
 
 // TODO Check Usage of function
 const checkStatus = async (text: string): Promise<string> => {
-    const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //{status:'ID':true} new | old {status:'id':'ID':true}
+    const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //substring {status:'ID':true} new | old {status:'id':'ID':true}
 
     const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
 
     const stateValue = await adapter.getForeignStateAsync(id);
 
-    if (!stateValue) {
+    if (!isDefined(stateValue?.val)) {
         adapter.log.debug(`State not found: ${id}`);
-        return '';
+        return text.replace(substring, '');
     }
 
     if (text.includes(config.time)) {
@@ -57,43 +57,35 @@ const checkStatus = async (text: string): Promise<string> => {
         const val = String(stateValue.val);
         return integrateTimeIntoText(text, val).replace(val, '');
     }
-    if (!isDefined(stateValue.val)) {
-        adapter.log.debug(`State Value is undefined: ${id}`);
-        return text.replace(substring, '');
-    }
+
     if (!shouldChange) {
         return text.replace(substring, stateValue.val.toString());
     }
+
     const { newValue: val, textToSend, error } = getValueToExchange(adapter, text, stateValue.val);
-    let newValue;
-    if (!error) {
-        text = textToSend;
-        newValue = val;
-    } else {
-        newValue = stateValue.val;
-    }
+
+    text = !error ? textToSend : text;
+    const newValue = !error ? val : stateValue.val;
+
     adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-    adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
 
     return text.replace(substring, newValue.toString());
 };
+
 const checkStatusInfo = async (text: string): Promise<string> => {
     try {
-        if (!text) {
-            return '';
-        }
-        adapter.log.debug(`Text: ${text}`);
+        adapter.log.debug(`Check status Info: ${text}`);
 
-        if (text.includes('{status:')) {
-            while (text.includes('{status:')) {
+        if (text.includes(config.status.start)) {
+            while (text.includes(config.status.start)) {
                 text = await checkStatus(text);
             }
         }
-        if (text.includes('{time.lc') || text.includes('{time.ts')) {
-            text = (await processTimeIdLc(text)) || '';
+        if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
+            text = await processTimeIdLc(text);
         }
-        if (text.includes('{set:')) {
-            const result = decomposeText(text, '{set:', '}');
+        if (text.includes(config.set.start)) {
+            const result = decomposeText(text, config.set.start, config.set.end);
             const id = result.substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
             const importedValue = result.substring.split(',')[1];
 
