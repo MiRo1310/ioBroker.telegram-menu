@@ -1,31 +1,29 @@
 import type { MockAdapter } from '@iobroker/testing';
 import type TelegramMenu from '../main';
 
-export interface Checkboxes {
-    oneTiKey: boolean;
-    resKey: boolean;
-    checkboxNoValueFound: boolean;
-    sendMenuAfterRestart: boolean;
-}
-
 export type ListOfMenus = string[];
 
-export interface IsUserActiveCheckbox {
-    [key: string]: boolean;
-}
-
+export type IsUserActiveCheckbox = Record<string, boolean>;
 export type MenusWithUsers = Record<string, string[]>;
+
+export type Action = Record<string, Actions>;
+export type NavObject = Record<string, Nav[]>;
+
+export type NavPart = string[][];
+
+export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
 
 export interface UserListWithChatId {
     chatID: string;
     name: string;
 }
 
-export interface Action {
-    [key: string]: Actions;
+export interface Checkboxes {
+    oneTiKey: boolean;
+    resKey: boolean;
+    checkboxNoValueFound: boolean;
+    sendMenuAfterRestart: boolean;
 }
-
-export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
 
 export interface Actions {
     get: Get[];
@@ -43,12 +41,6 @@ export interface HttpRequest {
     filename: string;
     trigger: string;
     delay: string;
-}
-
-export type NavPart = string[][];
-
-export interface NavObject {
-    [key: string]: Nav[];
 }
 
 export interface NavStaticValues {
@@ -100,13 +92,9 @@ export interface Echart {
     trigger: string[];
 }
 
-export interface StartSides {
-    [key: string]: string;
-}
+export type StartSides = Record<string, string>;
 
-export interface NewObjectNavStructure {
-    [key: string]: Part;
-}
+export type NewObjectNavStructure = Record<string, Part>;
 
 export interface Nav extends NavStaticValues {
     nav: string;
@@ -122,9 +110,7 @@ interface MenuDataNav {
     nav: string[];
 }
 
-export interface AllMenusWithData {
-    [key: string]: NewObjectNavStructure | DataObject;
-}
+export type AllMenusWithData = Record<string, NewObjectNavStructure | DataObject>;
 
 export interface DataObject {
     action: Action;
@@ -200,17 +186,10 @@ export interface SetDynamicValue {
     valueType: string;
 }
 
-export interface DecomposeText {
-    startindex: number;
-    endindex: number;
-    substring: string;
-    textWithoutSubstring: string;
-}
-
 export type Newline = 'true' | 'false';
 
 export interface BindingObject {
-    values: { [key: string]: string };
+    values: Record<string, string>;
 }
 
 export interface EditArrayButtons extends NavStaticValues {
@@ -261,9 +240,7 @@ export interface GenerateActionsNewObject {
     parseMode?: boolean;
 }
 
-export interface UserInGroup {
-    [key: string]: string[];
-}
+export type UserInGroup = Record<string, string>;
 
 export type SplittedData = string[];
 
@@ -292,22 +269,16 @@ export interface KeyboardItems {
     callback_data: string;
 }
 
-export interface LastText {
-    [key: string]: string;
-}
+export type LastText = Record<string, string>;
 
-export interface ValArray {
-    [key: string]: string;
-}
+export type ValArray = Record<string, string>;
 
 export interface KeyboardItem {
     text: string;
     callback_data: string;
 }
 
-export interface BackMenu {
-    [key: string]: BackMenuList;
-}
+export type BackMenu = Record<string, BackMenuList>;
 
 // TODO : Define the type for BackMenuList
 type BackMenuList = any;
