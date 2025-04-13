@@ -39,7 +39,7 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
             {
-                name: 'parse_mode',
+                name: 'parseMode',
                 val: 'false',
                 headline: 'Par',
                 title: 'parseMode',
@@ -68,7 +68,7 @@ export const tabValues: TabValues[] = [
                 required: true,
             },
             {
-                name: 'parse_mode',
+                name: 'parseMode',
                 val: 'false',
                 headline: 'Par',
                 title: 'Parse Mode HTML',
@@ -101,7 +101,7 @@ export const tabValues: TabValues[] = [
             { name: 'latitude', val: '', headline: 'latitude', width: '20%', search: true, required: true },
             { name: 'longitude', val: '', headline: 'longitude', width: '20%', search: true, required: true },
             {
-                name: 'parse_mode',
+                name: 'parseMode',
                 val: 'false',
                 headline: 'Par',
                 title: 'Parse Mode HTML',
@@ -182,5 +182,5 @@ export const navEntries: TabValueEntries[] = [
     { name: 'call', val: '', headline: 'trigger', width: 'auto', editWidth: '98%' },
     { name: 'value', val: '', headline: 'navigation', width: 'auto', editWidth: '98%' },
     { name: 'text', val: 'chooseAction', headline: 'text', width: '35%', editWidth: '98%' },
-    { name: 'parse_mode', val: 'false', headline: 'Par', title: 'Parse Mode HTML', checkbox: true, width: '10%' },
+    { name: 'parseMode', val: 'false', headline: 'Par', title: 'Parse Mode HTML', checkbox: true, width: '10%' },
 ];

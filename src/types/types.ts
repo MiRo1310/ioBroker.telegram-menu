@@ -54,13 +54,13 @@ export interface NavObject {
 export interface NavStaticValues {
     call: string;
     text: string;
-    parse_mode: boolean;
+    parseMode: boolean;
 }
 
 export interface Set {
     ack: BooleanString[];
     confirm: BooleanString[];
-    parse_mode: boolean[];
+    parseMode: boolean[];
     switch_checkbox: BooleanString[];
     IDs: string[];
     returnText: string[];
@@ -70,7 +70,7 @@ export interface Set {
 
 export interface Get {
     newline_checkbox: BooleanString[];
-    parse_mode: boolean[];
+    parseMode: boolean[];
     IDs: string[];
     text: string[];
     trigger: string[];
@@ -140,7 +140,7 @@ export interface GeneratedActions {
 export interface UserObjectActions {
     [key: string]: {
         nav?: string[][];
-        parse_mode?: boolean;
+        parseMode?: boolean;
         text?: string;
         switch?: Switch[];
         echarts?: { background: string; echartsInstance: string; filename: string; preset: string; theme: string }[];
@@ -150,7 +150,7 @@ export interface UserObjectActions {
 export interface Part {
     text?: string;
     nav?: any;
-    parse_mode?: boolean;
+    parseMode?: boolean;
     getData?: GetData[];
     switch?: Switch[];
     sendPic?: SendPic[];
@@ -174,7 +174,7 @@ export interface SendPic {
 export interface GetData {
     id: string;
     text: string;
-    parse_mode: boolean;
+    parseMode: boolean;
     newline: BooleanString;
 }
 
@@ -191,11 +191,11 @@ export interface SetDynamicValue {
     ack: boolean;
     returnText: string;
     userToSend: string;
-    parse_mode: boolean;
+    parseMode: boolean;
     confirm: string;
     telegramInstance: string;
-    one_time_keyboard: boolean;
-    resize_keyboard: boolean;
+    oneTimeKeyboard: boolean;
+    resizeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     valueType: string;
 }
@@ -227,7 +227,7 @@ export interface Switch {
     toggle: boolean;
     confirm: BooleanString;
     returnText: string;
-    parse_mode: boolean;
+    parseMode: boolean;
     ack: BooleanString;
 }
 
@@ -258,7 +258,7 @@ export interface GenerateActionsNewObject {
     delay?: string;
     text?: string;
     newline?: BooleanString;
-    parse_mode?: boolean;
+    parseMode?: boolean;
 }
 
 export interface UserInGroup {
@@ -272,7 +272,7 @@ export interface SetStateIds {
     confirm: BooleanString | boolean;
     returnText: string;
     userToSend: string;
-    parse_mode?: boolean;
+    parseMode?: boolean;
 }
 
 export type GroupWithUser = string;
@@ -317,8 +317,8 @@ export interface CheckEveryMenuForDataType {
     calledValue: string;
     userToSend: string;
     instanceTelegram: string;
-    resize_keyboard: boolean;
-    one_time_keyboard: boolean;
+    resizeKeyboard: boolean;
+    oneTimeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     menus: string[];
     isUserActiveCheckbox: IsUserActiveCheckbox;
@@ -333,8 +333,8 @@ export interface ProcessDataType {
     userToSend: string;
     groupWithUser: GroupWithUser;
     instanceTelegram: string;
-    resize_keyboard: boolean;
-    one_time_keyboard: boolean;
+    resizeKeyboard: boolean;
+    oneTimeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     allMenusWithData: AllMenusWithData;
     menus: string[];
@@ -369,8 +369,8 @@ export interface SetValueForSubmenuPercent extends GlobalTelegramValues {
 
 export interface GlobalTelegramValues {
     instanceTelegram: string;
-    resize_keyboard: boolean;
-    one_time_keyboard: boolean;
+    resizeKeyboard: boolean;
+    oneTimeKeyboard: boolean;
     userToSend: string;
 }
 

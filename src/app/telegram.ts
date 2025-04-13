@@ -10,30 +10,30 @@ async function sendToTelegram({
     textToSend,
     keyboard,
     instance = 'telegram.0',
-    resize_keyboard = true,
-    one_time_keyboard = true,
+    resizeKeyboard = true,
+    oneTimeKeyboard = true,
     userListWithChatID,
-    parse_mode = false,
+    parseMode = false,
 }: {
     user: string;
     textToSend?: string;
     keyboard?: Keyboard;
     instance: string;
-    resize_keyboard: boolean;
-    one_time_keyboard: boolean;
+    resizeKeyboard: boolean;
+    oneTimeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
-    parse_mode?: boolean;
+    parseMode?: boolean;
 }): Promise<void> {
     try {
         const chatId = getChatID(userListWithChatID, user);
-        const parse_modeType: ParseModeType = getParseMode(parse_mode);
+        const parseModeType: ParseModeType = getParseMode(parseMode);
 
         adapter.log.debug(`Send to: ${user} => ${textToSend}`);
         adapter.log.debug(`Instance: ${instance}`);
         adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
-        adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+        adapter.log.debug(`Parse_mode	: ${parseMode}`);
         adapter.log.debug(`ChatId	: ${chatId}`);
-        adapter.log.debug(`ParseModeType: ${parse_modeType}`);
+        adapter.log.debug(`ParseModeType: ${parseModeType}`);
 
         textToSend = validateNewLine(textToSend);
         if (!keyboard) {
@@ -44,7 +44,7 @@ async function sendToTelegram({
                 {
                     text: textToSend,
                     chatId: chatId,
-                    parse_mode: parse_modeType,
+                    parseMode: parseModeType,
                 },
                 function (res: any) {
                     adapter.log.debug(`Sent Value to ${jsonString(res)} users!`);
@@ -57,12 +57,12 @@ async function sendToTelegram({
                 'send',
                 {
                     chatId: chatId,
-                    parse_mode: parse_modeType,
+                    parseMode: parseModeType,
                     text: text,
                     reply_markup: {
                         keyboard: keyboard,
-                        resize_keyboard: resize_keyboard,
-                        one_time_keyboard: one_time_keyboard,
+                        resizeKeyboard: resizeKeyboard,
+                        oneTimeKeyboard: oneTimeKeyboard,
                     },
                 },
                 function (res: any) {
@@ -81,16 +81,16 @@ function sendToTelegramSubmenu(
     keyboard: Keyboard,
     instance = 'telegram.0',
     userListWithChatID: UserListWithChatId[],
-    parse_mode?: boolean,
+    parseMode?: boolean,
 ): void {
-    const parseModeType = getParseMode(parse_mode);
+    const parseModeType = getParseMode(parseMode);
     adapter.log.debug(`Send this ParseMode: ${parseModeType}`);
     try {
         const chatId = getChatID(userListWithChatID, user);
         textToSend = validateNewLine(textToSend);
         adapter.sendTo(instance, 'send', {
             chatId: chatId,
-            parse_mode: parseModeType,
+            parseMode: parseModeType,
             text: textToSend,
             reply_markup: keyboard,
         });

@@ -90,7 +90,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                     call: 'StartSide',
                     value: 'Iobroker, Light, Grafana, Weather',
                     text: 'chooseAction',
-                    parse_mode: 'false',
+                    parseMode: 'false',
                 },
             ];
             data.action[newMenuName] = { get: [], set: [], pic: [], echarts: [], events: [], httpRequest: [] };

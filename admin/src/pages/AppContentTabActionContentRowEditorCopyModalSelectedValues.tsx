@@ -48,7 +48,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
         ack: I18n.t('ack'),
         confirm: I18n.t('confirm'),
         switch_checkbox: I18n.t('switchCheckbox'),
-        parse_mode: I18n.t('parseMode'),
+        parseMode: I18n.t('parseMode'),
         newline_checkbox: I18n.t('newlineCheckbox'),
         text: I18n.t('text'),
         IDs: I18n.t('ids'),
@@ -171,7 +171,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
         newTriggerName?: string,
     ): NativeData => {
         Object.keys(rowToCopy).forEach(rowParam => {
-            if (rowParam === 'trigger' || rowParam === 'parse_mode') {
+            if (rowParam === 'trigger' || rowParam === 'parseMode') {
                 if (addTrigger) {
                     copyData = AppContentTabActionContentRowEditorCopyModalSelectedValues.setDataWhenNoTabLength({
                         copyData,

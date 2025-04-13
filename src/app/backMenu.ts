@@ -58,12 +58,12 @@ async function switchBack(
                     }
                     parseMode = (allMenusWithData[foundedMenu][
                         backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
-                    ].parse_mode ?? false) as boolean;
+                    ].parseMode ?? false) as boolean;
                     backMenu[userToSend].last = list.pop();
 
                     return { texttosend: textToSend, menuToSend: keyboard, parseMode: parseMode };
                 }
-                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false) as boolean;
+                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parseMode ?? false) as boolean;
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text as string,
                     menuToSend: keyboard,

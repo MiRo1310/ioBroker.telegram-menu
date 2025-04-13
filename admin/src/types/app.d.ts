@@ -104,7 +104,7 @@ export interface StateTableDndNav {
 
 export interface RowsNav {
     call: string;
-    parse_mode: BooleanString;
+    parseMode: BooleanString;
     text: string;
     value: string;
 }
@@ -439,7 +439,7 @@ export interface ActionNewRowProps {
     IDs: string[];
     ack: BooleanString[];
     confirm: BooleanString[];
-    parse_mode: BooleanString[];
+    parseMode: BooleanString[];
     returnText: string[];
     values: string[];
     trigger: string[];
@@ -476,7 +476,7 @@ export interface RowsSetState {
     IDs: string;
     ack: ActionNewRowProps;
     confirm: BooleanString;
-    parse_mode: BooleanString;
+    parseMode: BooleanString;
     returnText: string;
     values: string;
     trigger: string;
@@ -697,7 +697,7 @@ export interface HttpRequest {
 export interface Set {
     ack: BooleanString[];
     confirm: BooleanString[];
-    parse_mode: BooleanString[];
+    parseMode: BooleanString[];
     switch_checkbox: BooleanString[];
     IDs: string[];
     returnText: string[];
@@ -707,7 +707,7 @@ export interface Set {
 
 export interface Get {
     newline_checkbox: BooleanString[];
-    parse_mode: BooleanString[];
+    parseMode: BooleanString[];
     IDs: string[];
     text: string[];
     trigger: string[];
@@ -803,7 +803,7 @@ export interface TabListingType {
 
 export interface RowForButton {
     trigger?: string[];
-    parse_mode: string[];
+    parseMode: string[];
     call: string;
 }
 

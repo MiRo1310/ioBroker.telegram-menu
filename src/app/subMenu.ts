@@ -57,8 +57,8 @@ const setDynamicValue = async (obj: SetDynamicValueType): Promise<{ returnIds: S
         obj.val,
         true,
         obj.instanceTelegram,
-        obj.resize_keyboard,
-        obj.one_time_keyboard,
+        obj.resizeKeyboard,
+        obj.oneTimeKeyboard,
         obj.userListWithChatID,
     );
     if (Array.isArray(result)) {
@@ -120,8 +120,8 @@ const setFirstMenuValue = async (obj: SetFirstMenuValue): Promise<{ returnIds: S
         val as string,
         true,
         obj.instanceTelegram,
-        obj.resize_keyboard,
-        obj.one_time_keyboard,
+        obj.resizeKeyboard,
+        obj.oneTimeKeyboard,
         obj.userListWithChatID,
     );
     if (Array.isArray(result)) {
@@ -145,8 +145,8 @@ const setSecondMenuValue = async (obj: SetSecondMenuValue): Promise<{ returnIds:
         val as string,
         true,
         obj.instanceTelegram,
-        obj.one_time_keyboard,
-        obj.resize_keyboard,
+        obj.oneTimeKeyboard,
+        obj.resizeKeyboard,
         obj.userListWithChatID,
     );
     if (Array.isArray(result)) {
@@ -259,8 +259,8 @@ const setValueForSubmenuPercent = async (obj: SetValueForSubmenuPercent): Promis
         value,
         true,
         obj.instanceTelegram,
-        obj.resize_keyboard,
-        obj.one_time_keyboard,
+        obj.resizeKeyboard,
+        obj.oneTimeKeyboard,
         obj.userListWithChatID,
     );
     if (Array.isArray(result)) {
@@ -283,8 +283,8 @@ const setValueForSubmenuNumber = async (
         value,
         true,
         obj.instanceTelegram,
-        obj.resize_keyboard,
-        obj.one_time_keyboard,
+        obj.resizeKeyboard,
+        obj.oneTimeKeyboard,
         obj.userListWithChatID,
     );
     if (Array.isArray(result)) {
@@ -301,10 +301,10 @@ const back = async (obj: BackMenuType): Promise<void> => {
             textToSend: result.texttosend as string,
             keyboard: result.menuToSend,
             instance: obj.instanceTelegram,
-            resize_keyboard: obj.resize_keyboard,
-            one_time_keyboard: obj.one_time_keyboard,
+            resizeKeyboard: obj.resizeKeyboard,
+            oneTimeKeyboard: obj.oneTimeKeyboard,
             userListWithChatID: obj.userListWithChatID,
-            parse_mode: result.parseMode,
+            parseMode: result.parseMode,
         });
     }
 };
@@ -313,8 +313,8 @@ async function callSubMenu(
     newObjectNavStructure: NewObjectNavStructure,
     userToSend: string,
     instanceTelegram: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    resizeKeyboard: boolean,
+    oneTimeKeyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     part: Part,
     allMenusWithData: { [key: string]: NewObjectNavStructure },
@@ -327,8 +327,8 @@ async function callSubMenu(
             jsonStringNav: jsonStringNav,
             userToSend: userToSend,
             instanceTelegram: instanceTelegram,
-            resize_keyboard: resize_keyboard,
-            one_time_keyboard: one_time_keyboard,
+            resizeKeyboard: resizeKeyboard,
+            oneTimeKeyboard: oneTimeKeyboard,
             userListWithChatID: userListWithChatID,
             part,
             allMenusWithData: allMenusWithData,
@@ -350,7 +350,7 @@ async function callSubMenu(
                 obj.keyboard,
                 instanceTelegram,
                 userListWithChatID,
-                part.parse_mode,
+                part.parseMode,
             );
         }
         return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
@@ -363,8 +363,8 @@ async function subMenu({
     jsonStringNav,
     userToSend,
     instanceTelegram,
-    resize_keyboard,
-    one_time_keyboard,
+    resizeKeyboard,
+    oneTimeKeyboard,
     userListWithChatID,
     part,
     allMenusWithData,
@@ -374,8 +374,8 @@ async function subMenu({
     jsonStringNav: string;
     userToSend: string;
     instanceTelegram: string;
-    resize_keyboard: boolean;
-    one_time_keyboard: boolean;
+    resizeKeyboard: boolean;
+    oneTimeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     part: Part;
     allMenusWithData: { [p: string]: NewObjectNavStructure };
@@ -413,8 +413,8 @@ async function subMenu({
                 part,
                 userToSend,
                 instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
             });
         } else if (callbackData.includes('second')) {
@@ -422,8 +422,8 @@ async function subMenu({
                 part,
                 userToSend,
                 instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
             });
         } else if (callbackData.includes('dynSwitch')) {
@@ -433,8 +433,8 @@ async function subMenu({
                 val,
                 userToSend,
                 instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
                 part,
             });
@@ -446,8 +446,8 @@ async function subMenu({
                 calledValue: jsonStringNav,
                 userToSend,
                 instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
                 part,
                 allMenusWithData,
@@ -461,8 +461,8 @@ async function subMenu({
                 calledValue: jsonStringNav,
                 userToSend,
                 instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
                 part,
             });
@@ -474,8 +474,8 @@ async function subMenu({
                 allMenusWithData,
                 menus,
                 instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
             });
         }

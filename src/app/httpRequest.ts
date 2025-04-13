@@ -11,8 +11,8 @@ async function httpRequest(
     parts: Part,
     userToSend: string,
     instanceTelegram: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    resizeKeyboard: boolean,
+    oneTimeKeyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     directoryPicture: string,
 ): Promise<boolean | undefined> {
@@ -59,8 +59,8 @@ async function httpRequest(
                 user: userToSend,
                 textToSend: imagePath,
                 instance: instanceTelegram,
-                resize_keyboard: resize_keyboard,
-                one_time_keyboard: one_time_keyboard,
+                resizeKeyboard: resizeKeyboard,
+                oneTimeKeyboard: oneTimeKeyboard,
                 userListWithChatID: userListWithChatID,
             });
         } catch (e: any) {

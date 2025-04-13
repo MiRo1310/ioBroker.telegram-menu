@@ -10,8 +10,8 @@ function sendPic(
     part: Part,
     userToSend: string,
     instanceTelegram: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    resizeKeyboard: boolean,
+    oneTimeKeyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     token: string,
     directoryPicture: string,
@@ -61,8 +61,8 @@ function sendPic(
                         user: userToSend,
                         textToSend: path,
                         instance: instanceTelegram,
-                        resize_keyboard: resize_keyboard,
-                        one_time_keyboard: one_time_keyboard,
+                        resizeKeyboard: resizeKeyboard,
+                        oneTimeKeyboard: oneTimeKeyboard,
                         userListWithChatID: userListWithChatID,
                     });
                     let timeoutToClear: Timeouts[] = [];
