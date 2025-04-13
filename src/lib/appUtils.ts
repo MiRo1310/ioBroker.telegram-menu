@@ -1,5 +1,5 @@
 import { config } from '../config/config';
-import type { Adapter, MenusWithUsers, ParseModeType } from '../types/types';
+import type { Adapter, GetTimeWithPad, MenusWithUsers, ParseModeType } from '../types/types';
 import { decomposeText } from './string';
 import { errorLogger } from '../app/logging';
 import { evaluate } from './math';
@@ -65,3 +65,20 @@ export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, user
 export const getParseMode = (val = false): ParseModeType => (val ? 'HTML' : 'Markdown');
 
 export const getTypeofTimestamp = (val: string): 'lc' | 'ts' => (val.includes('lc') ? 'lc' : 'ts');
+
+export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, string?: string): string | undefined => {
+    if (string) {
+        string = string
+            .replace('sss', ms)
+            .replace('ss', s)
+            .replace('mm', m)
+            .replace('hh', h)
+            .replace('DD', d)
+            .replace('MM', mo)
+            .replace('YYYY', y)
+            .replace('YY', y.slice(-2))
+            .replace('(', '')
+            .replace(')', '');
+    }
+    return string;
+};

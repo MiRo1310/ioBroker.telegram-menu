@@ -23,7 +23,8 @@ __export(appUtils_exports, {
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getParseMode: () => getParseMode,
   getTypeofTimestamp: () => getTypeofTimestamp,
-  roundValue: () => roundValue
+  roundValue: () => roundValue,
+  timeStringReplacer: () => timeStringReplacer
 });
 module.exports = __toCommonJS(appUtils_exports);
 var import_config = require("../config/config");
@@ -72,6 +73,12 @@ const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
 };
 const getParseMode = (val = false) => val ? "HTML" : "Markdown";
 const getTypeofTimestamp = (val) => val.includes("lc") ? "lc" : "ts";
+const timeStringReplacer = ({ d, h, m, ms, y, s, mo }, string) => {
+  if (string) {
+    string = string.replace("sss", ms).replace("ss", s).replace("mm", m).replace("hh", h).replace("DD", d).replace("MM", mo).replace("YYYY", y).replace("YY", y.slice(-2)).replace("(", "").replace(")", "");
+  }
+  return string;
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
@@ -79,6 +86,7 @@ const getTypeofTimestamp = (val) => val.includes("lc") ? "lc" : "ts";
   getListOfMenusIncludingUser,
   getParseMode,
   getTypeofTimestamp,
-  roundValue
+  roundValue,
+  timeStringReplacer
 });
 //# sourceMappingURL=appUtils.js.map

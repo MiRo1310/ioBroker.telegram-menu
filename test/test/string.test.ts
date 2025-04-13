@@ -11,6 +11,7 @@ import {
 } from '../../src/lib/string';
 import {expect} from 'chai';
 import {utils} from "@iobroker/testing";
+import {timeStringReplacer} from '../../src/lib/appUtils';
 
 const { adapter, database } = utils.unit.createMocks({});
 
@@ -229,5 +230,81 @@ describe('pad', () => {
     it('should handle a length of 0 by returning the number as a string', () => {
         const result = pad(5, 0);
         expect(result).to.equal('5');
+    });
+});
+
+describe('timeStringReplacer', () => {
+    it('should replace all placeholders with the corresponding values', () => {
+        const input = {
+            d: '01',
+            h: '12',
+            m: '30',
+            ms: '123',
+            y: '2023',
+            s: '45',
+            mo: '07',
+        };
+        const template = 'YYYY-MM-DD hh:mm:ss.sss';
+        const result = timeStringReplacer(input, template);
+        expect(result).to.equal('2023-07-01 12:30:45.123');
+    });
+
+    it('should handle partial placeholders in the string', () => {
+        const input = {
+            d: '15',
+            h: '08',
+            m: '05',
+            ms: '001',
+            y: '2025',
+            s: '59',
+            mo: '12',
+        };
+        const template = 'DD/MM/YYYY hh:mm';
+        const result = timeStringReplacer(input, template);
+        expect(result).to.equal('15/12/2025 08:05');
+    });
+
+    it('should return the string unchanged if no placeholders are present', () => {
+        const input = {
+            d: '01',
+            h: '12',
+            m: '30',
+            ms: '123',
+            y: '2023',
+            s: '45',
+            mo: '07',
+        };
+        const template = 'No placeholders here';
+        const result = timeStringReplacer(input, template);
+        expect(result).to.equal('No placeholders here');
+    });
+
+    it('should return undefined if the input string is undefined', () => {
+        const input = {
+            d: '01',
+            h: '12',
+            m: '30',
+            ms: '123',
+            y: '2023',
+            s: '45',
+            mo: '07',
+        };
+        const result = timeStringReplacer(input, undefined);
+        expect(result).to.be.undefined;
+    });
+
+    it('should handle parentheses in the string by removing them', () => {
+        const input = {
+            d: '10',
+            h: '14',
+            m: '45',
+            ms: '678',
+            y: '2024',
+            s: '30',
+            mo: '11',
+        };
+        const template = '(YYYY-MM-DD)';
+        const result = timeStringReplacer(input, template);
+        expect(result).to.equal('2024-11-10');
     });
 });

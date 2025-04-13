@@ -22,6 +22,7 @@ __export(string_exports, {
   getValueToExchange: () => getValueToExchange,
   isString: () => isString,
   jsonString: () => jsonString,
+  pad: () => pad,
   parseJSON: () => parseJSON,
   replaceAll: () => replaceAll,
   stringReplacer: () => stringReplacer,
@@ -94,12 +95,19 @@ function stringReplacer(substring, valueToReplace) {
   });
   return substring;
 }
+const pad = (value, length = 2) => {
+  if (value < 0) {
+    return `-${(value * -1).toString().padStart(length - 1, "0")}`;
+  }
+  return value.toString().padStart(length, "0");
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
   getValueToExchange,
   isString,
   jsonString,
+  pad,
   parseJSON,
   replaceAll,
   stringReplacer,

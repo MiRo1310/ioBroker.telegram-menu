@@ -5,7 +5,7 @@ import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time
 import type { ProzessTimeValue } from '../types/types';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { getTypeofTimestamp } from './appUtils';
+import { getTypeofTimestamp, timeStringReplacer } from './appUtils';
 
 const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
     const { substring } = decomposeText(textToSend, config.timestamp.start, config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
@@ -41,39 +41,12 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
         return;
     }
 
-    const { ms, s, m, h, d, mo, y } = getTimeWithPad(extractTimeValues(unixTs));
+    const timeWithPad = getTimeWithPad(extractTimeValues(unixTs));
+    const timeStringReplaced = timeStringReplacer(timeWithPad, timeStringUser);
 
-    if (timeStringUser) {
-        if (timeStringUser.includes('sss')) {
-            timeStringUser = timeStringUser.replace('sss', ms);
-        }
-        if (timeStringUser.includes('ss')) {
-            timeStringUser = timeStringUser.replace('ss', s);
-        }
-        if (timeStringUser.includes('mm')) {
-            timeStringUser = timeStringUser.replace('mm', m);
-        }
-        if (timeStringUser.includes('hh')) {
-            timeStringUser = timeStringUser.replace('hh', h);
-        }
-        if (timeStringUser.includes('DD')) {
-            timeStringUser = timeStringUser.replace('DD', d);
-        }
-        if (timeStringUser.includes('MM')) {
-            timeStringUser = timeStringUser.replace('MM', mo);
-        }
-        if (timeStringUser.includes('YYYY')) {
-            timeStringUser = timeStringUser.replace('YYYY', y);
-        }
-        if (timeStringUser.includes('YY')) {
-            timeStringUser = timeStringUser.replace('YY', y.slice(-2));
-        }
-        timeStringUser = timeStringUser.replace('(', '').replace(')', '');
-        return textToSend.replace(substring, timeStringUser);
-    }
-
-    return textToSend;
+    return timeStringReplaced ?? textToSend;
 };
+
 // TODO Check Usage of function
 const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): Promise<string> => {
     try {
