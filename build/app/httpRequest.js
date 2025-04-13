@@ -38,7 +38,7 @@ var import_fs = __toESM(require("fs"));
 var import_logging = require("./logging");
 var import_utils = require("../lib/utils");
 var import_main = require("../main");
-async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
+async function httpRequest(parts, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, directoryPicture) {
   if (!parts.httpRequest) {
     return;
   }
@@ -72,11 +72,11 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
       import_main.adapter.log.debug(`Pic saved: ${imagePath}`);
       await (0, import_telegram.sendToTelegram)({
-        user: userToSend,
+        userToSend,
         textToSend: imagePath,
-        instance: instanceTelegram,
-        resize_keyboard,
-        one_time_keyboard,
+        instanceTelegram,
+        resizeKeyboard,
+        oneTimeKeyboard,
         userListWithChatID
       });
     } catch (e) {

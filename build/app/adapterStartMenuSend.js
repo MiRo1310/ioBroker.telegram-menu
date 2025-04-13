@@ -25,7 +25,7 @@ var import_telegram = require("./telegram");
 var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard) {
   for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
     if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
@@ -34,14 +34,14 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
         (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
         import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
-          user,
+          userToSend: user,
           textToSend: menuData.data[menu][startSide].text,
           keyboard: menuData.data[menu][startSide].nav,
-          instance: instanceTelegram,
-          resize_keyboard,
-          one_time_keyboard,
+          instanceTelegram,
+          resizeKeyboard,
+          oneTimeKeyboard,
           userListWithChatID,
-          parse_mode: menuData.data[menu][startSide].parse_mode
+          parseMode: menuData.data[menu][startSide].parseMode
         });
       }
     } else {

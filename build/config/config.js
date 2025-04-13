@@ -20,11 +20,13 @@ var config_exports = {};
 __export(config_exports, {
   config: () => config,
   defaultLocale: () => defaultLocale,
+  defaultTelegramInstance: () => defaultTelegramInstance,
   timezone: () => timezone
 });
 module.exports = __toCommonJS(config_exports);
 const defaultLocale = "de-DE";
 const timezone = "Europe/Berlin";
+const defaultTelegramInstance = "telegram.0";
 const config = {
   time: "{time}",
   change: {
@@ -46,6 +48,7 @@ const config = {
 0 && (module.exports = {
   config,
   defaultLocale,
+  defaultTelegramInstance,
   timezone
 });
 //# sourceMappingURL=config.js.map

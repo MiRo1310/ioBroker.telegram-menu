@@ -427,7 +427,7 @@ async function subMenu({
                 userListWithChatID,
             });
         } else if (callbackData.includes('dynSwitch')) {
-            return dynamicSwitch(jsonStringNav, device2Switch, text as string);
+            return dynamicSwitch(jsonStringNav, device2Switch, text);
         } else if (callbackData.includes('dynS')) {
             return await setDynamicValue({
                 val,

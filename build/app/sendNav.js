@@ -25,21 +25,21 @@ var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_logging = require("./logging");
-async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard) {
   try {
     if (userToSend) {
       import_main.adapter.log.debug("Send Nav to Telegram");
       const nav = part.nav;
       const text = await (0, import_utilities.checkStatusInfo)(part.text);
       await (0, import_telegram.sendToTelegram)({
-        user: userToSend,
+        userToSend,
         textToSend: text,
         keyboard: nav,
-        instance: instanceTelegram,
-        resize_keyboard,
-        one_time_keyboard,
+        instanceTelegram,
+        resizeKeyboard,
+        oneTimeKeyboard,
         userListWithChatID,
-        parse_mode: part.parse_mode
+        parseMode: part.parseMode
       });
     }
   } catch (e) {

@@ -159,7 +159,7 @@ const checkStatus = async (text, processTimeValue) => {
 const checkStatusInfo = async (text) => {
   try {
     if (!text) {
-      return;
+      return "";
     }
     import_main.adapter.log.debug(`Text: ${text}`);
     if (text.includes("{status:")) {
@@ -188,8 +188,10 @@ const checkStatusInfo = async (text) => {
       import_main.adapter.log.debug(`CheckStatusInfo: ${text}`);
       return text;
     }
+    return "";
   } catch (e) {
     (0, import_logging.errorLogger)("Error checkStatusInfo:", e, import_main.adapter);
+    return "";
   }
 };
 async function checkTypeOfId(id, value) {

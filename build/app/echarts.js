@@ -25,7 +25,7 @@ var import_main = require("../main");
 var import_logging = require("./logging");
 var import_telegram = require("./telegram");
 var import_utils = require("../lib/utils");
-function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard) {
   try {
     if (!echarts) {
       return;
@@ -48,11 +48,11 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
         },
         (result) => {
           (0, import_telegram.sendToTelegram)({
-            user,
+            userToSend: user,
             textToSend: result.error || directoryPicture + echart.filename,
-            instance: instanceTelegram,
-            resize_keyboard,
-            one_time_keyboard,
+            instanceTelegram,
+            resizeKeyboard,
+            oneTimeKeyboard,
             userListWithChatID
           }).catch((e) => {
             (0, import_logging.errorLogger)("Error send to telegram: ", e, import_main.adapter);

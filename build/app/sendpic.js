@@ -27,7 +27,7 @@ var import_child_process = require("child_process");
 var import_logging = require("./logging");
 var import_main = require("../main");
 var import_string = require("../lib/string");
-function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
+function sendPic(part, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
     (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
@@ -63,11 +63,11 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
       const timeout = import_main.adapter.setTimeout(
         async () => {
           await (0, import_telegram.sendToTelegram)({
-            user: userToSend,
+            userToSend,
             textToSend: path,
-            instance: instanceTelegram,
-            resize_keyboard,
-            one_time_keyboard,
+            instanceTelegram,
+            resizeKeyboard,
+            oneTimeKeyboard,
             userListWithChatID
           });
           let timeoutToClear = [];

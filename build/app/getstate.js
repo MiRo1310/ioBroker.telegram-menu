@@ -30,11 +30,11 @@ var import_main = require("../main");
 var import_time = require("../lib/time");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
+function getState(part, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID) {
   var _a, _b;
   let text = "";
   let i = 1;
-  const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
+  const parseMode = (_a = part.getData) == null ? void 0 : _a[0].parseMode;
   (_b = part.getData) == null ? void 0 : _b.forEach(async (element) => {
     try {
       import_main.adapter.log.debug(`Get Value ID: ${element.id}`);
@@ -48,8 +48,8 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           userToSend,
           newline: element.newline,
           telegramInstance,
-          one_time_keyboard,
-          resize_keyboard,
+          oneTimeKeyboard,
+          resizeKeyboard,
           userListWithChatID
         });
         return;
@@ -60,10 +60,10 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           element.text,
           userToSend,
           telegramInstance,
-          one_time_keyboard,
-          resize_keyboard,
+          oneTimeKeyboard,
+          resizeKeyboard,
           userListWithChatID,
-          parse_mode
+          parseMode
         );
         return;
       }
@@ -113,13 +113,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
               const result = (0, import_jsonTable.createTextTableFromJson)(valueForJson, textToSend);
               if (result) {
                 await (0, import_telegram.sendToTelegram)({
-                  user: userToSend,
+                  userToSend,
                   textToSend: result,
-                  instance: telegramInstance,
-                  resize_keyboard,
-                  one_time_keyboard,
+                  instanceTelegram: telegramInstance,
+                  resizeKeyboard,
+                  oneTimeKeyboard,
                   userListWithChatID,
-                  parse_mode
+                  parseMode
                 });
                 return;
               }
@@ -134,19 +134,19 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                     result.keyboard,
                     telegramInstance,
                     userListWithChatID,
-                    parse_mode
+                    parseMode
                   );
                 }
                 return;
               }
               await (0, import_telegram.sendToTelegram)({
-                user: userToSend,
+                userToSend,
                 textToSend: "The state is empty!",
-                instance: telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
+                instanceTelegram: telegramInstance,
+                resizeKeyboard,
+                oneTimeKeyboard,
                 userListWithChatID,
-                parse_mode
+                parseMode
               });
               import_main.adapter.log.debug("The state is empty!");
               return;
@@ -172,14 +172,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         if (i == ((_c = part.getData) == null ? void 0 : _c.length)) {
           if (userToSend) {
             await (0, import_telegram.sendToTelegram)({
-              user: userToSend,
+              userToSend,
               textToSend: text,
-              keyboard: void 0,
-              instance: telegramInstance,
-              resize_keyboard: one_time_keyboard,
-              one_time_keyboard: resize_keyboard,
+              instanceTelegram: telegramInstance,
+              resizeKeyboard,
+              oneTimeKeyboard,
               userListWithChatID,
-              parse_mode
+              parseMode
             });
           }
         }

@@ -21,6 +21,7 @@ __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
+  getParseMode: () => getParseMode,
   roundValue: () => roundValue
 });
 module.exports = __toCommonJS(appUtils_exports);
@@ -68,11 +69,15 @@ const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
   }
   return menus;
 };
+function getParseMode(val = false) {
+  return val ? "HTML" : "Markdown";
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
   getListOfMenusIncludingUser,
+  getParseMode,
   roundValue
 });
 //# sourceMappingURL=appUtils.js.map

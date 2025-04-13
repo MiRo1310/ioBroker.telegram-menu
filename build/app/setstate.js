@@ -59,7 +59,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
+const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resizeKeyboard, oneTimeKeyboard, userListWithChatID) => {
   try {
     const setStateIds = [];
     if (!part.switch) {
@@ -76,10 +76,10 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           element.id,
           userToSend,
           telegramInstance,
-          one_time_keyboard,
-          resize_keyboard,
+          oneTimeKeyboard,
+          resizeKeyboard,
           userListWithChatID,
-          element.parse_mode,
+          element.parseMode,
           element.confirm
         );
         if (element.confirm) {
@@ -98,7 +98,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           confirm: element.confirm,
           returnText,
           userToSend,
-          parse_mode: element.parse_mode
+          parseMode: element.parseMode
         });
       } else {
         returnText = returnText.replace(/'/g, '"');
@@ -107,14 +107,13 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
         if (textToSend && textToSend !== "") {
           await (0, import_telegram.sendToTelegram)({
-            user: userToSend,
+            userToSend,
             textToSend,
-            keyboard: void 0,
-            instance: telegramInstance,
-            resize_keyboard: one_time_keyboard,
-            one_time_keyboard: resize_keyboard,
+            instanceTelegram: telegramInstance,
+            resizeKeyboard,
+            oneTimeKeyboard,
             userListWithChatID,
-            parse_mode: element.parse_mode
+            parseMode: element.parseMode
           });
         }
         setStateIds.push({

@@ -28,105 +28,102 @@ var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_utils = require("../lib/utils");
 var import_string = require("../lib/string");
+var import_appUtils = require("../lib/appUtils");
+var import_config = require("../config/config");
 async function sendToTelegram({
-  user = "",
+  userToSend = "",
   textToSend,
   keyboard,
-  instance = "telegram.0",
-  resize_keyboard = true,
-  one_time_keyboard = true,
+  instanceTelegram = import_config.defaultTelegramInstance,
+  resizeKeyboard = true,
+  oneTimeKeyboard = true,
   userListWithChatID,
-  parse_mode = false
+  parseMode = false
 }) {
   try {
-    const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
-    const parse_modeType = getParseMode(parse_mode);
-    import_main.adapter.log.debug(`Send to: ${user} => ${textToSend}`);
-    import_main.adapter.log.debug(`Instance: ${instance}`);
+    const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
+    const parseModeType = (0, import_appUtils.getParseMode)(parseMode);
+    import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
+    import_main.adapter.log.debug(`Instance: ${instanceTelegram}`);
     import_main.adapter.log.debug(`UserListWithChatID	: ${(0, import_string.jsonString)(userListWithChatID)}`);
-    import_main.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+    import_main.adapter.log.debug(`Parse_mode	: ${parseMode}`);
     import_main.adapter.log.debug(`ChatId	: ${chatId}`);
-    import_main.adapter.log.debug(`ParseModeType: ${parse_modeType}`);
-    textToSend = (0, import_string.validateNewLine)(textToSend);
+    import_main.adapter.log.debug(`ParseModeType: ${parseModeType}`);
+    const validatedTextToSend = (0, import_string.validateNewLine)(textToSend != null ? textToSend : "");
     if (!keyboard) {
-      import_main.adapter.log.debug("No Keyboard");
       import_main.adapter.sendTo(
-        instance,
+        instanceTelegram,
         "send",
         {
-          text: textToSend,
+          text: validatedTextToSend,
           chatId,
-          parse_mode: parse_modeType
+          parseMode: parseModeType
         },
-        function(res) {
-          import_main.adapter.log.debug(`Sent Value to ${(0, import_string.jsonString)(res)} users!`);
-        }
+        (res) => telegramLogger(res)
       );
-    } else {
-      const text = await (0, import_utilities.checkStatusInfo)(textToSend);
-      import_main.adapter.sendTo(
-        instance,
-        "send",
-        {
-          chatId,
-          parse_mode: parse_modeType,
-          text,
-          reply_markup: {
-            keyboard,
-            resize_keyboard,
-            one_time_keyboard
-          }
-        },
-        function(res) {
-          import_main.adapter.log.debug(`Sent Value to ${(0, import_string.jsonString)(res)} users!`);
-        }
-      );
+      return;
     }
+    import_main.adapter.sendTo(
+      instanceTelegram,
+      "send",
+      {
+        chatId,
+        parseMode: parseModeType,
+        text: await (0, import_utilities.checkStatusInfo)(validatedTextToSend),
+        reply_markup: {
+          keyboard,
+          resizeKeyboard,
+          oneTimeKeyboard
+        }
+      },
+      (res) => telegramLogger(res)
+    );
   } catch (e) {
     (0, import_logging.errorLogger)("Error sendToTelegram:", e, import_main.adapter);
   }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, instance = "telegram.0", userListWithChatID, parse_mode) {
-  const parseModeType = getParseMode(parse_mode);
-  import_main.adapter.log.debug(`Send this ParseMode: ${parseModeType}`);
-  try {
-    const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
-    textToSend = (0, import_string.validateNewLine)(textToSend);
-    import_main.adapter.sendTo(instance, "send", {
-      chatId,
-      parse_mode: parseModeType,
-      text: textToSend,
+function sendToTelegramSubmenu(user, textToSend, keyboard, instance = import_config.defaultTelegramInstance, userListWithChatID, parseMode) {
+  import_main.adapter.sendTo(
+    instance,
+    "send",
+    {
+      chatId: (0, import_utils.getChatID)(userListWithChatID, user),
+      parseMode: (0, import_appUtils.getParseMode)(parseMode),
+      text: (0, import_string.validateNewLine)(textToSend),
       reply_markup: keyboard
-    });
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error sendToTelegramSubmenu:", e, import_main.adapter);
-  }
+    },
+    (res) => telegramLogger(res)
+  );
 }
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
-    for (const element of data) {
-      if (!(element.latitude || element.longitude)) {
+    for (const { longitude: longitudeID, latitude: latitudeID } of data) {
+      if (!(latitudeID || longitudeID)) {
         continue;
       }
-      const latitude = await import_main.adapter.getForeignStateAsync(element.latitude);
-      const longitude = await import_main.adapter.getForeignStateAsync(element.longitude);
+      const latitude = await import_main.adapter.getForeignStateAsync(latitudeID);
+      const longitude = await import_main.adapter.getForeignStateAsync(longitudeID);
       if (!latitude || !longitude) {
         continue;
       }
-      import_main.adapter.sendTo(instance, {
-        chatId,
-        latitude: latitude.val,
-        longitude: longitude.val,
-        disable_notification: true
-      });
+      import_main.adapter.sendTo(
+        instance,
+        {
+          chatId,
+          latitude: latitude.val,
+          longitude: longitude.val,
+          disable_notification: true
+        },
+        (res) => telegramLogger(res)
+      );
     }
   } catch (e) {
     (0, import_logging.errorLogger)("Error sendLocationToTelegram:", e, import_main.adapter);
   }
 };
-function getParseMode(val = false) {
-  return val ? "HTML" : "Markdown";
+function telegramLogger(res) {
+  import_main.adapter.log.debug(`Sent Value to ${(0, import_string.jsonString)(res)} users!`);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

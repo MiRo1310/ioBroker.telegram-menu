@@ -68,11 +68,11 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           if (textToSend) {
             textToSend = await (0, import_utilities.checkStatusInfo)(textToSend);
           }
-          parseMode = (_e = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode) != null ? _e : false;
+          parseMode = (_e = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parseMode) != null ? _e : false;
           backMenu[userToSend].last = list.pop();
           return { texttosend: textToSend, menuToSend: keyboard, parseMode };
         }
-        parseMode = (_f = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode) != null ? _f : false;
+        parseMode = (_f = allMenusWithData[foundedMenu][backMenu[userToSend].last].parseMode) != null ? _f : false;
         return {
           texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
           menuToSend: keyboard,
