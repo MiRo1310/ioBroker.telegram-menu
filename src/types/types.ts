@@ -414,19 +414,22 @@ export interface Telegram extends TelegramParams {
     parseMode?: boolean;
 }
 
-export interface TelegramObjectWithOutKeyBoard {
-    text: string;
-    chatId: string;
-    parseMode: ParseModeType;
+export interface ExtractTimeValues {
+    milliseconds: number;
+    seconds: number;
+    minutes: number;
+    hours: number;
+    day: number;
+    month: number;
+    year: number;
 }
 
-export interface TelegramObjectWithKeyboard {
-    chatId: string;
-    parseMode: ParseModeType;
-    text: string;
-    reply_markup: {
-        keyboard: Keyboard;
-        resizeKeyboard: boolean;
-        oneTimeKeyboard: boolean;
-    };
+export interface GetTimeWithPad {
+    ms: string;
+    s: string;
+    m: string;
+    h: string;
+    d: string;
+    mo: string;
+    y: string;
 }

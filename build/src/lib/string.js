@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
+exports.pad = exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -80,4 +80,11 @@ function stringReplacer(substring, valueToReplace) {
     });
     return substring;
 }
+const pad = (value, length = 2) => {
+    if (value < 0) {
+        return `-${(value * -1).toString().padStart(length - 1, '0')}`;
+    }
+    return value.toString().padStart(length, '0');
+};
+exports.pad = pad;
 //# sourceMappingURL=string.js.map

@@ -3,6 +3,7 @@ import {
     getValueToExchange,
     isString,
     jsonString,
+    pad,
     parseJSON,
     replaceAll,
     stringReplacer,
@@ -196,5 +197,37 @@ describe('StringReplacer', () => {
         const valueToReplace = ['Hello', 'World'];
         const result = stringReplacer(substring, valueToReplace);
         expect(result).to.equal('');
+    });
+});
+
+describe('pad', () => {
+    it('should pad a number with leading zeros to the default length of 2', () => {
+        const result = pad(5);
+        expect(result).to.equal('05');
+    });
+
+    it('should pad a number with leading zeros to a specified length', () => {
+        const result = pad(5, 4);
+        expect(result).to.equal('0005');
+    });
+
+    it('should not pad a number if it already meets the specified length', () => {
+        const result = pad(123, 2);
+        expect(result).to.equal('123');
+    });
+
+    it('should handle zero correctly', () => {
+        const result = pad(0, 3);
+        expect(result).to.equal('000');
+    });
+
+    it('should convert negative numbers to strings without additional padding', () => {
+        const result = pad(-5, 3);
+        expect(result).to.equal('-05');
+    });
+
+    it('should handle a length of 0 by returning the number as a string', () => {
+        const result = pad(5, 0);
+        expect(result).to.equal('5');
     });
 });

@@ -87,3 +87,10 @@ export function stringReplacer(substring: string, valueToReplace: string[] | Str
     });
     return substring;
 }
+
+export const pad = (value: number, length: number = 2): string => {
+    if (value < 0) {
+        return `-${(value * -1).toString().padStart(length - 1, '0')}`;
+    }
+    return value.toString().padStart(length, '0');
+};

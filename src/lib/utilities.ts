@@ -1,7 +1,7 @@
 import { isDefined } from './utils';
 import { decomposeText, getValueToExchange } from './string';
 import { errorLogger } from '../app/logging';
-import { integrateTimeIntoText } from './time';
+import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import type { ProzessTimeValue } from '../types/types';
 import { adapter } from '../main';
 import { config } from '../config/config';
@@ -31,58 +31,42 @@ const processTimeIdLc = async (textToSend: string, id: string | null): Promise<s
         return;
     }
     const value = await adapter.getForeignStateAsync(id || idFromText);
-    let timeValue;
+    let unixTs;
     let timeStringUser;
     if (key && value) {
         timeStringUser = changedSubstring.replace(',(', '').replace(')', '').replace('}', '');
-        timeValue = value[key];
+        unixTs = value[key];
     }
-    if (!timeValue) {
+    if (!unixTs) {
         return;
     }
-    const timeObj = new Date(timeValue);
-    const milliseconds = timeObj.getMilliseconds();
-    const seconds = timeObj.getSeconds();
-    const minutes = timeObj.getMinutes();
-    const hours = timeObj.getHours();
-    const day = timeObj.getDate();
-    const month = timeObj.getMonth() + 1;
-    const year = timeObj.getFullYear();
 
-    const time = {
-        ms: milliseconds < 10 ? `00${milliseconds}` : milliseconds < 100 ? `0${milliseconds}` : milliseconds,
-        s: seconds < 10 ? `0${seconds}` : seconds,
-        m: minutes < 10 ? `0${minutes}` : minutes,
-        h: hours < 10 ? `0${hours}` : hours,
-        d: day < 10 ? `0${day}` : day,
-        mo: month < 10 ? `0${month}` : month,
-        y: year,
-    };
+    const { ms, s, m, h, d, mo, y } = getTimeWithPad(extractTimeValues(unixTs));
 
     if (timeStringUser) {
         if (timeStringUser.includes('sss')) {
-            timeStringUser = timeStringUser.replace('sss', time.ms.toString());
+            timeStringUser = timeStringUser.replace('sss', ms);
         }
         if (timeStringUser.includes('ss')) {
-            timeStringUser = timeStringUser.replace('ss', time.s.toString());
+            timeStringUser = timeStringUser.replace('ss', s);
         }
         if (timeStringUser.includes('mm')) {
-            timeStringUser = timeStringUser.replace('mm', time.m.toString());
+            timeStringUser = timeStringUser.replace('mm', m);
         }
         if (timeStringUser.includes('hh')) {
-            timeStringUser = timeStringUser.replace('hh', time.h.toString());
+            timeStringUser = timeStringUser.replace('hh', h);
         }
         if (timeStringUser.includes('DD')) {
-            timeStringUser = timeStringUser.replace('DD', time.d.toString());
+            timeStringUser = timeStringUser.replace('DD', d);
         }
         if (timeStringUser.includes('MM')) {
-            timeStringUser = timeStringUser.replace('MM', time.mo.toString());
+            timeStringUser = timeStringUser.replace('MM', mo);
         }
         if (timeStringUser.includes('YYYY')) {
-            timeStringUser = timeStringUser.replace('YYYY', time.y.toString());
+            timeStringUser = timeStringUser.replace('YYYY', y);
         }
         if (timeStringUser.includes('YY')) {
-            timeStringUser = timeStringUser.replace('YY', time.y.toString().slice(-2));
+            timeStringUser = timeStringUser.replace('YY', y.slice(-2));
         }
         timeStringUser = timeStringUser.replace('(', '').replace(')', '');
         return textToSend.replace(substring, timeStringUser);

@@ -165,4 +165,30 @@ describe('StringReplacer', () => {
         (0, chai_1.expect)(result).to.equal('');
     });
 });
+describe('pad', () => {
+    it('should pad a number with leading zeros to the default length of 2', () => {
+        const result = (0, string_1.pad)(5);
+        (0, chai_1.expect)(result).to.equal('05');
+    });
+    it('should pad a number with leading zeros to a specified length', () => {
+        const result = (0, string_1.pad)(5, 4);
+        (0, chai_1.expect)(result).to.equal('0005');
+    });
+    it('should not pad a number if it already meets the specified length', () => {
+        const result = (0, string_1.pad)(123, 2);
+        (0, chai_1.expect)(result).to.equal('123');
+    });
+    it('should handle zero correctly', () => {
+        const result = (0, string_1.pad)(0, 3);
+        (0, chai_1.expect)(result).to.equal('000');
+    });
+    it('should convert negative numbers to strings without additional padding', () => {
+        const result = (0, string_1.pad)(-5, 3);
+        (0, chai_1.expect)(result).to.equal('-05');
+    });
+    it('should handle a length of 0 by returning the number as a string', () => {
+        const result = (0, string_1.pad)(5, 0);
+        (0, chai_1.expect)(result).to.equal('5');
+    });
+});
 //# sourceMappingURL=string.test.js.map
