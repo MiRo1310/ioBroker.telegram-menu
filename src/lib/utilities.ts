@@ -1,5 +1,5 @@
 import { isDefined } from './utils';
-import { decomposeText, getValueToExchange, replaceAllItems } from './string';
+import { decomposeText, getValueToExchange, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
@@ -117,32 +117,27 @@ async function checkTypeOfId(
     value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
 ): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
     try {
-        adapter.log.debug(`Check Type of Id: ${id}`);
-        const obj = await adapter.getForeignObjectAsync(id);
         const receivedType = typeof value;
-        if (!obj || !value) {
-            return value;
+
+        const obj = await adapter.getForeignObjectAsync(id);
+
+        if (!obj || !isDefined(value)) {
+            return;
         }
+
         if (receivedType === obj.common.type || !obj.common.type) {
             return value;
         }
 
         adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
 
-        if (obj.common.type === 'boolean') {
-            if (value == 'true') {
-                value = true;
-            }
-            if (value == 'false') {
-                value = false;
-            }
-            return value;
-        }
-        if (obj.common.type === 'string') {
-            return JSON.stringify(value);
-        }
-        if (obj && obj.common && obj.common.type === 'number' && typeof value === 'string') {
-            return parseFloat(value);
+        switch (obj.common.type) {
+            case 'string':
+                return value as string | undefined;
+            case 'number':
+                return parseFloat(jsonString(value));
+            case 'boolean':
+                return isTruthy(value);
         }
 
         return value;
