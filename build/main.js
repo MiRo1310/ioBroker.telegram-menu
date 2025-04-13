@@ -45,6 +45,7 @@ var import_logging = require("./app/logging.js");
 var import_connection = require("./app/connection.js");
 var import_string = require("./lib/string");
 var import_utils = require("./lib/utils");
+var import_appUtils = require("./lib/appUtils");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
 let adapter;
@@ -201,7 +202,7 @@ class TelegramMenu extends utils.Adapter {
             }
             value = value.toString();
             const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-            const menus = (0, import_action.getMenusWithUserToSend)(menusWithUsers, userToSend);
+            const menus = (0, import_appUtils.getMenusWithUser)(menusWithUsers, userToSend);
             const dataFound = await (0, import_processData.checkEveryMenuForData)({
               menuData,
               calledValue,

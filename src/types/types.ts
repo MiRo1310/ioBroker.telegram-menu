@@ -14,9 +14,7 @@ export interface IsUserActiveCheckbox {
     [key: string]: boolean;
 }
 
-export interface MenusWithUsers {
-    [key: string]: string[];
-}
+export type MenusWithUsers = Record<string, string[]>;
 
 export interface UserListWithChatId {
     chatID: string;

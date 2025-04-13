@@ -13,7 +13,6 @@ import {
     exchangePlaceholderWithValue,
     generateActions,
     generateNewObjectStructure,
-    getMenusWithUserToSend,
     getUserToSendFromUserListWithChatID,
 } from './app/action.js';
 import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
@@ -38,6 +37,7 @@ import type { BooleanString } from '@/types/app.js';
 import { checkIsTelegramActive } from './app/connection.js';
 import { getValueToExchange, jsonString, decomposeText, isString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
+import { getListOfMenusIncludingUser } from './lib/appUtils';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -226,7 +226,7 @@ export default class TelegramMenu extends utils.Adapter {
 
                         value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        const menus = getMenusWithUserToSend(menusWithUsers, userToSend);
+                        const menus = getListOfMenusIncludingUser(menusWithUsers, userToSend);
 
                         const dataFound = await checkEveryMenuForData({
                             menuData,

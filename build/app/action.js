@@ -25,7 +25,6 @@ __export(action_exports, {
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   generateActions: () => generateActions,
   generateNewObjectStructure: () => generateNewObjectStructure,
-  getMenusWithUserToSend: () => getMenusWithUserToSend,
   getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
   idBySelector: () => idBySelector
 });
@@ -422,15 +421,6 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID2, chatID) => {
   }
   return userToSend2;
 };
-const getMenusWithUserToSend = (menusWithUsers, userToSend2) => {
-  const menus = [];
-  for (const key in menusWithUsers) {
-    if (menusWithUsers[key].includes(userToSend2)) {
-      menus.push(key);
-    }
-  }
-  return menus;
-};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   adjustValueType,
@@ -440,7 +430,6 @@ const getMenusWithUserToSend = (menusWithUsers, userToSend2) => {
   exchangePlaceholderWithValue,
   generateActions,
   generateNewObjectStructure,
-  getMenusWithUserToSend,
   getUserToSendFromUserListWithChatID,
   idBySelector
 });

@@ -52,6 +52,7 @@ const logging_js_1 = require("./app/logging.js");
 const connection_js_1 = require("./app/connection.js");
 const string_1 = require("./lib/string");
 const utils_1 = require("./lib/utils");
+const appUtils_1 = require("./lib/appUtils");
 const timeoutKey = '0';
 let subscribeForeignStateIds;
 class TelegramMenu extends utils.Adapter {
@@ -183,7 +184,7 @@ class TelegramMenu extends utils.Adapter {
                         }
                         value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        const menus = (0, action_js_1.getMenusWithUserToSend)(menusWithUsers, userToSend);
+                        const menus = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
                         const dataFound = await (0, processData_js_1.checkEveryMenuForData)({
                             menuData,
                             calledValue,

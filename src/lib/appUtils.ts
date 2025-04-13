@@ -1,5 +1,5 @@
 import { config } from '../config/config';
-import type { Adapter } from '../types/types';
+import type { Adapter, MenusWithUsers } from '../types/types';
 import { decomposeText } from './string';
 import { errorLogger } from '../app/logging';
 import { evaluate } from './math';
@@ -51,3 +51,13 @@ export function roundValue(
         return { val, textToSend, error: true };
     }
 }
+
+export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, userToSend: string): string[] => {
+    const menus: string[] = [];
+    for (const key in menusWithUsers) {
+        if (menusWithUsers[key].includes(userToSend)) {
+            menus.push(key);
+        }
+    }
+    return menus;
+};

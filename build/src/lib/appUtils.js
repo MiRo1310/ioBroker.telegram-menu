@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkOneLineValue = void 0;
+exports.getMenusWithUser = exports.checkOneLineValue = void 0;
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
 const config_1 = require("../config/config");
@@ -21,16 +21,12 @@ function roundValue(val, textToSend, adapter) {
         const floatVal = parseFloat(val);
         const { textExcludeSubstring, substringExcludeSearch: decimalPlaces } = (0, string_1.decomposeText)(textToSend, config_1.config.round.start, config_1.config.round.end);
         const decimalPlacesNum = parseInt(decimalPlaces);
-        console.log(floatVal);
-        console.log(decimalPlacesNum);
-        console.log(isNaN(decimalPlacesNum));
         if (isNaN(floatVal)) {
             return { val: 'NaN', textToSend: textExcludeSubstring, error: true };
         }
         if (isNaN(decimalPlacesNum)) {
             return { val, textToSend: textExcludeSubstring, error: true };
         }
-        console.log(floatVal.toFixed(decimalPlacesNum));
         return { val: floatVal.toFixed(decimalPlacesNum), textToSend: textExcludeSubstring, error: false };
     }
     catch (err) {
@@ -38,4 +34,14 @@ function roundValue(val, textToSend, adapter) {
         return { val, textToSend, error: true };
     }
 }
+const getMenusWithUser = (menusWithUsers, userToSend) => {
+    const menus = [];
+    for (const key in menusWithUsers) {
+        if (menusWithUsers[key].includes(userToSend)) {
+            menus.push(key);
+        }
+    }
+    return menus;
+};
+exports.getMenusWithUser = getMenusWithUser;
 //# sourceMappingURL=appUtils.js.map

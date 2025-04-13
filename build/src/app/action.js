@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.exchangePlaceholderWithValue = exports.bindingFunc = exports.idBySelector = void 0;
+exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.exchangePlaceholderWithValue = exports.bindingFunc = exports.idBySelector = void 0;
 exports.editArrayButtons = editArrayButtons;
 exports.generateNewObjectStructure = generateNewObjectStructure;
 exports.generateActions = generateActions;
@@ -402,14 +402,4 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
     return userToSend;
 };
 exports.getUserToSendFromUserListWithChatID = getUserToSendFromUserListWithChatID;
-const getMenusWithUserToSend = (menusWithUsers, userToSend) => {
-    const menus = [];
-    for (const key in menusWithUsers) {
-        if (menusWithUsers[key].includes(userToSend)) {
-            menus.push(key);
-        }
-    }
-    return menus;
-};
-exports.getMenusWithUserToSend = getMenusWithUserToSend;
 //# sourceMappingURL=action.js.map

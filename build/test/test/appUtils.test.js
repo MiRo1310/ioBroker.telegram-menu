@@ -118,4 +118,49 @@ describe('roundValue', () => {
         });
     });
 });
+describe('getMenusWithUser', () => {
+    it('should return menus that include the specified user', () => {
+        const menusWithUsers = {
+            menu1: ['user1', 'user2'],
+            menu2: ['user3'],
+            menu3: ['user1', 'user4'],
+        };
+        const userToSend = 'user1';
+        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        (0, chai_1.expect)(result).to.deep.equal(['menu1', 'menu3']);
+    });
+    it('should return an empty array if no menus include the specified user', () => {
+        const menusWithUsers = {
+            menu1: ['user2'],
+            menu2: ['user3'],
+        };
+        const userToSend = 'user1';
+        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        (0, chai_1.expect)(result).to.deep.equal([]);
+    });
+    it('should return an empty array if the menusWithUsers object is empty', () => {
+        const menusWithUsers = {};
+        const userToSend = 'user1';
+        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        (0, chai_1.expect)(result).to.deep.equal([]);
+    });
+    it('should return an empty array if the userToSend is an empty string', () => {
+        const menusWithUsers = {
+            menu1: ['user1', 'user2'],
+            menu2: ['user3'],
+        };
+        const userToSend = '';
+        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        (0, chai_1.expect)(result).to.deep.equal([]);
+    });
+    it('should handle menus with empty user arrays', () => {
+        const menusWithUsers = {
+            menu1: [],
+            menu2: ['user3'],
+        };
+        const userToSend = 'user3';
+        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        (0, chai_1.expect)(result).to.deep.equal(['menu2']);
+    });
+});
 //# sourceMappingURL=appUtils.test.js.map

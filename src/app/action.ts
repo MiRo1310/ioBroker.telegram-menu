@@ -14,7 +14,6 @@ import type {
     GenerateActionsNewObject,
     GeneratedNavMenu,
     MenuData,
-    MenusWithUsers,
     Newline,
     NewObjectNavStructure,
     Part,
@@ -481,15 +480,6 @@ const getUserToSendFromUserListWithChatID = (
 
     return userToSend;
 };
-const getMenusWithUserToSend = (menusWithUsers: MenusWithUsers, userToSend: string): string[] => {
-    const menus: string[] = [];
-    for (const key in menusWithUsers) {
-        if (menusWithUsers[key].includes(userToSend)) {
-            menus.push(key);
-        }
-    }
-    return menus;
-};
 
 export {
     editArrayButtons,
@@ -501,5 +491,4 @@ export {
     adjustValueType,
     checkEvent,
     getUserToSendFromUserListWithChatID,
-    getMenusWithUserToSend,
 };
