@@ -166,7 +166,11 @@ export interface GetData {
 
 export type BooleanString = 'false' | 'true';
 export type ParseModeType = 'HTML' | 'Markdown';
-export type Location = any;
+
+export interface Location {
+    latitude: string;
+    longitude: string;
+}
 
 export interface SetDynamicValueObj {
     [key: string]: SetDynamicValue;
@@ -283,13 +287,9 @@ export type BackMenu = Record<string, BackMenuList>;
 // TODO : Define the type for BackMenuList
 type BackMenuList = any;
 
-export interface CheckEveryMenuForDataType {
+export interface CheckEveryMenuForDataType extends GlobalTelegramValues {
     menuData: MenuData; // checked !!!!
     calledValue: string;
-    userToSend: string;
-    instanceTelegram: string;
-    resizeKeyboard: boolean;
-    oneTimeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     menus: string[];
     isUserActiveCheckbox: IsUserActiveCheckbox;
@@ -298,14 +298,10 @@ export interface CheckEveryMenuForDataType {
     timeoutKey: string;
 }
 
-export interface ProcessDataType {
+export interface ProcessDataType extends GlobalTelegramValues {
     menuData: MenuData;
     calledValue: string;
-    userToSend: string;
     groupWithUser: GroupWithUser;
-    instanceTelegram: string;
-    resizeKeyboard: boolean;
-    oneTimeKeyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     allMenusWithData: AllMenusWithData;
     menus: string[];
@@ -409,4 +405,11 @@ export interface DecomposeTextReturnType {
 export interface EvaluateReturnType {
     val: any;
     error: boolean;
+}
+
+export interface Telegram extends GlobalTelegramValues {
+    textToSend?: string;
+    keyboard?: Keyboard;
+    userListWithChatID: UserListWithChatId[];
+    parseMode?: boolean;
 }
