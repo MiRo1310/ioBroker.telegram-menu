@@ -20,7 +20,6 @@ var action_exports = {};
 __export(action_exports, {
   adjustValueType: () => adjustValueType,
   bindingFunc: () => bindingFunc,
-  calcValue: () => calcValue,
   checkEvent: () => checkEvent,
   editArrayButtons: () => editArrayButtons,
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
@@ -39,6 +38,8 @@ var import_backMenu = require("./backMenu.js");
 var import_logging = require("./logging.js");
 var import_main = require("../main.js");
 var import_string = require("../lib/string");
+var import_config = require("../config/config");
+var import_appUtils = require("../lib/appUtils");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
   let value;
@@ -66,7 +67,6 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     await (0, import_telegram.sendToTelegram)({
       user: userToSend,
       textToSend: value,
-      keyboard: void 0,
       instance: telegramInstance,
       resize_keyboard: one_time_keyboard,
       one_time_keyboard: resize_keyboard,
@@ -77,34 +77,17 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
   }
 };
-function calcValue(textToSend, val) {
-  const { substring } = (0, import_string.decomposeText)(textToSend, "{math:", "}");
-  const mathValue = substring.replace("{math:", "").replace("}", "");
-  try {
-    val = eval(val + mathValue);
-    textToSend = textToSend.replace(substring, "");
-    return { textToSend, val };
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error Eval:", e, import_main.adapter);
-  }
-}
-function checkValueForOneLine(text2) {
-  if (!text2.includes("&&")) {
-    return `${text2}&&`;
-  }
-  return text2;
-}
-function editArrayButtons(val2) {
+function editArrayButtons(val) {
   const newVal = [];
   try {
-    val2.forEach((element) => {
+    val.forEach((element) => {
       let value2 = "";
       if (typeof element.value === "string") {
-        value2 = checkValueForOneLine(element.value);
+        value2 = (0, import_appUtils.checkOneLineValue)(element.value);
       }
       let array = [];
-      if (value2.indexOf("&&") != -1) {
-        array = value2.split("&&");
+      if (value2.indexOf(import_config.config.rowSplitter) != -1) {
+        array = value2.split(import_config.config.rowSplitter);
       }
       if (array.length > 1) {
         array.forEach(function(element2, index) {
@@ -196,13 +179,13 @@ const idBySelector = async (selector, text2, userToSend2, newline, telegramInsta
     ]);
   }
 };
-function generateNewObjectStructure(val2) {
+function generateNewObjectStructure(val) {
   try {
-    if (!val2) {
+    if (!val) {
       return null;
     }
     const obj = {};
-    val2.forEach(function(element) {
+    val.forEach(function(element) {
       const call = element.call;
       obj[call] = {
         nav: element.nav,
@@ -308,16 +291,16 @@ function generateActions(action, userObject) {
               const name = elementItem.name;
               const value2 = elementItem.value ? elementItem.value : elementItem.name;
               const newKey = elementItem.key ? elementItem.key : key;
-              let val2;
+              let val;
               if (!element[value2]) {
-                val2 = false;
+                val = false;
               } else {
-                val2 = element[value2][newKey] || "false";
+                val = element[value2][newKey] || "false";
               }
-              if (elementItem.type == "text" && typeof val2 === "string") {
-                newObj[name] = val2.replace(/&amp;/g, "&");
+              if (elementItem.type == "text" && typeof val === "string") {
+                newObj[name] = val.replace(/&amp;/g, "&");
               } else {
-                newObj[name] = val2;
+                newObj[name] = val;
               }
             });
             if (item2.name && typeof item2.name === "string") {
@@ -332,10 +315,10 @@ function generateActions(action, userObject) {
     (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
   }
 }
-function roundValue(val2, textToSend2) {
+function roundValue(val, textToSend) {
   try {
-    const floatedNumber = parseFloat(val2);
-    const { substring: substring2, textWithoutSubstring } = (0, import_string.decomposeText)(textToSend2, "{round:", "}");
+    const floatedNumber = parseFloat(val);
+    const { substring: substring2, textWithoutSubstring } = (0, import_string.decomposeText)(textToSend, "{round:", "}");
     const decimalPlaces = substring2.split(":")[1].replace("}", "");
     const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
     return { val: floatedString, textToSend: textWithoutSubstring };
@@ -343,15 +326,15 @@ function roundValue(val2, textToSend2) {
     (0, import_logging.errorLogger)("Error roundValue:", err, import_main.adapter);
   }
 }
-const exchangePlaceholderWithValue = (textToSend2, val2) => {
+const exchangePlaceholderWithValue = (textToSend, val) => {
   let searchString = "";
-  if (textToSend2.includes("&&")) {
+  if (textToSend.includes("&&")) {
     searchString = "&&";
-  } else if (textToSend2.includes("&amp;&amp;")) {
+  } else if (textToSend.includes("&amp;&amp;")) {
     searchString = "&amp;&amp;";
   }
-  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, val2.toString()) : textToSend2 += ` ${val2}`;
-  return textToSend2;
+  searchString !== "" && textToSend.toString().indexOf(searchString) != -1 ? textToSend = textToSend.replace(searchString, val.toString()) : textToSend += ` ${val}`;
+  return textToSend;
 };
 const adjustValueType = (value2, valueType) => {
   if (valueType == "number") {
@@ -464,7 +447,6 @@ const getMenusWithUserToSend = (menusWithUsers, userToSend2) => {
 0 && (module.exports = {
   adjustValueType,
   bindingFunc,
-  calcValue,
   checkEvent,
   editArrayButtons,
   exchangePlaceholderWithValue,

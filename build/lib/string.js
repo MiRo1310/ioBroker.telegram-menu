@@ -24,6 +24,7 @@ __export(string_exports, {
   jsonString: () => jsonString,
   parseJSON: () => parseJSON,
   replaceAll: () => replaceAll,
+  stringReplacer: () => stringReplacer,
   validateNewLine: () => validateNewLine
 });
 module.exports = __toCommonJS(string_exports);
@@ -47,22 +48,24 @@ const validateNewLine = (text) => {
   }
   return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "");
 };
-function decomposeText(text, searchValue, secondValue) {
-  const startindex = text.indexOf(searchValue);
-  const endindex = text.indexOf(secondValue, startindex);
-  const substring = text.substring(startindex, endindex + secondValue.length);
+function decomposeText(text, firstSearch, secondSearch) {
+  const startindex = text.indexOf(firstSearch);
+  const endindex = text.indexOf(secondSearch, startindex);
+  const substring = text.substring(startindex, endindex + secondSearch.length);
+  const substringExcludedSearch = stringReplacer(substring, [firstSearch, secondSearch]);
   const textWithoutSubstring = text.replace(substring, "").trim();
   return {
     startindex,
     endindex,
     substring,
-    textWithoutSubstring
+    textWithoutSubstring,
+    substringExcludedSearch
   };
 }
 const getValueToExchange = (adapter, textToSend, val) => {
   var _a;
-  if (textToSend.includes(import_config.config.replacer.change.start)) {
-    const { start, end, command } = import_config.config.replacer.change;
+  if (textToSend.includes(import_config.config.change.start)) {
+    const { start, end, command } = import_config.config.change;
     const { startindex, endindex, substring } = decomposeText(textToSend, start, end);
     const modifiedString = replaceAll(substring, "'", '"').replace(command, "");
     const { json, isValidJson } = parseJSON(modifiedString);
@@ -79,6 +82,18 @@ const getValueToExchange = (adapter, textToSend, val) => {
   return { textToSend, newValue: val, error: false };
 };
 const isString = (value) => typeof value === "string";
+function stringReplacer(substring, valueToReplace) {
+  if (typeof valueToReplace[0] === "string") {
+    valueToReplace.forEach((item) => {
+      substring = substring.replace(item, "");
+    });
+    return substring;
+  }
+  valueToReplace.forEach(({ val, newValue }) => {
+    substring = substring.replace(val, newValue);
+  });
+  return substring;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   decomposeText,
@@ -87,6 +102,7 @@ const isString = (value) => typeof value === "string";
   jsonString,
   parseJSON,
   replaceAll,
+  stringReplacer,
   validateNewLine
 });
 //# sourceMappingURL=string.js.map

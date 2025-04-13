@@ -35,7 +35,7 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
   }
 }
 async function _subscribeForeignStatesAsync(array) {
-  array = (0, import_object.deleteDoubleEntriesInArray)(array);
+  array = (0, import_object.removeDuplicates)(array);
   for (const element of array) {
     await import_main.adapter.subscribeForeignStatesAsync(element);
   }

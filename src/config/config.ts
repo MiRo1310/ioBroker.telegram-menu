@@ -9,4 +9,8 @@ export const config = {
         command: 'change',
     },
     rowSplitter: '&&',
+    math: {
+        start: '{math:',
+        end: '}',
+    },
 };

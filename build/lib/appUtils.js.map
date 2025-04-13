@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/appUtils.ts"],
+  "sourcesContent": ["import { config } from '../config/config';\n\nexport const checkOneLineValue = (text: string): string =>\n    !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAuB;AAEhB,MAAM,oBAAoB,CAAC,SAC9B,CAAC,KAAK,SAAS,qBAAO,WAAW,IAAI,GAAG,IAAI,IAAI,qBAAO,WAAW,KAAK;",
+  "names": []
+}

@@ -1,5 +1,5 @@
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { bindingFunc, calcValue, idBySelector, roundValue } from './action';
+import { bindingFunc, idBySelector, roundValue } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc } from '../lib/utilities';
 import { isDefined } from '../lib/utils';
@@ -7,6 +7,7 @@ import { adapter } from '../main';
 import type { Part, PrimitiveType, UserListWithChatId } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
 import { decomposeText, getValueToExchange, jsonString } from '../lib/string';
+import { calcValue } from '../lib/math';
 
 function getState(
     part: Part,

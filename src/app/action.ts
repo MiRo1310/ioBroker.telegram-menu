@@ -24,7 +24,7 @@ import type {
     UserListWithChatId,
     UserObjectActions,
 } from '../types/types';
-import { decomposeText, stringReplacer } from '../lib/string';
+import { decomposeText } from '../lib/string';
 import { config } from '../config/config';
 import { checkOneLineValue } from '../lib/appUtils';
 
@@ -76,19 +76,6 @@ const bindingFunc = async (
         errorLogger('Error Binding function: ', e, adapter);
     }
 };
-
-function calcValue(textToSend: string, val: string): { textToSend: string; val: string } | undefined {
-    const { substring } = decomposeText(textToSend, '{math:', '}');
-    const mathValue = stringReplacer(substring, ['{math:', '}']);
-    try {
-        val = eval(val + mathValue);
-        textToSend = textToSend.replace(substring, '');
-
-        return { textToSend: textToSend, val: val };
-    } catch (e: any) {
-        errorLogger('Error Eval:', e, adapter);
-    }
-}
 
 function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
     const newVal: GeneratedNavMenu[] = [];
@@ -522,7 +509,6 @@ export {
     idBySelector,
     generateNewObjectStructure,
     generateActions,
-    calcValue,
     roundValue,
     bindingFunc,
     exchangePlaceholderWithValue,

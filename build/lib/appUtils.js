@@ -16,14 +16,15 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var object_exports = {};
-__export(object_exports, {
-  removeDuplicates: () => removeDuplicates
+var appUtils_exports = {};
+__export(appUtils_exports, {
+  checkOneLineValue: () => checkOneLineValue
 });
-module.exports = __toCommonJS(object_exports);
-const removeDuplicates = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
+module.exports = __toCommonJS(appUtils_exports);
+var import_config = require("../config/config");
+const checkOneLineValue = (text) => !text.includes(import_config.config.rowSplitter) ? `${text} ${import_config.config.rowSplitter}` : text;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  removeDuplicates
+  checkOneLineValue
 });
-//# sourceMappingURL=object.js.map
+//# sourceMappingURL=appUtils.js.map

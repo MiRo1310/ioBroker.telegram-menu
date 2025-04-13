@@ -26,13 +26,16 @@ module.exports = __toCommonJS(config_exports);
 const defaultLocale = "de-DE";
 const timezone = "Europe/Berlin";
 const config = {
-  replacer: {
-    time: "{time}",
-    change: {
-      start: "change{",
-      end: "}",
-      command: "change"
-    }
+  time: "{time}",
+  change: {
+    start: "change{",
+    end: "}",
+    command: "change"
+  },
+  rowSplitter: "&&",
+  math: {
+    start: "{math:",
+    end: "}"
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

@@ -436,3 +436,8 @@ export interface DecomposeTextReturnType {
     textWithoutSubstring: string;
     substringExcludedSearch: string;
 }
+
+export interface EvaluateReturnType {
+    val: any;
+    error: boolean;
+}

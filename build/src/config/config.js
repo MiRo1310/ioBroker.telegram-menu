@@ -11,5 +11,9 @@ exports.config = {
         command: 'change',
     },
     rowSplitter: '&&',
+    math: {
+        start: '{math:',
+        end: '}',
+    },
 };
 //# sourceMappingURL=config.js.map

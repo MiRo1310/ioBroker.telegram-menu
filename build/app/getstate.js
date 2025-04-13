@@ -29,6 +29,7 @@ var import_utils = require("../lib/utils");
 var import_main = require("../main");
 var import_time = require("../lib/time");
 var import_string = require("../lib/string");
+var import_math = require("../lib/math");
 function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
   var _a, _b;
   let text = "";
@@ -90,7 +91,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             val = "";
           }
           if (textToSend.includes("math:")) {
-            const result = (0, import_action.calcValue)(textToSend, val);
+            const result = (0, import_math.calcValue)(textToSend, val);
             if (result) {
               textToSend = result.textToSend;
               val = result.val;

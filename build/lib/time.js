@@ -34,10 +34,10 @@ const toLocaleDate = (ts) => {
 };
 const integrateTimeIntoText = (text, val) => {
   if (!val) {
-    return text.replace(import_config.config.replacer.time, '"Invalid Date"');
+    return text.replace(import_config.config.time, '"Invalid Date"');
   }
   const date = new Date(Number(String(val)));
-  return text.replace(import_config.config.replacer.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
+  return text.replace(import_config.config.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

@@ -4,7 +4,6 @@ exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = e
 exports.editArrayButtons = editArrayButtons;
 exports.generateNewObjectStructure = generateNewObjectStructure;
 exports.generateActions = generateActions;
-exports.calcValue = calcValue;
 exports.roundValue = roundValue;
 const telegram_js_1 = require("./telegram.js");
 const subMenu_js_1 = require("./subMenu.js");
@@ -54,18 +53,6 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     }
 };
 exports.bindingFunc = bindingFunc;
-function calcValue(textToSend, val) {
-    const { substring } = (0, string_1.decomposeText)(textToSend, '{math:', '}');
-    const mathValue = (0, string_1.stringReplacer)(substring, ['{math:', '}']);
-    try {
-        val = eval(val + mathValue);
-        textToSend = textToSend.replace(substring, '');
-        return { textToSend: textToSend, val: val };
-    }
-    catch (e) {
-        (0, logging_js_1.errorLogger)('Error Eval:', e, main_js_1.adapter);
-    }
-}
 function editArrayButtons(val) {
     const newVal = [];
     try {
