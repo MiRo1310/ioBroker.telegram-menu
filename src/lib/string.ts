@@ -1,5 +1,5 @@
 import { config } from '../config/config';
-import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types';
+import type { Adapter, ExchangeValueReturn, PrimitiveType, StringReplacerObj } from '../types/types';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
@@ -69,3 +69,17 @@ export const getValueToExchange = (adapter: Adapter, textToSend: string, val: Pr
 };
 
 export const isString = (value: unknown): value is string => typeof value === 'string';
+
+export function stringReplacer(substring: string, valueToReplace: string[] | StringReplacerObj[]): string {
+    if (typeof valueToReplace[0] === 'string') {
+        (valueToReplace as string[]).forEach(item => {
+            substring = substring.replace(item, '');
+        });
+        return substring;
+    }
+
+    (valueToReplace as StringReplacerObj[]).forEach(({ val, newValue }) => {
+        substring = substring.replace(val, newValue);
+    });
+    return substring;
+}

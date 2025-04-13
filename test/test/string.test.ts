@@ -1,11 +1,12 @@
 import {
     decomposeText,
     getValueToExchange,
+    isString,
     jsonString,
     parseJSON,
     replaceAll,
-    validateNewLine, isString
-
+    stringReplacer,
+    validateNewLine
 } from '../../src/lib/string';
 import {expect} from 'chai';
 import {utils} from "@iobroker/testing";
@@ -152,5 +153,45 @@ describe('isString', () => {
         expect(isString(undefined)).to.be.false;
         expect(isString({})).to.be.false;
         expect(isString([])).to.be.false;
+    });
+});
+
+describe('StringReplacer', () => {
+    it('should remove all matching strings from the substring', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = ['Hello', 'World'];
+        const result = stringReplacer(substring, valueToReplace);
+        expect(result).to.equal(' !');
+    });
+
+    it('should replace all matching objects in the substring', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = [
+            { val: 'Hello', newValue: 'Hi' },
+            { val: 'World', newValue: 'Earth' },
+        ];
+        const result = stringReplacer(substring, valueToReplace);
+        expect(result).to.equal('Hi Earth!');
+    });
+
+    it('should return the original substring if no matches are found', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = ['Test'];
+        const result = stringReplacer(substring, valueToReplace);
+        expect(result).to.equal('Hello World!');
+    });
+
+    it('should handle an empty array for valueToReplace', () => {
+        const substring = 'Hello World!';
+        const valueToReplace: string[] = [];
+        const result = stringReplacer(substring, valueToReplace);
+        expect(result).to.equal('Hello World!');
+    });
+
+    it('should handle an empty substring', () => {
+        const substring = '';
+        const valueToReplace = ['Hello', 'World'];
+        const result = stringReplacer(substring, valueToReplace);
+        expect(result).to.equal('');
     });
 });

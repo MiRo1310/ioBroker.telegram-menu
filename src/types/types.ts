@@ -423,3 +423,8 @@ export interface Timeouts {
     key: string;
     timeout: ioBroker.Timeout;
 }
+
+export interface StringReplacerObj {
+    val: string;
+    newValue: string;
+}

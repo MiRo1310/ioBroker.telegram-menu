@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
+exports.stringReplacer = stringReplacer;
 const config_1 = require("../config/config");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
@@ -65,4 +66,16 @@ const getValueToExchange = (adapter, textToSend, val) => {
 exports.getValueToExchange = getValueToExchange;
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
+function stringReplacer(substring, valueToReplace) {
+    if (typeof valueToReplace[0] === 'string') {
+        valueToReplace.forEach(item => {
+            substring = substring.replace(item, '');
+        });
+        return substring;
+    }
+    valueToReplace.forEach(({ val, newValue }) => {
+        substring = substring.replace(val, newValue);
+    });
+    return substring;
+}
 //# sourceMappingURL=string.js.map

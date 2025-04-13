@@ -24,7 +24,7 @@ import type {
     UserListWithChatId,
     UserObjectActions,
 } from '../types/types';
-import { decomposeText } from '../lib/string';
+import { decomposeText, stringReplacer } from '../lib/string';
 import { config } from '../config/config';
 import { checkOneLineValue } from '../lib/appUtils';
 
@@ -80,7 +80,7 @@ const bindingFunc = async (
 
 function calcValue(textToSend: string, val: string): { textToSend: string; val: string } | undefined {
     const { substring } = decomposeText(textToSend, '{math:', '}');
-    const mathValue = substring.replace('{math:', '').replace('}', '');
+    const mathValue = stringReplacer(substring, ['{math:', '}']);
     try {
         val = eval(val + mathValue);
         textToSend = textToSend.replace(substring, '');

@@ -57,7 +57,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
 exports.bindingFunc = bindingFunc;
 function calcValue(textToSend, val) {
     const { substring } = (0, string_1.decomposeText)(textToSend, '{math:', '}');
-    const mathValue = substring.replace('{math:', '').replace('}', '');
+    const mathValue = (0, string_1.stringReplacer)(substring, ['{math:', '}']);
     try {
         val = eval(val + mathValue);
         textToSend = textToSend.replace(substring, '');

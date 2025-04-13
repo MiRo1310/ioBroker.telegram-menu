@@ -127,4 +127,39 @@ describe('isString', () => {
         (0, chai_1.expect)((0, string_1.isString)([])).to.be.false;
     });
 });
+describe('StringReplacer', () => {
+    it('should remove all matching strings from the substring', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = ['Hello', 'World'];
+        const result = (0, string_1.stringReplacer)(substring, valueToReplace);
+        (0, chai_1.expect)(result).to.equal(' !');
+    });
+    it('should replace all matching objects in the substring', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = [
+            { val: 'Hello', newValue: 'Hi' },
+            { val: 'World', newValue: 'Earth' },
+        ];
+        const result = (0, string_1.stringReplacer)(substring, valueToReplace);
+        (0, chai_1.expect)(result).to.equal('Hi Earth!');
+    });
+    it('should return the original substring if no matches are found', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = ['Test'];
+        const result = (0, string_1.stringReplacer)(substring, valueToReplace);
+        (0, chai_1.expect)(result).to.equal('Hello World!');
+    });
+    it('should handle an empty array for valueToReplace', () => {
+        const substring = 'Hello World!';
+        const valueToReplace = [];
+        const result = (0, string_1.stringReplacer)(substring, valueToReplace);
+        (0, chai_1.expect)(result).to.equal('Hello World!');
+    });
+    it('should handle an empty substring', () => {
+        const substring = '';
+        const valueToReplace = ['Hello', 'World'];
+        const result = (0, string_1.stringReplacer)(substring, valueToReplace);
+        (0, chai_1.expect)(result).to.equal('');
+    });
+});
 //# sourceMappingURL=string.test.js.map
