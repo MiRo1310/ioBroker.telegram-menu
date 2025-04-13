@@ -43,8 +43,8 @@ function decomposeText(text, firstSearch, secondSearch) {
         startindex,
         endindex,
         substring,
-        textWithoutSubstring,
-        substringExcludedSearch,
+        textExcludeSubstring: textWithoutSubstring,
+        substringExcludeSearch: substringExcludedSearch,
     };
 }
 const getValueToExchange = (adapter, textToSend, val) => {

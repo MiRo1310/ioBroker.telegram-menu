@@ -76,8 +76,8 @@ describe('decomposeText', () => {
             startindex: 12,
             endindex: 18,
             substring: '__Test.',
-            textWithoutSubstring: 'Das ist ein  Das ist ein Test2',
-            substringExcludedSearch:'Test',
+            textExcludeSubstring: 'Das ist ein  Das ist ein Test2',
+            substringExcludeSearch:'Test',
         });
 
         const result2 = decomposeText('Das ist ein __Test.', '?', '.');
@@ -85,8 +85,8 @@ describe('decomposeText', () => {
             startindex: -1,
             endindex: 18,
             substring: 'Das ist ein __Test.',
-            textWithoutSubstring: '',
-            substringExcludedSearch:"Das ist ein __Test"
+            textExcludeSubstring: '',
+            substringExcludeSearch:"Das ist ein __Test"
         });
 
         const result3 = decomposeText('Das ist ein __Test.', '?', '-');
@@ -94,8 +94,8 @@ describe('decomposeText', () => {
             startindex: -1,
             endindex: -1,
             substring: '',
-            textWithoutSubstring: 'Das ist ein __Test.',
-            substringExcludedSearch:""
+            textExcludeSubstring: 'Das ist ein __Test.',
+            substringExcludeSearch:""
         });
     });
 });

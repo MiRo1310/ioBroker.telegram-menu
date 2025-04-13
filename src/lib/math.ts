@@ -1,8 +1,5 @@
 import type { Adapter, EvaluateReturnType } from '../types/types';
 import { errorLogger } from '../app/logging';
-import { decomposeText } from './string';
-import { config } from '../config/config';
-import { adapter } from '../main';
 
 export function evaluate(val: string[], adapter: Adapter): EvaluateReturnType {
     try {
@@ -11,21 +8,4 @@ export function evaluate(val: string[], adapter: Adapter): EvaluateReturnType {
         errorLogger('Error Eval:', e, adapter);
         return { val: '', error: true };
     }
-}
-
-export function calcValue(
-    textToSend: string,
-    val: string,
-    adapter: Adapter,
-): { textToSend: string; val: any; error: boolean } {
-    const { substringExcludedSearch, textWithoutSubstring } = decomposeText(
-        textToSend,
-        config.math.start,
-        config.math.end,
-    );
-    const { val: evalVal, error } = evaluate([val, substringExcludedSearch], adapter);
-
-    return error
-        ? { textToSend: textWithoutSubstring, val, error }
-        : { textToSend: textWithoutSubstring, val: evalVal, error };
 }

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/config/config.ts"],
-  "sourcesContent": ["export const defaultLocale = 'de-DE';\nexport const timezone = 'Europe/Berlin';\n\nexport const config = {\n    time: '{time}',\n    change: {\n        start: 'change{',\n        end: '}',\n        command: 'change',\n    },\n    rowSplitter: '&&',\n    math: {\n        start: '{math:',\n        end: '}',\n    },\n};\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,gBAAgB;AACtB,MAAM,WAAW;AAEjB,MAAM,SAAS;AAAA,EAClB,MAAM;AAAA,EACN,QAAQ;AAAA,IACJ,OAAO;AAAA,IACP,KAAK;AAAA,IACL,SAAS;AAAA,EACb;AAAA,EACA,aAAa;AAAA,EACb,MAAM;AAAA,IACF,OAAO;AAAA,IACP,KAAK;AAAA,EACT;AACJ;",
+  "sourcesContent": ["export const defaultLocale = 'de-DE';\nexport const timezone = 'Europe/Berlin';\n\nexport const config = {\n    time: '{time}',\n    change: {\n        start: 'change{',\n        end: '}',\n        command: 'change',\n    },\n    rowSplitter: '&&',\n    math: {\n        start: '{math:',\n        end: '}',\n    },\n    round: {\n        start: '{round:',\n        end: '}',\n    },\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,gBAAgB;AACtB,MAAM,WAAW;AAEjB,MAAM,SAAS;AAAA,EAClB,MAAM;AAAA,EACN,QAAQ;AAAA,IACJ,OAAO;AAAA,IACP,KAAK;AAAA,IACL,SAAS;AAAA,EACb;AAAA,EACA,aAAa;AAAA,EACb,MAAM;AAAA,IACF,OAAO;AAAA,IACP,KAAK;AAAA,EACT;AAAA,EACA,OAAO;AAAA,IACH,OAAO;AAAA,IACP,KAAK;AAAA,EACT;AACJ;",
   "names": []
 }

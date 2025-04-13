@@ -36,6 +36,10 @@ const config = {
   math: {
     start: "{math:",
     end: "}"
+  },
+  round: {
+    start: "{round:",
+    end: "}"
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

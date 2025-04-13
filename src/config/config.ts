@@ -13,4 +13,8 @@ export const config = {
         start: '{math:',
         end: '}',
     },
+    round: {
+        start: '{round:',
+        end: '}',
+    },
 };

@@ -351,19 +351,6 @@ function generateActions(
     }
 }
 
-function roundValue(val: string, textToSend: string): { val: string; textToSend: string } | undefined {
-    try {
-        const floatedNumber = parseFloat(val);
-        const { substring, textWithoutSubstring } = decomposeText(textToSend, '{round:', '}');
-
-        const decimalPlaces = substring.split(':')[1].replace('}', '');
-        const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
-        return { val: floatedString, textToSend: textWithoutSubstring };
-    } catch (err: any) {
-        errorLogger('Error roundValue:', err, adapter);
-    }
-}
-
 const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): string => {
     let searchString = '';
     if (textToSend.includes('&&')) {
@@ -509,7 +496,6 @@ export {
     idBySelector,
     generateNewObjectStructure,
     generateActions,
-    roundValue,
     bindingFunc,
     exchangePlaceholderWithValue,
     adjustValueType,

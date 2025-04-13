@@ -45,8 +45,8 @@ export function decomposeText(text: string, firstSearch: string, secondSearch: s
         startindex,
         endindex,
         substring,
-        textWithoutSubstring,
-        substringExcludedSearch,
+        textExcludeSubstring: textWithoutSubstring,
+        substringExcludeSearch: substringExcludedSearch,
     };
 }
 

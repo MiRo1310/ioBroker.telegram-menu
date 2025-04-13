@@ -29,7 +29,7 @@ var import_utils = require("../lib/utils");
 var import_main = require("../main");
 var import_time = require("../lib/time");
 var import_string = require("../lib/string");
-var import_math = require("../lib/math");
+var import_appUtils = require("../lib/appUtils");
 function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
   var _a, _b;
   let text = "";
@@ -91,7 +91,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             val = "";
           }
           if (textToSend.includes("math:")) {
-            const result = (0, import_math.calcValue)(textToSend, val);
+            const result = (0, import_appUtils.calcValue)(textToSend, val, import_main.adapter);
             if (result) {
               textToSend = result.textToSend;
               val = result.val;
@@ -99,7 +99,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             }
           }
           if (textToSend.includes("round:")) {
-            const result = (0, import_action.roundValue)(val, textToSend);
+            const result = (0, import_appUtils.roundValue)(String(val), textToSend, import_main.adapter);
             if (result) {
               import_main.adapter.log.debug(
                 `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`

@@ -160,7 +160,7 @@ const checkStatusInfo = async (text) => {
             const result = (0, string_1.decomposeText)(text, '{set:', '}');
             const id = result.substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
             const importedValue = result.substring.split(',')[1];
-            text = result.textWithoutSubstring;
+            text = result.textExcludeSubstring;
             const convertedValue = await checkTypeOfId(id, importedValue);
             const ack = result.substring.split(',')[2].replace('}', '') == 'true';
             if (text === '') {

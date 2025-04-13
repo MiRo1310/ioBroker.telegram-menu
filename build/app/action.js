@@ -27,8 +27,7 @@ __export(action_exports, {
   generateNewObjectStructure: () => generateNewObjectStructure,
   getMenusWithUserToSend: () => getMenusWithUserToSend,
   getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
-  idBySelector: () => idBySelector,
-  roundValue: () => roundValue
+  idBySelector: () => idBySelector
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram.js");
@@ -315,17 +314,6 @@ function generateActions(action, userObject) {
     (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
   }
 }
-function roundValue(val, textToSend) {
-  try {
-    const floatedNumber = parseFloat(val);
-    const { substring: substring2, textWithoutSubstring } = (0, import_string.decomposeText)(textToSend, "{round:", "}");
-    const decimalPlaces = substring2.split(":")[1].replace("}", "");
-    const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
-    return { val: floatedString, textToSend: textWithoutSubstring };
-  } catch (err) {
-    (0, import_logging.errorLogger)("Error roundValue:", err, import_main.adapter);
-  }
-}
 const exchangePlaceholderWithValue = (textToSend, val) => {
   let searchString = "";
   if (textToSend.includes("&&")) {
@@ -454,7 +442,6 @@ const getMenusWithUserToSend = (menusWithUsers, userToSend2) => {
   generateNewObjectStructure,
   getMenusWithUserToSend,
   getUserToSendFromUserListWithChatID,
-  idBySelector,
-  roundValue
+  idBySelector
 });
 //# sourceMappingURL=action.js.map

@@ -166,7 +166,7 @@ const checkStatusInfo = async (text: string): Promise<string | undefined> => {
             const id = result.substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
             const importedValue = result.substring.split(',')[1];
 
-            text = result.textWithoutSubstring;
+            text = result.textExcludeSubstring;
             const convertedValue = await checkTypeOfId(id, importedValue);
 
             const ack = result.substring.split(',')[2].replace('}', '') == 'true';

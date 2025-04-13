@@ -18,13 +18,50 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var appUtils_exports = {};
 __export(appUtils_exports, {
-  checkOneLineValue: () => checkOneLineValue
+  calcValue: () => calcValue,
+  checkOneLineValue: () => checkOneLineValue,
+  roundValue: () => roundValue
 });
 module.exports = __toCommonJS(appUtils_exports);
 var import_config = require("../config/config");
+var import_string = require("./string");
+var import_logging = require("../app/logging");
+var import_math = require("./math");
 const checkOneLineValue = (text) => !text.includes(import_config.config.rowSplitter) ? `${text} ${import_config.config.rowSplitter}` : text;
+function calcValue(textToSend, val, adapter) {
+  const { substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(
+    textToSend,
+    import_config.config.math.start,
+    import_config.config.math.end
+  );
+  const { val: evalVal, error } = (0, import_math.evaluate)([val, substringExcludeSearch], adapter);
+  return error ? { textToSend: textExcludeSubstring, val, error } : { textToSend: textExcludeSubstring, val: evalVal, error };
+}
+function roundValue(val, textToSend, adapter) {
+  try {
+    const floatVal = parseFloat(val);
+    const { textExcludeSubstring, substringExcludeSearch: decimalPlaces } = (0, import_string.decomposeText)(
+      textToSend,
+      import_config.config.round.start,
+      import_config.config.round.end
+    );
+    const decimalPlacesNum = parseInt(decimalPlaces);
+    if (isNaN(floatVal)) {
+      return { val: "NaN", textToSend: textExcludeSubstring, error: true };
+    }
+    if (isNaN(decimalPlacesNum)) {
+      return { val, textToSend: textExcludeSubstring, error: true };
+    }
+    return { val: floatVal.toFixed(decimalPlacesNum), textToSend: textExcludeSubstring, error: false };
+  } catch (err) {
+    (0, import_logging.errorLogger)("Error roundValue:", err, adapter);
+    return { val, textToSend, error: true };
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  checkOneLineValue
+  calcValue,
+  checkOneLineValue,
+  roundValue
 });
 //# sourceMappingURL=appUtils.js.map

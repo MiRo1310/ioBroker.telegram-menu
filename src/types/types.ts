@@ -433,8 +433,8 @@ export interface DecomposeTextReturnType {
     startindex: number;
     endindex: number;
     substring: string;
-    textWithoutSubstring: string;
-    substringExcludedSearch: string;
+    textExcludeSubstring: string;
+    substringExcludeSearch: string;
 }
 
 export interface EvaluateReturnType {

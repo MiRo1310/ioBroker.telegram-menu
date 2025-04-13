@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const appUtils_1 = require("../../src/lib/appUtils");
 const chai_1 = require("chai");
+const testing_1 = require("@iobroker/testing");
+const { adapter } = testing_1.utils.unit.createMocks({});
 describe("checkOneLineValue", () => {
     it("should add a row splitter to the end of the text if it doesn't already contain one", () => {
         const result = (0, appUtils_1.checkOneLineValue)("Hello this is a test");
@@ -10,6 +12,110 @@ describe("checkOneLineValue", () => {
     it("should not add a row splitter if the text already contains one", () => {
         const result = (0, appUtils_1.checkOneLineValue)("Hello this is a test &&");
         (0, chai_1.expect)(result).to.equal("Hello this is a test &&");
+    });
+});
+describe('calcValue', () => {
+    it('should calculate a valid mathematical expression', () => {
+        const textToSend = 'Test {math:+5}';
+        const val = '10';
+        const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            textToSend: 'Test',
+            val: 15,
+            error: false,
+        });
+    });
+    it('should return the original text and value if the expression is invalid', () => {
+        const textToSend = 'Test {math:+}';
+        const val = '10';
+        const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            textToSend: 'Test',
+            val: '10',
+            error: true,
+        });
+    });
+    it('should handle empty input gracefully', () => {
+        const textToSend = '';
+        const val = '';
+        const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            textToSend: '',
+            val: '',
+            error: false,
+        });
+    });
+    it('should return the original text if no math expression is found', () => {
+        const textToSend = 'No math here';
+        const val = '10';
+        const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            textToSend: 'No math here',
+            val: 10,
+            error: false,
+        });
+    });
+    it('should handle complex expressions correctly', () => {
+        const textToSend = 'Test {math:*2} test';
+        const val = '5';
+        const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            textToSend: 'Test  test',
+            val: 10,
+            error: false,
+        });
+    });
+});
+describe('roundValue', () => {
+    it('should round the value to the specified number of decimal places', () => {
+        const val = '123.4567';
+        const textToSend = 'Test {round:2}';
+        const result = (0, appUtils_1.roundValue)(val, textToSend, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            val: '123.46',
+            textToSend: 'Test',
+            error: false,
+        });
+    });
+    it('should handle invalid decimal places gracefully', () => {
+        const val = '123.4567';
+        const textToSend = 'Test {round:invalid}';
+        const result = (0, appUtils_1.roundValue)(val, textToSend, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            val: '123.4567',
+            textToSend: 'Test',
+            error: true,
+        });
+    });
+    it('should handle empty input gracefully', () => {
+        const val = '';
+        const textToSend = '';
+        const result = (0, appUtils_1.roundValue)(val, textToSend, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            val: 'NaN',
+            textToSend: '',
+            error: true,
+        });
+    });
+    it('should return an error if the value is not a valid number', () => {
+        const val = 'invalid';
+        const textToSend = 'Test {round:2}';
+        const result = (0, appUtils_1.roundValue)(val, textToSend, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            val: 'NaN',
+            textToSend: 'Test',
+            error: true,
+        });
+    });
+    it('should handle text without a round command', () => {
+        const val = '123.4567';
+        const textToSend = 'No round here';
+        const result = (0, appUtils_1.roundValue)(val, textToSend, adapter);
+        (0, chai_1.expect)(result).to.deep.equal({
+            val: '123.4567',
+            textToSend: 'No round here',
+            error: true,
+        });
     });
 });
 //# sourceMappingURL=appUtils.test.js.map

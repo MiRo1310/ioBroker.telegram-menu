@@ -15,5 +15,9 @@ exports.config = {
         start: '{math:',
         end: '}',
     },
+    round: {
+        start: '{round:',
+        end: '}',
+    },
 };
 //# sourceMappingURL=config.js.map

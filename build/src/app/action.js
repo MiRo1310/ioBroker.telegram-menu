@@ -4,7 +4,6 @@ exports.getMenusWithUserToSend = exports.getUserToSendFromUserListWithChatID = e
 exports.editArrayButtons = editArrayButtons;
 exports.generateNewObjectStructure = generateNewObjectStructure;
 exports.generateActions = generateActions;
-exports.roundValue = roundValue;
 const telegram_js_1 = require("./telegram.js");
 const subMenu_js_1 = require("./subMenu.js");
 const sendNav_js_1 = require("./sendNav.js");
@@ -302,18 +301,6 @@ function generateActions(action, userObject) {
     }
     catch (err) {
         (0, logging_js_1.errorLogger)('Error generateActions:', err, main_js_1.adapter);
-    }
-}
-function roundValue(val, textToSend) {
-    try {
-        const floatedNumber = parseFloat(val);
-        const { substring, textWithoutSubstring } = (0, string_1.decomposeText)(textToSend, '{round:', '}');
-        const decimalPlaces = substring.split(':')[1].replace('}', '');
-        const floatedString = floatedNumber.toFixed(parseInt(decimalPlaces));
-        return { val: floatedString, textToSend: textWithoutSubstring };
-    }
-    catch (err) {
-        (0, logging_js_1.errorLogger)('Error roundValue:', err, main_js_1.adapter);
     }
 }
 const exchangePlaceholderWithValue = (textToSend, val) => {

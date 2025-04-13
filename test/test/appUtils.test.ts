@@ -1,5 +1,8 @@
-import {checkOneLineValue} from "../../src/lib/appUtils";
+import {calcValue, checkOneLineValue, roundValue} from "../../src/lib/appUtils";
 import {expect} from "chai";
+import {utils} from "@iobroker/testing";
+
+const { adapter } = utils.unit.createMocks({});
 
 describe("checkOneLineValue", () => {
     it("should add a row splitter to the end of the text if it doesn't already contain one", () => {
@@ -12,3 +15,117 @@ describe("checkOneLineValue", () => {
         expect(result).to.equal("Hello this is a test &&");
     });
 })
+
+describe('calcValue', () => {
+    it('should calculate a valid mathematical expression', () => {
+        const textToSend = 'Test {math:+5}';
+        const val = '10';
+        const result = calcValue(textToSend, val, adapter);
+        expect(result).to.deep.equal({
+            textToSend: 'Test',
+            val: 15,
+            error: false,
+        });
+    });
+
+    it('should return the original text and value if the expression is invalid', () => {
+        const textToSend = 'Test {math:+}';
+        const val = '10';
+        const result = calcValue(textToSend, val, adapter);
+        expect(result).to.deep.equal({
+            textToSend: 'Test',
+            val: '10',
+            error: true,
+        });
+    });
+
+    it('should handle empty input gracefully', () => {
+        const textToSend = '';
+        const val = '';
+        const result = calcValue(textToSend, val,adapter);
+        expect(result).to.deep.equal({
+            textToSend: '',
+            val: '',
+            error: false,
+        });
+    });
+
+    it('should return the original text if no math expression is found', () => {
+        const textToSend = 'No math here';
+        const val = '10';
+        const result = calcValue(textToSend, val, adapter);
+        expect(result).to.deep.equal({
+            textToSend: 'No math here',
+            val: 10,
+            error: false,
+        });
+    });
+
+    it('should handle complex expressions correctly', () => {
+        const textToSend = 'Test {math:*2} test';
+        const val = '5';
+        const result = calcValue(textToSend, val, adapter);
+        expect(result).to.deep.equal({
+            textToSend: 'Test  test',
+            val: 10,
+            error: false,
+        });
+    });
+});
+
+describe('roundValue', () => {
+    it('should round the value to the specified number of decimal places', () => {
+        const val = '123.4567';
+        const textToSend = 'Test {round:2}';
+        const result = roundValue(val, textToSend, adapter);
+        expect(result).to.deep.equal({
+            val: '123.46',
+            textToSend: 'Test',
+            error: false,
+        });
+    });
+
+    it('should handle invalid decimal places gracefully', () => {
+        const val = '123.4567';
+        const textToSend = 'Test {round:invalid}';
+        const result = roundValue(val, textToSend, adapter);
+        expect(result).to.deep.equal({
+            val: '123.4567',
+            textToSend: 'Test',
+            error: true,
+        });
+    });
+
+    it('should handle empty input gracefully', () => {
+        const val = '';
+        const textToSend = '';
+        const result = roundValue(val, textToSend, adapter);
+        expect(result).to.deep.equal({
+            val: 'NaN',
+            textToSend: '',
+            error: true,
+        });
+    });
+
+    it('should return an error if the value is not a valid number', () => {
+        const val = 'invalid';
+        const textToSend = 'Test {round:2}';
+        const result = roundValue(val, textToSend, adapter);
+        expect(result).to.deep.equal({
+            val: 'NaN',
+            textToSend: 'Test',
+            error: true,
+        });
+    });
+
+    it('should handle text without a round command', () => {
+        const val = '123.4567';
+        const textToSend = 'No round here';
+        const result = roundValue(val, textToSend, adapter);
+        expect(result).to.deep.equal({
+            val: '123.4567',
+            textToSend: 'No round here',
+            error: true,
+        });
+    });
+});
