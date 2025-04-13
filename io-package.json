@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.2.3",
+    "version": "2.2.4",
     "news": {
+      "2.2.4": {
+        "en": "FIX: #279 Backslash is in the message when using newline",
+        "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
+        "ru": "FIX: #279 Backslash находится в сообщении при использовании новой линии",
+        "pt": "FIX: #279 Backslash está na mensagem ao usar newline",
+        "nl": "FIX: #279 Backslash zit in het bericht bij het gebruik van nieuwe regel",
+        "fr": "FIX: #279 Backslash est dans le message lorsque vous utilisez newline",
+        "it": "FIX: #279 Backslash è nel messaggio quando si utilizza la nuova linea",
+        "es": "FIX: #279 Backslash está en el mensaje al usar newline",
+        "pl": "FIX: # 279 Backslash jest w wiadomości przy użyciu nowej linii",
+        "uk": "FIX: #279 Backslash знаходиться в повідомленні при використанні newline",
+        "zh-cn": "FIX: # 279 使用新线时反斜线在信件中"
+      },
       "2.2.3": {
         "en": "FIX: #279 Backslash is in the message when using newline",
         "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 224 Uruchom podmenu",
         "uk": "FIX: #224 Запобігання підменю",
         "zh-cn": "FIX: # 224 子菜单触发器"
-      },
-      "2.1.7": {
-        "en": "FIX: #220 Delete button doesn´t work\nFEAT: Styling",
-        "de": "FIX: #220 Löschen Taste funktioniert nicht\nFEAT: Styling",
-        "ru": "FIX: #220 Удаление кнопки ́t работа\nFEAT: Styling",
-        "pt": "CORREÇÃO: #220 Apagar botão não funciona\nFEAT: Styling",
-        "nl": "FIX: #220 Delete button doesn śet werk\nFEAT: Styling",
-        "fr": "FIX: #220 Le bouton Supprimer ne fonctionne pas\nVIANDE: Styling",
-        "it": "FIX: #220 Pulsante Cancella non funziona\nCARAT: Styling",
-        "es": "FIX: #220 Borrar botón no funciona\nFEAT: Styling",
-        "pl": "FIX: # 220 Usuń przycisk nie działa\nFEAT: Styling",
-        "uk": "FIX: #220 Видалити кнопка не працює\nFEAT: Стилування",
-        "zh-cn": "FIX: # 220 删除按钮不起作用\n斯图林"
       }
     },
     "titleLang": {
