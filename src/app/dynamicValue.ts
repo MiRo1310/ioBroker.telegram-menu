@@ -9,10 +9,10 @@ const setDynamicValue = async (
     id: string,
     userToSend: string,
     telegramInstance: string,
-    oneTimeKeyboard: boolean,
-    resizeKeyboard: boolean,
+    one_time_keyboard: boolean,
+    resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
-    parseMode: boolean,
+    parse_mode: boolean,
     confirm: string,
 ): Promise<{ confirmText: string; id: string | undefined }> => {
     const { substring } = decomposeText(returnText, '{setDynamicValue:', '}');
@@ -24,10 +24,10 @@ const setDynamicValue = async (
             userToSend,
             textToSend: text,
             instanceTelegram: telegramInstance,
-            resizeKeyboard,
-            oneTimeKeyboard,
+            resize_keyboard,
+            one_time_keyboard,
             userListWithChatID,
-            parseMode,
+            parse_mode,
         });
     }
     setDynamicValueObj[userToSend] = {
@@ -35,11 +35,11 @@ const setDynamicValue = async (
         ack,
         returnText: text,
         userToSend,
-        parseMode,
+        parse_mode,
         confirm,
         telegramInstance,
-        oneTimeKeyboard,
-        resizeKeyboard,
+        one_time_keyboard,
+        resize_keyboard,
         userListWithChatID,
         valueType: array[2],
     };

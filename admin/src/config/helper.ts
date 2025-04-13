@@ -14,10 +14,10 @@ const globalItems = [
         parse_Mode: '',
         places: ['text', 'set', 'get'],
         data: [
-            { text: '<b> </b>', info: 'parseModeBold' },
-            { text: '<i> </i>', info: 'parseModeItalic' },
-            { text: '<code> </code>', info: 'parseModeCode' },
-            { text: '<a href=“URL“>Link</a>', info: 'parseModeLink' },
+            { text: '<b> </b>', info: 'parse_modeBold' },
+            { text: '<i> </i>', info: 'parse_modeItalic' },
+            { text: '<code> </code>', info: 'parse_modeCode' },
+            { text: '<a href=“URL“>Link</a>', info: 'parse_modeLink' },
         ],
     },
     {

@@ -21,8 +21,8 @@ async function adapterStartMenuSend(
     menuData: MenuData,
     userListWithChatID: UserListWithChatId[],
     instanceTelegram: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): Promise<void> {
     for (const menu of listOfMenus) {
         const startSide = [startSides[menu]].toString();
@@ -38,10 +38,10 @@ async function adapterStartMenuSend(
                     textToSend: menuData.data[menu][startSide].text as string,
                     keyboard: menuData.data[menu][startSide].nav,
                     instanceTelegram,
-                    resizeKeyboard,
-                    oneTimeKeyboard,
+                    resize_keyboard,
+                    one_time_keyboard,
                     userListWithChatID,
-                    parseMode: menuData.data[menu][startSide].parseMode as boolean,
+                    parse_mode: menuData.data[menu][startSide].parse_mode as boolean,
                 });
             }
         } else {

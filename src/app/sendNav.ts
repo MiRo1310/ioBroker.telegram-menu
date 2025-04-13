@@ -9,8 +9,8 @@ async function sendNav(
     userToSend: string,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): Promise<void> {
     try {
         if (userToSend) {
@@ -23,10 +23,10 @@ async function sendNav(
                 textToSend: text,
                 keyboard: nav,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
-                parseMode: part.parseMode,
+                parse_mode: part.parse_mode,
             });
         }
     } catch (e: any) {

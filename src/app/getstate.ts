@@ -13,14 +13,14 @@ function getState(
     part: Part,
     userToSend: string,
     telegramInstance: string,
-    oneTimeKeyboard: boolean,
-    resizeKeyboard: boolean,
+    one_time_keyboard: boolean,
+    resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): void {
     let text = '';
     let i = 1;
     // Parse Mode ist nur immer im ersten Element
-    const parseMode = part.getData?.[0].parseMode;
+    const parse_mode = part.getData?.[0].parse_mode;
 
     part.getData?.forEach(async element => {
         try {
@@ -36,8 +36,8 @@ function getState(
                     userToSend,
                     newline: element.newline,
                     telegramInstance,
-                    oneTimeKeyboard,
-                    resizeKeyboard,
+                    one_time_keyboard,
+                    resize_keyboard,
                     userListWithChatID,
                 });
                 return;
@@ -49,10 +49,10 @@ function getState(
                     element.text,
                     userToSend,
                     telegramInstance,
-                    oneTimeKeyboard,
-                    resizeKeyboard,
+                    one_time_keyboard,
+                    resize_keyboard,
                     userListWithChatID,
-                    parseMode,
+                    parse_mode,
                 );
                 return;
             }
@@ -108,10 +108,10 @@ function getState(
                                     userToSend,
                                     textToSend: result,
                                     instanceTelegram: telegramInstance,
-                                    resizeKeyboard,
-                                    oneTimeKeyboard,
+                                    resize_keyboard,
+                                    one_time_keyboard,
                                     userListWithChatID,
-                                    parseMode,
+                                    parse_mode,
                                 });
                                 return;
                             }
@@ -126,7 +126,7 @@ function getState(
                                         result.keyboard,
                                         telegramInstance,
                                         userListWithChatID,
-                                        parseMode,
+                                        parse_mode,
                                     );
                                 }
                                 return;
@@ -135,10 +135,10 @@ function getState(
                                 userToSend,
                                 textToSend: 'The state is empty!',
                                 instanceTelegram: telegramInstance,
-                                resizeKeyboard,
-                                oneTimeKeyboard,
+                                resize_keyboard,
+                                one_time_keyboard,
                                 userListWithChatID,
-                                parseMode,
+                                parse_mode,
                             });
                             adapter.log.debug('The state is empty!');
                             return;
@@ -170,10 +170,10 @@ function getState(
                             userToSend,
                             textToSend: text,
                             instanceTelegram: telegramInstance,
-                            resizeKeyboard,
-                            oneTimeKeyboard,
+                            resize_keyboard,
+                            one_time_keyboard,
                             userListWithChatID,
-                            parseMode,
+                            parse_mode,
                         });
                     }
                 }

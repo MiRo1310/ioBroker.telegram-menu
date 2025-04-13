@@ -54,8 +54,8 @@ export const setState = async (
     valueFromSubmenu: string | number,
     SubmenuValuePriority: boolean,
     telegramInstance: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): Promise<SetStateIds[] | undefined> => {
     try {
@@ -76,10 +76,10 @@ export const setState = async (
                     element.id,
                     userToSend,
                     telegramInstance,
-                    oneTimeKeyboard,
-                    resizeKeyboard,
+                    one_time_keyboard,
+                    resize_keyboard,
                     userListWithChatID,
-                    element.parseMode,
+                    element.parse_mode,
                     element.confirm,
                 );
 
@@ -100,7 +100,7 @@ export const setState = async (
                     confirm: element.confirm,
                     returnText: returnText,
                     userToSend: userToSend,
-                    parseMode: element.parseMode,
+                    parse_mode: element.parse_mode,
                 });
             } else {
                 returnText = returnText.replace(/'/g, '"');
@@ -113,10 +113,10 @@ export const setState = async (
                         userToSend,
                         textToSend,
                         instanceTelegram: telegramInstance,
-                        resizeKeyboard,
-                        oneTimeKeyboard,
+                        resize_keyboard,
+                        one_time_keyboard,
                         userListWithChatID,
-                        parseMode: element.parseMode,
+                        parse_mode: element.parse_mode,
                     });
                 }
 

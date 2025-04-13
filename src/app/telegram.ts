@@ -12,21 +12,21 @@ async function sendToTelegram({
     textToSend,
     keyboard,
     instanceTelegram = defaultTelegramInstance,
-    resizeKeyboard = true,
-    oneTimeKeyboard = true,
+    resize_keyboard = true,
+    one_time_keyboard = true,
     userListWithChatID,
-    parseMode = false,
+    parse_mode = false,
 }: Telegram): Promise<void> {
     try {
         const chatId = getChatID(userListWithChatID, userToSend);
-        const parseModeType = getParseMode(parseMode);
+        const parse_modeType = getParseMode(parse_mode);
 
         adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
         adapter.log.debug(`Instance: ${instanceTelegram}`);
         adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
-        adapter.log.debug(`Parse_mode	: ${parseMode}`);
+        adapter.log.debug(`Parse_mode	: ${parse_mode}`);
         adapter.log.debug(`ChatId	: ${chatId}`);
-        adapter.log.debug(`ParseModeType: ${parseModeType}`);
+        adapter.log.debug(`ParseModeType: ${parse_modeType}`);
 
         const validatedTextToSend = validateNewLine(textToSend ?? '');
         if (!keyboard) {
@@ -36,7 +36,7 @@ async function sendToTelegram({
                 {
                     text: validatedTextToSend,
                     chatId,
-                    parseMode: parseModeType,
+                    parse_mode: parse_modeType,
                 },
                 (res: any) => telegramLogger(res),
             );
@@ -48,12 +48,12 @@ async function sendToTelegram({
             'send',
             {
                 chatId,
-                parseMode: parseModeType,
+                parse_mode: parse_modeType,
                 text: await checkStatusInfo(validatedTextToSend),
                 reply_markup: {
                     keyboard,
-                    resizeKeyboard,
-                    oneTimeKeyboard,
+                    resize_keyboard,
+                    one_time_keyboard,
                 },
             },
             (res: any) => telegramLogger(res),
@@ -69,14 +69,14 @@ function sendToTelegramSubmenu(
     keyboard: Keyboard,
     instance = defaultTelegramInstance,
     userListWithChatID: UserListWithChatId[],
-    parseMode?: boolean,
+    parse_mode?: boolean,
 ): void {
     adapter.sendTo(
         instance,
         'send',
         {
             chatId: getChatID(userListWithChatID, user),
-            parseMode: getParseMode(parseMode),
+            parse_mode: getParseMode(parse_mode),
             text: validateNewLine(textToSend),
             reply_markup: keyboard,
         },

@@ -10,8 +10,8 @@ function getChart(
     user: string,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): void {
     try {
         if (!echarts) {
@@ -39,8 +39,8 @@ function getChart(
                         userToSend: user,
                         textToSend: result.error || directoryPicture + echart.filename,
                         instanceTelegram,
-                        resizeKeyboard,
-                        oneTimeKeyboard,
+                        resize_keyboard,
+                        one_time_keyboard,
                         userListWithChatID,
                     }).catch((e: any) => {
                         errorLogger('Error send to telegram: ', e, adapter);

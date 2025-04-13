@@ -133,7 +133,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                             ) : null,
                         )}
                     </div>
-                ) : this.props.entry.name === 'parseMode' ? (
+                ) : this.props.entry.name === 'parse_mode' ? (
                     <span>{getElementIcon(this.props.row[this.props.entry.name as string])}</span>
                 ) : this.props.row[this.props.entry.name] !== '-' ? (
                     <span>{this.props.row[this.props.entry.name]}</span>

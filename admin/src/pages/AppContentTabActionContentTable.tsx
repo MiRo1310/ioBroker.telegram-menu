@@ -191,7 +191,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                             </TableCell>
                         ) : null}
                         {this.props.data.tab.entries.map((entry, indexEntry) =>
-                            entry.name != 'trigger' && entry.name != 'parseMode' ? (
+                            entry.name != 'trigger' && entry.name != 'parse_mode' ? (
                                 <TableCell
                                     className="tdWithHeightForSubTable"
                                     align="left"
@@ -209,7 +209,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                                 </TableCell>
                             ) : null,
                         )}
-                        {row.parseMode ? (
+                        {row.parse_mode ? (
                             <TableCell
                                 align="left"
                                 component="td"
@@ -220,7 +220,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                                     onMouseOver={e => handleMouseOver(e)}
                                     onMouseLeave={e => handleMouseOut(e)}
                                 >
-                                    {getElementIcon(row.parseMode[0])}
+                                    {getElementIcon(row.parse_mode[0])}
                                 </span>
                             </TableCell>
                         ) : null}

@@ -46,13 +46,13 @@ export interface HttpRequest {
 export interface NavStaticValues {
     call: string;
     text: string;
-    parseMode: boolean;
+    parse_mode: boolean;
 }
 
 export interface Set {
     ack: BooleanString[];
     confirm: BooleanString[];
-    parseMode: boolean[];
+    parse_mode: boolean[];
     switch_checkbox: BooleanString[];
     IDs: string[];
     returnText: string[];
@@ -62,7 +62,7 @@ export interface Set {
 
 export interface Get {
     newline_checkbox: BooleanString[];
-    parseMode: boolean[];
+    parse_mode: boolean[];
     IDs: string[];
     text: string[];
     trigger: string[];
@@ -126,7 +126,7 @@ export interface GeneratedActions {
 export interface UserObjectActions {
     [key: string]: {
         nav?: string[][];
-        parseMode?: boolean;
+        parse_mode?: boolean;
         text?: string;
         switch?: Switch[];
         echarts?: { background: string; echartsInstance: string; filename: string; preset: string; theme: string }[];
@@ -136,7 +136,7 @@ export interface UserObjectActions {
 export interface Part {
     text?: string;
     nav?: any;
-    parseMode?: boolean;
+    parse_mode?: boolean;
     getData?: GetData[];
     switch?: Switch[];
     sendPic?: SendPic[];
@@ -160,7 +160,7 @@ export interface SendPic {
 export interface GetData {
     id: string;
     text: string;
-    parseMode: boolean;
+    parse_mode: boolean;
     newline: BooleanString;
 }
 
@@ -181,11 +181,11 @@ export interface SetDynamicValue {
     ack: boolean;
     returnText: string;
     userToSend: string;
-    parseMode: boolean;
+    parse_mode: boolean;
     confirm: string;
     telegramInstance: string;
-    oneTimeKeyboard: boolean;
-    resizeKeyboard: boolean;
+    one_time_keyboard: boolean;
+    resize_keyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     valueType: string;
 }
@@ -210,7 +210,7 @@ export interface Switch {
     toggle: boolean;
     confirm: BooleanString;
     returnText: string;
-    parseMode: boolean;
+    parse_mode: boolean;
     ack: BooleanString;
 }
 
@@ -241,7 +241,7 @@ export interface GenerateActionsNewObject {
     delay?: string;
     text?: string;
     newline?: BooleanString;
-    parseMode?: boolean;
+    parse_mode?: boolean;
 }
 
 export type UserInGroup = Record<string, string>;
@@ -253,7 +253,7 @@ export interface SetStateIds {
     confirm: BooleanString | boolean;
     returnText: string;
     userToSend: string;
-    parseMode?: boolean;
+    parse_mode?: boolean;
 }
 
 export type GroupWithUser = string;
@@ -336,8 +336,8 @@ export interface SetValueForSubmenuPercent extends TelegramParams {
 
 export interface TelegramParams {
     instanceTelegram: string;
-    resizeKeyboard: boolean;
-    oneTimeKeyboard: boolean;
+    resize_keyboard: boolean;
+    one_time_keyboard: boolean;
     userToSend: string;
 }
 
@@ -411,7 +411,7 @@ export interface Telegram extends TelegramParams {
     textToSend?: string;
     keyboard?: Keyboard;
     userListWithChatID: UserListWithChatId[];
-    parseMode?: boolean;
+    parse_mode?: boolean;
 }
 
 export interface ExtractTimeValues {

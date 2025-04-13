@@ -20,8 +20,8 @@ async function shoppingListSubscribeStateAndDeleteItem(
     val: string | null,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): Promise<void> {
     try {
         let array, user, idList, instance, idItem, res;
@@ -51,10 +51,10 @@ async function shoppingListSubscribeStateAndDeleteItem(
                 userToSend: user,
                 textToSend: 'Cannot delete the Item',
                 instanceTelegram: instanceTelegram,
-                resizeKeyboard: resizeKeyboard,
-                oneTimeKeyboard: oneTimeKeyboard,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parseMode: true,
+                parse_mode: true,
             });
             adapter.log.debug('Cannot delete the Item');
             return;
