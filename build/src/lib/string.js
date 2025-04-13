@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pad = exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.pad = exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -34,6 +34,10 @@ const replaceAllItems = (text, searched) => {
     return text;
 };
 exports.replaceAllItems = replaceAllItems;
+const removeQuotes = (text) => {
+    return text.replace(/['"]/g, ''); // Entferne alle Anführungszeichen
+};
+exports.removeQuotes = removeQuotes;
 const validateNewLine = (text) => {
     if (!text) {
         return '';

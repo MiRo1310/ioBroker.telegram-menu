@@ -5,6 +5,7 @@ import {
     jsonString,
     pad,
     parseJSON,
+    removeQuotes,
     replaceAll,
     replaceAllItems,
     stringReplacer,
@@ -99,6 +100,44 @@ describe('replaceAllItems', () => {
         ];
         const result = replaceAllItems(text, searched);
         expect(result).to.equal(' Earth!');
+    });
+});
+
+describe('removeQuotes', () => {
+    it('should remove single quotes from the string', () => {
+        const input = "'Hello World'";
+        const result = removeQuotes(input);
+        expect(result).to.equal('Hello World');
+    });
+
+    it('should remove double quotes from the string', () => {
+        const input = '"Hello World"';
+        const result = removeQuotes(input);
+        expect(result).to.equal('Hello World');
+    });
+
+    it('should remove both single and double quotes from the string', () => {
+        const input = `"'Hello' "World""`;
+        const result = removeQuotes(input);
+        expect(result).to.equal('Hello World');
+    });
+
+    it('should return the same string if no quotes are present', () => {
+        const input = 'Hello World';
+        const result = removeQuotes(input);
+        expect(result).to.equal('Hello World');
+    });
+
+    it('should handle an empty string', () => {
+        const input = '';
+        const result = removeQuotes(input);
+        expect(result).to.equal('');
+    });
+
+    it('should handle a string with only quotes', () => {
+        const input = `'"'`;
+        const result = removeQuotes(input);
+        expect(result).to.equal('');
     });
 });
 

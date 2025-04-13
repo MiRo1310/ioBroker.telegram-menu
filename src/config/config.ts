@@ -22,4 +22,9 @@ export const config = {
         start: '{time.',
         end: '}',
     },
+    status: {
+        start: '{status:',
+        end: '}',
+        oldWithId: "status:'id':",
+    },
 };

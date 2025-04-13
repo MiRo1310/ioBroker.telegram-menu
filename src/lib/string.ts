@@ -35,6 +35,10 @@ export const replaceAllItems = (text: string, searched: (string | { search: stri
     return text;
 };
 
+export const removeQuotes = (text: string): string => {
+    return text.replace(/['"]/g, ''); // Entferne alle Anführungszeichen
+};
+
 export const validateNewLine = (text?: string): string => {
     if (!text) {
         return '';

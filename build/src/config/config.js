@@ -24,5 +24,10 @@ exports.config = {
         start: '{time.',
         end: '}',
     },
+    status: {
+        start: '{status:',
+        end: '}',
+        oldWithId: "status:'id':",
+    },
 };
 //# sourceMappingURL=config.js.map

@@ -1,8 +1,7 @@
-import { isDefined } from './utils';
-import { decomposeText, getValueToExchange } from './string';
+import { isDefined, isTruthy } from './utils';
+import { decomposeText, getValueToExchange, removeQuotes, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
-import type { ProzessTimeValue } from '../types/types';
 import { adapter } from '../main';
 import { config } from '../config/config';
 import { getTypeofTimestamp, timeStringReplacer } from './appUtils';
@@ -20,7 +19,7 @@ const processTimeIdLc = async (textToSend: string, id?: string): Promise<string>
 
     const typeofTimestamp = getTypeofTimestamp(timestampString); //"{time.lc"
 
-    const idFromText = idString.replace('id:', '').replace('}', '').replace(/'/g, ''); //"id:'ID'"
+    const idFromText = replaceAllItems(idString, ['id:', '}', "'"]); //"id:'ID'"
 
     if (!id && (!idFromText || idFromText.length < 5)) {
         return textToSend.replace(substring, 'Invalid ID');
@@ -30,7 +29,7 @@ const processTimeIdLc = async (textToSend: string, id?: string): Promise<string>
     if (!value) {
         return textToSend.replace(substring, 'Invalid ID');
     }
-    const timeStringUser = timeString.replace(',(', '').replace(')', '').replace('}', ''); //"(DD MM YYYY hh:mm:ss:sss)"
+    const timeStringUser = replaceAllItems(timeString, [',(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
     const unixTs = value[typeofTimestamp];
 
     const timeWithPad = getTimeWithPad(extractTimeValues(unixTs));
@@ -40,58 +39,55 @@ const processTimeIdLc = async (textToSend: string, id?: string): Promise<string>
 };
 
 // TODO Check Usage of function
-const checkStatus = async (text: string, processTimeValue?: ProzessTimeValue): Promise<string> => {
-    try {
-        const substring = decomposeText(text, '{status:', '}').substring;
-        let id, valueChange;
-        adapter.log.debug(`Substring ${substring}`);
-        if (substring.includes("status:'id':")) {
-            id = substring.split(':')[2].replace("'}", '').replace(/'/g, '').replace(/}/g, '');
+const checkStatus = async (text: string): Promise<string> => {
+    const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //{status:'ID':true} new | old {status:'id':'ID':true}
+    let id: string;
+    let shouldChange: boolean;
 
-            valueChange = substring.split(':')[3] ? substring.split(':')[3].replace('}', '') !== 'false' : true;
-        } else {
-            id = substring.split(':')[1].replace("'}", '').replace(/'/g, '').replace(/}/g, '');
-            valueChange = substring.split(':')[2] ? substring.split(':')[2].replace('}', '') !== 'false' : true;
-        }
+    if (substringExcludeSearch.includes(config.status.oldWithId)) {
+        const splitArray = substringExcludeSearch.split(':');
 
-        const stateValue = await adapter.getForeignStateAsync(id);
+        id = removeQuotes(splitArray[1]); //'id':'ID':true
+        shouldChange = isTruthy(removeQuotes(splitArray[2]));
+    } else {
+        const splitArray = substringExcludeSearch.split(':');
 
-        if (!stateValue) {
-            adapter.log.debug(`State not found: ${id}`);
-            return '';
-        }
+        id = removeQuotes(splitArray[0]); //'ID':true
+        shouldChange = isTruthy(removeQuotes(splitArray[1]));
+    }
 
-        if (text.includes('{time}') && processTimeValue) {
-            text = text.replace(substring, '');
+    const stateValue = await adapter.getForeignStateAsync(id);
 
-            const val = String(stateValue.val);
-            return processTimeValue(text, val).replace(val, '');
-        }
-        if (!isDefined(stateValue.val)) {
-            adapter.log.debug(`State Value is undefined: ${id}`);
-            return text.replace(substring, '');
-        }
-        if (!valueChange) {
-            return text.replace(substring, stateValue.val.toString());
-        }
-        const { newValue: val, textToSend, error } = getValueToExchange(adapter, text, stateValue.val);
-        let newValue;
-        if (!error) {
-            text = textToSend;
-            newValue = val;
-        } else {
-            newValue = stateValue.val;
-        }
-        adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-        adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
-
-        return text.replace(substring, newValue.toString());
-    } catch (e: any) {
-        adapter.log.error(`Error checkStatus:${e.message}`);
-        adapter.log.error(`Stack:${e.stack}`);
-
+    if (!stateValue) {
+        adapter.log.debug(`State not found: ${id}`);
         return '';
     }
+
+    if (text.includes(config.time)) {
+        text = text.replace(substring, '');
+
+        const val = String(stateValue.val);
+        return integrateTimeIntoText(text, val).replace(val, '');
+    }
+    if (!isDefined(stateValue.val)) {
+        adapter.log.debug(`State Value is undefined: ${id}`);
+        return text.replace(substring, '');
+    }
+    if (!shouldChange) {
+        return text.replace(substring, stateValue.val.toString());
+    }
+    const { newValue: val, textToSend, error } = getValueToExchange(adapter, text, stateValue.val);
+    let newValue;
+    if (!error) {
+        text = textToSend;
+        newValue = val;
+    } else {
+        newValue = stateValue.val;
+    }
+    adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
+    adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
+
+    return text.replace(substring, newValue.toString());
 };
 const checkStatusInfo = async (text: string): Promise<string> => {
     try {
@@ -102,7 +98,7 @@ const checkStatusInfo = async (text: string): Promise<string> => {
 
         if (text.includes('{status:')) {
             while (text.includes('{status:')) {
-                text = await checkStatus(text, integrateTimeIntoText);
+                text = await checkStatus(text);
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
