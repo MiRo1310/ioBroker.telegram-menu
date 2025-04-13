@@ -110,13 +110,12 @@ export const setState = async (
                 returnObj.text = returnObj.text + returnText.slice(returnText.indexOf('}') + 1);
                 if (textToSend && textToSend !== '') {
                     await sendToTelegram({
-                        user: userToSend,
-                        textToSend: textToSend,
-                        keyboard: undefined,
-                        instance: telegramInstance,
-                        resizeKeyboard: oneTimeKeyboard,
-                        oneTimeKeyboard: resizeKeyboard,
-                        userListWithChatID: userListWithChatID,
+                        userToSend,
+                        textToSend,
+                        instanceTelegram: telegramInstance,
+                        resizeKeyboard,
+                        oneTimeKeyboard,
+                        userListWithChatID,
                         parseMode: element.parseMode,
                     });
                 }

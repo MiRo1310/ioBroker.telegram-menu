@@ -105,9 +105,9 @@ function getState(
                             const result = createTextTableFromJson(valueForJson, textToSend);
                             if (result) {
                                 await sendToTelegram({
-                                    user: userToSend,
+                                    userToSend,
                                     textToSend: result,
-                                    instance: telegramInstance,
+                                    instanceTelegram: telegramInstance,
                                     resizeKeyboard,
                                     oneTimeKeyboard,
                                     userListWithChatID,
@@ -132,9 +132,9 @@ function getState(
                                 return;
                             }
                             await sendToTelegram({
-                                user: userToSend,
+                                userToSend,
                                 textToSend: 'The state is empty!',
-                                instance: telegramInstance,
+                                instanceTelegram: telegramInstance,
                                 resizeKeyboard,
                                 oneTimeKeyboard,
                                 userListWithChatID,
@@ -167,14 +167,13 @@ function getState(
                 if (i == part.getData?.length) {
                     if (userToSend) {
                         await sendToTelegram({
-                            user: userToSend,
+                            userToSend,
                             textToSend: text,
-                            keyboard: undefined,
-                            instance: telegramInstance,
-                            resizeKeyboard: oneTimeKeyboard,
-                            oneTimeKeyboard: resizeKeyboard,
-                            userListWithChatID: userListWithChatID,
-                            parseMode: parseMode,
+                            instanceTelegram: telegramInstance,
+                            resizeKeyboard,
+                            oneTimeKeyboard,
+                            userListWithChatID,
+                            parseMode,
                         });
                     }
                 }

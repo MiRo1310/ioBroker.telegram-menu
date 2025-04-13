@@ -287,7 +287,7 @@ export type BackMenu = Record<string, BackMenuList>;
 // TODO : Define the type for BackMenuList
 type BackMenuList = any;
 
-export interface CheckEveryMenuForDataType extends GlobalTelegramValues {
+export interface CheckEveryMenuForDataType extends TelegramParams {
     menuData: MenuData; // checked !!!!
     calledValue: string;
     userListWithChatID: UserListWithChatId[];
@@ -298,7 +298,7 @@ export interface CheckEveryMenuForDataType extends GlobalTelegramValues {
     timeoutKey: string;
 }
 
-export interface ProcessDataType extends GlobalTelegramValues {
+export interface ProcessDataType extends TelegramParams {
     menuData: MenuData;
     calledValue: string;
     groupWithUser: GroupWithUser;
@@ -312,20 +312,20 @@ export interface ProcessDataType extends GlobalTelegramValues {
     groupData: NewObjectNavStructure;
 }
 
-export interface SetValueForSubmenuNumber extends GlobalTelegramValues {
+export interface SetValueForSubmenuNumber extends TelegramParams {
     callbackData: string;
     calledValue: string;
     userListWithChatID: UserListWithChatId[];
     part: Part;
 }
 
-export interface BackMenuType extends GlobalTelegramValues {
+export interface BackMenuType extends TelegramParams {
     allMenusWithData: AllMenusWithData;
     menus: string[];
     userListWithChatID: UserListWithChatId[];
 }
 
-export interface SetValueForSubmenuPercent extends GlobalTelegramValues {
+export interface SetValueForSubmenuPercent extends TelegramParams {
     callbackData: string;
     calledValue: string;
     userListWithChatID: UserListWithChatId[];
@@ -334,19 +334,19 @@ export interface SetValueForSubmenuPercent extends GlobalTelegramValues {
     menus: string[];
 }
 
-export interface GlobalTelegramValues {
+export interface TelegramParams {
     instanceTelegram: string;
     resizeKeyboard: boolean;
     oneTimeKeyboard: boolean;
     userToSend: string;
 }
 
-export interface SetFirstMenuValue extends GlobalTelegramValues {
+export interface SetFirstMenuValue extends TelegramParams {
     part: Part;
     userListWithChatID: UserListWithChatId[];
 }
 
-export interface SetSecondMenuValue extends GlobalTelegramValues {
+export interface SetSecondMenuValue extends TelegramParams {
     part: Part;
     userListWithChatID: UserListWithChatId[];
 }
@@ -357,7 +357,7 @@ export interface CreateMenu {
     text?: string;
 }
 
-export interface SetDynamicValueType extends GlobalTelegramValues {
+export interface SetDynamicValueType extends TelegramParams {
     val: string;
     part: Part;
     userListWithChatID: UserListWithChatId[];
@@ -407,7 +407,7 @@ export interface EvaluateReturnType {
     error: boolean;
 }
 
-export interface Telegram extends GlobalTelegramValues {
+export interface Telegram extends TelegramParams {
     textToSend?: string;
     keyboard?: Keyboard;
     userListWithChatID: UserListWithChatId[];

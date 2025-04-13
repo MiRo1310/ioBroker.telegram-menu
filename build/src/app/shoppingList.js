@@ -11,7 +11,7 @@ const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
 const objData = {};
 let isSubscribed = false;
-async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard) {
     try {
         let array, user, idList, instance, idItem, res;
         if (val != null) {
@@ -32,14 +32,13 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
                 return;
             }
             await (0, telegram_js_1.sendToTelegram)({
-                user: user,
+                userToSend: user,
                 textToSend: 'Cannot delete the Item',
-                keyboard: undefined,
-                instance: instanceTelegram,
-                resize_keyboard: resize_keyboard,
-                one_time_keyboard: one_time_keyboard,
+                instanceTelegram: instanceTelegram,
+                resizeKeyboard: resizeKeyboard,
+                oneTimeKeyboard: oneTimeKeyboard,
                 userListWithChatID: userListWithChatID,
-                parse_mode: 'true',
+                parseMode: true,
             });
             main_js_1.adapter.log.debug('Cannot delete the Item');
             return;
@@ -61,7 +60,7 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = (0, jsonTable_js_1.createKeyboardFromJson)(result.val, null, newId, user);
             if (resultJson && resultJson.text && resultJson.keyboard) {
-                (0, telegram_js_1.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, 'true');
+                (0, telegram_js_1.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, true);
             }
         }
     }

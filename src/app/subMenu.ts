@@ -297,10 +297,10 @@ const back = async (obj: BackMenuType): Promise<void> => {
     const result = await switchBack(obj.userToSend, obj.allMenusWithData, obj.menus);
     if (result) {
         await sendToTelegram({
-            user: obj.userToSend,
+            userToSend: obj.userToSend,
             textToSend: result.texttosend as string,
             keyboard: result.menuToSend,
-            instance: obj.instanceTelegram,
+            instanceTelegram: obj.instanceTelegram,
             resizeKeyboard: obj.resizeKeyboard,
             oneTimeKeyboard: obj.oneTimeKeyboard,
             userListWithChatID: obj.userListWithChatID,

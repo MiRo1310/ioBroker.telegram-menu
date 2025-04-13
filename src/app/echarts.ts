@@ -36,9 +36,9 @@ function getChart(
                 },
                 (result: any) => {
                     sendToTelegram({
-                        user,
+                        userToSend: user,
                         textToSend: result.error || directoryPicture + echart.filename,
-                        instance: instanceTelegram,
+                        instanceTelegram,
                         resizeKeyboard,
                         oneTimeKeyboard,
                         userListWithChatID,

@@ -42,7 +42,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
         (0, logging_1.errorLogger)('Error setValue', error, main_1.adapter);
     }
 };
-const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
+const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resizeKeyboard, oneTimeKeyboard, userListWithChatID) => {
     try {
         const setStateIds = [];
         if (!part.switch) {
@@ -53,7 +53,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
             let returnText = element.returnText;
             ack = element?.ack ? element.ack === 'true' : false;
             if (returnText.includes('{setDynamicValue')) {
-                const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(returnText, ack, element.id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode, element.confirm);
+                const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(returnText, ack, element.id, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, element.parseMode, element.confirm);
                 if (element.confirm) {
                     setStateIds.push({
                         id: id || element.id,
@@ -70,7 +70,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
                     confirm: element.confirm,
                     returnText: returnText,
                     userToSend: userToSend,
-                    parse_mode: element.parse_mode,
+                    parseMode: element.parseMode,
                 });
             }
             else {
@@ -80,14 +80,13 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
                 returnObj.text = returnObj.text + returnText.slice(returnText.indexOf('}') + 1);
                 if (textToSend && textToSend !== '') {
                     await (0, telegram_1.sendToTelegram)({
-                        user: userToSend,
-                        textToSend: textToSend,
-                        keyboard: undefined,
-                        instance: telegramInstance,
-                        resize_keyboard: one_time_keyboard,
-                        one_time_keyboard: resize_keyboard,
-                        userListWithChatID: userListWithChatID,
-                        parse_mode: element.parse_mode,
+                        userToSend,
+                        textToSend,
+                        instanceTelegram: telegramInstance,
+                        resizeKeyboard,
+                        oneTimeKeyboard,
+                        userListWithChatID,
+                        parseMode: element.parseMode,
                     });
                 }
                 setStateIds.push({

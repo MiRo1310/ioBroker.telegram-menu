@@ -19,10 +19,10 @@ async function sendNav(
             const text = await checkStatusInfo(part.text as string);
 
             await sendToTelegram({
-                user: userToSend,
-                textToSend: text as string,
+                userToSend,
+                textToSend: text,
                 keyboard: nav,
-                instance: instanceTelegram,
+                instanceTelegram,
                 resizeKeyboard,
                 oneTimeKeyboard,
                 userListWithChatID,

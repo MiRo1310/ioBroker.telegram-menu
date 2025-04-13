@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMenusWithUser = exports.checkOneLineValue = void 0;
+exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
+exports.getParseMode = getParseMode;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 const logging_1 = require("../app/logging");
@@ -34,7 +35,7 @@ function roundValue(val, textToSend, adapter) {
         return { val, textToSend, error: true };
     }
 }
-const getMenusWithUser = (menusWithUsers, userToSend) => {
+const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
     const menus = [];
     for (const key in menusWithUsers) {
         if (menusWithUsers[key].includes(userToSend)) {
@@ -43,5 +44,8 @@ const getMenusWithUser = (menusWithUsers, userToSend) => {
     }
     return menus;
 };
-exports.getMenusWithUser = getMenusWithUser;
+exports.getListOfMenusIncludingUser = getListOfMenusIncludingUser;
+function getParseMode(val = false) {
+    return val ? 'HTML' : 'Markdown';
+}
 //# sourceMappingURL=appUtils.js.map

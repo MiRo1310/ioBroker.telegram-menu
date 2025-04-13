@@ -58,12 +58,12 @@ function sendPic(
             const timeout = adapter.setTimeout(
                 async () => {
                     await sendToTelegram({
-                        user: userToSend,
+                        userToSend,
                         textToSend: path,
-                        instance: instanceTelegram,
-                        resizeKeyboard: resizeKeyboard,
-                        oneTimeKeyboard: oneTimeKeyboard,
-                        userListWithChatID: userListWithChatID,
+                        instanceTelegram,
+                        resizeKeyboard,
+                        oneTimeKeyboard,
+                        userListWithChatID,
                     });
                     let timeoutToClear: Timeouts[] = [];
                     timeoutToClear = timeouts.filter(item => item.key == timeoutKey);

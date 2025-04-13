@@ -63,9 +63,9 @@ const bindingFunc = async (
             }
         }
         await sendToTelegram({
-            user: userToSend,
+            userToSend,
             textToSend: value,
-            instance: telegramInstance,
+            instanceTelegram: telegramInstance,
             resizeKeyboard,
             oneTimeKeyboard,
             userListWithChatID,
@@ -183,9 +183,9 @@ const idBySelector = async ({
         Promise.all(promises)
             .then(() => {
                 sendToTelegram({
-                    user: userToSend,
+                    userToSend,
                     textToSend: text2Send,
-                    instance: telegramInstance,
+                    instanceTelegram: telegramInstance,
                     resizeKeyboard,
                     oneTimeKeyboard,
                     userListWithChatID,
@@ -369,11 +369,11 @@ const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): s
 
 const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
-        if (!parseFloat(value as string)) {
+        if (!parseFloat(value)) {
             adapter.log.error(`Error: Value is not a number: ${value}`);
             return false;
         }
-        return parseFloat(value as string);
+        return parseFloat(value);
     }
     if (valueType == 'boolean') {
         if (value == 'true') {

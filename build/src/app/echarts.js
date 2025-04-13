@@ -5,7 +5,7 @@ const main_1 = require("../main");
 const logging_1 = require("./logging");
 const telegram_1 = require("./telegram");
 const utils_1 = require("../lib/utils");
-function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+function getChart(echarts, directoryPicture, user, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard) {
     try {
         if (!echarts) {
             return;
@@ -25,13 +25,12 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
                 fileOnDisk: directoryPicture + echart.filename,
             }, (result) => {
                 (0, telegram_1.sendToTelegram)({
-                    user: user,
+                    userToSend: user,
                     textToSend: result.error || directoryPicture + echart.filename,
-                    instance: instanceTelegram,
-                    resize_keyboard: resize_keyboard,
-                    one_time_keyboard: one_time_keyboard,
-                    userListWithChatID: userListWithChatID,
-                    parse_mode: 'false',
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
                 }).catch((e) => {
                     (0, logging_1.errorLogger)('Error send to telegram: ', e, main_1.adapter);
                 });

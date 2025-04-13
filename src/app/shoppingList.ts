@@ -48,10 +48,9 @@ async function shoppingListSubscribeStateAndDeleteItem(
                 return;
             }
             await sendToTelegram({
-                user: user,
+                userToSend: user,
                 textToSend: 'Cannot delete the Item',
-                keyboard: undefined,
-                instance: instanceTelegram,
+                instanceTelegram: instanceTelegram,
                 resizeKeyboard: resizeKeyboard,
                 oneTimeKeyboard: oneTimeKeyboard,
                 userListWithChatID: userListWithChatID,

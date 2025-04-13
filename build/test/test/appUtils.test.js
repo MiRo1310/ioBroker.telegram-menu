@@ -126,7 +126,7 @@ describe('getMenusWithUser', () => {
             menu3: ['user1', 'user4'],
         };
         const userToSend = 'user1';
-        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        const result = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
         (0, chai_1.expect)(result).to.deep.equal(['menu1', 'menu3']);
     });
     it('should return an empty array if no menus include the specified user', () => {
@@ -135,13 +135,13 @@ describe('getMenusWithUser', () => {
             menu2: ['user3'],
         };
         const userToSend = 'user1';
-        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        const result = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
         (0, chai_1.expect)(result).to.deep.equal([]);
     });
     it('should return an empty array if the menusWithUsers object is empty', () => {
         const menusWithUsers = {};
         const userToSend = 'user1';
-        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        const result = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
         (0, chai_1.expect)(result).to.deep.equal([]);
     });
     it('should return an empty array if the userToSend is an empty string', () => {
@@ -150,7 +150,7 @@ describe('getMenusWithUser', () => {
             menu2: ['user3'],
         };
         const userToSend = '';
-        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        const result = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
         (0, chai_1.expect)(result).to.deep.equal([]);
     });
     it('should handle menus with empty user arrays', () => {
@@ -159,8 +159,22 @@ describe('getMenusWithUser', () => {
             menu2: ['user3'],
         };
         const userToSend = 'user3';
-        const result = (0, appUtils_1.getMenusWithUser)(menusWithUsers, userToSend);
+        const result = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
         (0, chai_1.expect)(result).to.deep.equal(['menu2']);
+    });
+});
+describe('getParseMode', () => {
+    it('should return "HTML" when the input is true', () => {
+        const result = (0, appUtils_1.getParseMode)(true);
+        (0, chai_1.expect)(result).to.equal('HTML');
+    });
+    it('should return "Markdown" when the input is false', () => {
+        const result = (0, appUtils_1.getParseMode)(false);
+        (0, chai_1.expect)(result).to.equal('Markdown');
+    });
+    it('should return "Markdown" when the input is undefined', () => {
+        const result = (0, appUtils_1.getParseMode)();
+        (0, chai_1.expect)(result).to.equal('Markdown');
     });
 });
 //# sourceMappingURL=appUtils.test.js.map

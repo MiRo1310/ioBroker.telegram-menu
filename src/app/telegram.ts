@@ -4,6 +4,7 @@ import { adapter } from '../main';
 import type { Keyboard, Location, ParseModeType, Telegram, UserListWithChatId } from '../types/types';
 import { getChatID } from '../lib/utils';
 import { jsonString, validateNewLine } from '../lib/string';
+import { getParseMode } from '../lib/appUtils';
 
 async function sendToTelegram({
     userToSend = '',
@@ -120,9 +121,5 @@ const sendLocationToTelegram = async (
         errorLogger('Error sendLocationToTelegram:', e, adapter);
     }
 };
-
-function getParseMode(val = false): ParseModeType {
-    return val ? 'HTML' : 'Markdown';
-}
 
 export { sendToTelegram, sendToTelegramSubmenu, sendLocationToTelegram };

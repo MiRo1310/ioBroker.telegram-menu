@@ -1,37 +1,36 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeUserFromDynamicValue = exports.getDynamicValue = exports.setDynamicValue = void 0;
-const utilities_1 = require("../lib/utilities");
+const string_1 = require("../lib/string");
 const telegram_1 = require("./telegram");
 const setDynamicValueObj = {};
-const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode, confirm) => {
-    const { substring } = (0, utilities_1.decomposeText)(returnText, '{setDynamicValue:', '}');
+const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, parseMode, confirm) => {
+    const { substring } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
     let array = substring.split(':');
     array = isBraceDeleteEntry(array);
     const text = array[1];
     if (text) {
         await (0, telegram_1.sendToTelegram)({
-            user: userToSend,
+            userToSend,
             textToSend: text,
-            keyboard: undefined,
-            instance: telegramInstance,
-            resize_keyboard: resize_keyboard,
-            one_time_keyboard: one_time_keyboard,
-            userListWithChatID: userListWithChatID,
-            parse_mode: parse_mode,
+            instanceTelegram: telegramInstance,
+            resizeKeyboard,
+            oneTimeKeyboard,
+            userListWithChatID,
+            parseMode,
         });
     }
     setDynamicValueObj[userToSend] = {
-        id: id,
-        ack: ack,
+        id,
+        ack,
         returnText: text,
-        userToSend: userToSend,
-        parse_mode: parse_mode,
-        confirm: confirm,
-        telegramInstance: telegramInstance,
-        one_time_keyboard: one_time_keyboard,
-        resize_keyboard: resize_keyboard,
-        userListWithChatID: userListWithChatID,
+        userToSend,
+        parseMode,
+        confirm,
+        telegramInstance,
+        oneTimeKeyboard,
+        resizeKeyboard,
+        userListWithChatID,
         valueType: array[2],
     };
     if (array[3] && array[3] != '') {

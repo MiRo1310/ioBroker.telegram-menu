@@ -21,9 +21,9 @@ const setDynamicValue = async (
     const text = array[1];
     if (text) {
         await sendToTelegram({
-            user: userToSend,
+            userToSend,
             textToSend: text,
-            instance: telegramInstance,
+            instanceTelegram: telegramInstance,
             resizeKeyboard,
             oneTimeKeyboard,
             userListWithChatID,

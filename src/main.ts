@@ -27,10 +27,10 @@ import type {
     GeneratedActions,
     ListOfMenus,
     MenuData,
-    MenusWithUsers,
     PrimitiveType,
     SetStateIds,
     StartSides,
+    TelegramParams,
     UserListWithChatId,
 } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
@@ -67,6 +67,7 @@ export default class TelegramMenu extends utils.Adapter {
         if (!instanceTelegram || instanceTelegram.length == 0) {
             instanceTelegram = 'telegram.0';
         }
+
         const telegramID = `${instanceTelegram}.communicate.request`;
         const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
         const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
@@ -84,7 +85,7 @@ export default class TelegramMenu extends utils.Adapter {
         const token = this.config.tokenGrafana;
         const directoryPicture = this.config.directory;
         const isUserActiveCheckbox = this.config.userActiveCheckbox;
-        const menusWithUsers: MenusWithUsers = this.config.usersInGroup;
+        const menusWithUsers = this.config.usersInGroup;
         const textNoEntryFound: string = this.config.textNoEntry;
         const userListWithChatID = this.config.userListWithChatID;
         const dataObject = this.config.data;
@@ -248,13 +249,12 @@ export default class TelegramMenu extends utils.Adapter {
                         if (!dataFound && checkboxNoEntryFound && userToSend) {
                             adapter.log.debug('No Entry found');
                             await sendToTelegram({
-                                user: userToSend,
+                                userToSend,
                                 textToSend: textNoEntryFound,
-                                instance: instanceTelegram,
-                                resizeKeyboard: resizeKeyboard,
-                                oneTimeKeyboard: oneTimeKeyboard,
-                                userListWithChatID: userListWithChatID,
-                                parseMode: false,
+                                instanceTelegram,
+                                resizeKeyboard,
+                                oneTimeKeyboard,
+                                userListWithChatID,
                             });
                         }
                         return;
@@ -268,6 +268,12 @@ export default class TelegramMenu extends utils.Adapter {
                         adapter.log.debug(`State: ${jsonString(state)}`);
 
                         setStateIdsToListenTo.forEach((element, key: number) => {
+                            const telegramParams: TelegramParams = {
+                                instanceTelegram,
+                                oneTimeKeyboard,
+                                resizeKeyboard,
+                                userToSend: element.userToSend,
+                            };
                             if (element.id == id) {
                                 adapter.log.debug(`Send Value: ${jsonString(element)}`);
                                 adapter.log.debug(`State: ${jsonString(state)}`);
@@ -297,13 +303,10 @@ export default class TelegramMenu extends utils.Adapter {
                                     }
 
                                     sendToTelegram({
-                                        user: element.userToSend,
                                         textToSend: text,
-                                        instance: instanceTelegram,
-                                        resizeKeyboard: resizeKeyboard,
-                                        oneTimeKeyboard: oneTimeKeyboard,
-                                        userListWithChatID: userListWithChatID,
+                                        userListWithChatID,
                                         parseMode: element.parseMode,
+                                        ...telegramParams,
                                     }).catch((e: { message: any; stack: any }) => {
                                         errorLogger('Error SendToTelegram', e, adapter);
                                     });
@@ -347,10 +350,9 @@ export default class TelegramMenu extends utils.Adapter {
                                     textToSend = exchangePlaceholderWithValue(textToSend, value);
 
                                     sendToTelegram({
-                                        user: element.userToSend,
+                                        userToSend: element.userToSend,
                                         textToSend: textToSend,
-                                        keyboard: undefined,
-                                        instance: instanceTelegram,
+                                        instanceTelegram: instanceTelegram,
                                         resizeKeyboard: resizeKeyboard,
                                         oneTimeKeyboard: oneTimeKeyboard,
                                         userListWithChatID: userListWithChatID,

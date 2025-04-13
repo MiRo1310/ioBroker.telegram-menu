@@ -33,13 +33,13 @@ async function adapterStartMenuSend(
                 adapter.log.debug(`User list: ${jsonString(userListWithChatID)}`);
 
                 await sendToTelegram({
-                    user: user,
+                    userToSend: user,
                     textToSend: menuData.data[menu][startSide].text as string,
                     keyboard: menuData.data[menu][startSide].nav,
-                    instance: instanceTelegram,
-                    resizeKeyboard: resizeKeyboard,
-                    oneTimeKeyboard: oneTimeKeyboard,
-                    userListWithChatID: userListWithChatID,
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
                     parseMode: menuData.data[menu][startSide].parseMode as boolean,
                 });
             }

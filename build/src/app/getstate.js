@@ -10,11 +10,11 @@ const main_1 = require("../main");
 const time_1 = require("../lib/time");
 const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
-function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
+function getState(part, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID) {
     let text = '';
     let i = 1;
     // Parse Mode ist nur immer im ersten Element
-    const parse_mode = part.getData?.[0].parse_mode || 'false';
+    const parseMode = part.getData?.[0].parseMode;
     part.getData?.forEach(async (element) => {
         try {
             main_1.adapter.log.debug(`Get Value ID: ${element.id}`);
@@ -22,12 +22,21 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             const id = element.id;
             let textToSend = '';
             if (id.indexOf(specifiedSelektor) != -1) {
-                await (0, action_1.idBySelector)(id, element.text, userToSend, element.newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID);
+                await (0, action_1.idBySelector)({
+                    selector: id,
+                    text: element.text,
+                    userToSend,
+                    newline: element.newline,
+                    telegramInstance,
+                    oneTimeKeyboard,
+                    resizeKeyboard,
+                    userListWithChatID,
+                });
                 return;
             }
             if (element.text.includes('binding:')) {
                 main_1.adapter.log.debug('Binding');
-                await (0, action_1.bindingFunc)(element.text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+                await (0, action_1.bindingFunc)(element.text, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, parseMode);
                 return;
             }
             await main_1.adapter.getForeignStateAsync(id).then(async (state) => {
@@ -73,14 +82,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                             const result = (0, jsonTable_1.createTextTableFromJson)(valueForJson, textToSend);
                             if (result) {
                                 await (0, telegram_1.sendToTelegram)({
-                                    user: userToSend,
+                                    userToSend,
                                     textToSend: result,
-                                    keyboard: undefined,
-                                    instance: telegramInstance,
-                                    resize_keyboard: one_time_keyboard,
-                                    one_time_keyboard: resize_keyboard,
-                                    userListWithChatID: userListWithChatID,
-                                    parse_mode: parse_mode,
+                                    instanceTelegram: telegramInstance,
+                                    resizeKeyboard,
+                                    oneTimeKeyboard,
+                                    userListWithChatID,
+                                    parseMode,
                                 });
                                 return;
                             }
@@ -90,19 +98,18 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                             const result = (0, jsonTable_1.createKeyboardFromJson)(valueForJson, textToSend, element.id, userToSend);
                             if (valueForJson && valueForJson.length > 0) {
                                 if (result && result.text && result.keyboard) {
-                                    (0, telegram_1.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parse_mode);
+                                    (0, telegram_1.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parseMode);
                                 }
                                 return;
                             }
                             await (0, telegram_1.sendToTelegram)({
-                                user: userToSend,
+                                userToSend,
                                 textToSend: 'The state is empty!',
-                                keyboard: undefined,
-                                instance: telegramInstance,
-                                resize_keyboard: one_time_keyboard,
-                                one_time_keyboard: resize_keyboard,
-                                userListWithChatID: userListWithChatID,
-                                parse_mode: parse_mode,
+                                instanceTelegram: telegramInstance,
+                                resizeKeyboard,
+                                oneTimeKeyboard,
+                                userListWithChatID,
+                                parseMode,
                             });
                             main_1.adapter.log.debug('The state is empty!');
                             return;
@@ -131,14 +138,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 if (i == part.getData?.length) {
                     if (userToSend) {
                         await (0, telegram_1.sendToTelegram)({
-                            user: userToSend,
+                            userToSend,
                             textToSend: text,
-                            keyboard: undefined,
-                            instance: telegramInstance,
-                            resize_keyboard: one_time_keyboard,
-                            one_time_keyboard: resize_keyboard,
-                            userListWithChatID: userListWithChatID,
-                            parse_mode: parse_mode,
+                            instanceTelegram: telegramInstance,
+                            resizeKeyboard,
+                            oneTimeKeyboard,
+                            userListWithChatID,
+                            parseMode,
                         });
                     }
                 }

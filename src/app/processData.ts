@@ -14,8 +14,6 @@ import { httpRequest } from './httpRequest';
 import { errorLogger } from './logging';
 import type {
     CheckEveryMenuForDataType,
-    IsUserActiveCheckbox,
-    MenuData,
     NewObjectNavStructure,
     Part,
     ProcessDataType,
@@ -109,13 +107,12 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 await adapter.setForeignStateAsync(res?.id, valueToSet, res?.ack);
             } else {
                 await sendToTelegram({
-                    user: userToSend,
+                    userToSend,
                     textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
-                    keyboard: undefined,
-                    instance: instanceTelegram,
-                    resizeKeyboard: resizeKeyboard,
-                    oneTimeKeyboard: oneTimeKeyboard,
-                    userListWithChatID: userListWithChatID,
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
                 });
             }
             removeUserFromDynamicValue(userToSend);
@@ -123,13 +120,13 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
             if (result) {
                 await sendToTelegram({
-                    user: userToSend,
+                    userToSend,
                     textToSend: result.texttosend || '',
                     keyboard: result.menuToSend,
-                    instance: instanceTelegram,
-                    resizeKeyboard: resizeKeyboard,
-                    oneTimeKeyboard: oneTimeKeyboard,
-                    userListWithChatID: userListWithChatID,
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
                     parseMode: result.parseMode,
                 });
             } else {
@@ -138,9 +135,9 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             return true;
         }
         if (calledValue.includes('menu:')) {
-            call = calledValue.split(':')[2] as keyof MenuData;
+            call = calledValue.split(':')[2];
         } else {
-            call = calledValue as keyof NewObjectNavStructure;
+            call = calledValue;
         }
         part = groupData[call];
 
@@ -151,7 +148,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             !calledValue.toString().includes('menu:') &&
             userToSend &&
             groupWithUser &&
-            isUserActiveCheckbox[groupWithUser as keyof IsUserActiveCheckbox]
+            isUserActiveCheckbox[groupWithUser]
         ) {
             if (part.nav) {
                 adapter.log.debug(`Menu to Send: ${part.nav}`);

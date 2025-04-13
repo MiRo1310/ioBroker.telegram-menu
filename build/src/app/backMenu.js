@@ -43,18 +43,17 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
                 main_1.adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
             }
             if (keyboard && foundedMenu != '') {
-                let parseMode = '';
+                let parseMode = false;
                 if (!lastMenu) {
                     let textToSend = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].text;
                     if (textToSend) {
                         textToSend = await (0, utilities_1.checkStatusInfo)(textToSend);
                     }
-                    parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode || 'false');
+                    parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parseMode ?? false);
                     backMenu[userToSend].last = list.pop();
                     return { texttosend: textToSend, menuToSend: keyboard, parseMode: parseMode };
                 }
-                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ||
-                    'false');
+                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parseMode ?? false);
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
                     menuToSend: keyboard,

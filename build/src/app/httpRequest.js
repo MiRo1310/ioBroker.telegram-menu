@@ -11,7 +11,7 @@ const fs_1 = __importDefault(require("fs"));
 const logging_1 = require("./logging");
 const utils_1 = require("../lib/utils");
 const main_1 = require("../main");
-async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
+async function httpRequest(parts, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, directoryPicture) {
     if (!parts.httpRequest) {
         return;
     }
@@ -46,13 +46,12 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
             fs_1.default.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
             main_1.adapter.log.debug(`Pic saved: ${imagePath}`);
             await (0, telegram_1.sendToTelegram)({
-                user: userToSend,
+                userToSend,
                 textToSend: imagePath,
-                instance: instanceTelegram,
-                resize_keyboard: resize_keyboard,
-                one_time_keyboard: one_time_keyboard,
-                userListWithChatID: userListWithChatID,
-                parse_mode: 'false',
+                instanceTelegram,
+                resizeKeyboard,
+                oneTimeKeyboard,
+                userListWithChatID,
             });
         }
         catch (e) {

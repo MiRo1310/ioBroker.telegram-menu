@@ -56,12 +56,12 @@ async function httpRequest(
             adapter.log.debug(`Pic saved: ${imagePath}`);
 
             await sendToTelegram({
-                user: userToSend,
+                userToSend,
                 textToSend: imagePath,
-                instance: instanceTelegram,
-                resizeKeyboard: resizeKeyboard,
-                oneTimeKeyboard: oneTimeKeyboard,
-                userListWithChatID: userListWithChatID,
+                instanceTelegram,
+                resizeKeyboard,
+                oneTimeKeyboard,
+                userListWithChatID,
             });
         } catch (e: any) {
             errorLogger('Error http request:', e, adapter);

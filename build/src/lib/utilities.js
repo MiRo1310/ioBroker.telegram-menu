@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decomposeText = exports.processTimeIdLc = exports.checkStatusInfo = void 0;
+exports.processTimeIdLc = exports.checkStatusInfo = void 0;
 exports.checkTypeOfId = checkTypeOfId;
 const utils_1 = require("./utils");
 const string_1 = require("./string");
-Object.defineProperty(exports, "decomposeText", { enumerable: true, get: function () { return string_1.decomposeText; } });
 const logging_1 = require("../app/logging");
 const time_1 = require("./time");
 const main_1 = require("../main");

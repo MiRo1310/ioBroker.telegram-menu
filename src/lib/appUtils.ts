@@ -1,5 +1,5 @@
 import { config } from '../config/config';
-import type { Adapter, MenusWithUsers } from '../types/types';
+import type { Adapter, MenusWithUsers, ParseModeType } from '../types/types';
 import { decomposeText } from './string';
 import { errorLogger } from '../app/logging';
 import { evaluate } from './math';
@@ -61,3 +61,7 @@ export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, user
     }
     return menus;
 };
+
+export function getParseMode(val = false): ParseModeType {
+    return val ? 'HTML' : 'Markdown';
+}

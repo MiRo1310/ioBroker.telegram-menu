@@ -13,7 +13,8 @@ const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
 const appUtils_1 = require("../lib/appUtils");
-const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
+const utils_1 = require("../lib/utils");
+const bindingFunc = async (text, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, parseMode) => {
     let value;
     try {
         const substring = (0, string_1.decomposeText)(text, 'binding:', '}').substring;
@@ -38,13 +39,13 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
             }
         }
         await (0, telegram_js_1.sendToTelegram)({
-            user: userToSend,
+            userToSend,
             textToSend: value,
-            instance: telegramInstance,
-            resize_keyboard: one_time_keyboard,
-            one_time_keyboard: resize_keyboard,
-            userListWithChatID: userListWithChatID,
-            parse_mode: parse_mode,
+            instanceTelegram: telegramInstance,
+            resizeKeyboard,
+            oneTimeKeyboard,
+            userListWithChatID,
+            parseMode,
         });
     }
     catch (e) {
@@ -79,7 +80,7 @@ function editArrayButtons(val) {
                     array[index] = [element.trim()];
                 });
             }
-            newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
+            newVal.push({ call: element.call, text: element.text, parseMode: element.parseMode, nav: array });
         });
         return newVal;
     }
@@ -88,7 +89,7 @@ function editArrayButtons(val) {
         return null;
     }
 }
-const idBySelector = async (selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) => {
+const idBySelector = async ({ selector, text, userToSend, newline, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, }) => {
     let text2Send = '';
     try {
         if (!selector.includes('functions')) {
@@ -138,13 +139,12 @@ const idBySelector = async (selector, text, userToSend, newline, telegramInstanc
         Promise.all(promises)
             .then(() => {
             (0, telegram_js_1.sendToTelegram)({
-                user: userToSend,
+                userToSend,
                 textToSend: text2Send,
-                instance: telegramInstance,
-                resize_keyboard: one_time_keyboard,
-                one_time_keyboard: resize_keyboard,
-                userListWithChatID: userListWithChatID,
-                parse_mode: 'false',
+                instanceTelegram: telegramInstance,
+                resizeKeyboard,
+                oneTimeKeyboard,
+                userListWithChatID,
             }).catch(e => {
                 (0, logging_js_1.errorLogger)('Error SendToTelegram:', e, main_js_1.adapter);
             });
@@ -156,10 +156,7 @@ const idBySelector = async (selector, text, userToSend, newline, telegramInstanc
         });
     }
     catch (error) {
-        error([
-            { text: 'Error idBySelector:', val: error.message },
-            { text: 'Stack:', val: error.stack },
-        ]);
+        (0, logging_js_1.errorLogger)('Error idBySelector: ', error, main_js_1.adapter);
     }
 };
 exports.idBySelector = idBySelector;
@@ -169,12 +166,11 @@ function generateNewObjectStructure(val) {
             return null;
         }
         const obj = {};
-        val.forEach(function (element) {
-            const call = element.call;
+        val.forEach(function ({ nav, text, parseMode, call }) {
             obj[call] = {
-                nav: element.nav,
-                text: element.text,
-                parse_mode: element.parse_mode == 'true' || element.parse_mode == 'false' ? element.parse_mode : 'false',
+                nav,
+                text,
+                parseMode: (0, utils_1.isTruthy)(parseMode),
             };
         });
         return obj;
@@ -203,7 +199,7 @@ function generateActions(action, userObject) {
                 objName: 'loc',
                 name: 'location',
                 loop: 'latitude',
-                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parse_mode', key: 0 }],
+                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parseMode', key: 0 }],
             },
             {
                 objName: 'pic',
@@ -223,7 +219,7 @@ function generateActions(action, userObject) {
                     { name: 'id', value: 'IDs' },
                     { name: 'text', type: 'text' },
                     { name: 'newline', value: 'newline_checkbox' },
-                    { name: 'parse_mode', key: 0 },
+                    { name: 'parseMode', key: 0 },
                 ],
             },
             {
@@ -256,7 +252,7 @@ function generateActions(action, userObject) {
                     confirm: element.confirm[index],
                     returnText: element.returnText[index],
                     ack: element.ack ? element.ack[index] : 'false',
-                    parse_mode: element.parse_mode ? element.parse_mode[0] : 'false',
+                    parseMode: (0, utils_1.isTruthy)(element.parseMode[0]),
                 };
                 if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
                     userObject[element.trigger[0]].switch.push(newObj);
@@ -335,7 +331,7 @@ const adjustValueType = (value, valueType) => {
     return value;
 };
 exports.adjustValueType = adjustValueType;
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard, usersInGroup) => {
     const menuArray = [];
     let ok = false;
     let calledNav = '';
@@ -378,10 +374,10 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
                             (0, backMenu_js_1.backMenuFunc)(calledNav, part.nav, user);
                         }
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
-                            await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData.data, menus, null, part.nav);
+                            await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, part, menuData.data, menus, null, part.nav);
                         }
                         else {
-                            await (0, sendNav_js_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+                            await (0, sendNav_js_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
                         }
                     }
                 }

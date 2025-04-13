@@ -1,4 +1,10 @@
-import {calcValue, checkOneLineValue, getListOfMenusIncludingUser, roundValue} from "../../src/lib/appUtils";
+import {
+    calcValue,
+    checkOneLineValue,
+    getListOfMenusIncludingUser,
+    getParseMode,
+    roundValue
+} from "../../src/lib/appUtils";
 import {expect} from "chai";
 import {utils} from "@iobroker/testing";
 
@@ -177,5 +183,22 @@ describe('getMenusWithUser', () => {
         const userToSend = 'user3';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
         expect(result).to.deep.equal(['menu2']);
+    });
+});
+
+describe('getParseMode', () => {
+    it('should return "HTML" when the input is true', () => {
+        const result = getParseMode(true);
+        expect(result).to.equal('HTML');
+    });
+
+    it('should return "Markdown" when the input is false', () => {
+        const result = getParseMode(false);
+        expect(result).to.equal('Markdown');
+    });
+
+    it('should return "Markdown" when the input is undefined', () => {
+        const result = getParseMode();
+        expect(result).to.equal('Markdown');
     });
 });

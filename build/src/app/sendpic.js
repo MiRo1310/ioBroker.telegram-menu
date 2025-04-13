@@ -7,7 +7,7 @@ const child_process_1 = require("child_process");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
-function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
+function sendPic(part, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
     try {
         part.sendPic?.forEach(element => {
             const { id, delay, fileName } = element;
@@ -39,13 +39,12 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
             }
             const timeout = main_1.adapter.setTimeout(async () => {
                 await (0, telegram_1.sendToTelegram)({
-                    user: userToSend,
+                    userToSend,
                     textToSend: path,
-                    instance: instanceTelegram,
-                    resize_keyboard: resize_keyboard,
-                    one_time_keyboard: one_time_keyboard,
-                    userListWithChatID: userListWithChatID,
-                    parse_mode: 'false',
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
                 });
                 let timeoutToClear = [];
                 timeoutToClear = timeouts.filter(item => item.key == timeoutKey);

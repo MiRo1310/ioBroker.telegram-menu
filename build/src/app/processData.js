@@ -21,7 +21,7 @@ const string_1 = require("../lib/string");
 let setStateIdsToListenTo = [];
 let timeouts = [];
 async function checkEveryMenuForData(obj) {
-    const { menuData, calledValue, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, } = obj;
+    const { menuData, calledValue, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, } = obj;
     for (const menu of menus) {
         const groupData = menuData.data[menu];
         main_1.adapter.log.debug(`Menu: ${menu}`);
@@ -32,8 +32,8 @@ async function checkEveryMenuForData(obj) {
             userToSend,
             groupWithUser: menu,
             instanceTelegram,
-            resize_keyboard: resize_keyboard,
-            one_time_keyboard: one_time_keyboard,
+            resizeKeyboard: resizeKeyboard,
+            oneTimeKeyboard: oneTimeKeyboard,
             userListWithChatID,
             allMenusWithData: menuData.data,
             menus,
@@ -50,7 +50,7 @@ async function checkEveryMenuForData(obj) {
     return false;
 }
 async function processData(obj) {
-    const { menuData, calledValue, userToSend, groupWithUser, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, } = obj;
+    const { menuData, calledValue, userToSend, groupWithUser, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, } = obj;
     try {
         let part = {};
         let call = '';
@@ -68,32 +68,30 @@ async function processData(obj) {
             }
             else {
                 await (0, telegram_1.sendToTelegram)({
-                    user: userToSend,
+                    userToSend,
                     textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
-                    keyboard: undefined,
-                    instance: instanceTelegram,
-                    resize_keyboard: resize_keyboard,
-                    one_time_keyboard: one_time_keyboard,
-                    userListWithChatID: userListWithChatID,
-                    parse_mode: 'false',
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
                 });
             }
             (0, dynamicValue_1.removeUserFromDynamicValue)(userToSend);
             const result = await (0, backMenu_1.switchBack)(userToSend, allMenusWithData, menus, true);
             if (result) {
                 await (0, telegram_1.sendToTelegram)({
-                    user: userToSend,
+                    userToSend,
                     textToSend: result.texttosend || '',
                     keyboard: result.menuToSend,
-                    instance: instanceTelegram,
-                    resize_keyboard: resize_keyboard,
-                    one_time_keyboard: one_time_keyboard,
-                    userListWithChatID: userListWithChatID,
-                    parse_mode: result.parseMode,
+                    instanceTelegram,
+                    resizeKeyboard,
+                    oneTimeKeyboard,
+                    userListWithChatID,
+                    parseMode: result.parseMode,
                 });
             }
             else {
-                await (0, sendNav_1.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+                await (0, sendNav_1.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
             }
             return true;
         }
@@ -116,7 +114,7 @@ async function processData(obj) {
                 (0, backMenu_1.backMenuFunc)(call, part.nav, userToSend);
                 if (JSON.stringify(part.nav).includes('menu:')) {
                     main_1.adapter.log.debug(`Submenu: ${part.nav}`);
-                    const result = await (0, subMenu_1.callSubMenu)(JSON.stringify(part.nav), groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
+                    const result = await (0, subMenu_1.callSubMenu)(JSON.stringify(part.nav), groupData, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
                     if (result && result.setStateIdsToListenTo) {
                         setStateIdsToListenTo = result.setStateIdsToListenTo;
                     }
@@ -126,8 +124,8 @@ async function processData(obj) {
                             calledValue: result.newNav,
                             userToSend,
                             instanceTelegram,
-                            resize_keyboard,
-                            one_time_keyboard,
+                            resizeKeyboard,
+                            oneTimeKeyboard,
                             userListWithChatID,
                             menus,
                             isUserActiveCheckbox,
@@ -138,12 +136,12 @@ async function processData(obj) {
                     }
                 }
                 else {
-                    await (0, sendNav_1.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+                    await (0, sendNav_1.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
                 }
                 return true;
             }
             if (part.switch) {
-                const result = await (0, setstate_1.setState)(part, userToSend, 0, false, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID);
+                const result = await (0, setstate_1.setState)(part, userToSend, 0, false, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID);
                 if (result) {
                     setStateIdsToListenTo = result;
                 }
@@ -153,11 +151,11 @@ async function processData(obj) {
                 return true;
             }
             if (part.getData) {
-                (0, getstate_1.getState)(part, userToSend, instanceTelegram, one_time_keyboard, resize_keyboard, userListWithChatID);
+                (0, getstate_1.getState)(part, userToSend, instanceTelegram, oneTimeKeyboard, resizeKeyboard, userListWithChatID);
                 return true;
             }
             if (part.sendPic) {
-                const result = (0, sendpic_1.sendPic)(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey);
+                const result = (0, sendpic_1.sendPic)(part, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey);
                 if (result) {
                     timeouts = result;
                 }
@@ -173,12 +171,12 @@ async function processData(obj) {
             }
             if (part.echarts) {
                 main_1.adapter.log.debug('Send echars');
-                (0, echarts_1.getChart)(part.echarts, directoryPicture, userToSend, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
+                (0, echarts_1.getChart)(part.echarts, directoryPicture, userToSend, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
                 return true;
             }
             if (part.httpRequest) {
                 main_1.adapter.log.debug('Send http request');
-                const result = await (0, httpRequest_1.httpRequest)(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture);
+                const result = await (0, httpRequest_1.httpRequest)(part, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, directoryPicture);
                 if (result) {
                     return true;
                 }
@@ -187,7 +185,7 @@ async function processData(obj) {
         if ((calledValue.startsWith('menu') || calledValue.startsWith('submenu')) &&
             menuData.data[groupWithUser][call]) {
             main_1.adapter.log.debug('Call Submenu');
-            const result = await (0, subMenu_1.callSubMenu)(calledValue, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
+            const result = await (0, subMenu_1.callSubMenu)(calledValue, menuData, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
             if (result && result.setStateIdsToListenTo) {
                 setStateIdsToListenTo = result.setStateIdsToListenTo;
             }

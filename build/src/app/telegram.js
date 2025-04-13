@@ -8,37 +8,38 @@ const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
-async function sendToTelegram({ user = '', textToSend, keyboard, instance = 'telegram.0', resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode, }) {
+const appUtils_1 = require("../lib/appUtils");
+async function sendToTelegram({ userToSend = '', textToSend, keyboard, instanceTelegram = 'telegram.0', resizeKeyboard = true, oneTimeKeyboard = true, userListWithChatID, parseMode = false, }) {
     try {
-        const chatId = (0, utils_1.getChatID)(userListWithChatID, user);
-        const parse_modeType = getParseMode(parse_mode);
-        main_1.adapter.log.debug(`Send to: ${user} => ${textToSend}`);
-        main_1.adapter.log.debug(`Instance: ${instance}`);
+        const chatId = (0, utils_1.getChatID)(userListWithChatID, userToSend);
+        const parseModeType = (0, appUtils_1.getParseMode)(parseMode);
+        main_1.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
+        main_1.adapter.log.debug(`Instance: ${instanceTelegram}`);
         main_1.adapter.log.debug(`UserListWithChatID	: ${(0, string_1.jsonString)(userListWithChatID)}`);
-        main_1.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+        main_1.adapter.log.debug(`Parse_mode	: ${parseMode}`);
         main_1.adapter.log.debug(`ChatId	: ${chatId}`);
-        main_1.adapter.log.debug(`ParseModeType: ${parse_modeType}`);
+        main_1.adapter.log.debug(`ParseModeType: ${parseModeType}`);
         textToSend = (0, string_1.validateNewLine)(textToSend);
         if (!keyboard) {
             main_1.adapter.log.debug('No Keyboard');
-            main_1.adapter.sendTo(instance, 'send', {
+            main_1.adapter.sendTo(instanceTelegram, 'send', {
                 text: textToSend,
-                chatId: chatId,
-                parse_mode: parse_modeType,
+                chatId,
+                parseMode: parseModeType,
             }, function (res) {
                 main_1.adapter.log.debug(`Sent Value to ${(0, string_1.jsonString)(res)} users!`);
             });
         }
         else {
             const text = await (0, utilities_1.checkStatusInfo)(textToSend);
-            main_1.adapter.sendTo(instance, 'send', {
+            main_1.adapter.sendTo(instanceTelegram, 'send', {
                 chatId: chatId,
-                parse_mode: parse_modeType,
+                parseMode: parseModeType,
                 text: text,
                 reply_markup: {
                     keyboard: keyboard,
-                    resize_keyboard: resize_keyboard,
-                    one_time_keyboard: one_time_keyboard,
+                    resizeKeyboard: resizeKeyboard,
+                    oneTimeKeyboard: oneTimeKeyboard,
                 },
             }, function (res) {
                 main_1.adapter.log.debug(`Sent Value to ${(0, string_1.jsonString)(res)} users!`);
@@ -49,15 +50,15 @@ async function sendToTelegram({ user = '', textToSend, keyboard, instance = 'tel
         (0, logging_1.errorLogger)('Error sendToTelegram:', e, main_1.adapter);
     }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.0', userListWithChatID, parse_mode) {
-    const parseModeType = getParseMode(parse_mode);
+function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.0', userListWithChatID, parseMode) {
+    const parseModeType = (0, appUtils_1.getParseMode)(parseMode);
     main_1.adapter.log.debug(`Send this ParseMode: ${parseModeType}`);
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, user);
         textToSend = (0, string_1.validateNewLine)(textToSend);
         main_1.adapter.sendTo(instance, 'send', {
             chatId: chatId,
-            parse_mode: parseModeType,
+            parseMode: parseModeType,
             text: textToSend,
             reply_markup: keyboard,
         });
@@ -69,12 +70,12 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = 'telegram.
 const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, user);
-        for (const element of data) {
-            if (!(element.latitude || element.longitude)) {
+        for (const { longitude: longitudeID, latitude: latitudeID } of data) {
+            if (!(latitudeID || longitudeID)) {
                 continue;
             }
-            const latitude = await main_1.adapter.getForeignStateAsync(element.latitude);
-            const longitude = await main_1.adapter.getForeignStateAsync(element.longitude);
+            const latitude = await main_1.adapter.getForeignStateAsync(latitudeID);
+            const longitude = await main_1.adapter.getForeignStateAsync(longitudeID);
             if (!latitude || !longitude) {
                 continue;
             }
@@ -91,10 +92,4 @@ const sendLocationToTelegram = async (user, data, instance, userListWithChatID) 
     }
 };
 exports.sendLocationToTelegram = sendLocationToTelegram;
-function getParseMode(val) {
-    if ((0, utils_1.isTruthy)(val)) {
-        return 'HTML';
-    }
-    return 'Markdown';
-}
 //# sourceMappingURL=telegram.js.map
