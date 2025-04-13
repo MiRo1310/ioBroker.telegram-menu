@@ -82,7 +82,7 @@ function getState(
                         val = '';
                     }
                     if (textToSend.includes('math:')) {
-                        const result = calcValue(textToSend, val);
+                        const result = calcValue(textToSend, val, adapter);
                         if (result) {
                             textToSend = result.textToSend;
                             val = result.val;
@@ -91,7 +91,7 @@ function getState(
                         }
                     }
                     if (textToSend.includes('round:')) {
-                        const result = roundValue(val, textToSend);
+                        const result = roundValue(String(val), textToSend);
                         if (result) {
                             adapter.log.debug(
                                 `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`,

@@ -13,7 +13,11 @@ export function evaluate(val: string[], adapter: Adapter): EvaluateReturnType {
     }
 }
 
-export function calcValue(textToSend: string, val: string): { textToSend: string; val: string; error: boolean } {
+export function calcValue(
+    textToSend: string,
+    val: string,
+    adapter: Adapter,
+): { textToSend: string; val: any; error: boolean } {
     const { substringExcludedSearch, textWithoutSubstring } = decomposeText(
         textToSend,
         config.math.start,

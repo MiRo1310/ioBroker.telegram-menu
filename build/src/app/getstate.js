@@ -53,7 +53,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                         val = '';
                     }
                     if (textToSend.includes('math:')) {
-                        const result = (0, math_1.calcValue)(textToSend, val);
+                        const result = (0, math_1.calcValue)(textToSend, val, main_1.adapter);
                         if (result) {
                             textToSend = result.textToSend;
                             val = result.val;
@@ -61,7 +61,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                         }
                     }
                     if (textToSend.includes('round:')) {
-                        const result = (0, action_1.roundValue)(val, textToSend);
+                        const result = (0, action_1.roundValue)(String(val), textToSend);
                         if (result) {
                             main_1.adapter.log.debug(`The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`);
                             val = result.val;
