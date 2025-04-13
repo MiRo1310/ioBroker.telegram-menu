@@ -1,7 +1,7 @@
 import { adapter } from '../main';
 import type { SetStateIds } from '../types/types';
 import { jsonString } from '../lib/string';
-import { deleteDoubleEntriesInArray } from '../lib/object';
+import { removeDuplicates } from '../lib/object';
 
 async function _subscribeAndUnSubscribeForeignStatesAsync(obj: { array?: SetStateIds[]; id?: string }): Promise<void> {
     if (obj.id) {
@@ -14,7 +14,7 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj: { array?: SetStat
 }
 
 async function _subscribeForeignStatesAsync(array: string[]): Promise<void> {
-    array = deleteDoubleEntriesInArray(array);
+    array = removeDuplicates(array);
     for (const element of array) {
         await adapter.subscribeForeignStatesAsync(element);
     }

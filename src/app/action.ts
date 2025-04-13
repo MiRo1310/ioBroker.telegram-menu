@@ -25,6 +25,8 @@ import type {
     UserObjectActions,
 } from '../types/types';
 import { decomposeText } from '../lib/string';
+import { config } from '../config/config';
+import { checkOneLineValue } from '../lib/appUtils';
 
 const bindingFunc = async (
     text: string,
@@ -89,24 +91,17 @@ function calcValue(textToSend: string, val: string): { textToSend: string; val: 
     }
 }
 
-function checkValueForOneLine(text: string): string {
-    if (!text.includes('&&')) {
-        return `${text}&&`;
-    }
-    return text;
-}
-
 function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
     const newVal: GeneratedNavMenu[] = [];
     try {
         val.forEach(element => {
             let value = '';
             if (typeof element.value === 'string') {
-                value = checkValueForOneLine(element.value);
+                value = checkOneLineValue(element.value);
             }
             let array: string[] | string[][] = [];
-            if (value.indexOf('&&') != -1) {
-                array = value.split('&&');
+            if (value.indexOf(config.rowSplitter) != -1) {
+                array = value.split(config.rowSplitter);
             }
 
             if (array.length > 1) {

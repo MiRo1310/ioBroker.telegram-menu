@@ -13,6 +13,8 @@ const backMenu_js_1 = require("./backMenu.js");
 const logging_js_1 = require("./logging.js");
 const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
+const config_1 = require("../config/config");
+const appUtils_1 = require("../lib/appUtils");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
     let value;
     try {
@@ -65,23 +67,17 @@ function calcValue(textToSend, val) {
         (0, logging_js_1.errorLogger)('Error Eval:', e, main_js_1.adapter);
     }
 }
-function checkValueForOneLine(text) {
-    if (!text.includes('&&')) {
-        return `${text}&&`;
-    }
-    return text;
-}
 function editArrayButtons(val) {
     const newVal = [];
     try {
         val.forEach(element => {
             let value = '';
             if (typeof element.value === 'string') {
-                value = checkValueForOneLine(element.value);
+                value = (0, appUtils_1.checkOneLineValue)(element.value);
             }
             let array = [];
-            if (value.indexOf('&&') != -1) {
-                array = value.split('&&');
+            if (value.indexOf(config_1.config.rowSplitter) != -1) {
+                array = value.split(config_1.config.rowSplitter);
             }
             if (array.length > 1) {
                 array.forEach(function (element, index) {

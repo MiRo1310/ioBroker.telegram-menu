@@ -47,8 +47,8 @@ export function decomposeText(
 }
 
 export const getValueToExchange = (adapter: Adapter, textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
-    if (textToSend.includes(config.replacer.change.start)) {
-        const { start, end, command } = config.replacer.change;
+    if (textToSend.includes(config.change.start)) {
+        const { start, end, command } = config.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
 
         const modifiedString = replaceAll(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}

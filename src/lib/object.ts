@@ -1,2 +1,1 @@
-export const deleteDoubleEntriesInArray = (arr: string[]): string[] =>
-    arr.filter((item, index) => arr.indexOf(item) === index);
+export const removeDuplicates = (arr: string[]): string[] => arr.filter((item, index) => arr.indexOf(item) === index);

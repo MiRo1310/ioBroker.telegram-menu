@@ -14,10 +14,10 @@ const toLocaleDate = (ts) => {
 exports.toLocaleDate = toLocaleDate;
 const integrateTimeIntoText = (text, val) => {
     if (!val) {
-        return text.replace(config_1.config.replacer.time, '"Invalid Date"');
+        return text.replace(config_1.config.time, '"Invalid Date"');
     }
     const date = new Date(Number(String(val)));
-    return text.replace(config_1.config.replacer.time, isNaN(date.getTime()) ? '"Invalid Date"' : (0, exports.toLocaleDate)(date));
+    return text.replace(config_1.config.time, isNaN(date.getTime()) ? '"Invalid Date"' : (0, exports.toLocaleDate)(date));
 };
 exports.integrateTimeIntoText = integrateTimeIntoText;
 //# sourceMappingURL=time.js.map

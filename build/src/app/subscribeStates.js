@@ -16,7 +16,7 @@ async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
     }
 }
 async function _subscribeForeignStatesAsync(array) {
-    array = (0, object_1.deleteDoubleEntriesInArray)(array);
+    array = (0, object_1.removeDuplicates)(array);
     for (const element of array) {
         await main_1.adapter.subscribeForeignStatesAsync(element);
     }

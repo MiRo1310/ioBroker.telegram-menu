@@ -45,8 +45,8 @@ function decomposeText(text, searchValue, secondValue) {
     };
 }
 const getValueToExchange = (adapter, textToSend, val) => {
-    if (textToSend.includes(config_1.config.replacer.change.start)) {
-        const { start, end, command } = config_1.config.replacer.change;
+    if (textToSend.includes(config_1.config.change.start)) {
+        const { start, end, command } = config_1.config.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
         const modifiedString = (0, exports.replaceAll)(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
         const { json, isValidJson } = parseJSON(modifiedString);

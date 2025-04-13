@@ -17,18 +17,18 @@ describe('Time', () => {
     });
 
     it('Integrate a valid time into text', () => {
-        const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, 1744388803096);
+        const result = integrateTimeIntoText(`Test at ${config.time} created`, 1744388803096);
         expect(result).to.equal(`Test at ${expectedDate} created`);
     });
 
     it('Handle a non valid time', () => {
-        const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, 'abc');
+        const result = integrateTimeIntoText(`Test at ${config.time} created`, 'abc');
         expect(result).to.equal(`Test at "Invalid Date" created`);
     });
 
     it('Handle a null value for time', () => {
         [null, undefined].forEach(value => {
-            const result = integrateTimeIntoText(`Test at ${config.replacer.time} created`, value);
+            const result = integrateTimeIntoText(`Test at ${config.time} created`, value);
             expect(result).to.equal(`Test at "Invalid Date" created`);
         });
     });

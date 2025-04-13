@@ -12,9 +12,9 @@ export const toLocaleDate = (ts: Date): string => {
 
 export const integrateTimeIntoText = (text: string, val?: ioBroker.StateValue): string => {
     if (!val) {
-        return text.replace(config.replacer.time, '"Invalid Date"');
+        return text.replace(config.time, '"Invalid Date"');
     }
     const date = new Date(Number(String(val)));
 
-    return text.replace(config.replacer.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
+    return text.replace(config.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
