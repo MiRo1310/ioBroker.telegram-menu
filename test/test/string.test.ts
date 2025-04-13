@@ -6,6 +6,7 @@ import {
     pad,
     parseJSON,
     replaceAll,
+    replaceAllItems,
     stringReplacer,
     validateNewLine
 } from '../../src/lib/string';
@@ -40,7 +41,7 @@ describe('replaceAll', () => {
             { val: 'Test', expect: 'Test' },
             {
                 val: 'Abc. Def. Ghi.//.',
-                expect: 'Abc  Def  Ghi //',
+                expect: 'Abc  Def  Ghi // ',
             },
         ];
 
@@ -48,6 +49,56 @@ describe('replaceAll', () => {
             const result = replaceAll(text.val, '.', ' ');
             expect(result).to.equal(text.expect);
         });
+    });
+});
+
+describe('replaceAllItems', () => {
+    it('should replace all matching strings in the text', () => {
+        const text = 'Hello World!';
+        const searched = ['Hello', 'World'];
+        const result = replaceAllItems(text, searched);
+        expect(result).to.equal(' !');
+    });
+
+    it('should replace all matching objects in the text', () => {
+        const text = 'Hello World!';
+        const searched = [
+            { search: 'Hello', val: 'Hi' },
+            { search: 'World', val: 'Earth' },
+        ];
+        const result = replaceAllItems(text, searched);
+        expect(result).to.equal('Hi Earth!');
+    });
+
+    it('should return the original text if no matches are found', () => {
+        const text = 'Hello World!';
+        const searched = ['Test'];
+        const result = replaceAllItems(text, searched);
+        expect(result).to.equal('Hello World!');
+    });
+
+    it('should handle an empty array for searched', () => {
+        const text = 'Hello World!';
+        const searched: string[] = [];
+        const result = replaceAllItems(text, searched);
+        expect(result).to.equal('Hello World!');
+    });
+
+    it('should handle an empty text', () => {
+        const text = '';
+        const searched = ['Hello', 'World'];
+        const result = replaceAllItems(text, searched);
+        expect(result).to.equal('');
+    });
+
+    it('should handle mixed types in the searched array', () => {
+        const text = 'Hello World!';
+        const searched = [
+            'Hello',
+            { search: 'World', val: 'Earth' },
+        ];
+        const result = replaceAllItems(text, searched);
+        expect(result).to.equal(' Earth!');
     });
 });
 

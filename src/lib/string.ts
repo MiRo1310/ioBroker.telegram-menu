@@ -21,7 +21,18 @@ export function parseJSON<T>(val: string): { json: string; isValidJson: false } 
 
 export const replaceAll = (text: string, searchValue: string, replaceValue: string): string => {
     const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
-    return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue).trim();
+    return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
+};
+
+export const replaceAllItems = (text: string, searched: (string | { search: string; val: string })[]): string => {
+    searched.forEach(item => {
+        if (typeof item === 'string') {
+            text = replaceAll(text, item, '');
+        } else {
+            text = replaceAll(text, item.search, item.val);
+        }
+    });
+    return text;
 };
 
 export const validateNewLine = (text?: string): string => {

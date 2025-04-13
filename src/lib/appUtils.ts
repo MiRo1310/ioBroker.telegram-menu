@@ -24,32 +24,23 @@ export function calcValue(
         : { textToSend: textExcludeSubstring, val: evalVal, error };
 }
 
-export function roundValue(
-    val: string,
-    textToSend: string,
-    adapter: Adapter,
-): { val: string; textToSend: string; error: boolean } {
-    try {
-        const floatVal = parseFloat(val);
-        const { textExcludeSubstring, substringExcludeSearch: decimalPlaces } = decomposeText(
-            textToSend,
-            config.round.start,
-            config.round.end,
-        );
-        const decimalPlacesNum = parseInt(decimalPlaces);
+export function roundValue(val: string, textToSend: string): { val: string; textToSend: string; error: boolean } {
+    const floatVal = parseFloat(val);
+    const { textExcludeSubstring, substringExcludeSearch: decimalPlaces } = decomposeText(
+        textToSend,
+        config.round.start,
+        config.round.end,
+    );
+    const decimalPlacesNum = parseInt(decimalPlaces);
 
-        if (isNaN(floatVal)) {
-            return { val: 'NaN', textToSend: textExcludeSubstring, error: true };
-        }
-        if (isNaN(decimalPlacesNum)) {
-            return { val, textToSend: textExcludeSubstring, error: true };
-        }
-
-        return { val: floatVal.toFixed(decimalPlacesNum), textToSend: textExcludeSubstring, error: false };
-    } catch (err: any) {
-        errorLogger('Error roundValue:', err, adapter);
-        return { val, textToSend, error: true };
+    if (isNaN(floatVal)) {
+        return { val: 'NaN', textToSend: textExcludeSubstring, error: true };
     }
+    if (isNaN(decimalPlacesNum)) {
+        return { val, textToSend: textExcludeSubstring, error: true };
+    }
+
+    return { val: floatVal.toFixed(decimalPlacesNum), textToSend: textExcludeSubstring, error: false };
 }
 
 export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, userToSend: string): string[] => {

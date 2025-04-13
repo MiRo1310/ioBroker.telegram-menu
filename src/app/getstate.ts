@@ -91,7 +91,7 @@ function getState(
                         }
                     }
                     if (textToSend.includes('round:')) {
-                        const result = roundValue(String(val), textToSend, adapter);
+                        const result = roundValue(String(val), textToSend);
                         if (result) {
                             adapter.log.debug(
                                 `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`,

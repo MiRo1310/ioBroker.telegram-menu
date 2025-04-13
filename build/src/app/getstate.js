@@ -70,7 +70,7 @@ function getState(part, userToSend, telegramInstance, oneTimeKeyboard, resizeKey
                         }
                     }
                     if (textToSend.includes('round:')) {
-                        const result = (0, appUtils_1.roundValue)(String(val), textToSend, main_1.adapter);
+                        const result = (0, appUtils_1.roundValue)(String(val), textToSend);
                         if (result) {
                             main_1.adapter.log.debug(`The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`);
                             val = result.val;

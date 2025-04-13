@@ -83,7 +83,7 @@ describe('roundValue', () => {
     it('should round the value to the specified number of decimal places', () => {
         const val = '123.4567';
         const textToSend = 'Test {round:2}';
-        const result = roundValue(val, textToSend, adapter);
+        const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
             val: '123.46',
             textToSend: 'Test',
@@ -94,7 +94,7 @@ describe('roundValue', () => {
     it('should handle invalid decimal places gracefully', () => {
         const val = '123.4567';
         const textToSend = 'Test {round:invalid}';
-        const result = roundValue(val, textToSend, adapter);
+        const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
             val: '123.4567',
             textToSend: 'Test',
@@ -105,7 +105,7 @@ describe('roundValue', () => {
     it('should handle empty input gracefully', () => {
         const val = '';
         const textToSend = '';
-        const result = roundValue(val, textToSend, adapter);
+        const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
             val: 'NaN',
             textToSend: '',
@@ -116,7 +116,7 @@ describe('roundValue', () => {
     it('should return an error if the value is not a valid number', () => {
         const val = 'invalid';
         const textToSend = 'Test {round:2}';
-        const result = roundValue(val, textToSend, adapter);
+        const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
             val: 'NaN',
             textToSend: 'Test',
@@ -127,7 +127,7 @@ describe('roundValue', () => {
     it('should handle text without a round command', () => {
         const val = '123.4567';
         const textToSend = 'No round here';
-        const result = roundValue(val, textToSend, adapter);
+        const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
             val: '123.4567',
             textToSend: 'No round here',

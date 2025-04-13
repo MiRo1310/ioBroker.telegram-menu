@@ -10,65 +10,25 @@ const main_1 = require("../main");
 const config_1 = require("../config/config");
 const appUtils_1 = require("./appUtils");
 const processTimeIdLc = async (textToSend, id) => {
-    const { substring } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
-    const array = substring.split(',');
-    let changedSubstring = substring;
-    changedSubstring = changedSubstring.replace(array[0], '');
-    const key = (0, appUtils_1.getTypeofTimestamp)(array[0]);
-    let idFromText = '';
-    if (!id) {
-        if (!changedSubstring.includes('id:')) {
-            main_1.adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
-            return;
-        }
-        if (array[2]) {
-            idFromText = array[2].replace('id:', '').replace('}', '').replace(/'/g, '');
-            changedSubstring = changedSubstring.replace(array[2], '').replace(/,/g, '');
-        }
+    const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
+    const array = substringExcludeSearch.split(','); //["lc","(DD MM YYYY hh:mm:ss:sss)","id:'ID'"]
+    const timestampString = array[0];
+    const timeString = array[1]; //"(DD MM YYYY hh:mm:ss:sss)"
+    const idString = array[2];
+    const typeofTimestamp = (0, appUtils_1.getTypeofTimestamp)(timestampString); //"{time.lc"
+    const idFromText = idString.replace('id:', '').replace('}', '').replace(/'/g, ''); //"id:'ID'"
+    if (!id && (!idFromText || idFromText.length < 5)) {
+        return textToSend.replace(substring, 'Invalid ID');
     }
-    if (!id && !idFromText) {
-        return;
+    const value = await main_1.adapter.getForeignStateAsync(id ?? idFromText);
+    if (!value) {
+        return textToSend.replace(substring, 'Invalid ID');
     }
-    const value = await main_1.adapter.getForeignStateAsync(id || idFromText);
-    let unixTs;
-    let timeStringUser;
-    if (key && value) {
-        timeStringUser = changedSubstring.replace(',(', '').replace(')', '').replace('}', '');
-        unixTs = value[key];
-    }
-    if (!unixTs) {
-        return;
-    }
-    const { ms, s, m, h, d, mo, y } = (0, time_1.getTimeWithPad)((0, time_1.extractTimeValues)(unixTs));
-    if (timeStringUser) {
-        if (timeStringUser.includes('sss')) {
-            timeStringUser = timeStringUser.replace('sss', ms);
-        }
-        if (timeStringUser.includes('ss')) {
-            timeStringUser = timeStringUser.replace('ss', s);
-        }
-        if (timeStringUser.includes('mm')) {
-            timeStringUser = timeStringUser.replace('mm', m);
-        }
-        if (timeStringUser.includes('hh')) {
-            timeStringUser = timeStringUser.replace('hh', h);
-        }
-        if (timeStringUser.includes('DD')) {
-            timeStringUser = timeStringUser.replace('DD', d);
-        }
-        if (timeStringUser.includes('MM')) {
-            timeStringUser = timeStringUser.replace('MM', mo);
-        }
-        if (timeStringUser.includes('YYYY')) {
-            timeStringUser = timeStringUser.replace('YYYY', y);
-        }
-        if (timeStringUser.includes('YY')) {
-            timeStringUser = timeStringUser.replace('YY', y.slice(-2));
-        }
-        timeStringUser = timeStringUser.replace('(', '').replace(')', '');
-        return textToSend.replace(substring, timeStringUser);
-    }
-    return textToSend;
+    const timeStringUser = timeString.replace(',(', '').replace(')', '').replace('}', ''); //"(DD MM YYYY hh:mm:ss:sss)"
+    const unixTs = value[typeofTimestamp];
+    const timeWithPad = (0, time_1.getTimeWithPad)((0, time_1.extractTimeValues)(unixTs));
+    const timeStringReplaced = (0, appUtils_1.timeStringReplacer)(timeWithPad, timeStringUser);
+    return timeStringReplaced ?? textToSend;
 };
 exports.processTimeIdLc = processTimeIdLc;
 // TODO Check Usage of function
@@ -133,7 +93,7 @@ const checkStatusInfo = async (text) => {
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
-            text = (await processTimeIdLc(text, null)) || '';
+            text = (await processTimeIdLc(text)) || '';
         }
         if (text.includes('{set:')) {
             const result = (0, string_1.decomposeText)(text, '{set:', '}');

@@ -7,39 +7,31 @@ import { adapter } from '../main';
 import { config } from '../config/config';
 import { getTypeofTimestamp, timeStringReplacer } from './appUtils';
 
-const processTimeIdLc = async (textToSend: string, id: string | null): Promise<string | undefined> => {
-    const { substring } = decomposeText(textToSend, config.timestamp.start, config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
-    const array = substring.split(',');
+const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
+    const { substring, substringExcludeSearch } = decomposeText(
+        textToSend,
+        config.timestamp.start,
+        config.timestamp.end,
+    ); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
+    const array = substringExcludeSearch.split(','); //["lc","(DD MM YYYY hh:mm:ss:sss)","id:'ID'"]
+    const timestampString = array[0];
+    const timeString = array[1]; //"(DD MM YYYY hh:mm:ss:sss)"
+    const idString = array[2];
 
-    let changedSubstring = substring;
-    changedSubstring = changedSubstring.replace(array[0], '');
-    const key = getTypeofTimestamp(array[0]);
+    const typeofTimestamp = getTypeofTimestamp(timestampString); //"{time.lc"
 
-    let idFromText = '';
-    if (!id) {
-        if (!changedSubstring.includes('id:')) {
-            adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
-            return;
-        }
+    const idFromText = idString.replace('id:', '').replace('}', '').replace(/'/g, ''); //"id:'ID'"
 
-        if (array[2]) {
-            idFromText = array[2].replace('id:', '').replace('}', '').replace(/'/g, '');
-            changedSubstring = changedSubstring.replace(array[2], '').replace(/,/g, '');
-        }
+    if (!id && (!idFromText || idFromText.length < 5)) {
+        return textToSend.replace(substring, 'Invalid ID');
     }
-    if (!id && !idFromText) {
-        return;
+    const value = await adapter.getForeignStateAsync(id ?? idFromText);
+
+    if (!value) {
+        return textToSend.replace(substring, 'Invalid ID');
     }
-    const value = await adapter.getForeignStateAsync(id || idFromText);
-    let unixTs;
-    let timeStringUser;
-    if (key && value) {
-        timeStringUser = changedSubstring.replace(',(', '').replace(')', '').replace('}', '');
-        unixTs = value[key];
-    }
-    if (!unixTs) {
-        return;
-    }
+    const timeStringUser = timeString.replace(',(', '').replace(')', '').replace('}', ''); //"(DD MM YYYY hh:mm:ss:sss)"
+    const unixTs = value[typeofTimestamp];
 
     const timeWithPad = getTimeWithPad(extractTimeValues(unixTs));
     const timeStringReplaced = timeStringReplacer(timeWithPad, timeStringUser);
@@ -114,7 +106,7 @@ const checkStatusInfo = async (text: string): Promise<string> => {
             }
         }
         if (text.includes('{time.lc') || text.includes('{time.ts')) {
-            text = (await processTimeIdLc(text, null)) || '';
+            text = (await processTimeIdLc(text)) || '';
         }
         if (text.includes('{set:')) {
             const result = decomposeText(text, '{set:', '}');

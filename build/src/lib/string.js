@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pad = exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAll = exports.jsonString = void 0;
+exports.pad = exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -19,9 +19,21 @@ function parseJSON(val) {
 }
 const replaceAll = (text, searchValue, replaceValue) => {
     const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
-    return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue).trim();
+    return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
 };
 exports.replaceAll = replaceAll;
+const replaceAllItems = (text, searched) => {
+    searched.forEach(item => {
+        if (typeof item === 'string') {
+            text = (0, exports.replaceAll)(text, item, '');
+        }
+        else {
+            text = (0, exports.replaceAll)(text, item.search, item.val);
+        }
+    });
+    return text;
+};
+exports.replaceAllItems = replaceAllItems;
 const validateNewLine = (text) => {
     if (!text) {
         return '';

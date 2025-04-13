@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const string_1 = require("../../src/lib/string");
 const chai_1 = require("chai");
 const testing_1 = require("@iobroker/testing");
+const appUtils_1 = require("../../src/lib/appUtils");
 const { adapter, database } = testing_1.utils.unit.createMocks({});
 describe('jsonString', () => {
     it('jsonString', () => {
@@ -26,13 +27,57 @@ describe('replaceAll', () => {
             { val: 'Test', expect: 'Test' },
             {
                 val: 'Abc. Def. Ghi.//.',
-                expect: 'Abc  Def  Ghi //',
+                expect: 'Abc  Def  Ghi // ',
             },
         ];
         texts.forEach(text => {
             const result = (0, string_1.replaceAll)(text.val, '.', ' ');
             (0, chai_1.expect)(result).to.equal(text.expect);
         });
+    });
+});
+describe('replaceAllItems', () => {
+    it('should replace all matching strings in the text', () => {
+        const text = 'Hello World!';
+        const searched = ['Hello', 'World'];
+        const result = (0, string_1.replaceAllItems)(text, searched);
+        (0, chai_1.expect)(result).to.equal(' !');
+    });
+    it('should replace all matching objects in the text', () => {
+        const text = 'Hello World!';
+        const searched = [
+            { search: 'Hello', val: 'Hi' },
+            { search: 'World', val: 'Earth' },
+        ];
+        const result = (0, string_1.replaceAllItems)(text, searched);
+        (0, chai_1.expect)(result).to.equal('Hi Earth!');
+    });
+    it('should return the original text if no matches are found', () => {
+        const text = 'Hello World!';
+        const searched = ['Test'];
+        const result = (0, string_1.replaceAllItems)(text, searched);
+        (0, chai_1.expect)(result).to.equal('Hello World!');
+    });
+    it('should handle an empty array for searched', () => {
+        const text = 'Hello World!';
+        const searched = [];
+        const result = (0, string_1.replaceAllItems)(text, searched);
+        (0, chai_1.expect)(result).to.equal('Hello World!');
+    });
+    it('should handle an empty text', () => {
+        const text = '';
+        const searched = ['Hello', 'World'];
+        const result = (0, string_1.replaceAllItems)(text, searched);
+        (0, chai_1.expect)(result).to.equal('');
+    });
+    it('should handle mixed types in the searched array', () => {
+        const text = 'Hello World!';
+        const searched = [
+            'Hello',
+            { search: 'World', val: 'Earth' },
+        ];
+        const result = (0, string_1.replaceAllItems)(text, searched);
+        (0, chai_1.expect)(result).to.equal(' Earth!');
     });
 });
 describe('validateNewLine', () => {
@@ -189,6 +234,77 @@ describe('pad', () => {
     it('should handle a length of 0 by returning the number as a string', () => {
         const result = (0, string_1.pad)(5, 0);
         (0, chai_1.expect)(result).to.equal('5');
+    });
+});
+describe('timeStringReplacer', () => {
+    it('should replace all placeholders with the corresponding values', () => {
+        const input = {
+            d: '01',
+            h: '12',
+            m: '30',
+            ms: '123',
+            y: '2023',
+            s: '45',
+            mo: '07',
+        };
+        const template = 'YYYY-MM-DD hh:mm:ss.sss';
+        const result = (0, appUtils_1.timeStringReplacer)(input, template);
+        (0, chai_1.expect)(result).to.equal('2023-07-01 12:30:45.123');
+    });
+    it('should handle partial placeholders in the string', () => {
+        const input = {
+            d: '15',
+            h: '08',
+            m: '05',
+            ms: '001',
+            y: '2025',
+            s: '59',
+            mo: '12',
+        };
+        const template = 'DD/MM/YYYY hh:mm';
+        const result = (0, appUtils_1.timeStringReplacer)(input, template);
+        (0, chai_1.expect)(result).to.equal('15/12/2025 08:05');
+    });
+    it('should return the string unchanged if no placeholders are present', () => {
+        const input = {
+            d: '01',
+            h: '12',
+            m: '30',
+            ms: '123',
+            y: '2023',
+            s: '45',
+            mo: '07',
+        };
+        const template = 'No placeholders here';
+        const result = (0, appUtils_1.timeStringReplacer)(input, template);
+        (0, chai_1.expect)(result).to.equal('No placeholders here');
+    });
+    it('should return undefined if the input string is undefined', () => {
+        const input = {
+            d: '01',
+            h: '12',
+            m: '30',
+            ms: '123',
+            y: '2023',
+            s: '45',
+            mo: '07',
+        };
+        const result = (0, appUtils_1.timeStringReplacer)(input, undefined);
+        (0, chai_1.expect)(result).to.be.undefined;
+    });
+    it('should handle parentheses in the string by removing them', () => {
+        const input = {
+            d: '10',
+            h: '14',
+            m: '45',
+            ms: '678',
+            y: '2024',
+            s: '30',
+            mo: '11',
+        };
+        const template = '(YYYY-MM-DD)';
+        const result = (0, appUtils_1.timeStringReplacer)(input, template);
+        (0, chai_1.expect)(result).to.equal('2024-11-10');
     });
 });
 //# sourceMappingURL=string.test.js.map
