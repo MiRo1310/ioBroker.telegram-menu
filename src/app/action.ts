@@ -283,6 +283,7 @@ function generateActions(
                 userObject[element.trigger[0]] = { switch: [] };
             }
             userObject[element.trigger[0]] = { switch: [] };
+
             element.IDs.forEach(function (id: string, index: number) {
                 listOfSetStateIds.push(id);
                 const toggle = element.switch_checkbox[index] === 'true';

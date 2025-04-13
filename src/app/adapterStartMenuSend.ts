@@ -11,6 +11,7 @@ import type {
 } from '../types/types';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
+import { isStartside } from '../lib/appUtils';
 
 async function adapterStartMenuSend(
     listOfMenus: ListOfMenus,
@@ -26,14 +27,14 @@ async function adapterStartMenuSend(
     for (const menu of listOfMenus) {
         const startSide = [startSides[menu]].toString();
 
-        if (userActiveCheckbox[menu] && startSide != '-' && startSide != '') {
-            adapter.log.debug(`Startseite: ${startSide}`);
-            for (const user of menusWithUsers[menu]) {
-                backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, user);
+        if (userActiveCheckbox[menu] && isStartside(startSide)) {
+            adapter.log.debug(`Startside: ${startSide}`);
+            for (const userToSend of menusWithUsers[menu]) {
+                backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, userToSend);
                 adapter.log.debug(`User list: ${jsonString(userListWithChatID)}`);
 
                 await sendToTelegram({
-                    userToSend: user,
+                    userToSend,
                     textToSend: menuData.data[menu][startSide].text as string,
                     keyboard: menuData.data[menu][startSide].nav,
                     instanceTelegram,

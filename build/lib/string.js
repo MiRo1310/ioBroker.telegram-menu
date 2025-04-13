@@ -24,7 +24,9 @@ __export(string_exports, {
   jsonString: () => jsonString,
   pad: () => pad,
   parseJSON: () => parseJSON,
+  removeQuotes: () => removeQuotes,
   replaceAll: () => replaceAll,
+  replaceAllItems: () => replaceAllItems,
   stringReplacer: () => stringReplacer,
   validateNewLine: () => validateNewLine
 });
@@ -41,7 +43,20 @@ function parseJSON(val) {
 }
 const replaceAll = (text, searchValue, replaceValue) => {
   const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.replace(new RegExp(escapedSearchValue, "g"), replaceValue).trim();
+  return text.replace(new RegExp(escapedSearchValue, "g"), replaceValue);
+};
+const replaceAllItems = (text, searched) => {
+  searched.forEach((item) => {
+    if (typeof item === "string") {
+      text = replaceAll(text, item, "");
+    } else {
+      text = replaceAll(text, item.search, item.val);
+    }
+  });
+  return text;
+};
+const removeQuotes = (text) => {
+  return text.replace(/['"]/g, "");
 };
 const validateNewLine = (text) => {
   if (!text) {
@@ -109,7 +124,9 @@ const pad = (value, length = 2) => {
   jsonString,
   pad,
   parseJSON,
+  removeQuotes,
   replaceAll,
+  replaceAllItems,
   stringReplacer,
   validateNewLine
 });

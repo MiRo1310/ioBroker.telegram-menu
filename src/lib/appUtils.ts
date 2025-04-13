@@ -1,7 +1,6 @@
 import { config } from '../config/config';
 import type { Adapter, GetTimeWithPad, MenusWithUsers, ParseModeType } from '../types/types';
 import { decomposeText, removeQuotes } from './string';
-import { errorLogger } from '../app/logging';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 
@@ -90,4 +89,8 @@ export function statusIdAndParams(substringExcludeSearch: string): { id: string;
         id: removeQuotes(splitArray[0]), //'ID':true
         shouldChange: isTruthy(removeQuotes(splitArray[1])),
     };
+}
+
+export function isStartside(startSide: string): boolean {
+    return startSide != '-' && startSide != '';
 }

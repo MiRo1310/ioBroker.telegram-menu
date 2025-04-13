@@ -18,6 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
+  checkStatus: () => checkStatus,
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
   processTimeIdLc: () => processTimeIdLc
@@ -31,101 +32,65 @@ var import_main = require("../main");
 var import_config = require("../config/config");
 var import_appUtils = require("./appUtils");
 const processTimeIdLc = async (textToSend, id) => {
-  const { substring } = (0, import_string.decomposeText)(textToSend, import_config.config.timestamp.start, import_config.config.timestamp.end);
-  const array = substring.split(",");
-  let changedSubstring = substring;
-  changedSubstring = changedSubstring.replace(array[0], "");
-  const key = (0, import_appUtils.getTypeofTimestamp)(array[0]);
-  let idFromText = "";
-  if (!id) {
-    if (!changedSubstring.includes("id:")) {
-      import_main.adapter.log.debug(`Error processTimeIdLc: id not found in: ${changedSubstring}`);
-      return;
-    }
-    if (array[2]) {
-      idFromText = array[2].replace("id:", "").replace("}", "").replace(/'/g, "");
-      changedSubstring = changedSubstring.replace(array[2], "").replace(/,/g, "");
-    }
+  const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
+    textToSend,
+    import_config.config.timestamp.start,
+    import_config.config.timestamp.end
+  );
+  const array = substringExcludeSearch.split(",");
+  const timestampString = array[0];
+  const timeString = array[1];
+  const idString = array[2];
+  const typeofTimestamp = (0, import_appUtils.getTypeofTimestamp)(timestampString);
+  const idFromText = (0, import_string.replaceAllItems)(idString, ["id:", "}", "'"]);
+  if (!id && (!idFromText || idFromText.length < 5)) {
+    return textToSend.replace(substring, "Invalid ID");
   }
-  if (!id && !idFromText) {
-    return;
+  const value = await import_main.adapter.getForeignStateAsync(id != null ? id : idFromText);
+  if (!value) {
+    return textToSend.replace(substring, "Invalid ID");
   }
-  const value = await import_main.adapter.getForeignStateAsync(id || idFromText);
-  let unixTs;
-  let timeStringUser;
-  if (key && value) {
-    timeStringUser = changedSubstring.replace(",(", "").replace(")", "").replace("}", "");
-    unixTs = value[key];
-  }
-  if (!unixTs) {
-    return;
-  }
+  const timeStringUser = (0, import_string.replaceAllItems)(timeString, [",(", ")", "}"]);
+  const unixTs = value[typeofTimestamp];
   const timeWithPad = (0, import_time.getTimeWithPad)((0, import_time.extractTimeValues)(unixTs));
   const timeStringReplaced = (0, import_appUtils.timeStringReplacer)(timeWithPad, timeStringUser);
   return timeStringReplaced != null ? timeStringReplaced : textToSend;
 };
-const checkStatus = async (text, processTimeValue) => {
-  try {
-    const substring = (0, import_string.decomposeText)(text, "{status:", "}").substring;
-    let id, valueChange;
-    import_main.adapter.log.debug(`Substring ${substring}`);
-    if (substring.includes("status:'id':")) {
-      id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-      valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
-    } else {
-      id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-      valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
-    }
-    const stateValue = await import_main.adapter.getForeignStateAsync(id);
-    if (!stateValue) {
-      import_main.adapter.log.debug(`State not found: ${id}`);
-      return "";
-    }
-    if (text.includes("{time}") && processTimeValue) {
-      text = text.replace(substring, "");
-      const val2 = String(stateValue.val);
-      return processTimeValue(text, val2).replace(val2, "");
-    }
-    if (!(0, import_utils.isDefined)(stateValue.val)) {
-      import_main.adapter.log.debug(`State Value is undefined: ${id}`);
-      return text.replace(substring, "");
-    }
-    if (!valueChange) {
-      return text.replace(substring, stateValue.val.toString());
-    }
-    const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(import_main.adapter, text, stateValue.val);
-    let newValue;
-    if (!error) {
-      text = textToSend;
-      newValue = val;
-    } else {
-      newValue = stateValue.val;
-    }
-    import_main.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-    import_main.adapter.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
-    return text.replace(substring, newValue.toString());
-  } catch (e) {
-    import_main.adapter.log.error(`Error checkStatus:${e.message}`);
-    import_main.adapter.log.error(`Stack:${e.stack}`);
-    return "";
+const checkStatus = async (text) => {
+  const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(text, import_config.config.status.start, import_config.config.status.end);
+  const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
+  const stateValue = await import_main.adapter.getForeignStateAsync(id);
+  if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
+    import_main.adapter.log.debug(`State not found: ${id}`);
+    return text.replace(substring, "");
   }
+  if (text.includes(import_config.config.time)) {
+    text = text.replace(substring, "");
+    const val2 = String(stateValue.val);
+    return (0, import_time.integrateTimeIntoText)(text, val2).replace(val2, "");
+  }
+  if (!shouldChange) {
+    return text.replace(substring, stateValue.val.toString());
+  }
+  const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(import_main.adapter, text, stateValue.val);
+  text = !error ? textToSend : text;
+  const newValue = !error ? val : stateValue.val;
+  import_main.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
+  return text.replace(substring, newValue.toString());
 };
 const checkStatusInfo = async (text) => {
   try {
-    if (!text) {
-      return "";
-    }
-    import_main.adapter.log.debug(`Text: ${text}`);
-    if (text.includes("{status:")) {
-      while (text.includes("{status:")) {
-        text = await checkStatus(text, import_time.integrateTimeIntoText);
+    import_main.adapter.log.debug(`Check status Info: ${text}`);
+    if (text.includes(import_config.config.status.start)) {
+      while (text.includes(import_config.config.status.start)) {
+        text = await checkStatus(text);
       }
     }
-    if (text.includes("{time.lc") || text.includes("{time.ts")) {
-      text = await processTimeIdLc(text, null) || "";
+    if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
+      text = await processTimeIdLc(text);
     }
-    if (text.includes("{set:")) {
-      const result = (0, import_string.decomposeText)(text, "{set:", "}");
+    if (text.includes(import_config.config.set.start)) {
+      const result = (0, import_string.decomposeText)(text, import_config.config.set.start, import_config.config.set.end);
       const id = result.substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
       const importedValue = result.substring.split(",")[1];
       text = result.textExcludeSubstring;
@@ -150,30 +115,22 @@ const checkStatusInfo = async (text) => {
 };
 async function checkTypeOfId(id, value) {
   try {
-    import_main.adapter.log.debug(`Check Type of Id: ${id}`);
-    const obj = await import_main.adapter.getForeignObjectAsync(id);
     const receivedType = typeof value;
-    if (!obj || !value) {
-      return value;
+    const obj = await import_main.adapter.getForeignObjectAsync(id);
+    if (!obj || !(0, import_utils.isDefined)(value)) {
+      return;
     }
     if (receivedType === obj.common.type || !obj.common.type) {
       return value;
     }
     import_main.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
-    if (obj.common.type === "boolean") {
-      if (value == "true") {
-        value = true;
-      }
-      if (value == "false") {
-        value = false;
-      }
-      return value;
-    }
-    if (obj.common.type === "string") {
-      return JSON.stringify(value);
-    }
-    if (obj && obj.common && obj.common.type === "number" && typeof value === "string") {
-      return parseFloat(value);
+    switch (obj.common.type) {
+      case "string":
+        return value;
+      case "number":
+        return parseFloat((0, import_string.jsonString)(value));
+      case "boolean":
+        return (0, import_utils.isTruthy)(value);
     }
     return value;
   } catch (e) {
@@ -182,6 +139,7 @@ async function checkTypeOfId(id, value) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  checkStatus,
   checkStatusInfo,
   checkTypeOfId,
   processTimeIdLc

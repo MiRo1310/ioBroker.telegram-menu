@@ -1,4 +1,4 @@
-import { isDefined } from './utils';
+import { isDefined, isTruthy } from './utils';
 import { decomposeText, getValueToExchange, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
@@ -6,7 +6,7 @@ import { adapter } from '../main';
 import { config } from '../config/config';
 import { getTypeofTimestamp, statusIdAndParams, timeStringReplacer } from './appUtils';
 
-const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
+export const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
         textToSend,
         config.timestamp.start,
@@ -39,7 +39,7 @@ const processTimeIdLc = async (textToSend: string, id?: string): Promise<string>
 };
 
 // TODO Check Usage of function
-const checkStatus = async (text: string): Promise<string> => {
+export const checkStatus = async (text: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //substring {status:'ID':true} new | old {status:'id':'ID':true}
 
     const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
@@ -72,7 +72,7 @@ const checkStatus = async (text: string): Promise<string> => {
     return text.replace(substring, newValue.toString());
 };
 
-const checkStatusInfo = async (text: string): Promise<string> => {
+export const checkStatusInfo = async (text: string): Promise<string> => {
     try {
         adapter.log.debug(`Check status Info: ${text}`);
 
@@ -112,9 +112,9 @@ const checkStatusInfo = async (text: string): Promise<string> => {
     }
 };
 
-async function checkTypeOfId(
+export async function checkTypeOfId(
     id: string,
-    value: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState,
+    value: ioBroker.StateValue,
 ): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
     try {
         const receivedType = typeof value;
@@ -145,5 +145,3 @@ async function checkTypeOfId(
         errorLogger('Error checkTypeOfId:', e, adapter);
     }
 }
-
-export { checkStatusInfo, checkTypeOfId, processTimeIdLc };

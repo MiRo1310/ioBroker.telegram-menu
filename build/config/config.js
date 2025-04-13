@@ -45,6 +45,17 @@ const config = {
   },
   timestamp: {
     start: "{time.",
+    end: "}",
+    lc: "{time.lc",
+    ts: "{time.ts"
+  },
+  status: {
+    start: "{status:",
+    end: "}",
+    oldWithId: "'id':"
+  },
+  set: {
+    start: "{set:",
     end: "}"
   }
 };

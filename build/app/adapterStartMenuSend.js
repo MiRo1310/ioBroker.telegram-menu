@@ -25,16 +25,17 @@ var import_telegram = require("./telegram");
 var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
+var import_appUtils = require("../lib/appUtils");
 async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard) {
   for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
-    if (userActiveCheckbox[menu] && startSide != "-" && startSide != "") {
-      import_main.adapter.log.debug(`Startseite: ${startSide}`);
-      for (const user of menusWithUsers[menu]) {
-        (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
+    if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
+      import_main.adapter.log.debug(`Startside: ${startSide}`);
+      for (const userToSend of menusWithUsers[menu]) {
+        (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, userToSend);
         import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
-          userToSend: user,
+          userToSend,
           textToSend: menuData.data[menu][startSide].text,
           keyboard: menuData.data[menu][startSide].nav,
           instanceTelegram,

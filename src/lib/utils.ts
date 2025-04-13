@@ -30,7 +30,7 @@ export function validateDirectory(adapter: Adapter, directory: string): boolean 
     return true;
 }
 
-export const isTruthy = (value?: PrimitiveNullableType): boolean =>
+export const isTruthy = (value?: PrimitiveNullableType | ioBroker.StateValue): boolean =>
     isDefined(value) && ['1', 1, true, 'true'].includes(value);
 
 export const isFalsy = (value?: PrimitiveNullableType): boolean =>
