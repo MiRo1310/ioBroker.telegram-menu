@@ -21,12 +21,12 @@ __export(action_exports, {
   adjustValueType: () => adjustValueType,
   bindingFunc: () => bindingFunc,
   checkEvent: () => checkEvent,
-  editArrayButtons: () => editArrayButtons,
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   generateActions: () => generateActions,
   getNewStructure: () => getNewStructure,
   getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
-  idBySelector: () => idBySelector
+  idBySelector: () => idBySelector,
+  splitNavigation: () => splitNavigation
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram.js");
@@ -76,39 +76,28 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
   }
 };
-function editArrayButtons(val) {
+function splitNavigation(val) {
   const newVal = [];
-  try {
-    val.forEach((element) => {
-      let value2 = "";
-      if (typeof element.value === "string") {
-        value2 = (0, import_appUtils.checkOneLineValue)(element.value);
-      }
-      let array = [];
-      if (value2.indexOf(import_config.config.rowSplitter) != -1) {
-        array = value2.split(import_config.config.rowSplitter);
-      }
-      if (array.length > 1) {
-        array.forEach(function(element2, index) {
-          if (typeof element2 === "string") {
-            let navArray = element2.split(",");
-            navArray = navArray.map((item2) => item2.trim());
-            array[index] = navArray;
-          }
-        });
-      } else if (typeof element.value === "string") {
-        array = element.value.split(",");
-        array.forEach(function(element2, index) {
-          array[index] = [element2.trim()];
-        });
-      }
-      newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
+  val.forEach(({ value: value2, text: text2, parse_mode: parse_mode2, call }) => {
+    const validatedLine = (0, import_appUtils.checkOneLineValue)(value2);
+    const array = [];
+    let splitArray = [];
+    if (validatedLine.indexOf(import_config.config.rowSplitter) != -1) {
+      splitArray = validatedLine.split(import_config.config.rowSplitter);
+    }
+    splitArray.forEach(function(el, index) {
+      let navArray = el.split(",");
+      navArray = navArray.map((item2) => item2.trim());
+      array[index] = navArray;
     });
-    return newVal;
-  } catch (err) {
-    (0, import_logging.errorLogger)("Error EditArray:", err, import_main.adapter);
-    return null;
-  }
+    newVal.push({
+      call,
+      text: text2,
+      parse_mode: parse_mode2,
+      nav: array
+    });
+  });
+  return newVal;
 }
 const idBySelector = async ({
   selector,
@@ -432,11 +421,11 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID2, chatID) => {
   adjustValueType,
   bindingFunc,
   checkEvent,
-  editArrayButtons,
   exchangePlaceholderWithValue,
   generateActions,
   getNewStructure,
   getUserToSendFromUserListWithChatID,
-  idBySelector
+  idBySelector,
+  splitNavigation
 });
 //# sourceMappingURL=action.js.map

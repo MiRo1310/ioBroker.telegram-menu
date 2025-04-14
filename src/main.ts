@@ -9,7 +9,7 @@ import * as utils from '@iobroker/adapter-core';
 
 import {
     checkEvent,
-    editArrayButtons,
+    splitNavigation,
     exchangePlaceholderWithValue,
     generateActions,
     getNewStructure,
@@ -113,7 +113,7 @@ export default class TelegramMenu extends utils.Adapter {
                 this.log.info('Telegram was found');
 
                 for (const name in nav) {
-                    const value = editArrayButtons(nav[name]);
+                    const value = splitNavigation(nav[name]);
 
                     const newObjectStructure = getNewStructure(value);
                     if (newObjectStructure) {

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.exchangePlaceholderWithValue = exports.bindingFunc = exports.idBySelector = void 0;
-exports.editArrayButtons = editArrayButtons;
-exports.generateNewObjectStructure = generateNewObjectStructure;
+exports.splitNavigation = splitNavigation;
+exports.getNewStructure = getNewStructure;
 exports.generateActions = generateActions;
 const telegram_js_1 = require("./telegram.js");
 const subMenu_js_1 = require("./subMenu.js");
@@ -14,6 +14,7 @@ const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
 const appUtils_1 = require("../lib/appUtils");
 const utils_1 = require("../lib/utils");
+const object_1 = require("../lib/object");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
     let value;
     try {
@@ -53,41 +54,33 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     }
 };
 exports.bindingFunc = bindingFunc;
-function editArrayButtons(val) {
+function splitNavigation(rows) {
     const newVal = [];
-    try {
-        val.forEach(element => {
-            let value = '';
-            if (typeof element.value === 'string') {
-                value = (0, appUtils_1.checkOneLineValue)(element.value);
-            }
-            let array = [];
-            if (value.indexOf(config_1.config.rowSplitter) != -1) {
-                array = value.split(config_1.config.rowSplitter);
-            }
-            if (array.length > 1) {
-                array.forEach(function (element, index) {
-                    if (typeof element === 'string') {
-                        let navArray = element.split(',');
-                        navArray = navArray.map(item => item.trim());
-                        array[index] = navArray;
-                    }
-                });
-            }
-            else if (typeof element.value === 'string') {
-                array = element.value.split(',');
-                array.forEach(function (element, index) {
-                    array[index] = [element.trim()];
-                });
-            }
-            newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
+    rows.forEach(({ value, text, parse_mode, call }) => {
+        const validatedLine = (0, appUtils_1.checkOneLineValue)(value);
+        const array = [];
+        let splitArray = [];
+        if (validatedLine.indexOf(config_1.config.rowSplitter) != -1) {
+            splitArray = validatedLine.split(config_1.config.rowSplitter);
+        }
+        // if (splitArray.length > 1) {
+        splitArray.forEach(function (el, index) {
+            array[index] = (0, object_1.trimAllItems)(el.split(','));
         });
-        return newVal;
-    }
-    catch (err) {
-        (0, logging_js_1.errorLogger)('Error EditArray:', err, main_js_1.adapter);
-        return null;
-    }
+        // } else {
+        //     const navArray = value.split(',');
+        //     navArray.forEach(function (el, index: number) {
+        //         array[index] = [el.trim()];
+        //     });
+        // }
+        newVal.push({
+            call,
+            text,
+            parse_mode,
+            nav: array,
+        });
+    });
+    return newVal;
 }
 const idBySelector = async ({ selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, }) => {
     let text2Send = '';
@@ -113,15 +106,15 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
                 if (text.includes('{common.name}')) {
                     res = await main_js_1.adapter.getForeignObjectAsync(id);
                     main_js_1.adapter.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
-                    if (res && res.common.name) {
+                    if (res && typeof res.common.name === 'string') {
                         newText = newText.replace('{common.name}', res.common.name);
                     }
                 }
                 if (text.includes('&amp;&amp;')) {
-                    text2Send += newText.replace('&amp;&amp;', value.val);
+                    text2Send += newText.replace('&amp;&amp;', String(value.val));
                 }
                 else if (text.includes('&&')) {
-                    text2Send += newText.replace('&&', value.val);
+                    text2Send += newText.replace('&&', String(value.val));
                 }
                 else {
                     text2Send += newText;
@@ -160,7 +153,7 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
     }
 };
 exports.idBySelector = idBySelector;
-function generateNewObjectStructure(val) {
+function getNewStructure(val) {
     try {
         if (!val) {
             return null;
@@ -286,8 +279,10 @@ function generateActions(action, userObject) {
                                 newObj[name] = val;
                             }
                         });
-                        if (item.name && typeof item.name === 'string') {
-                            userObject[element.trigger][item?.name].push(newObj);
+                        if (item.name) {
+                            // TODO check if this is correct
+                            // @ts-expect-error
+                            (userObject?.[element.trigger]?.[item?.name]).push(newObj);
                         }
                     });
                 });
@@ -366,15 +361,15 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
     if (ok) {
         if (menuArray.length >= 1) {
             for (const menu of menuArray) {
-                if (usersInGroup[menu] && menuData.data[menu][calledNav]) {
+                if (usersInGroup[menu] && menuData[menu][calledNav]) {
                     for (const user of usersInGroup[menu]) {
-                        const part = menuData.data[menu][calledNav];
-                        const menus = Object.keys(menuData.data);
+                        const part = menuData[menu][calledNav];
+                        const menus = Object.keys(menuData);
                         if (part.nav) {
-                            (0, backMenu_js_1.backMenuFunc)(calledNav, part.nav, user);
+                            (0, backMenu_js_1.backMenuFunc)({ nav: calledNav, part: part.nav, userToSend: user });
                         }
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
-                            await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData.data, menus, null, part.nav);
+                            await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData, menus, null, part.nav);
                         }
                         else {
                             await (0, sendNav_js_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);

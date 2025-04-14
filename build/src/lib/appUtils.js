@@ -64,7 +64,6 @@ exports.timeStringReplacer = timeStringReplacer;
 function statusIdAndParams(substringExcludeSearch) {
     if (substringExcludeSearch.includes(config_1.config.status.oldWithId)) {
         const splitArray = substringExcludeSearch.split(':');
-        console.log(splitArray);
         return {
             id: (0, string_1.removeQuotes)(splitArray[1]), //'id':'ID':true
             shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(splitArray[2])),

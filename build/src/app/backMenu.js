@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.switchBack = switchBack;
 exports.backMenuFunc = backMenuFunc;
+exports.switchBack = switchBack;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
 const backMenu = {};
-function backMenuFunc(nav, part, userToSend) {
+function backMenuFunc({ nav, part, userToSend }) {
     if (!part || !JSON.stringify(part).split(`"`)[1].includes('menu:')) {
         if (backMenu[userToSend] && backMenu[userToSend].list.length === 20) {
             backMenu[userToSend].list.shift();
@@ -45,19 +45,22 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
             if (keyboard && foundedMenu != '') {
                 let parse_mode = false;
                 if (!lastMenu) {
-                    let textToSend = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].text;
+                    let textToSend = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]]
+                        .text;
                     if (textToSend) {
                         textToSend = await (0, utilities_1.checkStatusInfo)(textToSend);
                     }
-                    parse_mode = (allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode ?? false);
+                    parse_mode =
+                        allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]]
+                            .parse_mode ?? false;
                     backMenu[userToSend].last = list.pop();
-                    return { texttosend: textToSend, menuToSend: keyboard, parse_mode: parse_mode };
+                    return { texttosend: textToSend, menuToSend: keyboard, parse_mode };
                 }
-                parse_mode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false);
+                parse_mode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false;
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
                     menuToSend: keyboard,
-                    parse_mode: parse_mode,
+                    parse_mode,
                 };
             }
         }

@@ -109,7 +109,7 @@ class TelegramMenu extends utils.Adapter {
         const { nav, action } = dataObject;
         this.log.info("Telegram was found");
         for (const name in nav) {
-          const value = (0, import_action.editArrayButtons)(nav[name]);
+          const value = (0, import_action.splitNavigation)(nav[name]);
           const newObjectStructure = (0, import_action.getNewStructure)(value);
           if (newObjectStructure) {
             menuData[name] = newObjectStructure;

@@ -247,7 +247,7 @@ async function callSubMenu(jsonStringNav, newObjectNavStructure, userToSend, ins
 }
 async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, navObj, }) {
     try {
-        main_1.adapter.log.debug(`Menu : ${navObj[0][0]}`);
+        main_1.adapter.log.debug(`Menu : ${navObj?.[0][0]}`);
         let text = '';
         if (part?.text && part.text != '') {
             text = await (0, utilities_1.checkStatusInfo)(part.text);

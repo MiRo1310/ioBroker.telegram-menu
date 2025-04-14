@@ -26,6 +26,7 @@ import { decomposeText } from '../lib/string';
 import { config } from '../config/config';
 import { checkOneLineValue } from '../lib/appUtils';
 import { isTruthy } from '../lib/utils';
+import { trimAllItems } from '../lib/object';
 
 const bindingFunc = async (
     text: string,
@@ -76,48 +77,39 @@ const bindingFunc = async (
     }
 };
 
-function editArrayButtons(val: NavigationRow[]): GeneratedNavMenu[] | null {
+function splitNavigation(rows: NavigationRow[]): GeneratedNavMenu[] | null {
     const newVal: GeneratedNavMenu[] = [];
-    try {
-        val.forEach(element => {
-            let value = '';
-            if (typeof element.value === 'string') {
-                value = checkOneLineValue(element.value);
-            }
-            // TODO check sting []
-            let array: string[] | string[][] = [];
-            if (value.indexOf(config.rowSplitter) != -1) {
-                array = value.split(config.rowSplitter);
-            }
 
-            if (array.length > 1) {
-                array.forEach(function (element, index: number) {
-                    if (typeof element === 'string') {
-                        let navArray = element.split(',');
-                        navArray = navArray.map(item => item.trim());
-                        array[index] = navArray;
-                    }
-                });
-            } else if (typeof element.value === 'string') {
-                array = element.value.split(',');
-                array.forEach(function (element, index: number) {
-                    array[index] = [element.trim()];
-                });
-            }
+    rows.forEach(({ value, text, parse_mode, call }) => {
+        const validatedLine = checkOneLineValue(value);
 
-            newVal.push({
-                call: element.call,
-                text: element.text,
-                parse_mode: element.parse_mode,
-                nav: array as string[][], // TODO check if this is correct
-            });
+        const array: string[][] = [];
+        let splitArray: string[] = [];
+
+        if (validatedLine.indexOf(config.rowSplitter) != -1) {
+            splitArray = validatedLine.split(config.rowSplitter);
+        }
+
+        // if (splitArray.length > 1) {
+        splitArray.forEach(function (el, index: number) {
+            array[index] = trimAllItems(el.split(','));
         });
+        // } else {
+        //     const navArray = value.split(',');
+        //     navArray.forEach(function (el, index: number) {
+        //         array[index] = [el.trim()];
+        //     });
+        // }
 
-        return newVal;
-    } catch (err: any) {
-        errorLogger('Error EditArray:', err, adapter);
-        return null;
-    }
+        newVal.push({
+            call,
+            text,
+            parse_mode,
+            nav: array,
+        });
+    });
+
+    return newVal;
 }
 
 const idBySelector = async ({
@@ -494,7 +486,7 @@ const getUserToSendFromUserListWithChatID = (
 };
 
 export {
-    editArrayButtons,
+    splitNavigation,
     idBySelector,
     getNewStructure,
     generateActions,

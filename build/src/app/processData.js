@@ -23,9 +23,9 @@ let timeouts = [];
 async function checkEveryMenuForData(obj) {
     const { menuData, calledValue, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, } = obj;
     for (const menu of menus) {
-        const groupData = menuData.data[menu];
+        const groupData = menuData[menu];
         main_1.adapter.log.debug(`Menu: ${menu}`);
-        main_1.adapter.log.debug(`Nav: ${(0, string_1.jsonString)(menuData.data[menu])}`);
+        main_1.adapter.log.debug(`Nav: ${(0, string_1.jsonString)(menuData[menu])}`);
         if (await processData({
             menuData,
             calledValue,
@@ -35,7 +35,7 @@ async function checkEveryMenuForData(obj) {
             resize_keyboard: resize_keyboard,
             one_time_keyboard: one_time_keyboard,
             userListWithChatID,
-            allMenusWithData: menuData.data,
+            allMenusWithData: menuData,
             menus,
             isUserActiveCheckbox,
             token,
@@ -102,18 +102,17 @@ async function processData(obj) {
             call = calledValue;
         }
         part = groupData[call];
-        if (typeof call === 'string' &&
-            groupData &&
+        if (groupData &&
             part &&
             !calledValue.toString().includes('menu:') &&
             userToSend &&
             groupWithUser &&
             isUserActiveCheckbox[groupWithUser]) {
             if (part.nav) {
-                main_1.adapter.log.debug(`Menu to Send: ${part.nav}`);
-                (0, backMenu_1.backMenuFunc)(call, part.nav, userToSend);
+                main_1.adapter.log.debug(`Menu to Send: ${(0, string_1.jsonString)(part.nav)}`);
+                (0, backMenu_1.backMenuFunc)({ nav: call, part: part.nav, userToSend: userToSend });
                 if (JSON.stringify(part.nav).includes('menu:')) {
-                    main_1.adapter.log.debug(`Submenu: ${part.nav}`);
+                    main_1.adapter.log.debug(`Submenu: ${(0, string_1.jsonString)(part.nav)}`);
                     const result = await (0, subMenu_1.callSubMenu)(JSON.stringify(part.nav), groupData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
                     if (result && result.setStateIdsToListenTo) {
                         setStateIdsToListenTo = result.setStateIdsToListenTo;
@@ -182,8 +181,7 @@ async function processData(obj) {
                 }
             }
         }
-        if ((calledValue.startsWith('menu') || calledValue.startsWith('submenu')) &&
-            menuData.data[groupWithUser][call]) {
+        if ((calledValue.startsWith('menu') || calledValue.startsWith('submenu')) && menuData[groupWithUser][call]) {
             main_1.adapter.log.debug('Call Submenu');
             const result = await (0, subMenu_1.callSubMenu)(calledValue, menuData, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
             if (result && result.setStateIdsToListenTo) {

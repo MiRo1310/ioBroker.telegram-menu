@@ -98,9 +98,7 @@ class TelegramMenu extends utils.Adapter {
         const userListWithChatID = this.config.userListWithChatID;
         const dataObject = this.config.data;
         const startSides = {};
-        const menuData = {
-            data: {},
-        };
+        const menuData = {};
         Object.keys(menusWithUsers).forEach(element => {
             startSides[element] = dataObject.nav[element][0].call;
         });
@@ -117,14 +115,14 @@ class TelegramMenu extends utils.Adapter {
                 const { nav, action } = dataObject;
                 this.log.info('Telegram was found');
                 for (const name in nav) {
-                    const value = (0, action_js_1.editArrayButtons)(nav[name]);
-                    const newObjectStructure = (0, action_js_1.generateNewObjectStructure)(value);
+                    const value = (0, action_js_1.splitNavigation)(nav[name]);
+                    const newObjectStructure = (0, action_js_1.getNewStructure)(value);
                     if (newObjectStructure) {
-                        menuData.data[name] = newObjectStructure;
+                        menuData[name] = newObjectStructure;
                     }
-                    const generatedActions = (0, action_js_1.generateActions)(action[name], menuData.data[name]);
+                    const generatedActions = (0, action_js_1.generateActions)(action[name], menuData[name]);
                     if (generatedActions) {
-                        menuData.data[name] = generatedActions?.obj;
+                        menuData[name] = generatedActions?.obj;
                         subscribeForeignStateIds = generatedActions?.ids;
                     }
                     else {
@@ -144,8 +142,9 @@ class TelegramMenu extends utils.Adapter {
                     }
                     exports.adapter.log.debug(`Menu: ${name}`);
                     exports.adapter.log.debug(`Array Buttons: ${(0, string_1.jsonString)(value)}`);
-                    exports.adapter.log.debug(`Gen. Actions: ${(0, string_1.jsonString)(menuData.data[name])}`);
+                    exports.adapter.log.debug(`Gen. Actions: ${(0, string_1.jsonString)(menuData[name])}`);
                 }
+                console.log(JSON.stringify(menuData));
                 exports.adapter.log.debug(`Checkbox: ${(0, string_1.jsonString)(checkboxes)}`);
                 exports.adapter.log.debug(`MenuList: ${(0, string_1.jsonString)(listOfMenus)}`);
                 if (sendMenuAfterRestart) {
