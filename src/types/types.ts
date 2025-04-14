@@ -42,12 +42,6 @@ export interface HttpRequest {
     delay: string;
 }
 
-export interface NavStaticValues {
-    call: string;
-    text: string;
-    parse_mode: boolean;
-}
-
 export interface Set {
     ack: BooleanString[];
     confirm: BooleanString[];
@@ -93,13 +87,13 @@ export interface Echart {
 
 export type StartSides = Record<string, string>;
 
-export type MenuObj = Record<string, Part>;
+export type NewObjectStructure = Record<string, Part>;
 
 // export interface MenuData {
 //     data: AllMenusWithData;
 // }
 
-export type MenuData = Record<string, MenuObj>;
+export type MenuData = Record<string, NewObjectStructure>;
 
 export interface DataObject {
     action: Record<string, Actions>;
@@ -183,11 +177,14 @@ export interface NavigationRow {
     value: string;
     call: string;
     text: string;
-    parse_mode: boolean;
+    parse_mode: string;
 }
-// TODO Check sting []
-export interface GeneratedNavMenu extends NavStaticValues {
+
+export interface splittedNavigation {
     nav: string[][];
+    call: string;
+    text: string;
+    parse_mode: boolean;
 }
 
 export interface Switch {
@@ -293,7 +290,7 @@ export interface ProcessDataType extends TelegramParams {
     token: string;
     directoryPicture: string;
     timeoutKey: string;
-    groupData: MenuObj;
+    groupData: NewObjectStructure;
 }
 
 export interface SetValueForSubmenuNumber extends TelegramParams {
@@ -314,7 +311,7 @@ export interface SetValueForSubmenuPercent extends TelegramParams {
     calledValue: string;
     userListWithChatID: UserListWithChatId[];
     part: Part;
-    allMenusWithData: { [key: string]: MenuObj };
+    allMenusWithData: { [key: string]: NewObjectStructure };
     menus: string[];
 }
 

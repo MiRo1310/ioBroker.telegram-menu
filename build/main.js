@@ -102,19 +102,16 @@ class TelegramMenu extends utils.Adapter {
           this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
         }
-        const isTelegramActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
-        if (!isTelegramActive) {
+        if (!await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram)) {
           return;
         }
         const { nav, action } = dataObject;
         this.log.info("Telegram was found");
         for (const name in nav) {
-          const value = (0, import_action.splitNavigation)(nav[name]);
-          const newObjectStructure = (0, import_action.getNewStructure)(value);
-          if (newObjectStructure) {
-            menuData[name] = newObjectStructure;
-          }
-          const generatedActions = (0, import_action.generateActions)(action[name], menuData[name]);
+          const splittedNavigation = (0, import_action.splitNavigation)(nav[name]);
+          const newStructure = (0, import_action.getNewStructure)(splittedNavigation);
+          const generatedActions = (0, import_action.generateActions)(action[name], newStructure);
+          menuData[name] = newStructure;
           if (generatedActions) {
             menuData[name] = generatedActions == null ? void 0 : generatedActions.obj;
             subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;
@@ -132,7 +129,7 @@ class TelegramMenu extends utils.Adapter {
             }
           }
           adapter.log.debug(`Menu: ${name}`);
-          adapter.log.debug(`Array Buttons: ${(0, import_string.jsonString)(value)}`);
+          adapter.log.debug(`Array Buttons: ${(0, import_string.jsonString)(splittedNavigation)}`);
           adapter.log.debug(`Gen. Actions: ${(0, import_string.jsonString)(menuData[name])}`);
         }
         console.log(JSON.stringify(menuData));

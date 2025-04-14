@@ -18,12 +18,15 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var object_exports = {};
 __export(object_exports, {
-  removeDuplicates: () => removeDuplicates
+  removeDuplicates: () => removeDuplicates,
+  trimAllItems: () => trimAllItems
 });
 module.exports = __toCommonJS(object_exports);
 const removeDuplicates = (arr) => arr.filter((item, index) => arr.indexOf(item) === index);
+const trimAllItems = (array) => array.map((item) => item.trim());
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  removeDuplicates
+  removeDuplicates,
+  trimAllItems
 });
 //# sourceMappingURL=object.js.map

@@ -103,8 +103,7 @@ export default class TelegramMenu extends utils.Adapter {
                     return;
                 }
 
-                const isTelegramActive = await checkIsTelegramActive(infoConnectionOfTelegram);
-                if (!isTelegramActive) {
+                if (!(await checkIsTelegramActive(infoConnectionOfTelegram))) {
                     return;
                 }
 
@@ -113,14 +112,11 @@ export default class TelegramMenu extends utils.Adapter {
                 this.log.info('Telegram was found');
 
                 for (const name in nav) {
-                    const value = splitNavigation(nav[name]);
+                    const splittedNavigation = splitNavigation(nav[name]);
+                    const newStructure = getNewStructure(splittedNavigation);
+                    const generatedActions = generateActions(action[name], newStructure);
 
-                    const newObjectStructure = getNewStructure(value);
-                    if (newObjectStructure) {
-                        menuData[name] = newObjectStructure;
-                    }
-
-                    const generatedActions = generateActions(action[name], menuData[name]);
+                    menuData[name] = newStructure;
                     if (generatedActions) {
                         menuData[name] = generatedActions?.obj;
                         subscribeForeignStateIds = generatedActions?.ids;
@@ -141,7 +137,7 @@ export default class TelegramMenu extends utils.Adapter {
                         }
                     }
                     adapter.log.debug(`Menu: ${name}`);
-                    adapter.log.debug(`Array Buttons: ${jsonString(value)}`);
+                    adapter.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
                     adapter.log.debug(`Gen. Actions: ${jsonString(menuData[name])}`);
                 }
                 console.log(JSON.stringify(menuData));

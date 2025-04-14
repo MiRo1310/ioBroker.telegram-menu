@@ -11,16 +11,17 @@ import type {
     NavigationRow,
     GenerateActionsArrayOfEntries,
     GenerateActionsNewObject,
-    GeneratedNavMenu,
+    splittedNavigation,
     MenuData,
     Newline,
-    MenuObj,
     Part,
     PrimitiveType,
     Switch,
     UserInGroup,
     UserListWithChatId,
     UserObjectActions,
+    Navigation,
+    NewObjectStructure,
 } from '../types/types';
 import { decomposeText } from '../lib/string';
 import { config } from '../config/config';
@@ -77,39 +78,21 @@ const bindingFunc = async (
     }
 };
 
-function splitNavigation(rows: NavigationRow[]): GeneratedNavMenu[] | null {
-    const newVal: GeneratedNavMenu[] = [];
+function splitNavigation(rows: NavigationRow[]): splittedNavigation[] {
+    const generatedNavigation: splittedNavigation[] = [];
 
     rows.forEach(({ value, text, parse_mode, call }) => {
-        const validatedLine = checkOneLineValue(value);
+        const nav: Navigation = [];
 
-        const array: string[][] = [];
-        let splitArray: string[] = [];
+        checkOneLineValue(value)
+            .split(config.rowSplitter)
+            .forEach(function (el, index: number) {
+                nav[index] = trimAllItems(el.split(','));
+            });
 
-        if (validatedLine.indexOf(config.rowSplitter) != -1) {
-            splitArray = validatedLine.split(config.rowSplitter);
-        }
-
-        // if (splitArray.length > 1) {
-        splitArray.forEach(function (el, index: number) {
-            array[index] = trimAllItems(el.split(','));
-        });
-        // } else {
-        //     const navArray = value.split(',');
-        //     navArray.forEach(function (el, index: number) {
-        //         array[index] = [el.trim()];
-        //     });
-        // }
-
-        newVal.push({
-            call,
-            text,
-            parse_mode,
-            nav: array,
-        });
+        generatedNavigation.push({ call, text, parse_mode: isTruthy(parse_mode), nav });
     });
-
-    return newVal;
+    return generatedNavigation;
 }
 
 const idBySelector = async ({
@@ -202,27 +185,18 @@ const idBySelector = async ({
     }
 };
 
-function getNewStructure(val?: GeneratedNavMenu[] | null): MenuObj | null {
-    try {
-        if (!val) {
-            return null;
-        }
-        const obj: MenuObj = {};
-        val.forEach(function ({ nav, text, parse_mode, call }) {
-            obj[call] = {
-                nav,
-                text,
-                parse_mode: isTruthy(parse_mode),
-            };
-        });
-        return obj;
-    } catch (err: any) {
-        errorLogger('Error GenerateNewObjectStructure:', err, adapter);
-        return null;
-    }
+function getNewStructure(val: splittedNavigation[]): NewObjectStructure {
+    const obj: NewObjectStructure = {};
+    val.forEach(function ({ nav, text, parse_mode, call }) {
+        obj[call] = { nav, text, parse_mode };
+    });
+    return obj;
 }
 
-function generateActions(action: Actions, userObject: MenuObj): { obj: MenuObj; ids: string[] } | undefined {
+function generateActions(
+    action: Actions,
+    userObject: NewObjectStructure,
+): { obj: NewObjectStructure; ids: string[] } | undefined {
     try {
         const arrayOfEntries: GenerateActionsArrayOfEntries[] = [
             {
@@ -368,7 +342,7 @@ const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): s
     return textToSend;
 };
 
-const adjustValueType = (value: keyof MenuObj, valueType: string): boolean | string | number => {
+const adjustValueType = (value: keyof NewObjectStructure, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
             adapter.log.error(`Error: Value is not a number: ${value}`);

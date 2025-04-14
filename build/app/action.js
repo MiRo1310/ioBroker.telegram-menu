@@ -39,6 +39,7 @@ var import_string = require("../lib/string");
 var import_config = require("../config/config");
 var import_appUtils = require("../lib/appUtils");
 var import_utils = require("../lib/utils");
+var import_object = require("../lib/object");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
   let value;
@@ -76,28 +77,16 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
   }
 };
-function splitNavigation(val) {
-  const newVal = [];
-  val.forEach(({ value: value2, text: text2, parse_mode: parse_mode2, call }) => {
-    const validatedLine = (0, import_appUtils.checkOneLineValue)(value2);
-    const array = [];
-    let splitArray = [];
-    if (validatedLine.indexOf(import_config.config.rowSplitter) != -1) {
-      splitArray = validatedLine.split(import_config.config.rowSplitter);
-    }
-    splitArray.forEach(function(el, index) {
-      let navArray = el.split(",");
-      navArray = navArray.map((item2) => item2.trim());
-      array[index] = navArray;
+function splitNavigation(rows) {
+  const generatedNavigation = [];
+  rows.forEach(({ value: value2, text: text2, parse_mode: parse_mode2, call }) => {
+    const nav = [];
+    (0, import_appUtils.checkOneLineValue)(value2).split(import_config.config.rowSplitter).forEach(function(el, index) {
+      nav[index] = (0, import_object.trimAllItems)(el.split(","));
     });
-    newVal.push({
-      call,
-      text: text2,
-      parse_mode: parse_mode2,
-      nav: array
-    });
+    generatedNavigation.push({ call, text: text2, parse_mode: (0, import_utils.isTruthy)(parse_mode2), nav });
   });
-  return newVal;
+  return generatedNavigation;
 }
 const idBySelector = async ({
   selector,
@@ -173,23 +162,11 @@ const idBySelector = async ({
   }
 };
 function getNewStructure(val) {
-  try {
-    if (!val) {
-      return null;
-    }
-    const obj = {};
-    val.forEach(function({ nav, text: text2, parse_mode: parse_mode2, call }) {
-      obj[call] = {
-        nav,
-        text: text2,
-        parse_mode: (0, import_utils.isTruthy)(parse_mode2)
-      };
-    });
-    return obj;
-  } catch (err) {
-    (0, import_logging.errorLogger)("Error GenerateNewObjectStructure:", err, import_main.adapter);
-    return null;
-  }
+  const obj = {};
+  val.forEach(function({ nav, text: text2, parse_mode: parse_mode2, call }) {
+    obj[call] = { nav, text: text2, parse_mode: parse_mode2 };
+  });
+  return obj;
 }
 function generateActions(action, userObject) {
   try {

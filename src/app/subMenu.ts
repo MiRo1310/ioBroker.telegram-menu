@@ -12,7 +12,7 @@ import type {
     Keyboard,
     KeyboardItems,
     Navigation,
-    MenuObj,
+    NewObjectStructure,
     Part,
     SetDynamicValueType,
     SetFirstMenuValue,
@@ -310,14 +310,14 @@ const back = async (obj: BackMenuType): Promise<void> => {
 };
 async function callSubMenu(
     jsonStringNav: string,
-    newObjectNavStructure: MenuObj,
+    newObjectNavStructure: NewObjectStructure,
     userToSend: string,
     instanceTelegram: string,
     resize_keyboard: boolean,
     one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     part: Part,
-    allMenusWithData: { [key: string]: MenuObj },
+    allMenusWithData: { [key: string]: NewObjectStructure },
     menus: string[],
     setStateIdsToListenTo: SetStateIds[] | null,
     navObj?: Navigation,
@@ -378,7 +378,7 @@ async function subMenu({
     one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     part: Part;
-    allMenusWithData: { [p: string]: MenuObj };
+    allMenusWithData: { [p: string]: NewObjectStructure };
     menus: string[];
     navObj?: Navigation;
 }): Promise<
