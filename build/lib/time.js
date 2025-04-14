@@ -42,12 +42,12 @@ const integrateTimeIntoText = (text, val) => {
   const date = new Date(Number(String(val)));
   return text.replace(import_config.config.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
-function extractTimeValues(unixTimestamp) {
+function extractTimeValues(tsInMs) {
   var _a;
-  if (isNaN(unixTimestamp)) {
+  if (isNaN(tsInMs) || tsInMs < 0) {
     return { milliseconds: NaN, seconds: NaN, minutes: NaN, hours: NaN, day: NaN, month: NaN, year: NaN };
   }
-  const date = new Date(unixTimestamp);
+  const date = new Date(tsInMs);
   const milliseconds = date.getMilliseconds();
   const seconds = date.getSeconds();
   const minutes = date.getMinutes();
@@ -56,7 +56,7 @@ function extractTimeValues(unixTimestamp) {
       hour: "2-digit",
       hour12: false,
       timeZone: import_config.timezone
-    }).formatToParts(new Date(unixTimestamp)).find((part) => part.type === "hour")) == null ? void 0 : _a.value
+    }).formatToParts(new Date(tsInMs)).find((part) => part.type === "hour")) == null ? void 0 : _a.value
   );
   const day = Number(date.toLocaleString(import_config.defaultLocale, { day: "2-digit" }));
   const month = Number(date.toLocaleString(import_config.defaultLocale, { month: "2-digit" }));

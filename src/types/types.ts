@@ -7,7 +7,6 @@ export type IsUserActiveCheckbox = Record<string, boolean>;
 export type MenusWithUsers = Record<string, string[]>;
 
 export type Action = Record<string, Actions>;
-export type NavObject = Record<string, Nav[]>;
 
 export type NavPart = string[][];
 
@@ -110,17 +109,19 @@ interface MenuDataNav {
     nav: string[];
 }
 
-export type AllMenusWithData = Record<string, NewObjectNavStructure | DataObject>;
+export type AllMenusWithData = Record<string, NewObjectNavStructure>;
 
 export interface DataObject {
-    action: Action;
-    nav: NavObject;
-    [key: string]: Nav | Action | NavObject;
-}
-
-export interface GeneratedActions {
-    obj: NewObjectNavStructure;
-    ids: string[];
+    action: Record<string, Actions>;
+    nav: Record<
+        string,
+        {
+            call: string;
+            text: string;
+            parse_mode: boolean;
+            value: string;
+        }[]
+    >;
 }
 
 export interface UserObjectActions {
@@ -381,8 +382,6 @@ export type PrimitiveType = string | number | boolean;
 export type PrimitiveNullableType = string | number | boolean | null | undefined;
 
 export type Adapter = MockAdapter | TelegramMenu;
-
-export type ProzessTimeValue = (text: string, val: string | number) => string;
 
 export interface Timeouts {
     key: string;

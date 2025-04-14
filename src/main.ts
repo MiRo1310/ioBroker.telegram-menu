@@ -24,7 +24,6 @@ import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
 import type {
-    GeneratedActions,
     ListOfMenus,
     MenuData,
     PrimitiveType,
@@ -122,11 +121,8 @@ export default class TelegramMenu extends utils.Adapter {
                     if (newObjectStructure) {
                         menuData.data[name] = newObjectStructure;
                     }
-
-                    const generatedActions: GeneratedActions | undefined = generateActions(
-                        action[name],
-                        menuData.data[name],
-                    );
+                    console.log(menuData.data[name]);
+                    const generatedActions = generateActions(action[name], menuData.data[name]);
                     if (generatedActions) {
                         menuData.data[name] = generatedActions?.obj;
                         subscribeForeignStateIds = generatedActions?.ids;

@@ -116,10 +116,8 @@ class TelegramMenu extends utils.Adapter {
           if (newObjectStructure) {
             menuData.data[name] = newObjectStructure;
           }
-          const generatedActions = (0, import_action.generateActions)(
-            action[name],
-            menuData.data[name]
-          );
+          console.log(menuData.data[name]);
+          const generatedActions = (0, import_action.generateActions)(action[name], menuData.data[name]);
           if (generatedActions) {
             menuData.data[name] = generatedActions == null ? void 0 : generatedActions.obj;
             subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;

@@ -50,20 +50,20 @@ async function switchBack(
             if (keyboard && foundedMenu != '') {
                 let parse_mode = false;
                 if (!lastMenu) {
-                    let textToSend = allMenusWithData[foundedMenu][
-                        backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
-                    ].text as string | undefined;
+                    let textToSend =
+                        allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]]
+                            .text;
                     if (textToSend) {
                         textToSend = await checkStatusInfo(textToSend);
                     }
-                    parse_mode = (allMenusWithData[foundedMenu][
-                        backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
-                    ].parse_mode ?? false) as boolean;
+                    parse_mode =
+                        allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]]
+                            .parse_mode ?? false;
                     backMenu[userToSend].last = list.pop();
 
                     return { texttosend: textToSend, menuToSend: keyboard, parse_mode: parse_mode };
                 }
-                parse_mode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false) as boolean;
+                parse_mode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false;
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text as string,
                     menuToSend: keyboard,
