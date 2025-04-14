@@ -27,7 +27,7 @@ var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 const backMenu = {};
-function backMenuFunc(nav, part, userToSend) {
+function backMenuFunc({ nav, part, userToSend }) {
   if (!part || !JSON.stringify(part).split(`"`)[1].includes("menu:")) {
     if (backMenu[userToSend] && backMenu[userToSend].list.length === 20) {
       backMenu[userToSend].list.shift();

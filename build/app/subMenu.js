@@ -332,7 +332,7 @@ async function subMenu({
   navObj
 }) {
   try {
-    import_main.adapter.log.debug(`Menu : ${navObj[0][0]}`);
+    import_main.adapter.log.debug(`Menu : ${navObj == null ? void 0 : navObj[0][0]}`);
     let text = "";
     if ((part == null ? void 0 : part.text) && part.text != "") {
       text = await (0, import_utilities.checkStatusInfo)(part.text);

@@ -8,7 +8,7 @@ export type MenusWithUsers = Record<string, string[]>;
 
 export type Action = Record<string, Actions>;
 
-export type NavPart = string[][];
+export type Navigation = string[][];
 
 export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
 
@@ -93,35 +93,17 @@ export interface Echart {
 
 export type StartSides = Record<string, string>;
 
-export type NewObjectNavStructure = Record<string, Part>;
+export type MenuObj = Record<string, Part>;
 
-export interface Nav extends NavStaticValues {
-    nav: string;
-    value: string;
-}
+// export interface MenuData {
+//     data: AllMenusWithData;
+// }
 
-export interface MenuData {
-    [key: string]: MenuDataNav | AllMenusWithData;
-    data: AllMenusWithData;
-}
-
-interface MenuDataNav {
-    nav: string[];
-}
-
-export type AllMenusWithData = Record<string, NewObjectNavStructure>;
+export type MenuData = Record<string, MenuObj>;
 
 export interface DataObject {
     action: Record<string, Actions>;
-    nav: Record<
-        string,
-        {
-            call: string;
-            text: string;
-            parse_mode: boolean;
-            value: string;
-        }[]
-    >;
+    nav: Record<string, NavigationRow[]>;
 }
 
 export interface UserObjectActions {
@@ -136,7 +118,7 @@ export interface UserObjectActions {
 
 export interface Part {
     text?: string;
-    nav?: any;
+    nav?: Navigation;
     parse_mode?: boolean;
     getData?: GetData[];
     switch?: Switch[];
@@ -197,12 +179,15 @@ export interface BindingObject {
     values: Record<string, string>;
 }
 
-export interface EditArrayButtons extends NavStaticValues {
+export interface NavigationRow {
     value: string;
+    call: string;
+    text: string;
+    parse_mode: boolean;
 }
-
+// TODO Check sting []
 export interface GeneratedNavMenu extends NavStaticValues {
-    nav: string[] | string[][];
+    nav: string[][];
 }
 
 export interface Switch {
@@ -265,9 +250,7 @@ export interface Message {
 
 export type WhatShouldDelete = 'all' | 'last';
 
-export interface Keyboard {
-    inline_keyboard: KeyboardItems[][];
-}
+export type Keyboard = { inline_keyboard: KeyboardItems[][] } | string[][] | undefined;
 
 export interface KeyboardItems {
     text: string;
@@ -304,13 +287,13 @@ export interface ProcessDataType extends TelegramParams {
     calledValue: string;
     groupWithUser: GroupWithUser;
     userListWithChatID: UserListWithChatId[];
-    allMenusWithData: AllMenusWithData;
+    allMenusWithData: MenuData;
     menus: string[];
     isUserActiveCheckbox: IsUserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
-    groupData: NewObjectNavStructure;
+    groupData: MenuObj;
 }
 
 export interface SetValueForSubmenuNumber extends TelegramParams {
@@ -321,7 +304,7 @@ export interface SetValueForSubmenuNumber extends TelegramParams {
 }
 
 export interface BackMenuType extends TelegramParams {
-    allMenusWithData: AllMenusWithData;
+    allMenusWithData: MenuData;
     menus: string[];
     userListWithChatID: UserListWithChatId[];
 }
@@ -331,7 +314,7 @@ export interface SetValueForSubmenuPercent extends TelegramParams {
     calledValue: string;
     userListWithChatID: UserListWithChatId[];
     part: Part;
-    allMenusWithData: { [key: string]: NewObjectNavStructure };
+    allMenusWithData: { [key: string]: MenuObj };
     menus: string[];
 }
 

@@ -24,7 +24,7 @@ __export(action_exports, {
   editArrayButtons: () => editArrayButtons,
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   generateActions: () => generateActions,
-  generateNewObjectStructure: () => generateNewObjectStructure,
+  getNewStructure: () => getNewStructure,
   getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
   idBySelector: () => idBySelector
 });
@@ -143,14 +143,14 @@ const idBySelector = async ({
         if (text2.includes("{common.name}")) {
           res = await import_main.adapter.getForeignObjectAsync(id);
           import_main.adapter.log.debug(`Name ${JSON.stringify(res == null ? void 0 : res.common.name)}`);
-          if (res && res.common.name) {
+          if (res && typeof res.common.name === "string") {
             newText = newText.replace("{common.name}", res.common.name);
           }
         }
         if (text2.includes("&amp;&amp;")) {
-          text2Send += newText.replace("&amp;&amp;", value2.val);
+          text2Send += newText.replace("&amp;&amp;", String(value2.val));
         } else if (text2.includes("&&")) {
-          text2Send += newText.replace("&&", value2.val);
+          text2Send += newText.replace("&&", String(value2.val));
         } else {
           text2Send += newText;
           text2Send += ` ${value2.val}`;
@@ -183,7 +183,7 @@ const idBySelector = async ({
     (0, import_logging.errorLogger)("Error idBySelector: ", error, import_main.adapter);
   }
 };
-function generateNewObjectStructure(val) {
+function getNewStructure(val) {
   try {
     if (!val) {
       return null;
@@ -289,6 +289,7 @@ function generateActions(action, userObject) {
             userObject[element.trigger[0]] = { [item2.name]: [] };
           }
           element[item2.loop].forEach(function(id, key) {
+            var _a;
             const newObj = {};
             item2.elements.forEach((elementItem) => {
               const name = elementItem.name;
@@ -306,8 +307,8 @@ function generateActions(action, userObject) {
                 newObj[name] = val;
               }
             });
-            if (item2.name && typeof item2.name === "string") {
-              userObject[element.trigger][item2 == null ? void 0 : item2.name].push(newObj);
+            if (item2.name) {
+              ((_a = userObject == null ? void 0 : userObject[element.trigger]) == null ? void 0 : _a[item2 == null ? void 0 : item2.name]).push(newObj);
             }
           });
         });
@@ -377,12 +378,12 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
   if (ok) {
     if (menuArray.length >= 1) {
       for (const menu of menuArray) {
-        if (usersInGroup[menu] && menuData.data[menu][calledNav]) {
+        if (usersInGroup[menu] && menuData[menu][calledNav]) {
           for (const user of usersInGroup[menu]) {
-            const part = menuData.data[menu][calledNav];
-            const menus = Object.keys(menuData.data);
+            const part = menuData[menu][calledNav];
+            const menus = Object.keys(menuData);
             if (part.nav) {
-              (0, import_backMenu.backMenuFunc)(calledNav, part.nav, user);
+              (0, import_backMenu.backMenuFunc)({ nav: calledNav, part: part.nav, userToSend: user });
             }
             if ((part == null ? void 0 : part.nav) && (part == null ? void 0 : part.nav[0][0].includes("menu:"))) {
               await (0, import_subMenu.callSubMenu)(
@@ -394,7 +395,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
                 one_time_keyboard2,
                 userListWithChatID2,
                 part,
-                menuData.data,
+                menuData,
                 menus,
                 null,
                 part.nav
@@ -434,7 +435,7 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID2, chatID) => {
   editArrayButtons,
   exchangePlaceholderWithValue,
   generateActions,
-  generateNewObjectStructure,
+  getNewStructure,
   getUserToSendFromUserListWithChatID,
   idBySelector
 });

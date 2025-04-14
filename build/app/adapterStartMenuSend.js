@@ -27,22 +27,23 @@ var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
 async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
+  var _a, _b;
   for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
       import_main.adapter.log.debug(`Startside: ${startSide}`);
       for (const userToSend of menusWithUsers[menu]) {
-        (0, import_backMenu.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, userToSend);
+        (0, import_backMenu.backMenuFunc)({ nav: startSide, part: menuData[menu][startSide].nav, userToSend });
         import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
           userToSend,
-          textToSend: menuData.data[menu][startSide].text,
-          keyboard: menuData.data[menu][startSide].nav,
+          textToSend: (_a = menuData[menu][startSide].text) != null ? _a : "",
+          keyboard: menuData[menu][startSide].nav,
           instanceTelegram,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          parse_mode: menuData.data[menu][startSide].parse_mode
+          parse_mode: (_b = menuData[menu][startSide].parse_mode) != null ? _b : false
         });
       }
     } else {

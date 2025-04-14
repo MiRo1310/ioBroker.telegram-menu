@@ -7,7 +7,6 @@ import type {
     MenusWithUsers,
     MenuData,
     UserListWithChatId,
-    NavPart,
 } from '../types/types';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
@@ -30,18 +29,19 @@ async function adapterStartMenuSend(
         if (userActiveCheckbox[menu] && isStartside(startSide)) {
             adapter.log.debug(`Startside: ${startSide}`);
             for (const userToSend of menusWithUsers[menu]) {
-                backMenuFunc(startSide, menuData.data[menu][startSide].nav as NavPart, userToSend);
+                backMenuFunc({ nav: startSide, part: menuData[menu][startSide].nav, userToSend: userToSend });
+
                 adapter.log.debug(`User list: ${jsonString(userListWithChatID)}`);
 
                 await sendToTelegram({
                     userToSend,
-                    textToSend: menuData.data[menu][startSide].text as string,
-                    keyboard: menuData.data[menu][startSide].nav,
+                    textToSend: menuData[menu][startSide].text ?? '',
+                    keyboard: menuData[menu][startSide].nav,
                     instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
-                    parse_mode: menuData.data[menu][startSide].parse_mode as boolean,
+                    parse_mode: menuData[menu][startSide].parse_mode ?? false,
                 });
             }
         } else {

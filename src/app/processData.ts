@@ -12,14 +12,7 @@ import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
 import { getChart } from './echarts';
 import { httpRequest } from './httpRequest';
 import { errorLogger } from './logging';
-import type {
-    CheckEveryMenuForDataType,
-    NewObjectNavStructure,
-    Part,
-    ProcessDataType,
-    SetStateIds,
-    Timeouts,
-} from '../types/types';
+import type { CheckEveryMenuForDataType, MenuObj, Part, ProcessDataType, SetStateIds, Timeouts } from '../types/types';
 import { jsonString } from '../lib/string';
 
 let setStateIdsToListenTo: SetStateIds[] = [];
@@ -42,10 +35,10 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
     } = obj;
 
     for (const menu of menus) {
-        const groupData: NewObjectNavStructure = menuData.data[menu];
+        const groupData: MenuObj = menuData[menu];
 
         adapter.log.debug(`Menu: ${menu}`);
-        adapter.log.debug(`Nav: ${jsonString(menuData.data[menu])}`);
+        adapter.log.debug(`Nav: ${jsonString(menuData[menu])}`);
 
         if (
             await processData({
@@ -57,7 +50,7 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
                 resize_keyboard: resize_keyboard,
                 one_time_keyboard: one_time_keyboard,
                 userListWithChatID,
-                allMenusWithData: menuData.data,
+                allMenusWithData: menuData,
                 menus,
                 isUserActiveCheckbox,
                 token,
@@ -93,7 +86,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
     } = obj;
     try {
         let part: Part = {} as Part;
-        let call: keyof NewObjectNavStructure = '';
+        let call: keyof MenuObj = '';
 
         if (getDynamicValue(userToSend)) {
             const res = getDynamicValue(userToSend);
@@ -149,7 +142,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         part = groupData[call];
 
         if (
-            typeof call === 'string' &&
             groupData &&
             part &&
             !calledValue.toString().includes('menu:') &&
@@ -158,12 +150,12 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             isUserActiveCheckbox[groupWithUser]
         ) {
             if (part.nav) {
-                adapter.log.debug(`Menu to Send: ${part.nav}`);
+                adapter.log.debug(`Menu to Send: ${jsonString(part.nav)}`);
 
-                backMenuFunc(call, part.nav, userToSend);
+                backMenuFunc({ nav: call, part: part.nav, userToSend: userToSend });
 
                 if (JSON.stringify(part.nav).includes('menu:')) {
-                    adapter.log.debug(`Submenu: ${part.nav}`);
+                    adapter.log.debug(`Submenu: ${jsonString(part.nav)}`);
 
                     const result = await callSubMenu(
                         JSON.stringify(part.nav),
@@ -288,10 +280,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 }
             }
         }
-        if (
-            (calledValue.startsWith('menu') || calledValue.startsWith('submenu')) &&
-            menuData.data[groupWithUser][call]
-        ) {
+        if ((calledValue.startsWith('menu') || calledValue.startsWith('submenu')) && menuData[groupWithUser][call]) {
             adapter.log.debug('Call Submenu');
             const result = await callSubMenu(
                 calledValue,

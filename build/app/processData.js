@@ -56,9 +56,9 @@ async function checkEveryMenuForData(obj) {
     timeoutKey
   } = obj;
   for (const menu of menus) {
-    const groupData = menuData.data[menu];
+    const groupData = menuData[menu];
     import_main.adapter.log.debug(`Menu: ${menu}`);
-    import_main.adapter.log.debug(`Nav: ${(0, import_string.jsonString)(menuData.data[menu])}`);
+    import_main.adapter.log.debug(`Nav: ${(0, import_string.jsonString)(menuData[menu])}`);
     if (await processData({
       menuData,
       calledValue,
@@ -68,7 +68,7 @@ async function checkEveryMenuForData(obj) {
       resize_keyboard,
       one_time_keyboard,
       userListWithChatID,
-      allMenusWithData: menuData.data,
+      allMenusWithData: menuData,
       menus,
       isUserActiveCheckbox,
       token,
@@ -154,12 +154,12 @@ async function processData(obj) {
       call = calledValue;
     }
     part = groupData[call];
-    if (typeof call === "string" && groupData && part && !calledValue.toString().includes("menu:") && userToSend && groupWithUser && isUserActiveCheckbox[groupWithUser]) {
+    if (groupData && part && !calledValue.toString().includes("menu:") && userToSend && groupWithUser && isUserActiveCheckbox[groupWithUser]) {
       if (part.nav) {
-        import_main.adapter.log.debug(`Menu to Send: ${part.nav}`);
-        (0, import_backMenu.backMenuFunc)(call, part.nav, userToSend);
+        import_main.adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(part.nav)}`);
+        (0, import_backMenu.backMenuFunc)({ nav: call, part: part.nav, userToSend });
         if (JSON.stringify(part.nav).includes("menu:")) {
-          import_main.adapter.log.debug(`Submenu: ${part.nav}`);
+          import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(part.nav)}`);
           const result = await (0, import_subMenu.callSubMenu)(
             JSON.stringify(part.nav),
             groupData,
@@ -282,7 +282,7 @@ async function processData(obj) {
         }
       }
     }
-    if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && menuData.data[groupWithUser][call]) {
+    if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && menuData[groupWithUser][call]) {
       import_main.adapter.log.debug("Call Submenu");
       const result = await (0, import_subMenu.callSubMenu)(
         calledValue,

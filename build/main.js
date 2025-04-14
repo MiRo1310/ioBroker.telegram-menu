@@ -92,9 +92,7 @@ class TelegramMenu extends utils.Adapter {
     const userListWithChatID = this.config.userListWithChatID;
     const dataObject = this.config.data;
     const startSides = {};
-    const menuData = {
-      data: {}
-    };
+    const menuData = {};
     Object.keys(menusWithUsers).forEach((element) => {
       startSides[element] = dataObject.nav[element][0].call;
     });
@@ -112,14 +110,13 @@ class TelegramMenu extends utils.Adapter {
         this.log.info("Telegram was found");
         for (const name in nav) {
           const value = (0, import_action.editArrayButtons)(nav[name]);
-          const newObjectStructure = (0, import_action.generateNewObjectStructure)(value);
+          const newObjectStructure = (0, import_action.getNewStructure)(value);
           if (newObjectStructure) {
-            menuData.data[name] = newObjectStructure;
+            menuData[name] = newObjectStructure;
           }
-          console.log(menuData.data[name]);
-          const generatedActions = (0, import_action.generateActions)(action[name], menuData.data[name]);
+          const generatedActions = (0, import_action.generateActions)(action[name], menuData[name]);
           if (generatedActions) {
-            menuData.data[name] = generatedActions == null ? void 0 : generatedActions.obj;
+            menuData[name] = generatedActions == null ? void 0 : generatedActions.obj;
             subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;
           } else {
             adapter.log.debug("No Actions generated!");
@@ -136,8 +133,9 @@ class TelegramMenu extends utils.Adapter {
           }
           adapter.log.debug(`Menu: ${name}`);
           adapter.log.debug(`Array Buttons: ${(0, import_string.jsonString)(value)}`);
-          adapter.log.debug(`Gen. Actions: ${(0, import_string.jsonString)(menuData.data[name])}`);
+          adapter.log.debug(`Gen. Actions: ${(0, import_string.jsonString)(menuData[name])}`);
         }
+        console.log(JSON.stringify(menuData));
         adapter.log.debug(`Checkbox: ${(0, import_string.jsonString)(checkboxes)}`);
         adapter.log.debug(`MenuList: ${(0, import_string.jsonString)(listOfMenus)}`);
         if (sendMenuAfterRestart) {

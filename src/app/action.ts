@@ -8,13 +8,13 @@ import type {
     Actions,
     BindingObject,
     DataObject,
-    EditArrayButtons,
+    NavigationRow,
     GenerateActionsArrayOfEntries,
     GenerateActionsNewObject,
     GeneratedNavMenu,
     MenuData,
     Newline,
-    NewObjectNavStructure,
+    MenuObj,
     Part,
     PrimitiveType,
     Switch,
@@ -76,7 +76,7 @@ const bindingFunc = async (
     }
 };
 
-function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
+function editArrayButtons(val: NavigationRow[]): GeneratedNavMenu[] | null {
     const newVal: GeneratedNavMenu[] = [];
     try {
         val.forEach(element => {
@@ -84,6 +84,7 @@ function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
             if (typeof element.value === 'string') {
                 value = checkOneLineValue(element.value);
             }
+            // TODO check sting []
             let array: string[] | string[][] = [];
             if (value.indexOf(config.rowSplitter) != -1) {
                 array = value.split(config.rowSplitter);
@@ -104,7 +105,12 @@ function editArrayButtons(val: EditArrayButtons[]): GeneratedNavMenu[] | null {
                 });
             }
 
-            newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
+            newVal.push({
+                call: element.call,
+                text: element.text,
+                parse_mode: element.parse_mode,
+                nav: array as string[][], // TODO check if this is correct
+            });
         });
 
         return newVal;
@@ -160,14 +166,14 @@ const idBySelector = async ({
                     res = await adapter.getForeignObjectAsync(id);
                     adapter.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
 
-                    if (res && res.common.name) {
-                        newText = newText.replace('{common.name}', res.common.name as string);
+                    if (res && typeof res.common.name === 'string') {
+                        newText = newText.replace('{common.name}', res.common.name);
                     }
                 }
                 if (text.includes('&amp;&amp;')) {
-                    text2Send += newText.replace('&amp;&amp;', value.val as string);
+                    text2Send += newText.replace('&amp;&amp;', String(value.val));
                 } else if (text.includes('&&')) {
-                    text2Send += newText.replace('&&', value.val as string);
+                    text2Send += newText.replace('&&', String(value.val));
                 } else {
                     text2Send += newText;
                     text2Send += ` ${value.val}`;
@@ -204,12 +210,12 @@ const idBySelector = async ({
     }
 };
 
-function generateNewObjectStructure(val?: GeneratedNavMenu[] | null): NewObjectNavStructure | null {
+function getNewStructure(val?: GeneratedNavMenu[] | null): MenuObj | null {
     try {
         if (!val) {
             return null;
         }
-        const obj: NewObjectNavStructure = {};
+        const obj: MenuObj = {};
         val.forEach(function ({ nav, text, parse_mode, call }) {
             obj[call] = {
                 nav,
@@ -224,10 +230,7 @@ function generateNewObjectStructure(val?: GeneratedNavMenu[] | null): NewObjectN
     }
 }
 
-function generateActions(
-    action: Actions,
-    userObject: NewObjectNavStructure,
-): { obj: NewObjectNavStructure; ids: string[] } | undefined {
+function generateActions(action: Actions, userObject: MenuObj): { obj: MenuObj; ids: string[] } | undefined {
     try {
         const arrayOfEntries: GenerateActionsArrayOfEntries[] = [
             {
@@ -343,8 +346,10 @@ function generateActions(
                                 newObj[name as keyof GenerateActionsNewObject] = val as any;
                             }
                         });
-                        if (item.name && typeof item.name === 'string') {
-                            userObject[element.trigger as string][item?.name as keyof Part].push(newObj);
+                        if (item.name) {
+                            // TODO check if this is correct
+                            // @ts-expect-error
+                            (userObject?.[element.trigger as string]?.[item?.name as keyof Part] as []).push(newObj);
                         }
                     });
                 });
@@ -371,7 +376,7 @@ const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): s
     return textToSend;
 };
 
-const adjustValueType = (value: keyof NewObjectNavStructure, valueType: string): boolean | string | number => {
+const adjustValueType = (value: keyof MenuObj, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
             adapter.log.error(`Error: Value is not a number: ${value}`);
@@ -431,12 +436,12 @@ const checkEvent = async (
     if (ok) {
         if (menuArray.length >= 1) {
             for (const menu of menuArray) {
-                if (usersInGroup[menu] && menuData.data[menu][calledNav as keyof DataObject]) {
+                if (usersInGroup[menu] && menuData[menu][calledNav as keyof DataObject]) {
                     for (const user of usersInGroup[menu]) {
-                        const part = menuData.data[menu][calledNav as keyof DataObject];
-                        const menus = Object.keys(menuData.data);
+                        const part = menuData[menu][calledNav as keyof DataObject];
+                        const menus = Object.keys(menuData);
                         if (part.nav) {
-                            backMenuFunc(calledNav, part.nav, user);
+                            backMenuFunc({ nav: calledNav, part: part.nav, userToSend: user });
                         }
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
                             await callSubMenu(
@@ -448,7 +453,7 @@ const checkEvent = async (
                                 one_time_keyboard,
                                 userListWithChatID,
                                 part,
-                                menuData.data,
+                                menuData,
                                 menus,
                                 null,
                                 part.nav,
@@ -491,7 +496,7 @@ const getUserToSendFromUserListWithChatID = (
 export {
     editArrayButtons,
     idBySelector,
-    generateNewObjectStructure,
+    getNewStructure,
     generateActions,
     bindingFunc,
     exchangePlaceholderWithValue,

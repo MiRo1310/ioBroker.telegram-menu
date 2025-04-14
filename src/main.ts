@@ -12,7 +12,7 @@ import {
     editArrayButtons,
     exchangePlaceholderWithValue,
     generateActions,
-    generateNewObjectStructure,
+    getNewStructure,
     getUserToSendFromUserListWithChatID,
 } from './app/action.js';
 import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
@@ -90,9 +90,7 @@ export default class TelegramMenu extends utils.Adapter {
         const dataObject = this.config.data;
         const startSides: StartSides = {};
 
-        const menuData: MenuData = {
-            data: {},
-        } as MenuData;
+        const menuData: MenuData = {};
 
         Object.keys(menusWithUsers).forEach(element => {
             startSides[element] = dataObject.nav[element][0].call;
@@ -117,14 +115,14 @@ export default class TelegramMenu extends utils.Adapter {
                 for (const name in nav) {
                     const value = editArrayButtons(nav[name]);
 
-                    const newObjectStructure = generateNewObjectStructure(value);
+                    const newObjectStructure = getNewStructure(value);
                     if (newObjectStructure) {
-                        menuData.data[name] = newObjectStructure;
+                        menuData[name] = newObjectStructure;
                     }
-                    console.log(menuData.data[name]);
-                    const generatedActions = generateActions(action[name], menuData.data[name]);
+
+                    const generatedActions = generateActions(action[name], menuData[name]);
                     if (generatedActions) {
-                        menuData.data[name] = generatedActions?.obj;
+                        menuData[name] = generatedActions?.obj;
                         subscribeForeignStateIds = generatedActions?.ids;
                     } else {
                         adapter.log.debug('No Actions generated!');
@@ -144,8 +142,9 @@ export default class TelegramMenu extends utils.Adapter {
                     }
                     adapter.log.debug(`Menu: ${name}`);
                     adapter.log.debug(`Array Buttons: ${jsonString(value)}`);
-                    adapter.log.debug(`Gen. Actions: ${jsonString(menuData.data[name])}`);
+                    adapter.log.debug(`Gen. Actions: ${jsonString(menuData[name])}`);
                 }
+                console.log(JSON.stringify(menuData));
                 adapter.log.debug(`Checkbox: ${jsonString(checkboxes)}`);
                 adapter.log.debug(`MenuList: ${jsonString(listOfMenus)}`);
 

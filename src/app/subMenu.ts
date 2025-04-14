@@ -11,8 +11,8 @@ import type {
     DeleteMessageIds,
     Keyboard,
     KeyboardItems,
-    NavPart,
-    NewObjectNavStructure,
+    Navigation,
+    MenuObj,
     Part,
     SetDynamicValueType,
     SetFirstMenuValue,
@@ -310,17 +310,17 @@ const back = async (obj: BackMenuType): Promise<void> => {
 };
 async function callSubMenu(
     jsonStringNav: string,
-    newObjectNavStructure: NewObjectNavStructure,
+    newObjectNavStructure: MenuObj,
     userToSend: string,
     instanceTelegram: string,
     resize_keyboard: boolean,
     one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     part: Part,
-    allMenusWithData: { [key: string]: NewObjectNavStructure },
+    allMenusWithData: { [key: string]: MenuObj },
     menus: string[],
     setStateIdsToListenTo: SetStateIds[] | null,
-    navObj: NavPart,
+    navObj?: Navigation,
 ): Promise<{ setStateIdsToListenTo: SetStateIds[] | null; newNav: string | undefined } | undefined> {
     try {
         const obj = await subMenu({
@@ -378,21 +378,21 @@ async function subMenu({
     one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     part: Part;
-    allMenusWithData: { [p: string]: NewObjectNavStructure };
+    allMenusWithData: { [p: string]: MenuObj };
     menus: string[];
-    navObj: NavPart;
+    navObj?: Navigation;
 }): Promise<
     { text?: string; keyboard?: Keyboard; device?: string; returnIds?: SetStateIds[]; navToGoBack?: string } | undefined
 > {
     try {
-        adapter.log.debug(`Menu : ${navObj[0][0]}`);
+        adapter.log.debug(`Menu : ${navObj?.[0][0]}`);
 
         let text: string | undefined = '';
         if (part?.text && part.text != '') {
             text = await checkStatusInfo(part.text);
         }
 
-        const { json, isValidJson } = parseJSON<NavPart>(jsonStringNav);
+        const { json, isValidJson } = parseJSON<Navigation>(jsonStringNav);
         if (!isValidJson) {
             return;
         }

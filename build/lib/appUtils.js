@@ -79,7 +79,6 @@ const timeStringReplacer = ({ d, h, m, ms, y, s, mo }, string) => {
 function statusIdAndParams(substringExcludeSearch) {
   if (substringExcludeSearch.includes(import_config.config.status.oldWithId)) {
     const splitArray2 = substringExcludeSearch.split(":");
-    console.log(splitArray2);
     return {
       id: (0, import_string.removeQuotes)(splitArray2[1]),
       //'id':'ID':true

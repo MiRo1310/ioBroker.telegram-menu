@@ -1,12 +1,12 @@
 import { errorLogger } from './logging';
-import type { BackMenu, NavPart, AllMenusWithData, Keyboard } from '../types/types';
+import type { BackMenu, Navigation, MenuData, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 
 const backMenu: BackMenu = {};
 
-function backMenuFunc(nav: string, part: NavPart, userToSend: string): void {
+export function backMenuFunc({ nav, part, userToSend }: { nav: string; part?: Navigation; userToSend: string }): void {
     if (!part || !JSON.stringify(part).split(`"`)[1].includes('menu:')) {
         if (backMenu[userToSend] && backMenu[userToSend].list.length === 20) {
             backMenu[userToSend].list.shift();
@@ -22,9 +22,9 @@ function backMenuFunc(nav: string, part: NavPart, userToSend: string): void {
     adapter.log.debug(`BackMenu: ${jsonString(backMenu)}`);
 }
 
-async function switchBack(
+export async function switchBack(
     userToSend: string,
-    allMenusWithData: AllMenusWithData,
+    allMenusWithData: MenuData,
     menus: string[],
     lastMenu = false,
 ): Promise<{ texttosend: string | undefined; menuToSend: Keyboard; parse_mode: boolean } | undefined> {
@@ -61,13 +61,13 @@ async function switchBack(
                             .parse_mode ?? false;
                     backMenu[userToSend].last = list.pop();
 
-                    return { texttosend: textToSend, menuToSend: keyboard, parse_mode: parse_mode };
+                    return { texttosend: textToSend, menuToSend: keyboard, parse_mode };
                 }
                 parse_mode = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ?? false;
                 return {
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text as string,
                     menuToSend: keyboard,
-                    parse_mode: parse_mode,
+                    parse_mode,
                 };
             }
         }
@@ -75,5 +75,3 @@ async function switchBack(
         errorLogger('Error in switchBack:', e, adapter);
     }
 }
-
-export { switchBack, backMenuFunc };

@@ -77,7 +77,7 @@ export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, st
 export function statusIdAndParams(substringExcludeSearch: string): { id: string; shouldChange: boolean } {
     if (substringExcludeSearch.includes(config.status.oldWithId)) {
         const splitArray = substringExcludeSearch.split(':');
-        console.log(splitArray);
+
         return {
             id: removeQuotes(splitArray[1]), //'id':'ID':true
             shouldChange: isTruthy(removeQuotes(splitArray[2])),
