@@ -14,7 +14,7 @@ const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
 const appUtils_1 = require("../lib/appUtils");
 const utils_1 = require("../lib/utils");
-const bindingFunc = async (text, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, parseMode) => {
+const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
     let value;
     try {
         const substring = (0, string_1.decomposeText)(text, 'binding:', '}').substring;
@@ -42,10 +42,10 @@ const bindingFunc = async (text, userToSend, telegramInstance, oneTimeKeyboard, 
             userToSend,
             textToSend: value,
             instanceTelegram: telegramInstance,
-            resizeKeyboard,
-            oneTimeKeyboard,
+            resize_keyboard,
+            one_time_keyboard,
             userListWithChatID,
-            parseMode,
+            parse_mode,
         });
     }
     catch (e) {
@@ -80,7 +80,7 @@ function editArrayButtons(val) {
                     array[index] = [element.trim()];
                 });
             }
-            newVal.push({ call: element.call, text: element.text, parseMode: element.parseMode, nav: array });
+            newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
         });
         return newVal;
     }
@@ -89,7 +89,7 @@ function editArrayButtons(val) {
         return null;
     }
 }
-const idBySelector = async ({ selector, text, userToSend, newline, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, }) => {
+const idBySelector = async ({ selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, }) => {
     let text2Send = '';
     try {
         if (!selector.includes('functions')) {
@@ -142,8 +142,8 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
                 userToSend,
                 textToSend: text2Send,
                 instanceTelegram: telegramInstance,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
             }).catch(e => {
                 (0, logging_js_1.errorLogger)('Error SendToTelegram:', e, main_js_1.adapter);
@@ -166,11 +166,11 @@ function generateNewObjectStructure(val) {
             return null;
         }
         const obj = {};
-        val.forEach(function ({ nav, text, parseMode, call }) {
+        val.forEach(function ({ nav, text, parse_mode, call }) {
             obj[call] = {
                 nav,
                 text,
-                parseMode: (0, utils_1.isTruthy)(parseMode),
+                parse_mode: (0, utils_1.isTruthy)(parse_mode),
             };
         });
         return obj;
@@ -199,7 +199,7 @@ function generateActions(action, userObject) {
                 objName: 'loc',
                 name: 'location',
                 loop: 'latitude',
-                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parseMode', key: 0 }],
+                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parse_mode', key: 0 }],
             },
             {
                 objName: 'pic',
@@ -219,7 +219,7 @@ function generateActions(action, userObject) {
                     { name: 'id', value: 'IDs' },
                     { name: 'text', type: 'text' },
                     { name: 'newline', value: 'newline_checkbox' },
-                    { name: 'parseMode', key: 0 },
+                    { name: 'parse_mode', key: 0 },
                 ],
             },
             {
@@ -230,32 +230,32 @@ function generateActions(action, userObject) {
             },
         ];
         const listOfSetStateIds = [];
-        action.set.forEach(function (element, key) {
+        action.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, key) {
             if (key == 0) {
-                userObject[element.trigger[0]] = { switch: [] };
+                userObject[trigger[0]] = { switch: [] };
             }
-            userObject[element.trigger[0]] = { switch: [] };
-            element.IDs.forEach(function (id, index) {
+            userObject[trigger[0]] = { switch: [] };
+            IDs.forEach(function (id, index) {
                 listOfSetStateIds.push(id);
-                const toggle = element.switch_checkbox[index] === 'true';
+                const toggle = switch_checkbox[index] === 'true';
                 let value;
-                if (element.values[index] === 'true' || element.values[index] === 'false') {
-                    value = element.values[index] === 'true';
+                if (values[index] === 'true' || values[index] === 'false') {
+                    value = values[index] === 'true';
                 }
                 else {
-                    value = element.values[index];
+                    value = values[index];
                 }
                 const newObj = {
-                    id: element.IDs[index],
+                    id: IDs[index],
                     value: value.toString(),
                     toggle: toggle,
-                    confirm: element.confirm[index],
-                    returnText: element.returnText[index],
-                    ack: element.ack ? element.ack[index] : 'false',
-                    parseMode: (0, utils_1.isTruthy)(element.parseMode[0]),
+                    confirm: confirm[index],
+                    returnText: returnText[index],
+                    ack: ack ? ack[index] : 'false',
+                    parse_mode: (0, utils_1.isTruthy)(parse_mode[0]),
                 };
-                if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
-                    userObject[element.trigger[0]].switch.push(newObj);
+                if (userObject[trigger[0]] && userObject[trigger[0]]?.switch) {
+                    userObject[trigger[0]].switch.push(newObj);
                 }
             });
         });
@@ -331,7 +331,7 @@ const adjustValueType = (value, valueType) => {
     return value;
 };
 exports.adjustValueType = adjustValueType;
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
     const menuArray = [];
     let ok = false;
     let calledNav = '';
@@ -374,10 +374,10 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
                             (0, backMenu_js_1.backMenuFunc)(calledNav, part.nav, user);
                         }
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
-                            await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, part, menuData.data, menus, null, part.nav);
+                            await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData.data, menus, null, part.nav);
                         }
                         else {
-                            await (0, sendNav_js_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
+                            await (0, sendNav_js_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
                         }
                     }
                 }

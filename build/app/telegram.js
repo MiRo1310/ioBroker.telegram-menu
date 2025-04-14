@@ -35,20 +35,20 @@ async function sendToTelegram({
   textToSend,
   keyboard,
   instanceTelegram = import_config.defaultTelegramInstance,
-  resizeKeyboard = true,
-  oneTimeKeyboard = true,
+  resize_keyboard = true,
+  one_time_keyboard = true,
   userListWithChatID,
-  parseMode = false
+  parse_mode = false
 }) {
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
-    const parseModeType = (0, import_appUtils.getParseMode)(parseMode);
+    const parse_modeType = (0, import_appUtils.getParseMode)(parse_mode);
     import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
     import_main.adapter.log.debug(`Instance: ${instanceTelegram}`);
     import_main.adapter.log.debug(`UserListWithChatID	: ${(0, import_string.jsonString)(userListWithChatID)}`);
-    import_main.adapter.log.debug(`Parse_mode	: ${parseMode}`);
+    import_main.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
     import_main.adapter.log.debug(`ChatId	: ${chatId}`);
-    import_main.adapter.log.debug(`ParseModeType: ${parseModeType}`);
+    import_main.adapter.log.debug(`ParseModeType: ${parse_modeType}`);
     const validatedTextToSend = (0, import_string.validateNewLine)(textToSend != null ? textToSend : "");
     if (!keyboard) {
       import_main.adapter.sendTo(
@@ -57,7 +57,7 @@ async function sendToTelegram({
         {
           text: validatedTextToSend,
           chatId,
-          parseMode: parseModeType
+          parse_mode: parse_modeType
         },
         (res) => telegramLogger(res)
       );
@@ -68,12 +68,12 @@ async function sendToTelegram({
       "send",
       {
         chatId,
-        parseMode: parseModeType,
+        parse_mode: parse_modeType,
         text: await (0, import_utilities.checkStatusInfo)(validatedTextToSend),
         reply_markup: {
           keyboard,
-          resizeKeyboard,
-          oneTimeKeyboard
+          resize_keyboard,
+          one_time_keyboard
         }
       },
       (res) => telegramLogger(res)
@@ -82,13 +82,13 @@ async function sendToTelegram({
     (0, import_logging.errorLogger)("Error sendToTelegram:", e, import_main.adapter);
   }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, instance = import_config.defaultTelegramInstance, userListWithChatID, parseMode) {
+function sendToTelegramSubmenu(user, textToSend, keyboard, instance = import_config.defaultTelegramInstance, userListWithChatID, parse_mode) {
   import_main.adapter.sendTo(
     instance,
     "send",
     {
       chatId: (0, import_utils.getChatID)(userListWithChatID, user),
-      parseMode: (0, import_appUtils.getParseMode)(parseMode),
+      parse_mode: (0, import_appUtils.getParseMode)(parse_mode),
       text: (0, import_string.validateNewLine)(textToSend),
       reply_markup: keyboard
     },

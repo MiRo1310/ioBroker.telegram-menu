@@ -11,7 +11,7 @@ const fs_1 = __importDefault(require("fs"));
 const logging_1 = require("./logging");
 const utils_1 = require("../lib/utils");
 const main_1 = require("../main");
-async function httpRequest(parts, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, directoryPicture) {
+async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
     if (!parts.httpRequest) {
         return;
     }
@@ -49,8 +49,8 @@ async function httpRequest(parts, userToSend, instanceTelegram, resizeKeyboard, 
                 userToSend,
                 textToSend: imagePath,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
             });
         }

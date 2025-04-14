@@ -82,8 +82,8 @@ class TelegramMenu extends utils.Adapter {
         const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
         const infoConnectionOfTelegram = `${instanceTelegram}.info.connection`;
         const checkboxes = this.config.checkbox;
-        const oneTimeKeyboard = checkboxes.oneTiKey;
-        const resizeKeyboard = checkboxes.resKey;
+        const one_time_keyboard = checkboxes.oneTiKey;
+        const resize_keyboard = checkboxes.resKey;
         const checkboxNoEntryFound = checkboxes.checkboxNoValueFound;
         const sendMenuAfterRestart = checkboxes.sendMenuAfterRestart;
         let listOfMenus = [];
@@ -149,7 +149,7 @@ class TelegramMenu extends utils.Adapter {
                 exports.adapter.log.debug(`Checkbox: ${(0, string_1.jsonString)(checkboxes)}`);
                 exports.adapter.log.debug(`MenuList: ${(0, string_1.jsonString)(listOfMenus)}`);
                 if (sendMenuAfterRestart) {
-                    await (0, adapterStartMenuSend_js_1.adapterStartMenuSend)(listOfMenus, startSides, isUserActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard);
+                    await (0, adapterStartMenuSend_js_1.adapterStartMenuSend)(listOfMenus, startSides, isUserActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard);
                 }
                 this.on('stateChange', async (id, state) => {
                     const setStateIdsToListenTo = (0, processData_js_1.getStateIdsToListenTo)();
@@ -163,7 +163,7 @@ class TelegramMenu extends utils.Adapter {
                     }
                     const { userToSend } = obj;
                     if ((0, string_1.isString)(state?.val) && state.val.includes('sList:')) {
-                        await (0, shoppingList_js_1.shoppingListSubscribeStateAndDeleteItem)(state.val, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
+                        await (0, shoppingList_js_1.shoppingListSubscribeStateAndDeleteItem)(state.val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
                         return;
                     }
                     if (this.isAddToShoppingList(id, userToSend)) {
@@ -171,7 +171,7 @@ class TelegramMenu extends utils.Adapter {
                         return;
                     }
                     if (state &&
-                        (await (0, action_js_1.checkEvent)(dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard, menusWithUsers))) {
+                        (await (0, action_js_1.checkEvent)(dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, menusWithUsers))) {
                         return;
                     }
                     if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
@@ -190,8 +190,8 @@ class TelegramMenu extends utils.Adapter {
                             calledValue,
                             userToSend,
                             instanceTelegram,
-                            resizeKeyboard,
-                            oneTimeKeyboard,
+                            resize_keyboard,
+                            one_time_keyboard,
                             userListWithChatID,
                             menus,
                             isUserActiveCheckbox,
@@ -207,8 +207,8 @@ class TelegramMenu extends utils.Adapter {
                                 userToSend,
                                 textToSend: textNoEntryFound,
                                 instanceTelegram,
-                                resizeKeyboard,
-                                oneTimeKeyboard,
+                                resize_keyboard,
+                                one_time_keyboard,
                                 userListWithChatID,
                             });
                         }
@@ -222,8 +222,8 @@ class TelegramMenu extends utils.Adapter {
                         setStateIdsToListenTo.forEach((element, key) => {
                             const telegramParams = {
                                 instanceTelegram,
-                                oneTimeKeyboard,
-                                resizeKeyboard,
+                                one_time_keyboard,
+                                resize_keyboard,
                                 userToSend: element.userToSend,
                             };
                             if (element.id == id) {
@@ -248,7 +248,7 @@ class TelegramMenu extends utils.Adapter {
                                     (0, telegram_js_1.sendToTelegram)({
                                         textToSend: text,
                                         userListWithChatID,
-                                        parseMode: element.parseMode,
+                                        parse_mode: element.parse_mode,
                                         ...telegramParams,
                                     }).catch((e) => {
                                         (0, logging_js_1.errorLogger)('Error SendToTelegram', e, exports.adapter);
@@ -285,10 +285,10 @@ class TelegramMenu extends utils.Adapter {
                                         userToSend: element.userToSend,
                                         textToSend: textToSend,
                                         instanceTelegram: instanceTelegram,
-                                        resizeKeyboard: resizeKeyboard,
-                                        oneTimeKeyboard: oneTimeKeyboard,
+                                        resize_keyboard: resize_keyboard,
+                                        one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,
-                                        parseMode: element.parseMode,
+                                        parse_mode: element.parse_mode,
                                     }).catch((e) => {
                                         (0, logging_js_1.errorLogger)('Error sendToTelegram', e, exports.adapter);
                                     });

@@ -43,14 +43,24 @@ const integrateTimeIntoText = (text, val) => {
   return text.replace(import_config.config.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
 function extractTimeValues(unixTimestamp) {
+  var _a;
+  if (isNaN(unixTimestamp)) {
+    return { milliseconds: NaN, seconds: NaN, minutes: NaN, hours: NaN, day: NaN, month: NaN, year: NaN };
+  }
   const date = new Date(unixTimestamp);
   const milliseconds = date.getMilliseconds();
   const seconds = date.getSeconds();
   const minutes = date.getMinutes();
-  const hours = date.getHours();
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+  const hours = Number(
+    (_a = new Intl.DateTimeFormat(import_config.defaultLocale, {
+      hour: "2-digit",
+      hour12: false,
+      timeZone: import_config.timezone
+    }).formatToParts(new Date(unixTimestamp)).find((part) => part.type === "hour")) == null ? void 0 : _a.value
+  );
+  const day = Number(date.toLocaleString(import_config.defaultLocale, { day: "2-digit" }));
+  const month = Number(date.toLocaleString(import_config.defaultLocale, { month: "2-digit" }));
+  const year = Number(date.toLocaleString(import_config.defaultLocale, { year: "numeric" }));
   return { milliseconds, seconds, minutes, hours, day, month, year };
 }
 function getTimeWithPad({

@@ -39,7 +39,7 @@ var import_string = require("../lib/string");
 var import_config = require("../config/config");
 var import_appUtils = require("../lib/appUtils");
 var import_utils = require("../lib/utils");
-const bindingFunc = async (text, userToSend, telegramInstance, oneTimeKeyboard, resizeKeyboard, userListWithChatID, parseMode) => {
+const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
   let value;
   try {
@@ -67,10 +67,10 @@ const bindingFunc = async (text, userToSend, telegramInstance, oneTimeKeyboard, 
       userToSend,
       textToSend: value,
       instanceTelegram: telegramInstance,
-      resizeKeyboard,
-      oneTimeKeyboard,
+      resize_keyboard,
+      one_time_keyboard,
       userListWithChatID,
-      parseMode
+      parse_mode
     });
   } catch (e) {
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
@@ -102,7 +102,7 @@ function editArrayButtons(val) {
           array[index] = [element2.trim()];
         });
       }
-      newVal.push({ call: element.call, text: element.text, parseMode: element.parseMode, nav: array });
+      newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });
     });
     return newVal;
   } catch (err) {
@@ -116,8 +116,8 @@ const idBySelector = async ({
   userToSend: userToSend2,
   newline,
   telegramInstance: telegramInstance2,
-  oneTimeKeyboard: oneTimeKeyboard2,
-  resizeKeyboard: resizeKeyboard2,
+  one_time_keyboard: one_time_keyboard2,
+  resize_keyboard: resize_keyboard2,
   userListWithChatID: userListWithChatID2
 }) => {
   let text2Send = "";
@@ -168,8 +168,8 @@ const idBySelector = async ({
         userToSend: userToSend2,
         textToSend: text2Send,
         instanceTelegram: telegramInstance2,
-        resizeKeyboard: resizeKeyboard2,
-        oneTimeKeyboard: oneTimeKeyboard2,
+        resize_keyboard: resize_keyboard2,
+        one_time_keyboard: one_time_keyboard2,
         userListWithChatID: userListWithChatID2
       }).catch((e) => {
         (0, import_logging.errorLogger)("Error SendToTelegram:", e, import_main.adapter);
@@ -189,11 +189,11 @@ function generateNewObjectStructure(val) {
       return null;
     }
     const obj = {};
-    val.forEach(function({ nav, text: text2, parseMode: parseMode2, call }) {
+    val.forEach(function({ nav, text: text2, parse_mode: parse_mode2, call }) {
       obj[call] = {
         nav,
         text: text2,
-        parseMode: (0, import_utils.isTruthy)(parseMode2)
+        parse_mode: (0, import_utils.isTruthy)(parse_mode2)
       };
     });
     return obj;
@@ -221,7 +221,7 @@ function generateActions(action, userObject) {
         objName: "loc",
         name: "location",
         loop: "latitude",
-        elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parseMode", key: 0 }]
+        elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", key: 0 }]
       },
       {
         objName: "pic",
@@ -241,7 +241,7 @@ function generateActions(action, userObject) {
           { name: "id", value: "IDs" },
           { name: "text", type: "text" },
           { name: "newline", value: "newline_checkbox" },
-          { name: "parseMode", key: 0 }
+          { name: "parse_mode", key: 0 }
         ]
       },
       {
@@ -252,32 +252,32 @@ function generateActions(action, userObject) {
       }
     ];
     const listOfSetStateIds = [];
-    action.set.forEach(function(element, key) {
+    action.set.forEach(function({ trigger, switch_checkbox, returnText, parse_mode: parse_mode2, values, confirm, ack, IDs }, key) {
       if (key == 0) {
-        userObject[element.trigger[0]] = { switch: [] };
+        userObject[trigger[0]] = { switch: [] };
       }
-      userObject[element.trigger[0]] = { switch: [] };
-      element.IDs.forEach(function(id, index) {
+      userObject[trigger[0]] = { switch: [] };
+      IDs.forEach(function(id, index) {
         var _a;
         listOfSetStateIds.push(id);
-        const toggle = element.switch_checkbox[index] === "true";
+        const toggle = switch_checkbox[index] === "true";
         let value2;
-        if (element.values[index] === "true" || element.values[index] === "false") {
-          value2 = element.values[index] === "true";
+        if (values[index] === "true" || values[index] === "false") {
+          value2 = values[index] === "true";
         } else {
-          value2 = element.values[index];
+          value2 = values[index];
         }
         const newObj = {
-          id: element.IDs[index],
+          id: IDs[index],
           value: value2.toString(),
           toggle,
-          confirm: element.confirm[index],
-          returnText: element.returnText[index],
-          ack: element.ack ? element.ack[index] : "false",
-          parseMode: (0, import_utils.isTruthy)(element.parseMode[0])
+          confirm: confirm[index],
+          returnText: returnText[index],
+          ack: ack ? ack[index] : "false",
+          parse_mode: (0, import_utils.isTruthy)(parse_mode2[0])
         };
-        if (userObject[element.trigger[0]] && ((_a = userObject[element.trigger[0]]) == null ? void 0 : _a.switch)) {
-          userObject[element.trigger[0]].switch.push(newObj);
+        if (userObject[trigger[0]] && ((_a = userObject[trigger[0]]) == null ? void 0 : _a.switch)) {
+          userObject[trigger[0]].switch.push(newObj);
         }
       });
     });
@@ -345,7 +345,7 @@ const adjustValueType = (value2, valueType) => {
   }
   return value2;
 };
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, instanceTelegram, resizeKeyboard2, oneTimeKeyboard2, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, instanceTelegram, resize_keyboard2, one_time_keyboard2, usersInGroup) => {
   const menuArray = [];
   let ok = false;
   let calledNav = "";
@@ -390,8 +390,8 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
                 menuData,
                 user,
                 instanceTelegram,
-                resizeKeyboard2,
-                oneTimeKeyboard2,
+                resize_keyboard2,
+                one_time_keyboard2,
                 userListWithChatID2,
                 part,
                 menuData.data,
@@ -405,8 +405,8 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
                 user,
                 instanceTelegram,
                 userListWithChatID2,
-                resizeKeyboard2,
-                oneTimeKeyboard2
+                resize_keyboard2,
+                one_time_keyboard2
               );
             }
           }

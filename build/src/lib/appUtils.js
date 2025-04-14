@@ -4,6 +4,7 @@ exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode =
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
 exports.statusIdAndParams = statusIdAndParams;
+exports.isStartside = isStartside;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 const math_1 = require("./math");
@@ -74,5 +75,8 @@ function statusIdAndParams(substringExcludeSearch) {
         id: (0, string_1.removeQuotes)(splitArray[0]), //'ID':true
         shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(splitArray[1])),
     };
+}
+function isStartside(startSide) {
+    return startSide != '-' && startSide != '';
 }
 //# sourceMappingURL=appUtils.js.map

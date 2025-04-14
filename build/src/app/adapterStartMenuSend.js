@@ -5,23 +5,24 @@ const telegram_1 = require("./telegram");
 const backMenu_1 = require("./backMenu");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard) {
+const appUtils_1 = require("../lib/appUtils");
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
     for (const menu of listOfMenus) {
         const startSide = [startSides[menu]].toString();
-        if (userActiveCheckbox[menu] && startSide != '-' && startSide != '') {
-            main_1.adapter.log.debug(`Startseite: ${startSide}`);
-            for (const user of menusWithUsers[menu]) {
-                (0, backMenu_1.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, user);
+        if (userActiveCheckbox[menu] && (0, appUtils_1.isStartside)(startSide)) {
+            main_1.adapter.log.debug(`Startside: ${startSide}`);
+            for (const userToSend of menusWithUsers[menu]) {
+                (0, backMenu_1.backMenuFunc)(startSide, menuData.data[menu][startSide].nav, userToSend);
                 main_1.adapter.log.debug(`User list: ${(0, string_1.jsonString)(userListWithChatID)}`);
                 await (0, telegram_1.sendToTelegram)({
-                    userToSend: user,
+                    userToSend,
                     textToSend: menuData.data[menu][startSide].text,
                     keyboard: menuData.data[menu][startSide].nav,
                     instanceTelegram,
-                    resizeKeyboard,
-                    oneTimeKeyboard,
+                    resize_keyboard,
+                    one_time_keyboard,
                     userListWithChatID,
-                    parseMode: menuData.data[menu][startSide].parseMode,
+                    parse_mode: menuData.data[menu][startSide].parse_mode,
                 });
             }
         }

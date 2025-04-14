@@ -38,7 +38,7 @@ var import_fs = __toESM(require("fs"));
 var import_logging = require("./logging");
 var import_utils = require("../lib/utils");
 var import_main = require("../main");
-async function httpRequest(parts, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, directoryPicture) {
+async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture) {
   if (!parts.httpRequest) {
     return;
   }
@@ -75,8 +75,8 @@ async function httpRequest(parts, userToSend, instanceTelegram, resizeKeyboard, 
         userToSend,
         textToSend: imagePath,
         instanceTelegram,
-        resizeKeyboard,
-        oneTimeKeyboard,
+        resize_keyboard,
+        one_time_keyboard,
         userListWithChatID
       });
     } catch (e) {

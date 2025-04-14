@@ -11,7 +11,7 @@ const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
 const objData = {};
 let isSubscribed = false;
-async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard) {
+async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
     try {
         let array, user, idList, instance, idItem, res;
         if (val != null) {
@@ -35,10 +35,10 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
                 userToSend: user,
                 textToSend: 'Cannot delete the Item',
                 instanceTelegram: instanceTelegram,
-                resizeKeyboard: resizeKeyboard,
-                oneTimeKeyboard: oneTimeKeyboard,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parseMode: true,
+                parse_mode: true,
             });
             main_js_1.adapter.log.debug('Cannot delete the Item');
             return;

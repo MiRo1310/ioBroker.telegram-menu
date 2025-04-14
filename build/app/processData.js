@@ -46,8 +46,8 @@ async function checkEveryMenuForData(obj) {
     calledValue,
     userToSend,
     instanceTelegram,
-    resizeKeyboard,
-    oneTimeKeyboard,
+    resize_keyboard,
+    one_time_keyboard,
     userListWithChatID,
     menus,
     isUserActiveCheckbox,
@@ -65,8 +65,8 @@ async function checkEveryMenuForData(obj) {
       userToSend,
       groupWithUser: menu,
       instanceTelegram,
-      resizeKeyboard,
-      oneTimeKeyboard,
+      resize_keyboard,
+      one_time_keyboard,
       userListWithChatID,
       allMenusWithData: menuData.data,
       menus,
@@ -89,8 +89,8 @@ async function processData(obj) {
     userToSend,
     groupWithUser,
     instanceTelegram,
-    resizeKeyboard,
-    oneTimeKeyboard,
+    resize_keyboard,
+    one_time_keyboard,
     userListWithChatID,
     allMenusWithData,
     menus,
@@ -118,8 +118,8 @@ async function processData(obj) {
           userToSend,
           textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
           instanceTelegram,
-          resizeKeyboard,
-          oneTimeKeyboard,
+          resize_keyboard,
+          one_time_keyboard,
           userListWithChatID
         });
       }
@@ -131,13 +131,20 @@ async function processData(obj) {
           textToSend: result.texttosend || "",
           keyboard: result.menuToSend,
           instanceTelegram,
-          resizeKeyboard,
-          oneTimeKeyboard,
+          resize_keyboard,
+          one_time_keyboard,
           userListWithChatID,
-          parseMode: result.parseMode
+          parse_mode: result.parse_mode
         });
       } else {
-        await (0, import_sendNav.sendNav)(part, userToSend, instanceTelegram, userListWithChatID, resizeKeyboard, oneTimeKeyboard);
+        await (0, import_sendNav.sendNav)(
+          part,
+          userToSend,
+          instanceTelegram,
+          userListWithChatID,
+          resize_keyboard,
+          one_time_keyboard
+        );
       }
       return true;
     }
@@ -158,8 +165,8 @@ async function processData(obj) {
             groupData,
             userToSend,
             instanceTelegram,
-            resizeKeyboard,
-            oneTimeKeyboard,
+            resize_keyboard,
+            one_time_keyboard,
             userListWithChatID,
             part,
             allMenusWithData,
@@ -176,8 +183,8 @@ async function processData(obj) {
               calledValue: result.newNav,
               userToSend,
               instanceTelegram,
-              resizeKeyboard,
-              oneTimeKeyboard,
+              resize_keyboard,
+              one_time_keyboard,
               userListWithChatID,
               menus,
               isUserActiveCheckbox,
@@ -192,8 +199,8 @@ async function processData(obj) {
             userToSend,
             instanceTelegram,
             userListWithChatID,
-            resizeKeyboard,
-            oneTimeKeyboard
+            resize_keyboard,
+            one_time_keyboard
           );
         }
         return true;
@@ -205,8 +212,8 @@ async function processData(obj) {
           0,
           false,
           instanceTelegram,
-          resizeKeyboard,
-          oneTimeKeyboard,
+          resize_keyboard,
+          one_time_keyboard,
           userListWithChatID
         );
         if (result) {
@@ -218,7 +225,7 @@ async function processData(obj) {
         return true;
       }
       if (part.getData) {
-        (0, import_getstate.getState)(part, userToSend, instanceTelegram, oneTimeKeyboard, resizeKeyboard, userListWithChatID);
+        (0, import_getstate.getState)(part, userToSend, instanceTelegram, one_time_keyboard, resize_keyboard, userListWithChatID);
         return true;
       }
       if (part.sendPic) {
@@ -226,8 +233,8 @@ async function processData(obj) {
           part,
           userToSend,
           instanceTelegram,
-          resizeKeyboard,
-          oneTimeKeyboard,
+          resize_keyboard,
+          one_time_keyboard,
           userListWithChatID,
           token,
           directoryPicture,
@@ -254,8 +261,8 @@ async function processData(obj) {
           userToSend,
           instanceTelegram,
           userListWithChatID,
-          resizeKeyboard,
-          oneTimeKeyboard
+          resize_keyboard,
+          one_time_keyboard
         );
         return true;
       }
@@ -265,8 +272,8 @@ async function processData(obj) {
           part,
           userToSend,
           instanceTelegram,
-          resizeKeyboard,
-          oneTimeKeyboard,
+          resize_keyboard,
+          one_time_keyboard,
           userListWithChatID,
           directoryPicture
         );
@@ -282,8 +289,8 @@ async function processData(obj) {
         menuData,
         userToSend,
         instanceTelegram,
-        resizeKeyboard,
-        oneTimeKeyboard,
+        resize_keyboard,
+        one_time_keyboard,
         userListWithChatID,
         part,
         allMenusWithData,

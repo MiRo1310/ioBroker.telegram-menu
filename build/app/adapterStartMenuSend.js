@@ -26,7 +26,7 @@ var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resizeKeyboard, oneTimeKeyboard) {
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
   for (const menu of listOfMenus) {
     const startSide = [startSides[menu]].toString();
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
@@ -39,10 +39,10 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
           textToSend: menuData.data[menu][startSide].text,
           keyboard: menuData.data[menu][startSide].nav,
           instanceTelegram,
-          resizeKeyboard,
-          oneTimeKeyboard,
+          resize_keyboard,
+          one_time_keyboard,
           userListWithChatID,
-          parseMode: menuData.data[menu][startSide].parseMode
+          parse_mode: menuData.data[menu][startSide].parse_mode
         });
       }
     } else {

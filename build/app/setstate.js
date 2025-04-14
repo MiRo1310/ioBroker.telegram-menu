@@ -59,7 +59,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resizeKeyboard, oneTimeKeyboard, userListWithChatID) => {
+const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
   try {
     const setStateIds = [];
     if (!part.switch) {
@@ -76,10 +76,10 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           element.id,
           userToSend,
           telegramInstance,
-          oneTimeKeyboard,
-          resizeKeyboard,
+          one_time_keyboard,
+          resize_keyboard,
           userListWithChatID,
-          element.parseMode,
+          element.parse_mode,
           element.confirm
         );
         if (element.confirm) {
@@ -98,7 +98,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           confirm: element.confirm,
           returnText,
           userToSend,
-          parseMode: element.parseMode
+          parse_mode: element.parse_mode
         });
       } else {
         returnText = returnText.replace(/'/g, '"');
@@ -110,10 +110,10 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
             userToSend,
             textToSend,
             instanceTelegram: telegramInstance,
-            resizeKeyboard,
-            oneTimeKeyboard,
+            resize_keyboard,
+            one_time_keyboard,
             userListWithChatID,
-            parseMode: element.parseMode
+            parse_mode: element.parse_mode
           });
         }
         setStateIds.push({

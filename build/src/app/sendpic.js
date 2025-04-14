@@ -7,7 +7,7 @@ const child_process_1 = require("child_process");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
-function sendPic(part, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
+function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
     try {
         part.sendPic?.forEach(element => {
             const { id, delay, fileName } = element;
@@ -42,8 +42,8 @@ function sendPic(part, userToSend, instanceTelegram, resizeKeyboard, oneTimeKeyb
                     userToSend,
                     textToSend: path,
                     instanceTelegram,
-                    resizeKeyboard,
-                    oneTimeKeyboard,
+                    resize_keyboard,
+                    one_time_keyboard,
                     userListWithChatID,
                 });
                 let timeoutToClear = [];

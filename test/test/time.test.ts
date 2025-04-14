@@ -67,13 +67,13 @@ describe('extractTimeValues', () => {
         const timestamp = -3600000;
         const result = extractTimeValues(timestamp);
         expect(result).to.deep.equal({
-            milliseconds: 0,
-            seconds: 0,
-            minutes: 0,
-            hours: 0,
-            day: 1,
-            month: 1,
-            year: 1970,
+            milliseconds: NaN,
+            seconds: NaN,
+            minutes: NaN,
+            hours: NaN,
+            day: NaN,
+            month: NaN,
+            year: NaN,
         });
     });
 
