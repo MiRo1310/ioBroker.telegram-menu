@@ -353,30 +353,30 @@ async function <span class="fstat-no" title="function not covered" >sendToTelegr
     textToSend,
     keyboard,
     instance = <span class="branch-0 cbranch-no" title="branch not covered" >'telegram.0',</span>
-    resizeKeyboard = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
-    oneTimeKeyboard = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
+    resize_keyboard = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
+    one_time_keyboard = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
     userListWithChatID,
-    parseMode,
+    parse_mode,
 }: {
     user: string;
     textToSend?: string;
     keyboard?: Keyboard;
     instance: string;
-    resizeKeyboard: boolean;
-    oneTimeKeyboard: boolean;
+    resize_keyboard: boolean;
+    one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatId[];
-    parseMode: BooleanString;
+    parse_mode: BooleanString;
 }): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const chatId = <span class="cstat-no" title="statement not covered" >getChatID(userListWithChatID, user);</span>
-        const parseModeType: ParseModeType = <span class="cstat-no" title="statement not covered" >getParseMode(parseMode);</span>
+        const parse_modeType: ParseModeType = <span class="cstat-no" title="statement not covered" >getParseMode(parse_mode);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        adapter.log.debug(`Send to: ${user} =&gt; ${textToSend}`);</span>
 <span class="cstat-no" title="statement not covered" >        adapter.log.debug(`Instance: ${instance}`);</span>
 <span class="cstat-no" title="statement not covered" >        adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);</span>
-<span class="cstat-no" title="statement not covered" >        adapter.log.debug(`Parse_mode	: ${parseMode}`);</span>
+<span class="cstat-no" title="statement not covered" >        adapter.log.debug(`Parse_mode	: ${parse_mode}`);</span>
 <span class="cstat-no" title="statement not covered" >        adapter.log.debug(`ChatId	: ${chatId}`);</span>
-<span class="cstat-no" title="statement not covered" >        adapter.log.debug(`ParseModeType: ${parseModeType}`);</span>
+<span class="cstat-no" title="statement not covered" >        adapter.log.debug(`ParseModeType: ${parse_modeType}`);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        textToSend = validateNewLine(textToSend);</span>
 <span class="cstat-no" title="statement not covered" >        if (!keyboard) {</span>
@@ -387,7 +387,7 @@ async function <span class="fstat-no" title="function not covered" >sendToTelegr
                 {
                     text: textToSend,
                     chatId: chatId,
-                    parseMode: parseModeType,
+                    parse_mode: parse_modeType,
                 },
 <span class="fstat-no" title="function not covered" >                function (r</span>es: any) {
 <span class="cstat-no" title="statement not covered" >                    adapter.log.debug(`Sent Value to ${jsonString(res)} users!`);</span>
@@ -400,12 +400,12 @@ async function <span class="fstat-no" title="function not covered" >sendToTelegr
                 'send',
                 {
                     chatId: chatId,
-                    parseMode: parseModeType,
+                    parse_mode: parse_modeType,
                     text: text,
                     reply_markup: {
                         keyboard: keyboard,
-                        resizeKeyboard: resizeKeyboard,
-                        oneTimeKeyboard: oneTimeKeyboard,
+                        resize_keyboard: resize_keyboard,
+                        one_time_keyboard: one_time_keyboard,
                     },
                 },
 <span class="fstat-no" title="function not covered" >                function (r</span>es: any) {
@@ -424,16 +424,16 @@ function <span class="fstat-no" title="function not covered" >sendToTelegramSubm
     keyboard: Keyboard,
     instance = <span class="branch-0 cbranch-no" title="branch not covered" >'telegram.0',</span>
     userListWithChatID: UserListWithChatId[],
-    parseMode: BooleanString,
+    parse_mode: BooleanString,
 ): void {
-    const parseModeType = <span class="cstat-no" title="statement not covered" >getParseMode(parseMode);</span>
-<span class="cstat-no" title="statement not covered" >    adapter.log.debug(`Send this ParseMode: ${parseModeType}`);</span>
+    const parse_modeType = <span class="cstat-no" title="statement not covered" >getParseMode(parse_mode);</span>
+<span class="cstat-no" title="statement not covered" >    adapter.log.debug(`Send this ParseMode: ${parse_modeType}`);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const chatId = <span class="cstat-no" title="statement not covered" >getChatID(userListWithChatID, user);</span>
 <span class="cstat-no" title="statement not covered" >        textToSend = validateNewLine(textToSend);</span>
 <span class="cstat-no" title="statement not covered" >        adapter.sendTo(instance, 'send', {</span>
             chatId: chatId,
-            parseMode: parseModeType,
+            parse_mode: parse_modeType,
             text: textToSend,
             reply_markup: keyboard,
         });

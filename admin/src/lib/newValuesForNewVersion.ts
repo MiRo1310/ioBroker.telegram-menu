@@ -69,20 +69,3 @@ export const insertNewItemsInData = (data: NativeData, updateNative: UpdateNativ
     }
     insertAckCheckbox(insertParseModeCheckbox(copyData), updateNative);
 };
-
-export function decomposeText(
-    text: string,
-    searchValue: string,
-    secondValue: string,
-): { startindex: number; endindex: number; substring: string; textWithoutSubstring: string } {
-    const startindex = text.indexOf(searchValue);
-    const endindex = text.indexOf(secondValue, startindex);
-    const substring = text.substring(startindex, endindex + secondValue.length);
-    const textWithoutSubstring = text.replace(substring, '').trim();
-    return {
-        startindex: startindex,
-        endindex: endindex,
-        substring: substring,
-        textWithoutSubstring: textWithoutSubstring,
-    };
-}

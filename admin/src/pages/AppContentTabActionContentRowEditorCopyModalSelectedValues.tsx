@@ -48,7 +48,7 @@ class AppContentTabActionContentRowEditorCopyModalSelectedValues extends Compone
         ack: I18n.t('ack'),
         confirm: I18n.t('confirm'),
         switch_checkbox: I18n.t('switchCheckbox'),
-        parse_mode: I18n.t('parseMode'),
+        parse_mode: I18n.t('parse_mode'),
         newline_checkbox: I18n.t('newlineCheckbox'),
         text: I18n.t('text'),
         IDs: I18n.t('ids'),

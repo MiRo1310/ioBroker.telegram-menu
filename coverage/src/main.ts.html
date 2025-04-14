@@ -1101,8 +1101,8 @@ export default class TelegramMenu extends utils.Adapter {
         const infoConnectionOfTelegram = <span class="cstat-no" title="statement not covered" >`${instanceTelegram}.info.connection`;</span>
 &nbsp;
         const checkboxes = <span class="cstat-no" title="statement not covered" >this.config.checkbox;</span>
-        const oneTimeKeyboard = <span class="cstat-no" title="statement not covered" >checkboxes.oneTiKey;</span>
-        const resizeKeyboard = <span class="cstat-no" title="statement not covered" >checkboxes.resKey;</span>
+        const one_time_keyboard = <span class="cstat-no" title="statement not covered" >checkboxes.oneTiKey;</span>
+        const resize_keyboard = <span class="cstat-no" title="statement not covered" >checkboxes.resKey;</span>
         const checkboxNoEntryFound = <span class="cstat-no" title="statement not covered" >checkboxes.checkboxNoValueFound;</span>
         const sendMenuAfterRestart = <span class="cstat-no" title="statement not covered" >checkboxes.sendMenuAfterRestart;</span>
         let listOfMenus: ListOfMenus = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -1189,8 +1189,8 @@ export default class TelegramMenu extends utils.Adapter {
                         menuData,
                         userListWithChatID,
                         instanceTelegram,
-                        resizeKeyboard,
-                        oneTimeKeyboard,
+                        resize_keyboard,
+                        one_time_keyboard,
                     );
                 }
 &nbsp;
@@ -1214,8 +1214,8 @@ export default class TelegramMenu extends utils.Adapter {
                             state.val,
                             instanceTelegram,
                             userListWithChatID,
-                            resizeKeyboard,
-                            oneTimeKeyboard,
+                            resize_keyboard,
+                            one_time_keyboard,
                         );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                        return;</span>
@@ -1235,8 +1235,8 @@ export default class TelegramMenu extends utils.Adapter {
                             menuData,
                             userListWithChatID,
                             instanceTelegram,
-                            resizeKeyboard,
-                            oneTimeKeyboard,
+                            resize_keyboard,
+                            one_time_keyboard,
                             menusWithUsers,
                         ))
                     ) {
@@ -1260,8 +1260,8 @@ export default class TelegramMenu extends utils.Adapter {
                             calledValue,
                             userToSend,
                             instanceTelegram,
-                            resizeKeyboard,
-                            oneTimeKeyboard,
+                            resize_keyboard,
+                            one_time_keyboard,
                             userListWithChatID,
                             menus,
                             isUserActiveCheckbox,
@@ -1279,10 +1279,10 @@ export default class TelegramMenu extends utils.Adapter {
                                 user: userToSend,
                                 textToSend: textNoEntryFound,
                                 instance: instanceTelegram,
-                                resizeKeyboard: resizeKeyboard,
-                                oneTimeKeyboard: oneTimeKeyboard,
+                                resize_keyboard: resize_keyboard,
+                                one_time_keyboard: one_time_keyboard,
                                 userListWithChatID: userListWithChatID,
-                                parseMode: 'false',
+                                parse_mode: 'false',
                             });
                         }
 <span class="cstat-no" title="statement not covered" >                        return;</span>
@@ -1328,10 +1328,10 @@ export default class TelegramMenu extends utils.Adapter {
                                         user: element.userToSend,
                                         textToSend: text,
                                         instance: instanceTelegram,
-                                        resizeKeyboard: resizeKeyboard,
-                                        oneTimeKeyboard: oneTimeKeyboard,
+                                        resize_keyboard: resize_keyboard,
+                                        one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,
-                                        parseMode: element.parseMode as BooleanString,
+                                        parse_mode: element.parse_mode as BooleanString,
                                     }).catch(<span class="fstat-no" title="function not covered" >(e</span>: { message: any; stack: any }) =&gt; {
 <span class="cstat-no" title="statement not covered" >                                        errorLogger('Error SendToTelegram', e, adapter);</span>
                                     });
@@ -1379,10 +1379,10 @@ export default class TelegramMenu extends utils.Adapter {
                                         textToSend: textToSend,
                                         keyboard: undefined,
                                         instance: instanceTelegram,
-                                        resizeKeyboard: resizeKeyboard,
-                                        oneTimeKeyboard: oneTimeKeyboard,
+                                        resize_keyboard: resize_keyboard,
+                                        one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,
-                                        parseMode: element.parseMode as BooleanString,
+                                        parse_mode: element.parse_mode as BooleanString,
                                     }).catch(<span class="fstat-no" title="function not covered" >(e</span>: { message: any; stack: any }) =&gt; {
 <span class="cstat-no" title="statement not covered" >                                        errorLogger('Error sendToTelegram', e, adapter);</span>
                                     });

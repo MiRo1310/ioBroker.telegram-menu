@@ -198,8 +198,8 @@ async function <span class="fstat-no" title="function not covered" >adapterStart
     menuData: MenuData,
     userListWithChatID: UserListWithChatId[],
     instanceTelegram: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    for (const menu of listOfMenus) {</span>
         const startSide = <span class="cstat-no" title="statement not covered" >[startSides[menu]].toString();</span>
@@ -215,10 +215,10 @@ async function <span class="fstat-no" title="function not covered" >adapterStart
                     textToSend: menuData.data[menu][startSide].text as string,
                     keyboard: menuData.data[menu][startSide].nav,
                     instance: instanceTelegram,
-                    resizeKeyboard: resizeKeyboard,
-                    oneTimeKeyboard: oneTimeKeyboard,
+                    resize_keyboard: resize_keyboard,
+                    one_time_keyboard: one_time_keyboard,
                     userListWithChatID: userListWithChatID,
-                    parseMode: menuData.data[menu][startSide].parseMode as BooleanString,
+                    parse_mode: menuData.data[menu][startSide].parse_mode as BooleanString,
                 });
             }
         } else {

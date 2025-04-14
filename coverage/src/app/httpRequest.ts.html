@@ -224,8 +224,8 @@ async function <span class="fstat-no" title="function not covered" >httpRequest(
     parts: Part,
     userToSend: string,
     instanceTelegram: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     directoryPicture: string,
 ): Promise&lt;boolean | undefined&gt; {
@@ -272,10 +272,10 @@ async function <span class="fstat-no" title="function not covered" >httpRequest(
                 user: userToSend,
                 textToSend: imagePath,
                 instance: instanceTelegram,
-                resizeKeyboard: resizeKeyboard,
-                oneTimeKeyboard: oneTimeKeyboard,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parseMode: 'false',
+                parse_mode: 'false',
             });
         } catch (e: any) {
 <span class="cstat-no" title="statement not covered" >            errorLogger('Error http request:', e, adapter);</span>

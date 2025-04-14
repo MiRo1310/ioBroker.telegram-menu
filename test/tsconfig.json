@@ -1,7 +1,11 @@
 {
-	"extends": "../tsconfig.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"noImplicitAny": false
+		"noImplicitAny": false,
+		"noEmit": false,
+		"outDir": "./build/"
 	},
-	"include": ["./**/*.js"]
+	"include": [
+		"./test/lib/utils.test.ts"
+    ]
 }

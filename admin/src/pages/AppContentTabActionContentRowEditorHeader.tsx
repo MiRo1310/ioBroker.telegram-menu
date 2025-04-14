@@ -60,7 +60,7 @@ class AppContentTabActionContentRowEditorInputAboveTable extends Component<AppCo
                     </div>
                 ) : null}
                 {newRow.parse_mode ? (
-                    <div className="editor__header_parseMode">
+                    <div className="editor__header_parse_mode">
                         <Checkbox
                             id="parse_mode"
                             index={0}

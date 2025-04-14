@@ -42,7 +42,7 @@ export const tabValues: TabValues[] = [
                 name: 'parse_mode',
                 val: 'false',
                 headline: 'Par',
-                title: 'parseMode',
+                title: 'parse_mode',
                 checkbox: true,
                 width: '3%',
                 required: true,
