@@ -278,33 +278,36 @@ function generateActions(
         ];
 
         const listOfSetStateIds: string[] = [];
-        action.set.forEach(function (element, key) {
+        action.set.forEach(function (
+            { trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs },
+            key,
+        ) {
             if (key == 0) {
-                userObject[element.trigger[0]] = { switch: [] };
+                userObject[trigger[0]] = { switch: [] };
             }
-            userObject[element.trigger[0]] = { switch: [] };
+            userObject[trigger[0]] = { switch: [] };
 
-            element.IDs.forEach(function (id: string, index: number) {
+            IDs.forEach(function (id: string, index: number) {
                 listOfSetStateIds.push(id);
-                const toggle = element.switch_checkbox[index] === 'true';
+                const toggle = switch_checkbox[index] === 'true';
                 let value;
 
-                if (element.values[index] === 'true' || element.values[index] === 'false') {
-                    value = element.values[index] === 'true';
+                if (values[index] === 'true' || values[index] === 'false') {
+                    value = values[index] === 'true';
                 } else {
-                    value = element.values[index];
+                    value = values[index];
                 }
                 const newObj: Switch = {
-                    id: element.IDs[index],
+                    id: IDs[index],
                     value: value.toString(),
                     toggle: toggle,
-                    confirm: element.confirm[index],
-                    returnText: element.returnText[index],
-                    ack: element.ack ? element.ack[index] : 'false',
-                    parse_mode: isTruthy(element.parse_mode[0]),
+                    confirm: confirm[index],
+                    returnText: returnText[index],
+                    ack: ack ? ack[index] : 'false',
+                    parse_mode: isTruthy(parse_mode[0]),
                 };
-                if (userObject[element.trigger[0]] && userObject[element.trigger[0]]?.switch) {
-                    userObject[element.trigger[0]].switch!.push(newObj);
+                if (userObject[trigger[0]] && userObject[trigger[0]]?.switch) {
+                    userObject[trigger[0]].switch!.push(newObj);
                 }
             });
         });
