@@ -4,25 +4,33 @@ import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
-import { jsonString, decomposeText } from '../lib/string';
+import { jsonString, decomposeText, parseJSON } from '../lib/string';
+import { isTruthy } from '../lib/utils';
+import { config } from '../config/config';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
-    if (value && value.includes('{value}')) {
-        return value.replace('{value}', valueFromSubmenu);
-    }
-    return valueFromSubmenu;
+    return value.includes(config.modifiedValue)
+        ? value.replace(config.modifiedValue, valueFromSubmenu)
+        : valueFromSubmenu;
 };
+
 const isDynamicValueToSet = async (value: string | number | boolean): Promise<string | number | boolean> => {
-    if (typeof value === 'string' && value.includes('{id:')) {
-        const result = decomposeText(value, '{id:', '}');
-        const id = result.substring.replace('{id:', '').replace('}', '');
+    if (typeof value === 'string' && value.includes(config.dynamicValue.start)) {
+        const { substring, substringExcludeSearch: id } = decomposeText(
+            value,
+            config.dynamicValue.start,
+            config.dynamicValue.end,
+        );
+
         const newValue = await adapter.getForeignStateAsync(id);
-        if (newValue && newValue.val && typeof newValue.val === 'string') {
-            return value.replace(result.substring, newValue.val);
+
+        if (typeof newValue?.val === 'string') {
+            return value.replace(substring, newValue.val);
         }
     }
     return value;
 };
+
 const setValue = async (
     id: string,
     value: string,
@@ -35,6 +43,7 @@ const setValue = async (
         SubmenuValuePriority
             ? (valueToSet = modifiedValue(valueFromSubmenu as string, value))
             : (valueToSet = await isDynamicValueToSet(value));
+
         await checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
             valueToSet = val;
             adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
@@ -63,30 +72,26 @@ export const setState = async (
         if (!part.switch) {
             return;
         }
-        for (const element of part.switch) {
-            let ack = false;
-            let returnText = element.returnText;
-
-            ack = element?.ack ? element.ack === 'true' : false;
-
-            if (returnText.includes('{setDynamicValue')) {
+        for (const { returnText: text, id: ID, parse_mode, confirm, ack, toggle, value } of part.switch) {
+            let returnText = text;
+            if (returnText.includes(config.setDynamicValue)) {
                 const { confirmText, id } = await setDynamicValue(
                     returnText,
-                    ack,
-                    element.id,
+                    isTruthy(ack),
+                    ID,
                     userToSend,
                     telegramInstance,
                     one_time_keyboard,
                     resize_keyboard,
                     userListWithChatID,
-                    element.parse_mode,
-                    element.confirm,
+                    parse_mode,
+                    confirm,
                 );
 
-                if (element.confirm) {
+                if (confirm) {
                     setStateIds.push({
-                        id: id || element.id,
-                        confirm: element.confirm,
+                        id: id ?? ID,
+                        confirm,
                         returnText: confirmText,
                         userToSend: userToSend,
                     });
@@ -96,43 +101,48 @@ export const setState = async (
 
             if (!returnText.includes("{'id':'")) {
                 setStateIds.push({
-                    id: element.id,
-                    confirm: element.confirm,
-                    returnText: returnText,
-                    userToSend: userToSend,
-                    parse_mode: element.parse_mode,
+                    id: ID,
+                    confirm,
+                    returnText,
+                    userToSend,
+                    parse_mode,
                 });
             } else {
                 returnText = returnText.replace(/'/g, '"');
                 const textToSend = returnText.slice(0, returnText.indexOf('{')).trim();
-                const returnObj = JSON.parse(returnText.slice(returnText.indexOf('{'), returnText.indexOf('}') + 1));
+                const { json, isValidJson } = parseJSON<{ text: string; id: string }>(
+                    returnText.slice(returnText.indexOf('{'), returnText.indexOf('}') + 1),
+                );
+                if (!isValidJson) {
+                    return;
+                }
 
-                returnObj.text = returnObj.text + returnText.slice(returnText.indexOf('}') + 1);
+                json.text = json.text + returnText.slice(returnText.indexOf('}') + 1);
                 if (textToSend && textToSend !== '') {
                     await sendToTelegram({
                         userToSend,
                         textToSend,
-                        telegramInstance: telegramInstance,
+                        telegramInstance,
                         resize_keyboard,
                         one_time_keyboard,
                         userListWithChatID,
-                        parse_mode: element.parse_mode,
+                        parse_mode,
                     });
                 }
 
                 setStateIds.push({
-                    id: returnObj.id,
+                    id: json.id,
                     confirm: true,
-                    returnText: returnObj.text,
+                    returnText: json.text,
                     userToSend: userToSend,
                 });
             }
-            if (element.toggle) {
+            if (toggle) {
                 adapter
-                    .getForeignStateAsync(element.id)
+                    .getForeignStateAsync(ID)
                     .then(val => {
                         if (val) {
-                            adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e: any) => {
+                            adapter.setForeignStateAsync(ID, !val.val, ack).catch((e: any) => {
                                 errorLogger('Error setForeignStateAsync:', e, adapter);
                             });
                         }
@@ -141,7 +151,7 @@ export const setState = async (
                         errorLogger('Error getForeignStateAsync:', e, adapter);
                     });
             } else {
-                await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
+                await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, isTruthy(ack));
             }
         }
         return setStateIds;

@@ -35,28 +35,32 @@ var import_logging = require("./logging.js");
 var import_main = require("../main.js");
 var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
+var import_math = require("../lib/math");
+var import_config = require("../config/config.js");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
-  var _a;
+  var _a, _b;
   let textToSend;
   try {
-    const substring = (0, import_string.decomposeText)(text, "binding:", "}").substring;
-    const arrayOfItems = substring.replace("binding:{", "").replace("}", "").split(";");
+    const { substringExcludeSearch } = (0, import_string.decomposeText)(text, import_config.config.binding.start, import_config.config.binding.end);
+    const arrayOfItems = substringExcludeSearch.split(import_config.config.binding.splitChar);
     const bindingObject = {
       values: {}
     };
     for (let item of arrayOfItems) {
       if (!item.includes("?")) {
-        const key = item.split(":")[0];
-        const id = item.split(":")[1];
+        const array = item.split(":");
+        const key = array[0];
+        const id = array[1];
         const result = await import_main.adapter.getForeignStateAsync(id);
         if (result) {
-          bindingObject.values[key] = ((_a = result.val) == null ? void 0 : _a.toString()) || "";
+          bindingObject.values[key] = (_b = (_a = result.val) == null ? void 0 : _a.toString()) != null ? _b : "";
         }
       } else {
         Object.keys(bindingObject.values).forEach(function(key) {
           item = item.replace(key, bindingObject.values[key]);
         });
-        textToSend = eval(item);
+        const { val } = (0, import_math.evaluate)(item, import_main.adapter);
+        textToSend = String(val);
       }
     }
     await (0, import_telegram.sendToTelegram)({
@@ -74,23 +78,20 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
 };
 const idBySelector = async ({
   selector,
-  text: text2,
-  userToSend: userToSend2,
+  text,
+  userToSend,
   newline,
-  telegramInstance: telegramInstance2,
-  one_time_keyboard: one_time_keyboard2,
-  resize_keyboard: resize_keyboard2,
-  userListWithChatID: userListWithChatID2
+  telegramInstance,
+  one_time_keyboard,
+  resize_keyboard,
+  userListWithChatID
 }) => {
   let text2Send = "";
   try {
-    if (!selector.includes("functions")) {
-      return;
-    }
-    const functions = selector.replace("functions=", "");
+    const functions = selector.replace(import_config.config.functionSelektor, "");
     let enums = [];
     const result = await import_main.adapter.getEnumsAsync();
-    if (!result || !result["enum.functions"][`enum.functions.${functions}`]) {
+    if (!(result == null ? void 0 : result["enum.functions"][`enum.functions.${functions}`])) {
       return;
     }
     enums = result["enum.functions"][`enum.functions.${functions}`].common.members;
@@ -100,18 +101,18 @@ const idBySelector = async ({
     const promises = enums.map(async (id) => {
       const value = await import_main.adapter.getForeignStateAsync(id);
       if ((0, import_utils.isDefined)(value == null ? void 0 : value.val)) {
-        let newText = text2;
+        let newText = text;
         let res;
-        if (text2.includes("{common.name}")) {
+        if (text.includes("{common.name}")) {
           res = await import_main.adapter.getForeignObjectAsync(id);
           import_main.adapter.log.debug(`Name ${(0, import_string.jsonString)(res == null ? void 0 : res.common.name)}`);
           if (res && typeof res.common.name === "string") {
             newText = newText.replace("{common.name}", res.common.name);
           }
         }
-        if (text2.includes("&amp;&amp;")) {
+        if (text.includes("&amp;&amp;")) {
           text2Send += newText.replace("&amp;&amp;", String(value.val));
-        } else if (text2.includes("&&")) {
+        } else if (text.includes("&&")) {
           text2Send += newText.replace("&&", String(value.val));
         } else {
           text2Send += newText;
@@ -123,12 +124,12 @@ const idBySelector = async ({
     });
     Promise.all(promises).then(async () => {
       await (0, import_telegram.sendToTelegram)({
-        userToSend: userToSend2,
+        userToSend,
         textToSend: text2Send,
-        telegramInstance: telegramInstance2,
-        resize_keyboard: resize_keyboard2,
-        one_time_keyboard: one_time_keyboard2,
-        userListWithChatID: userListWithChatID2
+        telegramInstance,
+        resize_keyboard,
+        one_time_keyboard,
+        userListWithChatID
       });
     }).catch((e) => {
       (0, import_logging.errorLogger)("Error Promise:", e, import_main.adapter);
@@ -187,7 +188,7 @@ function generateActions(action, userObject) {
       }
     ];
     const listOfSetStateIds = [];
-    action.set.forEach(function({ trigger, switch_checkbox, returnText, parse_mode: parse_mode2, values, confirm, ack, IDs }, key) {
+    action.set.forEach(function({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, key) {
       if (key == 0) {
         userObject[trigger[0]] = { switch: [] };
       }
@@ -209,24 +210,24 @@ function generateActions(action, userObject) {
           confirm: confirm[index],
           returnText: returnText[index],
           ack: ack ? ack[index] : "false",
-          parse_mode: (0, import_utils.isTruthy)(parse_mode2[0])
+          parse_mode: (0, import_utils.isTruthy)(parse_mode[0])
         };
         if (userObject[trigger[0]] && ((_a = userObject[trigger[0]]) == null ? void 0 : _a.switch)) {
           userObject[trigger[0]].switch.push(newObj);
         }
       });
     });
-    arrayOfEntries.forEach((item2) => {
-      if (action[item2.objName]) {
-        action[item2.objName].forEach(function(element, index) {
-          userObject[element.trigger[0]] = { [item2.name]: [] };
+    arrayOfEntries.forEach((item) => {
+      if (action[item.objName]) {
+        action[item.objName].forEach(function(element, index) {
+          userObject[element.trigger[0]] = { [item.name]: [] };
           if (index == 0) {
-            userObject[element.trigger[0]] = { [item2.name]: [] };
+            userObject[element.trigger[0]] = { [item.name]: [] };
           }
-          element[item2.loop].forEach(function(id, key) {
+          element[item.loop].forEach(function(id, key) {
             var _a;
             const newObj = {};
-            item2.elements.forEach((elementItem) => {
+            item.elements.forEach((elementItem) => {
               const name = elementItem.name;
               const value = elementItem.value ? elementItem.value : elementItem.name;
               const newKey = elementItem.key ? elementItem.key : key;
@@ -242,8 +243,8 @@ function generateActions(action, userObject) {
                 newObj[name] = val;
               }
             });
-            if (item2.name) {
-              ((_a = userObject == null ? void 0 : userObject[element.trigger]) == null ? void 0 : _a[item2 == null ? void 0 : item2.name]).push(newObj);
+            if (item.name) {
+              ((_a = userObject == null ? void 0 : userObject[element.trigger]) == null ? void 0 : _a[item == null ? void 0 : item.name]).push(newObj);
             }
           });
         });
@@ -254,15 +255,15 @@ function generateActions(action, userObject) {
     (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
   }
 }
-const exchangePlaceholderWithValue = (textToSend2, val) => {
+const exchangePlaceholderWithValue = (textToSend, val) => {
   let searchString = "";
-  if (textToSend2.includes("&&")) {
+  if (textToSend.includes("&&")) {
     searchString = "&&";
-  } else if (textToSend2.includes("&amp;&amp;")) {
+  } else if (textToSend.includes("&amp;&amp;")) {
     searchString = "&amp;&amp;";
   }
-  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, val.toString()) : textToSend2 += ` ${val}`;
-  return textToSend2;
+  searchString !== "" && textToSend.toString().indexOf(searchString) != -1 ? textToSend = textToSend.replace(searchString, val.toString()) : textToSend += ` ${val}`;
+  return textToSend;
 };
 const adjustValueType = (value, valueType) => {
   if (valueType == "number") {
@@ -281,7 +282,7 @@ const adjustValueType = (value, valueType) => {
   }
   return value;
 };
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, instanceTelegram, resize_keyboard2, one_time_keyboard2, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
   const menuArray = [];
   let ok = false;
   let calledNav = "";
@@ -318,7 +319,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
             const part = menuData[menu][calledNav];
             const menus = Object.keys(menuData);
             if (part.nav) {
-              (0, import_backMenu.backMenuFunc)({ nav: calledNav, part: part.nav, userToSend: user });
+              (0, import_backMenu.backMenuFunc)({ startSide: calledNav, navigation: part.nav, userToSend: user });
             }
             if ((part == null ? void 0 : part.nav) && (part == null ? void 0 : part.nav[0][0].includes("menu:"))) {
               await (0, import_subMenu.callSubMenu)(
@@ -326,9 +327,9 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
                 menuData,
                 user,
                 instanceTelegram,
-                resize_keyboard2,
-                one_time_keyboard2,
-                userListWithChatID2,
+                resize_keyboard,
+                one_time_keyboard,
+                userListWithChatID,
                 part,
                 menuData,
                 menus,
@@ -340,9 +341,9 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
                 part,
                 user,
                 instanceTelegram,
-                userListWithChatID2,
-                resize_keyboard2,
-                one_time_keyboard2
+                userListWithChatID,
+                resize_keyboard,
+                one_time_keyboard
               );
             }
           }
@@ -352,15 +353,15 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, 
   }
   return ok;
 };
-const getUserToSendFromUserListWithChatID = (userListWithChatID2, chatID) => {
-  let userToSend2 = null;
-  for (const element of userListWithChatID2) {
+const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
+  let userToSend = null;
+  for (const element of userListWithChatID) {
     if (element.chatID == chatID) {
-      userToSend2 = element.name;
+      userToSend = element.name;
       break;
     }
   }
-  return userToSend2;
+  return userToSend;
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

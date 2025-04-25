@@ -4,14 +4,16 @@ import {
     getListOfMenusIncludingUser,
     getNewStructure,
     getParseMode,
+    getStartSides,
     getTypeofTimestamp,
+    isStartside,
     roundValue,
     splitNavigation,
-    statusIdAndParams,getStartSides
+    statusIdAndParams
 } from "../../src/lib/appUtils"; // Adjust the path as needed
 import {expect} from "chai";
 import {utils} from "@iobroker/testing";
-import type {NewObjectStructure, splittedNavigation,DataObject, StartSides, UsersInGroup} from '../../src/types/types';
+import type {DataObject, NewObjectStructure, splittedNavigation, StartSides, UsersInGroup} from '../../src/types/types';
 
 
 const { adapter } = utils.unit.createMocks({});
@@ -506,4 +508,21 @@ describe('getStartSides', () => {
     });
 
 
+});
+
+describe('isStartside', () => {
+    it('should return false for "-"', () => {
+        const result = isStartside('-');
+        expect(result).to.be.false;
+    });
+
+    it('should return false for an empty string', () => {
+        const result = isStartside('');
+        expect(result).to.be.false;
+    });
+
+    it('should return true for any other string', () => {
+        const result = isStartside('start');
+        expect(result).to.be.true;
+    });
 });

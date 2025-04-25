@@ -21,5 +21,13 @@ describe('evaluate', () => {
         const result = (0, math_1.evaluate)(['invalid', 'expression'], adapter);
         (0, chai_1.expect)(result).to.deep.equal({ val: '', error: true });
     });
+    it('should get evaluate value', () => {
+        const result = (0, math_1.evaluate)("2+2", adapter);
+        (0, chai_1.expect)(result).to.deep.equal({ val: 4, error: false });
+    });
+    it('should return empty string if invalid eval string', () => {
+        const result = (0, math_1.evaluate)("2+", adapter);
+        (0, chai_1.expect)(result).to.deep.equal({ val: "", error: true });
+    });
 });
 //# sourceMappingURL=math.test.js.map

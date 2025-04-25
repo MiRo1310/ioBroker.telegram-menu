@@ -1,5 +1,7 @@
 import {
+    cleanUpString,
     decomposeText,
+    getNewline,
     getValueToExchange,
     isString,
     jsonString,
@@ -8,8 +10,7 @@ import {
     removeQuotes,
     replaceAll,
     replaceAllItems,
-    stringReplacer,
-    cleanUpString
+    stringReplacer
 } from '../../src/lib/string';
 import {expect} from 'chai';
 import {utils} from "@iobroker/testing";
@@ -397,4 +398,12 @@ describe('timeStringReplacer', () => {
         const result = timeStringReplacer(input, template);
         expect(result).to.equal('2024-11-10');
     });
+});
+
+describe('getNewline', () => {
+    it('soll "\\n" zurückgeben, wenn die Eingabe truthy ist', () => {
+        expect(getNewline('true')).to.equal('\n');
+        expect(getNewline('false')).to.equal('');
+    });
+
 });

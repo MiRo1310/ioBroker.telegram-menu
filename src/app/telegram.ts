@@ -19,14 +19,13 @@ async function sendToTelegram({
 }: Telegram): Promise<void> {
     try {
         const chatId = getChatID(userListWithChatID, userToSend);
-        const parse_modeType = getParseMode(parse_mode);
 
         adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
         adapter.log.debug(`Instance: ${telegramInstance}`);
         adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
         adapter.log.debug(`Parse_mode	: ${parse_mode}`);
         adapter.log.debug(`ChatId	: ${chatId}`);
-        adapter.log.debug(`ParseModeType: ${parse_modeType}`);
+        adapter.log.debug(`ParseMode: ${parse_mode}`);
 
         const validatedTextToSend = cleanUpString(textToSend ?? '');
         if (!keyboard) {
@@ -36,7 +35,7 @@ async function sendToTelegram({
                 {
                     text: validatedTextToSend,
                     chatId,
-                    parse_mode: parse_modeType,
+                    parse_mode: getParseMode(parse_mode),
                 },
                 (res: any) => telegramLogger(res),
             );
@@ -48,7 +47,7 @@ async function sendToTelegram({
             'send',
             {
                 chatId,
-                parse_mode: parse_modeType,
+                parse_mode: getParseMode(parse_mode),
                 text: await checkStatusInfo(validatedTextToSend),
                 reply_markup: {
                     keyboard,

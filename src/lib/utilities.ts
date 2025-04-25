@@ -133,7 +133,7 @@ export async function checkTypeOfId(
 
         switch (obj.common.type) {
             case 'string':
-                return value as string | undefined;
+                return value as string;
             case 'number':
                 return parseFloat(jsonString(value));
             case 'boolean':

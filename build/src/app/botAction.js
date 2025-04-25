@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMessageByBot = void 0;
 const main_1 = require("../main");
 const logging_1 = require("./logging");
-const deleteMessageByBot = (instance, user, userListWithChatID, messageId, chat_id) => {
+const deleteMessageByBot = (instance, user, messageId, chat_id) => {
     try {
         if (chat_id) {
             main_1.adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);

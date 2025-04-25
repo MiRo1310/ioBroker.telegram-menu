@@ -7,19 +7,19 @@ const dynamicValue_1 = require("./dynamicValue");
 const main_1 = require("../main");
 const logging_1 = require("./logging");
 const string_1 = require("../lib/string");
+const utils_1 = require("../lib/utils");
+const config_1 = require("../config/config");
 const modifiedValue = (valueFromSubmenu, value) => {
-    if (value && value.includes('{value}')) {
-        return value.replace('{value}', valueFromSubmenu);
-    }
-    return valueFromSubmenu;
+    return value.includes(config_1.config.modifiedValue)
+        ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
+        : valueFromSubmenu;
 };
 const isDynamicValueToSet = async (value) => {
-    if (typeof value === 'string' && value.includes('{id:')) {
-        const result = (0, string_1.decomposeText)(value, '{id:', '}');
-        const id = result.substring.replace('{id:', '').replace('}', '');
+    if (typeof value === 'string' && value.includes(config_1.config.dynamicValue.start)) {
+        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, config_1.config.dynamicValue.start, config_1.config.dynamicValue.end);
         const newValue = await main_1.adapter.getForeignStateAsync(id);
-        if (newValue && newValue.val && typeof newValue.val === 'string') {
-            return value.replace(result.substring, newValue.val);
+        if (typeof newValue?.val === 'string') {
+            return value.replace(substring, newValue.val);
         }
     }
     return value;
@@ -48,16 +48,14 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         if (!part.switch) {
             return;
         }
-        for (const element of part.switch) {
-            let ack = false;
-            let returnText = element.returnText;
-            ack = element?.ack ? element.ack === 'true' : false;
-            if (returnText.includes('{setDynamicValue')) {
-                const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(returnText, ack, element.id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, element.parse_mode, element.confirm);
-                if (element.confirm) {
+        for (const { returnText: text, id: ID, parse_mode, confirm, ack, toggle, value } of part.switch) {
+            let returnText = text;
+            if (returnText.includes(config_1.config.setDynamicValue)) {
+                const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(returnText, (0, utils_1.isTruthy)(ack), ID, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode, confirm);
+                if (confirm) {
                     setStateIds.push({
-                        id: id || element.id,
-                        confirm: element.confirm,
+                        id: id ?? ID,
+                        confirm,
                         returnText: confirmText,
                         userToSend: userToSend,
                     });
@@ -66,42 +64,45 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
             }
             if (!returnText.includes("{'id':'")) {
                 setStateIds.push({
-                    id: element.id,
-                    confirm: element.confirm,
-                    returnText: returnText,
-                    userToSend: userToSend,
-                    parse_mode: element.parse_mode,
+                    id: ID,
+                    confirm,
+                    returnText,
+                    userToSend,
+                    parse_mode,
                 });
             }
             else {
                 returnText = returnText.replace(/'/g, '"');
                 const textToSend = returnText.slice(0, returnText.indexOf('{')).trim();
-                const returnObj = JSON.parse(returnText.slice(returnText.indexOf('{'), returnText.indexOf('}') + 1));
-                returnObj.text = returnObj.text + returnText.slice(returnText.indexOf('}') + 1);
+                const { json, isValidJson } = (0, string_1.parseJSON)(returnText.slice(returnText.indexOf('{'), returnText.indexOf('}') + 1));
+                if (!isValidJson) {
+                    return;
+                }
+                json.text = json.text + returnText.slice(returnText.indexOf('}') + 1);
                 if (textToSend && textToSend !== '') {
                     await (0, telegram_1.sendToTelegram)({
                         userToSend,
                         textToSend,
-                        telegramInstance: telegramInstance,
+                        telegramInstance,
                         resize_keyboard,
                         one_time_keyboard,
                         userListWithChatID,
-                        parse_mode: element.parse_mode,
+                        parse_mode,
                     });
                 }
                 setStateIds.push({
-                    id: returnObj.id,
+                    id: json.id,
                     confirm: true,
-                    returnText: returnObj.text,
+                    returnText: json.text,
                     userToSend: userToSend,
                 });
             }
-            if (element.toggle) {
+            if (toggle) {
                 main_1.adapter
-                    .getForeignStateAsync(element.id)
+                    .getForeignStateAsync(ID)
                     .then(val => {
                     if (val) {
-                        main_1.adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
+                        main_1.adapter.setForeignStateAsync(ID, !val.val, ack).catch((e) => {
                             (0, logging_1.errorLogger)('Error setForeignStateAsync:', e, main_1.adapter);
                         });
                     }
@@ -111,7 +112,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
                 });
             }
             else {
-                await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
+                await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, (0, utils_1.isTruthy)(ack));
             }
         }
         return setStateIds;

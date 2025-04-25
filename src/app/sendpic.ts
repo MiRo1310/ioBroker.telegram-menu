@@ -6,7 +6,7 @@ import { adapter } from '../main';
 import type { Part, Timeouts, UserListWithChatId } from '../types/types';
 import { replaceAll } from '../lib/string';
 
-function sendPic(
+export function sendPic(
     part: Part,
     userToSend: string,
     instanceTelegram: string,
@@ -24,9 +24,10 @@ function sendPic(
             let path = '';
             if (id != '-') {
                 const newUrl = replaceAll(id, '&amp;', '&');
+                path = `${directoryPicture}${fileName}`;
 
                 exec(
-                    `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
+                    `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
                     (error: any, stdout: any, stderr: any) => {
                         if (stdout) {
                             adapter.log.debug(`Stdout: ${stdout}`);
@@ -36,7 +37,6 @@ function sendPic(
                         }
                         if (error) {
                             errorLogger('Error in exec:', error, adapter);
-
                             return;
                         }
                     },
@@ -49,7 +49,6 @@ function sendPic(
                     return;
                 }
 
-                path = `${directoryPicture}${fileName}`;
                 adapter.log.debug(`Path: ${path}`);
             } else {
                 return;
@@ -88,5 +87,3 @@ function sendPic(
     }
     return timeouts;
 }
-
-export { sendPic };

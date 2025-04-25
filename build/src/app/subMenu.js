@@ -207,7 +207,7 @@ const back = async (obj) => {
     if (result) {
         await (0, telegram_1.sendToTelegram)({
             userToSend: obj.userToSend,
-            textToSend: result.texttosend,
+            textToSend: result.textToSend,
             keyboard: result.menuToSend,
             telegramInstance: obj.telegramInstance,
             resize_keyboard: obj.resize_keyboard,
@@ -334,7 +334,6 @@ async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_key
                 userListWithChatID,
                 part,
             });
-            // device2Switch = result.device2Switch;
             return result.returnIds ? { returnIds: result.returnIds } : undefined;
         }
         else if (callbackData === 'back') {
@@ -351,10 +350,7 @@ async function subMenu({ jsonStringNav, userToSend, instanceTelegram, resize_key
         return;
     }
     catch (error) {
-        error([
-            { text: 'Error subMenu:', val: error.message },
-            { text: 'Stack', val: error.stack },
-        ]);
+        (0, logging_1.errorLogger)('Error subMenu:', error, main_1.adapter);
     }
 }
 //# sourceMappingURL=subMenu.js.map

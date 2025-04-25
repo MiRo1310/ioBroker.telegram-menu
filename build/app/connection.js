@@ -27,13 +27,13 @@ const checkIsTelegramActive = async (dataPoint) => {
   await import_main.adapter.setState("info.connection", false, true);
   const telegramInfoConnection = await import_main.adapter.getForeignStateAsync(dataPoint);
   import_main.adapter.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
-  if (telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) {
+  const value = telegramInfoConnection == null ? void 0 : telegramInfoConnection.val;
+  if (value) {
     await import_main.adapter.setState("info.connection", telegramInfoConnection == null ? void 0 : telegramInfoConnection.val, true);
-  }
-  if (!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val)) {
+  } else {
     import_main.adapter.log.info("Telegram was found, but is not running. Please start!");
   }
-  return !!(telegramInfoConnection == null ? void 0 : telegramInfoConnection.val);
+  return !!value;
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

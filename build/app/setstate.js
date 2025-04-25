@@ -27,19 +27,21 @@ var import_dynamicValue = require("./dynamicValue");
 var import_main = require("../main");
 var import_logging = require("./logging");
 var import_string = require("../lib/string");
+var import_utils = require("../lib/utils");
+var import_config = require("../config/config");
 const modifiedValue = (valueFromSubmenu, value) => {
-  if (value && value.includes("{value}")) {
-    return value.replace("{value}", valueFromSubmenu);
-  }
-  return valueFromSubmenu;
+  return value.includes(import_config.config.modifiedValue) ? value.replace(import_config.config.modifiedValue, valueFromSubmenu) : valueFromSubmenu;
 };
 const isDynamicValueToSet = async (value) => {
-  if (typeof value === "string" && value.includes("{id:")) {
-    const result = (0, import_string.decomposeText)(value, "{id:", "}");
-    const id = result.substring.replace("{id:", "").replace("}", "");
+  if (typeof value === "string" && value.includes(import_config.config.dynamicValue.start)) {
+    const { substring, substringExcludeSearch: id } = (0, import_string.decomposeText)(
+      value,
+      import_config.config.dynamicValue.start,
+      import_config.config.dynamicValue.end
+    );
     const newValue = await import_main.adapter.getForeignStateAsync(id);
-    if (newValue && newValue.val && typeof newValue.val === "string") {
-      return value.replace(result.substring, newValue.val);
+    if (typeof (newValue == null ? void 0 : newValue.val) === "string") {
+      return value.replace(substring, newValue.val);
     }
   }
   return value;
@@ -65,27 +67,25 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
     if (!part.switch) {
       return;
     }
-    for (const element of part.switch) {
-      let ack = false;
-      let returnText = element.returnText;
-      ack = (element == null ? void 0 : element.ack) ? element.ack === "true" : false;
-      if (returnText.includes("{setDynamicValue")) {
+    for (const { returnText: text, id: ID, parse_mode, confirm, ack, toggle, value } of part.switch) {
+      let returnText = text;
+      if (returnText.includes(import_config.config.setDynamicValue)) {
         const { confirmText, id } = await (0, import_dynamicValue.setDynamicValue)(
           returnText,
-          ack,
-          element.id,
+          (0, import_utils.isTruthy)(ack),
+          ID,
           userToSend,
           telegramInstance,
           one_time_keyboard,
           resize_keyboard,
           userListWithChatID,
-          element.parse_mode,
-          element.confirm
+          parse_mode,
+          confirm
         );
-        if (element.confirm) {
+        if (confirm) {
           setStateIds.push({
-            id: id || element.id,
-            confirm: element.confirm,
+            id: id != null ? id : ID,
+            confirm,
             returnText: confirmText,
             userToSend
           });
@@ -94,17 +94,22 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
       }
       if (!returnText.includes("{'id':'")) {
         setStateIds.push({
-          id: element.id,
-          confirm: element.confirm,
+          id: ID,
+          confirm,
           returnText,
           userToSend,
-          parse_mode: element.parse_mode
+          parse_mode
         });
       } else {
         returnText = returnText.replace(/'/g, '"');
         const textToSend = returnText.slice(0, returnText.indexOf("{")).trim();
-        const returnObj = JSON.parse(returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1));
-        returnObj.text = returnObj.text + returnText.slice(returnText.indexOf("}") + 1);
+        const { json, isValidJson } = (0, import_string.parseJSON)(
+          returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1)
+        );
+        if (!isValidJson) {
+          return;
+        }
+        json.text = json.text + returnText.slice(returnText.indexOf("}") + 1);
         if (textToSend && textToSend !== "") {
           await (0, import_telegram.sendToTelegram)({
             userToSend,
@@ -113,20 +118,20 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,
-            parse_mode: element.parse_mode
+            parse_mode
           });
         }
         setStateIds.push({
-          id: returnObj.id,
+          id: json.id,
           confirm: true,
-          returnText: returnObj.text,
+          returnText: json.text,
           userToSend
         });
       }
-      if (element.toggle) {
-        import_main.adapter.getForeignStateAsync(element.id).then((val) => {
+      if (toggle) {
+        import_main.adapter.getForeignStateAsync(ID).then((val) => {
           if (val) {
-            import_main.adapter.setForeignStateAsync(element.id, !val.val, ack).catch((e) => {
+            import_main.adapter.setForeignStateAsync(ID, !val.val, ack).catch((e) => {
               (0, import_logging.errorLogger)("Error setForeignStateAsync:", e, import_main.adapter);
             });
           }
@@ -134,7 +139,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           (0, import_logging.errorLogger)("Error getForeignStateAsync:", e, import_main.adapter);
         });
       } else {
-        await setValue(element.id, element.value, SubmenuValuePriority, valueFromSubmenu, ack);
+        await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, (0, import_utils.isTruthy)(ack));
       }
     }
     return setStateIds;

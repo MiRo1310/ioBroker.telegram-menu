@@ -1,6 +1,7 @@
 import { config } from '../config/config';
 import type {
     Adapter,
+    BooleanString,
     DecomposeTextReturnType,
     ExchangeValueReturn,
     PrimitiveType,
@@ -111,6 +112,6 @@ export const pad = (value: number, length: number = 2): string => {
     return value.toString().padStart(length, '0');
 };
 
-export function getNewline(newline: string): '' | '\n' {
+export function getNewline(newline: BooleanString): '' | '\n' {
     return isTruthy(newline) ? '\n' : '';
 }

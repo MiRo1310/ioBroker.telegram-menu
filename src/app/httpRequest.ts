@@ -10,7 +10,7 @@ import { adapter } from '../main';
 async function httpRequest(
     parts: Part,
     userToSend: string,
-    instanceTelegram: string,
+    telegramInstance: string,
     resize_keyboard: boolean,
     one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
@@ -19,38 +19,34 @@ async function httpRequest(
     if (!parts.httpRequest) {
         return;
     }
-    for (const part of parts.httpRequest) {
-        const { url, password, user } = part;
-
-        const method = 'get';
+    for (const { url, password, user: username, filename } of parts.httpRequest) {
         adapter.log.debug(`URL: ${url}`);
 
         try {
             //prettier-ignore
+
             const response = await axios(
-                user && password
+                username && password
                     ? {
-                        method: method,
-                        url: url,
-                        responseType: "arraybuffer",
-                        auth: {
-                            username: user,
-                            password: password,
-                        },
-                    }
+                          method: 'get',
+                          url,
+                          responseType: 'arraybuffer',
+                          auth: {
+                              username,
+                              password,
+                          },
+                      }
                     : {
-                        method: method,
-                        url: url,
-                        responseType: "arraybuffer",
-                    },
+                          method: 'get',
+                          url,
+                          responseType: 'arraybuffer',
+                      },
             );
-            if (!part.filename) {
-                return;
-            }
+
             if (!validateDirectory(adapter, directoryPicture)) {
                 return;
             }
-            const imagePath = path.join(directoryPicture, part.filename);
+            const imagePath = path.join(directoryPicture, filename);
 
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
             adapter.log.debug(`Pic saved: ${imagePath}`);
@@ -58,7 +54,7 @@ async function httpRequest(
             await sendToTelegram({
                 userToSend,
                 textToSend: imagePath,
-                telegramInstance: instanceTelegram,
+                telegramInstance,
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,

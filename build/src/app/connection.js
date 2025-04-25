@@ -7,13 +7,14 @@ const checkIsTelegramActive = async (dataPoint) => {
     await main_1.adapter.setState('info.connection', false, true);
     const telegramInfoConnection = await main_1.adapter.getForeignStateAsync(dataPoint);
     main_1.adapter.log.debug(`Telegram Info Connection: ${(0, string_1.jsonString)(telegramInfoConnection)}`);
-    if (telegramInfoConnection?.val) {
+    const value = telegramInfoConnection?.val;
+    if (value) {
         await main_1.adapter.setState('info.connection', telegramInfoConnection?.val, true);
     }
-    if (!telegramInfoConnection?.val) {
+    else {
         main_1.adapter.log.info('Telegram was found, but is not running. Please start!');
     }
-    return !!telegramInfoConnection?.val;
+    return !!value;
 };
 exports.checkIsTelegramActive = checkIsTelegramActive;
 //# sourceMappingURL=connection.js.map

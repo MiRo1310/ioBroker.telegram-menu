@@ -13,25 +13,24 @@ const config_1 = require("../config/config");
 async function sendToTelegram({ userToSend = '', textToSend, keyboard, telegramInstance = config_1.defaultTelegramInstance, resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode = false, }) {
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, userToSend);
-        const parse_modeType = (0, appUtils_1.getParseMode)(parse_mode);
         main_1.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
         main_1.adapter.log.debug(`Instance: ${telegramInstance}`);
         main_1.adapter.log.debug(`UserListWithChatID	: ${(0, string_1.jsonString)(userListWithChatID)}`);
         main_1.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
         main_1.adapter.log.debug(`ChatId	: ${chatId}`);
-        main_1.adapter.log.debug(`ParseModeType: ${parse_modeType}`);
+        main_1.adapter.log.debug(`ParseMode: ${parse_mode}`);
         const validatedTextToSend = (0, string_1.cleanUpString)(textToSend ?? '');
         if (!keyboard) {
             main_1.adapter.sendTo(telegramInstance, 'send', {
                 text: validatedTextToSend,
                 chatId,
-                parse_mode: parse_modeType,
+                parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
             }, (res) => telegramLogger(res));
             return;
         }
         main_1.adapter.sendTo(telegramInstance, 'send', {
             chatId,
-            parse_mode: parse_modeType,
+            parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
             text: await (0, utilities_1.checkStatusInfo)(validatedTextToSend),
             reply_markup: {
                 keyboard,

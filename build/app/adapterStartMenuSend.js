@@ -26,28 +26,28 @@ var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard) {
-  var _a, _b;
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, telegramInstance, resize_keyboard, one_time_keyboard) {
   for (const menu of listOfMenus) {
-    const startSide = [startSides[menu]].toString();
+    const startSide = startSides[menu];
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
       import_main.adapter.log.debug(`Startside: ${startSide}`);
       for (const userToSend of menusWithUsers[menu]) {
-        (0, import_backMenu.backMenuFunc)({ nav: startSide, part: menuData[menu][startSide].nav, userToSend });
+        const { nav, text, parse_mode } = menuData[menu][startSide];
+        (0, import_backMenu.backMenuFunc)({ startSide, navigation: nav, userToSend });
         import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
           userToSend,
-          textToSend: (_a = menuData[menu][startSide].text) != null ? _a : "",
-          keyboard: menuData[menu][startSide].nav,
-          telegramInstance: instanceTelegram,
+          textToSend: text,
+          keyboard: nav,
+          telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          parse_mode: (_b = menuData[menu][startSide].parse_mode) != null ? _b : false
+          parse_mode
         });
       }
     } else {
-      if (startSide == "-") {
+      if (!(0, import_appUtils.isStartside)(startSide)) {
         import_main.adapter.log.debug(`Menu "${menu}" is a Submenu.`);
         continue;
       }

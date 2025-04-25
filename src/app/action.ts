@@ -7,6 +7,7 @@ import { adapter } from '../main.js';
 import type {
     Actions,
     BindingObject,
+    BooleanString,
     DataObject,
     GenerateActionsArrayOfEntries,
     GenerateActionsNewObject,
@@ -21,6 +22,8 @@ import type {
 } from '../types/types';
 import { decomposeText, getNewline, jsonString } from '../lib/string';
 import { isDefined, isTruthy } from '../lib/utils';
+import { evaluate } from '../lib/math';
+import { config } from '../config/config.js';
 
 const bindingFunc = async (
     text: string,
@@ -34,27 +37,29 @@ const bindingFunc = async (
     let textToSend;
 
     try {
-        const substring = decomposeText(text, 'binding:', '}').substring;
-        const arrayOfItems = substring.replace('binding:{', '').replace('}', '').split(';');
+        const { substringExcludeSearch } = decomposeText(text, config.binding.start, config.binding.end);
+        const arrayOfItems = substringExcludeSearch.split(config.binding.splitChar);
         const bindingObject: BindingObject = {
             values: {},
         };
 
         for (let item of arrayOfItems) {
             if (!item.includes('?')) {
-                const key = item.split(':')[0];
-                const id = item.split(':')[1];
+                const array = item.split(':');
+                const key = array[0];
+                const id = array[1];
 
                 const result = await adapter.getForeignStateAsync(id);
                 if (result) {
-                    bindingObject.values[key] = result.val?.toString() || '';
+                    bindingObject.values[key] = result.val?.toString() ?? '';
                 }
             } else {
                 Object.keys(bindingObject.values).forEach(function (key) {
                     item = item.replace(key, bindingObject.values[key]);
                 });
 
-                textToSend = eval(item);
+                const { val } = evaluate(item, adapter);
+                textToSend = String(val);
             }
         }
         await sendToTelegram({
@@ -84,7 +89,7 @@ const idBySelector = async ({
     selector: string;
     text: string;
     userToSend: string;
-    newline: string;
+    newline: BooleanString;
     telegramInstance: string;
     one_time_keyboard: boolean;
     resize_keyboard: boolean;
@@ -92,21 +97,18 @@ const idBySelector = async ({
 }): Promise<void> => {
     let text2Send = '';
     try {
-        if (!selector.includes('functions')) {
-            return;
-        }
-
-        const functions = selector.replace('functions=', '');
+        const functions = selector.replace(config.functionSelektor, '');
         let enums: string[] | undefined = [];
         const result = await adapter.getEnumsAsync();
 
-        if (!result || !result['enum.functions'][`enum.functions.${functions}`]) {
+        if (!result?.['enum.functions'][`enum.functions.${functions}`]) {
             return;
         }
         enums = result['enum.functions'][`enum.functions.${functions}`].common.members;
         if (!enums) {
             return;
         }
+
         const promises = enums.map(async (id: string) => {
             const value = await adapter.getForeignStateAsync(id);
             if (isDefined(value?.val)) {
@@ -368,7 +370,7 @@ const checkEvent = async (
                         const part = menuData[menu][calledNav as keyof DataObject];
                         const menus = Object.keys(menuData);
                         if (part.nav) {
-                            backMenuFunc({ nav: calledNav, part: part.nav, userToSend: user });
+                            backMenuFunc({ startSide: calledNav, navigation: part.nav, userToSend: user });
                         }
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
                             await callSubMenu(

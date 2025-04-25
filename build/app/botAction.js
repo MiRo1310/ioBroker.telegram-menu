@@ -23,7 +23,7 @@ __export(botAction_exports, {
 module.exports = __toCommonJS(botAction_exports);
 var import_main = require("../main");
 var import_logging = require("./logging");
-const deleteMessageByBot = (instance, user, userListWithChatID, messageId, chat_id) => {
+const deleteMessageByBot = (instance, user, messageId, chat_id) => {
   try {
     if (chat_id) {
       import_main.adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);

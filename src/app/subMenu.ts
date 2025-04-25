@@ -298,7 +298,7 @@ const back = async (obj: BackMenuType): Promise<void> => {
     if (result) {
         await sendToTelegram({
             userToSend: obj.userToSend,
-            textToSend: result.texttosend as string,
+            textToSend: result.textToSend as string,
             keyboard: result.menuToSend,
             telegramInstance: obj.telegramInstance,
             resize_keyboard: obj.resize_keyboard,
@@ -466,7 +466,7 @@ async function subMenu({
                 userListWithChatID,
                 part,
             });
-            // device2Switch = result.device2Switch;
+
             return result.returnIds ? { returnIds: result.returnIds } : undefined;
         } else if (callbackData === 'back') {
             await back({
@@ -481,10 +481,7 @@ async function subMenu({
         }
         return;
     } catch (error: any) {
-        error([
-            { text: 'Error subMenu:', val: error.message },
-            { text: 'Stack', val: error.stack },
-        ]);
+        errorLogger('Error subMenu:', error, adapter);
     }
 }
 

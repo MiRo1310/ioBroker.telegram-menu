@@ -1,6 +1,7 @@
 export const defaultLocale = 'de-DE';
 export const timezone = 'Europe/Berlin';
 export const defaultTelegramInstance = 'telegram.0';
+export const backMenuLength = 20;
 
 export const config = {
     time: '{time}',
@@ -39,7 +40,15 @@ export const config = {
         textTable: 'TextTable',
     },
     binding: {
-        start: 'binding:',
+        start: 'binding:{',
+        end: '}',
+        splitChar: ';',
     },
     functionSelektor: 'functions=',
+    modifiedValue: '{value}',
+    dynamicValue: {
+        start: '{id:',
+        end: '}',
+    },
+    setDynamicValue: '{setDynamicValue',
 };

@@ -452,4 +452,18 @@ describe('getStartSides', () => {
         (0, chai_1.expect)(result).to.deep.equal(expected);
     });
 });
+describe('isStartside', () => {
+    it('should return false for "-"', () => {
+        const result = (0, appUtils_1.isStartside)('-');
+        (0, chai_1.expect)(result).to.be.false;
+    });
+    it('should return false for an empty string', () => {
+        const result = (0, appUtils_1.isStartside)('');
+        (0, chai_1.expect)(result).to.be.false;
+    });
+    it('should return true for any other string', () => {
+        const result = (0, appUtils_1.isStartside)('start');
+        (0, chai_1.expect)(result).to.be.true;
+    });
+});
 //# sourceMappingURL=appUtils.test.js.map

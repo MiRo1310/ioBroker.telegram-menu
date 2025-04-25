@@ -1,14 +1,7 @@
 import { adapter } from '../main';
 import { errorLogger } from './logging';
-import type { UserListWithChatId } from '../types/types';
 
-const deleteMessageByBot = (
-    instance: string,
-    user: string,
-    userListWithChatID: UserListWithChatId[],
-    messageId: number,
-    chat_id: string | number,
-): void => {
+const deleteMessageByBot = (instance: string, user: string, messageId: number, chat_id: string | number): void => {
     try {
         if (chat_id) {
             adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);

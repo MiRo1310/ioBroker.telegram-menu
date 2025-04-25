@@ -6,6 +6,7 @@ const main_1 = require("../main");
 const botAction_1 = require("./botAction");
 const logging_1 = require("./logging");
 const utils_1 = require("../lib/utils");
+const string_1 = require("../lib/string");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
     try {
@@ -57,21 +58,22 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
             return;
         }
         const chat_id = (0, utils_1.getChatID)(userListWithChatID, user);
-        if (!chat_id) {
+        const { json, isValidJson } = (0, string_1.parseJSON)(requestMessageIdObj.val);
+        if (!isValidJson || !chat_id) {
             return;
         }
-        const messageIds = JSON.parse(requestMessageIdObj.val);
         if (lastMessageId && lastMessageId.val) {
-            messageIds[chat_id].push({ id: lastMessageId.val.toString() });
+            json[chat_id].push({ id: lastMessageId.val.toString() });
         }
         isDeleting = true;
-        const copyMessageIds = (0, utils_1.deepCopy)(messageIds, main_1.adapter);
-        messageIds[chat_id].forEach((element, index) => {
-            if (whatShouldDelete === 'all' && element.id) {
-                (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, userListWithChatID, parseInt(element.id?.toString()), chat_id);
+        const copyMessageIds = (0, utils_1.deepCopy)(json, main_1.adapter);
+        json[chat_id].forEach((element, index) => {
+            const id = element.id?.toString();
+            if (whatShouldDelete === 'all' && id) {
+                (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, parseInt(id), chat_id);
             }
-            if (whatShouldDelete === 'last' && index === messageIds[chat_id].length - 1 && element.id) {
-                (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, userListWithChatID, parseInt(element.id?.toString()), chat_id);
+            if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
+                (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, parseInt(id), chat_id);
             }
             if (!copyMessageIds) {
                 return;

@@ -261,10 +261,9 @@ export interface KeyboardItem {
     callback_data: string;
 }
 
-export type BackMenu = Record<string, BackMenuList>;
+export type BackMenu = Record<string, BackMenuList | undefined>;
 
-// TODO : Define the type for BackMenuList
-type BackMenuList = any;
+type BackMenuList = { list: string[]; last: string };
 
 export interface CheckEveryMenuForDataType extends TelegramParams {
     menuData: MenuData; // checked !!!!
@@ -409,4 +408,12 @@ export interface GetTimeWithPad {
     d: string;
     mo: string;
     y: string;
+}
+
+export type Messages = Record<string, MessageInfos[]>;
+
+export interface MessageInfos {
+    id: ioBroker.StateValue;
+    time?: number;
+    request?: ioBroker.StateValue | null | undefined;
 }

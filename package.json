@@ -73,7 +73,6 @@
     "test": "npm run test:ts && npm run test:package",
     "test:ts": "tsc --project tsconfig.build.json && npm run test:js",
     "test:cov": "nyc --reporter=html npm run test:ts",
-    "test:c": "nyc --reporter=text npm run test:ts",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
     "lint:fix": "eslint -c eslint.config.mjs . --fix && eslint -c admin/eslint.config.mjs admin/src/ --fix",
     "lint:backend": "eslint -c eslint.config.mjs .",

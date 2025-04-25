@@ -275,7 +275,7 @@ const back = async (obj) => {
   if (result) {
     await (0, import_telegram.sendToTelegram)({
       userToSend: obj.userToSend,
-      textToSend: result.texttosend,
+      textToSend: result.textToSend,
       keyboard: result.menuToSend,
       telegramInstance: obj.telegramInstance,
       resize_keyboard: obj.resize_keyboard,
@@ -424,10 +424,7 @@ async function subMenu({
     }
     return;
   } catch (error) {
-    error([
-      { text: "Error subMenu:", val: error.message },
-      { text: "Stack", val: error.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error subMenu:", error, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

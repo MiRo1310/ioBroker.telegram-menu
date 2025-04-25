@@ -1,17 +1,10 @@
 import { adapter } from '../main';
 import { deleteMessageByBot } from './botAction';
 import { errorLogger } from './logging';
-import type { UserListWithChatId, WhatShouldDelete } from '../types/types';
+import type { MessageInfos, Messages, UserListWithChatId, WhatShouldDelete } from '../types/types';
 import { deepCopy, getChatID } from '../lib/utils';
+import { parseJSON } from '../lib/string';
 
-interface Messages {
-    [key: string]: MessageInfos[];
-}
-interface MessageInfos {
-    id: ioBroker.StateValue;
-    time?: number;
-    request?: ioBroker.StateValue | null | undefined;
-}
 let isDeleting = false;
 async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): Promise<void> {
     try {
@@ -61,7 +54,7 @@ const removeMessageFromList = ({
     chat_id,
     copyMessageIds,
 }: {
-    element: any;
+    element: MessageInfos;
     chat_id: string;
     copyMessageIds: Messages;
 }): MessageInfos[] => {
@@ -87,35 +80,24 @@ async function deleteMessageIds(
         }
 
         const chat_id = getChatID(userListWithChatID, user);
-        if (!chat_id) {
+        const { json, isValidJson } = parseJSON<Messages>(requestMessageIdObj.val);
+
+        if (!isValidJson || !chat_id) {
             return;
         }
-        const messageIds: Messages = JSON.parse(requestMessageIdObj.val);
-
         if (lastMessageId && lastMessageId.val) {
-            messageIds[chat_id].push({ id: lastMessageId.val.toString() });
+            json[chat_id].push({ id: lastMessageId.val.toString() });
         }
 
         isDeleting = true;
-        const copyMessageIds = deepCopy(messageIds, adapter);
-        messageIds[chat_id].forEach((element, index) => {
-            if (whatShouldDelete === 'all' && element.id) {
-                deleteMessageByBot(
-                    instanceTelegram,
-                    user,
-                    userListWithChatID,
-                    parseInt(element.id?.toString()),
-                    chat_id,
-                );
+        const copyMessageIds = deepCopy(json, adapter);
+        json[chat_id].forEach((element, index) => {
+            const id = element.id?.toString();
+            if (whatShouldDelete === 'all' && id) {
+                deleteMessageByBot(instanceTelegram, user, parseInt(id), chat_id);
             }
-            if (whatShouldDelete === 'last' && index === messageIds[chat_id].length - 1 && element.id) {
-                deleteMessageByBot(
-                    instanceTelegram,
-                    user,
-                    userListWithChatID,
-                    parseInt(element.id?.toString()),
-                    chat_id,
-                );
+            if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
+                deleteMessageByBot(instanceTelegram, user, parseInt(id), chat_id);
             }
             if (!copyMessageIds) {
                 return;

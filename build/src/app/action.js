@@ -10,28 +10,32 @@ const logging_js_1 = require("./logging.js");
 const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
 const utils_1 = require("../lib/utils");
+const math_1 = require("../lib/math");
+const config_js_1 = require("../config/config.js");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
     let textToSend;
     try {
-        const substring = (0, string_1.decomposeText)(text, 'binding:', '}').substring;
-        const arrayOfItems = substring.replace('binding:{', '').replace('}', '').split(';');
+        const { substringExcludeSearch } = (0, string_1.decomposeText)(text, config_js_1.config.binding.start, config_js_1.config.binding.end);
+        const arrayOfItems = substringExcludeSearch.split(config_js_1.config.binding.splitChar);
         const bindingObject = {
             values: {},
         };
         for (let item of arrayOfItems) {
             if (!item.includes('?')) {
-                const key = item.split(':')[0];
-                const id = item.split(':')[1];
+                const array = item.split(':');
+                const key = array[0];
+                const id = array[1];
                 const result = await main_js_1.adapter.getForeignStateAsync(id);
                 if (result) {
-                    bindingObject.values[key] = result.val?.toString() || '';
+                    bindingObject.values[key] = result.val?.toString() ?? '';
                 }
             }
             else {
                 Object.keys(bindingObject.values).forEach(function (key) {
                     item = item.replace(key, bindingObject.values[key]);
                 });
-                textToSend = eval(item);
+                const { val } = (0, math_1.evaluate)(item, main_js_1.adapter);
+                textToSend = String(val);
             }
         }
         await (0, telegram_js_1.sendToTelegram)({
@@ -52,13 +56,10 @@ exports.bindingFunc = bindingFunc;
 const idBySelector = async ({ selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, }) => {
     let text2Send = '';
     try {
-        if (!selector.includes('functions')) {
-            return;
-        }
-        const functions = selector.replace('functions=', '');
+        const functions = selector.replace(config_js_1.config.functionSelektor, '');
         let enums = [];
         const result = await main_js_1.adapter.getEnumsAsync();
-        if (!result || !result['enum.functions'][`enum.functions.${functions}`]) {
+        if (!result?.['enum.functions'][`enum.functions.${functions}`]) {
             return;
         }
         enums = result['enum.functions'][`enum.functions.${functions}`].common.members;
@@ -304,7 +305,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
                         const part = menuData[menu][calledNav];
                         const menus = Object.keys(menuData);
                         if (part.nav) {
-                            (0, backMenu_js_1.backMenuFunc)({ nav: calledNav, part: part.nav, userToSend: user });
+                            (0, backMenu_js_1.backMenuFunc)({ startSide: calledNav, navigation: part.nav, userToSend: user });
                         }
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
                             await (0, subMenu_js_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData, menus, null, part.nav);

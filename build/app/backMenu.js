@@ -26,58 +26,75 @@ var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_string = require("../lib/string");
+var import_config = require("../config/config");
 const backMenu = {};
-function backMenuFunc({ nav, part, userToSend }) {
-  if (!part || !JSON.stringify(part).split(`"`)[1].includes("menu:")) {
-    if (backMenu[userToSend] && backMenu[userToSend].list.length === 20) {
-      backMenu[userToSend].list.shift();
-    } else if (!backMenu[userToSend]) {
+function backMenuFunc({
+  startSide,
+  navigation,
+  userToSend
+}) {
+  var _a, _b;
+  if (!navigation || !(0, import_string.jsonString)(navigation).split(`"`)[1].includes("menu:")) {
+    const list = (_a = backMenu[userToSend]) == null ? void 0 : _a.list;
+    const lastMenu = (_b = backMenu[userToSend]) == null ? void 0 : _b.last;
+    if ((list == null ? void 0 : list.length) === import_config.backMenuLength) {
+      list.shift();
+    }
+    if (!backMenu[userToSend]) {
       backMenu[userToSend] = { list: [], last: "" };
     }
-    if (backMenu[userToSend].last !== "") {
-      backMenu[userToSend].list.push(backMenu[userToSend].last);
+    if (lastMenu && lastMenu !== "" && list) {
+      list.push(lastMenu);
     }
-    backMenu[userToSend].last = nav;
+    backMenu[userToSend].last = startSide;
   }
-  import_main.adapter.log.debug(`BackMenu: ${(0, import_string.jsonString)(backMenu)}`);
 }
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
-  var _a, _b, _c, _d, _e, _f;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
   try {
-    const list = backMenu[userToSend] && ((_a = backMenu[userToSend]) == null ? void 0 : _a.list) ? backMenu[userToSend].list : [];
-    let keyboard = { inline_keyboard: [] };
+    const list = ((_a = backMenu[userToSend]) == null ? void 0 : _a.list) ? backMenu[userToSend].list : [];
+    const lastListElement = list[list.length - 1];
+    const lastElement = (_b = backMenu[userToSend]) == null ? void 0 : _b.last;
+    let keyboard;
     let foundedMenu = "";
-    if (list.length != 0) {
+    if (list.length) {
       for (const menu of menus) {
-        if (lastMenu && ((_c = (_b = allMenusWithData[menu]) == null ? void 0 : _b[backMenu[userToSend].last]) == null ? void 0 : _c.nav)) {
-          keyboard = allMenusWithData[menu][backMenu[userToSend].last].nav;
+        const nav = lastElement ? (_d = (_c = allMenusWithData[menu]) == null ? void 0 : _c[lastElement]) == null ? void 0 : _d.nav : void 0;
+        const navBefore = (_f = (_e = allMenusWithData[menu]) == null ? void 0 : _e[lastListElement]) == null ? void 0 : _f.nav;
+        if (lastMenu && nav) {
+          keyboard = nav;
           foundedMenu = menu;
           break;
-        } else if (((_d = allMenusWithData[menu][list[list.length - 1]]) == null ? void 0 : _d.nav) && !lastMenu) {
-          keyboard = allMenusWithData[menu][list[list.length - 1]].nav;
-          import_main.adapter.log.debug("Menu call found");
+        } else if (navBefore && !lastMenu) {
+          keyboard = navBefore;
           foundedMenu = menu;
           break;
         }
         import_main.adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
       }
       if (keyboard && foundedMenu != "") {
-        let parse_mode = false;
         if (!lastMenu) {
-          let textToSend = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].text;
-          if (textToSend) {
-            textToSend = await (0, import_utilities.checkStatusInfo)(textToSend);
+          const listLength = ((_g = backMenu[userToSend]) == null ? void 0 : _g.list) ? backMenu[userToSend].list.length - 1 : 0;
+          const lastListElement2 = (_h = backMenu[userToSend]) == null ? void 0 : _h.list[listLength];
+          if (!lastListElement2) {
+            return;
           }
-          parse_mode = (_e = allMenusWithData[foundedMenu][backMenu[userToSend].list[backMenu[userToSend].list.length - 1]].parse_mode) != null ? _e : false;
-          backMenu[userToSend].last = list.pop();
-          return { texttosend: textToSend, menuToSend: keyboard, parse_mode };
+          const { text, parse_mode: parse_mode2 } = allMenusWithData[foundedMenu][lastListElement2];
+          let textToSend2 = text;
+          if (textToSend2) {
+            textToSend2 = await (0, import_utilities.checkStatusInfo)(textToSend2);
+          }
+          if ((_i = backMenu[userToSend]) == null ? void 0 : _i.last) {
+            backMenu[userToSend].last = (_j = list.pop()) != null ? _j : "";
+          }
+          return { textToSend: textToSend2, menuToSend: keyboard, parse_mode: parse_mode2 };
         }
-        parse_mode = (_f = allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode) != null ? _f : false;
-        return {
-          texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text,
-          menuToSend: keyboard,
-          parse_mode
-        };
+        const lastElement2 = (_k = backMenu[userToSend]) == null ? void 0 : _k.last;
+        if (!lastElement2) {
+          return;
+        }
+        const { parse_mode, text: textToSend } = allMenusWithData[foundedMenu][lastElement2];
+        return { textToSend, menuToSend: keyboard, parse_mode };
       }
     }
   } catch (e) {

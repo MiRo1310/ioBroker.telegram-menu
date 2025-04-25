@@ -35,8 +35,9 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
       let path = "";
       if (id != "-") {
         const newUrl = (0, import_string.replaceAll)(id, "&amp;", "&");
+        path = `${directoryPicture}${fileName}`;
         (0, import_child_process.exec)(
-          `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${directoryPicture}${fileName}`,
+          `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
           (error, stdout, stderr) => {
             if (stdout) {
               import_main.adapter.log.debug(`Stdout: ${stdout}`);
@@ -55,7 +56,6 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
         if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
           return;
         }
-        path = `${directoryPicture}${fileName}`;
         import_main.adapter.log.debug(`Path: ${path}`);
       } else {
         return;

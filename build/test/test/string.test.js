@@ -339,4 +339,10 @@ describe('timeStringReplacer', () => {
         (0, chai_1.expect)(result).to.equal('2024-11-10');
     });
 });
+describe('getNewline', () => {
+    it('soll "\\n" zurückgeben, wenn die Eingabe truthy ist', () => {
+        (0, chai_1.expect)((0, string_1.getNewline)('true')).to.equal('\n');
+        (0, chai_1.expect)((0, string_1.getNewline)('false')).to.equal('');
+    });
+});
 //# sourceMappingURL=string.test.js.map

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/math.ts"],
-  "sourcesContent": ["import type { Adapter, EvaluateReturnType } from '../types/types';\nimport { errorLogger } from '../app/logging';\n\nexport function evaluate(val: string[], adapter: Adapter): EvaluateReturnType {\n    try {\n        return { val: eval(val.join(' ')) ?? '', error: false };\n    } catch (e: any) {\n        errorLogger('Error Eval:', e, adapter);\n        return { val: '', error: true };\n    }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,qBAA4B;AAErB,SAAS,SAAS,KAAe,SAAsC;AAH9E;AAII,MAAI;AACA,WAAO,EAAE,MAAK,UAAK,IAAI,KAAK,GAAG,CAAC,MAAlB,YAAuB,IAAI,OAAO,MAAM;AAAA,EAC1D,SAAS,GAAQ;AACb,oCAAY,eAAe,GAAG,OAAO;AACrC,WAAO,EAAE,KAAK,IAAI,OAAO,KAAK;AAAA,EAClC;AACJ;",
+  "sourcesContent": ["import type { Adapter, EvaluateReturnType } from '../types/types';\nimport { errorLogger } from '../app/logging';\n\nexport function evaluate(val: string | string[], adapter: Adapter): EvaluateReturnType {\n    try {\n        if (Array.isArray(val)) {\n            return { val: eval(val.join(' ')) ?? '', error: false };\n        }\n        return { val: eval(val), error: false };\n    } catch (e: any) {\n        errorLogger('Error Eval:', e, adapter);\n        return { val: '', error: true };\n    }\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,qBAA4B;AAErB,SAAS,SAAS,KAAwB,SAAsC;AAHvF;AAII,MAAI;AACA,QAAI,MAAM,QAAQ,GAAG,GAAG;AACpB,aAAO,EAAE,MAAK,UAAK,IAAI,KAAK,GAAG,CAAC,MAAlB,YAAuB,IAAI,OAAO,MAAM;AAAA,IAC1D;AACA,WAAO,EAAE,KAAK,KAAK,GAAG,GAAG,OAAO,MAAM;AAAA,EAC1C,SAAS,GAAQ;AACb,oCAAY,eAAe,GAAG,OAAO;AACrC,WAAO,EAAE,KAAK,IAAI,OAAO,KAAK;AAAA,EAClC;AACJ;",
   "names": []
 }

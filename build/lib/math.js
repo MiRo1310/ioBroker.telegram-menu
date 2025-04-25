@@ -25,7 +25,10 @@ var import_logging = require("../app/logging");
 function evaluate(val, adapter) {
   var _a;
   try {
-    return { val: (_a = eval(val.join(" "))) != null ? _a : "", error: false };
+    if (Array.isArray(val)) {
+      return { val: (_a = eval(val.join(" "))) != null ? _a : "", error: false };
+    }
+    return { val: eval(val), error: false };
   } catch (e) {
     (0, import_logging.errorLogger)("Error Eval:", e, adapter);
     return { val: "", error: true };

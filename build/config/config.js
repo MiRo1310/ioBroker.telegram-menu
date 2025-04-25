@@ -18,6 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var config_exports = {};
 __export(config_exports, {
+  backMenuLength: () => backMenuLength,
   config: () => config,
   defaultLocale: () => defaultLocale,
   defaultTelegramInstance: () => defaultTelegramInstance,
@@ -27,6 +28,7 @@ module.exports = __toCommonJS(config_exports);
 const defaultLocale = "de-DE";
 const timezone = "Europe/Berlin";
 const defaultTelegramInstance = "telegram.0";
+const backMenuLength = 20;
 const config = {
   time: "{time}",
   change: {
@@ -64,12 +66,21 @@ const config = {
     textTable: "TextTable"
   },
   binding: {
-    start: "binding:"
+    start: "binding:{",
+    end: "}",
+    splitChar: ";"
   },
-  functionSelektor: "functions="
+  functionSelektor: "functions=",
+  modifiedValue: "{value}",
+  dynamicValue: {
+    start: "{id:",
+    end: "}"
+  },
+  setDynamicValue: "{setDynamicValue"
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  backMenuLength,
   config,
   defaultLocale,
   defaultTelegramInstance,

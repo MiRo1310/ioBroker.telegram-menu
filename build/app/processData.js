@@ -102,66 +102,46 @@ async function processData(obj) {
   } = obj;
   try {
     let part = {};
-    let call = "";
     if ((0, import_dynamicValue.getDynamicValue)(userToSend)) {
       const res = (0, import_dynamicValue.getDynamicValue)(userToSend);
-      let valueToSet;
-      if (res && res.valueType) {
-        valueToSet = (0, import_action.adjustValueType)(calledValue, res.valueType);
-      } else {
-        valueToSet = calledValue;
-      }
-      if (valueToSet && (res == null ? void 0 : res.id)) {
-        await import_main.adapter.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack);
-      } else {
-        await (0, import_telegram.sendToTelegram)({
-          userToSend,
-          textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
-          userListWithChatID
-        });
-      }
+      const valueToSet = (res == null ? void 0 : res.valueType) ? (0, import_action.adjustValueType)(calledValue, res.valueType) : calledValue;
+      valueToSet && (res == null ? void 0 : res.id) ? await import_main.adapter.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack) : await (0, import_telegram.sendToTelegram)({
+        userToSend,
+        textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
+        telegramInstance,
+        resize_keyboard,
+        one_time_keyboard,
+        userListWithChatID
+      });
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
       if (result) {
+        const { textToSend, menuToSend, parse_mode } = result;
         await (0, import_telegram.sendToTelegram)({
           userToSend,
-          textToSend: result.texttosend || "",
-          keyboard: result.menuToSend,
+          textToSend: textToSend != null ? textToSend : "",
+          keyboard: menuToSend,
           telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
-          parse_mode: result.parse_mode
+          parse_mode
         });
-      } else {
-        await (0, import_sendNav.sendNav)(
-          part,
-          userToSend,
-          telegramInstance,
-          userListWithChatID,
-          resize_keyboard,
-          one_time_keyboard
-        );
+        return true;
       }
+      await (0, import_sendNav.sendNav)(part, userToSend, telegramInstance, userListWithChatID, resize_keyboard, one_time_keyboard);
       return true;
     }
-    if (calledValue.includes("menu:")) {
-      call = calledValue.split(":")[2];
-    } else {
-      call = calledValue;
-    }
+    const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
     part = groupData[call];
-    if (groupData && part && !calledValue.toString().includes("menu:") && userToSend && groupWithUser && isUserActiveCheckbox[groupWithUser]) {
+    if (!calledValue.toString().includes("menu:") && isUserActiveCheckbox[groupWithUser]) {
       if (part.nav) {
         import_main.adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(part.nav)}`);
-        (0, import_backMenu.backMenuFunc)({ nav: call, part: part.nav, userToSend });
-        if (JSON.stringify(part.nav).includes("menu:")) {
+        (0, import_backMenu.backMenuFunc)({ startSide: call, navigation: part.nav, userToSend });
+        if ((0, import_string.jsonString)(part.nav).includes("menu:")) {
           import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(part.nav)}`);
           const result = await (0, import_subMenu.callSubMenu)(
-            JSON.stringify(part.nav),
+            (0, import_string.jsonString)(part.nav),
             groupData,
             userToSend,
             telegramInstance,
@@ -174,10 +154,10 @@ async function processData(obj) {
             setStateIdsToListenTo,
             part.nav
           );
-          if (result && result.setStateIdsToListenTo) {
+          if (result == null ? void 0 : result.setStateIdsToListenTo) {
             setStateIdsToListenTo = result.setStateIdsToListenTo;
           }
-          if (result && result.newNav) {
+          if (result == null ? void 0 : result.newNav) {
             await checkEveryMenuForData({
               menuData,
               calledValue: result.newNav,
@@ -193,16 +173,16 @@ async function processData(obj) {
               timeoutKey
             });
           }
-        } else {
-          await (0, import_sendNav.sendNav)(
-            part,
-            userToSend,
-            telegramInstance,
-            userListWithChatID,
-            resize_keyboard,
-            one_time_keyboard
-          );
+          return true;
         }
+        await (0, import_sendNav.sendNav)(
+          part,
+          userToSend,
+          telegramInstance,
+          userListWithChatID,
+          resize_keyboard,
+          one_time_keyboard
+        );
         return true;
       }
       if (part.switch) {
@@ -243,9 +223,9 @@ async function processData(obj) {
         );
         if (result) {
           timeouts = result;
-        } else {
-          import_main.adapter.log.debug(`Timeouts not found`);
+          return true;
         }
+        import_main.adapter.log.debug(`Timeouts not found`);
         return true;
       }
       if (part.location) {
@@ -277,9 +257,7 @@ async function processData(obj) {
           userListWithChatID,
           directoryPicture
         );
-        if (result) {
-          return true;
-        }
+        return !!result;
       }
     }
     if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && menuData[groupWithUser][call]) {

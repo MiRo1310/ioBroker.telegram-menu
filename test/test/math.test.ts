@@ -24,4 +24,14 @@ describe('evaluate', () => {
                 const result= evaluate(['invalid', 'expression'], adapter);
         expect(result).to.deep.equal({ val: '', error: true });
     });
+
+    it('should get evaluate value', () => {
+                const result= evaluate("2+2" , adapter)
+        expect(result).to.deep.equal({ val: 4, error: false });
+    });
+
+    it('should return empty string if invalid eval string', () => {
+                const result= evaluate("2+" , adapter)
+        expect(result).to.deep.equal({ val: "", error: true });
+    });
 });
