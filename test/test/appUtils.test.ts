@@ -35,7 +35,7 @@ describe('calcValue', () => {
         const result = calcValue(textToSend, val, adapter);
         expect(result).to.deep.equal({
             textToSend: 'Test',
-            val: 15,
+            calculated: 15,
             error: false,
         });
     });
@@ -46,7 +46,7 @@ describe('calcValue', () => {
         const result = calcValue(textToSend, val, adapter);
         expect(result).to.deep.equal({
             textToSend: 'Test',
-            val: '10',
+            calculated: '10',
             error: true,
         });
     });
@@ -57,7 +57,7 @@ describe('calcValue', () => {
         const result = calcValue(textToSend, val,adapter);
         expect(result).to.deep.equal({
             textToSend: '',
-            val: '',
+            calculated: '',
             error: false,
         });
     });
@@ -68,7 +68,7 @@ describe('calcValue', () => {
         const result = calcValue(textToSend, val, adapter);
         expect(result).to.deep.equal({
             textToSend: 'No math here',
-            val: 10,
+            calculated: 10,
             error: false,
         });
     });
@@ -79,7 +79,7 @@ describe('calcValue', () => {
         const result = calcValue(textToSend, val, adapter);
         expect(result).to.deep.equal({
             textToSend: 'Test  test',
-            val: 10,
+            calculated: 10,
             error: false,
         });
     });
@@ -91,8 +91,8 @@ describe('roundValue', () => {
         const textToSend = 'Test {round:2}';
         const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
-            val: '123.46',
-            textToSend: 'Test',
+            roundedValue: '123.46',
+            text: 'Test',
             error: false,
         });
     });
@@ -102,8 +102,8 @@ describe('roundValue', () => {
         const textToSend = 'Test {round:invalid}';
         const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
-            val: '123.4567',
-            textToSend: 'Test',
+            roundedValue: '123.4567',
+            text: 'Test',
             error: true,
         });
     });
@@ -113,8 +113,8 @@ describe('roundValue', () => {
         const textToSend = '';
         const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
-            val: 'NaN',
-            textToSend: '',
+            roundedValue: 'NaN',
+            text: '',
             error: true,
         });
     });
@@ -124,8 +124,8 @@ describe('roundValue', () => {
         const textToSend = 'Test {round:2}';
         const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
-            val: 'NaN',
-            textToSend: 'Test',
+            roundedValue: 'NaN',
+            text: 'Test',
             error: true,
         });
     });
@@ -135,8 +135,8 @@ describe('roundValue', () => {
         const textToSend = 'No round here';
         const result = roundValue(val, textToSend);
         expect(result).to.deep.equal({
-            val: '123.4567',
-            textToSend: 'No round here',
+            roundedValue: '123.4567',
+            text: 'No round here',
             error: true,
         });
     });

@@ -27,7 +27,7 @@ function getChart(echarts, directoryPicture, user, instanceTelegram, userListWit
                 (0, telegram_1.sendToTelegram)({
                     userToSend: user,
                     textToSend: result.error || directoryPicture + echart.filename,
-                    instanceTelegram,
+                    telegramInstance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,

@@ -35,5 +35,14 @@ exports.config = {
         start: '{set:',
         end: '}',
     },
+    json: {
+        start: '{json',
+        end: '}',
+        textTable: 'TextTable',
+    },
+    binding: {
+        start: 'binding:',
+    },
+    functionSelektor: 'functions=',
 };
 //# sourceMappingURL=config.js.map

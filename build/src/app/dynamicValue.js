@@ -13,7 +13,7 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance
         await (0, telegram_1.sendToTelegram)({
             userToSend,
             textToSend: text,
-            instanceTelegram: telegramInstance,
+            telegramInstance: telegramInstance,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,

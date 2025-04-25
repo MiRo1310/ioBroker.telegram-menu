@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pad = exports.isString = exports.getValueToExchange = exports.validateNewLine = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.pad = exports.isString = exports.getValueToExchange = exports.cleanUpString = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
+exports.getNewline = getNewline;
 const config_1 = require("../config/config");
+const utils_1 = require("./utils");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
 function parseJSON(val) {
@@ -38,7 +40,7 @@ const removeQuotes = (text) => {
     return text.replace(/['"]/g, ''); // Entferne alle Anführungszeichen
 };
 exports.removeQuotes = removeQuotes;
-const validateNewLine = (text) => {
+const cleanUpString = (text) => {
     if (!text) {
         return '';
     }
@@ -48,7 +50,7 @@ const validateNewLine = (text) => {
         .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
         .replace(/\\(?!n)/g, ''); // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden
 };
-exports.validateNewLine = validateNewLine;
+exports.cleanUpString = cleanUpString;
 function decomposeText(text, firstSearch, secondSearch) {
     const startindex = text.indexOf(firstSearch);
     const endindex = text.indexOf(secondSearch, startindex);
@@ -103,4 +105,7 @@ const pad = (value, length = 2) => {
     return value.toString().padStart(length, '0');
 };
 exports.pad = pad;
+function getNewline(newline) {
+    return (0, utils_1.isTruthy)(newline) ? '\n' : '';
+}
 //# sourceMappingURL=string.js.map

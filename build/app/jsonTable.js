@@ -83,9 +83,6 @@ const createKeyboardFromJson = (val, text, id, user) => {
 };
 function createTextTableFromJson(val, textToSend) {
   try {
-    if (!val) {
-      return;
-    }
     const substring = (0, import_string.decomposeText)(textToSend, "{json:", "}").substring;
     const array = substring.split(";");
     const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");

@@ -18,7 +18,9 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var string_exports = {};
 __export(string_exports, {
+  cleanUpString: () => cleanUpString,
   decomposeText: () => decomposeText,
+  getNewline: () => getNewline,
   getValueToExchange: () => getValueToExchange,
   isString: () => isString,
   jsonString: () => jsonString,
@@ -27,11 +29,11 @@ __export(string_exports, {
   removeQuotes: () => removeQuotes,
   replaceAll: () => replaceAll,
   replaceAllItems: () => replaceAllItems,
-  stringReplacer: () => stringReplacer,
-  validateNewLine: () => validateNewLine
+  stringReplacer: () => stringReplacer
 });
 module.exports = __toCommonJS(string_exports);
 var import_config = require("../config/config");
+var import_utils = require("./utils");
 const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val) {
   try {
@@ -58,7 +60,7 @@ const replaceAllItems = (text, searched) => {
 const removeQuotes = (text) => {
   return text.replace(/['"]/g, "");
 };
-const validateNewLine = (text) => {
+const cleanUpString = (text) => {
   if (!text) {
     return "";
   }
@@ -116,9 +118,14 @@ const pad = (value, length = 2) => {
   }
   return value.toString().padStart(length, "0");
 };
+function getNewline(newline) {
+  return (0, import_utils.isTruthy)(newline) ? "\n" : "";
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  cleanUpString,
   decomposeText,
+  getNewline,
   getValueToExchange,
   isString,
   jsonString,
@@ -127,7 +134,6 @@ const pad = (value, length = 2) => {
   removeQuotes,
   replaceAll,
   replaceAllItems,
-  stringReplacer,
-  validateNewLine
+  stringReplacer
 });
 //# sourceMappingURL=string.js.map

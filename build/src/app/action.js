@@ -11,7 +11,7 @@ const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
 const utils_1 = require("../lib/utils");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
-    let value;
+    let textToSend;
     try {
         const substring = (0, string_1.decomposeText)(text, 'binding:', '}').substring;
         const arrayOfItems = substring.replace('binding:{', '').replace('}', '').split(';');
@@ -31,13 +31,13 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
                 Object.keys(bindingObject.values).forEach(function (key) {
                     item = item.replace(key, bindingObject.values[key]);
                 });
-                value = eval(item);
+                textToSend = eval(item);
             }
         }
         await (0, telegram_js_1.sendToTelegram)({
             userToSend,
-            textToSend: value,
-            instanceTelegram: telegramInstance,
+            textToSend,
+            telegramInstance,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,
@@ -67,12 +67,12 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
         }
         const promises = enums.map(async (id) => {
             const value = await main_js_1.adapter.getForeignStateAsync(id);
-            if (value && value.val !== undefined && value.val !== null) {
+            if ((0, utils_1.isDefined)(value?.val)) {
                 let newText = text;
                 let res;
                 if (text.includes('{common.name}')) {
                     res = await main_js_1.adapter.getForeignObjectAsync(id);
-                    main_js_1.adapter.log.debug(`Name ${JSON.stringify(res?.common.name)}`);
+                    main_js_1.adapter.log.debug(`Name ${(0, string_1.jsonString)(res?.common.name)}`);
                     if (res && typeof res.common.name === 'string') {
                         newText = newText.replace('{common.name}', res.common.name);
                     }
@@ -88,28 +88,19 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
                     text2Send += ` ${value.val}`;
                 }
             }
-            if (newline === 'true') {
-                text2Send += ' \n';
-            }
-            else {
-                text2Send += ' ';
-            }
+            text2Send += (0, string_1.getNewline)(newline);
             main_js_1.adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
         });
         Promise.all(promises)
-            .then(() => {
-            (0, telegram_js_1.sendToTelegram)({
+            .then(async () => {
+            await (0, telegram_js_1.sendToTelegram)({
                 userToSend,
                 textToSend: text2Send,
-                instanceTelegram: telegramInstance,
+                telegramInstance: telegramInstance,
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,
-            }).catch(e => {
-                (0, logging_js_1.errorLogger)('Error SendToTelegram:', e, main_js_1.adapter);
             });
-            main_js_1.adapter.log.debug(`TextToSend: ${text2Send}`);
-            main_js_1.adapter.log.debug(`UserToSend: ${userToSend}`);
         })
             .catch(e => {
             (0, logging_js_1.errorLogger)('Error Promise:', e, main_js_1.adapter);

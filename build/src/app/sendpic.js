@@ -41,7 +41,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
                 await (0, telegram_1.sendToTelegram)({
                     userToSend,
                     textToSend: path,
-                    instanceTelegram,
+                    telegramInstance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,

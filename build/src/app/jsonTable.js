@@ -70,16 +70,11 @@ const createKeyboardFromJson = (val, text, id, user) => {
 exports.createKeyboardFromJson = createKeyboardFromJson;
 function createTextTableFromJson(val, textToSend) {
     try {
-        if (!val) {
-            return;
-        }
         const substring = (0, string_1.decomposeText)(textToSend, '{json:', '}').substring;
         const array = substring.split(';');
         const itemArray = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
         const valArray = JSON.parse(val);
-        // Array für die Größte Länge der Items
-        const lengthArray = [];
-        // Trägt für jedes Item einen Eintrag im lengthArray ein
+        const lengthArray = []; // Array für die Länge der Items
         itemArray.forEach(element => {
             lengthArray.push(element.split(':')[1].length);
         });

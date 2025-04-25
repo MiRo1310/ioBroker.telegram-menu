@@ -21,10 +21,13 @@ __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
+  getNewStructure: () => getNewStructure,
   getParseMode: () => getParseMode,
+  getStartSides: () => getStartSides,
   getTypeofTimestamp: () => getTypeofTimestamp,
   isStartside: () => isStartside,
   roundValue: () => roundValue,
+  splitNavigation: () => splitNavigation,
   statusIdAndParams: () => statusIdAndParams,
   timeStringReplacer: () => timeStringReplacer
 });
@@ -33,6 +36,7 @@ var import_config = require("../config/config");
 var import_string = require("./string");
 var import_math = require("./math");
 var import_utils = require("./utils");
+var import_object = require("./object");
 const checkOneLineValue = (text) => !text.includes(import_config.config.rowSplitter) ? `${text} ${import_config.config.rowSplitter}` : text;
 function calcValue(textToSend, val, adapter) {
   const { substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(
@@ -41,7 +45,7 @@ function calcValue(textToSend, val, adapter) {
     import_config.config.math.end
   );
   const { val: evalVal, error } = (0, import_math.evaluate)([val, substringExcludeSearch], adapter);
-  return error ? { textToSend: textExcludeSubstring, val, error } : { textToSend: textExcludeSubstring, val: evalVal, error };
+  return error ? { textToSend: textExcludeSubstring, calculated: val, error } : { textToSend: textExcludeSubstring, calculated: evalVal, error };
 }
 function roundValue(val, textToSend) {
   const floatVal = parseFloat(val);
@@ -52,12 +56,12 @@ function roundValue(val, textToSend) {
   );
   const decimalPlacesNum = parseInt(decimalPlaces);
   if (isNaN(floatVal)) {
-    return { val: "NaN", textToSend: textExcludeSubstring, error: true };
+    return { roundedValue: "NaN", text: textExcludeSubstring, error: true };
   }
   if (isNaN(decimalPlacesNum)) {
-    return { val, textToSend: textExcludeSubstring, error: true };
+    return { roundedValue: val, text: textExcludeSubstring, error: true };
   }
-  return { val: floatVal.toFixed(decimalPlacesNum), textToSend: textExcludeSubstring, error: false };
+  return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
 const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
   const menus = [];
@@ -95,15 +99,43 @@ function statusIdAndParams(substringExcludeSearch) {
 function isStartside(startSide) {
   return startSide != "-" && startSide != "";
 }
+function splitNavigation(rows) {
+  const generatedNavigation = [];
+  rows.forEach(({ value, text, parse_mode, call }) => {
+    const nav = [];
+    checkOneLineValue(value).split(import_config.config.rowSplitter).forEach(function(el, index) {
+      nav[index] = (0, import_object.trimAllItems)(el.split(","));
+    });
+    generatedNavigation.push({ call, text, parse_mode: (0, import_utils.isTruthy)(parse_mode), nav });
+  });
+  return generatedNavigation;
+}
+function getNewStructure(val) {
+  const obj = {};
+  val.forEach(function({ nav, text, parse_mode, call }) {
+    obj[call] = { nav, text, parse_mode };
+  });
+  return obj;
+}
+const getStartSides = (menusWithUsers, dataObject) => {
+  const startSides = {};
+  Object.keys(menusWithUsers).forEach((element) => {
+    startSides[element] = dataObject.nav[element][0].call;
+  });
+  return startSides;
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
   getListOfMenusIncludingUser,
+  getNewStructure,
   getParseMode,
+  getStartSides,
   getTypeofTimestamp,
   isStartside,
   roundValue,
+  splitNavigation,
   statusIdAndParams,
   timeStringReplacer
 });

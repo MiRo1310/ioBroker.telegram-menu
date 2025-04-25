@@ -45,7 +45,7 @@ async function checkEveryMenuForData(obj) {
     menuData,
     calledValue,
     userToSend,
-    instanceTelegram,
+    telegramInstance,
     resize_keyboard,
     one_time_keyboard,
     userListWithChatID,
@@ -64,7 +64,7 @@ async function checkEveryMenuForData(obj) {
       calledValue,
       userToSend,
       groupWithUser: menu,
-      instanceTelegram,
+      telegramInstance,
       resize_keyboard,
       one_time_keyboard,
       userListWithChatID,
@@ -88,7 +88,7 @@ async function processData(obj) {
     calledValue,
     userToSend,
     groupWithUser,
-    instanceTelegram,
+    telegramInstance,
     resize_keyboard,
     one_time_keyboard,
     userListWithChatID,
@@ -117,7 +117,7 @@ async function processData(obj) {
         await (0, import_telegram.sendToTelegram)({
           userToSend,
           textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
-          instanceTelegram,
+          telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID
@@ -130,7 +130,7 @@ async function processData(obj) {
           userToSend,
           textToSend: result.texttosend || "",
           keyboard: result.menuToSend,
-          instanceTelegram,
+          telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
@@ -140,7 +140,7 @@ async function processData(obj) {
         await (0, import_sendNav.sendNav)(
           part,
           userToSend,
-          instanceTelegram,
+          telegramInstance,
           userListWithChatID,
           resize_keyboard,
           one_time_keyboard
@@ -164,7 +164,7 @@ async function processData(obj) {
             JSON.stringify(part.nav),
             groupData,
             userToSend,
-            instanceTelegram,
+            telegramInstance,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,
@@ -182,7 +182,7 @@ async function processData(obj) {
               menuData,
               calledValue: result.newNav,
               userToSend,
-              instanceTelegram,
+              telegramInstance,
               resize_keyboard,
               one_time_keyboard,
               userListWithChatID,
@@ -197,7 +197,7 @@ async function processData(obj) {
           await (0, import_sendNav.sendNav)(
             part,
             userToSend,
-            instanceTelegram,
+            telegramInstance,
             userListWithChatID,
             resize_keyboard,
             one_time_keyboard
@@ -211,7 +211,7 @@ async function processData(obj) {
           userToSend,
           0,
           false,
-          instanceTelegram,
+          telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID
@@ -225,14 +225,14 @@ async function processData(obj) {
         return true;
       }
       if (part.getData) {
-        (0, import_getstate.getState)(part, userToSend, instanceTelegram, one_time_keyboard, resize_keyboard, userListWithChatID);
+        (0, import_getstate.getState)(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID);
         return true;
       }
       if (part.sendPic) {
         const result = (0, import_sendpic.sendPic)(
           part,
           userToSend,
-          instanceTelegram,
+          telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
@@ -250,7 +250,7 @@ async function processData(obj) {
       }
       if (part.location) {
         import_main.adapter.log.debug("Send location");
-        await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, instanceTelegram, userListWithChatID);
+        await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, telegramInstance, userListWithChatID);
         return true;
       }
       if (part.echarts) {
@@ -259,7 +259,7 @@ async function processData(obj) {
           part.echarts,
           directoryPicture,
           userToSend,
-          instanceTelegram,
+          telegramInstance,
           userListWithChatID,
           resize_keyboard,
           one_time_keyboard
@@ -271,7 +271,7 @@ async function processData(obj) {
         const result = await (0, import_httpRequest.httpRequest)(
           part,
           userToSend,
-          instanceTelegram,
+          telegramInstance,
           resize_keyboard,
           one_time_keyboard,
           userListWithChatID,
@@ -288,7 +288,7 @@ async function processData(obj) {
         calledValue,
         menuData,
         userToSend,
-        instanceTelegram,
+        telegramInstance,
         resize_keyboard,
         one_time_keyboard,
         userListWithChatID,

@@ -182,7 +182,7 @@ class TelegramMenu extends utils.Adapter {
                             menuData,
                             calledValue,
                             userToSend,
-                            instanceTelegram,
+                            telegramInstance: instanceTelegram,
                             resize_keyboard,
                             one_time_keyboard,
                             userListWithChatID,
@@ -199,7 +199,7 @@ class TelegramMenu extends utils.Adapter {
                             await (0, telegram_js_1.sendToTelegram)({
                                 userToSend,
                                 textToSend: textNoEntryFound,
-                                instanceTelegram,
+                                telegramInstance: instanceTelegram,
                                 resize_keyboard,
                                 one_time_keyboard,
                                 userListWithChatID,
@@ -214,7 +214,7 @@ class TelegramMenu extends utils.Adapter {
                         exports.adapter.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
                         setStateIdsToListenTo.forEach((element, key) => {
                             const telegramParams = {
-                                instanceTelegram,
+                                telegramInstance: instanceTelegram,
                                 one_time_keyboard,
                                 resize_keyboard,
                                 userToSend: element.userToSend,
@@ -277,7 +277,7 @@ class TelegramMenu extends utils.Adapter {
                                     (0, telegram_js_1.sendToTelegram)({
                                         userToSend: element.userToSend,
                                         textToSend: textToSend,
-                                        instanceTelegram: instanceTelegram,
+                                        telegramInstance: instanceTelegram,
                                         resize_keyboard: resize_keyboard,
                                         one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,

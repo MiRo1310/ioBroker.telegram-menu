@@ -23,10 +23,8 @@ __export(action_exports, {
   checkEvent: () => checkEvent,
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   generateActions: () => generateActions,
-  getNewStructure: () => getNewStructure,
   getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
-  idBySelector: () => idBySelector,
-  splitNavigation: () => splitNavigation
+  idBySelector: () => idBySelector
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram.js");
@@ -36,13 +34,10 @@ var import_backMenu = require("./backMenu.js");
 var import_logging = require("./logging.js");
 var import_main = require("../main.js");
 var import_string = require("../lib/string");
-var import_config = require("../config/config");
-var import_appUtils = require("../lib/appUtils");
 var import_utils = require("../lib/utils");
-var import_object = require("../lib/object");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a;
-  let value;
+  let textToSend;
   try {
     const substring = (0, import_string.decomposeText)(text, "binding:", "}").substring;
     const arrayOfItems = substring.replace("binding:{", "").replace("}", "").split(";");
@@ -61,13 +56,13 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         Object.keys(bindingObject.values).forEach(function(key) {
           item = item.replace(key, bindingObject.values[key]);
         });
-        value = eval(item);
+        textToSend = eval(item);
       }
     }
     await (0, import_telegram.sendToTelegram)({
       userToSend,
-      textToSend: value,
-      instanceTelegram: telegramInstance,
+      textToSend,
+      telegramInstance,
       resize_keyboard,
       one_time_keyboard,
       userListWithChatID,
@@ -77,17 +72,6 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
   }
 };
-function splitNavigation(rows) {
-  const generatedNavigation = [];
-  rows.forEach(({ value: value2, text: text2, parse_mode: parse_mode2, call }) => {
-    const nav = [];
-    (0, import_appUtils.checkOneLineValue)(value2).split(import_config.config.rowSplitter).forEach(function(el, index) {
-      nav[index] = (0, import_object.trimAllItems)(el.split(","));
-    });
-    generatedNavigation.push({ call, text: text2, parse_mode: (0, import_utils.isTruthy)(parse_mode2), nav });
-  });
-  return generatedNavigation;
-}
 const idBySelector = async ({
   selector,
   text: text2,
@@ -114,46 +98,38 @@ const idBySelector = async ({
       return;
     }
     const promises = enums.map(async (id) => {
-      const value2 = await import_main.adapter.getForeignStateAsync(id);
-      if (value2 && value2.val !== void 0 && value2.val !== null) {
+      const value = await import_main.adapter.getForeignStateAsync(id);
+      if ((0, import_utils.isDefined)(value == null ? void 0 : value.val)) {
         let newText = text2;
         let res;
         if (text2.includes("{common.name}")) {
           res = await import_main.adapter.getForeignObjectAsync(id);
-          import_main.adapter.log.debug(`Name ${JSON.stringify(res == null ? void 0 : res.common.name)}`);
+          import_main.adapter.log.debug(`Name ${(0, import_string.jsonString)(res == null ? void 0 : res.common.name)}`);
           if (res && typeof res.common.name === "string") {
             newText = newText.replace("{common.name}", res.common.name);
           }
         }
         if (text2.includes("&amp;&amp;")) {
-          text2Send += newText.replace("&amp;&amp;", String(value2.val));
+          text2Send += newText.replace("&amp;&amp;", String(value.val));
         } else if (text2.includes("&&")) {
-          text2Send += newText.replace("&&", String(value2.val));
+          text2Send += newText.replace("&&", String(value.val));
         } else {
           text2Send += newText;
-          text2Send += ` ${value2.val}`;
+          text2Send += ` ${value.val}`;
         }
       }
-      if (newline === "true") {
-        text2Send += " \n";
-      } else {
-        text2Send += " ";
-      }
+      text2Send += (0, import_string.getNewline)(newline);
       import_main.adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
     });
-    Promise.all(promises).then(() => {
-      (0, import_telegram.sendToTelegram)({
+    Promise.all(promises).then(async () => {
+      await (0, import_telegram.sendToTelegram)({
         userToSend: userToSend2,
         textToSend: text2Send,
-        instanceTelegram: telegramInstance2,
+        telegramInstance: telegramInstance2,
         resize_keyboard: resize_keyboard2,
         one_time_keyboard: one_time_keyboard2,
         userListWithChatID: userListWithChatID2
-      }).catch((e) => {
-        (0, import_logging.errorLogger)("Error SendToTelegram:", e, import_main.adapter);
       });
-      import_main.adapter.log.debug(`TextToSend: ${text2Send}`);
-      import_main.adapter.log.debug(`UserToSend: ${userToSend2}`);
     }).catch((e) => {
       (0, import_logging.errorLogger)("Error Promise:", e, import_main.adapter);
     });
@@ -161,13 +137,6 @@ const idBySelector = async ({
     (0, import_logging.errorLogger)("Error idBySelector: ", error, import_main.adapter);
   }
 };
-function getNewStructure(val) {
-  const obj = {};
-  val.forEach(function({ nav, text: text2, parse_mode: parse_mode2, call }) {
-    obj[call] = { nav, text: text2, parse_mode: parse_mode2 };
-  });
-  return obj;
-}
 function generateActions(action, userObject) {
   try {
     const arrayOfEntries = [
@@ -227,15 +196,15 @@ function generateActions(action, userObject) {
         var _a;
         listOfSetStateIds.push(id);
         const toggle = switch_checkbox[index] === "true";
-        let value2;
+        let value;
         if (values[index] === "true" || values[index] === "false") {
-          value2 = values[index] === "true";
+          value = values[index] === "true";
         } else {
-          value2 = values[index];
+          value = values[index];
         }
         const newObj = {
           id: IDs[index],
-          value: value2.toString(),
+          value: value.toString(),
           toggle,
           confirm: confirm[index],
           returnText: returnText[index],
@@ -259,13 +228,13 @@ function generateActions(action, userObject) {
             const newObj = {};
             item2.elements.forEach((elementItem) => {
               const name = elementItem.name;
-              const value2 = elementItem.value ? elementItem.value : elementItem.name;
+              const value = elementItem.value ? elementItem.value : elementItem.name;
               const newKey = elementItem.key ? elementItem.key : key;
               let val;
-              if (!element[value2]) {
+              if (!element[value]) {
                 val = false;
               } else {
-                val = element[value2][newKey] || "false";
+                val = element[value][newKey] || "false";
               }
               if (elementItem.type == "text" && typeof val === "string") {
                 newObj[name] = val.replace(/&amp;/g, "&");
@@ -285,32 +254,32 @@ function generateActions(action, userObject) {
     (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
   }
 }
-const exchangePlaceholderWithValue = (textToSend, val) => {
+const exchangePlaceholderWithValue = (textToSend2, val) => {
   let searchString = "";
-  if (textToSend.includes("&&")) {
+  if (textToSend2.includes("&&")) {
     searchString = "&&";
-  } else if (textToSend.includes("&amp;&amp;")) {
+  } else if (textToSend2.includes("&amp;&amp;")) {
     searchString = "&amp;&amp;";
   }
-  searchString !== "" && textToSend.toString().indexOf(searchString) != -1 ? textToSend = textToSend.replace(searchString, val.toString()) : textToSend += ` ${val}`;
-  return textToSend;
+  searchString !== "" && textToSend2.toString().indexOf(searchString) != -1 ? textToSend2 = textToSend2.replace(searchString, val.toString()) : textToSend2 += ` ${val}`;
+  return textToSend2;
 };
-const adjustValueType = (value2, valueType) => {
+const adjustValueType = (value, valueType) => {
   if (valueType == "number") {
-    if (!parseFloat(value2)) {
-      import_main.adapter.log.error(`Error: Value is not a number: ${value2}`);
+    if (!parseFloat(value)) {
+      import_main.adapter.log.error(`Error: Value is not a number: ${value}`);
       return false;
     }
-    return parseFloat(value2);
+    return parseFloat(value);
   }
   if (valueType == "boolean") {
-    if (value2 == "true") {
+    if (value == "true") {
       return true;
     }
-    import_main.adapter.log.error(`Error: Value is not a boolean: ${value2}`);
+    import_main.adapter.log.error(`Error: Value is not a boolean: ${value}`);
     return false;
   }
-  return value2;
+  return value;
 };
 const checkEvent = async (dataObject, id, state, menuData, userListWithChatID2, instanceTelegram, resize_keyboard2, one_time_keyboard2, usersInGroup) => {
   const menuArray = [];
@@ -400,9 +369,7 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID2, chatID) => {
   checkEvent,
   exchangePlaceholderWithValue,
   generateActions,
-  getNewStructure,
   getUserToSendFromUserListWithChatID,
-  idBySelector,
-  splitNavigation
+  idBySelector
 });
 //# sourceMappingURL=action.js.map

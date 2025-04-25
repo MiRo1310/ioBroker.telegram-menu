@@ -26,12 +26,11 @@ import type {
     MenuData,
     PrimitiveType,
     SetStateIds,
-    StartSides,
     TelegramParams,
     UserListWithChatId,
 } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
-import { getValueToExchange, jsonString, decomposeText, isString } from './lib/string';
+import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
 import { getListOfMenusIncludingUser, getNewStructure, getStartSides, splitNavigation } from './lib/appUtils';
 

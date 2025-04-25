@@ -91,13 +91,10 @@ class TelegramMenu extends utils.Adapter {
     const textNoEntryFound = this.config.textNoEntry;
     const userListWithChatID = this.config.userListWithChatID;
     const dataObject = this.config.data;
-    const startSides = {};
     const menuData = {};
-    Object.keys(menusWithUsers).forEach((element) => {
-      startSides[element] = dataObject.nav[element][0].call;
-    });
-    await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
-      try {
+    const startSides = (0, import_appUtils.getStartSides)(menusWithUsers, dataObject);
+    try {
+      await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
         if (err || obj == null) {
           this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
@@ -108,8 +105,8 @@ class TelegramMenu extends utils.Adapter {
         const { nav, action } = dataObject;
         this.log.info("Telegram was found");
         for (const name in nav) {
-          const splittedNavigation = (0, import_action.splitNavigation)(nav[name]);
-          const newStructure = (0, import_action.getNewStructure)(splittedNavigation);
+          const splittedNavigation = (0, import_appUtils.splitNavigation)(nav[name]);
+          const newStructure = (0, import_appUtils.getNewStructure)(splittedNavigation);
           const generatedActions = (0, import_action.generateActions)(action[name], newStructure);
           menuData[name] = newStructure;
           if (generatedActions) {
@@ -200,7 +197,7 @@ class TelegramMenu extends utils.Adapter {
               menuData,
               calledValue,
               userToSend,
-              instanceTelegram,
+              telegramInstance: instanceTelegram,
               resize_keyboard,
               one_time_keyboard,
               userListWithChatID,
@@ -217,7 +214,7 @@ class TelegramMenu extends utils.Adapter {
               await (0, import_telegram.sendToTelegram)({
                 userToSend,
                 textToSend: textNoEntryFound,
-                instanceTelegram,
+                telegramInstance: instanceTelegram,
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID
@@ -231,7 +228,7 @@ class TelegramMenu extends utils.Adapter {
             setStateIdsToListenTo.forEach((element, key) => {
               var _a, _b;
               const telegramParams = {
-                instanceTelegram,
+                telegramInstance: instanceTelegram,
                 one_time_keyboard,
                 resize_keyboard,
                 userToSend: element.userToSend
@@ -298,7 +295,7 @@ class TelegramMenu extends utils.Adapter {
                   (0, import_telegram.sendToTelegram)({
                     userToSend: element.userToSend,
                     textToSend,
-                    instanceTelegram,
+                    telegramInstance: instanceTelegram,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
@@ -312,10 +309,10 @@ class TelegramMenu extends utils.Adapter {
             });
           }
         });
-      } catch (e) {
-        (0, import_logging.errorLogger)("Error onReady", e, adapter);
-      }
-    });
+      });
+    } catch (e) {
+      (0, import_logging.errorLogger)("Error onReady", e, adapter);
+    }
     await this.subscribeForeignStatesAsync(botSendMessageID);
     await this.subscribeForeignStatesAsync(requestMessageID);
     await this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);

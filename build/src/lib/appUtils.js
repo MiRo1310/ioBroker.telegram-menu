@@ -18,20 +18,20 @@ function calcValue(textToSend, val, adapter) {
     const { substringExcludeSearch, textExcludeSubstring } = (0, string_1.decomposeText)(textToSend, config_1.config.math.start, config_1.config.math.end);
     const { val: evalVal, error } = (0, math_1.evaluate)([val, substringExcludeSearch], adapter);
     return error
-        ? { textToSend: textExcludeSubstring, val, error }
-        : { textToSend: textExcludeSubstring, val: evalVal, error };
+        ? { textToSend: textExcludeSubstring, calculated: val, error }
+        : { textToSend: textExcludeSubstring, calculated: evalVal, error };
 }
 function roundValue(val, textToSend) {
     const floatVal = parseFloat(val);
     const { textExcludeSubstring, substringExcludeSearch: decimalPlaces } = (0, string_1.decomposeText)(textToSend, config_1.config.round.start, config_1.config.round.end);
     const decimalPlacesNum = parseInt(decimalPlaces);
     if (isNaN(floatVal)) {
-        return { val: 'NaN', textToSend: textExcludeSubstring, error: true };
+        return { roundedValue: 'NaN', text: textExcludeSubstring, error: true };
     }
     if (isNaN(decimalPlacesNum)) {
-        return { val, textToSend: textExcludeSubstring, error: true };
+        return { roundedValue: val, text: textExcludeSubstring, error: true };
     }
-    return { val: floatVal.toFixed(decimalPlacesNum), textToSend: textExcludeSubstring, error: false };
+    return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
 const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
     const menus = [];

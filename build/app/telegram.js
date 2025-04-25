@@ -34,7 +34,7 @@ async function sendToTelegram({
   userToSend = "",
   textToSend,
   keyboard,
-  instanceTelegram = import_config.defaultTelegramInstance,
+  telegramInstance = import_config.defaultTelegramInstance,
   resize_keyboard = true,
   one_time_keyboard = true,
   userListWithChatID,
@@ -44,15 +44,15 @@ async function sendToTelegram({
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
     const parse_modeType = (0, import_appUtils.getParseMode)(parse_mode);
     import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
-    import_main.adapter.log.debug(`Instance: ${instanceTelegram}`);
+    import_main.adapter.log.debug(`Instance: ${telegramInstance}`);
     import_main.adapter.log.debug(`UserListWithChatID	: ${(0, import_string.jsonString)(userListWithChatID)}`);
     import_main.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
     import_main.adapter.log.debug(`ChatId	: ${chatId}`);
     import_main.adapter.log.debug(`ParseModeType: ${parse_modeType}`);
-    const validatedTextToSend = (0, import_string.validateNewLine)(textToSend != null ? textToSend : "");
+    const validatedTextToSend = (0, import_string.cleanUpString)(textToSend != null ? textToSend : "");
     if (!keyboard) {
       import_main.adapter.sendTo(
-        instanceTelegram,
+        telegramInstance,
         "send",
         {
           text: validatedTextToSend,
@@ -64,7 +64,7 @@ async function sendToTelegram({
       return;
     }
     import_main.adapter.sendTo(
-      instanceTelegram,
+      telegramInstance,
       "send",
       {
         chatId,
@@ -89,7 +89,7 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = import_con
     {
       chatId: (0, import_utils.getChatID)(userListWithChatID, user),
       parse_mode: (0, import_appUtils.getParseMode)(parse_mode),
-      text: (0, import_string.validateNewLine)(textToSend),
+      text: (0, import_string.cleanUpString)(textToSend),
       reply_markup: keyboard
     },
     (res) => telegramLogger(res)

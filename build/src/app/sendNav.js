@@ -15,7 +15,7 @@ async function sendNav(part, userToSend, instanceTelegram, userListWithChatID, r
                 userToSend,
                 textToSend: text,
                 keyboard: nav,
-                instanceTelegram,
+                telegramInstance: instanceTelegram,
                 resize_keyboard,
                 one_time_keyboard,
                 userListWithChatID,

@@ -109,7 +109,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
           await (0, import_telegram.sendToTelegram)({
             userToSend,
             textToSend,
-            instanceTelegram: telegramInstance,
+            telegramInstance,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,

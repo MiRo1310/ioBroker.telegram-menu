@@ -21,7 +21,7 @@ describe('calcValue', () => {
         const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
         (0, chai_1.expect)(result).to.deep.equal({
             textToSend: 'Test',
-            val: 15,
+            calculated: 15,
             error: false,
         });
     });
@@ -31,7 +31,7 @@ describe('calcValue', () => {
         const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
         (0, chai_1.expect)(result).to.deep.equal({
             textToSend: 'Test',
-            val: '10',
+            calculated: '10',
             error: true,
         });
     });
@@ -41,7 +41,7 @@ describe('calcValue', () => {
         const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
         (0, chai_1.expect)(result).to.deep.equal({
             textToSend: '',
-            val: '',
+            calculated: '',
             error: false,
         });
     });
@@ -51,7 +51,7 @@ describe('calcValue', () => {
         const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
         (0, chai_1.expect)(result).to.deep.equal({
             textToSend: 'No math here',
-            val: 10,
+            calculated: 10,
             error: false,
         });
     });
@@ -61,7 +61,7 @@ describe('calcValue', () => {
         const result = (0, appUtils_1.calcValue)(textToSend, val, adapter);
         (0, chai_1.expect)(result).to.deep.equal({
             textToSend: 'Test  test',
-            val: 10,
+            calculated: 10,
             error: false,
         });
     });
@@ -72,8 +72,8 @@ describe('roundValue', () => {
         const textToSend = 'Test {round:2}';
         const result = (0, appUtils_1.roundValue)(val, textToSend);
         (0, chai_1.expect)(result).to.deep.equal({
-            val: '123.46',
-            textToSend: 'Test',
+            roundedValue: '123.46',
+            text: 'Test',
             error: false,
         });
     });
@@ -82,8 +82,8 @@ describe('roundValue', () => {
         const textToSend = 'Test {round:invalid}';
         const result = (0, appUtils_1.roundValue)(val, textToSend);
         (0, chai_1.expect)(result).to.deep.equal({
-            val: '123.4567',
-            textToSend: 'Test',
+            roundedValue: '123.4567',
+            text: 'Test',
             error: true,
         });
     });
@@ -92,8 +92,8 @@ describe('roundValue', () => {
         const textToSend = '';
         const result = (0, appUtils_1.roundValue)(val, textToSend);
         (0, chai_1.expect)(result).to.deep.equal({
-            val: 'NaN',
-            textToSend: '',
+            roundedValue: 'NaN',
+            text: '',
             error: true,
         });
     });
@@ -102,8 +102,8 @@ describe('roundValue', () => {
         const textToSend = 'Test {round:2}';
         const result = (0, appUtils_1.roundValue)(val, textToSend);
         (0, chai_1.expect)(result).to.deep.equal({
-            val: 'NaN',
-            textToSend: 'Test',
+            roundedValue: 'NaN',
+            text: 'Test',
             error: true,
         });
     });
@@ -112,8 +112,8 @@ describe('roundValue', () => {
         const textToSend = 'No round here';
         const result = (0, appUtils_1.roundValue)(val, textToSend);
         (0, chai_1.expect)(result).to.deep.equal({
-            val: '123.4567',
-            textToSend: 'No round here',
+            roundedValue: '123.4567',
+            text: 'No round here',
             error: true,
         });
     });

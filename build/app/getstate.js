@@ -30,23 +30,26 @@ var import_main = require("../main");
 var import_time = require("../lib/time");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
+var import_config = require("../config/config");
+var import_logging = require("./logging");
+function isLastElement(i, array) {
+  return i == (array == null ? void 0 : array.length);
+}
 function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
   var _a, _b;
-  let text = "";
+  let createdText = "";
   let i = 1;
   const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
-  (_b = part.getData) == null ? void 0 : _b.forEach(async (element) => {
+  (_b = part.getData) == null ? void 0 : _b.forEach(async ({ newline, text, id }) => {
+    var _a2;
     try {
-      import_main.adapter.log.debug(`Get Value ID: ${element.id}`);
-      const specifiedSelektor = "functions=";
-      const id = element.id;
-      let textToSend = "";
-      if (id.indexOf(specifiedSelektor) != -1) {
+      import_main.adapter.log.debug(`Get Value ID: ${id}`);
+      if (id.includes(import_config.config.functionSelektor)) {
         await (0, import_action.idBySelector)({
           selector: id,
-          text: element.text,
+          text,
           userToSend,
-          newline: element.newline,
+          newline,
           telegramInstance,
           one_time_keyboard,
           resize_keyboard,
@@ -54,10 +57,9 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         });
         return;
       }
-      if (element.text.includes("binding:")) {
-        import_main.adapter.log.debug("Binding");
+      if (text.includes(import_config.config.binding.start)) {
         await (0, import_action.bindingFunc)(
-          element.text,
+          text,
           userToSend,
           telegramInstance,
           one_time_keyboard,
@@ -67,130 +69,108 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         );
         return;
       }
-      await import_main.adapter.getForeignStateAsync(id).then(async (state) => {
-        var _a2, _b2, _c;
-        if (!(0, import_utils.isDefined)(state)) {
-          import_main.adapter.log.error("The state is empty!");
-          return;
+      const state = await import_main.adapter.getForeignStateAsync(id);
+      if (!(0, import_utils.isDefined)(state)) {
+        import_main.adapter.log.error("The state is empty!");
+        return;
+      }
+      const stateValue = (0, import_string.cleanUpString)((_a2 = state.val) == null ? void 0 : _a2.toString());
+      let modifiedStateVal = stateValue;
+      let modifiedTextToSend = text;
+      if (text.includes(import_config.config.timestamp.ts) || text.includes(import_config.config.timestamp.lc)) {
+        modifiedTextToSend = await (0, import_utilities.processTimeIdLc)(text, id);
+        modifiedStateVal = "";
+      }
+      if (modifiedTextToSend.includes(import_config.config.time)) {
+        modifiedTextToSend = (0, import_time.integrateTimeIntoText)(modifiedTextToSend, stateValue);
+        modifiedStateVal = "";
+      }
+      if (modifiedTextToSend.includes(import_config.config.math.start)) {
+        const { textToSend, calculated, error: error2 } = (0, import_appUtils.calcValue)(modifiedTextToSend, modifiedStateVal, import_main.adapter);
+        if (!error2) {
+          modifiedTextToSend = textToSend;
+          modifiedStateVal = calculated;
+          import_main.adapter.log.debug(`TextToSend: ${modifiedTextToSend} val: ${modifiedStateVal}`);
         }
-        const valueForJson = (_b2 = (_a2 = state.val) == null ? void 0 : _a2.toString()) != null ? _b2 : "";
-        import_main.adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
-        let val = valueForJson.replace(/\\/g, "").replace(/"/g, "");
-        let newline = "";
-        if (element.newline === "true") {
-          newline = "\n";
+      }
+      if (modifiedTextToSend.includes(import_config.config.round.start)) {
+        const { error: error2, text: text2, roundedValue } = (0, import_appUtils.roundValue)(String(modifiedStateVal), modifiedTextToSend);
+        if (!error2) {
+          import_main.adapter.log.debug(`Rounded from ${(0, import_string.jsonString)(modifiedStateVal)} to ${(0, import_string.jsonString)(roundedValue)}`);
+          modifiedStateVal = roundedValue;
+          modifiedTextToSend = text2;
         }
-        if (element.text) {
-          textToSend = element.text.toString();
-          if (element.text.includes("{time.lc") || element.text.includes("{time.ts")) {
-            textToSend = await (0, import_utilities.processTimeIdLc)(element.text, id) || "";
-            val = "";
-          }
-          if (textToSend.includes("{time}")) {
-            textToSend = (0, import_time.integrateTimeIntoText)(textToSend, state.val);
-            val = "";
-          }
-          if (textToSend.includes("math:")) {
-            const result = (0, import_appUtils.calcValue)(textToSend, val, import_main.adapter);
-            if (result) {
-              textToSend = result.textToSend;
-              val = result.val;
-              import_main.adapter.log.debug(`TextToSend: ${textToSend} val: ${val}`);
-            }
-          }
-          if (textToSend.includes("round:")) {
-            const result = (0, import_appUtils.roundValue)(String(val), textToSend);
-            if (result) {
-              import_main.adapter.log.debug(
-                `The Value was rounded ${JSON.stringify(val)} to ${JSON.stringify(result.val)}`
-              );
-              val = result.val;
-              textToSend = result.textToSend;
-            }
-          }
-          if (textToSend.includes("{json")) {
-            if ((0, import_string.decomposeText)(textToSend, "{json", "}").substring.includes("TextTable")) {
-              const result = (0, import_jsonTable.createTextTableFromJson)(valueForJson, textToSend);
-              if (result) {
-                await (0, import_telegram.sendToTelegram)({
-                  userToSend,
-                  textToSend: result,
-                  instanceTelegram: telegramInstance,
-                  resize_keyboard,
-                  one_time_keyboard,
-                  userListWithChatID,
-                  parse_mode
-                });
-                return;
-              }
-              import_main.adapter.log.debug("Cannot create a Text-Table");
-            } else {
-              const result = (0, import_jsonTable.createKeyboardFromJson)(valueForJson, textToSend, element.id, userToSend);
-              if (valueForJson && valueForJson.length > 0) {
-                if (result && result.text && result.keyboard) {
-                  (0, import_telegram.sendToTelegramSubmenu)(
-                    userToSend,
-                    result.text,
-                    result.keyboard,
-                    telegramInstance,
-                    userListWithChatID,
-                    parse_mode
-                  );
-                }
-                return;
-              }
-              await (0, import_telegram.sendToTelegram)({
-                userToSend,
-                textToSend: "The state is empty!",
-                instanceTelegram: telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
-                userListWithChatID,
-                parse_mode
-              });
-              import_main.adapter.log.debug("The state is empty!");
-              return;
-            }
-          }
-          const { newValue: _val, textToSend: _text, error } = (0, import_string.getValueToExchange)(import_main.adapter, textToSend, val);
-          val = _val;
-          textToSend = _text;
-          if (!error) {
-            import_main.adapter.log.debug(`Value Changed to: ${textToSend}`);
-          } else {
-            import_main.adapter.log.debug(`No Change`);
-          }
-          if (textToSend.indexOf("&&") != -1) {
-            text += `${textToSend.replace("&&", val.toString())}${newline}`;
-          } else {
-            text += `${textToSend} ${val}${newline}`;
-          }
-        } else {
-          text += `${val} ${newline}`;
-        }
-        import_main.adapter.log.debug(`Text: ${text}`);
-        if (i == ((_c = part.getData) == null ? void 0 : _c.length)) {
-          if (userToSend) {
+      }
+      if (modifiedTextToSend.includes(import_config.config.json.start)) {
+        const { substring } = (0, import_string.decomposeText)(modifiedTextToSend, import_config.config.json.start, import_config.config.json.end);
+        if (substring.includes(import_config.config.json.textTable)) {
+          const result = (0, import_jsonTable.createTextTableFromJson)(stateValue, modifiedTextToSend);
+          if (result) {
             await (0, import_telegram.sendToTelegram)({
               userToSend,
-              textToSend: text,
-              instanceTelegram: telegramInstance,
+              textToSend: result,
+              telegramInstance,
               resize_keyboard,
               one_time_keyboard,
               userListWithChatID,
               parse_mode
             });
+            return;
           }
+          import_main.adapter.log.debug("Cannot create a Text-Table");
+        } else {
+          const result = (0, import_jsonTable.createKeyboardFromJson)(stateValue, modifiedTextToSend, id, userToSend);
+          if (stateValue && stateValue.length > 0) {
+            if (result && result.text && result.keyboard) {
+              (0, import_telegram.sendToTelegramSubmenu)(
+                userToSend,
+                result.text,
+                result.keyboard,
+                telegramInstance,
+                userListWithChatID,
+                parse_mode
+              );
+            }
+            return;
+          }
+          await (0, import_telegram.sendToTelegram)({
+            userToSend,
+            textToSend: "The state is empty!",
+            telegramInstance,
+            resize_keyboard,
+            one_time_keyboard,
+            userListWithChatID,
+            parse_mode
+          });
+          import_main.adapter.log.debug("The state is empty!");
+          return;
         }
-        i++;
-      });
+      }
+      const {
+        newValue: _val,
+        textToSend: _text,
+        error
+      } = (0, import_string.getValueToExchange)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
+      modifiedStateVal = String(_val);
+      modifiedTextToSend = _text;
+      import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+      const isNewline = (0, import_string.getNewline)(newline);
+      createdText += modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+      import_main.adapter.log.debug(`Text: ${createdText}`);
+      if (isLastElement(i, part.getData)) {
+        await (0, import_telegram.sendToTelegram)({
+          userToSend,
+          textToSend: createdText,
+          telegramInstance,
+          resize_keyboard,
+          one_time_keyboard,
+          userListWithChatID,
+          parse_mode
+        });
+      }
+      i++;
     } catch (error) {
-      error({
-        array: [
-          { text: "Error GetData:", val: error.message },
-          { text: "Stack:", val: error.stack }
-        ]
-      });
+      (0, import_logging.errorLogger)("Error GetData:", error, import_main.adapter);
     }
   });
 }

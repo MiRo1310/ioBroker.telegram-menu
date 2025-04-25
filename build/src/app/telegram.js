@@ -10,26 +10,26 @@ const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
 const config_1 = require("../config/config");
-async function sendToTelegram({ userToSend = '', textToSend, keyboard, instanceTelegram = config_1.defaultTelegramInstance, resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode = false, }) {
+async function sendToTelegram({ userToSend = '', textToSend, keyboard, telegramInstance = config_1.defaultTelegramInstance, resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode = false, }) {
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, userToSend);
         const parse_modeType = (0, appUtils_1.getParseMode)(parse_mode);
         main_1.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
-        main_1.adapter.log.debug(`Instance: ${instanceTelegram}`);
+        main_1.adapter.log.debug(`Instance: ${telegramInstance}`);
         main_1.adapter.log.debug(`UserListWithChatID	: ${(0, string_1.jsonString)(userListWithChatID)}`);
         main_1.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
         main_1.adapter.log.debug(`ChatId	: ${chatId}`);
         main_1.adapter.log.debug(`ParseModeType: ${parse_modeType}`);
-        const validatedTextToSend = (0, string_1.validateNewLine)(textToSend ?? '');
+        const validatedTextToSend = (0, string_1.cleanUpString)(textToSend ?? '');
         if (!keyboard) {
-            main_1.adapter.sendTo(instanceTelegram, 'send', {
+            main_1.adapter.sendTo(telegramInstance, 'send', {
                 text: validatedTextToSend,
                 chatId,
                 parse_mode: parse_modeType,
             }, (res) => telegramLogger(res));
             return;
         }
-        main_1.adapter.sendTo(instanceTelegram, 'send', {
+        main_1.adapter.sendTo(telegramInstance, 'send', {
             chatId,
             parse_mode: parse_modeType,
             text: await (0, utilities_1.checkStatusInfo)(validatedTextToSend),
@@ -48,7 +48,7 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = config_1.d
     main_1.adapter.sendTo(instance, 'send', {
         chatId: (0, utils_1.getChatID)(userListWithChatID, user),
         parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
-        text: (0, string_1.validateNewLine)(textToSend),
+        text: (0, string_1.cleanUpString)(textToSend),
         reply_markup: keyboard,
     }, (res) => telegramLogger(res));
 }

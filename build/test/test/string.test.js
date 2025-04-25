@@ -114,17 +114,17 @@ describe('removeQuotes', () => {
 });
 describe('validateNewLine', () => {
     it('Validate new line', () => {
-        const result = (0, string_1.validateNewLine)('Das hier ist ein\\n Test');
+        const result = (0, string_1.cleanUpString)('Das hier ist ein\\n Test');
         (0, chai_1.expect)(result).to.equal('Das hier ist ein\n Test');
     });
     it('Validate new line with empty text', () => {
-        const result = (0, string_1.validateNewLine)(undefined);
+        const result = (0, string_1.cleanUpString)(undefined);
         (0, chai_1.expect)(result).to.equal('');
     });
     it('soll \\n in echten Zeilenumbruch umwandeln', () => {
         const input = 'Das\\\\\n hier\\\\n ist ein\\\n Test';
         const expected = 'Das\n hier\n ist ein\n Test';
-        const result = (0, string_1.validateNewLine)(input);
+        const result = (0, string_1.cleanUpString)(input);
         (0, chai_1.expect)(result).to.equal(expected);
     });
 });

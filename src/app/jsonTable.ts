@@ -5,7 +5,7 @@ import { decomposeText, jsonString, parseJSON } from '../lib/string';
 
 const lastText: LastText = {};
 const createKeyboardFromJson = (
-    val?: string,
+    val: string,
     text: string | null,
     id: string,
     user: string,
@@ -75,18 +75,15 @@ const createKeyboardFromJson = (
     }
 };
 
-function createTextTableFromJson(val?: string, textToSend: string): string | undefined {
+function createTextTableFromJson(val: string, textToSend: string): string | undefined {
     try {
-        if (!val) {
-            return;
-        }
         const substring = decomposeText(textToSend, '{json:', '}').substring;
         const array = substring.split(';');
         const itemArray: string[] = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
         const valArray: ValArray[] = JSON.parse(val);
-        // Array für die Größte Länge der Items
-        const lengthArray: number[] = [];
-        // Trägt für jedes Item einen Eintrag im lengthArray ein
+
+        const lengthArray: number[] = []; // Array für die Länge der Items
+
         itemArray.forEach(element => {
             lengthArray.push(element.split(':')[1].length);
         });

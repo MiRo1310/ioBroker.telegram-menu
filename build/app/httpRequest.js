@@ -74,7 +74,7 @@ async function httpRequest(parts, userToSend, instanceTelegram, resize_keyboard,
       await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: imagePath,
-        instanceTelegram,
+        telegramInstance: instanceTelegram,
         resize_keyboard,
         one_time_keyboard,
         userListWithChatID
