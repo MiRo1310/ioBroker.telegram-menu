@@ -285,8 +285,8 @@ async function <span class="fstat-no" title="function not covered" >shoppingList
     val: string | null,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         let array, user, idList, instance, idItem, res;
@@ -317,10 +317,10 @@ async function <span class="fstat-no" title="function not covered" >shoppingList
                 textToSend: 'Cannot delete the Item',
                 keyboard: undefined,
                 instance: instanceTelegram,
-                resizeKeyboard: resizeKeyboard,
-                oneTimeKeyboard: oneTimeKeyboard,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parseMode: 'true',
+                parse_mode: 'true',
             });
 <span class="cstat-no" title="statement not covered" >            adapter.log.debug('Cannot delete the Item');</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>

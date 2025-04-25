@@ -1135,10 +1135,10 @@ const bindingFunc = <span class="fstat-no" title="function not covered" >async <
     text: string,
     userToSend: string,
     telegramInstance: string,
-    oneTimeKeyboard: boolean,
-    resizeKeyboard: boolean,
+    one_time_keyboard: boolean,
+    resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
-    parseMode: BooleanString,
+    parse_mode: BooleanString,
 ): Promise&lt;void&gt; =&gt; {
     let value;
 &nbsp;
@@ -1170,10 +1170,10 @@ const bindingFunc = <span class="fstat-no" title="function not covered" >async <
             user: userToSend,
             textToSend: value,
             instance: telegramInstance,
-            resizeKeyboard: oneTimeKeyboard,
-            oneTimeKeyboard: resizeKeyboard,
+            resize_keyboard: one_time_keyboard,
+            one_time_keyboard: resize_keyboard,
             userListWithChatID: userListWithChatID,
-            parseMode: parseMode,
+            parse_mode: parse_mode,
         });
     } catch (e: any) {
 <span class="cstat-no" title="statement not covered" >        errorLogger('Error Binding function: ', e, adapter);</span>
@@ -1208,7 +1208,7 @@ function <span class="fstat-no" title="function not covered" >editArrayButtons(<
                 });
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            newVal.push({ call: element.call, text: element.text, parseMode: element.parseMode, nav: array });</span>
+<span class="cstat-no" title="statement not covered" >            newVal.push({ call: element.call, text: element.text, parse_mode: element.parse_mode, nav: array });</span>
         });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        return newVal;</span>
@@ -1224,8 +1224,8 @@ const idBySelector = <span class="fstat-no" title="function not covered" >async 
     userToSend: string,
     newline: Newline,
     telegramInstance: string,
-    oneTimeKeyboard: boolean,
-    resizeKeyboard: boolean,
+    one_time_keyboard: boolean,
+    resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): Promise&lt;void&gt; =&gt; {
     let text2Send = <span class="cstat-no" title="statement not covered" >'';</span>
@@ -1281,10 +1281,10 @@ const idBySelector = <span class="fstat-no" title="function not covered" >async 
                     user: userToSend,
                     textToSend: text2Send,
                     instance: telegramInstance,
-                    resizeKeyboard: oneTimeKeyboard,
-                    oneTimeKeyboard: resizeKeyboard,
+                    resize_keyboard: one_time_keyboard,
+                    one_time_keyboard: resize_keyboard,
                     userListWithChatID: userListWithChatID,
-                    parseMode: 'false',
+                    parse_mode: 'false',
                 }).catch(<span class="fstat-no" title="function not covered" >e </span>=&gt; {
 <span class="cstat-no" title="statement not covered" >                    errorLogger('Error SendToTelegram:', e, adapter);</span>
                 });
@@ -1314,8 +1314,8 @@ function <span class="fstat-no" title="function not covered" >generateNewObjectS
 <span class="cstat-no" title="statement not covered" >            obj[call] = {</span>
                 nav: element.nav,
                 text: element.text,
-                parseMode:
-                    element.parseMode == 'true' || element.parseMode == 'false' ? element.parseMode : 'false',
+                parse_mode:
+                    element.parse_mode == 'true' || element.parse_mode == 'false' ? element.parse_mode : 'false',
             };
         });
 <span class="cstat-no" title="statement not covered" >        return obj;</span>
@@ -1347,7 +1347,7 @@ function <span class="fstat-no" title="function not covered" >generateActions(</
                 objName: 'loc',
                 name: 'location',
                 loop: 'latitude',
-                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parseMode', key: 0 }],
+                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parse_mode', key: 0 }],
             },
             {
                 objName: 'pic',
@@ -1367,7 +1367,7 @@ function <span class="fstat-no" title="function not covered" >generateActions(</
                     { name: 'id', value: 'IDs' },
                     { name: 'text', type: 'text' },
                     { name: 'newline', value: 'newline_checkbox' },
-                    { name: 'parseMode', key: 0 },
+                    { name: 'parse_mode', key: 0 },
                 ],
             },
             {
@@ -1401,7 +1401,7 @@ function <span class="fstat-no" title="function not covered" >generateActions(</
                     confirm: element.confirm[index],
                     returnText: element.returnText[index],
                     ack: element.ack ? element.ack[index] : 'false',
-                    parseMode: element.parseMode ? element.parseMode[0] : 'false',
+                    parse_mode: element.parse_mode ? element.parse_mode[0] : 'false',
                 };
 <span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (userObject[element.trigger[0]] &amp;&amp; userObject[element.trigger[0]]?.switch) {</span>
 <span class="cstat-no" title="statement not covered" >                    userObject[element.trigger[0]].switch!.push(newObj);</span>
@@ -1506,8 +1506,8 @@ const checkEvent = <span class="fstat-no" title="function not covered" >async </
     menuData: MenuData,
     userListWithChatID: UserListWithChatId[],
     instanceTelegram: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
     usersInGroup: UserInGroup,
 ): Promise&lt;boolean&gt; =&gt; {
     const menuArray: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -1554,8 +1554,8 @@ const checkEvent = <span class="fstat-no" title="function not covered" >async </
                                 menuData,
                                 user,
                                 instanceTelegram,
-                                resizeKeyboard,
-                                oneTimeKeyboard,
+                                resize_keyboard,
+                                one_time_keyboard,
                                 userListWithChatID,
                                 part,
                                 menuData.data,
@@ -1569,8 +1569,8 @@ const checkEvent = <span class="fstat-no" title="function not covered" >async </
                                 user,
                                 instanceTelegram,
                                 userListWithChatID,
-                                resizeKeyboard,
-                                oneTimeKeyboard,
+                                resize_keyboard,
+                                one_time_keyboard,
                             );
                         }
                     }

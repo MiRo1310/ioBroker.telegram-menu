@@ -252,7 +252,7 @@ async function <span class="fstat-no" title="function not covered" >switchBack(<
     allMenusWithData: AllMenusWithData,
     menus: string[],
     lastMenu = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
-): Promise&lt;{ texttosend: string | undefined; menuToSend: Keyboard; parseMode: BooleanString } | undefined&gt; {
+): Promise&lt;{ texttosend: string | undefined; menuToSend: Keyboard; parse_mode: BooleanString } | undefined&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const list = <span class="cstat-no" title="statement not covered" >backMenu[userToSend] &amp;&amp; backMenu[userToSend]?.list ? backMenu[userToSend].list : [];</span>
         let keyboard: Keyboard = <span class="cstat-no" title="statement not covered" >{ inline_keyboard: [] };</span>
@@ -273,7 +273,7 @@ async function <span class="fstat-no" title="function not covered" >switchBack(<
 <span class="cstat-no" title="statement not covered" >                adapter.log.debug(`Menu call not found in this Menu: ${menu}`);</span>
             }
 <span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (keyboard &amp;&amp; foundedMenu != '') {</span>
-                let parseMode: BooleanString = <span class="cstat-no" title="statement not covered" >'' as BooleanString;</span>
+                let parse_mode: BooleanString = <span class="cstat-no" title="statement not covered" >'' as BooleanString;</span>
 <span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (!lastMenu) {</span>
                     let textToSend = <span class="cstat-no" title="statement not covered" >allMenusWithData[foundedMenu][</span>
                         backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
@@ -281,19 +281,19 @@ async function <span class="fstat-no" title="function not covered" >switchBack(<
 <span class="cstat-no" title="statement not covered" >                    <span class="missing-if-branch" title="if path not taken" >I</span>if (textToSend) {</span>
 <span class="cstat-no" title="statement not covered" >                        textToSend = await checkStatusInfo(textToSend);</span>
                     }
-<span class="cstat-no" title="statement not covered" >                    parseMode = (allMenusWithData[foundedMenu][</span>
+<span class="cstat-no" title="statement not covered" >                    parse_mode = (allMenusWithData[foundedMenu][</span>
                         backMenu[userToSend].list[backMenu[userToSend].list.length - 1]
-                    ].parseMode || 'false') as BooleanString;
+                    ].parse_mode || 'false') as BooleanString;
 <span class="cstat-no" title="statement not covered" >                    backMenu[userToSend].last = list.pop();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                    return { texttosend: textToSend, menuToSend: keyboard, parseMode: parseMode };</span>
+<span class="cstat-no" title="statement not covered" >                    return { texttosend: textToSend, menuToSend: keyboard, parse_mode: parse_mode };</span>
                 }
-<span class="cstat-no" title="statement not covered" >                parseMode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parseMode ||</span>
+<span class="cstat-no" title="statement not covered" >                parse_mode = (allMenusWithData[foundedMenu][backMenu[userToSend].last].parse_mode ||</span>
                     'false') as BooleanString;
 <span class="cstat-no" title="statement not covered" >                return {</span>
                     texttosend: allMenusWithData[foundedMenu][backMenu[userToSend].last].text as string,
                     menuToSend: keyboard,
-                    parseMode: parseMode,
+                    parse_mode: parse_mode,
                 };
             }
         }

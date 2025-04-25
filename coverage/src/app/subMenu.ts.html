@@ -1104,8 +1104,8 @@ const setDynamicValue = <span class="fstat-no" title="function not covered" >asy
         obj.val,
         true,
         obj.instanceTelegram,
-        obj.resizeKeyboard,
-        obj.oneTimeKeyboard,
+        obj.resize_keyboard,
+        obj.one_time_keyboard,
         obj.userListWithChatID,
     );
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(result)) {</span>
@@ -1167,8 +1167,8 @@ const setFirstMenuValue = <span class="fstat-no" title="function not covered" >a
         val as string,
         true,
         obj.instanceTelegram,
-        obj.resizeKeyboard,
-        obj.oneTimeKeyboard,
+        obj.resize_keyboard,
+        obj.one_time_keyboard,
         obj.userListWithChatID,
     );
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(result)) {</span>
@@ -1192,8 +1192,8 @@ const setSecondMenuValue = <span class="fstat-no" title="function not covered" >
         val as string,
         true,
         obj.instanceTelegram,
-        obj.oneTimeKeyboard,
-        obj.resizeKeyboard,
+        obj.one_time_keyboard,
+        obj.resize_keyboard,
         obj.userListWithChatID,
     );
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(result)) {</span>
@@ -1306,8 +1306,8 @@ const setValueForSubmenuPercent = <span class="fstat-no" title="function not cov
         value,
         true,
         obj.instanceTelegram,
-        obj.resizeKeyboard,
-        obj.oneTimeKeyboard,
+        obj.resize_keyboard,
+        obj.one_time_keyboard,
         obj.userListWithChatID,
     );
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(result)) {</span>
@@ -1330,8 +1330,8 @@ const setValueForSubmenuNumber = <span class="fstat-no" title="function not cove
         value,
         true,
         obj.instanceTelegram,
-        obj.resizeKeyboard,
-        obj.oneTimeKeyboard,
+        obj.resize_keyboard,
+        obj.one_time_keyboard,
         obj.userListWithChatID,
     );
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(result)) {</span>
@@ -1348,10 +1348,10 @@ const back = <span class="fstat-no" title="function not covered" >async </span>(
             textToSend: result.texttosend as string,
             keyboard: result.menuToSend,
             instance: obj.instanceTelegram,
-            resizeKeyboard: obj.resizeKeyboard,
-            oneTimeKeyboard: obj.oneTimeKeyboard,
+            resize_keyboard: obj.resize_keyboard,
+            one_time_keyboard: obj.one_time_keyboard,
             userListWithChatID: obj.userListWithChatID,
-            parseMode: result.parseMode,
+            parse_mode: result.parse_mode,
         });
     }
 };
@@ -1360,8 +1360,8 @@ async function <span class="fstat-no" title="function not covered" >callSubMenu(
     newObjectNavStructure: NewObjectNavStructure,
     userToSend: string,
     instanceTelegram: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     part: Part,
     allMenusWithData: { [key: string]: NewObjectNavStructure },
@@ -1374,8 +1374,8 @@ async function <span class="fstat-no" title="function not covered" >callSubMenu(
             jsonStringNav: jsonStringNav,
             userToSend: userToSend,
             instanceTelegram: instanceTelegram,
-            resizeKeyboard: resizeKeyboard,
-            oneTimeKeyboard: oneTimeKeyboard,
+            resize_keyboard: resize_keyboard,
+            one_time_keyboard: one_time_keyboard,
             userListWithChatID: userListWithChatID,
             part,
             allMenusWithData: allMenusWithData,
@@ -1397,7 +1397,7 @@ async function <span class="fstat-no" title="function not covered" >callSubMenu(
                 obj.keyboard,
                 instanceTelegram,
                 userListWithChatID,
-                part.parseMode || 'false',
+                part.parse_mode || 'false',
             );
         }
 <span class="cstat-no" title="statement not covered" >        return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };</span>
@@ -1410,8 +1410,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
     jsonStringNav,
     userToSend,
     instanceTelegram,
-    resizeKeyboard,
-    oneTimeKeyboard,
+    resize_keyboard,
+    one_time_keyboard,
     userListWithChatID,
     part,
     allMenusWithData,
@@ -1421,8 +1421,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
     jsonStringNav: string;
     userToSend: string;
     instanceTelegram: string;
-    resizeKeyboard: boolean;
-    oneTimeKeyboard: boolean;
+    resize_keyboard: boolean;
+    one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatId[];
     part: Part;
     allMenusWithData: { [p: string]: NewObjectNavStructure };
@@ -1460,8 +1460,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
                 part,
                 userToSend,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
             });
         } else <span class="cstat-no" title="statement not covered" >if (callbackData.includes('second')) {</span>
@@ -1469,8 +1469,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
                 part,
                 userToSend,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
             });
         } else <span class="cstat-no" title="statement not covered" >if (callbackData.includes('dynSwitch')) {</span>
@@ -1480,8 +1480,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
                 val,
                 userToSend,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
                 part,
             });
@@ -1493,8 +1493,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
                 calledValue: jsonStringNav,
                 userToSend,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
                 part,
                 allMenusWithData,
@@ -1508,8 +1508,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
                 calledValue: jsonStringNav,
                 userToSend,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
                 part,
             });
@@ -1521,8 +1521,8 @@ async function <span class="fstat-no" title="function not covered" >subMenu(</sp
                 allMenusWithData,
                 menus,
                 instanceTelegram,
-                resizeKeyboard,
-                oneTimeKeyboard,
+                resize_keyboard,
+                one_time_keyboard,
                 userListWithChatID,
             });
         }

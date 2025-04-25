@@ -470,14 +470,14 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
     part: Part,
     userToSend: string,
     telegramInstance: string,
-    oneTimeKeyboard: boolean,
-    resizeKeyboard: boolean,
+    one_time_keyboard: boolean,
+    resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): void {
     let text = <span class="cstat-no" title="statement not covered" >'';</span>
     let i = <span class="cstat-no" title="statement not covered" >1;</span>
     // Parse Mode ist nur immer im ersten Element
-    const parseMode = <span class="cstat-no" title="statement not covered" >part.getData?.[0].parseMode || 'false';</span>
+    const parse_mode = <span class="cstat-no" title="statement not covered" >part.getData?.[0].parse_mode || 'false';</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    part.getData?.forEach(<span class="fstat-no" title="function not covered" >async </span>element =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        try {</span>
@@ -493,8 +493,8 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
                     userToSend,
                     element.newline,
                     telegramInstance,
-                    oneTimeKeyboard,
-                    resizeKeyboard,
+                    one_time_keyboard,
+                    resize_keyboard,
                     userListWithChatID,
                 );
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -506,10 +506,10 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
                     element.text,
                     userToSend,
                     telegramInstance,
-                    oneTimeKeyboard,
-                    resizeKeyboard,
+                    one_time_keyboard,
+                    resize_keyboard,
                     userListWithChatID,
-                    parseMode,
+                    parse_mode,
                 );
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
@@ -566,10 +566,10 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
                                     textToSend: result,
                                     keyboard: undefined,
                                     instance: telegramInstance,
-                                    resizeKeyboard: oneTimeKeyboard,
-                                    oneTimeKeyboard: resizeKeyboard,
+                                    resize_keyboard: one_time_keyboard,
+                                    one_time_keyboard: resize_keyboard,
                                     userListWithChatID: userListWithChatID,
-                                    parseMode: parseMode,
+                                    parse_mode: parse_mode,
                                 });
 <span class="cstat-no" title="statement not covered" >                                return;</span>
                             }
@@ -584,7 +584,7 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
                                         result.keyboard,
                                         telegramInstance,
                                         userListWithChatID,
-                                        parseMode,
+                                        parse_mode,
                                     );
                                 }
 <span class="cstat-no" title="statement not covered" >                                return;</span>
@@ -594,10 +594,10 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
                                 textToSend: 'The state is empty!',
                                 keyboard: undefined,
                                 instance: telegramInstance,
-                                resizeKeyboard: oneTimeKeyboard,
-                                oneTimeKeyboard: resizeKeyboard,
+                                resize_keyboard: one_time_keyboard,
+                                one_time_keyboard: resize_keyboard,
                                 userListWithChatID: userListWithChatID,
-                                parseMode: parseMode,
+                                parse_mode: parse_mode,
                             });
 <span class="cstat-no" title="statement not covered" >                            adapter.log.debug('The state is empty!');</span>
 <span class="cstat-no" title="statement not covered" >                            return;</span>
@@ -630,10 +630,10 @@ function <span class="fstat-no" title="function not covered" >getState(</span>
                             textToSend: text,
                             keyboard: undefined,
                             instance: telegramInstance,
-                            resizeKeyboard: oneTimeKeyboard,
-                            oneTimeKeyboard: resizeKeyboard,
+                            resize_keyboard: one_time_keyboard,
+                            one_time_keyboard: resize_keyboard,
                             userListWithChatID: userListWithChatID,
-                            parseMode: parseMode,
+                            parse_mode: parse_mode,
                         });
                     }
                 }

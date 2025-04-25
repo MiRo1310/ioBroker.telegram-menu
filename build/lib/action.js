@@ -353,9 +353,7 @@ function generateActions(action, userObject) {
               }
             });
             if (item2.name && typeof item2.name === "string") {
-              userObject[element.trigger][item2 == null ? void 0 : item2.name].push(
-                newObj
-              );
+              userObject[element.trigger][item2 == null ? void 0 : item2.name].push(newObj);
             }
           });
         });

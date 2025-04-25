@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/config/config.ts"],
+  "sourcesContent": ["export const defaultLocale = 'de-DE';\nexport const timezone = 'Europe/Berlin';\nexport const defaultTelegramInstance = 'telegram.0';\n\nexport const config = {\n    time: '{time}',\n    change: {\n        start: 'change{',\n        end: '}',\n        command: 'change',\n    },\n    rowSplitter: '&&',\n    math: {\n        start: '{math:',\n        end: '}',\n    },\n    round: {\n        start: '{round:',\n        end: '}',\n    },\n    timestamp: {\n        start: '{time.',\n        end: '}',\n        lc: '{time.lc',\n        ts: '{time.ts',\n    },\n    status: {\n        start: '{status:',\n        end: '}',\n        oldWithId: \"'id':\",\n    },\n    set: {\n        start: '{set:',\n        end: '}',\n    },\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,gBAAgB;AACtB,MAAM,WAAW;AACjB,MAAM,0BAA0B;AAEhC,MAAM,SAAS;AAAA,EAClB,MAAM;AAAA,EACN,QAAQ;AAAA,IACJ,OAAO;AAAA,IACP,KAAK;AAAA,IACL,SAAS;AAAA,EACb;AAAA,EACA,aAAa;AAAA,EACb,MAAM;AAAA,IACF,OAAO;AAAA,IACP,KAAK;AAAA,EACT;AAAA,EACA,OAAO;AAAA,IACH,OAAO;AAAA,IACP,KAAK;AAAA,EACT;AAAA,EACA,WAAW;AAAA,IACP,OAAO;AAAA,IACP,KAAK;AAAA,IACL,IAAI;AAAA,IACJ,IAAI;AAAA,EACR;AAAA,EACA,QAAQ;AAAA,IACJ,OAAO;AAAA,IACP,KAAK;AAAA,IACL,WAAW;AAAA,EACf;AAAA,EACA,KAAK;AAAA,IACD,OAAO;AAAA,IACP,KAAK;AAAA,EACT;AACJ;",
+  "names": []
+}

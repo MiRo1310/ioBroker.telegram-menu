@@ -261,8 +261,8 @@ function <span class="fstat-no" title="function not covered" >sendPic(</span>
     part: Part,
     userToSend: string,
     instanceTelegram: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
     token: string,
     directoryPicture: string,
@@ -312,10 +312,10 @@ function <span class="fstat-no" title="function not covered" >sendPic(</span>
                         user: userToSend,
                         textToSend: path,
                         instance: instanceTelegram,
-                        resizeKeyboard: resizeKeyboard,
-                        oneTimeKeyboard: oneTimeKeyboard,
+                        resize_keyboard: resize_keyboard,
+                        one_time_keyboard: one_time_keyboard,
                         userListWithChatID: userListWithChatID,
-                        parseMode: 'false',
+                        parse_mode: 'false',
                     });
                     let timeoutToClear: Timeouts[] = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >                    timeoutToClear = timeouts.filter(<span class="fstat-no" title="function not covered" >item </span>=&gt; <span class="cstat-no" title="statement not covered" >item.key == timeoutKey)</span>;</span>

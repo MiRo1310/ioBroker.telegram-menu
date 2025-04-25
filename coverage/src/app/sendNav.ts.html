@@ -148,8 +148,8 @@ async function <span class="fstat-no" title="function not covered" >sendNav(</sp
     userToSend: string,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (userToSend) {</span>
@@ -162,10 +162,10 @@ async function <span class="fstat-no" title="function not covered" >sendNav(</sp
                 textToSend: text as string,
                 keyboard: nav,
                 instance: instanceTelegram,
-                resizeKeyboard: resizeKeyboard,
-                oneTimeKeyboard: oneTimeKeyboard,
+                resize_keyboard: resize_keyboard,
+                one_time_keyboard: one_time_keyboard,
                 userListWithChatID: userListWithChatID,
-                parseMode: part.parseMode || 'false',
+                parse_mode: part.parse_mode || 'false',
             });
         }
     } catch (e: any) {

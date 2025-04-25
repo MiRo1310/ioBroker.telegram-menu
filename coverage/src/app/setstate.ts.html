@@ -423,8 +423,8 @@ export const setState = <span class="fstat-no" title="function not covered" >asy
     valueFromSubmenu: string | number,
     SubmenuValuePriority: boolean,
     telegramInstance: string,
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
 ): Promise&lt;SetStateIds[] | undefined&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -445,10 +445,10 @@ export const setState = <span class="fstat-no" title="function not covered" >asy
                     element.id,
                     userToSend,
                     telegramInstance,
-                    oneTimeKeyboard,
-                    resizeKeyboard,
+                    one_time_keyboard,
+                    resize_keyboard,
                     userListWithChatID,
-                    element.parseMode,
+                    element.parse_mode,
                     element.confirm,
                 );
 &nbsp;
@@ -469,7 +469,7 @@ export const setState = <span class="fstat-no" title="function not covered" >asy
                     confirm: element.confirm,
                     returnText: returnText,
                     userToSend: userToSend,
-                    parseMode: element.parseMode,
+                    parse_mode: element.parse_mode,
                 });
             } else {
 <span class="cstat-no" title="statement not covered" >                returnText = returnText.replace(/'/g, '"');</span>
@@ -483,10 +483,10 @@ export const setState = <span class="fstat-no" title="function not covered" >asy
                         textToSend: textToSend,
                         keyboard: undefined,
                         instance: telegramInstance,
-                        resizeKeyboard: oneTimeKeyboard,
-                        oneTimeKeyboard: resizeKeyboard,
+                        resize_keyboard: one_time_keyboard,
+                        one_time_keyboard: resize_keyboard,
                         userListWithChatID: userListWithChatID,
-                        parseMode: element.parseMode,
+                        parse_mode: element.parse_mode,
                     });
                 }
 &nbsp;

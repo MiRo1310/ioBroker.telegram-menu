@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/adapterManager.ts"],
+  "sourcesContent": ["import { adapter as mainAdapter } from '../main'; // Importiere den Adapter aus der Hauptdatei\nimport { adapter as mockAdapter } from '../../test/setup';\nimport type { Adapter } from '../types/types'; // Importiere den Mock-Adapter aus der Test-Setup-Datei\n\nexport let adapter: Adapter;\n\nif (mainAdapter) {\n    adapter = mainAdapter; // Verwende den Haupt-Adapter, wenn er definiert ist\n} else {\n    adapter = mockAdapter; // Verwende den Mock-Adapter, wenn der Haupt-Adapter nicht verf\u00FCgbar ist\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAuC;AACvC,mBAAuC;AAGhC,IAAI;AAEX,IAAI,YAAAA,SAAa;AACb,YAAU,YAAAA;AACd,OAAO;AACH,YAAU,aAAAC;AACd;",
+  "names": ["mainAdapter", "mockAdapter"]
+}

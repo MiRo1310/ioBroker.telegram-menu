@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,323 +15,133 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
-  changeValue: () => changeValue,
+  checkStatus: () => checkStatus,
   checkStatusInfo: () => checkStatusInfo,
   checkTypeOfId: () => checkTypeOfId,
-  decomposeText: () => decomposeText,
-  getChatID: () => getChatID,
-  newLine: () => newLine,
-  processTimeIdLc: () => processTimeIdLc,
-  processTimeValue: () => processTimeValue,
-  replaceAll: () => import_global.replaceAll
+  processTimeIdLc: () => processTimeIdLc
 });
 module.exports = __toCommonJS(utilities_exports);
-var import_main = __toESM(require("../main"));
-var import_global = require("./global");
-var import_logging = require("./logging");
-const processTimeValue = (textToSend, obj) => {
-  const date = Number(obj.val);
-  if (!(0, import_global.isDefined)(date)) {
-    return textToSend;
-  }
-  const time = new Date(date);
-  if (isNaN(time.getTime())) {
-    (0, import_logging.error)([{ text: "Invalid Date:", val: date }]);
-    return textToSend;
-  }
-  const timeString = time.toLocaleDateString("de-DE", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
-  return textToSend.replace("{time}", timeString);
-};
-const getChatID = (userListWithChatID, user) => {
-  let chatId = "";
-  userListWithChatID.forEach((element) => {
-    if (element.name === user) {
-      chatId = element.chatID;
-    }
-  });
-  return chatId;
-};
-const exchangeValue = (textToSend, stateVal) => {
-  const { startindex, endindex } = decomposeText(textToSend, "change{", "}");
-  let match = textToSend.substring(startindex + "change".length + 1, textToSend.indexOf("}", startindex));
-  let objChangeValue;
-  match = match.replace(/'/g, '"');
-  if ((0, import_global.isJSON)(`{${match}}`)) {
-    objChangeValue = JSON.parse(`{${match}}`);
-  } else {
-    (0, import_logging.error)([{ text: `There is a error in your input:`, val: (0, import_global.replaceAll)(match, '"', "'") }]);
-    return false;
-  }
-  let newValue;
-  objChangeValue[String(stateVal)] ? newValue = objChangeValue[String(stateVal)] : newValue = stateVal;
-  return {
-    valueChange: newValue,
-    textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1)
-  };
-};
-function decomposeText(text, searchValue, secondValue) {
-  const startindex = text.indexOf(searchValue);
-  const endindex = text.indexOf(secondValue, startindex);
-  const substring = text.substring(startindex, endindex + secondValue.length);
-  const textWithoutSubstring = text.replace(substring, "").trim();
-  return {
-    startindex,
-    endindex,
-    substring,
-    textWithoutSubstring
-  };
-}
-function changeValue(textToSend, val) {
-  if (textToSend.includes("change{")) {
-    const result = exchangeValue(textToSend, val);
-    if (!result) {
-      return;
-    }
-    if (typeof result === "boolean") {
-      return;
-    }
-    return { textToSend: result.textToSend, val: result.valueChange };
-  }
-}
+var import_utils = require("./utils");
+var import_string = require("./string");
+var import_logging = require("../app/logging");
+var import_time = require("./time");
+var import_main = require("../main");
+var import_config = require("../config/config");
+var import_appUtils = require("./appUtils");
 const processTimeIdLc = async (textToSend, id) => {
-  const _this2 = import_main.default.getInstance();
-  let key = "";
-  const { substring } = decomposeText(textToSend, "{time.", "}");
-  const array = substring.split(",");
-  let changedSubstring = substring;
-  changedSubstring = changedSubstring.replace(array[0], "");
-  if (array[0].includes("lc")) {
-    key = "lc";
-  } else if (array[0].includes("ts")) {
-    key = "ts";
+  const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
+    textToSend,
+    import_config.config.timestamp.start,
+    import_config.config.timestamp.end
+  );
+  const array = substringExcludeSearch.split(",");
+  const timestampString = array[0];
+  const timeString = array[1];
+  const idString = array[2];
+  const typeofTimestamp = (0, import_appUtils.getTypeofTimestamp)(timestampString);
+  const idFromText = (0, import_string.replaceAllItems)(idString, ["id:", "}", "'"]);
+  if (!id && (!idFromText || idFromText.length < 5)) {
+    return textToSend.replace(substring, "Invalid ID");
   }
-  let idFromText = "";
-  if (!id) {
-    if (!changedSubstring.includes("id:")) {
-      (0, import_logging.debug)([{ text: "Error processTimeIdLc: id not found in:", val: changedSubstring }]);
-      return;
-    }
-    if (array[2]) {
-      idFromText = array[2].replace("id:", "").replace("}", "").replace(/'/g, "");
-      changedSubstring = changedSubstring.replace(array[2], "").replace(/,/g, "");
-    }
+  const value = await import_main.adapter.getForeignStateAsync(id != null ? id : idFromText);
+  if (!value) {
+    return textToSend.replace(substring, "Invalid ID");
   }
-  if (!id && !idFromText) {
-    return;
-  }
-  const value = await _this2.getForeignStateAsync(id || idFromText);
-  let timeValue;
-  let timeStringUser;
-  if (key && value) {
-    timeStringUser = changedSubstring.replace(",(", "").replace(")", "").replace("}", "");
-    timeValue = value[key];
-  }
-  if (!timeValue) {
-    return;
-  }
-  const timeObj = new Date(timeValue);
-  const milliseconds = timeObj.getMilliseconds();
-  const seconds = timeObj.getSeconds();
-  const minutes = timeObj.getMinutes();
-  const hours = timeObj.getHours();
-  const day = timeObj.getDate();
-  const month = timeObj.getMonth() + 1;
-  const year = timeObj.getFullYear();
-  const time = {
-    ms: milliseconds < 10 ? `00${milliseconds}` : milliseconds < 100 ? `0${milliseconds}` : milliseconds,
-    s: seconds < 10 ? `0${seconds}` : seconds,
-    m: minutes < 10 ? `0${minutes}` : minutes,
-    h: hours < 10 ? `0${hours}` : hours,
-    d: day < 10 ? `0${day}` : day,
-    mo: month < 10 ? `0${month}` : month,
-    y: year
-  };
-  if (timeStringUser) {
-    if (timeStringUser.includes("sss")) {
-      timeStringUser = timeStringUser.replace("sss", time.ms.toString());
-    }
-    if (timeStringUser.includes("ss")) {
-      timeStringUser = timeStringUser.replace("ss", time.s.toString());
-    }
-    if (timeStringUser.includes("mm")) {
-      timeStringUser = timeStringUser.replace("mm", time.m.toString());
-    }
-    if (timeStringUser.includes("hh")) {
-      timeStringUser = timeStringUser.replace("hh", time.h.toString());
-    }
-    if (timeStringUser.includes("DD")) {
-      timeStringUser = timeStringUser.replace("DD", time.d.toString());
-    }
-    if (timeStringUser.includes("MM")) {
-      timeStringUser = timeStringUser.replace("MM", time.mo.toString());
-    }
-    if (timeStringUser.includes("YYYY")) {
-      timeStringUser = timeStringUser.replace("YYYY", time.y.toString());
-    }
-    if (timeStringUser.includes("YY")) {
-      timeStringUser = timeStringUser.replace("YY", time.y.toString().slice(-2));
-    }
-    timeStringUser = timeStringUser.replace("(", "").replace(")", "");
-    return textToSend.replace(substring, timeStringUser);
-  }
-  return textToSend;
+  const timeStringUser = (0, import_string.replaceAllItems)(timeString, [",(", ")", "}"]);
+  const unixTs = value[typeofTimestamp];
+  const timeWithPad = (0, import_time.getTimeWithPad)((0, import_time.extractTimeValues)(unixTs));
+  const timeStringReplaced = (0, import_appUtils.timeStringReplacer)(timeWithPad, timeStringUser);
+  return timeStringReplaced != null ? timeStringReplaced : textToSend;
 };
-const checkStatus = async (text, processTimeValue2) => {
-  try {
-    const _this2 = import_main.default.getInstance();
-    const substring = decomposeText(text, "{status:", "}").substring;
-    let id, valueChange;
-    _this2.log.debug(`Substring ${substring}`);
-    if (substring.includes("status:'id':")) {
-      id = substring.split(":")[2].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-      valueChange = substring.split(":")[3] ? substring.split(":")[3].replace("}", "") !== "false" : true;
-    } else {
-      id = substring.split(":")[1].replace("'}", "").replace(/'/g, "").replace(/}/g, "");
-      valueChange = substring.split(":")[2] ? substring.split(":")[2].replace("}", "") !== "false" : true;
-    }
-    const stateValue = await _this2.getForeignStateAsync(id);
-    if (!stateValue) {
-      _this2.log.debug(`State not found: ${id}`);
-      return "";
-    }
-    if (text.includes("{time}") && processTimeValue2) {
-      text = text.replace(substring, "");
-      if (stateValue.val && typeof stateValue.val === "string") {
-        return processTimeValue2(text, stateValue).replace(stateValue.val, "");
-      }
-    }
-    if (!(0, import_global.isDefined)(stateValue.val)) {
-      _this2.log.debug(`State Value is undefined: ${id}`);
-      return text.replace(substring, "");
-    }
-    if (!valueChange) {
-      return text.replace(substring, stateValue.val.toString());
-    }
-    const changedResult = changeValue(text, stateValue.val);
-    let newValue;
-    if (changedResult) {
-      text = changedResult.textToSend;
-      newValue = changedResult.val;
-    } else {
-      newValue = stateValue.val;
-    }
-    _this2.log.debug(`CheckStatus Text: ${text} Substring: ${substring} NewValue: ${substring}`);
-    _this2.log.debug(`CheckStatus Return Value: ${text.replace(substring, newValue.toString())}`);
-    return text.replace(substring, newValue.toString());
-  } catch (e) {
-    import_main._this.log.error(`Error checkStatus:${e.message}`);
-    import_main._this.log.error(`Stack:${e.stack}`);
-    return "";
+const checkStatus = async (text) => {
+  const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(text, import_config.config.status.start, import_config.config.status.end);
+  const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
+  const stateValue = await import_main.adapter.getForeignStateAsync(id);
+  if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
+    import_main.adapter.log.debug(`State not found: ${id}`);
+    return text.replace(substring, "");
   }
+  if (text.includes(import_config.config.time)) {
+    text = text.replace(substring, "");
+    const val2 = String(stateValue.val);
+    return (0, import_time.integrateTimeIntoText)(text, val2).replace(val2, "");
+  }
+  if (!shouldChange) {
+    return text.replace(substring, stateValue.val.toString());
+  }
+  const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(import_main.adapter, text, stateValue.val);
+  text = !error ? textToSend : text;
+  const newValue = !error ? val : stateValue.val;
+  import_main.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
+  return text.replace(substring, newValue.toString());
 };
 const checkStatusInfo = async (text) => {
-  const _this2 = import_main.default.getInstance();
   try {
-    if (!text) {
-      return;
-    }
-    _this2.log.debug(`Text: ${text}`);
-    if (text.includes("{status:")) {
-      while (text.includes("{status:")) {
-        text = await checkStatus(text, processTimeValue);
+    import_main.adapter.log.debug(`Check status Info: ${text}`);
+    if (text.includes(import_config.config.status.start)) {
+      while (text.includes(import_config.config.status.start)) {
+        text = await checkStatus(text);
       }
     }
-    if (text.includes("{time.lc") || text.includes("{time.ts")) {
-      text = await processTimeIdLc(text, null) || "";
+    if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
+      text = await processTimeIdLc(text);
     }
-    if (text.includes("{set:")) {
-      const result = decomposeText(text, "{set:", "}");
+    if (text.includes(import_config.config.set.start)) {
+      const result = (0, import_string.decomposeText)(text, import_config.config.set.start, import_config.config.set.end);
       const id = result.substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
       const importedValue = result.substring.split(",")[1];
-      text = result.textWithoutSubstring;
+      text = result.textExcludeSubstring;
       const convertedValue = await checkTypeOfId(id, importedValue);
       const ack = result.substring.split(",")[2].replace("}", "") == "true";
       if (text === "") {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await _this2.setForeignStateAsync(id, convertedValue, ack);
+        await import_main.adapter.setForeignStateAsync(id, convertedValue, ack);
       }
     }
     if (text) {
-      _this2.log.debug(`CheckStatusInfo: ${text}`);
+      import_main.adapter.log.debug(`CheckStatusInfo: ${text}`);
       return text;
     }
+    return "";
   } catch (e) {
-    (0, import_logging.error)([
-      { text: "Error checkStatusInfo:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkStatusInfo:", e, import_main.adapter);
+    return "";
   }
 };
 async function checkTypeOfId(id, value) {
-  const _this2 = import_main.default.getInstance();
   try {
-    (0, import_logging.debug)([{ text: `Check Type of Id: ${id}` }]);
-    const obj = await _this2.getForeignObjectAsync(id);
     const receivedType = typeof value;
-    if (!obj || !value) {
-      return value;
+    const obj = await import_main.adapter.getForeignObjectAsync(id);
+    if (!obj || !(0, import_utils.isDefined)(value)) {
+      return;
     }
     if (receivedType === obj.common.type || !obj.common.type) {
       return value;
     }
-    (0, import_logging.debug)([{ text: `Change Value type from  "${receivedType}" to "${obj.common.type}"` }]);
-    if (obj.common.type === "boolean") {
-      if (value == "true") {
-        value = true;
-      }
-      if (value == "false") {
-        value = false;
-      }
-      return value;
-    }
-    if (obj.common.type === "string") {
-      return JSON.stringify(value);
-    }
-    if (obj && obj.common && obj.common.type === "number" && typeof value === "string") {
-      return parseFloat(value);
+    import_main.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+    switch (obj.common.type) {
+      case "string":
+        return value;
+      case "number":
+        return parseFloat((0, import_string.jsonString)(value));
+      case "boolean":
+        return (0, import_utils.isTruthy)(value);
     }
     return value;
   } catch (e) {
-    (0, import_logging.error)([
-      { text: "Error checkTypeOfId:", val: e.message },
-      { text: "Stack:", val: e.stack }
-    ]);
+    (0, import_logging.errorLogger)("Error checkTypeOfId:", e, import_main.adapter);
   }
 }
-const newLine = (text) => {
-  if ((0, import_global.isJSON)(text)) {
-    text = JSON.parse(text);
-  }
-  return text.replace(/""/g, '"').replace(/\\n/g, "\n");
-};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  changeValue,
+  checkStatus,
   checkStatusInfo,
   checkTypeOfId,
-  decomposeText,
-  getChatID,
-  newLine,
-  processTimeIdLc,
-  processTimeValue,
-  replaceAll
+  processTimeIdLc
 });
 //# sourceMappingURL=utilities.js.map

@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 // Don't silently swallow unhandled rejections
 process.on("unhandledRejection", (e) => {
     throw e;

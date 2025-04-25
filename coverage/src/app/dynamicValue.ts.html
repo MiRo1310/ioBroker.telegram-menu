@@ -222,10 +222,10 @@ const setDynamicValue = <span class="fstat-no" title="function not covered" >asy
     id: string,
     userToSend: string,
     telegramInstance: string,
-    oneTimeKeyboard: boolean,
-    resizeKeyboard: boolean,
+    one_time_keyboard: boolean,
+    resize_keyboard: boolean,
     userListWithChatID: UserListWithChatId[],
-    parseMode: BooleanString,
+    parse_mode: BooleanString,
     confirm: string,
 ): Promise&lt;{ confirmText: string; id: string | undefined }&gt; =&gt; {
     const { substring } = <span class="cstat-no" title="statement not covered" >decomposeText(returnText, '{setDynamicValue:', '}');</span>
@@ -238,10 +238,10 @@ const setDynamicValue = <span class="fstat-no" title="function not covered" >asy
             textToSend: text,
             keyboard: undefined,
             instance: telegramInstance,
-            resizeKeyboard: resizeKeyboard,
-            oneTimeKeyboard: oneTimeKeyboard,
+            resize_keyboard: resize_keyboard,
+            one_time_keyboard: one_time_keyboard,
             userListWithChatID: userListWithChatID,
-            parseMode: parseMode,
+            parse_mode: parse_mode,
         });
     }
 <span class="cstat-no" title="statement not covered" >    setDynamicValueObj[userToSend] = {</span>
@@ -249,11 +249,11 @@ const setDynamicValue = <span class="fstat-no" title="function not covered" >asy
         ack: ack,
         returnText: text,
         userToSend: userToSend,
-        parseMode: parseMode,
+        parse_mode: parse_mode,
         confirm: confirm,
         telegramInstance: telegramInstance,
-        oneTimeKeyboard: oneTimeKeyboard,
-        resizeKeyboard: resizeKeyboard,
+        one_time_keyboard: one_time_keyboard,
+        resize_keyboard: resize_keyboard,
         userListWithChatID: userListWithChatID,
         valueType: array[2],
     };

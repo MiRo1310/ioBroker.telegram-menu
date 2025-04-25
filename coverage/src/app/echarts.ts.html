@@ -189,8 +189,8 @@ function <span class="fstat-no" title="function not covered" >getChart(</span>
     user: string,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resizeKeyboard: boolean,
-    oneTimeKeyboard: boolean,
+    resize_keyboard: boolean,
+    one_time_keyboard: boolean,
 ): void {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!echarts) {</span>
@@ -218,10 +218,10 @@ function <span class="fstat-no" title="function not covered" >getChart(</span>
                         user: user,
                         textToSend: result.error || directoryPicture + echart.filename,
                         instance: instanceTelegram,
-                        resizeKeyboard: resizeKeyboard,
-                        oneTimeKeyboard: oneTimeKeyboard,
+                        resize_keyboard: resize_keyboard,
+                        one_time_keyboard: one_time_keyboard,
                         userListWithChatID: userListWithChatID,
-                        parseMode: 'false',
+                        parse_mode: 'false',
                     }).catch(<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >                        errorLogger('Error send to telegram: ', e, adapter);</span>
                     });
