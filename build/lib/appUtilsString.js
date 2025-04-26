@@ -16,27 +16,22 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var logging_exports = {};
-__export(logging_exports, {
-  errorLogger: () => errorLogger
+var appUtilsString_exports = {};
+__export(appUtilsString_exports, {
+  getPlaceholderValue: () => getPlaceholderValue
 });
-module.exports = __toCommonJS(logging_exports);
-const errorLogger = (title, e, adapter) => {
-  var _a, _b;
-  if (adapter.supportsFeature && adapter.supportsFeature("PLUGINS")) {
-    const sentryInstance = adapter.getPluginInstance("sentry");
-    if (sentryInstance) {
-      sentryInstance.getSentryObject().captureException(e);
-    }
+module.exports = __toCommonJS(appUtilsString_exports);
+function getPlaceholderValue(textToSend) {
+  if (textToSend.includes("&&")) {
+    return "&&";
   }
-  adapter.log.error(title);
-  adapter.log.error(`Error message: ${e.message}`);
-  adapter.log.error(`Error stack: ${e.stack}`);
-  adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
-  adapter.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
-};
+  if (textToSend.includes("&amp;&amp;")) {
+    return "&amp;&amp;";
+  }
+  return "";
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  errorLogger
+  getPlaceholderValue
 });
-//# sourceMappingURL=logging.js.map
+//# sourceMappingURL=appUtilsString.js.map

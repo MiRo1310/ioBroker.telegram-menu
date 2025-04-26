@@ -115,3 +115,7 @@ export const pad = (value: number, length: number = 2): string => {
 export function getNewline(newline: BooleanString): '' | '\n' {
     return isTruthy(newline) ? '\n' : '';
 }
+
+export function isBooleanString(str: string): boolean {
+    return str === 'true' || str === 'false';
+}

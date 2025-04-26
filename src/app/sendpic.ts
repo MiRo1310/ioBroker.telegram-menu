@@ -5,6 +5,7 @@ import { errorLogger } from './logging';
 import { adapter } from '../main';
 import type { Part, Timeouts, UserListWithChatId } from '../types/types';
 import { replaceAll } from '../lib/string';
+import { isStartside } from '../lib/appUtils';
 
 export function sendPic(
     part: Part,
@@ -22,7 +23,7 @@ export function sendPic(
         part.sendPic?.forEach(element => {
             const { id, delay, fileName } = element;
             let path = '';
-            if (id != '-') {
+            if (isStartside(id)) {
                 const newUrl = replaceAll(id, '&amp;', '&');
                 path = `${directoryPicture}${fileName}`;
 

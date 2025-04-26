@@ -7,12 +7,7 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import {
-    checkEvent,
-    exchangePlaceholderWithValue,
-    generateActions,
-    getUserToSendFromUserListWithChatID,
-} from './app/action.js';
+import { checkEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action.js';
 import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
 import { sendToTelegram } from './app/telegram.js';
 import { createState } from './app/createState.js';
@@ -32,7 +27,13 @@ import type {
 import { checkIsTelegramActive } from './app/connection.js';
 import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
-import { getListOfMenusIncludingUser, getNewStructure, getStartSides, splitNavigation } from './lib/appUtils';
+import {
+    exchangePlaceholderWithValue,
+    getListOfMenusIncludingUser,
+    getNewStructure,
+    getStartSides,
+    splitNavigation,
+} from './lib/appUtils';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -62,6 +63,21 @@ export default class TelegramMenu extends utils.Adapter {
         let instanceTelegram = this.config.instance;
         if (!instanceTelegram || instanceTelegram.length == 0) {
             instanceTelegram = 'telegram.0';
+        }
+        if (adapter.supportsFeature && adapter.supportsFeature('PLUGINS')) {
+            const sentryInstance = adapter.getPluginInstance('sentry');
+            if (sentryInstance) {
+                // sentryInstance.getSentryObject().captureException(error);
+                const Sentry = sentryInstance.getSentryObject();
+
+                Sentry?.withScope(
+                    (scope: { setLevel: (arg0: string) => void; setExtra: (arg0: string, arg1: string) => void }) => {
+                        scope.setLevel('info');
+                        scope.setExtra('key', 'value');
+                        Sentry.captureMessage('Event name', 'info'); // Level "info"
+                    },
+                );
+            }
         }
 
         const telegramID = `${instanceTelegram}.communicate.request`;
@@ -274,10 +290,9 @@ export default class TelegramMenu extends utils.Adapter {
                                     adapter.log.debug(`Substring: ${jsonString(substring)}`);
                                     let text = '';
                                     if (isDefined(state.val)) {
-                                        text =
-                                            substring[2] && substring[2].includes('noValue')
-                                                ? substring[1]
-                                                : exchangePlaceholderWithValue(substring[1], state.val.toString());
+                                        text = substring[2]?.includes('noValue')
+                                            ? substring[1]
+                                            : exchangePlaceholderWithValue(substring[1], state.val.toString());
                                     }
                                     adapter.log.debug(`Return-text: ${text}`);
 

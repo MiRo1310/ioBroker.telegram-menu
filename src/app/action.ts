@@ -1,9 +1,9 @@
-import { sendToTelegram } from './telegram.js';
-import { callSubMenu } from './subMenu.js';
-import { sendNav } from './sendNav.js';
-import { backMenuFunc } from './backMenu.js';
-import { errorLogger } from './logging.js';
-import { adapter } from '../main.js';
+import { sendToTelegram } from './telegram';
+import { callSubMenu } from './subMenu';
+import { sendNav } from './sendNav';
+import { backMenuFunc } from './backMenu';
+import { errorLogger } from './logging';
+import { adapter } from '../main';
 import type {
     Actions,
     BindingObject,
@@ -14,7 +14,6 @@ import type {
     MenuData,
     NewObjectStructure,
     Part,
-    PrimitiveType,
     Switch,
     UserInGroup,
     UserListWithChatId,
@@ -23,7 +22,7 @@ import type {
 import { decomposeText, getNewline, jsonString } from '../lib/string';
 import { isDefined, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
-import { config } from '../config/config.js';
+import { config } from '../config/config';
 
 const bindingFunc = async (
     text: string,
@@ -214,32 +213,27 @@ function generateActions(
             { trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs },
             key,
         ) {
+            const triggerName = trigger[0];
             if (key == 0) {
-                userObject[trigger[0]] = { switch: [] };
+                userObject[triggerName] = { switch: [] };
             }
-            userObject[trigger[0]] = { switch: [] };
+            userObject[triggerName] = { switch: [] };
 
             IDs.forEach(function (id: string, index: number) {
                 listOfSetStateIds.push(id);
-                const toggle = switch_checkbox[index] === 'true';
-                let value;
+                const toggle = isTruthy(switch_checkbox[index]);
 
-                if (values[index] === 'true' || values[index] === 'false') {
-                    value = values[index] === 'true';
-                } else {
-                    value = values[index];
-                }
                 const newObj: Switch = {
                     id: IDs[index],
-                    value: value.toString(),
+                    value: values[index],
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
                     ack: ack ? ack[index] : 'false',
                     parse_mode: isTruthy(parse_mode[0]),
                 };
-                if (userObject[trigger[0]] && userObject[trigger[0]]?.switch) {
-                    userObject[trigger[0]].switch!.push(newObj);
+                if (Array.isArray(userObject[triggerName]?.switch)) {
+                    userObject[triggerName].switch.push(newObj);
                 }
             });
         });
@@ -247,39 +241,33 @@ function generateActions(
         arrayOfEntries.forEach(item => {
             if (action[item.objName as keyof Actions]) {
                 action[item.objName as keyof Actions].forEach(function (element, index: number) {
-                    userObject[element.trigger[0]] = { [item.name]: [] };
+                    const trigger = element.trigger[0];
+                    userObject[trigger] = { [item.name]: [] };
                     if (index == 0) {
-                        userObject[element.trigger[0]] = { [item.name as keyof UserObjectActions]: [] };
+                        userObject[trigger] = { [item.name as keyof UserObjectActions]: [] };
                     }
 
                     (element[item.loop as keyof typeof element] as string[]).forEach(function (
                         id: string,
                         key: number,
                     ) {
-                        const newObj: GenerateActionsNewObject = {};
-                        item.elements.forEach(elementItem => {
-                            const name = elementItem.name;
-                            const value = elementItem.value ? elementItem.value : elementItem.name;
-                            const newKey = elementItem.key ? elementItem.key : key;
-                            let val: string | boolean;
+                        const newObj = {} as GenerateActionsNewObject;
+                        item.elements.forEach(({ name, value, key: elKey }) => {
+                            const elName = (value ? value : name) as keyof typeof element;
+                            const newKey = elKey ? elKey : key;
 
-                            if (!element[value as keyof typeof element]) {
-                                val = false;
-                            } else {
-                                val = element[value as keyof typeof element][newKey] || 'false';
+                            const val = !element[elName] ? false : element[elName][newKey] || 'false';
+
+                            if (name === 'parse_mode') {
+                                newObj.parse_mode = isTruthy(val);
                             }
 
-                            if (elementItem.type == 'text' && typeof val === 'string') {
+                            if (typeof val === 'string') {
                                 newObj[name as keyof GenerateActionsNewObject] = val.replace(/&amp;/g, '&') as any;
-                            } else {
-                                newObj[name as keyof GenerateActionsNewObject] = val as any;
                             }
                         });
-                        if (item.name) {
-                            // TODO check if this is correct
-                            // @ts-expect-error
-                            (userObject?.[element.trigger as string]?.[item?.name as keyof Part] as []).push(newObj);
-                        }
+
+                        (userObject?.[trigger]?.[item.name as keyof Part] as GenerateActionsNewObject[]).push(newObj);
                     });
                 });
             }
@@ -290,20 +278,6 @@ function generateActions(
         errorLogger('Error generateActions:', err, adapter);
     }
 }
-
-const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): string => {
-    let searchString = '';
-    if (textToSend.includes('&&')) {
-        searchString = '&&';
-    } else if (textToSend.includes('&amp;&amp;')) {
-        searchString = '&amp;&amp;';
-    }
-    searchString !== '' && textToSend.toString().indexOf(searchString) != -1
-        ? (textToSend = textToSend.replace(searchString, val.toString()))
-        : (textToSend += ` ${val}`);
-
-    return textToSend;
-};
 
 const adjustValueType = (value: keyof NewObjectStructure, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
@@ -338,7 +312,7 @@ const checkEvent = async (
     let ok = false;
     let calledNav = '';
     Object.keys(dataObject.action).forEach(menu => {
-        if (dataObject.action[menu] && dataObject.action[menu].events) {
+        if (dataObject.action[menu]?.events) {
             dataObject.action[menu].events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     if ((state.val == true || state.val == 'true') && event.condition == 'true') {
@@ -422,12 +396,4 @@ const getUserToSendFromUserListWithChatID = (
     return userToSend;
 };
 
-export {
-    idBySelector,
-    generateActions,
-    bindingFunc,
-    exchangePlaceholderWithValue,
-    adjustValueType,
-    checkEvent,
-    getUserToSendFromUserListWithChatID,
-};
+export { idBySelector, generateActions, bindingFunc, adjustValueType, checkEvent, getUserToSendFromUserListWithChatID };

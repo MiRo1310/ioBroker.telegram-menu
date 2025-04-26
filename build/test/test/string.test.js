@@ -345,4 +345,17 @@ describe('getNewline', () => {
         (0, chai_1.expect)((0, string_1.getNewline)('false')).to.equal('');
     });
 });
+describe('isBooleanString', () => {
+    it('should return true for "true"', () => {
+        (0, chai_1.expect)((0, string_1.isBooleanString)('true')).to.be.true;
+    });
+    it('should return true for "false"', () => {
+        (0, chai_1.expect)((0, string_1.isBooleanString)('false')).to.be.true;
+    });
+    it('should return false for non-boolean strings', () => {
+        (0, chai_1.expect)((0, string_1.isBooleanString)('yes')).to.be.false;
+        (0, chai_1.expect)((0, string_1.isBooleanString)('no')).to.be.false;
+        (0, chai_1.expect)((0, string_1.isBooleanString)('')).to.be.false;
+    });
+});
 //# sourceMappingURL=string.test.js.map

@@ -7,12 +7,13 @@ const child_process_1 = require("child_process");
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
+const appUtils_1 = require("../lib/appUtils");
 function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
     try {
         part.sendPic?.forEach(element => {
             const { id, delay, fileName } = element;
             let path = '';
-            if (id != '-') {
+            if ((0, appUtils_1.isStartside)(id)) {
                 const newUrl = (0, string_1.replaceAll)(id, '&amp;', '&');
                 path = `${directoryPicture}${fileName}`;
                 (0, child_process_1.exec)(`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`, (error, stdout, stderr) => {

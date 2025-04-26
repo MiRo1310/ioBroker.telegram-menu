@@ -3,6 +3,7 @@ import {
     decomposeText,
     getNewline,
     getValueToExchange,
+    isBooleanString,
     isString,
     jsonString,
     pad,
@@ -406,4 +407,20 @@ describe('getNewline', () => {
         expect(getNewline('false')).to.equal('');
     });
 
+});
+
+describe('isBooleanString', () => {
+    it('should return true for "true"', () => {
+        expect(isBooleanString('true')).to.be.true;
+    });
+
+    it('should return true for "false"', () => {
+        expect(isBooleanString('false')).to.be.true;
+    });
+
+    it('should return false for non-boolean strings', () => {
+        expect(isBooleanString('yes')).to.be.false;
+        expect(isBooleanString('no')).to.be.false;
+        expect(isBooleanString('')).to.be.false;
+    });
 });

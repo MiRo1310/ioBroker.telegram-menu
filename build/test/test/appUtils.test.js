@@ -466,4 +466,42 @@ describe('isStartside', () => {
         (0, chai_1.expect)(result).to.be.true;
     });
 });
+describe('exchangePlaceholderWithValue', () => {
+    it('should replace the placeholder with the provided value', () => {
+        const textToSend = 'Hello &&!';
+        const textToSend2 = 'Hello &amp;&amp;!';
+        const val = 'World';
+        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result2 = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend2, val);
+        (0, chai_1.expect)(result).to.equal('Hello World!');
+        (0, chai_1.expect)(result2).to.equal('Hello World!');
+    });
+    it('should append the value if no placeholder is found', () => {
+        const textToSend = 'Hello';
+        const val = 'World';
+        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        (0, chai_1.expect)(result).to.equal('Hello World');
+    });
+    it('should handle empty textToSend gracefully', () => {
+        const textToSend = '';
+        const val = 'Value';
+        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        (0, chai_1.expect)(result).to.equal('Value');
+    });
+    it('should handle empty value gracefully', () => {
+        const textToSend = 'Hello &&';
+        const textToSend2 = 'Hello &amp;&amp;';
+        const val = '';
+        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result2 = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend2, val);
+        (0, chai_1.expect)(result).to.equal('Hello');
+        (0, chai_1.expect)(result2).to.equal('Hello');
+    });
+    it('should handle both textToSend and value being empty', () => {
+        const textToSend = '';
+        const val = '';
+        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        (0, chai_1.expect)(result).to.equal('');
+    });
+});
 //# sourceMappingURL=appUtils.test.js.map

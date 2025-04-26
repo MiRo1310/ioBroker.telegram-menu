@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStartSides = exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
+exports.exchangePlaceholderWithValue = exports.getStartSides = exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
 exports.calcValue = calcValue;
 exports.roundValue = roundValue;
 exports.statusIdAndParams = statusIdAndParams;
@@ -12,6 +12,7 @@ const string_1 = require("./string");
 const math_1 = require("./math");
 const utils_1 = require("./utils");
 const object_1 = require("./object");
+const appUtilsString_1 = require("./appUtilsString");
 const checkOneLineValue = (text) => !text.includes(config_1.config.rowSplitter) ? `${text} ${config_1.config.rowSplitter}` : text;
 exports.checkOneLineValue = checkOneLineValue;
 function calcValue(textToSend, val, adapter) {
@@ -109,4 +110,12 @@ const getStartSides = (menusWithUsers, dataObject) => {
     return startSides;
 };
 exports.getStartSides = getStartSides;
+const exchangePlaceholderWithValue = (textToSend, val) => {
+    const searchString = (0, appUtilsString_1.getPlaceholderValue)(textToSend);
+    if (searchString !== '') {
+        return textToSend.replace(searchString, val.toString()).trim();
+    }
+    return `${textToSend} ${val}`.trim();
+};
+exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
 //# sourceMappingURL=appUtils.js.map

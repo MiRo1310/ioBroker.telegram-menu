@@ -8,6 +8,7 @@ import type {
     NavigationRow,
     NewObjectStructure,
     ParseModeType,
+    PrimitiveType,
     splittedNavigation,
     StartSides,
     UsersInGroup,
@@ -16,6 +17,7 @@ import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
+import { getPlaceholderValue } from './appUtilsString';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -139,4 +141,12 @@ export const getStartSides = (menusWithUsers: UsersInGroup, dataObject: DataObje
         startSides[element] = dataObject.nav[element][0].call;
     });
     return startSides;
+};
+
+export const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): string => {
+    const searchString = getPlaceholderValue(textToSend);
+    if (searchString !== '') {
+        return textToSend.replace(searchString, val.toString()).trim();
+    }
+    return `${textToSend} ${val}`.trim();
 };

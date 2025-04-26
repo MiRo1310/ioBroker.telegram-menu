@@ -22,6 +22,7 @@ __export(string_exports, {
   decomposeText: () => decomposeText,
   getNewline: () => getNewline,
   getValueToExchange: () => getValueToExchange,
+  isBooleanString: () => isBooleanString,
   isString: () => isString,
   jsonString: () => jsonString,
   pad: () => pad,
@@ -121,12 +122,16 @@ const pad = (value, length = 2) => {
 function getNewline(newline) {
   return (0, import_utils.isTruthy)(newline) ? "\n" : "";
 }
+function isBooleanString(str) {
+  return str === "true" || str === "false";
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   cleanUpString,
   decomposeText,
   getNewline,
   getValueToExchange,
+  isBooleanString,
   isString,
   jsonString,
   pad,

@@ -20,6 +20,7 @@ var appUtils_exports = {};
 __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
+  exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getNewStructure: () => getNewStructure,
   getParseMode: () => getParseMode,
@@ -37,6 +38,7 @@ var import_string = require("./string");
 var import_math = require("./math");
 var import_utils = require("./utils");
 var import_object = require("./object");
+var import_appUtilsString = require("./appUtilsString");
 const checkOneLineValue = (text) => !text.includes(import_config.config.rowSplitter) ? `${text} ${import_config.config.rowSplitter}` : text;
 function calcValue(textToSend, val, adapter) {
   const { substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(
@@ -124,10 +126,18 @@ const getStartSides = (menusWithUsers, dataObject) => {
   });
   return startSides;
 };
+const exchangePlaceholderWithValue = (textToSend, val) => {
+  const searchString = (0, import_appUtilsString.getPlaceholderValue)(textToSend);
+  if (searchString !== "") {
+    return textToSend.replace(searchString, val.toString()).trim();
+  }
+  return `${textToSend} ${val}`.trim();
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
+  exchangePlaceholderWithValue,
   getListOfMenusIncludingUser,
   getNewStructure,
   getParseMode,

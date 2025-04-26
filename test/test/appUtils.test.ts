@@ -1,6 +1,7 @@
 import {
     calcValue,
     checkOneLineValue,
+    exchangePlaceholderWithValue,
     getListOfMenusIncludingUser,
     getNewStructure,
     getParseMode,
@@ -524,5 +525,48 @@ describe('isStartside', () => {
     it('should return true for any other string', () => {
         const result = isStartside('start');
         expect(result).to.be.true;
+    });
+});
+
+describe('exchangePlaceholderWithValue', () => {
+    it('should replace the placeholder with the provided value', () => {
+        const textToSend = 'Hello &&!';
+        const textToSend2 = 'Hello &amp;&amp;!';
+        const val = 'World';
+        const result = exchangePlaceholderWithValue(textToSend, val);
+        const result2 = exchangePlaceholderWithValue(textToSend2, val);
+        expect(result).to.equal('Hello World!');
+        expect(result2).to.equal('Hello World!');
+    });
+
+    it('should append the value if no placeholder is found', () => {
+        const textToSend = 'Hello';
+        const val = 'World';
+        const result = exchangePlaceholderWithValue(textToSend, val);
+        expect(result).to.equal('Hello World');
+    });
+
+    it('should handle empty textToSend gracefully', () => {
+        const textToSend = '';
+        const val = 'Value';
+        const result = exchangePlaceholderWithValue(textToSend, val);
+        expect(result).to.equal('Value');
+    });
+
+    it('should handle empty value gracefully', () => {
+        const textToSend = 'Hello &&';
+        const textToSend2 = 'Hello &amp;&amp;';
+        const val = '';
+        const result = exchangePlaceholderWithValue(textToSend, val);
+        const result2 = exchangePlaceholderWithValue(textToSend2, val);
+        expect(result).to.equal('Hello');
+        expect(result2).to.equal('Hello');
+    });
+
+    it('should handle both textToSend and value being empty', () => {
+        const textToSend = '';
+        const val = '';
+        const result = exchangePlaceholderWithValue(textToSend, val);
+        expect(result).to.equal('');
     });
 });

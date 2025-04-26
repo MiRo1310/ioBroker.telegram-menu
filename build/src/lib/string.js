@@ -5,6 +5,7 @@ exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
 exports.getNewline = getNewline;
+exports.isBooleanString = isBooleanString;
 const config_1 = require("../config/config");
 const utils_1 = require("./utils");
 const jsonString = (val) => JSON.stringify(val);
@@ -107,5 +108,8 @@ const pad = (value, length = 2) => {
 exports.pad = pad;
 function getNewline(newline) {
     return (0, utils_1.isTruthy)(newline) ? '\n' : '';
+}
+function isBooleanString(str) {
+    return str === 'true' || str === 'false';
 }
 //# sourceMappingURL=string.js.map

@@ -21,22 +21,21 @@ __export(action_exports, {
   adjustValueType: () => adjustValueType,
   bindingFunc: () => bindingFunc,
   checkEvent: () => checkEvent,
-  exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   generateActions: () => generateActions,
   getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
   idBySelector: () => idBySelector
 });
 module.exports = __toCommonJS(action_exports);
-var import_telegram = require("./telegram.js");
-var import_subMenu = require("./subMenu.js");
-var import_sendNav = require("./sendNav.js");
-var import_backMenu = require("./backMenu.js");
-var import_logging = require("./logging.js");
-var import_main = require("../main.js");
+var import_telegram = require("./telegram");
+var import_subMenu = require("./subMenu");
+var import_sendNav = require("./sendNav");
+var import_backMenu = require("./backMenu");
+var import_logging = require("./logging");
+var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
-var import_config = require("../config/config.js");
+var import_config = require("../config/config");
 const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
   var _a, _b;
   let textToSend;
@@ -189,63 +188,52 @@ function generateActions(action, userObject) {
     ];
     const listOfSetStateIds = [];
     action.set.forEach(function({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, key) {
+      const triggerName = trigger[0];
       if (key == 0) {
-        userObject[trigger[0]] = { switch: [] };
+        userObject[triggerName] = { switch: [] };
       }
-      userObject[trigger[0]] = { switch: [] };
+      userObject[triggerName] = { switch: [] };
       IDs.forEach(function(id, index) {
         var _a;
         listOfSetStateIds.push(id);
-        const toggle = switch_checkbox[index] === "true";
-        let value;
-        if (values[index] === "true" || values[index] === "false") {
-          value = values[index] === "true";
-        } else {
-          value = values[index];
-        }
+        const toggle = (0, import_utils.isTruthy)(switch_checkbox[index]);
         const newObj = {
           id: IDs[index],
-          value: value.toString(),
+          value: values[index],
           toggle,
           confirm: confirm[index],
           returnText: returnText[index],
           ack: ack ? ack[index] : "false",
           parse_mode: (0, import_utils.isTruthy)(parse_mode[0])
         };
-        if (userObject[trigger[0]] && ((_a = userObject[trigger[0]]) == null ? void 0 : _a.switch)) {
-          userObject[trigger[0]].switch.push(newObj);
+        if (Array.isArray((_a = userObject[triggerName]) == null ? void 0 : _a.switch)) {
+          userObject[triggerName].switch.push(newObj);
         }
       });
     });
     arrayOfEntries.forEach((item) => {
       if (action[item.objName]) {
         action[item.objName].forEach(function(element, index) {
-          userObject[element.trigger[0]] = { [item.name]: [] };
+          const trigger = element.trigger[0];
+          userObject[trigger] = { [item.name]: [] };
           if (index == 0) {
-            userObject[element.trigger[0]] = { [item.name]: [] };
+            userObject[trigger] = { [item.name]: [] };
           }
           element[item.loop].forEach(function(id, key) {
             var _a;
             const newObj = {};
-            item.elements.forEach((elementItem) => {
-              const name = elementItem.name;
-              const value = elementItem.value ? elementItem.value : elementItem.name;
-              const newKey = elementItem.key ? elementItem.key : key;
-              let val;
-              if (!element[value]) {
-                val = false;
-              } else {
-                val = element[value][newKey] || "false";
+            item.elements.forEach(({ name, value, key: elKey }) => {
+              const elName = value ? value : name;
+              const newKey = elKey ? elKey : key;
+              const val = !element[elName] ? false : element[elName][newKey] || "false";
+              if (name === "parse_mode") {
+                newObj.parse_mode = (0, import_utils.isTruthy)(val);
               }
-              if (elementItem.type == "text" && typeof val === "string") {
+              if (typeof val === "string") {
                 newObj[name] = val.replace(/&amp;/g, "&");
-              } else {
-                newObj[name] = val;
               }
             });
-            if (item.name) {
-              ((_a = userObject == null ? void 0 : userObject[element.trigger]) == null ? void 0 : _a[item == null ? void 0 : item.name]).push(newObj);
-            }
+            ((_a = userObject == null ? void 0 : userObject[trigger]) == null ? void 0 : _a[item.name]).push(newObj);
           });
         });
       }
@@ -255,16 +243,6 @@ function generateActions(action, userObject) {
     (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
   }
 }
-const exchangePlaceholderWithValue = (textToSend, val) => {
-  let searchString = "";
-  if (textToSend.includes("&&")) {
-    searchString = "&&";
-  } else if (textToSend.includes("&amp;&amp;")) {
-    searchString = "&amp;&amp;";
-  }
-  searchString !== "" && textToSend.toString().indexOf(searchString) != -1 ? textToSend = textToSend.replace(searchString, val.toString()) : textToSend += ` ${val}`;
-  return textToSend;
-};
 const adjustValueType = (value, valueType) => {
   if (valueType == "number") {
     if (!parseFloat(value)) {
@@ -287,7 +265,8 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
   let ok = false;
   let calledNav = "";
   Object.keys(dataObject.action).forEach((menu) => {
-    if (dataObject.action[menu] && dataObject.action[menu].events) {
+    var _a;
+    if ((_a = dataObject.action[menu]) == null ? void 0 : _a.events) {
       dataObject.action[menu].events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
           if ((state.val == true || state.val == "true") && event.condition == "true") {
@@ -368,7 +347,6 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
   adjustValueType,
   bindingFunc,
   checkEvent,
-  exchangePlaceholderWithValue,
   generateActions,
   getUserToSendFromUserListWithChatID,
   idBySelector

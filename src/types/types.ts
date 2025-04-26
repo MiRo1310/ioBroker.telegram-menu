@@ -221,7 +221,7 @@ export interface GenerateActionsNewObject {
     filename?: string;
     delay?: string;
     text?: string;
-    newline?: BooleanString;
+    newline?: string;
     parse_mode?: boolean;
 }
 

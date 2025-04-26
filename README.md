@@ -11,6 +11,8 @@
 
 ![Test and Release](https://github.com/MiRo1310/ioBroker.telegram-menu/workflows/Test%20and%20Release/badge.svg)
 
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and instructions on disabling error reporting, please refer to the [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Use of Sentry reporting starts with js-controller 3.0.
+
 ## ioBroker telegram-menu adapter
 
 Easily create Telegram Menus
@@ -35,7 +37,9 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 - min nodejs version: 20.0.0
-- 
+- FEAT: Add sentry
+- FEAT: Add mocha tests
+
 ### 2.2.4 (2025-04-13)
 
 - FIX: #279 Backslash is in the message when using newline

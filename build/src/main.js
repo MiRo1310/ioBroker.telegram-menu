@@ -229,10 +229,9 @@ class TelegramMenu extends utils.Adapter {
                                     exports.adapter.log.debug(`Substring: ${(0, string_1.jsonString)(substring)}`);
                                     let text = '';
                                     if ((0, utils_1.isDefined)(state.val)) {
-                                        text =
-                                            substring[2] && substring[2].includes('noValue')
-                                                ? substring[1]
-                                                : (0, action_js_1.exchangePlaceholderWithValue)(substring[1], state.val.toString());
+                                        text = substring[2]?.includes('noValue')
+                                            ? substring[1]
+                                            : (0, appUtils_1.exchangePlaceholderWithValue)(substring[1], state.val.toString());
                                     }
                                     exports.adapter.log.debug(`Return-text: ${text}`);
                                     if (text === '') {
@@ -273,7 +272,7 @@ class TelegramMenu extends utils.Adapter {
                                         value = valueChange;
                                     }
                                     exports.adapter.log.debug(`Value to send: ${value}`);
-                                    textToSend = (0, action_js_1.exchangePlaceholderWithValue)(textToSend, value);
+                                    textToSend = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, value);
                                     (0, telegram_js_1.sendToTelegram)({
                                         userToSend: element.userToSend,
                                         textToSend: textToSend,

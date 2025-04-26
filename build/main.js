@@ -71,6 +71,19 @@ class TelegramMenu extends utils.Adapter {
     if (!instanceTelegram || instanceTelegram.length == 0) {
       instanceTelegram = "telegram.0";
     }
+    if (adapter.supportsFeature && adapter.supportsFeature("PLUGINS")) {
+      const sentryInstance = adapter.getPluginInstance("sentry");
+      if (sentryInstance) {
+        const Sentry = sentryInstance.getSentryObject();
+        Sentry == null ? void 0 : Sentry.withScope(
+          (scope) => {
+            scope.setLevel("info");
+            scope.setExtra("key", "value");
+            Sentry.captureMessage("Event name", "info");
+          }
+        );
+      }
+    }
     const telegramID = `${instanceTelegram}.communicate.request`;
     const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
     const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
@@ -226,7 +239,7 @@ class TelegramMenu extends utils.Adapter {
             adapter.log.debug(`State, which is listen to was changed: ${id}`);
             adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
             setStateIdsToListenTo.forEach((element, key) => {
-              var _a, _b;
+              var _a, _b, _c;
               const telegramParams = {
                 telegramInstance: instanceTelegram,
                 one_time_keyboard,
@@ -245,7 +258,7 @@ class TelegramMenu extends utils.Adapter {
                   adapter.log.debug(`Substring: ${(0, import_string.jsonString)(substring)}`);
                   let text = "";
                   if ((0, import_utils.isDefined)(state.val)) {
-                    text = substring[2] && substring[2].includes("noValue") ? substring[1] : (0, import_action.exchangePlaceholderWithValue)(substring[1], state.val.toString());
+                    text = ((_a = substring[2]) == null ? void 0 : _a.includes("noValue")) ? substring[1] : (0, import_appUtils.exchangePlaceholderWithValue)(substring[1], state.val.toString());
                   }
                   adapter.log.debug(`Return-text: ${text}`);
                   if (text === "") {
@@ -276,7 +289,7 @@ class TelegramMenu extends utils.Adapter {
                     newValue,
                     textToSend: changedText,
                     error
-                  } = (0, import_string.getValueToExchange)(adapter, textToSend, ((_a = state.val) == null ? void 0 : _a.toString()) || "");
+                  } = (0, import_string.getValueToExchange)(adapter, textToSend, ((_b = state.val) == null ? void 0 : _b.toString()) || "");
                   if (!error) {
                     valueChange = newValue;
                     textToSend = changedText;
@@ -285,13 +298,13 @@ class TelegramMenu extends utils.Adapter {
                     value = "";
                     textToSend = textToSend.replace("{novalue}", "");
                   } else if ((0, import_utils.isDefined)(state == null ? void 0 : state.val)) {
-                    value = ((_b = state.val) == null ? void 0 : _b.toString()) || "";
+                    value = ((_c = state.val) == null ? void 0 : _c.toString()) || "";
                   }
                   if ((0, import_utils.isDefined)(valueChange)) {
                     value = valueChange;
                   }
                   adapter.log.debug(`Value to send: ${value}`);
-                  textToSend = (0, import_action.exchangePlaceholderWithValue)(textToSend, value);
+                  textToSend = (0, import_appUtils.exchangePlaceholderWithValue)(textToSend, value);
                   (0, import_telegram.sendToTelegram)({
                     userToSend: element.userToSend,
                     textToSend,
