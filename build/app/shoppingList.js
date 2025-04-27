@@ -82,7 +82,7 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
     if (result && result.val) {
       import_main.adapter.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
-      const resultJson = (0, import_jsonTable.createKeyboardFromJson)(result.val, null, newId, user);
+      const resultJson = (0, import_jsonTable.createKeyboardFromJson)(JSON.stringify(result.val, null, 2), null, newId, user);
       if (resultJson && resultJson.text && resultJson.keyboard) {
         (0, import_telegram.sendToTelegramSubmenu)(
           user,

@@ -17,7 +17,7 @@ const objData: ObjectData = {};
 
 let isSubscribed = false;
 
-async function shoppingListSubscribeStateAndDeleteItem(
+export async function shoppingListSubscribeStateAndDeleteItem(
     val: string | null,
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
@@ -65,7 +65,7 @@ async function shoppingListSubscribeStateAndDeleteItem(
     }
 }
 
-async function deleteMessageAndSendNewShoppingList(
+export async function deleteMessageAndSendNewShoppingList(
     instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
     userToSend: string,
@@ -77,11 +77,11 @@ async function deleteMessageAndSendNewShoppingList(
         await deleteMessageIds(user, userListWithChatID, instanceTelegram, 'last');
 
         const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
-        if (result && result.val) {
+        if (result?.val) {
             adapter.log.debug(`Result from Shoppinglist: ${jsonString(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
-            const resultJson = createKeyboardFromJson(result.val as string, null, newId, user);
-            if (resultJson && resultJson.text && resultJson.keyboard) {
+            const resultJson = createKeyboardFromJson(JSON.stringify(result.val, null, 2), null, newId, user);
+            if (resultJson?.text && resultJson?.keyboard) {
                 sendToTelegramSubmenu(
                     user,
                     resultJson.text,
@@ -96,5 +96,3 @@ async function deleteMessageAndSendNewShoppingList(
         errorLogger('Error deleteMessageAndSendNewShoppingList:', e, adapter);
     }
 }
-
-export { shoppingListSubscribeStateAndDeleteItem, deleteMessageAndSendNewShoppingList };

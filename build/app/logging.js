@@ -32,8 +32,12 @@ const errorLogger = (title, e, adapter) => {
   adapter.log.error(title);
   adapter.log.error(`Error message: ${e.message}`);
   adapter.log.error(`Error stack: ${e.stack}`);
-  adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
-  adapter.log.error(`Server data: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.data}`);
+  if (e == null ? void 0 : e.response) {
+    adapter.log.error(`Server response: ${(_a = e == null ? void 0 : e.response) == null ? void 0 : _a.status}`);
+  }
+  if (e == null ? void 0 : e.response) {
+    adapter.log.error(`Server status: ${(_b = e == null ? void 0 : e.response) == null ? void 0 : _b.statusText}`);
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

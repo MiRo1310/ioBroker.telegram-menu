@@ -9,16 +9,19 @@ import type {
 } from '../types/types';
 import { isTruthy } from './utils';
 import { errorLogger } from '../app/logging';
-import { adapter } from '../main';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
-export function parseJSON<T>(val: string): { json: string; isValidJson: false } | { json: T; isValidJson: true } {
+export function parseJSON<T>(
+    val: string,
+    adapter?: Adapter,
+): { json: string; isValidJson: false } | { json: T; isValidJson: true } {
     try {
-        const parsed = JSON.parse(val);
-        return { json: parsed as T, isValidJson: true };
+        return { json: JSON.parse(val) as T, isValidJson: true };
     } catch (e) {
-        errorLogger('Error parseJSON:', e, adapter);
+        if (adapter) {
+            errorLogger('Error parseJSON:', e, adapter);
+        }
         return { json: val, isValidJson: false };
     }
 }

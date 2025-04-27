@@ -1,7 +1,8 @@
 import { errorLogger } from './logging';
-import type { LastText, ValArray, KeyboardItem, Keyboard } from '../types/types';
+import type { Keyboard, KeyboardItem, LastText, ValArray } from '../types/types';
 import { adapter } from '../main';
 import { decomposeText, jsonString, parseJSON } from '../lib/string';
+import { makeValidJson } from '../lib/json';
 
 const lastText: LastText = {};
 const createKeyboardFromJson = (
@@ -16,17 +17,23 @@ const createKeyboardFromJson = (
         } else {
             text = lastText[user];
         }
-        const array = decomposeText(text, '{json:', '}').substring.split(';');
+        const { substring } = decomposeText(text, '{json:', '}');
+
+        const array = substring.split(';');
         const headline = array[2];
         const itemArray: string[] = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
         let idShoppingList = false;
         if (array.length > 3 && array[3] == 'shoppinglist') {
             idShoppingList = true;
         }
+        const { validJson, error } = makeValidJson(val, adapter);
 
-        adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
+        adapter.log.debug(`Val: ${validJson} with type: ${typeof val}`);
+        if (error) {
+            return;
+        }
 
-        const { json, isValidJson } = parseJSON<ValArray[]>(val);
+        const { json, isValidJson } = parseJSON<ValArray[]>(validJson, adapter);
         if (!isValidJson) {
             return;
         }
