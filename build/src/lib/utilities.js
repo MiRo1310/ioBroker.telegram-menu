@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkStatusInfo = exports.checkStatus = exports.processTimeIdLc = void 0;
-exports.checkTypeOfId = checkTypeOfId;
+exports.transformValueToTypeOfId = transformValueToTypeOfId;
 const utils_1 = require("./utils");
 const string_1 = require("./string");
 const logging_1 = require("../app/logging");
@@ -71,7 +71,7 @@ const checkStatusInfo = async (text) => {
             const id = result.substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
             const importedValue = result.substring.split(',')[1];
             text = result.textExcludeSubstring;
-            const convertedValue = await checkTypeOfId(id, importedValue);
+            const convertedValue = await transformValueToTypeOfId(id, importedValue);
             const ack = result.substring.split(',')[2].replace('}', '') == 'true';
             if (text === '') {
                 text = 'Wähle eine Aktion';
@@ -92,7 +92,7 @@ const checkStatusInfo = async (text) => {
     }
 };
 exports.checkStatusInfo = checkStatusInfo;
-async function checkTypeOfId(id, value) {
+async function transformValueToTypeOfId(id, value) {
     try {
         const receivedType = typeof value;
         const obj = await main_1.adapter.getForeignObjectAsync(id);

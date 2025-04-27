@@ -13,7 +13,7 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance
         await (0, telegram_1.sendToTelegram)({
             userToSend,
             textToSend: text,
-            telegramInstance: telegramInstance,
+            telegramInstance,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,
@@ -39,12 +39,7 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance
     return { confirmText: '', id: undefined };
 };
 exports.setDynamicValue = setDynamicValue;
-const getDynamicValue = (userToSend) => {
-    if (setDynamicValueObj[userToSend]) {
-        return setDynamicValueObj[userToSend];
-    }
-    return null;
-};
+const getDynamicValue = (userToSend) => setDynamicValueObj[userToSend] ?? null;
 exports.getDynamicValue = getDynamicValue;
 const removeUserFromDynamicValue = (userToSend) => {
     if (setDynamicValueObj[userToSend]) {

@@ -83,19 +83,22 @@ const timeStringReplacer = ({ d, h, m, ms, y, s, mo }, string) => {
   return string;
 };
 function statusIdAndParams(substringExcludeSearch) {
+  var _a, _b;
+  const splitArray = substringExcludeSearch.split(":");
+  const firstEl = splitArray[0];
+  const secondEl = (_a = splitArray[1]) != null ? _a : "";
+  const thirdEl = (_b = splitArray[2]) != null ? _b : "";
   if (substringExcludeSearch.includes(import_config.config.status.oldWithId)) {
-    const splitArray2 = substringExcludeSearch.split(":");
     return {
-      id: (0, import_string.removeQuotes)(splitArray2[1]),
+      id: (0, import_string.removeQuotes)(secondEl),
       //'id':'ID':true
-      shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(splitArray2[2]))
+      shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(thirdEl))
     };
   }
-  const splitArray = substringExcludeSearch.split(":");
   return {
-    id: (0, import_string.removeQuotes)(splitArray[0]),
+    id: (0, import_string.removeQuotes)(firstEl),
     //'ID':true
-    shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(splitArray[1]))
+    shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(secondEl))
   };
 }
 function isStartside(startSide) {

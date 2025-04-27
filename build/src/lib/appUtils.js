@@ -66,18 +66,19 @@ const timeStringReplacer = ({ d, h, m, ms, y, s, mo }, string) => {
 };
 exports.timeStringReplacer = timeStringReplacer;
 function statusIdAndParams(substringExcludeSearch) {
-    if (substringExcludeSearch.includes(config_1.config.status.oldWithId)) {
-        const splitArray = substringExcludeSearch.split(':');
-        return {
-            id: (0, string_1.removeQuotes)(splitArray[1]), //'id':'ID':true
-            shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(splitArray[2])),
-        };
-    }
     const splitArray = substringExcludeSearch.split(':');
-    return {
-        id: (0, string_1.removeQuotes)(splitArray[0]), //'ID':true
-        shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(splitArray[1])),
-    };
+    const firstEl = splitArray[0];
+    const secondEl = splitArray[1] ?? '';
+    const thirdEl = splitArray[2] ?? '';
+    return substringExcludeSearch.includes(config_1.config.status.oldWithId)
+        ? {
+            id: (0, string_1.removeQuotes)(secondEl), //'id':'ID':true
+            shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(thirdEl)),
+        }
+        : {
+            id: (0, string_1.removeQuotes)(firstEl), //'ID':true
+            shouldChange: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(secondEl)),
+        };
 }
 function isStartside(startSide) {
     return startSide != '-' && startSide != '';

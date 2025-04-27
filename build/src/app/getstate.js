@@ -100,7 +100,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                     await (0, telegram_1.sendToTelegram)({
                         userToSend,
                         textToSend: 'The state is empty!',
-                        telegramInstance: telegramInstance,
+                        telegramInstance,
                         resize_keyboard,
                         one_time_keyboard,
                         userListWithChatID,

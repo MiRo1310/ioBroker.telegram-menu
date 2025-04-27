@@ -58,9 +58,6 @@ const processTimeIdLc = async (textToSend, id) => {
 };
 const checkStatus = async (text) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(text, import_config.config.status.start, import_config.config.status.end);
-  import_main.adapter.log.debug(text);
-  import_main.adapter.log.debug(substring);
-  import_main.adapter.log.debug(substringExcludeSearch);
   const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
   const stateValue = await import_main.adapter.getForeignStateAsync(id);
   if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {

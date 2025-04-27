@@ -90,20 +90,19 @@ export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, st
 };
 
 export function statusIdAndParams(substringExcludeSearch: string): { id: string; shouldChange: boolean } {
-    if (substringExcludeSearch.includes(config.status.oldWithId)) {
-        const splitArray = substringExcludeSearch.split(':');
-
-        return {
-            id: removeQuotes(splitArray[1]), //'id':'ID':true
-            shouldChange: isTruthy(removeQuotes(splitArray[2])),
-        };
-    }
     const splitArray = substringExcludeSearch.split(':');
-
-    return {
-        id: removeQuotes(splitArray[0]), //'ID':true
-        shouldChange: isTruthy(removeQuotes(splitArray[1])),
-    };
+    const firstEl = splitArray[0];
+    const secondEl = splitArray[1] ?? '';
+    const thirdEl = splitArray[2] ?? '';
+    return substringExcludeSearch.includes(config.status.oldWithId)
+        ? {
+              id: removeQuotes(secondEl), //'id':'ID':true
+              shouldChange: isTruthy(removeQuotes(thirdEl)),
+          }
+        : {
+              id: removeQuotes(firstEl), //'ID':true
+              shouldChange: isTruthy(removeQuotes(secondEl)),
+          };
 }
 
 export function isStartside(startSide: string): boolean {

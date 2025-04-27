@@ -57,11 +57,11 @@ async function processData(obj) {
             const res = (0, dynamicValue_1.getDynamicValue)(userToSend);
             const valueToSet = res?.valueType ? (0, action_1.adjustValueType)(calledValue, res.valueType) : calledValue;
             valueToSet && res?.id
-                ? await main_1.adapter.setForeignStateAsync(res?.id, valueToSet, res?.ack)
+                ? await main_1.adapter.setForeignStateAsync(res.id, valueToSet, res?.ack)
                 : await (0, telegram_1.sendToTelegram)({
                     userToSend,
                     textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
-                    telegramInstance: telegramInstance,
+                    telegramInstance,
                     resize_keyboard,
                     one_time_keyboard,
                     userListWithChatID,
@@ -72,7 +72,7 @@ async function processData(obj) {
                 const { textToSend, menuToSend, parse_mode } = result;
                 await (0, telegram_1.sendToTelegram)({
                     userToSend,
-                    textToSend: textToSend ?? '',
+                    textToSend,
                     keyboard: menuToSend,
                     telegramInstance,
                     resize_keyboard,
@@ -88,9 +88,9 @@ async function processData(obj) {
         const call = calledValue.includes('menu:') ? calledValue.split(':')[2] : calledValue;
         part = groupData[call];
         if (!calledValue.toString().includes('menu:') && isUserActiveCheckbox[groupWithUser]) {
-            if (part.nav) {
+            if (part?.nav) {
                 main_1.adapter.log.debug(`Menu to Send: ${(0, string_1.jsonString)(part.nav)}`);
-                (0, backMenu_1.backMenuFunc)({ startSide: call, navigation: part.nav, userToSend: userToSend });
+                (0, backMenu_1.backMenuFunc)({ startSide: call, navigation: part.nav, userToSend });
                 if ((0, string_1.jsonString)(part.nav).includes('menu:')) {
                     main_1.adapter.log.debug(`Submenu: ${(0, string_1.jsonString)(part.nav)}`);
                     const result = await (0, subMenu_1.callSubMenu)((0, string_1.jsonString)(part.nav), groupData, userToSend, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, part, allMenusWithData, menus, setStateIdsToListenTo, part.nav);
@@ -118,7 +118,7 @@ async function processData(obj) {
                 await (0, sendNav_1.sendNav)(part, userToSend, telegramInstance, userListWithChatID, resize_keyboard, one_time_keyboard);
                 return true;
             }
-            if (part.switch) {
+            if (part?.switch) {
                 const result = await (0, setstate_1.setState)(part, userToSend, 0, false, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID);
                 if (result) {
                     setStateIdsToListenTo = result;
@@ -128,11 +128,11 @@ async function processData(obj) {
                 }
                 return true;
             }
-            if (part.getData) {
+            if (part?.getData) {
                 (0, getstate_1.getState)(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID);
                 return true;
             }
-            if (part.sendPic) {
+            if (part?.sendPic) {
                 const result = (0, sendpic_1.sendPic)(part, userToSend, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey);
                 if (result) {
                     timeouts = result;
@@ -141,17 +141,17 @@ async function processData(obj) {
                 main_1.adapter.log.debug(`Timeouts not found`);
                 return true;
             }
-            if (part.location) {
+            if (part?.location) {
                 main_1.adapter.log.debug('Send location');
                 await (0, telegram_1.sendLocationToTelegram)(userToSend, part.location, telegramInstance, userListWithChatID);
                 return true;
             }
-            if (part.echarts) {
+            if (part?.echarts) {
                 main_1.adapter.log.debug('Send echars');
                 (0, echarts_1.getChart)(part.echarts, directoryPicture, userToSend, telegramInstance, userListWithChatID, resize_keyboard, one_time_keyboard);
                 return true;
             }
-            if (part.httpRequest) {
+            if (part?.httpRequest) {
                 main_1.adapter.log.debug('Send http request');
                 const result = await (0, httpRequest_1.httpRequest)(part, userToSend, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, directoryPicture);
                 return !!result;

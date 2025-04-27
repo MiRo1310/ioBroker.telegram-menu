@@ -41,9 +41,7 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
 // TODO Check Usage of function
 export const checkStatus = async (text: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //substring {status:'ID':true} new | old {status:'id':'ID':true}
-    adapter.log.debug(text);
-    adapter.log.debug(substring);
-    adapter.log.debug(substringExcludeSearch);
+
     const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
 
     const stateValue = await adapter.getForeignStateAsync(id);

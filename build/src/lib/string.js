@@ -37,9 +37,7 @@ const replaceAllItems = (text, searched) => {
     return text;
 };
 exports.replaceAllItems = replaceAllItems;
-const removeQuotes = (text) => {
-    return text.replace(/['"]/g, ''); // Entferne alle Anführungszeichen
-};
+const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
 const cleanUpString = (text) => {
     if (!text) {

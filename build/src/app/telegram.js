@@ -10,22 +10,21 @@ const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
 const config_1 = require("../config/config");
-async function sendToTelegram({ userToSend = '', textToSend, keyboard, telegramInstance = config_1.defaultTelegramInstance, resize_keyboard = true, one_time_keyboard = true, userListWithChatID, parse_mode = false, }) {
+async function sendToTelegram({ userToSend, textToSend, keyboard, telegramInstance = config_1.defaultTelegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode, }) {
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, userToSend);
         main_1.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
         main_1.adapter.log.debug(`Instance: ${telegramInstance}`);
         main_1.adapter.log.debug(`UserListWithChatID	: ${(0, string_1.jsonString)(userListWithChatID)}`);
-        main_1.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+        main_1.adapter.log.debug(`Parse mode	: ${parse_mode}`);
         main_1.adapter.log.debug(`ChatId	: ${chatId}`);
-        main_1.adapter.log.debug(`ParseMode: ${parse_mode}`);
         const validatedTextToSend = (0, string_1.cleanUpString)(textToSend ?? '');
         if (!keyboard) {
             main_1.adapter.sendTo(telegramInstance, 'send', {
                 text: validatedTextToSend,
                 chatId,
                 parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
-            }, (res) => telegramLogger(res));
+            }, res => telegramLogger(res));
             return;
         }
         main_1.adapter.sendTo(telegramInstance, 'send', {
@@ -37,7 +36,7 @@ async function sendToTelegram({ userToSend = '', textToSend, keyboard, telegramI
                 resize_keyboard,
                 one_time_keyboard,
             },
-        }, (res) => telegramLogger(res));
+        }, res => telegramLogger(res));
     }
     catch (e) {
         (0, logging_1.errorLogger)('Error sendToTelegram:', e, main_1.adapter);
