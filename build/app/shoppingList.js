@@ -29,6 +29,7 @@ var import_subscribeStates = require("./subscribeStates.js");
 var import_logging = require("./logging.js");
 var import_main = require("../main.js");
 var import_string = require("../lib/string");
+var import_setstate = require("./setstate");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
@@ -48,11 +49,11 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
           await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
           isSubscribed = true;
         }
-        await import_main.adapter.setForeignStateAsync(
-          `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
-          true,
-          false
-        );
+        await (0, import_setstate.setstateIobroker)({
+          id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+          value: true,
+          ack: false
+        });
         return;
       }
       await (0, import_telegram.sendToTelegram)({

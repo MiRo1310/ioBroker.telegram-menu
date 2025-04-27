@@ -6,6 +6,7 @@ import { errorLogger } from './logging.js';
 import { adapter } from '../main.js';
 import type { UserListWithChatId } from '../types/types.js';
 import { jsonString } from '../lib/string';
+import { setstateIobroker } from './setstate';
 
 interface ObjectData {
     [key: string]: {
@@ -40,11 +41,11 @@ async function shoppingListSubscribeStateAndDeleteItem(
                     await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
                     isSubscribed = true;
                 }
-                await adapter.setForeignStateAsync(
-                    `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
-                    true,
-                    false,
-                );
+                await setstateIobroker({
+                    id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+                    value: true,
+                    ack: false,
+                });
                 return;
             }
             await sendToTelegram({

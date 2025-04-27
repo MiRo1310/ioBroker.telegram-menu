@@ -3,7 +3,7 @@ import { sendLocationToTelegram, sendToTelegram } from './telegram';
 import { sendNav } from './sendNav';
 import { callSubMenu } from './subMenu';
 import { backMenuFunc, switchBack } from './backMenu';
-import { setState } from './setstate';
+import { setState, setstateIobroker } from './setstate';
 import { getState } from './getstate';
 import { sendPic } from './sendpic';
 import { getDynamicValue, removeUserFromDynamicValue } from './dynamicValue';
@@ -92,7 +92,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             const valueToSet = res?.valueType ? adjustValueType(calledValue, res.valueType) : calledValue;
 
             valueToSet && res?.id
-                ? await adapter.setForeignStateAsync(res.id, valueToSet, res?.ack)
+                ? await setstateIobroker({ id: res.id, value: valueToSet, ack: res?.ack })
                 : await sendToTelegram({
                       userToSend,
                       textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,

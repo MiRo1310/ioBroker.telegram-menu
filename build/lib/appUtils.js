@@ -88,14 +88,11 @@ function statusIdAndParams(substringExcludeSearch) {
   const firstEl = splitArray[0];
   const secondEl = (_a = splitArray[1]) != null ? _a : "";
   const thirdEl = (_b = splitArray[2]) != null ? _b : "";
-  if (substringExcludeSearch.includes(import_config.config.status.oldWithId)) {
-    return {
-      id: (0, import_string.removeQuotes)(secondEl),
-      //'id':'ID':true
-      shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(thirdEl))
-    };
-  }
-  return {
+  return substringExcludeSearch.includes(import_config.config.status.oldWithId) ? {
+    id: (0, import_string.removeQuotes)(secondEl),
+    //'id':'ID':true
+    shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(thirdEl))
+  } : {
     id: (0, import_string.removeQuotes)(firstEl),
     //'ID':true
     shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(secondEl))

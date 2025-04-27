@@ -60,15 +60,15 @@ export default class TelegramMenu extends utils.Adapter {
         await this.setState('info.connection', false, true);
         await createState(this);
 
-        let instanceTelegram = this.config.instance;
-        if (!instanceTelegram || instanceTelegram.length == 0) {
-            instanceTelegram = 'telegram.0';
+        let telegramInstance = this.config.instance;
+        if (!telegramInstance || telegramInstance.length == 0) {
+            telegramInstance = 'telegram.0';
         }
 
-        const telegramID = `${instanceTelegram}.communicate.request`;
-        const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
-        const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
-        const infoConnectionOfTelegram = `${instanceTelegram}.info.connection`;
+        const telegramID = `${telegramInstance}.communicate.request`;
+        const botSendMessageID = `${telegramInstance}.communicate.botSendMessageId`;
+        const requestMessageID = `${telegramInstance}.communicate.requestMessageId`;
+        const infoConnectionOfTelegram = `${telegramInstance}.info.connection`;
 
         const checkboxes = this.config.checkbox;
         const one_time_keyboard = checkboxes.oneTiKey;
@@ -145,7 +145,7 @@ export default class TelegramMenu extends utils.Adapter {
                         menusWithUsers,
                         menuData,
                         userListWithChatID,
-                        instanceTelegram,
+                        telegramInstance,
                         resize_keyboard,
                         one_time_keyboard,
                     );
@@ -159,7 +159,7 @@ export default class TelegramMenu extends utils.Adapter {
                         return;
                     }
 
-                    const obj = await this.getChatIDAndUserToSend(instanceTelegram, userListWithChatID);
+                    const obj = await this.getChatIDAndUserToSend(telegramInstance, userListWithChatID);
                     if (!obj) {
                         return;
                     }
@@ -169,7 +169,7 @@ export default class TelegramMenu extends utils.Adapter {
                     if (isString(state?.val) && state.val.includes('sList:')) {
                         await shoppingListSubscribeStateAndDeleteItem(
                             state.val,
-                            instanceTelegram,
+                            telegramInstance,
                             userListWithChatID,
                             resize_keyboard,
                             one_time_keyboard,
@@ -179,7 +179,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
 
                     if (this.isAddToShoppingList(id, userToSend)) {
-                        await deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend);
+                        await deleteMessageAndSendNewShoppingList(telegramInstance, userListWithChatID, userToSend);
                         return;
                     }
 
@@ -191,7 +191,7 @@ export default class TelegramMenu extends utils.Adapter {
                             state,
                             menuData,
                             userListWithChatID,
-                            instanceTelegram,
+                            telegramInstance,
                             resize_keyboard,
                             one_time_keyboard,
                             menusWithUsers,
@@ -201,7 +201,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
 
                     if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
-                        await saveMessageIds(state, instanceTelegram);
+                        await saveMessageIds(state, telegramInstance);
                     } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
                         let value = state?.val;
                         if (!value || !userToSend) {
@@ -216,7 +216,7 @@ export default class TelegramMenu extends utils.Adapter {
                             menuData,
                             calledValue,
                             userToSend,
-                            telegramInstance: instanceTelegram,
+                            telegramInstance: telegramInstance,
                             resize_keyboard,
                             one_time_keyboard,
                             userListWithChatID,
@@ -228,14 +228,13 @@ export default class TelegramMenu extends utils.Adapter {
                         });
 
                         this.log.debug(`Groups with searched User: ${jsonString(menus)}`);
-                        this.log.debug(`Data found: ${dataFound}`);
 
                         if (!dataFound && checkboxNoEntryFound && userToSend) {
                             adapter.log.debug('No Entry found');
                             await sendToTelegram({
                                 userToSend,
                                 textToSend: textNoEntryFound,
-                                telegramInstance: instanceTelegram,
+                                telegramInstance,
                                 resize_keyboard,
                                 one_time_keyboard,
                                 userListWithChatID,
@@ -243,17 +242,13 @@ export default class TelegramMenu extends utils.Adapter {
                         }
                         return;
                     }
-                    if (
-                        state &&
-                        setStateIdsToListenTo &&
-                        setStateIdsToListenTo.find((element: { id: string }) => element.id == id)
-                    ) {
+                    if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
                         adapter.log.debug(`State, which is listen to was changed: ${id}`);
                         adapter.log.debug(`State: ${jsonString(state)}`);
 
                         setStateIdsToListenTo.forEach((element, key: number) => {
                             const telegramParams: TelegramParams = {
-                                telegramInstance: instanceTelegram,
+                                telegramInstance,
                                 one_time_keyboard,
                                 resize_keyboard,
                                 userToSend: element.userToSend,
@@ -290,7 +285,7 @@ export default class TelegramMenu extends utils.Adapter {
                                         userListWithChatID,
                                         parse_mode: element.parse_mode,
                                         ...telegramParams,
-                                    }).catch((e: { message: any; stack: any }) => {
+                                    }).catch(e => {
                                         errorLogger('Error SendToTelegram', e, adapter);
                                     });
                                     return;
@@ -335,7 +330,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     sendToTelegram({
                                         userToSend: element.userToSend,
                                         textToSend: textToSend,
-                                        telegramInstance: instanceTelegram,
+                                        telegramInstance: telegramInstance,
                                         resize_keyboard: resize_keyboard,
                                         one_time_keyboard: one_time_keyboard,
                                         userListWithChatID: userListWithChatID,
@@ -357,9 +352,9 @@ export default class TelegramMenu extends utils.Adapter {
 
         await this.subscribeForeignStatesAsync(botSendMessageID);
         await this.subscribeForeignStatesAsync(requestMessageID);
-        await this.subscribeForeignStatesAsync(`${instanceTelegram}.communicate.requestChatId`);
+        await this.subscribeForeignStatesAsync(`${telegramInstance}.communicate.requestChatId`);
         await this.subscribeForeignStatesAsync(telegramID);
-        await this.subscribeForeignStatesAsync(`${instanceTelegram}.info.connection`);
+        await this.subscribeForeignStatesAsync(`${telegramInstance}.info.connection`);
     }
 
     private isMessageID(id: string, botSendMessageID: string, requestMessageID: string): boolean {

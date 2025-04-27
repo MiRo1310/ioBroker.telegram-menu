@@ -105,7 +105,7 @@ async function processData(obj) {
     if ((0, import_dynamicValue.getDynamicValue)(userToSend)) {
       const res = (0, import_dynamicValue.getDynamicValue)(userToSend);
       const valueToSet = (res == null ? void 0 : res.valueType) ? (0, import_action.adjustValueType)(calledValue, res.valueType) : calledValue;
-      valueToSet && (res == null ? void 0 : res.id) ? await import_main.adapter.setForeignStateAsync(res.id, valueToSet, res == null ? void 0 : res.ack) : await (0, import_telegram.sendToTelegram)({
+      valueToSet && (res == null ? void 0 : res.id) ? await (0, import_setstate.setstateIobroker)({ id: res.id, value: valueToSet, ack: res == null ? void 0 : res.ack }) : await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
         telegramInstance,

@@ -229,7 +229,7 @@ function generateActions(
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
-                    ack: ack ? ack[index] : 'false',
+                    ack: isTruthy(ack[index]),
                     parse_mode: isTruthy(parse_mode[0]),
                 };
                 if (Array.isArray(userObject[triggerName]?.switch)) {

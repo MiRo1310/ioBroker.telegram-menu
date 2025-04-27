@@ -31,6 +31,7 @@ var import_time = require("./time");
 var import_main = require("../main");
 var import_config = require("../config/config");
 var import_appUtils = require("./appUtils");
+var import_setstate = require("../app/setstate");
 const processTimeIdLc = async (textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,
@@ -100,7 +101,7 @@ const checkStatusInfo = async (text) => {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await import_main.adapter.setForeignStateAsync(id, convertedValue, ack);
+        await (0, import_setstate.setstateIobroker)({ id, value: convertedValue, ack });
       }
     }
     if (text) {

@@ -192,7 +192,7 @@ export interface Switch {
     confirm: BooleanString;
     returnText: string;
     parse_mode: boolean;
-    ack: BooleanString;
+    ack: boolean;
 }
 
 export interface GenerateActionsArrayOfEntries {

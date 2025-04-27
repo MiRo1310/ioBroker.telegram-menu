@@ -4,8 +4,8 @@ import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
-import { jsonString, decomposeText, parseJSON } from '../lib/string';
-import { isDefined, isTruthy } from '../lib/utils';
+import { decomposeText, jsonString, parseJSON } from '../lib/string';
+import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
@@ -24,11 +24,30 @@ const isDynamicValueToSet = async (value: string | number | boolean): Promise<st
 
         const newValue = await adapter.getForeignStateAsync(id);
 
-        if (typeof newValue?.val === 'string') {
-            return value.replace(substring, newValue.val);
-        }
+        return value.replace(substring, String(newValue?.val));
     }
     return value;
+};
+
+export const setstateIobroker = async ({
+    id,
+    value,
+    ack,
+}: {
+    id: string;
+    value: string | number | boolean;
+    ack: boolean;
+}): Promise<void> => {
+    try {
+        const val = await transformValueToTypeOfId(id, value);
+
+        adapter.log.debug(`Value to Set: ${jsonString(val)}`);
+        if (isDefined(val)) {
+            await adapter.setForeignStateAsync(id, val, ack);
+        }
+    } catch (error: any) {
+        errorLogger('Error Setstate', error, adapter);
+    }
 };
 
 const setValue = async (
@@ -39,16 +58,11 @@ const setValue = async (
     ack: boolean,
 ): Promise<void> => {
     try {
-        const valueToSet: ioBroker.StateValue = SubmenuValuePriority
-            ? modifiedValue(valueFromSubmenu as string, value)
+        const valueToSet = SubmenuValuePriority
+            ? modifiedValue(String(valueFromSubmenu), value)
             : await isDynamicValueToSet(value);
 
-        const val = await transformValueToTypeOfId(id, valueToSet);
-        adapter.log.debug(`Value to Set: ${jsonString(val)}`);
-
-        if (isDefined(val)) {
-            adapter.setForeignState(id, val, ack);
-        }
+        await setstateIobroker({ id, value: valueToSet, ack });
     } catch (error: any) {
         errorLogger('Error setValue', error, adapter);
     }
@@ -74,7 +88,7 @@ export const setState = async (
             if (returnText.includes(config.setDynamicValue)) {
                 const { confirmText, id } = await setDynamicValue(
                     returnText,
-                    isTruthy(ack),
+                    ack,
                     ID,
                     userToSend,
                     telegramInstance,
@@ -90,7 +104,7 @@ export const setState = async (
                         id: id ?? ID,
                         confirm,
                         returnText: confirmText,
-                        userToSend: userToSend,
+                        userToSend,
                     });
                     return setStateIds;
                 }
@@ -137,18 +151,16 @@ export const setState = async (
             if (toggle) {
                 adapter
                     .getForeignStateAsync(ID)
-                    .then(val => {
+                    .then(async val => {
                         if (val) {
-                            adapter.setForeignStateAsync(ID, !val.val, ack).catch((e: any) => {
-                                errorLogger('Error setForeignStateAsync:', e, adapter);
-                            });
+                            await setstateIobroker({ id: ID, value: !val.val, ack });
                         }
                     })
                     .catch((e: any) => {
                         errorLogger('Error getForeignStateAsync:', e, adapter);
                     });
             } else {
-                await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, isTruthy(ack));
+                await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
             }
         }
         return setStateIds;

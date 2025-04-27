@@ -18,7 +18,8 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var setstate_exports = {};
 __export(setstate_exports, {
-  setState: () => setState
+  setState: () => setState,
+  setstateIobroker: () => setstateIobroker
 });
 module.exports = __toCommonJS(setstate_exports);
 var import_telegram = require("./telegram");
@@ -40,20 +41,29 @@ const isDynamicValueToSet = async (value) => {
       import_config.config.dynamicValue.end
     );
     const newValue = await import_main.adapter.getForeignStateAsync(id);
-    if (typeof (newValue == null ? void 0 : newValue.val) === "string") {
-      return value.replace(substring, newValue.val);
-    }
+    return value.replace(substring, String(newValue == null ? void 0 : newValue.val));
   }
   return value;
 };
-const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
+const setstateIobroker = async ({
+  id,
+  value,
+  ack
+}) => {
   try {
-    const valueToSet = SubmenuValuePriority ? modifiedValue(valueFromSubmenu, value) : await isDynamicValueToSet(value);
-    const val = await (0, import_utilities.transformValueToTypeOfId)(id, valueToSet);
+    const val = await (0, import_utilities.transformValueToTypeOfId)(id, value);
     import_main.adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(val)}`);
     if ((0, import_utils.isDefined)(val)) {
-      import_main.adapter.setForeignState(id, val, ack);
+      await import_main.adapter.setForeignStateAsync(id, val, ack);
     }
+  } catch (error) {
+    (0, import_logging.errorLogger)("Error Setstate", error, import_main.adapter);
+  }
+};
+const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
+  try {
+    const valueToSet = SubmenuValuePriority ? modifiedValue(String(valueFromSubmenu), value) : await isDynamicValueToSet(value);
+    await setstateIobroker({ id, value: valueToSet, ack });
   } catch (error) {
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
@@ -69,7 +79,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
       if (returnText.includes(import_config.config.setDynamicValue)) {
         const { confirmText, id } = await (0, import_dynamicValue.setDynamicValue)(
           returnText,
-          (0, import_utils.isTruthy)(ack),
+          ack,
           ID,
           userToSend,
           telegramInstance,
@@ -126,17 +136,15 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
         });
       }
       if (toggle) {
-        import_main.adapter.getForeignStateAsync(ID).then((val) => {
+        import_main.adapter.getForeignStateAsync(ID).then(async (val) => {
           if (val) {
-            import_main.adapter.setForeignStateAsync(ID, !val.val, ack).catch((e) => {
-              (0, import_logging.errorLogger)("Error setForeignStateAsync:", e, import_main.adapter);
-            });
+            await setstateIobroker({ id: ID, value: !val.val, ack });
           }
         }).catch((e) => {
           (0, import_logging.errorLogger)("Error getForeignStateAsync:", e, import_main.adapter);
         });
       } else {
-        await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, (0, import_utils.isTruthy)(ack));
+        await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
       }
     }
     return setStateIds;
@@ -146,6 +154,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  setState
+  setState,
+  setstateIobroker
 });
 //# sourceMappingURL=setstate.js.map

@@ -203,7 +203,7 @@ function generateActions(action, userObject) {
           toggle,
           confirm: confirm[index],
           returnText: returnText[index],
-          ack: ack ? ack[index] : "false",
+          ack: (0, import_utils.isTruthy)(ack[index]),
           parse_mode: (0, import_utils.isTruthy)(parse_mode[0])
         };
         if (Array.isArray((_a = userObject[triggerName]) == null ? void 0 : _a.switch)) {

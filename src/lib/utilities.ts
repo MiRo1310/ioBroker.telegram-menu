@@ -5,6 +5,7 @@ import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time
 import { adapter } from '../main';
 import { config } from '../config/config';
 import { getTypeofTimestamp, statusIdAndParams, timeStringReplacer } from './appUtils';
+import { setstateIobroker } from '../app/setstate';
 
 export const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
@@ -98,7 +99,7 @@ export const checkStatusInfo = async (text: string): Promise<string> => {
                 text = 'Wähle eine Aktion';
             }
             if (convertedValue) {
-                await adapter.setForeignStateAsync(id, convertedValue, ack);
+                await setstateIobroker({ id, value: convertedValue, ack });
             }
         }
         if (text) {
