@@ -1,11 +1,11 @@
 import { sendToTelegram } from './telegram';
-import { checkTypeOfId } from '../lib/utilities';
+import { transformValueToTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
 import { jsonString, decomposeText, parseJSON } from '../lib/string';
-import { isTruthy } from '../lib/utils';
+import { isDefined, isTruthy } from '../lib/utils';
 import { config } from '../config/config';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
@@ -39,19 +39,16 @@ const setValue = async (
     ack: boolean,
 ): Promise<void> => {
     try {
-        let valueToSet;
-        SubmenuValuePriority
-            ? (valueToSet = modifiedValue(valueFromSubmenu as string, value))
-            : (valueToSet = await isDynamicValueToSet(value));
+        const valueToSet: ioBroker.StateValue = SubmenuValuePriority
+            ? modifiedValue(valueFromSubmenu as string, value)
+            : await isDynamicValueToSet(value);
 
-        await checkTypeOfId(id, valueToSet).then((val: ioBroker.StateValue | ioBroker.SettableState | undefined) => {
-            valueToSet = val;
-            adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
+        const val = await transformValueToTypeOfId(id, valueToSet);
+        adapter.log.debug(`Value to Set: ${jsonString(val)}`);
 
-            if (valueToSet !== undefined && valueToSet !== null) {
-                adapter.setForeignState(id, valueToSet, ack);
-            }
-        });
+        if (isDefined(val)) {
+            adapter.setForeignState(id, val, ack);
+        }
     } catch (error: any) {
         errorLogger('Error setValue', error, adapter);
     }

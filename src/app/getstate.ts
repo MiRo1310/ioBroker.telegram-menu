@@ -132,7 +132,7 @@ export function getState(
                     await sendToTelegram({
                         userToSend,
                         textToSend: 'The state is empty!',
-                        telegramInstance: telegramInstance,
+                        telegramInstance,
                         resize_keyboard,
                         one_time_keyboard,
                         userListWithChatID,

@@ -48,15 +48,12 @@ const isDynamicValueToSet = async (value) => {
 };
 const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
   try {
-    let valueToSet;
-    SubmenuValuePriority ? valueToSet = modifiedValue(valueFromSubmenu, value) : valueToSet = await isDynamicValueToSet(value);
-    await (0, import_utilities.checkTypeOfId)(id, valueToSet).then((val) => {
-      valueToSet = val;
-      import_main.adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(valueToSet)}`);
-      if (valueToSet !== void 0 && valueToSet !== null) {
-        import_main.adapter.setForeignState(id, valueToSet, ack);
-      }
-    });
+    const valueToSet = SubmenuValuePriority ? modifiedValue(valueFromSubmenu, value) : await isDynamicValueToSet(value);
+    const val = await (0, import_utilities.transformValueToTypeOfId)(id, valueToSet);
+    import_main.adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(val)}`);
+    if ((0, import_utils.isDefined)(val)) {
+      import_main.adapter.setForeignState(id, val, ack);
+    }
   } catch (error) {
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }

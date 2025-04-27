@@ -61,10 +61,8 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance
   return { confirmText: "", id: void 0 };
 };
 const getDynamicValue = (userToSend) => {
-  if (setDynamicValueObj[userToSend]) {
-    return setDynamicValueObj[userToSend];
-  }
-  return null;
+  var _a;
+  return (_a = setDynamicValueObj[userToSend]) != null ? _a : null;
 };
 const removeUserFromDynamicValue = (userToSend) => {
   if (setDynamicValueObj[userToSend]) {

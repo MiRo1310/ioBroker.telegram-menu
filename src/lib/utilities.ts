@@ -41,7 +41,9 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
 // TODO Check Usage of function
 export const checkStatus = async (text: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //substring {status:'ID':true} new | old {status:'id':'ID':true}
-
+    adapter.log.debug(text);
+    adapter.log.debug(substring);
+    adapter.log.debug(substringExcludeSearch);
     const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
 
     const stateValue = await adapter.getForeignStateAsync(id);
@@ -90,7 +92,7 @@ export const checkStatusInfo = async (text: string): Promise<string> => {
             const importedValue = result.substring.split(',')[1];
 
             text = result.textExcludeSubstring;
-            const convertedValue = await checkTypeOfId(id, importedValue);
+            const convertedValue = await transformValueToTypeOfId(id, importedValue);
 
             const ack = result.substring.split(',')[2].replace('}', '') == 'true';
 
@@ -112,10 +114,10 @@ export const checkStatusInfo = async (text: string): Promise<string> => {
     }
 };
 
-export async function checkTypeOfId(
+export async function transformValueToTypeOfId(
     id: string,
     value: ioBroker.StateValue,
-): Promise<ioBroker.State | null | undefined | ioBroker.StateValue | ioBroker.SettableState> {
+): Promise<ioBroker.StateValue | undefined> {
     try {
         const receivedType = typeof value;
 

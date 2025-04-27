@@ -85,18 +85,18 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         groupData,
     } = obj;
     try {
-        let part: Part = {} as Part;
+        let part: Part | undefined = {} as Part;
 
         if (getDynamicValue(userToSend)) {
             const res = getDynamicValue(userToSend);
             const valueToSet = res?.valueType ? adjustValueType(calledValue, res.valueType) : calledValue;
 
             valueToSet && res?.id
-                ? await adapter.setForeignStateAsync(res?.id, valueToSet, res?.ack)
+                ? await adapter.setForeignStateAsync(res.id, valueToSet, res?.ack)
                 : await sendToTelegram({
                       userToSend,
                       textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
-                      telegramInstance: telegramInstance,
+                      telegramInstance,
                       resize_keyboard,
                       one_time_keyboard,
                       userListWithChatID,
@@ -109,7 +109,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 const { textToSend, menuToSend, parse_mode } = result;
                 await sendToTelegram({
                     userToSend,
-                    textToSend: textToSend ?? '',
+                    textToSend,
                     keyboard: menuToSend,
                     telegramInstance,
                     resize_keyboard,
@@ -128,10 +128,10 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         part = groupData[call];
 
         if (!calledValue.toString().includes('menu:') && isUserActiveCheckbox[groupWithUser]) {
-            if (part.nav) {
+            if (part?.nav) {
                 adapter.log.debug(`Menu to Send: ${jsonString(part.nav)}`);
 
-                backMenuFunc({ startSide: call, navigation: part.nav, userToSend: userToSend });
+                backMenuFunc({ startSide: call, navigation: part.nav, userToSend });
 
                 if (jsonString(part.nav).includes('menu:')) {
                     adapter.log.debug(`Submenu: ${jsonString(part.nav)}`);
@@ -182,7 +182,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return true;
             }
 
-            if (part.switch) {
+            if (part?.switch) {
                 const result = await setState(
                     part,
                     userToSend,
@@ -202,12 +202,12 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return true;
             }
 
-            if (part.getData) {
+            if (part?.getData) {
                 getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID);
                 return true;
             }
 
-            if (part.sendPic) {
+            if (part?.sendPic) {
                 const result = sendPic(
                     part,
                     userToSend,
@@ -228,13 +228,13 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return true;
             }
 
-            if (part.location) {
+            if (part?.location) {
                 adapter.log.debug('Send location');
                 await sendLocationToTelegram(userToSend, part.location, telegramInstance, userListWithChatID);
                 return true;
             }
 
-            if (part.echarts) {
+            if (part?.echarts) {
                 adapter.log.debug('Send echars');
                 getChart(
                     part.echarts,
@@ -248,7 +248,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return true;
             }
 
-            if (part.httpRequest) {
+            if (part?.httpRequest) {
                 adapter.log.debug('Send http request');
                 const result = await httpRequest(
                     part,

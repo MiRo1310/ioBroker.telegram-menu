@@ -8,14 +8,14 @@ import { getParseMode } from '../lib/appUtils';
 import { defaultTelegramInstance } from '../config/config';
 
 async function sendToTelegram({
-    userToSend = '',
+    userToSend,
     textToSend,
     keyboard,
     telegramInstance = defaultTelegramInstance,
-    resize_keyboard = true,
-    one_time_keyboard = true,
+    resize_keyboard,
+    one_time_keyboard,
     userListWithChatID,
-    parse_mode = false,
+    parse_mode,
 }: Telegram): Promise<void> {
     try {
         const chatId = getChatID(userListWithChatID, userToSend);
@@ -23,9 +23,8 @@ async function sendToTelegram({
         adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
         adapter.log.debug(`Instance: ${telegramInstance}`);
         adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
-        adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+        adapter.log.debug(`Parse mode	: ${parse_mode}`);
         adapter.log.debug(`ChatId	: ${chatId}`);
-        adapter.log.debug(`ParseMode: ${parse_mode}`);
 
         const validatedTextToSend = cleanUpString(textToSend ?? '');
         if (!keyboard) {
@@ -37,7 +36,7 @@ async function sendToTelegram({
                     chatId,
                     parse_mode: getParseMode(parse_mode),
                 },
-                (res: any) => telegramLogger(res),
+                res => telegramLogger(res),
             );
             return;
         }
@@ -55,9 +54,9 @@ async function sendToTelegram({
                     one_time_keyboard,
                 },
             },
-            (res: any) => telegramLogger(res),
+            res => telegramLogger(res),
         );
-    } catch (e: any) {
+    } catch (e) {
         errorLogger('Error sendToTelegram:', e, adapter);
     }
 }

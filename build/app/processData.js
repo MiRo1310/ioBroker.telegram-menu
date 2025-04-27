@@ -105,7 +105,7 @@ async function processData(obj) {
     if ((0, import_dynamicValue.getDynamicValue)(userToSend)) {
       const res = (0, import_dynamicValue.getDynamicValue)(userToSend);
       const valueToSet = (res == null ? void 0 : res.valueType) ? (0, import_action.adjustValueType)(calledValue, res.valueType) : calledValue;
-      valueToSet && (res == null ? void 0 : res.id) ? await import_main.adapter.setForeignStateAsync(res == null ? void 0 : res.id, valueToSet, res == null ? void 0 : res.ack) : await (0, import_telegram.sendToTelegram)({
+      valueToSet && (res == null ? void 0 : res.id) ? await import_main.adapter.setForeignStateAsync(res.id, valueToSet, res == null ? void 0 : res.ack) : await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
         telegramInstance,
@@ -119,7 +119,7 @@ async function processData(obj) {
         const { textToSend, menuToSend, parse_mode } = result;
         await (0, import_telegram.sendToTelegram)({
           userToSend,
-          textToSend: textToSend != null ? textToSend : "",
+          textToSend,
           keyboard: menuToSend,
           telegramInstance,
           resize_keyboard,
@@ -135,7 +135,7 @@ async function processData(obj) {
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
     part = groupData[call];
     if (!calledValue.toString().includes("menu:") && isUserActiveCheckbox[groupWithUser]) {
-      if (part.nav) {
+      if (part == null ? void 0 : part.nav) {
         import_main.adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(part.nav)}`);
         (0, import_backMenu.backMenuFunc)({ startSide: call, navigation: part.nav, userToSend });
         if ((0, import_string.jsonString)(part.nav).includes("menu:")) {
@@ -185,7 +185,7 @@ async function processData(obj) {
         );
         return true;
       }
-      if (part.switch) {
+      if (part == null ? void 0 : part.switch) {
         const result = await (0, import_setstate.setState)(
           part,
           userToSend,
@@ -204,11 +204,11 @@ async function processData(obj) {
         }
         return true;
       }
-      if (part.getData) {
+      if (part == null ? void 0 : part.getData) {
         (0, import_getstate.getState)(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID);
         return true;
       }
-      if (part.sendPic) {
+      if (part == null ? void 0 : part.sendPic) {
         const result = (0, import_sendpic.sendPic)(
           part,
           userToSend,
@@ -228,12 +228,12 @@ async function processData(obj) {
         import_main.adapter.log.debug(`Timeouts not found`);
         return true;
       }
-      if (part.location) {
+      if (part == null ? void 0 : part.location) {
         import_main.adapter.log.debug("Send location");
         await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, telegramInstance, userListWithChatID);
         return true;
       }
-      if (part.echarts) {
+      if (part == null ? void 0 : part.echarts) {
         import_main.adapter.log.debug("Send echars");
         (0, import_echarts.getChart)(
           part.echarts,
@@ -246,7 +246,7 @@ async function processData(obj) {
         );
         return true;
       }
-      if (part.httpRequest) {
+      if (part == null ? void 0 : part.httpRequest) {
         import_main.adapter.log.debug("Send http request");
         const result = await (0, import_httpRequest.httpRequest)(
           part,

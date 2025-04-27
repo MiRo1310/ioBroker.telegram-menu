@@ -58,9 +58,7 @@ const replaceAllItems = (text, searched) => {
   });
   return text;
 };
-const removeQuotes = (text) => {
-  return text.replace(/['"]/g, "");
-};
+const removeQuotes = (text) => text.replace(/['"]/g, "");
 const cleanUpString = (text) => {
   if (!text) {
     return "";

@@ -3,7 +3,7 @@ import { sendToTelegram } from './telegram';
 import type { SetDynamicValueObj, UserListWithChatId, SetDynamicValue } from '../types/types';
 
 const setDynamicValueObj: SetDynamicValueObj = {};
-const setDynamicValue = async (
+export const setDynamicValue = async (
     returnText: string,
     ack: boolean,
     id: string,
@@ -23,7 +23,7 @@ const setDynamicValue = async (
         await sendToTelegram({
             userToSend,
             textToSend: text,
-            telegramInstance: telegramInstance,
+            telegramInstance,
             resize_keyboard,
             one_time_keyboard,
             userListWithChatID,
@@ -50,20 +50,15 @@ const setDynamicValue = async (
     return { confirmText: '', id: undefined };
 };
 
-const getDynamicValue = (userToSend: string): SetDynamicValue | null => {
-    if (setDynamicValueObj[userToSend]) {
-        return setDynamicValueObj[userToSend];
-    }
-    return null;
-};
-const removeUserFromDynamicValue = (userToSend: string): boolean => {
+export const getDynamicValue = (userToSend: string): SetDynamicValue | null => setDynamicValueObj[userToSend] ?? null;
+
+export const removeUserFromDynamicValue = (userToSend: string): boolean => {
     if (setDynamicValueObj[userToSend]) {
         delete setDynamicValueObj[userToSend];
         return true;
     }
     return false;
 };
-export { setDynamicValue, getDynamicValue, removeUserFromDynamicValue };
 
 function isBraceDeleteEntry(array: string[]): string[] {
     if (array[4] === '}') {

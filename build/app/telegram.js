@@ -31,23 +31,22 @@ var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
 var import_config = require("../config/config");
 async function sendToTelegram({
-  userToSend = "",
+  userToSend,
   textToSend,
   keyboard,
   telegramInstance = import_config.defaultTelegramInstance,
-  resize_keyboard = true,
-  one_time_keyboard = true,
+  resize_keyboard,
+  one_time_keyboard,
   userListWithChatID,
-  parse_mode = false
+  parse_mode
 }) {
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
     import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
     import_main.adapter.log.debug(`Instance: ${telegramInstance}`);
     import_main.adapter.log.debug(`UserListWithChatID	: ${(0, import_string.jsonString)(userListWithChatID)}`);
-    import_main.adapter.log.debug(`Parse_mode	: ${parse_mode}`);
+    import_main.adapter.log.debug(`Parse mode	: ${parse_mode}`);
     import_main.adapter.log.debug(`ChatId	: ${chatId}`);
-    import_main.adapter.log.debug(`ParseMode: ${parse_mode}`);
     const validatedTextToSend = (0, import_string.cleanUpString)(textToSend != null ? textToSend : "");
     if (!keyboard) {
       import_main.adapter.sendTo(

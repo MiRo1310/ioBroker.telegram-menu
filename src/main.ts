@@ -64,21 +64,6 @@ export default class TelegramMenu extends utils.Adapter {
         if (!instanceTelegram || instanceTelegram.length == 0) {
             instanceTelegram = 'telegram.0';
         }
-        if (adapter.supportsFeature && adapter.supportsFeature('PLUGINS')) {
-            const sentryInstance = adapter.getPluginInstance('sentry');
-            if (sentryInstance) {
-                // sentryInstance.getSentryObject().captureException(error);
-                const Sentry = sentryInstance.getSentryObject();
-
-                Sentry?.withScope(
-                    (scope: { setLevel: (arg0: string) => void; setExtra: (arg0: string, arg1: string) => void }) => {
-                        scope.setLevel('info');
-                        scope.setExtra('key', 'value');
-                        Sentry.captureMessage('Event name', 'info'); // Level "info"
-                    },
-                );
-            }
-        }
 
         const telegramID = `${instanceTelegram}.communicate.request`;
         const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;

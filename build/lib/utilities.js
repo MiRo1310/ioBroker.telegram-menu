@@ -20,8 +20,8 @@ var utilities_exports = {};
 __export(utilities_exports, {
   checkStatus: () => checkStatus,
   checkStatusInfo: () => checkStatusInfo,
-  checkTypeOfId: () => checkTypeOfId,
-  processTimeIdLc: () => processTimeIdLc
+  processTimeIdLc: () => processTimeIdLc,
+  transformValueToTypeOfId: () => transformValueToTypeOfId
 });
 module.exports = __toCommonJS(utilities_exports);
 var import_utils = require("./utils");
@@ -58,6 +58,9 @@ const processTimeIdLc = async (textToSend, id) => {
 };
 const checkStatus = async (text) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(text, import_config.config.status.start, import_config.config.status.end);
+  import_main.adapter.log.debug(text);
+  import_main.adapter.log.debug(substring);
+  import_main.adapter.log.debug(substringExcludeSearch);
   const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
   const stateValue = await import_main.adapter.getForeignStateAsync(id);
   if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
@@ -94,7 +97,7 @@ const checkStatusInfo = async (text) => {
       const id = result.substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
       const importedValue = result.substring.split(",")[1];
       text = result.textExcludeSubstring;
-      const convertedValue = await checkTypeOfId(id, importedValue);
+      const convertedValue = await transformValueToTypeOfId(id, importedValue);
       const ack = result.substring.split(",")[2].replace("}", "") == "true";
       if (text === "") {
         text = "W\xE4hle eine Aktion";
@@ -113,7 +116,7 @@ const checkStatusInfo = async (text) => {
     return "";
   }
 };
-async function checkTypeOfId(id, value) {
+async function transformValueToTypeOfId(id, value) {
   try {
     const receivedType = typeof value;
     const obj = await import_main.adapter.getForeignObjectAsync(id);
@@ -141,7 +144,7 @@ async function checkTypeOfId(id, value) {
 0 && (module.exports = {
   checkStatus,
   checkStatusInfo,
-  checkTypeOfId,
-  processTimeIdLc
+  processTimeIdLc,
+  transformValueToTypeOfId
 });
 //# sourceMappingURL=utilities.js.map

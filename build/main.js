@@ -71,19 +71,6 @@ class TelegramMenu extends utils.Adapter {
     if (!instanceTelegram || instanceTelegram.length == 0) {
       instanceTelegram = "telegram.0";
     }
-    if (adapter.supportsFeature && adapter.supportsFeature("PLUGINS")) {
-      const sentryInstance = adapter.getPluginInstance("sentry");
-      if (sentryInstance) {
-        const Sentry = sentryInstance.getSentryObject();
-        Sentry == null ? void 0 : Sentry.withScope(
-          (scope) => {
-            scope.setLevel("info");
-            scope.setExtra("key", "value");
-            Sentry.captureMessage("Event name", "info");
-          }
-        );
-      }
-    }
     const telegramID = `${instanceTelegram}.communicate.request`;
     const botSendMessageID = `${instanceTelegram}.communicate.botSendMessageId`;
     const requestMessageID = `${instanceTelegram}.communicate.requestMessageId`;
