@@ -8,6 +8,8 @@ import type {
     StringReplacerObj,
 } from '../types/types';
 import { isTruthy } from './utils';
+import { errorLogger } from '../app/logging';
+import { adapter } from '../main';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
@@ -15,8 +17,8 @@ export function parseJSON<T>(val: string): { json: string; isValidJson: false } 
     try {
         const parsed = JSON.parse(val);
         return { json: parsed as T, isValidJson: true };
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
+        errorLogger('Error parseJSON:', e, adapter);
         return { json: val, isValidJson: false };
     }
 }

@@ -117,14 +117,14 @@ export default class TelegramMenu extends utils.Adapter {
                         adapter.log.debug('No Actions generated!');
                     }
 
-                    if (subscribeForeignStateIds && subscribeForeignStateIds?.length > 0) {
+                    if (subscribeForeignStateIds?.length > 0) {
                         await _subscribeForeignStatesAsync(subscribeForeignStateIds);
                     } else {
                         adapter.log.debug('Nothing to Subscribe!');
                     }
 
                     // Subscribe Events
-                    if (dataObject.action[name] && dataObject.action[name].events) {
+                    if (dataObject.action[name]?.events) {
                         for (const event of dataObject.action[name].events) {
                             await _subscribeForeignStatesAsync([event.ID]);
                         }
@@ -133,7 +133,7 @@ export default class TelegramMenu extends utils.Adapter {
                     adapter.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
                     adapter.log.debug(`Gen. Actions: ${jsonString(menuData[name])}`);
                 }
-                console.log(JSON.stringify(menuData));
+
                 adapter.log.debug(`Checkbox: ${jsonString(checkboxes)}`);
                 adapter.log.debug(`MenuList: ${jsonString(listOfMenus)}`);
 

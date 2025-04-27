@@ -35,12 +35,15 @@ __export(string_exports, {
 module.exports = __toCommonJS(string_exports);
 var import_config = require("../config/config");
 var import_utils = require("./utils");
+var import_logging = require("../app/logging");
+var import_main = require("../main");
 const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val) {
   try {
     const parsed = JSON.parse(val);
     return { json: parsed, isValidJson: true };
   } catch (e) {
+    (0, import_logging.errorLogger)("Error parseJSON:", e, import_main.adapter);
     return { json: val, isValidJson: false };
   }
 }
@@ -79,7 +82,7 @@ function decomposeText(text, firstSearch, secondSearch) {
     substringExcludeSearch: substringExcludedSearch
   };
 }
-const getValueToExchange = (adapter, textToSend, val) => {
+const getValueToExchange = (adapter2, textToSend, val) => {
   var _a;
   if (textToSend.includes(import_config.config.change.start)) {
     const { start, end, command } = import_config.config.change;
@@ -93,7 +96,7 @@ const getValueToExchange = (adapter, textToSend, val) => {
         error: false
       };
     }
-    adapter.log.error(`There is a error in your input: ${modifiedString}`);
+    adapter2.log.error(`There is a error in your input: ${modifiedString}`);
     return { newValue: val, textToSend, error: true };
   }
   return { textToSend, newValue: val, error: false };

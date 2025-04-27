@@ -3,7 +3,7 @@ import { sendLocationToTelegram, sendToTelegram } from './telegram';
 import { sendNav } from './sendNav';
 import { callSubMenu } from './subMenu';
 import { backMenuFunc, switchBack } from './backMenu';
-import { setState, setstateIobroker } from './setstate';
+import { handleSetState, setstateIobroker } from './setstate';
 import { getState } from './getstate';
 import { sendPic } from './sendpic';
 import { getDynamicValue, removeUserFromDynamicValue } from './dynamicValue';
@@ -183,7 +183,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             }
 
             if (part?.switch) {
-                const result = await setState(
+                const result = await handleSetState(
                     part,
                     userToSend,
                     0,

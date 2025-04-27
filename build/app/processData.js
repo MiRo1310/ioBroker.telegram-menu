@@ -186,7 +186,7 @@ async function processData(obj) {
         return true;
       }
       if (part == null ? void 0 : part.switch) {
-        const result = await (0, import_setstate.setState)(
+        const result = await (0, import_setstate.handleSetState)(
           part,
           userToSend,
           0,

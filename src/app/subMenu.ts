@@ -1,5 +1,5 @@
 import { switchBack } from './backMenu';
-import { setState } from './setstate';
+import { handleSetState } from './setstate';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { checkStatusInfo } from '../lib/utilities';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
@@ -51,7 +51,7 @@ const deleteMessages = async (obj: DeleteMessageIds): Promise<{ navToGoBack: str
 const setDynamicValue = async (obj: SetDynamicValueType): Promise<{ returnIds: SetStateIds[] }> => {
     adapter.log.debug(`State: ${obj.val}`);
 
-    const result = await setState(
+    const result = await handleSetState(
         obj.part,
         obj.userToSend,
         obj.val,
@@ -114,7 +114,7 @@ const setFirstMenuValue = async (obj: SetFirstMenuValue): Promise<{ returnIds: S
     } else {
         val = splittedData[1].split('.')[1];
     }
-    const result = await setState(
+    const result = await handleSetState(
         obj.part,
         obj.userToSend,
         val as string,
@@ -139,7 +139,7 @@ const setSecondMenuValue = async (obj: SetSecondMenuValue): Promise<{ returnIds:
     } else {
         val = splittedData[2].split('.')[1];
     }
-    const result = await setState(
+    const result = await handleSetState(
         obj.part,
         obj.userToSend,
         val as string,
@@ -253,7 +253,7 @@ const createSwitchMenu = ({
 const setValueForSubmenuPercent = async (obj: SetValueForSubmenuPercent): Promise<{ returnIds: SetStateIds[] }> => {
     const value = parseInt(obj.calledValue.split(':')[1].split(',')[1]);
 
-    const result = await setState(
+    const result = await handleSetState(
         obj.part,
         obj.userToSend,
         value,
@@ -277,7 +277,7 @@ const setValueForSubmenuNumber = async (
     const value = parseFloat(obj.calledValue.split(':')[3]);
     const device2Switch = obj.calledValue.split(':')[2];
 
-    const result = await setState(
+    const result = await handleSetState(
         obj.part,
         obj.userToSend,
         value,

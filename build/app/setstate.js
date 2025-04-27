@@ -18,7 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var setstate_exports = {};
 __export(setstate_exports, {
-  setState: () => setState,
+  handleSetState: () => handleSetState,
   setstateIobroker: () => setstateIobroker
 });
 module.exports = __toCommonJS(setstate_exports);
@@ -68,7 +68,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
+const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
   try {
     const setStateIds = [];
     if (!part.switch) {
@@ -154,7 +154,7 @@ const setState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  setState,
+  handleSetState,
   setstateIobroker
 });
 //# sourceMappingURL=setstate.js.map

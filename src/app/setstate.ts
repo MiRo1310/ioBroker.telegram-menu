@@ -68,7 +68,7 @@ const setValue = async (
     }
 };
 
-export const setState = async (
+export const handleSetState = async (
     part: Part,
     userToSend: string,
     valueFromSubmenu: string | number,

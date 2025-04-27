@@ -95,6 +95,7 @@ class TelegramMenu extends utils.Adapter {
     const startSides = (0, import_appUtils.getStartSides)(menusWithUsers, dataObject);
     try {
       await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
+        var _a;
         if (err || obj == null) {
           this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
@@ -115,12 +116,12 @@ class TelegramMenu extends utils.Adapter {
           } else {
             adapter.log.debug("No Actions generated!");
           }
-          if (subscribeForeignStateIds && (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) > 0) {
+          if ((subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) > 0) {
             await (0, import_subscribeStates._subscribeForeignStatesAsync)(subscribeForeignStateIds);
           } else {
             adapter.log.debug("Nothing to Subscribe!");
           }
-          if (dataObject.action[name] && dataObject.action[name].events) {
+          if ((_a = dataObject.action[name]) == null ? void 0 : _a.events) {
             for (const event of dataObject.action[name].events) {
               await (0, import_subscribeStates._subscribeForeignStatesAsync)([event.ID]);
             }
@@ -129,7 +130,6 @@ class TelegramMenu extends utils.Adapter {
           adapter.log.debug(`Array Buttons: ${(0, import_string.jsonString)(splittedNavigation)}`);
           adapter.log.debug(`Gen. Actions: ${(0, import_string.jsonString)(menuData[name])}`);
         }
-        console.log(JSON.stringify(menuData));
         adapter.log.debug(`Checkbox: ${(0, import_string.jsonString)(checkboxes)}`);
         adapter.log.debug(`MenuList: ${(0, import_string.jsonString)(listOfMenus)}`);
         if (sendMenuAfterRestart) {
@@ -225,7 +225,7 @@ class TelegramMenu extends utils.Adapter {
             adapter.log.debug(`State, which is listen to was changed: ${id}`);
             adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
             setStateIdsToListenTo.forEach((element, key) => {
-              var _a, _b, _c;
+              var _a2, _b, _c;
               const telegramParams = {
                 telegramInstance,
                 one_time_keyboard,
@@ -244,7 +244,7 @@ class TelegramMenu extends utils.Adapter {
                   adapter.log.debug(`Substring: ${(0, import_string.jsonString)(substring)}`);
                   let text = "";
                   if ((0, import_utils.isDefined)(state.val)) {
-                    text = ((_a = substring[2]) == null ? void 0 : _a.includes("noValue")) ? substring[1] : (0, import_appUtils.exchangePlaceholderWithValue)(substring[1], state.val.toString());
+                    text = ((_a2 = substring[2]) == null ? void 0 : _a2.includes("noValue")) ? substring[1] : (0, import_appUtils.exchangePlaceholderWithValue)(substring[1], state.val.toString());
                   }
                   adapter.log.debug(`Return-text: ${text}`);
                   if (text === "") {

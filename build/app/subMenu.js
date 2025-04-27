@@ -51,7 +51,7 @@ const deleteMessages = async (obj) => {
 };
 const setDynamicValue = async (obj) => {
   import_main.adapter.log.debug(`State: ${obj.val}`);
-  const result = await (0, import_setstate.setState)(
+  const result = await (0, import_setstate.handleSetState)(
     obj.part,
     obj.userToSend,
     obj.val,
@@ -109,7 +109,7 @@ const setFirstMenuValue = async (obj) => {
   } else {
     val = splittedData[1].split(".")[1];
   }
-  const result = await (0, import_setstate.setState)(
+  const result = await (0, import_setstate.handleSetState)(
     obj.part,
     obj.userToSend,
     val,
@@ -133,7 +133,7 @@ const setSecondMenuValue = async (obj) => {
   } else {
     val = splittedData[2].split(".")[1];
   }
-  const result = await (0, import_setstate.setState)(
+  const result = await (0, import_setstate.handleSetState)(
     obj.part,
     obj.userToSend,
     val,
@@ -236,7 +236,7 @@ const createSwitchMenu = ({
 };
 const setValueForSubmenuPercent = async (obj) => {
   const value = parseInt(obj.calledValue.split(":")[1].split(",")[1]);
-  const result = await (0, import_setstate.setState)(
+  const result = await (0, import_setstate.handleSetState)(
     obj.part,
     obj.userToSend,
     value,
@@ -255,7 +255,7 @@ const setValueForSubmenuNumber = async (obj) => {
   import_main.adapter.log.debug(`CallbackData: ${obj.callbackData}`);
   const value = parseFloat(obj.calledValue.split(":")[3]);
   const device2Switch = obj.calledValue.split(":")[2];
-  const result = await (0, import_setstate.setState)(
+  const result = await (0, import_setstate.handleSetState)(
     obj.part,
     obj.userToSend,
     value,
