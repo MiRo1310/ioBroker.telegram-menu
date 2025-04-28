@@ -16,7 +16,7 @@ import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
-import type { MenuData, PrimitiveType, SetStateIds, TelegramParams, UserListWithChatId } from './types/types';
+import type { MenuData, PrimitiveType, SetStateIds, UserListWithChatId } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
 import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
@@ -58,7 +58,7 @@ export default class TelegramMenu extends utils.Adapter {
             requestMessageID,
             directoryPicture,
             userListWithChatID,
-            telegramInstance,
+            telegramParams,
             telegramID,
             menusWithUsers,
             infoConnectionOfTelegram,
@@ -66,14 +66,13 @@ export default class TelegramMenu extends utils.Adapter {
             isUserActiveCheckbox,
             checkboxNoEntryFound,
             textNoEntryFound,
-            one_time_keyboard,
-            resize_keyboard,
             botSendMessageID,
             sendMenuAfterRestart,
             token,
             dataObject,
             checkboxes,
         } = getConfigVariables(this.config);
+        const { telegramInstance } = telegramParams;
 
         const menuData: MenuData = {};
         const startSides = getStartSides(menusWithUsers, dataObject);
@@ -133,9 +132,7 @@ export default class TelegramMenu extends utils.Adapter {
                         menusWithUsers,
                         menuData,
                         userListWithChatID,
-                        telegramInstance,
-                        resize_keyboard,
-                        one_time_keyboard,
+                        telegramParams,
                     );
                 }
 
@@ -155,13 +152,7 @@ export default class TelegramMenu extends utils.Adapter {
                     const { userToSend } = obj;
 
                     if (isString(state?.val) && state.val.includes('sList:')) {
-                        await shoppingListSubscribeStateAndDeleteItem(
-                            state.val,
-                            telegramInstance,
-                            userListWithChatID,
-                            resize_keyboard,
-                            one_time_keyboard,
-                        );
+                        await shoppingListSubscribeStateAndDeleteItem(state.val, userListWithChatID, telegramParams);
 
                         return;
                     }
@@ -179,9 +170,7 @@ export default class TelegramMenu extends utils.Adapter {
                             state,
                             menuData,
                             userListWithChatID,
-                            telegramInstance,
-                            resize_keyboard,
-                            one_time_keyboard,
+                            telegramParams,
                             menusWithUsers,
                         ))
                     ) {
@@ -204,9 +193,7 @@ export default class TelegramMenu extends utils.Adapter {
                             menuData,
                             calledValue,
                             userToSend,
-                            telegramInstance,
-                            resize_keyboard,
-                            one_time_keyboard,
+                            telegramParams,
                             userListWithChatID,
                             menus,
                             isUserActiveCheckbox,
@@ -222,9 +209,7 @@ export default class TelegramMenu extends utils.Adapter {
                             await sendToTelegram({
                                 userToSend,
                                 textToSend: textNoEntryFound,
-                                telegramInstance,
-                                resize_keyboard,
-                                one_time_keyboard,
+                                telegramParams,
                                 userListWithChatID,
                             });
                         }
@@ -235,12 +220,6 @@ export default class TelegramMenu extends utils.Adapter {
                         adapter.log.debug(`State: ${jsonString(state)}`);
 
                         setStateIdsToListenTo.forEach((element, key: number) => {
-                            const telegramParams: TelegramParams = {
-                                telegramInstance,
-                                one_time_keyboard,
-                                resize_keyboard,
-                                userToSend: element.userToSend,
-                            };
                             if (element.id == id) {
                                 adapter.log.debug(`Send Value: ${jsonString(element)}`);
                                 adapter.log.debug(`State: ${jsonString(state)}`);
@@ -272,7 +251,8 @@ export default class TelegramMenu extends utils.Adapter {
                                         textToSend: text,
                                         userListWithChatID,
                                         parse_mode: element.parse_mode,
-                                        ...telegramParams,
+                                        userToSend,
+                                        telegramParams,
                                     }).catch(e => {
                                         errorLogger('Error SendToTelegram', e, adapter);
                                     });
@@ -318,9 +298,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     sendToTelegram({
                                         userToSend: element.userToSend,
                                         textToSend: textToSend,
-                                        telegramInstance: telegramInstance,
-                                        resize_keyboard: resize_keyboard,
-                                        one_time_keyboard: one_time_keyboard,
+                                        telegramParams,
                                         userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode,
                                     }).catch((e: { message: any; stack: any }) => {

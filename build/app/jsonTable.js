@@ -35,7 +35,6 @@ const createKeyboardFromJson = (val, text, id, user) => {
       text = lastText[user];
     }
     const { substring } = (0, import_string.decomposeText)(text, "{json:", "}");
-    import_main.adapter.log.debug(`Substring: ${substring}`);
     const array = substring.split(";");
     const headline = array[2];
     const itemArray = array[1].replace("[", "").replace("]", "").replace(/"/g, "").split(",");

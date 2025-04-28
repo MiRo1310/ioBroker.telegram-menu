@@ -36,7 +36,7 @@ var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
 var import_config = require("../config/config");
-const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
+const bindingFunc = async (text, userToSend, telegramParams, userListWithChatID, parse_mode) => {
   var _a, _b;
   let textToSend;
   try {
@@ -65,9 +65,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     await (0, import_telegram.sendToTelegram)({
       userToSend,
       textToSend,
-      telegramInstance,
-      resize_keyboard,
-      one_time_keyboard,
+      telegramParams,
       userListWithChatID,
       parse_mode
     });
@@ -80,9 +78,7 @@ const idBySelector = async ({
   text,
   userToSend,
   newline,
-  telegramInstance,
-  one_time_keyboard,
-  resize_keyboard,
+  telegramParams,
   userListWithChatID
 }) => {
   let text2Send = "";
@@ -125,9 +121,7 @@ const idBySelector = async ({
       await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: text2Send,
-        telegramInstance,
-        resize_keyboard,
-        one_time_keyboard,
+        telegramParams,
         userListWithChatID
       });
     }).catch((e) => {
@@ -260,7 +254,7 @@ const adjustValueType = (value, valueType) => {
   }
   return value;
 };
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, telegramParams, usersInGroup) => {
   const menuArray = [];
   let ok = false;
   let calledNav = "";
@@ -305,9 +299,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
                 JSON.stringify(part == null ? void 0 : part.nav[0]),
                 menuData,
                 user,
-                instanceTelegram,
-                resize_keyboard,
-                one_time_keyboard,
+                telegramParams,
                 userListWithChatID,
                 part,
                 menuData,
@@ -316,14 +308,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
                 part.nav
               );
             } else {
-              await (0, import_sendNav.sendNav)(
-                part,
-                user,
-                instanceTelegram,
-                userListWithChatID,
-                resize_keyboard,
-                one_time_keyboard
-              );
+              await (0, import_sendNav.sendNav)(part, user, userListWithChatID, telegramParams);
             }
           }
         }

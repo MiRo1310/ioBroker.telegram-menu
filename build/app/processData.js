@@ -45,9 +45,7 @@ async function checkEveryMenuForData(obj) {
     menuData,
     calledValue,
     userToSend,
-    telegramInstance,
-    resize_keyboard,
-    one_time_keyboard,
+    telegramParams,
     userListWithChatID,
     menus,
     isUserActiveCheckbox,
@@ -64,9 +62,7 @@ async function checkEveryMenuForData(obj) {
       calledValue,
       userToSend,
       groupWithUser: menu,
-      telegramInstance,
-      resize_keyboard,
-      one_time_keyboard,
+      telegramParams,
       userListWithChatID,
       allMenusWithData: menuData,
       menus,
@@ -88,9 +84,7 @@ async function processData(obj) {
     calledValue,
     userToSend,
     groupWithUser,
-    telegramInstance,
-    resize_keyboard,
-    one_time_keyboard,
+    telegramParams,
     userListWithChatID,
     allMenusWithData,
     menus,
@@ -108,9 +102,7 @@ async function processData(obj) {
       valueToSet && (res == null ? void 0 : res.id) ? await (0, import_setstate.setstateIobroker)({ id: res.id, value: valueToSet, ack: res == null ? void 0 : res.ack }) : await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
-        telegramInstance,
-        resize_keyboard,
-        one_time_keyboard,
+        telegramParams,
         userListWithChatID
       });
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
@@ -121,15 +113,13 @@ async function processData(obj) {
           userToSend,
           textToSend,
           keyboard: menuToSend,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
+          telegramParams,
           userListWithChatID,
           parse_mode
         });
         return true;
       }
-      await (0, import_sendNav.sendNav)(part, userToSend, telegramInstance, userListWithChatID, resize_keyboard, one_time_keyboard);
+      await (0, import_sendNav.sendNav)(part, userToSend, userListWithChatID, telegramParams);
       return true;
     }
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
@@ -144,9 +134,7 @@ async function processData(obj) {
             (0, import_string.jsonString)(part.nav),
             groupData,
             userToSend,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
+            telegramParams,
             userListWithChatID,
             part,
             allMenusWithData,
@@ -162,9 +150,7 @@ async function processData(obj) {
               menuData,
               calledValue: result.newNav,
               userToSend,
-              telegramInstance,
-              resize_keyboard,
-              one_time_keyboard,
+              telegramParams,
               userListWithChatID,
               menus,
               isUserActiveCheckbox,
@@ -175,27 +161,11 @@ async function processData(obj) {
           }
           return true;
         }
-        await (0, import_sendNav.sendNav)(
-          part,
-          userToSend,
-          telegramInstance,
-          userListWithChatID,
-          resize_keyboard,
-          one_time_keyboard
-        );
+        await (0, import_sendNav.sendNav)(part, userToSend, userListWithChatID, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.switch) {
-        const result = await (0, import_setstate.handleSetState)(
-          part,
-          userToSend,
-          0,
-          false,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
-          userListWithChatID
-        );
+        const result = await (0, import_setstate.handleSetState)(part, userToSend, 0, false, telegramParams, userListWithChatID);
         if (result) {
           setStateIdsToListenTo = result;
         }
@@ -205,16 +175,14 @@ async function processData(obj) {
         return true;
       }
       if (part == null ? void 0 : part.getData) {
-        (0, import_getstate.getState)(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID);
+        (0, import_getstate.getState)(part, userToSend, telegramParams, userListWithChatID);
         return true;
       }
       if (part == null ? void 0 : part.sendPic) {
         const result = (0, import_sendpic.sendPic)(
           part,
           userToSend,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
+          telegramParams,
           userListWithChatID,
           token,
           directoryPicture,
@@ -230,20 +198,17 @@ async function processData(obj) {
       }
       if (part == null ? void 0 : part.location) {
         import_main.adapter.log.debug("Send location");
-        await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, telegramInstance, userListWithChatID);
+        await (0, import_telegram.sendLocationToTelegram)(
+          userToSend,
+          part.location,
+          telegramParams.telegramInstance,
+          userListWithChatID
+        );
         return true;
       }
       if (part == null ? void 0 : part.echarts) {
         import_main.adapter.log.debug("Send echars");
-        (0, import_echarts.getChart)(
-          part.echarts,
-          directoryPicture,
-          userToSend,
-          telegramInstance,
-          userListWithChatID,
-          resize_keyboard,
-          one_time_keyboard
-        );
+        (0, import_echarts.getChart)(part.echarts, directoryPicture, userToSend, userListWithChatID, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.httpRequest) {
@@ -251,9 +216,7 @@ async function processData(obj) {
         const result = await (0, import_httpRequest.httpRequest)(
           part,
           userToSend,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
+          telegramParams,
           userListWithChatID,
           directoryPicture
         );
@@ -266,9 +229,7 @@ async function processData(obj) {
         calledValue,
         menuData,
         userToSend,
-        telegramInstance,
-        resize_keyboard,
-        one_time_keyboard,
+        telegramParams,
         userListWithChatID,
         part,
         allMenusWithData,

@@ -25,7 +25,7 @@ var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_logging = require("./logging");
-async function sendNav(part, userToSend, telegramInstance, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function sendNav(part, userToSend, userListWithChatID, telegramParams) {
   try {
     if (userToSend) {
       const { nav: keyboard, text, parse_mode } = part;
@@ -34,9 +34,7 @@ async function sendNav(part, userToSend, telegramInstance, userListWithChatID, r
         userToSend,
         textToSend,
         keyboard,
-        telegramInstance,
-        resize_keyboard,
-        one_time_keyboard,
+        telegramParams,
         userListWithChatID,
         parse_mode
       });

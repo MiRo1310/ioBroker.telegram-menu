@@ -3,16 +3,14 @@ import { validateDirectory } from '../lib/utils';
 import { exec } from 'child_process';
 import { errorLogger } from './logging';
 import { adapter } from '../main';
-import type { Part, Timeouts, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams, Timeouts, UserListWithChatId } from '../types/types';
 import { replaceAll } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
 
 export function sendPic(
     part: Part,
     userToSend: string,
-    instanceTelegram: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
     userListWithChatID: UserListWithChatId[],
     token: string,
     directoryPicture: string,
@@ -60,9 +58,7 @@ export function sendPic(
                     await sendToTelegram({
                         userToSend,
                         textToSend: path,
-                        telegramInstance: instanceTelegram,
-                        resize_keyboard,
-                        one_time_keyboard,
+                        telegramParams,
                         userListWithChatID,
                     });
                     let timeoutToClear: Timeouts[] = [];

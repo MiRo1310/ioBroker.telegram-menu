@@ -35,7 +35,7 @@ var import_logging = require("./logging");
 function isLastElement(i, array) {
   return i == (array == null ? void 0 : array.length);
 }
-function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
+function getState(part, userToSend, telegramParams, userListWithChatID) {
   var _a, _b;
   let createdText = "";
   let i = 1;
@@ -50,23 +50,13 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           text,
           userToSend,
           newline,
-          telegramInstance,
-          one_time_keyboard,
-          resize_keyboard,
+          telegramParams,
           userListWithChatID
         });
         return;
       }
       if (text.includes(import_config.config.binding.start)) {
-        await (0, import_action.bindingFunc)(
-          text,
-          userToSend,
-          telegramInstance,
-          one_time_keyboard,
-          resize_keyboard,
-          userListWithChatID,
-          parse_mode
-        );
+        await (0, import_action.bindingFunc)(text, userToSend, telegramParams, userListWithChatID, parse_mode);
         return;
       }
       const state = await import_main.adapter.getForeignStateAsync(id);
@@ -109,9 +99,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
             await (0, import_telegram.sendToTelegram)({
               userToSend,
               textToSend: result,
-              telegramInstance,
-              resize_keyboard,
-              one_time_keyboard,
+              telegramParams,
               userListWithChatID,
               parse_mode
             });
@@ -126,7 +114,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 userToSend,
                 result.text,
                 result.keyboard,
-                telegramInstance,
+                telegramParams.telegramInstance,
                 userListWithChatID,
                 parse_mode
               );
@@ -136,9 +124,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
           await (0, import_telegram.sendToTelegram)({
             userToSend,
             textToSend: "The state is empty!",
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
+            telegramParams,
             userListWithChatID,
             parse_mode
           });
@@ -161,9 +147,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
         await (0, import_telegram.sendToTelegram)({
           userToSend,
           textToSend: createdText,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
+          telegramParams,
           userListWithChatID,
           parse_mode
         });

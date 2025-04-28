@@ -15,6 +15,7 @@ import type {
     NewObjectStructure,
     Part,
     Switch,
+    TelegramParams,
     UserListWithChatId,
     UserObjectActions,
     UsersInGroup,
@@ -27,9 +28,7 @@ import { config } from '../config/config';
 const bindingFunc = async (
     text: string,
     userToSend: string,
-    telegramInstance: string,
-    one_time_keyboard: boolean,
-    resize_keyboard: boolean,
+    telegramParams: TelegramParams,
     userListWithChatID: UserListWithChatId[],
     parse_mode?: boolean,
 ): Promise<void> => {
@@ -64,9 +63,7 @@ const bindingFunc = async (
         await sendToTelegram({
             userToSend,
             textToSend,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
+            telegramParams,
             userListWithChatID,
             parse_mode,
         });
@@ -80,18 +77,14 @@ const idBySelector = async ({
     text,
     userToSend,
     newline,
-    telegramInstance,
-    one_time_keyboard,
-    resize_keyboard,
+    telegramParams,
     userListWithChatID,
 }: {
     selector: string;
     text: string;
     userToSend: string;
     newline: BooleanString;
-    telegramInstance: string;
-    one_time_keyboard: boolean;
-    resize_keyboard: boolean;
+    telegramParams: TelegramParams;
     userListWithChatID: UserListWithChatId[];
 }): Promise<void> => {
     let text2Send = '';
@@ -141,9 +134,7 @@ const idBySelector = async ({
                 await sendToTelegram({
                     userToSend,
                     textToSend: text2Send,
-                    telegramInstance: telegramInstance,
-                    resize_keyboard,
-                    one_time_keyboard,
+                    telegramParams,
                     userListWithChatID,
                 });
             })
@@ -303,9 +294,7 @@ const checkEvent = async (
     state: ioBroker.State,
     menuData: MenuData,
     userListWithChatID: UserListWithChatId[],
-    instanceTelegram: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
     usersInGroup: UsersInGroup,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
@@ -351,9 +340,7 @@ const checkEvent = async (
                                 JSON.stringify(part?.nav[0]),
                                 menuData,
                                 user,
-                                instanceTelegram,
-                                resize_keyboard,
-                                one_time_keyboard,
+                                telegramParams,
                                 userListWithChatID,
                                 part,
                                 menuData,
@@ -362,14 +349,7 @@ const checkEvent = async (
                                 part.nav,
                             );
                         } else {
-                            await sendNav(
-                                part,
-                                user,
-                                instanceTelegram,
-                                userListWithChatID,
-                                resize_keyboard,
-                                one_time_keyboard,
-                            );
+                            await sendNav(part, user, userListWithChatID, telegramParams);
                         }
                     }
                 }

@@ -11,13 +11,12 @@ async function sendToTelegram({
     userToSend,
     textToSend,
     keyboard,
-    telegramInstance = defaultTelegramInstance,
-    resize_keyboard,
-    one_time_keyboard,
+    telegramParams,
     userListWithChatID,
     parse_mode,
 }: Telegram): Promise<void> {
     try {
+        const { telegramInstance, resize_keyboard, one_time_keyboard } = telegramParams;
         const chatId = getChatID(userListWithChatID, userToSend);
 
         adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);

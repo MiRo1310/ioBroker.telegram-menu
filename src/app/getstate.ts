@@ -4,7 +4,7 @@ import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc } from '../lib/utilities';
 import { isDefined } from '../lib/utils';
 import { adapter } from '../main';
-import type { Part, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams, UserListWithChatId } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
 import { cleanUpString, decomposeText, getNewline, getValueToExchange, jsonString } from '../lib/string';
 import { calcValue, roundValue } from '../lib/appUtils';
@@ -18,9 +18,7 @@ function isLastElement(i: number, array: unknown[] | undefined): boolean {
 export function getState(
     part: Part,
     userToSend: string,
-    telegramInstance: string,
-    one_time_keyboard: boolean,
-    resize_keyboard: boolean,
+    telegramParams: TelegramParams,
     userListWithChatID: UserListWithChatId[],
 ): void {
     let createdText = '';
@@ -38,24 +36,14 @@ export function getState(
                     text,
                     userToSend,
                     newline,
-                    telegramInstance,
-                    one_time_keyboard,
-                    resize_keyboard,
+                    telegramParams,
                     userListWithChatID,
                 });
                 return;
             }
 
             if (text.includes(config.binding.start)) {
-                await bindingFunc(
-                    text,
-                    userToSend,
-                    telegramInstance,
-                    one_time_keyboard,
-                    resize_keyboard,
-                    userListWithChatID,
-                    parse_mode,
-                );
+                await bindingFunc(text, userToSend, telegramParams, userListWithChatID, parse_mode);
                 return;
             }
 
@@ -105,9 +93,7 @@ export function getState(
                         await sendToTelegram({
                             userToSend,
                             textToSend: result,
-                            telegramInstance,
-                            resize_keyboard,
-                            one_time_keyboard,
+                            telegramParams,
                             userListWithChatID,
                             parse_mode,
                         });
@@ -122,7 +108,7 @@ export function getState(
                                 userToSend,
                                 result.text,
                                 result.keyboard,
-                                telegramInstance,
+                                telegramParams.telegramInstance,
                                 userListWithChatID,
                                 parse_mode,
                             );
@@ -132,9 +118,7 @@ export function getState(
                     await sendToTelegram({
                         userToSend,
                         textToSend: 'The state is empty!',
-                        telegramInstance,
-                        resize_keyboard,
-                        one_time_keyboard,
+                        telegramParams,
                         userListWithChatID,
                         parse_mode,
                     });
@@ -166,9 +150,7 @@ export function getState(
                 await sendToTelegram({
                     userToSend,
                     textToSend: createdText,
-                    telegramInstance,
-                    resize_keyboard,
-                    one_time_keyboard,
+                    telegramParams,
                     userListWithChatID,
                     parse_mode,
                 });

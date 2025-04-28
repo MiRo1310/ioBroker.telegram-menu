@@ -3,7 +3,7 @@ import { transformValueToTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
-import type { Part, SetStateIds, UserListWithChatId } from '../types/types';
+import type { Part, SetStateIds, TelegramParams, UserListWithChatId } from '../types/types';
 import { decomposeText, jsonString, parseJSON } from '../lib/string';
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
@@ -73,9 +73,7 @@ export const handleSetState = async (
     userToSend: string,
     valueFromSubmenu: string | number,
     SubmenuValuePriority: boolean,
-    telegramInstance: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
     userListWithChatID: UserListWithChatId[],
 ): Promise<SetStateIds[] | undefined> => {
     try {
@@ -91,9 +89,7 @@ export const handleSetState = async (
                     ack,
                     ID,
                     userToSend,
-                    telegramInstance,
-                    one_time_keyboard,
-                    resize_keyboard,
+                    telegramParams,
                     userListWithChatID,
                     parse_mode,
                     confirm,
@@ -129,17 +125,14 @@ export const handleSetState = async (
                 }
 
                 json.text = json.text + returnText.slice(returnText.indexOf('}') + 1);
-                if (textToSend && textToSend !== '') {
-                    await sendToTelegram({
-                        userToSend,
-                        textToSend,
-                        telegramInstance,
-                        resize_keyboard,
-                        one_time_keyboard,
-                        userListWithChatID,
-                        parse_mode,
-                    });
-                }
+
+                await sendToTelegram({
+                    userToSend,
+                    textToSend,
+                    telegramParams,
+                    userListWithChatID,
+                    parse_mode,
+                });
 
                 setStateIds.push({
                     id: json.id,

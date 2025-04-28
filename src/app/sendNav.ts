@@ -1,16 +1,14 @@
 import { sendToTelegram } from './telegram';
 import { checkStatusInfo } from '../lib/utilities';
-import type { Part, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams, UserListWithChatId } from '../types/types';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 
 export async function sendNav(
     part: Part,
     userToSend: string,
-    telegramInstance: string,
     userListWithChatID: UserListWithChatId[],
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
 ): Promise<void> {
     try {
         if (userToSend) {
@@ -21,9 +19,7 @@ export async function sendNav(
                 userToSend,
                 textToSend,
                 keyboard,
-                telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
+                telegramParams,
                 userListWithChatID,
                 parse_mode,
             });

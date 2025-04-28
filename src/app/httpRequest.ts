@@ -3,16 +3,14 @@ import { sendToTelegram } from './telegram';
 import path from 'path';
 import fs from 'fs';
 import { errorLogger } from './logging';
-import type { Part, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams, UserListWithChatId } from '../types/types';
 import { validateDirectory } from '../lib/utils';
 import { adapter } from '../main';
 
 async function httpRequest(
     parts: Part,
     userToSend: string,
-    telegramInstance: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
     userListWithChatID: UserListWithChatId[],
     directoryPicture: string,
 ): Promise<boolean | undefined> {
@@ -54,9 +52,7 @@ async function httpRequest(
             await sendToTelegram({
                 userToSend,
                 textToSend: imagePath,
-                telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
+                telegramParams,
                 userListWithChatID,
             });
         } catch (e: any) {

@@ -4,7 +4,7 @@ import { sendToTelegram, sendToTelegramSubmenu } from './telegram.js';
 import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates.js';
 import { errorLogger } from './logging.js';
 import { adapter } from '../main.js';
-import type { UserListWithChatId } from '../types/types.js';
+import type { TelegramParams, UserListWithChatId } from '../types/types.js';
 import { jsonString } from '../lib/string';
 import { setstateIobroker } from './setstate';
 
@@ -19,10 +19,8 @@ let isSubscribed = false;
 
 export async function shoppingListSubscribeStateAndDeleteItem(
     val: string | null,
-    instanceTelegram: string,
     userListWithChatID: UserListWithChatId[],
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
 ): Promise<void> {
     try {
         let array, user, idList, instance, idItem, res;
@@ -51,9 +49,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
             await sendToTelegram({
                 userToSend: user,
                 textToSend: 'Cannot delete the Item',
-                telegramInstance: instanceTelegram,
-                resize_keyboard: resize_keyboard,
-                one_time_keyboard: one_time_keyboard,
+                telegramParams,
                 userListWithChatID: userListWithChatID,
                 parse_mode: true,
             });

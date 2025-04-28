@@ -7,6 +7,7 @@ import type {
     MenusWithUsers,
     MenuData,
     UserListWithChatId,
+    TelegramParams,
 } from '../types/types';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
@@ -19,9 +20,7 @@ export async function adapterStartMenuSend(
     menusWithUsers: MenusWithUsers,
     menuData: MenuData,
     userListWithChatID: UserListWithChatId[],
-    telegramInstance: string,
-    resize_keyboard: boolean,
-    one_time_keyboard: boolean,
+    telegramParams: TelegramParams,
 ): Promise<void> {
     for (const menu of listOfMenus) {
         const startSide = startSides[menu];
@@ -38,9 +37,7 @@ export async function adapterStartMenuSend(
                     userToSend,
                     textToSend: text,
                     keyboard: nav,
-                    telegramInstance,
-                    resize_keyboard,
-                    one_time_keyboard,
+                    telegramParams,
                     userListWithChatID,
                     parse_mode,
                 });

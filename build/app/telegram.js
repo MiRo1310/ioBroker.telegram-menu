@@ -34,13 +34,12 @@ async function sendToTelegram({
   userToSend,
   textToSend,
   keyboard,
-  telegramInstance = import_config.defaultTelegramInstance,
-  resize_keyboard,
-  one_time_keyboard,
+  telegramParams,
   userListWithChatID,
   parse_mode
 }) {
   try {
+    const { telegramInstance, resize_keyboard, one_time_keyboard } = telegramParams;
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
     import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
     import_main.adapter.log.debug(`Instance: ${telegramInstance}`);

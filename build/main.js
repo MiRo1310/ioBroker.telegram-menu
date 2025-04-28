@@ -46,6 +46,7 @@ var import_connection = require("./app/connection.js");
 var import_string = require("./lib/string");
 var import_utils = require("./lib/utils");
 var import_appUtils = require("./lib/appUtils");
+var import_configVariables = require("./app/configVariables");
 const timeoutKey = "0";
 let subscribeForeignStateIds;
 let adapter;
@@ -67,30 +68,25 @@ class TelegramMenu extends utils.Adapter {
     adapter = this;
     await this.setState("info.connection", false, true);
     await (0, import_createState.createState)(this);
-    let telegramInstance = this.config.instance;
-    if (!telegramInstance || telegramInstance.length == 0) {
-      telegramInstance = "telegram.0";
-    }
-    const telegramID = `${telegramInstance}.communicate.request`;
-    const botSendMessageID = `${telegramInstance}.communicate.botSendMessageId`;
-    const requestMessageID = `${telegramInstance}.communicate.requestMessageId`;
-    const infoConnectionOfTelegram = `${telegramInstance}.info.connection`;
-    const checkboxes = this.config.checkbox;
-    const one_time_keyboard = checkboxes.oneTiKey;
-    const resize_keyboard = checkboxes.resKey;
-    const checkboxNoEntryFound = checkboxes.checkboxNoValueFound;
-    const sendMenuAfterRestart = checkboxes.sendMenuAfterRestart;
-    let listOfMenus = [];
-    if (this.config.usersInGroup) {
-      listOfMenus = Object.keys(this.config.usersInGroup);
-    }
-    const token = this.config.tokenGrafana;
-    const directoryPicture = this.config.directory;
-    const isUserActiveCheckbox = this.config.userActiveCheckbox;
-    const menusWithUsers = this.config.usersInGroup;
-    const textNoEntryFound = this.config.textNoEntry;
-    const userListWithChatID = this.config.userListWithChatID;
-    const dataObject = this.config.data;
+    const {
+      requestMessageID,
+      directoryPicture,
+      userListWithChatID,
+      telegramParams,
+      telegramID,
+      menusWithUsers,
+      infoConnectionOfTelegram,
+      listOfMenus,
+      isUserActiveCheckbox,
+      checkboxNoEntryFound,
+      textNoEntryFound,
+      botSendMessageID,
+      sendMenuAfterRestart,
+      token,
+      dataObject,
+      checkboxes
+    } = (0, import_configVariables.getConfigVariables)(this.config);
+    const { telegramInstance } = telegramParams;
     const menuData = {};
     const startSides = (0, import_appUtils.getStartSides)(menusWithUsers, dataObject);
     try {
@@ -140,9 +136,7 @@ class TelegramMenu extends utils.Adapter {
             menusWithUsers,
             menuData,
             userListWithChatID,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard
+            telegramParams
           );
         }
         this.on("stateChange", async (id, state) => {
@@ -157,13 +151,7 @@ class TelegramMenu extends utils.Adapter {
           }
           const { userToSend } = obj2;
           if ((0, import_string.isString)(state == null ? void 0 : state.val) && state.val.includes("sList:")) {
-            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(
-              state.val,
-              telegramInstance,
-              userListWithChatID,
-              resize_keyboard,
-              one_time_keyboard
-            );
+            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, userListWithChatID, telegramParams);
             return;
           }
           if (this.isAddToShoppingList(id, userToSend)) {
@@ -176,9 +164,7 @@ class TelegramMenu extends utils.Adapter {
             state,
             menuData,
             userListWithChatID,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
+            telegramParams,
             menusWithUsers
           )) {
             return;
@@ -197,9 +183,7 @@ class TelegramMenu extends utils.Adapter {
               menuData,
               calledValue,
               userToSend,
-              telegramInstance,
-              resize_keyboard,
-              one_time_keyboard,
+              telegramParams,
               userListWithChatID,
               menus,
               isUserActiveCheckbox,
@@ -213,9 +197,7 @@ class TelegramMenu extends utils.Adapter {
               await (0, import_telegram.sendToTelegram)({
                 userToSend,
                 textToSend: textNoEntryFound,
-                telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
+                telegramParams,
                 userListWithChatID
               });
             }
@@ -226,12 +208,6 @@ class TelegramMenu extends utils.Adapter {
             adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
             setStateIdsToListenTo.forEach((element, key) => {
               var _a2, _b, _c;
-              const telegramParams = {
-                telegramInstance,
-                one_time_keyboard,
-                resize_keyboard,
-                userToSend: element.userToSend
-              };
               if (element.id == id) {
                 adapter.log.debug(`Send Value: ${(0, import_string.jsonString)(element)}`);
                 adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
@@ -254,7 +230,8 @@ class TelegramMenu extends utils.Adapter {
                     textToSend: text,
                     userListWithChatID,
                     parse_mode: element.parse_mode,
-                    ...telegramParams
+                    userToSend,
+                    telegramParams
                   }).catch((e) => {
                     (0, import_logging.errorLogger)("Error SendToTelegram", e, adapter);
                   });
@@ -294,9 +271,7 @@ class TelegramMenu extends utils.Adapter {
                   (0, import_telegram.sendToTelegram)({
                     userToSend: element.userToSend,
                     textToSend,
-                    telegramInstance,
-                    resize_keyboard,
-                    one_time_keyboard,
+                    telegramParams,
                     userListWithChatID,
                     parse_mode: element.parse_mode
                   }).catch((e) => {

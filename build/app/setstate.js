@@ -68,7 +68,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID) => {
+const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramParams, userListWithChatID) => {
   try {
     const setStateIds = [];
     if (!part.switch) {
@@ -82,9 +82,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
           ack,
           ID,
           userToSend,
-          telegramInstance,
-          one_time_keyboard,
-          resize_keyboard,
+          telegramParams,
           userListWithChatID,
           parse_mode,
           confirm
@@ -117,17 +115,13 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
           return;
         }
         json.text = json.text + returnText.slice(returnText.indexOf("}") + 1);
-        if (textToSend && textToSend !== "") {
-          await (0, import_telegram.sendToTelegram)({
-            userToSend,
-            textToSend,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
-            userListWithChatID,
-            parse_mode
-          });
-        }
+        await (0, import_telegram.sendToTelegram)({
+          userToSend,
+          textToSend,
+          telegramParams,
+          userListWithChatID,
+          parse_mode
+        });
         setStateIds.push({
           id: json.id,
           confirm: true,

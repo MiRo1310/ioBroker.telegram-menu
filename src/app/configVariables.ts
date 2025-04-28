@@ -1,15 +1,12 @@
-import type { Checkboxes, DataObject, IsUserActiveCheckbox, UserListWithChatId } from '../types/types';
+import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams, UserListWithChatId } from '../types/types';
 
 export const getConfigVariables = (
     config: ioBroker.AdapterConfig,
 ): {
-    telegramInstance: string;
     telegramID: string;
     botSendMessageID: string;
     requestMessageID: string;
     infoConnectionOfTelegram: string;
-    one_time_keyboard: boolean;
-    resize_keyboard: boolean;
     checkboxNoEntryFound: boolean;
     sendMenuAfterRestart: boolean;
     listOfMenus: string[];
@@ -21,18 +18,16 @@ export const getConfigVariables = (
     userListWithChatID: UserListWithChatId[];
     dataObject: DataObject;
     checkboxes: Checkboxes;
+    telegramParams: TelegramParams;
 } => {
     const telegramInstance = config.instance ?? 'telegram.0';
     const checkboxes = config.checkbox;
     return {
-        telegramInstance,
         checkboxes,
         telegramID: `${telegramInstance}.communicate.request`,
         botSendMessageID: `${telegramInstance}.communicate.botSendMessageId`,
         requestMessageID: `${telegramInstance}.communicate.requestMessageId`,
         infoConnectionOfTelegram: `${telegramInstance}.info.connection`,
-        one_time_keyboard: checkboxes.oneTiKey,
-        resize_keyboard: checkboxes.resKey,
         checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
         sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
         listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
@@ -43,5 +38,10 @@ export const getConfigVariables = (
         textNoEntryFound: config.textNoEntry,
         userListWithChatID: config.userListWithChatID,
         dataObject: config.data,
+        telegramParams: {
+            telegramInstance,
+            resize_keyboard: checkboxes.resKey,
+            one_time_keyboard: checkboxes.oneTiKey,
+        },
     };
 };

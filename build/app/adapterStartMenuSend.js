@@ -26,7 +26,7 @@ var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, telegramInstance, resize_keyboard, one_time_keyboard) {
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, telegramParams) {
   for (const menu of listOfMenus) {
     const startSide = startSides[menu];
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
@@ -39,9 +39,7 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
           userToSend,
           textToSend: text,
           keyboard: nav,
-          telegramInstance,
-          resize_keyboard,
-          one_time_keyboard,
+          telegramParams,
           userListWithChatID,
           parse_mode
         });

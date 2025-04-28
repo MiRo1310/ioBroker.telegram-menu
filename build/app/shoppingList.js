@@ -32,7 +32,7 @@ var import_string = require("../lib/string");
 var import_setstate = require("./setstate");
 const objData = {};
 let isSubscribed = false;
-async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function shoppingListSubscribeStateAndDeleteItem(val, userListWithChatID, telegramParams) {
   try {
     let array, user, idList, instance, idItem, res;
     if (val != null) {
@@ -59,9 +59,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
       await (0, import_telegram.sendToTelegram)({
         userToSend: user,
         textToSend: "Cannot delete the Item",
-        telegramInstance: instanceTelegram,
-        resize_keyboard,
-        one_time_keyboard,
+        telegramParams,
         userListWithChatID,
         parse_mode: true
       });
@@ -79,11 +77,11 @@ async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWit
     await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
     await (0, import_messageIds.deleteMessageIds)(user, userListWithChatID, instanceTelegram, "last");
     const result = await import_main.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
-    if (result && result.val) {
+    if (result == null ? void 0 : result.val) {
       import_main.adapter.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
       const resultJson = (0, import_jsonTable.createKeyboardFromJson)(JSON.stringify(result.val, null, 2), null, newId, user);
-      if (resultJson && resultJson.text && resultJson.keyboard) {
+      if ((resultJson == null ? void 0 : resultJson.text) && (resultJson == null ? void 0 : resultJson.keyboard)) {
         (0, import_telegram.sendToTelegramSubmenu)(
           user,
           resultJson.text,
