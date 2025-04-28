@@ -225,8 +225,6 @@ export interface GenerateActionsNewObject {
     parse_mode?: boolean;
 }
 
-export type UserInGroup = Record<string, string>;
-
 export type SplittedData = string[];
 
 export interface SetStateIds {

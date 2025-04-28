@@ -15,9 +15,9 @@ import type {
     NewObjectStructure,
     Part,
     Switch,
-    UserInGroup,
     UserListWithChatId,
     UserObjectActions,
+    UsersInGroup,
 } from '../types/types';
 import { decomposeText, getNewline, jsonString } from '../lib/string';
 import { isDefined, isTruthy } from '../lib/utils';
@@ -306,7 +306,7 @@ const checkEvent = async (
     instanceTelegram: string,
     resize_keyboard: boolean,
     one_time_keyboard: boolean,
-    usersInGroup: UserInGroup,
+    usersInGroup: UsersInGroup,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
     let ok = false;

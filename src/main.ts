@@ -60,6 +60,7 @@ export default class TelegramMenu extends utils.Adapter {
         await this.setState('info.connection', false, true);
         await createState(this);
 
+        // TODO : Erstellen der variablen in eine separate Funktion auslagern
         let telegramInstance = this.config.instance;
         if (!telegramInstance || telegramInstance.length == 0) {
             telegramInstance = 'telegram.0';
@@ -83,7 +84,7 @@ export default class TelegramMenu extends utils.Adapter {
         const directoryPicture = this.config.directory;
         const isUserActiveCheckbox = this.config.userActiveCheckbox;
         const menusWithUsers = this.config.usersInGroup;
-        const textNoEntryFound: string = this.config.textNoEntry;
+        const textNoEntryFound = this.config.textNoEntry;
         const userListWithChatID = this.config.userListWithChatID;
         const dataObject = this.config.data;
 
@@ -216,7 +217,7 @@ export default class TelegramMenu extends utils.Adapter {
                             menuData,
                             calledValue,
                             userToSend,
-                            telegramInstance: telegramInstance,
+                            telegramInstance,
                             resize_keyboard,
                             one_time_keyboard,
                             userListWithChatID,

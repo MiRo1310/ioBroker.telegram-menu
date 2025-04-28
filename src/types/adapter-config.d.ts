@@ -4,7 +4,7 @@
 
 
 // Augment the globally declared type ioBroker.AdapterConfig
-import {Checkboxes, DataObject, IsUserActiveCheckbox} from "./types";
+import {Checkboxes, DataObject, IsUserActiveCheckbox, UsersInGroup, UserListWithChatId} from "./types";
 
 declare global {
 	namespace ioBroker {
