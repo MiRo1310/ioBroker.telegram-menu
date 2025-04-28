@@ -35,7 +35,7 @@ var import_logging = require("./logging");
 function isLastElement(i, array) {
   return i == (array == null ? void 0 : array.length);
 }
-function getState(part, userToSend, telegramParams, userListWithChatID) {
+function getState(part, userToSend, telegramParams) {
   var _a, _b;
   let createdText = "";
   let i = 1;
@@ -50,13 +50,12 @@ function getState(part, userToSend, telegramParams, userListWithChatID) {
           text,
           userToSend,
           newline,
-          telegramParams,
-          userListWithChatID
+          telegramParams
         });
         return;
       }
       if (text.includes(import_config.config.binding.start)) {
-        await (0, import_action.bindingFunc)(text, userToSend, telegramParams, userListWithChatID, parse_mode);
+        await (0, import_action.bindingFunc)(text, userToSend, telegramParams, parse_mode);
         return;
       }
       const state = await import_main.adapter.getForeignStateAsync(id);
@@ -100,7 +99,6 @@ function getState(part, userToSend, telegramParams, userListWithChatID) {
               userToSend,
               textToSend: result,
               telegramParams,
-              userListWithChatID,
               parse_mode
             });
             return;
@@ -110,14 +108,7 @@ function getState(part, userToSend, telegramParams, userListWithChatID) {
           const result = (0, import_jsonTable.createKeyboardFromJson)(stateValue, modifiedTextToSend, id, userToSend);
           if (stateValue && stateValue.length > 0) {
             if (result && result.text && result.keyboard) {
-              (0, import_telegram.sendToTelegramSubmenu)(
-                userToSend,
-                result.text,
-                result.keyboard,
-                telegramParams.telegramInstance,
-                userListWithChatID,
-                parse_mode
-              );
+              (0, import_telegram.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramParams, parse_mode);
             }
             return;
           }
@@ -125,7 +116,6 @@ function getState(part, userToSend, telegramParams, userListWithChatID) {
             userToSend,
             textToSend: "The state is empty!",
             telegramParams,
-            userListWithChatID,
             parse_mode
           });
           import_main.adapter.log.debug("The state is empty!");
@@ -148,7 +138,6 @@ function getState(part, userToSend, telegramParams, userListWithChatID) {
           userToSend,
           textToSend: createdText,
           telegramParams,
-          userListWithChatID,
           parse_mode
         });
       }

@@ -3,7 +3,7 @@ import { transformValueToTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
-import type { Part, SetStateIds, TelegramParams, UserListWithChatId } from '../types/types';
+import type { Part, SetStateIds, TelegramParams } from '../types/types';
 import { decomposeText, jsonString, parseJSON } from '../lib/string';
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
@@ -74,7 +74,6 @@ export const handleSetState = async (
     valueFromSubmenu: string | number,
     SubmenuValuePriority: boolean,
     telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
 ): Promise<SetStateIds[] | undefined> => {
     try {
         const setStateIds: SetStateIds[] = [];
@@ -90,7 +89,6 @@ export const handleSetState = async (
                     ID,
                     userToSend,
                     telegramParams,
-                    userListWithChatID,
                     parse_mode,
                     confirm,
                 );
@@ -130,7 +128,6 @@ export const handleSetState = async (
                     userToSend,
                     textToSend,
                     telegramParams,
-                    userListWithChatID,
                     parse_mode,
                 });
 

@@ -25,6 +25,12 @@ const getConfigVariables = (config) => {
   var _a;
   const telegramInstance = (_a = config.instance) != null ? _a : "telegram.0";
   const checkboxes = config.checkbox;
+  const telegramParams = {
+    telegramInstance,
+    resize_keyboard: checkboxes.resKey,
+    one_time_keyboard: checkboxes.oneTiKey,
+    userListWithChatID: config.userListWithChatID
+  };
   return {
     checkboxes,
     telegramID: `${telegramInstance}.communicate.request`,
@@ -39,13 +45,8 @@ const getConfigVariables = (config) => {
     isUserActiveCheckbox: config.userActiveCheckbox,
     menusWithUsers: config.usersInGroup,
     textNoEntryFound: config.textNoEntry,
-    userListWithChatID: config.userListWithChatID,
     dataObject: config.data,
-    telegramParams: {
-      telegramInstance,
-      resize_keyboard: checkboxes.resKey,
-      one_time_keyboard: checkboxes.oneTiKey
-    }
+    telegramParams
   };
 };
 // Annotate the CommonJS export names for ESM import in node:

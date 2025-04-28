@@ -1,7 +1,7 @@
 import { adapter } from '../main';
 import { deleteMessageByBot } from './botAction';
 import { errorLogger } from './logging';
-import type { MessageInfos, Messages, UserListWithChatId, WhatShouldDelete } from '../types/types';
+import type { MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '../types/types';
 import { deepCopy, getChatID } from '../lib/utils';
 import { parseJSON } from '../lib/string';
 
@@ -63,13 +63,13 @@ const removeMessageFromList = ({
 
 async function deleteMessageIds(
     user: string,
-    userListWithChatID: UserListWithChatId[],
-    instanceTelegram: string,
+    telegramParams: TelegramParams,
     whatShouldDelete: WhatShouldDelete,
 ): Promise<void> {
+    const { telegramInstance, userListWithChatID } = telegramParams;
     try {
         const requestMessageIdObj = await adapter.getStateAsync('communication.requestIds');
-        const lastMessageId = await adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
+        const lastMessageId = await adapter.getForeignStateAsync(`${telegramInstance}.communicate.requestMessageId`);
 
         if (
             !requestMessageIdObj ||
@@ -94,10 +94,10 @@ async function deleteMessageIds(
         json[chat_id].forEach((element, index) => {
             const id = element.id?.toString();
             if (whatShouldDelete === 'all' && id) {
-                deleteMessageByBot(instanceTelegram, user, parseInt(id), chat_id);
+                deleteMessageByBot(telegramInstance, user, parseInt(id), chat_id);
             }
             if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
-                deleteMessageByBot(instanceTelegram, user, parseInt(id), chat_id);
+                deleteMessageByBot(telegramInstance, user, parseInt(id), chat_id);
             }
             if (!copyMessageIds) {
                 return;

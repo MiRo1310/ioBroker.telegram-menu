@@ -1,17 +1,10 @@
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
-import type { Echart, TelegramParams, UserListWithChatId } from '../types/types';
+import type { Echart, TelegramParams } from '../types/types';
 import { validateDirectory } from '../lib/utils';
 
-function getChart(
-    echarts: Echart[],
-    directoryPicture: string,
-    user: string,
-
-    userListWithChatID: UserListWithChatId[],
-    telegramParams: TelegramParams,
-): void {
+function getChart(echarts: Echart[], directoryPicture: string, user: string, telegramParams: TelegramParams): void {
     try {
         if (!echarts) {
             return;
@@ -34,12 +27,9 @@ function getChart(
                     fileOnDisk: directoryPicture + echart.filename,
                 },
                 (result: any) => {
-                    sendToTelegram({
-                        userToSend: user,
-                        textToSend: result.error || directoryPicture + echart.filename,
-                        telegramParams,
-                        userListWithChatID,
-                    }).catch((e: any) => {
+                    const textToSend = result.error || directoryPicture + echart.filename;
+
+                    sendToTelegram({ userToSend: user, textToSend, telegramParams }).catch((e: any) => {
                         errorLogger('Error send to telegram: ', e, adapter);
                     });
                 },

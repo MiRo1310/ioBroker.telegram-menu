@@ -3,7 +3,7 @@ import { validateDirectory } from '../lib/utils';
 import { exec } from 'child_process';
 import { errorLogger } from './logging';
 import { adapter } from '../main';
-import type { Part, TelegramParams, Timeouts, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams, Timeouts } from '../types/types';
 import { replaceAll } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
 
@@ -11,7 +11,6 @@ export function sendPic(
     part: Part,
     userToSend: string,
     telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
     token: string,
     directoryPicture: string,
     timeouts: Timeouts[],
@@ -59,7 +58,6 @@ export function sendPic(
                         userToSend,
                         textToSend: path,
                         telegramParams,
-                        userListWithChatID,
                     });
                     let timeoutToClear: Timeouts[] = [];
                     timeoutToClear = timeouts.filter(item => item.key == timeoutKey);

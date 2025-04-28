@@ -25,7 +25,7 @@ var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 var import_logging = require("./logging");
-async function sendNav(part, userToSend, userListWithChatID, telegramParams) {
+async function sendNav(part, userToSend, telegramParams) {
   try {
     if (userToSend) {
       const { nav: keyboard, text, parse_mode } = part;
@@ -35,7 +35,6 @@ async function sendNav(part, userToSend, userListWithChatID, telegramParams) {
         textToSend,
         keyboard,
         telegramParams,
-        userListWithChatID,
         parse_mode
       });
     }

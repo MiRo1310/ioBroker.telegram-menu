@@ -26,7 +26,7 @@ var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, userListWithChatID, telegramParams) {
+async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, telegramParams) {
   for (const menu of listOfMenus) {
     const startSide = startSides[menu];
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
@@ -34,13 +34,12 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
       for (const userToSend of menusWithUsers[menu]) {
         const { nav, text, parse_mode } = menuData[menu][startSide];
         (0, import_backMenu.backMenuFunc)({ startSide, navigation: nav, userToSend });
-        import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(userListWithChatID)}`);
+        import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
         await (0, import_telegram.sendToTelegram)({
           userToSend,
           textToSend: text,
           keyboard: nav,
           telegramParams,
-          userListWithChatID,
           parse_mode
         });
       }

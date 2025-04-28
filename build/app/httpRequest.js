@@ -38,7 +38,7 @@ var import_fs = __toESM(require("fs"));
 var import_logging = require("./logging");
 var import_utils = require("../lib/utils");
 var import_main = require("../main");
-async function httpRequest(parts, userToSend, telegramParams, userListWithChatID, directoryPicture) {
+async function httpRequest(parts, userToSend, telegramParams, directoryPicture) {
   if (!parts.httpRequest) {
     return;
   }
@@ -69,8 +69,7 @@ async function httpRequest(parts, userToSend, telegramParams, userListWithChatID
       await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: imagePath,
-        telegramParams,
-        userListWithChatID
+        telegramParams
       });
     } catch (e) {
       (0, import_logging.errorLogger)("Error http request:", e, import_main.adapter);

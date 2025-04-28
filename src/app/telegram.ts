@@ -1,22 +1,20 @@
 import { errorLogger } from './logging';
 import { checkStatusInfo } from '../lib/utilities';
 import { adapter } from '../main';
-import type { Keyboard, Location, Telegram, UserListWithChatId } from '../types/types';
+import type { Keyboard, Location, Telegram, TelegramParams } from '../types/types';
 import { getChatID } from '../lib/utils';
-import { jsonString, cleanUpString } from '../lib/string';
+import { cleanUpString, jsonString } from '../lib/string';
 import { getParseMode } from '../lib/appUtils';
-import { defaultTelegramInstance } from '../config/config';
 
 async function sendToTelegram({
     userToSend,
     textToSend,
     keyboard,
     telegramParams,
-    userListWithChatID,
     parse_mode,
 }: Telegram): Promise<void> {
     try {
-        const { telegramInstance, resize_keyboard, one_time_keyboard } = telegramParams;
+        const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
         const chatId = getChatID(userListWithChatID, userToSend);
 
         adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
@@ -64,10 +62,10 @@ function sendToTelegramSubmenu(
     user: string,
     textToSend: string,
     keyboard: Keyboard,
-    instance = defaultTelegramInstance,
-    userListWithChatID: UserListWithChatId[],
+    telegramParams: TelegramParams,
     parse_mode?: boolean,
 ): void {
+    const { telegramInstance: instance, userListWithChatID } = telegramParams;
     adapter.sendTo(
         instance,
         'send',
@@ -84,9 +82,9 @@ function sendToTelegramSubmenu(
 const sendLocationToTelegram = async (
     user: string,
     data: Location[],
-    instance: string,
-    userListWithChatID: UserListWithChatId[],
+    telegramParams: TelegramParams,
 ): Promise<void> => {
+    const { userListWithChatID, telegramInstance: instance } = telegramParams;
     try {
         const chatId = getChatID(userListWithChatID, user);
 

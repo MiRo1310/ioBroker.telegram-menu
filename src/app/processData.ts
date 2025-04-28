@@ -24,7 +24,6 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
         calledValue,
         userToSend,
         telegramParams,
-        userListWithChatID,
         menus,
         isUserActiveCheckbox,
         token,
@@ -45,7 +44,6 @@ async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<bo
                 userToSend,
                 groupWithUser: menu,
                 telegramParams,
-                userListWithChatID,
                 allMenusWithData: menuData,
                 menus,
                 isUserActiveCheckbox,
@@ -69,7 +67,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         userToSend,
         groupWithUser,
         telegramParams,
-        userListWithChatID,
         allMenusWithData,
         menus,
         isUserActiveCheckbox,
@@ -91,7 +88,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                       userToSend,
                       textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
                       telegramParams,
-                      userListWithChatID,
                   });
 
             removeUserFromDynamicValue(userToSend);
@@ -104,12 +100,11 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                     textToSend,
                     keyboard: menuToSend,
                     telegramParams,
-                    userListWithChatID,
                     parse_mode,
                 });
                 return true;
             }
-            await sendNav(part, userToSend, userListWithChatID, telegramParams);
+            await sendNav(part, userToSend, telegramParams);
 
             return true;
         }
@@ -128,10 +123,8 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
                     const result = await callSubMenu(
                         jsonString(part.nav),
-                        groupData,
                         userToSend,
                         telegramParams,
-                        userListWithChatID,
                         part,
                         allMenusWithData,
                         menus,
@@ -147,7 +140,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                             calledValue: result.newNav,
                             userToSend,
                             telegramParams,
-                            userListWithChatID,
                             menus,
                             isUserActiveCheckbox,
                             token,
@@ -157,12 +149,12 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                     }
                     return true;
                 }
-                await sendNav(part, userToSend, userListWithChatID, telegramParams);
+                await sendNav(part, userToSend, telegramParams);
                 return true;
             }
 
             if (part?.switch) {
-                const result = await handleSetState(part, userToSend, 0, false, telegramParams, userListWithChatID);
+                const result = await handleSetState(part, userToSend, 0, false, telegramParams);
                 if (result) {
                     setStateIdsToListenTo = result;
                 }
@@ -173,21 +165,12 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             }
 
             if (part?.getData) {
-                getState(part, userToSend, telegramParams, userListWithChatID);
+                getState(part, userToSend, telegramParams);
                 return true;
             }
 
             if (part?.sendPic) {
-                const result = sendPic(
-                    part,
-                    userToSend,
-                    telegramParams,
-                    userListWithChatID,
-                    token,
-                    directoryPicture,
-                    timeouts,
-                    timeoutKey,
-                );
+                const result = sendPic(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
                 if (result) {
                     timeouts = result;
                     return true;
@@ -198,30 +181,19 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
             if (part?.location) {
                 adapter.log.debug('Send location');
-                await sendLocationToTelegram(
-                    userToSend,
-                    part.location,
-                    telegramParams.telegramInstance,
-                    userListWithChatID,
-                );
+                await sendLocationToTelegram(userToSend, part.location, telegramParams);
                 return true;
             }
 
             if (part?.echarts) {
                 adapter.log.debug('Send echars');
-                getChart(part.echarts, directoryPicture, userToSend, userListWithChatID, telegramParams);
+                getChart(part.echarts, directoryPicture, userToSend, telegramParams);
                 return true;
             }
 
             if (part?.httpRequest) {
                 adapter.log.debug('Send http request');
-                const result = await httpRequest(
-                    part,
-                    userToSend,
-                    telegramParams,
-                    userListWithChatID,
-                    directoryPicture,
-                );
+                const result = await httpRequest(part, userToSend, telegramParams, directoryPicture);
                 return !!result;
             }
         }
@@ -229,10 +201,8 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             adapter.log.debug('Call Submenu');
             const result = await callSubMenu(
                 calledValue,
-                menuData,
                 userToSend,
                 telegramParams,
-                userListWithChatID,
                 part,
                 allMenusWithData,
                 menus,

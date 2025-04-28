@@ -4,7 +4,7 @@ import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc } from '../lib/utilities';
 import { isDefined } from '../lib/utils';
 import { adapter } from '../main';
-import type { Part, TelegramParams, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
 import { cleanUpString, decomposeText, getNewline, getValueToExchange, jsonString } from '../lib/string';
 import { calcValue, roundValue } from '../lib/appUtils';
@@ -15,12 +15,7 @@ function isLastElement(i: number, array: unknown[] | undefined): boolean {
     return i == array?.length;
 }
 
-export function getState(
-    part: Part,
-    userToSend: string,
-    telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
-): void {
+export function getState(part: Part, userToSend: string, telegramParams: TelegramParams): void {
     let createdText = '';
     let i = 1;
 
@@ -37,13 +32,12 @@ export function getState(
                     userToSend,
                     newline,
                     telegramParams,
-                    userListWithChatID,
                 });
                 return;
             }
 
             if (text.includes(config.binding.start)) {
-                await bindingFunc(text, userToSend, telegramParams, userListWithChatID, parse_mode);
+                await bindingFunc(text, userToSend, telegramParams, parse_mode);
                 return;
             }
 
@@ -94,7 +88,6 @@ export function getState(
                             userToSend,
                             textToSend: result,
                             telegramParams,
-                            userListWithChatID,
                             parse_mode,
                         });
                         return;
@@ -104,14 +97,7 @@ export function getState(
                     const result = createKeyboardFromJson(stateValue, modifiedTextToSend, id, userToSend);
                     if (stateValue && stateValue.length > 0) {
                         if (result && result.text && result.keyboard) {
-                            sendToTelegramSubmenu(
-                                userToSend,
-                                result.text,
-                                result.keyboard,
-                                telegramParams.telegramInstance,
-                                userListWithChatID,
-                                parse_mode,
-                            );
+                            sendToTelegramSubmenu(userToSend, result.text, result.keyboard, telegramParams, parse_mode);
                         }
                         return;
                     }
@@ -119,7 +105,6 @@ export function getState(
                         userToSend,
                         textToSend: 'The state is empty!',
                         telegramParams,
-                        userListWithChatID,
                         parse_mode,
                     });
                     adapter.log.debug('The state is empty!');
@@ -151,7 +136,6 @@ export function getState(
                     userToSend,
                     textToSend: createdText,
                     telegramParams,
-                    userListWithChatID,
                     parse_mode,
                 });
             }

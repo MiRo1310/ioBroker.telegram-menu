@@ -1,4 +1,4 @@
-import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams, UserListWithChatId } from '../types/types';
+import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams } from '../types/types';
 
 export const getConfigVariables = (
     config: ioBroker.AdapterConfig,
@@ -15,13 +15,18 @@ export const getConfigVariables = (
     isUserActiveCheckbox: IsUserActiveCheckbox;
     menusWithUsers: Record<string, string[]>;
     textNoEntryFound: string;
-    userListWithChatID: UserListWithChatId[];
     dataObject: DataObject;
     checkboxes: Checkboxes;
     telegramParams: TelegramParams;
 } => {
     const telegramInstance = config.instance ?? 'telegram.0';
     const checkboxes = config.checkbox;
+    const telegramParams: TelegramParams = {
+        telegramInstance,
+        resize_keyboard: checkboxes.resKey,
+        one_time_keyboard: checkboxes.oneTiKey,
+        userListWithChatID: config.userListWithChatID,
+    };
     return {
         checkboxes,
         telegramID: `${telegramInstance}.communicate.request`,
@@ -36,12 +41,7 @@ export const getConfigVariables = (
         isUserActiveCheckbox: config.userActiveCheckbox,
         menusWithUsers: config.usersInGroup,
         textNoEntryFound: config.textNoEntry,
-        userListWithChatID: config.userListWithChatID,
         dataObject: config.data,
-        telegramParams: {
-            telegramInstance,
-            resize_keyboard: checkboxes.resKey,
-            one_time_keyboard: checkboxes.oneTiKey,
-        },
+        telegramParams,
     };
 };

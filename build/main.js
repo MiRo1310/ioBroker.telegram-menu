@@ -71,7 +71,6 @@ class TelegramMenu extends utils.Adapter {
     const {
       requestMessageID,
       directoryPicture,
-      userListWithChatID,
       telegramParams,
       telegramID,
       menusWithUsers,
@@ -92,7 +91,7 @@ class TelegramMenu extends utils.Adapter {
     try {
       await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
         var _a;
-        if (err || obj == null) {
+        if (err || !obj) {
           this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
         }
@@ -112,10 +111,8 @@ class TelegramMenu extends utils.Adapter {
           } else {
             adapter.log.debug("No Actions generated!");
           }
-          if ((subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) > 0) {
+          if (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) {
             await (0, import_subscribeStates._subscribeForeignStatesAsync)(subscribeForeignStateIds);
-          } else {
-            adapter.log.debug("Nothing to Subscribe!");
           }
           if ((_a = dataObject.action[name]) == null ? void 0 : _a.events) {
             for (const event of dataObject.action[name].events) {
@@ -135,7 +132,6 @@ class TelegramMenu extends utils.Adapter {
             isUserActiveCheckbox,
             menusWithUsers,
             menuData,
-            userListWithChatID,
             telegramParams
           );
         }
@@ -145,28 +141,20 @@ class TelegramMenu extends utils.Adapter {
           if (!isActive) {
             return;
           }
-          const obj2 = await this.getChatIDAndUserToSend(telegramInstance, userListWithChatID);
+          const obj2 = await this.getChatIDAndUserToSend(telegramParams);
           if (!obj2) {
             return;
           }
           const { userToSend } = obj2;
           if ((0, import_string.isString)(state == null ? void 0 : state.val) && state.val.includes("sList:")) {
-            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, userListWithChatID, telegramParams);
+            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, telegramParams);
             return;
           }
           if (this.isAddToShoppingList(id, userToSend)) {
-            await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(telegramInstance, userListWithChatID, userToSend);
+            await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(telegramParams, userToSend);
             return;
           }
-          if (state && await (0, import_action.checkEvent)(
-            dataObject,
-            id,
-            state,
-            menuData,
-            userListWithChatID,
-            telegramParams,
-            menusWithUsers
-          )) {
+          if (state && await (0, import_action.checkEvent)(dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
             return;
           }
           if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
@@ -184,7 +172,6 @@ class TelegramMenu extends utils.Adapter {
               calledValue,
               userToSend,
               telegramParams,
-              userListWithChatID,
               menus,
               isUserActiveCheckbox,
               token,
@@ -197,8 +184,7 @@ class TelegramMenu extends utils.Adapter {
               await (0, import_telegram.sendToTelegram)({
                 userToSend,
                 textToSend: textNoEntryFound,
-                telegramParams,
-                userListWithChatID
+                telegramParams
               });
             }
             return;
@@ -228,7 +214,6 @@ class TelegramMenu extends utils.Adapter {
                   }
                   (0, import_telegram.sendToTelegram)({
                     textToSend: text,
-                    userListWithChatID,
                     parse_mode: element.parse_mode,
                     userToSend,
                     telegramParams
@@ -271,9 +256,8 @@ class TelegramMenu extends utils.Adapter {
                   (0, import_telegram.sendToTelegram)({
                     userToSend: element.userToSend,
                     textToSend,
-                    telegramParams,
-                    userListWithChatID,
-                    parse_mode: element.parse_mode
+                    parse_mode: element.parse_mode,
+                    telegramParams
                   }).catch((e) => {
                     (0, import_logging.errorLogger)("Error sendToTelegram", e, adapter);
                   });
@@ -313,8 +297,9 @@ class TelegramMenu extends utils.Adapter {
     }
     return true;
   }
-  async getChatIDAndUserToSend(instanceTelegram, userListWithChatID) {
-    const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+  async getChatIDAndUserToSend(telegramParams) {
+    const { telegramInstance, userListWithChatID } = telegramParams;
+    const chatID = await this.getForeignStateAsync(`${telegramInstance}.communicate.requestChatId`);
     if (!(chatID == null ? void 0 : chatID.val)) {
       adapter.log.debug("ChatID not found");
       return;

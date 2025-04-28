@@ -29,7 +29,6 @@ const bindingFunc = async (
     text: string,
     userToSend: string,
     telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
     parse_mode?: boolean,
 ): Promise<void> => {
     let textToSend;
@@ -64,7 +63,6 @@ const bindingFunc = async (
             userToSend,
             textToSend,
             telegramParams,
-            userListWithChatID,
             parse_mode,
         });
     } catch (e: any) {
@@ -78,14 +76,12 @@ const idBySelector = async ({
     userToSend,
     newline,
     telegramParams,
-    userListWithChatID,
 }: {
     selector: string;
     text: string;
     userToSend: string;
     newline: BooleanString;
     telegramParams: TelegramParams;
-    userListWithChatID: UserListWithChatId[];
 }): Promise<void> => {
     let text2Send = '';
     try {
@@ -135,7 +131,6 @@ const idBySelector = async ({
                     userToSend,
                     textToSend: text2Send,
                     telegramParams,
-                    userListWithChatID,
                 });
             })
             .catch(e => {
@@ -293,7 +288,6 @@ const checkEvent = async (
     id: string,
     state: ioBroker.State,
     menuData: MenuData,
-    userListWithChatID: UserListWithChatId[],
     telegramParams: TelegramParams,
     usersInGroup: UsersInGroup,
 ): Promise<boolean> => {
@@ -338,10 +332,8 @@ const checkEvent = async (
                         if (part?.nav && part?.nav[0][0].includes('menu:')) {
                             await callSubMenu(
                                 JSON.stringify(part?.nav[0]),
-                                menuData,
                                 user,
                                 telegramParams,
-                                userListWithChatID,
                                 part,
                                 menuData,
                                 menus,
@@ -349,7 +341,7 @@ const checkEvent = async (
                                 part.nav,
                             );
                         } else {
-                            await sendNav(part, user, userListWithChatID, telegramParams);
+                            await sendNav(part, user, telegramParams);
                         }
                     }
                 }

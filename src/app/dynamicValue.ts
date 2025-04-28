@@ -1,6 +1,6 @@
 import { decomposeText } from '../lib/string';
 import { sendToTelegram } from './telegram';
-import type { SetDynamicValueObj, UserListWithChatId, SetDynamicValue, TelegramParams } from '../types/types';
+import type { SetDynamicValue, SetDynamicValueObj, TelegramParams } from '../types/types';
 
 const setDynamicValueObj: SetDynamicValueObj = {};
 export const setDynamicValue = async (
@@ -9,7 +9,6 @@ export const setDynamicValue = async (
     id: string,
     userToSend: string,
     telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
     parse_mode: boolean,
     confirm: string,
 ): Promise<{ confirmText: string; id: string | undefined }> => {
@@ -22,7 +21,6 @@ export const setDynamicValue = async (
             userToSend,
             textToSend: text,
             telegramParams,
-            userListWithChatID,
             parse_mode,
         });
     }
@@ -34,7 +32,6 @@ export const setDynamicValue = async (
         parse_mode,
         confirm,
         telegramParams,
-        userListWithChatID,
         valueType: array[2],
     };
 

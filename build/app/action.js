@@ -36,7 +36,7 @@ var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
 var import_config = require("../config/config");
-const bindingFunc = async (text, userToSend, telegramParams, userListWithChatID, parse_mode) => {
+const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
   var _a, _b;
   let textToSend;
   try {
@@ -66,7 +66,6 @@ const bindingFunc = async (text, userToSend, telegramParams, userListWithChatID,
       userToSend,
       textToSend,
       telegramParams,
-      userListWithChatID,
       parse_mode
     });
   } catch (e) {
@@ -78,8 +77,7 @@ const idBySelector = async ({
   text,
   userToSend,
   newline,
-  telegramParams,
-  userListWithChatID
+  telegramParams
 }) => {
   let text2Send = "";
   try {
@@ -121,8 +119,7 @@ const idBySelector = async ({
       await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: text2Send,
-        telegramParams,
-        userListWithChatID
+        telegramParams
       });
     }).catch((e) => {
       (0, import_logging.errorLogger)("Error Promise:", e, import_main.adapter);
@@ -254,7 +251,7 @@ const adjustValueType = (value, valueType) => {
   }
   return value;
 };
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, telegramParams, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, telegramParams, usersInGroup) => {
   const menuArray = [];
   let ok = false;
   let calledNav = "";
@@ -297,10 +294,8 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, t
             if ((part == null ? void 0 : part.nav) && (part == null ? void 0 : part.nav[0][0].includes("menu:"))) {
               await (0, import_subMenu.callSubMenu)(
                 JSON.stringify(part == null ? void 0 : part.nav[0]),
-                menuData,
                 user,
                 telegramParams,
-                userListWithChatID,
                 part,
                 menuData,
                 menus,
@@ -308,7 +303,7 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, t
                 part.nav
               );
             } else {
-              await (0, import_sendNav.sendNav)(part, user, userListWithChatID, telegramParams);
+              await (0, import_sendNav.sendNav)(part, user, telegramParams);
             }
           }
         }

@@ -16,7 +16,7 @@ import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
-import type { MenuData, PrimitiveType, SetStateIds, UserListWithChatId } from './types/types';
+import type { MenuData, PrimitiveType, SetStateIds, TelegramParams } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
 import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
@@ -57,7 +57,6 @@ export default class TelegramMenu extends utils.Adapter {
         const {
             requestMessageID,
             directoryPicture,
-            userListWithChatID,
             telegramParams,
             telegramID,
             menusWithUsers,
@@ -78,7 +77,7 @@ export default class TelegramMenu extends utils.Adapter {
         const startSides = getStartSides(menusWithUsers, dataObject);
         try {
             await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
-                if (err || obj == null) {
+                if (err || !obj) {
                     this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
                     return;
                 }
@@ -104,10 +103,8 @@ export default class TelegramMenu extends utils.Adapter {
                         adapter.log.debug('No Actions generated!');
                     }
 
-                    if (subscribeForeignStateIds?.length > 0) {
+                    if (subscribeForeignStateIds?.length) {
                         await _subscribeForeignStatesAsync(subscribeForeignStateIds);
-                    } else {
-                        adapter.log.debug('Nothing to Subscribe!');
                     }
 
                     // Subscribe Events
@@ -131,7 +128,6 @@ export default class TelegramMenu extends utils.Adapter {
                         isUserActiveCheckbox,
                         menusWithUsers,
                         menuData,
-                        userListWithChatID,
                         telegramParams,
                     );
                 }
@@ -144,7 +140,7 @@ export default class TelegramMenu extends utils.Adapter {
                         return;
                     }
 
-                    const obj = await this.getChatIDAndUserToSend(telegramInstance, userListWithChatID);
+                    const obj = await this.getChatIDAndUserToSend(telegramParams);
                     if (!obj) {
                         return;
                     }
@@ -152,28 +148,16 @@ export default class TelegramMenu extends utils.Adapter {
                     const { userToSend } = obj;
 
                     if (isString(state?.val) && state.val.includes('sList:')) {
-                        await shoppingListSubscribeStateAndDeleteItem(state.val, userListWithChatID, telegramParams);
-
+                        await shoppingListSubscribeStateAndDeleteItem(state.val, telegramParams);
                         return;
                     }
 
                     if (this.isAddToShoppingList(id, userToSend)) {
-                        await deleteMessageAndSendNewShoppingList(telegramInstance, userListWithChatID, userToSend);
+                        await deleteMessageAndSendNewShoppingList(telegramParams, userToSend);
                         return;
                     }
 
-                    if (
-                        state &&
-                        (await checkEvent(
-                            dataObject,
-                            id,
-                            state,
-                            menuData,
-                            userListWithChatID,
-                            telegramParams,
-                            menusWithUsers,
-                        ))
-                    ) {
+                    if (state && (await checkEvent(dataObject, id, state, menuData, telegramParams, menusWithUsers))) {
                         return;
                     }
 
@@ -194,7 +178,6 @@ export default class TelegramMenu extends utils.Adapter {
                             calledValue,
                             userToSend,
                             telegramParams,
-                            userListWithChatID,
                             menus,
                             isUserActiveCheckbox,
                             token,
@@ -210,7 +193,6 @@ export default class TelegramMenu extends utils.Adapter {
                                 userToSend,
                                 textToSend: textNoEntryFound,
                                 telegramParams,
-                                userListWithChatID,
                             });
                         }
                         return;
@@ -249,7 +231,6 @@ export default class TelegramMenu extends utils.Adapter {
 
                                     sendToTelegram({
                                         textToSend: text,
-                                        userListWithChatID,
                                         parse_mode: element.parse_mode,
                                         userToSend,
                                         telegramParams,
@@ -298,9 +279,8 @@ export default class TelegramMenu extends utils.Adapter {
                                     sendToTelegram({
                                         userToSend: element.userToSend,
                                         textToSend: textToSend,
-                                        telegramParams,
-                                        userListWithChatID: userListWithChatID,
                                         parse_mode: element.parse_mode,
+                                        telegramParams,
                                     }).catch((e: { message: any; stack: any }) => {
                                         errorLogger('Error sendToTelegram', e, adapter);
                                     });
@@ -360,10 +340,10 @@ export default class TelegramMenu extends utils.Adapter {
     }
 
     private async getChatIDAndUserToSend(
-        instanceTelegram: string,
-        userListWithChatID: UserListWithChatId[],
+        telegramParams: TelegramParams,
     ): Promise<{ chatID: string; userToSend: string } | undefined> {
-        const chatID = await this.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
+        const { telegramInstance, userListWithChatID } = telegramParams;
+        const chatID = await this.getForeignStateAsync(`${telegramInstance}.communicate.requestChatId`);
 
         if (!chatID?.val) {
             adapter.log.debug('ChatID not found');

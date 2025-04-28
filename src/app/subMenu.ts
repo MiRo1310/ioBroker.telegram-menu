@@ -22,7 +22,6 @@ import type {
     SetValueForSubmenuPercent,
     SplittedData,
     TelegramParams,
-    UserListWithChatId,
 } from '../types/types';
 import { jsonString, parseJSON } from '../lib/string';
 import { adapter } from '../main';
@@ -38,10 +37,15 @@ const getMenuValues = (obj: string[]): { callbackData: string; device: string; v
     return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
 };
 
-const deleteMessages = async (obj: DeleteMessageIds): Promise<{ navToGoBack: string } | undefined> => {
-    const navToGoBack = obj.device2Switch;
-    if (obj.callbackData.includes('deleteAll')) {
-        await deleteMessageIds(obj.userToSend, obj.userListWithChatID, obj.instanceTelegram, 'all');
+const deleteMessages = async ({
+    telegramParams,
+    userToSend,
+    device2Switch,
+    callbackData,
+}: DeleteMessageIds): Promise<{ navToGoBack: string } | undefined> => {
+    const navToGoBack = device2Switch;
+    if (callbackData.includes('deleteAll')) {
+        await deleteMessageIds(userToSend, telegramParams, 'all');
     }
     if (navToGoBack && navToGoBack != '') {
         return { navToGoBack: navToGoBack };
@@ -51,14 +55,13 @@ const deleteMessages = async (obj: DeleteMessageIds): Promise<{ navToGoBack: str
 
 const setDynamicValue = async ({
     telegramParams,
-    userListWithChatID,
     userToSend,
     val,
     part,
 }: SetDynamicValueType): Promise<{ returnIds: SetStateIds[] }> => {
     adapter.log.debug(`State: ${val}`);
 
-    const result = await handleSetState(part, userToSend, val, true, telegramParams, userListWithChatID);
+    const result = await handleSetState(part, userToSend, val, true, telegramParams);
     if (Array.isArray(result)) {
         returnIDToListenTo = result;
     }
@@ -103,7 +106,6 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
 
 const setFirstMenuValue = async ({
     telegramParams,
-    userListWithChatID,
     userToSend,
     part,
 }: SetFirstMenuValue): Promise<{ returnIds: SetStateIds[] }> => {
@@ -117,7 +119,7 @@ const setFirstMenuValue = async ({
     } else {
         val = splittedData[1].split('.')[1];
     }
-    const result = await handleSetState(part, userToSend, val as string, true, telegramParams, userListWithChatID);
+    const result = await handleSetState(part, userToSend, val as string, true, telegramParams);
     if (Array.isArray(result)) {
         returnIDToListenTo = result;
     }
@@ -126,7 +128,6 @@ const setFirstMenuValue = async ({
 
 const setSecondMenuValue = async ({
     telegramParams,
-    userListWithChatID,
     part,
     userToSend,
 }: SetSecondMenuValue): Promise<{ returnIds: SetStateIds[] }> => {
@@ -138,7 +139,7 @@ const setSecondMenuValue = async ({
     } else {
         val = splittedData[2].split('.')[1];
     }
-    const result = await handleSetState(part, userToSend, val as string, true, telegramParams, userListWithChatID);
+    const result = await handleSetState(part, userToSend, val as string, true, telegramParams);
     if (Array.isArray(result)) {
         returnIDToListenTo = result;
     }
@@ -244,12 +245,11 @@ const setValueForSubmenuPercent = async ({
     part,
     userToSend,
     telegramParams,
-    userListWithChatID,
     calledValue,
 }: SetValueForSubmenuPercent): Promise<{ returnIds: SetStateIds[] }> => {
     const value = parseInt(calledValue.split(':')[1].split(',')[1]);
 
-    const result = await handleSetState(part, userToSend, value, true, telegramParams, userListWithChatID);
+    const result = await handleSetState(part, userToSend, value, true, telegramParams);
     if (Array.isArray(result)) {
         returnIDToListenTo = result;
     }
@@ -259,7 +259,6 @@ const setValueForSubmenuPercent = async ({
 const setValueForSubmenuNumber = async ({
     callbackData,
     calledValue,
-    userListWithChatID,
     userToSend,
     telegramParams,
     part,
@@ -269,38 +268,29 @@ const setValueForSubmenuNumber = async ({
     const value = parseFloat(calledValue.split(':')[3]);
     const device2Switch = calledValue.split(':')[2];
 
-    const result = await handleSetState(part, userToSend, value, true, telegramParams, userListWithChatID);
+    const result = await handleSetState(part, userToSend, value, true, telegramParams);
     if (Array.isArray(result)) {
         returnIDToListenTo = result;
     }
     return { returnIds: returnIDToListenTo, device2Switch };
 };
 
-const back = async ({
-    telegramParams,
-    userListWithChatID,
-    userToSend,
-    allMenusWithData,
-    menus,
-}: BackMenuType): Promise<void> => {
+const back = async ({ telegramParams, userToSend, allMenusWithData, menus }: BackMenuType): Promise<void> => {
     const result = await switchBack(userToSend, allMenusWithData, menus);
     if (result) {
         await sendToTelegram({
             userToSend,
             textToSend: result.textToSend as string,
             keyboard: result.menuToSend,
-            telegramParams,
-            userListWithChatID,
             parse_mode: result.parse_mode,
+            telegramParams,
         });
     }
 };
 async function callSubMenu(
     jsonStringNav: string,
-    newObjectNavStructure: NewObjectStructure,
     userToSend: string,
     telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
     part: Part,
     allMenusWithData: { [key: string]: NewObjectStructure },
     menus: string[],
@@ -312,7 +302,6 @@ async function callSubMenu(
             jsonStringNav: jsonStringNav,
             userToSend: userToSend,
             telegramParams,
-            userListWithChatID: userListWithChatID,
             part,
             allMenusWithData: allMenusWithData,
             menus,
@@ -327,14 +316,7 @@ async function callSubMenu(
         }
 
         if (obj?.text && obj?.keyboard) {
-            sendToTelegramSubmenu(
-                userToSend,
-                obj.text,
-                obj.keyboard,
-                telegramParams.telegramInstance,
-                userListWithChatID,
-                part.parse_mode,
-            );
+            sendToTelegramSubmenu(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
         }
         return { setStateIdsToListenTo: setStateIdsToListenTo, newNav: obj?.navToGoBack };
     } catch (e: any) {
@@ -346,7 +328,6 @@ async function subMenu({
     jsonStringNav,
     userToSend,
     telegramParams,
-    userListWithChatID,
     part,
     allMenusWithData,
     menus,
@@ -355,7 +336,6 @@ async function subMenu({
     jsonStringNav: string;
     userToSend: string;
     telegramParams: TelegramParams;
-    userListWithChatID: UserListWithChatId[];
     part: Part;
     allMenusWithData: { [p: string]: NewObjectStructure };
     menus: string[];
@@ -380,8 +360,7 @@ async function subMenu({
         if (callbackData.includes('delete')) {
             return await deleteMessages({
                 userToSend,
-                userListWithChatID,
-                instanceTelegram: telegramParams.telegramInstance,
+                telegramParams,
                 device2Switch,
                 callbackData,
             });
@@ -392,14 +371,12 @@ async function subMenu({
                 part,
                 userToSend,
                 telegramParams,
-                userListWithChatID,
             });
         } else if (callbackData.includes('second')) {
             return await setSecondMenuValue({
                 part,
                 userToSend,
                 telegramParams,
-                userListWithChatID,
             });
         } else if (callbackData.includes('dynSwitch')) {
             return dynamicSwitch(jsonStringNav, device2Switch, text);
@@ -408,7 +385,6 @@ async function subMenu({
                 val,
                 userToSend,
                 telegramParams,
-                userListWithChatID,
                 part,
             });
         } else if (!jsonStringNav.includes('submenu') && callbackData.includes('percent')) {
@@ -419,7 +395,6 @@ async function subMenu({
                 calledValue: jsonStringNav,
                 userToSend,
                 telegramParams,
-                userListWithChatID,
                 part,
                 allMenusWithData,
                 menus,
@@ -432,7 +407,6 @@ async function subMenu({
                 calledValue: jsonStringNav,
                 userToSend,
                 telegramParams,
-                userListWithChatID,
                 part,
             });
 
@@ -443,7 +417,6 @@ async function subMenu({
                 allMenusWithData,
                 menus,
                 telegramParams,
-                userListWithChatID,
             });
         }
         return;

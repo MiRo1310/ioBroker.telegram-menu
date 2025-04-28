@@ -159,7 +159,6 @@ export interface SetDynamicValue {
     parse_mode: boolean;
     confirm: string;
     telegramParams: TelegramParams;
-    userListWithChatID: UserListWithChatId[];
     valueType: string;
 }
 
@@ -264,7 +263,6 @@ type BackMenuList = { list: string[]; last: string };
 export interface CheckEveryMenuForDataType {
     menuData: MenuData; // checked !!!!
     calledValue: string;
-    userListWithChatID: UserListWithChatId[];
     menus: string[];
     isUserActiveCheckbox: IsUserActiveCheckbox;
     token: string;
@@ -278,7 +276,6 @@ export interface ProcessDataType {
     menuData: MenuData;
     calledValue: string;
     groupWithUser: GroupWithUser;
-    userListWithChatID: UserListWithChatId[];
     allMenusWithData: MenuData;
     menus: string[];
     isUserActiveCheckbox: IsUserActiveCheckbox;
@@ -293,7 +290,6 @@ export interface ProcessDataType {
 export interface SetValueForSubmenuNumber {
     callbackData: string;
     calledValue: string;
-    userListWithChatID: UserListWithChatId[];
     part: Part;
     userToSend: string;
     telegramParams: TelegramParams;
@@ -302,7 +298,6 @@ export interface SetValueForSubmenuNumber {
 export interface BackMenuType {
     allMenusWithData: MenuData;
     menus: string[];
-    userListWithChatID: UserListWithChatId[];
     userToSend: string;
     telegramParams: TelegramParams;
 }
@@ -310,7 +305,6 @@ export interface BackMenuType {
 export interface SetValueForSubmenuPercent {
     callbackData: string;
     calledValue: string;
-    userListWithChatID: UserListWithChatId[];
     part: Part;
     allMenusWithData: { [key: string]: NewObjectStructure };
     menus: string[];
@@ -322,18 +316,17 @@ export interface TelegramParams {
     telegramInstance: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
+    userListWithChatID: UserListWithChatId[];
 }
 
 export interface SetFirstMenuValue {
     part: Part;
-    userListWithChatID: UserListWithChatId[];
     userToSend: string;
     telegramParams: TelegramParams;
 }
 
 export interface SetSecondMenuValue {
     part: Part;
-    userListWithChatID: UserListWithChatId[];
     userToSend: string;
     telegramParams: TelegramParams;
 }
@@ -347,15 +340,13 @@ export interface CreateMenu {
 export interface SetDynamicValueType {
     val: string;
     part: Part;
-    userListWithChatID: UserListWithChatId[];
     userToSend: string;
     telegramParams: TelegramParams;
 }
 
 export interface DeleteMessageIds {
     userToSend: string;
-    userListWithChatID: UserListWithChatId[];
-    instanceTelegram: string;
+    telegramParams: TelegramParams;
     device2Switch: string;
     callbackData: string;
 }
@@ -396,7 +387,6 @@ export interface EvaluateReturnType {
 export interface Telegram {
     textToSend?: string;
     keyboard?: Keyboard;
-    userListWithChatID: UserListWithChatId[];
     parse_mode?: boolean;
     userToSend: string;
     telegramParams: TelegramParams;

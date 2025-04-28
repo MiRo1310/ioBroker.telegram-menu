@@ -6,7 +6,6 @@ import type {
     IsUserActiveCheckbox,
     MenusWithUsers,
     MenuData,
-    UserListWithChatId,
     TelegramParams,
 } from '../types/types';
 import { adapter } from '../main';
@@ -19,7 +18,6 @@ export async function adapterStartMenuSend(
     userActiveCheckbox: IsUserActiveCheckbox,
     menusWithUsers: MenusWithUsers,
     menuData: MenuData,
-    userListWithChatID: UserListWithChatId[],
     telegramParams: TelegramParams,
 ): Promise<void> {
     for (const menu of listOfMenus) {
@@ -31,14 +29,13 @@ export async function adapterStartMenuSend(
                 const { nav, text, parse_mode } = menuData[menu][startSide];
                 backMenuFunc({ startSide: startSide, navigation: nav, userToSend: userToSend });
 
-                adapter.log.debug(`User list: ${jsonString(userListWithChatID)}`);
+                adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
 
                 await sendToTelegram({
                     userToSend,
                     textToSend: text,
                     keyboard: nav,
                     telegramParams,
-                    userListWithChatID,
                     parse_mode,
                 });
             }

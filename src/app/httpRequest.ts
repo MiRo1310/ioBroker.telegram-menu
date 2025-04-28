@@ -3,7 +3,7 @@ import { sendToTelegram } from './telegram';
 import path from 'path';
 import fs from 'fs';
 import { errorLogger } from './logging';
-import type { Part, TelegramParams, UserListWithChatId } from '../types/types';
+import type { Part, TelegramParams } from '../types/types';
 import { validateDirectory } from '../lib/utils';
 import { adapter } from '../main';
 
@@ -11,7 +11,6 @@ async function httpRequest(
     parts: Part,
     userToSend: string,
     telegramParams: TelegramParams,
-    userListWithChatID: UserListWithChatId[],
     directoryPicture: string,
 ): Promise<boolean | undefined> {
     if (!parts.httpRequest) {
@@ -53,7 +52,6 @@ async function httpRequest(
                 userToSend,
                 textToSend: imagePath,
                 telegramParams,
-                userListWithChatID,
             });
         } catch (e: any) {
             errorLogger('Error http request:', e, adapter);

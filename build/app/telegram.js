@@ -29,17 +29,15 @@ var import_main = require("../main");
 var import_utils = require("../lib/utils");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-var import_config = require("../config/config");
 async function sendToTelegram({
   userToSend,
   textToSend,
   keyboard,
   telegramParams,
-  userListWithChatID,
   parse_mode
 }) {
   try {
-    const { telegramInstance, resize_keyboard, one_time_keyboard } = telegramParams;
+    const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
     import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
     import_main.adapter.log.debug(`Instance: ${telegramInstance}`);
@@ -79,7 +77,8 @@ async function sendToTelegram({
     (0, import_logging.errorLogger)("Error sendToTelegram:", e, import_main.adapter);
   }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, instance = import_config.defaultTelegramInstance, userListWithChatID, parse_mode) {
+function sendToTelegramSubmenu(user, textToSend, keyboard, telegramParams, parse_mode) {
+  const { telegramInstance: instance, userListWithChatID } = telegramParams;
   import_main.adapter.sendTo(
     instance,
     "send",
@@ -92,7 +91,8 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = import_con
     (res) => telegramLogger(res)
   );
 }
-const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
+const sendLocationToTelegram = async (user, data, telegramParams) => {
+  const { userListWithChatID, telegramInstance: instance } = telegramParams;
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     for (const { longitude: longitudeID, latitude: latitudeID } of data) {

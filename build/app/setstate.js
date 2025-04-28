@@ -68,7 +68,7 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramParams, userListWithChatID) => {
+const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramParams) => {
   try {
     const setStateIds = [];
     if (!part.switch) {
@@ -83,7 +83,6 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
           ID,
           userToSend,
           telegramParams,
-          userListWithChatID,
           parse_mode,
           confirm
         );
@@ -119,7 +118,6 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
           userToSend,
           textToSend,
           telegramParams,
-          userListWithChatID,
           parse_mode
         });
         setStateIds.push({

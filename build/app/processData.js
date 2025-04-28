@@ -46,7 +46,6 @@ async function checkEveryMenuForData(obj) {
     calledValue,
     userToSend,
     telegramParams,
-    userListWithChatID,
     menus,
     isUserActiveCheckbox,
     token,
@@ -63,7 +62,6 @@ async function checkEveryMenuForData(obj) {
       userToSend,
       groupWithUser: menu,
       telegramParams,
-      userListWithChatID,
       allMenusWithData: menuData,
       menus,
       isUserActiveCheckbox,
@@ -85,7 +83,6 @@ async function processData(obj) {
     userToSend,
     groupWithUser,
     telegramParams,
-    userListWithChatID,
     allMenusWithData,
     menus,
     isUserActiveCheckbox,
@@ -102,8 +99,7 @@ async function processData(obj) {
       valueToSet && (res == null ? void 0 : res.id) ? await (0, import_setstate.setstateIobroker)({ id: res.id, value: valueToSet, ack: res == null ? void 0 : res.ack }) : await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
-        telegramParams,
-        userListWithChatID
+        telegramParams
       });
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
@@ -114,12 +110,11 @@ async function processData(obj) {
           textToSend,
           keyboard: menuToSend,
           telegramParams,
-          userListWithChatID,
           parse_mode
         });
         return true;
       }
-      await (0, import_sendNav.sendNav)(part, userToSend, userListWithChatID, telegramParams);
+      await (0, import_sendNav.sendNav)(part, userToSend, telegramParams);
       return true;
     }
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
@@ -132,10 +127,8 @@ async function processData(obj) {
           import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(part.nav)}`);
           const result = await (0, import_subMenu.callSubMenu)(
             (0, import_string.jsonString)(part.nav),
-            groupData,
             userToSend,
             telegramParams,
-            userListWithChatID,
             part,
             allMenusWithData,
             menus,
@@ -151,7 +144,6 @@ async function processData(obj) {
               calledValue: result.newNav,
               userToSend,
               telegramParams,
-              userListWithChatID,
               menus,
               isUserActiveCheckbox,
               token,
@@ -161,11 +153,11 @@ async function processData(obj) {
           }
           return true;
         }
-        await (0, import_sendNav.sendNav)(part, userToSend, userListWithChatID, telegramParams);
+        await (0, import_sendNav.sendNav)(part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.switch) {
-        const result = await (0, import_setstate.handleSetState)(part, userToSend, 0, false, telegramParams, userListWithChatID);
+        const result = await (0, import_setstate.handleSetState)(part, userToSend, 0, false, telegramParams);
         if (result) {
           setStateIdsToListenTo = result;
         }
@@ -175,20 +167,11 @@ async function processData(obj) {
         return true;
       }
       if (part == null ? void 0 : part.getData) {
-        (0, import_getstate.getState)(part, userToSend, telegramParams, userListWithChatID);
+        (0, import_getstate.getState)(part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.sendPic) {
-        const result = (0, import_sendpic.sendPic)(
-          part,
-          userToSend,
-          telegramParams,
-          userListWithChatID,
-          token,
-          directoryPicture,
-          timeouts,
-          timeoutKey
-        );
+        const result = (0, import_sendpic.sendPic)(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
         if (result) {
           timeouts = result;
           return true;
@@ -198,28 +181,17 @@ async function processData(obj) {
       }
       if (part == null ? void 0 : part.location) {
         import_main.adapter.log.debug("Send location");
-        await (0, import_telegram.sendLocationToTelegram)(
-          userToSend,
-          part.location,
-          telegramParams.telegramInstance,
-          userListWithChatID
-        );
+        await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.echarts) {
         import_main.adapter.log.debug("Send echars");
-        (0, import_echarts.getChart)(part.echarts, directoryPicture, userToSend, userListWithChatID, telegramParams);
+        (0, import_echarts.getChart)(part.echarts, directoryPicture, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.httpRequest) {
         import_main.adapter.log.debug("Send http request");
-        const result = await (0, import_httpRequest.httpRequest)(
-          part,
-          userToSend,
-          telegramParams,
-          userListWithChatID,
-          directoryPicture
-        );
+        const result = await (0, import_httpRequest.httpRequest)(part, userToSend, telegramParams, directoryPicture);
         return !!result;
       }
     }
@@ -227,10 +199,8 @@ async function processData(obj) {
       import_main.adapter.log.debug("Call Submenu");
       const result = await (0, import_subMenu.callSubMenu)(
         calledValue,
-        menuData,
         userToSend,
         telegramParams,
-        userListWithChatID,
         part,
         allMenusWithData,
         menus,
