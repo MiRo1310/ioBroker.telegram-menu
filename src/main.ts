@@ -16,14 +16,7 @@ import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
-import type {
-    ListOfMenus,
-    MenuData,
-    PrimitiveType,
-    SetStateIds,
-    TelegramParams,
-    UserListWithChatId,
-} from './types/types';
+import type { MenuData, PrimitiveType, SetStateIds, TelegramParams, UserListWithChatId } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
 import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy } from './lib/utils';
@@ -34,6 +27,7 @@ import {
     getStartSides,
     splitNavigation,
 } from './lib/appUtils';
+import { getConfigVariables } from './app/configVariables';
 
 const timeoutKey = '0';
 let subscribeForeignStateIds: string[];
@@ -60,33 +54,26 @@ export default class TelegramMenu extends utils.Adapter {
         await this.setState('info.connection', false, true);
         await createState(this);
 
-        // TODO : Erstellen der variablen in eine separate Funktion auslagern
-        let telegramInstance = this.config.instance;
-        if (!telegramInstance || telegramInstance.length == 0) {
-            telegramInstance = 'telegram.0';
-        }
-
-        const telegramID = `${telegramInstance}.communicate.request`;
-        const botSendMessageID = `${telegramInstance}.communicate.botSendMessageId`;
-        const requestMessageID = `${telegramInstance}.communicate.requestMessageId`;
-        const infoConnectionOfTelegram = `${telegramInstance}.info.connection`;
-
-        const checkboxes = this.config.checkbox;
-        const one_time_keyboard = checkboxes.oneTiKey;
-        const resize_keyboard = checkboxes.resKey;
-        const checkboxNoEntryFound = checkboxes.checkboxNoValueFound;
-        const sendMenuAfterRestart = checkboxes.sendMenuAfterRestart;
-        let listOfMenus: ListOfMenus = [];
-        if (this.config.usersInGroup) {
-            listOfMenus = Object.keys(this.config.usersInGroup);
-        }
-        const token = this.config.tokenGrafana;
-        const directoryPicture = this.config.directory;
-        const isUserActiveCheckbox = this.config.userActiveCheckbox;
-        const menusWithUsers = this.config.usersInGroup;
-        const textNoEntryFound = this.config.textNoEntry;
-        const userListWithChatID = this.config.userListWithChatID;
-        const dataObject = this.config.data;
+        const {
+            requestMessageID,
+            directoryPicture,
+            userListWithChatID,
+            telegramInstance,
+            telegramID,
+            menusWithUsers,
+            infoConnectionOfTelegram,
+            listOfMenus,
+            isUserActiveCheckbox,
+            checkboxNoEntryFound,
+            textNoEntryFound,
+            one_time_keyboard,
+            resize_keyboard,
+            botSendMessageID,
+            sendMenuAfterRestart,
+            token,
+            dataObject,
+            checkboxes,
+        } = getConfigVariables(this.config);
 
         const menuData: MenuData = {};
         const startSides = getStartSides(menusWithUsers, dataObject);
