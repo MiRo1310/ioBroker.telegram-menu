@@ -146,25 +146,27 @@ class TelegramMenu extends utils.Adapter {
             return;
           }
           const { userToSend } = obj2;
-          if ((0, import_string.isString)(state == null ? void 0 : state.val) && state.val.includes("sList:")) {
-            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, telegramParams);
-            return;
-          }
           if (this.isAddToShoppingList(id, userToSend)) {
             await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(telegramParams, userToSend);
             return;
           }
-          if (state && await (0, import_action.checkEvent)(dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
+          if (!state) {
             return;
           }
-          if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
+          if ((0, import_string.isString)(state.val) && state.val.includes("sList:")) {
+            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, telegramParams);
+            return;
+          }
+          if (await (0, import_action.checkEvent)(dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
+            return;
+          }
+          if (this.isMessageID(id, botSendMessageID, requestMessageID)) {
             await (0, import_messageIds.saveMessageIds)(state, telegramInstance);
           } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
-            let value = state == null ? void 0 : state.val;
-            if (!value || !userToSend) {
+            if (!state.val || !userToSend) {
               return;
             }
-            value = value.toString();
+            const value = state.val.toString();
             const calledValue = value.slice(value.indexOf("]") + 1, value.length);
             const menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
             const dataFound = await (0, import_processData.checkEveryMenuForData)({
@@ -284,12 +286,11 @@ class TelegramMenu extends utils.Adapter {
     return !!(id.includes("alexa-shoppinglist") && !id.includes("add_position") && userToSend);
   }
   isMenuToSend(state, id, telegramID, userToSend) {
-    return !!(state && typeof state.val === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
+    return !!(typeof (state == null ? void 0 : state.val) === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
   }
   async checkInfoConnection(id, infoConnectionOfTelegram) {
     if (id === infoConnectionOfTelegram) {
-      const isActive = await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram);
-      if (!isActive) {
+      if (!await (0, import_connection.checkIsTelegramActive)(infoConnectionOfTelegram)) {
         this.log.debug("Telegram is not active");
         return false;
       }
@@ -299,17 +300,17 @@ class TelegramMenu extends utils.Adapter {
   }
   async getChatIDAndUserToSend(telegramParams) {
     const { telegramInstance, userListWithChatID } = telegramParams;
-    const chatID = await this.getForeignStateAsync(`${telegramInstance}.communicate.requestChatId`);
-    if (!(chatID == null ? void 0 : chatID.val)) {
+    const chatIDState = await this.getForeignStateAsync(`${telegramInstance}.communicate.requestChatId`);
+    if (!(chatIDState == null ? void 0 : chatIDState.val)) {
       adapter.log.debug("ChatID not found");
       return;
     }
-    const userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatID.val.toString());
+    const userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatIDState.val.toString());
     if (!userToSend) {
       this.log.debug("User to send not found");
       return;
     }
-    return { chatID: chatID.val.toString(), userToSend };
+    return { chatID: chatIDState.val.toString(), userToSend };
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -319,8 +320,8 @@ class TelegramMenu extends utils.Adapter {
   onUnload(callback) {
     const timeouts = (0, import_processData.getTimeouts)();
     try {
-      timeouts.forEach((element) => {
-        adapter.clearTimeout(element.timeout);
+      timeouts.forEach(({ timeout }) => {
+        adapter.clearTimeout(timeout);
       });
       callback();
     } catch (e) {

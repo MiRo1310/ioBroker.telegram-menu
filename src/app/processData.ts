@@ -197,7 +197,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return !!result;
             }
         }
-        if ((calledValue.startsWith('menu') || calledValue.startsWith('submenu')) && menuData[groupWithUser][call]) {
+        if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
             adapter.log.debug('Call Submenu');
             const result = await callSubMenu(
                 calledValue,
@@ -209,7 +209,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 setStateIdsToListenTo,
                 part.nav,
             );
-            if (result && result.setStateIdsToListenTo) {
+            if (result?.setStateIdsToListenTo) {
                 setStateIdsToListenTo = result.setStateIdsToListenTo;
             }
             return true;
@@ -218,6 +218,10 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
     } catch (e: any) {
         errorLogger('Error processData:', e, adapter);
     }
+}
+
+function isSubmenu(val: string): boolean {
+    return val.startsWith('menu') || val.startsWith('submenu');
 }
 
 function getStateIdsToListenTo(): SetStateIds[] {

@@ -207,7 +207,7 @@ async function processData(obj) {
         setStateIdsToListenTo,
         part.nav
       );
-      if (result && result.setStateIdsToListenTo) {
+      if (result == null ? void 0 : result.setStateIdsToListenTo) {
         setStateIdsToListenTo = result.setStateIdsToListenTo;
       }
       return true;

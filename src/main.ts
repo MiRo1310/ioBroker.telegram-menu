@@ -147,29 +147,32 @@ export default class TelegramMenu extends utils.Adapter {
 
                     const { userToSend } = obj;
 
-                    if (isString(state?.val) && state.val.includes('sList:')) {
-                        await shoppingListSubscribeStateAndDeleteItem(state.val, telegramParams);
-                        return;
-                    }
-
                     if (this.isAddToShoppingList(id, userToSend)) {
                         await deleteMessageAndSendNewShoppingList(telegramParams, userToSend);
                         return;
                     }
 
-                    if (state && (await checkEvent(dataObject, id, state, menuData, telegramParams, menusWithUsers))) {
+                    if (!state) {
                         return;
                     }
 
-                    if (this.isMessageID(id, botSendMessageID, requestMessageID) && state) {
+                    if (isString(state.val) && state.val.includes('sList:')) {
+                        await shoppingListSubscribeStateAndDeleteItem(state.val, telegramParams);
+                        return;
+                    }
+
+                    if (await checkEvent(dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
+                        return;
+                    }
+
+                    if (this.isMessageID(id, botSendMessageID, requestMessageID)) {
                         await saveMessageIds(state, telegramInstance);
                     } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
-                        let value = state?.val;
-                        if (!value || !userToSend) {
+                        if (!state.val || !userToSend) {
                             return;
                         }
+                        const value = state.val.toString();
 
-                        value = value.toString();
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
                         const menus = getListOfMenusIncludingUser(menusWithUsers, userToSend);
 
@@ -317,20 +320,12 @@ export default class TelegramMenu extends utils.Adapter {
         telegramID: string,
         userToSend: string | null,
     ): boolean {
-        return !!(
-            state &&
-            typeof state.val === 'string' &&
-            state.val != '' &&
-            id == telegramID &&
-            state?.ack &&
-            userToSend
-        );
+        return !!(typeof state?.val === 'string' && state.val != '' && id == telegramID && state?.ack && userToSend);
     }
 
     private async checkInfoConnection(id: string, infoConnectionOfTelegram: string): Promise<boolean> {
         if (id === infoConnectionOfTelegram) {
-            const isActive = await checkIsTelegramActive(infoConnectionOfTelegram);
-            if (!isActive) {
+            if (!(await checkIsTelegramActive(infoConnectionOfTelegram))) {
                 this.log.debug('Telegram is not active');
                 return false;
             }
@@ -343,19 +338,19 @@ export default class TelegramMenu extends utils.Adapter {
         telegramParams: TelegramParams,
     ): Promise<{ chatID: string; userToSend: string } | undefined> {
         const { telegramInstance, userListWithChatID } = telegramParams;
-        const chatID = await this.getForeignStateAsync(`${telegramInstance}.communicate.requestChatId`);
+        const chatIDState = await this.getForeignStateAsync(`${telegramInstance}.communicate.requestChatId`);
 
-        if (!chatID?.val) {
+        if (!chatIDState?.val) {
             adapter.log.debug('ChatID not found');
             return;
         }
 
-        const userToSend = getUserToSendFromUserListWithChatID(userListWithChatID, chatID.val.toString());
+        const userToSend = getUserToSendFromUserListWithChatID(userListWithChatID, chatIDState.val.toString());
         if (!userToSend) {
             this.log.debug('User to send not found');
             return;
         }
-        return { chatID: chatID.val.toString(), userToSend };
+        return { chatID: chatIDState.val.toString(), userToSend };
     }
 
     /**
@@ -367,8 +362,8 @@ export default class TelegramMenu extends utils.Adapter {
         const timeouts = getTimeouts();
         try {
             // Here you must clear all timeouts or intervals that may still be active
-            timeouts.forEach(element => {
-                adapter.clearTimeout(element.timeout);
+            timeouts.forEach(({ timeout }) => {
+                adapter.clearTimeout(timeout);
             });
 
             callback();

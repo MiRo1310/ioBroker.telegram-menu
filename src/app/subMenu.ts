@@ -23,7 +23,7 @@ import type {
     SplittedData,
     TelegramParams,
 } from '../types/types';
-import { jsonString, parseJSON } from '../lib/string';
+import { jsonString } from '../lib/string';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 
@@ -31,9 +31,8 @@ let step = 0;
 let returnIDToListenTo: SetStateIds[] = [];
 let splittedData: SplittedData = [];
 
-const getMenuValues = (obj: string[]): { callbackData: string; device: string; val: string } => {
-    const splitText = obj[0].split(':');
-
+const getMenuValues = (str: string): { callbackData: string; device: string; val: string } => {
+    const splitText = str.split(':');
     return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
 };
 
@@ -346,16 +345,9 @@ async function subMenu({
     try {
         adapter.log.debug(`Menu : ${navObj?.[0][0]}`);
 
-        let text: string | undefined = '';
-        if (part?.text && part.text != '') {
-            text = await checkStatusInfo(part.text);
-        }
+        const text = part.text ? await checkStatusInfo(part.text) : '';
 
-        const { json, isValidJson } = parseJSON<Navigation>(jsonStringNav);
-        if (!isValidJson) {
-            return;
-        }
-        const { callbackData, device: device2Switch, val } = getMenuValues(json[0]);
+        const { callbackData, device: device2Switch, val } = getMenuValues(jsonStringNav);
 
         if (callbackData.includes('delete')) {
             return await deleteMessages({

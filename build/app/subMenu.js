@@ -35,8 +35,8 @@ var import_logging = require("./logging");
 let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
-const getMenuValues = (obj) => {
-  const splitText = obj[0].split(":");
+const getMenuValues = (str) => {
+  const splitText = str.split(":");
   return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
 };
 const deleteMessages = async ({
@@ -301,15 +301,8 @@ async function subMenu({
 }) {
   try {
     import_main.adapter.log.debug(`Menu : ${navObj == null ? void 0 : navObj[0][0]}`);
-    let text = "";
-    if ((part == null ? void 0 : part.text) && part.text != "") {
-      text = await (0, import_utilities.checkStatusInfo)(part.text);
-    }
-    const { json, isValidJson } = (0, import_string.parseJSON)(jsonStringNav);
-    if (!isValidJson) {
-      return;
-    }
-    const { callbackData, device: device2Switch, val } = getMenuValues(json[0]);
+    const text = part.text ? await (0, import_utilities.checkStatusInfo)(part.text) : "";
+    const { callbackData, device: device2Switch, val } = getMenuValues(jsonStringNav);
     if (callbackData.includes("delete")) {
       return await deleteMessages({
         userToSend,
