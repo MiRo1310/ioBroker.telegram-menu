@@ -33,6 +33,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- min nodejs version: 20.0.0
+- 
 ### 2.2.4 (2025-04-13)
 
 - FIX: #279 Backslash is in the message when using newline
