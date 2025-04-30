@@ -8,7 +8,7 @@
 import * as utils from '@iobroker/adapter-core';
 
 import { checkEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action.js';
-import { _subscribeForeignStatesAsync } from './app/subscribeStates.js';
+import { _subscribeForeignStates } from './app/subscribeStates.js';
 import { sendToTelegram } from './app/telegram.js';
 import { createState } from './app/createState.js';
 import { saveMessageIds } from './app/messageIds.js';
@@ -104,13 +104,13 @@ export default class TelegramMenu extends utils.Adapter {
                     }
 
                     if (subscribeForeignStateIds?.length) {
-                        await _subscribeForeignStatesAsync(subscribeForeignStateIds);
+                        await _subscribeForeignStates(subscribeForeignStateIds);
                     }
 
                     // Subscribe Events
                     if (dataObject.action[name]?.events) {
                         for (const event of dataObject.action[name].events) {
-                            await _subscribeForeignStatesAsync([event.ID]);
+                            await _subscribeForeignStates(event.ID);
                         }
                     }
                     adapter.log.debug(`Menu: ${name}`);

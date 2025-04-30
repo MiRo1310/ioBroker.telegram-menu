@@ -8,12 +8,13 @@ import { getState } from './getstate';
 import { sendPic } from './sendpic';
 import { getDynamicValue, removeUserFromDynamicValue } from './dynamicValue';
 import { adjustValueType } from './action';
-import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates';
+import { _subscribeForeignStates } from './subscribeStates';
 import { getChart } from './echarts';
 import { httpRequest } from './httpRequest';
 import { errorLogger } from './logging';
 import type { CheckEveryMenuForDataType, Part, ProcessDataType, SetStateIds, Timeouts } from '../types/types';
 import { jsonString } from '../lib/string';
+import { setStateIdsToIdArray } from '../lib/object';
 
 let setStateIdsToListenTo: SetStateIds[] = [];
 let timeouts: Timeouts[] = [];
@@ -159,7 +160,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                     setStateIdsToListenTo = result;
                 }
                 if (Array.isArray(setStateIdsToListenTo)) {
-                    await _subscribeAndUnSubscribeForeignStatesAsync({ array: setStateIdsToListenTo });
+                    await _subscribeForeignStates(setStateIdsToIdArray(setStateIdsToListenTo));
                 }
                 return true;
             }

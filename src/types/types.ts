@@ -302,11 +302,13 @@ export interface BackMenuType {
     telegramParams: TelegramParams;
 }
 
+export type AllMenusWithData = Record<string, NewObjectStructure>;
+
 export interface SetValueForSubmenuPercent {
     callbackData: string;
     calledValue: string;
     part: Part;
-    allMenusWithData: { [key: string]: NewObjectStructure };
+    allMenusWithData: AllMenusWithData;
     menus: string[];
     userToSend: string;
     telegramParams: TelegramParams;

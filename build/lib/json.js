@@ -19,7 +19,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var json_exports = {};
 __export(json_exports, {
   escapeJsonString: () => escapeJsonString,
-  makeValidJson: () => makeValidJson
+  makeValidJson: () => makeValidJson,
+  toJson: () => toJson
 });
 module.exports = __toCommonJS(json_exports);
 var import_logging = require("../app/logging");
@@ -43,9 +44,11 @@ const makeValidJson = (input, adapter) => {
     }
   }
 };
+const toJson = (val) => JSON.stringify(val, null, 2);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   escapeJsonString,
-  makeValidJson
+  makeValidJson,
+  toJson
 });
 //# sourceMappingURL=json.js.map

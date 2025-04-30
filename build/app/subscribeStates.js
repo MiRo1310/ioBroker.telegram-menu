@@ -18,32 +18,24 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var subscribeStates_exports = {};
 __export(subscribeStates_exports, {
-  _subscribeAndUnSubscribeForeignStatesAsync: () => _subscribeAndUnSubscribeForeignStatesAsync,
-  _subscribeForeignStatesAsync: () => _subscribeForeignStatesAsync
+  _subscribeForeignStates: () => _subscribeForeignStates
 });
 module.exports = __toCommonJS(subscribeStates_exports);
 var import_main = require("../main");
-var import_string = require("../lib/string");
 var import_object = require("../lib/object");
-async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
-  if (obj.id) {
-    import_main.adapter.log.debug(`Subscribe to ${obj.id}`);
-  } else if (obj.array) {
-    for (const element of obj.array) {
-      await import_main.adapter.subscribeForeignStatesAsync(element.id);
-    }
+async function _subscribeForeignStates(val) {
+  if (typeof val === "string") {
+    import_main.adapter.log.debug(`Subscribe to ${val}`);
+    await import_main.adapter.subscribeForeignStatesAsync(val);
+    return;
   }
-}
-async function _subscribeForeignStatesAsync(array) {
-  array = (0, import_object.removeDuplicates)(array);
-  for (const element of array) {
-    await import_main.adapter.subscribeForeignStatesAsync(element);
+  const array = (0, import_object.removeDuplicates)(val);
+  for (const id of array) {
+    await import_main.adapter.subscribeForeignStatesAsync(id);
   }
-  import_main.adapter.log.debug(`Subscribe all States of: ${(0, import_string.jsonString)(array)}`);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  _subscribeAndUnSubscribeForeignStatesAsync,
-  _subscribeForeignStatesAsync
+  _subscribeForeignStates
 });
 //# sourceMappingURL=subscribeStates.js.map

@@ -1,12 +1,13 @@
 import { deleteMessageIds } from './messageIds.js';
 import { createKeyboardFromJson } from './jsonTable.js';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram.js';
-import { _subscribeAndUnSubscribeForeignStatesAsync } from './subscribeStates.js';
+import { _subscribeForeignStates } from './subscribeStates.js';
 import { errorLogger } from './logging.js';
 import { adapter } from '../main.js';
 import type { TelegramParams } from '../types/types.js';
 import { jsonString } from '../lib/string';
 import { setstateIobroker } from './setstate';
+import { toJson } from '../lib/json';
 
 interface ObjectData {
     [key: string]: {
@@ -35,7 +36,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
                 objData[user] = { idList: idList };
                 adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
                 if (!isSubscribed) {
-                    await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
+                    await _subscribeForeignStates(`alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
                 }
                 await setstateIobroker({
@@ -66,14 +67,14 @@ export async function deleteMessageAndSendNewShoppingList(
     try {
         const user = userToSend;
         const idList = objData[user].idList;
-        await _subscribeAndUnSubscribeForeignStatesAsync({ id: `alexa-shoppinglist.${idList}` });
+        await _subscribeForeignStates(`alexa-shoppinglist.${idList}`);
         await deleteMessageIds(user, telegramParams, 'last');
 
         const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result?.val) {
             adapter.log.debug(`Result from Shoppinglist: ${jsonString(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
-            const resultJson = createKeyboardFromJson(JSON.stringify(result.val, null, 2), null, newId, user);
+            const resultJson = createKeyboardFromJson(toJson(result.val), null, newId, user);
             if (resultJson?.text && resultJson?.keyboard) {
                 sendToTelegramSubmenu(user, resultJson.text, resultJson.keyboard, telegramParams, true);
             }

@@ -32,6 +32,7 @@ var import_dynamicSwitch = require("./dynamicSwitch");
 var import_string = require("../lib/string");
 var import_main = require("../main");
 var import_logging = require("./logging");
+var import_object = require("../lib/object");
 let step = 0;
 let returnIDToListenTo = [];
 let splittedData = [];
@@ -257,11 +258,12 @@ const setValueForSubmenuNumber = async ({
 const back = async ({ telegramParams, userToSend, allMenusWithData, menus }) => {
   const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus);
   if (result) {
+    const { menuToSend, parse_mode, textToSend } = result;
     await (0, import_telegram.sendToTelegram)({
       userToSend,
-      textToSend: result.textToSend,
-      keyboard: result.menuToSend,
-      parse_mode: result.parse_mode,
+      textToSend,
+      keyboard: menuToSend,
+      parse_mode,
       telegramParams
     });
   }
@@ -279,8 +281,8 @@ async function callSubMenu(jsonStringNav, userToSend, telegramParams, part, allM
     });
     import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(obj)}`);
     if (obj == null ? void 0 : obj.returnIds) {
-      setStateIdsToListenTo = obj.returnIds;
-      await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: obj.returnIds });
+      setStateIdsToListenTo == null ? void 0 : setStateIdsToListenTo.concat(obj.returnIds);
+      await (0, import_subscribeStates._subscribeForeignStates)((0, import_object.setStateIdsToIdArray)(obj.returnIds));
     }
     if ((obj == null ? void 0 : obj.text) && (obj == null ? void 0 : obj.keyboard)) {
       (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
@@ -301,7 +303,7 @@ async function subMenu({
 }) {
   try {
     import_main.adapter.log.debug(`Menu : ${navObj == null ? void 0 : navObj[0][0]}`);
-    const text = part.text ? await (0, import_utilities.checkStatusInfo)(part.text) : "";
+    const text = await (0, import_utilities.checkStatusInfo)(part.text);
     const { callbackData, device: device2Switch, val } = getMenuValues(jsonStringNav);
     if (callbackData.includes("delete")) {
       return await deleteMessages({

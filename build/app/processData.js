@@ -38,6 +38,7 @@ var import_echarts = require("./echarts");
 var import_httpRequest = require("./httpRequest");
 var import_logging = require("./logging");
 var import_string = require("../lib/string");
+var import_object = require("../lib/object");
 let setStateIdsToListenTo = [];
 let timeouts = [];
 async function checkEveryMenuForData(obj) {
@@ -162,7 +163,7 @@ async function processData(obj) {
           setStateIdsToListenTo = result;
         }
         if (Array.isArray(setStateIdsToListenTo)) {
-          await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ array: setStateIdsToListenTo });
+          await (0, import_subscribeStates._subscribeForeignStates)((0, import_object.setStateIdsToIdArray)(setStateIdsToListenTo));
         }
         return true;
       }
@@ -195,7 +196,7 @@ async function processData(obj) {
         return !!result;
       }
     }
-    if ((calledValue.startsWith("menu") || calledValue.startsWith("submenu")) && menuData[groupWithUser][call]) {
+    if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
       import_main.adapter.log.debug("Call Submenu");
       const result = await (0, import_subMenu.callSubMenu)(
         calledValue,
@@ -216,6 +217,9 @@ async function processData(obj) {
   } catch (e) {
     (0, import_logging.errorLogger)("Error processData:", e, import_main.adapter);
   }
+}
+function isSubmenu(val) {
+  return val.startsWith("menu") || val.startsWith("submenu");
 }
 function getStateIdsToListenTo() {
   return setStateIdsToListenTo;

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/object.ts"],
-  "sourcesContent": ["export const removeDuplicates = (arr: string[]): string[] => arr.filter((item, index) => arr.indexOf(item) === index);\n\nexport const trimAllItems = (array: string[]): string[] => array.map(item => item.trim());\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,mBAAmB,CAAC,QAA4B,IAAI,OAAO,CAAC,MAAM,UAAU,IAAI,QAAQ,IAAI,MAAM,KAAK;AAE7G,MAAM,eAAe,CAAC,UAA8B,MAAM,IAAI,UAAQ,KAAK,KAAK,CAAC;",
+  "sourcesContent": ["import type { SetStateIds } from '../types/types';\n\nexport const removeDuplicates = (arr: string[]): string[] => arr.filter((item, index) => arr.indexOf(item) === index);\n\nexport const trimAllItems = (array: string[]): string[] => array.map(item => item.trim());\n\nexport const setStateIdsToIdArray = (setStateIds: SetStateIds[]): string[] => setStateIds.map(obj => obj.id);\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,MAAM,mBAAmB,CAAC,QAA4B,IAAI,OAAO,CAAC,MAAM,UAAU,IAAI,QAAQ,IAAI,MAAM,KAAK;AAE7G,MAAM,eAAe,CAAC,UAA8B,MAAM,IAAI,UAAQ,KAAK,KAAK,CAAC;AAEjF,MAAM,uBAAuB,CAAC,gBAAyC,YAAY,IAAI,SAAO,IAAI,EAAE;",
   "names": []
 }

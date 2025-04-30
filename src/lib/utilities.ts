@@ -73,7 +73,10 @@ export const checkStatus = async (text: string): Promise<string> => {
     return text.replace(substring, newValue.toString());
 };
 
-export const checkStatusInfo = async (text: string): Promise<string> => {
+export const checkStatusInfo = async (text?: string): Promise<string> => {
+    if (!text) {
+        return '';
+    }
     try {
         adapter.log.debug(`Check status Info: ${text}`);
 

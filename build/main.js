@@ -112,11 +112,11 @@ class TelegramMenu extends utils.Adapter {
             adapter.log.debug("No Actions generated!");
           }
           if (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) {
-            await (0, import_subscribeStates._subscribeForeignStatesAsync)(subscribeForeignStateIds);
+            await (0, import_subscribeStates._subscribeForeignStates)(subscribeForeignStateIds);
           }
           if ((_a = dataObject.action[name]) == null ? void 0 : _a.events) {
             for (const event of dataObject.action[name].events) {
-              await (0, import_subscribeStates._subscribeForeignStatesAsync)([event.ID]);
+              await (0, import_subscribeStates._subscribeForeignStates)(event.ID);
             }
           }
           adapter.log.debug(`Menu: ${name}`);

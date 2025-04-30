@@ -80,6 +80,9 @@ const checkStatus = async (text) => {
   return text.replace(substring, newValue.toString());
 };
 const checkStatusInfo = async (text) => {
+  if (!text) {
+    return "";
+  }
   try {
     import_main.adapter.log.debug(`Check status Info: ${text}`);
     if (text.includes(import_config.config.status.start)) {

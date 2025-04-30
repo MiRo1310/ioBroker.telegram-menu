@@ -30,6 +30,7 @@ var import_logging = require("./logging.js");
 var import_main = require("../main.js");
 var import_string = require("../lib/string");
 var import_setstate = require("./setstate");
+var import_json = require("../lib/json");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
@@ -46,7 +47,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
         objData[user] = { idList };
         import_main.adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
         if (!isSubscribed) {
-          await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+          await (0, import_subscribeStates._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
           isSubscribed = true;
         }
         await (0, import_setstate.setstateIobroker)({
@@ -73,13 +74,13 @@ async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
   try {
     const user = userToSend;
     const idList = objData[user].idList;
-    await (0, import_subscribeStates._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+    await (0, import_subscribeStates._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
     await (0, import_messageIds.deleteMessageIds)(user, telegramParams, "last");
     const result = await import_main.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result == null ? void 0 : result.val) {
       import_main.adapter.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
-      const resultJson = (0, import_jsonTable.createKeyboardFromJson)(JSON.stringify(result.val, null, 2), null, newId, user);
+      const resultJson = (0, import_jsonTable.createKeyboardFromJson)((0, import_json.toJson)(result.val), null, newId, user);
       if ((resultJson == null ? void 0 : resultJson.text) && (resultJson == null ? void 0 : resultJson.keyboard)) {
         (0, import_telegram.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, telegramParams, true);
       }
