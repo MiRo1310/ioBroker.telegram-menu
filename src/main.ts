@@ -13,7 +13,7 @@ import { sendToTelegram } from './app/telegram.js';
 import { createState } from './app/createState.js';
 import { saveMessageIds } from './app/messageIds.js';
 import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
-import { checkEveryMenuForData, getStateIdsToListenTo, getTimeouts } from './app/processData.js';
+import { checkEveryMenuForData, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
 import type { MenuData, PrimitiveType, SetStateIds, TelegramParams } from './types/types';
@@ -28,6 +28,7 @@ import {
     splitNavigation,
 } from './lib/appUtils';
 import { getConfigVariables } from './app/configVariables';
+import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
 
 const timeoutKey = '0';
 export let adapter: TelegramMenu;

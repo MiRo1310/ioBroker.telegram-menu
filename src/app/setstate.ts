@@ -3,12 +3,11 @@ import { transformValueToTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
-import type { Part, SetStateIds, TelegramParams } from '../types/types';
+import type { Part, TelegramParams } from '../types/types';
 import { decomposeText, jsonString, parseJSON } from '../lib/string';
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
-import { _subscribeForeignStates } from './subscribeStates';
-import { setStateIdsToIdArray } from '../lib/object';
+import { addSetStateIds } from './setStateIdsToListenTo';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -76,9 +75,8 @@ export const handleSetState = async (
     valueFromSubmenu: string | number,
     SubmenuValuePriority: boolean,
     telegramParams: TelegramParams,
-): Promise<SetStateIds[] | undefined> => {
+): Promise<void> => {
     try {
-        const setStateIds: SetStateIds[] = [];
         if (!part.switch) {
             return;
         }
@@ -96,18 +94,17 @@ export const handleSetState = async (
                 );
 
                 if (confirm) {
-                    setStateIds.push({
+                    await addSetStateIds({
                         id: id ?? ID,
                         confirm,
                         returnText: confirmText,
                         userToSend,
                     });
-                    return setStateIds;
                 }
             }
 
             if (!returnText.includes("{'id':'")) {
-                setStateIds.push({
+                await addSetStateIds({
                     id: ID,
                     confirm,
                     returnText,
@@ -133,7 +130,7 @@ export const handleSetState = async (
                     parse_mode,
                 });
 
-                setStateIds.push({
+                await addSetStateIds({
                     id: json.id,
                     confirm: true,
                     returnText: json.text,
@@ -150,7 +147,6 @@ export const handleSetState = async (
                 await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
             }
         }
-        return setStateIds;
     } catch (error: any) {
         errorLogger('Error Switch', error, adapter);
     }

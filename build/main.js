@@ -47,8 +47,8 @@ var import_string = require("./lib/string");
 var import_utils = require("./lib/utils");
 var import_appUtils = require("./lib/appUtils");
 var import_configVariables = require("./app/configVariables");
+var import_setStateIdsToListenTo = require("./app/setStateIdsToListenTo");
 const timeoutKey = "0";
-let subscribeForeignStateIds;
 let adapter;
 class TelegramMenu extends utils.Adapter {
   static instance;
@@ -107,12 +107,12 @@ class TelegramMenu extends utils.Adapter {
           menuData[name] = newStructure;
           if (generatedActions) {
             menuData[name] = generatedActions == null ? void 0 : generatedActions.obj;
-            subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;
+            const subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;
+            if (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) {
+              await (0, import_subscribeStates._subscribeForeignStates)(subscribeForeignStateIds);
+            }
           } else {
             adapter.log.debug("No Actions generated!");
-          }
-          if (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) {
-            await (0, import_subscribeStates._subscribeForeignStates)(subscribeForeignStateIds);
           }
           if ((_a = dataObject.action[name]) == null ? void 0 : _a.events) {
             for (const event of dataObject.action[name].events) {
@@ -136,7 +136,7 @@ class TelegramMenu extends utils.Adapter {
           );
         }
         this.on("stateChange", async (id, state) => {
-          const setStateIdsToListenTo = (0, import_processData.getStateIdsToListenTo)();
+          const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
           const isActive = await this.checkInfoConnection(id, infoConnectionOfTelegram);
           if (!isActive) {
             return;

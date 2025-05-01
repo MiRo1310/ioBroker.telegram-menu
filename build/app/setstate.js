@@ -30,6 +30,7 @@ var import_logging = require("./logging");
 var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_config = require("../config/config");
+var import_setStateIdsToListenTo = require("./setStateIdsToListenTo");
 const modifiedValue = (valueFromSubmenu, value) => {
   return value.includes(import_config.config.modifiedValue) ? value.replace(import_config.config.modifiedValue, valueFromSubmenu) : valueFromSubmenu;
 };
@@ -70,7 +71,6 @@ const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) 
 };
 const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramParams) => {
   try {
-    const setStateIds = [];
     if (!part.switch) {
       return;
     }
@@ -87,17 +87,16 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
           confirm
         );
         if (confirm) {
-          setStateIds.push({
+          await (0, import_setStateIdsToListenTo.addSetStateIds)({
             id: id != null ? id : ID,
             confirm,
             returnText: confirmText,
             userToSend
           });
-          return setStateIds;
         }
       }
       if (!returnText.includes("{'id':'")) {
-        setStateIds.push({
+        await (0, import_setStateIdsToListenTo.addSetStateIds)({
           id: ID,
           confirm,
           returnText,
@@ -120,7 +119,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
           telegramParams,
           parse_mode
         });
-        setStateIds.push({
+        await (0, import_setStateIdsToListenTo.addSetStateIds)({
           id: json.id,
           confirm: true,
           returnText: json.text,
@@ -128,18 +127,14 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
         });
       }
       if (toggle) {
-        import_main.adapter.getForeignStateAsync(ID).then(async (val) => {
-          if (val) {
-            await setstateIobroker({ id: ID, value: !val.val, ack });
-          }
-        }).catch((e) => {
-          (0, import_logging.errorLogger)("Error getForeignStateAsync:", e, import_main.adapter);
-        });
+        const val = await import_main.adapter.getForeignStateAsync(ID);
+        if (val) {
+          await setstateIobroker({ id: ID, value: !val.val, ack });
+        }
       } else {
         await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
       }
     }
-    return setStateIds;
   } catch (error) {
     (0, import_logging.errorLogger)("Error Switch", error, import_main.adapter);
   }

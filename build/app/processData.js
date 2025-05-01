@@ -19,7 +19,6 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var processData_exports = {};
 __export(processData_exports, {
   checkEveryMenuForData: () => checkEveryMenuForData,
-  getStateIdsToListenTo: () => getStateIdsToListenTo,
   getTimeouts: () => getTimeouts
 });
 module.exports = __toCommonJS(processData_exports);
@@ -33,13 +32,10 @@ var import_getstate = require("./getstate");
 var import_sendpic = require("./sendpic");
 var import_dynamicValue = require("./dynamicValue");
 var import_action = require("./action");
-var import_subscribeStates = require("./subscribeStates");
 var import_echarts = require("./echarts");
 var import_httpRequest = require("./httpRequest");
 var import_logging = require("./logging");
 var import_string = require("../lib/string");
-var import_object = require("../lib/object");
-let setStateIdsToListenTo = [];
 let timeouts = [];
 async function checkEveryMenuForData(obj) {
   const {
@@ -133,12 +129,8 @@ async function processData(obj) {
             part,
             allMenusWithData,
             menus,
-            setStateIdsToListenTo,
             navObj: part.nav
           });
-          if (result == null ? void 0 : result.setStateIdsToListenTo) {
-            setStateIdsToListenTo = result.setStateIdsToListenTo;
-          }
           if (result == null ? void 0 : result.newNav) {
             await checkEveryMenuForData({
               menuData,
@@ -158,13 +150,7 @@ async function processData(obj) {
         return true;
       }
       if (part == null ? void 0 : part.switch) {
-        const result = await (0, import_setstate.handleSetState)(part, userToSend, 0, false, telegramParams);
-        if (result) {
-          setStateIdsToListenTo = result;
-        }
-        if (Array.isArray(setStateIdsToListenTo)) {
-          await (0, import_subscribeStates._subscribeForeignStates)((0, import_object.setStateIdsToIdArray)(setStateIdsToListenTo));
-        }
+        await (0, import_setstate.handleSetState)(part, userToSend, 0, false, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.getData) {
@@ -198,19 +184,15 @@ async function processData(obj) {
     }
     if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
       import_main.adapter.log.debug("Call Submenu");
-      const result = await (0, import_subMenu.callSubMenu)({
+      await (0, import_subMenu.callSubMenu)({
         jsonStringNav: calledValue,
         userToSend,
         telegramParams,
         part,
         allMenusWithData,
         menus,
-        setStateIdsToListenTo,
         navObj: part.nav
       });
-      if (result == null ? void 0 : result.setStateIdsToListenTo) {
-        setStateIdsToListenTo = result.setStateIdsToListenTo;
-      }
       return true;
     }
     return false;
@@ -221,16 +203,12 @@ async function processData(obj) {
 function isSubmenu(val) {
   return val.startsWith("menu") || val.startsWith("submenu");
 }
-function getStateIdsToListenTo() {
-  return setStateIdsToListenTo;
-}
 function getTimeouts() {
   return timeouts;
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   checkEveryMenuForData,
-  getStateIdsToListenTo,
   getTimeouts
 });
 //# sourceMappingURL=processData.js.map

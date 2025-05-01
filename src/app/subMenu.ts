@@ -2,7 +2,6 @@ import { switchBack } from './backMenu';
 import { handleSetState } from './setstate';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { checkStatusInfo } from '../lib/utilities';
-import { _subscribeForeignStates } from './subscribeStates';
 import { deleteMessageIds } from './messageIds';
 import { dynamicSwitch } from './dynamicSwitch';
 import type {
@@ -17,7 +16,6 @@ import type {
     SetDynamicValueType,
     SetFirstMenuValue,
     SetSecondMenuValue,
-    SetStateIds,
     SetValueForSubmenuNumber,
     SetValueForSubmenuPercent,
     SplittedData,
@@ -26,10 +24,8 @@ import type {
 import { isNonEmptyString, jsonString } from '../lib/string';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
-import { setStateIdsToIdArray } from '../lib/object';
 
 let step = 0;
-let returnIDToListenTo: SetStateIds[] = [];
 let splittedData: SplittedData = [];
 
 const getMenuValues = (str: string): { callbackData: string; device: string; val: string } => {
@@ -52,21 +48,10 @@ const deleteMessages = async ({
     return;
 };
 
-const setDynamicValue = async ({
-    telegramParams,
-    userToSend,
-    val,
-    part,
-}: SetDynamicValueType): Promise<{ returnIds: SetStateIds[] }> => {
+const setDynamicValue = async ({ telegramParams, userToSend, val, part }: SetDynamicValueType): Promise<void> => {
     adapter.log.debug(`State: ${val}`);
 
-    const result = await handleSetState(part, userToSend, val, true, telegramParams);
-    if (Array.isArray(result)) {
-        returnIDToListenTo = result;
-    }
-    return {
-        returnIds: returnIDToListenTo,
-    };
+    await handleSetState(part, userToSend, val, true, telegramParams);
 };
 
 const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
@@ -103,11 +88,7 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
     return { text: obj.text, keyboard: keyboard, device: device2Switch };
 };
 
-const setFirstMenuValue = async ({
-    telegramParams,
-    userToSend,
-    part,
-}: SetFirstMenuValue): Promise<{ returnIds: SetStateIds[] }> => {
+const setFirstMenuValue = async ({ telegramParams, userToSend, part }: SetFirstMenuValue): Promise<void> => {
     let val;
     adapter.log.debug(`SplitData: ${jsonString(splittedData)}`);
 
@@ -118,18 +99,10 @@ const setFirstMenuValue = async ({
     } else {
         val = splittedData[1].split('.')[1];
     }
-    const result = await handleSetState(part, userToSend, val as string, true, telegramParams);
-    if (Array.isArray(result)) {
-        returnIDToListenTo = result;
-    }
-    return { returnIds: returnIDToListenTo };
+    await handleSetState(part, userToSend, val as string, true, telegramParams);
 };
 
-const setSecondMenuValue = async ({
-    telegramParams,
-    part,
-    userToSend,
-}: SetSecondMenuValue): Promise<{ returnIds: SetStateIds[] }> => {
+const setSecondMenuValue = async ({ telegramParams, part, userToSend }: SetSecondMenuValue): Promise<void> => {
     let val;
     if (splittedData[2].split('.')[1] == 'false') {
         val = false;
@@ -138,11 +111,7 @@ const setSecondMenuValue = async ({
     } else {
         val = splittedData[2].split('.')[1];
     }
-    const result = await handleSetState(part, userToSend, val as string, true, telegramParams);
-    if (Array.isArray(result)) {
-        returnIDToListenTo = result;
-    }
-    return { returnIds: returnIDToListenTo };
+    await handleSetState(part, userToSend, val as string, true, telegramParams);
 };
 
 const createSubmenuNumber = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
@@ -250,14 +219,10 @@ const setValueForSubmenuPercent = async ({
     userToSend,
     telegramParams,
     calledValue,
-}: SetValueForSubmenuPercent): Promise<{ returnIds: SetStateIds[] }> => {
+}: SetValueForSubmenuPercent): Promise<void> => {
     const value = parseInt(calledValue.split(':')[1].split(',')[1]);
 
-    const result = await handleSetState(part, userToSend, value, true, telegramParams);
-    if (result) {
-        returnIDToListenTo = result;
-    }
-    return { returnIds: returnIDToListenTo };
+    await handleSetState(part, userToSend, value, true, telegramParams);
 };
 
 const setValueForSubmenuNumber = async ({
@@ -266,16 +231,11 @@ const setValueForSubmenuNumber = async ({
     userToSend,
     telegramParams,
     part,
-}: SetValueForSubmenuNumber): Promise<{ returnIds: SetStateIds[]; device2Switch: string }> => {
+}: SetValueForSubmenuNumber): Promise<void> => {
     adapter.log.debug(`CallbackData: ${callbackData}`);
 
-    const { device, value } = getSubmenuNumberVales(calledValue);
-    const result = await handleSetState(part, userToSend, value, true, telegramParams);
-
-    if (result) {
-        returnIDToListenTo = result;
-    }
-    return { returnIds: returnIDToListenTo, device2Switch: device };
+    const { value } = getSubmenuNumberVales(calledValue);
+    await handleSetState(part, userToSend, value, true, telegramParams);
 };
 
 const back = async ({ telegramParams, userToSend, allMenusWithData, menus }: BackMenuType): Promise<void> => {
@@ -299,7 +259,6 @@ export async function callSubMenu({
     part,
     allMenusWithData,
     menus,
-    setStateIdsToListenTo,
     navObj,
 }: {
     jsonStringNav: string;
@@ -308,9 +267,8 @@ export async function callSubMenu({
     part: Part;
     allMenusWithData: AllMenusWithData;
     menus: string[];
-    setStateIdsToListenTo?: SetStateIds[];
     navObj?: Navigation;
-}): Promise<{ setStateIdsToListenTo: SetStateIds[] | null; newNav: string | undefined } | undefined> {
+}): Promise<{ newNav: string | undefined } | undefined> {
     try {
         const obj = await subMenu({
             jsonStringNav,
@@ -322,19 +280,11 @@ export async function callSubMenu({
             navObj,
         });
         adapter.log.debug(`Submenu: ${jsonString(obj)}`);
-        let ids: SetStateIds[] = [];
-        if (obj?.returnIds) {
-            //TODO : check if push is better
-            // setStateIdsToListenTo = obj.returnIds;
-            ids = setStateIdsToListenTo?.concat(obj.returnIds);
-
-            await _subscribeForeignStates(setStateIdsToIdArray(obj.returnIds));
-        }
 
         if (obj?.text && obj?.keyboard) {
             sendToTelegramSubmenu(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
         }
-        return { setStateIdsToListenTo: ids, newNav: obj?.navToGoBack };
+        return { newNav: obj?.navToGoBack };
     } catch (e: any) {
         errorLogger('Error callSubMenu:', e, adapter);
     }
@@ -356,9 +306,7 @@ export async function subMenu({
     allMenusWithData: AllMenusWithData;
     menus: string[];
     navObj?: Navigation;
-}): Promise<
-    { text?: string; keyboard?: Keyboard; device?: string; returnIds?: SetStateIds[]; navToGoBack?: string } | undefined
-> {
+}): Promise<{ text?: string; keyboard?: Keyboard; device?: string; navToGoBack?: string } | undefined> {
     try {
         adapter.log.debug(`Menu : ${navObj?.[0][0]}`);
 
@@ -377,14 +325,14 @@ export async function subMenu({
             return createSwitchMenu({ callbackData, text, device2Switch });
         }
         if (callbackData.includes('first')) {
-            return await setFirstMenuValue({
+            await setFirstMenuValue({
                 part,
                 userToSend,
                 telegramParams,
             });
         }
         if (callbackData.includes('second')) {
-            return await setSecondMenuValue({
+            await setSecondMenuValue({
                 part,
                 userToSend,
                 telegramParams,
@@ -394,7 +342,7 @@ export async function subMenu({
             return dynamicSwitch(jsonStringNav, device2Switch, text);
         }
         if (callbackData.includes('dynS')) {
-            return await setDynamicValue({
+            await setDynamicValue({
                 val,
                 userToSend,
                 telegramParams,
@@ -405,7 +353,7 @@ export async function subMenu({
             return createSubmenuPercent({ callbackData, text, device2Switch });
         }
         if (jsonStringNav.includes(`submenu:percent${step}`)) {
-            return await setValueForSubmenuPercent({
+            await setValueForSubmenuPercent({
                 callbackData,
                 calledValue: jsonStringNav,
                 userToSend,
@@ -419,15 +367,13 @@ export async function subMenu({
             return createSubmenuNumber({ callbackData, text, device2Switch });
         }
         if (jsonStringNav.includes(`submenu:${callbackData}`)) {
-            const result = await setValueForSubmenuNumber({
+            await setValueForSubmenuNumber({
                 callbackData,
                 calledValue: jsonStringNav,
                 userToSend,
                 telegramParams,
                 part,
             });
-
-            return result.returnIds ? { returnIds: result.returnIds } : undefined;
         }
         if (callbackData === 'back') {
             await back({

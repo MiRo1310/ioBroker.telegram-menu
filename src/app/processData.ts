@@ -8,15 +8,12 @@ import { getState } from './getstate';
 import { sendPic } from './sendpic';
 import { getDynamicValue, removeUserFromDynamicValue } from './dynamicValue';
 import { adjustValueType } from './action';
-import { _subscribeForeignStates } from './subscribeStates';
 import { getChart } from './echarts';
 import { httpRequest } from './httpRequest';
 import { errorLogger } from './logging';
-import type { CheckEveryMenuForDataType, Part, ProcessDataType, SetStateIds, Timeouts } from '../types/types';
+import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '../types/types';
 import { jsonString } from '../lib/string';
-import { setStateIdsToIdArray } from '../lib/object';
 
-let setStateIdsToListenTo: SetStateIds[] = [];
 let timeouts: Timeouts[] = [];
 
 async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<boolean> {
@@ -129,12 +126,8 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                         part: part,
                         allMenusWithData: allMenusWithData,
                         menus: menus,
-                        setStateIdsToListenTo: setStateIdsToListenTo,
                         navObj: part.nav,
                     });
-                    if (result?.setStateIdsToListenTo) {
-                        setStateIdsToListenTo = result.setStateIdsToListenTo;
-                    }
                     if (result?.newNav) {
                         await checkEveryMenuForData({
                             menuData,
@@ -155,13 +148,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             }
 
             if (part?.switch) {
-                const result = await handleSetState(part, userToSend, 0, false, telegramParams);
-                if (result) {
-                    setStateIdsToListenTo = result;
-                }
-                if (Array.isArray(setStateIdsToListenTo)) {
-                    await _subscribeForeignStates(setStateIdsToIdArray(setStateIdsToListenTo));
-                }
+                await handleSetState(part, userToSend, 0, false, telegramParams);
                 return true;
             }
 
@@ -200,19 +187,15 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         }
         if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
             adapter.log.debug('Call Submenu');
-            const result = await callSubMenu({
+            await callSubMenu({
                 jsonStringNav: calledValue,
                 userToSend: userToSend,
                 telegramParams: telegramParams,
                 part: part,
                 allMenusWithData: allMenusWithData,
                 menus: menus,
-                setStateIdsToListenTo: setStateIdsToListenTo,
                 navObj: part.nav,
             });
-            if (result?.setStateIdsToListenTo) {
-                setStateIdsToListenTo = result.setStateIdsToListenTo;
-            }
             return true;
         }
         return false;
@@ -225,12 +208,8 @@ function isSubmenu(val: string): boolean {
     return val.startsWith('menu') || val.startsWith('submenu');
 }
 
-function getStateIdsToListenTo(): SetStateIds[] {
-    return setStateIdsToListenTo;
-}
-
 function getTimeouts(): Timeouts[] {
     return timeouts;
 }
 
-export { getStateIdsToListenTo, getTimeouts, checkEveryMenuForData };
+export { getTimeouts, checkEveryMenuForData };
