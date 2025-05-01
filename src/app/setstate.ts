@@ -7,6 +7,8 @@ import type { Part, SetStateIds, TelegramParams } from '../types/types';
 import { decomposeText, jsonString, parseJSON } from '../lib/string';
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
+import { _subscribeForeignStates } from './subscribeStates';
+import { setStateIdsToIdArray } from '../lib/object';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -139,16 +141,11 @@ export const handleSetState = async (
                 });
             }
             if (toggle) {
-                adapter
-                    .getForeignStateAsync(ID)
-                    .then(async val => {
-                        if (val) {
-                            await setstateIobroker({ id: ID, value: !val.val, ack });
-                        }
-                    })
-                    .catch((e: any) => {
-                        errorLogger('Error getForeignStateAsync:', e, adapter);
-                    });
+                const val = await adapter.getForeignStateAsync(ID);
+
+                if (val) {
+                    await setstateIobroker({ id: ID, value: !val.val, ack });
+                }
             } else {
                 await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
             }

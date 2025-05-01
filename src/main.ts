@@ -19,7 +19,7 @@ import { errorLogger } from './app/logging.js';
 import type { MenuData, PrimitiveType, SetStateIds, TelegramParams } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
 import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
-import { isDefined, isFalsy } from './lib/utils';
+import { isDefined, isFalsy, isTruthy } from './lib/utils';
 import {
     exchangePlaceholderWithValue,
     getListOfMenusIncludingUser,
@@ -30,7 +30,6 @@ import {
 import { getConfigVariables } from './app/configVariables';
 
 const timeoutKey = '0';
-let subscribeForeignStateIds: string[];
 export let adapter: TelegramMenu;
 
 export default class TelegramMenu extends utils.Adapter {
@@ -98,13 +97,12 @@ export default class TelegramMenu extends utils.Adapter {
                     menuData[name] = newStructure;
                     if (generatedActions) {
                         menuData[name] = generatedActions?.obj;
-                        subscribeForeignStateIds = generatedActions?.ids;
+                        const subscribeForeignStateIds = generatedActions?.ids;
+                        if (subscribeForeignStateIds?.length) {
+                            await _subscribeForeignStates(subscribeForeignStateIds);
+                        }
                     } else {
                         adapter.log.debug('No Actions generated!');
-                    }
-
-                    if (subscribeForeignStateIds?.length) {
-                        await _subscribeForeignStates(subscribeForeignStateIds);
                     }
 
                     // Subscribe Events
@@ -210,7 +208,7 @@ export default class TelegramMenu extends utils.Adapter {
                                 adapter.log.debug(`State: ${jsonString(state)}`);
 
                                 if (
-                                    !isFalsy(element.confirm) &&
+                                    isTruthy(element.confirm) &&
                                     !state?.ack &&
                                     element.returnText.includes('{confirmSet:')
                                 ) {

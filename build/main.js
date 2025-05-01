@@ -199,7 +199,7 @@ class TelegramMenu extends utils.Adapter {
               if (element.id == id) {
                 adapter.log.debug(`Send Value: ${(0, import_string.jsonString)(element)}`);
                 adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
-                if (!(0, import_utils.isFalsy)(element.confirm) && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
+                if ((0, import_utils.isTruthy)(element.confirm) && !(state == null ? void 0 : state.ack) && element.returnText.includes("{confirmSet:")) {
                   const substring = (0, import_string.decomposeText)(
                     element.returnText,
                     "{confirmSet:",

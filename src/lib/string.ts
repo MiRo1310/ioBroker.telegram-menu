@@ -122,3 +122,5 @@ export function getNewline(newline: BooleanString): '' | '\n' {
 export function isBooleanString(str: string): boolean {
     return str === 'true' || str === 'false';
 }
+
+export const isNonEmptyString = (str: string): boolean => str.trim() !== '';

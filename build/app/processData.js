@@ -126,16 +126,16 @@ async function processData(obj) {
         (0, import_backMenu.backMenuFunc)({ startSide: call, navigation: part.nav, userToSend });
         if ((0, import_string.jsonString)(part.nav).includes("menu:")) {
           import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(part.nav)}`);
-          const result = await (0, import_subMenu.callSubMenu)(
-            (0, import_string.jsonString)(part.nav),
+          const result = await (0, import_subMenu.callSubMenu)({
+            jsonStringNav: (0, import_string.jsonString)(part.nav),
             userToSend,
             telegramParams,
             part,
             allMenusWithData,
             menus,
             setStateIdsToListenTo,
-            part.nav
-          );
+            navObj: part.nav
+          });
           if (result == null ? void 0 : result.setStateIdsToListenTo) {
             setStateIdsToListenTo = result.setStateIdsToListenTo;
           }
@@ -198,16 +198,16 @@ async function processData(obj) {
     }
     if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
       import_main.adapter.log.debug("Call Submenu");
-      const result = await (0, import_subMenu.callSubMenu)(
-        calledValue,
+      const result = await (0, import_subMenu.callSubMenu)({
+        jsonStringNav: calledValue,
         userToSend,
         telegramParams,
         part,
         allMenusWithData,
         menus,
         setStateIdsToListenTo,
-        part.nav
-      );
+        navObj: part.nav
+      });
       if (result == null ? void 0 : result.setStateIdsToListenTo) {
         setStateIdsToListenTo = result.setStateIdsToListenTo;
       }

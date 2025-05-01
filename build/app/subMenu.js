@@ -46,12 +46,11 @@ const deleteMessages = async ({
   device2Switch,
   callbackData
 }) => {
-  const navToGoBack = device2Switch;
   if (callbackData.includes("deleteAll")) {
     await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
   }
-  if (navToGoBack && navToGoBack != "") {
-    return { navToGoBack };
+  if ((0, import_string.isNonEmptyString)(device2Switch)) {
+    return { navToGoBack: device2Switch };
   }
   return;
 };
@@ -226,6 +225,10 @@ const createSwitchMenu = ({
   };
   return { text, keyboard, device: device2Switch };
 };
+const getSubmenuNumberVales = (str) => {
+  const splitText = str.split(":");
+  return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
+};
 const setValueForSubmenuPercent = async ({
   part,
   userToSend,
@@ -247,18 +250,18 @@ const setValueForSubmenuNumber = async ({
   part
 }) => {
   import_main.adapter.log.debug(`CallbackData: ${callbackData}`);
-  const value = parseFloat(calledValue.split(":")[3]);
-  const device2Switch = calledValue.split(":")[2];
+  const { device, value } = getSubmenuNumberVales(calledValue);
   const result = await (0, import_setstate.handleSetState)(part, userToSend, value, true, telegramParams);
-  if (Array.isArray(result)) {
+  if (result) {
+    await (0, import_subscribeStates._subscribeForeignStates)((0, import_object.setStateIdsToIdArray)(result));
     returnIDToListenTo = result;
   }
-  return { returnIds: returnIDToListenTo, device2Switch };
+  return { returnIds: returnIDToListenTo, device2Switch: device };
 };
 const back = async ({ telegramParams, userToSend, allMenusWithData, menus }) => {
   const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus);
   if (result) {
-    const { menuToSend, parse_mode, textToSend } = result;
+    const { menuToSend, parse_mode, textToSend = "" } = result;
     await (0, import_telegram.sendToTelegram)({
       userToSend,
       textToSend,
@@ -268,7 +271,16 @@ const back = async ({ telegramParams, userToSend, allMenusWithData, menus }) => 
     });
   }
 };
-async function callSubMenu(jsonStringNav, userToSend, telegramParams, part, allMenusWithData, menus, setStateIdsToListenTo, navObj) {
+async function callSubMenu({
+  jsonStringNav,
+  userToSend,
+  telegramParams,
+  part,
+  allMenusWithData,
+  menus,
+  setStateIdsToListenTo,
+  navObj
+}) {
   try {
     const obj = await subMenu({
       jsonStringNav,
@@ -280,14 +292,10 @@ async function callSubMenu(jsonStringNav, userToSend, telegramParams, part, allM
       navObj
     });
     import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(obj)}`);
-    if (obj == null ? void 0 : obj.returnIds) {
-      setStateIdsToListenTo == null ? void 0 : setStateIdsToListenTo.concat(obj.returnIds);
-      await (0, import_subscribeStates._subscribeForeignStates)((0, import_object.setStateIdsToIdArray)(obj.returnIds));
-    }
     if ((obj == null ? void 0 : obj.text) && (obj == null ? void 0 : obj.keyboard)) {
       (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
     }
-    return { setStateIdsToListenTo, newNav: obj == null ? void 0 : obj.navToGoBack };
+    return { setStateIdsToListenTo: setStateIdsToListenTo != null ? setStateIdsToListenTo : [], newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {
     (0, import_logging.errorLogger)("Error callSubMenu:", e, import_main.adapter);
   }

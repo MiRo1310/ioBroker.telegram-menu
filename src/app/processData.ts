@@ -122,16 +122,16 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 if (jsonString(part.nav).includes('menu:')) {
                     adapter.log.debug(`Submenu: ${jsonString(part.nav)}`);
 
-                    const result = await callSubMenu(
-                        jsonString(part.nav),
-                        userToSend,
-                        telegramParams,
-                        part,
-                        allMenusWithData,
-                        menus,
-                        setStateIdsToListenTo,
-                        part.nav,
-                    );
+                    const result = await callSubMenu({
+                        jsonStringNav: jsonString(part.nav),
+                        userToSend: userToSend,
+                        telegramParams: telegramParams,
+                        part: part,
+                        allMenusWithData: allMenusWithData,
+                        menus: menus,
+                        setStateIdsToListenTo: setStateIdsToListenTo,
+                        navObj: part.nav,
+                    });
                     if (result?.setStateIdsToListenTo) {
                         setStateIdsToListenTo = result.setStateIdsToListenTo;
                     }
@@ -200,16 +200,16 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         }
         if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
             adapter.log.debug('Call Submenu');
-            const result = await callSubMenu(
-                calledValue,
-                userToSend,
-                telegramParams,
-                part,
-                allMenusWithData,
-                menus,
-                setStateIdsToListenTo,
-                part.nav,
-            );
+            const result = await callSubMenu({
+                jsonStringNav: calledValue,
+                userToSend: userToSend,
+                telegramParams: telegramParams,
+                part: part,
+                allMenusWithData: allMenusWithData,
+                menus: menus,
+                setStateIdsToListenTo: setStateIdsToListenTo,
+                navObj: part.nav,
+            });
             if (result?.setStateIdsToListenTo) {
                 setStateIdsToListenTo = result.setStateIdsToListenTo;
             }

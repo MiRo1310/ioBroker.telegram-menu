@@ -252,12 +252,13 @@ const adjustValueType = (value, valueType) => {
   return value;
 };
 const checkEvent = async (dataObject, id, state, menuData, telegramParams, usersInGroup) => {
+  var _a;
   const menuArray = [];
   let ok = false;
   let calledNav = "";
   Object.keys(dataObject.action).forEach((menu) => {
-    var _a;
-    if ((_a = dataObject.action[menu]) == null ? void 0 : _a.events) {
+    var _a2;
+    if ((_a2 = dataObject.action[menu]) == null ? void 0 : _a2.events) {
       dataObject.action[menu].events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
           if ((state.val == true || state.val == "true") && event.condition == "true") {
@@ -291,17 +292,16 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
             if (part.nav) {
               (0, import_backMenu.backMenuFunc)({ startSide: calledNav, navigation: part.nav, userToSend: user });
             }
-            if ((part == null ? void 0 : part.nav) && (part == null ? void 0 : part.nav[0][0].includes("menu:"))) {
-              await (0, import_subMenu.callSubMenu)(
-                JSON.stringify(part == null ? void 0 : part.nav[0]),
-                user,
+            if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
+              await (0, import_subMenu.callSubMenu)({
+                jsonStringNav: JSON.stringify(part.nav[0]),
+                userToSend: user,
                 telegramParams,
                 part,
-                menuData,
+                allMenusWithData: menuData,
                 menus,
-                null,
-                part.nav
-              );
+                navObj: part.nav
+              });
             } else {
               await (0, import_sendNav.sendNav)(part, user, telegramParams);
             }

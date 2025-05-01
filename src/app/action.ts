@@ -329,17 +329,16 @@ const checkEvent = async (
                         if (part.nav) {
                             backMenuFunc({ startSide: calledNav, navigation: part.nav, userToSend: user });
                         }
-                        if (part?.nav && part?.nav[0][0].includes('menu:')) {
-                            await callSubMenu(
-                                JSON.stringify(part?.nav[0]),
-                                user,
-                                telegramParams,
-                                part,
-                                menuData,
-                                menus,
-                                null,
-                                part.nav,
-                            );
+                        if (part?.nav?.[0][0].includes('menu:')) {
+                            await callSubMenu({
+                                jsonStringNav: JSON.stringify(part.nav[0]),
+                                userToSend: user,
+                                telegramParams: telegramParams,
+                                part: part,
+                                allMenusWithData: menuData,
+                                menus: menus,
+                                navObj: part.nav,
+                            });
                         } else {
                             await sendNav(part, user, telegramParams);
                         }
