@@ -186,7 +186,7 @@ async function processData(obj) {
         return true;
       }
       if (part == null ? void 0 : part.echarts) {
-        import_main.adapter.log.debug("Send echars");
+        import_main.adapter.log.debug("Send echarts");
         (0, import_echarts.getChart)(part.echarts, directoryPicture, userToSend, telegramParams);
         return true;
       }

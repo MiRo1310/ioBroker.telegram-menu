@@ -312,32 +312,39 @@ async function subMenu({
         device2Switch,
         callbackData
       });
-    } else if (callbackData.includes("switch")) {
+    }
+    if (callbackData.includes("switch")) {
       return createSwitchMenu({ callbackData, text, device2Switch });
-    } else if (callbackData.includes("first")) {
+    }
+    if (callbackData.includes("first")) {
       return await setFirstMenuValue({
         part,
         userToSend,
         telegramParams
       });
-    } else if (callbackData.includes("second")) {
+    }
+    if (callbackData.includes("second")) {
       return await setSecondMenuValue({
         part,
         userToSend,
         telegramParams
       });
-    } else if (callbackData.includes("dynSwitch")) {
+    }
+    if (callbackData.includes("dynSwitch")) {
       return (0, import_dynamicSwitch.dynamicSwitch)(jsonStringNav, device2Switch, text);
-    } else if (callbackData.includes("dynS")) {
+    }
+    if (callbackData.includes("dynS")) {
       return await setDynamicValue({
         val,
         userToSend,
         telegramParams,
         part
       });
-    } else if (!jsonStringNav.includes("submenu") && callbackData.includes("percent")) {
+    }
+    if (!jsonStringNav.includes("submenu") && callbackData.includes("percent")) {
       return createSubmenuPercent({ callbackData, text, device2Switch });
-    } else if (jsonStringNav.includes(`submenu:percent${step}`)) {
+    }
+    if (jsonStringNav.includes(`submenu:percent${step}`)) {
       return await setValueForSubmenuPercent({
         callbackData,
         calledValue: jsonStringNav,
@@ -347,9 +354,11 @@ async function subMenu({
         allMenusWithData,
         menus
       });
-    } else if (!jsonStringNav.includes("submenu") && callbackData.includes("number")) {
+    }
+    if (!jsonStringNav.includes("submenu") && callbackData.includes("number")) {
       return createSubmenuNumber({ callbackData, text, device2Switch });
-    } else if (jsonStringNav.includes(`submenu:${callbackData}`)) {
+    }
+    if (jsonStringNav.includes(`submenu:${callbackData}`)) {
       const result = await setValueForSubmenuNumber({
         callbackData,
         calledValue: jsonStringNav,
@@ -358,7 +367,8 @@ async function subMenu({
         part
       });
       return result.returnIds ? { returnIds: result.returnIds } : void 0;
-    } else if (callbackData === "back") {
+    }
+    if (callbackData === "back") {
       await back({
         userToSend,
         allMenusWithData,
@@ -366,7 +376,6 @@ async function subMenu({
         telegramParams
       });
     }
-    return;
   } catch (error) {
     (0, import_logging.errorLogger)("Error subMenu:", error, import_main.adapter);
   }

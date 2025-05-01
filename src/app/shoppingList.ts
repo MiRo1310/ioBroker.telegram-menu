@@ -8,6 +8,7 @@ import type { TelegramParams } from '../types/types.js';
 import { jsonString } from '../lib/string';
 import { setstateIobroker } from './setstate';
 import { toJson } from '../lib/json';
+import { isDefined } from '../lib/utils';
 
 interface ObjectData {
     [key: string]: {
@@ -24,7 +25,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
 ): Promise<void> {
     try {
         let array, user, idList, instance, idItem, res;
-        if (val != null) {
+        if (isDefined(val)) {
             array = val.split(':');
             user = array[0].replace('[', '').replace(']sList', '');
             idList = array[1];
@@ -53,7 +54,6 @@ export async function shoppingListSubscribeStateAndDeleteItem(
                 parse_mode: true,
             });
             adapter.log.debug('Cannot delete the Item');
-            return;
         }
     } catch (e: any) {
         errorLogger('Error shoppingList:', e, adapter);

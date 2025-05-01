@@ -378,7 +378,6 @@ export default class TelegramMenu extends utils.Adapter {
             if (obj.command === 'send') {
                 // e.g. send email or pushover or whatever
                 this.log.info('send command');
-
                 // Send response in callback if required
                 if (obj.callback) {
                     this.sendTo(obj.from, obj.command, 'Message received', obj.callback);

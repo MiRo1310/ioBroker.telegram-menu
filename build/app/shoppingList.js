@@ -31,12 +31,13 @@ var import_main = require("../main.js");
 var import_string = require("../lib/string");
 var import_setstate = require("./setstate");
 var import_json = require("../lib/json");
+var import_utils = require("../lib/utils");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
   try {
     let array, user, idList, instance, idItem, res;
-    if (val != null) {
+    if ((0, import_utils.isDefined)(val)) {
       array = val.split(":");
       user = array[0].replace("[", "").replace("]sList", "");
       idList = array[1];
@@ -64,7 +65,6 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
         parse_mode: true
       });
       import_main.adapter.log.debug("Cannot delete the Item");
-      return;
     }
   } catch (e) {
     (0, import_logging.errorLogger)("Error shoppingList:", e, import_main.adapter);

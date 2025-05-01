@@ -187,7 +187,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             }
 
             if (part?.echarts) {
-                adapter.log.debug('Send echars');
+                adapter.log.debug('Send echarts');
                 getChart(part.echarts, directoryPicture, userToSend, telegramParams);
                 return true;
             }
