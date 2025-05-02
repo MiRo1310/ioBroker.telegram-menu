@@ -124,3 +124,4 @@ export function isBooleanString(str: string): boolean {
 }
 
 export const isNonEmptyString = (str: string): boolean => str.trim() !== '';
+export const isEmptyString = (str: string): boolean => str.trim() === '';

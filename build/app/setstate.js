@@ -127,10 +127,8 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
         });
       }
       if (toggle) {
-        const val = await import_main.adapter.getForeignStateAsync(ID);
-        if (val) {
-          await setstateIobroker({ id: ID, value: !val.val, ack });
-        }
+        const state = await import_main.adapter.getForeignStateAsync(ID);
+        state ? await setstateIobroker({ id: ID, value: !state.val, ack }) : await setstateIobroker({ id: ID, value: false, ack });
       } else {
         await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
       }

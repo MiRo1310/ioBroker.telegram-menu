@@ -339,13 +339,6 @@ export interface CreateMenu {
     text?: string;
 }
 
-export interface SetDynamicValueType {
-    val: string;
-    part: Part;
-    userToSend: string;
-    telegramParams: TelegramParams;
-}
-
 export interface DeleteMessageIds {
     userToSend: string;
     telegramParams: TelegramParams;

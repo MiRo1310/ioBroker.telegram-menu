@@ -1,5 +1,5 @@
 import { isDefined, isTruthy } from './utils';
-import { decomposeText, getValueToExchange, jsonString, replaceAllItems } from './string';
+import { decomposeText, getValueToExchange, isEmptyString, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
@@ -98,23 +98,27 @@ export const checkStatusInfo = async (text?: string): Promise<string> => {
 
             const ack = result.substring.split(',')[2].replace('}', '') == 'true';
 
-            if (text === '') {
+            if (isEmptyString(text)) {
                 text = 'Wähle eine Aktion';
             }
             if (convertedValue) {
                 await setstateIobroker({ id, value: convertedValue, ack });
             }
         }
-        if (text) {
-            adapter.log.debug(`CheckStatusInfo: ${text}`);
-            return text;
-        }
-        return '';
+        adapter.log.debug(`CheckStatusInfo: ${text}`);
+        return text;
     } catch (e: any) {
         errorLogger('Error checkStatusInfo:', e, adapter);
         return '';
     }
 };
+
+function noTypeDefined(
+    receivedType: 'undefined' | 'object' | 'boolean' | 'number' | 'string' | 'function' | 'symbol' | 'bigint',
+    obj?: ioBroker.Object | null,
+): boolean {
+    return receivedType === obj?.common?.type || !obj?.common?.type;
+}
 
 export async function transformValueToTypeOfId(
     id: string,
@@ -129,7 +133,7 @@ export async function transformValueToTypeOfId(
             return;
         }
 
-        if (receivedType === obj.common.type || !obj.common.type) {
+        if (noTypeDefined(receivedType, obj)) {
             return value;
         }
 
@@ -139,7 +143,7 @@ export async function transformValueToTypeOfId(
             case 'string':
                 return value as string;
             case 'number':
-                return parseFloat(jsonString(value));
+                return typeof value === 'string' ? parseFloat(value) : parseFloat(jsonString(value));
             case 'boolean':
                 return isTruthy(value);
         }

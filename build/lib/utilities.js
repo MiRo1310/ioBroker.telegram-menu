@@ -100,23 +100,24 @@ const checkStatusInfo = async (text) => {
       text = result.textExcludeSubstring;
       const convertedValue = await transformValueToTypeOfId(id, importedValue);
       const ack = result.substring.split(",")[2].replace("}", "") == "true";
-      if (text === "") {
+      if ((0, import_string.isEmptyString)(text)) {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
         await (0, import_setstate.setstateIobroker)({ id, value: convertedValue, ack });
       }
     }
-    if (text) {
-      import_main.adapter.log.debug(`CheckStatusInfo: ${text}`);
-      return text;
-    }
-    return "";
+    import_main.adapter.log.debug(`CheckStatusInfo: ${text}`);
+    return text;
   } catch (e) {
     (0, import_logging.errorLogger)("Error checkStatusInfo:", e, import_main.adapter);
     return "";
   }
 };
+function noTypeDefined(receivedType, obj) {
+  var _a, _b;
+  return receivedType === ((_a = obj == null ? void 0 : obj.common) == null ? void 0 : _a.type) || !((_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type);
+}
 async function transformValueToTypeOfId(id, value) {
   try {
     const receivedType = typeof value;
@@ -124,7 +125,7 @@ async function transformValueToTypeOfId(id, value) {
     if (!obj || !(0, import_utils.isDefined)(value)) {
       return;
     }
-    if (receivedType === obj.common.type || !obj.common.type) {
+    if (noTypeDefined(receivedType, obj)) {
       return value;
     }
     import_main.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
@@ -132,7 +133,7 @@ async function transformValueToTypeOfId(id, value) {
       case "string":
         return value;
       case "number":
-        return parseFloat((0, import_string.jsonString)(value));
+        return typeof value === "string" ? parseFloat(value) : parseFloat((0, import_string.jsonString)(value));
       case "boolean":
         return (0, import_utils.isTruthy)(value);
     }

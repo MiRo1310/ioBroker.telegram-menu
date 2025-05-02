@@ -23,6 +23,7 @@ __export(string_exports, {
   getNewline: () => getNewline,
   getValueToExchange: () => getValueToExchange,
   isBooleanString: () => isBooleanString,
+  isEmptyString: () => isEmptyString,
   isNonEmptyString: () => isNonEmptyString,
   isString: () => isString,
   jsonString: () => jsonString,
@@ -128,6 +129,7 @@ function isBooleanString(str) {
   return str === "true" || str === "false";
 }
 const isNonEmptyString = (str) => str.trim() !== "";
+const isEmptyString = (str) => str.trim() === "";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   cleanUpString,
@@ -135,6 +137,7 @@ const isNonEmptyString = (str) => str.trim() !== "";
   getNewline,
   getValueToExchange,
   isBooleanString,
+  isEmptyString,
   isNonEmptyString,
   isString,
   jsonString,

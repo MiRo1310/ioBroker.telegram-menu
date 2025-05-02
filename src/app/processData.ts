@@ -121,11 +121,11 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
                     const result = await callSubMenu({
                         jsonStringNav: jsonString(part.nav),
-                        userToSend: userToSend,
-                        telegramParams: telegramParams,
-                        part: part,
-                        allMenusWithData: allMenusWithData,
-                        menus: menus,
+                        userToSend,
+                        telegramParams,
+                        part,
+                        allMenusWithData,
+                        menus,
                         navObj: part.nav,
                     });
                     if (result?.newNav) {
@@ -158,12 +158,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             }
 
             if (part?.sendPic) {
-                const result = sendPic(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
-                if (result) {
-                    timeouts = result;
-                    return true;
-                }
-                adapter.log.debug(`Timeouts not found`);
+                timeouts = sendPic(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
                 return true;
             }
 

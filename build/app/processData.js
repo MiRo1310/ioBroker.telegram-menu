@@ -158,12 +158,7 @@ async function processData(obj) {
         return true;
       }
       if (part == null ? void 0 : part.sendPic) {
-        const result = (0, import_sendpic.sendPic)(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
-        if (result) {
-          timeouts = result;
-          return true;
-        }
-        import_main.adapter.log.debug(`Timeouts not found`);
+        timeouts = (0, import_sendpic.sendPic)(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
         return true;
       }
       if (part == null ? void 0 : part.location) {

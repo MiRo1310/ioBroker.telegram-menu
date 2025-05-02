@@ -27,7 +27,7 @@ var import_setstate = require("./setstate");
 var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_messageIds = require("./messageIds");
-var import_dynamicSwitch = require("./dynamicSwitch");
+var import_dynamicSwitchMenu = require("./dynamicSwitchMenu");
 var import_string = require("../lib/string");
 var import_main = require("../main");
 var import_logging = require("./logging");
@@ -50,10 +50,6 @@ const deleteMessages = async ({
     return { navToGoBack: device2Switch };
   }
   return;
-};
-const setDynamicValue = async ({ telegramParams, userToSend, val, part }) => {
-  import_main.adapter.log.debug(`State: ${val}`);
-  await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
 };
 const createSubmenuPercent = (obj) => {
   const { callbackData, device2Switch } = obj;
@@ -299,15 +295,10 @@ async function subMenu({
       });
     }
     if (callbackData.includes("dynSwitch")) {
-      return (0, import_dynamicSwitch.dynamicSwitch)(jsonStringNav, device2Switch, text);
+      return (0, import_dynamicSwitchMenu.dynamicSwitchMenu)(jsonStringNav, device2Switch, text);
     }
     if (callbackData.includes("dynS")) {
-      await setDynamicValue({
-        val,
-        userToSend,
-        telegramParams,
-        part
-      });
+      await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
     }
     if (!jsonStringNav.includes("submenu") && callbackData.includes("percent")) {
       return createSubmenuPercent({ callbackData, text, device2Switch });

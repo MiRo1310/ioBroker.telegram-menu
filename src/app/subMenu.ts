@@ -3,7 +3,7 @@ import { handleSetState } from './setstate';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { checkStatusInfo } from '../lib/utilities';
 import { deleteMessageIds } from './messageIds';
-import { dynamicSwitch } from './dynamicSwitch';
+import { dynamicSwitchMenu } from './dynamicSwitchMenu';
 import type {
     AllMenusWithData,
     BackMenuType,
@@ -13,7 +13,6 @@ import type {
     KeyboardItems,
     Navigation,
     Part,
-    SetDynamicValueType,
     SetFirstMenuValue,
     SetSecondMenuValue,
     SetValueForSubmenuNumber,
@@ -46,12 +45,6 @@ const deleteMessages = async ({
         return { navToGoBack: device2Switch };
     }
     return;
-};
-
-const setDynamicValue = async ({ telegramParams, userToSend, val, part }: SetDynamicValueType): Promise<void> => {
-    adapter.log.debug(`State: ${val}`);
-
-    await handleSetState(part, userToSend, val, true, telegramParams);
 };
 
 const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
@@ -339,15 +332,11 @@ export async function subMenu({
             });
         }
         if (callbackData.includes('dynSwitch')) {
-            return dynamicSwitch(jsonStringNav, device2Switch, text);
+            return dynamicSwitchMenu(jsonStringNav, device2Switch, text);
         }
         if (callbackData.includes('dynS')) {
-            await setDynamicValue({
-                val,
-                userToSend,
-                telegramParams,
-                part,
-            });
+            //SetDynamicValue
+            await handleSetState(part, userToSend, val, true, telegramParams);
         }
         if (!jsonStringNav.includes('submenu') && callbackData.includes('percent')) {
             return createSubmenuPercent({ callbackData, text, device2Switch });
