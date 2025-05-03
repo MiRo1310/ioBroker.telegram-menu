@@ -36,7 +36,9 @@ You can create different groups with separate menus, and then assign users to th
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- min nodejs version: 20.0.0
+
+- FIX: #291 Menu button not working
+- FEAT: Nodejs >= 20.0.0
 - FEAT: Add sentry
 - FEAT: Add mocha tests
 
