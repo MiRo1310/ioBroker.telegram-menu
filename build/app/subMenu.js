@@ -34,6 +34,7 @@ var import_logging = require("./logging");
 var import_splitValues = require("../lib/splitValues");
 let step = 0;
 let splittedData = [];
+const isMenuBack = (str) => str.includes("menu:back");
 const deleteMessages = async ({
   telegramParams,
   userToSend,
@@ -326,7 +327,7 @@ async function subMenu({
         part
       });
     }
-    if (callbackData === "back") {
+    if (isMenuBack(jsonStringNav)) {
       await back({
         userToSend,
         allMenusWithData,

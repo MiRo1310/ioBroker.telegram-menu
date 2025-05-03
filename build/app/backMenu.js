@@ -34,7 +34,7 @@ function backMenuFunc({
   userToSend
 }) {
   var _a, _b;
-  if (!navigation || !(0, import_string.jsonString)(navigation).split(`:`)[0].includes("menu:")) {
+  if (!navigation || !(0, import_string.jsonString)(navigation).split(`"`)[1].includes("menu:")) {
     const list = (_a = backMenu[userToSend]) == null ? void 0 : _a.list;
     const lastMenu = (_b = backMenu[userToSend]) == null ? void 0 : _b.last;
     if ((list == null ? void 0 : list.length) === import_config.backMenuLength) {

@@ -28,6 +28,8 @@ import { getMenuValues } from '../lib/splitValues';
 let step = 0;
 let splittedData: SplittedData = [];
 
+const isMenuBack = (str: string): boolean => str.includes('menu:back');
+
 const deleteMessages = async ({
     telegramParams,
     userToSend,
@@ -363,7 +365,7 @@ export async function subMenu({
                 part,
             });
         }
-        if (callbackData === 'back') {
+        if (isMenuBack(jsonStringNav)) {
             await back({
                 userToSend,
                 allMenusWithData,
