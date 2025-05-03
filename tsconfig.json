@@ -44,6 +44,8 @@
 		"sourceMap": true,
 		"inlineSourceMap": false
 	},
-	"include": ["src/**/*.ts", "test/**/*.js", "./.eslintrc.js"],
+	"include": ["src/**/*.ts", "./.eslintrc.js",
+		"test/test/*.test.ts"
+	],
 	"exclude": ["build/**", "node_modules/**", "widgets/**"]
 }

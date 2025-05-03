@@ -1,98 +1,98 @@
 {
     "common": {
         "name": "telegram-menu",
-        "version": "2.0.0",
+        "version": "2.2.3",
         "news": {
-            "2.0.0": {
-                "en": "Js-controller >=5.0.19 is required\nFIX: Colors in triggerOverview\nFIX: #154 #152 Import config from file\nDelete messages adjusted",
-                "de": "Js-Controller >=5.0.19 ist erforderlich\nFIX: Farben im Trigger Überblick\nFIX: #154 #152 Import config aus Datei\nLöschen von Nachrichten angepasst",
-                "ru": "Js-контроллер >=5.0.19 требуется\nFIX: Цвета на триггере Обзор\n#154 #152 Импорт конфигурации из файла\nИсключить сообщения",
-                "pt": "Js-controller >=5.0.19 é necessário\nFIX: Cores no gatilho Visão geral\nFIX: #154 #152 Importar config do arquivo\nExcluir mensagens ajustadas",
-                "nl": "Js-controller > 5.0.19 is vereist\nFIX: Kleuren in trigger Overzicht\nFIX: #154 #152 Config importeren uit bestand\nBerichten verwijderen aangepast",
-                "fr": "Js-contrôleur >=5.0.19 est nécessaire\nFIX: Couleurs dans le déclencheur Aperçu général\nFIXE: #154 #152 Importer la configuration à partir du fichier\nSupprimer les messages ajustés",
-                "it": "Js-controller >=5.0.19 è richiesto\nFIX: Colori in trigger Panoramica\n#154 #152 Importa la configurazione dal file\nEliminare i messaggi modificati",
-                "es": "Se requiere Js-controller\nFIX: Colores en el gatillo Sinopsis\nFIX: #154 #152 Importar configuración del archivo\nEliminar mensajes ajustados",
-                "pl": "Wymagany jest kontroler js- 19\nFIX: Kolory w spustu Przegląd\nFIX: # 154 # 152 Importuj plik konfiguracyjny\nUsuń poprawione wiadomości",
-                "uk": "Js-controller >=5.0.19 потрібно\nFIX: Кольори в тригері Огляд\nFIX: #154 #152 Налаштування імпорту з файлу\nВидалити повідомлення регульовані",
-                "zh-cn": "需要Js控制器 >=5.0.19\nFIX: 触发中的颜色 概览\nFIX: #154 #152 (英语). 从文件导入配置\n删除调整后的信件"
+            "2.2.3": {
+                "en": "FIX: #279 Backslash is in the message when using newline",
+                "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
+                "ru": "FIX: #279 Backslash находится в сообщении при использовании новой линии",
+                "pt": "FIX: #279 Backslash está na mensagem ao usar newline",
+                "nl": "FIX: #279 Backslash zit in het bericht bij het gebruik van nieuwe regel",
+                "fr": "FIX: #279 Backslash est dans le message lorsque vous utilisez newline",
+                "it": "FIX: #279 Backslash è nel messaggio quando si utilizza la nuova linea",
+                "es": "FIX: #279 Backslash está en el mensaje al usar newline",
+                "pl": "FIX: # 279 Backslash jest w wiadomości przy użyciu nowej linii",
+                "uk": "FIX: #279 Backslash знаходиться в повідомленні при використанні newline",
+                "zh-cn": "FIX: # 279 使用新线时反斜线在信件中"
             },
-            "1.7.4": {
-                "en": "FEAT: #160 Expand setDynamicValue",
-                "de": "FEAT: #160 Expand setDynamic Wert",
-                "ru": "#160 Expand setDynamic Стоимость",
-                "pt": "FEAT: #160 Expand setDynamic Valor",
-                "nl": "FEAT: #160 Vergroot setDynamic Waarde",
-                "fr": "VIE: #160 Expand setDynamic Valeur",
-                "it": "FEAT: #160 Expand setDynamic Valore",
-                "es": "FEAT: #160 Expand setDynamic Valor",
-                "pl": "FEAT: # 160 Expand setDynamic Wartość",
-                "uk": "FEAT: #160 Комплект динаміки Ціна",
-                "zh-cn": "FEAT: # 160 扩展设置 Dynamic 数值"
+            "2.2.2": {
+                "en": "FIX: Style and update dependencies",
+                "de": "FIX: Stil- und Updateabhängigkeiten",
+                "ru": "FIX: Стиль и зависимости от обновлений",
+                "pt": "FIX: Estilo e dependências de atualização",
+                "nl": "FIX: Stijl en update afhankelijkheden",
+                "fr": "FIX: Dépendances de style et de mise à jour",
+                "it": "FIX: Stile e dipendenze di aggiornamento",
+                "es": "FIX: dependencias de estilo y actualización",
+                "pl": "FIX: Styl i uaktualnianie zależności",
+                "uk": "FIX: Стиль і оновлення залежності",
+                "zh-cn": "FIX:样式和更新依赖性"
             },
-            "1.7.3": {
-                "en": "FIX: Multi-user fixed\nFIX: #159 Functions fixed",
-                "de": "FIX: Multi-User fixiert\nFIX: #159 Funktionen fixiert",
-                "ru": "FIX: Многопользовательская фиксированная\nFIX: #159",
-                "pt": "FIX: Multiusuário fixo\nFIX: #159 Funções fixas",
-                "nl": "FIX: Multi-user vast\nFIX: #159 Functies vast",
-                "fr": "FIX: Multi-utilisateur fixe\nFIXE: #159 Fonctions fixes",
-                "it": "FIX: Multi-utente fisso\nFIX: #159 Funzioni fisse",
-                "es": "FIX: fijo multiusuario\nFIX: #159 Funciones fijas",
-                "pl": "FIX: Multi- użytkownik stały\nFIX: # 159 Funkcje stałe",
-                "uk": "FIX: Multi-user фіксований\nFIX: #159 Функції фіксовані",
-                "zh-cn": "FIX: 多用户固定\nFIX: # 159 函数固定"
+            "2.2.1": {
+                "en": "FIX: Infinite loop on open events\nFIX: #248 Error converting time",
+                "de": "FIX: Unendliche Schleife auf offenen Veranstaltungen\nFIX: #248 Zeit ändern",
+                "ru": "FIX: Бесконечный цикл на открытых мероприятиях\nFIX: #248 Ошибка преобразования времени",
+                "pt": "FIX: loop infinito em eventos abertos\nFIX: #248 Tempo de conversão de erro",
+                "nl": "FIX: Oneindige lus op open gebeurtenissen\nFIX: #248 Fout bij het omzetten tijd",
+                "fr": "FIX: Boucle infinie sur les événements ouverts\nFIX: #248 Temps de conversion des erreurs",
+                "it": "FIX: Ciclo infinito sugli eventi aperti\nFIX: #248 Tempo di conversione di errore",
+                "es": "FIX: bucle infinito en eventos abiertos\nFIX: #248 Tiempo de conversión del error",
+                "pl": "FIX: Nieskończona pętla na otwartych zdarzeniach\nFIX: # 248 Czas konwersji błędów",
+                "uk": "FIX: Нескінченна петля на відкритих заходах\nFIX: #248 Час перетворення помилки",
+                "zh-cn": "FIX:关于公开事件的无限循环\nFIX: # 248 转换时间出错"
             },
-            "1.7.2": {
-                "en": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
-                "de": "FIX: #158 Telegram-menu-Verbindung\nFIX: #155 DynSwitch",
-                "ru": "FIX: #158\n#155 DynSwitch",
-                "pt": "FIX: #158 Conexão telegrama-menu\nFIX: #155 DynSwitch",
-                "nl": "FIX: #158 Telegram-menuverbinding\nFIX: #155 DynSwitch",
-                "fr": "FIXE: #158 Connexion au télégramme-menu\nFIXE : 1 55 DynSwitch",
-                "it": "FIX: #158 Connessione Telegram-menu\nFIX: #155 DynSwitch",
-                "es": "FIX: #158 Telegram-menu connection\nFIX: #155 DynSwitch",
-                "pl": "FIX: # 158 Połączenie menu telegramowego\nFIX: # 155 DynSwitch",
-                "uk": "FIX: #158 Телеграма-меню підключення\nFIX: #155 DynSwitch",
-                "zh-cn": "FIX: #158 Telegram-菜单连接\nFIX: #155 DynSwitch 打开"
+            "2.2.0": {
+                "en": "FEAT: #237 Navigate by nav-button-click to action\nFIX: Cannot get value false in return text\nFIX: Delete row in Actions\nFIX: HttpRequest\nFEAT: Navigation styling and selectable menus",
+                "de": "FEAT: #237 Navigieren Sie mit nav-button-klick auf Aktion\nFIX: Kann nicht Wert falsch im Rückgabetext erhalten\nFIX: Zeile in Aktion löschen\nFIX: HttpRequest\nFEAT: Navigations-Styling und wählbare Menüs",
+                "ru": "FEAT: #237 Навигай на навигай-кнопкой мыши к действию\nFIX: не может получить значение ложное в ответном тексте\nFIX: Исключить строку в действии\nFIX: HttpRequest\nFEAT: Навигационный стиль и подбираемые меню",
+                "pt": "FEAT: #237 Navegue por nav-button-clique para ação\nFIX: Não pode obter valor falso em texto de retorno\nFIX: Excluir linha em Ações\nFIX: HttpRequest\nFEAT: Estilo de navegação e menus selecionáveis",
+                "nl": "FEAT: #237 Navigeren met nav-knop-klik op actie\nFIX: kan waarde niet foutief krijgen in de terugzendingstekst\nFIX: rij in acties verwijderen\nFIX: HttpRequest\nFEAT: Navigatie styling en selecteerbare menu's",
+                "fr": "FEAT: #237 Naviguez par nav-bouton-cliquez vers l'action\nFIX: Impossible d'obtenir la valeur false dans le texte de retour\nFIX: Supprimer la ligne dans Actions\nDemande Http\nFEAT: Style de navigation et menus sélectionnables",
+                "it": "FEAT: #237 Navigare da nav-button-click all'azione\nFIX: Non può ottenere valore falso nel testo di ritorno\nFIX: Elimina la riga in Azioni\nFIX: HttpRequest\nFEAT: menu di navigazione e selezionabili",
+                "es": "FEAT: #237 Navigate by nav-button-click to action\nFIX: No se puede obtener valor falso en el texto de retorno\nFIX: Eliminar fila en Acciones\nFIX: HtpRequest\nFEAT: Estilismo de navegación y menús seleccionables",
+                "pl": "FEAT: # 237\nFIX: Nie można uzyskać wartości false w zwrotnym tekście\nFIX: Usuń wiersz w działaniach\nFIX: HttpRequest\nFEAT: Stylizacja nawigacyjna i menu do wyboru",
+                "uk": "FEAT: #237 Нейгат від nav-button-click до дії\nFIX: Неможливо отримати значення помилково в поверненні тексту\nFIX: Видалити ряд в дії\nFIX: HttpRequest\nFEAT: Налаштування навігації та вибіркові меню",
+                "zh-cn": "FEAT: # 237 导航通过导航按钮点击动作\nFIX: 无法在返回文本中获取错误值\nFIX: 删除动作中的行\nFIX: Http 请求\nFEAT:导航样式和可选菜单"
             },
-            "1.7.1": {
-                "en": "Fix: Delete Messages\nFix: Add new row in action\nFix: Error setState \"value.includes is not a function\"\n#144 Add new feature in setState: Now it is possible to set a static Value with a dynamic Value from id",
-                "de": "Fix: Nachrichten löschen\nFix: Neue Zeile in Aktion hinzufügen\nFix: Fehler setState \"Wert. enthält keine Funktion\"\n#44 Neue Funktion in setState hinzufügen: Jetzt ist es möglich, einen statischen Wert mit einem dynamischen Wert von id einzustellen",
-                "ru": "Исключить сообщения\nFix: Добавить новый ряд в действие\nFix: Ошибка устанавливает состояние \"значение. включает не функцию»\n#144 Добавить новую функцию в setState: Теперь можно установить статическое значение с динамическим значением от id",
-                "pt": "Corrigir: Excluir mensagens\nFix: Adicionar nova linha em ação\nCorrigir: erro setState \"valor. inclui não é uma função\"\n144 Adicionar novo recurso no setState: Agora é possível definir um valor estático com um valor dinâmico do id",
-                "nl": "Fix: Berichten verwijderen\nFix: nieuwe rij toevoegen in actie\nFix: Error setState \"waarde. bevat geen functie\"\n#144 Nieuwe functie toevoegen in setState: Nu is het mogelijk om een statische waarde in te stellen met een dynamische waarde van id",
-                "fr": "Correction: Supprimer les messages\nCorrection : Ajouter une nouvelle ligne en action\nCorrection : erreur setState \"value. comprend n'est pas une fonction\"\n#144 Ajouter une nouvelle fonctionnalité dans setState: Maintenant, il est possible de définir une valeur statique avec une valeur dynamique à partir de l'id",
-                "it": "Correzione: Cancella messaggi\nFix: Aggiungi una nuova riga in azione\nRisolvere: Impostazione errore \"valore. include non è una funzione\"\n#144 # Aggiungi nuova funzionalità in setState: Ora è possibile impostare un valore statico con un valore dinamico da id",
-                "es": "Corrección: Eliminar mensajes\nFijación: Agregue nueva fila en acción\nCorrección: Juego de errores Valor estatal. incluye no es una función\"\n#144 Añadir nueva característica en setState: Ahora es posible establecer un valor estático con un valor dinámico de id",
-                "pl": "Fix: Usuń wiadomości\nFix: Dodaj nowy wiersz w akcji\nFix: Wartość błędu setState \". zawiera nie jest funkcją\"\n# 144 Dodaj nową funkcję w setState: Teraz jest możliwe ustawienie wartości statycznej z dynamiczną wartością z id",
-                "uk": "Виправлення: Видалити повідомлення\nВиправлення: Додати новий ряд в дії\nВиправлення: Помилка setState \"value. включає не функцію\n#144 Додати нову функцію в setState: Тепер можна встановити статичну вартість з динамічним значенням від id",
-                "zh-cn": "修正: 删除信件\n修正: 在动作中添加新行\nFix: 错误设置状态\"值 。 包含不是一个函数\"\n144号 在设置状态中添加新特性: 现在可以从 id 中设置一个具有动态值的静态值"
+            "2.1.10": {
+                "en": "FIX: Return text for menus was not send",
+                "de": "FIX: Rückgabetext für Menüs wurde nicht gesendet",
+                "ru": "FIX: Возвращаемый текст для меню не был отправлен",
+                "pt": "FIX: O texto de retorno para menus não foi enviado",
+                "nl": "FIX: Retourtekst voor menu's is niet verstuurd",
+                "fr": "FIX: Retour de texte pour les menus n'a pas été envoyé",
+                "it": "FIX: Il testo di ritorno per i menu non è stato inviato",
+                "es": "FIX: El texto devuelto para los menús no fue enviado",
+                "pl": "FIX: Tekst zwrotny dla menu nie został wysłany",
+                "uk": "FIX: Повернути текст для меню не відправлено",
+                "zh-cn": "FIX: 菜单的返回文本没有发送"
             },
-            "1.7.0": {
-                "en": "Switched to typescript",
-                "de": "Umgestellt in die Schrift",
-                "ru": "Переключение на типscript",
-                "pt": "Mudado para o typescript",
-                "nl": "Overgeschakeld naar typescript",
-                "fr": "Passé au dactylographié",
-                "it": "Passato alla scrittura",
-                "es": "Interruptor a tiposcript",
-                "pl": "Przełączono na maszynopis",
-                "uk": "Перемкнено до типу",
-                "zh-cn": "切换到打字符"
+            "2.1.9": {
+                "en": "FIX: #224 Submenu trigger",
+                "de": "FIX: #224 Submenu Trigger",
+                "ru": "FIX: #224",
+                "pt": "FIX: #224 Submenu gatilho",
+                "nl": "FIX: #224 Submenu-starter",
+                "fr": "FIXE: Déclencheur du sous-menu #224",
+                "it": "FIX: #224 Submenu trigger",
+                "es": "FIX: #224 El gatillo Submenu",
+                "pl": "FIX: # 224 Uruchom podmenu",
+                "uk": "FIX: #224 Запобігання підменю",
+                "zh-cn": "FIX: # 224 子菜单触发器"
             },
-            "1.6.3": {
-                "en": "Bug in copy card fixed\n#104 HTTP Request Beta\n#111 status Value in dynamicSwitch\n#112 change value\n**_Change!!!_** menu:deleteAll removes automatic Request Ids which are older than 48h from list. The list is completely deleted once during the update\nFixed menu:number with negativ Values, see the documentation",
-                "de": "Fehler in der Kopierkarte behoben\n#104 HTTP Frage stellen\n#111 Status Wert in dynamicSwitch\n#112 änderungswert\n**_Change!!!_** Menü:löschen Alle entfernt automatische Request Ids, die älter als 48h sind aus der Liste. Die Liste wird während des Updates vollständig gelöscht\nFixed Menu:Nummer mit Negativ Werte, siehe Dokumentation",
-                "ru": "Цыпленок с копировальной картой\n#104 HTTP Запрос Beta\n#111 Статус Значение в DynamicSwitch\n#112 изменить значение\n**_Чанге!!!_** меню: удаления Все удаляет автоматические запросы, которые старше 48 часов из списка. Список полностью удален один раз во время обновления\nИсправленное меню: номер с негативом Ценности, см. документацию",
-                "pt": "Bug no cartão de cópia corrigido\n#104 HTTP Pedido Beta\nstatus #111 Valor em dinâmicoSwitch\nvalor de mudança #112\n**_Change!!!_** cardápio:delete Todos remove Ids de pedido automáticos que são mais antigos do que 48h da lista. A lista é completamente excluída uma vez durante a atualização\nMenu fixo: número com negativ Valores, veja a documentação",
-                "nl": "Bug in kopieerkaart gerepareerd\n#104 HTTP Beta aanvragen\n#111 status Waarde in dynamicSwitch\n#112 verandering waarde\n**_Wijzigen!!_** menu:verwijderen Alle verwijdert automatische Request Ids die ouder zijn dan 48 uur uit de lijst. De lijst wordt tijdens de update volledig verwijderd\nVast menu:nummer met negativ Waarden, zie de documentatie",
-                "fr": "Bogue dans la carte de copie corrigée\n#104 HTTP Demande Beta\nÉtat 111 Valeur dans dynamicSwitch\nvaleur de variation n°112\n**_Change!!!_** menu:delete Tous suppriment automatiquement les Ids Request qui sont plus de 48h de la liste. La liste est complètement supprimée une fois lors de la mise à jour\nMenu fixe:nombre avec negativ Valeurs, voir la documentation",
-                "it": "Bug nella scheda di copia fissa\n#104 HTTP Richiesta Beta\n#111 stato Valore in dinamicaSwitch\n#112 valore di cambiamento\n**_Change!!!_** menu: Tutti rimuove automaticamente Ids richiesta che sono più vecchi di 48h dalla lista. L'elenco viene completamente cancellato una volta durante l'aggiornamento\nMenu fisso: numero con negativ Valori, vedere la documentazione",
-                "es": "Error en la tarjeta de copia fija\n#104 HTTP Solicitud Beta\n#111 status Valor en DynamicSwitch\n#112 cambio de valor\n**_Cambiar!!!_** menu:delete Todo elimina los Ids de Solicitud automáticos que son mayores de 48h de la lista. La lista se elimina por completo una vez durante la actualización\nMenú fijo: número con negativ Valores, ver la documentación",
-                "pl": "Błąd w kopii karty stałe\n# 104 HTTP Wniosek Beta\n# 111 status Wartość w dynamicznym przełączniku\n# 112 zmiana wartości\nMenu: usuń Wszystkie usuwa automatyczne identyfikatory zapytania, które są starsze niż 48h z listy. Lista jest całkowicie usuwana raz podczas aktualizacji\nNaprawiono menu: numer z negativ Wartości, patrz dokumentacja",
-                "uk": "Помилки в скопійованій картці\n#104 HTTP Замовити бета\n#111 статус Значення в динамціSwitch\n#112 значення зміни\n**************************************************************************************************************************************************************************************************************************************************************** Всі видаліть автоматичний запит Ids, які старше 48h з списку. Список повністю вилучений після оновлення\nФіксоване меню:номер з негативом Значення, див. документацію",
-                "zh-cn": "复制卡中的错误已修复\n#104 HTTP (韩语) 请求beta\n#111状态 动态开关中的值\n#112 变化值\n菜单:删除 所有从列表中删除年龄大于48小时的自动请求ID。 在更新过程中, 名单被完全删除一次\n固定菜单:数用 Negativ 值,参见文档"
+            "2.1.7": {
+                "en": "FIX: #220 Delete button doesn´t work\nFEAT: Styling",
+                "de": "FIX: #220 Löschen Taste funktioniert nicht\nFEAT: Styling",
+                "ru": "FIX: #220 Удаление кнопки ́t работа\nFEAT: Styling",
+                "pt": "CORREÇÃO: #220 Apagar botão não funciona\nFEAT: Styling",
+                "nl": "FIX: #220 Delete button doesn śet werk\nFEAT: Styling",
+                "fr": "FIX: #220 Le bouton Supprimer ne fonctionne pas\nVIANDE: Styling",
+                "it": "FIX: #220 Pulsante Cancella non funziona\nCARAT: Styling",
+                "es": "FIX: #220 Borrar botón no funciona\nFEAT: Styling",
+                "pl": "FIX: # 220 Usuń przycisk nie działa\nFEAT: Styling",
+                "uk": "FIX: #220 Видалити кнопка не працює\nFEAT: Стилування",
+                "zh-cn": "FIX: # 220 删除按钮不起作用\n斯图林"
             }
         },
         "titleLang": {
@@ -155,7 +155,7 @@
         ],
         "globalDependencies": [
             {
-                "admin": ">=5.0.0",
+                "admin": ">=7.4.10",
                 "telegram": ">=1.15.0"
             }
         ],
@@ -291,7 +291,7 @@
         "users": [],
         "startsides": [],
         "tokenGrafana": "",
-        "directory": "",
+        "directory": "/opt/iobroker/media",
         "userActiveCheckbox": {},
         "usersInGroup": {},
         "textNoEntry": "",

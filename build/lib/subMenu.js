@@ -70,8 +70,7 @@ const setDynamicValue = async (obj) => {
   };
 };
 const createSubmenuPercent = (obj) => {
-  const callbackData = obj.callbackData;
-  const device2Switch = obj.device2Switch;
+  const { callbackData, device2Switch } = obj;
   step = parseFloat(callbackData.replace("percent", ""));
   let rowEntries = 0;
   let menu = [];

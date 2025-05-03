@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/botAction.ts"],
+  "sourcesContent": ["import { adapter } from '../main';\nimport { errorLogger } from './logging';\n\nconst deleteMessageByBot = (instance: string, user: string, messageId: number, chat_id: string | number): void => {\n    try {\n        if (chat_id) {\n            adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);\n        }\n        adapter.sendTo(instance, {\n            deleteMessage: {\n                options: {\n                    chat_id: chat_id,\n                    message_id: messageId,\n                },\n            },\n        });\n    } catch (e: any) {\n        errorLogger('Error deleteMessage:', e, adapter);\n    }\n};\nexport { deleteMessageByBot };\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAwB;AACxB,qBAA4B;AAE5B,MAAM,qBAAqB,CAAC,UAAkB,MAAc,WAAmB,YAAmC;AAC9G,MAAI;AACA,QAAI,SAAS;AACT,0BAAQ,IAAI,MAAM,sBAAsB,IAAI,IAAI,OAAO,iBAAiB,SAAS,EAAE;AAAA,IACvF;AACA,wBAAQ,OAAO,UAAU;AAAA,MACrB,eAAe;AAAA,QACX,SAAS;AAAA,UACL;AAAA,UACA,YAAY;AAAA,QAChB;AAAA,MACJ;AAAA,IACJ,CAAC;AAAA,EACL,SAAS,GAAQ;AACb,oCAAY,wBAAwB,GAAG,mBAAO;AAAA,EAClD;AACJ;",
+  "names": []
+}

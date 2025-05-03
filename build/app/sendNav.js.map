@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/sendNav.ts"],
+  "sourcesContent": ["import { sendToTelegram } from './telegram';\nimport { checkStatusInfo } from '../lib/utilities';\nimport type { Part, TelegramParams } from '../types/types';\nimport { adapter } from '../main';\nimport { errorLogger } from './logging';\n\nexport async function sendNav(part: Part, userToSend: string, telegramParams: TelegramParams): Promise<void> {\n    try {\n        if (userToSend) {\n            const { nav: keyboard, text, parse_mode } = part;\n            const textToSend = await checkStatusInfo(text ?? '');\n\n            await sendToTelegram({\n                userToSend,\n                textToSend,\n                keyboard,\n                telegramParams,\n                parse_mode,\n            });\n        }\n    } catch (e: any) {\n        errorLogger('Error sendNav:', e, adapter);\n    }\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,sBAA+B;AAC/B,uBAAgC;AAEhC,kBAAwB;AACxB,qBAA4B;AAE5B,eAAsB,QAAQ,MAAY,YAAoB,gBAA+C;AACzG,MAAI;AACA,QAAI,YAAY;AACZ,YAAM,EAAE,KAAK,UAAU,MAAM,WAAW,IAAI;AAC5C,YAAM,aAAa,UAAM,kCAAgB,sBAAQ,EAAE;AAEnD,gBAAM,gCAAe;AAAA,QACjB;AAAA,QACA;AAAA,QACA;AAAA,QACA;AAAA,QACA;AAAA,MACJ,CAAC;AAAA,IACL;AAAA,EACJ,SAAS,GAAQ;AACb,oCAAY,kBAAkB,GAAG,mBAAO;AAAA,EAC5C;AACJ;",
+  "names": []
+}

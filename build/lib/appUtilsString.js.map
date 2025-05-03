@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/appUtilsString.ts"],
+  "sourcesContent": ["export function getPlaceholderValue(textToSend: string): string {\n    if (textToSend.includes('&&')) {\n        return '&&';\n    }\n    if (textToSend.includes('&amp;&amp;')) {\n        return '&amp;&amp;';\n    }\n    return '';\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,SAAS,oBAAoB,YAA4B;AAC5D,MAAI,WAAW,SAAS,IAAI,GAAG;AAC3B,WAAO;AAAA,EACX;AACA,MAAI,WAAW,SAAS,YAAY,GAAG;AACnC,WAAO;AAAA,EACX;AACA,SAAO;AACX;",
+  "names": []
+}

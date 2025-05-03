@@ -148,6 +148,11 @@
     "adminUI": {
       "config": "materialize"
     },
+    "plugins": {
+      "sentry": {
+        "dsn": "https://b2043fdf62d0f5cb4c8c7f2a840e1798@o4508003658498048.ingest.de.sentry.io/4509218932916304"
+      }
+    },
     "dependencies": [
       {
         "js-controller": ">=5.0.19"

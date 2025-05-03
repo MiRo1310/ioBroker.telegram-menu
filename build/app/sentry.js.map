@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/sentry.ts"],
+  "sourcesContent": ["import type TelegramMenu from '../main';\n\nexport const sendToSentry = (error: Error, adapter: TelegramMenu): void => {\n    if (adapter.supportsFeature && adapter.supportsFeature('PLUGINS')) {\n        const sentryInstance = adapter.getPluginInstance('sentry');\n        if (sentryInstance) {\n            const Sentry = sentryInstance.getSentryObject();\n\n            Sentry?.withScope(\n                (scope: {\n                    setLevel: (arg0: 'info' | 'debug' | 'error') => void;\n                    setExtra: (arg0: string, arg1: string) => void;\n                }) => {\n                    scope.setLevel('info');\n                    scope.setExtra('key', 'value');\n                    Sentry.captureMessage('Event name', 'info'); // Level \"info\"\n                },\n            );\n        }\n    }\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,MAAM,eAAe,CAAC,OAAc,YAAgC;AACvE,MAAI,QAAQ,mBAAmB,QAAQ,gBAAgB,SAAS,GAAG;AAC/D,UAAM,iBAAiB,QAAQ,kBAAkB,QAAQ;AACzD,QAAI,gBAAgB;AAChB,YAAM,SAAS,eAAe,gBAAgB;AAE9C,uCAAQ;AAAA,QACJ,CAAC,UAGK;AACF,gBAAM,SAAS,MAAM;AACrB,gBAAM,SAAS,OAAO,OAAO;AAC7B,iBAAO,eAAe,cAAc,MAAM;AAAA,QAC9C;AAAA;AAAA,IAER;AAAA,EACJ;AACJ;",
+  "names": []
+}
