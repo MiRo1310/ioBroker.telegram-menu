@@ -8,7 +8,6 @@ import type {
     AllMenusWithData,
     BackMenuType,
     CreateMenu,
-    DeleteMessageIds,
     Keyboard,
     KeyboardItems,
     Navigation,
@@ -29,21 +28,6 @@ let step = 0;
 let splittedData: SplittedData = [];
 
 const isMenuBack = (str: string): boolean => str.includes('menu:back');
-
-const deleteMessages = async ({
-    telegramParams,
-    userToSend,
-    device2Switch,
-    callbackData,
-}: DeleteMessageIds): Promise<{ navToGoBack: string } | undefined> => {
-    if (callbackData.includes('deleteAll')) {
-        await deleteMessageIds(userToSend, telegramParams, 'all');
-    }
-    if (isNonEmptyString(device2Switch)) {
-        return { navToGoBack: device2Switch };
-    }
-    return;
-};
 
 const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
     const { callbackData, device2Switch } = obj;
@@ -303,18 +287,20 @@ export async function subMenu({
     navObj?: Navigation;
 }): Promise<{ text?: string; keyboard?: Keyboard; device?: string; navToGoBack?: string } | undefined> {
     try {
-        adapter.log.debug(`Menu : ${navObj?.[0][0]}`);
+        const firstNavigationElement = navObj?.[0][0];
+        if (!firstNavigationElement) {
+            return;
+        }
+        adapter.log.debug(`Menu : ${firstNavigationElement}`);
 
         const text = await checkStatusInfo(part.text);
-        const { callbackData, device: device2Switch, val } = getMenuValues(jsonStringNav);
+        const { callbackData, device: device2Switch, val } = getMenuValues(firstNavigationElement);
 
         if (callbackData.includes('delete') && device2Switch) {
-            return await deleteMessages({
-                userToSend,
-                telegramParams,
-                device2Switch,
-                callbackData,
-            });
+            await deleteMessageIds(userToSend, telegramParams, 'all');
+            if (isNonEmptyString(device2Switch)) {
+                return { navToGoBack: device2Switch };
+            }
         }
         if (callbackData.includes('switch') && device2Switch) {
             return createSwitchMenu({ callbackData, text, device2Switch });
@@ -365,7 +351,7 @@ export async function subMenu({
                 part,
             });
         }
-        if (isMenuBack(jsonStringNav)) {
+        if (isMenuBack(firstNavigationElement)) {
             await back({
                 userToSend,
                 allMenusWithData,

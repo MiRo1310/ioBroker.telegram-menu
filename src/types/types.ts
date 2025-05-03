@@ -343,7 +343,6 @@ export interface DeleteMessageIds {
     userToSend: string;
     telegramParams: TelegramParams;
     device2Switch: string;
-    callbackData: string;
 }
 
 export interface ExchangeValueReturn {

@@ -35,20 +35,6 @@ var import_splitValues = require("../lib/splitValues");
 let step = 0;
 let splittedData = [];
 const isMenuBack = (str) => str.includes("menu:back");
-const deleteMessages = async ({
-  telegramParams,
-  userToSend,
-  device2Switch,
-  callbackData
-}) => {
-  if (callbackData.includes("deleteAll")) {
-    await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
-  }
-  if ((0, import_string.isNonEmptyString)(device2Switch)) {
-    return { navToGoBack: device2Switch };
-  }
-  return;
-};
 const createSubmenuPercent = (obj) => {
   const { callbackData, device2Switch } = obj;
   step = parseFloat(callbackData.replace("percent", ""));
@@ -267,16 +253,18 @@ async function subMenu({
   navObj
 }) {
   try {
-    import_main.adapter.log.debug(`Menu : ${navObj == null ? void 0 : navObj[0][0]}`);
+    const firstNavigationElement = navObj == null ? void 0 : navObj[0][0];
+    if (!firstNavigationElement) {
+      return;
+    }
+    import_main.adapter.log.debug(`Menu : ${firstNavigationElement}`);
     const text = await (0, import_utilities.checkStatusInfo)(part.text);
-    const { callbackData, device: device2Switch, val } = (0, import_splitValues.getMenuValues)(jsonStringNav);
+    const { callbackData, device: device2Switch, val } = (0, import_splitValues.getMenuValues)(firstNavigationElement);
     if (callbackData.includes("delete") && device2Switch) {
-      return await deleteMessages({
-        userToSend,
-        telegramParams,
-        device2Switch,
-        callbackData
-      });
+      await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
+      if ((0, import_string.isNonEmptyString)(device2Switch)) {
+        return { navToGoBack: device2Switch };
+      }
     }
     if (callbackData.includes("switch") && device2Switch) {
       return createSwitchMenu({ callbackData, text, device2Switch });
@@ -327,7 +315,7 @@ async function subMenu({
         part
       });
     }
-    if (isMenuBack(jsonStringNav)) {
+    if (isMenuBack(firstNavigationElement)) {
       await back({
         userToSend,
         allMenusWithData,
