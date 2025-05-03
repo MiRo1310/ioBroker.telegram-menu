@@ -18,6 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var config_exports = {};
 __export(config_exports, {
+  arrayOfEntries: () => arrayOfEntries,
   backMenuLength: () => backMenuLength,
   config: () => config,
   defaultLocale: () => defaultLocale,
@@ -78,8 +79,52 @@ const config = {
   },
   setDynamicValue: "{setDynamicValue"
 };
+const arrayOfEntries = [
+  {
+    objName: "echarts",
+    name: "echarts",
+    loop: "preset",
+    elements: [
+      { name: "preset" },
+      { name: "echartInstance" },
+      { name: "background" },
+      { name: "theme" },
+      { name: "filename" }
+    ]
+  },
+  {
+    objName: "loc",
+    name: "location",
+    loop: "latitude",
+    elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", index: 0 }]
+  },
+  {
+    objName: "pic",
+    name: "sendPic",
+    loop: "IDs",
+    elements: [{ name: "id", value: "IDs" }, { name: "fileName" }, { name: "delay", value: "picSendDelay" }]
+  },
+  {
+    objName: "get",
+    name: "getData",
+    loop: "IDs",
+    elements: [
+      { name: "id", value: "IDs" },
+      { name: "text", type: "text" },
+      { name: "newline", value: "newline_checkbox" },
+      { name: "parse_mode", index: 0 }
+    ]
+  },
+  {
+    objName: "httpRequest",
+    name: "httpRequest",
+    loop: "url",
+    elements: [{ name: "url" }, { name: "user" }, { name: "password" }, { name: "filename" }]
+  }
+];
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  arrayOfEntries,
   backMenuLength,
   config,
   defaultLocale,

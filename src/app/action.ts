@@ -9,7 +9,6 @@ import type {
     BindingObject,
     BooleanString,
     DataObject,
-    GenerateActionsArrayOfEntries,
     GenerateActionsNewObject,
     MenuData,
     NewObjectStructure,
@@ -21,9 +20,10 @@ import type {
     UsersInGroup,
 } from '../types/types';
 import { decomposeText, getNewline, jsonString } from '../lib/string';
-import { isDefined, isTruthy } from '../lib/utils';
+import { isDefined, isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
-import { config } from '../config/config';
+import { arrayOfEntries, config } from '../config/config';
+import { getBindingValues } from '../lib/splitValues';
 
 const bindingFunc = async (
     text: string,
@@ -42,13 +42,13 @@ const bindingFunc = async (
 
         for (let item of arrayOfItems) {
             if (!item.includes('?')) {
-                const array = item.split(':');
-                const key = array[0];
-                const id = array[1];
+                const { key, id } = getBindingValues(item);
+                if (id) {
+                    const result = await adapter.getForeignStateAsync(id);
 
-                const result = await adapter.getForeignStateAsync(id);
-                if (result) {
-                    bindingObject.values[key] = result.val?.toString() ?? '';
+                    if (result) {
+                        bindingObject.values[key] = result.val?.toString() ?? '';
+                    }
                 }
             } else {
                 Object.keys(bindingObject.values).forEach(function (key) {
@@ -141,66 +141,21 @@ const idBySelector = async ({
     }
 };
 
-function generateActions(
-    action: Actions,
-    userObject: NewObjectStructure,
-): { obj: NewObjectStructure; ids: string[] } | undefined {
+function generateActions({
+    action,
+    userObject,
+}: {
+    action?: Actions;
+    userObject: NewObjectStructure;
+}): { obj: NewObjectStructure; ids: string[] } | undefined {
     try {
-        const arrayOfEntries: GenerateActionsArrayOfEntries[] = [
-            {
-                objName: 'echarts',
-                name: 'echarts',
-                loop: 'preset',
-                elements: [
-                    { name: 'preset' },
-                    { name: 'echartInstance' },
-                    { name: 'background' },
-                    { name: 'theme' },
-                    { name: 'filename' },
-                ],
-            },
-            {
-                objName: 'loc',
-                name: 'location',
-                loop: 'latitude',
-                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parse_mode', key: 0 }],
-            },
-            {
-                objName: 'pic',
-                name: 'sendPic',
-                loop: 'IDs',
-                elements: [
-                    { name: 'id', value: 'IDs' },
-                    { name: 'fileName' },
-                    { name: 'delay', value: 'picSendDelay' },
-                ],
-            },
-            {
-                objName: 'get',
-                name: 'getData',
-                loop: 'IDs',
-                elements: [
-                    { name: 'id', value: 'IDs' },
-                    { name: 'text', type: 'text' },
-                    { name: 'newline', value: 'newline_checkbox' },
-                    { name: 'parse_mode', key: 0 },
-                ],
-            },
-            {
-                objName: 'httpRequest',
-                name: 'httpRequest',
-                loop: 'url',
-                elements: [{ name: 'url' }, { name: 'user' }, { name: 'password' }, { name: 'filename' }],
-            },
-        ];
-
         const listOfSetStateIds: string[] = [];
-        action.set.forEach(function (
+        action?.set.forEach(function (
             { trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs },
-            key,
+            index,
         ) {
             const triggerName = trigger[0];
-            if (key == 0) {
+            if (index == 0) {
                 userObject[triggerName] = { switch: [] };
             }
             userObject[triggerName] = { switch: [] };
@@ -225,38 +180,35 @@ function generateActions(
         });
 
         arrayOfEntries.forEach(item => {
-            if (action[item.objName as keyof Actions]) {
-                action[item.objName as keyof Actions].forEach(function (element, index: number) {
-                    const trigger = element.trigger[0];
-                    userObject[trigger] = { [item.name]: [] };
-                    if (index == 0) {
-                        userObject[trigger] = { [item.name as keyof UserObjectActions]: [] };
-                    }
+            const actions = action?.[item.objName as keyof Actions];
 
-                    (element[item.loop as keyof typeof element] as string[]).forEach(function (
-                        id: string,
-                        key: number,
-                    ) {
-                        const newObj = {} as GenerateActionsNewObject;
-                        item.elements.forEach(({ name, value, key: elKey }) => {
-                            const elName = (value ? value : name) as keyof typeof element;
-                            const newKey = elKey ? elKey : key;
+            actions?.forEach(function (element, index) {
+                const trigger = element.trigger[0];
+                userObject[trigger] = { [item.name]: [] };
+                if (index == 0) {
+                    userObject[trigger] = { [item.name as keyof UserObjectActions]: [] };
+                }
 
-                            const val = !element[elName] ? false : element[elName][newKey] || 'false';
+                (element[item.loop as keyof typeof element] as string[]).forEach(function (id, index) {
+                    const newObj = {} as GenerateActionsNewObject;
+                    item.elements.forEach(({ name, value, index: elIndex }) => {
+                        const elName = (value ? value : name) as keyof typeof element;
+                        const newIndex = elIndex ? elIndex : index;
 
-                            if (name === 'parse_mode') {
-                                newObj.parse_mode = isTruthy(val);
-                            }
+                        const val = !element[elName] ? false : element[elName][newIndex] || 'false';
 
-                            if (typeof val === 'string') {
-                                newObj[name as keyof GenerateActionsNewObject] = val.replace(/&amp;/g, '&') as any;
-                            }
-                        });
+                        if (name === 'parse_mode') {
+                            newObj.parse_mode = isTruthy(val);
+                        }
 
-                        (userObject?.[trigger]?.[item.name as keyof Part] as GenerateActionsNewObject[]).push(newObj);
+                        if (typeof val === 'string') {
+                            newObj[name as keyof GenerateActionsNewObject] = val.replace(/&amp;/g, '&') as any;
+                        }
                     });
+
+                    (userObject?.[trigger]?.[item.name as keyof Part] as GenerateActionsNewObject[]).push(newObj);
                 });
-            }
+            });
         });
 
         return { obj: userObject, ids: listOfSetStateIds };
@@ -274,16 +226,12 @@ const adjustValueType = (value: keyof NewObjectStructure, valueType: string): bo
         return parseFloat(value);
     }
     if (valueType == 'boolean') {
-        if (value == 'true') {
-            return true;
-        }
-        adapter.log.error(`Error: Value is not a boolean: ${value}`);
-        return false;
+        return isTruthy(value);
     }
     return value;
 };
 
-const checkEvent = async (
+export const checkEvent = async (
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
@@ -298,19 +246,13 @@ const checkEvent = async (
         if (dataObject.action[menu]?.events) {
             dataObject.action[menu].events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-                    if ((state.val == true || state.val == 'true') && event.condition == 'true') {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    } else if ((state.val == false || state.val == 'false') && event.condition[0] == 'false') {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    } else if (typeof state.val == 'number' && state.val == parseInt(event.condition[0])) {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    } else if (state.val == event.condition[0]) {
+                    const condition = event.condition[0];
+                    if (
+                        ((state.val == true || state.val == 'true') && isTruthy(condition)) ||
+                        ((state.val == false || state.val == 'false') && isFalsy(condition)) ||
+                        (typeof state.val == 'number' && state.val == parseInt(condition)) ||
+                        state.val == condition
+                    ) {
                         ok = true;
                         menuArray.push(menu);
                         calledNav = event.menu[0];
@@ -319,52 +261,48 @@ const checkEvent = async (
             });
         }
     });
-    if (ok) {
-        if (menuArray.length >= 1) {
-            for (const menu of menuArray) {
-                if (usersInGroup[menu] && menuData[menu][calledNav as keyof DataObject]) {
-                    for (const user of usersInGroup[menu]) {
-                        const part = menuData[menu][calledNav as keyof DataObject];
-                        const menus = Object.keys(menuData);
-                        if (part.nav) {
-                            backMenuFunc({ startSide: calledNav, navigation: part.nav, userToSend: user });
-                        }
-                        if (part?.nav?.[0][0].includes('menu:')) {
-                            await callSubMenu({
-                                jsonStringNav: JSON.stringify(part.nav[0]),
-                                userToSend: user,
-                                telegramParams: telegramParams,
-                                part: part,
-                                allMenusWithData: menuData,
-                                menus: menus,
-                                navObj: part.nav,
-                            });
-                        } else {
-                            await sendNav(part, user, telegramParams);
-                        }
-                    }
+    if (!ok || !menuArray.length) {
+        return false;
+    }
+
+    for (const menu of menuArray) {
+        const part = menuData[menu][calledNav as keyof DataObject];
+        if (usersInGroup[menu] && part) {
+            for (const user of usersInGroup[menu]) {
+                const menus = Object.keys(menuData);
+
+                if (part.nav) {
+                    backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user });
                 }
+
+                if (part?.nav?.[0][0].includes('menu:')) {
+                    await callSubMenu({
+                        jsonStringNav: JSON.stringify(part.nav[0]),
+                        userToSend: user,
+                        telegramParams: telegramParams,
+                        part: part,
+                        allMenusWithData: menuData,
+                        menus: menus,
+                        navObj: part.nav,
+                    });
+                    return true;
+                }
+                await sendNav(part, user, telegramParams);
             }
         }
     }
-
-    return ok;
+    return true;
 };
 
-const getUserToSendFromUserListWithChatID = (
+export const getUserToSendFromUserListWithChatID = (
     userListWithChatID: UserListWithChatId[],
     chatID: string,
-): string | null => {
-    let userToSend: string | null = null;
-
+): string | undefined => {
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
-            userToSend = element.name;
-            break;
+            return element.name;
         }
     }
-
-    return userToSend;
 };
 
-export { idBySelector, generateActions, bindingFunc, adjustValueType, checkEvent, getUserToSendFromUserListWithChatID };
+export { idBySelector, generateActions, bindingFunc, adjustValueType };

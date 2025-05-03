@@ -62,10 +62,10 @@ export interface Get {
 }
 
 export interface Events {
-    ack: BooleanString;
-    ID: string;
-    menu: string;
-    condition: string;
+    ack: BooleanString[];
+    ID: string[];
+    menu: string[];
+    condition: string[];
     trigger: string[];
 }
 
@@ -94,7 +94,7 @@ export type UsersInGroup = { [key: string]: string[] };
 export type MenuData = Record<string, NewObjectStructure>;
 
 export interface DataObject {
-    action: Record<string, Actions>;
+    action: Record<string, Actions | undefined>;
     nav: Record<string, NavigationRow[]>;
 }
 
@@ -202,7 +202,7 @@ export interface GenerateActionsArrayOfEntries {
 export interface GenerateActionsArrayOfElements {
     name: string;
     value?: string;
-    key?: number;
+    index?: number;
     type?: string;
 }
 

@@ -93,7 +93,7 @@ export default class TelegramMenu extends utils.Adapter {
                 for (const name in nav) {
                     const splittedNavigation = splitNavigation(nav[name]);
                     const newStructure = getNewStructure(splittedNavigation);
-                    const generatedActions = generateActions(action[name], newStructure);
+                    const generatedActions = generateActions({ action: action[name], userObject: newStructure });
 
                     menuData[name] = newStructure;
                     if (generatedActions) {

@@ -117,19 +117,20 @@ async function processData(obj) {
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
     part = groupData[call];
     if (!calledValue.toString().includes("menu:") && isUserActiveCheckbox[groupWithUser]) {
-      if (part == null ? void 0 : part.nav) {
-        import_main.adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(part.nav)}`);
-        (0, import_backMenu.backMenuFunc)({ startSide: call, navigation: part.nav, userToSend });
-        if ((0, import_string.jsonString)(part.nav).includes("menu:")) {
-          import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(part.nav)}`);
+      const nav = part == null ? void 0 : part.nav;
+      if (nav) {
+        import_main.adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(nav)}`);
+        (0, import_backMenu.backMenuFunc)({ activePage: call, navigation: nav, userToSend });
+        if ((0, import_string.jsonString)(nav).includes("menu:")) {
+          import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(nav)}`);
           const result = await (0, import_subMenu.callSubMenu)({
-            jsonStringNav: (0, import_string.jsonString)(part.nav),
+            jsonStringNav: (0, import_string.jsonString)(nav),
             userToSend,
             telegramParams,
             part,
             allMenusWithData,
             menus,
-            navObj: part.nav
+            navObj: nav
           });
           if (result == null ? void 0 : result.newNav) {
             await checkEveryMenuForData({

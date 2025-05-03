@@ -4,8 +4,9 @@ import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { getTypeofTimestamp, statusIdAndParams, timeStringReplacer } from './appUtils';
+import { isNoTypeDefined, statusIdAndParams, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
+import { getProcessTimeValues } from './splitValues';
 
 export const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
@@ -13,19 +14,12 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
         config.timestamp.start,
         config.timestamp.end,
     ); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
-    const array = substringExcludeSearch.split(','); //["lc","(DD MM YYYY hh:mm:ss:sss)","id:'ID'"]
-    const timestampString = array[0];
-    const timeString = array[1]; //"(DD MM YYYY hh:mm:ss:sss)"
-    const idString = array[2];
+    const { typeofTimestamp, timeString, idString } = getProcessTimeValues(substringExcludeSearch);
 
-    const typeofTimestamp = getTypeofTimestamp(timestampString); //"{time.lc"
-
-    const idFromText = replaceAllItems(idString, ['id:', '}', "'"]); //"id:'ID'"
-
-    if (!id && (!idFromText || idFromText.length < 5)) {
+    if (!id && (!idString || idString.length < 5)) {
         return textToSend.replace(substring, 'Invalid ID');
     }
-    const value = await adapter.getForeignStateAsync(id ?? idFromText);
+    const value = await adapter.getForeignStateAsync(id ?? idString);
 
     if (!value) {
         return textToSend.replace(substring, 'Invalid ID');
@@ -41,7 +35,11 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
 
 // TODO Check Usage of function
 export const checkStatus = async (text: string): Promise<string> => {
-    const { substring, substringExcludeSearch } = decomposeText(text, config.status.start, config.status.end); //substring {status:'ID':true} new | old {status:'id':'ID':true}
+    const { substring, substringExcludeSearch, textExcludeSubstring } = decomposeText(
+        text,
+        config.status.start,
+        config.status.end,
+    ); //substring {status:'ID':true} new | old {status:'id':'ID':true}
 
     const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
 
@@ -52,25 +50,19 @@ export const checkStatus = async (text: string): Promise<string> => {
         return text.replace(substring, '');
     }
 
-    if (text.includes(config.time)) {
-        text = text.replace(substring, '');
+    const stateValueString = String(stateValue.val);
 
-        const val = String(stateValue.val);
-        return integrateTimeIntoText(text, val).replace(val, '');
+    if (text.includes(config.time)) {
+        return integrateTimeIntoText(textExcludeSubstring, stateValueString).replace(stateValueString, '');
     }
 
     if (!shouldChange) {
-        return text.replace(substring, stateValue.val.toString());
+        return text.replace(substring, stateValueString);
     }
 
     const { newValue: val, textToSend, error } = getValueToExchange(adapter, text, stateValue.val);
 
-    text = !error ? textToSend : text;
-    const newValue = !error ? val : stateValue.val;
-
-    adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-
-    return text.replace(substring, newValue.toString());
+    return (!error ? textToSend : text).replace(substring, !error ? val.toString() : stateValueString);
 };
 
 export const checkStatusInfo = async (text?: string): Promise<string> => {
@@ -89,14 +81,14 @@ export const checkStatusInfo = async (text?: string): Promise<string> => {
             text = await processTimeIdLc(text);
         }
         if (text.includes(config.set.start)) {
-            const result = decomposeText(text, config.set.start, config.set.end);
-            const id = result.substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
-            const importedValue = result.substring.split(',')[1];
+            const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
+            const id = substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
+            const importedValue = substring.split(',')[1];
 
-            text = result.textExcludeSubstring;
+            text = textExcludeSubstring;
             const convertedValue = await transformValueToTypeOfId(id, importedValue);
 
-            const ack = result.substring.split(',')[2].replace('}', '') == 'true';
+            const ack = substring.split(',')[2].replace('}', '') == 'true';
 
             if (isEmptyString(text)) {
                 text = 'Wähle eine Aktion';
@@ -113,42 +105,30 @@ export const checkStatusInfo = async (text?: string): Promise<string> => {
     }
 };
 
-function noTypeDefined(
-    receivedType: 'undefined' | 'object' | 'boolean' | 'number' | 'string' | 'function' | 'symbol' | 'bigint',
-    obj?: ioBroker.Object | null,
-): boolean {
-    return receivedType === obj?.common?.type || !obj?.common?.type;
-}
-
 export async function transformValueToTypeOfId(
     id: string,
     value: ioBroker.StateValue,
 ): Promise<ioBroker.StateValue | undefined> {
     try {
         const receivedType = typeof value;
-
         const obj = await adapter.getForeignObjectAsync(id);
 
-        if (!obj || !isDefined(value)) {
-            return;
-        }
-
-        if (noTypeDefined(receivedType, obj)) {
+        if (!obj || !isDefined(value) || isNoTypeDefined(receivedType, obj)) {
             return value;
         }
 
-        adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+        adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
 
         switch (obj.common.type) {
             case 'string':
-                return value as string;
+                return String(value);
             case 'number':
                 return typeof value === 'string' ? parseFloat(value) : parseFloat(jsonString(value));
             case 'boolean':
                 return isTruthy(value);
+            default:
+                return value;
         }
-
-        return value;
     } catch (e: any) {
         errorLogger('Error checkTypeOfId:', e, adapter);
     }

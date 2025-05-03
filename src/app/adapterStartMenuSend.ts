@@ -27,7 +27,7 @@ export async function adapterStartMenuSend(
             adapter.log.debug(`Startside: ${startSide}`);
             for (const userToSend of menusWithUsers[menu]) {
                 const { nav, text, parse_mode } = menuData[menu][startSide];
-                backMenuFunc({ startSide: startSide, navigation: nav, userToSend: userToSend });
+                backMenuFunc({ activePage: startSide, navigation: nav, userToSend: userToSend });
 
                 adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
 

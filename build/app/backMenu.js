@@ -29,12 +29,12 @@ var import_string = require("../lib/string");
 var import_config = require("../config/config");
 const backMenu = {};
 function backMenuFunc({
-  startSide,
+  activePage,
   navigation,
   userToSend
 }) {
   var _a, _b;
-  if (!navigation || !(0, import_string.jsonString)(navigation).split(`"`)[1].includes("menu:")) {
+  if (!navigation || !(0, import_string.jsonString)(navigation).split(`:`)[0].includes("menu:")) {
     const list = (_a = backMenu[userToSend]) == null ? void 0 : _a.list;
     const lastMenu = (_b = backMenu[userToSend]) == null ? void 0 : _b.last;
     if ((list == null ? void 0 : list.length) === import_config.backMenuLength) {
@@ -46,7 +46,7 @@ function backMenuFunc({
     if (lastMenu && lastMenu !== "" && list) {
       list.push(lastMenu);
     }
-    backMenu[userToSend].last = startSide;
+    backMenu[userToSend].last = activePage;
   }
 }
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {

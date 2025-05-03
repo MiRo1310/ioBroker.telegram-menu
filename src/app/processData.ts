@@ -16,7 +16,7 @@ import { jsonString } from '../lib/string';
 
 let timeouts: Timeouts[] = [];
 
-async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<boolean> {
+export async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<boolean> {
     const {
         menuData,
         calledValue,
@@ -111,22 +111,23 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
         part = groupData[call];
 
         if (!calledValue.toString().includes('menu:') && isUserActiveCheckbox[groupWithUser]) {
-            if (part?.nav) {
-                adapter.log.debug(`Menu to Send: ${jsonString(part.nav)}`);
+            const nav = part?.nav;
+            if (nav) {
+                adapter.log.debug(`Menu to Send: ${jsonString(nav)}`);
 
-                backMenuFunc({ startSide: call, navigation: part.nav, userToSend });
+                backMenuFunc({ activePage: call, navigation: nav, userToSend });
 
-                if (jsonString(part.nav).includes('menu:')) {
-                    adapter.log.debug(`Submenu: ${jsonString(part.nav)}`);
+                if (jsonString(nav).includes('menu:')) {
+                    adapter.log.debug(`Submenu: ${jsonString(nav)}`);
 
                     const result = await callSubMenu({
-                        jsonStringNav: jsonString(part.nav),
+                        jsonStringNav: jsonString(nav),
                         userToSend,
                         telegramParams,
                         part,
                         allMenusWithData,
                         menus,
-                        navObj: part.nav,
+                        navObj: nav,
                     });
                     if (result?.newNav) {
                         await checkEveryMenuForData({
@@ -203,8 +204,6 @@ function isSubmenu(val: string): boolean {
     return val.startsWith('menu') || val.startsWith('submenu');
 }
 
-function getTimeouts(): Timeouts[] {
+export function getTimeouts(): Timeouts[] {
     return timeouts;
 }
-
-export { getTimeouts, checkEveryMenuForData };

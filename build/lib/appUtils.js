@@ -26,6 +26,7 @@ __export(appUtils_exports, {
   getParseMode: () => getParseMode,
   getStartSides: () => getStartSides,
   getTypeofTimestamp: () => getTypeofTimestamp,
+  isNoTypeDefined: () => isNoTypeDefined,
   isStartside: () => isStartside,
   roundValue: () => roundValue,
   splitNavigation: () => splitNavigation,
@@ -133,6 +134,10 @@ const exchangePlaceholderWithValue = (textToSend, val) => {
   }
   return `${textToSend} ${val}`.trim();
 };
+function isNoTypeDefined(receivedType, obj) {
+  var _a, _b;
+  return receivedType === ((_a = obj == null ? void 0 : obj.common) == null ? void 0 : _a.type) || !((_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
@@ -143,6 +148,7 @@ const exchangePlaceholderWithValue = (textToSend, val) => {
   getParseMode,
   getStartSides,
   getTypeofTimestamp,
+  isNoTypeDefined,
   isStartside,
   roundValue,
   splitNavigation,

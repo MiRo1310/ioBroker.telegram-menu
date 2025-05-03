@@ -36,6 +36,7 @@ var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
 var import_config = require("../config/config");
+var import_splitValues = require("../lib/splitValues");
 const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
   var _a, _b;
   let textToSend;
@@ -47,12 +48,12 @@ const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
     };
     for (let item of arrayOfItems) {
       if (!item.includes("?")) {
-        const array = item.split(":");
-        const key = array[0];
-        const id = array[1];
-        const result = await import_main.adapter.getForeignStateAsync(id);
-        if (result) {
-          bindingObject.values[key] = (_b = (_a = result.val) == null ? void 0 : _a.toString()) != null ? _b : "";
+        const { key, id } = (0, import_splitValues.getBindingValues)(item);
+        if (id) {
+          const result = await import_main.adapter.getForeignStateAsync(id);
+          if (result) {
+            bindingObject.values[key] = (_b = (_a = result.val) == null ? void 0 : _a.toString()) != null ? _b : "";
+          }
         }
       } else {
         Object.keys(bindingObject.values).forEach(function(key) {
@@ -128,73 +129,29 @@ const idBySelector = async ({
     (0, import_logging.errorLogger)("Error idBySelector: ", error, import_main.adapter);
   }
 };
-function generateActions(action, userObject) {
+function generateActions({
+  action,
+  userObject
+}) {
   try {
-    const arrayOfEntries = [
-      {
-        objName: "echarts",
-        name: "echarts",
-        loop: "preset",
-        elements: [
-          { name: "preset" },
-          { name: "echartInstance" },
-          { name: "background" },
-          { name: "theme" },
-          { name: "filename" }
-        ]
-      },
-      {
-        objName: "loc",
-        name: "location",
-        loop: "latitude",
-        elements: [{ name: "latitude" }, { name: "longitude" }, { name: "parse_mode", key: 0 }]
-      },
-      {
-        objName: "pic",
-        name: "sendPic",
-        loop: "IDs",
-        elements: [
-          { name: "id", value: "IDs" },
-          { name: "fileName" },
-          { name: "delay", value: "picSendDelay" }
-        ]
-      },
-      {
-        objName: "get",
-        name: "getData",
-        loop: "IDs",
-        elements: [
-          { name: "id", value: "IDs" },
-          { name: "text", type: "text" },
-          { name: "newline", value: "newline_checkbox" },
-          { name: "parse_mode", key: 0 }
-        ]
-      },
-      {
-        objName: "httpRequest",
-        name: "httpRequest",
-        loop: "url",
-        elements: [{ name: "url" }, { name: "user" }, { name: "password" }, { name: "filename" }]
-      }
-    ];
     const listOfSetStateIds = [];
-    action.set.forEach(function({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, key) {
+    action == null ? void 0 : action.set.forEach(function({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, index) {
       const triggerName = trigger[0];
-      if (key == 0) {
+      if (index == 0) {
         userObject[triggerName] = { switch: [] };
       }
       userObject[triggerName] = { switch: [] };
-      IDs.forEach(function(id, index) {
+      IDs.forEach(function(id, index2) {
         var _a;
         listOfSetStateIds.push(id);
-        const toggle = (0, import_utils.isTruthy)(switch_checkbox[index]);
+        const toggle = (0, import_utils.isTruthy)(switch_checkbox[index2]);
         const newObj = {
-          id: IDs[index],
-          value: values[index],
+          id: IDs[index2],
+          value: values[index2],
           toggle,
-          confirm: confirm[index],
-          returnText: returnText[index],
-          ack: (0, import_utils.isTruthy)(ack[index]),
+          confirm: confirm[index2],
+          returnText: returnText[index2],
+          ack: (0, import_utils.isTruthy)(ack[index2]),
           parse_mode: (0, import_utils.isTruthy)(parse_mode[0])
         };
         if (Array.isArray((_a = userObject[triggerName]) == null ? void 0 : _a.switch)) {
@@ -202,32 +159,31 @@ function generateActions(action, userObject) {
         }
       });
     });
-    arrayOfEntries.forEach((item) => {
-      if (action[item.objName]) {
-        action[item.objName].forEach(function(element, index) {
-          const trigger = element.trigger[0];
+    import_config.arrayOfEntries.forEach((item) => {
+      const actions = action == null ? void 0 : action[item.objName];
+      actions == null ? void 0 : actions.forEach(function(element, index) {
+        const trigger = element.trigger[0];
+        userObject[trigger] = { [item.name]: [] };
+        if (index == 0) {
           userObject[trigger] = { [item.name]: [] };
-          if (index == 0) {
-            userObject[trigger] = { [item.name]: [] };
-          }
-          element[item.loop].forEach(function(id, key) {
-            var _a;
-            const newObj = {};
-            item.elements.forEach(({ name, value, key: elKey }) => {
-              const elName = value ? value : name;
-              const newKey = elKey ? elKey : key;
-              const val = !element[elName] ? false : element[elName][newKey] || "false";
-              if (name === "parse_mode") {
-                newObj.parse_mode = (0, import_utils.isTruthy)(val);
-              }
-              if (typeof val === "string") {
-                newObj[name] = val.replace(/&amp;/g, "&");
-              }
-            });
-            ((_a = userObject == null ? void 0 : userObject[trigger]) == null ? void 0 : _a[item.name]).push(newObj);
+        }
+        element[item.loop].forEach(function(id, index2) {
+          var _a;
+          const newObj = {};
+          item.elements.forEach(({ name, value, index: elIndex }) => {
+            const elName = value ? value : name;
+            const newIndex = elIndex ? elIndex : index2;
+            const val = !element[elName] ? false : element[elName][newIndex] || "false";
+            if (name === "parse_mode") {
+              newObj.parse_mode = (0, import_utils.isTruthy)(val);
+            }
+            if (typeof val === "string") {
+              newObj[name] = val.replace(/&amp;/g, "&");
+            }
           });
+          ((_a = userObject == null ? void 0 : userObject[trigger]) == null ? void 0 : _a[item.name]).push(newObj);
         });
-      }
+      });
     });
     return { obj: userObject, ids: listOfSetStateIds };
   } catch (err) {
@@ -243,11 +199,7 @@ const adjustValueType = (value, valueType) => {
     return parseFloat(value);
   }
   if (valueType == "boolean") {
-    if (value == "true") {
-      return true;
-    }
-    import_main.adapter.log.error(`Error: Value is not a boolean: ${value}`);
-    return false;
+    return (0, import_utils.isTruthy)(value);
   }
   return value;
 };
@@ -261,19 +213,8 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
     if ((_a2 = dataObject.action[menu]) == null ? void 0 : _a2.events) {
       dataObject.action[menu].events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-          if ((state.val == true || state.val == "true") && event.condition == "true") {
-            ok = true;
-            menuArray.push(menu);
-            calledNav = event.menu[0];
-          } else if ((state.val == false || state.val == "false") && event.condition[0] == "false") {
-            ok = true;
-            menuArray.push(menu);
-            calledNav = event.menu[0];
-          } else if (typeof state.val == "number" && state.val == parseInt(event.condition[0])) {
-            ok = true;
-            menuArray.push(menu);
-            calledNav = event.menu[0];
-          } else if (state.val == event.condition[0]) {
+          const condition = event.condition[0];
+          if ((state.val == true || state.val == "true") && (0, import_utils.isTruthy)(condition) || (state.val == false || state.val == "false") && (0, import_utils.isFalsy)(condition) || typeof state.val == "number" && state.val == parseInt(condition) || state.val == condition) {
             ok = true;
             menuArray.push(menu);
             calledNav = event.menu[0];
@@ -282,45 +223,41 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
       });
     }
   });
-  if (ok) {
-    if (menuArray.length >= 1) {
-      for (const menu of menuArray) {
-        if (usersInGroup[menu] && menuData[menu][calledNav]) {
-          for (const user of usersInGroup[menu]) {
-            const part = menuData[menu][calledNav];
-            const menus = Object.keys(menuData);
-            if (part.nav) {
-              (0, import_backMenu.backMenuFunc)({ startSide: calledNav, navigation: part.nav, userToSend: user });
-            }
-            if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
-              await (0, import_subMenu.callSubMenu)({
-                jsonStringNav: JSON.stringify(part.nav[0]),
-                userToSend: user,
-                telegramParams,
-                part,
-                allMenusWithData: menuData,
-                menus,
-                navObj: part.nav
-              });
-            } else {
-              await (0, import_sendNav.sendNav)(part, user, telegramParams);
-            }
-          }
+  if (!ok || !menuArray.length) {
+    return false;
+  }
+  for (const menu of menuArray) {
+    const part = menuData[menu][calledNav];
+    if (usersInGroup[menu] && part) {
+      for (const user of usersInGroup[menu]) {
+        const menus = Object.keys(menuData);
+        if (part.nav) {
+          (0, import_backMenu.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user });
         }
+        if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
+          await (0, import_subMenu.callSubMenu)({
+            jsonStringNav: JSON.stringify(part.nav[0]),
+            userToSend: user,
+            telegramParams,
+            part,
+            allMenusWithData: menuData,
+            menus,
+            navObj: part.nav
+          });
+          return true;
+        }
+        await (0, import_sendNav.sendNav)(part, user, telegramParams);
       }
     }
   }
-  return ok;
+  return true;
 };
 const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
-  let userToSend = null;
   for (const element of userListWithChatID) {
     if (element.chatID == chatID) {
-      userToSend = element.name;
-      break;
+      return element.name;
     }
   }
-  return userToSend;
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

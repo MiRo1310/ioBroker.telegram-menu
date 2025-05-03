@@ -31,12 +31,9 @@ var import_dynamicSwitchMenu = require("./dynamicSwitchMenu");
 var import_string = require("../lib/string");
 var import_main = require("../main");
 var import_logging = require("./logging");
+var import_splitValues = require("../lib/splitValues");
 let step = 0;
 let splittedData = [];
-const getMenuValues = (str) => {
-  const splitText = str.split(":");
-  return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
-};
 const deleteMessages = async ({
   telegramParams,
   userToSend,
@@ -256,6 +253,9 @@ async function callSubMenu({
     (0, import_logging.errorLogger)("Error callSubMenu:", e, import_main.adapter);
   }
 }
+function isCreateSubmenuNumber(jsonStringNav, callbackData) {
+  return !jsonStringNav.includes("submenu") && callbackData.includes("number");
+}
 async function subMenu({
   jsonStringNav,
   userToSend,
@@ -268,8 +268,8 @@ async function subMenu({
   try {
     import_main.adapter.log.debug(`Menu : ${navObj == null ? void 0 : navObj[0][0]}`);
     const text = await (0, import_utilities.checkStatusInfo)(part.text);
-    const { callbackData, device: device2Switch, val } = getMenuValues(jsonStringNav);
-    if (callbackData.includes("delete")) {
+    const { callbackData, device: device2Switch, val } = (0, import_splitValues.getMenuValues)(jsonStringNav);
+    if (callbackData.includes("delete") && device2Switch) {
       return await deleteMessages({
         userToSend,
         telegramParams,
@@ -277,7 +277,7 @@ async function subMenu({
         callbackData
       });
     }
-    if (callbackData.includes("switch")) {
+    if (callbackData.includes("switch") && device2Switch) {
       return createSwitchMenu({ callbackData, text, device2Switch });
     }
     if (callbackData.includes("first")) {
@@ -294,13 +294,13 @@ async function subMenu({
         telegramParams
       });
     }
-    if (callbackData.includes("dynSwitch")) {
+    if (callbackData.includes("dynSwitch") && device2Switch) {
       return (0, import_dynamicSwitchMenu.dynamicSwitchMenu)(jsonStringNav, device2Switch, text);
     }
-    if (callbackData.includes("dynS")) {
+    if (callbackData.includes("dynS") && val) {
       await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
     }
-    if (!jsonStringNav.includes("submenu") && callbackData.includes("percent")) {
+    if (!jsonStringNav.includes("submenu") && callbackData.includes("percent") && device2Switch) {
       return createSubmenuPercent({ callbackData, text, device2Switch });
     }
     if (jsonStringNav.includes(`submenu:percent${step}`)) {
@@ -314,7 +314,7 @@ async function subMenu({
         menus
       });
     }
-    if (!jsonStringNav.includes("submenu") && callbackData.includes("number")) {
+    if (isCreateSubmenuNumber(jsonStringNav, callbackData) && device2Switch) {
       return createSubmenuNumber({ callbackData, text, device2Switch });
     }
     if (jsonStringNav.includes(`submenu:${callbackData}`)) {

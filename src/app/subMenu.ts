@@ -23,14 +23,10 @@ import type {
 import { isNonEmptyString, jsonString } from '../lib/string';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
+import { getMenuValues } from '../lib/splitValues';
 
 let step = 0;
 let splittedData: SplittedData = [];
-
-const getMenuValues = (str: string): { callbackData: string; device: string; val: string } => {
-    const splitText = str.split(':');
-    return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
-};
 
 const deleteMessages = async ({
     telegramParams,
@@ -283,6 +279,10 @@ export async function callSubMenu({
     }
 }
 
+function isCreateSubmenuNumber(jsonStringNav: string, callbackData: string): boolean {
+    return !jsonStringNav.includes('submenu') && callbackData.includes('number');
+}
+
 export async function subMenu({
     jsonStringNav,
     userToSend,
@@ -306,7 +306,7 @@ export async function subMenu({
         const text = await checkStatusInfo(part.text);
         const { callbackData, device: device2Switch, val } = getMenuValues(jsonStringNav);
 
-        if (callbackData.includes('delete')) {
+        if (callbackData.includes('delete') && device2Switch) {
             return await deleteMessages({
                 userToSend,
                 telegramParams,
@@ -314,7 +314,7 @@ export async function subMenu({
                 callbackData,
             });
         }
-        if (callbackData.includes('switch')) {
+        if (callbackData.includes('switch') && device2Switch) {
             return createSwitchMenu({ callbackData, text, device2Switch });
         }
         if (callbackData.includes('first')) {
@@ -331,14 +331,13 @@ export async function subMenu({
                 telegramParams,
             });
         }
-        if (callbackData.includes('dynSwitch')) {
+        if (callbackData.includes('dynSwitch') && device2Switch) {
             return dynamicSwitchMenu(jsonStringNav, device2Switch, text);
         }
-        if (callbackData.includes('dynS')) {
-            //SetDynamicValue
-            await handleSetState(part, userToSend, val, true, telegramParams);
+        if (callbackData.includes('dynS') && val) {
+            await handleSetState(part, userToSend, val, true, telegramParams); //SetDynamicValue
         }
-        if (!jsonStringNav.includes('submenu') && callbackData.includes('percent')) {
+        if (!jsonStringNav.includes('submenu') && callbackData.includes('percent') && device2Switch) {
             return createSubmenuPercent({ callbackData, text, device2Switch });
         }
         if (jsonStringNav.includes(`submenu:percent${step}`)) {
@@ -352,7 +351,7 @@ export async function subMenu({
                 menus,
             });
         }
-        if (!jsonStringNav.includes('submenu') && callbackData.includes('number')) {
+        if (isCreateSubmenuNumber(jsonStringNav, callbackData) && device2Switch) {
             return createSubmenuNumber({ callbackData, text, device2Switch });
         }
         if (jsonStringNav.includes(`submenu:${callbackData}`)) {

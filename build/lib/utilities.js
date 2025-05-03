@@ -32,22 +32,18 @@ var import_main = require("../main");
 var import_config = require("../config/config");
 var import_appUtils = require("./appUtils");
 var import_setstate = require("../app/setstate");
+var import_splitValues = require("./splitValues");
 const processTimeIdLc = async (textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,
     import_config.config.timestamp.start,
     import_config.config.timestamp.end
   );
-  const array = substringExcludeSearch.split(",");
-  const timestampString = array[0];
-  const timeString = array[1];
-  const idString = array[2];
-  const typeofTimestamp = (0, import_appUtils.getTypeofTimestamp)(timestampString);
-  const idFromText = (0, import_string.replaceAllItems)(idString, ["id:", "}", "'"]);
-  if (!id && (!idFromText || idFromText.length < 5)) {
+  const { typeofTimestamp, timeString, idString } = (0, import_splitValues.getProcessTimeValues)(substringExcludeSearch);
+  if (!id && (!idString || idString.length < 5)) {
     return textToSend.replace(substring, "Invalid ID");
   }
-  const value = await import_main.adapter.getForeignStateAsync(id != null ? id : idFromText);
+  const value = await import_main.adapter.getForeignStateAsync(id != null ? id : idString);
   if (!value) {
     return textToSend.replace(substring, "Invalid ID");
   }
@@ -58,26 +54,26 @@ const processTimeIdLc = async (textToSend, id) => {
   return timeStringReplaced != null ? timeStringReplaced : textToSend;
 };
 const checkStatus = async (text) => {
-  const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(text, import_config.config.status.start, import_config.config.status.end);
+  const { substring, substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(
+    text,
+    import_config.config.status.start,
+    import_config.config.status.end
+  );
   const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
   const stateValue = await import_main.adapter.getForeignStateAsync(id);
   if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
     import_main.adapter.log.debug(`State not found: ${id}`);
     return text.replace(substring, "");
   }
+  const stateValueString = String(stateValue.val);
   if (text.includes(import_config.config.time)) {
-    text = text.replace(substring, "");
-    const val2 = String(stateValue.val);
-    return (0, import_time.integrateTimeIntoText)(text, val2).replace(val2, "");
+    return (0, import_time.integrateTimeIntoText)(textExcludeSubstring, stateValueString).replace(stateValueString, "");
   }
   if (!shouldChange) {
-    return text.replace(substring, stateValue.val.toString());
+    return text.replace(substring, stateValueString);
   }
   const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(import_main.adapter, text, stateValue.val);
-  text = !error ? textToSend : text;
-  const newValue = !error ? val : stateValue.val;
-  import_main.adapter.log.debug(`CheckStatus Text: ${text} Substring: ${substring}`);
-  return text.replace(substring, newValue.toString());
+  return (!error ? textToSend : text).replace(substring, !error ? val.toString() : stateValueString);
 };
 const checkStatusInfo = async (text) => {
   if (!text) {
@@ -94,12 +90,12 @@ const checkStatusInfo = async (text) => {
       text = await processTimeIdLc(text);
     }
     if (text.includes(import_config.config.set.start)) {
-      const result = (0, import_string.decomposeText)(text, import_config.config.set.start, import_config.config.set.end);
-      const id = result.substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
-      const importedValue = result.substring.split(",")[1];
-      text = result.textExcludeSubstring;
+      const { substring, textExcludeSubstring } = (0, import_string.decomposeText)(text, import_config.config.set.start, import_config.config.set.end);
+      const id = substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
+      const importedValue = substring.split(",")[1];
+      text = textExcludeSubstring;
       const convertedValue = await transformValueToTypeOfId(id, importedValue);
-      const ack = result.substring.split(",")[2].replace("}", "") == "true";
+      const ack = substring.split(",")[2].replace("}", "") == "true";
       if ((0, import_string.isEmptyString)(text)) {
         text = "W\xE4hle eine Aktion";
       }
@@ -114,30 +110,24 @@ const checkStatusInfo = async (text) => {
     return "";
   }
 };
-function noTypeDefined(receivedType, obj) {
-  var _a, _b;
-  return receivedType === ((_a = obj == null ? void 0 : obj.common) == null ? void 0 : _a.type) || !((_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type);
-}
 async function transformValueToTypeOfId(id, value) {
   try {
     const receivedType = typeof value;
     const obj = await import_main.adapter.getForeignObjectAsync(id);
-    if (!obj || !(0, import_utils.isDefined)(value)) {
-      return;
-    }
-    if (noTypeDefined(receivedType, obj)) {
+    if (!obj || !(0, import_utils.isDefined)(value) || (0, import_appUtils.isNoTypeDefined)(receivedType, obj)) {
       return value;
     }
-    import_main.adapter.log.debug(`Change Value type from  "${receivedType}" to "${obj.common.type}"`);
+    import_main.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
     switch (obj.common.type) {
       case "string":
-        return value;
+        return String(value);
       case "number":
         return typeof value === "string" ? parseFloat(value) : parseFloat((0, import_string.jsonString)(value));
       case "boolean":
         return (0, import_utils.isTruthy)(value);
+      default:
+        return value;
     }
-    return value;
   } catch (e) {
     (0, import_logging.errorLogger)("Error checkTypeOfId:", e, import_main.adapter);
   }

@@ -8,11 +8,11 @@ import { backMenuLength } from '../config/config';
 const backMenu: BackMenu = {};
 
 export function backMenuFunc({
-    startSide,
+    activePage,
     navigation,
     userToSend,
 }: {
-    startSide: string;
+    activePage: string;
     navigation?: Navigation;
     userToSend: string;
 }): void {
@@ -30,7 +30,7 @@ export function backMenuFunc({
         if (lastMenu && lastMenu !== '' && list) {
             list.push(lastMenu);
         }
-        backMenu[userToSend].last = startSide;
+        backMenu[userToSend].last = activePage;
     }
 }
 

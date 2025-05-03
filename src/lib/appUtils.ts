@@ -149,3 +149,10 @@ export const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveT
     }
     return `${textToSend} ${val}`.trim();
 };
+
+export function isNoTypeDefined(
+    receivedType: 'undefined' | 'object' | 'boolean' | 'number' | 'string' | 'function' | 'symbol' | 'bigint',
+    obj?: ioBroker.Object | null,
+): boolean {
+    return receivedType === obj?.common?.type || !obj?.common?.type;
+}
