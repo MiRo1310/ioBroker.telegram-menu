@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- FIX: #296 Frontend fixes
 - FIX: #295 Delete button not working
 - FIX: #291 Menu button not working
 - FEAT: Nodejs >= 20.0.0

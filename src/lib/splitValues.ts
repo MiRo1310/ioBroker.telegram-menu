@@ -1,9 +1,9 @@
 import { replaceAllItems } from './string';
 import { getTypeofTimestamp } from './appUtils';
 
-export const getMenuValues = (str: string): { callbackData: string; device?: string; val?: string } => {
+export const getMenuValues = (str: string): { callbackData: string; menuToHandle?: string; val?: string } => {
     const splitText = str.split(':');
-    return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
+    return { callbackData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
 };
 
 export function getProcessTimeValues(substringExcludeSearch: string): {
