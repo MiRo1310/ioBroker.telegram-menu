@@ -36,6 +36,7 @@ var import_echarts = require("./echarts");
 var import_httpRequest = require("./httpRequest");
 var import_logging = require("./logging");
 var import_string = require("../lib/string");
+var import_validateMenus = require("./validateMenus");
 let timeouts = [];
 async function checkEveryMenuForData(obj) {
   const {
@@ -101,11 +102,11 @@ async function processData(obj) {
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
       if (result) {
-        const { textToSend, menuToSend, parse_mode } = result;
+        const { textToSend, keyboard, parse_mode } = result;
         await (0, import_telegram.sendToTelegram)({
           userToSend,
           textToSend,
-          keyboard: menuToSend,
+          keyboard,
           telegramParams,
           parse_mode
         });
@@ -129,8 +130,7 @@ async function processData(obj) {
             telegramParams,
             part,
             allMenusWithData,
-            menus,
-            navObj: nav
+            menus
           });
           if (result == null ? void 0 : result.newNav) {
             await checkEveryMenuForData({
@@ -178,7 +178,7 @@ async function processData(obj) {
         return !!result;
       }
     }
-    if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
+    if ((0, import_validateMenus.isSubmenuOrMenu)(calledValue) && menuData[groupWithUser][call]) {
       import_main.adapter.log.debug("Call Submenu");
       await (0, import_subMenu.callSubMenu)({
         jsonStringNav: calledValue,
@@ -186,8 +186,7 @@ async function processData(obj) {
         telegramParams,
         part,
         allMenusWithData,
-        menus,
-        navObj: part.nav
+        menus
       });
       return true;
     }
@@ -195,9 +194,6 @@ async function processData(obj) {
   } catch (e) {
     (0, import_logging.errorLogger)("Error processData:", e, import_main.adapter);
   }
-}
-function isSubmenu(val) {
-  return val.startsWith("menu") || val.startsWith("submenu");
 }
 function getTimeouts() {
   return timeouts;

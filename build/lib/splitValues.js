@@ -20,14 +20,15 @@ var splitValues_exports = {};
 __export(splitValues_exports, {
   getBindingValues: () => getBindingValues,
   getMenuValues: () => getMenuValues,
-  getProcessTimeValues: () => getProcessTimeValues
+  getProcessTimeValues: () => getProcessTimeValues,
+  getSubmenuNumberValues: () => getSubmenuNumberValues
 });
 module.exports = __toCommonJS(splitValues_exports);
 var import_string = require("./string");
 var import_appUtils = require("./appUtils");
 const getMenuValues = (str) => {
   const splitText = str.split(":");
-  return { callbackData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
+  return { cbData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
 };
 function getProcessTimeValues(substringExcludeSearch) {
   var _a, _b;
@@ -42,10 +43,15 @@ function getBindingValues(item) {
   const array = item.split(":");
   return { key: array[0], id: array[1] };
 }
+const getSubmenuNumberValues = (str) => {
+  const splitText = str.split(":");
+  return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   getBindingValues,
   getMenuValues,
-  getProcessTimeValues
+  getProcessTimeValues,
+  getSubmenuNumberValues
 });
 //# sourceMappingURL=splitValues.js.map

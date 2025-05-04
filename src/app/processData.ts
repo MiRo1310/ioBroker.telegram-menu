@@ -13,6 +13,7 @@ import { httpRequest } from './httpRequest';
 import { errorLogger } from './logging';
 import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '../types/types';
 import { jsonString } from '../lib/string';
+import { isSubmenuOrMenu } from './validateMenus';
 
 let timeouts: Timeouts[] = [];
 
@@ -92,11 +93,11 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
             const result = await switchBack(userToSend, allMenusWithData, menus, true);
 
             if (result) {
-                const { textToSend, menuToSend, parse_mode } = result;
+                const { textToSend, keyboard, parse_mode } = result;
                 await sendToTelegram({
                     userToSend,
                     textToSend,
-                    keyboard: menuToSend,
+                    keyboard: keyboard,
                     telegramParams,
                     parse_mode,
                 });
@@ -127,7 +128,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                         part,
                         allMenusWithData,
                         menus,
-                        navObj: nav,
                     });
                     if (result?.newNav) {
                         await checkEveryMenuForData({
@@ -181,7 +181,7 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 return !!result;
             }
         }
-        if (isSubmenu(calledValue) && menuData[groupWithUser][call]) {
+        if (isSubmenuOrMenu(calledValue) && menuData[groupWithUser][call]) {
             adapter.log.debug('Call Submenu');
             await callSubMenu({
                 jsonStringNav: calledValue,
@@ -190,7 +190,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
                 part: part,
                 allMenusWithData: allMenusWithData,
                 menus: menus,
-                navObj: part.nav,
             });
             return true;
         }
@@ -198,10 +197,6 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
     } catch (e: any) {
         errorLogger('Error processData:', e, adapter);
     }
-}
-
-function isSubmenu(val: string): boolean {
-    return val.startsWith('menu') || val.startsWith('submenu');
 }
 
 export function getTimeouts(): Timeouts[] {

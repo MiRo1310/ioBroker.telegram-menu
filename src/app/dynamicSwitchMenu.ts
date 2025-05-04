@@ -3,7 +3,7 @@ import type { KeyboardItems, Keyboard } from '../types/types';
 import { checkStatusInfo } from '../lib/utilities';
 import { adapter } from '../main';
 
-async function dynamicSwitchMenu(
+async function createDynamicSwitchMenu(
     calledValue: string,
     device: string,
     text: string,
@@ -55,4 +55,4 @@ async function dynamicSwitchMenu(
         errorLogger('Error parsing dynSwitch:', e, adapter);
     }
 }
-export { dynamicSwitchMenu };
+export { createDynamicSwitchMenu };

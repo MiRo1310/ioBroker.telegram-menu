@@ -39,7 +39,7 @@ export async function switchBack(
     allMenusWithData: MenuData,
     menus: string[],
     lastMenu = false,
-): Promise<{ textToSend: string | undefined; menuToSend: Keyboard; parse_mode: boolean | undefined } | undefined> {
+): Promise<{ textToSend: string | undefined; keyboard: Keyboard; parse_mode: boolean | undefined } | undefined> {
     try {
         const list = backMenu[userToSend]?.list ? backMenu[userToSend].list : [];
         const lastListElement = list[list.length - 1];
@@ -81,7 +81,7 @@ export async function switchBack(
                         backMenu[userToSend].last = list.pop() ?? '';
                     }
 
-                    return { textToSend, menuToSend: keyboard, parse_mode };
+                    return { textToSend, keyboard, parse_mode };
                 }
 
                 const lastElement = backMenu[userToSend]?.last;
@@ -90,7 +90,7 @@ export async function switchBack(
                 }
                 const { parse_mode, text: textToSend } = allMenusWithData[foundedMenu][lastElement];
 
-                return { textToSend, menuToSend: keyboard, parse_mode };
+                return { textToSend, keyboard, parse_mode };
             }
         }
     } catch (e: any) {

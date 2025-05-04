@@ -277,13 +277,12 @@ export const checkEvent = async (
 
                 if (part?.nav?.[0][0].includes('menu:')) {
                     await callSubMenu({
-                        jsonStringNav: JSON.stringify(part.nav[0]),
+                        jsonStringNav: part.nav[0][0],
                         userToSend: user,
                         telegramParams: telegramParams,
                         part: part,
                         allMenusWithData: menuData,
                         menus: menus,
-                        navObj: part.nav,
                     });
                     return true;
                 }

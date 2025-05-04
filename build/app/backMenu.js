@@ -87,14 +87,14 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           if ((_i = backMenu[userToSend]) == null ? void 0 : _i.last) {
             backMenu[userToSend].last = (_j = list.pop()) != null ? _j : "";
           }
-          return { textToSend: textToSend2, menuToSend: keyboard, parse_mode: parse_mode2 };
+          return { textToSend: textToSend2, keyboard, parse_mode: parse_mode2 };
         }
         const lastElement2 = (_k = backMenu[userToSend]) == null ? void 0 : _k.last;
         if (!lastElement2) {
           return;
         }
         const { parse_mode, text: textToSend } = allMenusWithData[foundedMenu][lastElement2];
-        return { textToSend, menuToSend: keyboard, parse_mode };
+        return { textToSend, keyboard, parse_mode };
       }
     }
   } catch (e) {

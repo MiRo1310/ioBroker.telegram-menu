@@ -287,14 +287,6 @@ export interface ProcessDataType {
     telegramParams: TelegramParams;
 }
 
-export interface SetValueForSubmenuNumber {
-    callbackData: string;
-    calledValue: string;
-    part: Part;
-    userToSend: string;
-    telegramParams: TelegramParams;
-}
-
 export interface BackMenuType {
     allMenusWithData: MenuData;
     menus: string[];
@@ -303,16 +295,6 @@ export interface BackMenuType {
 }
 
 export type AllMenusWithData = Record<string, NewObjectStructure>;
-
-export interface SetValueForSubmenuPercent {
-    callbackData: string;
-    calledValue: string;
-    part: Part;
-    allMenusWithData: AllMenusWithData;
-    menus: string[];
-    userToSend: string;
-    telegramParams: TelegramParams;
-}
 
 export interface TelegramParams {
     telegramInstance: string;
@@ -334,15 +316,9 @@ export interface SetSecondMenuValue {
 }
 
 export interface CreateMenu {
-    callbackData: string;
-    device2Switch: string;
+    cbData: string;
+    menuToHandle: string;
     text?: string;
-}
-
-export interface DeleteMessageIds {
-    userToSend: string;
-    telegramParams: TelegramParams;
-    device2Switch: string;
 }
 
 export interface ExchangeValueReturn {
