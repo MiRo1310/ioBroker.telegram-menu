@@ -18,13 +18,13 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var dynamicSwitchMenu_exports = {};
 __export(dynamicSwitchMenu_exports, {
-  dynamicSwitchMenu: () => dynamicSwitchMenu
+  createDynamicSwitchMenu: () => createDynamicSwitchMenu
 });
 module.exports = __toCommonJS(dynamicSwitchMenu_exports);
 var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
-async function dynamicSwitchMenu(calledValue, device, text) {
+async function createDynamicSwitchMenu(calledValue, device, text) {
   try {
     const changedCalledValue = await (0, import_utilities.checkStatusInfo)(calledValue);
     const splittedArray = changedCalledValue == null ? void 0 : changedCalledValue.replace(/"/g, "").split(":");
@@ -64,6 +64,6 @@ async function dynamicSwitchMenu(calledValue, device, text) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  dynamicSwitchMenu
+  createDynamicSwitchMenu
 });
 //# sourceMappingURL=dynamicSwitchMenu.js.map

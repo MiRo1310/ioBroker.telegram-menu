@@ -236,13 +236,12 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
         }
         if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
           await (0, import_subMenu.callSubMenu)({
-            jsonStringNav: JSON.stringify(part.nav[0]),
+            jsonStringNav: part.nav[0][0],
             userToSend: user,
             telegramParams,
             part,
             allMenusWithData: menuData,
-            menus,
-            navObj: part.nav
+            menus
           });
           return true;
         }
