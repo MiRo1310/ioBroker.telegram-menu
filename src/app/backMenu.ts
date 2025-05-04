@@ -67,8 +67,9 @@ export async function switchBack(
 
             if (keyboard && foundedMenu != '') {
                 if (!lastMenu) {
-                    const listLength = backMenu[userToSend]?.list ? backMenu[userToSend].list.length - 1 : 0;
-                    const lastListElement = backMenu[userToSend]?.list[listLength];
+                    const list = backMenu[userToSend]?.list;
+                    const listLength = list ? list.length - 1 : 0;
+                    const lastListElement = list?.[listLength];
                     if (!lastListElement) {
                         return;
                     }

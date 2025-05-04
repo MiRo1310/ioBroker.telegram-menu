@@ -19,6 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var splitValues_exports = {};
 __export(splitValues_exports, {
   getBindingValues: () => getBindingValues,
+  getEchartsValues: () => getEchartsValues,
   getMenuValues: () => getMenuValues,
   getProcessTimeValues: () => getProcessTimeValues,
   getSubmenuNumberValues: () => getSubmenuNumberValues
@@ -47,9 +48,14 @@ const getSubmenuNumberValues = (str) => {
   const splitText = str.split(":");
   return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
 };
+const getEchartsValues = (preset) => {
+  const splitPreset = preset.split(".");
+  return `${splitPreset[0]}.${splitPreset[1]}`;
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   getBindingValues,
+  getEchartsValues,
   getMenuValues,
   getProcessTimeValues,
   getSubmenuNumberValues
