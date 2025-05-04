@@ -69,8 +69,9 @@ export function decomposeText(text: string, firstSearch: string, secondSearch: s
         substringExcludeSearch: substringExcludedSearch,
     };
 }
-
+// TODO : Move to utils
 export const getValueToExchange = (adapter: Adapter, textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
+    //TODO Use JSON => change{"true":"Wärmepumpe ist verbunden","false":"Wärmepumpe ist nicht verbunden"}
     if (textToSend.includes(config.change.start)) {
         const { start, end, command } = config.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}

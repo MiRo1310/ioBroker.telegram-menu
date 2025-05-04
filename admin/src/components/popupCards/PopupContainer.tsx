@@ -60,11 +60,11 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                 }
             >
                 <div
-                    className="dialog__card"
+                    className="dialog"
                     style={DialogContainer}
                 >
-                    <div className="dialog__card_header">{this.props.title}</div>
-                    <div className="dialog__card_content">
+                    <div className="dialog__header">{this.props.title}</div>
+                    <div className="dialog__content">
                         {this.state.inUse ? <p className="inUse">{I18n.t('Call is already in use!')}</p> : null}
                         {this.props.children}
                     </div>

@@ -15,6 +15,7 @@
     "call": "Telefoongesprek",
     "cancel": "Annuleren",
     "changeFunction": "Verandert de waarde in de retourtekst, in dit geval van true naar on en false naar off",
+    "choose": "Kiezen",
     "chooseAction": "Kies een actie",
     "close": "Dichtbij",
     "commonName": "Voert de naam van het gegevenspunt uit",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "Als u op de hoogte wilt worden gesteld van de wijziging van een ander datapunt nadat u het datapunt in het ID-invoerveld hebt ingesteld. De wijziging wordt alleen gedeeld als deze is ingesteld met ack:true. Het is verplicht om een ​​tekst buiten de {} op te geven, anders wordt deze automatisch toegevoegd.",
     "ok": "OK",
     "oneTimeKey": "Verzoekt klanten om het toetsenbord verticaal aan te passen voor een optimale pasvorm (maak het toetsenbord bijvoorbeeld kleiner als er slechts twee rijen knoppen zijn). Standaard ingesteld op false, in welk geval het aangepaste toetsenbord altijd dezelfde hoogte heeft als het standaardtoetsenbord van de app.",
+    "options": "Opties",
     "overview": "Overzicht",
     "parseMode": "Parseermodus HTML",
     "parseModeBold": "Tekst in de parse-modus is vetgedrukt",
@@ -120,6 +122,5 @@
     "value": "Waarde",
     "valueRound": "Rondt de waarde bijvoorbeeld af op 2 decimalen",
     "values": "Waarden",
-    "yes": "Ja",
-    "choose": "Kiezen"
+    "yes": "Ja"
 }

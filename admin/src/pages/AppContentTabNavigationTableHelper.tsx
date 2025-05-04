@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import helperText from '@/config/helper.js';
 import type { EventButton } from '@/types/event';
 import type { PropsTableNavHelper } from '@/types/props-types';
+import { I18n } from '@iobroker/adapter-react-v5';
 
 class TableNavHelper extends Component<PropsTableNavHelper> {
     constructor(props: PropsTableNavHelper) {
@@ -22,9 +23,9 @@ class TableNavHelper extends Component<PropsTableNavHelper> {
         return (
             <PopupContainer
                 callback={this.props.popupHelperCard}
-                width="90%"
-                height="80%"
-                title="Helper Texte"
+                width="99%"
+                height="99%"
+                title={I18n.t('options')}
                 setState={this.setState.bind(this)}
                 isOK={this.props.state.isOK}
                 class="HelperText"

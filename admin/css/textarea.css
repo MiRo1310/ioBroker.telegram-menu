@@ -1,19 +1,15 @@
-.textarea__container {
+.textarea {
     box-sizing: border-box;
-    margin-top: 20px !important;
     background-color: var(--input-bg);
-    padding: 10px !important;
-    margin-bottom: 10px !important;
-    width: calc(100% - 10px) !important;
-    margin-left: 5px;
-    display: inline-block;
+    padding: 0.5rem !important;
+    width:100%;
+    margin-top: 0.5rem;
 }
 
 .textarea__content {
-    width: calc(100% - 10px);
-    padding: 8px 2px;
-    margin: 3rem 5px 5px 5px;
-    font-size: 16px;
+    width: calc(100% - 1rem);
+    padding: 0.5rem;
+    font-size: 1.25rem;
     border: none;
     border-bottom: 1px solid var(--input-border);
     height: 100px !important;

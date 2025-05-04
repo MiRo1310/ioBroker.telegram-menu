@@ -54,85 +54,89 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
     render(): React.ReactNode {
         return (
             <>
-                <TableContainer
-                    component={Paper}
-                    className="HelperCard"
-                >
-                    <Table
-                        stickyHeader
-                        aria-label="sticky table"
-                        className="HelperCard-Table"
-                    >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Text</TableCell>
-                                <TableCell align="left">Info</TableCell>
-                                <TableCell align="left"></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.rows[this.props.helperTextForInput].map((row, index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell
-                                        component="td"
-                                        scope="row"
-                                    >
-                                        {row.text}
-                                    </TableCell>
-                                    <TableCell>
-                                        {row.head ? <div dangerouslySetInnerHTML={{ __html: row.head }} /> : null}
-                                        <div dangerouslySetInnerHTML={{ __html: I18n.t(row.info) }} />
-                                    </TableCell>
-                                    {row.text ? (
-                                        <TableCell align="center">
-                                            <BtnSmallAdd
-                                                index={index}
-                                                callback={this.props.callback}
-                                                callbackValue={row.text}
-                                            />
-                                        </TableCell>
-                                    ) : null}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <div className="options-card">
+                    <div className="options__table">
+                        <TableContainer component={Paper}>
+                            <Table
+                                stickyHeader
+                                aria-label="sticky table"
+                                className="options-card__table"
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Text</TableCell>
+                                        <TableCell align="left">Info</TableCell>
+                                        <TableCell align="left"></TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.state.rows[this.props.helperTextForInput].map((row, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell
+                                                component="td"
+                                                scope="row"
+                                            >
+                                                {row.text}
+                                            </TableCell>
+                                            <TableCell>
+                                                {row.head ? (
+                                                    <div dangerouslySetInnerHTML={{ __html: row.head }} />
+                                                ) : null}
+                                                <div dangerouslySetInnerHTML={{ __html: I18n.t(row.info) }} />
+                                            </TableCell>
+                                            {row.text ? (
+                                                <TableCell align="center">
+                                                    <BtnSmallAdd
+                                                        index={index}
+                                                        callback={this.props.callback}
+                                                        callbackValue={row.text}
+                                                    />
+                                                </TableCell>
+                                            ) : null}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
 
-                {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
-                    <BtnSmallSearch
-                        class="helper__btn_search"
-                        index={0}
-                        callback={this.openSelectId}
-                    />
-                ) : null}
-                <Textarea
-                    value={this.props.editedValueFromHelperText.replace(/&amp;/g, '&')}
-                    id="editedValueFromHelperText"
-                    callback={this.props.setState}
-                    callbackValue="event.target.value"
-                    label=""
-                    rows={4}
-                />
-                {this.state.showSelectId ? (
-                    <SelectID
-                        key="tableSelect"
-                        imagePrefix="../.."
-                        dialogName={this.props.data.adapterName}
-                        themeType={this.props.data.themeType}
-                        theme={theme}
-                        socket={this.props.data.socket as socket}
-                        filters={{}}
-                        selected={''}
-                        onClose={() => this.setState({ showSelectId: false })}
-                        onOk={selected => {
-                            this.setState({ showSelectId: false });
-                            this.updateId(selected);
-                        }}
-                    />
-                ) : null}
+                    <Textarea
+                        value={this.props.editedValueFromHelperText.replace(/&amp;/g, '&')}
+                        id="editedValueFromHelperText"
+                        callback={this.props.setState}
+                        callbackValue="event.target.value"
+                        label=""
+                        rows={4}
+                        class="options__textarea"
+                    >
+                        {['nav', 'text', 'set', 'get', 'value'].includes(this.props.val) ? (
+                            <BtnSmallSearch
+                                index={0}
+                                callback={this.openSelectId}
+                            />
+                        ) : null}
+                    </Textarea>
+                    {this.state.showSelectId ? (
+                        <SelectID
+                            key="tableSelect"
+                            imagePrefix="../.."
+                            dialogName={this.props.data.adapterName}
+                            themeType={this.props.data.themeType}
+                            theme={theme}
+                            socket={this.props.data.socket as socket}
+                            filters={{}}
+                            selected={''}
+                            onClose={() => this.setState({ showSelectId: false })}
+                            onOk={selected => {
+                                this.setState({ showSelectId: false });
+                                this.updateId(selected);
+                            }}
+                        />
+                    ) : null}
+                </div>
             </>
         );
     }

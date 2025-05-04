@@ -15,6 +15,7 @@
     "call": "称呼",
     "cancel": "取消",
     "changeFunction": "更改返回文本中的值，在本例中从 true 更改为 on，将 false 更改为 off",
+    "choose": "选择",
     "chooseAction": "选择一个动作",
     "close": "关闭",
     "commonName": "输出数据点的名称",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "如果您在 ID 输入字段中设置数据点后希望收到另一个数据点更改的通知。仅当设置了 ack:true 时，更改才会被共享。必须在 {} 之外指定文本，否则将自动添加。",
     "ok": "好的",
     "oneTimeKey": "要求客户垂直调整键盘大小以获得最佳配合（例如，如果只有两行按钮，则缩小键盘）。默认为 false，在这种情况下，自定义键盘始终与应用程序的标准键盘具有相同的高度。",
+    "options": "选项",
     "overview": "概述",
     "parseMode": "解析模式 HTML",
     "parseModeBold": "解析模式下的文本为粗体",
@@ -120,6 +122,5 @@
     "value": "价值",
     "valueRound": "例如，将值四舍五入到小数点后两位",
     "values": "价值观",
-    "yes": "是的",
-    "choose": "选择"
+    "yes": "是的"
 }

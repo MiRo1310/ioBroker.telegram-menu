@@ -15,6 +15,7 @@
     "call": "Chiamata",
     "cancel": "Cancellare",
     "changeFunction": "Modifica il valore nel testo restituito, in questo caso da true a on e false a off",
+    "choose": "Scegliere",
     "chooseAction": "Scegli un'azione",
     "close": "Vicino",
     "commonName": "Restituisce il nome del punto dati",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "Se desideri essere avvisato della modifica di un altro punto dati dopo aver impostato il punto dati nel campo di immissione ID. La modifica verrà condivisa solo se è impostata con ack:true. È obbligatorio specificare un testo fuori dal {}, altrimenti verrà aggiunto automaticamente.",
     "ok": "OK",
     "oneTimeKey": "Richiede ai client di ridimensionare la tastiera verticalmente per adattarla in modo ottimale (ad esempio, riduci la tastiera se sono presenti solo due file di pulsanti). Il valore predefinito è false, nel qual caso la tastiera personalizzata ha sempre la stessa altezza della tastiera standard dell'app.",
+    "options": "Opzioni",
     "overview": "Panoramica",
     "parseMode": "Modalità di analisi HTML",
     "parseModeBold": "Il testo in modalità analisi è in grassetto",
@@ -120,6 +122,5 @@
     "value": "Valore",
     "valueRound": "Arrotonda il valore, ad esempio, a 2 cifre decimali",
     "values": "Valori",
-    "yes": "SÌ",
-    "choose": "Scegliere"
+    "yes": "SÌ"
 }

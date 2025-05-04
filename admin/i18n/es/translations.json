@@ -15,6 +15,7 @@
     "call": "Llamar",
     "cancel": "Cancelar",
     "changeFunction": "Cambia el valor en el texto devuelto, en este caso de verdadero a activado y de falso a desactivado.",
+    "choose": "Elegir",
     "chooseAction": "Elige una acción",
     "close": "Cerca",
     "commonName": "Muestra el nombre del punto de datos.",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "Si desea recibir una notificación sobre el cambio de otro punto de datos después de haber configurado el punto de datos en el campo de entrada de ID. El cambio solo se compartirá si se establece con ack:true. Es obligatorio especificar un texto fuera del {}, de lo contrario se agregará automáticamente.",
     "ok": "DE ACUERDO",
     "oneTimeKey": "Solicita a los clientes que cambien el tamaño del teclado verticalmente para lograr un ajuste óptimo (por ejemplo, reducir el tamaño del teclado si solo hay dos filas de botones). El valor predeterminado es falso, en cuyo caso el teclado personalizado siempre tiene la misma altura que el teclado estándar de la aplicación.",
+    "options": "Opción",
     "overview": "Descripción general",
     "parseMode": "Modo de análisis HTML",
     "parseModeBold": "El texto en modo Parse está en negrita",
@@ -120,6 +122,5 @@
     "value": "Valor",
     "valueRound": "Redondea el valor, por ejemplo, a 2 decimales.",
     "values": "Valores",
-    "yes": "Sí",
-    "choose": "Elegir"
+    "yes": "Sí"
 }

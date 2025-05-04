@@ -158,18 +158,14 @@ div.MuiTabPanel-root {
 }
 
 /* DialogContainer */
-
-.dialog__card_wrapper {
-    background-color: var(--dialog-bg);
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 1100;
+.dialog {
+    background-color: var(--background-primary) !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.dialog__card_header {
+.dialog__header {
     font-family: "Roboto,Helvetica,Arial,sans-serif", serif;
     font-size: 1.25rem;
     font-weight: 500;
@@ -181,12 +177,28 @@ div.MuiTabPanel-root {
     background: var(--iobroker-color);
 }
 
+.dialog__content {
+    padding: 0 0.5rem 0 0.5rem;
+    height: calc(100% - 145px);
+    flex: 1 1 0%;
+    margin-bottom: 0.5rem;
+}
+
 .dialog__card_footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     text-align: right;
 }
+
+.dialog__card_wrapper {
+    background-color: var(--dialog-bg);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1100;
+}
+
 
 .dialog__card_footer button {
     padding: 0 30px !important;
@@ -197,14 +209,7 @@ div.MuiTabPanel-root {
     height: 40px !important;
 }
 
-.dialog__card {
-    background-color: var(--background-primary) !important;
-}
 
-.dialog__card_content {
-    padding: 0 0.5rem 0 0.5rem;
-    height: calc(100% - 145px);
-}
 
 .dropbox__container {
     background-color: transparent !important;
@@ -214,7 +219,7 @@ div.MuiTabPanel-root {
     cursor: move;
 }
 
-.dropbox__container > div.dialog__card {
+.dropbox__container > div.dialog {
     transform: none !important;
     top: 0 !important;
     left: auto !important;
@@ -264,11 +269,6 @@ div.MuiTabPanel-root {
 
 .dropbox__content label {
     color: var(--text-primary) !important;
-}
-
-.helper__btn_search {
-    position: absolute;
-    margin-left: 8px !important;
 }
 
 .btn__circle_add {
@@ -581,4 +581,25 @@ p.inUse {
 span[title],
 .title {
     cursor: help;
+}
+
+.options-card{
+   display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.options__table{
+    overflow: auto;
+}
+
+.modal__no-menu-found {
+    display: flex;
+    justify-content: center;
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75rem; /* 28px */
+}
+
+.dark .modal__no-menu-found {
+    color: var(--text-primary);
 }
