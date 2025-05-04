@@ -15,6 +15,7 @@
     "call": "Appel",
     "cancel": "Annuler",
     "changeFunction": "Modifie la valeur dans le texte de retour, dans ce cas de true à on et false à off",
+    "choose": "Choisir",
     "chooseAction": "Choisissez une action",
     "close": "Fermer",
     "commonName": "Affiche le nom du point de données",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "Si vous souhaitez être informé du changement d'un autre point de données après avoir défini le point de données dans le champ de saisie ID. La modification ne sera partagée que si elle est définie avec ack:true. Il est obligatoire de préciser un texte en dehors du {}, sinon il sera ajouté automatiquement.",
     "ok": "D'ACCORD",
     "oneTimeKey": "Demande aux clients de redimensionner le clavier verticalement pour un ajustement optimal (par exemple, réduire la taille du clavier s'il n'y a que deux rangées de boutons). La valeur par défaut est false, auquel cas le clavier personnalisé a toujours la même hauteur que le clavier standard de l'application.",
+    "options": "Options",
     "overview": "Aperçu",
     "parseMode": "HTML en mode analyse",
     "parseModeBold": "Le texte en mode analyse est en gras",
@@ -120,6 +122,5 @@
     "value": "Valeur",
     "valueRound": "Arrondit la valeur par exemple à 2 décimales",
     "values": "Valeurs",
-    "yes": "Oui",
-    "choose": "Choisir"
+    "yes": "Oui"
 }

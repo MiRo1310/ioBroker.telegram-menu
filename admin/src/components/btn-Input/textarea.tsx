@@ -13,7 +13,7 @@ class Textarea extends Component<PropsTextarea, StateTextarea> {
 
     render(): React.ReactNode {
         return (
-            <div className={`textarea__container ${this.props.class || ''}`}>
+            <div className={`textarea ${this.props.class ?? ''}`}>
                 <label>
                     <textarea
                         className="textarea__content noneDraggable"

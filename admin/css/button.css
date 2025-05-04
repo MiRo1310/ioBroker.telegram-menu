@@ -118,6 +118,9 @@ button.icon i.material-icons {
     width: 30px !important;
     height: 30px !important;
     border-radius: 6px !important;
+    cursor: pointer;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
 

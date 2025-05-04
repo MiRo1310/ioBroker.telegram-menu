@@ -259,15 +259,15 @@ async function subMenu({
     }
     import_main.adapter.log.debug(`Menu : ${firstNavigationElement}`);
     const text = await (0, import_utilities.checkStatusInfo)(part.text);
-    const { callbackData, device: device2Switch, val } = (0, import_splitValues.getMenuValues)(firstNavigationElement);
-    if (callbackData.includes("delete") && device2Switch) {
+    const { callbackData, menuToHandle, val } = (0, import_splitValues.getMenuValues)(firstNavigationElement);
+    if (callbackData.includes("delete") && menuToHandle) {
       await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
-      if ((0, import_string.isNonEmptyString)(device2Switch)) {
-        return { navToGoBack: device2Switch };
+      if ((0, import_string.isNonEmptyString)(menuToHandle)) {
+        return { navToGoBack: menuToHandle };
       }
     }
-    if (callbackData.includes("switch") && device2Switch) {
-      return createSwitchMenu({ callbackData, text, device2Switch });
+    if (callbackData.includes("switch") && menuToHandle) {
+      return createSwitchMenu({ callbackData, text, device2Switch: menuToHandle });
     }
     if (callbackData.includes("first")) {
       await setFirstMenuValue({
@@ -283,14 +283,14 @@ async function subMenu({
         telegramParams
       });
     }
-    if (callbackData.includes("dynSwitch") && device2Switch) {
-      return (0, import_dynamicSwitchMenu.dynamicSwitchMenu)(jsonStringNav, device2Switch, text);
+    if (callbackData.includes("dynSwitch") && menuToHandle) {
+      return (0, import_dynamicSwitchMenu.dynamicSwitchMenu)(jsonStringNav, menuToHandle, text);
     }
     if (callbackData.includes("dynS") && val) {
       await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
     }
-    if (!jsonStringNav.includes("submenu") && callbackData.includes("percent") && device2Switch) {
-      return createSubmenuPercent({ callbackData, text, device2Switch });
+    if (!jsonStringNav.includes("submenu") && callbackData.includes("percent") && menuToHandle) {
+      return createSubmenuPercent({ callbackData, text, device2Switch: menuToHandle });
     }
     if (jsonStringNav.includes(`submenu:percent${step}`)) {
       await setValueForSubmenuPercent({
@@ -303,8 +303,8 @@ async function subMenu({
         menus
       });
     }
-    if (isCreateSubmenuNumber(jsonStringNav, callbackData) && device2Switch) {
-      return createSubmenuNumber({ callbackData, text, device2Switch });
+    if (isCreateSubmenuNumber(jsonStringNav, callbackData) && menuToHandle) {
+      return createSubmenuNumber({ callbackData, text, device2Switch: menuToHandle });
     }
     if (jsonStringNav.includes(`submenu:${callbackData}`)) {
       await setValueForSubmenuNumber({

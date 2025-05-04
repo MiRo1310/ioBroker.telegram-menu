@@ -292,9 +292,9 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                 {this.state.helperText ? (
                     <PopupContainer
                         callback={this.popupHelperCard}
-                        width="90%"
-                        height="80%"
-                        title="Helper Texte"
+                        width="99%"
+                        height="99%"
+                        title={I18n.t('options')}
                         setState={this.setState.bind(this)}
                         isOK={this.state.isOK}
                         class="HelperText"
@@ -307,7 +307,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                             text={this.state.text}
                             helperTextForInput={this.state.helperTextForInput}
                             callback={this.onchangeValueFromHelper}
-                            editedValueFromHelperText={this.state.editedValueFromHelperText as string}
+                            editedValueFromHelperText={this.state.editedValueFromHelperText ?? ''}
                             setState={this.setState.bind(this)}
                         />
                     </PopupContainer>

@@ -15,6 +15,7 @@
     "call": "Call",
     "cancel": "Cancel",
     "changeFunction": "Changes the value in the return text, in this case from true to on and false to off",
+    "choose": "Choose",
     "chooseAction": "Choose an action",
     "close": "Close",
     "commonName": "Outputs the name of the data point",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "If you want to be notified of the change of another data point after you have set the data point in the ID input field. The change will only be shared if it is set with ack:true. It is mandatory to specify a text outside the {}, otherwise it will be added automatically.",
     "ok": "OK",
     "oneTimeKey": "Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.",
+    "options": "Options",
     "overview": "Overview",
     "parseMode": "Parse Mode HTML",
     "parseModeBold": "Text in Parse-Mode is bold",
@@ -120,6 +122,5 @@
     "value": "Value",
     "valueRound": "Rounds the value for example to 2 decimal places",
     "values": "Values",
-    "yes": "Yes",
-    "choose": "Choose"
+    "yes": "Yes"
 }

@@ -27,7 +27,7 @@ var import_string = require("./string");
 var import_appUtils = require("./appUtils");
 const getMenuValues = (str) => {
   const splitText = str.split(":");
-  return { callbackData: splitText[1], device: splitText[2], val: splitText[3] };
+  return { callbackData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
 };
 function getProcessTimeValues(substringExcludeSearch) {
   var _a, _b;

@@ -15,6 +15,7 @@
     "call": "Dzwonić",
     "cancel": "Anulować",
     "changeFunction": "Zmienia wartość w tekście zwracanym, w tym przypadku z true na on i false na off",
+    "choose": "Wybierać",
     "chooseAction": "Wybierz akcję",
     "close": "Zamknąć",
     "commonName": "Wyświetla nazwę punktu danych",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "Jeśli chcesz otrzymać powiadomienie o zmianie innego punktu danych po ustawieniu punktu danych w polu wprowadzania ID. Zmiana zostanie udostępniona tylko wtedy, gdy zostanie ustawiona opcja ack:true. Obowiązkowe jest podanie tekstu poza {}, w przeciwnym razie zostanie on dodany automatycznie.",
     "ok": "OK",
     "oneTimeKey": "Żąda od klientów zmiany rozmiaru klawiatury w pionie w celu zapewnienia optymalnego dopasowania (np. zmniejszenia klawiatury, jeśli są tylko dwa rzędy przycisków). Domyślnie ustawiona jest wartość false. W takim przypadku niestandardowa klawiatura ma zawsze tę samą wysokość co standardowa klawiatura aplikacji.",
+    "options": "Opcje",
     "overview": "Przegląd",
     "parseMode": "Tryb analizy kodu HTML",
     "parseModeBold": "Tekst w trybie analizy jest pogrubiony",
@@ -120,6 +122,5 @@
     "value": "Wartość",
     "valueRound": "Zaokrągla wartość na przykład do 2 miejsc po przecinku",
     "values": "Wartości",
-    "yes": "Tak",
-    "choose": "Wybierać"
+    "yes": "Tak"
 }

@@ -15,6 +15,7 @@
     "call": "Chamar",
     "cancel": "Cancelar",
     "changeFunction": "Altera o valor no texto de retorno, neste caso de verdadeiro para ativado e falso para desativado",
+    "choose": "Escolher",
     "chooseAction": "Escolha uma ação",
     "close": "Fechar",
     "commonName": "Produz o nome do ponto de dados",
@@ -73,6 +74,7 @@
     "notifiedByChangeOfAnotherState": "Se você deseja ser notificado sobre a alteração de outro ponto de dados depois de definir o ponto de dados no campo de entrada ID. A alteração só será compartilhada se estiver definida com ack:true. É obrigatório especificar um texto fora do {}, caso contrário ele será adicionado automaticamente.",
     "ok": "OK",
     "oneTimeKey": "Solicita que os clientes redimensionem o teclado verticalmente para um ajuste ideal (por exemplo, diminuam o tamanho do teclado se houver apenas duas fileiras de botões). O padrão é falso; nesse caso, o teclado personalizado terá sempre a mesma altura do teclado padrão do aplicativo.",
+    "options": "Opções",
     "overview": "Visão geral",
     "parseMode": "HTML do modo de análise",
     "parseModeBold": "O texto no modo Parse está em negrito",
@@ -120,6 +122,5 @@
     "value": "Valor",
     "valueRound": "Arredonda o valor, por exemplo, para 2 casas decimais",
     "values": "Valores",
-    "yes": "Sim",
-    "choose": "Escolher"
+    "yes": "Sim"
 }
