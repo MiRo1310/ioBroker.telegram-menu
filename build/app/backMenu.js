@@ -50,7 +50,7 @@ function backMenuFunc({
   }
 }
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
   try {
     const list = ((_a = backMenu[userToSend]) == null ? void 0 : _a.list) ? backMenu[userToSend].list : [];
     const lastListElement = list[list.length - 1];
@@ -74,8 +74,9 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
       }
       if (keyboard && foundedMenu != "") {
         if (!lastMenu) {
-          const listLength = ((_g = backMenu[userToSend]) == null ? void 0 : _g.list) ? backMenu[userToSend].list.length - 1 : 0;
-          const lastListElement2 = (_h = backMenu[userToSend]) == null ? void 0 : _h.list[listLength];
+          const list2 = (_g = backMenu[userToSend]) == null ? void 0 : _g.list;
+          const listLength = list2 ? list2.length - 1 : 0;
+          const lastListElement2 = list2 == null ? void 0 : list2[listLength];
           if (!lastListElement2) {
             return;
           }
@@ -84,12 +85,12 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           if (textToSend2) {
             textToSend2 = await (0, import_utilities.checkStatusInfo)(textToSend2);
           }
-          if ((_i = backMenu[userToSend]) == null ? void 0 : _i.last) {
-            backMenu[userToSend].last = (_j = list.pop()) != null ? _j : "";
+          if ((_h = backMenu[userToSend]) == null ? void 0 : _h.last) {
+            backMenu[userToSend].last = (_i = list2.pop()) != null ? _i : "";
           }
           return { textToSend: textToSend2, keyboard, parse_mode: parse_mode2 };
         }
-        const lastElement2 = (_k = backMenu[userToSend]) == null ? void 0 : _k.last;
+        const lastElement2 = (_j = backMenu[userToSend]) == null ? void 0 : _j.last;
         if (!lastElement2) {
           return;
         }

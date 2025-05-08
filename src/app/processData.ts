@@ -17,19 +17,17 @@ import { isSubmenuOrMenu } from './validateMenus';
 
 let timeouts: Timeouts[] = [];
 
-export async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Promise<boolean> {
-    const {
-        menuData,
-        calledValue,
-        userToSend,
-        telegramParams,
-        menus,
-        isUserActiveCheckbox,
-        token,
-        directoryPicture,
-        timeoutKey,
-    } = obj;
-
+export async function checkEveryMenuForData({
+    menuData,
+    calledValue,
+    userToSend,
+    telegramParams,
+    menus,
+    isUserActiveCheckbox,
+    token,
+    directoryPicture,
+    timeoutKey,
+}: CheckEveryMenuForDataType): Promise<boolean> {
     for (const menu of menus) {
         const groupData = menuData[menu];
 
@@ -59,21 +57,20 @@ export async function checkEveryMenuForData(obj: CheckEveryMenuForDataType): Pro
     return false;
 }
 
-async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
-    const {
-        menuData,
-        calledValue,
-        userToSend,
-        groupWithUser,
-        telegramParams,
-        allMenusWithData,
-        menus,
-        isUserActiveCheckbox,
-        token,
-        directoryPicture,
-        timeoutKey,
-        groupData,
-    } = obj;
+async function processData({
+    menuData,
+    calledValue,
+    userToSend,
+    groupWithUser,
+    telegramParams,
+    allMenusWithData,
+    menus,
+    isUserActiveCheckbox,
+    token,
+    directoryPicture,
+    timeoutKey,
+    groupData,
+}: ProcessDataType): Promise<boolean | undefined> {
     try {
         let part: Part | undefined = {} as Part;
 
@@ -94,17 +91,11 @@ async function processData(obj: ProcessDataType): Promise<boolean | undefined> {
 
             if (result) {
                 const { textToSend, keyboard, parse_mode } = result;
-                await sendToTelegram({
-                    userToSend,
-                    textToSend,
-                    keyboard: keyboard,
-                    telegramParams,
-                    parse_mode,
-                });
+                await sendToTelegram({ userToSend, textToSend, keyboard, telegramParams, parse_mode });
                 return true;
             }
-            await sendNav(part, userToSend, telegramParams);
 
+            await sendNav(part, userToSend, telegramParams);
             return true;
         }
 

@@ -25,14 +25,11 @@ var import_main = require("../main");
 var import_logging = require("./logging");
 var import_telegram = require("./telegram");
 var import_utils = require("../lib/utils");
+var import_splitValues = require("../lib/splitValues");
 function getChart(echarts, directoryPicture, user, telegramParams) {
   try {
-    if (!echarts) {
-      return;
-    }
     for (const echart of echarts) {
-      const splitPreset = echart.preset.split(".");
-      const instanceOfEchart = `${splitPreset[0]}.${splitPreset[1]}`;
+      const instanceOfEchart = (0, import_splitValues.getEchartsValues)(echart.preset);
       if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
         return;
       }
@@ -46,16 +43,14 @@ function getChart(echarts, directoryPicture, user, telegramParams) {
           quality: 1,
           fileOnDisk: directoryPicture + echart.filename
         },
-        (result) => {
+        async (result) => {
           const textToSend = result.error || directoryPicture + echart.filename;
-          (0, import_telegram.sendToTelegram)({ userToSend: user, textToSend, telegramParams }).catch((e) => {
-            (0, import_logging.errorLogger)("Error send to telegram: ", e, import_main.adapter);
-          });
+          await (0, import_telegram.sendToTelegram)({ userToSend: user, textToSend, telegramParams });
         }
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error get chart:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error in Echart:", e, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

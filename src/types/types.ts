@@ -125,8 +125,6 @@ export interface Part {
 }
 
 export interface SendPic {
-    // TODO: Define the type for SendPic
-
     delay: number;
     id: string;
     fileName: string;
@@ -162,7 +160,7 @@ export interface SetDynamicValue {
     valueType: string;
 }
 
-export type Newline = 'true' | 'false';
+export type Newline = BooleanString;
 
 export interface BindingObject {
     values: Record<string, string>;
@@ -388,4 +386,13 @@ export interface MessageInfos {
     id: ioBroker.StateValue;
     time?: number;
     request?: ioBroker.StateValue | null | undefined;
+}
+
+export interface CallSubMenu {
+    jsonStringNav: string;
+    userToSend: string;
+    telegramParams: TelegramParams;
+    part: Part;
+    allMenusWithData: AllMenusWithData;
+    menus: string[];
 }

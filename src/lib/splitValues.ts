@@ -29,3 +29,8 @@ export const getSubmenuNumberValues = (str: string): { callbackData: string; dev
     const splitText = str.split(':'); // submenu:number2-8-1-°C:SetMenuNumber:3
     return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
 };
+
+export const getEchartsValues = (preset: string): string => {
+    const splitPreset = preset.split('.');
+    return `${splitPreset[0]}.${splitPreset[1]}`;
+};

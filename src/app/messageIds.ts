@@ -9,34 +9,34 @@ let isDeleting = false;
 async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): Promise<void> {
     try {
         let requestMessageId: Messages = {};
-        let requestMessageIdObj: ioBroker.State | null | undefined = null;
-        if (!isDeleting) {
-            requestMessageIdObj = await adapter.getStateAsync('communication.requestIds');
-        }
+
+        const requestMessageIdObj = !isDeleting ? await adapter.getStateAsync('communication.requestIds') : null;
+
         isDeleting = false;
         const requestUserIdObj = await adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 
         const request = await adapter.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
 
-        if (!(requestUserIdObj && requestUserIdObj.val)) {
+        if (!requestUserIdObj?.val) {
             return;
         }
+        const { json, isValidJson } = parseJSON<Messages>(String(requestMessageIdObj?.val), adapter);
+        requestMessageId = isValidJson ? json : {};
 
-        requestMessageId = requestMessageIdObj?.val ? JSON.parse(requestMessageIdObj?.val.toString()) : {};
-
-        if (!requestMessageId[requestUserIdObj.val.toString()]) {
-            requestMessageId[requestUserIdObj.val.toString()] = [];
+        const userIDValue = requestUserIdObj.val.toString();
+        if (!requestMessageId[userIDValue]) {
+            requestMessageId[userIDValue] = [];
         }
 
-        if (!requestMessageId[requestUserIdObj.val.toString()]?.find(message => message.id === state.val)) {
-            requestMessageId[requestUserIdObj.val.toString()].push({
+        if (!requestMessageId[userIDValue]?.find(message => message.id === state.val)) {
+            requestMessageId[userIDValue].push({
                 id: state.val,
                 time: Date.now(),
                 request: request?.val,
             });
         }
 
-        requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
+        requestMessageId = removeOldMessageIds(requestMessageId, userIDValue);
         await adapter.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     } catch (e: any) {
         errorLogger('Error saveMessageIds:', e, adapter);
