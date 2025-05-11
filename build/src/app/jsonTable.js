@@ -5,6 +5,7 @@ exports.createTextTableFromJson = createTextTableFromJson;
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
+const json_1 = require("../lib/json");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
     try {
@@ -14,15 +15,20 @@ const createKeyboardFromJson = (val, text, id, user) => {
         else {
             text = lastText[user];
         }
-        const array = (0, string_1.decomposeText)(text, '{json:', '}').substring.split(';');
+        const { substring } = (0, string_1.decomposeText)(text, '{json:', '}');
+        const array = substring.split(';');
         const headline = array[2];
         const itemArray = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
         let idShoppingList = false;
         if (array.length > 3 && array[3] == 'shoppinglist') {
             idShoppingList = true;
         }
-        main_1.adapter.log.debug(`Val: ${val} with type: ${typeof val}`);
-        const { json, isValidJson } = (0, string_1.parseJSON)(val);
+        const { validJson, error } = (0, json_1.makeValidJson)(val, main_1.adapter);
+        main_1.adapter.log.debug(`Val: ${validJson} with type: ${typeof val}`);
+        if (error) {
+            return;
+        }
+        const { json, isValidJson } = (0, string_1.parseJSON)(validJson, main_1.adapter);
         if (!isValidJson) {
             return;
         }

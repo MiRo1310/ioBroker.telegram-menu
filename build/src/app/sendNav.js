@@ -5,7 +5,7 @@ const telegram_1 = require("./telegram");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
 const logging_1 = require("./logging");
-async function sendNav(part, userToSend, telegramInstance, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function sendNav(part, userToSend, telegramParams) {
     try {
         if (userToSend) {
             const { nav: keyboard, text, parse_mode } = part;
@@ -14,10 +14,7 @@ async function sendNav(part, userToSend, telegramInstance, userListWithChatID, r
                 userToSend,
                 textToSend,
                 keyboard,
-                telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
-                userListWithChatID,
+                telegramParams,
                 parse_mode,
             });
         }

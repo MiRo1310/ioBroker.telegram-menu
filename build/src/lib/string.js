@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pad = exports.isString = exports.getValueToExchange = exports.cleanUpString = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.getValueToExchange = exports.cleanUpString = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -8,15 +8,17 @@ exports.getNewline = getNewline;
 exports.isBooleanString = isBooleanString;
 const config_1 = require("../config/config");
 const utils_1 = require("./utils");
+const logging_1 = require("../app/logging");
 const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
-function parseJSON(val) {
+function parseJSON(val, adapter) {
     try {
-        const parsed = JSON.parse(val);
-        return { json: parsed, isValidJson: true };
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        return { json: JSON.parse(val), isValidJson: true };
     }
     catch (e) {
+        if (adapter) {
+            (0, logging_1.errorLogger)('Error parseJSON:', e, adapter);
+        }
         return { json: val, isValidJson: false };
     }
 }
@@ -64,7 +66,9 @@ function decomposeText(text, firstSearch, secondSearch) {
         substringExcludeSearch: substringExcludedSearch,
     };
 }
+// TODO : Move to utils
 const getValueToExchange = (adapter, textToSend, val) => {
+    //TODO Use JSON => change{"true":"Wärmepumpe ist verbunden","false":"Wärmepumpe ist nicht verbunden"}
     if (textToSend.includes(config_1.config.change.start)) {
         const { start, end, command } = config_1.config.change;
         const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
@@ -110,4 +114,8 @@ function getNewline(newline) {
 function isBooleanString(str) {
     return str === 'true' || str === 'false';
 }
+const isNonEmptyString = (str) => str.trim() !== '';
+exports.isNonEmptyString = isNonEmptyString;
+const isEmptyString = (str) => str.trim() === '';
+exports.isEmptyString = isEmptyString;
 //# sourceMappingURL=string.js.map

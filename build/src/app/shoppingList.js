@@ -9,12 +9,15 @@ const subscribeStates_js_1 = require("./subscribeStates.js");
 const logging_js_1 = require("./logging.js");
 const main_js_1 = require("../main.js");
 const string_1 = require("../lib/string");
+const setstate_1 = require("./setstate");
+const json_1 = require("../lib/json");
+const utils_1 = require("../lib/utils");
 const objData = {};
 let isSubscribed = false;
-async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard) {
+async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
     try {
         let array, user, idList, instance, idItem, res;
-        if (val != null) {
+        if ((0, utils_1.isDefined)(val)) {
             array = val.split(':');
             user = array[0].replace('[', '').replace(']sList', '');
             idList = array[1];
@@ -25,42 +28,42 @@ async function shoppingListSubscribeStateAndDeleteItem(val, instanceTelegram, us
                 objData[user] = { idList: idList };
                 main_js_1.adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
                 if (!isSubscribed) {
-                    await (0, subscribeStates_js_1._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
+                    await (0, subscribeStates_js_1._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
                 }
-                await main_js_1.adapter.setForeignStateAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`, true, false);
+                await (0, setstate_1.setstateIobroker)({
+                    id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+                    value: true,
+                    ack: false,
+                });
                 return;
             }
             await (0, telegram_js_1.sendToTelegram)({
                 userToSend: user,
                 textToSend: 'Cannot delete the Item',
-                telegramInstance: instanceTelegram,
-                resize_keyboard: resize_keyboard,
-                one_time_keyboard: one_time_keyboard,
-                userListWithChatID: userListWithChatID,
+                telegramParams,
                 parse_mode: true,
             });
             main_js_1.adapter.log.debug('Cannot delete the Item');
-            return;
         }
     }
     catch (e) {
         (0, logging_js_1.errorLogger)('Error shoppingList:', e, main_js_1.adapter);
     }
 }
-async function deleteMessageAndSendNewShoppingList(instanceTelegram, userListWithChatID, userToSend) {
+async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
     try {
         const user = userToSend;
         const idList = objData[user].idList;
-        await (0, subscribeStates_js_1._subscribeAndUnSubscribeForeignStatesAsync)({ id: `alexa-shoppinglist.${idList}` });
-        await (0, messageIds_js_1.deleteMessageIds)(user, userListWithChatID, instanceTelegram, 'last');
+        await (0, subscribeStates_js_1._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
+        await (0, messageIds_js_1.deleteMessageIds)(user, telegramParams, 'last');
         const result = await main_js_1.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
-        if (result && result.val) {
+        if (result?.val) {
             main_js_1.adapter.log.debug(`Result from Shoppinglist: ${(0, string_1.jsonString)(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
-            const resultJson = (0, jsonTable_js_1.createKeyboardFromJson)(result.val, null, newId, user);
-            if (resultJson && resultJson.text && resultJson.keyboard) {
-                (0, telegram_js_1.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, instanceTelegram, userListWithChatID, true);
+            const resultJson = (0, jsonTable_js_1.createKeyboardFromJson)((0, json_1.toJson)(result.val), null, newId, user);
+            if (resultJson?.text && resultJson?.keyboard) {
+                (0, telegram_js_1.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, telegramParams, true);
             }
         }
     }

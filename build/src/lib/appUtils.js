@@ -7,6 +7,7 @@ exports.statusIdAndParams = statusIdAndParams;
 exports.isStartside = isStartside;
 exports.splitNavigation = splitNavigation;
 exports.getNewStructure = getNewStructure;
+exports.isNoTypeDefined = isNoTypeDefined;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 const math_1 = require("./math");
@@ -119,4 +120,7 @@ const exchangePlaceholderWithValue = (textToSend, val) => {
     return `${textToSend} ${val}`.trim();
 };
 exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
+function isNoTypeDefined(receivedType, obj) {
+    return receivedType === obj?.common?.type || !obj?.common?.type;
+}
 //# sourceMappingURL=appUtils.js.map

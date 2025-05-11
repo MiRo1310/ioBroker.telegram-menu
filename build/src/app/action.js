@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.bindingFunc = exports.idBySelector = void 0;
+exports.adjustValueType = exports.bindingFunc = exports.idBySelector = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = void 0;
 exports.generateActions = generateActions;
 const telegram_1 = require("./telegram");
 const subMenu_1 = require("./subMenu");
@@ -12,7 +12,8 @@ const string_1 = require("../lib/string");
 const utils_1 = require("../lib/utils");
 const math_1 = require("../lib/math");
 const config_1 = require("../config/config");
-const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode) => {
+const splitValues_1 = require("../lib/splitValues");
+const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
     let textToSend;
     try {
         const { substringExcludeSearch } = (0, string_1.decomposeText)(text, config_1.config.binding.start, config_1.config.binding.end);
@@ -22,12 +23,12 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         };
         for (let item of arrayOfItems) {
             if (!item.includes('?')) {
-                const array = item.split(':');
-                const key = array[0];
-                const id = array[1];
-                const result = await main_1.adapter.getForeignStateAsync(id);
-                if (result) {
-                    bindingObject.values[key] = result.val?.toString() ?? '';
+                const { key, id } = (0, splitValues_1.getBindingValues)(item);
+                if (id) {
+                    const result = await main_1.adapter.getForeignStateAsync(id);
+                    if (result) {
+                        bindingObject.values[key] = result.val?.toString() ?? '';
+                    }
                 }
             }
             else {
@@ -41,10 +42,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
         await (0, telegram_1.sendToTelegram)({
             userToSend,
             textToSend,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
-            userListWithChatID,
+            telegramParams,
             parse_mode,
         });
     }
@@ -53,7 +51,7 @@ const bindingFunc = async (text, userToSend, telegramInstance, one_time_keyboard
     }
 };
 exports.bindingFunc = bindingFunc;
-const idBySelector = async ({ selector, text, userToSend, newline, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, }) => {
+const idBySelector = async ({ selector, text, userToSend, newline, telegramParams, }) => {
     let text2Send = '';
     try {
         const functions = selector.replace(config_1.config.functionSelektor, '');
@@ -97,10 +95,7 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
             await (0, telegram_1.sendToTelegram)({
                 userToSend,
                 textToSend: text2Send,
-                telegramInstance: telegramInstance,
-                resize_keyboard,
-                one_time_keyboard,
-                userListWithChatID,
+                telegramParams,
             });
         })
             .catch(e => {
@@ -112,59 +107,12 @@ const idBySelector = async ({ selector, text, userToSend, newline, telegramInsta
     }
 };
 exports.idBySelector = idBySelector;
-function generateActions(action, userObject) {
+function generateActions({ action, userObject, }) {
     try {
-        const arrayOfEntries = [
-            {
-                objName: 'echarts',
-                name: 'echarts',
-                loop: 'preset',
-                elements: [
-                    { name: 'preset' },
-                    { name: 'echartInstance' },
-                    { name: 'background' },
-                    { name: 'theme' },
-                    { name: 'filename' },
-                ],
-            },
-            {
-                objName: 'loc',
-                name: 'location',
-                loop: 'latitude',
-                elements: [{ name: 'latitude' }, { name: 'longitude' }, { name: 'parse_mode', key: 0 }],
-            },
-            {
-                objName: 'pic',
-                name: 'sendPic',
-                loop: 'IDs',
-                elements: [
-                    { name: 'id', value: 'IDs' },
-                    { name: 'fileName' },
-                    { name: 'delay', value: 'picSendDelay' },
-                ],
-            },
-            {
-                objName: 'get',
-                name: 'getData',
-                loop: 'IDs',
-                elements: [
-                    { name: 'id', value: 'IDs' },
-                    { name: 'text', type: 'text' },
-                    { name: 'newline', value: 'newline_checkbox' },
-                    { name: 'parse_mode', key: 0 },
-                ],
-            },
-            {
-                objName: 'httpRequest',
-                name: 'httpRequest',
-                loop: 'url',
-                elements: [{ name: 'url' }, { name: 'user' }, { name: 'password' }, { name: 'filename' }],
-            },
-        ];
         const listOfSetStateIds = [];
-        action.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, key) {
+        action?.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, index) {
             const triggerName = trigger[0];
-            if (key == 0) {
+            if (index == 0) {
                 userObject[triggerName] = { switch: [] };
             }
             userObject[triggerName] = { switch: [] };
@@ -177,7 +125,7 @@ function generateActions(action, userObject) {
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
-                    ack: ack ? ack[index] : 'false',
+                    ack: (0, utils_1.isTruthy)(ack[index]),
                     parse_mode: (0, utils_1.isTruthy)(parse_mode[0]),
                 };
                 if (Array.isArray(userObject[triggerName]?.switch)) {
@@ -185,31 +133,30 @@ function generateActions(action, userObject) {
                 }
             });
         });
-        arrayOfEntries.forEach(item => {
-            if (action[item.objName]) {
-                action[item.objName].forEach(function (element, index) {
-                    const trigger = element.trigger[0];
+        config_1.arrayOfEntries.forEach(item => {
+            const actions = action?.[item.objName];
+            actions?.forEach(function (element, index) {
+                const trigger = element.trigger[0];
+                userObject[trigger] = { [item.name]: [] };
+                if (index == 0) {
                     userObject[trigger] = { [item.name]: [] };
-                    if (index == 0) {
-                        userObject[trigger] = { [item.name]: [] };
-                    }
-                    element[item.loop].forEach(function (id, key) {
-                        const newObj = {};
-                        item.elements.forEach(({ name, value, key: elKey }) => {
-                            const elName = (value ? value : name);
-                            const newKey = elKey ? elKey : key;
-                            const val = !element[elName] ? false : element[elName][newKey] || 'false';
-                            if (name === 'parse_mode') {
-                                newObj.parse_mode = (0, utils_1.isTruthy)(val);
-                            }
-                            if (typeof val === 'string') {
-                                newObj[name] = val.replace(/&amp;/g, '&');
-                            }
-                        });
-                        (userObject?.[trigger]?.[item.name]).push(newObj);
+                }
+                element[item.loop].forEach(function (id, index) {
+                    const newObj = {};
+                    item.elements.forEach(({ name, value, index: elIndex }) => {
+                        const elName = (value ? value : name);
+                        const newIndex = elIndex ? elIndex : index;
+                        const val = !element[elName] ? false : element[elName][newIndex] || 'false';
+                        if (name === 'parse_mode') {
+                            newObj.parse_mode = (0, utils_1.isTruthy)(val);
+                        }
+                        if (typeof val === 'string') {
+                            newObj[name] = val.replace(/&amp;/g, '&');
+                        }
                     });
+                    (userObject?.[trigger]?.[item.name]).push(newObj);
                 });
-            }
+            });
         });
         return { obj: userObject, ids: listOfSetStateIds };
     }
@@ -226,16 +173,12 @@ const adjustValueType = (value, valueType) => {
         return parseFloat(value);
     }
     if (valueType == 'boolean') {
-        if (value == 'true') {
-            return true;
-        }
-        main_1.adapter.log.error(`Error: Value is not a boolean: ${value}`);
-        return false;
+        return (0, utils_1.isTruthy)(value);
     }
     return value;
 };
 exports.adjustValueType = adjustValueType;
-const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, instanceTelegram, resize_keyboard, one_time_keyboard, usersInGroup) => {
+const checkEvent = async (dataObject, id, state, menuData, telegramParams, usersInGroup) => {
     const menuArray = [];
     let ok = false;
     let calledNav = '';
@@ -243,22 +186,11 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
         if (dataObject.action[menu]?.events) {
             dataObject.action[menu].events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-                    if ((state.val == true || state.val == 'true') && event.condition == 'true') {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                    else if ((state.val == false || state.val == 'false') && event.condition[0] == 'false') {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                    else if (typeof state.val == 'number' && state.val == parseInt(event.condition[0])) {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                    else if (state.val == event.condition[0]) {
+                    const condition = event.condition[0];
+                    if (((state.val == true || state.val == 'true') && (0, utils_1.isTruthy)(condition)) ||
+                        ((state.val == false || state.val == 'false') && (0, utils_1.isFalsy)(condition)) ||
+                        (typeof state.val == 'number' && state.val == parseInt(condition)) ||
+                        state.val == condition) {
                         ok = true;
                         menuArray.push(menu);
                         calledNav = event.menu[0];
@@ -267,39 +199,41 @@ const checkEvent = async (dataObject, id, state, menuData, userListWithChatID, i
             });
         }
     });
-    if (ok) {
-        if (menuArray.length >= 1) {
-            for (const menu of menuArray) {
-                if (usersInGroup[menu] && menuData[menu][calledNav]) {
-                    for (const user of usersInGroup[menu]) {
-                        const part = menuData[menu][calledNav];
-                        const menus = Object.keys(menuData);
-                        if (part.nav) {
-                            (0, backMenu_1.backMenuFunc)({ startSide: calledNav, navigation: part.nav, userToSend: user });
-                        }
-                        if (part?.nav && part?.nav[0][0].includes('menu:')) {
-                            await (0, subMenu_1.callSubMenu)(JSON.stringify(part?.nav[0]), menuData, user, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, part, menuData, menus, null, part.nav);
-                        }
-                        else {
-                            await (0, sendNav_1.sendNav)(part, user, instanceTelegram, userListWithChatID, resize_keyboard, one_time_keyboard);
-                        }
-                    }
+    if (!ok || !menuArray.length) {
+        return false;
+    }
+    for (const menu of menuArray) {
+        const part = menuData[menu][calledNav];
+        if (usersInGroup[menu] && part) {
+            for (const user of usersInGroup[menu]) {
+                const menus = Object.keys(menuData);
+                if (part.nav) {
+                    (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user });
                 }
+                if (part?.nav?.[0][0].includes('menu:')) {
+                    await (0, subMenu_1.callSubMenu)({
+                        jsonStringNav: part.nav[0][0],
+                        userToSend: user,
+                        telegramParams: telegramParams,
+                        part: part,
+                        allMenusWithData: menuData,
+                        menus: menus,
+                    });
+                    return true;
+                }
+                await (0, sendNav_1.sendNav)(part, user, telegramParams);
             }
         }
     }
-    return ok;
+    return true;
 };
 exports.checkEvent = checkEvent;
 const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
-    let userToSend = null;
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
-            userToSend = element.name;
-            break;
+            return element.name;
         }
     }
-    return userToSend;
 };
 exports.getUserToSendFromUserListWithChatID = getUserToSendFromUserListWithChatID;
 //# sourceMappingURL=action.js.map

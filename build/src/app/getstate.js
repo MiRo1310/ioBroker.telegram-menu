@@ -15,7 +15,7 @@ const logging_1 = require("./logging");
 function isLastElement(i, array) {
     return i == array?.length;
 }
-function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID) {
+function getState(part, userToSend, telegramParams) {
     let createdText = '';
     let i = 1;
     const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
@@ -28,15 +28,12 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                     text,
                     userToSend,
                     newline,
-                    telegramInstance,
-                    one_time_keyboard,
-                    resize_keyboard,
-                    userListWithChatID,
+                    telegramParams,
                 });
                 return;
             }
             if (text.includes(config_1.config.binding.start)) {
-                await (0, action_1.bindingFunc)(text, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode);
+                await (0, action_1.bindingFunc)(text, userToSend, telegramParams, parse_mode);
                 return;
             }
             const state = await main_1.adapter.getForeignStateAsync(id);
@@ -79,10 +76,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                         await (0, telegram_1.sendToTelegram)({
                             userToSend,
                             textToSend: result,
-                            telegramInstance,
-                            resize_keyboard,
-                            one_time_keyboard,
-                            userListWithChatID,
+                            telegramParams,
                             parse_mode,
                         });
                         return;
@@ -93,17 +87,14 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                     const result = (0, jsonTable_1.createKeyboardFromJson)(stateValue, modifiedTextToSend, id, userToSend);
                     if (stateValue && stateValue.length > 0) {
                         if (result && result.text && result.keyboard) {
-                            (0, telegram_1.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramInstance, userListWithChatID, parse_mode);
+                            (0, telegram_1.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramParams, parse_mode);
                         }
                         return;
                     }
                     await (0, telegram_1.sendToTelegram)({
                         userToSend,
                         textToSend: 'The state is empty!',
-                        telegramInstance,
-                        resize_keyboard,
-                        one_time_keyboard,
-                        userListWithChatID,
+                        telegramParams,
                         parse_mode,
                     });
                     main_1.adapter.log.debug('The state is empty!');
@@ -123,10 +114,7 @@ function getState(part, userToSend, telegramInstance, one_time_keyboard, resize_
                 await (0, telegram_1.sendToTelegram)({
                     userToSend,
                     textToSend: createdText,
-                    telegramInstance,
-                    resize_keyboard,
-                    one_time_keyboard,
-                    userListWithChatID,
+                    telegramParams,
                     parse_mode,
                 });
             }

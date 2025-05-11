@@ -8,7 +8,7 @@ const main_1 = require("../main");
 const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
 const backMenu = {};
-function backMenuFunc({ startSide, navigation, userToSend, }) {
+function backMenuFunc({ activePage, navigation, userToSend, }) {
     if (!navigation || !(0, string_1.jsonString)(navigation).split(`"`)[1].includes('menu:')) {
         const list = backMenu[userToSend]?.list;
         const lastMenu = backMenu[userToSend]?.last;
@@ -21,7 +21,7 @@ function backMenuFunc({ startSide, navigation, userToSend, }) {
         if (lastMenu && lastMenu !== '' && list) {
             list.push(lastMenu);
         }
-        backMenu[userToSend].last = startSide;
+        backMenu[userToSend].last = activePage;
     }
 }
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
@@ -49,8 +49,9 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
             }
             if (keyboard && foundedMenu != '') {
                 if (!lastMenu) {
-                    const listLength = backMenu[userToSend]?.list ? backMenu[userToSend].list.length - 1 : 0;
-                    const lastListElement = backMenu[userToSend]?.list[listLength];
+                    const list = backMenu[userToSend]?.list;
+                    const listLength = list ? list.length - 1 : 0;
+                    const lastListElement = list?.[listLength];
                     if (!lastListElement) {
                         return;
                     }
@@ -62,14 +63,14 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
                     if (backMenu[userToSend]?.last) {
                         backMenu[userToSend].last = list.pop() ?? '';
                     }
-                    return { textToSend, menuToSend: keyboard, parse_mode };
+                    return { textToSend, keyboard, parse_mode };
                 }
                 const lastElement = backMenu[userToSend]?.last;
                 if (!lastElement) {
                     return;
                 }
                 const { parse_mode, text: textToSend } = allMenusWithData[foundedMenu][lastElement];
-                return { textToSend, menuToSend: keyboard, parse_mode };
+                return { textToSend, keyboard, parse_mode };
             }
         }
     }

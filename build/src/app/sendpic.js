@@ -8,7 +8,7 @@ const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
-function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_keyboard, userListWithChatID, token, directoryPicture, timeouts, timeoutKey) {
+function sendPic(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
     try {
         part.sendPic?.forEach(element => {
             const { id, delay, fileName } = element;
@@ -42,10 +42,7 @@ function sendPic(part, userToSend, instanceTelegram, resize_keyboard, one_time_k
                 await (0, telegram_1.sendToTelegram)({
                     userToSend,
                     textToSend: path,
-                    telegramInstance: instanceTelegram,
-                    resize_keyboard,
-                    one_time_keyboard,
-                    userListWithChatID,
+                    telegramParams,
                 });
                 let timeoutToClear = [];
                 timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
