@@ -37,12 +37,11 @@ function isLastElement(i, array) {
 }
 function getState(part, userToSend, telegramParams) {
   var _a, _b;
-  let createdText = "";
-  let i = 1;
-  const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
-  (_b = part.getData) == null ? void 0 : _b.forEach(async ({ newline, text, id }) => {
-    var _a2;
-    try {
+  try {
+    const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
+    const valueArrayForCorrectOrder = [];
+    (_b = part.getData) == null ? void 0 : _b.forEach(async ({ newline, text, id }, index) => {
+      var _a2;
       import_main.adapter.log.debug(`Get Value ID: ${id}`);
       if (id.includes(import_config.config.functionSelektor)) {
         await (0, import_action.idBySelector)({
@@ -131,21 +130,19 @@ function getState(part, userToSend, telegramParams) {
       modifiedTextToSend = _text;
       import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
       const isNewline = (0, import_string.getNewline)(newline);
-      createdText += modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
-      import_main.adapter.log.debug(`Text: ${createdText}`);
-      if (isLastElement(i, part.getData)) {
+      valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+      if (isLastElement(index + 1, part.getData)) {
         await (0, import_telegram.sendToTelegram)({
           userToSend,
-          textToSend: createdText,
+          textToSend: valueArrayForCorrectOrder.join(""),
           telegramParams,
           parse_mode
         });
       }
-      i++;
-    } catch (error) {
-      (0, import_logging.errorLogger)("Error GetData:", error, import_main.adapter);
-    }
-  });
+    });
+  } catch (error) {
+    (0, import_logging.errorLogger)("Error GetData:", error, import_main.adapter);
+  }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
