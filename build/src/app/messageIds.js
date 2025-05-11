@@ -11,28 +11,27 @@ let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
     try {
         let requestMessageId = {};
-        let requestMessageIdObj = null;
-        if (!isDeleting) {
-            requestMessageIdObj = await main_1.adapter.getStateAsync('communication.requestIds');
-        }
+        const requestMessageIdObj = !isDeleting ? await main_1.adapter.getStateAsync('communication.requestIds') : null;
         isDeleting = false;
         const requestUserIdObj = await main_1.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
         const request = await main_1.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
-        if (!(requestUserIdObj && requestUserIdObj.val)) {
+        if (!requestUserIdObj?.val) {
             return;
         }
-        requestMessageId = requestMessageIdObj?.val ? JSON.parse(requestMessageIdObj?.val.toString()) : {};
-        if (!requestMessageId[requestUserIdObj.val.toString()]) {
-            requestMessageId[requestUserIdObj.val.toString()] = [];
+        const { json, isValidJson } = (0, string_1.parseJSON)(String(requestMessageIdObj?.val), main_1.adapter);
+        requestMessageId = isValidJson ? json : {};
+        const userIDValue = requestUserIdObj.val.toString();
+        if (!requestMessageId[userIDValue]) {
+            requestMessageId[userIDValue] = [];
         }
-        if (!requestMessageId[requestUserIdObj.val.toString()]?.find(message => message.id === state.val)) {
-            requestMessageId[requestUserIdObj.val.toString()].push({
+        if (!requestMessageId[userIDValue]?.find(message => message.id === state.val)) {
+            requestMessageId[userIDValue].push({
                 id: state.val,
                 time: Date.now(),
                 request: request?.val,
             });
         }
-        requestMessageId = removeOldMessageIds(requestMessageId, requestUserIdObj.val.toString());
+        requestMessageId = removeOldMessageIds(requestMessageId, userIDValue);
         await main_1.adapter.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
     }
     catch (e) {
@@ -48,10 +47,11 @@ function removeOldMessageIds(messages, chatID) {
 const removeMessageFromList = ({ element, chat_id, copyMessageIds, }) => {
     return copyMessageIds[chat_id].filter(message => message.id !== element.id);
 };
-async function deleteMessageIds(user, userListWithChatID, instanceTelegram, whatShouldDelete) {
+async function deleteMessageIds(user, telegramParams, whatShouldDelete) {
+    const { telegramInstance, userListWithChatID } = telegramParams;
     try {
         const requestMessageIdObj = await main_1.adapter.getStateAsync('communication.requestIds');
-        const lastMessageId = await main_1.adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestMessageId`);
+        const lastMessageId = await main_1.adapter.getForeignStateAsync(`${telegramInstance}.communicate.requestMessageId`);
         if (!requestMessageIdObj ||
             typeof requestMessageIdObj.val !== 'string' ||
             !JSON.parse(requestMessageIdObj.val)) {
@@ -70,10 +70,10 @@ async function deleteMessageIds(user, userListWithChatID, instanceTelegram, what
         json[chat_id].forEach((element, index) => {
             const id = element.id?.toString();
             if (whatShouldDelete === 'all' && id) {
-                (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, parseInt(id), chat_id);
+                (0, botAction_1.deleteMessageByBot)(telegramInstance, user, parseInt(id), chat_id);
             }
             if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
-                (0, botAction_1.deleteMessageByBot)(instanceTelegram, user, parseInt(id), chat_id);
+                (0, botAction_1.deleteMessageByBot)(telegramInstance, user, parseInt(id), chat_id);
             }
             if (!copyMessageIds) {
                 return;

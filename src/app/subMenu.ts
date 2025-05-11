@@ -7,6 +7,7 @@ import { createDynamicSwitchMenu } from './dynamicSwitchMenu';
 import type {
     AllMenusWithData,
     BackMenuType,
+    CallSubMenu,
     CreateMenu,
     Keyboard,
     KeyboardItems,
@@ -197,13 +198,7 @@ const back = async ({ telegramParams, userToSend, allMenusWithData, menus }: Bac
     const result = await switchBack(userToSend, allMenusWithData, menus);
     if (result) {
         const { keyboard, parse_mode, textToSend = '' } = result;
-        await sendToTelegram({
-            userToSend,
-            textToSend,
-            keyboard: keyboard,
-            parse_mode,
-            telegramParams,
-        });
+        await sendToTelegram({ userToSend, textToSend, keyboard, parse_mode: parse_mode, telegramParams });
     }
 };
 
@@ -214,14 +209,7 @@ export async function callSubMenu({
     part,
     allMenusWithData,
     menus,
-}: {
-    jsonStringNav: string;
-    userToSend: string;
-    telegramParams: TelegramParams;
-    part: Part;
-    allMenusWithData: AllMenusWithData;
-    menus: string[];
-}): Promise<{ newNav: string | undefined } | undefined> {
+}: CallSubMenu): Promise<{ newNav: string | undefined } | undefined> {
     try {
         const obj = await subMenu({
             menuString: jsonStringNav,

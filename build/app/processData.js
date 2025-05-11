@@ -38,18 +38,17 @@ var import_logging = require("./logging");
 var import_string = require("../lib/string");
 var import_validateMenus = require("./validateMenus");
 let timeouts = [];
-async function checkEveryMenuForData(obj) {
-  const {
-    menuData,
-    calledValue,
-    userToSend,
-    telegramParams,
-    menus,
-    isUserActiveCheckbox,
-    token,
-    directoryPicture,
-    timeoutKey
-  } = obj;
+async function checkEveryMenuForData({
+  menuData,
+  calledValue,
+  userToSend,
+  telegramParams,
+  menus,
+  isUserActiveCheckbox,
+  token,
+  directoryPicture,
+  timeoutKey
+}) {
   for (const menu of menus) {
     const groupData = menuData[menu];
     import_main.adapter.log.debug(`Menu: ${menu}`);
@@ -74,21 +73,20 @@ async function checkEveryMenuForData(obj) {
   }
   return false;
 }
-async function processData(obj) {
-  const {
-    menuData,
-    calledValue,
-    userToSend,
-    groupWithUser,
-    telegramParams,
-    allMenusWithData,
-    menus,
-    isUserActiveCheckbox,
-    token,
-    directoryPicture,
-    timeoutKey,
-    groupData
-  } = obj;
+async function processData({
+  menuData,
+  calledValue,
+  userToSend,
+  groupWithUser,
+  telegramParams,
+  allMenusWithData,
+  menus,
+  isUserActiveCheckbox,
+  token,
+  directoryPicture,
+  timeoutKey,
+  groupData
+}) {
   try {
     let part = {};
     if ((0, import_dynamicValue.getDynamicValue)(userToSend)) {
@@ -103,13 +101,7 @@ async function processData(obj) {
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
       if (result) {
         const { textToSend, keyboard, parse_mode } = result;
-        await (0, import_telegram.sendToTelegram)({
-          userToSend,
-          textToSend,
-          keyboard,
-          telegramParams,
-          parse_mode
-        });
+        await (0, import_telegram.sendToTelegram)({ userToSend, textToSend, keyboard, telegramParams, parse_mode });
         return true;
       }
       await (0, import_sendNav.sendNav)(part, userToSend, telegramParams);

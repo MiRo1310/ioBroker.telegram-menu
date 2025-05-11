@@ -1,25 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports._subscribeAndUnSubscribeForeignStatesAsync = _subscribeAndUnSubscribeForeignStatesAsync;
-exports._subscribeForeignStatesAsync = _subscribeForeignStatesAsync;
+exports._subscribeForeignStates = _subscribeForeignStates;
 const main_1 = require("../main");
-const string_1 = require("../lib/string");
 const object_1 = require("../lib/object");
-async function _subscribeAndUnSubscribeForeignStatesAsync(obj) {
-    if (obj.id) {
-        main_1.adapter.log.debug(`Subscribe to ${obj.id}`);
+async function _subscribeForeignStates(val) {
+    if (typeof val === 'string') {
+        main_1.adapter.log.debug(`Subscribe to ${val}`);
+        await main_1.adapter.subscribeForeignStatesAsync(val);
+        return;
     }
-    else if (obj.array) {
-        for (const element of obj.array) {
-            await main_1.adapter.subscribeForeignStatesAsync(element.id);
-        }
+    const array = (0, object_1.removeDuplicates)(val);
+    for (const id of array) {
+        await main_1.adapter.subscribeForeignStatesAsync(id);
     }
-}
-async function _subscribeForeignStatesAsync(array) {
-    array = (0, object_1.removeDuplicates)(array);
-    for (const element of array) {
-        await main_1.adapter.subscribeForeignStatesAsync(element);
-    }
-    main_1.adapter.log.debug(`Subscribe all States of: ${(0, string_1.jsonString)(array)}`);
 }
 //# sourceMappingURL=subscribeStates.js.map

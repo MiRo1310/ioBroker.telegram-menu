@@ -9,9 +9,9 @@ const main_1 = require("../main");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
-const config_1 = require("../config/config");
-async function sendToTelegram({ userToSend, textToSend, keyboard, telegramInstance = config_1.defaultTelegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID, parse_mode, }) {
+async function sendToTelegram({ userToSend, textToSend, keyboard, telegramParams, parse_mode, }) {
     try {
+        const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
         const chatId = (0, utils_1.getChatID)(userListWithChatID, userToSend);
         main_1.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
         main_1.adapter.log.debug(`Instance: ${telegramInstance}`);
@@ -42,7 +42,8 @@ async function sendToTelegram({ userToSend, textToSend, keyboard, telegramInstan
         (0, logging_1.errorLogger)('Error sendToTelegram:', e, main_1.adapter);
     }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, instance = config_1.defaultTelegramInstance, userListWithChatID, parse_mode) {
+function sendToTelegramSubmenu(user, textToSend, keyboard, telegramParams, parse_mode) {
+    const { telegramInstance: instance, userListWithChatID } = telegramParams;
     main_1.adapter.sendTo(instance, 'send', {
         chatId: (0, utils_1.getChatID)(userListWithChatID, user),
         parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
@@ -50,7 +51,8 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, instance = config_1.d
         reply_markup: keyboard,
     }, (res) => telegramLogger(res));
 }
-const sendLocationToTelegram = async (user, data, instance, userListWithChatID) => {
+const sendLocationToTelegram = async (user, data, telegramParams) => {
+    const { userListWithChatID, telegramInstance: instance } = telegramParams;
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, user);
         for (const { longitude: longitudeID, latitude: latitudeID } of data) {

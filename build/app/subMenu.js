@@ -181,13 +181,7 @@ const back = async ({ telegramParams, userToSend, allMenusWithData, menus }) => 
   const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus);
   if (result) {
     const { keyboard, parse_mode, textToSend = "" } = result;
-    await (0, import_telegram.sendToTelegram)({
-      userToSend,
-      textToSend,
-      keyboard,
-      parse_mode,
-      telegramParams
-    });
+    await (0, import_telegram.sendToTelegram)({ userToSend, textToSend, keyboard, parse_mode, telegramParams });
   }
 };
 async function callSubMenu({

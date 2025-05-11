@@ -4,7 +4,7 @@ exports.removeUserFromDynamicValue = exports.getDynamicValue = exports.setDynami
 const string_1 = require("../lib/string");
 const telegram_1 = require("./telegram");
 const setDynamicValueObj = {};
-const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance, one_time_keyboard, resize_keyboard, userListWithChatID, parse_mode, confirm) => {
+const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
     const { substring } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
     let array = substring.split(':');
     array = isBraceDeleteEntry(array);
@@ -13,10 +13,7 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance
         await (0, telegram_1.sendToTelegram)({
             userToSend,
             textToSend: text,
-            telegramInstance,
-            resize_keyboard,
-            one_time_keyboard,
-            userListWithChatID,
+            telegramParams,
             parse_mode,
         });
     }
@@ -27,10 +24,7 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramInstance
         userToSend,
         parse_mode,
         confirm,
-        telegramInstance,
-        one_time_keyboard,
-        resize_keyboard,
-        userListWithChatID,
+        telegramParams,
         valueType: array[2],
     };
     if (array[3] && array[3] != '') {

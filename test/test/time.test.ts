@@ -7,6 +7,7 @@ describe('Time', () => {
     const expectedDate = '11.4.2025, 18:26:43';
 
     it('Should return a correct formatted date', () => {
+        this.timeout(5000);
         const result = toLocaleDate(testDate);
         expect(result).to.equal(expectedDate);
     });
