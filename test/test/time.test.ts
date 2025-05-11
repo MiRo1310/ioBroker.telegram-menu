@@ -6,8 +6,8 @@ describe('Time', () => {
     const testDate = new Date(1744388803096);
     const expectedDate = '11.4.2025, 18:26:43';
 
-    it('Should return a correct formatted date', () => {
-        this.timeout(5000);
+    it('Should return a correct formatted date', function () {
+        this.timeout(5000); // Timeout auf 5000ms erhöhen
         const result = toLocaleDate(testDate);
         expect(result).to.equal(expectedDate);
     });
