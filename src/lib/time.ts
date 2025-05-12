@@ -2,13 +2,13 @@ import { config, defaultLocale, timezone } from '../config/config';
 import type { ExtractTimeValues, GetTimeWithPad } from '../types/types';
 import { pad } from './string';
 
-export const toLocaleDate = (ts: Date): string => {
-    return ts.toLocaleDateString(defaultLocale, {
+export const toLocaleDate = (ts: Date, options?: { locale?: string; tz?: string }): string => {
+    return ts.toLocaleDateString(options?.locale ?? defaultLocale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
-        timeZone: timezone,
+        timeZone: options?.tz ?? timezone,
     });
 };
 
