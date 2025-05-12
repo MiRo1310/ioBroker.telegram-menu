@@ -12,15 +12,11 @@ const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
 const config_1 = require("../config/config");
 const logging_1 = require("./logging");
-function isLastElement(i, array) {
-    return i == array?.length;
-}
-function getState(part, userToSend, telegramParams) {
-    let createdText = '';
-    let i = 1;
-    const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
-    part.getData?.forEach(async ({ newline, text, id }) => {
-        try {
+async function getState(part, userToSend, telegramParams) {
+    try {
+        const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
+        const valueArrayForCorrectOrder = [];
+        const promises = (part.getData || []).map(async ({ newline, text, id }, index) => {
             main_1.adapter.log.debug(`Get Value ID: ${id}`);
             if (id.includes(config_1.config.functionSelektor)) {
                 await (0, action_1.idBySelector)({
@@ -39,7 +35,8 @@ function getState(part, userToSend, telegramParams) {
             const state = await main_1.adapter.getForeignStateAsync(id);
             if (!(0, utils_1.isDefined)(state)) {
                 main_1.adapter.log.error('The state is empty!');
-                return;
+                valueArrayForCorrectOrder[index] = 'N/A';
+                return Promise.resolve();
             }
             const stateValue = (0, string_1.cleanUpString)(state.val?.toString());
             let modifiedStateVal = stateValue;
@@ -106,23 +103,20 @@ function getState(part, userToSend, telegramParams) {
             modifiedTextToSend = _text;
             main_1.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
             const isNewline = (0, string_1.getNewline)(newline);
-            createdText += modifiedTextToSend.includes(config_1.config.rowSplitter)
+            valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(config_1.config.rowSplitter)
                 ? `${modifiedTextToSend.replace(config_1.config.rowSplitter, modifiedStateVal.toString())}${isNewline}`
                 : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
-            main_1.adapter.log.debug(`Text: ${createdText}`);
-            if (isLastElement(i, part.getData)) {
-                await (0, telegram_1.sendToTelegram)({
-                    userToSend,
-                    textToSend: createdText,
-                    telegramParams,
-                    parse_mode,
-                });
-            }
-            i++;
-        }
-        catch (error) {
-            (0, logging_1.errorLogger)('Error GetData:', error, main_1.adapter);
-        }
-    });
+        });
+        await Promise.all(promises);
+        await (0, telegram_1.sendToTelegram)({
+            userToSend,
+            textToSend: valueArrayForCorrectOrder.join(''),
+            telegramParams,
+            parse_mode,
+        });
+    }
+    catch (error) {
+        (0, logging_1.errorLogger)('Error GetData:', error, main_1.adapter);
+    }
 }
 //# sourceMappingURL=getstate.js.map

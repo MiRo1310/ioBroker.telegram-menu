@@ -106,7 +106,7 @@ async function processData({ menuData, calledValue, userToSend, groupWithUser, t
                 return true;
             }
             if (part?.getData) {
-                (0, getstate_1.getState)(part, userToSend, telegramParams);
+                await (0, getstate_1.getState)(part, userToSend, telegramParams);
                 return true;
             }
             if (part?.sendPic) {
