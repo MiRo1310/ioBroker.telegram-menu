@@ -1,8 +1,9 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.3.0",
+    "version": "2.2.4",
     "news": {
+
       "2.2.4": {
         "en": "FIX: #279 Backslash is in the message when using newline",
         "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",

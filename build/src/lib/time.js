@@ -5,13 +5,13 @@ exports.extractTimeValues = extractTimeValues;
 exports.getTimeWithPad = getTimeWithPad;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
-const toLocaleDate = (ts) => {
-    return ts.toLocaleDateString(config_1.defaultLocale, {
+const toLocaleDate = (ts, options) => {
+    return ts.toLocaleDateString(options?.locale ?? config_1.defaultLocale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
-        timeZone: config_1.timezone,
+        timeZone: options?.tz ?? config_1.timezone,
     });
 };
 exports.toLocaleDate = toLocaleDate;

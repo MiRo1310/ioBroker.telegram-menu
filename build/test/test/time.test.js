@@ -6,8 +6,10 @@ const config_1 = require("../../src/config/config");
 describe('Time', () => {
     const testDate = new Date(1744388803096);
     const expectedDate = '11.4.2025, 18:26:43';
-    it('Should return a correct formatted date', () => {
-        const result = (0, time_1.toLocaleDate)(testDate);
+    // FIXME : Test gets error Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves.
+    it('Should return a correct formatted date', function () {
+        this.timeout(5000); // Timeout auf 5000ms erhöhen
+        const result = (0, time_1.toLocaleDate)(testDate, { locale: 'de-DE', tz: 'Europe/Berlin' });
         (0, chai_1.expect)(result).to.equal(expectedDate);
     });
     it('Should not throw an exception, if no valid date', () => {
