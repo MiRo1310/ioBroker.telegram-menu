@@ -1,9 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.2.4",
+    "version": "2.3.0",
     "news": {
-
+      "2.3.0": {
+        "en": "FIX: #303 GetState output in incorrect order\nFIX: #296 Frontend fixes\nFIX: #295 Delete button not working\nFIX: #291 Menu button not working\nFEAT: Nodejs >= 20.0.0\nFEAT: Add sentry\nFEAT: Add mocha tests",
+        "de": "FIX: #303 GetState Ausgabe in falscher Reihenfolge\nFIX: #296 Frontend Fixes\nFIX: #295 Löschen Taste nicht funktioniert\nFIX: #291 Menü-Taste nicht funktionieren\nFEAT: Nodejs >= 20.0.0\nFEAT: Verschicken hinzufügen\nFEAT: Mocha-Tests hinzufügen",
+        "ru": "FIX: #303 Получить выход в неправильном порядке\nFIX: #296 Фронтальные исправления\nFIX: #295 Удаление кнопки не работает\nFix: #291 Кнопка меню не работает\nFEAT: Nodejs >= 20.0.0\nИсполнитель: Add sentry\nОригинальное название: Add Mocha Tests",
+        "pt": "FIX: #303 GetState output em ordem incorreta\nFIX: #296 Correções de Frontend\nFIX: #295 Excluir botão não funciona\nFIX: #291 Botão de menu não funciona\nFEAT: Nodejs >= 20.0.0\nFEAT: Adicionar sentinela\nFEAT: Adicionar testes de mocha",
+        "nl": "FIX: #303 GetState output in onjuiste volgorde\nFIX: #296 Frontend fixes\nFIX: #295 Verwijder knop werkt niet\nFIX: #291 Menuknop werkt niet\nFEAT: Nodejs <= 20.0\nFEAT: Bewaker toevoegen\nFEAT: Mokka testen toevoegen",
+        "fr": "FIX: #303 Sortie GetState dans un ordre incorrect\nFIXE: #296 Corrections de la façade\nFIX: #295 Supprimer bouton ne fonctionne pas\nFIXE: 291 bouton de menu ne fonctionne pas\nVIANDE: Nodejs >= 20.0.0\nVIANDE: Ajouter sentinelle\nVIANDE: Ajouter les tests de moka",
+        "it": "FIX: #303 GetState output in ordine errato\nFIX: #296 Anteriori\nFIX: #295 Eliminare pulsante non funziona\nFIX: #291 Menu pulsante non funziona\nATTENZIONE: Nodejs >= 20.0.0\nFEAT: Aggiungere la sentinella\nFEAT: Aggiungere prove di mocha",
+        "es": "FIX: #303 Obtener la salida del estado en el orden incorrecto\nFIX: #296 Correciones de Frontend\nFIX: #295 Eliminar botón no funciona\nFIX: #291 Botón de menú que no funciona\nFEAT: Nodejs\nFEAT: Add sentry\nFEAT: Añadir pruebas de mocha",
+        "pl": "FIX: # 303 Wyjście GetState w niewłaściwej kolejności\nFIX: # 296\nFIX: # 295 Usuń niedziałający przycisk\nFIX: # 291 Przycisk menu nie działa\nFEAT: Nodeje > = 20.0.0\nFEAT: Dodaj wartownik\nFEAT: Dodaj testy mocha",
+        "uk": "FIX: #303 Отримувати вихід в некоректному порядку\nFIX: #296 Передня фіксація\nFIX: #295 Видалити кнопка не працює\nFIX: #291 Меню не працює\nFEAT: Nodejs >= 20.0.0\nFEAT: Додати відправлення\nFEAT: Додати тести",
+        "zh-cn": "FIX: # 303 GetState 输出顺序不正确\nFIX: # 296 前端修正\nFIX: # 295 删除不起作用的按钮\nFIX: #291 (英语). 菜单按钮不工作\nFEAT: 节点 >= 20.0.0\nFEAT: 添加哨兵\nFEAT: 添加摩卡测试"
+      },
       "2.2.4": {
         "en": "FIX: #279 Backslash is in the message when using newline",
         "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
