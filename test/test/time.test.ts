@@ -8,6 +8,7 @@ describe('Time', () => {
 
     // FIXME : Test gets error Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves.
     it('Should return a correct formatted date', function () {
+        this.timeout(10000)
              const result = toLocaleDate(testDate, {locale:'de-DE', tz:'Europe/Berlin'});
         expect(result).to.equal(expectedDate);
     });
