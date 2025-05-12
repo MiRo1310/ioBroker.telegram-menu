@@ -145,7 +145,7 @@ async function processData({
             }
 
             if (part?.getData) {
-                getState(part, userToSend, telegramParams);
+                await getState(part, userToSend, telegramParams);
                 return true;
             }
 

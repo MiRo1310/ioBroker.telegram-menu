@@ -32,15 +32,12 @@ var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
 var import_config = require("../config/config");
 var import_logging = require("./logging");
-function isLastElement(i, array) {
-  return i == (array == null ? void 0 : array.length);
-}
-function getState(part, userToSend, telegramParams) {
-  var _a, _b;
+async function getState(part, userToSend, telegramParams) {
+  var _a;
   try {
     const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
     const valueArrayForCorrectOrder = [];
-    (_b = part.getData) == null ? void 0 : _b.forEach(async ({ newline, text, id }, index) => {
+    const promises = (part.getData || []).map(async ({ newline, text, id }, index) => {
       var _a2;
       import_main.adapter.log.debug(`Get Value ID: ${id}`);
       if (id.includes(import_config.config.functionSelektor)) {
@@ -60,7 +57,8 @@ function getState(part, userToSend, telegramParams) {
       const state = await import_main.adapter.getForeignStateAsync(id);
       if (!(0, import_utils.isDefined)(state)) {
         import_main.adapter.log.error("The state is empty!");
-        return;
+        valueArrayForCorrectOrder[index] = "N/A";
+        return Promise.resolve();
       }
       const stateValue = (0, import_string.cleanUpString)((_a2 = state.val) == null ? void 0 : _a2.toString());
       let modifiedStateVal = stateValue;
@@ -131,14 +129,13 @@ function getState(part, userToSend, telegramParams) {
       import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
       const isNewline = (0, import_string.getNewline)(newline);
       valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
-      if (isLastElement(index + 1, part.getData)) {
-        await (0, import_telegram.sendToTelegram)({
-          userToSend,
-          textToSend: valueArrayForCorrectOrder.join(""),
-          telegramParams,
-          parse_mode
-        });
-      }
+    });
+    await Promise.all(promises);
+    await (0, import_telegram.sendToTelegram)({
+      userToSend,
+      textToSend: valueArrayForCorrectOrder.join(""),
+      telegramParams,
+      parse_mode
     });
   } catch (error) {
     (0, import_logging.errorLogger)("Error GetData:", error, import_main.adapter);
