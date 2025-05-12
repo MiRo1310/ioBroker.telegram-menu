@@ -26,13 +26,14 @@ __export(time_exports, {
 module.exports = __toCommonJS(time_exports);
 var import_config = require("../config/config");
 var import_string = require("./string");
-const toLocaleDate = (ts) => {
-  return ts.toLocaleDateString(import_config.defaultLocale, {
+const toLocaleDate = (ts, options) => {
+  var _a, _b;
+  return ts.toLocaleDateString((_a = options == null ? void 0 : options.locale) != null ? _a : import_config.defaultLocale, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-    timeZone: import_config.timezone
+    timeZone: (_b = options == null ? void 0 : options.tz) != null ? _b : import_config.timezone
   });
 };
 const integrateTimeIntoText = (text, val) => {

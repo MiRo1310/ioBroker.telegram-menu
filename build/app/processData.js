@@ -147,7 +147,7 @@ async function processData({
         return true;
       }
       if (part == null ? void 0 : part.getData) {
-        (0, import_getstate.getState)(part, userToSend, telegramParams);
+        await (0, import_getstate.getState)(part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.sendPic) {

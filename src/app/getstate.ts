@@ -11,18 +11,11 @@ import { calcValue, roundValue } from '../lib/appUtils';
 import { config } from '../config/config';
 import { errorLogger } from './logging';
 
-function isLastElement(i: number, array: unknown[] | undefined): boolean {
-    return i == array?.length;
-}
-
-export function getState(part: Part, userToSend: string, telegramParams: TelegramParams): void {
-    let createdText = '';
-    let i = 1;
-
-    const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
-
-    part.getData?.forEach(async ({ newline, text, id }) => {
-        try {
+export async function getState(part: Part, userToSend: string, telegramParams: TelegramParams): Promise<void> {
+    try {
+        const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
+        const valueArrayForCorrectOrder: string[] = [];
+        const promises = (part.getData || []).map(async ({ newline, text, id }, index): Promise<void> => {
             adapter.log.debug(`Get Value ID: ${id}`);
 
             if (id.includes(config.functionSelektor)) {
@@ -45,7 +38,8 @@ export function getState(part: Part, userToSend: string, telegramParams: Telegra
 
             if (!isDefined(state)) {
                 adapter.log.error('The state is empty!');
-                return;
+                valueArrayForCorrectOrder[index] = 'N/A';
+                return Promise.resolve();
             }
 
             const stateValue = cleanUpString(state.val?.toString());
@@ -57,10 +51,12 @@ export function getState(part: Part, userToSend: string, telegramParams: Telegra
                 modifiedTextToSend = await processTimeIdLc(text, id);
                 modifiedStateVal = '';
             }
+
             if (modifiedTextToSend.includes(config.time)) {
                 modifiedTextToSend = integrateTimeIntoText(modifiedTextToSend, stateValue);
                 modifiedStateVal = '';
             }
+
             if (modifiedTextToSend.includes(config.math.start)) {
                 const { textToSend, calculated, error } = calcValue(modifiedTextToSend, modifiedStateVal, adapter);
                 if (!error) {
@@ -70,6 +66,7 @@ export function getState(part: Part, userToSend: string, telegramParams: Telegra
                     adapter.log.debug(`TextToSend: ${modifiedTextToSend} val: ${modifiedStateVal}`);
                 }
             }
+
             if (modifiedTextToSend.includes(config.round.start)) {
                 const { error, text, roundedValue } = roundValue(String(modifiedStateVal), modifiedTextToSend);
                 if (!error) {
@@ -78,6 +75,7 @@ export function getState(part: Part, userToSend: string, telegramParams: Telegra
                     modifiedTextToSend = text;
                 }
             }
+
             if (modifiedTextToSend.includes(config.json.start)) {
                 const { substring } = decomposeText(modifiedTextToSend, config.json.start, config.json.end);
 
@@ -125,23 +123,18 @@ export function getState(part: Part, userToSend: string, telegramParams: Telegra
 
             const isNewline = getNewline(newline);
 
-            createdText += modifiedTextToSend.includes(config.rowSplitter)
+            valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(config.rowSplitter)
                 ? `${modifiedTextToSend.replace(config.rowSplitter, modifiedStateVal.toString())}${isNewline}`
                 : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
-
-            adapter.log.debug(`Text: ${createdText}`);
-
-            if (isLastElement(i, part.getData)) {
-                await sendToTelegram({
-                    userToSend,
-                    textToSend: createdText,
-                    telegramParams,
-                    parse_mode,
-                });
-            }
-            i++;
-        } catch (error: any) {
-            errorLogger('Error GetData:', error, adapter);
-        }
-    });
+        });
+        await Promise.all(promises);
+        await sendToTelegram({
+            userToSend,
+            textToSend: valueArrayForCorrectOrder.join(''),
+            telegramParams,
+            parse_mode,
+        });
+    } catch (error: any) {
+        errorLogger('Error GetData:', error, adapter);
+    }
 }

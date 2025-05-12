@@ -35,8 +35,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 2.3.0 (2025-05-11)
+### **WORK IN PROGRESS**
 
+- FIX: #303 GetState output in incorrect order
 - FIX: #296 Frontend fixes
 - FIX: #295 Delete button not working
 - FIX: #291 Menu button not working
