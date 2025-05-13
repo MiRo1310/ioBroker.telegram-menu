@@ -7,19 +7,19 @@ import { Checkboxes, IsUserActiveCheckbox, UserListWithChatId, UsersInGroup } fr
 import { NativeData } from '@/types/app';
 
 declare global {
-    namespace ioBroker {
-        interface AdapterConfig extends _AdapterConfig {
-            checkbox: Checkboxes;
-            instance: string;
-            usersInGroup: UsersInGroup;
-            tokenGrafana: string;
-            directory: string;
-            userActiveCheckbox: IsUserActiveCheckbox;
-            textNoEntry: string;
-            userListWithChatID: UserListWithChatId[];
-            data: NativeData;
-        }
-    }
+	namespace ioBroker {
+		interface AdapterConfig extends _AdapterConfig {
+			checkbox: Checkboxes
+			instances:{ active: boolean; name?: string }[]
+			usersInGroup: UsersInGroup
+			tokenGrafana: string
+			directory: string
+			userActiveCheckbox: IsUserActiveCheckbox
+			textNoEntry : string
+			userListWithChatID: UserListWithChatId[]
+			data: NativeData
+		}
+	}
 }
 
 // this is required so the above AdapterConfig is found by TypeScript / type checking

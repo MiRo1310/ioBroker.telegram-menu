@@ -592,7 +592,7 @@ export interface PropsMenuPopupCard {
 export interface Native {
     dropbox: Dropbox.Position;
     usersInGroup: UsersInGroup;
-    instance: string;
+    instanceList?: InstanceList[];
     data: NativeData;
     checkbox: {
         sendMenuAfterRestart: boolean;
@@ -608,10 +608,15 @@ export interface Native {
     userListWithChatID: UserListWithChatID[];
     description: DescriptionRow[];
 }
+export interface InstanceList {
+    active: boolean;
+    name: string;
+}
 
 export interface UserListWithChatID {
     name: string;
     chatID: string;
+    instance: string;
 }
 
 export type UserActiveCheckbox = { [key: string]: boolean };

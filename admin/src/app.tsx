@@ -10,7 +10,7 @@ import AppTriggerOverview from '@/pages/AppTriggerOverview';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { AdminConnection, GenericApp } from '@iobroker/adapter-react-v5';
 import { Grid2 as Grid } from '@mui/material';
-import type { Dropbox, Native, Nullable, TriggerObject } from '@/types/app.d.ts';
+import type { Dropbox, Native, Nullable, TriggerObject, UserListWithChatID } from '@/types/app.d.ts';
 import React from 'react';
 import { getDefaultDropBoxCoordinates } from './lib/dragNDrop';
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from './lib/object';
@@ -54,7 +54,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
         this.dropBoxRef = React.createRef();
         this.state = {
             ...this.state,
-            native: {} as Native,
+            native: { instanceList: [{ active: true, name: 'telegram.0' }] } as Native,
             tab: 'nav',
             subTab: 'set',
             draggingRowIndex: null,
@@ -102,7 +102,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
         prevProps: Readonly<TelegramMenuApp.AdditionalProps>,
         prevState: Readonly<TelegramMenuApp.AdditionalState>,
     ): Promise<void> {
-        if (prevState.native.instance !== this.state.native.instance && this.state.connectionReady) {
+        if (prevState.native.instanceList !== this.state.native.instanceList && this.state.connectionReady) {
             await this.getUsersFromTelegram();
         }
         if (prevState.native.data !== this.state.native.data || prevState.activeMenu !== this.state.activeMenu) {
@@ -171,11 +171,26 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
     }
 
     async getUsersFromTelegram(): Promise<void> {
-        await getIobrokerData.getUsersFromTelegram(this.socket, this.state.native.instance || 'telegram.0', data => {
-            !this.state.native.instance
-                ? this.updateNativeValue('instance', 'telegram.0')
-                : this.updateNativeValue('userListWithChatID', processUserData(data));
-        });
+        const users: UserListWithChatID[] = [];
+
+        for (const instance of this.state.native.instanceList ?? []) {
+            if (!instance.active) {
+                continue;
+            }
+            const data = await getIobrokerData.getUsersFromTelegram(this.socket, instance.name);
+            if (!data) {
+                continue;
+            }
+            const userItem = processUserData(data as string);
+            if (userItem) {
+                const userItemWithInstance: UserListWithChatID[] = userItem.map(item => ({
+                    ...item,
+                    instance: instance.name,
+                }));
+                users.concat(userItemWithInstance);
+            }
+        }
+        this.updateNativeValue('userListWithChatID', users);
     }
 
     render(): React.ReactElement {
