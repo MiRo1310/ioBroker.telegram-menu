@@ -4,6 +4,8 @@ import {
     getNewline,
     getValueToExchange,
     isBooleanString,
+    isEmptyString,
+    isNonEmptyString,
     isString,
     jsonString,
     pad,
@@ -422,5 +424,35 @@ describe('isBooleanString', () => {
         expect(isBooleanString('yes')).to.be.false;
         expect(isBooleanString('no')).to.be.false;
         expect(isBooleanString('')).to.be.false;
+    });
+});
+
+describe('String Utility Functions', () => {
+    describe('isNonEmptyString', () => {
+        it('should return true for a non-empty string', () => {
+            expect(isNonEmptyString('hello')).to.be.true;
+        });
+
+        it('should return false for an empty string', () => {
+            expect(isNonEmptyString('')).to.be.false;
+        });
+
+        it('should return false for a string with only spaces', () => {
+            expect(isNonEmptyString('   ')).to.be.false;
+        });
+    });
+
+    describe('isEmptyString', () => {
+        it('should return true for an empty string', () => {
+            expect(isEmptyString('')).to.be.true;
+        });
+
+        it('should return true for a string with only spaces', () => {
+            expect(isEmptyString('   ')).to.be.true;
+        });
+
+        it('should return false for a non-empty string', () => {
+            expect(isEmptyString('hello')).to.be.false;
+        });
     });
 });

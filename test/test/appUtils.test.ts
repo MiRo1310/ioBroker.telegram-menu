@@ -7,6 +7,7 @@ import {
     getParseMode,
     getStartSides,
     getTypeofTimestamp,
+    isSameType,
     isStartside,
     roundValue,
     splitNavigation,
@@ -568,5 +569,19 @@ describe('exchangePlaceholderWithValue', () => {
         const val = '';
         const result = exchangePlaceholderWithValue(textToSend, val);
         expect(result).to.equal('');
+    });
+});
+
+describe("isSameType", () => {
+    it("should return true if the types match", () => {
+        const obj = { common: { type: "string" } } as ioBroker.Object;
+        const result = isSameType("string", obj);
+        expect(result).to.be.true;
+    });
+
+    it("should return false if the types do not match", () => {
+        const obj = { common: { type: "number" } } as ioBroker.Object;
+        const result = isSameType("string", obj);
+        expect(result).to.be.false;
     });
 });

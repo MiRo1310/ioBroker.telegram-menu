@@ -89,7 +89,7 @@ async function transformValueToTypeOfId(id, value) {
     try {
         const receivedType = typeof value;
         const obj = await main_1.adapter.getForeignObjectAsync(id);
-        if (!obj || !(0, utils_1.isDefined)(value) || (0, appUtils_1.isNoTypeDefined)(receivedType, obj)) {
+        if (!obj || !(0, utils_1.isDefined)(value) || (0, appUtils_1.isSameType)(receivedType, obj)) {
             return value;
         }
         main_1.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);

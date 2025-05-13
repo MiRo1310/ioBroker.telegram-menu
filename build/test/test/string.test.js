@@ -358,4 +358,28 @@ describe('isBooleanString', () => {
         (0, chai_1.expect)((0, string_1.isBooleanString)('')).to.be.false;
     });
 });
+describe('String Utility Functions', () => {
+    describe('isNonEmptyString', () => {
+        it('should return true for a non-empty string', () => {
+            (0, chai_1.expect)((0, string_1.isNonEmptyString)('hello')).to.be.true;
+        });
+        it('should return false for an empty string', () => {
+            (0, chai_1.expect)((0, string_1.isNonEmptyString)('')).to.be.false;
+        });
+        it('should return false for a string with only spaces', () => {
+            (0, chai_1.expect)((0, string_1.isNonEmptyString)('   ')).to.be.false;
+        });
+    });
+    describe('isEmptyString', () => {
+        it('should return true for an empty string', () => {
+            (0, chai_1.expect)((0, string_1.isEmptyString)('')).to.be.true;
+        });
+        it('should return true for a string with only spaces', () => {
+            (0, chai_1.expect)((0, string_1.isEmptyString)('   ')).to.be.true;
+        });
+        it('should return false for a non-empty string', () => {
+            (0, chai_1.expect)((0, string_1.isEmptyString)('hello')).to.be.false;
+        });
+    });
+});
 //# sourceMappingURL=string.test.js.map

@@ -51,4 +51,16 @@ describe('trimAllItems', () => {
         (0, chai_1.expect)((0, object_1.trimAllItems)(input)).to.deep.equal(expectedOutput);
     });
 });
+describe('setStateIdsToIdArray', () => {
+    it('should extract ids from an array of SetStateIds objects', () => {
+        const input = [{ id: '1', confirm: "true", parse_mode: true, returnText: "", userToSend: "" }, { id: '2', confirm: "true", parse_mode: true, returnText: "", userToSend: "" }, { id: '3', confirm: "true", parse_mode: true, returnText: "", userToSend: "" }];
+        const expectedOutput = ['1', '2', '3'];
+        (0, chai_1.expect)((0, object_1.setStateIdsToIdArray)(input)).to.deep.equal(expectedOutput);
+    });
+    it('should return an empty array if the input is empty', () => {
+        const input = [];
+        const expectedOutput = [];
+        (0, chai_1.expect)((0, object_1.setStateIdsToIdArray)(input)).to.deep.equal(expectedOutput);
+    });
+});
 //# sourceMappingURL=object.test.js.map

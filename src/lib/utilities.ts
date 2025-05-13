@@ -4,7 +4,7 @@ import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { isNoTypeDefined, statusIdAndParams, timeStringReplacer } from './appUtils';
+import { isSameType, statusIdAndParams, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
 
@@ -113,7 +113,7 @@ export async function transformValueToTypeOfId(
         const receivedType = typeof value;
         const obj = await adapter.getForeignObjectAsync(id);
 
-        if (!obj || !isDefined(value) || isNoTypeDefined(receivedType, obj)) {
+        if (!obj || !isDefined(value) || isSameType(receivedType, obj)) {
             return value;
         }
 
