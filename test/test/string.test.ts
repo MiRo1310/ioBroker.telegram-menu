@@ -146,17 +146,17 @@ describe('removeQuotes', () => {
 });
 
 describe('validateNewLine', () => {
-    it('Validate new line', () => {
+    it('should return a Validated string with newline', () => {
         const result = cleanUpString('Das hier ist ein\\n Test');
         expect(result).to.equal('Das hier ist ein\n Test');
     });
 
-    it('Validate new line with empty text', () => {
+    it('should return a validated string newline with empty text', () => {
         const result = cleanUpString(undefined);
         expect(result).to.equal('');
     });
 
-    it('soll \\n in echten Zeilenumbruch umwandeln', () => {
+    it('should convert \\n into actual line breaks', () => {
         const input = 'Das\\\\\n hier\\\\n ist ein\\\n Test';
         const expected = 'Das\n hier\n ist ein\n Test';
         const result = cleanUpString(input);
@@ -202,7 +202,7 @@ describe('getValueToExchange', () => {
         database.clear();
     });
 
-    it('soll den Wert erfolgreich austauschen, wenn JSON korrekt ist', () => {
+    it('should successfully exchange the value if the JSON is correct', () => {
         const textToSend = 'change{"true":"an","false":"aus"}';
         const val = 'true';
         const result = getValueToExchange(adapter, textToSend, val);
@@ -214,7 +214,7 @@ describe('getValueToExchange', () => {
         });
     });
 
-    it('soll den ursprünglichen Wert zurückgeben, wenn JSON ungültig ist', () => {
+    it('should return the original value if the JSON is invalid', () => {
         const textToSend = 'change{"true":"an","false":aus}';
         const val = 'true';
         const result = getValueToExchange(adapter, textToSend, val);
@@ -226,7 +226,7 @@ describe('getValueToExchange', () => {
         });
     });
 
-    it("soll den ursprünglichen Text zurückgeben, wenn kein 'change' enthalten ist", () => {
+    it("should return the original text if no 'change' is included", () => {
         const textToSend = 'Kein Austausch erforderlich';
         const val = 'true';
         const result = getValueToExchange(adapter, textToSend, val);
