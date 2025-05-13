@@ -113,15 +113,15 @@ describe('removeQuotes', () => {
     });
 });
 describe('validateNewLine', () => {
-    it('Validate new line', () => {
+    it('should return a Validated string with newline', () => {
         const result = (0, string_1.cleanUpString)('Das hier ist ein\\n Test');
         (0, chai_1.expect)(result).to.equal('Das hier ist ein\n Test');
     });
-    it('Validate new line with empty text', () => {
+    it('should return a validated string newline with empty text', () => {
         const result = (0, string_1.cleanUpString)(undefined);
         (0, chai_1.expect)(result).to.equal('');
     });
-    it('soll \\n in echten Zeilenumbruch umwandeln', () => {
+    it('should convert \\n into actual line breaks', () => {
         const input = 'Das\\\\\n hier\\\\n ist ein\\\n Test';
         const expected = 'Das\n hier\n ist ein\n Test';
         const result = (0, string_1.cleanUpString)(input);
@@ -161,7 +161,7 @@ describe('getValueToExchange', () => {
         adapter.resetMockHistory();
         database.clear();
     });
-    it('soll den Wert erfolgreich austauschen, wenn JSON korrekt ist', () => {
+    it('should successfully exchange the value if the JSON is correct', () => {
         const textToSend = 'change{"true":"an","false":"aus"}';
         const val = 'true';
         const result = (0, string_1.getValueToExchange)(adapter, textToSend, val);
@@ -171,7 +171,7 @@ describe('getValueToExchange', () => {
             error: false,
         });
     });
-    it('soll den ursprünglichen Wert zurückgeben, wenn JSON ungültig ist', () => {
+    it('should return the original value if the JSON is invalid', () => {
         const textToSend = 'change{"true":"an","false":aus}';
         const val = 'true';
         const result = (0, string_1.getValueToExchange)(adapter, textToSend, val);
@@ -182,7 +182,7 @@ describe('getValueToExchange', () => {
             error: true,
         });
     });
-    it("soll den ursprünglichen Text zurückgeben, wenn kein 'change' enthalten ist", () => {
+    it("should return the original text if no 'change' is included", () => {
         const textToSend = 'Kein Austausch erforderlich';
         const val = 'true';
         const result = (0, string_1.getValueToExchange)(adapter, textToSend, val);
@@ -356,6 +356,30 @@ describe('isBooleanString', () => {
         (0, chai_1.expect)((0, string_1.isBooleanString)('yes')).to.be.false;
         (0, chai_1.expect)((0, string_1.isBooleanString)('no')).to.be.false;
         (0, chai_1.expect)((0, string_1.isBooleanString)('')).to.be.false;
+    });
+});
+describe('String Utility Functions', () => {
+    describe('isNonEmptyString', () => {
+        it('should return true for a non-empty string', () => {
+            (0, chai_1.expect)((0, string_1.isNonEmptyString)('hello')).to.be.true;
+        });
+        it('should return false for an empty string', () => {
+            (0, chai_1.expect)((0, string_1.isNonEmptyString)('')).to.be.false;
+        });
+        it('should return false for a string with only spaces', () => {
+            (0, chai_1.expect)((0, string_1.isNonEmptyString)('   ')).to.be.false;
+        });
+    });
+    describe('isEmptyString', () => {
+        it('should return true for an empty string', () => {
+            (0, chai_1.expect)((0, string_1.isEmptyString)('')).to.be.true;
+        });
+        it('should return true for a string with only spaces', () => {
+            (0, chai_1.expect)((0, string_1.isEmptyString)('   ')).to.be.true;
+        });
+        it('should return false for a non-empty string', () => {
+            (0, chai_1.expect)((0, string_1.isEmptyString)('hello')).to.be.false;
+        });
     });
 });
 //# sourceMappingURL=string.test.js.map

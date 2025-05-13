@@ -504,4 +504,16 @@ describe('exchangePlaceholderWithValue', () => {
         (0, chai_1.expect)(result).to.equal('');
     });
 });
+describe("isSameType", () => {
+    it("should return true if the types match", () => {
+        const obj = { common: { type: "string" } };
+        const result = (0, appUtils_1.isSameType)("string", obj);
+        (0, chai_1.expect)(result).to.be.true;
+    });
+    it("should return false if the types do not match", () => {
+        const obj = { common: { type: "number" } };
+        const result = (0, appUtils_1.isSameType)("string", obj);
+        (0, chai_1.expect)(result).to.be.false;
+    });
+});
 //# sourceMappingURL=appUtils.test.js.map
