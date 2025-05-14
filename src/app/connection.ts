@@ -1,17 +1,31 @@
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
+import type { TelegramParams } from '../types/types';
+import { getIds } from './configVariables';
 
-export const checkIsTelegramActive = async (dataPoint: string): Promise<boolean | undefined> => {
+export const areAllCheckTelegramInstancesActive = async (params: TelegramParams): Promise<boolean | undefined> => {
+    const { telegramInfoConnectionID } = getIds;
     await adapter.setState('info.connection', false, true);
-    const telegramInfoConnection = await adapter.getForeignStateAsync(dataPoint);
+    for (const { active, name } of params.telegramInstanceList) {
+        if (!active || !name) {
+            continue;
+        }
+        const id = telegramInfoConnectionID(name);
+        const telegramInfoConnection = await adapter.getForeignStateAsync(id);
+        adapter.log.debug(`Telegram Info Connection: ${jsonString(telegramInfoConnection)}`);
 
-    adapter.log.debug(`Telegram Info Connection: ${jsonString(telegramInfoConnection)}`);
-    const value = telegramInfoConnection?.val;
-    if (value) {
-        await adapter.setState('info.connection', telegramInfoConnection?.val, true);
-    } else {
-        adapter.log.info('Telegram was found, but is not running. Please start!');
+        if (!telegramInfoConnection) {
+            adapter.log.error(`The State ${id} was not found!`);
+            return false;
+        }
+        const value = telegramInfoConnection?.val;
+
+        await adapter.setState('info.connection', telegramInfoConnection?.val ?? false, true);
+        if (!value) {
+            adapter.log.info('A Selected instance of telegram is not running. Please start!');
+            return false;
+        }
     }
-
-    return !!value;
+    await adapter.setState('info.connection', true, true);
+    return true;
 };
