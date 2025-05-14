@@ -4,13 +4,13 @@
 
 
 // Augment the globally declared type ioBroker.AdapterConfig
-import {Checkboxes, DataObject, IsUserActiveCheckbox, UsersInGroup, UserListWithChatId} from "./types";
+import {Checkboxes, DataObject, IsUserActiveCheckbox, UsersInGroup, UserListWithChatId, InstanceList} from "./types";
 
 declare global {
 	namespace ioBroker {
 		interface AdapterConfig extends _AdapterConfig {
 			checkbox: Checkboxes
-			instancesList:{ active: boolean; name?: string }[]
+			instancesList: InstanceList[]
 			usersInGroup: UsersInGroup
 			tokenGrafana: string
 			directory: string
