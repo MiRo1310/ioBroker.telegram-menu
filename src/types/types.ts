@@ -257,6 +257,7 @@ export interface BackMenuType {
 export type AllMenusWithData = Record<string, NewObjectStructure>;
 
 export interface TelegramParams {
+    telegramInstanceList: InstanceList[];
     telegramInstance: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
