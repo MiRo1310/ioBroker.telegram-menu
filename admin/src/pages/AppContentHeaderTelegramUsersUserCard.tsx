@@ -59,10 +59,10 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
                 <div className="telegram__user">
                     <p className="telegram__user-name">{name}</p>
                     <p className="telegram__user-chat-id">
-                        ChatID :<span className="telegram__user-chat-id">{chatID}</span>
+                        ChatID: <span className="telegram__user-chat-id">{chatID}</span>
                     </p>
                     <p className="telegram__user-chat-id">
-                        Instance :<span className="telegram__user-chat-id">{instance}</span>
+                        Instance: <span className="telegram__user-instance">{instance}</span>
                     </p>
                     <div className="telegram__user-checkbox">
                         <Checkbox
