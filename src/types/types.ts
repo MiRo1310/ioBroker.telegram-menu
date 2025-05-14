@@ -15,6 +15,12 @@ export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
 export interface UserListWithChatId {
     chatID: string;
     name: string;
+    instance: string;
+}
+
+export interface InstanceList {
+    active: boolean;
+    name?: string;
 }
 
 export interface Checkboxes {
