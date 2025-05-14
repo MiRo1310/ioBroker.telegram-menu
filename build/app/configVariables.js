@@ -18,25 +18,30 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var configVariables_exports = {};
 __export(configVariables_exports, {
-  getConfigVariables: () => getConfigVariables
+  getConfigVariables: () => getConfigVariables,
+  getIds: () => getIds
 });
 module.exports = __toCommonJS(configVariables_exports);
+const getIds = {
+  telegramRequestID: (instance) => `${instance}.communicate.request`,
+  telegramBotSendMessageID: (instance) => `${instance}.communicate.botSendMessageId`,
+  telegramRequestMessageID: (instance) => `${instance}.communicate.requestMessageId`,
+  telegramInfoConnectionID: (instance) => `${instance}.info.connection`,
+  telegramRequestChatID: (instance) => `${instance}.communicate.requestChatId`
+};
 const getConfigVariables = (config) => {
-  var _a;
-  const telegramInstance = (_a = config.instance) != null ? _a : "telegram.0";
+  const telegramInstance = config.instancesList;
   const checkboxes = config.checkbox;
   const telegramParams = {
-    telegramInstance,
+    telegramInstance: "telegram.0",
+    //default value
+    telegramInstanceList: telegramInstance,
     resize_keyboard: checkboxes.resKey,
     one_time_keyboard: checkboxes.oneTiKey,
     userListWithChatID: config.userListWithChatID
   };
   return {
     checkboxes,
-    telegramID: `${telegramInstance}.communicate.request`,
-    botSendMessageID: `${telegramInstance}.communicate.botSendMessageId`,
-    requestMessageID: `${telegramInstance}.communicate.requestMessageId`,
-    infoConnectionOfTelegram: `${telegramInstance}.info.connection`,
     checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
     sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
     listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
@@ -51,6 +56,7 @@ const getConfigVariables = (config) => {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  getConfigVariables
+  getConfigVariables,
+  getIds
 });
 //# sourceMappingURL=configVariables.js.map
