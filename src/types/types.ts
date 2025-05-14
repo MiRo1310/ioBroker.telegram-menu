@@ -14,6 +14,12 @@ export type Navigation = string[][];
 export interface UserListWithChatId {
     chatID: string;
     name: string;
+    instance: string;
+}
+
+export interface InstanceList {
+    active: boolean;
+    name?: string;
 }
 
 export interface Checkboxes {

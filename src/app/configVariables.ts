@@ -3,10 +3,11 @@ import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams } fro
 export const getConfigVariables = (
     config: ioBroker.AdapterConfig,
 ): {
-    telegramID: string;
-    botSendMessageID: string;
-    requestMessageID: string;
-    infoConnectionOfTelegram: string;
+    telegramRequestID: (val: string) => string;
+    telegramBotSendMessageID: (val: string) => string;
+    telegramRequestMessageID: (val: string) => string;
+    telegramInfoConnectionID: (val: string) => string;
+    telegramRequestChatID: (val: string) => string;
     checkboxNoEntryFound: boolean;
     sendMenuAfterRestart: boolean;
     listOfMenus: string[];
@@ -19,7 +20,7 @@ export const getConfigVariables = (
     checkboxes: Checkboxes;
     telegramParams: TelegramParams;
 } => {
-    const telegramInstance = config.instance ?? 'telegram.0';
+    const telegramInstance = config.instancesList;
     const checkboxes = config.checkbox;
     const telegramParams: TelegramParams = {
         telegramInstance,
@@ -29,10 +30,11 @@ export const getConfigVariables = (
     };
     return {
         checkboxes,
-        telegramID: `${telegramInstance}.communicate.request`,
-        botSendMessageID: `${telegramInstance}.communicate.botSendMessageId`,
-        requestMessageID: `${telegramInstance}.communicate.requestMessageId`,
-        infoConnectionOfTelegram: `${telegramInstance}.info.connection`,
+        telegramRequestID: (instance: string) => `${instance}.communicate.request`,
+        telegramBotSendMessageID: (instance: string) => `${instance}.communicate.botSendMessageId`,
+        telegramRequestMessageID: (instance: string) => `${instance}.communicate.requestMessageId`,
+        telegramInfoConnectionID: (instance: string) => `${instance}.info.connection`,
+        telegramRequestChatID: (instance: string) => `${instance}.communicate.requestChatId`,
         checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
         sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
         listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
