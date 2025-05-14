@@ -76,7 +76,7 @@ const setFirstMenuValue = async ({ telegramParams, userToSend, part }) => {
   } else {
     val = splittedData[1].split(".")[1];
   }
-  await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
+  await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
 };
 const setSecondMenuValue = async ({ telegramParams, part, userToSend }) => {
   let val;
@@ -87,7 +87,7 @@ const setSecondMenuValue = async ({ telegramParams, part, userToSend }) => {
   } else {
     val = splittedData[2].split(".")[1];
   }
-  await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
+  await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
 };
 const createSubmenuNumber = ({
   cbData,
@@ -247,21 +247,21 @@ async function subMenu({
       return (0, import_dynamicSwitchMenu.createDynamicSwitchMenu)(menuString, menuToHandle, text);
     }
     if ((0, import_validateMenus.isSetDynamicSwitchVal)(cbData) && val) {
-      await (0, import_setstate.handleSetState)(part, userToSend, val, true, telegramParams);
+      await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
     }
     if ((0, import_validateMenus.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
       return createSubmenuPercent({ cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isSetSubmenuPercent)(menuString, step)) {
       const value = parseInt(menuString.split(":")[1].split(",")[1]);
-      await (0, import_setstate.handleSetState)(part, userToSend, value, true, telegramParams);
+      await (0, import_setstate.handleSetState)(part, userToSend, value, telegramParams);
     }
     if ((0, import_validateMenus.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
       return createSubmenuNumber({ cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isSetSubmenuNumber)(menuString, cbData)) {
       const { value } = (0, import_splitValues.getSubmenuNumberValues)(menuString);
-      await (0, import_setstate.handleSetState)(part, userToSend, value, true, telegramParams);
+      await (0, import_setstate.handleSetState)(part, userToSend, value, telegramParams);
     }
     if ((0, import_validateMenus.isMenuBack)(menuString)) {
       await back({

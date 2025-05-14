@@ -83,7 +83,7 @@ const setFirstMenuValue = async ({ telegramParams, userToSend, part }: SetFirstM
     } else {
         val = splittedData[1].split('.')[1];
     }
-    await handleSetState(part, userToSend, val as string, true, telegramParams);
+    await handleSetState(part, userToSend, val as string, telegramParams);
 };
 
 const setSecondMenuValue = async ({ telegramParams, part, userToSend }: SetSecondMenuValue): Promise<void> => {
@@ -95,7 +95,7 @@ const setSecondMenuValue = async ({ telegramParams, part, userToSend }: SetSecon
     } else {
         val = splittedData[2].split('.')[1];
     }
-    await handleSetState(part, userToSend, val as string, true, telegramParams);
+    await handleSetState(part, userToSend, val as string, telegramParams);
 };
 
 const createSubmenuNumber = ({
@@ -280,7 +280,7 @@ export async function subMenu({
         }
 
         if (isSetDynamicSwitchVal(cbData) && val) {
-            await handleSetState(part, userToSend, val, true, telegramParams); //SetDynamicValue
+            await handleSetState(part, userToSend, val, telegramParams); //SetDynamicValue
         }
 
         if (isCreateSubmenuPercent(menuString, cbData) && menuToHandle) {
@@ -289,7 +289,7 @@ export async function subMenu({
 
         if (isSetSubmenuPercent(menuString, step)) {
             const value = parseInt(menuString.split(':')[1].split(',')[1]);
-            await handleSetState(part, userToSend, value, true, telegramParams);
+            await handleSetState(part, userToSend, value, telegramParams);
         }
 
         if (isCreateSubmenuNumber(menuString, cbData) && menuToHandle) {
@@ -298,7 +298,7 @@ export async function subMenu({
 
         if (isSetSubmenuNumber(menuString, cbData)) {
             const { value } = getSubmenuNumberValues(menuString);
-            await handleSetState(part, userToSend, value, true, telegramParams);
+            await handleSetState(part, userToSend, value, telegramParams);
         }
 
         if (isMenuBack(menuString)) {

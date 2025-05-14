@@ -1,4 +1,4 @@
-import { isDefined, isTruthy } from './utils';
+import { isDefined } from './utils';
 import { decomposeText, getValueToExchange, isEmptyString, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
@@ -125,7 +125,7 @@ export async function transformValueToTypeOfId(
             case 'number':
                 return typeof value === 'string' ? parseFloat(value) : parseFloat(jsonString(value));
             case 'boolean':
-                return isTruthy(value);
+                return isDefined(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
             default:
                 return value;
         }

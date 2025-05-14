@@ -140,7 +140,7 @@ async function processData({
             }
 
             if (part?.switch) {
-                await handleSetState(part, userToSend, 0, false, telegramParams);
+                await handleSetState(part, userToSend, 0, telegramParams);
                 return true;
             }
 

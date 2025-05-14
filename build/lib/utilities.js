@@ -124,7 +124,7 @@ async function transformValueToTypeOfId(id, value) {
       case "number":
         return typeof value === "string" ? parseFloat(value) : parseFloat((0, import_string.jsonString)(value));
       case "boolean":
-        return (0, import_utils.isTruthy)(value);
+        return (0, import_utils.isDefined)(value) && !["false", false, 0, "0", "null", "undefined"].includes(value);
       default:
         return value;
     }

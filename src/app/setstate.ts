@@ -4,7 +4,7 @@ import { setDynamicValue } from './dynamicValue';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 import type { Part, TelegramParams } from '../types/types';
-import { decomposeText, jsonString, parseJSON } from '../lib/string';
+import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '../lib/string';
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
 import { addSetStateIds } from './setStateIdsToListenTo';
@@ -51,17 +51,13 @@ export const setstateIobroker = async ({
     }
 };
 
-const setValue = async (
-    id: string,
-    value: string,
-    SubmenuValuePriority: boolean,
-    valueFromSubmenu: string | number,
-    ack: boolean,
-): Promise<void> => {
+const setValue = async (id: string, value: string, valueFromSubmenu: string | number, ack: boolean): Promise<void> => {
     try {
-        const valueToSet = SubmenuValuePriority
-            ? modifiedValue(String(valueFromSubmenu), value)
-            : await isDynamicValueToSet(value);
+        // If Value is set in Config the value will set to datapoint otherwise the value from submenu, so submenuValuePriority is obsolete
+        const valueToSet =
+            isDefined(value) && isNonEmptyString(value)
+                ? await isDynamicValueToSet(value)
+                : modifiedValue(String(valueFromSubmenu), value);
 
         await setstateIobroker({ id, value: valueToSet, ack });
     } catch (error: any) {
@@ -73,7 +69,6 @@ export const handleSetState = async (
     part: Part,
     userToSend: string,
     valueFromSubmenu: string | number,
-    SubmenuValuePriority: boolean,
     telegramParams: TelegramParams,
 ): Promise<void> => {
     try {
@@ -144,7 +139,7 @@ export const handleSetState = async (
                     ? await setstateIobroker({ id: ID, value: !state.val, ack })
                     : await setstateIobroker({ id: ID, value: false, ack });
             } else {
-                await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
+                await setValue(ID, value, valueFromSubmenu, ack);
             }
         }
     } catch (error: any) {

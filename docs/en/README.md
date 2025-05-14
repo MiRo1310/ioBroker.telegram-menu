@@ -135,7 +135,11 @@ e.g. Home), only entries can be deleted that are younger than 48h.
     be used, e.g. (2.5).
     A value of a data point can now be used as a name.`{status:'ID':true}`<a href="#status">For further
     Watch information here</a>
-
+  ![img.png](img.png)
+    If you leave the value empty the submenu will be set to the datapoint, otherwise the value from config will be set
+    You can maybe set the submenu value to a string datapoint, the value will not change. And another datapoint with type boolean. Here the value will transformed to a boolean value.
+    - false => "false" , false, 0, null, "null", undefined and "undefined"
+    - true => every other value , string , number or true 
 
     menu:back
 
