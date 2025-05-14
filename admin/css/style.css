@@ -394,7 +394,7 @@ p.inUse {
     margin-top: 0.5rem !important;
 }
 
-.telegram__user-chat-id {
+.telegram__user-chat-id, .telegram__user-instance {
     font-size: 0.7rem;
 }
 
