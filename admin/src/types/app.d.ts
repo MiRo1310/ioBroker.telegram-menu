@@ -640,6 +640,7 @@ export interface Native {
     dropbox: Dropbox.Position;
     usersInGroup: UsersInGroup;
     instanceList?: InstanceList[];
+    instance: string;
     data: NativeData;
     checkbox: {
         sendMenuAfterRestart: boolean;

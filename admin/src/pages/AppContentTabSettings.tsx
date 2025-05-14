@@ -23,12 +23,12 @@ class Settings extends Component<PropsSettings> {
 
     onClickInstanceCheckbox = ({ isChecked, index }: EventCheckbox): void => {
         const instances = [...(this.props.data.state.native.instanceList ?? [])];
-        console.log(instances);
+
         instances[index] = {
             name: this.props.data.state.instances[index],
             active: isChecked,
         };
-        console.log(instances);
+
         this.props.callback.updateNative('instanceList', instances);
     };
 
