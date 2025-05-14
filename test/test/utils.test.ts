@@ -7,9 +7,9 @@ const { adapter, database } = utils.unit.createMocks({});
 
 describe('Utils', () => {
     const mockData: UserListWithChatId[] = [
-        { name: 'Alice', chatID: '123' },
-        { name: 'Bob', chatID: '456' },
-        { name: 'Charlie', chatID: '789' },
+        { name: 'Alice', chatID: '123', instance:"telegram.0" },
+        { name: 'Bob', chatID: '456', instance:"telegram.0" },
+        { name: 'Charlie', chatID: '789', instance:"telegram.0" },
     ];
 
     it('Should return the correct chatID, if user exist', () => {

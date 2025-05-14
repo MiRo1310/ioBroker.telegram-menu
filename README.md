@@ -67,9 +67,9 @@ You can create different groups with separate menus, and then assign users to th
 
 ### 2.3.1 (2025-05-20)
 
-
 - FIX: #309 SetState only sets false
 - FIX: #311 Delete does not navigate
+- FIX: #310 DynSwitch sets key not the value
 
 ### 2.3.0 (2025-05-12)
 

@@ -1,13 +1,16 @@
 import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams } from '../types/types';
 
+export const getIds = {
+    telegramRequestID: (instance: string): string => `${instance}.communicate.request`,
+    telegramBotSendMessageID: (instance: string): string => `${instance}.communicate.botSendMessageId`,
+    telegramRequestMessageID: (instance: string): string => `${instance}.communicate.requestMessageId`,
+    telegramInfoConnectionID: (instance: string): string => `${instance}.info.connection`,
+    telegramRequestChatID: (instance: string): string => `${instance}.communicate.requestChatId`,
+};
+
 export const getConfigVariables = (
     config: ioBroker.AdapterConfig,
 ): {
-    telegramRequestID: (val: string) => string;
-    telegramBotSendMessageID: (val: string) => string;
-    telegramRequestMessageID: (val: string) => string;
-    telegramInfoConnectionID: (val: string) => string;
-    telegramRequestChatID: (val: string) => string;
     checkboxNoEntryFound: boolean;
     sendMenuAfterRestart: boolean;
     listOfMenus: string[];
@@ -23,18 +26,14 @@ export const getConfigVariables = (
     const telegramInstance = config.instancesList;
     const checkboxes = config.checkbox;
     const telegramParams: TelegramParams = {
-        telegramInstance,
+        telegramInstance: 'telegram.0', //default value
+        telegramInstanceList: telegramInstance,
         resize_keyboard: checkboxes.resKey,
         one_time_keyboard: checkboxes.oneTiKey,
         userListWithChatID: config.userListWithChatID,
     };
     return {
         checkboxes,
-        telegramRequestID: (instance: string) => `${instance}.communicate.request`,
-        telegramBotSendMessageID: (instance: string) => `${instance}.communicate.botSendMessageId`,
-        telegramRequestMessageID: (instance: string) => `${instance}.communicate.requestMessageId`,
-        telegramInfoConnectionID: (instance: string) => `${instance}.info.connection`,
-        telegramRequestChatID: (instance: string) => `${instance}.communicate.requestChatId`,
         checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
         sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
         listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
