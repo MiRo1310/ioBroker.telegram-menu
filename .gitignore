@@ -2,6 +2,7 @@
 .*/
 .vscode/
 !.github/
+.idea
 
 *.code-workspace
 node_modules

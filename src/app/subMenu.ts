@@ -249,15 +249,16 @@ export async function subMenu({
         adapter.log.debug(`Menu : ${menuString}`);
 
         const text = await checkStatusInfo(part.text);
-        const { cbData, menuToHandle, val } = getMenuValues(menuString);
 
-        if (isDeleteMenu(cbData) && menuToHandle) {
+        if (isDeleteMenu(menuString)) {
             await deleteMessageIds(userToSend, telegramParams, 'all');
-            if (isNonEmptyString(menuToHandle)) {
-                return { navToGoBack: menuToHandle };
+            const menu: string | undefined = menuString.split(':')?.[2]?.split('"')?.[0]; //[["menu:deleteAll:Übersicht"],[""]]
+            if (menu && isNonEmptyString(menu)) {
+                return { navToGoBack: menu };
             }
         }
 
+        const { cbData, menuToHandle, val } = getMenuValues(menuString);
         if (isCreateSwitch(cbData) && menuToHandle) {
             return createSwitchMenu({ cbData, text, menuToHandle: menuToHandle });
         }
