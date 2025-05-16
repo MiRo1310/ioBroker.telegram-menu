@@ -61,15 +61,15 @@ const setstateIobroker = async ({
     (0, import_logging.errorLogger)("Error Setstate", error, import_main.adapter);
   }
 };
-const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
+const setValue = async (id, value, valueFromSubmenu, ack) => {
   try {
-    const valueToSet = SubmenuValuePriority ? modifiedValue(String(valueFromSubmenu), value) : await isDynamicValueToSet(value);
+    const valueToSet = (0, import_utils.isDefined)(value) && (0, import_string.isNonEmptyString)(value) ? await isDynamicValueToSet(value) : modifiedValue(String(valueFromSubmenu), value);
     await setstateIobroker({ id, value: valueToSet, ack });
   } catch (error) {
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramParams) => {
+const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams) => {
   try {
     if (!part.switch) {
       return;
@@ -130,7 +130,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
         const state = await import_main.adapter.getForeignStateAsync(ID);
         state ? await setstateIobroker({ id: ID, value: !state.val, ack }) : await setstateIobroker({ id: ID, value: false, ack });
       } else {
-        await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
+        await setValue(ID, value, valueFromSubmenu, ack);
       }
     }
   } catch (error) {
