@@ -218,16 +218,18 @@ async function subMenu({
   allMenusWithData,
   menus
 }) {
+  var _a, _b, _c;
   try {
     import_main.adapter.log.debug(`Menu : ${menuString}`);
     const text = await (0, import_utilities.checkStatusInfo)(part.text);
-    const { cbData, menuToHandle, val } = (0, import_splitValues.getMenuValues)(menuString);
-    if ((0, import_validateMenus.isDeleteMenu)(cbData) && menuToHandle) {
+    if ((0, import_validateMenus.isDeleteMenu)(menuString)) {
       await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
-      if ((0, import_string.isNonEmptyString)(menuToHandle)) {
-        return { navToGoBack: menuToHandle };
+      const menu = (_c = (_b = (_a = menuString.split(":")) == null ? void 0 : _a[2]) == null ? void 0 : _b.split('"')) == null ? void 0 : _c[0];
+      if (menu && (0, import_string.isNonEmptyString)(menu)) {
+        return { navToGoBack: menu };
       }
     }
+    const { cbData, menuToHandle, val } = (0, import_splitValues.getMenuValues)(menuString);
     if ((0, import_validateMenus.isCreateSwitch)(cbData) && menuToHandle) {
       return createSwitchMenu({ cbData, text, menuToHandle });
     }
