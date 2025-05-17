@@ -63,7 +63,7 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
                     modifiedTextToSend = textToSend;
                     modifiedStateVal = calculated;
 
-                    adapter.log.debug(`TextToSend: ${modifiedTextToSend} val: ${modifiedStateVal}`);
+                    adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
                 }
             }
 
@@ -119,15 +119,17 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
             modifiedStateVal = String(_val);
             modifiedTextToSend = _text;
 
-            adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
-
             const isNewline = getNewline(newline);
-
-            valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(config.rowSplitter)
+            modifiedTextToSend = modifiedTextToSend.includes(config.rowSplitter)
                 ? `${modifiedTextToSend.replace(config.rowSplitter, modifiedStateVal.toString())}${isNewline}`
                 : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+
+            adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+
+            valueArrayForCorrectOrder[index] = modifiedTextToSend;
         });
         await Promise.all(promises);
+
         await sendToTelegram({
             userToSend,
             textToSend: valueArrayForCorrectOrder.join(''),

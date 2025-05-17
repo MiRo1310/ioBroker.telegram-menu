@@ -17,7 +17,7 @@ async function httpRequest(
         return;
     }
     for (const { url, password, user: username, filename } of parts.httpRequest) {
-        adapter.log.debug(`URL: ${url}`);
+        adapter.log.debug(`URL : ${url}`);
 
         try {
             //prettier-ignore
@@ -46,7 +46,7 @@ async function httpRequest(
             const imagePath = path.join(directoryPicture, filename);
 
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
-            adapter.log.debug(`Pic saved: ${imagePath}`);
+            adapter.log.debug(`Pic saved : ${imagePath}`);
 
             await sendToTelegram({
                 userToSend,

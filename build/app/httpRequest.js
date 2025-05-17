@@ -43,7 +43,7 @@ async function httpRequest(parts, userToSend, telegramParams, directoryPicture) 
     return;
   }
   for (const { url, password, user: username, filename } of parts.httpRequest) {
-    import_main.adapter.log.debug(`URL: ${url}`);
+    import_main.adapter.log.debug(`URL : ${url}`);
     try {
       const response = await (0, import_axios.default)(
         username && password ? {
@@ -65,7 +65,7 @@ async function httpRequest(parts, userToSend, telegramParams, directoryPicture) 
       }
       const imagePath = import_path.default.join(directoryPicture, filename);
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
-      import_main.adapter.log.debug(`Pic saved: ${imagePath}`);
+      import_main.adapter.log.debug(`Pic saved : ${imagePath}`);
       await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend: imagePath,

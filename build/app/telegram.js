@@ -29,6 +29,11 @@ var import_main = require("../main");
 var import_utils = require("../lib/utils");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
+function validateTextToSend(textToSend) {
+  if (!textToSend || (0, import_string.isEmptyString)(textToSend)) {
+    import_main.adapter.log.error("There is a problem! Text to send is empty or undefined, please check your configuration.");
+  }
+}
 async function sendToTelegram({
   userToSend,
   textToSend,
@@ -39,12 +44,11 @@ async function sendToTelegram({
   try {
     const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
-    import_main.adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
-    import_main.adapter.log.debug(`Instance: ${telegramInstance}`);
-    import_main.adapter.log.debug(`UserListWithChatID	: ${(0, import_string.jsonString)(userListWithChatID)}`);
-    import_main.adapter.log.debug(`Parse mode	: ${parse_mode}`);
-    import_main.adapter.log.debug(`ChatId	: ${chatId}`);
-    const validatedTextToSend = (0, import_string.cleanUpString)(textToSend != null ? textToSend : "");
+    import_main.adapter.log.debug(
+      `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${telegramInstance} , userListWithChatID: ${(0, import_string.jsonString)(userListWithChatID)} , parseMode: ${parse_mode} }`
+    );
+    validateTextToSend(textToSend);
+    const validatedTextToSend = (0, import_string.cleanUpString)(textToSend);
     if (!keyboard) {
       import_main.adapter.sendTo(
         telegramInstance,
@@ -64,7 +68,7 @@ async function sendToTelegram({
       {
         chatId,
         parse_mode: (0, import_appUtils.getParseMode)(parse_mode),
-        text: await (0, import_utilities.checkStatusInfo)(validatedTextToSend),
+        text: await (0, import_utilities.returnTextModifier)(validatedTextToSend),
         reply_markup: {
           keyboard,
           resize_keyboard,
@@ -79,6 +83,7 @@ async function sendToTelegram({
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, telegramParams, parse_mode) {
   const { telegramInstance: instance, userListWithChatID } = telegramParams;
+  validateTextToSend(textToSend);
   import_main.adapter.sendTo(
     instance,
     "send",
@@ -116,11 +121,11 @@ const sendLocationToTelegram = async (user, data, telegramParams) => {
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error sendLocationToTelegram:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error send location to telegram:", e, import_main.adapter);
   }
 };
 function telegramLogger(res) {
-  import_main.adapter.log.debug(`Sent Value to ${(0, import_string.jsonString)(res)} users!`);
+  import_main.adapter.log.debug(`Telegram response : "${(0, import_string.jsonString)(res)}"`);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

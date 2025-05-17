@@ -28,10 +28,10 @@ export function sendPic(
                     `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
                     (error: any, stdout: any, stderr: any) => {
                         if (stdout) {
-                            adapter.log.debug(`Stdout: ${stdout}`);
+                            adapter.log.debug(`Stdout : "${stdout}"`);
                         }
                         if (stderr) {
-                            adapter.log.debug(`Stderr: ${stderr}`);
+                            adapter.log.debug(`Stderr : "${stderr}"`);
                         }
                         if (error) {
                             errorLogger('Error in exec:', error, adapter);
@@ -40,14 +40,12 @@ export function sendPic(
                     },
                 );
 
-                adapter.log.debug(`Delay Time: ${delay}`);
+                adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
                 timeoutKey += 1;
 
                 if (!validateDirectory(adapter, directoryPicture)) {
                     return;
                 }
-
-                adapter.log.debug(`Path: ${path}`);
             } else {
                 return;
             }
@@ -67,13 +65,13 @@ export function sendPic(
 
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);
 
-                    adapter.log.debug('Picture sent');
+                    adapter.log.debug('Picture has been sent');
                 },
                 parseInt(String(element.delay)),
             );
 
             if (timeout) {
-                timeouts.push({ key: timeoutKey, timeout: timeout });
+                timeouts.push({ key: timeoutKey, timeout });
             }
         });
         return timeouts;

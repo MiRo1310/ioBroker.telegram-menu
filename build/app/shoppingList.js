@@ -46,7 +46,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
       res = await import_main.adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
       if (res) {
         objData[user] = { idList };
-        import_main.adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
+        import_main.adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
         if (!isSubscribed) {
           await (0, import_subscribeStates._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
           isSubscribed = true;
@@ -78,7 +78,7 @@ async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
     await (0, import_messageIds.deleteMessageIds)(user, telegramParams, "last");
     const result = await import_main.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result == null ? void 0 : result.val) {
-      import_main.adapter.log.debug(`Result from Shoppinglist: ${(0, import_string.jsonString)(result)}`);
+      import_main.adapter.log.debug(`Result from Shoppinglist : ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
       const resultJson = (0, import_jsonTable.createKeyboardFromJson)((0, import_json.toJson)(result.val), null, newId, user);
       if ((resultJson == null ? void 0 : resultJson.text) && (resultJson == null ? void 0 : resultJson.keyboard)) {
@@ -86,7 +86,7 @@ async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
       }
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList", e, import_main.adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

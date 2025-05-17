@@ -1,6 +1,6 @@
 import { errorLogger } from './logging';
 import type { BackMenu, Keyboard, MenuData, Navigation } from '../types/types';
-import { checkStatusInfo } from '../lib/utilities';
+import { returnTextModifier } from '../lib/utilities';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import { backMenuLength } from '../config/config';
@@ -76,7 +76,7 @@ export async function switchBack(
                     const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                     let textToSend = text;
                     if (textToSend) {
-                        textToSend = await checkStatusInfo(textToSend);
+                        textToSend = await returnTextModifier(textToSend);
                     }
                     if (backMenu[userToSend]?.last) {
                         backMenu[userToSend].last = list.pop() ?? '';

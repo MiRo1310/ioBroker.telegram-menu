@@ -41,10 +41,10 @@ function sendPic(part, userToSend, telegramParams, token, directoryPicture, time
           `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
           (error, stdout, stderr) => {
             if (stdout) {
-              import_main.adapter.log.debug(`Stdout: ${stdout}`);
+              import_main.adapter.log.debug(`Stdout : "${stdout}"`);
             }
             if (stderr) {
-              import_main.adapter.log.debug(`Stderr: ${stderr}`);
+              import_main.adapter.log.debug(`Stderr : "${stderr}"`);
             }
             if (error) {
               (0, import_logging.errorLogger)("Error in exec:", error, import_main.adapter);
@@ -52,12 +52,11 @@ function sendPic(part, userToSend, telegramParams, token, directoryPicture, time
             }
           }
         );
-        import_main.adapter.log.debug(`Delay Time: ${delay}`);
+        import_main.adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
         timeoutKey += 1;
         if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
           return;
         }
-        import_main.adapter.log.debug(`Path: ${path}`);
       } else {
         return;
       }
@@ -74,7 +73,7 @@ function sendPic(part, userToSend, telegramParams, token, directoryPicture, time
             import_main.adapter.clearTimeout(item.timeout);
           });
           timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-          import_main.adapter.log.debug("Picture sent");
+          import_main.adapter.log.debug("Picture has been sent");
         },
         parseInt(String(element.delay))
       );

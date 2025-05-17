@@ -1,7 +1,7 @@
 import { switchBack } from './backMenu';
 import { handleSetState } from './setstate';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { checkStatusInfo } from '../lib/utilities';
+import { returnTextModifier } from '../lib/utilities';
 import { deleteMessageIds } from './messageIds';
 import { createDynamicSwitchMenu } from './dynamicSwitchMenu';
 import type {
@@ -74,7 +74,7 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
 
 const setFirstMenuValue = async ({ telegramParams, userToSend, part }: SetFirstMenuValue): Promise<void> => {
     let val;
-    adapter.log.debug(`SplitData: ${jsonString(splittedData)}`);
+    adapter.log.debug(`SplitData : ${jsonString(splittedData)}`);
 
     if (splittedData[1].split('.')[1] == 'false') {
         val = false;
@@ -166,7 +166,7 @@ const createSubmenuNumber = ({
     if (rowEntries != 0) {
         keyboard.inline_keyboard.push(menu);
     }
-    adapter.log.debug(`Keyboard: ${jsonString(keyboard)}`);
+    adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
 
     return { text, keyboard, menuToHandle };
 };
@@ -219,7 +219,7 @@ export async function callSubMenu({
             allMenusWithData,
             menus,
         });
-        adapter.log.debug(`Submenu: ${jsonString(obj)}`);
+        adapter.log.debug(`Submenu : ${jsonString(obj)}`);
 
         if (obj?.text && obj?.keyboard) {
             sendToTelegramSubmenu(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
@@ -248,7 +248,7 @@ export async function subMenu({
     try {
         adapter.log.debug(`Menu : ${menuString}`);
 
-        const text = await checkStatusInfo(part.text);
+        const text = await returnTextModifier(part.text);
 
         if (isDeleteMenu(menuString)) {
             await deleteMessageIds(userToSend, telegramParams, 'all');

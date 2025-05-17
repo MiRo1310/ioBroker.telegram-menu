@@ -1,10 +1,16 @@
 import { errorLogger } from './logging';
-import { checkStatusInfo } from '../lib/utilities';
+import { returnTextModifier } from '../lib/utilities';
 import { adapter } from '../main';
 import type { Keyboard, Location, Telegram, TelegramParams } from '../types/types';
 import { getChatID } from '../lib/utils';
-import { cleanUpString, jsonString } from '../lib/string';
+import { cleanUpString, isEmptyString, jsonString } from '../lib/string';
 import { getParseMode } from '../lib/appUtils';
+
+function validateTextToSend(textToSend: string | undefined): void {
+    if (!textToSend || isEmptyString(textToSend)) {
+        adapter.log.error('There is a problem! Text to send is empty or undefined, please check your configuration.');
+    }
+}
 
 async function sendToTelegram({
     userToSend,
@@ -17,13 +23,12 @@ async function sendToTelegram({
         const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
         const chatId = getChatID(userListWithChatID, userToSend);
 
-        adapter.log.debug(`Send to: ${userToSend} => ${textToSend}`);
-        adapter.log.debug(`Instance: ${telegramInstance}`);
-        adapter.log.debug(`UserListWithChatID	: ${jsonString(userListWithChatID)}`);
-        adapter.log.debug(`Parse mode	: ${parse_mode}`);
-        adapter.log.debug(`ChatId	: ${chatId}`);
+        adapter.log.debug(
+            `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${telegramInstance} , userListWithChatID: ${jsonString(userListWithChatID)} , parseMode: ${parse_mode} }`,
+        );
+        validateTextToSend(textToSend);
 
-        const validatedTextToSend = cleanUpString(textToSend ?? '');
+        const validatedTextToSend = cleanUpString(textToSend);
         if (!keyboard) {
             adapter.sendTo(
                 telegramInstance,
@@ -44,7 +49,7 @@ async function sendToTelegram({
             {
                 chatId,
                 parse_mode: getParseMode(parse_mode),
-                text: await checkStatusInfo(validatedTextToSend),
+                text: await returnTextModifier(validatedTextToSend),
                 reply_markup: {
                     keyboard,
                     resize_keyboard,
@@ -66,6 +71,7 @@ function sendToTelegramSubmenu(
     parse_mode?: boolean,
 ): void {
     const { telegramInstance: instance, userListWithChatID } = telegramParams;
+    validateTextToSend(textToSend);
     adapter.sendTo(
         instance,
         'send',
@@ -110,12 +116,12 @@ const sendLocationToTelegram = async (
             );
         }
     } catch (e: any) {
-        errorLogger('Error sendLocationToTelegram:', e, adapter);
+        errorLogger('Error send location to telegram:', e, adapter);
     }
 };
 
 function telegramLogger(res: any): void {
-    adapter.log.debug(`Sent Value to ${jsonString(res)} users!`);
+    adapter.log.debug(`Telegram response : "${jsonString(res)}"`);
 }
 
 export { sendToTelegram, sendToTelegramSubmenu, sendLocationToTelegram };

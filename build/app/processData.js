@@ -51,8 +51,8 @@ async function checkEveryMenuForData({
 }) {
   for (const menu of menus) {
     const groupData = menuData[menu];
-    import_main.adapter.log.debug(`Menu: ${menu}`);
-    import_main.adapter.log.debug(`Nav: ${(0, import_string.jsonString)(menuData[menu])}`);
+    import_main.adapter.log.debug(`Menu : ${menu}`);
+    import_main.adapter.log.debug(`Nav : ${(0, import_string.jsonString)(menuData[menu])}`);
     if (await processData({
       menuData,
       calledValue,
@@ -67,7 +67,7 @@ async function checkEveryMenuForData({
       timeoutKey,
       groupData
     })) {
-      import_main.adapter.log.debug("CalledText found");
+      import_main.adapter.log.debug("Menu found");
       return true;
     }
   }
@@ -89,12 +89,12 @@ async function processData({
 }) {
   try {
     let part = {};
-    if ((0, import_dynamicValue.getDynamicValue)(userToSend)) {
-      const res = (0, import_dynamicValue.getDynamicValue)(userToSend);
+    const res = (0, import_dynamicValue.getDynamicValue)(userToSend);
+    if (res) {
       const valueToSet = (res == null ? void 0 : res.valueType) ? (0, import_action.adjustValueType)(calledValue, res.valueType) : calledValue;
       valueToSet && (res == null ? void 0 : res.id) ? await (0, import_setstate.setstateIobroker)({ id: res.id, value: valueToSet, ack: res == null ? void 0 : res.ack }) : await (0, import_telegram.sendToTelegram)({
         userToSend,
-        textToSend: `You insert a wrong Type of value, please insert type: ${res == null ? void 0 : res.valueType}`,
+        textToSend: `You insert a wrong Type of value, please insert type : ${res == null ? void 0 : res.valueType}`,
         telegramParams
       });
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
