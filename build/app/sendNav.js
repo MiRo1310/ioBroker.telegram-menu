@@ -29,7 +29,7 @@ async function sendNav(part, userToSend, telegramParams) {
   try {
     if (userToSend) {
       const { nav: keyboard, text, parse_mode } = part;
-      const textToSend = await (0, import_utilities.checkStatusInfo)(text != null ? text : "");
+      const textToSend = await (0, import_utilities.returnTextModifier)(text != null ? text : "");
       await (0, import_telegram.sendToTelegram)({
         userToSend,
         textToSend,

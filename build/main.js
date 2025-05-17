@@ -189,8 +189,7 @@ class TelegramMenu extends utils.Adapter {
             return;
           }
           if (state && (setStateIdsToListenTo == null ? void 0 : setStateIdsToListenTo.find((element) => element.id == id))) {
-            adapter.log.debug(`State, which is listen to was changed: ${id}`);
-            adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
+            adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, import_string.jsonString)(state)} }`);
             for (const el of setStateIdsToListenTo) {
               const { id: elId, userToSend: userToSend2, confirm, returnText, parse_mode } = el;
               const key = setStateIdsToListenTo.indexOf(el);
@@ -200,7 +199,6 @@ class TelegramMenu extends utils.Adapter {
                 if ((0, import_utils.isTruthy)(confirm) && !(state == null ? void 0 : state.ack) && returnText.includes("{confirmSet:")) {
                   const { substring } = (0, import_string.decomposeText)(returnText, "{confirmSet:", "}");
                   const splitSubstring = substring.split(":");
-                  adapter.log.debug(`Substring: ${(0, import_string.jsonString)(splitSubstring)}`);
                   let text = "";
                   if ((0, import_utils.isDefined)(state.val)) {
                     text = ((_a2 = splitSubstring[2]) == null ? void 0 : _a2.includes("noValue")) ? splitSubstring[1] : (0, import_appUtils.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());

@@ -35,7 +35,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
 
             if (res) {
                 objData[user] = { idList: idList };
-                adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
+                adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
                 if (!isSubscribed) {
                     await _subscribeForeignStates(`alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
@@ -72,7 +72,7 @@ export async function deleteMessageAndSendNewShoppingList(
 
         const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result?.val) {
-            adapter.log.debug(`Result from Shoppinglist: ${jsonString(result)}`);
+            adapter.log.debug(`Result from Shoppinglist : ${jsonString(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = createKeyboardFromJson(toJson(result.val), null, newId, user);
             if (resultJson?.text && resultJson?.keyboard) {
@@ -80,6 +80,6 @@ export async function deleteMessageAndSendNewShoppingList(
             }
         }
     } catch (e: any) {
-        errorLogger('Error deleteMessageAndSendNewShoppingList:', e, adapter);
+        errorLogger('Error deleteMessageAndSendNewShoppingList', e, adapter);
     }
 }

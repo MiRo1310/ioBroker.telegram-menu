@@ -46,7 +46,7 @@ export const checkStatus = async (text: string): Promise<string> => {
     const stateValue = await adapter.getForeignStateAsync(id);
 
     if (!isDefined(stateValue?.val)) {
-        adapter.log.debug(`State not found: ${id}`);
+        adapter.log.debug(`State not found for id : "${id}"`);
         return text.replace(substring, '');
     }
 
@@ -65,12 +65,12 @@ export const checkStatus = async (text: string): Promise<string> => {
     return (!error ? textToSend : text).replace(substring, !error ? val.toString() : stateValueString);
 };
 
-export const checkStatusInfo = async (text?: string): Promise<string> => {
+export const returnTextModifier = async (text?: string): Promise<string> => {
     if (!text) {
         return '';
     }
     try {
-        adapter.log.debug(`Check status Info: ${text}`);
+        const inputText = text;
 
         if (text.includes(config.status.start)) {
             while (text.includes(config.status.start)) {
@@ -97,10 +97,13 @@ export const checkStatusInfo = async (text?: string): Promise<string> => {
                 await setstateIobroker({ id, value: convertedValue, ack });
             }
         }
-        adapter.log.debug(`CheckStatusInfo: ${text}`);
+
+        text === inputText
+            ? adapter.log.debug(`Return text : ${text} `)
+            : adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
         return text;
     } catch (e: any) {
-        errorLogger('Error checkStatusInfo:', e, adapter);
+        errorLogger('Error returnTextModifier:', e, adapter);
         return '';
     }
 };

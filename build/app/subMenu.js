@@ -68,7 +68,7 @@ const createSubmenuPercent = (obj) => {
 };
 const setFirstMenuValue = async ({ telegramParams, userToSend, part }) => {
   let val;
-  import_main.adapter.log.debug(`SplitData: ${(0, import_string.jsonString)(splittedData)}`);
+  import_main.adapter.log.debug(`SplitData : ${(0, import_string.jsonString)(splittedData)}`);
   if (splittedData[1].split(".")[1] == "false") {
     val = false;
   } else if (splittedData[1].split(".")[1] == "true") {
@@ -152,7 +152,7 @@ const createSubmenuNumber = ({
   if (rowEntries != 0) {
     keyboard.inline_keyboard.push(menu);
   }
-  import_main.adapter.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
+  import_main.adapter.log.debug(`Keyboard : ${(0, import_string.jsonString)(keyboard)}`);
   return { text, keyboard, menuToHandle };
 };
 const createSwitchMenu = ({
@@ -201,7 +201,7 @@ async function callSubMenu({
       allMenusWithData,
       menus
     });
-    import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(obj)}`);
+    import_main.adapter.log.debug(`Submenu : ${(0, import_string.jsonString)(obj)}`);
     if ((obj == null ? void 0 : obj.text) && (obj == null ? void 0 : obj.keyboard)) {
       (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
     }
@@ -221,7 +221,7 @@ async function subMenu({
   var _a, _b, _c;
   try {
     import_main.adapter.log.debug(`Menu : ${menuString}`);
-    const text = await (0, import_utilities.checkStatusInfo)(part.text);
+    const text = await (0, import_utilities.returnTextModifier)(part.text);
     if ((0, import_validateMenus.isDeleteMenu)(menuString)) {
       await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
       const menu = (_c = (_b = (_a = menuString.split(":")) == null ? void 0 : _a[2]) == null ? void 0 : _b.split('"')) == null ? void 0 : _c[0];

@@ -76,7 +76,7 @@ async function getState(part, userToSend, telegramParams) {
         if (!error2) {
           modifiedTextToSend = textToSend;
           modifiedStateVal = calculated;
-          import_main.adapter.log.debug(`TextToSend: ${modifiedTextToSend} val: ${modifiedStateVal}`);
+          import_main.adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
         }
       }
       if (modifiedTextToSend.includes(import_config.config.round.start)) {
@@ -126,9 +126,10 @@ async function getState(part, userToSend, telegramParams) {
       } = (0, import_string.getValueToExchange)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
       modifiedStateVal = String(_val);
       modifiedTextToSend = _text;
-      import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
       const isNewline = (0, import_string.getNewline)(newline);
-      valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+      modifiedTextToSend = modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+      import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+      valueArrayForCorrectOrder[index] = modifiedTextToSend;
     });
     await Promise.all(promises);
     await (0, import_telegram.sendToTelegram)({

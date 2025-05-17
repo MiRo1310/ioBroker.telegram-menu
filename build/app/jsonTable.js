@@ -43,7 +43,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
       idShoppingList = true;
     }
     const { validJson, error } = (0, import_json.makeValidJson)(val, import_main.adapter);
-    import_main.adapter.log.debug(`Val: ${validJson} with type: ${typeof val}`);
+    import_main.adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
     if (error) {
       return;
     }
@@ -81,7 +81,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
       }
       keyboard.inline_keyboard.push(rowArray);
     });
-    import_main.adapter.log.debug(`Keyboard: ${(0, import_string.jsonString)(keyboard)}`);
+    import_main.adapter.log.debug(`Keyboard : ${(0, import_string.jsonString)(keyboard)}`);
     return { text: headline, keyboard };
   } catch (err) {
     (0, import_logging.errorLogger)("Error createKeyboardFromJson:", err, import_main.adapter);
@@ -104,7 +104,7 @@ function createTextTableFromJson(val, textToSend) {
         }
       });
     });
-    import_main.adapter.log.debug(`Length of rows: ${(0, import_string.jsonString)(lengthArray)}`);
+    import_main.adapter.log.debug(`Length of rows : ${(0, import_string.jsonString)(lengthArray)}`);
     const headline = array[2];
     let textTable = textToSend.replace(substring, "").trim();
     if (textTable != "") {

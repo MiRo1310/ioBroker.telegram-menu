@@ -19,8 +19,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var utilities_exports = {};
 __export(utilities_exports, {
   checkStatus: () => checkStatus,
-  checkStatusInfo: () => checkStatusInfo,
   processTimeIdLc: () => processTimeIdLc,
+  returnTextModifier: () => returnTextModifier,
   transformValueToTypeOfId: () => transformValueToTypeOfId
 });
 module.exports = __toCommonJS(utilities_exports);
@@ -62,7 +62,7 @@ const checkStatus = async (text) => {
   const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
   const stateValue = await import_main.adapter.getForeignStateAsync(id);
   if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
-    import_main.adapter.log.debug(`State not found: ${id}`);
+    import_main.adapter.log.debug(`State not found for id : "${id}"`);
     return text.replace(substring, "");
   }
   const stateValueString = String(stateValue.val);
@@ -75,12 +75,12 @@ const checkStatus = async (text) => {
   const { newValue: val, textToSend, error } = (0, import_string.getValueToExchange)(import_main.adapter, text, stateValue.val);
   return (!error ? textToSend : text).replace(substring, !error ? val.toString() : stateValueString);
 };
-const checkStatusInfo = async (text) => {
+const returnTextModifier = async (text) => {
   if (!text) {
     return "";
   }
   try {
-    import_main.adapter.log.debug(`Check status Info: ${text}`);
+    const inputText = text;
     if (text.includes(import_config.config.status.start)) {
       while (text.includes(import_config.config.status.start)) {
         text = await checkStatus(text);
@@ -103,10 +103,10 @@ const checkStatusInfo = async (text) => {
         await (0, import_setstate.setstateIobroker)({ id, value: convertedValue, ack });
       }
     }
-    import_main.adapter.log.debug(`CheckStatusInfo: ${text}`);
+    text === inputText ? import_main.adapter.log.debug(`Return text : ${text} `) : import_main.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
     return text;
   } catch (e) {
-    (0, import_logging.errorLogger)("Error checkStatusInfo:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error returnTextModifier:", e, import_main.adapter);
     return "";
   }
 };
@@ -135,8 +135,8 @@ async function transformValueToTypeOfId(id, value) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   checkStatus,
-  checkStatusInfo,
   processTimeIdLc,
+  returnTextModifier,
   transformValueToTypeOfId
 });
 //# sourceMappingURL=utilities.js.map

@@ -31,8 +31,8 @@ export async function checkEveryMenuForData({
     for (const menu of menus) {
         const groupData = menuData[menu];
 
-        adapter.log.debug(`Menu: ${menu}`);
-        adapter.log.debug(`Nav: ${jsonString(menuData[menu])}`);
+        adapter.log.debug(`Menu : ${menu}`);
+        adapter.log.debug(`Nav : ${jsonString(menuData[menu])}`);
 
         if (
             await processData({
@@ -50,7 +50,7 @@ export async function checkEveryMenuForData({
                 groupData,
             })
         ) {
-            adapter.log.debug('CalledText found');
+            adapter.log.debug('Menu found');
             return true;
         }
     }
@@ -74,15 +74,15 @@ async function processData({
     try {
         let part: Part | undefined = {} as Part;
 
-        if (getDynamicValue(userToSend)) {
-            const res = getDynamicValue(userToSend);
+        const res = getDynamicValue(userToSend);
+        if (res) {
             const valueToSet = res?.valueType ? adjustValueType(calledValue, res.valueType) : calledValue;
 
             valueToSet && res?.id
                 ? await setstateIobroker({ id: res.id, value: valueToSet, ack: res?.ack })
                 : await sendToTelegram({
                       userToSend,
-                      textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
+                      textToSend: `You insert a wrong Type of value, please insert type : ${res?.valueType}`,
                       telegramParams,
                   });
 
