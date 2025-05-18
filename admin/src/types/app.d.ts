@@ -128,7 +128,9 @@ export interface AppData {
     userActiveCheckbox?: UserActiveCheckbox;
 }
 
-export type UsersInGroup = { [key: string]: string[] };
+export type UsersInGroup = { [key: string]: UserType[] | undefined };
+export type UserType = { name: string; instance: string };
+
 export type socket = AdminConnection;
 
 export interface StateTabAction {
@@ -182,6 +184,7 @@ export interface PropsCheckbox {
     marginLeft?: string;
     marginTop?: string;
     class?: string;
+    params?: Record<string, unknown>;
 }
 
 export interface PropsRowNavCard {
