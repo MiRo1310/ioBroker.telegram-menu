@@ -277,18 +277,23 @@ class TelegramMenu extends utils.Adapter {
     return !!(typeof (state == null ? void 0 : state.val) === "string" && state.val != "" && id == telegramID && (state == null ? void 0 : state.ack) && userToSend);
   }
   async checkInfoConnection(id, telegramParams) {
-    const { telegramInfoConnectionID } = import_configVariables.getIds;
-    const { instance } = (0, import_appUtils.getInstanceById)(id);
-    const instanceObj = telegramParams.telegramInstanceList.find((item) => item.name === instance);
-    const iterationId = telegramInfoConnectionID(instance);
-    if (instanceObj == null ? void 0 : instanceObj.active) {
-      const active = await this.isTelegramInstanceActive(iterationId);
-      if (active) {
-        telegramParams.telegramInstance = instance;
-        return true;
+    try {
+      const { telegramInfoConnectionID } = import_configVariables.getIds;
+      const { instance } = (0, import_appUtils.getInstanceById)(id);
+      const instanceObj = telegramParams.telegramInstanceList.find((item) => item.name === instance);
+      const iterationId = telegramInfoConnectionID(instance);
+      if (instanceObj == null ? void 0 : instanceObj.active) {
+        const active = await this.isTelegramInstanceActive(iterationId);
+        if (active) {
+          telegramParams.telegramInstance = instance;
+          return true;
+        }
       }
+      return false;
+    } catch (e) {
+      (0, import_logging.errorLogger)("Error checkInfoConnection", e, adapter);
+      return false;
     }
-    return false;
   }
   async isTelegramInstanceActive(id) {
     if (!await adapter.getForeignStateAsync(id)) {
