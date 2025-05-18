@@ -1,4 +1,5 @@
-import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams } from '../types/types';
+import type { DataObject, TelegramParams } from '../types/types';
+import type { Checkboxes, UserActiveCheckbox, UsersInGroup } from '@/types/app';
 
 export const getIds = {
     telegramRequestID: (instance: string): string => `${instance}.communicate.request`,
@@ -16,8 +17,8 @@ export const getConfigVariables = (
     listOfMenus: string[];
     token: string;
     directoryPicture: string;
-    isUserActiveCheckbox: IsUserActiveCheckbox;
-    menusWithUsers: Record<string, string[]>;
+    isUserActiveCheckbox: UserActiveCheckbox;
+    menusWithUsers: UsersInGroup;
     textNoEntryFound: string;
     dataObject: DataObject;
     checkboxes: Checkboxes;

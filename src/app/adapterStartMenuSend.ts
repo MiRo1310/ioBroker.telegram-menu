@@ -1,22 +1,16 @@
 import { sendToTelegram } from './telegram';
 import { backMenuFunc } from './backMenu';
-import type {
-    ListOfMenus,
-    StartSides,
-    IsUserActiveCheckbox,
-    MenusWithUsers,
-    MenuData,
-    TelegramParams,
-} from '../types/types';
+import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '../types/types';
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
+import type { UserActiveCheckbox, UsersInGroup } from '@/types/app';
 
 export async function adapterStartMenuSend(
     listOfMenus: ListOfMenus,
     startSides: StartSides,
-    userActiveCheckbox: IsUserActiveCheckbox,
-    menusWithUsers: MenusWithUsers,
+    userActiveCheckbox: UserActiveCheckbox,
+    menusWithUsers: UsersInGroup,
     menuData: MenuData,
     telegramParams: TelegramParams,
 ): Promise<void> {
@@ -25,19 +19,21 @@ export async function adapterStartMenuSend(
 
         if (userActiveCheckbox[menu] && isStartside(startSide)) {
             adapter.log.debug(`Startside: ${startSide}`);
-            for (const userToSend of menusWithUsers[menu]) {
-                const { nav, text, parse_mode } = menuData[menu][startSide];
-                backMenuFunc({ activePage: startSide, navigation: nav, userToSend: userToSend });
+            if (menusWithUsers[menu]) {
+                for (const userToSend of menusWithUsers[menu]) {
+                    const { nav, text, parse_mode } = menuData[menu][startSide];
+                    backMenuFunc({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
 
-                adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
+                    adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
 
-                await sendToTelegram({
-                    userToSend,
-                    textToSend: text,
-                    keyboard: nav,
-                    telegramParams,
-                    parse_mode,
-                });
+                    await sendToTelegram({
+                        userToSend: userToSend.name,
+                        textToSend: text,
+                        keyboard: nav,
+                        telegramParams,
+                        parse_mode,
+                    });
+                }
             }
         } else {
             if (!isStartside(startSide)) {
