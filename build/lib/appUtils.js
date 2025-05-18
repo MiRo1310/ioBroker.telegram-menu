@@ -65,9 +65,10 @@ function roundValue(val, textToSend) {
   return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
 const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
+  var _a;
   const menus = [];
   for (const key in menusWithUsers) {
-    if (menusWithUsers[key].includes(userToSend)) {
+    if ((_a = menusWithUsers[key]) == null ? void 0 : _a.some((item) => item.name === userToSend)) {
       menus.push(key);
     }
   }

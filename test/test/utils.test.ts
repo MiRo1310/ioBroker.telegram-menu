@@ -1,15 +1,16 @@
-import {expect} from 'chai';
-import {deepCopy, getChatID, isDefined, validateDirectory,isFalsy, isTruthy} from '../../src/lib/utils';
-import type {UserListWithChatId} from '../../src/types/types';
-import {utils} from "@iobroker/testing";
+import { expect } from 'chai';
+import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } from '../../src/lib/utils';
+
+import { utils } from '@iobroker/testing';
+import { UserListWithChatID } from '@/types/app';
 
 const { adapter, database } = utils.unit.createMocks({});
 
 describe('Utils', () => {
-    const mockData: UserListWithChatId[] = [
-        { name: 'Alice', chatID: '123', instance:"telegram.0" },
-        { name: 'Bob', chatID: '456', instance:"telegram.0" },
-        { name: 'Charlie', chatID: '789', instance:"telegram.0" },
+    const mockData: UserListWithChatID[] = [
+        { name: 'Alice', chatID: '123', instance: 'telegram.0' },
+        { name: 'Bob', chatID: '456', instance: 'telegram.0' },
+        { name: 'Charlie', chatID: '789', instance: 'telegram.0' },
     ];
 
     it('Should return the correct chatID, if user exist', () => {
@@ -73,7 +74,7 @@ describe('deepCopy', () => {
         const circular: any = {};
         circular.self = circular;
 
-        const copy = deepCopy(circular,adapter);
+        const copy = deepCopy(circular, adapter);
         expect(copy).to.be.undefined; // JSON.stringify throws an error for circular references
     });
 });
@@ -89,7 +90,7 @@ describe('checkDirectoryIsOk', () => {
     });
 
     it('should return false and log an error if the directory is an empty string', () => {
-        const result = validateDirectory(adapter,'');
+        const result = validateDirectory(adapter, '');
         expect(result).to.be.false;
     });
 

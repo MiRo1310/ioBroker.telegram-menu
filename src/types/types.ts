@@ -1,15 +1,15 @@
 import type { MockAdapter } from '@iobroker/testing';
 import type TelegramMenu from '../main';
 import type { BooleanString, Echart, EventAction, GetAction, HttpRequest, Pic, RowsNav, SetAction } from '@/types/app';
+import type { InstanceList, UserActiveCheckbox, UserListWithChatID } from '@/types/app';
 
 export type ListOfMenus = string[];
-
-export type IsUserActiveCheckbox = Record<string, boolean>;
-export type MenusWithUsers = Record<string, string[]>;
 
 export type Action = Record<string, Actions>;
 
 export type Navigation = string[][];
+
+export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
 
 export interface UserListWithChatId {
     chatID: string;
@@ -41,8 +41,6 @@ export interface Actions {
 export type StartSides = Record<string, string>;
 
 export type NewObjectStructure = Record<string, Part>;
-
-export type UsersInGroup = { [key: string]: string[] };
 
 export type MenuData = Record<string, NewObjectStructure>;
 
@@ -224,7 +222,7 @@ export interface CheckEveryMenuForDataType {
     menuData: MenuData; // checked !!!!
     navToGoTo: string;
     menus: string[];
-    isUserActiveCheckbox: IsUserActiveCheckbox;
+    isUserActiveCheckbox: UserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
@@ -238,7 +236,7 @@ export interface ProcessDataType {
     groupWithUser: GroupWithUser;
     allMenusWithData: MenuData;
     menus: string[];
-    isUserActiveCheckbox: IsUserActiveCheckbox;
+    isUserActiveCheckbox: UserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
@@ -261,7 +259,7 @@ export interface TelegramParams {
     telegramInstance: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
-    userListWithChatID: UserListWithChatId[];
+    userListWithChatID: UserListWithChatID[];
 }
 
 export interface SetMenuValue {

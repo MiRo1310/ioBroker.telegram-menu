@@ -1,7 +1,8 @@
-import type { Adapter, UserListWithChatId } from '../types/types';
+import type { Adapter } from '../types/types';
 import { errorLogger } from '../app/logging';
+import type { UserListWithChatID } from '@/types/app';
 
-export const getChatID = (userListWithChatID: UserListWithChatId[], user: string): string | undefined => {
+export const getChatID = (userListWithChatID: UserListWithChatID[], user: string): string | undefined => {
     for (const element of userListWithChatID) {
         if (element.name === user) {
             return element.chatID;
