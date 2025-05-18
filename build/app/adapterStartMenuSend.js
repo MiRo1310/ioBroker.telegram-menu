@@ -36,11 +36,13 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
           const { nav, text, parse_mode } = menuData[menu][startSide];
           (0, import_backMenu.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
           import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
+          const params = { ...telegramParams };
+          params.telegramInstance = userToSend.instance;
           await (0, import_telegram.sendToTelegram)({
             userToSend: userToSend.name,
             textToSend: text,
             keyboard: nav,
-            telegramParams,
+            telegramParams: params,
             parse_mode
           });
         }

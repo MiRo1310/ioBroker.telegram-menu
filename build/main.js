@@ -140,11 +140,12 @@ class TelegramMenu extends utils.Adapter {
           return;
         }
         const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams);
+        telegramParams.telegramInstance = userToSend.instance;
         if (error) {
           return;
         }
-        if (this.isAddToShoppingList(id, userToSend)) {
-          await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(telegramParams, userToSend);
+        if (this.isAddToShoppingList(id, userToSend.name)) {
+          await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(telegramParams, userToSend.name);
           return;
         }
         if (!state || !(0, import_utils.isDefined)(state.val)) {
@@ -163,14 +164,14 @@ class TelegramMenu extends utils.Adapter {
           telegramRequestMessageID(telegramParams.telegramInstance)
         )) {
           await (0, import_messageIds.saveMessageIds)(state, telegramParams.telegramInstance);
-        } else if (this.isMenuToSend(state, id, telegramRequestID(telegramParams.telegramInstance), userToSend)) {
+        } else if (this.isMenuToSend(state, id, telegramRequestID(telegramParams.telegramInstance), userToSend.name)) {
           const value = state.val.toString();
           const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-          const menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
+          const menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend.name);
           const dataFound = await (0, import_processData.checkEveryMenuForData)({
             menuData,
             calledValue,
-            userToSend,
+            userToSend: userToSend.name,
             telegramParams,
             menus,
             isUserActiveCheckbox,
@@ -182,7 +183,7 @@ class TelegramMenu extends utils.Adapter {
           if (!dataFound && checkboxNoEntryFound) {
             adapter.log.debug("No Entry found");
             await (0, import_telegram.sendToTelegram)({
-              userToSend,
+              userToSend: userToSend.name,
               textToSend: textNoEntryFound,
               telegramParams
             });
@@ -297,12 +298,17 @@ class TelegramMenu extends utils.Adapter {
     );
     if (!(chatIDState == null ? void 0 : chatIDState.val)) {
       adapter.log.debug("ChatID not found");
-      return { chatID: "", userToSend: "", error: true, errorMessage: "ChatId not found" };
+      return { chatID: "", userToSend: {}, error: true, errorMessage: "ChatId not found" };
     }
     const userToSend = (0, import_action.getUserToSendFromUserListWithChatID)(userListWithChatID, chatIDState.val.toString());
     if (!userToSend) {
       this.log.debug("User to send not found");
-      return { chatID: chatIDState.val.toString(), userToSend: "", error: true, errorMessage: "User not found" };
+      return {
+        chatID: chatIDState.val.toString(),
+        userToSend: {},
+        error: true,
+        errorMessage: "User not found"
+      };
     }
     return { chatID: chatIDState.val.toString(), userToSend, error: false };
   }
