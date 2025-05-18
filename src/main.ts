@@ -320,19 +320,24 @@ export default class TelegramMenu extends utils.Adapter {
     }
 
     private async checkInfoConnection(id: string, telegramParams: TelegramParams): Promise<boolean> {
-        const { telegramInfoConnectionID } = getIds;
-        const { instance } = getInstanceById(id);
-        const instanceObj = telegramParams.telegramInstanceList.find(item => item.name === instance);
-        const iterationId = telegramInfoConnectionID(instance);
-        if (instanceObj?.active) {
-            const active = await this.isTelegramInstanceActive(iterationId);
-            if (active) {
-                telegramParams.telegramInstance = instance;
-                return true;
+        try {
+            const { telegramInfoConnectionID } = getIds;
+            const { instance } = getInstanceById(id);
+            const instanceObj = telegramParams.telegramInstanceList.find(item => item.name === instance);
+            const iterationId = telegramInfoConnectionID(instance);
+            if (instanceObj?.active) {
+                const active = await this.isTelegramInstanceActive(iterationId);
+                if (active) {
+                    telegramParams.telegramInstance = instance;
+                    return true;
+                }
             }
-        }
 
-        return false;
+            return false;
+        } catch (e) {
+            errorLogger('Error checkInfoConnection', e, adapter);
+            return false;
+        }
     }
 
     private async isTelegramInstanceActive(id: string): Promise<boolean> {
