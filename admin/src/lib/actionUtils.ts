@@ -7,6 +7,7 @@ import type {
     TriggerableActions,
     TriggerObj,
     UsersInGroup,
+    UserType,
 } from '@/types/app';
 import React from 'react';
 import { tabValues } from '@/config/entries';
@@ -248,12 +249,18 @@ function getSubmenuStrings(): string[] {
     return submenu;
 }
 
-export function getMenusToSearchIn(users: string[], usersInGroup: UsersInGroup): string[] {
+export function getMenusToSearchIn({
+    users,
+    usersInGroup,
+}: {
+    users?: UserType[];
+    usersInGroup: UsersInGroup;
+}): string[] {
     const menusToSearchIn: string[] = [];
 
-    users.forEach(user => {
+    users?.forEach(user => {
         Object.keys(usersInGroup).forEach(group => {
-            if (usersInGroup[group].includes(user)) {
+            if (usersInGroup[group]?.some(item => item.name === user.name)) {
                 menusToSearchIn.push(group);
             }
         });
@@ -273,7 +280,7 @@ export const updateTriggerForSelect = (
     if (!users) {
         return;
     }
-    let menusToSearchIn = getMenusToSearchIn(users, usersInGroup);
+    let menusToSearchIn = getMenusToSearchIn({ users: users, usersInGroup: usersInGroup });
     menusToSearchIn = deleteDoubleEntriesInArray(menusToSearchIn);
 
     let usedTrigger: string[] = [];
