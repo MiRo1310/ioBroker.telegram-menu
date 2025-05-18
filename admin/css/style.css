@@ -347,6 +347,18 @@ p.inUse {
     color: var(--text-primary);
 }
 
+.settings__telegram-header{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.settings__telegram-checkbox{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .telegram__users-container {
     display: flex;
     margin-right: 0.5rem;
