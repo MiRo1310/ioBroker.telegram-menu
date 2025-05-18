@@ -129,7 +129,7 @@ export interface AppData {
 }
 
 export type UsersInGroup = { [key: string]: UserType[] | undefined };
-export type UserType = { name: string; instance: string };
+export type UserType = { name: string; instance: string; chatId: string };
 
 export type socket = AdminConnection;
 
