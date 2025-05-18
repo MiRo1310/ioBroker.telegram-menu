@@ -29,8 +29,8 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
         const menusWithUser: MenuWithUser[] = [];
         const userInMenu = this.props.usersInGroup[menuCall];
         arrayUsersInGroup.forEach((menu, index) => {
-            userInMenu.forEach(user => {
-                if (this.props.usersInGroup[menu].includes(user)) {
+            userInMenu?.forEach(user => {
+                if (this.props.usersInGroup[menu]?.includes(user)) {
                     menusWithUser.push({ menu: menu, index: index });
                 }
             });
@@ -44,8 +44,8 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
         let colorIndex = 0;
         const userInMenu = this.props.usersInGroup[menuCall];
         arrayUsersInGroup.forEach((menu, index) => {
-            userInMenu.forEach(user => {
-                if (this.props.usersInGroup[menu].includes(user) && menu == menuCall) {
+            userInMenu?.forEach(user => {
+                if (this.props.usersInGroup[menu]?.includes(user) && menu == menuCall) {
                     colorIndex = index;
                 }
             });
@@ -249,8 +249,8 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
                                         style={{ border: `4px solid ${colors[this.getIndexOfMenu(menu)]}` }}
                                     >
                                         <p className="trigger__overview_user">{I18n.t('userList')}</p>
-                                        {this.props.usersInGroup[menu].map((user, indexUser) => {
-                                            return <p key={indexUser}>{user}</p>;
+                                        {this.props.usersInGroup[menu]?.map((user, indexUser) => {
+                                            return <p key={indexUser}>{user.name}</p>;
                                         })}
                                     </div>
 
