@@ -20,6 +20,7 @@ export interface EventCheckbox {
     isChecked: boolean;
     id: string;
     index: number;
+    params?: Record<string, unknown>;
 }
 export interface EventSelect {
     id: string;
