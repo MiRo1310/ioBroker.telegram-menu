@@ -98,17 +98,15 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 
     render(): React.ReactNode {
         return (
-            <Grid container>
+            <div>
                 <Grid size={12}>
+                    <p className="telegram__errorMessage-wrapper">
+                        {this.state.errorUserChecked ? <AppContentHeaderTelegramUsersErrorMessage /> : null}
+                    </p>
                     <div className="telegram__users-container">
                         {this.props.data.menuOpen && this.isUserGroupLength() ? (
                             <div className="telegram__user-cards">
                                 <div>
-                                    <p>
-                                        {this.state.errorUserChecked ? (
-                                            <AppContentHeaderTelegramUsersErrorMessage />
-                                        ) : null}
-                                    </p>
                                     {this.props.data.state.native?.userListWithChatID.map((user, key) => {
                                         return (
                                             <AppContentHeaderTelegramUsersUserCard
@@ -137,7 +135,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                     </div>
                 </Grid>
                 {this.state.errorUserChecked ? <CoverSaveBtn /> : null}
-            </Grid>
+            </div>
         );
     }
 }
