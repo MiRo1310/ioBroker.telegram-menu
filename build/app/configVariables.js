@@ -30,7 +30,7 @@ const getIds = {
   telegramRequestChatID: (instance) => `${instance}.communicate.requestChatId`
 };
 const getConfigVariables = (config) => {
-  const telegramInstance = config.instancesList;
+  const telegramInstance = config.instanceList;
   const checkboxes = config.checkbox;
   const telegramParams = {
     telegramInstance: "telegram.0",

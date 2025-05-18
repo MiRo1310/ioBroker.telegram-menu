@@ -21,6 +21,7 @@ __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
+  getInstanceById: () => getInstanceById,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getNewStructure: () => getNewStructure,
   getParseMode: () => getParseMode,
@@ -138,11 +139,16 @@ const exchangePlaceholderWithValue = (textToSend, val) => {
 function isSameType(receivedType, obj) {
   return receivedType === obj.common.type;
 }
+const getInstanceById = (id) => {
+  const obj = id.split(".");
+  return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join(".") };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
   exchangePlaceholderWithValue,
+  getInstanceById,
   getListOfMenusIncludingUser,
   getNewStructure,
   getParseMode,

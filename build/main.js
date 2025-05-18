@@ -278,18 +278,24 @@ class TelegramMenu extends utils.Adapter {
   }
   async checkInfoConnection(id, telegramParams) {
     const { telegramInfoConnectionID } = import_configVariables.getIds;
-    for (const { active, name } of telegramParams.telegramInstanceList) {
-      const iterationId = telegramInfoConnectionID(name != null ? name : "");
-      if (name && id === iterationId && active) {
-        if (!await adapter.getForeignStateAsync(iterationId)) {
-          this.log.debug("Telegram is not active");
-          return false;
-        }
-        telegramParams.telegramInstance = name;
+    const { instance } = (0, import_appUtils.getInstanceById)(id);
+    const instanceObj = telegramParams.telegramInstanceList.find((item) => item.name === instance);
+    const iterationId = telegramInfoConnectionID(instance);
+    if (instanceObj == null ? void 0 : instanceObj.active) {
+      const active = await this.isTelegramInstanceActive(iterationId);
+      if (active) {
+        telegramParams.telegramInstance = instance;
         return true;
       }
     }
     return false;
+  }
+  async isTelegramInstanceActive(id) {
+    if (!await adapter.getForeignStateAsync(id)) {
+      this.log.debug("Telegram is not active");
+      return false;
+    }
+    return true;
   }
   async getChatIDAndUserToSend(telegramParams) {
     const { userListWithChatID } = telegramParams;
