@@ -30,21 +30,25 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
     };
 
     private isUserInList(): boolean {
-        if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu].length == 0) {
+        if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu]?.length == 0) {
             return false;
         }
-        return this.props.data.usersInGroup[this.state.activeMenu].includes(this.props.user.name);
+        return (
+            this.props.data.usersInGroup[this.state.activeMenu]?.some(item => item.name === this.props.user.name) ??
+            false
+        );
     }
 
-    checkboxClicked = ({ isChecked, id: name }: EventCheckbox): void => {
+    checkboxClicked = ({ isChecked, id: name, params }: EventCheckbox): void => {
         if (isChecked) {
             this.props.setState({ errorUserChecked: false });
         }
-        const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
-        if (isChecked && !listOfUsers.includes(name)) {
-            listOfUsers.push(name);
+
+        const listOfUsers = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
+        if (isChecked && !listOfUsers.some(item => item.name === name)) {
+            listOfUsers.push({ name, instance: params?.instance as string });
         } else {
-            const index = listOfUsers.indexOf(name);
+            const index = listOfUsers.findIndex(item => item.name === name);
             if (index > -1) {
                 listOfUsers.splice(index, 1);
             }
@@ -70,6 +74,7 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
                             callback={this.checkboxClicked.bind(this)}
                             isChecked={this.isUserChecked()}
                             index={0}
+                            params={{ instance }}
                         />
                     </div>
                 </div>

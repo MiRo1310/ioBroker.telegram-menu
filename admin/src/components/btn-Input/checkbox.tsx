@@ -4,7 +4,12 @@ import type { PropsCheckbox } from '@/types/app';
 
 class Checkbox extends Component<PropsCheckbox> {
     onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        this.props.callback({ isChecked: event.target.checked, id: this.props?.id, index: this.props?.index });
+        this.props.callback({
+            isChecked: event.target.checked,
+            id: this.props?.id,
+            index: this.props?.index,
+            params: this.props?.params,
+        });
     };
 
     render(): React.ReactNode {

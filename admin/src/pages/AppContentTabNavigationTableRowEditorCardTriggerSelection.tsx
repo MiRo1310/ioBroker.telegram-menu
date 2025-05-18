@@ -37,7 +37,7 @@ class AppContentTabNavigationTableRowEditorCardTriggerSelection extends Componen
         const nav = this.props.data.state.native.data.nav;
         const users = this.props.data.state.native.usersInGroup;
         const activeMenu = this.props.data.state.activeMenu;
-        const menus = deleteDoubleEntriesInArray(getMenusToSearchIn(users[activeMenu], users));
+        const menus = deleteDoubleEntriesInArray(getMenusToSearchIn({ users: users[activeMenu], usersInGroup: users }));
 
         let options: string[] = [];
         menus.forEach(menu => {

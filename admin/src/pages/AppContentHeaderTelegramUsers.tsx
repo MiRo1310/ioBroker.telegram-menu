@@ -1,7 +1,13 @@
 import type { EventCheckbox } from '@/types/event';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { Grid2 as Grid } from '@mui/material';
-import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from '@/types/app';
+import type {
+    PropsHeaderTelegramUsers,
+    StateHeaderTelegramUsers,
+    UserListWithChatID,
+    UsersInGroup,
+    UserType,
+} from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import AppContentHeaderTelegramUsersUserCard from './AppContentHeaderTelegramUsersUserCard';
@@ -47,10 +53,10 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
         if (this.state.menuChecked || val) {
             if (this.isMinOneUserChecked(usersInGroup)) {
                 if (
-                    !HeaderTelegramUsers.checkUsersAreActiveInTelegram(
-                        usersInGroup[this.props.data.activeMenu],
-                        this.props.data.state.native?.userListWithChatID,
-                    )
+                    !HeaderTelegramUsers.checkUsersAreActiveInTelegram({
+                        activeGroup: usersInGroup[this.props.data.activeMenu],
+                        userListWithChatID: this.props.data.state.native?.userListWithChatID,
+                    })
                 ) {
                     this.setState({ errorUserChecked: true });
                     return false;
@@ -61,17 +67,25 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
         return false;
     };
 
-    static checkUsersAreActiveInTelegram(activeGroup: string[], userListWithChatID: UserListWithChatID[]): boolean {
-        for (const user of activeGroup) {
-            if (HeaderTelegramUsers.isUserActiveInTelegram(user, userListWithChatID)) {
-                return true;
+    static checkUsersAreActiveInTelegram({
+        activeGroup,
+        userListWithChatID,
+    }: {
+        activeGroup?: UserType[];
+        userListWithChatID: UserListWithChatID[];
+    }): boolean {
+        if (activeGroup) {
+            for (const user of activeGroup) {
+                if (HeaderTelegramUsers.isUserActiveInTelegram(user.name, userListWithChatID)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     private isMinOneUserChecked(usersInGroup: UsersInGroup): boolean {
-        return usersInGroup[this.props.data.activeMenu]?.length > 0;
+        return (usersInGroup[this.props.data.activeMenu]?.length ?? 0) > 0;
     }
 
     static isUserActiveInTelegram(user: string, userListWithChatID: UserListWithChatID[]): boolean {
