@@ -194,18 +194,18 @@ export default class TelegramMenu extends utils.Adapter {
 
                     this.log.debug(`Groups with searched User: ${jsonString(menus)}`);
 
-                        if (!dataFound && checkboxNoEntryFound) {
-                            adapter.log.debug('No Entry found');
-                            await sendToTelegram({
-                                userToSend,
-                                textToSend: textNoEntryFound,
-                                telegramParams,
-                            });
-                        }
-                        return;
+                    if (!dataFound && checkboxNoEntryFound) {
+                        adapter.log.debug('No Entry found');
+                        await sendToTelegram({
+                            userToSend,
+                            textToSend: textNoEntryFound,
+                            telegramParams,
+                        });
                     }
-                    if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
-                        adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${jsonString(state)} }`);
+                    return;
+                }
+                if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
+                    adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${jsonString(state)} }`);
 
                     for (const el of setStateIdsToListenTo) {
                         const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
@@ -219,13 +219,13 @@ export default class TelegramMenu extends utils.Adapter {
                                 const { substring } = decomposeText(returnText, '{confirmSet:', '}');
                                 const splitSubstring = substring.split(':');
 
-                                    let text = '';
-                                    if (isDefined(state.val)) {
-                                        text = splitSubstring[2]?.includes('noValue')
-                                            ? splitSubstring[1]
-                                            : exchangePlaceholderWithValue(splitSubstring[1], state.val.toString());
-                                    }
-                                    adapter.log.debug(`Return-text: ${text}`);
+                                let text = '';
+                                if (isDefined(state.val)) {
+                                    text = splitSubstring[2]?.includes('noValue')
+                                        ? splitSubstring[1]
+                                        : exchangePlaceholderWithValue(splitSubstring[1], state.val.toString());
+                                }
+                                adapter.log.debug(`Return-text: ${text}`);
 
                                 if (text === '') {
                                     adapter.log.error('The return text cannot be empty, please check.');
