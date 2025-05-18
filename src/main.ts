@@ -34,6 +34,7 @@ import { getConfigVariables, getIds } from './app/configVariables';
 import { getListOfMenusIncludingUser, getNewStructure, getStartSides, splitNavigation } from './lib/appUtils';
 import { getConfigVariables } from './app/configVariables';
 import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
+import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
 
 const timeoutKey = '0';
@@ -142,12 +143,13 @@ export default class TelegramMenu extends utils.Adapter {
                 }
 
                 const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams);
+                telegramParams.telegramInstance = userToSend.instance;
                 if (error) {
                     return;
                 }
 
-                if (this.isAddToShoppingList(id, userToSend)) {
-                    await deleteMessageAndSendNewShoppingList(telegramParams, userToSend);
+                if (this.isAddToShoppingList(id, userToSend.name)) {
+                    await deleteMessageAndSendNewShoppingList(telegramParams, userToSend.name);
                     return;
                 }
 
@@ -173,17 +175,17 @@ export default class TelegramMenu extends utils.Adapter {
                 ) {
                     await saveMessageIds(state, telegramParams.telegramInstance);
                 } else if (
-                    this.isMenuToSend(state, id, telegramRequestID(telegramParams.telegramInstance), userToSend)
+                    this.isMenuToSend(state, id, telegramRequestID(telegramParams.telegramInstance), userToSend.name)
                 ) {
                     const value = state.val.toString();
 
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        menus = getListOfMenusIncludingUser(menusWithUsers, userToSend);
+                        menus = getListOfMenusIncludingUser(menusWithUsers, userToSend.name);
 
                         const dataFound = await checkEveryMenuForData({
                             menuData,
                             navToGoTo: calledValue,
-                            userToSend,
+                            userToSend:userToSend.name,
                             telegramParams,
                             menus,
                             isUserActiveCheckbox,
@@ -197,7 +199,7 @@ export default class TelegramMenu extends utils.Adapter {
                     if (!dataFound && checkboxNoEntryFound) {
                         adapter.log.debug('No Entry found');
                         await sendToTelegram({
-                            userToSend,
+                            userToSend: userToSend.name,
                             textToSend: textNoEntryFound,
                             telegramParams,
                         });
@@ -335,7 +337,7 @@ export default class TelegramMenu extends utils.Adapter {
 
     private async getChatIDAndUserToSend(
         telegramParams: TelegramParams,
-    ): Promise<{ chatID: string; userToSend: string; error: boolean; errorMessage?: string }> {
+    ): Promise<{ chatID: string; userToSend: UserListWithChatID; error: boolean; errorMessage?: string }> {
         const { userListWithChatID } = telegramParams;
         const chatIDState = await this.getForeignStateAsync(
             `${telegramParams.telegramInstance}.communicate.requestChatId`,
@@ -343,13 +345,18 @@ export default class TelegramMenu extends utils.Adapter {
 
         if (!chatIDState?.val) {
             adapter.log.debug('ChatID not found');
-            return { chatID: '', userToSend: '', error: true, errorMessage: 'ChatId not found' };
+            return { chatID: '', userToSend: {} as UserListWithChatID, error: true, errorMessage: 'ChatId not found' };
         }
 
         const userToSend = getUserToSendFromUserListWithChatID(userListWithChatID, chatIDState.val.toString());
         if (!userToSend) {
             this.log.debug('User to send not found');
-            return { chatID: chatIDState.val.toString(), userToSend: '', error: true, errorMessage: 'User not found' };
+            return {
+                chatID: chatIDState.val.toString(),
+                userToSend: {} as UserListWithChatID,
+                error: true,
+                errorMessage: 'User not found',
+            };
         }
         return { chatID: chatIDState.val.toString(), userToSend, error: false };
     }

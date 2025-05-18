@@ -25,12 +25,13 @@ export async function adapterStartMenuSend(
                     backMenuFunc({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
 
                     adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
-
+                    const params = { ...telegramParams };
+                    params.telegramInstance = userToSend.instance;
                     await sendToTelegram({
                         userToSend: userToSend.name,
                         textToSend: text,
                         keyboard: nav,
-                        telegramParams,
+                        telegramParams: params,
                         parse_mode,
                     });
                 }

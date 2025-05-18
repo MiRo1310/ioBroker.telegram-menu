@@ -231,10 +231,10 @@ export const checkEvent = async (
 export const getUserToSendFromUserListWithChatID = (
     userListWithChatID: UserListWithChatID[],
     chatID: string,
-): string | undefined => {
+): UserListWithChatID | undefined => {
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
-            return element.name;
+            return element;
         }
     }
 };
