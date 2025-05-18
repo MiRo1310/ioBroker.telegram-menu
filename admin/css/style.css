@@ -82,7 +82,7 @@ label p {
 .cover__save_btn {
     position: absolute;
     bottom: 0;
-    width: 34vw;
+    width: 490px;
     height: 65px;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 1200;
