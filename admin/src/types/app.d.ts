@@ -598,12 +598,7 @@ export interface Native {
     instanceList?: InstanceList[];
     instance: string;
     data: NativeData;
-    checkbox: {
-        sendMenuAfterRestart: boolean;
-        checkboxNoValueFound: boolean;
-        resKey: boolean;
-        oneTiKey: boolean;
-    };
+    checkbox: Checkboxes;
     usersForGlobal: string;
     tokenGrafana: string;
     directory: string;
@@ -612,6 +607,14 @@ export interface Native {
     userListWithChatID: UserListWithChatID[];
     description: DescriptionRow[];
 }
+
+export interface Checkboxes {
+    oneTiKey: boolean;
+    resKey: boolean;
+    checkboxNoValueFound: boolean;
+    sendMenuAfterRestart: boolean;
+}
+
 export interface InstanceList {
     active: boolean;
     name: string;
