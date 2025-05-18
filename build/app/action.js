@@ -179,12 +179,12 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
       for (const user of usersInGroup[menu]) {
         const menus = Object.keys(menuData);
         if (part.nav) {
-          (0, import_backMenu.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user });
+          (0, import_backMenu.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
         }
         if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
           await (0, import_subMenu.callSubMenu)({
             jsonStringNav: part.nav[0][0],
-            userToSend: user,
+            userToSend: user.name,
             telegramParams,
             part,
             allMenusWithData: menuData,
@@ -192,7 +192,7 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
           });
           return true;
         }
-        await (0, import_sendNav.sendNav)(part, user, telegramParams);
+        await (0, import_sendNav.sendNav)(part, user.name, telegramParams);
       }
     }
   }
