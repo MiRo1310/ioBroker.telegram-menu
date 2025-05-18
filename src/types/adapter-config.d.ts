@@ -9,7 +9,7 @@ declare global {
     namespace ioBroker {
         interface AdapterConfig extends _AdapterConfig {
             checkbox: Checkboxes;
-            instancesList: InstanceList[];
+            instanceList: InstanceList[];
             usersInGroup: UsersInGroup;
             tokenGrafana: string;
             directory: string;

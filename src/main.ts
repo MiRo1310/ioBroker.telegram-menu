@@ -25,6 +25,7 @@ import { decomposeText, getValueToExchange, isString, jsonString } from './lib/s
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
 import {
     exchangePlaceholderWithValue,
+    getInstanceById,
     getListOfMenusIncludingUser,
     getNewStructure,
     getStartSides,
@@ -320,19 +321,26 @@ export default class TelegramMenu extends utils.Adapter {
 
     private async checkInfoConnection(id: string, telegramParams: TelegramParams): Promise<boolean> {
         const { telegramInfoConnectionID } = getIds;
-
-        for (const { active, name } of telegramParams.telegramInstanceList) {
-            const iterationId = telegramInfoConnectionID(name ?? '');
-            if (name && id === iterationId && active) {
-                if (!(await adapter.getForeignStateAsync(iterationId))) {
-                    this.log.debug('Telegram is not active');
-                    return false;
-                }
-                telegramParams.telegramInstance = name;
+        const { instance } = getInstanceById(id);
+        const instanceObj = telegramParams.telegramInstanceList.find(item => item.name === instance);
+        const iterationId = telegramInfoConnectionID(instance);
+        if (instanceObj?.active) {
+            const active = await this.isTelegramInstanceActive(iterationId);
+            if (active) {
+                telegramParams.telegramInstance = instance;
                 return true;
             }
         }
+
         return false;
+    }
+
+    private async isTelegramInstanceActive(id: string): Promise<boolean> {
+        if (!(await adapter.getForeignStateAsync(id))) {
+            this.log.debug('Telegram is not active');
+            return false;
+        }
+        return true;
     }
 
     private async getChatIDAndUserToSend(
