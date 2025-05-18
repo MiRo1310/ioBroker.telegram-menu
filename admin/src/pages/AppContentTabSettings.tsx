@@ -53,15 +53,20 @@ class Settings extends Component<PropsSettings> {
                     spacing={1}
                 >
                     <Grid size={12}>
+                        <p className="settings__telegram-header">{I18n.t('telegramInstances')}</p>
                         {this.props.data.state.instances.map((instance, index) => (
-                            <Checkbox
-                                label={instance}
-                                id="instance"
-                                isChecked={this.props.data.state.native.instanceList?.[index]?.active ?? false}
-                                callback={this.onClickInstanceCheckbox}
-                                index={index}
+                            <p
+                                className="settings__telegram-checkbox"
                                 key={`checkbox-${index}`}
-                            />
+                            >
+                                <Checkbox
+                                    label={instance}
+                                    id="instance"
+                                    isChecked={this.props.data.state.native.instanceList?.[index]?.active ?? false}
+                                    callback={this.onClickInstanceCheckbox}
+                                    index={index}
+                                />
+                            </p>
                         ))}
                     </Grid>
                     <Grid size={{ xs: 10, sm: 10, lg: 8 }}>

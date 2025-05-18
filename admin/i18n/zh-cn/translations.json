@@ -107,6 +107,7 @@
     "switch": "转变",
     "switchCheckbox": "转变",
     "telegramInstance": "电报实例",
+    "telegramInstances": "电报实例",
     "telegramUser": "来自 Telegram 的用户",
     "text": "文本",
     "textNoEntry": "如果未找到条目，将发送文本！",
