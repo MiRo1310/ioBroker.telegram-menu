@@ -1,4 +1,4 @@
-import type { PropsTelegramUserCard, StateTelegramUserCard } from '@/types/app';
+import type { PropsTelegramUserCard, StateTelegramUserCard, UserType } from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import type { EventCheckbox } from '@/types/event';
@@ -23,37 +23,34 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
     };
 
     private isUserChecked = (): boolean => {
-        if (!this.props.data.usersInGroup || !this.props.data.usersInGroup[this.state.activeMenu]) {
-            return false;
-        }
-        return this.isUserInList();
-    };
-
-    private isUserInList(): boolean {
         if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu]?.length == 0) {
             return false;
         }
-        return (
-            this.props.data.usersInGroup[this.state.activeMenu]?.some(item => item.name === this.props.user.name) ??
-            false
+        return this.isInList(
+            this.props.data.usersInGroup[this.state.activeMenu],
+            this.props.user.name,
+            this.props.user.instance,
         );
-    }
+    };
 
     checkboxClicked = ({ isChecked, id: name, params }: EventCheckbox): void => {
         if (isChecked) {
             this.props.setState({ errorUserChecked: false });
         }
 
-        const listOfUsers = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
-        if (isChecked && !listOfUsers.some(item => item.name === name)) {
+        let listOfUsers = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
+
+        if (isChecked && !this.isInList(listOfUsers, name, (params?.instance as string) ?? '')) {
             listOfUsers.push({ name, instance: params?.instance as string, chatId: params?.chatID as string });
         } else {
-            const index = listOfUsers.findIndex(item => item.name === name);
-            if (index > -1) {
-                listOfUsers.splice(index, 1);
-            }
+            listOfUsers = listOfUsers.filter(item => !(item.name === name && item.instance === params?.instance));
         }
         this.props.callback.updateNative(`usersInGroup.${this.state.activeMenu}`, listOfUsers);
+    };
+
+    // eslint-disable-next-line class-methods-use-this
+    isInList = (list: UserType[] | undefined, name: string, instance: string): boolean => {
+        return list?.some(item => item.name === name && item.instance === instance) ?? false;
     };
 
     render(): React.ReactNode {
