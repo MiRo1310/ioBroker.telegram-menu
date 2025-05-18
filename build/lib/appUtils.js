@@ -21,6 +21,7 @@ __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
+  getInstanceById: () => getInstanceById,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getNewStructure: () => getNewStructure,
   getParseMode: () => getParseMode,
@@ -67,9 +68,10 @@ function roundValue(val, textToSend) {
   return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
 const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
+  var _a;
   const menus = [];
   for (const key in menusWithUsers) {
-    if (menusWithUsers[key].includes(userToSend)) {
+    if ((_a = menusWithUsers[key]) == null ? void 0 : _a.some((item) => item.name === userToSend)) {
       menus.push(key);
     }
   }
@@ -137,11 +139,16 @@ const exchangePlaceholderWithValue = (textToSend, val) => {
 function isSameType(receivedType, obj) {
   return receivedType === obj.common.type;
 }
+const getInstanceById = (id) => {
+  const obj = id.split(".");
+  return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join(".") };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
   exchangePlaceholderWithValue,
+  getInstanceById,
   getListOfMenusIncludingUser,
   getNewStructure,
   getParseMode,

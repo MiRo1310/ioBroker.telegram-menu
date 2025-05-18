@@ -1,28 +1,14 @@
 import type { MockAdapter } from '@iobroker/testing';
 import type TelegramMenu from '../main';
+import type { InstanceList, UserActiveCheckbox, UserListWithChatID } from '@/types/app';
 
 export type ListOfMenus = string[];
-
-export type IsUserActiveCheckbox = Record<string, boolean>;
-export type MenusWithUsers = Record<string, string[]>;
 
 export type Action = Record<string, Actions>;
 
 export type Navigation = string[][];
 
 export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
-
-export interface UserListWithChatId {
-    chatID: string;
-    name: string;
-}
-
-export interface Checkboxes {
-    oneTiKey: boolean;
-    resKey: boolean;
-    checkboxNoValueFound: boolean;
-    sendMenuAfterRestart: boolean;
-}
 
 export interface Actions {
     get: Get[];
@@ -88,8 +74,6 @@ export interface Echart {
 export type StartSides = Record<string, string>;
 
 export type NewObjectStructure = Record<string, Part>;
-
-export type UsersInGroup = { [key: string]: string[] };
 
 export type MenuData = Record<string, NewObjectStructure>;
 
@@ -262,7 +246,7 @@ export interface CheckEveryMenuForDataType {
     menuData: MenuData; // checked !!!!
     calledValue: string;
     menus: string[];
-    isUserActiveCheckbox: IsUserActiveCheckbox;
+    isUserActiveCheckbox: UserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
@@ -276,7 +260,7 @@ export interface ProcessDataType {
     groupWithUser: GroupWithUser;
     allMenusWithData: MenuData;
     menus: string[];
-    isUserActiveCheckbox: IsUserActiveCheckbox;
+    isUserActiveCheckbox: UserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
@@ -295,10 +279,11 @@ export interface BackMenuType {
 export type AllMenusWithData = Record<string, NewObjectStructure>;
 
 export interface TelegramParams {
+    telegramInstanceList: InstanceList[];
     telegramInstance: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
-    userListWithChatID: UserListWithChatId[];
+    userListWithChatID: UserListWithChatID[];
 }
 
 export interface SetFirstMenuValue {

@@ -11,26 +11,26 @@ import {
     isStartside,
     roundValue,
     splitNavigation,
-    statusIdAndParams
-} from "../../src/lib/appUtils"; // Adjust the path as needed
-import {expect} from "chai";
-import {utils} from "@iobroker/testing";
-import type {DataObject, NewObjectStructure, splittedNavigation, StartSides, UsersInGroup} from '../../src/types/types';
-
+    statusIdAndParams,
+} from '../../src/lib/appUtils'; // Adjust the path as needed
+import { expect } from 'chai';
+import { utils } from '@iobroker/testing';
+import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '../../src/types/types';
+import { UsersInGroup } from '@/types/app';
 
 const { adapter } = utils.unit.createMocks({});
 
-describe("checkOneLineValue", () => {
+describe('checkOneLineValue', () => {
     it("should add a row splitter to the end of the text if it doesn't already contain one", () => {
-        const result = checkOneLineValue("Hello this is a test");
-        expect(result).to.equal("Hello this is a test &&");
+        const result = checkOneLineValue('Hello this is a test');
+        expect(result).to.equal('Hello this is a test &&');
     });
 
-    it("should not add a row splitter if the text already contains one", () => {
-        const result = checkOneLineValue("Hello this is a test &&");
-        expect(result).to.equal("Hello this is a test &&");
+    it('should not add a row splitter if the text already contains one', () => {
+        const result = checkOneLineValue('Hello this is a test &&');
+        expect(result).to.equal('Hello this is a test &&');
     });
-})
+});
 
 describe('calcValue', () => {
     it('should calculate a valid mathematical expression', () => {
@@ -58,7 +58,7 @@ describe('calcValue', () => {
     it('should handle empty input gracefully', () => {
         const textToSend = '';
         const val = '';
-        const result = calcValue(textToSend, val,adapter);
+        const result = calcValue(textToSend, val, adapter);
         expect(result).to.deep.equal({
             textToSend: '',
             calculated: '',
@@ -149,9 +149,15 @@ describe('roundValue', () => {
 describe('getMenusWithUser', () => {
     it('should return menus that include the specified user', () => {
         const menusWithUsers = {
-            menu1: ['user1', 'user2'],
-            menu2: ['user3'],
-            menu3: ['user1', 'user4'],
+            menu1: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user2', chatId: '', instance: '' },
+            ],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
+            menu3: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user4', chatId: '', instance: '' },
+            ],
         };
         const userToSend = 'user1';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -160,8 +166,8 @@ describe('getMenusWithUser', () => {
 
     it('should return an empty array if no menus include the specified user', () => {
         const menusWithUsers = {
-            menu1: ['user2'],
-            menu2: ['user3'],
+            menu1: [{ name: 'user2', chatId: '', instance: '' }],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const userToSend = 'user1';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -177,8 +183,11 @@ describe('getMenusWithUser', () => {
 
     it('should return an empty array if the userToSend is an empty string', () => {
         const menusWithUsers = {
-            menu1: ['user1', 'user2'],
-            menu2: ['user3'],
+            menu1: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user2', chatId: '', instance: '' },
+            ],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const userToSend = '';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -186,9 +195,9 @@ describe('getMenusWithUser', () => {
     });
 
     it('should handle menus with empty user arrays', () => {
-        const menusWithUsers = {
+        const menusWithUsers: UsersInGroup = {
             menu1: [],
-            menu2: ['user3'],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const userToSend = 'user3';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -213,7 +222,6 @@ describe('getParseMode', () => {
     });
 });
 
-
 describe('getTypeofTimestamp', () => {
     it('should return "lc" when the array contains "lc"', () => {
         const result = getTypeofTimestamp('lc ts');
@@ -226,7 +234,7 @@ describe('getTypeofTimestamp', () => {
     });
 
     it('should return "ts" when the array is empty or does not contain "lc" or "ts"', () => {
-        const result = getTypeofTimestamp("");
+        const result = getTypeofTimestamp('');
         expect(result).to.equal('ts');
     });
 
@@ -238,7 +246,6 @@ describe('getTypeofTimestamp', () => {
 
 describe('statusIdAndParams', () => {
     it('should parse id and shouldChange correctly when oldWithId is present', () => {
-
         const input = "'id':'test.0.test':true";
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
@@ -266,7 +273,7 @@ describe('statusIdAndParams', () => {
     });
 
     it('should handle input with missing id value', () => {
-        const input = ":true";
+        const input = ':true';
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
             id: '',
@@ -330,7 +337,7 @@ describe('splitNavigation', () => {
                 call: 'emptyCall',
                 text: 'Empty Value',
                 parse_mode: false,
-                nav: [["item1"], [""]],
+                nav: [['item1'], ['']],
             },
         ];
         const result = splitNavigation(rows);
@@ -351,7 +358,7 @@ describe('splitNavigation', () => {
                 call: 'emptyCall',
                 text: 'Empty Value',
                 parse_mode: false,
-                nav: [[""], [""]],
+                nav: [[''], ['']],
             },
         ];
         const result = splitNavigation(rows);
@@ -488,19 +495,26 @@ describe('getNewStructure', () => {
 });
 
 describe('getStartSides', () => {
-    const additionalParams:{value:string, text:string, parse_mode:string} ={value:"", text:"", parse_mode:""}
-       it('should correctly map start sides for given menusWithUsers and dataObject', () => {
+    const additionalParams: { value: string; text: string; parse_mode: string } = {
+        value: '',
+        text: '',
+        parse_mode: '',
+    };
+    it('should correctly map start sides for given menusWithUsers and dataObject', () => {
         const menusWithUsers: UsersInGroup = {
-            menu1: ['user1', 'user2'],
-            menu2: ['user3'],
+            menu1: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user2', chatId: '', instance: '' },
+            ],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const dataObject: DataObject = {
             nav: {
                 menu1: [{ call: 'start1', ...additionalParams }],
                 menu2: [{ call: 'start2', ...additionalParams }],
             },
-            action:{}
-        }
+            action: {},
+        };
         const expected: StartSides = {
             menu1: 'start1',
             menu2: 'start2',
@@ -508,8 +522,6 @@ describe('getStartSides', () => {
         const result = getStartSides(menusWithUsers, dataObject);
         expect(result).to.deep.equal(expected);
     });
-
-
 });
 
 describe('isStartside', () => {
@@ -572,16 +584,16 @@ describe('exchangePlaceholderWithValue', () => {
     });
 });
 
-describe("isSameType", () => {
-    it("should return true if the types match", () => {
-        const obj = { common: { type: "string" } } as ioBroker.Object;
-        const result = isSameType("string", obj);
+describe('isSameType', () => {
+    it('should return true if the types match', () => {
+        const obj = { common: { type: 'string' } } as ioBroker.Object;
+        const result = isSameType('string', obj);
         expect(result).to.be.true;
     });
 
-    it("should return false if the types do not match", () => {
-        const obj = { common: { type: "number" } } as ioBroker.Object;
-        const result = isSameType("string", obj);
+    it('should return false if the types do not match', () => {
+        const obj = { common: { type: 'number' } } as ioBroker.Object;
+        const result = isSameType('string', obj);
         expect(result).to.be.false;
     });
 });

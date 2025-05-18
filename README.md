@@ -35,11 +35,12 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-	### **WORK IN PROGRESS**
+### **WORK IN PROGRESS**
 
-
+- FEAT: #266 Usage of multiple telegram instances
 - FIX: #309 SetState only sets false
 - FIX: #311 Delete does not navigate
+- FIX: #310 DynSwitch sets key not the value
 
 ### 2.3.0 (2025-05-12)
 

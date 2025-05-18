@@ -1,38 +1,40 @@
-import type { Checkboxes, DataObject, IsUserActiveCheckbox, TelegramParams } from '../types/types';
+import type { DataObject, TelegramParams } from '../types/types';
+import type { Checkboxes, UserActiveCheckbox, UsersInGroup } from '@/types/app';
+
+export const getIds = {
+    telegramRequestID: (instance: string): string => `${instance}.communicate.request`,
+    telegramBotSendMessageID: (instance: string): string => `${instance}.communicate.botSendMessageId`,
+    telegramRequestMessageID: (instance: string): string => `${instance}.communicate.requestMessageId`,
+    telegramInfoConnectionID: (instance: string): string => `${instance}.info.connection`,
+    telegramRequestChatID: (instance: string): string => `${instance}.communicate.requestChatId`,
+};
 
 export const getConfigVariables = (
     config: ioBroker.AdapterConfig,
 ): {
-    telegramID: string;
-    botSendMessageID: string;
-    requestMessageID: string;
-    infoConnectionOfTelegram: string;
     checkboxNoEntryFound: boolean;
     sendMenuAfterRestart: boolean;
     listOfMenus: string[];
     token: string;
     directoryPicture: string;
-    isUserActiveCheckbox: IsUserActiveCheckbox;
-    menusWithUsers: Record<string, string[]>;
+    isUserActiveCheckbox: UserActiveCheckbox;
+    menusWithUsers: UsersInGroup;
     textNoEntryFound: string;
     dataObject: DataObject;
     checkboxes: Checkboxes;
     telegramParams: TelegramParams;
 } => {
-    const telegramInstance = config.instance ?? 'telegram.0';
+    const telegramInstance = config.instanceList;
     const checkboxes = config.checkbox;
     const telegramParams: TelegramParams = {
-        telegramInstance,
+        telegramInstance: 'telegram.0', //default value
+        telegramInstanceList: telegramInstance,
         resize_keyboard: checkboxes.resKey,
         one_time_keyboard: checkboxes.oneTiKey,
         userListWithChatID: config.userListWithChatID,
     };
     return {
         checkboxes,
-        telegramID: `${telegramInstance}.communicate.request`,
-        botSendMessageID: `${telegramInstance}.communicate.botSendMessageId`,
-        requestMessageID: `${telegramInstance}.communicate.requestMessageId`,
-        infoConnectionOfTelegram: `${telegramInstance}.info.connection`,
         checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
         sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
         listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
