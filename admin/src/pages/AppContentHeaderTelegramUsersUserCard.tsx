@@ -38,13 +38,16 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
             this.props.setState({ errorUserChecked: false });
         }
 
-        let listOfUsers = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
+        const list: (UserType | string)[] = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
+        let listOfUsers = list.filter(item => typeof item !== 'string'); // Remove old type string, string was the old type
 
         if (isChecked && !this.isInList(listOfUsers, name, (params?.instance as string) ?? '')) {
             listOfUsers.push({ name, instance: params?.instance as string, chatId: params?.chatID as string });
-        } else {
+        }
+        if (!isChecked) {
             listOfUsers = listOfUsers.filter(item => !(item.name === name && item.instance === params?.instance));
         }
+        console.log('listOfUsers', listOfUsers);
         this.props.callback.updateNative(`usersInGroup.${this.state.activeMenu}`, listOfUsers);
     };
 
