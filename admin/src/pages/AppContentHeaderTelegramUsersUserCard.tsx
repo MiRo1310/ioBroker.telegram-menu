@@ -46,7 +46,7 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
 
         const listOfUsers = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
         if (isChecked && !listOfUsers.some(item => item.name === name)) {
-            listOfUsers.push({ name, instance: params?.instance as string });
+            listOfUsers.push({ name, instance: params?.instance as string, chatId: params?.chatID as string });
         } else {
             const index = listOfUsers.findIndex(item => item.name === name);
             if (index > -1) {
@@ -74,7 +74,7 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
                             callback={this.checkboxClicked.bind(this)}
                             isChecked={this.isUserChecked()}
                             index={0}
-                            params={{ instance }}
+                            params={{ instance, chatID }}
                         />
                     </div>
                 </div>
