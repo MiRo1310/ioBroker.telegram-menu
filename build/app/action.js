@@ -201,7 +201,7 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
 const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
   for (const element of userListWithChatID) {
     if (element.chatID == chatID) {
-      return element.name;
+      return element;
     }
   }
 };
