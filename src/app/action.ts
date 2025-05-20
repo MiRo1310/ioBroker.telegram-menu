@@ -88,11 +88,11 @@ const idBySelector = async ({
         const functions = selector.replace(config.functionSelektor, '');
         let enums: string[] | undefined = [];
         const result = await adapter.getEnumsAsync();
-
-        if (!result?.['enum.functions'][`enum.functions.${functions}`]) {
+        const enumsFunctions = result?.['enum.functions'][`enum.functions.${functions}`];
+        if (!enumsFunctions) {
             return;
         }
-        enums = result['enum.functions'][`enum.functions.${functions}`].common.members;
+        enums = enumsFunctions.common.members;
         if (!enums) {
             return;
         }
