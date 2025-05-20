@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "news": {
+      "2.3.1": {
+        "en": "FIX: #309 SetState only sets false\nFIX: #311 Delete does not navigate",
+        "de": "FIX: #309 SetState setzt nur falsch\nFIX: #311 Löschen navigiert nicht",
+        "ru": "#309 SetState устанавливает только ложные\nFIX: #311 Удаление не перемещается",
+        "pt": "FIX: #309 SetState apenas define falso\nFIX: #311 Excluir não navega",
+        "nl": "FIX: #309 SetState stelt alleen valse\nFIX: #311 Verwijderen niet navigeren",
+        "fr": "FIX: #309 SetState ne définit que false\nFIXE: #311 Supprimer ne navigue pas",
+        "it": "FIX: #309 SetState imposta solo falsi\nFIX: #311 Elimina non naviga",
+        "es": "FIX: #309 SetState sólo establece falsos\nFIX: #311 Eliminar no navega",
+        "pl": "FIX: # 309 SetState ustawia tylko false\nFIX: # 311 Usuń nie nawiguje",
+        "uk": "FIX: #309 SetState тільки встановлює помилкові\nFIX: #311 Видалити не навігувати",
+        "zh-cn": "FIX: #309 SetState 只设置虚假\nFIX: # 311 删除不导航"
+      },
       "2.3.0": {
         "en": "FIX: #303 GetState output in incorrect order\nFIX: #296 Frontend fixes\nFIX: #295 Delete button not working\nFIX: #291 Menu button not working\nFEAT: Nodejs >= 20.0.0\nFEAT: Add sentry\nFEAT: Add mocha tests",
         "de": "FIX: #303 GetState Ausgabe in falscher Reihenfolge\nFIX: #296 Frontend Fixes\nFIX: #295 Löschen Taste nicht funktioniert\nFIX: #291 Menü-Taste nicht funktionieren\nFEAT: Nodejs >= 20.0.0\nFEAT: Verschicken hinzufügen\nFEAT: Mocha-Tests hinzufügen",
@@ -80,19 +93,6 @@
         "pl": "FEAT: # 237\nFIX: Nie można uzyskać wartości false w zwrotnym tekście\nFIX: Usuń wiersz w działaniach\nFIX: HttpRequest\nFEAT: Stylizacja nawigacyjna i menu do wyboru",
         "uk": "FEAT: #237 Нейгат від nav-button-click до дії\nFIX: Неможливо отримати значення помилково в поверненні тексту\nFIX: Видалити ряд в дії\nFIX: HttpRequest\nFEAT: Налаштування навігації та вибіркові меню",
         "zh-cn": "FEAT: # 237 导航通过导航按钮点击动作\nFIX: 无法在返回文本中获取错误值\nFIX: 删除动作中的行\nFIX: Http 请求\nFEAT:导航样式和可选菜单"
-      },
-      "2.1.10": {
-        "en": "FIX: Return text for menus was not send",
-        "de": "FIX: Rückgabetext für Menüs wurde nicht gesendet",
-        "ru": "FIX: Возвращаемый текст для меню не был отправлен",
-        "pt": "FIX: O texto de retorno para menus não foi enviado",
-        "nl": "FIX: Retourtekst voor menu's is niet verstuurd",
-        "fr": "FIX: Retour de texte pour les menus n'a pas été envoyé",
-        "it": "FIX: Il testo di ritorno per i menu non è stato inviato",
-        "es": "FIX: El texto devuelto para los menús no fue enviado",
-        "pl": "FIX: Tekst zwrotny dla menu nie został wysłany",
-        "uk": "FIX: Повернути текст для меню не відправлено",
-        "zh-cn": "FIX: 菜单的返回文本没有发送"
       }
     },
     "titleLang": {
