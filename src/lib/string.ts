@@ -1,12 +1,4 @@
-import { config } from '../config/config';
-import type {
-    Adapter,
-    BooleanString,
-    DecomposeTextReturnType,
-    ExchangeValueReturn,
-    PrimitiveType,
-    StringReplacerObj,
-} from '../types/types';
+import type { Adapter, BooleanString, DecomposeTextReturnType, StringReplacerObj } from '../types/types';
 import { isTruthy } from './utils';
 import { errorLogger } from '../app/logging';
 
@@ -69,29 +61,6 @@ export function decomposeText(text: string, firstSearch: string, secondSearch: s
         substringExcludeSearch: substringExcludedSearch,
     };
 }
-// TODO : Move to utils
-export const getValueToExchange = (adapter: Adapter, textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
-    //TODO Use JSON => change{"true":"Wärmepumpe ist verbunden","false":"Wärmepumpe ist nicht verbunden"}
-    if (textToSend.includes(config.change.start)) {
-        const { start, end, command } = config.change;
-        const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
-
-        const modifiedString = replaceAll(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
-
-        const { json, isValidJson } = parseJSON<Record<string, string>>(modifiedString);
-
-        if (isValidJson) {
-            return {
-                newValue: json[String(val)] ?? val,
-                textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
-                error: false,
-            };
-        }
-        adapter.log.error(`There is a error in your input: ${modifiedString}`);
-        return { newValue: val, textToSend, error: true };
-    }
-    return { textToSend, newValue: val, error: false };
-};
 
 export const isString = (value: unknown): value is string => typeof value === 'string';
 

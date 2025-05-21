@@ -119,15 +119,9 @@ async function getState(part, userToSend, telegramParams) {
           return;
         }
       }
-      const {
-        newValue: _val,
-        textToSend: _text,
-        error
-      } = (0, import_string.getValueToExchange)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
-      modifiedStateVal = String(_val);
-      modifiedTextToSend = _text;
+      const { textToSend: _text, error } = (0, import_appUtils.getValueToExchange)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
       const isNewline = (0, import_string.getNewline)(newline);
-      modifiedTextToSend = modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+      modifiedTextToSend = `${_text} ${isNewline}`;
       import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
       valueArrayForCorrectOrder[index] = modifiedTextToSend;
     });

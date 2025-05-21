@@ -16,12 +16,13 @@ import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
-import type { MenuData, PrimitiveType, SetStateIds, TelegramParams } from './types/types';
+import type { MenuData, SetStateIds, TelegramParams } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
-import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
+import { decomposeText, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
 import {
     exchangePlaceholderWithValue,
+    exchangeValue,
     getListOfMenusIncludingUser,
     getNewStructure,
     getStartSides,
@@ -239,30 +240,17 @@ export default class TelegramMenu extends utils.Adapter {
                                         textToSend = textExcludeSubstring;
                                     }
 
-                                    let value: PrimitiveType = '';
-                                    let valueChange: PrimitiveType | null = null;
                                     const {
-                                        newValue,
                                         textToSend: changedText,
                                         error,
-                                    } = getValueToExchange(adapter, textToSend, state.val?.toString());
+                                        newValue,
+                                    } = exchangeValue(adapter, textToSend, state.val?.toString());
+
                                     if (!error) {
-                                        valueChange = newValue;
                                         textToSend = changedText;
                                     }
 
-                                    if (textToSend?.toString().includes('{novalue}')) {
-                                        value = '';
-                                        textToSend = textToSend.replace('{novalue}', '');
-                                    } else if (isDefined(state?.val)) {
-                                        value = state.val?.toString();
-                                    }
-                                    if (isDefined(valueChange)) {
-                                        value = valueChange;
-                                    }
-
-                                    adapter.log.debug(`Value to send: ${value}`);
-                                    textToSend = exchangePlaceholderWithValue(textToSend, value);
+                                    adapter.log.debug(`Value to send: ${newValue}`);
 
                                     await sendToTelegram({
                                         userToSend,

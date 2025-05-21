@@ -1,10 +1,10 @@
 import { isDefined } from './utils';
-import { decomposeText, getValueToExchange, isEmptyString, jsonString, replaceAllItems } from './string';
+import { decomposeText, isEmptyString, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { isSameType, statusIdAndParams, timeStringReplacer } from './appUtils';
+import { exchangeValue, isSameType, statusIdAndParams, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
 
@@ -60,9 +60,9 @@ export const checkStatus = async (text: string): Promise<string> => {
         return text.replace(substring, stateValueString);
     }
 
-    const { newValue: val, textToSend, error } = getValueToExchange(adapter, text, stateValue.val);
+    const { textToSend, error } = exchangeValue(adapter, text, stateValue.val);
 
-    return (!error ? textToSend : text).replace(substring, !error ? val.toString() : stateValueString);
+    return !error ? textToSend : text;
 };
 
 export const returnTextModifier = async (text?: string): Promise<string> => {

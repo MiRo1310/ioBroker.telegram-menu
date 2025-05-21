@@ -6,8 +6,8 @@ import { isDefined } from '../lib/utils';
 import { adapter } from '../main';
 import type { Part, TelegramParams } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
-import { cleanUpString, decomposeText, getNewline, getValueToExchange, jsonString } from '../lib/string';
-import { calcValue, roundValue } from '../lib/appUtils';
+import { cleanUpString, decomposeText, getNewline, jsonString } from '../lib/string';
+import { calcValue, exchangeValue, roundValue } from '../lib/appUtils';
 import { config } from '../config/config';
 import { errorLogger } from './logging';
 
@@ -110,19 +110,10 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
                 }
             }
 
-            const {
-                newValue: _val,
-                textToSend: _text,
-                error,
-            } = getValueToExchange(adapter, modifiedTextToSend, modifiedStateVal);
-
-            modifiedStateVal = String(_val);
-            modifiedTextToSend = _text;
+            const { textToSend: _text, error } = exchangeValue(adapter, modifiedTextToSend, modifiedStateVal);
 
             const isNewline = getNewline(newline);
-            modifiedTextToSend = modifiedTextToSend.includes(config.rowSplitter)
-                ? `${modifiedTextToSend.replace(config.rowSplitter, modifiedStateVal.toString())}${isNewline}`
-                : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+            modifiedTextToSend = `${_text} ${isNewline}`;
 
             adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
 
