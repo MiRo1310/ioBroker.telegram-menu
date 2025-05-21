@@ -170,7 +170,7 @@ function generateActions({
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
-                    ack: isTruthy(ack[index]),
+                    ack: isTruthy(ack?.[index] ?? false),
                     parse_mode: isTruthy(parse_mode[0]),
                 };
                 if (Array.isArray(userObject[triggerName]?.switch)) {
