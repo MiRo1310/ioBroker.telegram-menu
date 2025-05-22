@@ -242,8 +242,13 @@ export const checkEvent = async (
     const menuArray: string[] = [];
     let ok = false;
     let calledNav = '';
+
+    if (!dataObject.action) {
+        return false;
+    }
+
     Object.keys(dataObject.action).forEach(menu => {
-        if (dataObject.action[menu]?.events) {
+        if (dataObject.action?.[menu]?.events) {
             dataObject.action[menu].events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     const condition = event.condition[0];
