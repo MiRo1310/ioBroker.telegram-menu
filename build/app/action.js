@@ -208,9 +208,12 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
   const menuArray = [];
   let ok = false;
   let calledNav = "";
+  if (!dataObject.action) {
+    return false;
+  }
   Object.keys(dataObject.action).forEach((menu) => {
-    var _a2;
-    if ((_a2 = dataObject.action[menu]) == null ? void 0 : _a2.events) {
+    var _a2, _b;
+    if ((_b = (_a2 = dataObject.action) == null ? void 0 : _a2[menu]) == null ? void 0 : _b.events) {
       dataObject.action[menu].events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
           const condition = event.condition[0];

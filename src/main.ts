@@ -93,7 +93,7 @@ export default class TelegramMenu extends utils.Adapter {
                 for (const name in nav) {
                     const splittedNavigation = splitNavigation(nav[name]);
                     const newStructure = getNewStructure(splittedNavigation);
-                    const generatedActions = generateActions({ action: action[name], userObject: newStructure });
+                    const generatedActions = generateActions({ action: action?.[name], userObject: newStructure });
 
                     menuData[name] = newStructure;
                     if (generatedActions) {
@@ -107,7 +107,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
 
                     // Subscribe Events
-                    if (dataObject.action[name]?.events) {
+                    if (dataObject.action?.[name]?.events) {
                         for (const event of dataObject.action[name].events) {
                             await _subscribeForeignStates(event.ID);
                         }

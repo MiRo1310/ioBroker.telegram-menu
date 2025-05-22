@@ -90,7 +90,7 @@ class TelegramMenu extends utils.Adapter {
     const startSides = (0, import_appUtils.getStartSides)(menusWithUsers, dataObject);
     try {
       await this.getForeignObject(infoConnectionOfTelegram, async (err, obj) => {
-        var _a;
+        var _a, _b;
         if (err || !obj) {
           this.log.error(`The State ${infoConnectionOfTelegram} was not found! ${err}`);
           return;
@@ -103,7 +103,7 @@ class TelegramMenu extends utils.Adapter {
         for (const name in nav) {
           const splittedNavigation = (0, import_appUtils.splitNavigation)(nav[name]);
           const newStructure = (0, import_appUtils.getNewStructure)(splittedNavigation);
-          const generatedActions = (0, import_action.generateActions)({ action: action[name], userObject: newStructure });
+          const generatedActions = (0, import_action.generateActions)({ action: action == null ? void 0 : action[name], userObject: newStructure });
           menuData[name] = newStructure;
           if (generatedActions) {
             menuData[name] = generatedActions == null ? void 0 : generatedActions.obj;
@@ -114,7 +114,7 @@ class TelegramMenu extends utils.Adapter {
           } else {
             adapter.log.debug("No Actions generated!");
           }
-          if ((_a = dataObject.action[name]) == null ? void 0 : _a.events) {
+          if ((_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events) {
             for (const event of dataObject.action[name].events) {
               await (0, import_subscribeStates._subscribeForeignStates)(event.ID);
             }
@@ -136,7 +136,7 @@ class TelegramMenu extends utils.Adapter {
           );
         }
         this.on("stateChange", async (id, state) => {
-          var _a2, _b, _c;
+          var _a2, _b2, _c;
           const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
           const isTelegramInstanceActive = await this.checkInfoConnection(id, infoConnectionOfTelegram);
           if (!isTelegramInstanceActive) {
@@ -228,7 +228,7 @@ class TelegramMenu extends utils.Adapter {
                     newValue,
                     textToSend: changedText,
                     error: error2
-                  } = (0, import_string.getValueToExchange)(adapter, textToSend, (_b = state.val) == null ? void 0 : _b.toString());
+                  } = (0, import_string.getValueToExchange)(adapter, textToSend, (_b2 = state.val) == null ? void 0 : _b2.toString());
                   if (!error2) {
                     valueChange = newValue;
                     textToSend = changedText;

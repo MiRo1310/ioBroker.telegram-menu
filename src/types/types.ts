@@ -94,7 +94,7 @@ export type UsersInGroup = { [key: string]: string[] };
 export type MenuData = Record<string, NewObjectStructure>;
 
 export interface DataObject {
-    action: Record<string, Actions | undefined>;
+    action?: Record<string, Actions | undefined>;
     nav: Record<string, NavigationRow[]>;
 }
 
