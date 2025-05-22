@@ -2,23 +2,20 @@ import { config } from '../config/config';
 import type {
     Adapter,
     DataObject,
-    ExchangeValueReturn,
     GetTimeWithPad,
     MenusWithUsers,
     Navigation,
     NavigationRow,
     NewObjectStructure,
     ParseModeType,
-    PrimitiveType,
     splittedNavigation,
     StartSides,
     UsersInGroup,
 } from '../types/types';
-import { decomposeText, parseJSON, removeQuotes, replaceAll } from './string';
+import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
-import { getPlaceholderValue } from './appUtilsString';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -143,65 +140,9 @@ export const getStartSides = (menusWithUsers: UsersInGroup, dataObject: DataObje
     return startSides;
 };
 
-export const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): string => {
-    const searchString = getPlaceholderValue(textToSend);
-    if (searchString !== '') {
-        return textToSend.replace(searchString, val.toString()).trim();
-    }
-    return `${textToSend} ${val}`.trim();
-};
-
 export function isSameType(
     receivedType: 'undefined' | 'object' | 'boolean' | 'number' | 'string' | 'function' | 'symbol' | 'bigint',
     obj: ioBroker.Object,
 ): boolean {
     return receivedType === obj.common.type;
 }
-
-function getPlaceholder(textToSend: string): '&&' | '&amp;&amp;' | '' {
-    return textToSend.includes('&amp;&amp;') ? '&amp;&amp;' : textToSend.includes('&&') ? '&&' : '';
-}
-
-function isNoValueToSend(textToSend: string): { insertValue: boolean; textToSend: string } {
-    let insertValue = true;
-    if (textToSend.includes('{novalue}')) {
-        textToSend.replace('{novalue}', '');
-        insertValue = false;
-    }
-    return { insertValue, textToSend };
-}
-
-export const exchangeValue = (adapter: Adapter, textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
-    const placeholder = getPlaceholder(textToSend);
-    const result = isNoValueToSend(textToSend);
-    textToSend = result.textToSend;
-    if (textToSend.includes(config.change.start)) {
-        const { start, end, command } = config.change;
-        const { substring, textExcludeSubstring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
-
-        const modifiedString = replaceAll(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
-
-        const { json, isValidJson } = parseJSON<Record<string, string>>(modifiedString);
-        if (isValidJson) {
-            let newValue = json[String(val)] ?? val;
-
-            if (!result.insertValue) {
-                newValue = '';
-            }
-
-            return {
-                newValue,
-                textToSend:
-                    placeholder !== ''
-                        ? textExcludeSubstring.replace(placeholder, newValue)
-                        : `${textToSend} ${newValue}`,
-                error: false,
-            };
-        }
-        adapter.log.error(`There is a error in your input: ${modifiedString}`);
-        return { newValue: val, textToSend, error: true };
-    }
-    const text = `${textToSend} ${result.insertValue ? val : ''}`;
-
-    return { textToSend: text, newValue: val, error: false };
-};

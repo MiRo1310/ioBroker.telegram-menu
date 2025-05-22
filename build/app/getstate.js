@@ -119,7 +119,7 @@ async function getState(part, userToSend, telegramParams) {
           return;
         }
       }
-      const { textToSend: _text, error } = (0, import_appUtils.getValueToExchange)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
+      const { textToSend: _text, error } = (0, import_appUtils.exchangeValue)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
       const isNewline = (0, import_string.getNewline)(newline);
       modifiedTextToSend = `${_text} ${isNewline}`;
       import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);

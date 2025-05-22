@@ -16,7 +16,8 @@ import {
 } from '../../src/lib/string';
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import { exchangeValue, timeStringReplacer } from '../../src/lib/appUtils';
+import { timeStringReplacer } from '../../src/lib/appUtils';
+import { exchangeValue } from '../../src/lib/exchangeValue';
 
 const { adapter, database } = utils.unit.createMocks({});
 

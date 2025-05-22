@@ -20,16 +20,10 @@ import type { MenuData, SetStateIds, TelegramParams } from './types/types';
 import { checkIsTelegramActive } from './app/connection.js';
 import { decomposeText, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
-import {
-    exchangePlaceholderWithValue,
-    exchangeValue,
-    getListOfMenusIncludingUser,
-    getNewStructure,
-    getStartSides,
-    splitNavigation,
-} from './lib/appUtils';
+import { getListOfMenusIncludingUser, getNewStructure, getStartSides, splitNavigation } from './lib/appUtils';
 import { getConfigVariables } from './app/configVariables';
 import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
+import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
 
 const timeoutKey = '0';
 export let adapter: TelegramMenu;

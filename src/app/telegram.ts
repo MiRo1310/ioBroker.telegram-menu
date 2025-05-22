@@ -28,13 +28,12 @@ async function sendToTelegram({
         );
         validateTextToSend(textToSend);
 
-        const validatedTextToSend = cleanUpString(textToSend);
         if (!keyboard) {
             adapter.sendTo(
                 telegramInstance,
                 'send',
                 {
-                    text: validatedTextToSend,
+                    text: cleanUpString(textToSend),
                     chatId,
                     parse_mode: getParseMode(parse_mode),
                 },
@@ -49,7 +48,7 @@ async function sendToTelegram({
             {
                 chatId,
                 parse_mode: getParseMode(parse_mode),
-                text: await returnTextModifier(validatedTextToSend),
+                text: await returnTextModifier(cleanUpString(textToSend)),
                 reply_markup: {
                     keyboard,
                     resize_keyboard,

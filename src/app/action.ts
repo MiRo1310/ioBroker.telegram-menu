@@ -27,7 +27,7 @@ import { isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
-import { exchangeValue } from '../lib/appUtils';
+import { exchangeValue } from '../lib/exchangeValue';
 
 const bindingFunc = async (
     text: string,

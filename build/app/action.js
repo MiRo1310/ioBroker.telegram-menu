@@ -125,7 +125,7 @@ const idBySelector = async ({
         const result2 = await import_main.adapter.getForeignObjectAsync(removeLastPartOfId(id));
         newText = newText.replace("{folder.name}", getCommonName({ name: result2 == null ? void 0 : result2.common.name, adapter: import_main.adapter }));
       }
-      const { textToSend } = (0, import_appUtils.getValueToExchange)(import_main.adapter, newText, (_a = value == null ? void 0 : value.val) != null ? _a : "");
+      const { textToSend } = (0, import_appUtils.exchangeValue)(import_main.adapter, newText, (_a = value == null ? void 0 : value.val) != null ? _a : "");
       text2Send += textToSend;
       text2Send += (0, import_string.getNewline)(newline);
       import_main.adapter.log.debug(`Text to send:  ${JSON.stringify(text2Send)}`);

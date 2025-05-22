@@ -72,7 +72,7 @@ const checkStatus = async (text) => {
   if (!shouldChange) {
     return text.replace(substring, stateValueString);
   }
-  const { textToSend, error } = (0, import_appUtils.getValueToExchange)(import_main.adapter, text, stateValue.val);
+  const { textToSend, error } = (0, import_appUtils.exchangeValue)(import_main.adapter, text, stateValue.val);
   return !error ? textToSend : text;
 };
 const returnTextModifier = async (text) => {

@@ -20,13 +20,11 @@ var appUtils_exports = {};
 __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
-  exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getNewStructure: () => getNewStructure,
   getParseMode: () => getParseMode,
   getStartSides: () => getStartSides,
   getTypeofTimestamp: () => getTypeofTimestamp,
-  getValueToExchange: () => getValueToExchange,
   isSameType: () => isSameType,
   isStartside: () => isStartside,
   roundValue: () => roundValue,
@@ -40,7 +38,6 @@ var import_string = require("./string");
 var import_math = require("./math");
 var import_utils = require("./utils");
 var import_object = require("./object");
-var import_appUtilsString = require("./appUtilsString");
 const checkOneLineValue = (text) => !text.includes(import_config.config.rowSplitter) ? `${text} ${import_config.config.rowSplitter}` : text;
 function calcValue(textToSend, val, adapter) {
   const { substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(
@@ -128,60 +125,18 @@ const getStartSides = (menusWithUsers, dataObject) => {
   });
   return startSides;
 };
-const exchangePlaceholderWithValue = (textToSend, val) => {
-  const searchString = (0, import_appUtilsString.getPlaceholderValue)(textToSend);
-  if (searchString !== "") {
-    return textToSend.replace(searchString, val.toString()).trim();
-  }
-  return `${textToSend} ${val}`.trim();
-};
 function isSameType(receivedType, obj) {
   return receivedType === obj.common.type;
 }
-function getPlaceholder(textToSend) {
-  return textToSend.includes("&amp;&amp;") ? "&amp;&amp;" : textToSend.includes("&&") ? "&&" : "";
-}
-const getValueToExchange = (adapter, textToSend, val) => {
-  var _a;
-  const placeholder = getPlaceholder(textToSend);
-  let insertValue = true;
-  if (textToSend.includes("{novalue}")) {
-    textToSend.replace("{novalue}", "");
-    insertValue = false;
-  }
-  if (textToSend.includes(import_config.config.change.start)) {
-    const { start, end, command } = import_config.config.change;
-    const { substring, textExcludeSubstring } = (0, import_string.decomposeText)(textToSend, start, end);
-    const modifiedString = (0, import_string.replaceAll)(substring, "'", '"').replace(command, "");
-    const { json, isValidJson } = (0, import_string.parseJSON)(modifiedString);
-    if (isValidJson) {
-      let newValue = (_a = json[String(val)]) != null ? _a : val;
-      if (!insertValue) {
-        newValue = "";
-      }
-      return {
-        newValue,
-        textToSend: placeholder !== "" ? textExcludeSubstring.replace(placeholder, newValue) : `${textToSend} ${newValue}`,
-        error: false
-      };
-    }
-    adapter.log.error(`There is a error in your input: ${modifiedString}`);
-    return { newValue: val, textToSend, error: true };
-  }
-  const text = `${textToSend} ${insertValue ? val : ""}`;
-  return { textToSend: text, newValue: val, error: false };
-};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
-  exchangePlaceholderWithValue,
   getListOfMenusIncludingUser,
   getNewStructure,
   getParseMode,
   getStartSides,
   getTypeofTimestamp,
-  getValueToExchange,
   isSameType,
   isStartside,
   roundValue,

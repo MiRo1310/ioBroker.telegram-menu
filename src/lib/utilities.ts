@@ -4,9 +4,10 @@ import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { exchangeValue, isSameType, statusIdAndParams, timeStringReplacer } from './appUtils';
+import { isSameType, statusIdAndParams, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
+import { exchangeValue } from './exchangeValue';
 
 export const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
