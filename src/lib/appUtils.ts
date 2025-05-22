@@ -87,7 +87,10 @@ export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, st
     return string;
 };
 
-export function statusIdAndParams(substringExcludeSearch: string): { id: string; shouldChange: boolean } {
+export function statusIdAndParams(substringExcludeSearch: string): {
+    id: string;
+    shouldChangeByStatusParameter: boolean;
+} {
     const splitArray = substringExcludeSearch.split(':');
     const firstEl = splitArray[0];
     const secondEl = splitArray[1] ?? '';
@@ -95,11 +98,11 @@ export function statusIdAndParams(substringExcludeSearch: string): { id: string;
     return substringExcludeSearch.includes(config.status.oldWithId)
         ? {
               id: removeQuotes(secondEl), //'id':'ID':true
-              shouldChange: isTruthy(removeQuotes(thirdEl)),
+              shouldChangeByStatusParameter: isTruthy(removeQuotes(thirdEl)),
           }
         : {
               id: removeQuotes(firstEl), //'ID':true
-              shouldChange: isTruthy(removeQuotes(secondEl)),
+              shouldChangeByStatusParameter: isTruthy(removeQuotes(secondEl)),
           };
 }
 

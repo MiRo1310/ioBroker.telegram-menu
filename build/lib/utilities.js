@@ -33,6 +33,7 @@ var import_config = require("../config/config");
 var import_appUtils = require("./appUtils");
 var import_setstate = require("../app/setstate");
 var import_splitValues = require("./splitValues");
+var import_exchangeValue = require("./exchangeValue");
 const processTimeIdLc = async (textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,
@@ -59,7 +60,7 @@ const checkStatus = async (text) => {
     import_config.config.status.start,
     import_config.config.status.end
   );
-  const { id, shouldChange } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
+  const { id, shouldChangeByStatusParameter } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
   const stateValue = await import_main.adapter.getForeignStateAsync(id);
   if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
     import_main.adapter.log.debug(`State not found for id : "${id}"`);
@@ -69,11 +70,11 @@ const checkStatus = async (text) => {
   if (text.includes(import_config.config.time)) {
     return (0, import_time.integrateTimeIntoText)(textExcludeSubstring, stateValueString).replace(stateValueString, "");
   }
-  if (!shouldChange) {
+  if (!shouldChangeByStatusParameter) {
     return text.replace(substring, stateValueString);
   }
-  const { textToSend, error } = (0, import_appUtils.exchangeValue)(import_main.adapter, text, stateValue.val);
-  return !error ? textToSend : text;
+  const { textToSend, error } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, textExcludeSubstring, stateValue.val);
+  return !error ? textToSend : textExcludeSubstring;
 };
 const returnTextModifier = async (text) => {
   if (!text) {

@@ -32,6 +32,7 @@ var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
 var import_config = require("../config/config");
 var import_logging = require("./logging");
+var import_exchangeValue = require("../lib/exchangeValue");
 async function getState(part, userToSend, telegramParams) {
   var _a;
   try {
@@ -119,7 +120,7 @@ async function getState(part, userToSend, telegramParams) {
           return;
         }
       }
-      const { textToSend: _text, error } = (0, import_appUtils.exchangeValue)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
+      const { textToSend: _text, error } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
       const isNewline = (0, import_string.getNewline)(newline);
       modifiedTextToSend = `${_text} ${isNewline}`;
       import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);

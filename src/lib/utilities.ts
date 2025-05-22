@@ -34,7 +34,6 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
     return timeStringReplaced ?? textToSend;
 };
 
-// TODO Check Usage of function
 export const checkStatus = async (text: string): Promise<string> => {
     const { substring, substringExcludeSearch, textExcludeSubstring } = decomposeText(
         text,
@@ -42,7 +41,7 @@ export const checkStatus = async (text: string): Promise<string> => {
         config.status.end,
     ); //substring {status:'ID':true} new | old {status:'id':'ID':true}
 
-    const { id, shouldChange } = statusIdAndParams(substringExcludeSearch);
+    const { id, shouldChangeByStatusParameter } = statusIdAndParams(substringExcludeSearch);
 
     const stateValue = await adapter.getForeignStateAsync(id);
 
@@ -57,13 +56,13 @@ export const checkStatus = async (text: string): Promise<string> => {
         return integrateTimeIntoText(textExcludeSubstring, stateValueString).replace(stateValueString, '');
     }
 
-    if (!shouldChange) {
+    if (!shouldChangeByStatusParameter) {
         return text.replace(substring, stateValueString);
     }
 
-    const { textToSend, error } = exchangeValue(adapter, text, stateValue.val);
+    const { textToSend, error } = exchangeValue(adapter, textExcludeSubstring, stateValue.val);
 
-    return !error ? textToSend : text;
+    return !error ? textToSend : textExcludeSubstring;
 };
 
 export const returnTextModifier = async (text?: string): Promise<string> => {

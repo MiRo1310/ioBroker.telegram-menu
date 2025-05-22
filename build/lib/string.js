@@ -66,7 +66,7 @@ const cleanUpString = (text) => {
   if (!text) {
     return "";
   }
-  return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "");
+  return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "").replace(/ {2,}/g, " ");
 };
 function decomposeText(text, firstSearch, secondSearch) {
   const startindex = text.indexOf(firstSearch);

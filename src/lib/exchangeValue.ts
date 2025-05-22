@@ -2,7 +2,7 @@ import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types
 import { config } from '../config/config';
 import { decomposeText, parseJSON, replaceAll } from './string';
 
-function isNoValueToSend(textToSend: string): { insertValue: boolean; textToSend: string } {
+function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
     let insertValue = true;
     if (textToSend.includes('{novalue}')) {
         textToSend.replace('{novalue}', '');
@@ -11,16 +11,21 @@ function isNoValueToSend(textToSend: string): { insertValue: boolean; textToSend
     return { insertValue, textToSend };
 }
 
-export const exchangeValue = (adapter: Adapter, textToSend: string, val: PrimitiveType): ExchangeValueReturn => {
-    const result = isNoValueToSend(textToSend);
+export const exchangeValue = (
+    adapter: Adapter,
+    textToSend: string,
+    val: PrimitiveType | null | undefined,
+): ExchangeValueReturn => {
+    const result = isNoValueParameter(textToSend);
+
     textToSend = result.textToSend;
     if (textToSend.includes(config.change.start)) {
         const { start, end, command } = config.change;
         const { substring, textExcludeSubstring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
 
-        const modifiedString = replaceAll(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
+        const stringExcludedChange = replaceAll(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
 
-        const { json, isValidJson } = parseJSON<Record<string, string>>(modifiedString);
+        const { json, isValidJson } = parseJSON<Record<string, string>>(stringExcludedChange);
         if (isValidJson) {
             const newValue = json[String(val)] ?? val;
 
@@ -30,13 +35,13 @@ export const exchangeValue = (adapter: Adapter, textToSend: string, val: Primiti
                 error: false,
             };
         }
-        adapter.log.error(`There is a error in your input: ${modifiedString}`);
-        return { newValue: val, textToSend, error: true };
+        adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
+        return { newValue: val ?? '', textToSend, error: true };
     }
 
     return {
-        textToSend: exchangePlaceholderWithValue(textToSend, result.insertValue ? val : ''),
-        newValue: val,
+        textToSend: exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''),
+        newValue: val ?? '',
         error: false,
     };
 };

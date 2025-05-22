@@ -7,9 +7,10 @@ import { adapter } from '../main';
 import type { Part, TelegramParams } from '../types/types';
 import { integrateTimeIntoText } from '../lib/time';
 import { cleanUpString, decomposeText, getNewline, jsonString } from '../lib/string';
-import { calcValue, exchangeValue, roundValue } from '../lib/appUtils';
+import { calcValue, roundValue } from '../lib/appUtils';
 import { config } from '../config/config';
 import { errorLogger } from './logging';
+import { exchangeValue } from '../lib/exchangeValue';
 
 export async function getState(part: Part, userToSend: string, telegramParams: TelegramParams): Promise<void> {
     try {

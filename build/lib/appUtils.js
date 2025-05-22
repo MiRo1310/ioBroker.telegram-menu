@@ -90,11 +90,11 @@ function statusIdAndParams(substringExcludeSearch) {
   return substringExcludeSearch.includes(import_config.config.status.oldWithId) ? {
     id: (0, import_string.removeQuotes)(secondEl),
     //'id':'ID':true
-    shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(thirdEl))
+    shouldChangeByStatusParameter: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(thirdEl))
   } : {
     id: (0, import_string.removeQuotes)(firstEl),
     //'ID':true
-    shouldChange: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(secondEl))
+    shouldChangeByStatusParameter: (0, import_utils.isTruthy)((0, import_string.removeQuotes)(secondEl))
   };
 }
 function isStartside(startSide) {
