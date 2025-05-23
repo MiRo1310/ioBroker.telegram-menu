@@ -1,5 +1,5 @@
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { bindingFunc, idBySelector } from './action';
+import { bindingFunc } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
 import { processTimeIdLc } from '../lib/utilities';
 import { isDefined } from '../lib/utils';
@@ -11,6 +11,7 @@ import { calcValue, roundValue } from '../lib/appUtils';
 import { config } from '../config/config';
 import { errorLogger } from './logging';
 import { exchangeValue } from '../lib/exchangeValue';
+import { idBySelector } from './idBySelector';
 
 export async function getState(part: Part, userToSend: string, telegramParams: TelegramParams): Promise<void> {
     try {
@@ -21,6 +22,7 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
 
             if (id.includes(config.functionSelektor)) {
                 await idBySelector({
+                    adapter,
                     selector: id,
                     text,
                     userToSend,

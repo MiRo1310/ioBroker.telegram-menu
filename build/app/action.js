@@ -22,8 +22,7 @@ __export(action_exports, {
   bindingFunc: () => bindingFunc,
   checkEvent: () => checkEvent,
   generateActions: () => generateActions,
-  getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
-  idBySelector: () => idBySelector
+  getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram");
@@ -37,7 +36,6 @@ var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
 var import_config = require("../config/config");
 var import_splitValues = require("../lib/splitValues");
-var import_exchangeValue = require("../lib/exchangeValue");
 const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
   var _a, _b;
   let textToSend;
@@ -72,75 +70,6 @@ const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
     });
   } catch (e) {
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
-  }
-};
-function getCommonName({ name, adapter: adapter2 }) {
-  var _a, _b;
-  const language = (_a = adapter2.language) != null ? _a : "en";
-  if (!name) {
-    return "";
-  }
-  if (typeof name === "string") {
-    return name;
-  }
-  if (language) {
-    return (_b = name[language]) != null ? _b : "";
-  }
-  return "";
-}
-function removeLastPartOfId(id) {
-  const parts = id.split(".");
-  parts.pop();
-  return parts.join(".");
-}
-const idBySelector = async ({
-  selector,
-  text,
-  userToSend,
-  newline,
-  telegramParams
-}) => {
-  let text2Send = "";
-  try {
-    const functions = selector.replace(import_config.config.functionSelektor, "");
-    let enums = [];
-    const result = await import_main.adapter.getEnumsAsync();
-    const enumsFunctions = result == null ? void 0 : result["enum.functions"][`enum.functions.${functions}`];
-    if (!enumsFunctions) {
-      return;
-    }
-    enums = enumsFunctions.common.members;
-    if (!enums) {
-      return;
-    }
-    const promises = enums.map(async (id) => {
-      var _a;
-      const value = await import_main.adapter.getForeignStateAsync(id);
-      let newText = text;
-      if (text.includes("{common.name}")) {
-        const result2 = await import_main.adapter.getForeignObjectAsync(id);
-        newText = newText.replace("{common.name}", getCommonName({ name: result2 == null ? void 0 : result2.common.name, adapter: import_main.adapter }));
-      }
-      if (text.includes("{folder.name}")) {
-        const result2 = await import_main.adapter.getForeignObjectAsync(removeLastPartOfId(id));
-        newText = newText.replace("{folder.name}", getCommonName({ name: result2 == null ? void 0 : result2.common.name, adapter: import_main.adapter }));
-      }
-      const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, newText, (_a = value == null ? void 0 : value.val) != null ? _a : "");
-      text2Send += textToSend;
-      text2Send += (0, import_string.getNewline)(newline);
-      import_main.adapter.log.debug(`Text to send:  ${JSON.stringify(text2Send)}`);
-    });
-    Promise.all(promises).then(async () => {
-      await (0, import_telegram.sendToTelegram)({
-        userToSend,
-        textToSend: text2Send,
-        telegramParams
-      });
-    }).catch((e) => {
-      (0, import_logging.errorLogger)("Error Promise", e, import_main.adapter);
-    });
-  } catch (error) {
-    (0, import_logging.errorLogger)("Error idBySelector", error, import_main.adapter);
   }
 };
 function generateActions({
@@ -281,7 +210,6 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
   bindingFunc,
   checkEvent,
   generateActions,
-  getUserToSendFromUserListWithChatID,
-  idBySelector
+  getUserToSendFromUserListWithChatID
 });
 //# sourceMappingURL=action.js.map

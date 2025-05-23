@@ -33,6 +33,7 @@ var import_appUtils = require("../lib/appUtils");
 var import_config = require("../config/config");
 var import_logging = require("./logging");
 var import_exchangeValue = require("../lib/exchangeValue");
+var import_idBySelector = require("./idBySelector");
 async function getState(part, userToSend, telegramParams) {
   var _a;
   try {
@@ -42,7 +43,8 @@ async function getState(part, userToSend, telegramParams) {
       var _a2;
       import_main.adapter.log.debug(`Get Value ID: ${id}`);
       if (id.includes(import_config.config.functionSelektor)) {
-        await (0, import_action.idBySelector)({
+        await (0, import_idBySelector.idBySelector)({
+          adapter: import_main.adapter,
           selector: id,
           text,
           userToSend,

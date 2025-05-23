@@ -60,7 +60,7 @@ Sent, this is looking for the right call text, this must be written in this way,
 -   If the value is to be changed, e.g. from true to and false, can`change{"true":"an","false":"aus"}`used
     become
 
-##### ...ein Wert gesetzt werden
+##### ...a value set
 
 -   Set a data point when opening navigation. The following can be used -`{set:'id':'ID',val,ack}`- ID is
     The ID of the data point in which a value is to be written. Val - the value to be set, ACK - should the value
@@ -134,8 +134,8 @@ e.g. Home), only entries can be deleted that are younger than 48h.
     Specify how many buttons should stand next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change`[Name1|Value1, Name2|Value2]`. Now decimal numbers can also be considered value
     be used, e.g. (2.5).
     A value of a data point can now be used as a name.`{status:'ID':true}`<a href="#status">For further
-    Watch information here</a>
-  ![img.png](img.png)
+    Watch information here</a>  
+
     If you leave the value empty the submenu will be set to the datapoint, otherwise the value from config will be set
     You can maybe set the submenu value to a string datapoint, the value will not change. And another datapoint with type boolean. Here the value will transformed to a boolean value.
     - false => "false" , false, 0, null, "null", undefined and "undefined"
@@ -147,7 +147,7 @@ e.g. Home), only entries can be deleted that are younger than 48h.
 
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
-    <img src="../pic/submenu_setstate.png" width="800"/>
+    <img src="../pic/submenu_setstate.png" width="800"/> 
 
 ### Setstate
 
@@ -221,7 +221,8 @@ e.g. Home), only entries can be deleted that are younger than 48h.
 
 -   In order to get all the values ​​of the adjustable functions, you have to just have functions = light, e.g.
     write.
--   If you want to have the name of the data point in the output text, simply wear the desired position in the text`{common.name}`a
+-   If you want to have the name of the data point in the output text, simply wear the desired position in the text`{common.name}`
+-   You can also get the common.name of the folder above. Use this : `{folder.name}`
 
 ![functions](../pic/functions.png)<br>
 
