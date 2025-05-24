@@ -105,7 +105,7 @@ function generateActions({
     import_config.arrayOfEntries.forEach((item) => {
       const actions = action == null ? void 0 : action[item.objName];
       actions == null ? void 0 : actions.forEach(function(element, index) {
-        const trigger = element.trigger[0];
+        const trigger = element == null ? void 0 : element.trigger[0];
         userObject[trigger] = { [item.name]: [] };
         if (index == 0) {
           userObject[trigger] = { [item.name]: [] };
@@ -114,14 +114,15 @@ function generateActions({
           var _a;
           const newObj = {};
           item.elements.forEach(({ name, value, index: elIndex }) => {
+            var _a2;
             const elName = value ? value : name;
             const newIndex = elIndex ? elIndex : index2;
-            const val = !element[elName] ? false : element[elName][newIndex] || "false";
+            const val = !element[elName] ? false : (_a2 = element[elName][newIndex]) != null ? _a2 : "false";
             if (name === "parse_mode") {
               newObj.parse_mode = (0, import_utils.isTruthy)(val);
             }
             if (typeof val === "string") {
-              newObj[name] = val.replace(/&amp;/g, "&");
+              newObj[name] = String(val).replace(/&amp;/g, "&");
             }
           });
           ((_a = userObject == null ? void 0 : userObject[trigger]) == null ? void 0 : _a[item.name]).push(newObj);
