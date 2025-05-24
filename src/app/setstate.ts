@@ -8,6 +8,7 @@ import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '../lib/s
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
 import { addSetStateIds } from './setStateIdsToListenTo';
+import { exchangeValue } from '../lib/exchangeValue';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -51,7 +52,12 @@ export const setstateIobroker = async ({
     }
 };
 
-const setValue = async (id: string, value: string, valueFromSubmenu: string | number, ack: boolean): Promise<void> => {
+const setValue = async (
+    id: string,
+    value: string,
+    valueFromSubmenu: string | number | boolean,
+    ack: boolean,
+): Promise<void> => {
     try {
         // If Value is set in Config the value will set to datapoint otherwise the value from submenu, so submenuValuePriority is obsolete
         const valueToSet =
@@ -68,7 +74,7 @@ const setValue = async (id: string, value: string, valueFromSubmenu: string | nu
 export const handleSetState = async (
     part: Part,
     userToSend: string,
-    valueFromSubmenu: string | number,
+    valueFromSubmenu: string | number | boolean,
     telegramParams: TelegramParams,
 ): Promise<void> => {
     try {
@@ -108,15 +114,13 @@ export const handleSetState = async (
                 });
             } else {
                 returnText = returnText.replace(/'/g, '"');
-                const textToSend = returnText.slice(0, returnText.indexOf('{')).trim();
-                const { json, isValidJson } = parseJSON<{ text: string; id: string }>(
-                    returnText.slice(returnText.indexOf('{'), returnText.indexOf('}') + 1),
-                );
+                const { substring } = decomposeText(returnText, '{"id":', '}');
+                const { json, isValidJson } = parseJSON<{ text: string; id: string }>(substring);
                 if (!isValidJson) {
                     return;
                 }
-
-                json.text = json.text + returnText.slice(returnText.indexOf('}') + 1);
+                const text = returnText.replace(substring, json.text);
+                const { textToSend } = exchangeValue(adapter, text, valueFromSubmenu);
 
                 await sendToTelegram({
                     userToSend,

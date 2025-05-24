@@ -35,7 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-- FEAT: Extension for 
+### **WORK IN PROGRESS**
+
+- FIX: Error returnText is empty
+- FEAT: Extension for get by function 
 - FIX: Errors reported by sentry
 
 ### 2.3.1 (2025-05-20)
