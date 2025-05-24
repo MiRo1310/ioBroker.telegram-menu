@@ -3,11 +3,12 @@ import { callSubMenu } from './subMenu';
 import { sendNav } from './sendNav';
 import { backMenuFunc } from './backMenu';
 import { errorLogger } from './logging';
+
 import { adapter } from '../main';
+
 import type {
     Actions,
     BindingObject,
-    BooleanString,
     DataObject,
     GenerateActionsNewObject,
     MenuData,
@@ -19,8 +20,8 @@ import type {
     UserObjectActions,
     UsersInGroup,
 } from '../types/types';
-import { decomposeText, getNewline, jsonString } from '../lib/string';
-import { isDefined, isFalsy, isTruthy } from '../lib/utils';
+import { decomposeText } from '../lib/string';
+import { isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
@@ -67,77 +68,6 @@ const bindingFunc = async (
         });
     } catch (e: any) {
         errorLogger('Error Binding function: ', e, adapter);
-    }
-};
-
-const idBySelector = async ({
-    selector,
-    text,
-    userToSend,
-    newline,
-    telegramParams,
-}: {
-    selector: string;
-    text: string;
-    userToSend: string;
-    newline: BooleanString;
-    telegramParams: TelegramParams;
-}): Promise<void> => {
-    let text2Send = '';
-    try {
-        const functions = selector.replace(config.functionSelektor, '');
-        let enums: string[] | undefined = [];
-        const result = await adapter.getEnumsAsync();
-
-        if (!result?.['enum.functions'][`enum.functions.${functions}`]) {
-            return;
-        }
-        enums = result['enum.functions'][`enum.functions.${functions}`].common.members;
-        if (!enums) {
-            return;
-        }
-
-        const promises = enums.map(async (id: string) => {
-            const value = await adapter.getForeignStateAsync(id);
-            if (isDefined(value?.val)) {
-                let newText = text;
-                let res;
-
-                if (text.includes('{common.name}')) {
-                    res = await adapter.getForeignObjectAsync(id);
-                    adapter.log.debug(`Name ${jsonString(res?.common.name)}`);
-
-                    if (res && typeof res.common.name === 'string') {
-                        newText = newText.replace('{common.name}', res.common.name);
-                    }
-                }
-                if (text.includes('&amp;&amp;')) {
-                    text2Send += newText.replace('&amp;&amp;', String(value.val));
-                } else if (text.includes('&&')) {
-                    text2Send += newText.replace('&&', String(value.val));
-                } else {
-                    text2Send += newText;
-                    text2Send += ` ${value.val}`;
-                }
-            }
-
-            text2Send += getNewline(newline);
-
-            adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
-        });
-        Promise.all(promises)
-            .then(async () => {
-                await sendToTelegram({
-                    userToSend,
-                    textToSend: text2Send,
-                    telegramParams,
-                });
-            })
-            .catch(e => {
-                errorLogger('Error Promise:', e, adapter);
-            });
-    } catch (error: any) {
-        errorLogger('Error idBySelector: ', error, adapter);
     }
 };
 
@@ -309,4 +239,4 @@ export const getUserToSendFromUserListWithChatID = (
     }
 };
 
-export { idBySelector, generateActions, bindingFunc, adjustValueType };
+export { generateActions, bindingFunc, adjustValueType };

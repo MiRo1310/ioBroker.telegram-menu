@@ -48,6 +48,7 @@ var import_utils = require("./lib/utils");
 var import_appUtils = require("./lib/appUtils");
 var import_configVariables = require("./app/configVariables");
 var import_setStateIdsToListenTo = require("./app/setStateIdsToListenTo");
+var import_exchangeValue = require("./lib/exchangeValue");
 const timeoutKey = "0";
 let adapter;
 class TelegramMenu extends utils.Adapter {
@@ -136,7 +137,7 @@ class TelegramMenu extends utils.Adapter {
           );
         }
         this.on("stateChange", async (id, state) => {
-          var _a2, _b2, _c;
+          var _a2, _b2;
           const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
           const isTelegramInstanceActive = await this.checkInfoConnection(id, infoConnectionOfTelegram);
           if (!isTelegramInstanceActive) {
@@ -201,7 +202,7 @@ class TelegramMenu extends utils.Adapter {
                   const splitSubstring = substring.split(":");
                   let text = "";
                   if ((0, import_utils.isDefined)(state.val)) {
-                    text = ((_a2 = splitSubstring[2]) == null ? void 0 : _a2.includes("noValue")) ? splitSubstring[1] : (0, import_appUtils.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
+                    text = ((_a2 = splitSubstring[2]) == null ? void 0 : _a2.includes("noValue")) ? splitSubstring[1] : (0, import_exchangeValue.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
                   }
                   adapter.log.debug(`Return-text: ${text}`);
                   if (text === "") {
@@ -222,28 +223,15 @@ class TelegramMenu extends utils.Adapter {
                     const { textExcludeSubstring } = (0, import_string.decomposeText)(textToSend, "{confirmSet:", "}");
                     textToSend = textExcludeSubstring;
                   }
-                  let value = "";
-                  let valueChange = null;
                   const {
-                    newValue,
                     textToSend: changedText,
-                    error: error2
-                  } = (0, import_string.getValueToExchange)(adapter, textToSend, (_b2 = state.val) == null ? void 0 : _b2.toString());
+                    error: error2,
+                    newValue
+                  } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend, (_b2 = state.val) == null ? void 0 : _b2.toString());
                   if (!error2) {
-                    valueChange = newValue;
                     textToSend = changedText;
                   }
-                  if (textToSend == null ? void 0 : textToSend.toString().includes("{novalue}")) {
-                    value = "";
-                    textToSend = textToSend.replace("{novalue}", "");
-                  } else if ((0, import_utils.isDefined)(state == null ? void 0 : state.val)) {
-                    value = (_c = state.val) == null ? void 0 : _c.toString();
-                  }
-                  if ((0, import_utils.isDefined)(valueChange)) {
-                    value = valueChange;
-                  }
-                  adapter.log.debug(`Value to send: ${value}`);
-                  textToSend = (0, import_appUtils.exchangePlaceholderWithValue)(textToSend, value);
+                  adapter.log.debug(`Value to send: ${newValue}`);
                   await (0, import_telegram.sendToTelegram)({
                     userToSend: userToSend2,
                     textToSend,

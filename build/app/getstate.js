@@ -32,6 +32,8 @@ var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
 var import_config = require("../config/config");
 var import_logging = require("./logging");
+var import_exchangeValue = require("../lib/exchangeValue");
+var import_idBySelector = require("./idBySelector");
 async function getState(part, userToSend, telegramParams) {
   var _a;
   try {
@@ -41,7 +43,8 @@ async function getState(part, userToSend, telegramParams) {
       var _a2;
       import_main.adapter.log.debug(`Get Value ID: ${id}`);
       if (id.includes(import_config.config.functionSelektor)) {
-        await (0, import_action.idBySelector)({
+        await (0, import_idBySelector.idBySelector)({
+          adapter: import_main.adapter,
           selector: id,
           text,
           userToSend,
@@ -119,15 +122,9 @@ async function getState(part, userToSend, telegramParams) {
           return;
         }
       }
-      const {
-        newValue: _val,
-        textToSend: _text,
-        error
-      } = (0, import_string.getValueToExchange)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
-      modifiedStateVal = String(_val);
-      modifiedTextToSend = _text;
+      const { textToSend: _text, error } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
       const isNewline = (0, import_string.getNewline)(newline);
-      modifiedTextToSend = modifiedTextToSend.includes(import_config.config.rowSplitter) ? `${modifiedTextToSend.replace(import_config.config.rowSplitter, modifiedStateVal.toString())}${isNewline}` : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+      modifiedTextToSend = `${_text} ${isNewline}`;
       import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
       valueArrayForCorrectOrder[index] = modifiedTextToSend;
     });

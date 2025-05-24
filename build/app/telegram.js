@@ -48,13 +48,12 @@ async function sendToTelegram({
       `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${telegramInstance} , userListWithChatID: ${(0, import_string.jsonString)(userListWithChatID)} , parseMode: ${parse_mode} }`
     );
     validateTextToSend(textToSend);
-    const validatedTextToSend = (0, import_string.cleanUpString)(textToSend);
     if (!keyboard) {
       import_main.adapter.sendTo(
         telegramInstance,
         "send",
         {
-          text: validatedTextToSend,
+          text: (0, import_string.cleanUpString)(textToSend),
           chatId,
           parse_mode: (0, import_appUtils.getParseMode)(parse_mode)
         },
@@ -68,7 +67,7 @@ async function sendToTelegram({
       {
         chatId,
         parse_mode: (0, import_appUtils.getParseMode)(parse_mode),
-        text: await (0, import_utilities.returnTextModifier)(validatedTextToSend),
+        text: await (0, import_utilities.returnTextModifier)((0, import_string.cleanUpString)(textToSend)),
         reply_markup: {
           keyboard,
           resize_keyboard,

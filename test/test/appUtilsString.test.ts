@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getPlaceholderValue } from '../../src/lib/appUtilsString';
+import { getPlaceholderValue } from '../../src/lib/exchangeValue';
 
 describe('getPlaceholderValue', () => {
     it('should return "&&" if the text contains "&&"', () => {

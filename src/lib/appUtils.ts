@@ -8,7 +8,6 @@ import type {
     NavigationRow,
     NewObjectStructure,
     ParseModeType,
-    PrimitiveType,
     splittedNavigation,
     StartSides,
     UsersInGroup,
@@ -17,7 +16,6 @@ import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
-import { getPlaceholderValue } from './appUtilsString';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -89,7 +87,10 @@ export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, st
     return string;
 };
 
-export function statusIdAndParams(substringExcludeSearch: string): { id: string; shouldChange: boolean } {
+export function statusIdAndParams(substringExcludeSearch: string): {
+    id: string;
+    shouldChangeByStatusParameter: boolean;
+} {
     const splitArray = substringExcludeSearch.split(':');
     const firstEl = splitArray[0];
     const secondEl = splitArray[1] ?? '';
@@ -97,11 +98,11 @@ export function statusIdAndParams(substringExcludeSearch: string): { id: string;
     return substringExcludeSearch.includes(config.status.oldWithId)
         ? {
               id: removeQuotes(secondEl), //'id':'ID':true
-              shouldChange: isTruthy(removeQuotes(thirdEl)),
+              shouldChangeByStatusParameter: isTruthy(removeQuotes(thirdEl)),
           }
         : {
               id: removeQuotes(firstEl), //'ID':true
-              shouldChange: isTruthy(removeQuotes(secondEl)),
+              shouldChangeByStatusParameter: isTruthy(removeQuotes(secondEl)),
           };
 }
 
@@ -140,14 +141,6 @@ export const getStartSides = (menusWithUsers: UsersInGroup, dataObject: DataObje
         startSides[element] = dataObject.nav[element][0].call;
     });
     return startSides;
-};
-
-export const exchangePlaceholderWithValue = (textToSend: string, val: PrimitiveType): string => {
-    const searchString = getPlaceholderValue(textToSend);
-    if (searchString !== '') {
-        return textToSend.replace(searchString, val.toString()).trim();
-    }
-    return `${textToSend} ${val}`.trim();
 };
 
 export function isSameType(

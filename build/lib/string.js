@@ -21,7 +21,6 @@ __export(string_exports, {
   cleanUpString: () => cleanUpString,
   decomposeText: () => decomposeText,
   getNewline: () => getNewline,
-  getValueToExchange: () => getValueToExchange,
   isBooleanString: () => isBooleanString,
   isEmptyString: () => isEmptyString,
   isNonEmptyString: () => isNonEmptyString,
@@ -35,7 +34,6 @@ __export(string_exports, {
   stringReplacer: () => stringReplacer
 });
 module.exports = __toCommonJS(string_exports);
-var import_config = require("../config/config");
 var import_utils = require("./utils");
 var import_logging = require("../app/logging");
 const jsonString = (val) => JSON.stringify(val);
@@ -68,7 +66,7 @@ const cleanUpString = (text) => {
   if (!text) {
     return "";
   }
-  return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "");
+  return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "").replace(/ {2,}/g, " ");
 };
 function decomposeText(text, firstSearch, secondSearch) {
   const startindex = text.indexOf(firstSearch);
@@ -84,25 +82,6 @@ function decomposeText(text, firstSearch, secondSearch) {
     substringExcludeSearch: substringExcludedSearch
   };
 }
-const getValueToExchange = (adapter, textToSend, val) => {
-  var _a;
-  if (textToSend.includes(import_config.config.change.start)) {
-    const { start, end, command } = import_config.config.change;
-    const { startindex, endindex, substring } = decomposeText(textToSend, start, end);
-    const modifiedString = replaceAll(substring, "'", '"').replace(command, "");
-    const { json, isValidJson } = parseJSON(modifiedString);
-    if (isValidJson) {
-      return {
-        newValue: (_a = json[String(val)]) != null ? _a : val,
-        textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
-        error: false
-      };
-    }
-    adapter.log.error(`There is a error in your input: ${modifiedString}`);
-    return { newValue: val, textToSend, error: true };
-  }
-  return { textToSend, newValue: val, error: false };
-};
 const isString = (value) => typeof value === "string";
 function stringReplacer(substring, valueToReplace) {
   if (typeof valueToReplace[0] === "string") {
@@ -135,7 +114,6 @@ const isEmptyString = (str) => str.trim() === "";
   cleanUpString,
   decomposeText,
   getNewline,
-  getValueToExchange,
   isBooleanString,
   isEmptyString,
   isNonEmptyString,

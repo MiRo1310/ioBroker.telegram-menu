@@ -22,8 +22,7 @@ __export(action_exports, {
   bindingFunc: () => bindingFunc,
   checkEvent: () => checkEvent,
   generateActions: () => generateActions,
-  getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
-  idBySelector: () => idBySelector
+  getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram");
@@ -71,62 +70,6 @@ const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
     });
   } catch (e) {
     (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
-  }
-};
-const idBySelector = async ({
-  selector,
-  text,
-  userToSend,
-  newline,
-  telegramParams
-}) => {
-  let text2Send = "";
-  try {
-    const functions = selector.replace(import_config.config.functionSelektor, "");
-    let enums = [];
-    const result = await import_main.adapter.getEnumsAsync();
-    if (!(result == null ? void 0 : result["enum.functions"][`enum.functions.${functions}`])) {
-      return;
-    }
-    enums = result["enum.functions"][`enum.functions.${functions}`].common.members;
-    if (!enums) {
-      return;
-    }
-    const promises = enums.map(async (id) => {
-      const value = await import_main.adapter.getForeignStateAsync(id);
-      if ((0, import_utils.isDefined)(value == null ? void 0 : value.val)) {
-        let newText = text;
-        let res;
-        if (text.includes("{common.name}")) {
-          res = await import_main.adapter.getForeignObjectAsync(id);
-          import_main.adapter.log.debug(`Name ${(0, import_string.jsonString)(res == null ? void 0 : res.common.name)}`);
-          if (res && typeof res.common.name === "string") {
-            newText = newText.replace("{common.name}", res.common.name);
-          }
-        }
-        if (text.includes("&amp;&amp;")) {
-          text2Send += newText.replace("&amp;&amp;", String(value.val));
-        } else if (text.includes("&&")) {
-          text2Send += newText.replace("&&", String(value.val));
-        } else {
-          text2Send += newText;
-          text2Send += ` ${value.val}`;
-        }
-      }
-      text2Send += (0, import_string.getNewline)(newline);
-      import_main.adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
-    });
-    Promise.all(promises).then(async () => {
-      await (0, import_telegram.sendToTelegram)({
-        userToSend,
-        textToSend: text2Send,
-        telegramParams
-      });
-    }).catch((e) => {
-      (0, import_logging.errorLogger)("Error Promise:", e, import_main.adapter);
-    });
-  } catch (error) {
-    (0, import_logging.errorLogger)("Error idBySelector: ", error, import_main.adapter);
   }
 };
 function generateActions({
@@ -267,7 +210,6 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
   bindingFunc,
   checkEvent,
   generateActions,
-  getUserToSendFromUserListWithChatID,
-  idBySelector
+  getUserToSendFromUserListWithChatID
 });
 //# sourceMappingURL=action.js.map
