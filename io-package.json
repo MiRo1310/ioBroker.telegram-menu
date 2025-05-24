@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.3.1",
+    "version": "2.4.0",
     "news": {
+      "2.4.0": {
+        "en": "FIX: Error returnText is empty\nFEAT: Extension for get by function \nFIX: Errors reported by sentry",
+        "de": "FIX: Fehlerrückgabe Text ist leer\nFEAT: Erweiterung um Funktion zu erhalten\nFIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX: Возвращение ошибки Текст пустой\nFEAT: расширение для получения по функции\nFIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: Retorno de erro O texto está vazio\nFEAT: Extensão para obter por função\nFIX: Erros reportados por remetente",
+        "nl": "FIX: Fout bij terugsturen Tekst is leeg\nFEAT: Uitbreiding voor get by functie\nFIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIX : retour d'erreur Le texte est vide\nFEAT: Extension pour obtenir par fonction\nFIX : Erreurs signalées par sentinelle",
+        "it": "FIX: Ritorno errore Il testo è vuoto\nFEAT: Estensione per ottenere per funzione\nFIX: Errori segnalati dalla sentinella",
+        "es": "FIX: Retorno de error El texto está vacío\nFEAT: Extensión para obtener por función\nFIX: Errores reportados por centinela",
+        "pl": "FIX: Zwrot błędu Tekst jest pusty\nFEAT: Rozszerzenie dla uzyskania przez funkcję\nFIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: повернення помилки Текст порожній\nFEAT: Розширення для отримання за допомогою функції\nFIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX: 返回错误 文本为空\nFEAT: 按函数获取的扩展\nFIX:哨兵报告的错误"
+      },
       "2.3.1": {
         "en": "FIX: #309 SetState only sets false\nFIX: #311 Delete does not navigate",
         "de": "FIX: #309 SetState setzt nur falsch\nFIX: #311 Löschen navigiert nicht",
@@ -80,19 +93,6 @@
         "pl": "FIX: Nieskończona pętla na otwartych zdarzeniach\nFIX: # 248 Czas konwersji błędów",
         "uk": "FIX: Нескінченна петля на відкритих заходах\nFIX: #248 Час перетворення помилки",
         "zh-cn": "FIX:关于公开事件的无限循环\nFIX: # 248 转换时间出错"
-      },
-      "2.2.0": {
-        "en": "FEAT: #237 Navigate by nav-button-click to action\nFIX: Cannot get value false in return text\nFIX: Delete row in Actions\nFIX: HttpRequest\nFEAT: Navigation styling and selectable menus",
-        "de": "FEAT: #237 Navigieren Sie mit nav-button-klick auf Aktion\nFIX: Kann nicht Wert falsch im Rückgabetext erhalten\nFIX: Zeile in Aktion löschen\nFIX: HttpRequest\nFEAT: Navigations-Styling und wählbare Menüs",
-        "ru": "FEAT: #237 Навигай на навигай-кнопкой мыши к действию\nFIX: не может получить значение ложное в ответном тексте\nFIX: Исключить строку в действии\nFIX: HttpRequest\nFEAT: Навигационный стиль и подбираемые меню",
-        "pt": "FEAT: #237 Navegue por nav-button-clique para ação\nFIX: Não pode obter valor falso em texto de retorno\nFIX: Excluir linha em Ações\nFIX: HttpRequest\nFEAT: Estilo de navegação e menus selecionáveis",
-        "nl": "FEAT: #237 Navigeren met nav-knop-klik op actie\nFIX: kan waarde niet foutief krijgen in de terugzendingstekst\nFIX: rij in acties verwijderen\nFIX: HttpRequest\nFEAT: Navigatie styling en selecteerbare menu's",
-        "fr": "FEAT: #237 Naviguez par nav-bouton-cliquez vers l'action\nFIX: Impossible d'obtenir la valeur false dans le texte de retour\nFIX: Supprimer la ligne dans Actions\nDemande Http\nFEAT: Style de navigation et menus sélectionnables",
-        "it": "FEAT: #237 Navigare da nav-button-click all'azione\nFIX: Non può ottenere valore falso nel testo di ritorno\nFIX: Elimina la riga in Azioni\nFIX: HttpRequest\nFEAT: menu di navigazione e selezionabili",
-        "es": "FEAT: #237 Navigate by nav-button-click to action\nFIX: No se puede obtener valor falso en el texto de retorno\nFIX: Eliminar fila en Acciones\nFIX: HtpRequest\nFEAT: Estilismo de navegación y menús seleccionables",
-        "pl": "FEAT: # 237\nFIX: Nie można uzyskać wartości false w zwrotnym tekście\nFIX: Usuń wiersz w działaniach\nFIX: HttpRequest\nFEAT: Stylizacja nawigacyjna i menu do wyboru",
-        "uk": "FEAT: #237 Нейгат від nav-button-click до дії\nFIX: Неможливо отримати значення помилково в поверненні тексту\nFIX: Видалити ряд в дії\nFIX: HttpRequest\nFEAT: Налаштування навігації та вибіркові меню",
-        "zh-cn": "FEAT: # 237 导航通过导航按钮点击动作\nFIX: 无法在返回文本中获取错误值\nFIX: 删除动作中的行\nFIX: Http 请求\nFEAT:导航样式和可选菜单"
       }
     },
     "titleLang": {
