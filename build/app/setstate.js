@@ -31,6 +31,7 @@ var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_config = require("../config/config");
 var import_setStateIdsToListenTo = require("./setStateIdsToListenTo");
+var import_exchangeValue = require("../lib/exchangeValue");
 const modifiedValue = (valueFromSubmenu, value) => {
   return value.includes(import_config.config.modifiedValue) ? value.replace(import_config.config.modifiedValue, valueFromSubmenu) : valueFromSubmenu;
 };
@@ -105,14 +106,13 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
         });
       } else {
         returnText = returnText.replace(/'/g, '"');
-        const textToSend = returnText.slice(0, returnText.indexOf("{")).trim();
-        const { json, isValidJson } = (0, import_string.parseJSON)(
-          returnText.slice(returnText.indexOf("{"), returnText.indexOf("}") + 1)
-        );
+        const { substring } = (0, import_string.decomposeText)(returnText, '{"id":', "}");
+        const { json, isValidJson } = (0, import_string.parseJSON)(substring);
         if (!isValidJson) {
           return;
         }
-        json.text = json.text + returnText.slice(returnText.indexOf("}") + 1);
+        const text2 = returnText.replace(substring, json.text);
+        const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, text2, valueFromSubmenu);
         await (0, import_telegram.sendToTelegram)({
           userToSend,
           textToSend,

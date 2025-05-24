@@ -301,16 +301,11 @@ export interface TelegramParams {
     userListWithChatID: UserListWithChatId[];
 }
 
-export interface SetFirstMenuValue {
+export interface SetMenuValue {
     part: Part;
     userToSend: string;
     telegramParams: TelegramParams;
-}
-
-export interface SetSecondMenuValue {
-    part: Part;
-    userToSend: string;
-    telegramParams: TelegramParams;
+    menuNumber: 1 | 2;
 }
 
 export interface CreateMenu {

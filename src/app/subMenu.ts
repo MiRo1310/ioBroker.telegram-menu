@@ -12,8 +12,7 @@ import type {
     Keyboard,
     KeyboardItems,
     Part,
-    SetFirstMenuValue,
-    SetSecondMenuValue,
+    SetMenuValue,
     SplittedData,
     TelegramParams,
 } from '../types/types';
@@ -22,17 +21,17 @@ import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { getMenuValues, getSubmenuNumberValues } from '../lib/splitValues';
 import {
+    isCreateDynamicSwitch,
     isCreateSubmenuNumber,
+    isCreateSubmenuPercent,
     isCreateSwitch,
     isDeleteMenu,
-    isCreateDynamicSwitch,
     isFirstMenuValue,
     isMenuBack,
     isSecondMenuValue,
     isSetDynamicSwitchVal,
-    isCreateSubmenuPercent,
-    isSetSubmenuPercent,
     isSetSubmenuNumber,
+    isSetSubmenuPercent,
 } from './validateMenus';
 
 let step = 0;
@@ -72,30 +71,14 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
     return { text: obj.text, keyboard: keyboard, device: menuToHandle };
 };
 
-const setFirstMenuValue = async ({ telegramParams, userToSend, part }: SetFirstMenuValue): Promise<void> => {
-    let val;
-    adapter.log.debug(`SplitData : ${jsonString(splittedData)}`);
-
-    if (splittedData[1].split('.')[1] == 'false') {
+const setMenuValue = async ({ telegramParams, userToSend, part, menuNumber }: SetMenuValue): Promise<void> => {
+    let val: string | boolean = splittedData[menuNumber].split('.')[1];
+    if (val === 'false') {
         val = false;
-    } else if (splittedData[1].split('.')[1] == 'true') {
+    } else if (val === 'true') {
         val = true;
-    } else {
-        val = splittedData[1].split('.')[1];
     }
-    await handleSetState(part, userToSend, val as string, telegramParams);
-};
-
-const setSecondMenuValue = async ({ telegramParams, part, userToSend }: SetSecondMenuValue): Promise<void> => {
-    let val;
-    if (splittedData[2].split('.')[1] == 'false') {
-        val = false;
-    } else if (splittedData[2].split('.')[1] == 'true') {
-        val = true;
-    } else {
-        val = splittedData[2].split('.')[1];
-    }
-    await handleSetState(part, userToSend, val as string, telegramParams);
+    await handleSetState(part, userToSend, val, telegramParams);
 };
 
 const createSubmenuNumber = ({
@@ -264,15 +247,16 @@ export async function subMenu({
         }
 
         if (isFirstMenuValue(cbData)) {
-            await setFirstMenuValue({
+            await setMenuValue({
                 part,
                 userToSend,
                 telegramParams,
+                menuNumber: 1,
             });
         }
 
         if (isSecondMenuValue(cbData)) {
-            await setSecondMenuValue({ part, userToSend, telegramParams });
+            await setMenuValue({ part, userToSend, telegramParams, menuNumber: 2 });
         }
 
         if (isCreateDynamicSwitch(cbData) && menuToHandle) {

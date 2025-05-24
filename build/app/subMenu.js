@@ -66,26 +66,12 @@ const createSubmenuPercent = (obj) => {
   }
   return { text: obj.text, keyboard, device: menuToHandle };
 };
-const setFirstMenuValue = async ({ telegramParams, userToSend, part }) => {
-  let val;
-  import_main.adapter.log.debug(`SplitData : ${(0, import_string.jsonString)(splittedData)}`);
-  if (splittedData[1].split(".")[1] == "false") {
+const setMenuValue = async ({ telegramParams, userToSend, part, menuNumber }) => {
+  let val = splittedData[menuNumber].split(".")[1];
+  if (val === "false") {
     val = false;
-  } else if (splittedData[1].split(".")[1] == "true") {
+  } else if (val === "true") {
     val = true;
-  } else {
-    val = splittedData[1].split(".")[1];
-  }
-  await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
-};
-const setSecondMenuValue = async ({ telegramParams, part, userToSend }) => {
-  let val;
-  if (splittedData[2].split(".")[1] == "false") {
-    val = false;
-  } else if (splittedData[2].split(".")[1] == "true") {
-    val = true;
-  } else {
-    val = splittedData[2].split(".")[1];
   }
   await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
 };
@@ -234,14 +220,15 @@ async function subMenu({
       return createSwitchMenu({ cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isFirstMenuValue)(cbData)) {
-      await setFirstMenuValue({
+      await setMenuValue({
         part,
         userToSend,
-        telegramParams
+        telegramParams,
+        menuNumber: 1
       });
     }
     if ((0, import_validateMenus.isSecondMenuValue)(cbData)) {
-      await setSecondMenuValue({ part, userToSend, telegramParams });
+      await setMenuValue({ part, userToSend, telegramParams, menuNumber: 2 });
     }
     if ((0, import_validateMenus.isCreateDynamicSwitch)(cbData) && menuToHandle) {
       return (0, import_dynamicSwitchMenu.createDynamicSwitchMenu)(menuString, menuToHandle, text);
