@@ -1,6 +1,7 @@
-import type { Adapter, BooleanString, DecomposeTextReturnType, StringReplacerObj } from '../types/types';
+import type { Adapter, DecomposeTextReturnType, StringReplacerObj } from '../types/types';
 import { isTruthy } from './utils';
 import { errorLogger } from '../app/logging';
+import type { BooleanString } from '@/types/app';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 

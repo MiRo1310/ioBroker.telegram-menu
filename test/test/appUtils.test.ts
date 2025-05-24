@@ -22,6 +22,7 @@ import type {
     UsersInGroup,
 } from '../../src/types/types';
 import { exchangePlaceholderWithValue } from '../../src/lib/exchangeValue';
+import { BooleanString } from '@/types/app';
 
 const { adapter } = utils.unit.createMocks({});
 
@@ -293,7 +294,7 @@ describe('splitNavigation', () => {
             {
                 value: 'item1,item2 && item3,item4',
                 text: 'Test Text',
-                parse_mode: 'true',
+                parse_mode: 'true' as BooleanString,
                 call: 'testCall',
             },
         ];
@@ -324,7 +325,7 @@ describe('splitNavigation', () => {
             {
                 value: 'item1',
                 text: 'Empty Value',
-                parse_mode: 'false',
+                parse_mode: 'false' as BooleanString,
                 call: 'emptyCall',
             },
         ];
@@ -345,7 +346,7 @@ describe('splitNavigation', () => {
             {
                 value: '',
                 text: 'Empty Value',
-                parse_mode: 'false',
+                parse_mode: 'false' as BooleanString,
                 call: 'emptyCall',
             },
         ];
@@ -366,7 +367,7 @@ describe('splitNavigation', () => {
             {
                 value: ' item1 , item2 && item3 , item4 ',
                 text: 'Trim Test',
-                parse_mode: 'true',
+                parse_mode: 'true' as BooleanString,
                 call: 'trimCall',
             },
         ];
@@ -390,7 +391,7 @@ describe('splitNavigation', () => {
             {
                 value: 'item1,item2 && item3,item4 && item5,item6',
                 text: 'Multiple Splitters',
-                parse_mode: 'true',
+                parse_mode: 'true' as BooleanString,
                 call: 'multiCall',
             },
         ];
@@ -491,10 +492,10 @@ describe('getNewStructure', () => {
 });
 
 describe('getStartSides', () => {
-    const additionalParams: { value: string; text: string; parse_mode: string } = {
+    const additionalParams: { value: string; text: string; parse_mode: BooleanString } = {
         value: '',
         text: '',
-        parse_mode: '',
+        parse_mode: 'true',
     };
     it('should correctly map start sides for given menusWithUsers and dataObject', () => {
         const menusWithUsers: UsersInGroup = {

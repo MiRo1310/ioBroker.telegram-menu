@@ -4,6 +4,7 @@ import type {
     RowsSetState,
     SetStateFunction,
     TabValueEntries,
+    TriggerableActions,
     TriggerObj,
     UsersInGroup,
 } from '@/types/app';
@@ -12,7 +13,6 @@ import { tabValues } from '@/config/entries';
 import { isTruthy } from './string';
 import { deepCopy, deleteDoubleEntriesInArray, sortArray } from './Utils';
 import type { UpdateProps } from '@/types/props-types';
-import type { ActionTypes } from '../../../src/types/types';
 
 function createData(
     element: ActionNewRowProps,
@@ -225,7 +225,7 @@ function getUsedTriggerFromActionTab(
             return;
         }
 
-        data.action[menu][sub].forEach((element: ActionTypes, index: number) => {
+        data.action[menu][sub].forEach((element: TriggerableActions, index: number) => {
             usedTrigger = usedTrigger.concat(element.trigger);
             actionTrigger.push(element.trigger[0]);
 

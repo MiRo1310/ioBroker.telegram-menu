@@ -3,10 +3,9 @@ import type { SaveDataObject } from '@/pages/AppContentTabActionContentRowEditor
 import type { EventButton, EventCheckbox, EventTextarea } from '@/types/event';
 import type { TelegramMenuApp } from '@/types/props-types.js';
 import type { EventSelect } from '@components/btn-Input/select';
-import type { Theme } from '@emotion/react';
-import type { AdminConnection, Width } from '@iobroker/adapter-react-v5';
+import type { AdminConnection } from '@iobroker/adapter-react-v5';
 
-import type { LegacyRef, ReactNode, DragEvent } from 'react';
+import type { DragEvent, LegacyRef, ReactNode } from 'react';
 
 export type Nullable<T> = T | null | undefined;
 
@@ -197,16 +196,6 @@ export interface PropsRowNavCard {
 export interface ChangeInputNav {
     id: string;
     val: string;
-}
-
-export interface Entries {
-    name: string;
-    checkbox: boolean;
-    editWidth: string;
-    headline: string;
-    width: number;
-    val: string;
-    title: string;
 }
 
 export interface SelectProps {
@@ -483,30 +472,6 @@ export interface RowsSetState {
     switch_checkbox: BooleanString;
 }
 
-export interface AppState {
-    selectedTab: string;
-    selectedTabNum: number;
-    // REVIEW this is a placeholder for the actual state
-    native: NativeData;
-    errorText: string;
-    changed: boolean;
-    connected: boolean;
-    loaded: boolean;
-    isConfigurationError: string;
-    expertMode: boolean;
-    toast: string;
-    theme: Theme;
-    themeName: string;
-    themeType: string;
-    bottomButtons: boolean;
-    width: Width;
-    confirmClose: boolean;
-    _alert: boolean;
-    _alertType: string;
-    _alertMessage: string;
-    showDropBox: boolean;
-}
-
 export interface TriggerObject {
     unUsedTrigger: string[];
     everyTrigger: Record<string, any>;
@@ -559,10 +524,6 @@ export interface TriggerObj {
     unUsedTrigger: string[];
     everyTrigger: { [key: string]: string[] };
     usedTrigger: { nav: { [key: string]: string[] }; action: { [key: string]: { [key: string]: string[] } } };
-}
-
-export interface ObjectWithStringArray {
-    [key: string]: string[];
 }
 
 export interface MenuWithUser {
@@ -628,14 +589,6 @@ export interface PropsMenuPopupCard {
     callback: CallbackFunctionsApp;
 }
 
-export interface PropsMenuButton {
-    b_color?: string;
-    color?: string;
-    title?: string;
-    onChangeValue?: () => void;
-    children?: ReactNode;
-}
-
 export interface Native {
     dropbox: Dropbox.Position;
     usersInGroup: UsersInGroup;
@@ -673,17 +626,16 @@ export interface ActionData {
 }
 
 export interface Actions {
-    get: Get[];
-    set: Set[];
+    get: GetAction[];
+    set: SetAction[];
     pic: Pic[];
     httpRequest: HttpRequest[];
     echarts: Echart[];
-    events: Events[];
+    events: EventAction[];
 }
 
-export type ActionTabs = Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[];
-export type DataRow = Get | Set | Pic | HttpRequest | Echart | Events | RowsNav;
-export type DataRowAction = Get | Set | Pic | HttpRequest | Echart | Events;
+export type DataRow = DataRowAction | RowsNav;
+export type DataRowAction = GetAction | SetAction | Pic | HttpRequest | Echart | EventAction;
 
 export interface HttpRequest {
     url: string[];
@@ -694,7 +646,7 @@ export interface HttpRequest {
     delay: string[];
 }
 
-export interface Set {
+export interface SetAction {
     ack: BooleanString[];
     confirm: BooleanString[];
     parse_mode: BooleanString[];
@@ -705,7 +657,7 @@ export interface Set {
     values: string[];
 }
 
-export interface Get {
+export interface GetAction {
     newline_checkbox: BooleanString[];
     parse_mode: BooleanString[];
     IDs: string[];
@@ -713,11 +665,11 @@ export interface Get {
     trigger: string[];
 }
 
-export interface Events {
+export interface EventAction {
     ack: BooleanString[];
     ID: string[];
     menu: string[];
-    condition: string;
+    condition: BooleanString[];
 }
 
 export interface Pic {
@@ -817,3 +769,5 @@ export namespace Dropbox {
         dropboxRight: number;
     }
 }
+
+export type TriggerableActions = GetAction | SetAction | Pic | HttpRequest | Echart;

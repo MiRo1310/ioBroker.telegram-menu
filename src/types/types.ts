@@ -1,5 +1,6 @@
 import type { MockAdapter } from '@iobroker/testing';
 import type TelegramMenu from '../main';
+import type { BooleanString, Echart, EventAction, GetAction, HttpRequest, Pic, RowsNav, SetAction } from '@/types/app';
 
 export type ListOfMenus = string[];
 
@@ -9,8 +10,6 @@ export type MenusWithUsers = Record<string, string[]>;
 export type Action = Record<string, Actions>;
 
 export type Navigation = string[][];
-
-export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
 
 export interface UserListWithChatId {
     chatID: string;
@@ -25,64 +24,12 @@ export interface Checkboxes {
 }
 
 export interface Actions {
-    get: Get[];
-    set: Set[];
+    get: GetAction[];
+    set: SetAction[];
     pic: Pic[];
     httpRequest: HttpRequest[];
     echarts: Echart[];
-    events: Events[];
-}
-
-export interface HttpRequest {
-    url: string;
-    user: string;
-    password: string;
-    filename: string;
-    trigger: string;
-    delay: string;
-}
-
-export interface Set {
-    ack: BooleanString[];
-    confirm: BooleanString[];
-    parse_mode: boolean[];
-    switch_checkbox: BooleanString[];
-    IDs: string[];
-    returnText: string[];
-    trigger: string[];
-    values: string[];
-}
-
-export interface Get {
-    newline_checkbox: BooleanString[];
-    parse_mode: boolean[];
-    IDs: string[];
-    text: string[];
-    trigger: string[];
-}
-
-export interface Events {
-    ack: BooleanString[];
-    ID: string[];
-    menu: string[];
-    condition: string[];
-    trigger: string[];
-}
-
-export interface Pic {
-    IDs: string[];
-    filename: string[];
-    trigger: string[];
-    picSendDelay: string[];
-}
-
-export interface Echart {
-    background: string[];
-    echartsInstance: string[];
-    filename: string;
-    preset: string;
-    theme: string[];
-    trigger: string[];
+    events: EventAction[];
 }
 
 export type StartSides = Record<string, string>;
@@ -95,7 +42,7 @@ export type MenuData = Record<string, NewObjectStructure>;
 
 export interface DataObject {
     action?: Record<string, Actions | undefined>;
-    nav: Record<string, NavigationRow[]>;
+    nav: Record<string, RowsNav[]>;
 }
 
 export interface UserObjectActions {
@@ -116,18 +63,34 @@ export interface Part {
     switch?: Switch[];
     sendPic?: SendPic[];
     location?: Location[];
-    echarts?: Echart[];
-    httpRequest?: HttpRequest[];
+    echarts?: ModifiedEchart[];
+    httpRequest?: ModifiedHttpRequest[];
     url?: string;
     user?: string;
     password?: string;
     filename?: string;
 }
 
+export interface ModifiedEchart {
+    background: string;
+    echartsInstance: string;
+    filename: string;
+    preset: string;
+    theme: string;
+}
+
 export interface SendPic {
     delay: number;
     id: string;
     fileName: string;
+}
+
+export interface ModifiedHttpRequest {
+    url: string;
+    user: string;
+    password: string;
+    filename: string;
+    delay: string;
 }
 
 export interface GetData {
@@ -137,7 +100,6 @@ export interface GetData {
     newline: BooleanString;
 }
 
-export type BooleanString = 'false' | 'true';
 export type ParseModeType = 'HTML' | 'Markdown';
 
 export interface Location {
@@ -164,13 +126,6 @@ export type Newline = BooleanString;
 
 export interface BindingObject {
     values: Record<string, string>;
-}
-
-export interface NavigationRow {
-    value: string;
-    call: string;
-    text: string;
-    parse_mode: string;
 }
 
 export interface splittedNavigation {

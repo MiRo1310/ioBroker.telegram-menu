@@ -5,7 +5,6 @@ import type {
     GetTimeWithPad,
     MenusWithUsers,
     Navigation,
-    NavigationRow,
     NewObjectStructure,
     ParseModeType,
     splittedNavigation,
@@ -16,6 +15,7 @@ import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
+import type { RowsNav } from '@/types/app';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -110,7 +110,7 @@ export function isStartside(startSide: string): boolean {
     return startSide != '-' && startSide != '';
 }
 
-export function splitNavigation(rows: NavigationRow[]): splittedNavigation[] {
+export function splitNavigation(rows: RowsNav[]): splittedNavigation[] {
     const generatedNavigation: splittedNavigation[] = [];
 
     rows.forEach(({ value, text, parse_mode, call }) => {

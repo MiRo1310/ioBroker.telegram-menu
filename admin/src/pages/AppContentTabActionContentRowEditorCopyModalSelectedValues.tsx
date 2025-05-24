@@ -5,12 +5,12 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import type {
     CallbackFunctionsApp,
     Echart,
-    Events,
-    Get,
+    EventAction,
+    GetAction,
     HttpRequest,
     NativeData,
     Pic,
-    Set,
+    SetAction,
     SetStateFunction,
 } from '@/types/app';
 import React, { Component } from 'react';
@@ -18,14 +18,14 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { SaveDataObject } from '@/types/props-types';
 
 interface Props {
-    value: Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] | undefined;
+    value: GetAction[] | SetAction[] | Pic[] | HttpRequest[] | Echart[] | EventAction[] | undefined;
     data: NativeData;
     callback: CallbackFunctionsApp & {
         setStateRowEditor: SetStateFunction;
         setFunctionSave: (ref: AppContentTabActionContentRowEditorCopyModalSelectedValues) => void;
     };
 }
-type Rows = Get | Set | Pic | HttpRequest | Echart | Events;
+type Rows = GetAction | SetAction | Pic | HttpRequest | Echart | EventAction;
 
 interface State {
     checked: { [key: number]: boolean };

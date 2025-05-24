@@ -1,12 +1,12 @@
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
-import type { Echart, TelegramParams } from '../types/types';
+import type { ModifiedEchart, TelegramParams } from '../types/types';
 import { validateDirectory } from '../lib/utils';
 import { getEchartsValues } from '../lib/splitValues';
 
 export function getChart(
-    echarts: Echart[],
+    echarts: ModifiedEchart[],
     directoryPicture: string,
     user: string,
     telegramParams: TelegramParams,
