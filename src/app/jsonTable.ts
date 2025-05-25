@@ -2,7 +2,6 @@ import { errorLogger } from './logging';
 import type { Keyboard, KeyboardItem, LastText, ValArray } from '../types/types';
 import { adapter } from '../main';
 import { decomposeText, jsonString, parseJSON } from '../lib/string';
-import { makeValidJson } from '../lib/json';
 
 const lastText: LastText = {};
 const createKeyboardFromJson = (
@@ -26,14 +25,10 @@ const createKeyboardFromJson = (
         if (array.length > 3 && array[3] == 'shoppinglist') {
             idShoppingList = true;
         }
-        const { validJson, error } = makeValidJson(val, adapter);
 
-        adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
-        if (error) {
-            return;
-        }
+        adapter.log.debug(`Val ${val} with type ${typeof val}`);
 
-        const { json, isValidJson } = parseJSON<ValArray[]>(validJson, adapter);
+        const { json, isValidJson } = parseJSON<ValArray[]>(val, adapter);
         if (!isValidJson) {
             return;
         }

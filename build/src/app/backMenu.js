@@ -58,7 +58,7 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
                     const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                     let textToSend = text;
                     if (textToSend) {
-                        textToSend = await (0, utilities_1.checkStatusInfo)(textToSend);
+                        textToSend = await (0, utilities_1.returnTextModifier)(textToSend);
                     }
                     if (backMenu[userToSend]?.last) {
                         backMenu[userToSend].last = list.pop() ?? '';

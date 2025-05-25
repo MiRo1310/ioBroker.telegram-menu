@@ -21,8 +21,8 @@ let timeouts = [];
 async function checkEveryMenuForData({ menuData, calledValue, userToSend, telegramParams, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, }) {
     for (const menu of menus) {
         const groupData = menuData[menu];
-        main_1.adapter.log.debug(`Menu: ${menu}`);
-        main_1.adapter.log.debug(`Nav: ${(0, string_1.jsonString)(menuData[menu])}`);
+        main_1.adapter.log.debug(`Menu : ${menu}`);
+        main_1.adapter.log.debug(`Nav : ${(0, string_1.jsonString)(menuData[menu])}`);
         if (await processData({
             menuData,
             calledValue,
@@ -37,7 +37,7 @@ async function checkEveryMenuForData({ menuData, calledValue, userToSend, telegr
             timeoutKey,
             groupData,
         })) {
-            main_1.adapter.log.debug('CalledText found');
+            main_1.adapter.log.debug('Menu found');
             return true;
         }
     }
@@ -46,14 +46,14 @@ async function checkEveryMenuForData({ menuData, calledValue, userToSend, telegr
 async function processData({ menuData, calledValue, userToSend, groupWithUser, telegramParams, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, }) {
     try {
         let part = {};
-        if ((0, dynamicValue_1.getDynamicValue)(userToSend)) {
-            const res = (0, dynamicValue_1.getDynamicValue)(userToSend);
+        const res = (0, dynamicValue_1.getDynamicValue)(userToSend);
+        if (res) {
             const valueToSet = res?.valueType ? (0, action_1.adjustValueType)(calledValue, res.valueType) : calledValue;
             valueToSet && res?.id
                 ? await (0, setstate_1.setstateIobroker)({ id: res.id, value: valueToSet, ack: res?.ack })
                 : await (0, telegram_1.sendToTelegram)({
                     userToSend,
-                    textToSend: `You insert a wrong Type of value, please insert type: ${res?.valueType}`,
+                    textToSend: `You insert a wrong Type of value, please insert type : ${res?.valueType}`,
                     telegramParams,
                 });
             (0, dynamicValue_1.removeUserFromDynamicValue)(userToSend);
@@ -102,7 +102,7 @@ async function processData({ menuData, calledValue, userToSend, groupWithUser, t
                 return true;
             }
             if (part?.switch) {
-                await (0, setstate_1.handleSetState)(part, userToSend, 0, false, telegramParams);
+                await (0, setstate_1.handleSetState)(part, userToSend, 0, telegramParams);
                 return true;
             }
             if (part?.getData) {

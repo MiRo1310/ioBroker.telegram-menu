@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adjustValueType = exports.bindingFunc = exports.idBySelector = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = void 0;
+exports.adjustValueType = exports.bindingFunc = exports.getUserToSendFromUserListWithChatID = exports.checkEvent = void 0;
 exports.generateActions = generateActions;
 const telegram_1 = require("./telegram");
 const subMenu_1 = require("./subMenu");
@@ -51,62 +51,6 @@ const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
     }
 };
 exports.bindingFunc = bindingFunc;
-const idBySelector = async ({ selector, text, userToSend, newline, telegramParams, }) => {
-    let text2Send = '';
-    try {
-        const functions = selector.replace(config_1.config.functionSelektor, '');
-        let enums = [];
-        const result = await main_1.adapter.getEnumsAsync();
-        if (!result?.['enum.functions'][`enum.functions.${functions}`]) {
-            return;
-        }
-        enums = result['enum.functions'][`enum.functions.${functions}`].common.members;
-        if (!enums) {
-            return;
-        }
-        const promises = enums.map(async (id) => {
-            const value = await main_1.adapter.getForeignStateAsync(id);
-            if ((0, utils_1.isDefined)(value?.val)) {
-                let newText = text;
-                let res;
-                if (text.includes('{common.name}')) {
-                    res = await main_1.adapter.getForeignObjectAsync(id);
-                    main_1.adapter.log.debug(`Name ${(0, string_1.jsonString)(res?.common.name)}`);
-                    if (res && typeof res.common.name === 'string') {
-                        newText = newText.replace('{common.name}', res.common.name);
-                    }
-                }
-                if (text.includes('&amp;&amp;')) {
-                    text2Send += newText.replace('&amp;&amp;', String(value.val));
-                }
-                else if (text.includes('&&')) {
-                    text2Send += newText.replace('&&', String(value.val));
-                }
-                else {
-                    text2Send += newText;
-                    text2Send += ` ${value.val}`;
-                }
-            }
-            text2Send += (0, string_1.getNewline)(newline);
-            main_1.adapter.log.debug(`text2send ${JSON.stringify(text2Send)}`);
-        });
-        Promise.all(promises)
-            .then(async () => {
-            await (0, telegram_1.sendToTelegram)({
-                userToSend,
-                textToSend: text2Send,
-                telegramParams,
-            });
-        })
-            .catch(e => {
-            (0, logging_1.errorLogger)('Error Promise:', e, main_1.adapter);
-        });
-    }
-    catch (error) {
-        (0, logging_1.errorLogger)('Error idBySelector: ', error, main_1.adapter);
-    }
-};
-exports.idBySelector = idBySelector;
 function generateActions({ action, userObject, }) {
     try {
         const listOfSetStateIds = [];
@@ -125,7 +69,7 @@ function generateActions({ action, userObject, }) {
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
-                    ack: (0, utils_1.isTruthy)(ack[index]),
+                    ack: (0, utils_1.isTruthy)(ack?.[index] ?? false),
                     parse_mode: (0, utils_1.isTruthy)(parse_mode[0]),
                 };
                 if (Array.isArray(userObject[triggerName]?.switch)) {
@@ -182,8 +126,11 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
     const menuArray = [];
     let ok = false;
     let calledNav = '';
+    if (!dataObject.action) {
+        return false;
+    }
     Object.keys(dataObject.action).forEach(menu => {
-        if (dataObject.action[menu]?.events) {
+        if (dataObject.action?.[menu]?.events) {
             dataObject.action[menu].events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     const condition = event.condition[0];

@@ -31,6 +31,7 @@ __export(string_exports, {
   removeQuotes: () => removeQuotes,
   replaceAll: () => replaceAll,
   replaceAllItems: () => replaceAllItems,
+  replaceDoubleSpaces: () => replaceDoubleSpaces,
   stringReplacer: () => stringReplacer
 });
 module.exports = __toCommonJS(string_exports);
@@ -66,8 +67,14 @@ const cleanUpString = (text) => {
   if (!text) {
     return "";
   }
-  return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "").replace(/ {2,}/g, " ");
+  return replaceDoubleSpaces(
+    text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "")
+    // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden
+  );
 };
+function replaceDoubleSpaces(text) {
+  return text.replace(/ {2,}/g, " ").trim();
+}
 function decomposeText(text, firstSearch, secondSearch) {
   const startindex = text.indexOf(firstSearch);
   const endindex = text.indexOf(secondSearch, startindex);
@@ -124,6 +131,7 @@ const isEmptyString = (str) => str.trim() === "";
   removeQuotes,
   replaceAll,
   replaceAllItems,
+  replaceDoubleSpaces,
   stringReplacer
 });
 //# sourceMappingURL=string.js.map

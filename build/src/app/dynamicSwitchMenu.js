@@ -6,7 +6,7 @@ const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
 async function createDynamicSwitchMenu(calledValue, device, text) {
     try {
-        const changedCalledValue = await (0, utilities_1.checkStatusInfo)(calledValue);
+        const changedCalledValue = await (0, utilities_1.returnTextModifier)(calledValue);
         const splittedArray = changedCalledValue?.replace(/"/g, '').split(':');
         if (!splittedArray) {
             return;

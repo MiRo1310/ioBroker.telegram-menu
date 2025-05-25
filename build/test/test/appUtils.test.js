@@ -3,15 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const appUtils_1 = require("../../src/lib/appUtils"); // Adjust the path as needed
 const chai_1 = require("chai");
 const testing_1 = require("@iobroker/testing");
+const exchangeValue_1 = require("../../src/lib/exchangeValue");
 const { adapter } = testing_1.utils.unit.createMocks({});
-describe("checkOneLineValue", () => {
+describe('checkOneLineValue', () => {
     it("should add a row splitter to the end of the text if it doesn't already contain one", () => {
-        const result = (0, appUtils_1.checkOneLineValue)("Hello this is a test");
-        (0, chai_1.expect)(result).to.equal("Hello this is a test &&");
+        const result = (0, appUtils_1.checkOneLineValue)('Hello this is a test');
+        (0, chai_1.expect)(result).to.equal('Hello this is a test &&');
     });
-    it("should not add a row splitter if the text already contains one", () => {
-        const result = (0, appUtils_1.checkOneLineValue)("Hello this is a test &&");
-        (0, chai_1.expect)(result).to.equal("Hello this is a test &&");
+    it('should not add a row splitter if the text already contains one', () => {
+        const result = (0, appUtils_1.checkOneLineValue)('Hello this is a test &&');
+        (0, chai_1.expect)(result).to.equal('Hello this is a test &&');
     });
 });
 describe('calcValue', () => {
@@ -187,7 +188,7 @@ describe('getTypeofTimestamp', () => {
         (0, chai_1.expect)(result).to.equal('ts');
     });
     it('should return "ts" when the array is empty or does not contain "lc" or "ts"', () => {
-        const result = (0, appUtils_1.getTypeofTimestamp)("");
+        const result = (0, appUtils_1.getTypeofTimestamp)('');
         (0, chai_1.expect)(result).to.equal('ts');
     });
     it('should return "ts" when the array contains unrelated values', () => {
@@ -201,7 +202,7 @@ describe('statusIdAndParams', () => {
         const result = (0, appUtils_1.statusIdAndParams)(input);
         (0, chai_1.expect)(result).to.deep.equal({
             id: 'test.0.test',
-            shouldChange: true,
+            shouldChangeByStatusParameter: true,
         });
     });
     it('should parse id and shouldChange correctly when oldWithId is not present', () => {
@@ -209,7 +210,7 @@ describe('statusIdAndParams', () => {
         const result = (0, appUtils_1.statusIdAndParams)(input);
         (0, chai_1.expect)(result).to.deep.equal({
             id: 'test.0.test',
-            shouldChange: true,
+            shouldChangeByStatusParameter: true,
         });
     });
     it('should handle input with missing shouldChange value', () => {
@@ -217,15 +218,15 @@ describe('statusIdAndParams', () => {
         const result = (0, appUtils_1.statusIdAndParams)(input);
         (0, chai_1.expect)(result).to.deep.equal({
             id: 'test.0.test',
-            shouldChange: false,
+            shouldChangeByStatusParameter: false,
         });
     });
     it('should handle input with missing id value', () => {
-        const input = ":true";
+        const input = ':true';
         const result = (0, appUtils_1.statusIdAndParams)(input);
         (0, chai_1.expect)(result).to.deep.equal({
             id: '',
-            shouldChange: true,
+            shouldChangeByStatusParameter: true,
         });
     });
     it('should handle empty input gracefully', () => {
@@ -233,7 +234,7 @@ describe('statusIdAndParams', () => {
         const result = (0, appUtils_1.statusIdAndParams)(input);
         (0, chai_1.expect)(result).to.deep.equal({
             id: '',
-            shouldChange: false,
+            shouldChangeByStatusParameter: false,
         });
     });
 });
@@ -281,7 +282,7 @@ describe('splitNavigation', () => {
                 call: 'emptyCall',
                 text: 'Empty Value',
                 parse_mode: false,
-                nav: [["item1"], [""]],
+                nav: [['item1'], ['']],
             },
         ];
         const result = (0, appUtils_1.splitNavigation)(rows);
@@ -301,7 +302,7 @@ describe('splitNavigation', () => {
                 call: 'emptyCall',
                 text: 'Empty Value',
                 parse_mode: false,
-                nav: [[""], [""]],
+                nav: [[''], ['']],
             },
         ];
         const result = (0, appUtils_1.splitNavigation)(rows);
@@ -431,7 +432,11 @@ describe('getNewStructure', () => {
     });
 });
 describe('getStartSides', () => {
-    const additionalParams = { value: "", text: "", parse_mode: "" };
+    const additionalParams = {
+        value: '',
+        text: '',
+        parse_mode: '',
+    };
     it('should correctly map start sides for given menusWithUsers and dataObject', () => {
         const menusWithUsers = {
             menu1: ['user1', 'user2'],
@@ -442,7 +447,7 @@ describe('getStartSides', () => {
                 menu1: [{ call: 'start1', ...additionalParams }],
                 menu2: [{ call: 'start2', ...additionalParams }],
             },
-            action: {}
+            action: {},
         };
         const expected = {
             menu1: 'start1',
@@ -471,48 +476,48 @@ describe('exchangePlaceholderWithValue', () => {
         const textToSend = 'Hello &&!';
         const textToSend2 = 'Hello &amp;&amp;!';
         const val = 'World';
-        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
-        const result2 = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend2, val);
+        const result = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result2 = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend2, val);
         (0, chai_1.expect)(result).to.equal('Hello World!');
         (0, chai_1.expect)(result2).to.equal('Hello World!');
     });
     it('should append the value if no placeholder is found', () => {
         const textToSend = 'Hello';
         const val = 'World';
-        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend, val);
         (0, chai_1.expect)(result).to.equal('Hello World');
     });
     it('should handle empty textToSend gracefully', () => {
         const textToSend = '';
         const val = 'Value';
-        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend, val);
         (0, chai_1.expect)(result).to.equal('Value');
     });
     it('should handle empty value gracefully', () => {
         const textToSend = 'Hello &&';
         const textToSend2 = 'Hello &amp;&amp;';
         const val = '';
-        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
-        const result2 = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend2, val);
+        const result = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result2 = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend2, val);
         (0, chai_1.expect)(result).to.equal('Hello');
         (0, chai_1.expect)(result2).to.equal('Hello');
     });
     it('should handle both textToSend and value being empty', () => {
         const textToSend = '';
         const val = '';
-        const result = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, val);
+        const result = (0, exchangeValue_1.exchangePlaceholderWithValue)(textToSend, val);
         (0, chai_1.expect)(result).to.equal('');
     });
 });
-describe("isSameType", () => {
-    it("should return true if the types match", () => {
-        const obj = { common: { type: "string" } };
-        const result = (0, appUtils_1.isSameType)("string", obj);
+describe('isSameType', () => {
+    it('should return true if the types match', () => {
+        const obj = { common: { type: 'string' } };
+        const result = (0, appUtils_1.isSameType)('string', obj);
         (0, chai_1.expect)(result).to.be.true;
     });
-    it("should return false if the types do not match", () => {
-        const obj = { common: { type: "number" } };
-        const result = (0, appUtils_1.isSameType)("string", obj);
+    it('should return false if the types do not match', () => {
+        const obj = { common: { type: 'number' } };
+        const result = (0, appUtils_1.isSameType)('string', obj);
         (0, chai_1.expect)(result).to.be.false;
     });
 });

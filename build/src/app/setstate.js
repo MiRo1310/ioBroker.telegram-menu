@@ -10,6 +10,7 @@ const string_1 = require("../lib/string");
 const utils_1 = require("../lib/utils");
 const config_1 = require("../config/config");
 const setStateIdsToListenTo_1 = require("./setStateIdsToListenTo");
+const exchangeValue_1 = require("../lib/exchangeValue");
 const modifiedValue = (valueFromSubmenu, value) => {
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
@@ -36,18 +37,19 @@ const setstateIobroker = async ({ id, value, ack, }) => {
     }
 };
 exports.setstateIobroker = setstateIobroker;
-const setValue = async (id, value, SubmenuValuePriority, valueFromSubmenu, ack) => {
+const setValue = async (id, value, valueFromSubmenu, ack) => {
     try {
-        const valueToSet = SubmenuValuePriority
-            ? modifiedValue(String(valueFromSubmenu), value)
-            : await isDynamicValueToSet(value);
+        // If Value is set in Config the value will set to datapoint otherwise the value from submenu, so submenuValuePriority is obsolete
+        const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
+            ? await isDynamicValueToSet(value)
+            : modifiedValue(String(valueFromSubmenu), value);
         await (0, exports.setstateIobroker)({ id, value: valueToSet, ack });
     }
     catch (error) {
         (0, logging_1.errorLogger)('Error setValue', error, main_1.adapter);
     }
 };
-const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePriority, telegramParams) => {
+const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams) => {
     try {
         if (!part.switch) {
             return;
@@ -76,12 +78,13 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
             }
             else {
                 returnText = returnText.replace(/'/g, '"');
-                const textToSend = returnText.slice(0, returnText.indexOf('{')).trim();
-                const { json, isValidJson } = (0, string_1.parseJSON)(returnText.slice(returnText.indexOf('{'), returnText.indexOf('}') + 1));
+                const { substring } = (0, string_1.decomposeText)(returnText, '{"id":', '}');
+                const { json, isValidJson } = (0, string_1.parseJSON)(substring);
                 if (!isValidJson) {
                     return;
                 }
-                json.text = json.text + returnText.slice(returnText.indexOf('}') + 1);
+                const text = returnText.replace(substring, json.text);
+                const { textToSend } = (0, exchangeValue_1.exchangeValue)(main_1.adapter, text, valueFromSubmenu);
                 await (0, telegram_1.sendToTelegram)({
                     userToSend,
                     textToSend,
@@ -102,7 +105,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, SubmenuValuePr
                     : await (0, exports.setstateIobroker)({ id: ID, value: false, ack });
             }
             else {
-                await setValue(ID, value, SubmenuValuePriority, valueFromSubmenu, ack);
+                await setValue(ID, value, valueFromSubmenu, ack);
             }
         }
     }

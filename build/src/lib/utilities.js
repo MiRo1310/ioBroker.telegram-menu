@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkStatusInfo = exports.checkStatus = exports.processTimeIdLc = void 0;
+exports.returnTextModifier = exports.checkStatus = exports.processTimeIdLc = void 0;
 exports.transformValueToTypeOfId = transformValueToTypeOfId;
 const utils_1 = require("./utils");
 const string_1 = require("./string");
@@ -11,6 +11,7 @@ const config_1 = require("../config/config");
 const appUtils_1 = require("./appUtils");
 const setstate_1 = require("../app/setstate");
 const splitValues_1 = require("./splitValues");
+const exchangeValue_1 = require("./exchangeValue");
 const processTimeIdLc = async (textToSend, id) => {
     const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = (0, splitValues_1.getProcessTimeValues)(substringExcludeSearch);
@@ -28,32 +29,31 @@ const processTimeIdLc = async (textToSend, id) => {
     return timeStringReplaced ?? textToSend;
 };
 exports.processTimeIdLc = processTimeIdLc;
-// TODO Check Usage of function
 const checkStatus = async (text) => {
     const { substring, substringExcludeSearch, textExcludeSubstring } = (0, string_1.decomposeText)(text, config_1.config.status.start, config_1.config.status.end); //substring {status:'ID':true} new | old {status:'id':'ID':true}
-    const { id, shouldChange } = (0, appUtils_1.statusIdAndParams)(substringExcludeSearch);
+    const { id, shouldChangeByStatusParameter } = (0, appUtils_1.statusIdAndParams)(substringExcludeSearch);
     const stateValue = await main_1.adapter.getForeignStateAsync(id);
     if (!(0, utils_1.isDefined)(stateValue?.val)) {
-        main_1.adapter.log.debug(`State not found: ${id}`);
+        main_1.adapter.log.debug(`State not found for id : "${id}"`);
         return text.replace(substring, '');
     }
     const stateValueString = String(stateValue.val);
     if (text.includes(config_1.config.time)) {
         return (0, time_1.integrateTimeIntoText)(textExcludeSubstring, stateValueString).replace(stateValueString, '');
     }
-    if (!shouldChange) {
+    if (!shouldChangeByStatusParameter) {
         return text.replace(substring, stateValueString);
     }
-    const { newValue: val, textToSend, error } = (0, string_1.getValueToExchange)(main_1.adapter, text, stateValue.val);
-    return (!error ? textToSend : text).replace(substring, !error ? val.toString() : stateValueString);
+    const { textToSend, error } = (0, exchangeValue_1.exchangeValue)(main_1.adapter, textExcludeSubstring, stateValue.val);
+    return !error ? textToSend : textExcludeSubstring;
 };
 exports.checkStatus = checkStatus;
-const checkStatusInfo = async (text) => {
+const returnTextModifier = async (text) => {
     if (!text) {
         return '';
     }
     try {
-        main_1.adapter.log.debug(`Check status Info: ${text}`);
+        const inputText = text;
         if (text.includes(config_1.config.status.start)) {
             while (text.includes(config_1.config.status.start)) {
                 text = await (0, exports.checkStatus)(text);
@@ -76,15 +76,17 @@ const checkStatusInfo = async (text) => {
                 await (0, setstate_1.setstateIobroker)({ id, value: convertedValue, ack });
             }
         }
-        main_1.adapter.log.debug(`CheckStatusInfo: ${text}`);
+        text === inputText
+            ? main_1.adapter.log.debug(`Return text : ${text} `)
+            : main_1.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
         return text;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error checkStatusInfo:', e, main_1.adapter);
+        (0, logging_1.errorLogger)('Error returnTextModifier:', e, main_1.adapter);
         return '';
     }
 };
-exports.checkStatusInfo = checkStatusInfo;
+exports.returnTextModifier = returnTextModifier;
 async function transformValueToTypeOfId(id, value) {
     try {
         const receivedType = typeof value;
@@ -99,7 +101,7 @@ async function transformValueToTypeOfId(id, value) {
             case 'number':
                 return typeof value === 'string' ? parseFloat(value) : parseFloat((0, string_1.jsonString)(value));
             case 'boolean':
-                return (0, utils_1.isTruthy)(value);
+                return (0, utils_1.isDefined)(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
             default:
                 return value;
         }

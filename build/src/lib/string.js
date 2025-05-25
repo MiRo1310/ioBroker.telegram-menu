@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.getValueToExchange = exports.cleanUpString = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
+exports.replaceDoubleSpaces = replaceDoubleSpaces;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
 exports.getNewline = getNewline;
 exports.isBooleanString = isBooleanString;
-const config_1 = require("../config/config");
 const utils_1 = require("./utils");
 const logging_1 = require("../app/logging");
 const jsonString = (val) => JSON.stringify(val);
@@ -45,13 +45,16 @@ const cleanUpString = (text) => {
     if (!text) {
         return '';
     }
-    return text
+    return replaceDoubleSpaces(text
         .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
         .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
         .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
-        .replace(/\\(?!n)/g, ''); // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden
+        .replace(/\\(?!n)/g, ''));
 };
 exports.cleanUpString = cleanUpString;
+function replaceDoubleSpaces(text) {
+    return text.replace(/ {2,}/g, ' ').trim();
+}
 function decomposeText(text, firstSearch, secondSearch) {
     const startindex = text.indexOf(firstSearch);
     const endindex = text.indexOf(secondSearch, startindex);
@@ -66,27 +69,6 @@ function decomposeText(text, firstSearch, secondSearch) {
         substringExcludeSearch: substringExcludedSearch,
     };
 }
-// TODO : Move to utils
-const getValueToExchange = (adapter, textToSend, val) => {
-    //TODO Use JSON => change{"true":"Wärmepumpe ist verbunden","false":"Wärmepumpe ist nicht verbunden"}
-    if (textToSend.includes(config_1.config.change.start)) {
-        const { start, end, command } = config_1.config.change;
-        const { startindex, endindex, substring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
-        const modifiedString = (0, exports.replaceAll)(substring, "'", '"').replace(command, ''); // {"true":"an","false":"aus"}
-        const { json, isValidJson } = parseJSON(modifiedString);
-        if (isValidJson) {
-            return {
-                newValue: json[String(val)] ?? val,
-                textToSend: textToSend.substring(0, startindex) + textToSend.substring(endindex + 1),
-                error: false,
-            };
-        }
-        adapter.log.error(`There is a error in your input: ${modifiedString}`);
-        return { newValue: val, textToSend, error: true };
-    }
-    return { textToSend, newValue: val, error: false };
-};
-exports.getValueToExchange = getValueToExchange;
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
 function stringReplacer(substring, valueToReplace) {

@@ -4,6 +4,7 @@ const string_1 = require("../../src/lib/string");
 const chai_1 = require("chai");
 const testing_1 = require("@iobroker/testing");
 const appUtils_1 = require("../../src/lib/appUtils");
+const exchangeValue_1 = require("../../src/lib/exchangeValue");
 const { adapter, database } = testing_1.utils.unit.createMocks({});
 describe('jsonString', () => {
     it('jsonString', () => {
@@ -72,10 +73,7 @@ describe('replaceAllItems', () => {
     });
     it('should handle mixed types in the searched array', () => {
         const text = 'Hello World!';
-        const searched = [
-            'Hello',
-            { search: 'World', val: 'Earth' },
-        ];
+        const searched = ['Hello', { search: 'World', val: 'Earth' }];
         const result = (0, string_1.replaceAllItems)(text, searched);
         (0, chai_1.expect)(result).to.equal(' Earth!');
     });
@@ -144,7 +142,7 @@ describe('decomposeText', () => {
             endindex: 18,
             substring: 'Das ist ein __Test.',
             textExcludeSubstring: '',
-            substringExcludeSearch: "Das ist ein __Test"
+            substringExcludeSearch: 'Das ist ein __Test',
         });
         const result3 = (0, string_1.decomposeText)('Das ist ein __Test.', '?', '-');
         (0, chai_1.expect)(result3).to.deep.equal({
@@ -152,7 +150,7 @@ describe('decomposeText', () => {
             endindex: -1,
             substring: '',
             textExcludeSubstring: 'Das ist ein __Test.',
-            substringExcludeSearch: ""
+            substringExcludeSearch: '',
         });
     });
 });
@@ -162,19 +160,19 @@ describe('getValueToExchange', () => {
         database.clear();
     });
     it('should successfully exchange the value if the JSON is correct', () => {
-        const textToSend = 'change{"true":"an","false":"aus"}';
+        const textToSend = 'Test && change{"true":"an","false":"aus"} test';
         const val = 'true';
-        const result = (0, string_1.getValueToExchange)(adapter, textToSend, val);
+        const result = (0, exchangeValue_1.exchangeValue)(adapter, textToSend, val);
         (0, chai_1.expect)(result).to.deep.equal({
             newValue: 'an',
-            textToSend: '',
+            textToSend: 'Test an test',
             error: false,
         });
     });
     it('should return the original value if the JSON is invalid', () => {
-        const textToSend = 'change{"true":"an","false":aus}';
+        const textToSend = 'test change{"true":"an","false":aus}';
         const val = 'true';
-        const result = (0, string_1.getValueToExchange)(adapter, textToSend, val);
+        const result = (0, exchangeValue_1.exchangeValue)(adapter, textToSend, val);
         (0, chai_1.expect)(adapter.log.error.calledOnce).to.be.true;
         (0, chai_1.expect)(result).to.deep.equal({
             newValue: val,
@@ -185,10 +183,10 @@ describe('getValueToExchange', () => {
     it("should return the original text if no 'change' is included", () => {
         const textToSend = 'Kein Austausch erforderlich';
         const val = 'true';
-        const result = (0, string_1.getValueToExchange)(adapter, textToSend, val);
+        const result = (0, exchangeValue_1.exchangeValue)(adapter, textToSend, val);
         (0, chai_1.expect)(result).to.deep.equal({
             newValue: val,
-            textToSend,
+            textToSend: textToSend + ' true',
             error: false,
         });
     });

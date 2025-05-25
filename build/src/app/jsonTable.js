@@ -5,7 +5,6 @@ exports.createTextTableFromJson = createTextTableFromJson;
 const logging_1 = require("./logging");
 const main_1 = require("../main");
 const string_1 = require("../lib/string");
-const json_1 = require("../lib/json");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
     try {
@@ -23,12 +22,8 @@ const createKeyboardFromJson = (val, text, id, user) => {
         if (array.length > 3 && array[3] == 'shoppinglist') {
             idShoppingList = true;
         }
-        const { validJson, error } = (0, json_1.makeValidJson)(val, main_1.adapter);
-        main_1.adapter.log.debug(`Val: ${validJson} with type: ${typeof val}`);
-        if (error) {
-            return;
-        }
-        const { json, isValidJson } = (0, string_1.parseJSON)(validJson, main_1.adapter);
+        main_1.adapter.log.debug(`Val ${val} with type ${typeof val}`);
+        const { json, isValidJson } = (0, string_1.parseJSON)(val, main_1.adapter);
         if (!isValidJson) {
             return;
         }
@@ -66,7 +61,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
             }
             keyboard.inline_keyboard.push(rowArray);
         });
-        main_1.adapter.log.debug(`Keyboard: ${(0, string_1.jsonString)(keyboard)}`);
+        main_1.adapter.log.debug(`Keyboard : ${(0, string_1.jsonString)(keyboard)}`);
         return { text: headline, keyboard };
     }
     catch (err) {
@@ -91,7 +86,7 @@ function createTextTableFromJson(val, textToSend) {
                 }
             });
         });
-        main_1.adapter.log.debug(`Length of rows: ${(0, string_1.jsonString)(lengthArray)}`);
+        main_1.adapter.log.debug(`Length of rows : ${(0, string_1.jsonString)(lengthArray)}`);
         const headline = array[2];
         let textTable = textToSend.replace(substring, '').trim();
         if (textTable != '') {

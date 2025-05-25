@@ -18,22 +18,21 @@ function sendPic(part, userToSend, telegramParams, token, directoryPicture, time
                 path = `${directoryPicture}${fileName}`;
                 (0, child_process_1.exec)(`curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`, (error, stdout, stderr) => {
                     if (stdout) {
-                        main_1.adapter.log.debug(`Stdout: ${stdout}`);
+                        main_1.adapter.log.debug(`Stdout : "${stdout}"`);
                     }
                     if (stderr) {
-                        main_1.adapter.log.debug(`Stderr: ${stderr}`);
+                        main_1.adapter.log.debug(`Stderr : "${stderr}"`);
                     }
                     if (error) {
                         (0, logging_1.errorLogger)('Error in exec:', error, main_1.adapter);
                         return;
                     }
                 });
-                main_1.adapter.log.debug(`Delay Time: ${delay}`);
+                main_1.adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
                 timeoutKey += 1;
                 if (!(0, utils_1.validateDirectory)(main_1.adapter, directoryPicture)) {
                     return;
                 }
-                main_1.adapter.log.debug(`Path: ${path}`);
             }
             else {
                 return;
@@ -50,10 +49,10 @@ function sendPic(part, userToSend, telegramParams, token, directoryPicture, time
                     main_1.adapter.clearTimeout(item.timeout);
                 });
                 timeouts = timeouts.filter(item => item.key !== timeoutKey);
-                main_1.adapter.log.debug('Picture sent');
+                main_1.adapter.log.debug('Picture has been sent');
             }, parseInt(String(element.delay)));
             if (timeout) {
-                timeouts.push({ key: timeoutKey, timeout: timeout });
+                timeouts.push({ key: timeoutKey, timeout });
             }
         });
         return timeouts;

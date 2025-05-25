@@ -18,7 +18,13 @@ async function saveMessageIds(state, instanceTelegram) {
         if (!requestUserIdObj?.val) {
             return;
         }
-        const { json, isValidJson } = (0, string_1.parseJSON)(String(requestMessageIdObj?.val), main_1.adapter);
+        let isValidJson = false;
+        let json = {};
+        if (requestMessageIdObj?.val) {
+            const result = (0, string_1.parseJSON)(String(requestMessageIdObj?.val), main_1.adapter);
+            json = result.json;
+            isValidJson = result.isValidJson;
+        }
         requestMessageId = isValidJson ? json : {};
         const userIDValue = requestUserIdObj.val.toString();
         if (!requestMessageId[userIDValue]) {

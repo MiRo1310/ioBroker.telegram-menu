@@ -26,7 +26,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
             res = await main_js_1.adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
             if (res) {
                 objData[user] = { idList: idList };
-                main_js_1.adapter.log.debug(`Alexa-shoppinglist: ${idList}`);
+                main_js_1.adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
                 if (!isSubscribed) {
                     await (0, subscribeStates_js_1._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
@@ -59,7 +59,7 @@ async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
         await (0, messageIds_js_1.deleteMessageIds)(user, telegramParams, 'last');
         const result = await main_js_1.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result?.val) {
-            main_js_1.adapter.log.debug(`Result from Shoppinglist: ${(0, string_1.jsonString)(result)}`);
+            main_js_1.adapter.log.debug(`Result from Shoppinglist : ${(0, string_1.jsonString)(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = (0, jsonTable_js_1.createKeyboardFromJson)((0, json_1.toJson)(result.val), null, newId, user);
             if (resultJson?.text && resultJson?.keyboard) {
@@ -68,7 +68,7 @@ async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
         }
     }
     catch (e) {
-        (0, logging_js_1.errorLogger)('Error deleteMessageAndSendNewShoppingList:', e, main_js_1.adapter);
+        (0, logging_js_1.errorLogger)('Error deleteMessageAndSendNewShoppingList', e, main_js_1.adapter);
     }
 }
 //# sourceMappingURL=shoppingList.js.map

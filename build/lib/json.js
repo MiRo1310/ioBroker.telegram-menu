@@ -18,37 +18,12 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var json_exports = {};
 __export(json_exports, {
-  escapeJsonString: () => escapeJsonString,
-  makeValidJson: () => makeValidJson,
   toJson: () => toJson
 });
 module.exports = __toCommonJS(json_exports);
-var import_logging = require("../app/logging");
-const escapeJsonString = (input) => {
-  return input.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/'/g, '"');
-};
-const makeValidJson = (input, adapter) => {
-  try {
-    const sanitizedInput = input.trim();
-    const parsed = JSON.parse(sanitizedInput);
-    return { validJson: JSON.stringify(parsed), error: false };
-  } catch (error) {
-    console.log(error);
-    try {
-      const escapedString = escapeJsonString(input);
-      const parsed = JSON.parse(escapedString);
-      return { validJson: JSON.stringify(parsed), error: false };
-    } catch (innerError) {
-      (0, import_logging.errorLogger)("Error makeValidJson:", innerError, adapter);
-      return { validJson: input, error: true };
-    }
-  }
-};
 const toJson = (val) => JSON.stringify(val, null, 2);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  escapeJsonString,
-  makeValidJson,
   toJson
 });
 //# sourceMappingURL=json.js.map

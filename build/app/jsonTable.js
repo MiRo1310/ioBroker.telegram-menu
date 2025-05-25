@@ -25,7 +25,6 @@ module.exports = __toCommonJS(jsonTable_exports);
 var import_logging = require("./logging");
 var import_main = require("../main");
 var import_string = require("../lib/string");
-var import_json = require("../lib/json");
 const lastText = {};
 const createKeyboardFromJson = (val, text, id, user) => {
   try {
@@ -42,12 +41,8 @@ const createKeyboardFromJson = (val, text, id, user) => {
     if (array.length > 3 && array[3] == "shoppinglist") {
       idShoppingList = true;
     }
-    const { validJson, error } = (0, import_json.makeValidJson)(val, import_main.adapter);
-    import_main.adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
-    if (error) {
-      return;
-    }
-    const { json, isValidJson } = (0, import_string.parseJSON)(validJson, import_main.adapter);
+    import_main.adapter.log.debug(`Val ${val} with type ${typeof val}`);
+    const { json, isValidJson } = (0, import_string.parseJSON)(val, import_main.adapter);
     if (!isValidJson) {
       return;
     }

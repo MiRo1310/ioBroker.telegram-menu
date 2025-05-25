@@ -12,6 +12,8 @@ const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
 const config_1 = require("../config/config");
 const logging_1 = require("./logging");
+const exchangeValue_1 = require("../lib/exchangeValue");
+const idBySelector_1 = require("./idBySelector");
 async function getState(part, userToSend, telegramParams) {
     try {
         const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
@@ -19,7 +21,8 @@ async function getState(part, userToSend, telegramParams) {
         const promises = (part.getData || []).map(async ({ newline, text, id }, index) => {
             main_1.adapter.log.debug(`Get Value ID: ${id}`);
             if (id.includes(config_1.config.functionSelektor)) {
-                await (0, action_1.idBySelector)({
+                await (0, idBySelector_1.idBySelector)({
+                    adapter: main_1.adapter,
                     selector: id,
                     text,
                     userToSend,
@@ -54,7 +57,7 @@ async function getState(part, userToSend, telegramParams) {
                 if (!error) {
                     modifiedTextToSend = textToSend;
                     modifiedStateVal = calculated;
-                    main_1.adapter.log.debug(`TextToSend: ${modifiedTextToSend} val: ${modifiedStateVal}`);
+                    main_1.adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
                 }
             }
             if (modifiedTextToSend.includes(config_1.config.round.start)) {
@@ -98,14 +101,11 @@ async function getState(part, userToSend, telegramParams) {
                     return;
                 }
             }
-            const { newValue: _val, textToSend: _text, error, } = (0, string_1.getValueToExchange)(main_1.adapter, modifiedTextToSend, modifiedStateVal);
-            modifiedStateVal = String(_val);
-            modifiedTextToSend = _text;
-            main_1.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+            const { textToSend: _text, error } = (0, exchangeValue_1.exchangeValue)(main_1.adapter, modifiedTextToSend, modifiedStateVal);
             const isNewline = (0, string_1.getNewline)(newline);
-            valueArrayForCorrectOrder[index] = modifiedTextToSend.includes(config_1.config.rowSplitter)
-                ? `${modifiedTextToSend.replace(config_1.config.rowSplitter, modifiedStateVal.toString())}${isNewline}`
-                : `${modifiedTextToSend} ${modifiedStateVal} ${isNewline}`;
+            modifiedTextToSend = `${_text} ${isNewline}`;
+            main_1.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+            valueArrayForCorrectOrder[index] = modifiedTextToSend;
         });
         await Promise.all(promises);
         await (0, telegram_1.sendToTelegram)({

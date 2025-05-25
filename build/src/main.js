@@ -55,6 +55,7 @@ const utils_1 = require("./lib/utils");
 const appUtils_1 = require("./lib/appUtils");
 const configVariables_1 = require("./app/configVariables");
 const setStateIdsToListenTo_1 = require("./app/setStateIdsToListenTo");
+const exchangeValue_1 = require("./lib/exchangeValue");
 const timeoutKey = '0';
 class TelegramMenu extends utils.Adapter {
     static instance;
@@ -92,7 +93,7 @@ class TelegramMenu extends utils.Adapter {
                 for (const name in nav) {
                     const splittedNavigation = (0, appUtils_1.splitNavigation)(nav[name]);
                     const newStructure = (0, appUtils_1.getNewStructure)(splittedNavigation);
-                    const generatedActions = (0, action_js_1.generateActions)({ action: action[name], userObject: newStructure });
+                    const generatedActions = (0, action_js_1.generateActions)({ action: action?.[name], userObject: newStructure });
                     menuData[name] = newStructure;
                     if (generatedActions) {
                         menuData[name] = generatedActions?.obj;
@@ -105,7 +106,7 @@ class TelegramMenu extends utils.Adapter {
                         exports.adapter.log.debug('No Actions generated!');
                     }
                     // Subscribe Events
-                    if (dataObject.action[name]?.events) {
+                    if (dataObject.action?.[name]?.events) {
                         for (const event of dataObject.action[name].events) {
                             await (0, subscribeStates_js_1._subscribeForeignStates)(event.ID);
                         }
@@ -173,8 +174,7 @@ class TelegramMenu extends utils.Adapter {
                         return;
                     }
                     if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
-                        exports.adapter.log.debug(`State, which is listen to was changed: ${id}`);
-                        exports.adapter.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
+                        exports.adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, string_1.jsonString)(state)} }`);
                         for (const el of setStateIdsToListenTo) {
                             const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
                             const key = setStateIdsToListenTo.indexOf(el);
@@ -184,12 +184,11 @@ class TelegramMenu extends utils.Adapter {
                                 if ((0, utils_1.isTruthy)(confirm) && !state?.ack && returnText.includes('{confirmSet:')) {
                                     const { substring } = (0, string_1.decomposeText)(returnText, '{confirmSet:', '}');
                                     const splitSubstring = substring.split(':');
-                                    exports.adapter.log.debug(`Substring: ${(0, string_1.jsonString)(splitSubstring)}`);
                                     let text = '';
                                     if ((0, utils_1.isDefined)(state.val)) {
                                         text = splitSubstring[2]?.includes('noValue')
                                             ? splitSubstring[1]
-                                            : (0, appUtils_1.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
+                                            : (0, exchangeValue_1.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
                                     }
                                     exports.adapter.log.debug(`Return-text: ${text}`);
                                     if (text === '') {
@@ -210,25 +209,11 @@ class TelegramMenu extends utils.Adapter {
                                         const { textExcludeSubstring } = (0, string_1.decomposeText)(textToSend, '{confirmSet:', '}');
                                         textToSend = textExcludeSubstring;
                                     }
-                                    let value = '';
-                                    let valueChange = null;
-                                    const { newValue, textToSend: changedText, error, } = (0, string_1.getValueToExchange)(exports.adapter, textToSend, state.val?.toString());
+                                    const { textToSend: changedText, error, newValue, } = (0, exchangeValue_1.exchangeValue)(exports.adapter, textToSend, state.val?.toString());
                                     if (!error) {
-                                        valueChange = newValue;
                                         textToSend = changedText;
                                     }
-                                    if (textToSend?.toString().includes('{novalue}')) {
-                                        value = '';
-                                        textToSend = textToSend.replace('{novalue}', '');
-                                    }
-                                    else if ((0, utils_1.isDefined)(state?.val)) {
-                                        value = state.val?.toString();
-                                    }
-                                    if ((0, utils_1.isDefined)(valueChange)) {
-                                        value = valueChange;
-                                    }
-                                    exports.adapter.log.debug(`Value to send: ${value}`);
-                                    textToSend = (0, appUtils_1.exchangePlaceholderWithValue)(textToSend, value);
+                                    exports.adapter.log.debug(`Value to send: ${newValue}`);
                                     await (0, telegram_js_1.sendToTelegram)({
                                         userToSend,
                                         textToSend,
