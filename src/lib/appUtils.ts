@@ -13,9 +13,7 @@ import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
-import type { RowsNav } from '@/types/app';
-import { getPlaceholderValue } from './appUtilsString';
-import type { UsersInGroup } from '@/types/app';
+import type { RowsNav, UsersInGroup } from '@/types/app';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
