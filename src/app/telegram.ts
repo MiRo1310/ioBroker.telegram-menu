@@ -6,10 +6,12 @@ import { getChatID } from '../lib/utils';
 import { cleanUpString, isEmptyString, jsonString } from '../lib/string';
 import { getParseMode } from '../lib/appUtils';
 
-function validateTextToSend(textToSend: string | undefined): void {
+function validateTextToSend(textToSend: string | undefined): boolean {
     if (!textToSend || isEmptyString(textToSend)) {
         adapter.log.error('There is a problem! Text to send is empty or undefined, please check your configuration.');
+        return false;
     }
+    return true;
 }
 
 async function sendToTelegram({
@@ -70,7 +72,9 @@ function sendToTelegramSubmenu(
     parse_mode?: boolean,
 ): void {
     const { telegramInstance: instance, userListWithChatID } = telegramParams;
-    validateTextToSend(textToSend);
+    if (!validateTextToSend(textToSend)) {
+        return;
+    }
     adapter.sendTo(
         instance,
         'send',

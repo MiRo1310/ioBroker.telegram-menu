@@ -32,7 +32,9 @@ var import_appUtils = require("../lib/appUtils");
 function validateTextToSend(textToSend) {
   if (!textToSend || (0, import_string.isEmptyString)(textToSend)) {
     import_main.adapter.log.error("There is a problem! Text to send is empty or undefined, please check your configuration.");
+    return false;
   }
+  return true;
 }
 async function sendToTelegram({
   userToSend,
@@ -82,7 +84,9 @@ async function sendToTelegram({
 }
 function sendToTelegramSubmenu(user, textToSend, keyboard, telegramParams, parse_mode) {
   const { telegramInstance: instance, userListWithChatID } = telegramParams;
-  validateTextToSend(textToSend);
+  if (!validateTextToSend(textToSend)) {
+    return;
+  }
   import_main.adapter.sendTo(
     instance,
     "send",

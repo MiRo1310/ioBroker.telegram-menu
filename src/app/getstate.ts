@@ -124,12 +124,14 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
         });
         await Promise.all(promises);
 
-        await sendToTelegram({
-            userToSend,
-            textToSend: valueArrayForCorrectOrder.join(''),
-            telegramParams,
-            parse_mode,
-        });
+        if (valueArrayForCorrectOrder.length) {
+            await sendToTelegram({
+                userToSend,
+                textToSend: valueArrayForCorrectOrder.join(''),
+                telegramParams,
+                parse_mode,
+            });
+        }
     } catch (error: any) {
         errorLogger('Error GetData:', error, adapter);
     }
