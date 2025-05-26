@@ -1,10 +1,11 @@
-import type { BooleanString, TelegramParams } from '../types/types';
+import type { TelegramParams } from '../types/types';
 import { config } from '../config/config';
 import type TelegramMenu from '../main';
 import { exchangeValue } from '../lib/exchangeValue';
 import { getNewline } from '../lib/string';
 import { sendToTelegram } from './telegram';
 import { errorLogger } from './logging';
+import type { BooleanString } from '@/types/app';
 
 export const idBySelector = async ({
     adapter,

@@ -4,13 +4,13 @@ import type {
     CallbackTabActionContent,
     DataMainContent,
     DataTabActionContent,
-    TabActionContentTableProps,
     Echart,
-    Events,
-    Get,
+    EventAction,
+    GetAction,
     HttpRequest,
     Pic,
-    Set,
+    SetAction,
+    TabActionContentTableProps,
 } from '@/types/app';
 import React, { Component } from 'react';
 import AppContentTabActionContentRowEditorCopyModalSelectedValues from './AppContentTabActionContentRowEditorCopyModalSelectedValues';
@@ -49,7 +49,7 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
         return Object.keys(this.props.data.state.native.usersInGroup);
     }
 
-    getValuesInSelectedAction(): Get[] | Set[] | Pic[] | HttpRequest[] | Echart[] | Events[] {
+    getValuesInSelectedAction(): GetAction[] | SetAction[] | Pic[] | HttpRequest[] | Echart[] | EventAction[] {
         return this.props.data.state.native.data.action?.[this.state.selectedMenu]?.[this.state.action] || [];
     }
 

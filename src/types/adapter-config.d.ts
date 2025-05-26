@@ -2,24 +2,24 @@
 // using the actual properties present in io-package.json
 // in order to provide typings for adapter.config properties
 
-
 // Augment the globally declared type ioBroker.AdapterConfig
-import {Checkboxes, DataObject, IsUserActiveCheckbox, UsersInGroup, UserListWithChatId} from "./types";
+import { Checkboxes, IsUserActiveCheckbox, UserListWithChatId, UsersInGroup } from './types';
+import { NativeData } from '@/types/app';
 
 declare global {
-	namespace ioBroker {
-		interface AdapterConfig extends _AdapterConfig {
-			checkbox: Checkboxes
-			instance:string
-			usersInGroup: UsersInGroup
-			tokenGrafana: string
-			directory: string
-			userActiveCheckbox: IsUserActiveCheckbox
-			textNoEntry : string
-			userListWithChatID: UserListWithChatId[]
-			data: DataObject
-		}
-	}
+    namespace ioBroker {
+        interface AdapterConfig extends _AdapterConfig {
+            checkbox: Checkboxes;
+            instance: string;
+            usersInGroup: UsersInGroup;
+            tokenGrafana: string;
+            directory: string;
+            userActiveCheckbox: IsUserActiveCheckbox;
+            textNoEntry: string;
+            userListWithChatID: UserListWithChatId[];
+            data: NativeData;
+        }
+    }
 }
 
 // this is required so the above AdapterConfig is found by TypeScript / type checking

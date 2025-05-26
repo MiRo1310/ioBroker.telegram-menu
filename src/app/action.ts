@@ -25,8 +25,9 @@ import { isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
+import type { TriggerableActions } from '@/types/app';
 
-const bindingFunc = async (
+export const bindingFunc = async (
     text: string,
     userToSend: string,
     telegramParams: TelegramParams,
@@ -71,7 +72,7 @@ const bindingFunc = async (
     }
 };
 
-function generateActions({
+export function generateActions({
     action,
     userObject,
 }: {
@@ -113,26 +114,26 @@ function generateActions({
             const actions = action?.[item.objName as keyof Actions];
 
             actions?.forEach(function (element, index) {
-                const trigger = element.trigger[0];
+                const trigger = (element as TriggerableActions)?.trigger[0];
                 userObject[trigger] = { [item.name]: [] };
                 if (index == 0) {
                     userObject[trigger] = { [item.name as keyof UserObjectActions]: [] };
                 }
 
-                (element[item.loop as keyof typeof element] as string[]).forEach(function (id, index) {
+                (element[item.loop as keyof typeof element] as []).forEach(function (id, index) {
                     const newObj = {} as GenerateActionsNewObject;
                     item.elements.forEach(({ name, value, index: elIndex }) => {
                         const elName = (value ? value : name) as keyof typeof element;
                         const newIndex = elIndex ? elIndex : index;
 
-                        const val = !element[elName] ? false : element[elName][newIndex] || 'false';
+                        const val = !element[elName] ? false : (element[elName][newIndex] ?? 'false');
 
                         if (name === 'parse_mode') {
                             newObj.parse_mode = isTruthy(val);
                         }
 
                         if (typeof val === 'string') {
-                            newObj[name as keyof GenerateActionsNewObject] = val.replace(/&amp;/g, '&') as any;
+                            newObj[name as keyof GenerateActionsNewObject] = String(val).replace(/&amp;/g, '&') as any;
                         }
                     });
 
@@ -147,7 +148,7 @@ function generateActions({
     }
 }
 
-const adjustValueType = (value: keyof NewObjectStructure, valueType: string): boolean | string | number => {
+export const adjustValueType = (value: keyof NewObjectStructure, valueType: string): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
             adapter.log.error(`Error: Value is not a number: ${value}`);
@@ -238,5 +239,3 @@ export const getUserToSendFromUserListWithChatID = (
         }
     }
 };
-
-export { generateActions, bindingFunc, adjustValueType };
