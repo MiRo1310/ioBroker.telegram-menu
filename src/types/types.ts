@@ -1,7 +1,17 @@
 import type { MockAdapter } from '@iobroker/testing';
 import type TelegramMenu from '../main';
-import type { BooleanString, Echart, EventAction, GetAction, HttpRequest, Pic, RowsNav, SetAction } from '@/types/app';
-import type { InstanceList, UserActiveCheckbox, UserListWithChatID } from '@/types/app';
+import type {
+    BooleanString,
+    Echart,
+    EventAction,
+    GetAction,
+    HttpRequest,
+    Pic,
+    RowsNav,
+    SetAction,
+    UserActiveCheckbox,
+    UserListWithChatID,
+} from '@/types/app';
 
 export type ListOfMenus = string[];
 
@@ -9,24 +19,9 @@ export type Action = Record<string, Actions>;
 
 export type Navigation = string[][];
 
-export type ActionTypes = Get | Set | Pic | HttpRequest | Echart | Events;
-
-export interface UserListWithChatId {
-    chatID: string;
-    name: string;
-    instance: string;
-}
-
 export interface InstanceList {
     active: boolean;
     name?: string;
-}
-
-export interface Checkboxes {
-    oneTiKey: boolean;
-    resKey: boolean;
-    checkboxNoValueFound: boolean;
-    sendMenuAfterRestart: boolean;
 }
 
 export interface Actions {
