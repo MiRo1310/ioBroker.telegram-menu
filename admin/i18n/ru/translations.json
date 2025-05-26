@@ -107,6 +107,7 @@
     "switch": "Выключатель",
     "switchCheckbox": "Выключатель",
     "telegramInstance": "Экземпляр Телеграммы",
+    "telegramInstances": "Телеграмма экземпляры",
     "telegramUser": "Пользователи из Telegram",
     "text": "Текст",
     "textNoEntry": "Текст будет отправлен, если запись не найдена!",

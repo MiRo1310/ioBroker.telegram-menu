@@ -128,7 +128,9 @@ export interface AppData {
     userActiveCheckbox?: UserActiveCheckbox;
 }
 
-export type UsersInGroup = { [key: string]: string[] };
+export type UsersInGroup = { [key: string]: UserType[] | undefined };
+export type UserType = { name: string; instance: string; chatId: string };
+
 export type socket = AdminConnection;
 
 export interface StateTabAction {
@@ -182,6 +184,7 @@ export interface PropsCheckbox {
     marginLeft?: string;
     marginTop?: string;
     class?: string;
+    params?: Record<string, unknown>;
 }
 
 export interface PropsRowNavCard {
@@ -592,14 +595,10 @@ export interface PropsMenuPopupCard {
 export interface Native {
     dropbox: Dropbox.Position;
     usersInGroup: UsersInGroup;
+    instanceList?: InstanceList[];
     instance: string;
     data: NativeData;
-    checkbox: {
-        sendMenuAfterRestart: boolean;
-        checkboxNoValueFound: boolean;
-        resKey: boolean;
-        oneTiKey: boolean;
-    };
+    checkbox: Checkboxes;
     usersForGlobal: string;
     tokenGrafana: string;
     directory: string;
@@ -609,9 +608,22 @@ export interface Native {
     description: DescriptionRow[];
 }
 
+export interface Checkboxes {
+    oneTiKey: boolean;
+    resKey: boolean;
+    checkboxNoValueFound: boolean;
+    sendMenuAfterRestart: boolean;
+}
+
+export interface InstanceList {
+    active: boolean;
+    name: string;
+}
+
 export interface UserListWithChatID {
     name: string;
     chatID: string;
+    instance: string;
 }
 
 export type UserActiveCheckbox = { [key: string]: boolean };

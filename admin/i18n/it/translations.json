@@ -107,6 +107,7 @@
     "switch": "Interruttore",
     "switchCheckbox": "Interruttore",
     "telegramInstance": "Istanza di Telegramma",
+    "telegramInstances": "Istanze del telegramma",
     "telegramUser": "Utenti di Telegram",
     "text": "Testo",
     "textNoEntry": "Il testo verrà inviato se non viene trovata alcuna voce!",
