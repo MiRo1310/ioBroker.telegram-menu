@@ -23,8 +23,7 @@ import { isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
-import type { TriggerableActions } from '@/types/app';
-import type { UserListWithChatID, UsersInGroup } from '@/types/app';
+import type { TriggerableActions, UserListWithChatID, UsersInGroup } from '@/types/app';
 
 export const bindingFunc = async (
     text: string,

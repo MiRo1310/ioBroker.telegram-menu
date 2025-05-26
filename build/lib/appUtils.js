@@ -20,6 +20,7 @@ var appUtils_exports = {};
 __export(appUtils_exports, {
   calcValue: () => calcValue,
   checkOneLineValue: () => checkOneLineValue,
+  getInstanceById: () => getInstanceById,
   getListOfMenusIncludingUser: () => getListOfMenusIncludingUser,
   getNewStructure: () => getNewStructure,
   getParseMode: () => getParseMode,
@@ -129,10 +130,15 @@ const getStartSides = (menusWithUsers, dataObject) => {
 function isSameType(receivedType, obj) {
   return receivedType === obj.common.type;
 }
+const getInstanceById = (id) => {
+  const obj = id.split(".");
+  return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join(".") };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   calcValue,
   checkOneLineValue,
+  getInstanceById,
   getListOfMenusIncludingUser,
   getNewStructure,
   getParseMode,

@@ -3,7 +3,7 @@ import type { socket } from '@/types/app';
 async function getUsersFromTelegram(
     socket: socket,
     telegramInstance = 'telegram.0',
-): Promise<ioBroker.StateValue | undefined> {
+): Promise<string | number | boolean | undefined> {
     try {
         const state = await socket.getState(`${telegramInstance}.communicate.users`);
         if (state?.val) {
