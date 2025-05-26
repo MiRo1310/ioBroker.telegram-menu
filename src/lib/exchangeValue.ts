@@ -2,10 +2,10 @@ import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types
 import { config } from '../config/config';
 import { decomposeText, parseJSON, removeMultiSpaces, replaceAll } from './string';
 
-function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
+export function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
     let insertValue = true;
     if (textToSend.includes('{novalue}')) {
-        textToSend.replace('{novalue}', '');
+        textToSend = removeMultiSpaces(textToSend.replace('{novalue}', ''));
         insertValue = false;
     }
     return { insertValue, textToSend };
