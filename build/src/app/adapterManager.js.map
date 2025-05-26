@@ -1,1 +1,0 @@
-{"version":3,"file":"adapterManager.js","sourceRoot":"","sources":["../../../src/app/adapterManager.ts"],"names":[],"mappings":";;;AAAA,kCAAiD,CAAC,4CAA4C;AAC9F,4CAA0D;AAK1D,IAAI,cAAW,EAAE,CAAC;IACd,eAAO,GAAG,cAAW,CAAC,CAAC,oDAAoD;AAC/E,CAAC;KAAM,CAAC;IACJ,eAAO,GAAG,eAAW,CAAC,CAAC,wEAAwE;AACnG,CAAC"}

@@ -247,7 +247,7 @@ describe('statusIdAndParams', () => {
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
             id: 'test.0.test',
-            shouldChange: true,
+            shouldChangeByStatusParameter: true,
         });
     });
 
@@ -256,7 +256,7 @@ describe('statusIdAndParams', () => {
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
             id: 'test.0.test',
-            shouldChange: true,
+            shouldChangeByStatusParameter: true,
         });
     });
 
@@ -265,7 +265,7 @@ describe('statusIdAndParams', () => {
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
             id: 'test.0.test',
-            shouldChange: false,
+            shouldChangeByStatusParameter: false,
         });
     });
 
@@ -274,7 +274,7 @@ describe('statusIdAndParams', () => {
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
             id: '',
-            shouldChange: true,
+            shouldChangeByStatusParameter: true,
         });
     });
 
@@ -283,7 +283,7 @@ describe('statusIdAndParams', () => {
         const result = statusIdAndParams(input);
         expect(result).to.deep.equal({
             id: '',
-            shouldChange: false,
+            shouldChangeByStatusParameter: false,
         });
     });
 });

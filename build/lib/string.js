@@ -28,6 +28,7 @@ __export(string_exports, {
   jsonString: () => jsonString,
   pad: () => pad,
   parseJSON: () => parseJSON,
+  removeMultiSpaces: () => removeMultiSpaces,
   removeQuotes: () => removeQuotes,
   replaceAll: () => replaceAll,
   replaceAllItems: () => replaceAllItems,
@@ -62,11 +63,15 @@ const replaceAllItems = (text, searched) => {
   return text;
 };
 const removeQuotes = (text) => text.replace(/['"]/g, "");
+const removeMultiSpaces = (text) => text.replace(/ {2,}/g, " ");
 const cleanUpString = (text) => {
   if (!text) {
     return "";
   }
-  return text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "").replace(/ {2,}/g, " ");
+  return removeMultiSpaces(
+    text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "")
+    // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+  );
 };
 function decomposeText(text, firstSearch, secondSearch) {
   const startindex = text.indexOf(firstSearch);
@@ -121,6 +126,7 @@ const isEmptyString = (str) => str.trim() === "";
   jsonString,
   pad,
   parseJSON,
+  removeMultiSpaces,
   removeQuotes,
   replaceAll,
   replaceAllItems,

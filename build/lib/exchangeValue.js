@@ -20,7 +20,8 @@ var exchangeValue_exports = {};
 __export(exchangeValue_exports, {
   exchangePlaceholderWithValue: () => exchangePlaceholderWithValue,
   exchangeValue: () => exchangeValue,
-  getPlaceholderValue: () => getPlaceholderValue
+  getPlaceholderValue: () => getPlaceholderValue,
+  isNoValueParameter: () => isNoValueParameter
 });
 module.exports = __toCommonJS(exchangeValue_exports);
 var import_config = require("../config/config");
@@ -28,7 +29,7 @@ var import_string = require("./string");
 function isNoValueParameter(textToSend) {
   let insertValue = true;
   if (textToSend.includes("{novalue}")) {
-    textToSend.replace("{novalue}", "");
+    textToSend = (0, import_string.removeMultiSpaces)(textToSend.replace("{novalue}", ""));
     insertValue = false;
   }
   return { insertValue, textToSend };
@@ -46,7 +47,9 @@ const exchangeValue = (adapter, textToSend, val) => {
       const newValue = (_a = json[String(val)]) != null ? _a : val;
       return {
         newValue,
-        textToSend: exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : ""),
+        textToSend: (0, import_string.removeMultiSpaces)(
+          exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : "")
+        ),
         error: false
       };
     }
@@ -76,6 +79,7 @@ function getPlaceholderValue(textToSend) {
 0 && (module.exports = {
   exchangePlaceholderWithValue,
   exchangeValue,
-  getPlaceholderValue
+  getPlaceholderValue,
+  isNoValueParameter
 });
 //# sourceMappingURL=exchangeValue.js.map

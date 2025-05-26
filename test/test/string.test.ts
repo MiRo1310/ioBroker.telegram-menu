@@ -206,7 +206,7 @@ describe('getValueToExchange', () => {
 
         expect(result).to.deep.equal({
             newValue: 'an',
-            textToSend: 'Test  test',
+            textToSend: 'Test an test',
             error: false,
         });
     });
@@ -230,7 +230,7 @@ describe('getValueToExchange', () => {
 
         expect(result).to.deep.equal({
             newValue: val,
-            textToSend,
+            textToSend: textToSend + ' true',
             error: false,
         });
     });

@@ -36,17 +36,19 @@ export const replaceAllItems = (text: string, searched: (string | { search: stri
 };
 
 export const removeQuotes = (text: string): string => text.replace(/['"]/g, '');
+export const removeMultiSpaces = (text: string): string => text.replace(/ {2,}/g, ' ');
 
 export const cleanUpString = (text?: string): string => {
     if (!text) {
         return '';
     }
-    return text
-        .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
-        .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
-        .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
-        .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden
-        .replace(/ {2,}/g, ' '); // Ersetze mehrere Leerzeichen durch ein einzelnes Leerzeichen
+    return removeMultiSpaces(
+        text
+            .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
+            .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
+            .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
+            .replace(/\\(?!n)/g, ''), // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+    );
 };
 
 export function decomposeText(text: string, firstSearch: string, secondSearch: string): DecomposeTextReturnType {
