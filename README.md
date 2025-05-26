@@ -35,13 +35,16 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: Error returnText is empty
+
 ### 2.4.1 (2025-05-26)
 
 - Fix some errors and update tests
 
 ### 2.4.0 (2025-05-24)
 
-- FIX: Error returnText is empty
 - FEAT: Extension for get by function 
 - FIX: Errors reported by sentry
 
