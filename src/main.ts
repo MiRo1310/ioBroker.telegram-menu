@@ -17,14 +17,10 @@ import { checkEveryMenuForData, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
 import type { MenuData, SetStateIds, TelegramParams } from './types/types';
-import { checkIsTelegramActive } from './app/connection.js';
-import { decomposeText, isString, jsonString } from './lib/string';
-import type { MenuData, PrimitiveType, SetStateIds, TelegramParams } from './types/types';
 import { areAllCheckTelegramInstancesActive } from './app/connection.js';
-import { decomposeText, getValueToExchange, isString, jsonString } from './lib/string';
+import { decomposeText, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
 import {
-    exchangePlaceholderWithValue,
     getInstanceById,
     getListOfMenusIncludingUser,
     getNewStructure,
@@ -32,8 +28,6 @@ import {
     splitNavigation,
 } from './lib/appUtils';
 import { getConfigVariables, getIds } from './app/configVariables';
-import { getListOfMenusIncludingUser, getNewStructure, getStartSides, splitNavigation } from './lib/appUtils';
-import { getConfigVariables } from './app/configVariables';
 import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
@@ -94,10 +88,10 @@ export default class TelegramMenu extends utils.Adapter {
 
             this.log.info('Telegram was found');
 
-                for (const name in nav) {
-                    const splittedNavigation = splitNavigation(nav[name]);
-                    const newStructure = getNewStructure(splittedNavigation);
-                    const generatedActions = generateActions({ action: action?.[name], userObject: newStructure });
+            for (const name in nav) {
+                const splittedNavigation = splitNavigation(nav[name]);
+                const newStructure = getNewStructure(splittedNavigation);
+                const generatedActions = generateActions({ action: action?.[name], userObject: newStructure });
 
                 menuData[name] = newStructure;
                 if (generatedActions) {
@@ -110,16 +104,16 @@ export default class TelegramMenu extends utils.Adapter {
                     adapter.log.debug('No Actions generated!');
                 }
 
-                    // Subscribe Events
-                    if (dataObject.action?.[name]?.events) {
-                        for (const event of dataObject.action[name].events) {
-                            await _subscribeForeignStates(event.ID);
-                        }
+                // Subscribe Events
+                if (dataObject.action?.[name]?.events) {
+                    for (const event of dataObject.action[name].events) {
+                        await _subscribeForeignStates(event.ID);
                     }
-                    adapter.log.debug(`Menu: ${name}`);
-                    adapter.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
-                    adapter.log.debug(`Gen. Actions: ${jsonString(menuData[name])}`);
                 }
+                adapter.log.debug(`Menu: ${name}`);
+                adapter.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
+                adapter.log.debug(`Gen. Actions: ${jsonString(menuData[name])}`);
+            }
 
             adapter.log.debug(`Checkbox: ${jsonString(checkboxes)}`);
             adapter.log.debug(`MenuList: ${jsonString(listOfMenus)}`);
@@ -266,17 +260,17 @@ export default class TelegramMenu extends utils.Adapter {
                                         textToSend = `${textExcludeSubstring} ${confirmText}`;
                                     }
 
-                                    const {
-                                        textToSend: changedText,
-                                        error,
-                                        newValue,
-                                    } = exchangeValue(adapter, textToSend, state.val?.toString());
+                                const {
+                                    textToSend: changedText,
+                                    error,
+                                    newValue,
+                                } = exchangeValue(adapter, textToSend, state.val?.toString());
 
-                                    if (!error) {
-                                        textToSend = changedText;
-                                    }
+                                if (!error) {
+                                    textToSend = changedText;
+                                }
 
-                                    adapter.log.debug(`Value to send: ${newValue}`);
+                                adapter.log.debug(`Value to send: ${newValue}`);
 
                                     await sendToTelegram({
                                         userToSend,
