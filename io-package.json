@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.4.1",
+    "version": "2.4.2",
     "news": {
+      "2.4.2": {
+        "en": "FIX: Error returnText is empty",
+        "de": "FIX: Fehlerrückgabe Text ist leer",
+        "ru": "FIX: Возвращение ошибки Текст пустой",
+        "pt": "FIX: Retorno de erro O texto está vazio",
+        "nl": "FIX: Fout bij terugsturen Tekst is leeg",
+        "fr": "FIX : retour d'erreur Le texte est vide",
+        "it": "FIX: Ritorno errore Il testo è vuoto",
+        "es": "FIX: Retorno de error El texto está vacío",
+        "pl": "FIX: Zwrot błędu Tekst jest pusty",
+        "uk": "FIX: повернення помилки Текст порожній",
+        "zh-cn": "FIX: 返回错误 文本为空"
+      },
       "2.4.1": {
         "en": "Fix some errors and update tests",
         "de": "Fehler beheben und Tests aktualisieren",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 279 Backslash jest w wiadomości przy użyciu nowej linii",
         "uk": "FIX: #279 Backslash знаходиться в повідомленні при використанні newline",
         "zh-cn": "FIX: # 279 使用新线时反斜线在信件中"
-      },
-      "2.2.2": {
-        "en": "FIX: Style and update dependencies",
-        "de": "FIX: Stil- und Updateabhängigkeiten",
-        "ru": "FIX: Стиль и зависимости от обновлений",
-        "pt": "FIX: Estilo e dependências de atualização",
-        "nl": "FIX: Stijl en update afhankelijkheden",
-        "fr": "FIX: Dépendances de style et de mise à jour",
-        "it": "FIX: Stile e dipendenze di aggiornamento",
-        "es": "FIX: dependencias de estilo y actualización",
-        "pl": "FIX: Styl i uaktualnianie zależności",
-        "uk": "FIX: Стиль і оновлення залежності",
-        "zh-cn": "FIX:样式和更新依赖性"
       }
     },
     "titleLang": {
