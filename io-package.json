@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "news": {
+      "2.4.1": {
+        "en": "Fix some errors and update tests",
+        "de": "Fehler beheben und Tests aktualisieren",
+        "ru": "Исправить некоторые ошибки и обновить тесты",
+        "pt": "Corrigir alguns erros e testes de atualização",
+        "nl": "Fix enkele fouten en update tests",
+        "fr": "Correction de certaines erreurs et mise à jour des tests",
+        "it": "Risolvere alcuni errori e aggiornare i test",
+        "es": "Arregla algunos errores y pruebas de actualización",
+        "pl": "Napraw kilka błędów i uaktualnij testy",
+        "uk": "Виправлення помилок і оновлення тестів",
+        "zh-cn": "纠正一些错误并更新测试"
+      },
       "2.4.0": {
         "en": "FIX: Error returnText is empty\nFEAT: Extension for get by function \nFIX: Errors reported by sentry",
         "de": "FIX: Fehlerrückgabe Text ist leer\nFEAT: Erweiterung um Funktion zu erhalten\nFIX: Fehler, die von sentry gemeldet werden",
@@ -80,19 +93,6 @@
         "pl": "FIX: Styl i uaktualnianie zależności",
         "uk": "FIX: Стиль і оновлення залежності",
         "zh-cn": "FIX:样式和更新依赖性"
-      },
-      "2.2.1": {
-        "en": "FIX: Infinite loop on open events\nFIX: #248 Error converting time",
-        "de": "FIX: Unendliche Schleife auf offenen Veranstaltungen\nFIX: #248 Zeit ändern",
-        "ru": "FIX: Бесконечный цикл на открытых мероприятиях\nFIX: #248 Ошибка преобразования времени",
-        "pt": "FIX: loop infinito em eventos abertos\nFIX: #248 Tempo de conversão de erro",
-        "nl": "FIX: Oneindige lus op open gebeurtenissen\nFIX: #248 Fout bij het omzetten tijd",
-        "fr": "FIX: Boucle infinie sur les événements ouverts\nFIX: #248 Temps de conversion des erreurs",
-        "it": "FIX: Ciclo infinito sugli eventi aperti\nFIX: #248 Tempo di conversione di errore",
-        "es": "FIX: bucle infinito en eventos abiertos\nFIX: #248 Tiempo de conversión del error",
-        "pl": "FIX: Nieskończona pętla na otwartych zdarzeniach\nFIX: # 248 Czas konwersji błędów",
-        "uk": "FIX: Нескінченна петля на відкритих заходах\nFIX: #248 Час перетворення помилки",
-        "zh-cn": "FIX:关于公开事件的无限循环\nFIX: # 248 转换时间出错"
       }
     },
     "titleLang": {
