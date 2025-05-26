@@ -14,21 +14,11 @@ import {
 } from '../../src/lib/appUtils'; // Adjust the path as needed
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import type {
-    DataObject,
-    NewObjectStructure,
-    splittedNavigation,
-    StartSides,
-    UsersInGroup,
-} from '../../src/types/types';
-import { exchangePlaceholderWithValue } from '../../src/lib/exchangeValue';
-import { BooleanString } from '@/types/app';
-    statusIdAndParams,
-} from '../../src/lib/appUtils'; // Adjust the path as needed
-import { expect } from 'chai';
-import { utils } from '@iobroker/testing';
 import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '../../src/types/types';
-import { UsersInGroup } from '@/types/app';
+import { exchangePlaceholderWithValue } from '../../src/lib/exchangeValue';
+import { BooleanString, UsersInGroup } from '@/types/app'; // Adjust the path as needed
+
+// Adjust the path as needed
 
 const { adapter } = utils.unit.createMocks({});
 
