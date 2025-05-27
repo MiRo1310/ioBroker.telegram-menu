@@ -57,7 +57,9 @@ export const checkStatus = async (text: string): Promise<string> => {
     }
 
     if (!shouldChangeByStatusParameter) {
-        return text.replace(substring, stateValueString);
+        const modifiedText = text.replace(substring, '&&');
+        const { textToSend, error } = exchangeValue(adapter, modifiedText, stateValue.val);
+        return !error ? textToSend : modifiedText;
     }
 
     const { textToSend, error } = exchangeValue(adapter, textExcludeSubstring, stateValue.val);
