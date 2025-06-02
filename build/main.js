@@ -136,6 +136,7 @@ class TelegramMenu extends utils.Adapter {
             telegramParams
           );
         }
+        let menus = [];
         this.on("stateChange", async (id, state) => {
           var _a2, _b2;
           const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
@@ -166,7 +167,7 @@ class TelegramMenu extends utils.Adapter {
           } else if (this.isMenuToSend(state, id, telegramID, userToSend)) {
             const value = state.val.toString();
             const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-            const menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
+            menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
             const dataFound = await (0, import_processData.checkEveryMenuForData)({
               menuData,
               calledValue,
@@ -220,8 +221,23 @@ class TelegramMenu extends utils.Adapter {
                 if (!(0, import_utils.isFalsy)(confirm) && (state == null ? void 0 : state.ack)) {
                   let textToSend = returnText;
                   if (textToSend.includes("{confirmSet:")) {
-                    const { textExcludeSubstring } = (0, import_string.decomposeText)(textToSend, "{confirmSet:", "}");
-                    textToSend = textExcludeSubstring;
+                    textToSend = (0, import_string.decomposeText)(
+                      textToSend,
+                      "{confirmSet:",
+                      "}"
+                    ).textExcludeSubstring;
+                  }
+                  let menuSendTo = null;
+                  if (textToSend.includes("{setDynamicValue")) {
+                    const { textExcludeSubstring, substringExcludeSearch } = (0, import_string.decomposeText)(
+                      textToSend,
+                      "{setDynamicValue:",
+                      "}"
+                    );
+                    const splitSubstring = substringExcludeSearch.split(":");
+                    const confirmText = splitSubstring[2];
+                    menuSendTo = splitSubstring[3];
+                    textToSend = `${textExcludeSubstring} ${confirmText}`;
                   }
                   const {
                     textToSend: changedText,
@@ -238,6 +254,19 @@ class TelegramMenu extends utils.Adapter {
                     parse_mode,
                     telegramParams
                   });
+                  if (menuSendTo) {
+                    await (0, import_processData.checkEveryMenuForData)({
+                      menuData,
+                      calledValue: menuSendTo,
+                      userToSend: userToSend2,
+                      telegramParams,
+                      menus,
+                      isUserActiveCheckbox,
+                      token,
+                      directoryPicture,
+                      timeoutKey
+                    });
+                  }
                   setStateIdsToListenTo.splice(key, 1);
                 }
               }
