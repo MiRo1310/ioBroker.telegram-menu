@@ -236,7 +236,7 @@ export default class TelegramMenu extends utils.Adapter {
                                             '}',
                                         ).textExcludeSubstring;
                                     }
-                                    let menuSendTo: null | string = null;
+
                                     if (textToSend.includes('{setDynamicValue')) {
                                         const { textExcludeSubstring, substringExcludeSearch } = decomposeText(
                                             textToSend,
@@ -245,7 +245,6 @@ export default class TelegramMenu extends utils.Adapter {
                                         );
                                         const splitSubstring = substringExcludeSearch.split(':');
                                         const confirmText = splitSubstring[2];
-                                        menuSendTo = splitSubstring[3];
                                         textToSend = `${textExcludeSubstring} ${confirmText}`;
                                     }
 
@@ -267,19 +266,6 @@ export default class TelegramMenu extends utils.Adapter {
                                         parse_mode,
                                         telegramParams,
                                     });
-                                    if (menuSendTo) {
-                                        await checkEveryMenuForData({
-                                            menuData,
-                                            navToGoTo: menuSendTo,
-                                            userToSend,
-                                            telegramParams,
-                                            menus,
-                                            isUserActiveCheckbox,
-                                            token,
-                                            directoryPicture,
-                                            timeoutKey,
-                                        });
-                                    }
                                     setStateIdsToListenTo.splice(key, 1);
                                 }
                             }

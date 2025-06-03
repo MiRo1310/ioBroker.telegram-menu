@@ -227,7 +227,6 @@ class TelegramMenu extends utils.Adapter {
                       "}"
                     ).textExcludeSubstring;
                   }
-                  let menuSendTo = null;
                   if (textToSend.includes("{setDynamicValue")) {
                     const { textExcludeSubstring, substringExcludeSearch } = (0, import_string.decomposeText)(
                       textToSend,
@@ -236,7 +235,6 @@ class TelegramMenu extends utils.Adapter {
                     );
                     const splitSubstring = substringExcludeSearch.split(":");
                     const confirmText = splitSubstring[2];
-                    menuSendTo = splitSubstring[3];
                     textToSend = `${textExcludeSubstring} ${confirmText}`;
                   }
                   const {
@@ -254,19 +252,6 @@ class TelegramMenu extends utils.Adapter {
                     parse_mode,
                     telegramParams
                   });
-                  if (menuSendTo) {
-                    await (0, import_processData.checkEveryMenuForData)({
-                      menuData,
-                      navToGoTo: menuSendTo,
-                      userToSend: userToSend2,
-                      telegramParams,
-                      menus,
-                      isUserActiveCheckbox,
-                      token,
-                      directoryPicture,
-                      timeoutKey
-                    });
-                  }
                   setStateIdsToListenTo.splice(key, 1);
                 }
               }

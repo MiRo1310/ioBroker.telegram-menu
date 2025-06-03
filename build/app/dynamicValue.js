@@ -27,10 +27,10 @@ var import_string = require("../lib/string");
 var import_telegram = require("./telegram");
 const dynamicValueObj = {};
 const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
-  const { substring } = (0, import_string.decomposeText)(returnText, "{setDynamicValue:", "}");
-  let array = substring.split(":");
+  const { substringExcludeSearch } = (0, import_string.decomposeText)(returnText, "{setDynamicValue:", "}");
+  let array = substringExcludeSearch.split(":");
   array = isBraceDeleteEntry(array);
-  const text = array[1];
+  const text = array[0];
   if (text) {
     await (0, import_telegram.sendToTelegram)({
       userToSend,
@@ -47,11 +47,11 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, 
     parse_mode,
     confirm,
     telegramParams,
-    valueType: array[2],
-    navToGoTo: array[4]
+    valueType: array[1],
+    navToGoTo: array[3]
   };
-  if (array[3] && array[3] != "") {
-    return { confirmText: array[3], id: array[4] };
+  if (array[2] && array[2] != "") {
+    return { confirmText: array[2], id: array[3] !== "" ? array[3] : void 0 };
   }
   return { confirmText: "", id: void 0 };
 };
