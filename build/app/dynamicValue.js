@@ -25,7 +25,7 @@ __export(dynamicValue_exports, {
 module.exports = __toCommonJS(dynamicValue_exports);
 var import_string = require("../lib/string");
 var import_telegram = require("./telegram");
-const setDynamicValueObj = {};
+const dynamicValueObj = {};
 const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
   const { substring } = (0, import_string.decomposeText)(returnText, "{setDynamicValue:", "}");
   let array = substring.split(":");
@@ -39,7 +39,7 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, 
       parse_mode
     });
   }
-  setDynamicValueObj[userToSend] = {
+  dynamicValueObj[userToSend] = {
     id,
     ack,
     returnText: text,
@@ -47,7 +47,8 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, 
     parse_mode,
     confirm,
     telegramParams,
-    valueType: array[2]
+    valueType: array[2],
+    navToGoTo: array[4]
   };
   if (array[3] && array[3] != "") {
     return { confirmText: array[3], id: array[4] };
@@ -56,11 +57,11 @@ const setDynamicValue = async (returnText, ack, id, userToSend, telegramParams, 
 };
 const getDynamicValue = (userToSend) => {
   var _a;
-  return (_a = setDynamicValueObj[userToSend]) != null ? _a : null;
+  return (_a = dynamicValueObj[userToSend]) != null ? _a : null;
 };
 const removeUserFromDynamicValue = (userToSend) => {
-  if (setDynamicValueObj[userToSend]) {
-    delete setDynamicValueObj[userToSend];
+  if (dynamicValueObj[userToSend]) {
+    delete dynamicValueObj[userToSend];
     return true;
   }
   return false;

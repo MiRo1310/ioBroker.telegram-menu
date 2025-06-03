@@ -2,7 +2,7 @@ import { decomposeText } from '../lib/string';
 import { sendToTelegram } from './telegram';
 import type { SetDynamicValue, SetDynamicValueObj, TelegramParams } from '../types/types';
 
-const setDynamicValueObj: SetDynamicValueObj = {};
+const dynamicValueObj: SetDynamicValueObj = {};
 export const setDynamicValue = async (
     returnText: string,
     ack: boolean,
@@ -24,7 +24,7 @@ export const setDynamicValue = async (
             parse_mode,
         });
     }
-    setDynamicValueObj[userToSend] = {
+    dynamicValueObj[userToSend] = {
         id,
         ack,
         returnText: text,
@@ -33,6 +33,7 @@ export const setDynamicValue = async (
         confirm,
         telegramParams,
         valueType: array[2],
+        navToGoTo: array[4],
     };
 
     if (array[3] && array[3] != '') {
@@ -41,11 +42,11 @@ export const setDynamicValue = async (
     return { confirmText: '', id: undefined };
 };
 
-export const getDynamicValue = (userToSend: string): SetDynamicValue | null => setDynamicValueObj[userToSend] ?? null;
+export const getDynamicValue = (userToSend: string): SetDynamicValue | null => dynamicValueObj[userToSend] ?? null;
 
 export const removeUserFromDynamicValue = (userToSend: string): boolean => {
-    if (setDynamicValueObj[userToSend]) {
-        delete setDynamicValueObj[userToSend];
+    if (dynamicValueObj[userToSend]) {
+        delete dynamicValueObj[userToSend];
         return true;
     }
     return false;

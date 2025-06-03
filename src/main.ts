@@ -167,7 +167,7 @@ export default class TelegramMenu extends utils.Adapter {
 
                         const dataFound = await checkEveryMenuForData({
                             menuData,
-                            calledValue,
+                            navToGoTo: calledValue,
                             userToSend,
                             telegramParams,
                             menus,
@@ -270,7 +270,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     if (menuSendTo) {
                                         await checkEveryMenuForData({
                                             menuData,
-                                            calledValue: menuSendTo,
+                                            navToGoTo: menuSendTo,
                                             userToSend,
                                             telegramParams,
                                             menus,

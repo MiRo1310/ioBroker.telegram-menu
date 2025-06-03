@@ -170,7 +170,7 @@ class TelegramMenu extends utils.Adapter {
             menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend);
             const dataFound = await (0, import_processData.checkEveryMenuForData)({
               menuData,
-              calledValue,
+              navToGoTo: calledValue,
               userToSend,
               telegramParams,
               menus,
@@ -257,7 +257,7 @@ class TelegramMenu extends utils.Adapter {
                   if (menuSendTo) {
                     await (0, import_processData.checkEveryMenuForData)({
                       menuData,
-                      calledValue: menuSendTo,
+                      navToGoTo: menuSendTo,
                       userToSend: userToSend2,
                       telegramParams,
                       menus,
