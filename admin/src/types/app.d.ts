@@ -491,7 +491,7 @@ export interface StateDropBox {
     inDropBox: boolean;
     menuList: string[];
     selectedMenu: string;
-    selectedValue: string;
+    selectedValue: 'move' | 'copy';
     openRenamePopup: boolean;
     trigger: string;
     newTrigger: string;

@@ -9,3 +9,7 @@ export const splitTrimAndJoin = (str: string, separator: string, newSeparator?: 
         .split(separator)
         .map((s: string) => s.trim())
         .join(newSeparator || separator);
+
+export const isEmptyString = (str: string): boolean => str.trim() === '';
+
+export const isAction = (str: string): boolean => str === 'action';

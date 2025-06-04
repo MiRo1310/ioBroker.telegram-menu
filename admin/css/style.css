@@ -289,9 +289,16 @@ div.MuiTabPanel-root {
     justify-content: center;
 }
 
+.rename__card label {
+    margin-top: 1rem !important;
+    width: 100% !important;
+    display: flex;
+   justify-content: center;
+}
 
 .rename__card input {
     margin-top: 1rem !important;
+    width: 100% !important;
 }
 
 .table__cell_icon {
