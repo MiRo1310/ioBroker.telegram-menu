@@ -102,6 +102,7 @@ export const handleSetState = async (
                         userToSend,
                     });
                 }
+                return;
             }
 
             if (!returnText.includes("{'id':'")) {

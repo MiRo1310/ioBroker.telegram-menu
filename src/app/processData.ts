@@ -19,7 +19,7 @@ let timeouts: Timeouts[] = [];
 
 export async function checkEveryMenuForData({
     menuData,
-    calledValue,
+    navToGoTo,
     userToSend,
     telegramParams,
     menus,
@@ -37,7 +37,7 @@ export async function checkEveryMenuForData({
         if (
             await processData({
                 menuData,
-                calledValue,
+                calledValue: navToGoTo,
                 userToSend,
                 groupWithUser: menu,
                 telegramParams,
@@ -74,22 +74,24 @@ async function processData({
     try {
         let part: Part | undefined = {} as Part;
 
-        const res = getDynamicValue(userToSend);
-        if (res) {
-            const valueToSet = res?.valueType ? adjustValueType(calledValue, res.valueType) : calledValue;
+        const dynamicValue = getDynamicValue(userToSend);
+        if (dynamicValue) {
+            const valueToSet = dynamicValue?.valueType
+                ? adjustValueType(calledValue, dynamicValue.valueType)
+                : calledValue;
 
-            valueToSet && res?.id
-                ? await setstateIobroker({ id: res.id, value: valueToSet, ack: res?.ack })
+            valueToSet && dynamicValue?.id
+                ? await setstateIobroker({ id: dynamicValue.id, value: valueToSet, ack: dynamicValue?.ack })
                 : await sendToTelegram({
                       userToSend,
-                      textToSend: `You insert a wrong Type of value, please insert type : ${res?.valueType}`,
+                      textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValue?.valueType}`,
                       telegramParams,
                   });
 
             removeUserFromDynamicValue(userToSend);
             const result = await switchBack(userToSend, allMenusWithData, menus, true);
 
-            if (result) {
+            if (result && !dynamicValue.navToGoTo) {
                 const { textToSend, keyboard, parse_mode } = result;
                 await sendToTelegram({ userToSend, textToSend, keyboard, telegramParams, parse_mode });
                 return true;
@@ -123,7 +125,7 @@ async function processData({
                     if (result?.newNav) {
                         await checkEveryMenuForData({
                             menuData,
-                            calledValue: result.newNav,
+                            navToGoTo: result.newNav,
                             userToSend,
                             telegramParams,
                             menus,

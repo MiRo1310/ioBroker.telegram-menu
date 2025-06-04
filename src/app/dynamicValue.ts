@@ -2,7 +2,7 @@ import { decomposeText } from '../lib/string';
 import { sendToTelegram } from './telegram';
 import type { SetDynamicValue, SetDynamicValueObj, TelegramParams } from '../types/types';
 
-const setDynamicValueObj: SetDynamicValueObj = {};
+const dynamicValueObj: SetDynamicValueObj = {};
 export const setDynamicValue = async (
     returnText: string,
     ack: boolean,
@@ -12,10 +12,10 @@ export const setDynamicValue = async (
     parse_mode: boolean,
     confirm: string,
 ): Promise<{ confirmText: string; id: string | undefined }> => {
-    const { substring } = decomposeText(returnText, '{setDynamicValue:', '}');
-    let array = substring.split(':');
+    const { substringExcludeSearch } = decomposeText(returnText, '{setDynamicValue:', '}');
+    let array = substringExcludeSearch.split(':');
     array = isBraceDeleteEntry(array);
-    const text = array[1];
+    const text = array[0];
     if (text) {
         await sendToTelegram({
             userToSend,
@@ -24,7 +24,7 @@ export const setDynamicValue = async (
             parse_mode,
         });
     }
-    setDynamicValueObj[userToSend] = {
+    dynamicValueObj[userToSend] = {
         id,
         ack,
         returnText: text,
@@ -32,20 +32,21 @@ export const setDynamicValue = async (
         parse_mode,
         confirm,
         telegramParams,
-        valueType: array[2],
+        valueType: array[1],
+        navToGoTo: array[3],
     };
 
-    if (array[3] && array[3] != '') {
-        return { confirmText: array[3], id: array[4] };
+    if (array[2] && array[2] != '') {
+        return { confirmText: array[2], id: array[3] !== '' ? array[3] : undefined };
     }
     return { confirmText: '', id: undefined };
 };
 
-export const getDynamicValue = (userToSend: string): SetDynamicValue | null => setDynamicValueObj[userToSend] ?? null;
+export const getDynamicValue = (userToSend: string): SetDynamicValue | null => dynamicValueObj[userToSend] ?? null;
 
 export const removeUserFromDynamicValue = (userToSend: string): boolean => {
-    if (setDynamicValueObj[userToSend]) {
-        delete setDynamicValueObj[userToSend];
+    if (dynamicValueObj[userToSend]) {
+        delete dynamicValueObj[userToSend];
         return true;
     }
     return false;
