@@ -118,19 +118,19 @@ export default class TelegramMenu extends utils.Adapter {
             adapter.log.debug(`Checkbox: ${jsonString(checkboxes)}`);
             adapter.log.debug(`MenuList: ${jsonString(listOfMenus)}`);
 
-                if (sendMenuAfterRestart) {
-                    await adapterStartMenuSend(
-                        listOfMenus,
-                        startSides,
-                        isUserActiveCheckbox,
-                        menusWithUsers,
-                        menuData,
-                        telegramParams,
-                    );
-                }
-                let menus: string[] = [];
-                this.on('stateChange', async (id, state) => {
-                    const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
+            if (sendMenuAfterRestart) {
+                await adapterStartMenuSend(
+                    listOfMenus,
+                    startSides,
+                    isUserActiveCheckbox,
+                    menusWithUsers,
+                    menuData,
+                    telegramParams,
+                );
+            }
+            let menus: string[] = [];
+            this.on('stateChange', async (id, state) => {
+                const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
 
                 const isTelegramInstanceActive = await this.checkInfoConnection(id, telegramParams);
                 if (!isTelegramInstanceActive) {
@@ -174,20 +174,20 @@ export default class TelegramMenu extends utils.Adapter {
                 ) {
                     const value = state.val.toString();
 
-                        const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        menus = getListOfMenusIncludingUser(menusWithUsers, userToSend.name);
+                    const calledValue = value.slice(value.indexOf(']') + 1, value.length);
+                    menus = getListOfMenusIncludingUser(menusWithUsers, userToSend.name);
 
-                        const dataFound = await checkEveryMenuForData({
-                            menuData,
-                            navToGoTo: calledValue,
-                            userToSend:userToSend.name,
-                            telegramParams,
-                            menus,
-                            isUserActiveCheckbox,
-                            token,
-                            directoryPicture,
-                            timeoutKey,
-                        });
+                    const dataFound = await checkEveryMenuForData({
+                        menuData,
+                        navToGoTo: calledValue,
+                        userToSend: userToSend.name,
+                        telegramParams,
+                        menus,
+                        isUserActiveCheckbox,
+                        token,
+                        directoryPicture,
+                        timeoutKey,
+                    });
 
                     this.log.debug(`Groups with searched User: ${jsonString(menus)}`);
 
@@ -241,24 +241,20 @@ export default class TelegramMenu extends utils.Adapter {
                             if (!isFalsy(confirm) && state?.ack) {
                                 let textToSend = returnText;
 
-                                    if (textToSend.includes('{confirmSet:')) {
-                                        textToSend = decomposeText(
-                                            textToSend,
-                                            '{confirmSet:',
-                                            '}',
-                                        ).textExcludeSubstring;
-                                    }
+                                if (textToSend.includes('{confirmSet:')) {
+                                    textToSend = decomposeText(textToSend, '{confirmSet:', '}').textExcludeSubstring;
+                                }
 
-                                    if (textToSend.includes('{setDynamicValue')) {
-                                        const { textExcludeSubstring, substringExcludeSearch } = decomposeText(
-                                            textToSend,
-                                            '{setDynamicValue:',
-                                            '}',
-                                        );
-                                        const splitSubstring = substringExcludeSearch.split(':');
-                                        const confirmText = splitSubstring[2];
-                                        textToSend = `${textExcludeSubstring} ${confirmText}`;
-                                    }
+                                if (textToSend.includes('{setDynamicValue')) {
+                                    const { textExcludeSubstring, substringExcludeSearch } = decomposeText(
+                                        textToSend,
+                                        '{setDynamicValue:',
+                                        '}',
+                                    );
+                                    const splitSubstring = substringExcludeSearch.split(':');
+                                    const confirmText = splitSubstring[2];
+                                    textToSend = `${textExcludeSubstring} ${confirmText}`;
+                                }
 
                                 const {
                                     textToSend: changedText,
@@ -272,18 +268,17 @@ export default class TelegramMenu extends utils.Adapter {
 
                                 adapter.log.debug(`Value to send: ${newValue}`);
 
-                                    await sendToTelegram({
-                                        userToSend,
-                                        textToSend,
-                                        parse_mode,
-                                        telegramParams,
-                                    });
-                                    setStateIdsToListenTo.splice(key, 1);
-                                }
+                                await sendToTelegram({
+                                    userToSend,
+                                    textToSend,
+                                    parse_mode,
+                                    telegramParams,
+                                });
+                                setStateIdsToListenTo.splice(key, 1);
                             }
                         }
                     }
-                });
+                }
             });
         } catch (e: any) {
             errorLogger('Error onReady', e, adapter);
