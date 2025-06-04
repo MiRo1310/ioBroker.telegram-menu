@@ -23,8 +23,6 @@ class AppContentTabNavigationTableBodyValueModifierPopup extends Component<Props
     }
 
     componentDidMount(): void {
-        console.log('mount');
-        console.log(this.getDescription());
         this.setState({ description: this.getDescription() });
     }
 
@@ -43,11 +41,9 @@ class AppContentTabNavigationTableBodyValueModifierPopup extends Component<Props
     getDescription = (): string | null => {
         const clickedTrigger = this.props.clickedTrigger;
 
-        if (!clickedTrigger) {
-            return null;
-        }
-
-        return this.props.data.state.native.description.find(element => element.call === clickedTrigger)?.description;
+        return clickedTrigger
+            ? this.props.data.state.native.description.find(element => element.call === clickedTrigger)?.description
+            : null;
     };
 
     render(): React.ReactNode {
