@@ -125,7 +125,7 @@ export default class TelegramMenu extends utils.Adapter {
                         telegramParams,
                     );
                 }
-
+                let menus: string[] = [];
                 this.on('stateChange', async (id, state) => {
                     const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
 
@@ -163,11 +163,11 @@ export default class TelegramMenu extends utils.Adapter {
                         const value = state.val.toString();
 
                         const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        const menus = getListOfMenusIncludingUser(menusWithUsers, userToSend);
+                        menus = getListOfMenusIncludingUser(menusWithUsers, userToSend);
 
                         const dataFound = await checkEveryMenuForData({
                             menuData,
-                            calledValue,
+                            navToGoTo: calledValue,
                             userToSend,
                             telegramParams,
                             menus,
@@ -230,8 +230,22 @@ export default class TelegramMenu extends utils.Adapter {
                                     let textToSend = returnText;
 
                                     if (textToSend.includes('{confirmSet:')) {
-                                        const { textExcludeSubstring } = decomposeText(textToSend, '{confirmSet:', '}');
-                                        textToSend = textExcludeSubstring;
+                                        textToSend = decomposeText(
+                                            textToSend,
+                                            '{confirmSet:',
+                                            '}',
+                                        ).textExcludeSubstring;
+                                    }
+
+                                    if (textToSend.includes('{setDynamicValue')) {
+                                        const { textExcludeSubstring, substringExcludeSearch } = decomposeText(
+                                            textToSend,
+                                            '{setDynamicValue:',
+                                            '}',
+                                        );
+                                        const splitSubstring = substringExcludeSearch.split(':');
+                                        const confirmText = splitSubstring[2];
+                                        textToSend = `${textExcludeSubstring} ${confirmText}`;
                                     }
 
                                     const {
@@ -249,10 +263,9 @@ export default class TelegramMenu extends utils.Adapter {
                                     await sendToTelegram({
                                         userToSend,
                                         textToSend,
-                                        parse_mode: parse_mode,
+                                        parse_mode,
                                         telegramParams,
                                     });
-
                                     setStateIdsToListenTo.splice(key, 1);
                                 }
                             }

@@ -120,6 +120,7 @@ export interface SetDynamicValue {
     confirm: string;
     telegramParams: TelegramParams;
     valueType: string;
+    navToGoTo?: string;
 }
 
 export type Newline = BooleanString;
@@ -215,7 +216,7 @@ type BackMenuList = { list: string[]; last: string };
 
 export interface CheckEveryMenuForDataType {
     menuData: MenuData; // checked !!!!
-    calledValue: string;
+    navToGoTo: string;
     menus: string[];
     isUserActiveCheckbox: IsUserActiveCheckbox;
     token: string;

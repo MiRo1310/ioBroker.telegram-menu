@@ -95,6 +95,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
             userToSend
           });
         }
+        return;
       }
       if (!returnText.includes("{'id':'")) {
         await (0, import_setStateIdsToListenTo.addSetStateIds)({
