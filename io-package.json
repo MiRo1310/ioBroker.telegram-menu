@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.4.2",
+    "version": "2.4.3",
     "news": {
+      "2.4.3": {
+        "en": "FIX: #332 Copy dropdown\nFIX: SetDynamicValue \nFIX: Change value in getStatus",
+        "de": "FIX: #332 Dropdown kopieren\nFIX: SetDynamicValue\nFIX: Wert ändern in getStatus",
+        "ru": "FIX: #332 Copy dropdown\nОригинальное название: SetDynamicValue\nFIX: Изменение стоимости GetStatus",
+        "pt": "FIX: #332 Descarte de cópia\nFIX: SetDynamicValue\nFIX: Valor de mudança no getStatus",
+        "nl": "FIX: #332 Kopiëren dropdown\nFIX: SetDynamicValue\nFIX: Wijzig waarde in getStatus",
+        "fr": "FIXE: #332 Copier la liste déroulante\nFIX: SetDynamicValue\nFIX: Modifier la valeur de getStatus",
+        "it": "FIX: #332 Copia a discesa\nFIX: SetDynamicValue\nFIX: Cambia valore in getStatus",
+        "es": "FIX: #332 Copia desplegable\nFIX: SetDynamicValue\nFIX: Cambiar el valor en getStatus",
+        "pl": "FIX: # 332 Kopiuj zrzut\nFIX: SetDynamicValue\nFIX: Zmień wartość w getStatus",
+        "uk": "FIX: #332 Копіювати спад\nFIX: SetDynamicValue\nFIX: Зміна значення в getStatus",
+        "zh-cn": "FIX: #332 复制下拉\nFIX: 设置动态变量\nFIX: 获取状态中更改值"
+      },
       "2.4.2": {
         "en": "FIX: Error returnText is empty",
         "de": "FIX: Fehlerrückgabe Text ist leer",
@@ -69,19 +82,6 @@
         "zh-cn": "FIX: # 303 GetState 输出顺序不正确\nFIX: # 296 前端修正\nFIX: # 295 删除不起作用的按钮\nFIX: #291 (英语). 菜单按钮不工作\nFEAT: 节点 >= 20.0.0\nFEAT: 添加哨兵\nFEAT: 添加摩卡测试"
       },
       "2.2.4": {
-        "en": "FIX: #279 Backslash is in the message when using newline",
-        "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
-        "ru": "FIX: #279 Backslash находится в сообщении при использовании новой линии",
-        "pt": "FIX: #279 Backslash está na mensagem ao usar newline",
-        "nl": "FIX: #279 Backslash zit in het bericht bij het gebruik van nieuwe regel",
-        "fr": "FIX: #279 Backslash est dans le message lorsque vous utilisez newline",
-        "it": "FIX: #279 Backslash è nel messaggio quando si utilizza la nuova linea",
-        "es": "FIX: #279 Backslash está en el mensaje al usar newline",
-        "pl": "FIX: # 279 Backslash jest w wiadomości przy użyciu nowej linii",
-        "uk": "FIX: #279 Backslash знаходиться в повідомленні при використанні newline",
-        "zh-cn": "FIX: # 279 使用新线时反斜线在信件中"
-      },
-      "2.2.3": {
         "en": "FIX: #279 Backslash is in the message when using newline",
         "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
         "ru": "FIX: #279 Backslash находится в сообщении при использовании новой линии",
