@@ -11,7 +11,7 @@
     "addCreatedMenus": "Add already created menus as buttons",
     "addMenu": "Add new Menu Name",
     "binding": "Bindings: First Var with id then the condition and the text.",
-    "breakpointNewline": "Breakpoint for a new line, Only insert this in the Text",
+    "breakpointNewline": "Add new line",
     "call": "Call",
     "cancel": "Cancel",
     "changeFunction": "Changes the value in the return text, in this case from true to on and false to off",

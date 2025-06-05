@@ -11,7 +11,7 @@
     "addCreatedMenus": "Füge bereits erstellte Menüs als Schaltflächen hinzu",
     "addMenu": "Neuen Menünamen hinzufügen",
     "binding": "Bindungen: Zuerst Var mit ID, dann die Bedingung und der Text.",
-    "breakpointNewline": "Haltepunkt für eine neue Zeile. Fügen Sie diesen nur in den Text ein",
+    "breakpointNewline": "Eine neue Zeile beginnen",
     "call": "Aufruf",
     "cancel": "Stornieren",
     "changeFunction": "Ändert den Wert im Rückgabetext, in diesem Fall von „true“ auf „on“ und von „false“ auf „off“.",
