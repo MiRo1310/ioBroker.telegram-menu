@@ -55,7 +55,7 @@ export const setstateIobroker = async ({
 const setValue = async (
     id: string,
     value: string,
-    valueFromSubmenu: string | number | boolean,
+    valueFromSubmenu: null | string | number | boolean,
     ack: boolean,
 ): Promise<void> => {
     try {
@@ -74,7 +74,7 @@ const setValue = async (
 export const handleSetState = async (
     part: Part,
     userToSend: string,
-    valueFromSubmenu: string | number | boolean,
+    valueFromSubmenu: null | string | number | boolean,
     telegramParams: TelegramParams,
 ): Promise<void> => {
     try {
@@ -121,7 +121,14 @@ export const handleSetState = async (
                     return;
                 }
                 const text = returnText.replace(substring, json.text);
-                const { textToSend } = exchangeValue(adapter, text, valueFromSubmenu);
+                let value: null | ioBroker.StateValue = null;
+
+                if (json.id) {
+                    const state = await adapter.getForeignStateAsync(json.id);
+                    value = state ? state.val : null;
+                }
+
+                const { textToSend } = exchangeValue(adapter, text, valueFromSubmenu ?? value);
 
                 await sendToTelegram({
                     userToSend,
