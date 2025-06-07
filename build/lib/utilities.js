@@ -72,7 +72,7 @@ const checkStatus = async (text) => {
   }
   if (!shouldChangeByStatusParameter) {
     const modifiedText = text.replace(substring, "&&");
-    const { textToSend: textToSend2, error: error2 } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, modifiedText, stateValue.val);
+    const { textToSend: textToSend2, error: error2 } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, modifiedText, stateValue.val, false);
     return !error2 ? textToSend2 : modifiedText;
   }
   const { textToSend, error } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, textExcludeSubstring, stateValue.val);
@@ -84,10 +84,8 @@ const returnTextModifier = async (text) => {
   }
   try {
     const inputText = text;
-    if (text.includes(import_config.config.status.start)) {
-      while (text.includes(import_config.config.status.start)) {
-        text = await checkStatus(text);
-      }
+    while (text.includes(import_config.config.status.start)) {
+      text = await checkStatus(text);
     }
     if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
       text = await processTimeIdLc(text);

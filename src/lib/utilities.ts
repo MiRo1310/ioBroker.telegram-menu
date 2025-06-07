@@ -58,7 +58,7 @@ export const checkStatus = async (text: string): Promise<string> => {
 
     if (!shouldChangeByStatusParameter) {
         const modifiedText = text.replace(substring, '&&');
-        const { textToSend, error } = exchangeValue(adapter, modifiedText, stateValue.val);
+        const { textToSend, error } = exchangeValue(adapter, modifiedText, stateValue.val, false);
         return !error ? textToSend : modifiedText;
     }
 
@@ -74,11 +74,10 @@ export const returnTextModifier = async (text?: string): Promise<string> => {
     try {
         const inputText = text;
 
-        if (text.includes(config.status.start)) {
-            while (text.includes(config.status.start)) {
-                text = await checkStatus(text);
-            }
+        while (text.includes(config.status.start)) {
+            text = await checkStatus(text);
         }
+
         if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
             text = await processTimeIdLc(text);
         }

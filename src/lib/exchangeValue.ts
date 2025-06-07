@@ -15,11 +15,12 @@ export const exchangeValue = (
     adapter: Adapter,
     textToSend: string,
     val: PrimitiveType | null | undefined,
+    shouldChange = true,
 ): ExchangeValueReturn => {
     const result = isNoValueParameter(textToSend);
 
     textToSend = result.textToSend;
-    if (textToSend.includes(config.change.start)) {
+    if (textToSend.includes(config.change.start) && shouldChange) {
         const { start, end, command } = config.change;
         const { substring, textExcludeSubstring } = decomposeText(textToSend, start, end); // change{"true":"an","false":"aus"}
 

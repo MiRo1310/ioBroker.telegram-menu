@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: #338 Exchange value does not work in newline
+
 ### 2.4.3 (2025-06-05)
 
 - FIX: #332 Copy dropdown

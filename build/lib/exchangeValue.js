@@ -34,11 +34,11 @@ function isNoValueParameter(textToSend) {
   }
   return { insertValue, textToSend };
 }
-const exchangeValue = (adapter, textToSend, val) => {
+const exchangeValue = (adapter, textToSend, val, shouldChange = true) => {
   var _a;
   const result = isNoValueParameter(textToSend);
   textToSend = result.textToSend;
-  if (textToSend.includes(import_config.config.change.start)) {
+  if (textToSend.includes(import_config.config.change.start) && shouldChange) {
     const { start, end, command } = import_config.config.change;
     const { substring, textExcludeSubstring } = (0, import_string.decomposeText)(textToSend, start, end);
     const stringExcludedChange = (0, import_string.replaceAll)(substring, "'", '"').replace(command, "");
