@@ -113,7 +113,12 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
           return;
         }
         const text2 = returnText.replace(substring, json.text);
-        const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, text2, valueFromSubmenu);
+        let value2 = null;
+        if (json.id) {
+          const state = await import_main.adapter.getForeignStateAsync(json.id);
+          value2 = state ? state.val : null;
+        }
+        const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, text2, valueFromSubmenu != null ? valueFromSubmenu : value2);
         await (0, import_telegram.sendToTelegram)({
           userToSend,
           textToSend,
