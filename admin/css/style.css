@@ -82,7 +82,7 @@ label p {
 .cover__save_btn {
     position: absolute;
     bottom: 0;
-    width: 34vw;
+    width: 490px;
     height: 65px;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 1200;
@@ -347,6 +347,18 @@ p.inUse {
     color: var(--text-primary);
 }
 
+.settings__telegram-header{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.settings__telegram-checkbox{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .telegram__users-container {
     display: flex;
     margin-right: 0.5rem;
@@ -394,7 +406,7 @@ p.inUse {
     margin-top: 0.5rem !important;
 }
 
-.telegram__user-chat-id {
+.telegram__user-chat-id, .telegram__user-instance {
     font-size: 0.7rem;
 }
 

@@ -3,20 +3,19 @@
 // in order to provide typings for adapter.config properties
 
 // Augment the globally declared type ioBroker.AdapterConfig
-import { Checkboxes, IsUserActiveCheckbox, UserListWithChatId, UsersInGroup } from './types';
-import { NativeData } from '@/types/app';
+import { Checkboxes, InstanceList, UserActiveCheckbox, UserListWithChatID, UsersInGroup,NativeData } from '@/types/app';
 
 declare global {
     namespace ioBroker {
         interface AdapterConfig extends _AdapterConfig {
             checkbox: Checkboxes;
-            instance: string;
+            instanceList: InstanceList[];
             usersInGroup: UsersInGroup;
             tokenGrafana: string;
             directory: string;
-            userActiveCheckbox: IsUserActiveCheckbox;
+            userActiveCheckbox: UserActiveCheckbox;
             textNoEntry: string;
-            userListWithChatID: UserListWithChatId[];
+            userListWithChatID: UserListWithChatID[];
             data: NativeData;
         }
     }
