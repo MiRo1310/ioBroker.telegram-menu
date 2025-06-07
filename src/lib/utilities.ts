@@ -74,11 +74,10 @@ export const returnTextModifier = async (text?: string): Promise<string> => {
     try {
         const inputText = text;
 
-        if (text.includes(config.status.start)) {
-            while (text.includes(config.status.start)) {
-                text = await checkStatus(text);
-            }
+        while (text.includes(config.status.start)) {
+            text = await checkStatus(text);
         }
+
         if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
             text = await processTimeIdLc(text);
         }

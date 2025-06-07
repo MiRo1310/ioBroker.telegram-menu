@@ -84,10 +84,8 @@ const returnTextModifier = async (text) => {
   }
   try {
     const inputText = text;
-    if (text.includes(import_config.config.status.start)) {
-      while (text.includes(import_config.config.status.start)) {
-        text = await checkStatus(text);
-      }
+    while (text.includes(import_config.config.status.start)) {
+      text = await checkStatus(text);
     }
     if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
       text = await processTimeIdLc(text);
