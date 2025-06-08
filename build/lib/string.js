@@ -69,8 +69,8 @@ const cleanUpString = (text) => {
     return "";
   }
   return removeMultiSpaces(
-    text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "")
-    // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+    text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "").replace(/\n /g, "\n")
+    // Entferne Leerzeichen vor Zeilenumbrüchen
   );
 };
 function decomposeText(text, firstSearch, secondSearch) {

@@ -145,7 +145,7 @@ describe('removeQuotes', () => {
 describe('validateNewLine', () => {
     it('should return a Validated string with newline', () => {
         const result = cleanUpString('Das hier ist ein\\n Test');
-        expect(result).to.equal('Das hier ist ein\n Test');
+        expect(result).to.equal('Das hier ist ein\nTest');
     });
 
     it('should return a validated string newline with empty text', () => {
@@ -155,7 +155,7 @@ describe('validateNewLine', () => {
 
     it('should convert \\n into actual line breaks', () => {
         const input = 'Das\\\\\n hier\\\\n ist ein\\\n Test';
-        const expected = 'Das\n hier\n ist ein\n Test';
+        const expected = 'Das\nhier\nist ein\nTest';
         const result = cleanUpString(input);
 
         expect(result).to.equal(expected);
