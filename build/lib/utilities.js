@@ -18,7 +18,6 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
-  checkStatus: () => checkStatus,
   processTimeIdLc: () => processTimeIdLc,
   returnTextModifier: () => returnTextModifier,
   transformValueToTypeOfId: () => transformValueToTypeOfId
@@ -33,7 +32,7 @@ var import_config = require("../config/config");
 var import_appUtils = require("./appUtils");
 var import_setstate = require("../app/setstate");
 var import_splitValues = require("./splitValues");
-var import_exchangeValue = require("./exchangeValue");
+var import_status = require("../app/status");
 const processTimeIdLc = async (textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,
@@ -54,30 +53,6 @@ const processTimeIdLc = async (textToSend, id) => {
   const timeStringReplaced = (0, import_appUtils.timeStringReplacer)(timeWithPad, timeStringUser);
   return timeStringReplaced != null ? timeStringReplaced : textToSend;
 };
-const checkStatus = async (text) => {
-  const { substring, substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(
-    text,
-    import_config.config.status.start,
-    import_config.config.status.end
-  );
-  const { id, shouldChangeByStatusParameter } = (0, import_appUtils.statusIdAndParams)(substringExcludeSearch);
-  const stateValue = await import_main.adapter.getForeignStateAsync(id);
-  if (!(0, import_utils.isDefined)(stateValue == null ? void 0 : stateValue.val)) {
-    import_main.adapter.log.debug(`State not found for id : "${id}"`);
-    return text.replace(substring, "");
-  }
-  const stateValueString = String(stateValue.val);
-  if (text.includes(import_config.config.time)) {
-    return (0, import_time.integrateTimeIntoText)(textExcludeSubstring, stateValueString).replace(stateValueString, "");
-  }
-  if (!shouldChangeByStatusParameter) {
-    const modifiedText = text.replace(substring, "&&");
-    const { textToSend: textToSend2, error: error2 } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, modifiedText, stateValue.val, false);
-    return !error2 ? textToSend2 : modifiedText;
-  }
-  const { textToSend, error } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, textExcludeSubstring, stateValue.val);
-  return !error ? textToSend : textExcludeSubstring;
-};
 const returnTextModifier = async (text) => {
   if (!text) {
     return "";
@@ -85,7 +60,7 @@ const returnTextModifier = async (text) => {
   try {
     const inputText = text;
     while (text.includes(import_config.config.status.start)) {
-      text = await checkStatus(text);
+      text = await (0, import_status.checkStatus)(import_main.adapter, text);
     }
     if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
       text = await processTimeIdLc(text);
@@ -135,7 +110,6 @@ async function transformValueToTypeOfId(id, value) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  checkStatus,
   processTimeIdLc,
   returnTextModifier,
   transformValueToTypeOfId

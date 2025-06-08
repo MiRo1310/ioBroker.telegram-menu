@@ -47,7 +47,8 @@ export const cleanUpString = (text?: string): string => {
             .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
             .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
             .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
-            .replace(/\\(?!n)/g, ''), // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+            .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+            .replace(/\n /g, '\n'), // Entferne Leerzeichen vor Zeilenumbrüchen
     );
 };
 

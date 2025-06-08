@@ -1,13 +1,13 @@
 import { isDefined } from './utils';
 import { decomposeText, isEmptyString, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
-import { extractTimeValues, getTimeWithPad, integrateTimeIntoText } from './time';
+import { extractTimeValues, getTimeWithPad } from './time';
 import { adapter } from '../main';
 import { config } from '../config/config';
-import { isSameType, statusIdAndParams, timeStringReplacer } from './appUtils';
+import { isSameType, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
-import { exchangeValue } from './exchangeValue';
+import { checkStatus } from '../app/status';
 
 export const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
@@ -34,39 +34,6 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
     return timeStringReplaced ?? textToSend;
 };
 
-export const checkStatus = async (text: string): Promise<string> => {
-    const { substring, substringExcludeSearch, textExcludeSubstring } = decomposeText(
-        text,
-        config.status.start,
-        config.status.end,
-    ); //substring {status:'ID':true} new | old {status:'id':'ID':true}
-
-    const { id, shouldChangeByStatusParameter } = statusIdAndParams(substringExcludeSearch);
-
-    const stateValue = await adapter.getForeignStateAsync(id);
-
-    if (!isDefined(stateValue?.val)) {
-        adapter.log.debug(`State not found for id : "${id}"`);
-        return text.replace(substring, '');
-    }
-
-    const stateValueString = String(stateValue.val);
-
-    if (text.includes(config.time)) {
-        return integrateTimeIntoText(textExcludeSubstring, stateValueString).replace(stateValueString, '');
-    }
-
-    if (!shouldChangeByStatusParameter) {
-        const modifiedText = text.replace(substring, '&&');
-        const { textToSend, error } = exchangeValue(adapter, modifiedText, stateValue.val, false);
-        return !error ? textToSend : modifiedText;
-    }
-
-    const { textToSend, error } = exchangeValue(adapter, textExcludeSubstring, stateValue.val);
-
-    return !error ? textToSend : textExcludeSubstring;
-};
-
 export const returnTextModifier = async (text?: string): Promise<string> => {
     if (!text) {
         return '';
@@ -75,7 +42,7 @@ export const returnTextModifier = async (text?: string): Promise<string> => {
         const inputText = text;
 
         while (text.includes(config.status.start)) {
-            text = await checkStatus(text);
+            text = await checkStatus(adapter, text);
         }
 
         if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {

@@ -53,11 +53,13 @@ gesendet, dieser sucht nach dem passenden Call Text, dieser muss genau so geschr
 ##### <span id="status"></span>...ein Status geschickt werden
 
 - Um den Status einer ID anzuzeigen, beim Aufruf einer Navigation oder eines Submenus, kann folgender Eintrag im
-  Textfeld genutzt werden. `{status:'ID':true}`.
+  Rückgabetext genutzt werden. `{status:'ID':true}`.
   ID - muss durch die abzufragende ID ersetzt werden.
-  **_Breaking Change!!!_** der Parameter true dahinter sagt aus oder der Wert geändert werden darf durch
-  `change{"true":"an","false":"aus"}` oder einer modifizierten Version davon. Dieses ist wichtig wenn ich mehr als einen
-  Status in einem Aufruf abfragen möchte, setzte ich den Wert nicht, werden die Werte nicht sauber verarbeitet. <br>
+ `Es muss direkt an die Stelle gepackt werden wo der Status angezeigt werden soll`
+- 
+  **_Breaking Change!!!_** der Parameter `true` dahinter sagt aus ob der Wert geändert werden darf durch
+  `change{"true":"an","false":"aus"}`. Dieses ist wichtig wenn man mehr als einen
+  Status in einem Aufruf abfragen möchte. <br>
 
 ##### ... der Wert des Status geändert werden
 
