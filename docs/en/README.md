@@ -40,8 +40,8 @@ Sent, this is looking for the right call text, this must be written in this way,
 -   In order for the second menu to work, i.e. a submenu, the trigger text of the start page must be deactivated. Through
     Deactivating is shown the line in orange, and the indication that it is a submenu
     acts. You deactivate the line by leaving the cell triggered empty. In the older versions you had to`-`Enter, but continue to work with it. Now user1 from menu1 can access menu2 by
-    Press the corresponding button. **Wichtig!! Auch wenn es zwei Menus sind, darf jeder Call Text nur einmal
-    vorkommen!**
+    Press the corresponding button. **Important!! Even if there are two menus, each call text is only allowed once
+    happen!**
 
 -   With two menus that do not have the same user, each menu may of course have an entry, for example, but not
     when jumping from one to another.
@@ -51,16 +51,17 @@ Sent, this is looking for the right call text, this must be written in this way,
 ##### <span id="status"></span>... a status can be sent
 
 -   In order to display the status of an ID, when calling a navigation or a submenus, the following entry can
-    Text field can be used.`{status:'ID':true}`.
-    ID - must be replaced by the ID to be requested.**_Breaking Change!!!_**the parameter true behind it says or the value may be changed by`change{"true":"an","false":"aus"}`Or a modified version of it. This is important if I have more than one
-    I don't want to query the status in a call, I do not set the value, the values ​​are not processed cleanly.<br>
+     Return text.`{status:'ID':true}`.
+     ID - must be replaced by the ID to be requested.`Es muss direkt an die Stelle gepackt werden wo der Status angezeigt werden soll`
+-   **_Breaking Change!!!_**The parameter`true`Behind it says whether the value may be changed by`change{"true":"an","false":"aus"}`. This is important if you have more than one
+    Would like to query status in a call.<br>
 
 ##### ... the value of the status can be changed
 
 -   If the value is to be changed, e.g. from true to and false, can`change{"true":"an","false":"aus"}`used
     become
 
-##### ...a value set
+##### ... a value
 
 -   Set a data point when opening navigation. The following can be used -`{set:'id':'ID',val,ack}`- ID is
     The ID of the data point in which a value is to be written. Val - the value to be set, ACK - should the value
@@ -134,12 +135,8 @@ e.g. Home), only entries can be deleted that are younger than 48h.
     Specify how many buttons should stand next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change`[Name1|Value1, Name2|Value2]`. Now decimal numbers can also be considered value
     be used, e.g. (2.5).
     A value of a data point can now be used as a name.`{status:'ID':true}`<a href="#status">For further
-    Watch information here</a>  
+    Watch information here</a>
 
-    If you leave the value empty the submenu will be set to the datapoint, otherwise the value from config will be set
-    You can maybe set the submenu value to a string datapoint, the value will not change. And another datapoint with type boolean. Here the value will transformed to a boolean value.
-    - false => "false" , false, 0, null, "null", undefined and "undefined"
-    - true => every other value , string , number or true 
 
     menu:back
 
@@ -147,7 +144,7 @@ e.g. Home), only entries can be deleted that are younger than 48h.
 
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
-    <img src="../pic/submenu_setstate.png" width="800"/> 
+    <img src="../pic/submenu_setstate.png" width="800"/>
 
 ### Setstate
 
@@ -221,8 +218,7 @@ e.g. Home), only entries can be deleted that are younger than 48h.
 
 -   In order to get all the values ​​of the adjustable functions, you have to just have functions = light, e.g.
     write.
--   If you want to have the name of the data point in the output text, simply wear the desired position in the text`{common.name}`
--   You can also get the common.name of the folder above. Use this : `{folder.name}`
+-   If you want to have the name of the data point in the output text, simply wear the desired position in the text`{common.name}`a
 
 ![functions](../pic/functions.png)<br>
 
@@ -257,7 +253,7 @@ e.g. Home), only entries can be deleted that are younger than 48h.
 
 ### Send Location
 
--   Select the first trigger
+-   als erstes Trigger auswählen
 -   Then a data point for the latitude ("Latitude") and one for the length of the length ("Longitude") must be specified
 
 ### Events
