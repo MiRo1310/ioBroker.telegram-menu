@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.4.3",
+    "version": "2.4.4",
     "news": {
+      "2.4.4": {
+        "en": "FIX: #342 Result not in the correct order\nFIX: #341 Setstate changeValue\nFIX: #338 Exchange value does not work in newline",
+        "de": "FIX: #342 Ergebnis nicht in der richtigen Reihenfolge\nFIX: #341 Setstate change Wert\nFIX: #338 Exchange Value funktioniert nicht in Newline",
+        "ru": "FIX: #342 Результат не в правильном порядке\nFIX: #341 Изменение состояния ценность\nИсполнитель: #338 Обменная стоимость не работает в новом режиме",
+        "pt": "FIX: #342 Resultado não na ordem correta\nFIX: # 341 Setstate change Valor\nFIX: #338 O valor da troca não funciona em nova linha",
+        "nl": "FIX: #342 Resultaat niet in de juiste volgorde\nFIX: #341 Setstate change Waarde\nFIX: #338 Exchange value werkt niet in newline",
+        "fr": "N°342 Résultat non conforme à l'ordre\nFIX: #341 Changement de configuration Valeur\nN°338 La valeur d'échange ne fonctionne pas dans newline",
+        "it": "FIX: #342 Risultato non nell'ordine corretto\nFIX: #341 Cambiamento di stato Valore\nFIX: #338 Valore di scambio non funziona in newline",
+        "es": "FIX: #342 Resultado no en el orden correcto\nFIX: #341 Cambio de estado Valor\nFIX: #338 El valor de cambio no funciona en nueva línea",
+        "pl": "FIX: # 342 Wynik nie w prawidłowej kolejności\nFIX: # 341 Zmiana stanu ustawienia Wartość\nFIX: # 338 Wartość wymiany nie działa w nowej linii",
+        "uk": "FIX: #342 Результат не в правильному порядку\nFIX: #341 Зміна Setstate Ціна\nFIX: #338 Вартість обміну не працює в новому режимі",
+        "zh-cn": "FIX: #342 (英语). 结果不正确\nFIX: # 341 状态变化 数值\nFIX: 第338号 交换值在新行中无效"
+      },
       "2.4.3": {
         "en": "FIX: #332 Copy dropdown\nFIX: SetDynamicValue \nFIX: Change value in getStatus",
         "de": "FIX: #332 Dropdown kopieren\nFIX: SetDynamicValue\nFIX: Wert ändern in getStatus",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 303 Wyjście GetState w niewłaściwej kolejności\nFIX: # 296\nFIX: # 295 Usuń niedziałający przycisk\nFIX: # 291 Przycisk menu nie działa\nFEAT: Nodeje > = 20.0.0\nFEAT: Dodaj wartownik\nFEAT: Dodaj testy mocha",
         "uk": "FIX: #303 Отримувати вихід в некоректному порядку\nFIX: #296 Передня фіксація\nFIX: #295 Видалити кнопка не працює\nFIX: #291 Меню не працює\nFEAT: Nodejs >= 20.0.0\nFEAT: Додати відправлення\nFEAT: Додати тести",
         "zh-cn": "FIX: # 303 GetState 输出顺序不正确\nFIX: # 296 前端修正\nFIX: # 295 删除不起作用的按钮\nFIX: #291 (英语). 菜单按钮不工作\nFEAT: 节点 >= 20.0.0\nFEAT: 添加哨兵\nFEAT: 添加摩卡测试"
-      },
-      "2.2.4": {
-        "en": "FIX: #279 Backslash is in the message when using newline",
-        "de": "FIX: #279 Backslash ist in der Nachricht bei der Verwendung von newline",
-        "ru": "FIX: #279 Backslash находится в сообщении при использовании новой линии",
-        "pt": "FIX: #279 Backslash está na mensagem ao usar newline",
-        "nl": "FIX: #279 Backslash zit in het bericht bij het gebruik van nieuwe regel",
-        "fr": "FIX: #279 Backslash est dans le message lorsque vous utilisez newline",
-        "it": "FIX: #279 Backslash è nel messaggio quando si utilizza la nuova linea",
-        "es": "FIX: #279 Backslash está en el mensaje al usar newline",
-        "pl": "FIX: # 279 Backslash jest w wiadomości przy użyciu nowej linii",
-        "uk": "FIX: #279 Backslash знаходиться в повідомленні при використанні newline",
-        "zh-cn": "FIX: # 279 使用新线时反斜线在信件中"
       }
     },
     "titleLang": {
