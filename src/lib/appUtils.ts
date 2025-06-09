@@ -3,19 +3,17 @@ import type {
     Adapter,
     DataObject,
     GetTimeWithPad,
-    MenusWithUsers,
     Navigation,
     NewObjectStructure,
     ParseModeType,
     splittedNavigation,
     StartSides,
-    UsersInGroup,
 } from '../types/types';
 import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
-import type { RowsNav } from '@/types/app';
+import type { RowsNav, UsersInGroup } from '@/types/app';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -56,10 +54,10 @@ export function roundValue(val: string, textToSend: string): { roundedValue: str
     return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
 
-export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, userToSend: string): string[] => {
+export const getListOfMenusIncludingUser = (menusWithUsers: UsersInGroup, userToSend: string): string[] => {
     const menus: string[] = [];
     for (const key in menusWithUsers) {
-        if (menusWithUsers[key].includes(userToSend)) {
+        if (menusWithUsers[key]?.some(item => item.name === userToSend)) {
             menus.push(key);
         }
     }
@@ -149,3 +147,8 @@ export function isSameType(
 ): boolean {
     return receivedType === obj.common.type;
 }
+
+export const getInstanceById = (id: string): { instanceName: string; instanceNumber: string; instance: string } => {
+    const obj = id.split('.');
+    return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join('.') };
+};
