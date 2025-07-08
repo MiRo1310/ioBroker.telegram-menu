@@ -6,6 +6,7 @@ import Select from '@components/btn-Input/select';
 import type { PropsSettings } from '@/types/app';
 import type { EventCheckbox, EventInput, EventSelect } from '@/types/event';
 import { Grid2 as Grid } from '@mui/material';
+import { isDefined } from '../../../src/lib/utils';
 
 class Settings extends Component<PropsSettings> {
     constructor(props: PropsSettings) {
@@ -27,6 +28,9 @@ class Settings extends Component<PropsSettings> {
             const checkboxes = { ...this.props.data.state.native.checkbox };
             checkboxes.sendMenuAfterRestart = true;
             this.props.callback.updateNative('checkbox', checkboxes);
+        }
+        if (!this.props.data.state.native.textNoEntry) {
+            this.props.callback.updateNative('textNoEntry', I18n.t('entryNotFound'));
         }
     }
 
@@ -51,19 +55,22 @@ class Settings extends Component<PropsSettings> {
                         />
                     </Grid>
                     <Grid size={{ xs: 10, sm: 10, lg: 8 }}>
-                        <div className={'flex items-start'}>
+                        <div
+                            className={'flex items-start'}
+                            style={{ alignItems: 'baseline' }}
+                        >
                             <Input
                                 label={I18n.t('textNoEntry')}
                                 placeholder="No entry found"
                                 callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
                                 id="textNoEntry"
-                                value={this.props.data.state.native.textNoEntry || I18n.t('entryNotFound')}
+                                value={this.props.data.state.native.textNoEntry ?? I18n.t('entryNotFound')}
                                 class={'input__container--settings'}
                             />
                             <Checkbox
                                 label={I18n.t('active')}
                                 id="checkboxNoValueFound"
-                                isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound || false}
+                                isChecked={this.props.data.state.native.checkbox.checkboxNoValueFound ?? false}
                                 callback={this.onClickCheckbox}
                                 index={0}
                             />
@@ -85,7 +92,7 @@ class Settings extends Component<PropsSettings> {
                             placeholder="/opt/iobroker/media/"
                             callback={({ id, val }: EventInput) => this.props.callback.updateNative(id, val)}
                             id="directory"
-                            value={this.props.data.state.native.directory || '/opt/iobroker/media/'}
+                            value={this.props.data.state.native.directory ?? '/opt/iobroker/media/'}
                             class={'input__container--settings'}
                         />
                     </Grid>
@@ -93,7 +100,7 @@ class Settings extends Component<PropsSettings> {
                         <Checkbox
                             label="Resize Keyboard"
                             id="resKey"
-                            isChecked={this.props.data.state.native.checkbox.resKey || false}
+                            isChecked={this.props.data.state.native.checkbox.resKey ?? false}
                             callback={this.onClickCheckbox}
                             title="Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard."
                             class="title"
@@ -104,7 +111,7 @@ class Settings extends Component<PropsSettings> {
                         <Checkbox
                             label="One Time Keyboard"
                             id="oneTiKey"
-                            isChecked={this.props.data.state.native.checkbox.oneTiKey || false}
+                            isChecked={this.props.data.state.native.checkbox.oneTiKey ?? false}
                             callback={this.onClickCheckbox}
                             title="oneTimeKey"
                             class="title"
@@ -116,8 +123,7 @@ class Settings extends Component<PropsSettings> {
                             label={I18n.t('sendMenuAfterRestart')}
                             id="sendMenuAfterRestart"
                             isChecked={
-                                this.props.data.state.native.checkbox.sendMenuAfterRestart === null ||
-                                this.props.data.state.native.checkbox.sendMenuAfterRestart === undefined
+                                !isDefined(this.props.data.state.native.checkbox.sendMenuAfterRestart)
                                     ? true
                                     : this.props.data.state.native.checkbox.sendMenuAfterRestart
                             }
