@@ -19,7 +19,7 @@ class TableNavEditRow extends Component<PropsTableNavEditRow> {
             return;
         }
         if (id) {
-            copyNewRow[id] = val.toString();
+            copyNewRow[id] = val.trim().toString();
         }
         this.props.setState({ newRow: copyNewRow });
     };

@@ -40,7 +40,7 @@ export const getConfigVariables = (
         directoryPicture: config.directory,
         isUserActiveCheckbox: config.userActiveCheckbox,
         menusWithUsers: config.usersInGroup,
-        textNoEntryFound: config.textNoEntry,
+        textNoEntryFound: (config.textNoEntry as string | undefined) ?? 'Entry not found',
         dataObject: config.data,
         telegramParams,
     };

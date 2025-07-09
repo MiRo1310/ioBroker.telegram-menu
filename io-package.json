@@ -291,7 +291,12 @@
     "nav": {},
     "instance": "",
     "data": {},
-    "checkbox": {},
+    "checkbox": {
+      "sendMenuAfterRestart": true,
+      "checkboxNoValueFound": true,
+      "resKey": true,
+      "oneTiKey": false
+    },
     "usersForGlobal": "",
     "users": [],
     "startsides": [],
@@ -299,7 +304,7 @@
     "directory": "/opt/iobroker/media",
     "userActiveCheckbox": {},
     "usersInGroup": {},
-    "textNoEntry": "",
+    "textNoEntry": null,
     "userListWithChatID": []
   },
   "objects": [],

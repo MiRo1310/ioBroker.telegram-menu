@@ -22,7 +22,7 @@ __export(configVariables_exports, {
 });
 module.exports = __toCommonJS(configVariables_exports);
 const getConfigVariables = (config) => {
-  var _a;
+  var _a, _b;
   const telegramInstance = (_a = config.instance) != null ? _a : "telegram.0";
   const checkboxes = config.checkbox;
   const telegramParams = {
@@ -44,7 +44,7 @@ const getConfigVariables = (config) => {
     directoryPicture: config.directory,
     isUserActiveCheckbox: config.userActiveCheckbox,
     menusWithUsers: config.usersInGroup,
-    textNoEntryFound: config.textNoEntry,
+    textNoEntryFound: (_b = config.textNoEntry) != null ? _b : "Entry not found",
     dataObject: config.data,
     telegramParams
   };
