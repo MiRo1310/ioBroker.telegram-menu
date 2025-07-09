@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Table, TableContainer, Paper } from '@mui/material';
+import { Paper, Table, TableContainer } from '@mui/material';
 import TableNavBody from '@/pages/AppContentTabNavigationTableBody';
 import TabNavHeader from '@/pages/AppContentTabNavigationTableHeader';
 import TableNavEditRow from '@/pages/AppContentTabNavigationTableRowEditor';
 import TableNavHelper from '@/pages/AppContentTabNavigationTableHelper';
 
 import { deepCopy } from '@/lib/Utils.js';
-import type { RowsNav, PropsTabNavigation, StateTabNavigation } from '@/types/app';
+import type { PropsTabNavigation, RowsNav, StateTabNavigation } from '@/types/app';
 import type { EventButton } from '@/types/event';
 import { splitTrimAndJoin } from '@/lib/string';
 
@@ -84,6 +84,7 @@ class TabNavigation extends Component<PropsTabNavigation, StateTabNavigation> {
 
     modifyValueFromNewRow(): RowsNav {
         const row = this.state.newRow;
+        row.call = row.call.trim();
         row.value = splitTrimAndJoin(splitTrimAndJoin(row.value, ',', ' , '), '&&', ' && ');
         return row;
     }
