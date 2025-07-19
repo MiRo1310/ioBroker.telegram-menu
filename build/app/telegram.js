@@ -34,6 +34,11 @@ function validateTextToSend(textToSend) {
     import_main.adapter.log.error("There is a problem! Text to send is empty or undefined, please check your configuration.");
     return false;
   }
+  if (textToSend.includes("change{")) {
+    import_main.adapter.log.warn(
+      "To use 'change{'. The status must have a param to be exchanged, like: {status:'ID':true}. If you use it in another way, and it doesn't work, please check your configuration. If nothing helps, please open an issue on GitHub."
+    );
+  }
   return true;
 }
 async function sendToTelegram({
