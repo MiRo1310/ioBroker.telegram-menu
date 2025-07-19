@@ -1,26 +1,27 @@
 import type { MockAdapter } from '@iobroker/testing';
 import type TelegramMenu from '../main';
-import type { BooleanString, Echart, EventAction, GetAction, HttpRequest, Pic, RowsNav, SetAction } from '@/types/app';
+import type {
+    BooleanString,
+    Echart,
+    EventAction,
+    GetAction,
+    HttpRequest,
+    Pic,
+    RowsNav,
+    SetAction,
+    UserActiveCheckbox,
+    UserListWithChatID,
+} from '@/types/app';
 
 export type ListOfMenus = string[];
-
-export type IsUserActiveCheckbox = Record<string, boolean>;
-export type MenusWithUsers = Record<string, string[]>;
 
 export type Action = Record<string, Actions>;
 
 export type Navigation = string[][];
 
-export interface UserListWithChatId {
-    chatID: string;
-    name: string;
-}
-
-export interface Checkboxes {
-    oneTiKey: boolean;
-    resKey: boolean;
-    checkboxNoValueFound: boolean;
-    sendMenuAfterRestart: boolean;
+export interface InstanceList {
+    active: boolean;
+    name?: string;
 }
 
 export interface Actions {
@@ -35,8 +36,6 @@ export interface Actions {
 export type StartSides = Record<string, string>;
 
 export type NewObjectStructure = Record<string, Part>;
-
-export type UsersInGroup = { [key: string]: string[] };
 
 export type MenuData = Record<string, NewObjectStructure>;
 
@@ -218,7 +217,7 @@ export interface CheckEveryMenuForDataType {
     menuData: MenuData; // checked !!!!
     navToGoTo: string;
     menus: string[];
-    isUserActiveCheckbox: IsUserActiveCheckbox;
+    isUserActiveCheckbox: UserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
@@ -232,7 +231,7 @@ export interface ProcessDataType {
     groupWithUser: GroupWithUser;
     allMenusWithData: MenuData;
     menus: string[];
-    isUserActiveCheckbox: IsUserActiveCheckbox;
+    isUserActiveCheckbox: UserActiveCheckbox;
     token: string;
     directoryPicture: string;
     timeoutKey: string;
@@ -251,10 +250,11 @@ export interface BackMenuType {
 export type AllMenusWithData = Record<string, NewObjectStructure>;
 
 export interface TelegramParams {
+    telegramInstanceList: InstanceList[];
     telegramInstance: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
-    userListWithChatID: UserListWithChatId[];
+    userListWithChatID: UserListWithChatID[];
 }
 
 export interface SetMenuValue {

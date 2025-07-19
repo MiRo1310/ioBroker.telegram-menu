@@ -16,16 +16,14 @@ import type {
     Part,
     Switch,
     TelegramParams,
-    UserListWithChatId,
     UserObjectActions,
-    UsersInGroup,
 } from '../types/types';
 import { decomposeText } from '../lib/string';
 import { isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
-import type { TriggerableActions } from '@/types/app';
+import type { TriggerableActions, UserListWithChatID, UsersInGroup } from '@/types/app';
 
 export const bindingFunc = async (
     text: string,
@@ -208,13 +206,13 @@ export const checkEvent = async (
                 const menus = Object.keys(menuData);
 
                 if (part.nav) {
-                    backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user });
+                    backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
                 }
 
                 if (part?.nav?.[0][0].includes('menu:')) {
                     await callSubMenu({
                         jsonStringNav: part.nav[0][0],
-                        userToSend: user,
+                        userToSend: user.name,
                         telegramParams: telegramParams,
                         part: part,
                         allMenusWithData: menuData,
@@ -222,7 +220,7 @@ export const checkEvent = async (
                     });
                     return true;
                 }
-                await sendNav(part, user, telegramParams);
+                await sendNav(part, user.name, telegramParams);
             }
         }
     }
@@ -230,12 +228,12 @@ export const checkEvent = async (
 };
 
 export const getUserToSendFromUserListWithChatID = (
-    userListWithChatID: UserListWithChatId[],
+    userListWithChatID: UserListWithChatID[],
     chatID: string,
-): string | undefined => {
+): UserListWithChatID | undefined => {
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
-            return element.name;
+            return element;
         }
     }
 };
