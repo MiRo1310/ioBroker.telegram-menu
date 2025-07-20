@@ -101,8 +101,8 @@ export function generateActions({
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
-                    ack: isTruthy(ack?.[index] ?? false),
-                    parse_mode: isTruthy(parse_mode[0]),
+                    ack: ack.length ? isTruthy(ack[index]) : false,
+                    parse_mode: parse_mode.length ? isTruthy(parse_mode[0]) : false,
                 };
                 if (Array.isArray(userObject[triggerName]?.switch)) {
                     userObject[triggerName].switch.push(newObj);

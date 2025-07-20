@@ -85,7 +85,7 @@ function generateActions({
       }
       userObject[triggerName] = { switch: [] };
       IDs.forEach(function(id, index2) {
-        var _a, _b;
+        var _a;
         listOfSetStateIds.push(id);
         const toggle = (0, import_utils.isTruthy)(switch_checkbox[index2]);
         const newObj = {
@@ -94,10 +94,10 @@ function generateActions({
           toggle,
           confirm: confirm[index2],
           returnText: returnText[index2],
-          ack: (0, import_utils.isTruthy)((_a = ack == null ? void 0 : ack[index2]) != null ? _a : false),
-          parse_mode: (0, import_utils.isTruthy)(parse_mode[0])
+          ack: ack.length ? (0, import_utils.isTruthy)(ack[index2]) : false,
+          parse_mode: parse_mode.length ? (0, import_utils.isTruthy)(parse_mode[0]) : false
         };
-        if (Array.isArray((_b = userObject[triggerName]) == null ? void 0 : _b.switch)) {
+        if (Array.isArray((_a = userObject[triggerName]) == null ? void 0 : _a.switch)) {
           userObject[triggerName].switch.push(newObj);
         }
       });
