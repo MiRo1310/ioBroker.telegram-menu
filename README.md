@@ -35,7 +35,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.4.5 (2025-07-23)
 
 - FIX: Errors reported by sentry
 - FIX: #357 Navigation trigger input with trim method
