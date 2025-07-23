@@ -100,6 +100,9 @@ async function deleteMessageIds(
         const copyMessageIds = deepCopy(json, adapter);
         json[chat_id].forEach((element, index) => {
             const id = element.id?.toString();
+            if (!telegramInstance) {
+                return;
+            }
             if (whatShouldDelete === 'all' && id) {
                 deleteMessageByBot(telegramInstance, user, parseInt(id), chat_id);
             }

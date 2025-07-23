@@ -98,6 +98,9 @@ async function deleteMessageIds(user, telegramParams, whatShouldDelete) {
     json[chat_id].forEach((element, index) => {
       var _a;
       const id = (_a = element.id) == null ? void 0 : _a.toString();
+      if (!telegramInstance) {
+        return;
+      }
       if (whatShouldDelete === "all" && id) {
         (0, import_botAction.deleteMessageByBot)(telegramInstance, user, parseInt(id), chat_id);
       }

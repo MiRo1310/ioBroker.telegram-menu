@@ -24,11 +24,11 @@ export const getConfigVariables = (
     checkboxes: Checkboxes;
     telegramParams: TelegramParams;
 } => {
-    const telegramInstance = config.instanceList;
+    const telegramInstances = config.instanceList ?? [];
     const checkboxes = config.checkbox;
     const telegramParams: TelegramParams = {
         telegramInstance: 'telegram.0', //default value
-        telegramInstanceList: telegramInstance,
+        telegramInstanceList: telegramInstances,
         resize_keyboard: checkboxes.resKey,
         one_time_keyboard: checkboxes.oneTiKey,
         userListWithChatID: config.userListWithChatID,

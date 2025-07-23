@@ -283,7 +283,9 @@ export default class TelegramMenu extends utils.Adapter {
         } catch (e: any) {
             errorLogger('Error onReady', e, adapter);
         }
-
+        if (!telegramParams.telegramInstance) {
+            return;
+        }
         await this.subscribeForeignStatesAsync(telegramBotSendMessageID(telegramParams.telegramInstance));
         await this.subscribeForeignStatesAsync(telegramRequestMessageID(telegramParams.telegramInstance));
         await this.subscribeForeignStatesAsync(telegramRequestChatID(telegramParams.telegramInstance));
