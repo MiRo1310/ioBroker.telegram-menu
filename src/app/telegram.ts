@@ -29,7 +29,9 @@ async function sendToTelegram({
     try {
         const { resize_keyboard, one_time_keyboard, userListWithChatID, telegramInstance } = telegramParams;
         const chatId = getChatID(userListWithChatID, userToSend);
-
+        if (!telegramInstance) {
+            return;
+        }
         adapter.log.debug(
             `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${telegramInstance} , userListWithChatID: ${jsonString(userListWithChatID)} , parseMode: ${parse_mode} }`,
         );
@@ -77,7 +79,7 @@ function sendToTelegramSubmenu(
     parse_mode?: boolean,
 ): void {
     const { telegramInstance: instance, userListWithChatID } = telegramParams;
-    if (!validateTextToSend(textToSend)) {
+    if (!validateTextToSend(textToSend) || !instance) {
         return;
     }
 
@@ -112,6 +114,9 @@ const sendLocationToTelegram = async (
             const longitude = await adapter.getForeignStateAsync(longitudeID);
             if (!latitude || !longitude) {
                 continue;
+            }
+            if (!instance) {
+                return;
             }
             adapter.sendTo(
                 instance,

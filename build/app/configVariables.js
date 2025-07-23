@@ -30,13 +30,13 @@ const getIds = {
   telegramRequestChatID: (instance) => `${instance}.communicate.requestChatId`
 };
 const getConfigVariables = (config) => {
-  var _a;
-  const telegramInstance = config.instanceList;
+  var _a, _b;
+  const telegramInstances = (_a = config.instanceList) != null ? _a : [];
   const checkboxes = config.checkbox;
   const telegramParams = {
     telegramInstance: "telegram.0",
     //default value
-    telegramInstanceList: telegramInstance,
+    telegramInstanceList: telegramInstances,
     resize_keyboard: checkboxes.resKey,
     one_time_keyboard: checkboxes.oneTiKey,
     userListWithChatID: config.userListWithChatID
@@ -50,7 +50,7 @@ const getConfigVariables = (config) => {
     directoryPicture: config.directory,
     isUserActiveCheckbox: config.userActiveCheckbox,
     menusWithUsers: config.usersInGroup,
-    textNoEntryFound: (_a = config.textNoEntry) != null ? _a : "Entry not found",
+    textNoEntryFound: (_b = config.textNoEntry) != null ? _b : "Entry not found",
     dataObject: config.data,
     telegramParams
   };
