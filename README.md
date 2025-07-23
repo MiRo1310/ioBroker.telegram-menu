@@ -38,7 +38,7 @@ You can create different groups with separate menus, and then assign users to th
 ### **WORK IN PROGRESS**
 
 - FEAT: #266 Usage of multiple telegram instances
-- 
+
 ### 2.4.5 (2025-07-23)
 
 - FIX: Errors reported by sentry
