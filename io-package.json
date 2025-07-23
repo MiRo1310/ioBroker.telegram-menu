@@ -169,6 +169,46 @@
         "condition": {
           "operand": "and",
           "rules": [
+            "oldVersion<2.5.0",
+            "newVersion>=2.5.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Breaking Chance. From version 2.5.0, you only need one Telegram menu instance to use menus for multiple Telegram instances. What you need to do after installation:\nYou need to check the users in each menu.\nCheck the desired Telegram instance in Settings.",
+          "de": "Breaking Chance. Ab Version 2.5.0 benötigen Sie nur noch eine Telegram-Menüinstanz, um Menüs für mehrere Telegram-Instanzen zu verwenden. Was Sie nach der Installation tun müssen:\nSie müssen die Benutzer in jedem Menü überprüfen.\nÜberprüfen Sie die gewünschte Telegram-Instanz in den Einstellungen.",
+          "ru": "Breaking Chance. Начиная с версии 2.5.0, для использования меню в нескольких экземплярах Telegram достаточно одного экземпляра меню. Что нужно сделать после установки:\nВам необходимо проверить пользователей в каждом меню.\nПроверьте нужный экземпляр Telegram в настройках.",
+          "pt": "Quebrando a chance. A partir da versão 2.5.0, você só precisa de uma instância de menu do Telegram para usar menus em várias instâncias do Telegram. O que você precisa fazer após a instalação:\nVocê precisa verificar os usuários em cada menu.\nVerifique a instância desejada do Telegram em Configurações.",
+          "nl": "Breaking Chance. Vanaf versie 2.5.0 heb je slechts één Telegram-menu-exemplaar nodig om menu's voor meerdere Telegram-exemplaren te gebruiken. Wat je na de installatie moet doen:\nU moet de gebruikers in elk menu controleren.\nControleer het gewenste Telegram-exemplaar in Instellingen.",
+          "fr": "Breaking Chance. À partir de la version 2.5.0, une seule instance de menu Telegram suffit pour utiliser les menus de plusieurs instances Telegram. Procédure à suivre après l'installation :\nVous devez vérifier les utilisateurs dans chaque menu.\nVérifiez l’instance Telegram souhaitée dans les paramètres.",
+          "it": "Breaking Chance. Dalla versione 2.5.0, è necessaria una sola istanza del menu di Telegram per utilizzare i menu di più istanze di Telegram. Ecco cosa devi fare dopo l'installazione:\nÈ necessario controllare gli utenti in ogni menu.\nSeleziona l'istanza di Telegram desiderata nelle Impostazioni.",
+          "es": "Oportunidad decisiva. A partir de la versión 2.5.0, solo necesitas una instancia de menú de Telegram para usar los menús de varias instancias. Qué debes hacer después de la instalación:\nEs necesario verificar los usuarios en cada menú.\nMarque la instancia de Telegram deseada en Configuración.",
+          "pl": "Przełamanie szansy. Od wersji 2.5.0 potrzebujesz tylko jednej instancji menu Telegrama, aby korzystać z menu dla wielu instancji Telegrama. Co należy zrobić po instalacji:\nMusisz sprawdzić użytkowników w każdym menu.\nZaznacz żądaną instancję Telegramu w Ustawieniach.",
+          "uk": "Неймовірний шанс. Починаючи з версії 2.5.0, вам потрібен лише один екземпляр меню Telegram, щоб використовувати меню для кількох екземплярів Telegram. Що потрібно зробити після встановлення:\nВам потрібно перевірити користувачів у кожному меню.\nПозначте потрібний екземпляр Telegram у налаштуваннях.",
+          "zh-cn": "打破机会。从 2.5.0 版本开始，您只需要一个 Telegram 菜单实例即可使用多个 Telegram 实例的菜单。安装后您需要执行以下操作：\n您需要检查每个菜单中的用户。\n在设置中检查所需的电报实例。"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
             "oldVersion<1.0.0",
             "newVersion>=1.0.0"
           ]

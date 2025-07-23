@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FEAT: #266 Usage of multiple telegram instances
+- 
 ### 2.4.5 (2025-07-23)
 
 - FIX: Errors reported by sentry
@@ -42,7 +46,6 @@ You can create different groups with separate menus, and then assign users to th
 
 ### 2.4.4 (2025-06-09)
 
-- FEAT: #266 Usage of multiple telegram instances
 - FIX: #342 Result not in the correct order
 - FIX: #341 Setstate changeValue
 - FIX: #338 Exchange value does not work in newline
