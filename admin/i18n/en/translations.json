@@ -107,6 +107,7 @@
     "switch": "Switch",
     "switchCheckbox": "Switch",
     "telegramInstance": "Telegram Instance",
+    "telegramInstances": "Telegram Instances",
     "telegramUser": "Users from Telegram",
     "text": "Text",
     "textNoEntry": "Text will be send if no entry was found!",

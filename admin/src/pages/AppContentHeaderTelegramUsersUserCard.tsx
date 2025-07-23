@@ -1,4 +1,4 @@
-import type { PropsTelegramUserCard, StateTelegramUserCard } from '@/types/app';
+import type { PropsTelegramUserCard, StateTelegramUserCard, UserType } from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import type { EventCheckbox } from '@/types/event';
@@ -23,43 +23,50 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
     };
 
     private isUserChecked = (): boolean => {
-        if (!this.props.data.usersInGroup || !this.props.data.usersInGroup[this.state.activeMenu]) {
+        if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu]?.length == 0) {
             return false;
         }
-        return this.isUserInList();
+        return this.isInList(
+            this.props.data.usersInGroup[this.state.activeMenu],
+            this.props.user.name,
+            this.props.user.instance,
+        );
     };
 
-    private isUserInList(): boolean {
-        if (!this.state.activeMenu || this.props.data.usersInGroup[this.state.activeMenu].length == 0) {
-            return false;
-        }
-        return this.props.data.usersInGroup[this.state.activeMenu].includes(this.props.user.name);
-    }
-
-    checkboxClicked = ({ isChecked, id: name }: EventCheckbox): void => {
+    checkboxClicked = ({ isChecked, id: name, params }: EventCheckbox): void => {
         if (isChecked) {
             this.props.setState({ errorUserChecked: false });
         }
-        const listOfUsers = [...this.props.data.usersInGroup[this.state.activeMenu]];
-        if (isChecked && !listOfUsers.includes(name)) {
-            listOfUsers.push(name);
-        } else {
-            const index = listOfUsers.indexOf(name);
-            if (index > -1) {
-                listOfUsers.splice(index, 1);
-            }
+
+        const list: (UserType | string)[] = [...(this.props.data.usersInGroup[this.state.activeMenu] ?? [])];
+        let listOfUsers = list.filter(item => typeof item !== 'string'); // Remove old type string, string was the old type
+
+        if (isChecked && !this.isInList(listOfUsers, name, (params?.instance as string) ?? '')) {
+            listOfUsers.push({ name, instance: params?.instance as string, chatId: params?.chatID as string });
         }
+        if (!isChecked) {
+            listOfUsers = listOfUsers.filter(item => !(item.name === name && item.instance === params?.instance));
+        }
+        console.log('listOfUsers', listOfUsers);
         this.props.callback.updateNative(`usersInGroup.${this.state.activeMenu}`, listOfUsers);
     };
 
+    // eslint-disable-next-line class-methods-use-this
+    isInList = (list: UserType[] | undefined, name: string, instance: string): boolean => {
+        return list?.some(item => item.name === name && item.instance === instance) ?? false;
+    };
+
     render(): React.ReactNode {
-        const { name, chatID } = this.props.user;
+        const { name, chatID, instance } = this.props.user;
         return (
             <div className="telegramm__user-content">
                 <div className="telegram__user">
                     <p className="telegram__user-name">{name}</p>
                     <p className="telegram__user-chat-id">
-                        ChatID :<span className="telegram__user-chat-id">{chatID}</span>
+                        ChatID: <span className="telegram__user-chat-id">{chatID}</span>
+                    </p>
+                    <p className="telegram__user-chat-id">
+                        Instance: <span className="telegram__user-instance">{instance}</span>
                     </p>
                     <div className="telegram__user-checkbox">
                         <Checkbox
@@ -67,6 +74,7 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
                             callback={this.checkboxClicked.bind(this)}
                             isChecked={this.isUserChecked()}
                             index={0}
+                            params={{ instance, chatID }}
                         />
                     </div>
                 </div>

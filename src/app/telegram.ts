@@ -27,7 +27,7 @@ async function sendToTelegram({
     parse_mode,
 }: Telegram): Promise<void> {
     try {
-        const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
+        const { resize_keyboard, one_time_keyboard, userListWithChatID, telegramInstance } = telegramParams;
         const chatId = getChatID(userListWithChatID, userToSend);
 
         adapter.log.debug(

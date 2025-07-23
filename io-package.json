@@ -284,6 +284,46 @@
           "agree",
           "cancel"
         ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.0.0",
+            "newVersion>=3.0.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Breaking Chance. From now on, you can use a single Telegram menu instance to create menus for multiple Telegram instances. What you need to do after installation:\nYou need to recheck the users in each menu.\nCheck the desired Telegram instance under Settings.",
+          "de": "Breaking Chance. Ab sofort können Sie mit einer einzigen Telegram-Menü-instanz, Menüs für mehrere Telegram-Instanzen erstellen. Was Sie nach der Installation tun müssen:\nSie müssen die Benutzer in jedem Menü erneut überprüfen.\nMarkieren Sie unter „Einstellungen“ die gewünschte Telegram-Instanz.",
+          "ru": "Breaking Chance. С этого момента вы можете использовать один экземпляр меню Telegram для создания меню для нескольких экземпляров Telegram. Что вам нужно сделать после установки:\nВам необходимо перепроверить пользователей в каждом меню.\nПроверьте нужный экземпляр Telegram в разделе «Настройки».",
+          "pt": "Quebrando a Chance. A partir de agora, você pode usar uma única instância de menu do Telegram para criar menus para várias instâncias do Telegram. O que você precisa fazer após a instalação:\nVocê precisa verificar novamente os usuários em cada menu.\nMarque a instância desejada do Telegram em Configurações.",
+          "nl": "Breaking Chance. Vanaf nu kun je één Telegram-menu-exemplaar gebruiken om menu's voor meerdere Telegram-exemplaren te maken. Wat je na de installatie moet doen:\nU moet de gebruikers in elk menu opnieuw controleren.\nSelecteer het gewenste Telegram-exemplaar onder Instellingen.",
+          "fr": "Breaking Chance. Vous pouvez désormais utiliser une seule instance de menu Telegram pour créer des menus pour plusieurs instances Telegram. Procédure à suivre après l'installation :\nVous devez revérifier les utilisateurs dans chaque menu.\nVérifiez l’instance Telegram souhaitée dans Paramètres.",
+          "it": "Breaking Chance. D'ora in poi, puoi utilizzare una singola istanza del menu di Telegram per creare menu per più istanze di Telegram. Ecco cosa devi fare dopo l'installazione:\nÈ necessario ricontrollare gli utenti in ogni menu.\nSeleziona l'istanza di Telegram desiderata nelle Impostazioni.",
+          "es": "Oportunidad decisiva. A partir de ahora, puedes usar una sola instancia de menú de Telegram para crear menús para varias instancias. Qué debes hacer después de la instalación:\nEs necesario volver a verificar los usuarios en cada menú.\nMarque la instancia de Telegram deseada en Configuración.",
+          "pl": "Breaking Chance. Od teraz możesz używać pojedynczej instancji menu Telegram do tworzenia menu dla wielu instancji Telegram. Co musisz zrobić po instalacji:\nMusisz ponownie sprawdzić użytkowników w każdym menu.\nZaznacz żądaną instancję Telegramu w Ustawieniach.",
+          "uk": "Вирішальний момент. Відтепер ви можете використовувати один екземпляр меню Telegram для створення меню для кількох екземплярів Telegram. Що потрібно зробити після встановлення:\nВам потрібно ще раз перевірити користувачів у кожному меню.\nПозначте потрібний екземпляр Telegram у налаштуваннях.",
+          "zh-cn": "打破机会。从现在开始，您可以使用单个 Telegram 菜单实例为多个 Telegram 实例创建菜单。安装后您需要执行以下操作：\n您需要重新检查每个菜单中的用户。\n在“设置”下检查所需的 Telegram 实例。"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ]
   },

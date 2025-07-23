@@ -107,6 +107,7 @@
     "switch": "Cambiar",
     "switchCheckbox": "Cambiar",
     "telegramInstance": "Instancia de telegrama",
+    "telegramInstances": "Instancias de telegrama",
     "telegramUser": "Usuarios de Telegram",
     "text": "Texto",
     "textNoEntry": "¡Se enviará un mensaje de texto si no se encontró ninguna entrada!",

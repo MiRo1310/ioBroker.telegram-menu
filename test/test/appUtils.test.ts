@@ -14,15 +14,11 @@ import {
 } from '../../src/lib/appUtils'; // Adjust the path as needed
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import type {
-    DataObject,
-    NewObjectStructure,
-    splittedNavigation,
-    StartSides,
-    UsersInGroup,
-} from '../../src/types/types';
+import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '../../src/types/types';
 import { exchangePlaceholderWithValue } from '../../src/lib/exchangeValue';
-import { BooleanString } from '@/types/app';
+import { BooleanString, UsersInGroup } from '@/types/app'; // Adjust the path as needed
+
+// Adjust the path as needed
 
 const { adapter } = utils.unit.createMocks({});
 
@@ -155,9 +151,15 @@ describe('roundValue', () => {
 describe('getMenusWithUser', () => {
     it('should return menus that include the specified user', () => {
         const menusWithUsers = {
-            menu1: ['user1', 'user2'],
-            menu2: ['user3'],
-            menu3: ['user1', 'user4'],
+            menu1: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user2', chatId: '', instance: '' },
+            ],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
+            menu3: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user4', chatId: '', instance: '' },
+            ],
         };
         const userToSend = 'user1';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -166,8 +168,8 @@ describe('getMenusWithUser', () => {
 
     it('should return an empty array if no menus include the specified user', () => {
         const menusWithUsers = {
-            menu1: ['user2'],
-            menu2: ['user3'],
+            menu1: [{ name: 'user2', chatId: '', instance: '' }],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const userToSend = 'user1';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -183,8 +185,11 @@ describe('getMenusWithUser', () => {
 
     it('should return an empty array if the userToSend is an empty string', () => {
         const menusWithUsers = {
-            menu1: ['user1', 'user2'],
-            menu2: ['user3'],
+            menu1: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user2', chatId: '', instance: '' },
+            ],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const userToSend = '';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -192,9 +197,9 @@ describe('getMenusWithUser', () => {
     });
 
     it('should handle menus with empty user arrays', () => {
-        const menusWithUsers = {
+        const menusWithUsers: UsersInGroup = {
             menu1: [],
-            menu2: ['user3'],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const userToSend = 'user3';
         const result = getListOfMenusIncludingUser(menusWithUsers, userToSend);
@@ -499,8 +504,11 @@ describe('getStartSides', () => {
     };
     it('should correctly map start sides for given menusWithUsers and dataObject', () => {
         const menusWithUsers: UsersInGroup = {
-            menu1: ['user1', 'user2'],
-            menu2: ['user3'],
+            menu1: [
+                { name: 'user1', chatId: '', instance: '' },
+                { name: 'user2', chatId: '', instance: '' },
+            ],
+            menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
         const dataObject: DataObject = {
             nav: {

@@ -49,7 +49,7 @@ async function sendToTelegram({
   parse_mode
 }) {
   try {
-    const { telegramInstance, resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
+    const { resize_keyboard, one_time_keyboard, userListWithChatID, telegramInstance } = telegramParams;
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
     import_main.adapter.log.debug(
       `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${telegramInstance} , userListWithChatID: ${(0, import_string.jsonString)(userListWithChatID)} , parseMode: ${parse_mode} }`

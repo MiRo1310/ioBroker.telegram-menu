@@ -1,7 +1,7 @@
 import type { EventCheckbox } from '@/types/event';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { Grid2 as Grid } from '@mui/material';
-import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UsersInGroup } from '@/types/app';
+import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UserType } from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
 import AppContentHeaderTelegramUsersUserCard from './AppContentHeaderTelegramUsersUserCard';
@@ -32,7 +32,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 
     clickCheckbox = ({ isChecked }: EventCheckbox): void => {
         if (isChecked) {
-            if (!this.checkUserSelection(true)) {
+            if (!this.checkUserSelection()) {
                 return;
             }
         } else {
@@ -42,36 +42,34 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
         this.props.callback.updateNative(`userActiveCheckbox.${this.props.data.activeMenu}`, isChecked);
     };
 
-    checkUserSelection = (val?: boolean): boolean => {
+    checkUserSelection = (): boolean => {
         const usersInGroup = this.props.data.usersInGroup;
-        if (this.state.menuChecked || val) {
-            if (this.isMinOneUserChecked(usersInGroup)) {
-                if (
-                    !HeaderTelegramUsers.checkUsersAreActiveInTelegram(
-                        usersInGroup[this.props.data.activeMenu],
-                        this.props.data.state.native?.userListWithChatID,
-                    )
-                ) {
-                    this.setState({ errorUserChecked: true });
-                    return false;
-                }
-                return true;
+
+        if (this.state.menuChecked) {
+            if (usersInGroup[this.props.data.activeMenu]?.length === 0) {
+                this.setState({ errorUserChecked: true });
+                return false;
             }
+            return true;
         }
         return false;
     };
 
-    static checkUsersAreActiveInTelegram(activeGroup: string[], userListWithChatID: UserListWithChatID[]): boolean {
-        for (const user of activeGroup) {
-            if (HeaderTelegramUsers.isUserActiveInTelegram(user, userListWithChatID)) {
-                return true;
+    static checkUsersAreActiveInTelegram({
+        activeGroup,
+        userListWithChatID,
+    }: {
+        activeGroup?: UserType[];
+        userListWithChatID: UserListWithChatID[];
+    }): boolean {
+        if (activeGroup) {
+            for (const user of activeGroup) {
+                if (HeaderTelegramUsers.isUserActiveInTelegram(user.name, userListWithChatID)) {
+                    return true;
+                }
             }
         }
         return false;
-    }
-
-    private isMinOneUserChecked(usersInGroup: UsersInGroup): boolean {
-        return usersInGroup[this.props.data.activeMenu]?.length > 0;
     }
 
     static isUserActiveInTelegram(user: string, userListWithChatID: UserListWithChatID[]): boolean {
@@ -84,17 +82,15 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
 
     render(): React.ReactNode {
         return (
-            <Grid container>
+            <div>
                 <Grid size={12}>
+                    <p className="telegram__errorMessage-wrapper">
+                        {this.state.errorUserChecked ? <AppContentHeaderTelegramUsersErrorMessage /> : null}
+                    </p>
                     <div className="telegram__users-container">
                         {this.props.data.menuOpen && this.isUserGroupLength() ? (
                             <div className="telegram__user-cards">
                                 <div>
-                                    <p>
-                                        {this.state.errorUserChecked ? (
-                                            <AppContentHeaderTelegramUsersErrorMessage />
-                                        ) : null}
-                                    </p>
                                     {this.props.data.state.native?.userListWithChatID.map((user, key) => {
                                         return (
                                             <AppContentHeaderTelegramUsersUserCard
@@ -123,7 +119,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                     </div>
                 </Grid>
                 {this.state.errorUserChecked ? <CoverSaveBtn /> : null}
-            </Grid>
+            </div>
         );
     }
 }

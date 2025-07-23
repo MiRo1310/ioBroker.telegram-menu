@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Input from '@components/btn-Input/input';
 import Checkbox from '@components/btn-Input/checkbox';
 import { I18n } from '@iobroker/adapter-react-v5';
-import Select from '@components/btn-Input/select';
 import type { PropsSettings } from '@/types/app';
-import type { EventCheckbox, EventInput, EventSelect } from '@/types/event';
+import type { EventCheckbox, EventInput } from '@/types/event';
 import { Grid2 as Grid } from '@mui/material';
 import { isDefined } from '../../../src/lib/utils';
 
@@ -21,6 +20,17 @@ class Settings extends Component<PropsSettings> {
         const checkboxes = { ...this.props.data.state.native.checkbox };
         checkboxes[id] = isChecked;
         this.props.callback.updateNative('checkbox', checkboxes);
+    };
+
+    onClickInstanceCheckbox = ({ isChecked, index }: EventCheckbox): void => {
+        const instances = [...(this.props.data.state.native.instanceList ?? [])];
+
+        instances[index] = {
+            name: this.props.data.state.instances[index],
+            active: isChecked,
+        };
+
+        this.props.callback.updateNative('instanceList', instances);
     };
 
     componentDidMount(): void {
@@ -43,16 +53,21 @@ class Settings extends Component<PropsSettings> {
                     spacing={1}
                 >
                     <Grid size={12}>
-                        <Select
-                            placeholder="placeholderInstance"
-                            options={this.props.data.state.instances || []}
-                            label={I18n.t('telegramInstance')}
-                            name="instance"
-                            selected={this.props.data.state.native.instance}
-                            id="instance"
-                            callback={({ id, val }: EventSelect) => this.props.callback.updateNative(id, val)}
-                            setNative={true}
-                        />
+                        <p className="settings__telegram-header">{I18n.t('telegramInstances')}</p>
+                        {this.props.data.state.instances.map((instance, index) => (
+                            <p
+                                className="settings__telegram-checkbox"
+                                key={`checkbox-${index}`}
+                            >
+                                <Checkbox
+                                    label={instance}
+                                    id="instance"
+                                    isChecked={this.props.data.state.native.instanceList?.[index]?.active ?? false}
+                                    callback={this.onClickInstanceCheckbox}
+                                    index={index}
+                                />
+                            </p>
+                        ))}
                     </Grid>
                     <Grid size={{ xs: 10, sm: 10, lg: 8 }}>
                         <div

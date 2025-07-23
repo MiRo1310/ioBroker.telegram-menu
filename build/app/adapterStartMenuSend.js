@@ -31,17 +31,21 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
     const startSide = startSides[menu];
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
       import_main.adapter.log.debug(`Startside: ${startSide}`);
-      for (const userToSend of menusWithUsers[menu]) {
-        const { nav, text, parse_mode } = menuData[menu][startSide];
-        (0, import_backMenu.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend });
-        import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
-        await (0, import_telegram.sendToTelegram)({
-          userToSend,
-          textToSend: text,
-          keyboard: nav,
-          telegramParams,
-          parse_mode
-        });
+      if (menusWithUsers[menu]) {
+        for (const userToSend of menusWithUsers[menu]) {
+          const { nav, text, parse_mode } = menuData[menu][startSide];
+          (0, import_backMenu.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
+          import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
+          const params = { ...telegramParams };
+          params.telegramInstance = userToSend.instance;
+          await (0, import_telegram.sendToTelegram)({
+            userToSend: userToSend.name,
+            textToSend: text,
+            keyboard: nav,
+            telegramParams: params,
+            parse_mode
+          });
+        }
       }
     } else {
       if (!(0, import_appUtils.isStartside)(startSide)) {

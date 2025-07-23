@@ -3,14 +3,12 @@ import type { socket } from '@/types/app';
 async function getUsersFromTelegram(
     socket: socket,
     telegramInstance = 'telegram.0',
-    cb: (val: string) => void,
-): Promise<void> {
+): Promise<string | number | boolean | undefined> {
     try {
-        await socket.getState(`${telegramInstance}.communicate.users`).then((state: any) => {
-            if (state?.val) {
-                return cb(state.val);
-            }
-        });
+        const state = await socket.getState(`${telegramInstance}.communicate.users`);
+        if (state?.val) {
+            return state.val;
+        }
     } catch (err) {
         console.error(`Error get Users vom Telegram: ${JSON.stringify(err)}`);
     }
