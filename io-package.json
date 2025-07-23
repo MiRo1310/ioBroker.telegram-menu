@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "2.4.5",
+    "version": "3.0.0",
     "news": {
+      "3.0.0": {
+        "en": "FEAT: #266 Usage of multiple telegram instances",
+        "de": "FEAT: #266 Verwendung mehrerer Telegramminstanzen",
+        "ru": "#266 Использование нескольких экземпляров телеграмм",
+        "pt": "FEAT: #266 Uso de múltiplas instâncias de telegrama",
+        "nl": "FEAT: #266 Gebruik van meerdere telegram instanties",
+        "fr": "VIANDE: #266 Utilisation de plusieurs instances télégrammes",
+        "it": "FEAT: #266 Utilizzo di più istanze di telegramma",
+        "es": "FEAT: #266 Uso de múltiples instancias de telegrama",
+        "pl": "FEAT: # 266 Wykorzystanie wielu przypadków telegramu",
+        "uk": "FEAT: #266 Використання декількох телеграм екземплярів",
+        "zh-cn": "FEAT: #266 多条电报实例的使用"
+      },
       "2.4.5": {
         "en": "FIX: Errors reported by sentry\nFIX: #357 Navigation trigger input with trim method",
         "de": "FIX: Fehler, die von sentry gemeldet werden\nFIX: #357 Navigations-Trigger-Eingang mit Trimmmethode",
@@ -80,19 +93,6 @@
         "pl": "FIX: Zwrot błędu Tekst jest pusty\nFEAT: Rozszerzenie dla uzyskania przez funkcję\nFIX: Błędy zgłaszane przez wartownika",
         "uk": "FIX: повернення помилки Текст порожній\nFEAT: Розширення для отримання за допомогою функції\nFIX: Помилки, які повідомляються відправником",
         "zh-cn": "FIX: 返回错误 文本为空\nFEAT: 按函数获取的扩展\nFIX:哨兵报告的错误"
-      },
-      "2.3.1": {
-        "en": "FIX: #309 SetState only sets false\nFIX: #311 Delete does not navigate",
-        "de": "FIX: #309 SetState setzt nur falsch\nFIX: #311 Löschen navigiert nicht",
-        "ru": "#309 SetState устанавливает только ложные\nFIX: #311 Удаление не перемещается",
-        "pt": "FIX: #309 SetState apenas define falso\nFIX: #311 Excluir não navega",
-        "nl": "FIX: #309 SetState stelt alleen valse\nFIX: #311 Verwijderen niet navigeren",
-        "fr": "FIX: #309 SetState ne définit que false\nFIXE: #311 Supprimer ne navigue pas",
-        "it": "FIX: #309 SetState imposta solo falsi\nFIX: #311 Elimina non naviga",
-        "es": "FIX: #309 SetState sólo establece falsos\nFIX: #311 Eliminar no navega",
-        "pl": "FIX: # 309 SetState ustawia tylko false\nFIX: # 311 Usuń nie nawiguje",
-        "uk": "FIX: #309 SetState тільки встановлює помилкові\nFIX: #311 Видалити не навігувати",
-        "zh-cn": "FIX: #309 SetState 只设置虚假\nFIX: # 311 删除不导航"
       }
     },
     "titleLang": {
