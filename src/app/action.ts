@@ -99,10 +99,10 @@ export function generateActions({
                     toggle: toggle,
                     confirm: confirm[index],
                     returnText: returnText[index],
-                    ack: ack.length ? isTruthy(ack[index]) : false,
-                    parse_mode: parse_mode.length ? isTruthy(parse_mode[0]) : false,
+                    ack: ack?.length ? isTruthy(ack[index]) : false,
+                    parse_mode: parse_mode?.length ? isTruthy(parse_mode?.[0]) : false,
                 };
-                if (Array.isArray(userObject[triggerName]?.switch)) {
+                if (Array.isArray(userObject?.[triggerName]?.switch)) {
                     userObject[triggerName].switch.push(newObj);
                 }
             });

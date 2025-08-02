@@ -6,11 +6,11 @@ import { getIds } from './configVariables';
 export const areAllCheckTelegramInstancesActive = async (params: TelegramParams): Promise<boolean | undefined> => {
     const { telegramInfoConnectionID } = getIds;
     await adapter.setState('info.connection', false, true);
-    for (const { active, name } of params.telegramInstanceList) {
-        if (!active || !name) {
+    for (const instance of params.telegramInstanceList) {
+        if (!instance?.active || !instance?.name) {
             continue;
         }
-        const id = telegramInfoConnectionID(name);
+        const id = telegramInfoConnectionID(instance.name);
         const telegramInfoConnection = await adapter.getForeignStateAsync(id);
         adapter.log.debug(`Telegram Info Connection: ${jsonString(telegramInfoConnection)}`);
 

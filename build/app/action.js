@@ -94,10 +94,10 @@ function generateActions({
           toggle,
           confirm: confirm[index2],
           returnText: returnText[index2],
-          ack: ack.length ? (0, import_utils.isTruthy)(ack[index2]) : false,
-          parse_mode: parse_mode.length ? (0, import_utils.isTruthy)(parse_mode[0]) : false
+          ack: (ack == null ? void 0 : ack.length) ? (0, import_utils.isTruthy)(ack[index2]) : false,
+          parse_mode: (parse_mode == null ? void 0 : parse_mode.length) ? (0, import_utils.isTruthy)(parse_mode == null ? void 0 : parse_mode[0]) : false
         };
-        if (Array.isArray((_a = userObject[triggerName]) == null ? void 0 : _a.switch)) {
+        if (Array.isArray((_a = userObject == null ? void 0 : userObject[triggerName]) == null ? void 0 : _a.switch)) {
           userObject[triggerName].switch.push(newObj);
         }
       });

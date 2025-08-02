@@ -28,11 +28,11 @@ const areAllCheckTelegramInstancesActive = async (params) => {
   var _a;
   const { telegramInfoConnectionID } = import_configVariables.getIds;
   await import_main.adapter.setState("info.connection", false, true);
-  for (const { active, name } of params.telegramInstanceList) {
-    if (!active || !name) {
+  for (const instance of params.telegramInstanceList) {
+    if (!(instance == null ? void 0 : instance.active) || !(instance == null ? void 0 : instance.name)) {
       continue;
     }
-    const id = telegramInfoConnectionID(name);
+    const id = telegramInfoConnectionID(instance.name);
     const telegramInfoConnection = await import_main.adapter.getForeignStateAsync(id);
     import_main.adapter.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
     if (!telegramInfoConnection) {

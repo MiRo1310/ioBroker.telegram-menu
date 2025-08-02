@@ -135,7 +135,7 @@ class TelegramMenu extends utils.Adapter {
       }
       let menus = [];
       this.on("stateChange", async (id, state) => {
-        var _a2, _b2;
+        var _a2, _b2, _c;
         const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
         const isTelegramInstanceActive = await this.checkInfoConnection(id, telegramParams);
         if (!isTelegramInstanceActive) {
@@ -153,7 +153,7 @@ class TelegramMenu extends utils.Adapter {
         if (!state || !(0, import_utils.isDefined)(state.val)) {
           return;
         }
-        if ((0, import_string.isString)(state.val) && state.val.includes("sList:")) {
+        if ((0, import_string.isString)(state.val) && ((_a2 = state.val) == null ? void 0 : _a2.includes("sList:"))) {
           await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(state.val, telegramParams);
           return;
         }
@@ -200,12 +200,12 @@ class TelegramMenu extends utils.Adapter {
             if (elId == id) {
               adapter.log.debug(`Send Value: ${(0, import_string.jsonString)(el)}`);
               adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
-              if ((0, import_utils.isTruthy)(confirm) && !(state == null ? void 0 : state.ack) && returnText.includes("{confirmSet:")) {
+              if ((0, import_utils.isTruthy)(confirm) && !(state == null ? void 0 : state.ack) && (returnText == null ? void 0 : returnText.includes("{confirmSet:"))) {
                 const { substring } = (0, import_string.decomposeText)(returnText, "{confirmSet:", "}");
                 const splitSubstring = substring.split(":");
                 let text = "";
                 if ((0, import_utils.isDefined)(state.val)) {
-                  text = ((_a2 = splitSubstring[2]) == null ? void 0 : _a2.includes("noValue")) ? splitSubstring[1] : (0, import_exchangeValue.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
+                  text = ((_b2 = splitSubstring[2]) == null ? void 0 : _b2.includes("noValue")) ? splitSubstring[1] : (0, import_exchangeValue.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
                 }
                 adapter.log.debug(`Return-text: ${text}`);
                 if (text === "") {
@@ -222,10 +222,10 @@ class TelegramMenu extends utils.Adapter {
               adapter.log.debug(`Data: ${(0, import_string.jsonString)({ confirm, ack: state == null ? void 0 : state.ack, val: state == null ? void 0 : state.val })}`);
               if (!(0, import_utils.isFalsy)(confirm) && (state == null ? void 0 : state.ack)) {
                 let textToSend = returnText;
-                if (textToSend.includes("{confirmSet:")) {
+                if (textToSend == null ? void 0 : textToSend.includes("{confirmSet:")) {
                   textToSend = (0, import_string.decomposeText)(textToSend, "{confirmSet:", "}").textExcludeSubstring;
                 }
-                if (textToSend.includes("{setDynamicValue")) {
+                if (textToSend == null ? void 0 : textToSend.includes("{setDynamicValue")) {
                   const { textExcludeSubstring, substringExcludeSearch } = (0, import_string.decomposeText)(
                     textToSend,
                     "{setDynamicValue:",
@@ -239,7 +239,7 @@ class TelegramMenu extends utils.Adapter {
                   textToSend: changedText,
                   error: error2,
                   newValue
-                } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend, (_b2 = state.val) == null ? void 0 : _b2.toString());
+                } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend, (_c = state.val) == null ? void 0 : _c.toString());
                 if (!error2) {
                   textToSend = changedText;
                 }

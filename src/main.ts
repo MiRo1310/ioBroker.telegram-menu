@@ -152,7 +152,7 @@ export default class TelegramMenu extends utils.Adapter {
                     return;
                 }
 
-                if (isString(state.val) && state.val.includes('sList:')) {
+                if (isString(state.val) && state.val?.includes('sList:')) {
                     await shoppingListSubscribeStateAndDeleteItem(state.val, telegramParams);
                     return;
                 }
@@ -212,7 +212,7 @@ export default class TelegramMenu extends utils.Adapter {
                             adapter.log.debug(`Send Value: ${jsonString(el)}`);
                             adapter.log.debug(`State: ${jsonString(state)}`);
 
-                            if (isTruthy(confirm) && !state?.ack && returnText.includes('{confirmSet:')) {
+                            if (isTruthy(confirm) && !state?.ack && returnText?.includes('{confirmSet:')) {
                                 const { substring } = decomposeText(returnText, '{confirmSet:', '}');
                                 const splitSubstring = substring.split(':');
 
@@ -241,11 +241,11 @@ export default class TelegramMenu extends utils.Adapter {
                             if (!isFalsy(confirm) && state?.ack) {
                                 let textToSend = returnText;
 
-                                if (textToSend.includes('{confirmSet:')) {
+                                if (textToSend?.includes('{confirmSet:')) {
                                     textToSend = decomposeText(textToSend, '{confirmSet:', '}').textExcludeSubstring;
                                 }
 
-                                if (textToSend.includes('{setDynamicValue')) {
+                                if (textToSend?.includes('{setDynamicValue')) {
                                     const { textExcludeSubstring, substringExcludeSearch } = decomposeText(
                                         textToSend,
                                         '{setDynamicValue:',

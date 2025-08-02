@@ -659,7 +659,7 @@ export interface HttpRequest {
 }
 
 export interface SetAction {
-    ack: BooleanString[];
+    ack: BooleanString[] | undefined;
     confirm: BooleanString[];
     parse_mode: BooleanString[];
     switch_checkbox: BooleanString[];
