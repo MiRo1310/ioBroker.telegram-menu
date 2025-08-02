@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "news": {
+      "3.0.1": {
+        "en": "CHORE: Update dependencies\nFIX: Errors reported by sentry",
+        "de": "CHORE: Aktualisieren von Abhängigkeiten\nFIX: Fehler, die von sentry gemeldet werden",
+        "ru": "Изображение: Update Dependencies\nFIX: Ошибки, о которых сообщил часовой",
+        "pt": "CHORE: Atualizar dependências\nFIX: Erros relatados pelo sentinela",
+        "nl": "Afhankelijkheden bijwerken\nFIX: Fouten gemeld door de wachtdienst",
+        "fr": "CHORE : Mise à jour des dépendances\nFIX : Erreurs signalées par sentinelle",
+        "it": "CHORE: dipendenze di aggiornamento\nFIX: Errori segnalati dalla sentinella",
+        "es": "CHORE: Actualizar las dependencias\nFIX: Errores reportados por centinela",
+        "pl": "CHORE: Uaktualnij zależności\nFIX: Błędy zgłaszane przez wartownika",
+        "uk": "CHORE: Оновити залежності\nFIX: Помилки, які повідомляються відправником",
+        "zh-cn": "CHORE: 更新依赖性\nFIX:哨兵报告的错误"
+      },
       "3.0.0": {
         "en": "FEAT: #266 Usage of multiple telegram instances",
         "de": "FEAT: #266 Verwendung mehrerer Telegramminstanzen",
@@ -80,19 +93,6 @@
         "pl": "Napraw kilka błędów i uaktualnij testy",
         "uk": "Виправлення помилок і оновлення тестів",
         "zh-cn": "纠正一些错误并更新测试"
-      },
-      "2.4.0": {
-        "en": "FIX: Error returnText is empty\nFEAT: Extension for get by function \nFIX: Errors reported by sentry",
-        "de": "FIX: Fehlerrückgabe Text ist leer\nFEAT: Erweiterung um Funktion zu erhalten\nFIX: Fehler, die von sentry gemeldet werden",
-        "ru": "FIX: Возвращение ошибки Текст пустой\nFEAT: расширение для получения по функции\nFIX: Ошибки, о которых сообщил часовой",
-        "pt": "FIX: Retorno de erro O texto está vazio\nFEAT: Extensão para obter por função\nFIX: Erros reportados por remetente",
-        "nl": "FIX: Fout bij terugsturen Tekst is leeg\nFEAT: Uitbreiding voor get by functie\nFIX: Fouten gemeld door de wachtdienst",
-        "fr": "FIX : retour d'erreur Le texte est vide\nFEAT: Extension pour obtenir par fonction\nFIX : Erreurs signalées par sentinelle",
-        "it": "FIX: Ritorno errore Il testo è vuoto\nFEAT: Estensione per ottenere per funzione\nFIX: Errori segnalati dalla sentinella",
-        "es": "FIX: Retorno de error El texto está vacío\nFEAT: Extensión para obtener por función\nFIX: Errores reportados por centinela",
-        "pl": "FIX: Zwrot błędu Tekst jest pusty\nFEAT: Rozszerzenie dla uzyskania przez funkcję\nFIX: Błędy zgłaszane przez wartownika",
-        "uk": "FIX: повернення помилки Текст порожній\nFEAT: Розширення для отримання за допомогою функції\nFIX: Помилки, які повідомляються відправником",
-        "zh-cn": "FIX: 返回错误 文本为空\nFEAT: 按函数获取的扩展\nFIX:哨兵报告的错误"
       }
     },
     "titleLang": {
