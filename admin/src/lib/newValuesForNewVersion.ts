@@ -38,6 +38,10 @@ const insertAckCheckbox = (data: NativeData, updateNative: UpdateNativeFunction)
             }
             element.returnText.map((textItem, textIndex) => {
                 let substring = '';
+                if (!Array.isArray(data.action[menu].set[indexItem]?.ack)) {
+                    data.action[menu].set[indexItem].ack = [];
+                    data.action[menu].set[indexItem].ack[textIndex] = 'false';
+                }
                 if (textItem.includes('ack:')) {
                     if (textItem.includes('ack:true')) {
                         substring = textItem.replace('ack:true', '').replace('  ', ' ');

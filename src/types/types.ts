@@ -20,7 +20,7 @@ export type Action = Record<string, Actions>;
 export type Navigation = string[][];
 
 export interface InstanceList {
-    active: boolean;
+    active?: boolean;
     name?: string;
 }
 
