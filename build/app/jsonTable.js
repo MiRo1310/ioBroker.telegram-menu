@@ -62,6 +62,10 @@ const createKeyboardFromJson = (val, text, id, user) => {
             firstRow.push({ text: btnText, callback_data: "1" });
           }
         }
+        const text2 = element[item.split(":")[0]];
+        if (!element.buttondelete || !text2) {
+          return;
+        }
         if (idShoppingList) {
           const value = element.buttondelete;
           const valueDeleteLinkArray = (0, import_string.decomposeText)(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
@@ -69,11 +73,11 @@ const createKeyboardFromJson = (val, text, id, user) => {
           const valueDeleteId = valueDeleteLinkArray[5];
           const instanceShoppingListID = `${id.split(".")[1]}.${id.split(".")[2]}`;
           rowArray.push({
-            text: element[item.split(":")[0]],
+            text: text2,
             callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`
           });
         } else {
-          rowArray.push({ text: element[item.split(":")[0]], callback_data: "1" });
+          rowArray.push({ text: text2, callback_data: "1" });
         }
       });
       if (index == 0) {
@@ -99,8 +103,10 @@ function createTextTableFromJson(val, textToSend) {
     });
     valArray.forEach((element) => {
       itemArray.forEach((item, index) => {
-        if (lengthArray[index] < element[item.split(":")[0]].toString().length) {
-          lengthArray[index] = element[item.split(":")[0]].toString().length;
+        var _a;
+        const length = (_a = element[item.split(":")[0]]) == null ? void 0 : _a.toString().length;
+        if (length && lengthArray[index] < length) {
+          lengthArray[index] = length;
         }
       });
     });
@@ -137,7 +143,11 @@ function createTextTableFromJson(val, textToSend) {
         if (index == 0) {
           textTable += "|";
         }
-        textTable += ` ${element[item.split(":")[0]].toString().padEnd(lengthArray[index] + enlargeColumn, " ")}|`;
+        const text = element[item.split(":")[0]];
+        if (!text) {
+          return;
+        }
+        textTable += ` ${text.toString().padEnd(lengthArray[index] + enlargeColumn, " ")}|`;
         if (index == itemArray.length - 1) {
           textTable += "\n";
         }

@@ -50,6 +50,11 @@ const createKeyboardFromJson = (
                         firstRow.push({ text: btnText, callback_data: '1' });
                     }
                 }
+                const text = element[item.split(':')[0]];
+                if (!element.buttondelete || !text) {
+                    return;
+                }
+
                 if (idShoppingList) {
                     const value = element.buttondelete;
                     const valueDeleteLinkArray = decomposeText(value, "('", "')")
@@ -61,11 +66,11 @@ const createKeyboardFromJson = (
 
                     const instanceShoppingListID = `${id.split('.')[1]}.${id.split('.')[2]}`;
                     rowArray.push({
-                        text: element[item.split(':')[0]],
+                        text,
                         callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
                     });
                 } else {
-                    rowArray.push({ text: element[item.split(':')[0]], callback_data: '1' });
+                    rowArray.push({ text, callback_data: '1' });
                 }
             });
             if (index == 0) {
@@ -96,8 +101,9 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
         });
         valArray.forEach(element => {
             itemArray.forEach((item, index) => {
-                if (lengthArray[index] < element[item.split(':')[0]].toString().length) {
-                    lengthArray[index] = element[item.split(':')[0]].toString().length;
+                const length = element[item.split(':')[0]]?.toString().length;
+                if (length && lengthArray[index] < length) {
+                    lengthArray[index] = length;
                 }
             });
         });
@@ -138,7 +144,12 @@ function createTextTableFromJson(val: string, textToSend: string): string | unde
                 if (index == 0) {
                     textTable += '|';
                 }
-                textTable += ` ${element[item.split(':')[0]].toString().padEnd(lengthArray[index] + enlargeColumn, ' ')}|`;
+                const text = element[item.split(':')[0]];
+                if (!text) {
+                    return;
+                }
+
+                textTable += ` ${text.toString().padEnd(lengthArray[index] + enlargeColumn, ' ')}|`;
                 if (index == itemArray.length - 1) {
                     textTable += '\n';
                 }
