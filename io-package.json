@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "news": {
+      "3.0.2": {
+        "en": "FIX: Errors reported by sentry",
+        "de": "FIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: Erros relatados pelo sentinela",
+        "nl": "FIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIX : Erreurs signalées par sentinelle",
+        "it": "FIX: Errori segnalati dalla sentinella",
+        "es": "FIX: Errores reportados por centinela",
+        "pl": "FIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX:哨兵报告的错误"
+      },
       "3.0.1": {
         "en": "CHORE: Update dependencies\nFIX: Errors reported by sentry",
         "de": "CHORE: Aktualisieren von Abhängigkeiten\nFIX: Fehler, die von sentry gemeldet werden",
@@ -80,19 +93,6 @@
         "pl": "FIX: Zwrot błędu Tekst jest pusty",
         "uk": "FIX: повернення помилки Текст порожній",
         "zh-cn": "FIX: 返回错误 文本为空"
-      },
-      "2.4.1": {
-        "en": "Fix some errors and update tests",
-        "de": "Fehler beheben und Tests aktualisieren",
-        "ru": "Исправить некоторые ошибки и обновить тесты",
-        "pt": "Corrigir alguns erros e testes de atualização",
-        "nl": "Fix enkele fouten en update tests",
-        "fr": "Correction de certaines erreurs et mise à jour des tests",
-        "it": "Risolvere alcuni errori e aggiornare i test",
-        "es": "Arregla algunos errores y pruebas de actualización",
-        "pl": "Napraw kilka błędów i uaktualnij testy",
-        "uk": "Виправлення помилок і оновлення тестів",
-        "zh-cn": "纠正一些错误并更新测试"
       }
     },
     "titleLang": {
