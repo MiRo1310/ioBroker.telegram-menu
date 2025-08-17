@@ -72,7 +72,15 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
 };
 
 const setMenuValue = async ({ telegramParams, userToSend, part, menuNumber }: SetMenuValue): Promise<void> => {
-    let val: string | boolean = splittedData[menuNumber].split('.')[1];
+    if (!splittedData[menuNumber]) {
+        return;
+    }
+    let val: string | boolean | undefined = splittedData[menuNumber].split('.')?.[1];
+
+    if (val === undefined) {
+        return;
+    }
+
     if (val === 'false') {
         val = false;
     } else if (val === 'true') {
