@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "news": {
+      "3.0.3": {
+        "en": "FIX: #374 Cannot check menu checkbox\nFIX: Errors reported by sentry",
+        "de": "FIX: #374 Kann das Menü nicht überprüfen\nFIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX #374 Невозможно проверить флажок меню\nFIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: # 374 Não foi possível verificar a opção do menu\nFIX: Erros relatados pelo sentinela",
+        "nl": "FIX: #374 Kan het menu niet controleren\nFIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIXE: #374 Impossible de cocher la case du menu\nFIX : Erreurs signalées par sentinelle",
+        "it": "FIX: #374 Non è possibile controllare la casella di controllo del menu\nFIX: Errori segnalati dalla sentinella",
+        "es": "FIX: #374 No se puede comprobar la casilla de verificación del menú\nFIX: Errores reportados por centinela",
+        "pl": "FIX: # 374 Nie można zaznaczać menu\nFIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: #374 Не можна перевірити прапорець меню\nFIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX: # 374 无法检查菜单复选框\nFIX:哨兵报告的错误"
+      },
       "3.0.2": {
         "en": "FIX: Errors reported by sentry",
         "de": "FIX: Fehler, die von sentry gemeldet werden",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 332 Kopiuj zrzut\nFIX: SetDynamicValue\nFIX: Zmień wartość w getStatus",
         "uk": "FIX: #332 Копіювати спад\nFIX: SetDynamicValue\nFIX: Зміна значення в getStatus",
         "zh-cn": "FIX: #332 复制下拉\nFIX: 设置动态变量\nFIX: 获取状态中更改值"
-      },
-      "2.4.2": {
-        "en": "FIX: Error returnText is empty",
-        "de": "FIX: Fehlerrückgabe Text ist leer",
-        "ru": "FIX: Возвращение ошибки Текст пустой",
-        "pt": "FIX: Retorno de erro O texto está vazio",
-        "nl": "FIX: Fout bij terugsturen Tekst is leeg",
-        "fr": "FIX : retour d'erreur Le texte est vide",
-        "it": "FIX: Ritorno errore Il testo è vuoto",
-        "es": "FIX: Retorno de error El texto está vacío",
-        "pl": "FIX: Zwrot błędu Tekst jest pusty",
-        "uk": "FIX: повернення помилки Текст порожній",
-        "zh-cn": "FIX: 返回错误 文本为空"
       }
     },
     "titleLang": {
