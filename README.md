@@ -39,6 +39,7 @@ You can create different groups with separate menus, and then assign users to th
 ### **WORK IN PROGRESS**
 
 - FIX: #374 Cannot check menu checkbox
+- FIX: Errors reported by sentry
 
 ### 3.0.2 (2025-08-13)
 

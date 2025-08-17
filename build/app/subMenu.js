@@ -67,7 +67,14 @@ const createSubmenuPercent = (obj) => {
   return { text: obj.text, keyboard, device: menuToHandle };
 };
 const setMenuValue = async ({ telegramParams, userToSend, part, menuNumber }) => {
-  let val = splittedData[menuNumber].split(".")[1];
+  var _a;
+  if (!splittedData[menuNumber]) {
+    return;
+  }
+  let val = (_a = splittedData[menuNumber].split(".")) == null ? void 0 : _a[1];
+  if (val === void 0) {
+    return;
+  }
   if (val === "false") {
     val = false;
   } else if (val === "true") {
