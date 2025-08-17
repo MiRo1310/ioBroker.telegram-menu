@@ -18,9 +18,6 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
     }
 
     componentDidUpdate = (prevProps: Readonly<PropsHeaderTelegramUsers>): void => {
-        if (prevProps.data.usersInGroup !== this.props.data.usersInGroup) {
-            this.checkUserSelection();
-        }
         if (prevProps.data.activeMenu !== this.props.data.activeMenu) {
             this.setState({ menuChecked: this.props.data.userActiveCheckbox[this.props.data.activeMenu] });
         }
@@ -31,28 +28,8 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
     };
 
     clickCheckbox = ({ isChecked }: EventCheckbox): void => {
-        if (isChecked) {
-            if (!this.checkUserSelection()) {
-                return;
-            }
-        } else {
-            this.setState({ errorUserChecked: false });
-        }
         this.setState({ menuChecked: isChecked });
         this.props.callback.updateNative(`userActiveCheckbox.${this.props.data.activeMenu}`, isChecked);
-    };
-
-    checkUserSelection = (): boolean => {
-        const usersInGroup = this.props.data.usersInGroup;
-
-        if (this.state.menuChecked) {
-            if (usersInGroup[this.props.data.activeMenu]?.length === 0) {
-                this.setState({ errorUserChecked: true });
-                return false;
-            }
-            return true;
-        }
-        return false;
     };
 
     static checkUsersAreActiveInTelegram({

@@ -47,7 +47,7 @@ class AppContentHeaderTelegramUsersUserCard extends Component<PropsTelegramUserC
         if (!isChecked) {
             listOfUsers = listOfUsers.filter(item => !(item.name === name && item.instance === params?.instance));
         }
-        console.log('listOfUsers', listOfUsers);
+
         this.props.callback.updateNative(`usersInGroup.${this.state.activeMenu}`, listOfUsers);
     };
 
