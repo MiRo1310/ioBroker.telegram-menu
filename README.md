@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- FIX: #377 Commands are not executed
 - FIX: Submenu percent
 
 ### 3.0.3 (2025-08-17)

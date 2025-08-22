@@ -8,6 +8,7 @@ import { replaceAll } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
 
 export function sendPic(
+    instance: string,
     part: Part,
     userToSend: string,
     telegramParams: TelegramParams,
@@ -53,6 +54,7 @@ export function sendPic(
             const timeout = adapter.setTimeout(
                 async () => {
                     await sendToTelegram({
+                        instance,
                         userToSend,
                         textToSend: path,
                         telegramParams,

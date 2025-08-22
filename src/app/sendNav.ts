@@ -4,13 +4,19 @@ import type { Part, TelegramParams } from '../types/types';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
 
-export async function sendNav(part: Part, userToSend: string, telegramParams: TelegramParams): Promise<void> {
+export async function sendNav(
+    instance: string,
+    part: Part,
+    userToSend: string,
+    telegramParams: TelegramParams,
+): Promise<void> {
     try {
         if (userToSend) {
             const { nav: keyboard, text, parse_mode } = part;
             const textToSend = await returnTextModifier(text ?? '');
 
             await sendToTelegram({
+                instance,
                 userToSend,
                 textToSend,
                 keyboard,

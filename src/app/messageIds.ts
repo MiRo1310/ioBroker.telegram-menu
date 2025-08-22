@@ -69,14 +69,15 @@ const removeMessageFromList = ({
 };
 
 async function deleteMessageIds(
+    instance: string,
     user: string,
     telegramParams: TelegramParams,
     whatShouldDelete: WhatShouldDelete,
 ): Promise<void> {
-    const { telegramInstance, userListWithChatID } = telegramParams;
+    const { userListWithChatID } = telegramParams;
     try {
         const requestMessageIdObj = await adapter.getStateAsync('communication.requestIds');
-        const lastMessageId = await adapter.getForeignStateAsync(`${telegramInstance}.communicate.requestMessageId`);
+        const lastMessageId = await adapter.getForeignStateAsync(`${instance}.communicate.requestMessageId`);
 
         if (
             !requestMessageIdObj ||
@@ -100,14 +101,12 @@ async function deleteMessageIds(
         const copyMessageIds = deepCopy(json, adapter);
         json[chat_id].forEach((element, index) => {
             const id = element.id?.toString();
-            if (!telegramInstance) {
-                return;
-            }
+
             if (whatShouldDelete === 'all' && id) {
-                deleteMessageByBot(telegramInstance, user, parseInt(id), chat_id);
+                deleteMessageByBot(instance, user, parseInt(id), chat_id);
             }
             if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
-                deleteMessageByBot(telegramInstance, user, parseInt(id), chat_id);
+                deleteMessageByBot(instance, user, parseInt(id), chat_id);
             }
             if (!copyMessageIds) {
                 return;

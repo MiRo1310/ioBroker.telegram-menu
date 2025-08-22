@@ -36,7 +36,7 @@ var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
 var import_config = require("../config/config");
 var import_splitValues = require("../lib/splitValues");
-const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
+const bindingFunc = async (instance, text, userToSend, telegramParams, parse_mode) => {
   var _a, _b;
   let textToSend;
   try {
@@ -63,6 +63,7 @@ const bindingFunc = async (text, userToSend, telegramParams, parse_mode) => {
       }
     }
     await (0, import_telegram.sendToTelegram)({
+      instance,
       userToSend,
       textToSend,
       telegramParams,
@@ -147,7 +148,7 @@ const adjustValueType = (value, valueType) => {
   }
   return value;
 };
-const checkEvent = async (dataObject, id, state, menuData, telegramParams, usersInGroup) => {
+const checkEvent = async (instance, dataObject, id, state, menuData, telegramParams, usersInGroup) => {
   var _a;
   const menuArray = [];
   let ok = false;
@@ -183,6 +184,7 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
         }
         if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
           await (0, import_subMenu.callSubMenu)({
+            instance,
             jsonStringNav: part.nav[0][0],
             userToSend: user.name,
             telegramParams,
@@ -192,7 +194,7 @@ const checkEvent = async (dataObject, id, state, menuData, telegramParams, users
           });
           return true;
         }
-        await (0, import_sendNav.sendNav)(part, user.name, telegramParams);
+        await (0, import_sendNav.sendNav)(instance, part, user.name, telegramParams);
       }
     }
   }

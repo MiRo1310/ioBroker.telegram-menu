@@ -4,6 +4,7 @@ import type { SetDynamicValue, SetDynamicValueObj, TelegramParams } from '../typ
 
 const dynamicValueObj: SetDynamicValueObj = {};
 export const setDynamicValue = async (
+    instance: string,
     returnText: string,
     ack: boolean,
     id: string,
@@ -18,6 +19,7 @@ export const setDynamicValue = async (
     const text = array[0];
     if (text) {
         await sendToTelegram({
+            instance,
             userToSend,
             textToSend: text,
             telegramParams,

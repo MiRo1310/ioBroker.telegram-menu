@@ -6,6 +6,7 @@ import { validateDirectory } from '../lib/utils';
 import { getEchartsValues } from '../lib/splitValues';
 
 export function getChart(
+    instance: string,
     echarts: ModifiedEchart[],
     directoryPicture: string,
     user: string,
@@ -31,7 +32,7 @@ export function getChart(
                 async (result: any) => {
                     const textToSend = result.error || directoryPicture + echart.filename;
 
-                    await sendToTelegram({ userToSend: user, textToSend, telegramParams });
+                    await sendToTelegram({ instance, userToSend: user, textToSend, telegramParams });
                 },
             );
         }

@@ -71,6 +71,7 @@ const setValue = async (
 };
 
 export const handleSetState = async (
+    instance: string,
     part: Part,
     userToSend: string,
     valueFromSubmenu: null | string | number | boolean,
@@ -84,6 +85,7 @@ export const handleSetState = async (
             let returnText = text;
             if (returnText.includes(config.setDynamicValue)) {
                 const { confirmText, id } = await setDynamicValue(
+                    instance,
                     returnText,
                     ack,
                     ID,
@@ -136,6 +138,7 @@ export const handleSetState = async (
             const { textToSend } = exchangeValue(adapter, returnText, valueFromSubmenu ?? value);
 
             await sendToTelegram({
+                instance,
                 userToSend,
                 textToSend,
                 telegramParams,

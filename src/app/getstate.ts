@@ -12,16 +12,23 @@ import { config } from '../config/config';
 import { errorLogger } from './logging';
 import { exchangeValue } from '../lib/exchangeValue';
 import { idBySelector } from './idBySelector';
+import { isParseModeFirstElement } from './parseMode';
 
-export async function getState(part: Part, userToSend: string, telegramParams: TelegramParams): Promise<void> {
+export async function getState(
+    instance: string,
+    part: Part,
+    userToSend: string,
+    telegramParams: TelegramParams,
+): Promise<void> {
     try {
-        const parse_mode = part.getData?.[0].parse_mode; // Parse Mode ist nur immer im ersten Element
+        const parse_mode = isParseModeFirstElement(part);
         const valueArrayForCorrectOrder: string[] = [];
         const promises = (part.getData || []).map(async ({ newline, text, id }, index): Promise<void> => {
             adapter.log.debug(`Get Value ID: ${id}`);
 
             if (id.includes(config.functionSelektor)) {
                 await idBySelector({
+                    instance,
                     adapter,
                     selector: id,
                     text,
@@ -33,7 +40,7 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
             }
 
             if (text.includes(config.binding.start)) {
-                await bindingFunc(text, userToSend, telegramParams, parse_mode);
+                await bindingFunc(instance, text, userToSend, telegramParams, parse_mode);
                 return;
             }
 
@@ -86,6 +93,7 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
                     const result = createTextTableFromJson(stateValue, modifiedTextToSend);
                     if (result) {
                         await sendToTelegram({
+                            instance,
                             userToSend,
                             textToSend: result,
                             telegramParams,
@@ -97,12 +105,20 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
                 } else {
                     const result = createKeyboardFromJson(stateValue, modifiedTextToSend, id, userToSend);
                     if (stateValue && stateValue.length > 0) {
-                        if (result && result.text && result.keyboard) {
-                            sendToTelegramSubmenu(userToSend, result.text, result.keyboard, telegramParams, parse_mode);
+                        if (result?.text && result?.keyboard) {
+                            sendToTelegramSubmenu(
+                                instance,
+                                userToSend,
+                                result.text,
+                                result.keyboard,
+                                telegramParams,
+                                parse_mode,
+                            );
                         }
                         return;
                     }
                     await sendToTelegram({
+                        instance,
                         userToSend,
                         textToSend: 'The state is empty!',
                         telegramParams,
@@ -126,6 +142,7 @@ export async function getState(part: Part, userToSend: string, telegramParams: T
 
         if (valueArrayForCorrectOrder.length) {
             await sendToTelegram({
+                instance,
                 userToSend,
                 textToSend: valueArrayForCorrectOrder.join(''),
                 telegramParams,

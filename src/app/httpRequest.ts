@@ -8,6 +8,7 @@ import { validateDirectory } from '../lib/utils';
 import { adapter } from '../main';
 
 async function httpRequest(
+    instance: string,
     parts: Part,
     userToSend: string,
     telegramParams: TelegramParams,
@@ -49,6 +50,7 @@ async function httpRequest(
             adapter.log.debug(`Pic saved : ${imagePath}`);
 
             await sendToTelegram({
+                instance,
                 userToSend,
                 textToSend: imagePath,
                 telegramParams,

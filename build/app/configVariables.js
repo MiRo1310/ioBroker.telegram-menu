@@ -34,8 +34,6 @@ const getConfigVariables = (config) => {
   const telegramInstances = (_a = config.instanceList) != null ? _a : [];
   const checkboxes = config.checkbox;
   const telegramParams = {
-    telegramInstance: "telegram.0",
-    //default value
     telegramInstanceList: telegramInstances,
     resize_keyboard: checkboxes.resKey,
     one_time_keyboard: checkboxes.oneTiKey,

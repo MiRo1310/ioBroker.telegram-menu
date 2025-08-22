@@ -28,7 +28,7 @@ var import_logging = require("./logging");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
-function sendPic(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
+function sendPic(instance, part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
     (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
@@ -63,6 +63,7 @@ function sendPic(part, userToSend, telegramParams, token, directoryPicture, time
       const timeout = import_main.adapter.setTimeout(
         async () => {
           await (0, import_telegram.sendToTelegram)({
+            instance,
             userToSend,
             textToSend: path,
             telegramParams

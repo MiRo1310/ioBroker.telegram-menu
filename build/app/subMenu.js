@@ -66,7 +66,13 @@ const createSubmenuPercent = (obj) => {
   }
   return { text: obj.text, keyboard, device: menuToHandle };
 };
-const setMenuValue = async ({ telegramParams, userToSend, part, menuNumber }) => {
+const setMenuValue = async ({
+  instance,
+  telegramParams,
+  userToSend,
+  part,
+  menuNumber
+}) => {
   var _a;
   if (!splittedData[menuNumber]) {
     return;
@@ -80,7 +86,7 @@ const setMenuValue = async ({ telegramParams, userToSend, part, menuNumber }) =>
   } else if (val === "true") {
     val = true;
   }
-  await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
+  await (0, import_setstate.handleSetState)(instance, part, userToSend, val, telegramParams);
 };
 const createSubmenuNumber = ({
   cbData,
@@ -170,14 +176,15 @@ const createSwitchMenu = ({
   };
   return { text, keyboard, device: menuToHandle };
 };
-const back = async ({ telegramParams, userToSend, allMenusWithData, menus }) => {
+const back = async ({ instance, telegramParams, userToSend, allMenusWithData, menus }) => {
   const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus);
   if (result) {
     const { keyboard, parse_mode, textToSend = "" } = result;
-    await (0, import_telegram.sendToTelegram)({ userToSend, textToSend, keyboard, parse_mode, telegramParams });
+    await (0, import_telegram.sendToTelegram)({ instance, userToSend, textToSend, keyboard, parse_mode, telegramParams });
   }
 };
 async function callSubMenu({
+  instance,
   jsonStringNav,
   userToSend,
   telegramParams,
@@ -187,6 +194,7 @@ async function callSubMenu({
 }) {
   try {
     const obj = await subMenu({
+      instance,
       menuString: jsonStringNav,
       userToSend,
       telegramParams,
@@ -196,7 +204,7 @@ async function callSubMenu({
     });
     import_main.adapter.log.debug(`Submenu : ${(0, import_string.jsonString)(obj)}`);
     if ((obj == null ? void 0 : obj.text) && (obj == null ? void 0 : obj.keyboard)) {
-      (0, import_telegram.sendToTelegramSubmenu)(userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
+      (0, import_telegram.sendToTelegramSubmenu)(instance, userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
     }
     return { newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {
@@ -209,14 +217,15 @@ async function subMenu({
   telegramParams,
   part,
   allMenusWithData,
-  menus
+  menus,
+  instance
 }) {
   var _a, _b, _c;
   try {
     import_main.adapter.log.debug(`Menu : ${menuString}`);
     const text = await (0, import_utilities.returnTextModifier)(part.text);
     if ((0, import_validateMenus.isDeleteMenu)(menuString)) {
-      await (0, import_messageIds.deleteMessageIds)(userToSend, telegramParams, "all");
+      await (0, import_messageIds.deleteMessageIds)(instance, userToSend, telegramParams, "all");
       const menu = (_c = (_b = (_a = menuString.split(":")) == null ? void 0 : _a[2]) == null ? void 0 : _b.split('"')) == null ? void 0 : _c[0];
       if (menu && (0, import_string.isNonEmptyString)(menu)) {
         return { navToGoBack: menu };
@@ -228,6 +237,7 @@ async function subMenu({
     }
     if ((0, import_validateMenus.isFirstMenuValue)(cbData)) {
       await setMenuValue({
+        instance,
         part,
         userToSend,
         telegramParams,
@@ -235,30 +245,31 @@ async function subMenu({
       });
     }
     if ((0, import_validateMenus.isSecondMenuValue)(cbData)) {
-      await setMenuValue({ part, userToSend, telegramParams, menuNumber: 2 });
+      await setMenuValue({ instance, part, userToSend, telegramParams, menuNumber: 2 });
     }
     if ((0, import_validateMenus.isCreateDynamicSwitch)(cbData) && menuToHandle) {
       return (0, import_dynamicSwitchMenu.createDynamicSwitchMenu)(menuString, menuToHandle, text);
     }
     if ((0, import_validateMenus.isSetDynamicSwitchVal)(cbData) && val) {
-      await (0, import_setstate.handleSetState)(part, userToSend, val, telegramParams);
+      await (0, import_setstate.handleSetState)(instance, part, userToSend, val, telegramParams);
     }
     if ((0, import_validateMenus.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
       return createSubmenuPercent({ cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isSetSubmenuPercent)(menuString, step)) {
       const value = parseInt(menuString.split(":")[1].split(",")[1]);
-      await (0, import_setstate.handleSetState)(part, userToSend, value, telegramParams);
+      await (0, import_setstate.handleSetState)(instance, part, userToSend, value, telegramParams);
     }
     if ((0, import_validateMenus.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
       return createSubmenuNumber({ cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isSetSubmenuNumber)(menuString)) {
       const { value } = (0, import_splitValues.getSubmenuNumberValues)(menuString);
-      await (0, import_setstate.handleSetState)(part, userToSend, value, telegramParams);
+      await (0, import_setstate.handleSetState)(instance, part, userToSend, value, telegramParams);
     }
     if ((0, import_validateMenus.isMenuBack)(menuString)) {
       await back({
+        instance,
         userToSend,
         allMenusWithData,
         menus,

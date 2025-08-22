@@ -26,6 +26,7 @@ import { getBindingValues } from '../lib/splitValues';
 import type { TriggerableActions, UserListWithChatID, UsersInGroup } from '@/types/app';
 
 export const bindingFunc = async (
+    instance: string,
     text: string,
     userToSend: string,
     telegramParams: TelegramParams,
@@ -60,6 +61,7 @@ export const bindingFunc = async (
             }
         }
         await sendToTelegram({
+            instance,
             userToSend,
             textToSend,
             telegramParams,
@@ -161,6 +163,7 @@ export const adjustValueType = (value: keyof NewObjectStructure, valueType: stri
 };
 
 export const checkEvent = async (
+    instance: string,
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
@@ -211,6 +214,7 @@ export const checkEvent = async (
 
                 if (part?.nav?.[0][0].includes('menu:')) {
                     await callSubMenu({
+                        instance,
                         jsonStringNav: part.nav[0][0],
                         userToSend: user.name,
                         telegramParams: telegramParams,
@@ -220,7 +224,7 @@ export const checkEvent = async (
                     });
                     return true;
                 }
-                await sendNav(part, user.name, telegramParams);
+                await sendNav(instance, part, user.name, telegramParams);
             }
         }
     }

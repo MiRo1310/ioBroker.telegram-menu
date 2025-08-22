@@ -34,16 +34,17 @@ var import_config = require("../config/config");
 var import_logging = require("./logging");
 var import_exchangeValue = require("../lib/exchangeValue");
 var import_idBySelector = require("./idBySelector");
-async function getState(part, userToSend, telegramParams) {
-  var _a;
+var import_parseMode = require("./parseMode");
+async function getState(instance, part, userToSend, telegramParams) {
   try {
-    const parse_mode = (_a = part.getData) == null ? void 0 : _a[0].parse_mode;
+    const parse_mode = (0, import_parseMode.isParseModeFirstElement)(part);
     const valueArrayForCorrectOrder = [];
     const promises = (part.getData || []).map(async ({ newline, text, id }, index) => {
-      var _a2;
+      var _a;
       import_main.adapter.log.debug(`Get Value ID: ${id}`);
       if (id.includes(import_config.config.functionSelektor)) {
         await (0, import_idBySelector.idBySelector)({
+          instance,
           adapter: import_main.adapter,
           selector: id,
           text,
@@ -54,7 +55,7 @@ async function getState(part, userToSend, telegramParams) {
         return;
       }
       if (text.includes(import_config.config.binding.start)) {
-        await (0, import_action.bindingFunc)(text, userToSend, telegramParams, parse_mode);
+        await (0, import_action.bindingFunc)(instance, text, userToSend, telegramParams, parse_mode);
         return;
       }
       const state = await import_main.adapter.getForeignStateAsync(id);
@@ -63,7 +64,7 @@ async function getState(part, userToSend, telegramParams) {
         valueArrayForCorrectOrder[index] = "N/A";
         return Promise.resolve();
       }
-      const stateValue = (0, import_string.cleanUpString)((_a2 = state.val) == null ? void 0 : _a2.toString());
+      const stateValue = (0, import_string.cleanUpString)((_a = state.val) == null ? void 0 : _a.toString());
       let modifiedStateVal = stateValue;
       let modifiedTextToSend = text;
       if (text.includes(import_config.config.timestamp.ts) || text.includes(import_config.config.timestamp.lc)) {
@@ -96,6 +97,7 @@ async function getState(part, userToSend, telegramParams) {
           const result = (0, import_jsonTable.createTextTableFromJson)(stateValue, modifiedTextToSend);
           if (result) {
             await (0, import_telegram.sendToTelegram)({
+              instance,
               userToSend,
               textToSend: result,
               telegramParams,
@@ -107,12 +109,20 @@ async function getState(part, userToSend, telegramParams) {
         } else {
           const result = (0, import_jsonTable.createKeyboardFromJson)(stateValue, modifiedTextToSend, id, userToSend);
           if (stateValue && stateValue.length > 0) {
-            if (result && result.text && result.keyboard) {
-              (0, import_telegram.sendToTelegramSubmenu)(userToSend, result.text, result.keyboard, telegramParams, parse_mode);
+            if ((result == null ? void 0 : result.text) && (result == null ? void 0 : result.keyboard)) {
+              (0, import_telegram.sendToTelegramSubmenu)(
+                instance,
+                userToSend,
+                result.text,
+                result.keyboard,
+                telegramParams,
+                parse_mode
+              );
             }
             return;
           }
           await (0, import_telegram.sendToTelegram)({
+            instance,
             userToSend,
             textToSend: "The state is empty!",
             telegramParams,
@@ -131,6 +141,7 @@ async function getState(part, userToSend, telegramParams) {
     await Promise.all(promises);
     if (valueArrayForCorrectOrder.length) {
       await (0, import_telegram.sendToTelegram)({
+        instance,
         userToSend,
         textToSend: valueArrayForCorrectOrder.join(""),
         telegramParams,

@@ -8,6 +8,7 @@ import { errorLogger } from './logging';
 import type { BooleanString } from '@/types/app';
 
 export const idBySelector = async ({
+    instance,
     adapter,
     selector,
     text,
@@ -21,6 +22,7 @@ export const idBySelector = async ({
     userToSend: string;
     newline: BooleanString;
     telegramParams: TelegramParams;
+    instance: string;
 }): Promise<void> => {
     let text2Send = '';
     try {
@@ -60,6 +62,7 @@ export const idBySelector = async ({
         Promise.all(promises)
             .then(async () => {
                 await sendToTelegram({
+                    instance,
                     userToSend,
                     textToSend: text2Send,
                     telegramParams,

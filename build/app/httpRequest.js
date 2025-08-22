@@ -38,7 +38,7 @@ var import_fs = __toESM(require("fs"));
 var import_logging = require("./logging");
 var import_utils = require("../lib/utils");
 var import_main = require("../main");
-async function httpRequest(parts, userToSend, telegramParams, directoryPicture) {
+async function httpRequest(instance, parts, userToSend, telegramParams, directoryPicture) {
   if (!parts.httpRequest) {
     return;
   }
@@ -67,6 +67,7 @@ async function httpRequest(parts, userToSend, telegramParams, directoryPicture) 
       import_fs.default.writeFileSync(imagePath, Buffer.from(response.data), "binary");
       import_main.adapter.log.debug(`Pic saved : ${imagePath}`);
       await (0, import_telegram.sendToTelegram)({
+        instance,
         userToSend,
         textToSend: imagePath,
         telegramParams
