@@ -39,6 +39,7 @@ var import_string = require("../lib/string");
 var import_validateMenus = require("./validateMenus");
 let timeouts = [];
 async function checkEveryMenuForData({
+  instance,
   menuData,
   navToGoTo,
   userToSend,
@@ -54,6 +55,7 @@ async function checkEveryMenuForData({
     import_main.adapter.log.debug(`Menu : ${menu}`);
     import_main.adapter.log.debug(`Nav : ${(0, import_string.jsonString)(menuData[menu])}`);
     if (await processData({
+      instance,
       menuData,
       calledValue: navToGoTo,
       userToSend,
@@ -74,6 +76,7 @@ async function checkEveryMenuForData({
   return false;
 }
 async function processData({
+  instance,
   menuData,
   calledValue,
   userToSend,
@@ -93,6 +96,7 @@ async function processData({
     if (dynamicValue) {
       const valueToSet = (dynamicValue == null ? void 0 : dynamicValue.valueType) ? (0, import_action.adjustValueType)(calledValue, dynamicValue.valueType) : calledValue;
       valueToSet && (dynamicValue == null ? void 0 : dynamicValue.id) ? await (0, import_setstate.setstateIobroker)({ id: dynamicValue.id, value: valueToSet, ack: dynamicValue == null ? void 0 : dynamicValue.ack }) : await (0, import_telegram.sendToTelegram)({
+        instance,
         userToSend,
         textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValue == null ? void 0 : dynamicValue.valueType}`,
         telegramParams
@@ -101,10 +105,10 @@ async function processData({
       const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
       if (result && !dynamicValue.navToGoTo) {
         const { textToSend, keyboard, parse_mode } = result;
-        await (0, import_telegram.sendToTelegram)({ userToSend, textToSend, keyboard, telegramParams, parse_mode });
+        await (0, import_telegram.sendToTelegram)({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
         return true;
       }
-      await (0, import_sendNav.sendNav)(part, userToSend, telegramParams);
+      await (0, import_sendNav.sendNav)(instance, part, userToSend, telegramParams);
       return true;
     }
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
@@ -117,6 +121,7 @@ async function processData({
         if ((0, import_string.jsonString)(nav).includes("menu:")) {
           import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(nav)}`);
           const result = await (0, import_subMenu.callSubMenu)({
+            instance,
             jsonStringNav: (0, import_string.jsonString)(nav),
             userToSend,
             telegramParams,
@@ -126,6 +131,7 @@ async function processData({
           });
           if (result == null ? void 0 : result.newNav) {
             await checkEveryMenuForData({
+              instance,
               menuData,
               navToGoTo: result.newNav,
               userToSend,
@@ -139,40 +145,50 @@ async function processData({
           }
           return true;
         }
-        await (0, import_sendNav.sendNav)(part, userToSend, telegramParams);
+        await (0, import_sendNav.sendNav)(instance, part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.switch) {
-        await (0, import_setstate.handleSetState)(part, userToSend, null, telegramParams);
+        await (0, import_setstate.handleSetState)(instance, part, userToSend, null, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.getData) {
-        await (0, import_getstate.getState)(part, userToSend, telegramParams);
+        await (0, import_getstate.getState)(instance, part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.sendPic) {
-        timeouts = (0, import_sendpic.sendPic)(part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
+        timeouts = (0, import_sendpic.sendPic)(
+          instance,
+          part,
+          userToSend,
+          telegramParams,
+          token,
+          directoryPicture,
+          timeouts,
+          timeoutKey
+        );
         return true;
       }
       if (part == null ? void 0 : part.location) {
         import_main.adapter.log.debug("Send location");
-        await (0, import_telegram.sendLocationToTelegram)(userToSend, part.location, telegramParams);
+        await (0, import_telegram.sendLocationToTelegram)(instance, userToSend, part.location, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.echarts) {
         import_main.adapter.log.debug("Send echarts");
-        (0, import_echarts.getChart)(part.echarts, directoryPicture, userToSend, telegramParams);
+        (0, import_echarts.getChart)(instance, part.echarts, directoryPicture, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.httpRequest) {
         import_main.adapter.log.debug("Send http request");
-        const result = await (0, import_httpRequest.httpRequest)(part, userToSend, telegramParams, directoryPicture);
+        const result = await (0, import_httpRequest.httpRequest)(instance, part, userToSend, telegramParams, directoryPicture);
         return !!result;
       }
     }
     if ((0, import_validateMenus.isSubmenuOrMenu)(calledValue) && menuData[groupWithUser][call]) {
       import_main.adapter.log.debug("Call Submenu");
       await (0, import_subMenu.callSubMenu)({
+        instance,
         jsonStringNav: calledValue,
         userToSend,
         telegramParams,

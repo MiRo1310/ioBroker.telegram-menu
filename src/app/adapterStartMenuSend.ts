@@ -4,7 +4,13 @@ import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '../types
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
-import type { UserActiveCheckbox, UsersInGroup } from '@/types/app';
+import type { UserActiveCheckbox, UserListWithChatID, UsersInGroup, UserType } from '@/types/app';
+
+function isUserActive(telegramParams: TelegramParams, userToSend: UserType): UserListWithChatID | undefined {
+    return telegramParams.userListWithChatID.find(
+        user => user.chatID === userToSend.chatId && user.instance === userToSend.instance,
+    );
+}
 
 export async function adapterStartMenuSend(
     listOfMenus: ListOfMenus,
@@ -19,15 +25,21 @@ export async function adapterStartMenuSend(
 
         if (userActiveCheckbox[menu] && isStartside(startSide)) {
             adapter.log.debug(`Startside: ${startSide}`);
-            if (menusWithUsers[menu]) {
-                for (const userToSend of menusWithUsers[menu]) {
+            const group = menusWithUsers[menu];
+            if (group) {
+                for (const userToSend of group) {
                     const { nav, text, parse_mode } = menuData[menu][startSide];
+
+                    const user = isUserActive(telegramParams, userToSend);
+                    if (!user) {
+                        continue;
+                    }
                     backMenuFunc({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
 
                     adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
                     const params = { ...telegramParams };
-                    params.telegramInstance = userToSend.instance;
                     await sendToTelegram({
+                        instance: userToSend.instance,
                         userToSend: userToSend.name,
                         textToSend: text,
                         keyboard: nav,

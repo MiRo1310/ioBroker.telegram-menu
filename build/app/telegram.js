@@ -29,6 +29,7 @@ var import_main = require("../main");
 var import_utils = require("../lib/utils");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
+var import_instance = require("./instance");
 function validateTextToSend(textToSend) {
   if (!textToSend || (0, import_string.isEmptyString)(textToSend)) {
     import_main.adapter.log.error("There is a problem! Text to send is empty or undefined, please check your configuration.");
@@ -42,6 +43,7 @@ function validateTextToSend(textToSend) {
   return true;
 }
 async function sendToTelegram({
+  instance,
   userToSend,
   textToSend,
   keyboard,
@@ -49,18 +51,18 @@ async function sendToTelegram({
   parse_mode
 }) {
   try {
-    const { resize_keyboard, one_time_keyboard, userListWithChatID, telegramInstance } = telegramParams;
+    const { resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
     const chatId = (0, import_utils.getChatID)(userListWithChatID, userToSend);
-    if (!telegramInstance) {
+    if (!instance || !(0, import_instance.isInstanceActive)(telegramParams.telegramInstanceList, instance)) {
       return;
     }
     import_main.adapter.log.debug(
-      `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${telegramInstance} , userListWithChatID: ${(0, import_string.jsonString)(userListWithChatID)} , parseMode: ${parse_mode} }`
+      `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , userListWithChatID: ${(0, import_string.jsonString)(userListWithChatID)} , parseMode: ${parse_mode} }`
     );
     validateTextToSend(textToSend);
     if (!keyboard) {
       import_main.adapter.sendTo(
-        telegramInstance,
+        instance,
         "send",
         {
           text: (0, import_string.cleanUpString)(textToSend),
@@ -72,7 +74,7 @@ async function sendToTelegram({
       return;
     }
     import_main.adapter.sendTo(
-      telegramInstance,
+      instance,
       "send",
       {
         chatId,
@@ -90,13 +92,13 @@ async function sendToTelegram({
     (0, import_logging.errorLogger)("Error sendToTelegram:", e, import_main.adapter);
   }
 }
-function sendToTelegramSubmenu(user, textToSend, keyboard, telegramParams, parse_mode) {
-  const { telegramInstance: instance, userListWithChatID } = telegramParams;
-  if (!validateTextToSend(textToSend) || !instance) {
+function sendToTelegramSubmenu(telegramInstance, user, textToSend, keyboard, telegramParams, parse_mode) {
+  const { userListWithChatID } = telegramParams;
+  if (!validateTextToSend(textToSend)) {
     return;
   }
   import_main.adapter.sendTo(
-    instance,
+    telegramInstance,
     "send",
     {
       chatId: (0, import_utils.getChatID)(userListWithChatID, user),
@@ -107,8 +109,8 @@ function sendToTelegramSubmenu(user, textToSend, keyboard, telegramParams, parse
     (res) => telegramLogger(res)
   );
 }
-const sendLocationToTelegram = async (user, data, telegramParams) => {
-  const { userListWithChatID, telegramInstance: instance } = telegramParams;
+const sendLocationToTelegram = async (telegramInstance, user, data, telegramParams) => {
+  const { userListWithChatID } = telegramParams;
   try {
     const chatId = (0, import_utils.getChatID)(userListWithChatID, user);
     for (const { longitude: longitudeID, latitude: latitudeID } of data) {
@@ -120,11 +122,8 @@ const sendLocationToTelegram = async (user, data, telegramParams) => {
       if (!latitude || !longitude) {
         continue;
       }
-      if (!instance) {
-        return;
-      }
       import_main.adapter.sendTo(
-        instance,
+        telegramInstance,
         {
           chatId,
           latitude: latitude.val,

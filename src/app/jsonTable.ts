@@ -57,7 +57,7 @@ const createKeyboardFromJson = (
 
                 if (idShoppingList) {
                     const value = element.buttondelete;
-                    const valueDeleteLinkArray = decomposeText(value, "('", "')")
+                    const valueDeleteLinkArray = decomposeText(value ?? '', "('", "')")
                         .substring.replace("('", '')
                         .replace(",true')", '')
                         .split('.');

@@ -16,35 +16,17 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var sendNav_exports = {};
-__export(sendNav_exports, {
-  sendNav: () => sendNav
+var instance_exports = {};
+__export(instance_exports, {
+  isInstanceActive: () => isInstanceActive
 });
-module.exports = __toCommonJS(sendNav_exports);
-var import_telegram = require("./telegram");
-var import_utilities = require("../lib/utilities");
-var import_main = require("../main");
-var import_logging = require("./logging");
-async function sendNav(instance, part, userToSend, telegramParams) {
-  try {
-    if (userToSend) {
-      const { nav: keyboard, text, parse_mode } = part;
-      const textToSend = await (0, import_utilities.returnTextModifier)(text != null ? text : "");
-      await (0, import_telegram.sendToTelegram)({
-        instance,
-        userToSend,
-        textToSend,
-        keyboard,
-        telegramParams,
-        parse_mode
-      });
-    }
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error sendNav:", e, import_main.adapter);
-  }
-}
+module.exports = __toCommonJS(instance_exports);
+const isInstanceActive = (telegramInstanceList, instance) => {
+  var _a, _b;
+  return (_b = (_a = telegramInstanceList.find((i) => i.name === instance)) == null ? void 0 : _a.active) != null ? _b : false;
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  sendNav
+  isInstanceActive
 });
-//# sourceMappingURL=sendNav.js.map
+//# sourceMappingURL=instance.js.map

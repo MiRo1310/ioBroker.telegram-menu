@@ -27,6 +27,7 @@ var import_string = require("../lib/string");
 var import_telegram = require("./telegram");
 var import_logging = require("./logging");
 const idBySelector = async ({
+  instance,
   adapter,
   selector,
   text,
@@ -66,6 +67,7 @@ const idBySelector = async ({
     });
     Promise.all(promises).then(async () => {
       await (0, import_telegram.sendToTelegram)({
+        instance,
         userToSend,
         textToSend: text2Send,
         telegramParams

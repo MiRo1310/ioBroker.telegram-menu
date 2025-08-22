@@ -68,7 +68,7 @@ const createKeyboardFromJson = (val, text, id, user) => {
         }
         if (idShoppingList) {
           const value = element.buttondelete;
-          const valueDeleteLinkArray = (0, import_string.decomposeText)(value, "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
+          const valueDeleteLinkArray = (0, import_string.decomposeText)(value != null ? value : "", "('", "')").substring.replace("('", "").replace(",true')", "").split(".");
           const instanceAlexa = valueDeleteLinkArray[1];
           const valueDeleteId = valueDeleteLinkArray[5];
           const instanceShoppingListID = `${id.split(".")[1]}.${id.split(".")[2]}`;

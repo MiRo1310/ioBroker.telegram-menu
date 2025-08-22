@@ -70,7 +70,7 @@ const setValue = async (id, value, valueFromSubmenu, ack) => {
     (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
   }
 };
-const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams) => {
+const handleSetState = async (instance, part, userToSend, valueFromSubmenu, telegramParams) => {
   try {
     if (!part.switch) {
       return;
@@ -79,6 +79,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
       let returnText = text;
       if (returnText.includes(import_config.config.setDynamicValue)) {
         const { confirmText, id } = await (0, import_dynamicValue.setDynamicValue)(
+          instance,
           returnText,
           ack,
           ID,
@@ -126,6 +127,7 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
       }
       const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, returnText, valueFromSubmenu != null ? valueFromSubmenu : value);
       await (0, import_telegram.sendToTelegram)({
+        instance,
         userToSend,
         textToSend,
         telegramParams,

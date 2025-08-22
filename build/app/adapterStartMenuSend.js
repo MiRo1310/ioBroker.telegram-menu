@@ -26,19 +26,29 @@ var import_backMenu = require("./backMenu");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
+function isUserActive(telegramParams, userToSend) {
+  return telegramParams.userListWithChatID.find(
+    (user) => user.chatID === userToSend.chatId && user.instance === userToSend.instance
+  );
+}
 async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, telegramParams) {
   for (const menu of listOfMenus) {
     const startSide = startSides[menu];
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
       import_main.adapter.log.debug(`Startside: ${startSide}`);
-      if (menusWithUsers[menu]) {
-        for (const userToSend of menusWithUsers[menu]) {
+      const group = menusWithUsers[menu];
+      if (group) {
+        for (const userToSend of group) {
           const { nav, text, parse_mode } = menuData[menu][startSide];
+          const user = isUserActive(telegramParams, userToSend);
+          if (!user) {
+            continue;
+          }
           (0, import_backMenu.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
           import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
           const params = { ...telegramParams };
-          params.telegramInstance = userToSend.instance;
           await (0, import_telegram.sendToTelegram)({
+            instance: userToSend.instance,
             userToSend: userToSend.name,
             textToSend: text,
             keyboard: nav,

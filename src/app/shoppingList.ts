@@ -20,6 +20,7 @@ const objData: ObjectData = {};
 let isSubscribed = false;
 
 export async function shoppingListSubscribeStateAndDeleteItem(
+    telegramInstance: string,
     val: string | null,
     telegramParams: TelegramParams,
 ): Promise<void> {
@@ -48,6 +49,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
                 return;
             }
             await sendToTelegram({
+                instance: telegramInstance,
                 userToSend: user,
                 textToSend: 'Cannot delete the Item',
                 telegramParams,
@@ -61,6 +63,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
 }
 
 export async function deleteMessageAndSendNewShoppingList(
+    instance: string,
     telegramParams: TelegramParams,
     userToSend: string,
 ): Promise<void> {
@@ -68,7 +71,7 @@ export async function deleteMessageAndSendNewShoppingList(
         const user = userToSend;
         const idList = objData[user].idList;
         await _subscribeForeignStates(`alexa-shoppinglist.${idList}`);
-        await deleteMessageIds(user, telegramParams, 'last');
+        await deleteMessageIds(instance, user, telegramParams, 'last');
 
         const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result?.val) {
@@ -76,7 +79,7 @@ export async function deleteMessageAndSendNewShoppingList(
             const newId = `alexa-shoppinglist.${idList}`;
             const resultJson = createKeyboardFromJson(toJson(result.val), null, newId, user);
             if (resultJson?.text && resultJson?.keyboard) {
-                sendToTelegramSubmenu(user, resultJson.text, resultJson.keyboard, telegramParams, true);
+                sendToTelegramSubmenu(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
             }
         }
     } catch (e: any) {

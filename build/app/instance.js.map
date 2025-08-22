@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/instance.ts"],
+  "sourcesContent": ["import type { InstanceList } from '../types/types';\n\nexport const isInstanceActive = (telegramInstanceList: InstanceList[], instance: string): boolean =>\n    telegramInstanceList.find(i => i.name === instance)?.active ?? false;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,MAAM,mBAAmB,CAAC,sBAAsC,aAA2B;AAFlG;AAGI,0CAAqB,KAAK,OAAK,EAAE,SAAS,QAAQ,MAAlD,mBAAqD,WAArD,YAA+D;AAAA;",
+  "names": []
+}

@@ -77,11 +77,11 @@ const removeMessageFromList = ({
 }) => {
   return copyMessageIds[chat_id].filter((message) => message.id !== element.id);
 };
-async function deleteMessageIds(user, telegramParams, whatShouldDelete) {
-  const { telegramInstance, userListWithChatID } = telegramParams;
+async function deleteMessageIds(instance, user, telegramParams, whatShouldDelete) {
+  const { userListWithChatID } = telegramParams;
   try {
     const requestMessageIdObj = await import_main.adapter.getStateAsync("communication.requestIds");
-    const lastMessageId = await import_main.adapter.getForeignStateAsync(`${telegramInstance}.communicate.requestMessageId`);
+    const lastMessageId = await import_main.adapter.getForeignStateAsync(`${instance}.communicate.requestMessageId`);
     if (!requestMessageIdObj || typeof requestMessageIdObj.val !== "string" || !JSON.parse(requestMessageIdObj.val)) {
       return;
     }
@@ -98,14 +98,11 @@ async function deleteMessageIds(user, telegramParams, whatShouldDelete) {
     json[chat_id].forEach((element, index) => {
       var _a;
       const id = (_a = element.id) == null ? void 0 : _a.toString();
-      if (!telegramInstance) {
-        return;
-      }
       if (whatShouldDelete === "all" && id) {
-        (0, import_botAction.deleteMessageByBot)(telegramInstance, user, parseInt(id), chat_id);
+        (0, import_botAction.deleteMessageByBot)(instance, user, parseInt(id), chat_id);
       }
       if (whatShouldDelete === "last" && index === json[chat_id].length - 1 && id) {
-        (0, import_botAction.deleteMessageByBot)(telegramInstance, user, parseInt(id), chat_id);
+        (0, import_botAction.deleteMessageByBot)(instance, user, parseInt(id), chat_id);
       }
       if (!copyMessageIds) {
         return;

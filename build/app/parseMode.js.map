@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/app/parseMode.ts"],
+  "sourcesContent": ["import type { Part } from '../types/types';\n\nexport const isParseModeFirstElement = (part: Part): boolean | undefined => part.getData?.[0].parse_mode;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,MAAM,0BAA0B,CAAC,SAAiC;AAFzE;AAE4E,oBAAK,YAAL,mBAAe,GAAG;AAAA;",
+  "names": []
+}

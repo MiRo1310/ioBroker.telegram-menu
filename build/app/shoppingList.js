@@ -34,7 +34,7 @@ var import_json = require("../lib/json");
 var import_utils = require("../lib/utils");
 const objData = {};
 let isSubscribed = false;
-async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
+async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, telegramParams) {
   try {
     let array, user, idList, instance, idItem, res;
     if ((0, import_utils.isDefined)(val)) {
@@ -59,6 +59,7 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
         return;
       }
       await (0, import_telegram.sendToTelegram)({
+        instance: telegramInstance,
         userToSend: user,
         textToSend: "Cannot delete the Item",
         telegramParams,
@@ -70,19 +71,19 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
     (0, import_logging.errorLogger)("Error shoppingList:", e, import_main.adapter);
   }
 }
-async function deleteMessageAndSendNewShoppingList(telegramParams, userToSend) {
+async function deleteMessageAndSendNewShoppingList(instance, telegramParams, userToSend) {
   try {
     const user = userToSend;
     const idList = objData[user].idList;
     await (0, import_subscribeStates._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
-    await (0, import_messageIds.deleteMessageIds)(user, telegramParams, "last");
+    await (0, import_messageIds.deleteMessageIds)(instance, user, telegramParams, "last");
     const result = await import_main.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result == null ? void 0 : result.val) {
       import_main.adapter.log.debug(`Result from Shoppinglist : ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
       const resultJson = (0, import_jsonTable.createKeyboardFromJson)((0, import_json.toJson)(result.val), null, newId, user);
       if ((resultJson == null ? void 0 : resultJson.text) && (resultJson == null ? void 0 : resultJson.keyboard)) {
-        (0, import_telegram.sendToTelegramSubmenu)(user, resultJson.text, resultJson.keyboard, telegramParams, true);
+        (0, import_telegram.sendToTelegramSubmenu)(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
       }
     }
   } catch (e) {

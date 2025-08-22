@@ -223,6 +223,7 @@ export interface CheckEveryMenuForDataType {
     timeoutKey: string;
     userToSend: string;
     telegramParams: TelegramParams;
+    instance: string;
 }
 
 export interface ProcessDataType {
@@ -238,6 +239,7 @@ export interface ProcessDataType {
     groupData: NewObjectStructure;
     userToSend: string;
     telegramParams: TelegramParams;
+    instance: string;
 }
 
 export interface BackMenuType {
@@ -245,13 +247,13 @@ export interface BackMenuType {
     menus: string[];
     userToSend: string;
     telegramParams: TelegramParams;
+    instance: string;
 }
 
 export type AllMenusWithData = Record<string, NewObjectStructure>;
 
 export interface TelegramParams {
     telegramInstanceList: InstanceList[];
-    telegramInstance?: string;
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatID[];
@@ -262,6 +264,7 @@ export interface SetMenuValue {
     userToSend: string;
     telegramParams: TelegramParams;
     menuNumber: 1 | 2;
+    instance: string;
 }
 
 export interface CreateMenu {
@@ -309,6 +312,7 @@ export interface Telegram {
     parse_mode?: boolean;
     userToSend: string;
     telegramParams: TelegramParams;
+    instance: string;
 }
 
 export interface ExtractTimeValues {
@@ -346,4 +350,5 @@ export interface CallSubMenu {
     part: Part;
     allMenusWithData: AllMenusWithData;
     menus: string[];
+    instance: string;
 }

@@ -26,7 +26,7 @@ var import_logging = require("./logging");
 var import_telegram = require("./telegram");
 var import_utils = require("../lib/utils");
 var import_splitValues = require("../lib/splitValues");
-function getChart(echarts, directoryPicture, user, telegramParams) {
+function getChart(instance, echarts, directoryPicture, user, telegramParams) {
   try {
     for (const echart of echarts) {
       const instanceOfEchart = (0, import_splitValues.getEchartsValues)(echart.preset);
@@ -45,7 +45,7 @@ function getChart(echarts, directoryPicture, user, telegramParams) {
         },
         async (result) => {
           const textToSend = result.error || directoryPicture + echart.filename;
-          await (0, import_telegram.sendToTelegram)({ userToSend: user, textToSend, telegramParams });
+          await (0, import_telegram.sendToTelegram)({ instance, userToSend: user, textToSend, telegramParams });
         }
       );
     }
