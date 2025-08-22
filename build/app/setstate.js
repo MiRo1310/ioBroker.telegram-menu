@@ -112,19 +112,11 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
         if (!isValidJson) {
           return;
         }
-        const text2 = returnText.replace(substring, json.text);
-        let value2 = null;
         if (json.id) {
           const state = await import_main.adapter.getForeignStateAsync(json.id);
-          value2 = state ? state.val : null;
+          const val = state ? String(state == null ? void 0 : state.val) : "";
+          returnText = returnText.replace(substring, `${json.text} ${val}`);
         }
-        const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, text2, valueFromSubmenu != null ? valueFromSubmenu : value2);
-        await (0, import_telegram.sendToTelegram)({
-          userToSend,
-          textToSend,
-          telegramParams,
-          parse_mode
-        });
         await (0, import_setStateIdsToListenTo.addSetStateIds)({
           id: json.id,
           confirm: true,
@@ -132,6 +124,13 @@ const handleSetState = async (part, userToSend, valueFromSubmenu, telegramParams
           userToSend
         });
       }
+      const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, returnText, valueFromSubmenu != null ? valueFromSubmenu : value);
+      await (0, import_telegram.sendToTelegram)({
+        userToSend,
+        textToSend,
+        telegramParams,
+        parse_mode
+      });
       if (toggle) {
         const state = await import_main.adapter.getForeignStateAsync(ID);
         state ? await setstateIobroker({ id: ID, value: !state.val, ack }) : await setstateIobroker({ id: ID, value: false, ack });

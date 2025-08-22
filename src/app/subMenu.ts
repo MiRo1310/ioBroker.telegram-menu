@@ -288,7 +288,7 @@ export async function subMenu({
             return createSubmenuNumber({ cbData, text, menuToHandle: menuToHandle });
         }
 
-        if (isSetSubmenuNumber(menuString, cbData)) {
+        if (isSetSubmenuNumber(menuString)) {
             const { value } = getSubmenuNumberValues(menuString);
             await handleSetState(part, userToSend, value, telegramParams);
         }
