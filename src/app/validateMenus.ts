@@ -12,8 +12,9 @@ export const isCreateSubmenuPercent = (menuString: string, cbData: string): bool
 export const isSetSubmenuPercent = (menuString: string, step: number): boolean =>
     menuString.includes(`submenu:percent${step}`);
 
-export const isSetSubmenuNumber = (menuString: string, cbData: string): boolean =>
-    menuString.includes(`submenu:${cbData}`);
+export const isSetSubmenuNumber = (menuString: string): boolean =>
+    // menuString.includes(`submenu:${cbData}`);
+    menuString.includes(`submenu:number`);
 
 export function isCreateSubmenuNumber(menuString: string, callbackData: string): boolean {
     return !menuString.includes('submenu') && callbackData.includes('number');

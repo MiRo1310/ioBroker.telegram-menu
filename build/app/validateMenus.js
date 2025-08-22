@@ -42,7 +42,10 @@ const isSetDynamicSwitchVal = (str) => str.includes("dynS");
 const isSubmenuOrMenu = (val) => val.startsWith("menu") || val.startsWith("submenu");
 const isCreateSubmenuPercent = (menuString, cbData) => !menuString.includes("submenu") && cbData.includes("percent");
 const isSetSubmenuPercent = (menuString, step) => menuString.includes(`submenu:percent${step}`);
-const isSetSubmenuNumber = (menuString, cbData) => menuString.includes(`submenu:${cbData}`);
+const isSetSubmenuNumber = (menuString) => (
+  // menuString.includes(`submenu:${cbData}`);
+  menuString.includes(`submenu:number`)
+);
 function isCreateSubmenuNumber(menuString, callbackData) {
   return !menuString.includes("submenu") && callbackData.includes("number");
 }

@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: Submenu percent
+
 ### 3.0.3 (2025-08-17)
 
 - FIX: #374 Cannot check menu checkbox

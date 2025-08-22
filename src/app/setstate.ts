@@ -59,7 +59,6 @@ const setValue = async (
     ack: boolean,
 ): Promise<void> => {
     try {
-        // If Value is set in Config the value will set to datapoint otherwise the value from submenu, so submenuValuePriority is obsolete
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
                 ? await isDynamicValueToSet(value)
@@ -120,22 +119,12 @@ export const handleSetState = async (
                 if (!isValidJson) {
                     return;
                 }
-                const text = returnText.replace(substring, json.text);
-                let value: null | ioBroker.StateValue = null;
 
                 if (json.id) {
                     const state = await adapter.getForeignStateAsync(json.id);
-                    value = state ? state.val : null;
+                    const val = state ? String(state?.val) : '';
+                    returnText = returnText.replace(substring, `${json.text} ${val}`);
                 }
-
-                const { textToSend } = exchangeValue(adapter, text, valueFromSubmenu ?? value);
-
-                await sendToTelegram({
-                    userToSend,
-                    textToSend,
-                    telegramParams,
-                    parse_mode,
-                });
 
                 await addSetStateIds({
                     id: json.id,
@@ -144,6 +133,14 @@ export const handleSetState = async (
                     userToSend: userToSend,
                 });
             }
+            const { textToSend } = exchangeValue(adapter, returnText, valueFromSubmenu ?? value);
+
+            await sendToTelegram({
+                userToSend,
+                textToSend,
+                telegramParams,
+                parse_mode,
+            });
             if (toggle) {
                 const state = await adapter.getForeignStateAsync(ID);
 

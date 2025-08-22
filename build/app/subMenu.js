@@ -253,7 +253,7 @@ async function subMenu({
     if ((0, import_validateMenus.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
       return createSubmenuNumber({ cbData, text, menuToHandle });
     }
-    if ((0, import_validateMenus.isSetSubmenuNumber)(menuString, cbData)) {
+    if ((0, import_validateMenus.isSetSubmenuNumber)(menuString)) {
       const { value } = (0, import_splitValues.getSubmenuNumberValues)(menuString);
       await (0, import_setstate.handleSetState)(part, userToSend, value, telegramParams);
     }
