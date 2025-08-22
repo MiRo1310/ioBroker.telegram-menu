@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "news": {
+      "3.0.4": {
+        "en": "FIX: Submenu percent",
+        "de": "FIX: Submenu Prozent",
+        "ru": "FIX: Подменю%",
+        "pt": "FIX: Submenu por cento",
+        "nl": "FIX: Submenupercentage",
+        "fr": "FIXE: Pourcentage du sous-menu",
+        "it": "FIX: Sottomenu per cento",
+        "es": "FIX: Submenú por ciento",
+        "pl": "FIX: Podmenu procent",
+        "uk": "FIX: Відсоток субмену",
+        "zh-cn": "FIX: 子菜单百分比"
+      },
       "3.0.3": {
         "en": "FIX: #374 Cannot check menu checkbox\nFIX: Errors reported by sentry",
         "de": "FIX: #374 Kann das Menü nicht überprüfen\nFIX: Fehler, die von sentry gemeldet werden",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 342 Wynik nie w prawidłowej kolejności\nFIX: # 341 Zmiana stanu ustawienia Wartość\nFIX: # 338 Wartość wymiany nie działa w nowej linii",
         "uk": "FIX: #342 Результат не в правильному порядку\nFIX: #341 Зміна Setstate Ціна\nFIX: #338 Вартість обміну не працює в новому режимі",
         "zh-cn": "FIX: #342 (英语). 结果不正确\nFIX: # 341 状态变化 数值\nFIX: 第338号 交换值在新行中无效"
-      },
-      "2.4.3": {
-        "en": "FIX: #332 Copy dropdown\nFIX: SetDynamicValue \nFIX: Change value in getStatus",
-        "de": "FIX: #332 Dropdown kopieren\nFIX: SetDynamicValue\nFIX: Wert ändern in getStatus",
-        "ru": "FIX: #332 Copy dropdown\nОригинальное название: SetDynamicValue\nFIX: Изменение стоимости GetStatus",
-        "pt": "FIX: #332 Descarte de cópia\nFIX: SetDynamicValue\nFIX: Valor de mudança no getStatus",
-        "nl": "FIX: #332 Kopiëren dropdown\nFIX: SetDynamicValue\nFIX: Wijzig waarde in getStatus",
-        "fr": "FIXE: #332 Copier la liste déroulante\nFIX: SetDynamicValue\nFIX: Modifier la valeur de getStatus",
-        "it": "FIX: #332 Copia a discesa\nFIX: SetDynamicValue\nFIX: Cambia valore in getStatus",
-        "es": "FIX: #332 Copia desplegable\nFIX: SetDynamicValue\nFIX: Cambiar el valor en getStatus",
-        "pl": "FIX: # 332 Kopiuj zrzut\nFIX: SetDynamicValue\nFIX: Zmień wartość w getStatus",
-        "uk": "FIX: #332 Копіювати спад\nFIX: SetDynamicValue\nFIX: Зміна значення в getStatus",
-        "zh-cn": "FIX: #332 复制下拉\nFIX: 设置动态变量\nFIX: 获取状态中更改值"
       }
     },
     "titleLang": {
