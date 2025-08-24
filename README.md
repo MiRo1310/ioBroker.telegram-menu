@@ -35,9 +35,12 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 3.0.4 (2025-08-22)
+### **WORK IN PROGRESS**
 
 - FIX: #377 Commands are not executed
+
+### 3.0.4 (2025-08-22)
+
 - FIX: Submenu percent
 
 ### 3.0.3 (2025-08-17)
