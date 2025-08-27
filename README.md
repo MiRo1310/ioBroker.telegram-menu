@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: #381 No response status
+
 ### 3.0.5 (2025-08-24)
 
 - FIX: #377 Commands are not executed
