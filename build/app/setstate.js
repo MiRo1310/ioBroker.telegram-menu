@@ -125,7 +125,16 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
           userToSend
         });
       }
-      const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, returnText, valueFromSubmenu != null ? valueFromSubmenu : value);
+      let valueToTelegram = valueFromSubmenu != null ? valueFromSubmenu : value;
+      if (toggle) {
+        const state = await import_main.adapter.getForeignStateAsync(ID);
+        const val = state ? !state.val : false;
+        await setstateIobroker({ id: ID, value: val, ack });
+        valueToTelegram = val;
+      } else {
+        await setValue(ID, value, valueFromSubmenu, ack);
+      }
+      const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, returnText, valueToTelegram);
       await (0, import_telegram.sendToTelegram)({
         instance,
         userToSend,
@@ -133,12 +142,6 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
         telegramParams,
         parse_mode
       });
-      if (toggle) {
-        const state = await import_main.adapter.getForeignStateAsync(ID);
-        state ? await setstateIobroker({ id: ID, value: !state.val, ack }) : await setstateIobroker({ id: ID, value: false, ack });
-      } else {
-        await setValue(ID, value, valueFromSubmenu, ack);
-      }
     }
   } catch (error) {
     (0, import_logging.errorLogger)("Error Switch", error, import_main.adapter);

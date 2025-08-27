@@ -135,7 +135,19 @@ export const handleSetState = async (
                     userToSend: userToSend,
                 });
             }
-            const { textToSend } = exchangeValue(adapter, returnText, valueFromSubmenu ?? value);
+
+            let valueToTelegram = valueFromSubmenu ?? value;
+            if (toggle) {
+                const state = await adapter.getForeignStateAsync(ID);
+                const val = state ? !state.val : false;
+                await setstateIobroker({ id: ID, value: val, ack });
+
+                valueToTelegram = val;
+            } else {
+                await setValue(ID, value, valueFromSubmenu, ack);
+            }
+
+            const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
 
             await sendToTelegram({
                 instance,
@@ -144,15 +156,6 @@ export const handleSetState = async (
                 telegramParams,
                 parse_mode,
             });
-            if (toggle) {
-                const state = await adapter.getForeignStateAsync(ID);
-
-                state
-                    ? await setstateIobroker({ id: ID, value: !state.val, ack })
-                    : await setstateIobroker({ id: ID, value: false, ack });
-            } else {
-                await setValue(ID, value, valueFromSubmenu, ack);
-            }
         }
     } catch (error: any) {
         errorLogger('Error Switch', error, adapter);
