@@ -31,11 +31,11 @@ async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): 
         requestMessageId = isValidJson ? json : {};
 
         const userIDValue = requestUserIdObj.val.toString();
-        if (!requestMessageId[userIDValue]) {
+        if (!requestMessageId?.[userIDValue]) {
             requestMessageId[userIDValue] = [];
         }
 
-        if (!requestMessageId[userIDValue]?.find(message => message.id === state.val)) {
+        if (!requestMessageId[userIDValue].find(message => message.id === state.val)) {
             requestMessageId[userIDValue].push({
                 id: state.val,
                 time: Date.now(),
