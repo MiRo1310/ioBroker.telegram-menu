@@ -29,7 +29,6 @@ var import_utils = require("../lib/utils");
 var import_string = require("../lib/string");
 let isDeleting = false;
 async function saveMessageIds(state, instanceTelegram) {
-  var _a;
   try {
     let requestMessageId = {};
     const requestMessageIdObj = !isDeleting ? await import_main.adapter.getStateAsync("communication.requestIds") : null;
@@ -48,10 +47,10 @@ async function saveMessageIds(state, instanceTelegram) {
     }
     requestMessageId = isValidJson ? json : {};
     const userIDValue = requestUserIdObj.val.toString();
-    if (!requestMessageId[userIDValue]) {
+    if (!(requestMessageId == null ? void 0 : requestMessageId[userIDValue])) {
       requestMessageId[userIDValue] = [];
     }
-    if (!((_a = requestMessageId[userIDValue]) == null ? void 0 : _a.find((message) => message.id === state.val))) {
+    if (!requestMessageId[userIDValue].find((message) => message.id === state.val)) {
       requestMessageId[userIDValue].push({
         id: state.val,
         time: Date.now(),
