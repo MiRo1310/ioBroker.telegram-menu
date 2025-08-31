@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.0.5",
+    "version": "3.0.6",
     "news": {
+      "3.0.6": {
+        "en": "FIX: #381 No response status",
+        "de": "FIX: #381 Kein Antwortstatus",
+        "ru": "Fix: #381 Нет ответа",
+        "pt": "FIX: #381 Sem status de resposta",
+        "nl": "FIX: #381 Geen responsstatus",
+        "fr": "Numéro 381 Pas de réponse",
+        "it": "FIX: #381 Nessun stato di risposta",
+        "es": "FIX: #381 No hay estado de respuesta",
+        "pl": "FIX: # 381 Brak statusu odpowiedzi",
+        "uk": "FIX: #381 Статус на сервери",
+        "zh-cn": "FIX:#381 (英语). 没有回复状态"
+      },
       "3.0.5": {
         "en": "FIX: #377 Commands are not executed",
         "de": "FIX: #377 Befehle werden nicht ausgeführt",
@@ -80,19 +93,6 @@
         "pl": "FEAT: # 266 Wykorzystanie wielu przypadków telegramu",
         "uk": "FEAT: #266 Використання декількох телеграм екземплярів",
         "zh-cn": "FEAT: #266 多条电报实例的使用"
-      },
-      "2.4.5": {
-        "en": "FIX: Errors reported by sentry\nFIX: #357 Navigation trigger input with trim method",
-        "de": "FIX: Fehler, die von sentry gemeldet werden\nFIX: #357 Navigations-Trigger-Eingang mit Trimmmethode",
-        "ru": "FIX: Ошибки, о которых сообщил часовой\nFIX: #357 Навигационный триггерный вход с использованием метода отделки",
-        "pt": "FIX: Erros relatados pelo sentinela\nFIX: #357 Entrada de gatilho de navegação com método de corte",
-        "nl": "FIX: Fouten gemeld door de wachtdienst\nFIX: #357 Navigatie trigger input met trim methode",
-        "fr": "FIX : Erreurs signalées par sentinelle\nFIX: #357 Entrée du déclencheur de navigation avec la méthode de triage",
-        "it": "FIX: Errori segnalati dalla sentinella\nFIX: #357 Input di attivazione di navigazione con metodo di trim",
-        "es": "FIX: Errores reportados por centinela\nFIX: #357 Iniciación de navegación con método de trim",
-        "pl": "FIX: Błędy zgłaszane przez wartownika\nFIX: # 357 Nawigacja wejście wyzwalające z metodą przycinania",
-        "uk": "FIX: Помилки, які повідомляються відправником\nFIX: #357 Введення навігаторів з обрізним методом",
-        "zh-cn": "FIX:哨兵报告的错误\nFIX: # 357 带有修剪方法的导航触发输入"
       }
     },
     "titleLang": {
