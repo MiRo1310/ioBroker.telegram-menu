@@ -35,10 +35,10 @@ function sendPic(instance, part, userToSend, telegramParams, token, directoryPic
       const { id, delay, fileName } = element;
       let path = "";
       if ((0, import_appUtils.isStartside)(id)) {
-        const newUrl = (0, import_string.replaceAll)(id, "&amp;", "&");
+        const url = (0, import_string.replaceAll)(id, "&amp;", "&");
         path = `${directoryPicture}${fileName}`;
         (0, import_child_process.exec)(
-          `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
+          `curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`,
           (error, stdout, stderr) => {
             if (stdout) {
               import_main.adapter.log.debug(`Stdout : "${stdout}"`);
@@ -74,7 +74,7 @@ function sendPic(instance, part, userToSend, telegramParams, token, directoryPic
             import_main.adapter.clearTimeout(item.timeout);
           });
           timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-          import_main.adapter.log.debug("Picture has been sent");
+          import_main.adapter.log.debug("Picture has been send");
         },
         parseInt(String(element.delay))
       );

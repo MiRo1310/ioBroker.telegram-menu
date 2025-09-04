@@ -30,7 +30,7 @@ const getIds = {
   telegramRequestChatID: (instance) => `${instance}.communicate.requestChatId`
 };
 const getConfigVariables = (config) => {
-  var _a, _b;
+  var _a, _b, _c;
   const telegramInstances = (_a = config.instanceList) != null ? _a : [];
   const checkboxes = config.checkbox;
   const telegramParams = {
@@ -45,10 +45,10 @@ const getConfigVariables = (config) => {
     sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
     listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
     token: config.tokenGrafana,
-    directoryPicture: config.directory,
+    directoryPicture: (_b = config.directory) != null ? _b : "/opt/iobroker/media/",
     isUserActiveCheckbox: config.userActiveCheckbox,
     menusWithUsers: config.usersInGroup,
-    textNoEntryFound: (_b = config.textNoEntry) != null ? _b : "Entry not found",
+    textNoEntryFound: (_c = config.textNoEntry) != null ? _c : "Entry not found",
     dataObject: config.data,
     telegramParams
   };

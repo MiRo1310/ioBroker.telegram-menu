@@ -22,11 +22,11 @@ export function sendPic(
             const { id, delay, fileName } = element;
             let path = '';
             if (isStartside(id)) {
-                const newUrl = replaceAll(id, '&amp;', '&');
+                const url = replaceAll(id, '&amp;', '&');
                 path = `${directoryPicture}${fileName}`;
 
                 exec(
-                    `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
+                    `curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`,
                     (error: any, stdout: any, stderr: any) => {
                         if (stdout) {
                             adapter.log.debug(`Stdout : "${stdout}"`);
@@ -67,7 +67,7 @@ export function sendPic(
 
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);
 
-                    adapter.log.debug('Picture has been sent');
+                    adapter.log.debug('Picture has been send');
                 },
                 parseInt(String(element.delay)),
             );
