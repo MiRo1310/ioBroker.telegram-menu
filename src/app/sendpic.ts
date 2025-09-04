@@ -18,39 +18,37 @@ export function sendPic(
     timeoutKey: string,
 ): Timeouts[] {
     try {
-        part.sendPic?.forEach(element => {
+        part.sendPic?.forEach((element, index) => {
             const { id, delay, fileName } = element;
             let path = '';
-            if (isStartside(id)) {
-                const url = replaceAll(id, '&amp;', '&');
-                path = `${directoryPicture}${fileName}`;
-
-                if (!validateDirectory(adapter, directoryPicture)) {
-                    return;
-                }
-
-                if (delay <= 0) {
-                    loadWithCurl(
-                        adapter,
-                        token,
-                        path,
-                        url,
-                        async () =>
-                            await sendToTelegram({
-                                instance,
-                                userToSend,
-                                textToSend: path,
-                                telegramParams,
-                            }),
-                    );
-                    return;
-                }
-                loadWithCurl(adapter, token, path, url);
-                adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
-                timeoutKey += 1;
-            } else {
+            if (!isStartside(id)) {
                 return;
             }
+            const url = replaceAll(id, '&amp;', '&');
+            path = `${directoryPicture}${fileName}`;
+
+            if (!validateDirectory(adapter, directoryPicture)) {
+                return;
+            }
+
+            if (delay <= 0) {
+                loadWithCurl(
+                    adapter,
+                    token,
+                    path,
+                    url,
+                    async () =>
+                        await sendToTelegram({
+                            instance,
+                            userToSend,
+                            textToSend: path,
+                            telegramParams,
+                        }),
+                );
+                return;
+            }
+            loadWithCurl(adapter, token, path, url);
+            timeoutKey += index;
 
             const timeout = adapter.setTimeout(
                 async () => {
@@ -60,15 +58,13 @@ export function sendPic(
                         textToSend: path,
                         telegramParams,
                     });
-                    let timeoutToClear: Timeouts[] = [];
-                    timeoutToClear = timeouts.filter(item => item.key == timeoutKey);
-                    timeoutToClear.forEach(item => {
-                        adapter.clearTimeout(item.timeout);
-                    });
+                    let timeoutToClear: Timeouts | undefined = undefined;
+                    timeoutToClear = timeouts.find(item => item.key == timeoutKey);
 
+                    adapter.clearTimeout(timeoutToClear?.timeout);
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);
 
-                    adapter.log.debug('Picture has been send');
+                    adapter.log.debug(`Picture has been send with delay ${delay}, path : ${path}`);
                 },
                 parseInt(String(element.delay)),
             );

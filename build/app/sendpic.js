@@ -31,36 +31,34 @@ var import_exec = require("./exec");
 function sendPic(instance, part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
-    (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
+    (_a = part.sendPic) == null ? void 0 : _a.forEach((element, index) => {
       const { id, delay, fileName } = element;
       let path = "";
-      if ((0, import_appUtils.isStartside)(id)) {
-        const url = (0, import_string.replaceAll)(id, "&amp;", "&");
-        path = `${directoryPicture}${fileName}`;
-        if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
-          return;
-        }
-        if (delay <= 0) {
-          (0, import_exec.loadWithCurl)(
-            import_main.adapter,
-            token,
-            path,
-            url,
-            async () => await (0, import_telegram.sendToTelegram)({
-              instance,
-              userToSend,
-              textToSend: path,
-              telegramParams
-            })
-          );
-          return;
-        }
-        (0, import_exec.loadWithCurl)(import_main.adapter, token, path, url);
-        import_main.adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
-        timeoutKey += 1;
-      } else {
+      if (!(0, import_appUtils.isStartside)(id)) {
         return;
       }
+      const url = (0, import_string.replaceAll)(id, "&amp;", "&");
+      path = `${directoryPicture}${fileName}`;
+      if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
+        return;
+      }
+      if (delay <= 0) {
+        (0, import_exec.loadWithCurl)(
+          import_main.adapter,
+          token,
+          path,
+          url,
+          async () => await (0, import_telegram.sendToTelegram)({
+            instance,
+            userToSend,
+            textToSend: path,
+            telegramParams
+          })
+        );
+        return;
+      }
+      (0, import_exec.loadWithCurl)(import_main.adapter, token, path, url);
+      timeoutKey += index;
       const timeout = import_main.adapter.setTimeout(
         async () => {
           await (0, import_telegram.sendToTelegram)({
@@ -69,13 +67,11 @@ function sendPic(instance, part, userToSend, telegramParams, token, directoryPic
             textToSend: path,
             telegramParams
           });
-          let timeoutToClear = [];
-          timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-          timeoutToClear.forEach((item) => {
-            import_main.adapter.clearTimeout(item.timeout);
-          });
+          let timeoutToClear = void 0;
+          timeoutToClear = timeouts.find((item) => item.key == timeoutKey);
+          import_main.adapter.clearTimeout(timeoutToClear == null ? void 0 : timeoutToClear.timeout);
           timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-          import_main.adapter.log.debug("Picture has been send");
+          import_main.adapter.log.debug(`Picture has been send with delay ${delay}, path : ${path}`);
         },
         parseInt(String(element.delay))
       );

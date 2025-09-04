@@ -274,8 +274,8 @@ menu:back
   sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
 - Wenn man mehrere Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig
   überschreiben
-- Delay die Zeit zwischen der Anfrage und dem Senden des Bildes -> je nach Geschwindigkeit des Systems kann und muss ein
-  anderer Wert genommen werden
+- `Neuerung!!!` Ab jetzt hat man die Möglichkeit das Delay auf 0 zu setzen, so wird das Bild ohne Verzögerung verschickt. 
+- Mit Delay, wird es um den Wert verzögert verschickt. Zeit zwischen der Anfrage und dem Senden des Bildes in Sekunden.
 
   <img src="../pic/grafana.png" width="400">
 
