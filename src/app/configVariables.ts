@@ -38,7 +38,7 @@ export const getConfigVariables = (
         sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
         listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
         token: config.tokenGrafana,
-        directoryPicture: config.directory,
+        directoryPicture: config.directory ?? '/opt/iobroker/media/',
         isUserActiveCheckbox: config.userActiveCheckbox,
         menusWithUsers: config.usersInGroup,
         textNoEntryFound: (config.textNoEntry as string | undefined) ?? 'Entry not found',

@@ -23,43 +23,42 @@ __export(sendpic_exports, {
 module.exports = __toCommonJS(sendpic_exports);
 var import_telegram = require("./telegram");
 var import_utils = require("../lib/utils");
-var import_child_process = require("child_process");
 var import_logging = require("./logging");
 var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
+var import_exec = require("./exec");
 function sendPic(instance, part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   try {
-    (_a = part.sendPic) == null ? void 0 : _a.forEach((element) => {
+    (_a = part.sendPic) == null ? void 0 : _a.forEach((element, index) => {
       const { id, delay, fileName } = element;
       let path = "";
-      if ((0, import_appUtils.isStartside)(id)) {
-        const newUrl = (0, import_string.replaceAll)(id, "&amp;", "&");
-        path = `${directoryPicture}${fileName}`;
-        (0, import_child_process.exec)(
-          `curl -H "Autorisation: Bearer ${token.trim()}" "${newUrl}" > ${path}`,
-          (error, stdout, stderr) => {
-            if (stdout) {
-              import_main.adapter.log.debug(`Stdout : "${stdout}"`);
-            }
-            if (stderr) {
-              import_main.adapter.log.debug(`Stderr : "${stderr}"`);
-            }
-            if (error) {
-              (0, import_logging.errorLogger)("Error in exec:", error, import_main.adapter);
-              return;
-            }
-          }
-        );
-        import_main.adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
-        timeoutKey += 1;
-        if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
-          return;
-        }
-      } else {
+      if (!(0, import_appUtils.isStartside)(id)) {
         return;
       }
+      const url = (0, import_string.replaceAll)(id, "&amp;", "&");
+      path = `${directoryPicture}${fileName}`;
+      if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
+        return;
+      }
+      if (delay <= 0) {
+        (0, import_exec.loadWithCurl)(
+          import_main.adapter,
+          token,
+          path,
+          url,
+          async () => await (0, import_telegram.sendToTelegram)({
+            instance,
+            userToSend,
+            textToSend: path,
+            telegramParams
+          })
+        );
+        return;
+      }
+      (0, import_exec.loadWithCurl)(import_main.adapter, token, path, url);
+      timeoutKey += index;
       const timeout = import_main.adapter.setTimeout(
         async () => {
           await (0, import_telegram.sendToTelegram)({
@@ -68,13 +67,11 @@ function sendPic(instance, part, userToSend, telegramParams, token, directoryPic
             textToSend: path,
             telegramParams
           });
-          let timeoutToClear = [];
-          timeoutToClear = timeouts.filter((item) => item.key == timeoutKey);
-          timeoutToClear.forEach((item) => {
-            import_main.adapter.clearTimeout(item.timeout);
-          });
+          let timeoutToClear = void 0;
+          timeoutToClear = timeouts.find((item) => item.key == timeoutKey);
+          import_main.adapter.clearTimeout(timeoutToClear == null ? void 0 : timeoutToClear.timeout);
           timeouts = timeouts.filter((item) => item.key !== timeoutKey);
-          import_main.adapter.log.debug("Picture has been sent");
+          import_main.adapter.log.debug(`Picture has been send with delay ${delay}, path : ${path}`);
         },
         parseInt(String(element.delay))
       );
