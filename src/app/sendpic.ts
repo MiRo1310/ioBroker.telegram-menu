@@ -1,11 +1,11 @@
 import { sendToTelegram } from './telegram';
 import { validateDirectory } from '../lib/utils';
-import { exec } from 'child_process';
 import { errorLogger } from './logging';
 import { adapter } from '../main';
 import type { Part, TelegramParams, Timeouts } from '../types/types';
 import { replaceAll } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
+import { loadWithCurl } from './exec';
 
 export function sendPic(
     instance: string,
@@ -25,28 +25,29 @@ export function sendPic(
                 const url = replaceAll(id, '&amp;', '&');
                 path = `${directoryPicture}${fileName}`;
 
-                exec(
-                    `curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`,
-                    (error: any, stdout: any, stderr: any) => {
-                        if (stdout) {
-                            adapter.log.debug(`Stdout : "${stdout}"`);
-                        }
-                        if (stderr) {
-                            adapter.log.debug(`Stderr : "${stderr}"`);
-                        }
-                        if (error) {
-                            errorLogger('Error in exec:', error, adapter);
-                            return;
-                        }
-                    },
-                );
-
-                adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
-                timeoutKey += 1;
-
                 if (!validateDirectory(adapter, directoryPicture)) {
                     return;
                 }
+
+                if (delay <= 0) {
+                    loadWithCurl(
+                        adapter,
+                        token,
+                        path,
+                        url,
+                        async () =>
+                            await sendToTelegram({
+                                instance,
+                                userToSend,
+                                textToSend: path,
+                                telegramParams,
+                            }),
+                    );
+                    return;
+                }
+                loadWithCurl(adapter, token, path, url);
+                adapter.log.debug(`Send Picture : { delay : ${delay} , path : ${path} }`);
+                timeoutKey += 1;
             } else {
                 return;
             }
