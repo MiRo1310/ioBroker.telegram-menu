@@ -39,6 +39,7 @@ You can create different groups with separate menus, and then assign users to th
 
 - FEAT: Send picture without delay 
 - FIX: #385 Grafana token
+- CHORE: #384 Set recommended versions
 
 ### 3.0.6 (2025-08-31)
 

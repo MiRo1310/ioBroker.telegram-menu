@@ -61,7 +61,7 @@ function _interopRequireWildcard(e, r) {
             i && (i.get || i.set) ? Object.defineProperty(n, u, i) : (n[u] = e[u]);
         }
     }
-    return (n['default'] = e), t && t.set(e, n), n;
+    return ((n['default'] = e), t && t.set(e, n), n);
 }
 
 function _objectSpread(e) {
