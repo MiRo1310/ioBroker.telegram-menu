@@ -94,7 +94,7 @@ Sent, this is looking for the right call text, this must be written in this way,
 ![Icon1](../pic/heizung-icon1.png)
 
 -   If you want to have special icons in the menu buttons, you copy an emoji (
-    e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and use it like a characters or simply by`Windows + .`. It is not the code of the Emoji's, but the emoji directly!
+    e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and use it like a characters or simply by`Windows + .`. Es wird nicht der Code des Emoji's kopiert, sondern das Emoji direkt!
 
 ![Icon2](../pic/heizung-icon2.png)
 
@@ -246,14 +246,14 @@ e.g. Home), only entries can be deleted that are younger than 48h.
     Remove lock so that the current diagram is always sent) -> Direct link to the rendered picture
 -   If you send several diagrams, the filen name must be different, otherwise the pictures are mutually
     overwrite
--   Delay The time between the request and the sending of the image -> depending on the speed of the system
-    other value
+-   `Neuerung!!!`From now on you have the option of putting the delay to 0, the image is sent without delay.
+-   With Delay, it is sent to the value delayed. Time between the request and the sending of the image in seconds.
 
     <img src="../pic/grafana.png" width="400">
 
 ### Send Location
 
--   als erstes Trigger auswählen
+-   Select the first trigger
 -   Then a data point for the latitude ("Latitude") and one for the length of the length ("Longitude") must be specified
 
 ### Events
