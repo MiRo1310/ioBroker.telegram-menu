@@ -2,7 +2,7 @@ import AppContentHeader from '@/pages/AppContentHeader';
 import AppContentTab from '@/pages/AppContentTab';
 import AppContentNavigation from '@/pages/AppContentNavigation';
 import { TabContext } from '@mui/lab';
-import { Box, Grid2 as Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import type { PropsMainContent } from '@/types/app';
 import React, { Component } from 'react';
 

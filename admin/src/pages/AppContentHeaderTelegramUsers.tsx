@@ -1,6 +1,6 @@
 import type { EventCheckbox } from '@/types/event';
 import { I18n } from '@iobroker/adapter-react-v5';
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import type { PropsHeaderTelegramUsers, StateHeaderTelegramUsers, UserListWithChatID, UserType } from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '../components/btn-Input/checkbox';
