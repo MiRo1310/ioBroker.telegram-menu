@@ -238,7 +238,7 @@ class TelegramMenu extends utils.Adapter {
                   textToSend: changedText,
                   error: error2,
                   newValue
-                } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend, (_c = state.val) == null ? void 0 : _c.toString());
+                } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend != null ? textToSend : "", (_c = state.val) == null ? void 0 : _c.toString());
                 if (!error2) {
                   textToSend = changedText;
                 }

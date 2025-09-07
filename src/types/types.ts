@@ -180,7 +180,7 @@ export type SplittedData = string[];
 export interface SetStateIds {
     id: string;
     confirm: BooleanString | boolean;
-    returnText: string;
+    returnText?: string;
     userToSend: string;
     parse_mode?: boolean;
 }
