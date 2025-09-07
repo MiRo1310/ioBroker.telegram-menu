@@ -255,7 +255,7 @@ export default class TelegramMenu extends utils.Adapter {
                                     textToSend: changedText,
                                     error,
                                     newValue,
-                                } = exchangeValue(adapter, textToSend, state.val?.toString());
+                                } = exchangeValue(adapter, textToSend ?? '', state.val?.toString());
 
                                 if (!error) {
                                     textToSend = changedText;
