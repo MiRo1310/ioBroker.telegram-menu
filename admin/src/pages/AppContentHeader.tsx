@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import HeaderMenu from '@/pages/AppContentHeaderMenu';
 import HeaderTelegramUsers from '@/pages/AppContentHeaderTelegramUsers';
 import type { PropsMainActions } from '@/types/app';

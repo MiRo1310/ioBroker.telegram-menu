@@ -4,7 +4,7 @@ import Checkbox from '@components/btn-Input/checkbox';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { PropsSettings } from '@/types/app';
 import type { EventCheckbox, EventInput } from '@/types/event';
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { isDefined } from '../../../src/lib/utils';
 
 class Settings extends Component<PropsSettings> {
