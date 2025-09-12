@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.0.6",
+    "version": "3.1.0",
     "news": {
+      "3.1.0": {
+        "en": "FEAT: Send picture without delay \nFIX: #385 Grafana token\nCHORE: #384 Set recommended versions",
+        "de": "NEU: Bild ohne Verzögerung senden\nFIX: #385 Grafana-Token\nCHORE: #384 Empfohlene Versionen festlegen",
+        "ru": "ВОЗМОЖНОСТЬ: Отправка изображения без задержки\nИСПРАВЛЕНИЕ: #385 Маркер Grafana\nCHORE: #384 Установить рекомендуемые версии",
+        "pt": "FUNCIONALIDADE: Enviar imagem sem atraso\nCORREÇÃO: #385 Token do Grafana\nTAREFA: #384 Definir versões recomendadas",
+        "nl": "FUNC: Afbeelding verzenden zonder vertraging\nFIX: #385 Grafana-token\nCHORE: #384 Aanbevolen versies ingesteld",
+        "fr": "FONCTIONNALITÉ : Envoyer une photo sans délai\nRÉPARATION : #385 Jeton Grafana\nCHORE : #384 Définir les versions recommandées",
+        "it": "FUNZ: Invio immagine senza ritardo\nCORREZIONE: #385 Token di Grafana\nCHORE: #384 Impostare le versioni consigliate",
+        "es": "NUEVA FUNCIÓN: Enviar imagen sin demora\nERROR: #385 Token de Grafana\nTAREA: #384 Establecer versiones recomendadas",
+        "pl": "WYROB: Wysyłanie zdjęć bez opóźnienia\nNAPRAWIONO: #385 Token Grafana\nCHORE: #384 Ustaw zalecane wersje",
+        "uk": "МОЖЛИВІСТЬ: Надсилати зображення без затримки\nВИПРАВЛЕННЯ: #385 Токен Grafana\nCHORE: #384 Встановлено рекомендовані версії",
+        "zh-cn": "特性：发送图片无延迟\n修复：＃385 Grafana 令牌\n任务：#384 设置推荐版本"
+      },
       "3.0.6": {
         "en": "FIX: #381 No response status",
         "de": "FIX: #381 Kein Antwortstatus",
@@ -80,19 +93,6 @@
         "pl": "CHORE: Uaktualnij zależności\nFIX: Błędy zgłaszane przez wartownika",
         "uk": "CHORE: Оновити залежності\nFIX: Помилки, які повідомляються відправником",
         "zh-cn": "CHORE: 更新依赖性\nFIX:哨兵报告的错误"
-      },
-      "3.0.0": {
-        "en": "FEAT: #266 Usage of multiple telegram instances",
-        "de": "FEAT: #266 Verwendung mehrerer Telegramminstanzen",
-        "ru": "#266 Использование нескольких экземпляров телеграмм",
-        "pt": "FEAT: #266 Uso de múltiplas instâncias de telegrama",
-        "nl": "FEAT: #266 Gebruik van meerdere telegram instanties",
-        "fr": "VIANDE: #266 Utilisation de plusieurs instances télégrammes",
-        "it": "FEAT: #266 Utilizzo di più istanze di telegramma",
-        "es": "FEAT: #266 Uso de múltiples instancias de telegrama",
-        "pl": "FEAT: # 266 Wykorzystanie wielu przypadków telegramu",
-        "uk": "FEAT: #266 Використання декількох телеграм екземплярів",
-        "zh-cn": "FEAT: #266 多条电报实例的使用"
       }
     },
     "titleLang": {

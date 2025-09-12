@@ -35,7 +35,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.1.0 (2025-09-12)
 
 - FEAT: Send picture without delay 
 - FIX: #385 Grafana token
