@@ -1,4 +1,3 @@
-import type { Properties } from 'csstype';
 import React, { Component } from 'react';
 import type { ButtonProps } from '@/types/app';
 import { I18n } from '@iobroker/adapter-react-v5';
@@ -15,7 +14,7 @@ class Button extends Component<ButtonProps> {
     };
 
     render(): React.ReactNode {
-        const buttonStyle: Properties<string | number, string> = {
+        const buttonStyle: Record<string | number, string> = {
             backgroundColor: this.props.b_color || '#ddd',
             color: this.props.color || 'black',
             padding: this.props.small === 'true' ? '2px' : this.props.padding ? this.props.padding : '8px 32px',

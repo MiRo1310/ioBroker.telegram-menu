@@ -1,4 +1,5 @@
-import { TableBody, TableCell, TableRow } from '@mui/material';
+import { TableBody } from '@mui/material';
+import TableCell from '@/components/TableCell';
 import React, { Component } from 'react';
 import { ButtonCard } from '@/components/popupCards/buttonCard.js';
 import { deleteRow, moveItem } from '@/lib/button.js';
@@ -17,6 +18,7 @@ import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav
 import type { EventButton } from '@/types/event';
 import AppContentTabNavigationTableBodyValueModifier from '@/pages/AppContentTabNavigationTableBodyValueModifier';
 import { scrollToId } from '@/lib/Utils';
+import TableRow from '@components/TableRow';
 
 function createData(entriesOfParentComponent: TabValueEntries[], element: RowsNav): RowForButton {
     const obj: RowForButton = {} as RowForButton;
@@ -119,7 +121,6 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                 {this.state.rows.map((row, indexRow) => (
                     <TableRow
                         key={indexRow}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         className={
                             `no-select` +
                             ` ${this.jumpedToTrigger(row.call)}` +
@@ -151,7 +152,6 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                         {this.props.data.entries.map((entry, indexCell) => (
                             <TableCell
                                 key={indexCell}
-                                component="td"
                                 style={{ width: entry.width ? entry.width : undefined }}
                             >
                                 <span

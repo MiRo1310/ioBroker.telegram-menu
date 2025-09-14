@@ -21,9 +21,9 @@ tbody tr {
 
 }
 
-#root tr th {
+#root thead tr  {
     background-color: var(--table-head);
-    padding: 0.5rem 0.5rem 0.2rem 0.5rem;
+    height: 2rem;
     top: 0;
 }
 

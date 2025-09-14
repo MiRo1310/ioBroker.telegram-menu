@@ -622,3 +622,7 @@ span[title],
 .dark .modal__no-menu-found {
     color: var(--text-primary);
 }
+
+.settings__tab{
+    padding-left: 0.5rem;
+}

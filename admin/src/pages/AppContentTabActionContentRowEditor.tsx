@@ -18,7 +18,9 @@ import RenameModal from '@components/RenameModal';
 import Checkbox from '@components/btn-Input/checkbox';
 import PopupContainer from '@components/popupCards/PopupContainer';
 import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableContainer } from '@mui/material';
+import TableRow from '@components/TableRow';
+import TableCell from '@/components/TableCell';
 import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from '@/types/app';
 import React, { Component } from 'react';
 import type { EventButton, EventCheckbox } from '@/types/event';
@@ -256,7 +258,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                 ? this.state.rows.map((row, indexRow: number) => (
                                       <TableRow
                                           key={indexRow}
-                                          sx={{ '&:last-child td, &:last-child td': { border: 0 } }}
                                           draggable
                                           onDrop={() => this.handleDrop(indexRow)}
                                           onDragStart={event =>
@@ -278,8 +279,6 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                           )}
                                       >
                                           <TableCell
-                                              component="td"
-                                              scope="row"
                                               align="left"
                                               className="td--checkbox"
                                           >
@@ -292,11 +291,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                               />
                                           </TableCell>
                                           {row.IDs || row.IDs === '' ? (
-                                              <TableCell
-                                                  component="td"
-                                                  scope="row"
-                                                  align="left"
-                                              >
+                                              <TableCell align="left">
                                                   <span
                                                       onMouseEnter={e => handleMouseOver(e)}
                                                       onMouseLeave={e => handleMouseOut(e)}
@@ -433,6 +428,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                         class="popupContainer__copy"
                         isOK={this.state.isValueOk}
                         labelBtnOK="add"
+                        top={'10rem'}
                         callback={({ value }: EventButton) => this.closeCopyModal(value as boolean)}
                     >
                         <AppContentTabActionContentRowEditorCopyModal

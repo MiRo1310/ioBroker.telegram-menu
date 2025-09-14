@@ -18,7 +18,7 @@
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@sentry/integrations": "^7.114.0"
@@ -38,7 +38,7 @@
     "prettier": "^3.2.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "~5.8.2",
+    "typescript": "^5.9.2",
     "rimraf": "^3.0.2"
   },
   "main": "build/src/main.js",
