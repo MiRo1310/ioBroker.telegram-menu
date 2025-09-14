@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "news": {
+      "3.1.1": {
+        "en": "FIX: #399 Error in UI",
+        "de": "BEHOBEN: #399 Fehler im Benutzerinterface",
+        "ru": "ИСПРАВЛЕНИЕ: #399 Ошибка в пользовательском интерфейсе",
+        "pt": "CORREÇÃO: #399 Erro na interface do usuário",
+        "nl": "OPLOSSING: #399 Fout in UI",
+        "fr": "CORRECTIF : #399 Erreur dans l'interface utilisateur",
+        "it": "CORREZIONE: #399 Errore nell'interfaccia utente",
+        "es": "CORRECCIÓN: Error en la interfaz de usuario",
+        "pl": "NAPRAWIONO: #399 Błąd w interfejsie użytkownika",
+        "uk": "ВИПРАВЛЕННЯ: #399 Помилка в інтерфейсі користувача",
+        "zh-cn": "修复：#399 UI中的错误"
+      },
       "3.1.0": {
         "en": "FEAT: Send picture without delay \nFIX: #385 Grafana token\nCHORE: #384 Set recommended versions",
         "de": "NEU: Bild ohne Verzögerung senden\nFIX: #385 Grafana-Token\nCHORE: #384 Empfohlene Versionen festlegen",
@@ -80,19 +93,6 @@
         "pl": "FIX: Błędy zgłaszane przez wartownika",
         "uk": "FIX: Помилки, які повідомляються відправником",
         "zh-cn": "FIX:哨兵报告的错误"
-      },
-      "3.0.1": {
-        "en": "CHORE: Update dependencies\nFIX: Errors reported by sentry",
-        "de": "CHORE: Aktualisieren von Abhängigkeiten\nFIX: Fehler, die von sentry gemeldet werden",
-        "ru": "Изображение: Update Dependencies\nFIX: Ошибки, о которых сообщил часовой",
-        "pt": "CHORE: Atualizar dependências\nFIX: Erros relatados pelo sentinela",
-        "nl": "Afhankelijkheden bijwerken\nFIX: Fouten gemeld door de wachtdienst",
-        "fr": "CHORE : Mise à jour des dépendances\nFIX : Erreurs signalées par sentinelle",
-        "it": "CHORE: dipendenze di aggiornamento\nFIX: Errori segnalati dalla sentinella",
-        "es": "CHORE: Actualizar las dependencias\nFIX: Errores reportados por centinela",
-        "pl": "CHORE: Uaktualnij zależności\nFIX: Błędy zgłaszane przez wartownika",
-        "uk": "CHORE: Оновити залежності\nFIX: Помилки, які повідомляються відправником",
-        "zh-cn": "CHORE: 更新依赖性\nFIX:哨兵报告的错误"
       }
     },
     "titleLang": {

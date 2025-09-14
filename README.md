@@ -35,7 +35,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.1.1 (2025-09-14)
 
 - FIX: #399 Error in UI
 
