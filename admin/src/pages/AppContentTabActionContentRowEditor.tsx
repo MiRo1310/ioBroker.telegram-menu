@@ -428,6 +428,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                         class="popupContainer__copy"
                         isOK={this.state.isValueOk}
                         labelBtnOK="add"
+                        top={'10rem'}
                         callback={({ value }: EventButton) => this.closeCopyModal(value as boolean)}
                     >
                         <AppContentTabActionContentRowEditorCopyModal
