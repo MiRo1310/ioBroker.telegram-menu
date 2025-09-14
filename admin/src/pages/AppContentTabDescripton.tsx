@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-
+import { Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
+import TableRow from '@components/TableRow';
+import TableCell from '@/components/TableCell';
 import { deepCopy } from '@/lib/Utils.js';
 import type { CallbackFunctionsApp, DataMainContent, PropsTabNavigation } from '@/types/app';
 import type { EventButton, EventInput } from '@/types/event';
@@ -107,13 +108,9 @@ class TabNavigation extends Component<{ data: DataMainContent; callback: Callbac
                             {this.state.rows.map((row, indexRow) => (
                                 <TableRow
                                     key={indexRow}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     className={`no-select`}
                                 >
-                                    <TableCell
-                                        component="td"
-                                        width={'30%'}
-                                    >
+                                    <TableCell width={'30%'}>
                                         <InputWithOptions
                                             value={row.call}
                                             callback={this.handleUpdateInput}
@@ -122,7 +119,7 @@ class TabNavigation extends Component<{ data: DataMainContent; callback: Callbac
                                             options={this.getOptions()}
                                         />
                                     </TableCell>
-                                    <TableCell component="td">
+                                    <TableCell>
                                         <Input
                                             value={row.description}
                                             callback={this.handleUpdateInput}

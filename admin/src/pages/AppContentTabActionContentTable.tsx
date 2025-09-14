@@ -1,4 +1,6 @@
-import { TableBody, TableCell, TableRow } from '@mui/material';
+import { TableBody } from '@mui/material';
+import TableRow from '@components/TableRow';
+import TableCell from '@/components/TableCell';
 import type { PropsTableDndAction, RowForButton, StateTableDndAction } from '@/types/app.js';
 import React, { Component } from 'react';
 import type { DataRowAction, TabValueEntries } from '@/types/app';
@@ -152,9 +154,8 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                 {this.state.rows.map((row, index) => (
                     <TableRow
                         key={index}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         className={`no-select ${this.jumpedToTrigger(row?.trigger?.[0])}`}
-                        draggable
+                        draggable={true}
                         onDrop={event => this.handleDrop(index, event)}
                         onDragStart={event => {
                             handleDragStart(
@@ -172,11 +173,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                         style={handleStyleDragOver(index, this.state.dropOver, this.state.dropStart)}
                     >
                         {row?.trigger?.[0] ? (
-                            <TableCell
-                                align="left"
-                                component="td"
-                                scope="row"
-                            >
+                            <TableCell align="left">
                                 <span
                                     className="table__ghost_id"
                                     id={row?.trigger?.[0]}
@@ -195,8 +192,6 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                                 <TableCell
                                     className="tdWithHeightForSubTable"
                                     align="left"
-                                    component="td"
-                                    scope="row"
                                     key={indexEntry}
                                     style={entry.width ? { width: entry.width } : undefined}
                                 >
@@ -210,11 +205,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                             ) : null,
                         )}
                         {row.parse_mode ? (
-                            <TableCell
-                                align="left"
-                                component="td"
-                                scope="row"
-                            >
+                            <TableCell align="left">
                                 <span
                                     className="noneDraggable"
                                     onMouseOver={e => handleMouseOver(e)}

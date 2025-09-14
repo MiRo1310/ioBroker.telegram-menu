@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { TableHead, TableCell, TableRow } from '@mui/material';
+import { TableHead } from '@mui/material';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { PropsTableNavHeader } from '@/types/props-types';
+import TableCell from '@/components/TableCell';
+import TableRow from '@components/TableRow';
 
 class TabNavHeader extends Component<PropsTableNavHeader> {
     constructor(props: PropsTableNavHeader) {

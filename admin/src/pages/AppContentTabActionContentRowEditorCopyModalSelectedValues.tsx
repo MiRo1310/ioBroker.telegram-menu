@@ -1,7 +1,8 @@
 import { deepCopy } from '@/lib/Utils';
 import type { EventCheckbox } from '@/types/event';
 import Checkbox from '@components/btn-Input/checkbox';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Table, TableBody, TableHead } from '@mui/material';
+import TableRow from '@components/TableRow';
 import type {
     CallbackFunctionsApp,
     Echart,
@@ -13,6 +14,7 @@ import type {
     SetAction,
     SetStateFunction,
 } from '@/types/app';
+import TableCell from '@/components/TableCell';
 import React, { Component } from 'react';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { SaveDataObject } from '@/types/props-types';

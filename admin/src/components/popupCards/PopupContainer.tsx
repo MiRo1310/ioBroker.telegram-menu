@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../Button';
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { Properties } from 'csstype';
 import type { PropsPopupContainer, StatePopupContainer } from '@/types/app';
 
 class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer> {
@@ -23,7 +22,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 
     //FIXME - css verwenden
     render(): React.ReactNode {
-        const DialogContainer: Properties<string | number, string> = {
+        const DialogContainer: Record<string | number, string> = {
             position: 'absolute',
             top: this.props.top ? this.props.top : '50%',
             left: this.props.left ? this.props.left : '50%',

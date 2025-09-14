@@ -1,6 +1,8 @@
 import { deepCopy } from '@/lib/Utils.js';
 import { I18n } from '@iobroker/adapter-react-v5';
-import { Paper, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableContainer, TableHead } from '@mui/material';
+import TableRow from '@components/TableRow';
+import TableCell from '@/components/TableCell';
 import React, { Component } from 'react';
 import HelperCard from '@/components/popupCards/HelperCard';
 import PopupContainer from '@/components/popupCards/PopupContainer';

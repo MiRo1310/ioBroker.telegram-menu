@@ -1,5 +1,7 @@
 import { I18n } from '@iobroker/adapter-react-v5';
-import { TableCell, TableHead, TableRow } from '@mui/material';
+import { TableHead } from '@mui/material';
+import TableRow from '@components/TableRow';
+import TableCell from '@/components/TableCell';
 import type { TabValueEntries } from '@/types/app';
 import React, { Component } from 'react';
 import Checkbox from '@/components/btn-Input/checkbox';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableCell } from '@mui/material';
+import TableCell from '@/components/TableCell';
 import BtnSmallAdd from '../btn-Input/btn-small-add';
 import BtnSmallEdit from '../btn-Input/btn-small-edit';
 import BtnSmallUp from '../btn-Input/btn-small-up';

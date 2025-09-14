@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell from '@/components/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import TableRow from '@components/TableRow';
 import { I18n, type IobTheme, SelectID, Theme } from '@iobroker/adapter-react-v5';
 import BtnSmallAdd from '../btn-Input/btn-small-add';
 import BtnSmallSearch from '../btn-Input/btn-small-search';
 import Textarea from '../btn-Input/textarea';
 import type { PropsHelperCard, socket, StateHelperCard } from '@/types/app';
 
-const theme: IobTheme = Theme('light');
+const iobTheme: IobTheme = Theme('light');
 
 class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
     constructor(props: PropsHelperCard) {
@@ -71,16 +71,8 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                                 </TableHead>
                                 <TableBody>
                                     {this.state.rows[this.props.helperTextForInput].map((row, index) => (
-                                        <TableRow
-                                            key={index}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell
-                                                component="td"
-                                                scope="row"
-                                            >
-                                                {row.text}
-                                            </TableCell>
+                                        <TableRow key={index}>
+                                            <TableCell>{row.text}</TableCell>
                                             <TableCell>
                                                 {row.head ? (
                                                     <div dangerouslySetInnerHTML={{ __html: row.head }} />
@@ -125,7 +117,7 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
                             imagePrefix="../.."
                             dialogName={this.props.data.adapterName}
                             themeType={this.props.data.themeType}
-                            theme={theme}
+                            theme={iobTheme}
                             socket={this.props.data.socket as socket}
                             filters={{}}
                             selected={''}
