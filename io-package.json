@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.1.1",
+    "version": "3.1.2",
     "news": {
+      "3.1.2": {
+        "en": "CHORE: #401 Update config",
+        "de": "CHORE: #401 Konfiguration aktualisieren",
+        "ru": "CHORE: #401 Обновить конфигурацию",
+        "pt": "TAREFA: #401 Atualizar configuração",
+        "nl": "CHORE: #401 Configuratie bijgewerkt",
+        "fr": "TÂCHE : #401 Mise à jour de la configuration",
+        "it": "IMPEGNO: #401 Aggiornamento configurazione",
+        "es": "TAREA: #401 Actualizar configuración",
+        "pl": "CHORE: #401 Aktualizacja konfiguracji",
+        "uk": "CHORE: #401 Оновлення конфігурації",
+        "zh-cn": "任务：#401 更新配置"
+      },
       "3.1.1": {
         "en": "FIX: #399 Error in UI",
         "de": "BEHOBEN: #399 Fehler im Benutzerinterface",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 374 Nie można zaznaczać menu\nFIX: Błędy zgłaszane przez wartownika",
         "uk": "FIX: #374 Не можна перевірити прапорець меню\nFIX: Помилки, які повідомляються відправником",
         "zh-cn": "FIX: # 374 无法检查菜单复选框\nFIX:哨兵报告的错误"
-      },
-      "3.0.2": {
-        "en": "FIX: Errors reported by sentry",
-        "de": "FIX: Fehler, die von sentry gemeldet werden",
-        "ru": "FIX: Ошибки, о которых сообщил часовой",
-        "pt": "FIX: Erros relatados pelo sentinela",
-        "nl": "FIX: Fouten gemeld door de wachtdienst",
-        "fr": "FIX : Erreurs signalées par sentinelle",
-        "it": "FIX: Errori segnalati dalla sentinella",
-        "es": "FIX: Errores reportados por centinela",
-        "pl": "FIX: Błędy zgłaszane przez wartownika",
-        "uk": "FIX: Помилки, які повідомляються відправником",
-        "zh-cn": "FIX:哨兵报告的错误"
       }
     },
     "titleLang": {
