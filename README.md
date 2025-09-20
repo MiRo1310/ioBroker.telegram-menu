@@ -37,7 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
-CHORE: #401 Update urls in vscode and add commitinfo to gitignore
+CHORE: #401 Update config
 
 ### 3.1.1 (2025-09-14)
 
