@@ -2,6 +2,15 @@ import { config, defaultLocale, timezone } from '../config/config';
 import type { ExtractTimeValues, GetTimeWithPad } from '../types/types';
 import { pad } from './string';
 
+/**
+ * Convert timestamp to local date string
+ *
+ * @param ts
+ * @param options
+ *
+ * Mocha Test
+ */
+
 export const toLocaleDate = (ts: Date, options?: { locale?: string; tz?: string }): string => {
     return ts.toLocaleDateString(options?.locale ?? defaultLocale, {
         hour: '2-digit',
@@ -12,6 +21,14 @@ export const toLocaleDate = (ts: Date, options?: { locale?: string; tz?: string 
     });
 };
 
+/**
+ * Integrate time into text
+ *
+ * @param text
+ * @param val
+ *
+ * Mocha Test
+ */
 export const integrateTimeIntoText = (text: string, val?: ioBroker.StateValue): string => {
     if (!val) {
         return text.replace(config.time, '"Invalid Date"');
@@ -21,6 +38,13 @@ export const integrateTimeIntoText = (text: string, val?: ioBroker.StateValue): 
     return text.replace(config.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
 
+/**
+ * Extract time values from timestamp
+ *
+ * @param tsInMs
+ *
+ * Mocha Test
+ */
 export function extractTimeValues(tsInMs: number): ExtractTimeValues {
     if (isNaN(tsInMs) || tsInMs < 0) {
         return { milliseconds: NaN, seconds: NaN, minutes: NaN, hours: NaN, day: NaN, month: NaN, year: NaN };
@@ -55,6 +79,8 @@ export function extractTimeValues(tsInMs: number): ExtractTimeValues {
  * @param year
  * @param month
  * @param hours
+ * 
+ * Mocha Test
  */
 
 export function getTimeWithPad({
