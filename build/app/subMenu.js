@@ -223,7 +223,7 @@ async function subMenu({
   var _a, _b, _c;
   try {
     import_main.adapter.log.debug(`Menu : ${menuString}`);
-    const text = await (0, import_utilities.returnTextModifier)(part.text);
+    const text = await (0, import_utilities.textModifier)(part.text);
     if ((0, import_validateMenus.isDeleteMenu)(menuString)) {
       await (0, import_messageIds.deleteMessageIds)(instance, userToSend, telegramParams, "all");
       const menu = (_c = (_b = (_a = menuString.split(":")) == null ? void 0 : _a[2]) == null ? void 0 : _b.split('"')) == null ? void 0 : _c[0];

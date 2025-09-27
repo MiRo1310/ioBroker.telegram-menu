@@ -1,6 +1,6 @@
 import { errorLogger } from './logging';
-import type { KeyboardItems, Keyboard } from '../types/types';
-import { returnTextModifier } from '../lib/utilities';
+import type { Keyboard, KeyboardItems } from '../types/types';
+import { textModifier } from '../lib/utilities';
 import { adapter } from '../main';
 
 async function createDynamicSwitchMenu(
@@ -9,7 +9,7 @@ async function createDynamicSwitchMenu(
     text: string,
 ): Promise<{ text?: string; keyboard: Keyboard; device: string } | undefined> {
     try {
-        const changedCalledValue = await returnTextModifier(calledValue);
+        const changedCalledValue = await textModifier(calledValue);
         const splittedArray: string[] | undefined = changedCalledValue?.replace(/"/g, '').split(':');
 
         if (!splittedArray) {

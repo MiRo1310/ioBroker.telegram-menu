@@ -79,7 +79,7 @@ async function sendToTelegram({
       {
         chatId,
         parse_mode: (0, import_appUtils.getParseMode)(parse_mode),
-        text: await (0, import_utilities.returnTextModifier)((0, import_string.cleanUpString)(textToSend)),
+        text: await (0, import_utilities.textModifier)((0, import_string.cleanUpString)(textToSend)),
         reply_markup: {
           keyboard,
           resize_keyboard,

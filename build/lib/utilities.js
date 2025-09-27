@@ -19,7 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var utilities_exports = {};
 __export(utilities_exports, {
   processTimeIdLc: () => processTimeIdLc,
-  returnTextModifier: () => returnTextModifier,
+  textModifier: () => textModifier,
   transformValueToTypeOfId: () => transformValueToTypeOfId
 });
 module.exports = __toCommonJS(utilities_exports);
@@ -47,13 +47,13 @@ const processTimeIdLc = async (textToSend, id) => {
   if (!value) {
     return textToSend.replace(substring, "Invalid ID");
   }
-  const timeStringUser = (0, import_string.replaceAllItems)(timeString, [",(", ")", "}"]);
+  const formattedTimeParams = (0, import_string.replaceAllItems)(timeString, [",(", "(", ")", "}"]);
   const unixTs = value[typeofTimestamp];
   const timeWithPad = (0, import_time.getTimeWithPad)((0, import_time.extractTimeValues)(unixTs));
-  const timeStringReplaced = (0, import_appUtils.timeStringReplacer)(timeWithPad, timeStringUser);
-  return timeStringReplaced != null ? timeStringReplaced : textToSend;
+  const formattedTime = (0, import_appUtils.timeStringReplacer)(timeWithPad, formattedTimeParams);
+  return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
-const returnTextModifier = async (text) => {
+const textModifier = async (text) => {
   if (!text) {
     return "";
   }
@@ -111,7 +111,7 @@ async function transformValueToTypeOfId(id, value) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   processTimeIdLc,
-  returnTextModifier,
+  textModifier,
   transformValueToTypeOfId
 });
 //# sourceMappingURL=utilities.js.map

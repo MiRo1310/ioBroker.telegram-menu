@@ -1,5 +1,5 @@
 import { errorLogger } from './logging';
-import { returnTextModifier } from '../lib/utilities';
+import { textModifier } from '../lib/utilities';
 import { adapter } from '../main';
 import type { Keyboard, Location, Telegram, TelegramParams } from '../types/types';
 import { getChatID } from '../lib/utils';
@@ -60,7 +60,7 @@ async function sendToTelegram({
             {
                 chatId,
                 parse_mode: getParseMode(parse_mode),
-                text: await returnTextModifier(cleanUpString(textToSend)),
+                text: await textModifier(cleanUpString(textToSend)),
                 reply_markup: {
                     keyboard,
                     resize_keyboard,

@@ -1,7 +1,7 @@
 import { switchBack } from './backMenu';
 import { handleSetState } from './setstate';
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { returnTextModifier } from '../lib/utilities';
+import { textModifier } from '../lib/utilities';
 import { deleteMessageIds } from './messageIds';
 import { createDynamicSwitchMenu } from './dynamicSwitchMenu';
 import type {
@@ -249,7 +249,7 @@ export async function subMenu({
     try {
         adapter.log.debug(`Menu : ${menuString}`);
 
-        const text = await returnTextModifier(part.text);
+        const text = await textModifier(part.text);
 
         if (isDeleteMenu(menuString)) {
             await deleteMessageIds(instance, userToSend, telegramParams, 'all');
