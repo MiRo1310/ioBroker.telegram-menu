@@ -26,7 +26,7 @@ var import_utilities = require("../lib/utilities");
 var import_main = require("../main");
 async function createDynamicSwitchMenu(calledValue, device, text) {
   try {
-    const changedCalledValue = await (0, import_utilities.returnTextModifier)(calledValue);
+    const changedCalledValue = await (0, import_utilities.textModifier)(calledValue);
     const splittedArray = changedCalledValue == null ? void 0 : changedCalledValue.replace(/"/g, "").split(":");
     if (!splittedArray) {
       return;

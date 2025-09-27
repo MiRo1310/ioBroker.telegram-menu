@@ -83,7 +83,7 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           const { text, parse_mode: parse_mode2 } = allMenusWithData[foundedMenu][lastListElement2];
           let textToSend2 = text;
           if (textToSend2) {
-            textToSend2 = await (0, import_utilities.returnTextModifier)(textToSend2);
+            textToSend2 = await (0, import_utilities.textModifier)(textToSend2);
           }
           if ((_h = backMenu[userToSend]) == null ? void 0 : _h.last) {
             backMenu[userToSend].last = (_i = list2.pop()) != null ? _i : "";

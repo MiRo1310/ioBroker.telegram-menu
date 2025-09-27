@@ -44,6 +44,19 @@ export function extractTimeValues(tsInMs: number): ExtractTimeValues {
     return { milliseconds, seconds, minutes, hours, day, month, year };
 }
 
+/**
+ * Get time values with leading zeros
+ * => 1 becomes 01
+ *
+ * @param milliseconds
+ * @param seconds
+ * @param day
+ * @param minutes
+ * @param year
+ * @param month
+ * @param hours
+ */
+
 export function getTimeWithPad({
     milliseconds,
     seconds,

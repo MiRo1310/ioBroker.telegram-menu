@@ -1,5 +1,5 @@
 import { sendToTelegram } from './telegram';
-import { returnTextModifier } from '../lib/utilities';
+import { textModifier } from '../lib/utilities';
 import type { Part, TelegramParams } from '../types/types';
 import { adapter } from '../main';
 import { errorLogger } from './logging';
@@ -13,7 +13,7 @@ export async function sendNav(
     try {
         if (userToSend) {
             const { nav: keyboard, text, parse_mode } = part;
-            const textToSend = await returnTextModifier(text ?? '');
+            const textToSend = await textModifier(text ?? '');
 
             await sendToTelegram({
                 instance,

@@ -25,16 +25,16 @@ export const processTimeIdLc = async (textToSend: string, id?: string): Promise<
     if (!value) {
         return textToSend.replace(substring, 'Invalid ID');
     }
-    const timeStringUser = replaceAllItems(timeString, [',(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
+    const formattedTimeParams = replaceAllItems(timeString, [',(', '(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
     const unixTs = value[typeofTimestamp];
 
     const timeWithPad = getTimeWithPad(extractTimeValues(unixTs));
-    const timeStringReplaced = timeStringReplacer(timeWithPad, timeStringUser);
+    const formattedTime = timeStringReplacer(timeWithPad, formattedTimeParams);
 
-    return timeStringReplaced ?? textToSend;
+    return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
 
-export const returnTextModifier = async (text?: string): Promise<string> => {
+export const textModifier = async (text?: string): Promise<string> => {
     if (!text) {
         return '';
     }
