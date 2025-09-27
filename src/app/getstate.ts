@@ -1,7 +1,7 @@
 import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
 import { bindingFunc } from './action';
 import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
-import { processTimeIdLc } from '../lib/utilities';
+import { setTimeValue } from '../lib/utilities';
 import { isDefined } from '../lib/utils';
 import { adapter } from '../main';
 import type { Part, TelegramParams } from '../types/types';
@@ -58,7 +58,7 @@ export async function getState(
             let modifiedTextToSend = text;
 
             if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
-                modifiedTextToSend = await processTimeIdLc(text, id);
+                modifiedTextToSend = await setTimeValue(text, id);
                 modifiedStateVal = '';
             }
 

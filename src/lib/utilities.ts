@@ -9,7 +9,7 @@ import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
 import { checkStatus } from '../app/status';
 
-export const processTimeIdLc = async (textToSend: string, id?: string): Promise<string> => {
+export const setTimeValue = async (textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
         textToSend,
         config.timestamp.start,
@@ -46,7 +46,7 @@ export const textModifier = async (text?: string): Promise<string> => {
         }
 
         if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
-            text = await processTimeIdLc(text);
+            text = await setTimeValue(text);
         }
         if (text.includes(config.set.start)) {
             const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
