@@ -71,6 +71,7 @@
     "test:js": "mocha -r ts-node/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --exit",
+    "test:customIntegration": "mocha -r ts-node/register test/customIntegration.ts --exit",
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
