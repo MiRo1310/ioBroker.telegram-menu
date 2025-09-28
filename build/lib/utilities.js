@@ -18,7 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
-  processTimeIdLc: () => processTimeIdLc,
+  setTimeValue: () => setTimeValue,
   textModifier: () => textModifier,
   transformValueToTypeOfId: () => transformValueToTypeOfId
 });
@@ -33,7 +33,7 @@ var import_appUtils = require("./appUtils");
 var import_setstate = require("../app/setstate");
 var import_splitValues = require("./splitValues");
 var import_status = require("../app/status");
-const processTimeIdLc = async (textToSend, id) => {
+const setTimeValue = async (textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,
     import_config.config.timestamp.start,
@@ -63,7 +63,7 @@ const textModifier = async (text) => {
       text = await (0, import_status.checkStatus)(import_main.adapter, text);
     }
     if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
-      text = await processTimeIdLc(text);
+      text = await setTimeValue(text);
     }
     if (text.includes(import_config.config.set.start)) {
       const { substring, textExcludeSubstring } = (0, import_string.decomposeText)(text, import_config.config.set.start, import_config.config.set.end);
@@ -110,7 +110,7 @@ async function transformValueToTypeOfId(id, value) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  processTimeIdLc,
+  setTimeValue,
   textModifier,
   transformValueToTypeOfId
 });
