@@ -18,8 +18,12 @@ exports.runTests = function (suite) {
             harness = getHarness();
         });
 
-        it('alarm control panel without arm state', async () => {
+        it('Should not failed', async () => {
             expect(true).to.true;
+        });
+
+        it('Should failed', async () => {
+            expect(false).to.true;
         });
     });
 };
