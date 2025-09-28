@@ -21,9 +21,5 @@ exports.runTests = function (suite) {
         it('Should not failed', async () => {
             expect(true).to.true;
         });
-
-        it('Should failed', async () => {
-            expect(false).to.true;
-        });
     });
 };
