@@ -134,8 +134,4 @@ describe('isFalsy', () => {
         expect(isFalsy(true)).to.be.false;
         expect(isFalsy('true')).to.be.false;
     });
-
-    it('should failes', () => {
-        expect(true).to.be.false;
-    });
 });
