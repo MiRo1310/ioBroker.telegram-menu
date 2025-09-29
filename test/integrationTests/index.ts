@@ -1,5 +1,6 @@
 import setTimeValue from './setTimeValue';
+import { TestSuite } from '@iobroker/testing/build/tests/integration';
 
-export default function (suite: any) {
-    setTimeValue.runTests(suite);
+export default function (suite: TestSuite) {
+    return setTimeValue.runTests(suite);
 }

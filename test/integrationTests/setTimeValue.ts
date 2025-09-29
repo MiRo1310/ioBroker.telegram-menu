@@ -11,7 +11,7 @@ const runTests = function (suite: TestSuite) {
 
         before(async () => {
             harness = getHarness();
-            await harness.startController();
+            // await harness.startController();
             await harness.startAdapterAndWait();
         });
 
