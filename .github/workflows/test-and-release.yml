@@ -95,7 +95,7 @@ jobs:
 
         - name: Install dependencies
           run: npm ci
-
+          
         - name: Run integration tests
           run: npm run test:customIntegration
           timeout-minutes: 5
