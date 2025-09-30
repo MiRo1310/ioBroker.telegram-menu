@@ -1,11 +1,14 @@
 /* global it before */
 
-const { setTimeValue } = require('../../build/lib/utilities');
-const { expect } = require('chai');
+import { TestSuite } from '@iobroker/testing/build/tests/integration';
+import { TestHarness } from '@iobroker/testing/build/tests/integration/lib/harness';
 
-exports.runTests = function (suite) {
+import { setTimeValue } from '../../build/lib/utilities';
+import { expect } from 'chai';
+
+export default function runTests(suite: TestSuite) {
     suite('Test', getHarness => {
-        let harness;
+        let harness: TestHarness;
 
         before(async () => {
             harness = getHarness();
@@ -20,4 +23,4 @@ exports.runTests = function (suite) {
             expect(true).to.false;
         });
     });
-};
+}

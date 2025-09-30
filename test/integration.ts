@@ -1,6 +1,6 @@
-const path = require('path');
-const { tests } = require('@iobroker/testing');
-const integrationTests = require('./integrationTests');
+import path from 'path';
+import { tests } from '@iobroker/testing';
+import integrationTests from './integration/';
 
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, '..'), {
@@ -21,6 +21,6 @@ tests.integration(path.join(__dirname, '..'), {
     // Define your own tests inside defineAdditionalTests
     // Since the tests are heavily instrumented, you need to create and use a so-called "harness" to control the tests.
     defineAdditionalTests({ suite }) {
-        integrationTests.tests(suite);
+        integrationTests(suite);
     },
 });
