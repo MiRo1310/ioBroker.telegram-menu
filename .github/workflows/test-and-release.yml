@@ -97,7 +97,7 @@ jobs:
           run: npm ci
           
         - name: Run integration tests
-          run: npm run test:customIntegration
+          run: npm run test:integration
           timeout-minutes: 5
     
     deploy:
