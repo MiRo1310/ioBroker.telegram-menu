@@ -13,7 +13,7 @@ tests.integration(path.join(__dirname, '..'), {
 
     // To test against a different version of JS-Controller, you can change the version or dist-tag here.
     // Make sure to remove this setting when you're done testing.
-    controllerVersion: 'dev', // 'latest', 'dev' or a specific version like '4.0.23'
+    controllerVersion: 'latest', // 'latest', 'dev' or a specific version like '4.0.23'
 
     /** The loglevel to use for DB and adapter related logs */
     loglevel: 'debug',
