@@ -86,7 +86,7 @@ function generateActions({
       }
       userObject[triggerName] = { switch: [] };
       IDs.forEach(function(id, index2) {
-        var _a;
+        var _a, _b;
         listOfSetStateIds.push(id);
         const toggle = (0, import_utils.isTruthy)(switch_checkbox[index2]);
         const newObj = {
@@ -99,7 +99,7 @@ function generateActions({
           parse_mode: (parse_mode == null ? void 0 : parse_mode.length) ? (0, import_utils.isTruthy)(parse_mode == null ? void 0 : parse_mode[0]) : false
         };
         if (Array.isArray((_a = userObject == null ? void 0 : userObject[triggerName]) == null ? void 0 : _a.switch)) {
-          userObject[triggerName].switch.push(newObj);
+          (_b = userObject[triggerName].switch) == null ? void 0 : _b.push(newObj);
         }
       });
     });
@@ -157,9 +157,9 @@ const checkEvent = async (instance, dataObject, id, state, menuData, telegramPar
     return false;
   }
   Object.keys(dataObject.action).forEach((menu) => {
-    var _a2, _b;
+    var _a2, _b, _c;
     if ((_b = (_a2 = dataObject.action) == null ? void 0 : _a2[menu]) == null ? void 0 : _b.events) {
-      dataObject.action[menu].events.forEach((event) => {
+      (_c = dataObject.action[menu]) == null ? void 0 : _c.events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
           const condition = event.condition[0];
           if ((state.val == true || state.val == "true") && (0, import_utils.isTruthy)(condition) || (state.val == false || state.val == "false") && (0, import_utils.isFalsy)(condition) || typeof state.val == "number" && state.val == parseInt(condition) || state.val == condition) {
@@ -176,8 +176,9 @@ const checkEvent = async (instance, dataObject, id, state, menuData, telegramPar
   }
   for (const menu of menuArray) {
     const part = menuData[menu][calledNav];
-    if (usersInGroup[menu] && part) {
-      for (const user of usersInGroup[menu]) {
+    const menuValue = usersInGroup[menu];
+    if (menuValue && part) {
+      for (const user of menuValue) {
         const menus = Object.keys(menuData);
         if (part.nav) {
           (0, import_backMenu.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });

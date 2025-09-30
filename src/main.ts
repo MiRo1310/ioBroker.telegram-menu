@@ -106,8 +106,9 @@ export default class TelegramMenu extends utils.Adapter {
                 }
 
                 // Subscribe Events
-                if (dataObject.action?.[name]?.events) {
-                    for (const event of dataObject.action[name].events) {
+                const events = dataObject.action?.[name]?.events;
+                if (events) {
+                    for (const event of events) {
                         await _subscribeForeignStates(event.ID);
                     }
                 }

@@ -3,8 +3,8 @@
 import { TestSuite } from '@iobroker/testing/build/tests/integration';
 import { TestHarness } from '@iobroker/testing/build/tests/integration/lib/harness';
 
-import { setTimeValue } from '../../build/lib/utilities';
 import { expect } from 'chai';
+import { setTimeValue } from '../../src/lib/utilities';
 
 export default function runTests(suite: TestSuite) {
     suite('Test', getHarness => {

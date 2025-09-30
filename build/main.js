@@ -113,8 +113,9 @@ class TelegramMenu extends utils.Adapter {
         } else {
           adapter.log.debug("No Actions generated!");
         }
-        if ((_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events) {
-          for (const event of dataObject.action[name].events) {
+        const events = (_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events;
+        if (events) {
+          for (const event of events) {
             await (0, import_subscribeStates._subscribeForeignStates)(event.ID);
           }
         }
