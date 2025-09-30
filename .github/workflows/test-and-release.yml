@@ -78,9 +78,8 @@ jobs:
           run: npm run test:js
           timeout-minutes: 5  
           
-    integration-tests:      
+    integration-tests:
       if: contains(github.event.head_commit.message, '[skip ci]') == false
-
       runs-on: ubuntu-latest
 
       steps:
@@ -95,7 +94,13 @@ jobs:
 
         - name: Install dependencies
           run: npm ci
-          
+
+        - name: Install js-controller
+          run: |
+            mkdir -p node_modules/iobroker.js-controller
+            cd node_modules/iobroker.js-controller
+            npm install iobroker.js-controller@dev --production
+
         - name: Run integration tests
           run: npm run test:integration
           timeout-minutes: 5
