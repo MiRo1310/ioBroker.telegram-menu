@@ -1,0 +1,86 @@
+{
+  "name": "iobroker.telegram-menu",
+  "version": "1.7.3",
+  "description": "Easily create Telegram Menus",
+  "author": {
+    "name": "MiRo1310",
+    "email": "michael.roling@gmx.de"
+  },
+  "homepage": "https://github.com/MiRo1310/ioBroker.telegram-menu",
+  "license": "MIT",
+  "keywords": [
+    "iobroker",
+    "telegram",
+    "menu"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MiRo1310/ioBroker.telegram-menu.git"
+  },
+  "engines": {
+    "node": ">= 20"
+  },
+  "dependencies": {
+    "@sentry/integrations": "^7.114.0"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@iobroker/adapter-dev": "^1.2.0",
+    "@iobroker/adapter-react-v5": "^7.6.3",
+    "@iobroker/eslint-config": "^2.0.1",
+    "@mui/icons-material": "^7.3.2",
+    "@mui/lab": "^7.0.0-beta.17",
+    "@mui/material": "^7.3.2",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "mocha": "^11.1.0",
+    "prettier": "^3.2.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.9.2",
+    "rimraf": "^3.0.2"
+  },
+  "main": "build/src/main.js",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "admin/build",
+    "lib/",
+    "www/",
+    "io-package.json",
+    "LICENSE",
+    "build/src/",
+    "admin/**/style.css",
+    "admin/build/index.js.map"
+  ],
+  "_moduleAliases": {
+    "@backend": "build/src/"
+  },
+  "scripts": {
+    "prebuild": "rimraf admin/build",
+    "build": "build-adapter react",
+    "watch": "build-adapter react --watch",
+    "prebuild:react": "rimraf admin/build",
+    "build:react": "build-adapter react",
+    "watch:react": "build-adapter react --watch",
+    "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha test/integration --exit",
+    "test": "npm run test:js && npm run test:package",
+    "check": "tsc --noEmit -p tsconfig.check.json",
+    "lint": "eslint --ext .ts,.tsx src/ admin/src/",
+    "translate": "translate-adapter",
+    "release": "release-script",
+    "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
+    "prettier": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"admin/src/**/*.ts\" \"admin/src/**/*.tsx\"",
+    "checker": "node skript.mjs",
+    "dev": " dev-server run",
+    "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))",
+    "force": "git push --force-with-lease"
+  },
+  "bugs": {
+    "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
+  },
+  "readmeFilename": "README.md"
+}
