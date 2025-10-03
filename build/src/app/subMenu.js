@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.subMenu = exports.callSubMenu = void 0;
+exports.callSubMenu = callSubMenu;
+exports.subMenu = subMenu;
 const backMenu_1 = require("./backMenu");
 const setstate_1 = require("./setstate");
 const telegram_1 = require("./telegram");
@@ -166,11 +167,10 @@ async function callSubMenu({ instance, jsonStringNav, userToSend, telegramParams
         (0, logging_1.errorLogger)('Error callSubMenu:', e, main_1.adapter);
     }
 }
-exports.callSubMenu = callSubMenu;
 async function subMenu({ menuString, userToSend, telegramParams, part, allMenusWithData, menus, instance, }) {
     try {
         main_1.adapter.log.debug(`Menu : ${menuString}`);
-        const text = await (0, utilities_1.textModifier)(part.text);
+        const text = await (0, utilities_1.textModifier)(main_1.adapter, part.text);
         if ((0, validateMenus_1.isDeleteMenu)(menuString)) {
             await (0, messageIds_1.deleteMessageIds)(instance, userToSend, telegramParams, 'all');
             const menu = menuString.split(':')?.[2]?.split('"')?.[0]; //[["menu:deleteAll:Übersicht"],[""]]
@@ -228,5 +228,4 @@ async function subMenu({ menuString, userToSend, telegramParams, part, allMenusW
         (0, logging_1.errorLogger)('Error subMenu:', error, main_1.adapter);
     }
 }
-exports.subMenu = subMenu;
 //# sourceMappingURL=subMenu.js.map

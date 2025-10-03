@@ -1,25 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transformValueToTypeOfId = exports.textModifier = exports.setTimeValue = void 0;
+exports.textModifier = exports.setTimeValue = void 0;
+exports.transformValueToTypeOfId = transformValueToTypeOfId;
 const utils_1 = require("./utils");
 const string_1 = require("./string");
 const logging_1 = require("../app/logging");
 const time_1 = require("./time");
-const main_1 = require("../main");
 const config_1 = require("../config/config");
 const appUtils_1 = require("./appUtils");
 const setstate_1 = require("../app/setstate");
 const splitValues_1 = require("./splitValues");
 const status_1 = require("../app/status");
-const setTimeValue = async (textToSend, id) => {
+const setTimeValue = async (adapter, textToSend, id) => {
     const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = (0, splitValues_1.getProcessTimeValues)(substringExcludeSearch);
     if (!id && (!idString || idString.length < 5)) {
-        return textToSend.replace(substring, 'Invalid ID');
+        return textToSend.replace(substring, config_1.invalidId);
     }
-    const value = await main_1.adapter.getForeignStateAsync(id ?? idString);
+    const value = await adapter.getForeignStateAsync(id ?? idString);
     if (!value) {
-        return textToSend.replace(substring, 'Invalid ID');
+        return textToSend.replace(substring, config_1.invalidId);
     }
     const formattedTimeParams = (0, string_1.replaceAllItems)(timeString, [',(', '(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
     const unixTs = value[typeofTimestamp];
@@ -28,24 +28,24 @@ const setTimeValue = async (textToSend, id) => {
     return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
 exports.setTimeValue = setTimeValue;
-const textModifier = async (text) => {
+const textModifier = async (adapter, text) => {
     if (!text) {
         return '';
     }
     try {
         const inputText = text;
         while (text.includes(config_1.config.status.start)) {
-            text = await (0, status_1.checkStatus)(main_1.adapter, text);
+            text = await (0, status_1.checkStatus)(adapter, text);
         }
         if (text.includes(config_1.config.timestamp.lc) || text.includes(config_1.config.timestamp.ts)) {
-            text = await (0, exports.setTimeValue)(text);
+            text = await (0, exports.setTimeValue)(adapter, text);
         }
         if (text.includes(config_1.config.set.start)) {
             const { substring, textExcludeSubstring } = (0, string_1.decomposeText)(text, config_1.config.set.start, config_1.config.set.end);
             const id = substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
             const importedValue = substring.split(',')[1];
             text = textExcludeSubstring;
-            const convertedValue = await transformValueToTypeOfId(id, importedValue);
+            const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
             const ack = substring.split(',')[2].replace('}', '') == 'true';
             if ((0, string_1.isEmptyString)(text)) {
                 text = 'Wähle eine Aktion';
@@ -55,24 +55,24 @@ const textModifier = async (text) => {
             }
         }
         text === inputText
-            ? main_1.adapter.log.debug(`Return text : ${text} `)
-            : main_1.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
+            ? adapter.log.debug(`Return text : ${text} `)
+            : adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
         return text;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error returnTextModifier:', e, main_1.adapter);
+        (0, logging_1.errorLogger)('Error returnTextModifier:', e, adapter);
         return '';
     }
 };
 exports.textModifier = textModifier;
-async function transformValueToTypeOfId(id, value) {
+async function transformValueToTypeOfId(adapter, id, value) {
     try {
         const receivedType = typeof value;
-        const obj = await main_1.adapter.getForeignObjectAsync(id);
+        const obj = await adapter.getForeignObjectAsync(id);
         if (!obj || !(0, utils_1.isDefined)(value) || (0, appUtils_1.isSameType)(receivedType, obj)) {
             return value;
         }
-        main_1.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
+        adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
         switch (obj.common.type) {
             case 'string':
                 return String(value);
@@ -85,8 +85,7 @@ async function transformValueToTypeOfId(id, value) {
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error checkTypeOfId:', e, main_1.adapter);
+        (0, logging_1.errorLogger)('Error checkTypeOfId:', e, adapter);
     }
 }
-exports.transformValueToTypeOfId = transformValueToTypeOfId;
 //# sourceMappingURL=utilities.js.map

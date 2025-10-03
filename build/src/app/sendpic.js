@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendPic = void 0;
+exports.sendPic = sendPic;
 const telegram_1 = require("./telegram");
 const utils_1 = require("../lib/utils");
 const logging_1 = require("./logging");
@@ -56,5 +56,4 @@ function sendPic(instance, part, userToSend, telegramParams, token, directoryPic
     }
     return timeouts;
 }
-exports.sendPic = sendPic;
 //# sourceMappingURL=sendpic.js.map

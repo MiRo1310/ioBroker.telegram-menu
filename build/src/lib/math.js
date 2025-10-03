@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.evaluate = void 0;
+exports.evaluate = evaluate;
 const logging_1 = require("../app/logging");
 function evaluate(val, adapter) {
     try {
@@ -14,5 +14,4 @@ function evaluate(val, adapter) {
         return { val: '', error: true };
     }
 }
-exports.evaluate = evaluate;
 //# sourceMappingURL=math.js.map

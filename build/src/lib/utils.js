@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isFalsy = exports.isTruthy = exports.validateDirectory = exports.deepCopy = exports.isDefined = exports.getChatID = void 0;
+exports.isFalsy = exports.isTruthy = exports.deepCopy = exports.isDefined = exports.getChatID = void 0;
+exports.validateDirectory = validateDirectory;
 const logging_1 = require("../app/logging");
 const getChatID = (userListWithChatID, user) => {
     for (const element of userListWithChatID) {
@@ -29,7 +30,6 @@ function validateDirectory(adapter, directory) {
     }
     return true;
 }
-exports.validateDirectory = validateDirectory;
 const isTruthy = (value) => (0, exports.isDefined)(value) && ['1', 1, true, 'true'].includes(value);
 exports.isTruthy = isTruthy;
 const isFalsy = (value) => ['0', 0, false, 'false', undefined, null].includes(value);

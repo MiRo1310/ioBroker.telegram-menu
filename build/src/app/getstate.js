@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getState = void 0;
+exports.getState = getState;
 const telegram_1 = require("./telegram");
 const action_1 = require("./action");
 const jsonTable_1 = require("./jsonTable");
@@ -47,7 +47,7 @@ async function getState(instance, part, userToSend, telegramParams) {
             let modifiedStateVal = stateValue;
             let modifiedTextToSend = text;
             if (text.includes(config_1.config.timestamp.ts) || text.includes(config_1.config.timestamp.lc)) {
-                modifiedTextToSend = await (0, utilities_1.setTimeValue)(text, id);
+                modifiedTextToSend = await (0, utilities_1.setTimeValue)(main_1.adapter, text, id);
                 modifiedStateVal = '';
             }
             if (modifiedTextToSend.includes(config_1.config.time)) {
@@ -126,5 +126,4 @@ async function getState(instance, part, userToSend, telegramParams) {
         (0, logging_1.errorLogger)('Error GetData:', error, main_1.adapter);
     }
 }
-exports.getState = getState;
 //# sourceMappingURL=getstate.js.map

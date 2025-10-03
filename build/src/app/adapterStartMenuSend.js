@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adapterStartMenuSend = void 0;
+exports.adapterStartMenuSend = adapterStartMenuSend;
 const telegram_1 = require("./telegram");
 const backMenu_1 = require("./backMenu");
 const main_1 = require("../main");
@@ -45,5 +45,4 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
         }
     }
 }
-exports.adapterStartMenuSend = adapterStartMenuSend;
 //# sourceMappingURL=adapterStartMenuSend.js.map

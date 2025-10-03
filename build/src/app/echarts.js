@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChart = void 0;
+exports.getChart = getChart;
 const main_1 = require("../main");
 const logging_1 = require("./logging");
 const telegram_1 = require("./telegram");
@@ -30,5 +30,4 @@ function getChart(instance, echarts, directoryPicture, user, telegramParams) {
         (0, logging_1.errorLogger)('Error in Echart:', e, main_1.adapter);
     }
 }
-exports.getChart = getChart;
 //# sourceMappingURL=echarts.js.map

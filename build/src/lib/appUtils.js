@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInstanceById = exports.isSameType = exports.getStartSides = exports.getNewStructure = exports.splitNavigation = exports.isStartside = exports.statusIdAndParams = exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.roundValue = exports.calcValue = exports.checkOneLineValue = void 0;
+exports.getInstanceById = exports.getStartSides = exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
+exports.calcValue = calcValue;
+exports.roundValue = roundValue;
+exports.statusIdAndParams = statusIdAndParams;
+exports.isStartside = isStartside;
+exports.splitNavigation = splitNavigation;
+exports.getNewStructure = getNewStructure;
+exports.isSameType = isSameType;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 const math_1 = require("./math");
@@ -15,7 +22,6 @@ function calcValue(textToSend, val, adapter) {
         ? { textToSend: textExcludeSubstring, calculated: val, error }
         : { textToSend: textExcludeSubstring, calculated: evalVal, error };
 }
-exports.calcValue = calcValue;
 function roundValue(val, textToSend) {
     const floatVal = parseFloat(val);
     const { textExcludeSubstring, substringExcludeSearch: decimalPlaces } = (0, string_1.decomposeText)(textToSend, config_1.config.round.start, config_1.config.round.end);
@@ -28,7 +34,6 @@ function roundValue(val, textToSend) {
     }
     return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
-exports.roundValue = roundValue;
 const getListOfMenusIncludingUser = (menusWithUsers, userToSend) => {
     const menus = [];
     for (const key in menusWithUsers) {
@@ -75,11 +80,9 @@ function statusIdAndParams(substringExcludeSearch) {
             shouldChangeByStatusParameter: (0, utils_1.isTruthy)((0, string_1.removeQuotes)(secondEl)),
         };
 }
-exports.statusIdAndParams = statusIdAndParams;
 function isStartside(startSide) {
     return startSide != '-' && startSide != '';
 }
-exports.isStartside = isStartside;
 function splitNavigation(rows) {
     const generatedNavigation = [];
     rows.forEach(({ value, text, parse_mode, call }) => {
@@ -93,7 +96,6 @@ function splitNavigation(rows) {
     });
     return generatedNavigation;
 }
-exports.splitNavigation = splitNavigation;
 function getNewStructure(val) {
     const obj = {};
     val.forEach(function ({ nav, text, parse_mode, call }) {
@@ -101,7 +103,6 @@ function getNewStructure(val) {
     });
     return obj;
 }
-exports.getNewStructure = getNewStructure;
 const getStartSides = (menusWithUsers, dataObject) => {
     const startSides = {};
     Object.keys(menusWithUsers).forEach(element => {
@@ -113,7 +114,6 @@ exports.getStartSides = getStartSides;
 function isSameType(receivedType, obj) {
     return receivedType === obj.common.type;
 }
-exports.isSameType = isSameType;
 const getInstanceById = (id) => {
     const obj = id.split('.');
     return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join('.') };

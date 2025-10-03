@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTimeouts = exports.checkEveryMenuForData = void 0;
+exports.checkEveryMenuForData = checkEveryMenuForData;
+exports.getTimeouts = getTimeouts;
 const main_1 = require("../main");
 const telegram_1 = require("./telegram");
 const sendNav_1 = require("./sendNav");
@@ -43,7 +44,6 @@ async function checkEveryMenuForData({ instance, menuData, navToGoTo, userToSend
     }
     return false;
 }
-exports.checkEveryMenuForData = checkEveryMenuForData;
 async function processData({ instance, menuData, calledValue, userToSend, groupWithUser, telegramParams, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, }) {
     try {
         let part = {};
@@ -157,5 +157,4 @@ async function processData({ instance, menuData, calledValue, userToSend, groupW
 function getTimeouts() {
     return timeouts;
 }
-exports.getTimeouts = getTimeouts;
 //# sourceMappingURL=processData.js.map

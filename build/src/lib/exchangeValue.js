@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlaceholderValue = exports.exchangePlaceholderWithValue = exports.exchangeValue = exports.isNoValueParameter = void 0;
+exports.exchangeValue = void 0;
+exports.isNoValueParameter = isNoValueParameter;
+exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
+exports.getPlaceholderValue = getPlaceholderValue;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 function isNoValueParameter(textToSend) {
@@ -11,7 +14,6 @@ function isNoValueParameter(textToSend) {
     }
     return { insertValue, textToSend };
 }
-exports.isNoValueParameter = isNoValueParameter;
 const exchangeValue = (adapter, textToSend, val, shouldChange = true) => {
     const result = isNoValueParameter(textToSend);
     textToSend = result.textToSend;
@@ -44,7 +46,6 @@ function exchangePlaceholderWithValue(textToSend, val) {
         ? textToSend.replace(searchString, val.toString()).trim()
         : `${textToSend} ${val}`.trim();
 }
-exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
 function getPlaceholderValue(textToSend) {
     if (textToSend.includes('&&')) {
         return '&&';
@@ -54,5 +55,4 @@ function getPlaceholderValue(textToSend) {
     }
     return '';
 }
-exports.getPlaceholderValue = getPlaceholderValue;
 //# sourceMappingURL=exchangeValue.js.map

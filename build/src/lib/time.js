@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTimeWithPad = exports.extractTimeValues = exports.integrateTimeIntoText = exports.toLocaleDate = void 0;
+exports.integrateTimeIntoText = exports.toLocaleDate = void 0;
+exports.extractTimeValues = extractTimeValues;
+exports.getTimeWithPad = getTimeWithPad;
 const config_1 = require("../config/config");
 const string_1 = require("./string");
 /**
@@ -64,7 +66,6 @@ function extractTimeValues(tsInMs) {
     const year = Number(date.toLocaleString(config_1.defaultLocale, { year: 'numeric' }));
     return { milliseconds, seconds, minutes, hours, day, month, year };
 }
-exports.extractTimeValues = extractTimeValues;
 /**
  * Get time values with leading zeros
  * => 1 becomes 01
@@ -91,5 +92,4 @@ function getTimeWithPad({ milliseconds, seconds, day, minutes, year, month, hour
         y: year.toString(),
     };
 }
-exports.getTimeWithPad = getTimeWithPad;
 //# sourceMappingURL=time.js.map

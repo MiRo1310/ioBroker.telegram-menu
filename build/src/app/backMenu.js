@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.switchBack = exports.backMenuFunc = void 0;
+exports.backMenuFunc = backMenuFunc;
+exports.switchBack = switchBack;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
@@ -20,11 +21,9 @@ function backMenuFunc({ activePage, navigation, userToSend, }) {
         if (lastMenu && lastMenu !== '' && list) {
             list.push(lastMenu);
         }
-        //@ts-ignore
         backMenu[userToSend].last = activePage;
     }
 }
-exports.backMenuFunc = backMenuFunc;
 async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
     try {
         const list = backMenu[userToSend]?.list ?? [];
@@ -59,10 +58,9 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
                     const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                     let textToSend = text;
                     if (textToSend) {
-                        textToSend = await (0, utilities_1.textModifier)(textToSend);
+                        textToSend = await (0, utilities_1.textModifier)(main_1.adapter, textToSend);
                     }
                     if (backMenu[userToSend]?.last) {
-                        // @ts-expect-error
                         backMenu[userToSend].last = list.pop() ?? '';
                     }
                     return { textToSend, keyboard, parse_mode };
@@ -80,5 +78,4 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
         (0, logging_1.errorLogger)('Error in switchBack:', e, main_1.adapter);
     }
 }
-exports.switchBack = switchBack;
 //# sourceMappingURL=backMenu.js.map

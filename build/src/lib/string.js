@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEmptyString = exports.isNonEmptyString = exports.isBooleanString = exports.getNewline = exports.pad = exports.stringReplacer = exports.isString = exports.decomposeText = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.parseJSON = exports.jsonString = void 0;
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.parseJSON = parseJSON;
+exports.decomposeText = decomposeText;
+exports.stringReplacer = stringReplacer;
+exports.getNewline = getNewline;
+exports.isBooleanString = isBooleanString;
 const utils_1 = require("./utils");
 const logging_1 = require("../app/logging");
 const jsonString = (val) => JSON.stringify(val);
@@ -16,7 +21,6 @@ function parseJSON(val, adapter) {
         return { json: val, isValidJson: false };
     }
 }
-exports.parseJSON = parseJSON;
 const replaceAll = (text, searchValue, replaceValue) => {
     const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
     return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
@@ -64,7 +68,6 @@ function decomposeText(text, firstSearch, secondSearch) {
         substringExcludeSearch: substringExcludedSearch,
     };
 }
-exports.decomposeText = decomposeText;
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
 function stringReplacer(substring, valueToReplace) {
@@ -79,7 +82,6 @@ function stringReplacer(substring, valueToReplace) {
     });
     return substring;
 }
-exports.stringReplacer = stringReplacer;
 const pad = (value, length = 2) => {
     if (value < 0) {
         return `-${(value * -1).toString().padStart(length - 1, '0')}`;
@@ -90,11 +92,9 @@ exports.pad = pad;
 function getNewline(newline) {
     return (0, utils_1.isTruthy)(newline) ? '\n' : '';
 }
-exports.getNewline = getNewline;
 function isBooleanString(str) {
     return str === 'true' || str === 'false';
 }
-exports.isBooleanString = isBooleanString;
 const isNonEmptyString = (str) => str.trim() !== '';
 exports.isNonEmptyString = isNonEmptyString;
 const isEmptyString = (str) => str.trim() === '';

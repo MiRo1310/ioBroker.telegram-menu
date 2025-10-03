@@ -2,7 +2,7 @@ import { isDefined } from './utils';
 import { decomposeText, isEmptyString, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad } from './time';
-import { config } from '../config/config';
+import { config, invalidId } from '../config/config';
 import { isSameType, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
@@ -18,12 +18,12 @@ export const setTimeValue = async (adapter: Adapter, textToSend: string, id?: st
     const { typeofTimestamp, timeString, idString } = getProcessTimeValues(substringExcludeSearch);
 
     if (!id && (!idString || idString.length < 5)) {
-        return textToSend.replace(substring, 'Invalid ID');
+        return textToSend.replace(substring, invalidId);
     }
     const value = await adapter.getForeignStateAsync(id ?? idString);
 
     if (!value) {
-        return textToSend.replace(substring, 'Invalid ID');
+        return textToSend.replace(substring, invalidId);
     }
     const formattedTimeParams = replaceAllItems(timeString, [',(', '(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
     const unixTs = value[typeofTimestamp];

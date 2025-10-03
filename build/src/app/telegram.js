@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendLocationToTelegram = exports.sendToTelegramSubmenu = exports.sendToTelegram = void 0;
+exports.sendLocationToTelegram = void 0;
+exports.sendToTelegram = sendToTelegram;
+exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
 const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const main_1 = require("../main");
@@ -38,7 +40,7 @@ async function sendToTelegram({ instance, userToSend, textToSend, keyboard, tele
         main_1.adapter.sendTo(instance, 'send', {
             chatId,
             parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
-            text: await (0, utilities_1.textModifier)((0, string_1.cleanUpString)(textToSend)),
+            text: await (0, utilities_1.textModifier)(main_1.adapter, (0, string_1.cleanUpString)(textToSend)),
             reply_markup: {
                 keyboard,
                 resize_keyboard,
@@ -50,7 +52,6 @@ async function sendToTelegram({ instance, userToSend, textToSend, keyboard, tele
         (0, logging_1.errorLogger)('Error sendToTelegram:', e, main_1.adapter);
     }
 }
-exports.sendToTelegram = sendToTelegram;
 function sendToTelegramSubmenu(telegramInstance, user, textToSend, keyboard, telegramParams, parse_mode) {
     const { userListWithChatID } = telegramParams;
     if (!validateTextToSend(textToSend)) {
@@ -63,7 +64,6 @@ function sendToTelegramSubmenu(telegramInstance, user, textToSend, keyboard, tel
         reply_markup: keyboard,
     }, (res) => telegramLogger(res));
 }
-exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
 const sendLocationToTelegram = async (telegramInstance, user, data, telegramParams) => {
     const { userListWithChatID } = telegramParams;
     try {

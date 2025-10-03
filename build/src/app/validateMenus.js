@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isCreateSubmenuNumber = exports.isSetSubmenuNumber = exports.isSetSubmenuPercent = exports.isCreateSubmenuPercent = exports.isSubmenuOrMenu = exports.isSetDynamicSwitchVal = exports.isCreateDynamicSwitch = exports.isSecondMenuValue = exports.isFirstMenuValue = exports.isCreateSwitch = exports.isDeleteMenu = exports.isMenuBack = void 0;
+exports.isSetSubmenuNumber = exports.isSetSubmenuPercent = exports.isCreateSubmenuPercent = exports.isSubmenuOrMenu = exports.isSetDynamicSwitchVal = exports.isCreateDynamicSwitch = exports.isSecondMenuValue = exports.isFirstMenuValue = exports.isCreateSwitch = exports.isDeleteMenu = exports.isMenuBack = void 0;
+exports.isCreateSubmenuNumber = isCreateSubmenuNumber;
 const isMenuBack = (str) => str.includes('menu:back');
 exports.isMenuBack = isMenuBack;
 const isDeleteMenu = (str) => str.includes('delete');
@@ -28,5 +29,4 @@ exports.isSetSubmenuNumber = isSetSubmenuNumber;
 function isCreateSubmenuNumber(menuString, callbackData) {
     return !menuString.includes('submenu') && callbackData.includes('number');
 }
-exports.isCreateSubmenuNumber = isCreateSubmenuNumber;
 //# sourceMappingURL=validateMenus.js.map

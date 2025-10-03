@@ -2,8 +2,9 @@ import type { GenerateActionsArrayOfEntries } from '../types/types';
 
 export const defaultLocale = 'de-DE';
 export const timezone = 'Europe/Berlin';
-export const defaultTelegramInstance = 'telegram.0';
 export const backMenuLength = 20;
+
+export const invalidId = 'Invalid ID';
 
 export const config = {
     time: '{time}',

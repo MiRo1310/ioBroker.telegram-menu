@@ -26,7 +26,7 @@ const isDynamicValueToSet = async (value) => {
 };
 const setstateIobroker = async ({ id, value, ack, }) => {
     try {
-        const val = await (0, utilities_1.transformValueToTypeOfId)(id, value);
+        const val = await (0, utilities_1.transformValueToTypeOfId)(main_1.adapter, id, value);
         main_1.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(val)}`);
         if ((0, utils_1.isDefined)(val)) {
             await main_1.adapter.setForeignStateAsync(id, val, ack);

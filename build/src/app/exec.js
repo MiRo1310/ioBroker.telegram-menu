@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadWithCurl = void 0;
+exports.loadWithCurl = loadWithCurl;
 const logging_1 = require("./logging");
 const child_process_1 = require("child_process");
 function loadWithCurl(adapter, token, path, url, callback) {
@@ -22,5 +22,4 @@ function loadWithCurl(adapter, token, path, url, callback) {
         callback();
     });
 }
-exports.loadWithCurl = loadWithCurl;
 //# sourceMappingURL=exec.js.map

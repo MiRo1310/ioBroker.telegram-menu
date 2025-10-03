@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.httpRequest = void 0;
+exports.httpRequest = httpRequest;
 const axios_1 = __importDefault(require("axios"));
 const telegram_1 = require("./telegram");
 const path_1 = __importDefault(require("path"));
@@ -53,5 +53,4 @@ async function httpRequest(instance, parts, userToSend, telegramParams, director
     }
     return true;
 }
-exports.httpRequest = httpRequest;
 //# sourceMappingURL=httpRequest.js.map

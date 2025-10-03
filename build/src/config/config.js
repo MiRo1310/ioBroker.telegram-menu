@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.arrayOfEntries = exports.config = exports.backMenuLength = exports.defaultTelegramInstance = exports.timezone = exports.defaultLocale = void 0;
+exports.arrayOfEntries = exports.config = exports.invalidId = exports.backMenuLength = exports.timezone = exports.defaultLocale = void 0;
 exports.defaultLocale = 'de-DE';
 exports.timezone = 'Europe/Berlin';
-exports.defaultTelegramInstance = 'telegram.0';
 exports.backMenuLength = 20;
+exports.invalidId = 'Invalid ID';
 exports.config = {
     time: '{time}',
     change: {

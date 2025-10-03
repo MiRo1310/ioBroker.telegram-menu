@@ -3,22 +3,30 @@ import { TestHarness } from '@iobroker/testing/build/tests/integration/lib/harne
 
 import { expect } from 'chai';
 import { setTimeValue } from '../../src/lib/utilities';
+import { testTools } from './testTools';
+import { invalidId } from '../../src/config/config';
 
 export default function runTests(suite: TestSuite) {
-    suite('Test', getHarness => {
+    suite('SetTimeValue', getHarness => {
         let harness: TestHarness;
 
         before(async () => {
             harness = getHarness();
             await harness.startAdapter();
             await harness.startController();
+            harness = testTools(harness);
         });
 
-        it('Test', async () => {
-            harness.objects.getForeignStateAsync = async () => ({ ts: 1710000000000, lc: 1710000000000 });
-            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'testId'}";
-            await setTimeValue(harness.objects, text);
-            expect(true).to.false;
+        it('With Invalid Id', async () => {
+            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
+            const result = await setTimeValue(harness.objects, text);
+            expect(result).to.equal(`Text ${invalidId}`);
+        });
+
+        it('With Valid id', async () => {
+            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'test.0.date'}";
+            const result = await setTimeValue(harness.objects, text);
+            expect(result).to.equal(`Text 03 10 2025 15:05:52:480`);
         });
     });
 }

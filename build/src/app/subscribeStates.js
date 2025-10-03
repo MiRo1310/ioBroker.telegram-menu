@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports._subscribeForeignStates = void 0;
+exports._subscribeForeignStates = _subscribeForeignStates;
 const main_1 = require("../main");
 const object_1 = require("../lib/object");
 async function _subscribeForeignStates(val) {
@@ -14,5 +14,4 @@ async function _subscribeForeignStates(val) {
         await main_1.adapter.subscribeForeignStatesAsync(id);
     }
 }
-exports._subscribeForeignStates = _subscribeForeignStates;
 //# sourceMappingURL=subscribeStates.js.map

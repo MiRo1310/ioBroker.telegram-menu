@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.generateActions = exports.bindingFunc = void 0;
+exports.getUserToSendFromUserListWithChatID = exports.checkEvent = exports.adjustValueType = exports.bindingFunc = void 0;
+exports.generateActions = generateActions;
 const telegram_1 = require("./telegram");
 const subMenu_1 = require("./subMenu");
 const sendNav_1 = require("./sendNav");
@@ -108,7 +109,6 @@ function generateActions({ action, userObject, }) {
         (0, logging_1.errorLogger)('Error generateActions:', err, main_1.adapter);
     }
 }
-exports.generateActions = generateActions;
 const adjustValueType = (value, valueType) => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
