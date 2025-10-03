@@ -16,7 +16,7 @@ import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
-import type { MenuData, SetStateIds, TelegramParams } from './types/types';
+import type { Adapter, MenuData, SetStateIds, TelegramParams } from './types/types';
 import { areAllCheckTelegramInstancesActive } from './app/connection.js';
 import { decomposeText, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
@@ -33,7 +33,7 @@ import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
 
 const timeoutKey = '0';
-export let adapter: TelegramMenu;
+export let adapter: Adapter;
 
 export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;

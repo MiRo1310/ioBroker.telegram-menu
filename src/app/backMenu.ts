@@ -76,7 +76,7 @@ export async function switchBack(
                     const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                     let textToSend = text;
                     if (textToSend) {
-                        textToSend = await textModifier(textToSend);
+                        textToSend = await textModifier(adapter, textToSend);
                     }
 
                     if (backMenu[userToSend]?.last) {

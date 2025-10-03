@@ -2,14 +2,14 @@ import { isDefined } from './utils';
 import { decomposeText, isEmptyString, jsonString, replaceAllItems } from './string';
 import { errorLogger } from '../app/logging';
 import { extractTimeValues, getTimeWithPad } from './time';
-import { adapter } from '../main';
 import { config } from '../config/config';
 import { isSameType, timeStringReplacer } from './appUtils';
 import { setstateIobroker } from '../app/setstate';
 import { getProcessTimeValues } from './splitValues';
 import { checkStatus } from '../app/status';
+import type { Adapter } from '../types/types';
 
-export const setTimeValue = async (textToSend: string, id?: string): Promise<string> => {
+export const setTimeValue = async (adapter: Adapter, textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
         textToSend,
         config.timestamp.start,
@@ -34,7 +34,7 @@ export const setTimeValue = async (textToSend: string, id?: string): Promise<str
     return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
 
-export const textModifier = async (text?: string): Promise<string> => {
+export const textModifier = async (adapter: Adapter, text?: string): Promise<string> => {
     if (!text) {
         return '';
     }
@@ -46,7 +46,7 @@ export const textModifier = async (text?: string): Promise<string> => {
         }
 
         if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
-            text = await setTimeValue(text);
+            text = await setTimeValue(adapter, text);
         }
         if (text.includes(config.set.start)) {
             const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
@@ -54,7 +54,7 @@ export const textModifier = async (text?: string): Promise<string> => {
             const importedValue = substring.split(',')[1];
 
             text = textExcludeSubstring;
-            const convertedValue = await transformValueToTypeOfId(id, importedValue);
+            const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
 
             const ack = substring.split(',')[2].replace('}', '') == 'true';
 
@@ -77,6 +77,7 @@ export const textModifier = async (text?: string): Promise<string> => {
 };
 
 export async function transformValueToTypeOfId(
+    adapter: Adapter,
     id: string,
     value: ioBroker.StateValue,
 ): Promise<ioBroker.StateValue | undefined> {

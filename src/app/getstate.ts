@@ -58,7 +58,7 @@ export async function getState(
             let modifiedTextToSend = text;
 
             if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
-                modifiedTextToSend = await setTimeValue(text, id);
+                modifiedTextToSend = await setTimeValue(adapter, text, id);
                 modifiedStateVal = '';
             }
 

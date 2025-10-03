@@ -41,7 +41,7 @@ export const setstateIobroker = async ({
     ack: boolean;
 }): Promise<void> => {
     try {
-        const val = await transformValueToTypeOfId(id, value);
+        const val = await transformValueToTypeOfId(adapter, id, value);
 
         adapter.log.debug(`Value to Set: ${jsonString(val)}`);
         if (isDefined(val)) {

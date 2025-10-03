@@ -15,9 +15,9 @@ export default function runTests(suite: TestSuite) {
         });
 
         it('Test', async () => {
-            // harness.objects.getForeignStateAsync = async () => ({ ts: 1710000000000, lc: 1710000000000 });
+            harness.objects.getForeignStateAsync = async () => ({ ts: 1710000000000, lc: 1710000000000 });
             const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'testId'}";
-            await setTimeValue(text);
+            await setTimeValue(harness.objects, text);
             expect(true).to.false;
         });
     });
