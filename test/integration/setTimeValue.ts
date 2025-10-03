@@ -10,6 +10,7 @@ export default function runTests(suite: TestSuite) {
 
         before(async () => {
             harness = getHarness();
+            await harness.startAdapter();
             await harness.startController();
         });
 
