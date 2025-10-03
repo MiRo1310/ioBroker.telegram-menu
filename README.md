@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- CHORE: Update dependencies
 - FIX: #403 No text with timestamp in navigation
 
 ### 3.1.2 (2025-09-20)
