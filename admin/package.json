@@ -20,26 +20,7 @@
   "engines": {
     "node": ">= 20"
   },
-  "dependencies": {
-    "@sentry/integrations": "^7.114.0"
-  },
-  "devDependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
-    "@iobroker/adapter-dev": "^1.2.0",
-    "@iobroker/adapter-react-v5": "^7.6.3",
-    "@iobroker/eslint-config": "^2.0.1",
-    "@mui/icons-material": "^7.3.2",
-    "@mui/lab": "^7.0.0-beta.17",
-    "@mui/material": "^7.3.2",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
-    "mocha": "^11.1.0",
-    "prettier": "^3.2.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.9.2",
-    "rimraf": "^3.0.2"
+  "devDependencies": {    
   },
   "main": "build/src/main.js",
   "files": [
