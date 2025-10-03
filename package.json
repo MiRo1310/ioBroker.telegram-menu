@@ -70,7 +70,7 @@
     "watch:react": "build-adapter react --watch",
     "test:js": "mocha -r ts-node/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
     "test:package": "mocha test/package --exit",
-    "test:integration": "npm run build && cd build && npm pack .. && cd .. && mocha build/test/integration.js --timeout 30000 --exit",
+    "test:integration": "npm run build && cd build && mocha build/test/integration.js --timeout 30000 --exit",
     "test:integrationCustom": "mocha -r ts-node/register test/customIntegration.ts --exit",    
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
