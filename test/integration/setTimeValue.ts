@@ -1,5 +1,3 @@
-/* global it before */
-
 import { TestSuite } from '@iobroker/testing/build/tests/integration';
 import { TestHarness } from '@iobroker/testing/build/tests/integration/lib/harness';
 
@@ -12,8 +10,6 @@ export default function runTests(suite: TestSuite) {
 
         before(async () => {
             harness = getHarness();
-            // await harness.startController();
-            await harness.startAdapterAndWait();
         });
 
         it('Test', async () => {
