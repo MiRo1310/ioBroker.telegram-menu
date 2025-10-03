@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.1.3",
+    "version": "3.1.4",
     "news": {
+      "3.1.4": {
+        "en": "CHORE: Update dependencies",
+        "de": "CHORE: Aktualisieren von Abhängigkeiten",
+        "ru": "Изображение: Update Dependencies",
+        "pt": "CHORE: Atualizar dependências",
+        "nl": "Afhankelijkheden bijwerken",
+        "fr": "CHORE : Mise à jour des dépendances",
+        "it": "CHORE: dipendenze di aggiornamento",
+        "es": "CHORE: Actualizar las dependencias",
+        "pl": "CHORE: Uaktualnij zależności",
+        "uk": "CHORE: Оновити залежності",
+        "zh-cn": "CHORE: 更新依赖性"
+      },
       "3.1.3": {
         "en": "FIX: #403 No text with timestamp in navigation",
         "de": "FIX: #403 Kein Text mit Zeitstempel in der Navigation",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 377 Polecenia nie są wykonywane",
         "uk": "FIX: #377 Команди не виконані",
         "zh-cn": "FIX: #377 (英语). 未执行命令"
-      },
-      "3.0.4": {
-        "en": "FIX: Submenu percent",
-        "de": "FIX: Submenu Prozent",
-        "ru": "FIX: Подменю%",
-        "pt": "FIX: Submenu por cento",
-        "nl": "FIX: Submenupercentage",
-        "fr": "FIXE: Pourcentage du sous-menu",
-        "it": "FIX: Sottomenu per cento",
-        "es": "FIX: Submenú por ciento",
-        "pl": "FIX: Podmenu procent",
-        "uk": "FIX: Відсоток субмену",
-        "zh-cn": "FIX: 子菜单百分比"
       }
     },
     "titleLang": {
