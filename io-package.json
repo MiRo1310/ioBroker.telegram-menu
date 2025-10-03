@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.1.2",
+    "version": "3.1.3",
     "news": {
+      "3.1.3": {
+        "en": "FIX: #403 No text with timestamp in navigation",
+        "de": "FIX: #403 Kein Text mit Zeitstempel in der Navigation",
+        "ru": "Fix: #403 Нет текста с отметкой времени в навигации",
+        "pt": "FIX: # 403 Nenhum texto com data- horário na navegação",
+        "nl": "FIX: #403 Geen tekst met tijdstempel in navigatie",
+        "fr": "N°403 Pas de texte avec horodatage dans la navigation",
+        "it": "FIX: #403 Nessun testo con timestamp in navigazione",
+        "es": "FIX: #403 No hay texto con timetamp en navegación",
+        "pl": "FIX: # 403 Brak tekstu ze znacznikiem czasu w nawigacji",
+        "uk": "FIX: #403 Немає тексту з таймером навігацією",
+        "zh-cn": "缩写:# 403 导航中没有时间戳的文本"
+      },
       "3.1.2": {
         "en": "CHORE: #401 Update config",
         "de": "CHORE: #401 Konfiguration aktualisieren",
@@ -80,19 +93,6 @@
         "pl": "FIX: Podmenu procent",
         "uk": "FIX: Відсоток субмену",
         "zh-cn": "FIX: 子菜单百分比"
-      },
-      "3.0.3": {
-        "en": "FIX: #374 Cannot check menu checkbox\nFIX: Errors reported by sentry",
-        "de": "FIX: #374 Kann das Menü nicht überprüfen\nFIX: Fehler, die von sentry gemeldet werden",
-        "ru": "FIX #374 Невозможно проверить флажок меню\nFIX: Ошибки, о которых сообщил часовой",
-        "pt": "FIX: # 374 Não foi possível verificar a opção do menu\nFIX: Erros relatados pelo sentinela",
-        "nl": "FIX: #374 Kan het menu niet controleren\nFIX: Fouten gemeld door de wachtdienst",
-        "fr": "FIXE: #374 Impossible de cocher la case du menu\nFIX : Erreurs signalées par sentinelle",
-        "it": "FIX: #374 Non è possibile controllare la casella di controllo del menu\nFIX: Errori segnalati dalla sentinella",
-        "es": "FIX: #374 No se puede comprobar la casilla de verificación del menú\nFIX: Errores reportados por centinela",
-        "pl": "FIX: # 374 Nie można zaznaczać menu\nFIX: Błędy zgłaszane przez wartownika",
-        "uk": "FIX: #374 Не можна перевірити прапорець меню\nFIX: Помилки, які повідомляються відправником",
-        "zh-cn": "FIX: # 374 无法检查菜单复选框\nFIX:哨兵报告的错误"
       }
     },
     "titleLang": {

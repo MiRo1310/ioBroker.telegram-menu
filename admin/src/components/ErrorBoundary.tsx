@@ -1,5 +1,5 @@
 import type { ErrorInfo } from 'react';
-/* eslint-disable  no-duplicate-imports */
+
 import { Component } from 'react';
 
 interface State {
