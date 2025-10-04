@@ -77,7 +77,7 @@
     "test:integration:main": "npm run build:pack && mocha build/test/integration.js --timeout 30000 --exit",
     "test:integration": "npm-run-all --continue-on-error test:integration:main testdata:del",
     "test:integrationCustom": "npm-run-all --continue-on-error test:integration:main testdata:del",
-    "testdata:del": "if exist build\\package.json del build\\package.json && if exist build\\io-package.json del build\\io-package.json && rimraf build\\test\\integration",
+    "testdata:del": "rimraf build/package.json build/io-package.json build/test/integration",
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
