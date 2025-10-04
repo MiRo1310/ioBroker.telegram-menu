@@ -71,9 +71,9 @@ jobs:
             cache: 'npm'
 
         - name: Install dependencies
-          run: npm ci
+          run: npm install
         - name: Install js-controller
-          run: npm install iobroker.js-controller@latest --no-save
+          run: npm install iobroker.js-controller@latest --no-save --legacy-peer-deps
 
         - name: Run integration tests
           run: npm run test:integrationCustom
