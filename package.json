@@ -21,7 +21,7 @@
     "node": ">= 20"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.3.2",
+    "@iobroker/adapter-core": "3.3.2",
     "axios": "^1.12.2",
     "nyc": "^17.1.0"
   },
@@ -94,8 +94,5 @@
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
   },
-  "readmeFilename": "README.md" ,
-  "overrides": {
-    "@iobroker/adapter-core": "3.3.2"
-  }
+  "readmeFilename": "README.md"  
 }
