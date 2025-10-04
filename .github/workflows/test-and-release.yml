@@ -61,10 +61,7 @@ jobs:
 
       steps:
         - name: Checkout code
-          uses: actions/checkout@v5
-
-        - name: Downgrade npm
-          run: npm install npm@9
+          uses: actions/checkout@v5       
 
         - name: Setup Node.js
           uses: actions/setup-node@v5
@@ -78,6 +75,13 @@ jobs:
           
         - name: Install js-controller
           run: npm install iobroker.js-controller@latest --no-save --legacy-peer-deps
+          working-directory: .
+        
+        - name: Build and pack with verbose logs
+          run: |
+            npm_config_loglevel=verbose npm pack .. || true
+            echo "---- Last npm log ----"
+            cat $(ls -t /home/runner/.npm/_logs/*-debug-0.log | head -1)
           working-directory: .
 
         - name: Run integration tests
