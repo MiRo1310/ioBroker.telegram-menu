@@ -79,6 +79,10 @@ jobs:
           run: npm run test:integrationCustom
           timeout-minutes: 5     
           
+        - name: Show npm log if failed
+          if: failure()
+          run: cat $(ls -t /home/runner/.npm/_logs/*-debug-0.log | head -1)
+          
     unit-tests:
       needs: [ check-and-lint, adapter-tests ]
       if: contains(github.event.head_commit.message, '[skip ci]') == false
