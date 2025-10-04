@@ -55,11 +55,10 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   os: ${{ matrix.os }} 
                   
-    integration-tests:   
+    integration-tests:
       if: contains(github.event.head_commit.message, '[skip ci]') == false
-      
       runs-on: ubuntu-latest
-      
+
       steps:
         - name: Checkout code
           uses: actions/checkout@v5
@@ -67,23 +66,30 @@ jobs:
         - name: Setup Node.js
           uses: actions/setup-node@v5
           with:
-            node-version: '22.x'
+            node-version: '22.13.1'
             cache: 'npm'
+
+        - name: Ensure npm version
+          run: npm install -g npm@10.2.5
 
         - name: Install dependencies
           run: npm ci --legacy-peer-deps
+          working-directory: .
 
-        - name: Install js-controller
-          run: npm install iobroker.js-controller@latest --no-save --legacy-peer-deps
+        - name: Install js-controller (wie lokal)
+          run: npm install iobroker.js-controller@<lokale_version> --no-save --legacy-peer-deps
+          working-directory: .
 
         - name: Run integration tests
           run: npm run test:integrationCustom
-          timeout-minutes: 5     
-          
+          timeout-minutes: 5
+          working-directory: .
+
         - name: Show npm log if failed
           if: failure()
           run: cat $(ls -t /home/runner/.npm/_logs/*-debug-0.log | head -1)
-          
+    
+    
     unit-tests:
       needs: [ check-and-lint, adapter-tests ]
       if: contains(github.event.head_commit.message, '[skip ci]') == false
