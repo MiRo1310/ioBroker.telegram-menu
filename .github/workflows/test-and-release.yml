@@ -71,7 +71,7 @@ jobs:
             cache: 'npm'
 
         - name: Install dependencies
-          run: npm install
+          run: npm ci --legacy-peer-deps
         - name: Install js-controller
           run: npm install iobroker.js-controller@latest --no-save --legacy-peer-deps
 

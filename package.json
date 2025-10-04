@@ -94,8 +94,5 @@
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
   },
-  "readmeFilename": "README.md",
-  "overrides": {
-    "@iobroker/adapter-core": "3.3.2"
-  }
+  "readmeFilename": "README.md"
 }
