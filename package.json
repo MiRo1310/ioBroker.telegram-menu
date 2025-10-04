@@ -72,7 +72,7 @@
     "watch:react": "build-adapter react --watch",
     "test:js": "mocha -r ts-node/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
     "test:package": "mocha test/package --exit",
-    "pretest:integration": "npx cpy package.json io-package.json build/",
+    "pretest:integration": "npx cpy package.json io-package.json package-lock.json build/",
     "build:pack": "npx tsc --project tsconfig.test.build.json && cd build && npm pack .. && cd ..",
     "test:integration:main": "npm run build:pack && mocha build/test/integration.js --timeout 30000 --exit",
     "test:integration": "npm-run-all --continue-on-error test:integration:main testdata:del",
