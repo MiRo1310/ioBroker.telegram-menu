@@ -74,7 +74,7 @@
     "test:package": "mocha test/package --exit",    
     "build:test": "npx tsc --project tsconfig.test.build.json",
     "test:integration:main": "mocha build/test/integrationCustom.js --exit",
-    "test:integration": "mocha build/test/integration.js --exit",
+    "test:integration": "mocha test/integration.js --exit",
     "test:integrationCustom": "npm-run-all --continue-on-error build:test test:integration:main",  
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
