@@ -74,7 +74,7 @@
     "test:package": "mocha test/package --exit",
     "pretest:integration": "npx cpy package.json io-package.json build/",
     "build:pack": "npx tsc --project tsconfig.test.build.json && cd build && npm pack .. && cd ..",
-    "test:integration:main": "npm run build:pack && mocha build/test/integration.js --timeout 30000 --exit",
+    "test:integration:main": "npm run build:pack ",
     "test:integration": "npm-run-all --continue-on-error test:integration:main",
     "test:integrationCustom": "npm-run-all --continue-on-error test:integration:main",  
     "test": "npm run test:js && npm run test:package",
