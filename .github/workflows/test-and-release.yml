@@ -77,7 +77,7 @@ jobs:
           working-directory: .
 
         - name: Install js-controller (wie lokal)
-          run: npm install iobroker.js-controller@<lokale_version> --no-save --legacy-peer-deps
+          run: npm install iobroker.js-controller@latest --no-save --legacy-peer-deps
           working-directory: .
 
         - name: Run integration tests
