@@ -29,4 +29,8 @@ coverage
 
 .commitinfo
 
+build/package.json
+build/package-lock.json
+build/test/integration
+
 
