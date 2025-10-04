@@ -22,14 +22,14 @@ __export(config_exports, {
   backMenuLength: () => backMenuLength,
   config: () => config,
   defaultLocale: () => defaultLocale,
-  defaultTelegramInstance: () => defaultTelegramInstance,
+  invalidId: () => invalidId,
   timezone: () => timezone
 });
 module.exports = __toCommonJS(config_exports);
 const defaultLocale = "de-DE";
 const timezone = "Europe/Berlin";
-const defaultTelegramInstance = "telegram.0";
 const backMenuLength = 20;
+const invalidId = "Invalid ID";
 const config = {
   time: "{time}",
   change: {
@@ -128,7 +128,7 @@ const arrayOfEntries = [
   backMenuLength,
   config,
   defaultLocale,
-  defaultTelegramInstance,
+  invalidId,
   timezone
 });
 //# sourceMappingURL=config.js.map

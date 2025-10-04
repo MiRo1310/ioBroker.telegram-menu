@@ -40,11 +40,11 @@ const setTimeValue = async (adapter, textToSend, id) => {
   );
   const { typeofTimestamp, timeString, idString } = (0, import_splitValues.getProcessTimeValues)(substringExcludeSearch);
   if (!id && (!idString || idString.length < 5)) {
-    return textToSend.replace(substring, "Invalid ID");
+    return textToSend.replace(substring, import_config.invalidId);
   }
   const value = await adapter.getForeignStateAsync(id != null ? id : idString);
   if (!value) {
-    return textToSend.replace(substring, "Invalid ID");
+    return textToSend.replace(substring, import_config.invalidId);
   }
   const formattedTimeParams = (0, import_string.replaceAllItems)(timeString, [",(", "(", ")", "}"]);
   const unixTs = value[typeofTimestamp];
