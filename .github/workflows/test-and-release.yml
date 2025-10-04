@@ -61,10 +61,7 @@ jobs:
 
       steps:
         - name: Checkout code
-          uses: actions/checkout@v5
-
-        - name: Downgrade npm
-          run: npm install npm@9
+          uses: actions/checkout@v5       
 
         - name: Setup Node.js
           uses: actions/setup-node@v5
