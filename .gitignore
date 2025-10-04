@@ -31,6 +31,7 @@ coverage
 
 build/package.json
 build/package-lock.json
+build/io-package.json
 build/test/integration
 
 

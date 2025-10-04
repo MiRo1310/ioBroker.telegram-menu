@@ -76,7 +76,7 @@
     "build:pack": "npx tsc --project tsconfig.test.build.json && cd build && npm pack .. && cd ..",
     "test:integration:main": "npm run build:pack && mocha build/test/integration.js --timeout 30000 --exit",
     "test:integration": "npm-run-all --continue-on-error test:integration:main",
-    "test:integrationCustom": "npm-run-all --continue-on-error test:integration:main",    
+    "test:integrationCustom": "npm-run-all --continue-on-error test:integration:main",  
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
