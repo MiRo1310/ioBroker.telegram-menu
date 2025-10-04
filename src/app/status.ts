@@ -1,12 +1,12 @@
-import type TelegramMenu from '../main';
 import { decomposeText } from '../lib/string';
 import { config } from '../config/config';
 import { statusIdAndParams } from '../lib/appUtils';
 import { isDefined } from '../lib/utils';
 import { integrateTimeIntoText } from '../lib/time';
 import { exchangeValue } from '../lib/exchangeValue';
+import type { Adapter } from '../types/types';
 
-export const checkStatus = async (adapter: TelegramMenu, text: string): Promise<string> => {
+export const checkStatus = async (adapter: Adapter, text: string): Promise<string> => {
     const { substring, substringExcludeSearch, textExcludeSubstring } = decomposeText(
         text,
         config.status.start,

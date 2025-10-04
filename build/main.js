@@ -29,6 +29,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var main_exports = {};
 __export(main_exports, {
   adapter: () => adapter,
+  createTelegramMenu: () => createTelegramMenu,
   default: () => TelegramMenu
 });
 module.exports = __toCommonJS(main_exports);
@@ -113,8 +114,9 @@ class TelegramMenu extends utils.Adapter {
         } else {
           adapter.log.debug("No Actions generated!");
         }
-        if ((_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events) {
-          for (const event of dataObject.action[name].events) {
+        const events = (_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events;
+        if (events) {
+          for (const event of events) {
             await (0, import_subscribeStates._subscribeForeignStates)(event.ID);
           }
         }
@@ -353,13 +355,13 @@ class TelegramMenu extends utils.Adapter {
     }
   }
 }
-if (require.main !== module) {
-  module.exports = (options) => new TelegramMenu(options);
-} else {
+const createTelegramMenu = (options) => new TelegramMenu(options);
+if (require.main === module) {
   (() => new TelegramMenu())();
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  adapter
+  adapter,
+  createTelegramMenu
 });
 //# sourceMappingURL=main.js.map

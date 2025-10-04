@@ -9,7 +9,7 @@ async function createDynamicSwitchMenu(
     text: string,
 ): Promise<{ text?: string; keyboard: Keyboard; device: string } | undefined> {
     try {
-        const changedCalledValue = await textModifier(calledValue);
+        const changedCalledValue = await textModifier(adapter, calledValue);
         const splittedArray: string[] | undefined = changedCalledValue?.replace(/"/g, '').split(':');
 
         if (!splittedArray) {

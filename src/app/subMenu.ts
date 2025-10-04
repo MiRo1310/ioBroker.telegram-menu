@@ -249,7 +249,7 @@ export async function subMenu({
     try {
         adapter.log.debug(`Menu : ${menuString}`);
 
-        const text = await textModifier(part.text);
+        const text = await textModifier(adapter, part.text);
 
         if (isDeleteMenu(menuString)) {
             await deleteMessageIds(instance, userToSend, telegramParams, 'all');

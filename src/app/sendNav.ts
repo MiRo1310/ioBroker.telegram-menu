@@ -13,7 +13,7 @@ export async function sendNav(
     try {
         if (userToSend) {
             const { nav: keyboard, text, parse_mode } = part;
-            const textToSend = await textModifier(text ?? '');
+            const textToSend = await textModifier(adapter, text ?? '');
 
             await sendToTelegram({
                 instance,

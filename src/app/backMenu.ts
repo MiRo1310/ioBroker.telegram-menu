@@ -23,7 +23,7 @@ export function backMenuFunc({
         if (list?.length === backMenuLength) {
             list.shift();
         }
-        if (!backMenu[userToSend]) {
+        if (!backMenu[userToSend] || !backMenu[userToSend]?.last) {
             backMenu[userToSend] = { list: [], last: '' };
         }
 
@@ -41,7 +41,7 @@ export async function switchBack(
     lastMenu = false,
 ): Promise<{ textToSend: string | undefined; keyboard: Keyboard; parse_mode: boolean | undefined } | undefined> {
     try {
-        const list = backMenu[userToSend]?.list ? backMenu[userToSend].list : [];
+        const list = backMenu[userToSend]?.list ?? [];
         const lastListElement = list[list.length - 1];
         const lastElement = backMenu[userToSend]?.last;
         let keyboard: Keyboard;
@@ -76,8 +76,9 @@ export async function switchBack(
                     const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                     let textToSend = text;
                     if (textToSend) {
-                        textToSend = await textModifier(textToSend);
+                        textToSend = await textModifier(adapter, textToSend);
                     }
+
                     if (backMenu[userToSend]?.last) {
                         backMenu[userToSend].last = list.pop() ?? '';
                     }

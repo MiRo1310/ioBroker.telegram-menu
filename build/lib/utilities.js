@@ -18,7 +18,7 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utilities_exports = {};
 __export(utilities_exports, {
-  processTimeIdLc: () => processTimeIdLc,
+  setTimeValue: () => setTimeValue,
   textModifier: () => textModifier,
   transformValueToTypeOfId: () => transformValueToTypeOfId
 });
@@ -27,13 +27,12 @@ var import_utils = require("./utils");
 var import_string = require("./string");
 var import_logging = require("../app/logging");
 var import_time = require("./time");
-var import_main = require("../main");
 var import_config = require("../config/config");
 var import_appUtils = require("./appUtils");
 var import_setstate = require("../app/setstate");
 var import_splitValues = require("./splitValues");
 var import_status = require("../app/status");
-const processTimeIdLc = async (textToSend, id) => {
+const setTimeValue = async (adapter, textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,
     import_config.config.timestamp.start,
@@ -41,11 +40,11 @@ const processTimeIdLc = async (textToSend, id) => {
   );
   const { typeofTimestamp, timeString, idString } = (0, import_splitValues.getProcessTimeValues)(substringExcludeSearch);
   if (!id && (!idString || idString.length < 5)) {
-    return textToSend.replace(substring, "Invalid ID");
+    return textToSend.replace(substring, import_config.invalidId);
   }
-  const value = await import_main.adapter.getForeignStateAsync(id != null ? id : idString);
+  const value = await adapter.getForeignStateAsync(id != null ? id : idString);
   if (!value) {
-    return textToSend.replace(substring, "Invalid ID");
+    return textToSend.replace(substring, import_config.invalidId);
   }
   const formattedTimeParams = (0, import_string.replaceAllItems)(timeString, [",(", "(", ")", "}"]);
   const unixTs = value[typeofTimestamp];
@@ -53,24 +52,24 @@ const processTimeIdLc = async (textToSend, id) => {
   const formattedTime = (0, import_appUtils.timeStringReplacer)(timeWithPad, formattedTimeParams);
   return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
-const textModifier = async (text) => {
+const textModifier = async (adapter, text) => {
   if (!text) {
     return "";
   }
   try {
     const inputText = text;
     while (text.includes(import_config.config.status.start)) {
-      text = await (0, import_status.checkStatus)(import_main.adapter, text);
+      text = await (0, import_status.checkStatus)(adapter, text);
     }
     if (text.includes(import_config.config.timestamp.lc) || text.includes(import_config.config.timestamp.ts)) {
-      text = await processTimeIdLc(text);
+      text = await setTimeValue(adapter, text);
     }
     if (text.includes(import_config.config.set.start)) {
       const { substring, textExcludeSubstring } = (0, import_string.decomposeText)(text, import_config.config.set.start, import_config.config.set.end);
       const id = substring.split(",")[0].replace("{set:'id':", "").replace(/'/g, "");
       const importedValue = substring.split(",")[1];
       text = textExcludeSubstring;
-      const convertedValue = await transformValueToTypeOfId(id, importedValue);
+      const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
       const ack = substring.split(",")[2].replace("}", "") == "true";
       if ((0, import_string.isEmptyString)(text)) {
         text = "W\xE4hle eine Aktion";
@@ -79,21 +78,21 @@ const textModifier = async (text) => {
         await (0, import_setstate.setstateIobroker)({ id, value: convertedValue, ack });
       }
     }
-    text === inputText ? import_main.adapter.log.debug(`Return text : ${text} `) : import_main.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
+    text === inputText ? adapter.log.debug(`Return text : ${text} `) : adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
     return text;
   } catch (e) {
-    (0, import_logging.errorLogger)("Error returnTextModifier:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error returnTextModifier:", e, adapter);
     return "";
   }
 };
-async function transformValueToTypeOfId(id, value) {
+async function transformValueToTypeOfId(adapter, id, value) {
   try {
     const receivedType = typeof value;
-    const obj = await import_main.adapter.getForeignObjectAsync(id);
+    const obj = await adapter.getForeignObjectAsync(id);
     if (!obj || !(0, import_utils.isDefined)(value) || (0, import_appUtils.isSameType)(receivedType, obj)) {
       return value;
     }
-    import_main.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
+    adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
     switch (obj.common.type) {
       case "string":
         return String(value);
@@ -105,12 +104,12 @@ async function transformValueToTypeOfId(id, value) {
         return value;
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error checkTypeOfId:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error checkTypeOfId:", e, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  processTimeIdLc,
+  setTimeValue,
   textModifier,
   transformValueToTypeOfId
 });

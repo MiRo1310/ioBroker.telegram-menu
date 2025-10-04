@@ -16,7 +16,7 @@ import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
 import { checkEveryMenuForData, getTimeouts } from './app/processData.js';
 import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
 import { errorLogger } from './app/logging.js';
-import type { MenuData, SetStateIds, TelegramParams } from './types/types';
+import type { Adapter, MenuData, SetStateIds, TelegramParams } from './types/types';
 import { areAllCheckTelegramInstancesActive } from './app/connection.js';
 import { decomposeText, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
@@ -33,7 +33,7 @@ import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
 
 const timeoutKey = '0';
-export let adapter: TelegramMenu;
+export let adapter: Adapter;
 
 export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;
@@ -106,8 +106,9 @@ export default class TelegramMenu extends utils.Adapter {
                 }
 
                 // Subscribe Events
-                if (dataObject.action?.[name]?.events) {
-                    for (const event of dataObject.action[name].events) {
+                const events = dataObject.action?.[name]?.events;
+                if (events) {
+                    for (const event of events) {
                         await _subscribeForeignStates(event.ID);
                     }
                 }
@@ -398,14 +399,9 @@ export default class TelegramMenu extends utils.Adapter {
     }
 }
 
-if (require.main !== module) {
-    // Export the constructor in compact mode
-    /**
-     * @param [options] - Adapter options
-     */
-    module.exports = (options: Partial<utils.AdapterOptions<undefined, undefined>> | undefined): TelegramMenu =>
-        new TelegramMenu(options);
-} else {
-    // otherwise start the instance directly
+export const createTelegramMenu = (options?: Partial<utils.AdapterOptions<undefined, undefined>>): TelegramMenu =>
+    new TelegramMenu(options);
+
+if (require.main === module) {
     (() => new TelegramMenu())();
 }
