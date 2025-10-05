@@ -3,7 +3,6 @@ import { TestHarness } from '@iobroker/testing/build/tests/integration/lib/harne
 
 import { expect } from 'chai';
 import { setTimeValue } from '../../src/lib/utilities';
-import { testTools } from './testTools';
 import { invalidId } from '../../src/config/config';
 import { isString } from '../../src/lib/string';
 
@@ -13,9 +12,10 @@ export default function runTests(suite: TestSuite) {
 
         before(async () => {
             harness = getHarness();
-            // await harness.startAdapter();
-            // await harness.startController();
-            harness = testTools(harness);
+            harness.objects.setObject('test.0.date');
+            harness.objects.setObject('date');
+            harness.states.setState('test.0.date', { val: 1746321952480, ack: true });
+            await harness.startAdapterAndWait();
         });
 
         it('With Invalid Id, because to short', async () => {
@@ -27,11 +27,12 @@ export default function runTests(suite: TestSuite) {
             expect(result).to.true;
         });
 
-        // it('With Invalid Id, because to short', async () => {
-        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
-        //     const result = await setTimeValue(harness.objects, text);
-        //     expect(result).to.equal(`Text ${invalidId}`);
-        // });
+        it('With Invalid Id, because to short', async () => {
+            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
+
+            const result = await setTimeValue(harness.objects, text);
+            expect(result).to.equal(`Text ${invalidId}`);
+        });
 
         // it('With Valid id does not exist', async () => {
         //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'undefined-id'}";

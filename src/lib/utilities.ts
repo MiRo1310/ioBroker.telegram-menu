@@ -9,7 +9,7 @@ import { getProcessTimeValues } from './splitValues';
 import { checkStatus } from '../app/status';
 import type { Adapter } from '../types/types';
 
-export const setTimeValue = async (adapter: Adapter, textToSend: string, id?: string): Promise<string> => {
+export const setTimeValue = async (adapter: any, textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
         textToSend,
         config.timestamp.start,
