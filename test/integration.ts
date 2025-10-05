@@ -4,7 +4,7 @@ import integrationTests from './integration/';
 
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(
-    path.join(__dirname, '../..'),
+    path.join(__dirname, '..'),
     //     , {
     //     //            ~~~~~~~~~~~~~~~~~~~~~~~~~
     //     // This should be the adapter's root directory
