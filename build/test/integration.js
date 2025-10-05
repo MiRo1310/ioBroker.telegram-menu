@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const testing_1 = require("@iobroker/testing");
-const integrationCustom_1 = __importDefault(require("./integrationCustom/"));
+const integration_1 = __importDefault(require("./integration/"));
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 testing_1.tests.integration(path_1.default.join(__dirname, '../..'), {
     //            ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,7 +21,7 @@ testing_1.tests.integration(path_1.default.join(__dirname, '../..'), {
     // Define your own tests inside defineAdditionalTests
     // Since the tests are heavily instrumented, you need to create and use a so-called "harness" to control the tests.
     defineAdditionalTests({ suite }) {
-        (0, integrationCustom_1.default)(suite);
+        (0, integration_1.default)(suite);
     },
 });
-//# sourceMappingURL=integrationCustom.js.map
+//# sourceMappingURL=integration.js.map
