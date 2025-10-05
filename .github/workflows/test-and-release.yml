@@ -75,16 +75,9 @@ jobs:
           
         - name: Install js-controller
           run: npm install iobroker.js-controller@latest --no-save --legacy-peer-deps
-          working-directory: .
-        
-        - name: Build and pack with verbose logs
-          run: |
-            npm_config_loglevel=verbose npm pack .. || true
-            echo "---- Last npm log ----"
-            cat $(ls -t /home/runner/.npm/_logs/*-debug-0.log | head -1)
-          working-directory: .
+          working-directory: .       
 
-        - name: Run integration tests
+        - name: Run integration tests       
           run: npm run test:integrationCustom
           timeout-minutes: 5
           working-directory: .  
