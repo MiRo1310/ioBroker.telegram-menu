@@ -7,17 +7,17 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { checkEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action.js';
-import { _subscribeForeignStates } from './app/subscribeStates.js';
-import { sendToTelegram } from './app/telegram.js';
-import { createState } from './app/createState.js';
-import { saveMessageIds } from './app/messageIds.js';
-import { adapterStartMenuSend } from './app/adapterStartMenuSend.js';
-import { checkEveryMenuForData, getTimeouts } from './app/processData.js';
-import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList.js';
-import { errorLogger } from './app/logging.js';
+import { checkEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
+import { _subscribeForeignStates } from './app/subscribeStates';
+import { sendToTelegram } from './app/telegram';
+import { createState } from './app/createState';
+import { saveMessageIds } from './app/messageIds';
+import { adapterStartMenuSend } from './app/adapterStartMenuSend';
+import { checkEveryMenuForData, getTimeouts } from './app/processData';
+import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList';
+import { errorLogger } from './app/logging';
 import type { Adapter, MenuData, SetStateIds, TelegramParams } from './types/types';
-import { areAllCheckTelegramInstancesActive } from './app/connection.js';
+import { areAllCheckTelegramInstancesActive } from './app/connection';
 import { decomposeText, isString, jsonString } from './lib/string';
 import { isDefined, isFalsy, isTruthy } from './lib/utils';
 import {

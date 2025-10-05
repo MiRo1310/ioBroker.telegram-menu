@@ -1,8 +1,8 @@
 import { BtnCircleAdd } from '@/components/btn-Input/btn-circle-add';
 import BtnSmallSearch from '@/components/btn-Input/btn-small-search';
 import Input from '@/components/btn-Input/input';
-import { isChecked } from '@/lib/Utils.js';
-import { moveItem, saveRows, updateData, updateId } from '@/lib/actionUtils.js';
+import { isChecked } from '@/lib/Utils';
+import { moveItem, saveRows, updateData, updateId } from '@/lib/actionUtils';
 import {
     handleDragEnd,
     handleDragEnter,
@@ -11,7 +11,7 @@ import {
     handleMouseOut,
     handleMouseOver,
     handleStyleDragOver,
-} from '@/lib/dragNDrop.js';
+} from '@/lib/dragNDrop';
 import { isTruthy } from '@/lib/string';
 import AppContentTabActionContentRowEditorTableHead from '@/pages/AppContentTabActionContentRowEditorTableHead';
 import RenameModal from '@components/RenameModal';

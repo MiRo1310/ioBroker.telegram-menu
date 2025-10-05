@@ -2,7 +2,7 @@ import PopupContainer from '@/components/popupCards/PopupContainer';
 import AppContentTabNavigationTableRowEditorCard from '@/pages/AppContentTabNavigationTableRowEditorCard';
 import React, { Component } from 'react';
 
-import { deepCopy } from '@/lib/Utils.js';
+import { deepCopy } from '@/lib/Utils';
 import type { ChangeInputNav } from '@/types/app';
 import type { PropsTableNavEditRow } from '@/types/props-types';
 import type { EventCheckbox } from '@/types/event';

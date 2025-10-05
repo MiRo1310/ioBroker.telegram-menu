@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
 import TableRow from '@components/TableRow';
 import TableCell from '@/components/TableCell';
-import { deepCopy } from '@/lib/Utils.js';
+import { deepCopy } from '@/lib/Utils';
 import type { CallbackFunctionsApp, DataMainContent, PropsTabNavigation } from '@/types/app';
 import type { EventButton, EventInput } from '@/types/event';
 import { I18n } from '@iobroker/adapter-react-v5';

@@ -32,6 +32,7 @@ export default [
         // as this improves maintainability. jsdoc warnings will not block build process.
         rules: {
             'jsdoc/require-jsdoc': 'off',
+            'import/extensions': ['error', 'never', { ts: 'never', tsx: 'never', json: 'always', 'd.ts' : 'always' }],
         },
     },
     {

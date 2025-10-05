@@ -1,11 +1,11 @@
 import { I18n } from '@iobroker/adapter-react-v5';
-import type { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from '@/types/app.js';
+import type { MenuWithUser, PropsTriggerOverview, StateTriggerOverview } from '@/types/app';
 import React, { Component } from 'react';
-import Select from '../components/btn-Input/select.js';
+import Select from '../components/btn-Input/select';
 import { deepCopy, deleteDoubleEntriesInArray } from '@/lib/Utils';
 import { updateTriggerForSelect } from '@/lib/actionUtils';
 import { colors } from '@/lib/color';
-import Square from './AppTriggerOverviewContentSquare.js';
+import Square from './AppTriggerOverviewContentSquare';
 import type { EventSelect } from '@/types/event';
 
 class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOverview> {

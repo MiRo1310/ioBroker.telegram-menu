@@ -1,9 +1,14 @@
 import { TableBody } from '@mui/material';
 import TableRow from '@components/TableRow';
 import TableCell from '@/components/TableCell';
-import type { PropsTableDndAction, RowForButton, StateTableDndAction } from '@/types/app.js';
+import type {
+    PropsTableDndAction,
+    RowForButton,
+    StateTableDndAction,
+    DataRowAction,
+    TabValueEntries,
+} from '@/types/app';
 import React, { Component } from 'react';
-import type { DataRowAction, TabValueEntries } from '@/types/app';
 import { ButtonCard } from '@components/popupCards/buttonCard';
 import { deepCopy, scrollToId } from '@/lib/Utils';
 import { getElementIcon } from '@/lib/actionUtils';
@@ -18,7 +23,7 @@ import {
     handleStyleDragOver,
 } from '@/lib/dragNDrop';
 import type { EventButton } from '@/types/event';
-import SubTable from './AppContentTabActionContentTableSubTable.js';
+import SubTable from './AppContentTabActionContentTableSubTable';
 
 class AppContentTabActionContentTable extends Component<PropsTableDndAction, StateTableDndAction> {
     constructor(props: PropsTableDndAction) {

@@ -1,5 +1,5 @@
-import { updateTrigger } from '@/lib/actionUtils.js';
-import { isChecked } from '@/lib/Utils.js';
+import { updateTrigger } from '@/lib/actionUtils';
+import { isChecked } from '@/lib/Utils';
 import type { EventButton, EventCheckbox, EventSelect } from '@/types/event';
 import Button from '@components/Button';
 import Checkbox from '@components/btn-Input/checkbox';

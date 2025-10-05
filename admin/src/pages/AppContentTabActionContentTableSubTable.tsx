@@ -4,7 +4,7 @@ import TableRow from '@components/TableRow';
 import TableCell from '@/components/TableCell';
 import { handleMouseOut, handleMouseOver } from '@/lib/dragNDrop';
 import { getElementIcon } from '@/lib/actionUtils';
-import type { PropsSubTable } from '@/types/app.js';
+import type { PropsSubTable } from '@/types/app';
 
 class SubTable extends Component<PropsSubTable> {
     render(): React.ReactNode {

@@ -1,5 +1,5 @@
-import type { NativeData, UpdateNativeFunction } from '@/types/app.js';
-import { deepCopy } from './Utils.js';
+import type { NativeData, UpdateNativeFunction } from '@/types/app';
+import { deepCopy } from './Utils';
 
 const insertParseModeCheckbox = (data: NativeData): NativeData => {
     const actions = ['set', 'get'];
