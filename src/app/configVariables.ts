@@ -1,5 +1,6 @@
 import type { DataObject, TelegramParams } from '../types/types';
 import type { Checkboxes, UserActiveCheckbox, UsersInGroup } from '@/types/app';
+import type { AdapterConfig } from '../types/adapter-config';
 
 export const getIds = {
     telegramRequestID: (instance: string): string => `${instance}.communicate.request`,
@@ -24,25 +25,27 @@ export const getConfigVariables = (
     checkboxes: Checkboxes;
     telegramParams: TelegramParams;
 } => {
-    const telegramInstances = config.instanceList ?? [];
-    const checkboxes = config.checkbox;
+    const c = config as AdapterConfig;
+
+    const telegramInstances = c.instanceList ?? [];
+    const checkboxes = c.checkbox;
     const telegramParams: TelegramParams = {
         telegramInstanceList: telegramInstances,
         resize_keyboard: checkboxes.resKey,
         one_time_keyboard: checkboxes.oneTiKey,
-        userListWithChatID: config.userListWithChatID,
+        userListWithChatID: c.userListWithChatID,
     };
     return {
         checkboxes,
         checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
         sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
-        listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
-        token: config.tokenGrafana,
-        directoryPicture: config.directory ?? '/opt/iobroker/media/',
-        isUserActiveCheckbox: config.userActiveCheckbox,
-        menusWithUsers: config.usersInGroup,
-        textNoEntryFound: (config.textNoEntry as string | undefined) ?? 'Entry not found',
-        dataObject: config.data,
+        listOfMenus: c.usersInGroup ? Object.keys(c.usersInGroup) : [],
+        token: c.tokenGrafana,
+        directoryPicture: c.directory ?? '/opt/iobroker/media/',
+        isUserActiveCheckbox: c.userActiveCheckbox,
+        menusWithUsers: c.usersInGroup,
+        textNoEntryFound: (c.textNoEntry as string | undefined) ?? 'Entry not found',
+        dataObject: c.data,
         telegramParams,
     };
 };
