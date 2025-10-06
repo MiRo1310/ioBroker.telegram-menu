@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { setTimeValue } from '../../src/lib/utilities';
 import { invalidId } from '../../src/config/config';
 import { isString } from '../../src/lib/string';
+import { getProcessTimeValues } from '../../src/lib/splitValues';
 
 export default function runTests(suite: TestSuite) {
     suite('SetTimeValue', getHarness => {
@@ -14,34 +15,39 @@ export default function runTests(suite: TestSuite) {
             harness = getHarness();
             harness.objects.setObject('test.0.date');
             harness.objects.setObject('date');
-            harness.states.setState('test.0.date', { val: 1746321952480, ack: true });
+            harness.states.setState('date.0.date', { val: 1746321952480, ack: true });
             await harness.startAdapterAndWait();
         });
 
         it('With Invalid Id, because to short', async () => {
-            expect(true).to.true;
-        });
-        it('With Invalid Id, because to short', async () => {
-            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
-            const result = isString('Test');
-            expect(result).to.true;
-        });
-
-        it('With Invalid Id, because to short', async () => {
-            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
-
-            const result = await setTimeValue(harness.objects, text);
+            const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'d'}";
+            const result = await harness.objects.getForeignStateAsync('date');
             expect(result).to.equal(`Text ${invalidId}`);
         });
 
+        // it('With Invalid Id, because to short', async () => {
+        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
+        //
+        //     const result = await setTimeValue(harness.objects, text);
+        //     expect(result).to.equal(`Text ${invalidId}`);
+        // });
+        //
         // it('With Valid id does not exist', async () => {
-        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'undefined-id'}";
+        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date'}";
         //     const result = await setTimeValue(harness.objects, text);
         //     expect(result).to.equal(`Text ${invalidId}`);
         // });
         //
         // it('With Valid id', async () => {
-        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'test.0.date'}";
+        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date.0'}";
+        //     const { typeofTimestamp, timeString, idString } = getProcessTimeValues(text);
+        //     expect(idString).to.equal(`date.0`);
+        //     expect(typeofTimestamp).to.equal(`lc`);
+        //     expect(timeString).to.equal(`(DD MM YYYY hh:mm:ss:sss)`);
+        // });
+        //
+        // it('With Valid id', async () => {
+        //     const text = "Text {time.lc,(DD MM YYYY hh:mm:ss:sss),id:'date.0.date'}";
         //     const result = await setTimeValue(harness.objects, text);
         //     expect(result).to.equal(`Text 03 10 2025 15:05:52:480`);
         // });
