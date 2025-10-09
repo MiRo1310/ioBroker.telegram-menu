@@ -10,7 +10,7 @@ import AppTriggerOverview from '@/pages/AppTriggerOverview';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { AdminConnection, GenericApp } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
-import type { Dropbox, InstanceList, Native, Nullable, TriggerObject, UserListWithChatID } from '@/types/app.d.ts';
+import type { Dropbox, InstanceList, Native, Nullable, TriggerObject, UserListWithChatID } from '@/types/app';
 import React from 'react';
 import { getDefaultDropBoxCoordinates } from './lib/dragNDrop';
 import { getDoubleEntries, getFirstItem as getFirstObjectKey } from './lib/object';
