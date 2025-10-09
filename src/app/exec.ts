@@ -1,14 +1,8 @@
 import { errorLogger } from './logging';
-import type TelegramMenu from '../main';
 import { exec } from 'child_process';
+import type { Adapter } from '../types/types';
 
-export function loadWithCurl(
-    adapter: TelegramMenu,
-    token: string,
-    path: string,
-    url: string,
-    callback?: () => void,
-): void {
+export function loadWithCurl(adapter: Adapter, token: string, path: string, url: string, callback?: () => void): void {
     exec(
         `curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`,
         (error: any, stdout: any, stderr: any) => {

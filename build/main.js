@@ -29,20 +29,21 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var main_exports = {};
 __export(main_exports, {
   adapter: () => adapter,
+  createTelegramMenu: () => createTelegramMenu,
   default: () => TelegramMenu
 });
 module.exports = __toCommonJS(main_exports);
 var utils = __toESM(require("@iobroker/adapter-core"));
-var import_action = require("./app/action.js");
-var import_subscribeStates = require("./app/subscribeStates.js");
-var import_telegram = require("./app/telegram.js");
-var import_createState = require("./app/createState.js");
-var import_messageIds = require("./app/messageIds.js");
-var import_adapterStartMenuSend = require("./app/adapterStartMenuSend.js");
-var import_processData = require("./app/processData.js");
-var import_shoppingList = require("./app/shoppingList.js");
-var import_logging = require("./app/logging.js");
-var import_connection = require("./app/connection.js");
+var import_action = require("./app/action");
+var import_subscribeStates = require("./app/subscribeStates");
+var import_telegram = require("./app/telegram");
+var import_createState = require("./app/createState");
+var import_messageIds = require("./app/messageIds");
+var import_adapterStartMenuSend = require("./app/adapterStartMenuSend");
+var import_processData = require("./app/processData");
+var import_shoppingList = require("./app/shoppingList");
+var import_logging = require("./app/logging");
+var import_connection = require("./app/connection");
 var import_string = require("./lib/string");
 var import_utils = require("./lib/utils");
 var import_appUtils = require("./lib/appUtils");
@@ -113,8 +114,9 @@ class TelegramMenu extends utils.Adapter {
         } else {
           adapter.log.debug("No Actions generated!");
         }
-        if ((_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events) {
-          for (const event of dataObject.action[name].events) {
+        const events = (_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events;
+        if (events) {
+          for (const event of events) {
             await (0, import_subscribeStates._subscribeForeignStates)(event.ID);
           }
         }
@@ -353,13 +355,13 @@ class TelegramMenu extends utils.Adapter {
     }
   }
 }
-if (require.main !== module) {
-  module.exports = (options) => new TelegramMenu(options);
-} else {
+const createTelegramMenu = (options) => new TelegramMenu(options);
+if (require.main === module) {
   (() => new TelegramMenu())();
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  adapter
+  adapter,
+  createTelegramMenu
 });
 //# sourceMappingURL=main.js.map

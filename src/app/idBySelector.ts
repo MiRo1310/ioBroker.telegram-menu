@@ -1,6 +1,5 @@
-import type { TelegramParams } from '../types/types';
+import type { Adapter, TelegramParams } from '../types/types';
 import { config } from '../config/config';
-import type TelegramMenu from '../main';
 import { exchangeValue } from '../lib/exchangeValue';
 import { getNewline } from '../lib/string';
 import { sendToTelegram } from './telegram';
@@ -16,7 +15,7 @@ export const idBySelector = async ({
     newline,
     telegramParams,
 }: {
-    adapter: TelegramMenu;
+    adapter: Adapter;
     selector: string;
     text: string;
     userToSend: string;
@@ -76,7 +75,7 @@ export const idBySelector = async ({
     }
 };
 
-function getCommonName({ name, adapter }: { name?: ioBroker.StringOrTranslated; adapter: TelegramMenu }): string {
+function getCommonName({ name, adapter }: { name?: ioBroker.StringOrTranslated; adapter: Adapter }): string {
     const language = adapter.language ?? 'en';
     if (!name) {
         return '';

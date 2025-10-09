@@ -2,6 +2,15 @@ import { config, defaultLocale, timezone } from '../config/config';
 import type { ExtractTimeValues, GetTimeWithPad } from '../types/types';
 import { pad } from './string';
 
+/**
+ * Convert timestamp to local date string
+ *
+ * @param ts
+ * @param options
+ *
+ * Unit Test
+ */
+
 export const toLocaleDate = (ts: Date, options?: { locale?: string; tz?: string }): string => {
     return ts.toLocaleDateString(options?.locale ?? defaultLocale, {
         hour: '2-digit',
@@ -12,6 +21,14 @@ export const toLocaleDate = (ts: Date, options?: { locale?: string; tz?: string 
     });
 };
 
+/**
+ * Integrate time into text
+ *
+ * @param text Text with placeholder where time should be integrated
+ * @param val Timestamp in milliseconds
+ *
+ * Unit Test
+ */
 export const integrateTimeIntoText = (text: string, val?: ioBroker.StateValue): string => {
     if (!val) {
         return text.replace(config.time, '"Invalid Date"');
@@ -21,6 +38,13 @@ export const integrateTimeIntoText = (text: string, val?: ioBroker.StateValue): 
     return text.replace(config.time, isNaN(date.getTime()) ? '"Invalid Date"' : toLocaleDate(date));
 };
 
+/**
+ * Extract time values from timestamp
+ *
+ * @param tsInMs Timestamp in milliseconds
+ *
+ * Unit Test
+ */
 export function extractTimeValues(tsInMs: number): ExtractTimeValues {
     if (isNaN(tsInMs) || tsInMs < 0) {
         return { milliseconds: NaN, seconds: NaN, minutes: NaN, hours: NaN, day: NaN, month: NaN, year: NaN };
@@ -48,15 +72,17 @@ export function extractTimeValues(tsInMs: number): ExtractTimeValues {
  * Get time values with leading zeros
  * => 1 becomes 01
  *
- * @param milliseconds
- * @param seconds
- * @param day
- * @param minutes
- * @param year
- * @param month
- * @param hours
+ * @param root0 Object with time values
+ * @param root0.milliseconds Milliseconds
+ * @param root0.seconds Seconds
+ * @param root0.day Day
+ * @param root0.minutes Minutes
+ * @param root0.year Year
+ * @param root0.month Month
+ * @param root0.hours Hours
+ *
+ * Unit Test
  */
-
 export function getTimeWithPad({
     milliseconds,
     seconds,

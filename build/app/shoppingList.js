@@ -22,12 +22,12 @@ __export(shoppingList_exports, {
   shoppingListSubscribeStateAndDeleteItem: () => shoppingListSubscribeStateAndDeleteItem
 });
 module.exports = __toCommonJS(shoppingList_exports);
-var import_messageIds = require("./messageIds.js");
-var import_jsonTable = require("./jsonTable.js");
-var import_telegram = require("./telegram.js");
-var import_subscribeStates = require("./subscribeStates.js");
-var import_logging = require("./logging.js");
-var import_main = require("../main.js");
+var import_messageIds = require("./messageIds");
+var import_jsonTable = require("./jsonTable");
+var import_telegram = require("./telegram");
+var import_subscribeStates = require("./subscribeStates");
+var import_logging = require("./logging");
+var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_setstate = require("./setstate");
 var import_json = require("../lib/json");

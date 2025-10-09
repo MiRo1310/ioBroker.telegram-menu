@@ -53,7 +53,7 @@ const setstateIobroker = async ({
   ack
 }) => {
   try {
-    const val = await (0, import_utilities.transformValueToTypeOfId)(id, value);
+    const val = await (0, import_utilities.transformValueToTypeOfId)(import_main.adapter, id, value);
     import_main.adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(val)}`);
     if ((0, import_utils.isDefined)(val)) {
       await import_main.adapter.setForeignStateAsync(id, val, ack);

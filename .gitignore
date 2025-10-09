@@ -29,4 +29,6 @@ coverage
 
 .commitinfo
 
+build/test/integration
+
 

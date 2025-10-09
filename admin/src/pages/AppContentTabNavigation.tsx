@@ -5,7 +5,7 @@ import TabNavHeader from '@/pages/AppContentTabNavigationTableHeader';
 import TableNavEditRow from '@/pages/AppContentTabNavigationTableRowEditor';
 import TableNavHelper from '@/pages/AppContentTabNavigationTableHelper';
 
-import { deepCopy } from '@/lib/Utils.js';
+import { deepCopy } from '@/lib/Utils';
 import type { PropsTabNavigation, RowsNav, StateTabNavigation } from '@/types/app';
 import type { EventButton } from '@/types/event';
 import { splitTrimAndJoin } from '@/lib/string';

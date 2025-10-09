@@ -1,8 +1,8 @@
 import { TableBody } from '@mui/material';
 import TableCell from '@/components/TableCell';
 import React, { Component } from 'react';
-import { ButtonCard } from '@/components/popupCards/buttonCard.js';
-import { deleteRow, moveItem } from '@/lib/button.js';
+import { ButtonCard } from '@/components/popupCards/buttonCard';
+import { deleteRow, moveItem } from '@/lib/button';
 import {
     handleDragEnd,
     handleDragEnter,
@@ -12,7 +12,7 @@ import {
     handleMouseOut,
     handleMouseOver,
     handleStyleDragOver,
-} from '@/lib/dragNDrop.js';
+} from '@/lib/dragNDrop';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { NavData, PropsTableDndNav, RowForButton, RowsNav, StateTableDndNav, TabValueEntries } from '@/types/app';
 import type { EventButton } from '@/types/event';

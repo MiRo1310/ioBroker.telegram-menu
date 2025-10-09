@@ -31,25 +31,26 @@ const getIds = {
 };
 const getConfigVariables = (config) => {
   var _a, _b, _c;
-  const telegramInstances = (_a = config.instanceList) != null ? _a : [];
-  const checkboxes = config.checkbox;
+  const c = config;
+  const telegramInstances = (_a = c.instanceList) != null ? _a : [];
+  const checkboxes = c.checkbox;
   const telegramParams = {
     telegramInstanceList: telegramInstances,
     resize_keyboard: checkboxes.resKey,
     one_time_keyboard: checkboxes.oneTiKey,
-    userListWithChatID: config.userListWithChatID
+    userListWithChatID: c.userListWithChatID
   };
   return {
     checkboxes,
     checkboxNoEntryFound: checkboxes.checkboxNoValueFound,
     sendMenuAfterRestart: checkboxes.sendMenuAfterRestart,
-    listOfMenus: config.usersInGroup ? Object.keys(config.usersInGroup) : [],
-    token: config.tokenGrafana,
-    directoryPicture: (_b = config.directory) != null ? _b : "/opt/iobroker/media/",
-    isUserActiveCheckbox: config.userActiveCheckbox,
-    menusWithUsers: config.usersInGroup,
-    textNoEntryFound: (_c = config.textNoEntry) != null ? _c : "Entry not found",
-    dataObject: config.data,
+    listOfMenus: c.usersInGroup ? Object.keys(c.usersInGroup) : [],
+    token: c.tokenGrafana,
+    directoryPicture: (_b = c.directory) != null ? _b : "/opt/iobroker/media/",
+    isUserActiveCheckbox: c.userActiveCheckbox,
+    menusWithUsers: c.usersInGroup,
+    textNoEntryFound: (_c = c.textNoEntry) != null ? _c : "Entry not found",
+    dataObject: c.data,
     telegramParams
   };
 };

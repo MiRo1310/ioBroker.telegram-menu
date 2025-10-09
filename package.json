@@ -21,7 +21,7 @@
     "node": ">= 20"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.3.2",
+    "@iobroker/adapter-core": "3.3.2",
     "axios": "^1.12.2",
     "nyc": "^17.1.0"
   },
@@ -30,24 +30,26 @@
     "@alcalzone/release-script-plugin-iobroker": "^3.7.2",
     "@alcalzone/release-script-plugin-license": "^3.7.0",
     "@alcalzone/release-script-plugin-manual-review": "^3.7.0",
-    "@iobroker/adapter-dev": "^1.5.0",
-    "@iobroker/eslint-config": "^2.2.0",
-    "@iobroker/testing": "^5.1.1",
-    "@tsconfig/node20": "^20.1.6",
-    "@types/node": "^24.6.1",
-    "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/adapter-react-v5": "^7.6.3",
+    "@iobroker/eslint-config": "^2.2.0",
+    "@iobroker/testing": "^5.1.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/lab": "^7.0.0-beta.17",
     "@mui/material": "^7.3.2",
+    "@tsconfig/node20": "^20.1.6",
+    "@types/node": "^24.6.2",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "cpy-cli": "^6.0.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.0.0",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "main": "build/main.js",
   "files": [
@@ -69,8 +71,8 @@
     "build:react": "build-adapter react",
     "watch:react": "build-adapter react --watch",
     "test:js": "mocha -r ts-node/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
-    "test:package": "mocha test/package --exit",
-    "test:integration": "mocha test/integration --exit",
+    "test:package": "mocha test/package --exit",       
+    "test:integration": "mocha -r ts-node/register test/integration.ts --exit",     
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
@@ -87,5 +89,5 @@
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
   },
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md"  
 }

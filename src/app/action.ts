@@ -105,7 +105,7 @@ export function generateActions({
                     parse_mode: parse_mode?.length ? isTruthy(parse_mode?.[0]) : false,
                 };
                 if (Array.isArray(userObject?.[triggerName]?.switch)) {
-                    userObject[triggerName].switch.push(newObj);
+                    userObject[triggerName].switch?.push(newObj);
                 }
             });
         });
@@ -181,7 +181,7 @@ export const checkEvent = async (
 
     Object.keys(dataObject.action).forEach(menu => {
         if (dataObject.action?.[menu]?.events) {
-            dataObject.action[menu].events.forEach(event => {
+            dataObject.action[menu]?.events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     const condition = event.condition[0];
                     if (
@@ -204,8 +204,9 @@ export const checkEvent = async (
 
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav as keyof DataObject];
-        if (usersInGroup[menu] && part) {
-            for (const user of usersInGroup[menu]) {
+        const menuValue = usersInGroup[menu];
+        if (menuValue && part) {
+            for (const user of menuValue) {
                 const menus = Object.keys(menuData);
 
                 if (part.nav) {

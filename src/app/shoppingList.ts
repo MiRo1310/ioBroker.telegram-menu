@@ -1,10 +1,10 @@
-import { deleteMessageIds } from './messageIds.js';
-import { createKeyboardFromJson } from './jsonTable.js';
-import { sendToTelegram, sendToTelegramSubmenu } from './telegram.js';
-import { _subscribeForeignStates } from './subscribeStates.js';
-import { errorLogger } from './logging.js';
-import { adapter } from '../main.js';
-import type { TelegramParams } from '../types/types.js';
+import { deleteMessageIds } from './messageIds';
+import { createKeyboardFromJson } from './jsonTable';
+import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
+import { _subscribeForeignStates } from './subscribeStates';
+import { errorLogger } from './logging';
+import { adapter } from '../main';
+import type { TelegramParams } from '../types/types';
 import { jsonString } from '../lib/string';
 import { setstateIobroker } from './setstate';
 import { toJson } from '../lib/json';

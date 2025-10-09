@@ -1,4 +1,4 @@
-import { deepCopy } from '@/lib/Utils.js';
+import { deepCopy } from '@/lib/Utils';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { Paper, Table, TableContainer, TableHead } from '@mui/material';
 import TableRow from '@components/TableRow';
@@ -6,8 +6,8 @@ import TableCell from '@/components/TableCell';
 import React, { Component } from 'react';
 import HelperCard from '@/components/popupCards/HelperCard';
 import PopupContainer from '@/components/popupCards/PopupContainer';
-import helperText from '@/config/helper.js';
-import { addNewRow } from '@/lib/actionUtils.js';
+import helperText from '@/config/helper';
+import { addNewRow } from '@/lib/actionUtils';
 import AppContentTabActionContentRowEditor from '@/pages/AppContentTabActionContentRowEditor';
 import AppContentTabActionContentTable from '@/pages/AppContentTabActionContentTable';
 import Button from '@components/Button';
