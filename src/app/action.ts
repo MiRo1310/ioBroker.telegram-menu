@@ -20,7 +20,7 @@ import type {
     UserObjectActions,
 } from '../types/types';
 import { decomposeText } from '../lib/string';
-import { isFalsy, isTruthy } from '../lib/utils';
+import { isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';

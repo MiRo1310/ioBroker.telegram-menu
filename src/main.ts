@@ -143,11 +143,10 @@ export default class TelegramMenu extends utils.Adapter {
                 );
 
                 if (isEvent && state) {
-                    for (let i = 0; i <= eventInstanceList.length; i++) {
-                        const instance = eventInstanceList[i].instance;
+                    for (const e of eventInstanceList) {
                         await handleEvent(
                             adapter,
-                            instance,
+                            e.instance,
                             dataObject,
                             id,
                             state,

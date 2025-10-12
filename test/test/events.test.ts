@@ -2,10 +2,9 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { getInstances, getInstancesFromEventsById } from '../../src/app/events';
 import type { MenusWithUsers, UserType } from '@/types/app';
-import { Actions } from '../../src/types/types';
+import { Actions, MenuData } from '../../src/types/types';
 import { handleEvent } from '../../src/app/action';
 import sinon from 'sinon';
-import { mockAdapterCore } from '@iobroker/testing/build/tests/unit/mocks/mockAdapterCore';
 import { utils } from '@iobroker/testing';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
@@ -110,34 +109,69 @@ describe('handleEvent', () => {
     const { adapter } = utils.unit.createMocks({});
     it('check state string', async () => {
         const dataObject = {
+            nav: {
+                Menu: [
+                    {
+                        call: 'Übersicht',
+                        value: 'Übersicht , Light , Grafana , Weather , Test',
+                        text: 'chooseAction',
+                        parse_mode: 'false',
+                    },
+                    {
+                        call: 'Test',
+                        value: 'Übersicht',
+                        text: 'chooseAction',
+                        parse_mode: 'false',
+                    },
+                ],
+            },
             action: {
-                menu1: {
-                    events: [{ ID: ['eventId'], ack: ['true'], condition: ['123'], menu: ['nav1'] }],
+                Menu: {
+                    get: [],
+                    set: [],
+                    pic: [],
+                    echarts: [],
+                    events: [
+                        {
+                            ID: ['eventId'],
+                            menu: ['Test'],
+                            condition: ['123'],
+                            ack: ['false'],
+                        },
+                    ],
+                    httpRequest: [],
                 },
             },
         };
-        const menuData = {
-            menu1: {
-                nav1: {
-                    nav: null,
+        const menuData: MenuData = {
+            Menu: {
+                Test: {
+                    nav: [['Menu1']],
                 },
             },
         };
         const usersInGroup = {
-            menu1: [{ name: 'user1' }],
+            Menu: [userA],
         };
 
+        const sendNavStub = sinon.stub(require('../../src/app/sendNav'), 'sendNav');
         const resultStringSame = await handleEvent(
             adapter,
             'instance1',
             dataObject as any,
             'eventId',
-            { ack: true, val: '123' } as any,
-            menuData as any,
+            { ack: false, val: '123' } as any,
+            menuData,
             {} as any,
-            usersInGroup as any,
+            usersInGroup,
         );
+
         expect(resultStringSame).to.be.true;
+        expect(sendNavStub.calledOnce).to.be.true;
+        expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
+        expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
+        expect(sendNavStub.args[0][3]).to.deep.equal('User A');
+        sendNavStub.restore();
 
         const resultStringDifferent = await handleEvent(
             adapter,
@@ -145,7 +179,7 @@ describe('handleEvent', () => {
             dataObject as any,
             'eventId',
             { ack: true, val: '23' } as any,
-            menuData as any,
+            menuData,
             {} as any,
             usersInGroup as any,
         );

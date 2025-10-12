@@ -30,10 +30,12 @@ const getInstances = (menuToGo, menusWithUsers) => {
 };
 const getInstancesFromEventsById = (action, id, menusWithUsers) => {
   const event = action && Object.keys(action).filter((a) => {
-    var _a;
-    return (_a = action[a]) == null ? void 0 : _a.events.filter((e) => e.ID.filter((eventId) => eventId === id));
+    var _a, _b;
+    return (_b = (_a = action[a]) == null ? void 0 : _a.events) == null ? void 0 : _b.some((e) => {
+      var _a2;
+      return (_a2 = e.ID) == null ? void 0 : _a2.includes(id);
+    });
   });
-  console.log(event);
   return { isEvent: !!(event && (event == null ? void 0 : event.length)), eventInstanceList: getInstances(event != null ? event : [], menusWithUsers) };
 };
 // Annotate the CommonJS export names for ESM import in node:
