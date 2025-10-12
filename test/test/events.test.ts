@@ -5,6 +5,8 @@ import type { MenusWithUsers, UserType } from '@/types/app';
 import { Actions } from '../../src/types/types';
 import { handleEvent } from '../../src/app/action';
 import sinon from 'sinon';
+import { mockAdapterCore } from '@iobroker/testing/build/tests/unit/mocks/mockAdapterCore';
+import { utils } from '@iobroker/testing';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -105,38 +107,120 @@ describe('handleEvent', () => {
         expect(result).to.be.false;
     });
 
-    // it('should return true and call sendNav if event matches and part exists', async () => {
-    //     // Mocks and spies
-    //     const sendNav = sinon.stub().resolves();
-    //
-    //     const dataObject = {
-    //         action: {
-    //             menu1: {
-    //                 events: [{ ID: ['eventId'], ack: ['true'], condition: ['true'], menu: ['nav1'] }],
-    //             },
-    //         },
-    //     };
-    //     const menuData = {
-    //         menu1: {
-    //             nav1: {
-    //                 nav: null,
-    //             },
-    //         },
-    //     };
-    //     const usersInGroup = {
-    //         menu1: [{ name: 'user1' }],
-    //     };
-    //
-    //     const result = await handleEvent(
-    //         'instance1',
-    //         dataObject as any,
-    //         'eventId',
-    //         { ack: true, val: true } as any,
-    //         menuData as any,
-    //         {} as any,
-    //         usersInGroup as any,
-    //     );
-    //     expect(result).to.be.true;
-    //     expect(sendNav.calledOnce).to.be.true;
-    // });
+    const { adapter } = utils.unit.createMocks({});
+    it('check state string', async () => {
+        const dataObject = {
+            action: {
+                menu1: {
+                    events: [{ ID: ['eventId'], ack: ['true'], condition: ['123'], menu: ['nav1'] }],
+                },
+            },
+        };
+        const menuData = {
+            menu1: {
+                nav1: {
+                    nav: null,
+                },
+            },
+        };
+        const usersInGroup = {
+            menu1: [{ name: 'user1' }],
+        };
+
+        const resultStringSame = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: true, val: '123' } as any,
+            menuData as any,
+            {} as any,
+            usersInGroup as any,
+        );
+        expect(resultStringSame).to.be.true;
+
+        const resultStringDifferent = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: true, val: '23' } as any,
+            menuData as any,
+            {} as any,
+            usersInGroup as any,
+        );
+        expect(resultStringDifferent).to.be.false;
+        const resultStringDifferent2 = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: true, val: 'true' } as any,
+            menuData as any,
+            {} as any,
+            usersInGroup as any,
+        );
+        expect(resultStringDifferent2).to.be.false;
+    });
+
+    it('check State boolean', async () => {
+        const dataObject = {
+            action: {
+                menu1: {
+                    events: [{ ID: ['eventId'], ack: ['true'], condition: ['true'], menu: ['nav1'] }],
+                },
+            },
+        };
+        const menuData = {
+            menu1: {
+                nav1: {
+                    nav: null,
+                },
+            },
+        };
+        const usersInGroup = {
+            menu1: [{ name: 'user1' }],
+        };
+        const resultBooleanTrueSame = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: true, val: true } as any,
+            menuData as any,
+            {} as any,
+            usersInGroup as any,
+        );
+        expect(resultBooleanTrueSame).to.be.true;
+
+        const resultBooleanFalse = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: true, val: 1 } as any,
+            menuData as any,
+            {} as any,
+            usersInGroup as any,
+        );
+        expect(resultBooleanFalse).to.be.false;
+        const dataObject2 = {
+            action: {
+                menu1: {
+                    events: [{ ID: ['eventId'], ack: ['true'], condition: ['false'], menu: ['nav1'] }],
+                },
+            },
+        };
+        const resultBooleanFalse2 = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject2 as any,
+            'eventId',
+            { ack: true, val: false } as any,
+            menuData as any,
+            {} as any,
+            usersInGroup as any,
+        );
+        expect(resultBooleanFalse2).to.be.false;
+    });
 });
