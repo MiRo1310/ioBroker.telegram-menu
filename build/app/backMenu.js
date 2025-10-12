@@ -22,10 +22,10 @@ __export(backMenu_exports, {
   switchBack: () => switchBack
 });
 module.exports = __toCommonJS(backMenu_exports);
-var import_logging = require("./logging");
-var import_utilities = require("../lib/utilities");
-var import_string = require("../lib/string");
-var import_config = require("../config/config");
+var import_config = require("@b/config/config");
+var import_utilities = require("@b/lib/utilities");
+var import_logging = require("@b/app/logging");
+var import_string = require("@b/lib/string");
 const backMenu = {};
 async function switchBack(adapter, userToSend, allMenusWithData, menus, lastMenu = false) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;

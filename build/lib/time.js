@@ -25,7 +25,7 @@ __export(time_exports, {
 });
 module.exports = __toCommonJS(time_exports);
 var import_config = require("../config/config");
-var import_string = require("./string");
+var import_string = require("@b/lib/string");
 const toLocaleDate = (ts, options) => {
   var _a, _b;
   return ts.toLocaleDateString((_a = options == null ? void 0 : options.locale) != null ? _a : import_config.defaultLocale, {

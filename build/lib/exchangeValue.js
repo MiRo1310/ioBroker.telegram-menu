@@ -24,8 +24,8 @@ __export(exchangeValue_exports, {
   isNoValueParameter: () => isNoValueParameter
 });
 module.exports = __toCommonJS(exchangeValue_exports);
-var import_config = require("../config/config");
-var import_string = require("./string");
+var import_string = require("@b/lib/string");
+var import_config = require("@b/config/config");
 function isNoValueParameter(textToSend) {
   let insertValue = true;
   if (textToSend.includes("{novalue}")) {

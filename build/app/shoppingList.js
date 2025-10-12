@@ -22,15 +22,15 @@ __export(shoppingList_exports, {
   shoppingListSubscribeStateAndDeleteItem: () => shoppingListSubscribeStateAndDeleteItem
 });
 module.exports = __toCommonJS(shoppingList_exports);
-var import_messageIds = require("./messageIds");
-var import_jsonTable = require("./jsonTable");
-var import_telegram = require("./telegram");
-var import_subscribeStates = require("./subscribeStates");
-var import_logging = require("./logging");
-var import_string = require("../lib/string");
-var import_setstate = require("./setstate");
-var import_json = require("../lib/json");
-var import_utils = require("../lib/utils");
+var import_utils = require("@b/lib/utils");
+var import_subscribeStates = require("@b/app/subscribeStates");
+var import_setstate = require("@b/app/setstate");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
+var import_messageIds = require("@b/app/messageIds");
+var import_string = require("@b/lib/string");
+var import_jsonTable = require("@b/app/jsonTable");
+var import_json = require("@b/lib/json");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, telegramParams) {

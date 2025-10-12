@@ -23,8 +23,8 @@ __export(dynamicValue_exports, {
   setDynamicValue: () => setDynamicValue
 });
 module.exports = __toCommonJS(dynamicValue_exports);
-var import_string = require("../lib/string");
-var import_telegram = require("./telegram");
+var import_string = require("@b/lib/string");
+var import_telegram = require("@b/app/telegram");
 const dynamicValueObj = {};
 const setDynamicValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
   const { substringExcludeSearch } = (0, import_string.decomposeText)(returnText, "{setDynamicValue:", "}");

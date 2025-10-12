@@ -22,15 +22,15 @@ __export(setstate_exports, {
   setstateIobroker: () => setstateIobroker
 });
 module.exports = __toCommonJS(setstate_exports);
-var import_telegram = require("./telegram");
-var import_utilities = require("../lib/utilities");
-var import_dynamicValue = require("./dynamicValue");
-var import_logging = require("./logging");
-var import_string = require("../lib/string");
-var import_utils = require("../lib/utils");
-var import_config = require("../config/config");
-var import_setStateIdsToListenTo = require("./setStateIdsToListenTo");
-var import_exchangeValue = require("../lib/exchangeValue");
+var import_config = require("@b/config/config");
+var import_string = require("@b/lib/string");
+var import_utilities = require("@b/lib/utilities");
+var import_utils = require("@b/lib/utils");
+var import_logging = require("@b/app/logging");
+var import_dynamicValue = require("@b/app/dynamicValue");
+var import_setStateIdsToListenTo = require("@b/app/setStateIdsToListenTo");
+var import_exchangeValue = require("@b/lib/exchangeValue");
+var import_telegram = require("@b/app/telegram");
 const modifiedValue = (valueFromSubmenu, value) => {
   return value.includes(import_config.config.modifiedValue) ? value.replace(import_config.config.modifiedValue, valueFromSubmenu) : valueFromSubmenu;
 };

@@ -22,20 +22,20 @@ __export(processData_exports, {
   getTimeouts: () => getTimeouts
 });
 module.exports = __toCommonJS(processData_exports);
-var import_telegram = require("./telegram");
-var import_sendNav = require("./sendNav");
-var import_subMenu = require("./subMenu");
-var import_backMenu = require("./backMenu");
-var import_setstate = require("./setstate");
-var import_getstate = require("./getstate");
-var import_sendpic = require("./sendpic");
-var import_dynamicValue = require("./dynamicValue");
-var import_action = require("./action");
-var import_echarts = require("./echarts");
-var import_httpRequest = require("./httpRequest");
-var import_logging = require("./logging");
-var import_string = require("../lib/string");
-var import_validateMenus = require("./validateMenus");
+var import_string = require("@b/lib/string");
+var import_dynamicValue = require("@b/app/dynamicValue");
+var import_action = require("@b/app/action");
+var import_setstate = require("@b/app/setstate");
+var import_telegram = require("@b/app/telegram");
+var import_backMenu = require("@b/app/backMenu");
+var import_sendNav = require("@b/app/sendNav");
+var import_subMenu = require("@b/app/subMenu");
+var import_getstate = require("@b/app/getstate");
+var import_sendpic = require("@b/app/sendpic");
+var import_echarts = require("@b/app/echarts");
+var import_httpRequest = require("@b/app/httpRequest");
+var import_validateMenus = require("@b/app/validateMenus");
+var import_logging = require("@b/app/logging");
 let timeouts = [];
 async function checkEveryMenuForData({
   instance,

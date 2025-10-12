@@ -22,9 +22,9 @@ __export(jsonTable_exports, {
   createTextTableFromJson: () => createTextTableFromJson
 });
 module.exports = __toCommonJS(jsonTable_exports);
-var import_logging = require("./logging");
-var import_string = require("../lib/string");
-var import_json = require("../lib/json");
+var import_string = require("@b/lib/string");
+var import_json = require("@b/lib/json");
+var import_logging = require("@b/app/logging");
 const lastText = {};
 const createKeyboardFromJson = (adapter, val, text, id, user) => {
   try {

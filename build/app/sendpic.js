@@ -21,12 +21,12 @@ __export(sendpic_exports, {
   sendPic: () => sendPic
 });
 module.exports = __toCommonJS(sendpic_exports);
-var import_telegram = require("./telegram");
-var import_utils = require("../lib/utils");
-var import_logging = require("./logging");
-var import_string = require("../lib/string");
-var import_appUtils = require("../lib/appUtils");
-var import_exec = require("./exec");
+var import_appUtils = require("@b/lib/appUtils");
+var import_string = require("@b/lib/string");
+var import_utils = require("@b/lib/utils");
+var import_exec = require("@b/app/exec");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
 function sendPic(instance, part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
   var _a;
   const adapter = telegramParams.adapter;

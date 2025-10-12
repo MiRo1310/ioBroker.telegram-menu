@@ -23,12 +23,12 @@ __export(telegram_exports, {
   sendToTelegramSubmenu: () => sendToTelegramSubmenu
 });
 module.exports = __toCommonJS(telegram_exports);
-var import_logging = require("./logging");
-var import_utilities = require("../lib/utilities");
-var import_utils = require("../lib/utils");
-var import_string = require("../lib/string");
-var import_appUtils = require("../lib/appUtils");
-var import_instance = require("./instance");
+var import_logging = require("@b/app/logging");
+var import_utilities = require("@b/lib/utilities");
+var import_utils = require("@b/lib/utils");
+var import_string = require("@b/lib/string");
+var import_appUtils = require("@b/lib/appUtils");
+var import_instance = require("@b/app/instance");
 function validateTextToSend(adapter, textToSend) {
   if (!textToSend || (0, import_string.isEmptyString)(textToSend)) {
     adapter.log.error("There is a problem! Text to send is empty or undefined, please check your configuration.");

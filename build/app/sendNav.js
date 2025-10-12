@@ -21,9 +21,9 @@ __export(sendNav_exports, {
   sendNav: () => sendNav
 });
 module.exports = __toCommonJS(sendNav_exports);
-var import_telegram = require("./telegram");
-var import_utilities = require("../lib/utilities");
-var import_logging = require("./logging");
+var import_utilities = require("@b/lib/utilities");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
 async function sendNav(adapter, instance, part, userToSend, telegramParams) {
   try {
     if (userToSend) {

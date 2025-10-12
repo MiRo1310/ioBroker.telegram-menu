@@ -32,11 +32,11 @@ __export(httpRequest_exports, {
 });
 module.exports = __toCommonJS(httpRequest_exports);
 var import_axios = __toESM(require("axios"));
-var import_telegram = require("./telegram");
 var import_path = __toESM(require("path"));
 var import_fs = __toESM(require("fs"));
-var import_logging = require("./logging");
-var import_utils = require("../lib/utils");
+var import_utils = require("@b/lib/utils");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
 async function httpRequest(adapter, instance, parts, userToSend, telegramParams, directoryPicture) {
   if (!parts.httpRequest) {
     return;

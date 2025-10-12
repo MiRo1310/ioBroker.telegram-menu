@@ -21,11 +21,11 @@ __export(idBySelector_exports, {
   idBySelector: () => idBySelector
 });
 module.exports = __toCommonJS(idBySelector_exports);
-var import_config = require("../config/config");
-var import_exchangeValue = require("../lib/exchangeValue");
-var import_string = require("../lib/string");
-var import_telegram = require("./telegram");
-var import_logging = require("./logging");
+var import_config = require("@b/config/config");
+var import_exchangeValue = require("@b/lib/exchangeValue");
+var import_string = require("@b/lib/string");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
 const idBySelector = async ({
   instance,
   adapter,

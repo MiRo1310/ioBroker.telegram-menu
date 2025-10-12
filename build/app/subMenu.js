@@ -22,16 +22,16 @@ __export(subMenu_exports, {
   subMenu: () => subMenu
 });
 module.exports = __toCommonJS(subMenu_exports);
-var import_backMenu = require("./backMenu");
-var import_setstate = require("./setstate");
-var import_telegram = require("./telegram");
-var import_utilities = require("../lib/utilities");
-var import_messageIds = require("./messageIds");
-var import_dynamicSwitchMenu = require("./dynamicSwitchMenu");
-var import_string = require("../lib/string");
-var import_logging = require("./logging");
-var import_splitValues = require("../lib/splitValues");
-var import_validateMenus = require("./validateMenus");
+var import_setstate = require("@b/app/setstate");
+var import_string = require("@b/lib/string");
+var import_backMenu = require("@b/app/backMenu");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
+var import_utilities = require("@b/lib/utilities");
+var import_validateMenus = require("@b/app/validateMenus");
+var import_messageIds = require("@b/app/messageIds");
+var import_splitValues = require("@b/lib/splitValues");
+var import_dynamicSwitchMenu = require("@b/app/dynamicSwitchMenu");
 let step = 0;
 let splittedData = [];
 const createSubmenuPercent = (obj) => {

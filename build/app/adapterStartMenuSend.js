@@ -21,10 +21,10 @@ __export(adapterStartMenuSend_exports, {
   adapterStartMenuSend: () => adapterStartMenuSend
 });
 module.exports = __toCommonJS(adapterStartMenuSend_exports);
-var import_telegram = require("./telegram");
-var import_backMenu = require("./backMenu");
-var import_string = require("../lib/string");
-var import_appUtils = require("../lib/appUtils");
+var import_appUtils = require("@b/lib/appUtils");
+var import_backMenu = require("@b/app/backMenu");
+var import_string = require("@b/lib/string");
+var import_telegram = require("@b/app/telegram");
 function isUserActive(telegramParams, userToSend) {
   return telegramParams.userListWithChatID.find(
     (user) => user.chatID === userToSend.chatId && user.instance === userToSend.instance

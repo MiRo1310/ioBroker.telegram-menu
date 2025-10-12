@@ -21,8 +21,8 @@ __export(dynamicSwitchMenu_exports, {
   createDynamicSwitchMenu: () => createDynamicSwitchMenu
 });
 module.exports = __toCommonJS(dynamicSwitchMenu_exports);
-var import_logging = require("./logging");
-var import_utilities = require("../lib/utilities");
+var import_utilities = require("@b/lib/utilities");
+var import_logging = require("@b/app/logging");
 async function createDynamicSwitchMenu(adapter, calledValue, device, text) {
   try {
     const changedCalledValue = await (0, import_utilities.textModifier)(adapter, calledValue);

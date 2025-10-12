@@ -25,16 +25,16 @@ __export(action_exports, {
   handleEvent: () => handleEvent
 });
 module.exports = __toCommonJS(action_exports);
-var import_telegram = require("./telegram");
-var import_subMenu = require("./subMenu");
-var import_sendNav = require("./sendNav");
-var import_backMenu = require("./backMenu");
-var import_logging = require("./logging");
-var import_string = require("../lib/string");
-var import_utils = require("../lib/utils");
-var import_math = require("../lib/math");
-var import_config = require("../config/config");
-var import_splitValues = require("../lib/splitValues");
+var import_string = require("@b/lib/string");
+var import_config = require("@b/config/config");
+var import_splitValues = require("@b/lib/splitValues");
+var import_math = require("@b/lib/math");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
+var import_utils = require("@b/lib/utils");
+var import_backMenu = require("@b/app/backMenu");
+var import_subMenu = require("@b/app/subMenu");
+var import_sendNav = require("@b/app/sendNav");
 const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, parse_mode) => {
   var _a, _b;
   let textToSend;

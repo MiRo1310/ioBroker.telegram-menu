@@ -34,11 +34,11 @@ __export(appUtils_exports, {
   timeStringReplacer: () => timeStringReplacer
 });
 module.exports = __toCommonJS(appUtils_exports);
-var import_config = require("../config/config");
-var import_string = require("./string");
-var import_math = require("./math");
-var import_utils = require("./utils");
-var import_object = require("./object");
+var import_config = require("@b/config/config");
+var import_string = require("@b/lib/string");
+var import_math = require("@b/lib/math");
+var import_utils = require("@b/lib/utils");
+var import_object = require("@b/lib/object");
 const checkOneLineValue = (text) => !text.includes(import_config.config.rowSplitter) ? `${text} ${import_config.config.rowSplitter}` : text;
 function calcValue(textToSend, val, adapter) {
   const { substringExcludeSearch, textExcludeSubstring } = (0, import_string.decomposeText)(

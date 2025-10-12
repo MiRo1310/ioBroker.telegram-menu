@@ -23,15 +23,15 @@ __export(utilities_exports, {
   transformValueToTypeOfId: () => transformValueToTypeOfId
 });
 module.exports = __toCommonJS(utilities_exports);
-var import_utils = require("./utils");
-var import_string = require("./string");
-var import_logging = require("../app/logging");
-var import_time = require("./time");
-var import_config = require("../config/config");
-var import_appUtils = require("./appUtils");
-var import_setstate = require("../app/setstate");
-var import_splitValues = require("./splitValues");
+var import_utils = require("@b/lib/utils");
 var import_status = require("../app/status");
+var import_splitValues = require("@b/lib/splitValues");
+var import_string = require("@b/lib/string");
+var import_config = require("@b/config/config");
+var import_appUtils = require("@b/lib/appUtils");
+var import_time = require("@b/lib/time");
+var import_setstate = require("@b/app/setstate");
+var import_logging = require("@b/app/logging");
 const setTimeValue = async (adapter, textToSend, id) => {
   const { substring, substringExcludeSearch } = (0, import_string.decomposeText)(
     textToSend,

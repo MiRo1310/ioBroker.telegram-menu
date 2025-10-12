@@ -22,10 +22,10 @@ __export(messageIds_exports, {
   saveMessageIds: () => saveMessageIds
 });
 module.exports = __toCommonJS(messageIds_exports);
-var import_botAction = require("./botAction");
-var import_logging = require("./logging");
-var import_utils = require("../lib/utils");
-var import_string = require("../lib/string");
+var import_string = require("@b/lib/string");
+var import_logging = require("@b/app/logging");
+var import_utils = require("@b/lib/utils");
+var import_botAction = require("@b/app/botAction");
 let isDeleting = false;
 async function saveMessageIds(adapter, state, instanceTelegram) {
   try {

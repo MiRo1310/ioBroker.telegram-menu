@@ -21,10 +21,10 @@ __export(echarts_exports, {
   getChart: () => getChart
 });
 module.exports = __toCommonJS(echarts_exports);
-var import_logging = require("./logging");
-var import_telegram = require("./telegram");
-var import_utils = require("../lib/utils");
-var import_splitValues = require("../lib/splitValues");
+var import_utils = require("@b/lib/utils");
+var import_splitValues = require("@b/lib/splitValues");
+var import_telegram = require("@b/app/telegram");
+var import_logging = require("@b/app/logging");
 function getChart(instance, echarts, directoryPicture, user, telegramParams) {
   const adapter = telegramParams.adapter;
   try {

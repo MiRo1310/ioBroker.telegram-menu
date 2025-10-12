@@ -25,8 +25,8 @@ __export(splitValues_exports, {
   getSubmenuNumberValues: () => getSubmenuNumberValues
 });
 module.exports = __toCommonJS(splitValues_exports);
-var import_string = require("./string");
-var import_appUtils = require("./appUtils");
+var import_appUtils = require("@b/lib/appUtils");
+var import_string = require("@b/lib/string");
 const getMenuValues = (str) => {
   const splitText = str.split(":");
   return { cbData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };

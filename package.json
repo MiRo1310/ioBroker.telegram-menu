@@ -70,6 +70,7 @@
     "prebuild": "npm run lint:fix && rimraf admin/build",
     "build": "build-adapter all",
     "watch": "build-adapter react --watch",
+    "tsc": "tsc --project tsconfig.build.json",
     "prebuild:react": "rimraf admin/build",
     "build:react": "build-adapter react",
     "watch:react": "build-adapter react --watch",

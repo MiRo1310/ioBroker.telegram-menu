@@ -22,8 +22,8 @@ __export(setStateIdsToListenTo_exports, {
   getStateIdsToListenTo: () => getStateIdsToListenTo
 });
 module.exports = __toCommonJS(setStateIdsToListenTo_exports);
-var import_subscribeStates = require("./subscribeStates");
-var import_object = require("../lib/object");
+var import_subscribeStates = require("@b/app/subscribeStates");
+var import_object = require("@b/lib/object");
 const setStateIdsToListenTo = [];
 function getStateIdsToListenTo() {
   return setStateIdsToListenTo;

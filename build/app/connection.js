@@ -21,8 +21,8 @@ __export(connection_exports, {
   areAllCheckTelegramInstancesActive: () => areAllCheckTelegramInstancesActive
 });
 module.exports = __toCommonJS(connection_exports);
-var import_string = require("../lib/string");
-var import_configVariables = require("./configVariables");
+var import_configVariables = require("@b/app/configVariables");
+var import_string = require("@b/lib/string");
 const areAllCheckTelegramInstancesActive = async (params) => {
   var _a;
   const { adapter } = params;

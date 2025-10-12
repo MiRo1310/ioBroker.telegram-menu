@@ -21,8 +21,8 @@ __export(exec_exports, {
   loadWithCurl: () => loadWithCurl
 });
 module.exports = __toCommonJS(exec_exports);
-var import_logging = require("./logging");
 var import_child_process = require("child_process");
+var import_logging = require("@b/app/logging");
 function loadWithCurl(adapter, token, path, url, callback) {
   (0, import_child_process.exec)(
     `curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`,

@@ -35,8 +35,8 @@ __export(string_exports, {
   stringReplacer: () => stringReplacer
 });
 module.exports = __toCommonJS(string_exports);
-var import_utils = require("./utils");
-var import_logging = require("../app/logging");
+var import_logging = require("@b/app/logging");
+var import_string = require("@/lib/string");
 const jsonString = (val) => JSON.stringify(val);
 function parseJSON(val, adapter) {
   try {
@@ -107,7 +107,7 @@ const pad = (value, length = 2) => {
   return value.toString().padStart(length, "0");
 };
 function getNewline(newline) {
-  return (0, import_utils.isTruthy)(newline) ? "\n" : "";
+  return (0, import_string.isTruthy)(newline) ? "\n" : "";
 }
 function isBooleanString(str) {
   return str === "true" || str === "false";

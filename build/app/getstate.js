@@ -21,19 +21,19 @@ __export(getstate_exports, {
   getState: () => getState
 });
 module.exports = __toCommonJS(getstate_exports);
-var import_telegram = require("./telegram");
-var import_action = require("./action");
-var import_jsonTable = require("./jsonTable");
-var import_utilities = require("../lib/utilities");
-var import_utils = require("../lib/utils");
-var import_time = require("../lib/time");
-var import_string = require("../lib/string");
-var import_appUtils = require("../lib/appUtils");
-var import_config = require("../config/config");
-var import_logging = require("./logging");
-var import_exchangeValue = require("../lib/exchangeValue");
-var import_idBySelector = require("./idBySelector");
-var import_parseMode = require("./parseMode");
+var import_config = require("@b/config/config");
+var import_parseMode = require("@b/app/parseMode");
+var import_idBySelector = require("@b/app/idBySelector");
+var import_action = require("@b/app/action");
+var import_utils = require("@b/lib/utils");
+var import_string = require("@b/lib/string");
+var import_utilities = require("@b/lib/utilities");
+var import_time = require("@b/lib/time");
+var import_appUtils = require("@b/lib/appUtils");
+var import_jsonTable = require("@b/app/jsonTable");
+var import_telegram = require("@b/app/telegram");
+var import_exchangeValue = require("@b/lib/exchangeValue");
+var import_logging = require("@b/app/logging");
 async function getState(instance, part, userToSend, telegramParams) {
   const adapter = telegramParams.adapter;
   try {
