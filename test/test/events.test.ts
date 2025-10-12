@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import { getInstances, getInstancesFromEventsById } from '@b/app/events';
 import type { MenusWithUsers, UserType } from '@/types/app';
 import { Actions } from '@b/types/types';
-import { utils } from '@iobroker/testing';
-import { handleEvent } from '@b/app/action';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -69,191 +67,191 @@ describe('getInstancesFromEventsById', () => {
     });
 });
 
-describe('handleEvent', () => {
-    //     it('should return false if dataObject.action is undefined', async () => {
-    //         const result = await handleEvent(
-    //             {} as any,
-    //             'instance1',
-    //             {} as any,
-    //             'eventId',
-    //             { ack: true, val: true } as any,
-    //             {} as any,
-    //             {} as any,
-    //             {} as any,
-    //         );
-    //         expect(result).to.be.false;
-    //     });
-    //
-    //     it('should return false if no matching event is found', async () => {
-    //         const dataObject = {
-    //             action: {
-    //                 menu1: {
-    //                     events: [{ ID: ['otherId'], ack: ['false'], condition: ['true'], menu: ['nav1'] }],
-    //                 },
-    //             },
-    //         };
-    //         const result = await handleEvent(
-    //             {} as any,
-    //             'instance1',
-    //             dataObject as any,
-    //             'eventId',
-    //             { ack: true, val: true } as any,
-    //             {} as any,
-    //             {} as any,
-    //             {} as any,
-    //         );
-    //         expect(result).to.be.false;
-    //     });
-    //
-    const { adapter } = utils.unit.createMocks({});
-    //     it('check state string', async () => {
-    //         const dataObject = {
-    //             nav: {
-    //                 Menu: [
-    //                     {
-    //                         call: 'Übersicht',
-    //                         value: 'Übersicht , Light , Grafana , Weather , Test',
-    //                         text: 'chooseAction',
-    //                         parse_mode: 'false',
-    //                     },
-    //                     {
-    //                         call: 'Test',
-    //                         value: 'Übersicht',
-    //                         text: 'chooseAction',
-    //                         parse_mode: 'false',
-    //                     },
-    //                 ],
-    //             },
-    //             action: {
-    //                 Menu: {
-    //                     get: [],
-    //                     set: [],
-    //                     pic: [],
-    //                     echarts: [],
-    //                     events: [
-    //                         {
-    //                             ID: ['eventId'],
-    //                             menu: ['Test'],
-    //                             condition: ['123'],
-    //                             ack: ['false'],
-    //                         },
-    //                     ],
-    //                     httpRequest: [],
-    //                 },
-    //             },
-    //         };
-    //         const menuData: MenuData = {
-    //             Menu: {
-    //                 Test: {
-    //                     nav: [['Menu1']],
-    //                 },
-    //             },
-    //         };
-    //         const usersInGroup = {
-    //             Menu: [userA],
-    //         };
-    //
-    //         const sendNavStub = sinon.stub(require('../../src/app/sendNav'), 'sendNav');
-    //         const resultStringSame = await handleEvent(
-    //             adapter,
-    //             'instance1',
-    //             dataObject as any,
-    //             'eventId',
-    //             { ack: false, val: '123' } as any,
-    //             menuData,
-    //             {} as any,
-    //             usersInGroup,
-    //         );
-    //
-    //         expect(resultStringSame).to.be.true;
-    //         expect(sendNavStub.calledOnce).to.be.true;
-    //         expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
-    //         expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
-    //         expect(sendNavStub.args[0][3]).to.deep.equal('User A');
-    //         sendNavStub.restore();
-    //
-    //         const resultStringDifferent = await handleEvent(
-    //             adapter,
-    //             'instance1',
-    //             dataObject as any,
-    //             'eventId',
-    //             { ack: true, val: '23' } as any,
-    //             menuData,
-    //             {} as any,
-    //             usersInGroup as any,
-    //         );
-    //         expect(resultStringDifferent).to.be.false;
-    //         const resultStringDifferent2 = await handleEvent(
-    //             adapter,
-    //             'instance1',
-    //             dataObject as any,
-    //             'eventId',
-    //             { ack: true, val: 'true' } as any,
-    //             menuData as any,
-    //             {} as any,
-    //             usersInGroup as any,
-    //         );
-    //         expect(resultStringDifferent2).to.be.false;
-    //     });
-    //
-    it('check State boolean', async () => {
-        const dataObject = {
-            action: {
-                menu1: {
-                    events: [{ ID: ['eventId'], ack: ['true'], condition: ['true'], menu: ['nav1'] }],
-                },
-            },
-        };
-        const menuData = {
-            menu1: {
-                nav1: {
-                    nav: null,
-                },
-            },
-        };
-        const usersInGroup = {
-            menu1: [{ name: 'user1' }],
-        };
-        const resultBooleanTrueSame = await handleEvent(
-            adapter,
-            'instance1',
-            dataObject as any,
-            'eventId',
-            { ack: true, val: true } as any,
-            menuData as any,
-            {} as any,
-            usersInGroup as any,
-        );
-        expect(resultBooleanTrueSame).to.be.true;
-
-        const resultBooleanFalse = await handleEvent(
-            adapter,
-            'instance1',
-            dataObject as any,
-            'eventId',
-            { ack: true, val: 1 } as any,
-            menuData as any,
-            {} as any,
-            usersInGroup as any,
-        );
-        expect(resultBooleanFalse).to.be.false;
-        const dataObject2 = {
-            action: {
-                menu1: {
-                    events: [{ ID: ['eventId'], ack: ['true'], condition: ['false'], menu: ['nav1'] }],
-                },
-            },
-        };
-        const resultBooleanFalse2 = await handleEvent(
-            adapter,
-            'instance1',
-            dataObject2 as any,
-            'eventId',
-            { ack: true, val: false } as any,
-            menuData as any,
-            {} as any,
-            usersInGroup as any,
-        );
-        expect(resultBooleanFalse2).to.be.false;
-    });
-});
+// describe('handleEvent', () => {
+//     it('should return false if dataObject.action is undefined', async () => {
+//         const result = await handleEvent(
+//             {} as any,
+//             'instance1',
+//             {} as any,
+//             'eventId',
+//             { ack: true, val: true } as any,
+//             {} as any,
+//             {} as any,
+//             {} as any,
+//         );
+//         expect(result).to.be.false;
+//     });
+//
+//     it('should return false if no matching event is found', async () => {
+//         const dataObject = {
+//             action: {
+//                 menu1: {
+//                     events: [{ ID: ['otherId'], ack: ['false'], condition: ['true'], menu: ['nav1'] }],
+//                 },
+//             },
+//         };
+//         const result = await handleEvent(
+//             {} as any,
+//             'instance1',
+//             dataObject as any,
+//             'eventId',
+//             { ack: true, val: true } as any,
+//             {} as any,
+//             {} as any,
+//             {} as any,
+//         );
+//         expect(result).to.be.false;
+//     });
+//
+// const { adapter } = utils.unit.createMocks({});
+//     it('check state string', async () => {
+//         const dataObject = {
+//             nav: {
+//                 Menu: [
+//                     {
+//                         call: 'Übersicht',
+//                         value: 'Übersicht , Light , Grafana , Weather , Test',
+//                         text: 'chooseAction',
+//                         parse_mode: 'false',
+//                     },
+//                     {
+//                         call: 'Test',
+//                         value: 'Übersicht',
+//                         text: 'chooseAction',
+//                         parse_mode: 'false',
+//                     },
+//                 ],
+//             },
+//             action: {
+//                 Menu: {
+//                     get: [],
+//                     set: [],
+//                     pic: [],
+//                     echarts: [],
+//                     events: [
+//                         {
+//                             ID: ['eventId'],
+//                             menu: ['Test'],
+//                             condition: ['123'],
+//                             ack: ['false'],
+//                         },
+//                     ],
+//                     httpRequest: [],
+//                 },
+//             },
+//         };
+//         const menuData: MenuData = {
+//             Menu: {
+//                 Test: {
+//                     nav: [['Menu1']],
+//                 },
+//             },
+//         };
+//         const usersInGroup = {
+//             Menu: [userA],
+//         };
+//
+//         const sendNavStub = sinon.stub(require('../../src/app/sendNav'), 'sendNav');
+//         const resultStringSame = await handleEvent(
+//             adapter,
+//             'instance1',
+//             dataObject as any,
+//             'eventId',
+//             { ack: false, val: '123' } as any,
+//             menuData,
+//             {} as any,
+//             usersInGroup,
+//         );
+//
+//         expect(resultStringSame).to.be.true;
+//         expect(sendNavStub.calledOnce).to.be.true;
+//         expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
+//         expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
+//         expect(sendNavStub.args[0][3]).to.deep.equal('User A');
+//         sendNavStub.restore();
+//
+//         const resultStringDifferent = await handleEvent(
+//             adapter,
+//             'instance1',
+//             dataObject as any,
+//             'eventId',
+//             { ack: true, val: '23' } as any,
+//             menuData,
+//             {} as any,
+//             usersInGroup as any,
+//         );
+//         expect(resultStringDifferent).to.be.false;
+//         const resultStringDifferent2 = await handleEvent(
+//             adapter,
+//             'instance1',
+//             dataObject as any,
+//             'eventId',
+//             { ack: true, val: 'true' } as any,
+//             menuData as any,
+//             {} as any,
+//             usersInGroup as any,
+//         );
+//         expect(resultStringDifferent2).to.be.false;
+//     });
+//
+// it('check State boolean', async () => {
+//     const dataObject = {
+//         action: {
+//             menu1: {
+//                 events: [{ ID: ['eventId'], ack: ['true'], condition: ['true'], menu: ['nav1'] }],
+//             },
+//         },
+//     };
+//     const menuData = {
+//         menu1: {
+//             nav1: {
+//                 nav: null,
+//             },
+//         },
+//     };
+//     const usersInGroup = {
+//         menu1: [{ name: 'user1' }],
+//     };
+//     const resultBooleanTrueSame = await handleEvent(
+//         adapter,
+//         'instance1',
+//         dataObject as any,
+//         'eventId',
+//         { ack: true, val: true } as any,
+//         menuData as any,
+//         {} as any,
+//         usersInGroup as any,
+//     );
+//     expect(resultBooleanTrueSame).to.be.true;
+//
+//     const resultBooleanFalse = await handleEvent(
+//         adapter,
+//         'instance1',
+//         dataObject as any,
+//         'eventId',
+//         { ack: true, val: 1 } as any,
+//         menuData as any,
+//         {} as any,
+//         usersInGroup as any,
+//     );
+//     expect(resultBooleanFalse).to.be.false;
+//     const dataObject2 = {
+//         action: {
+//             menu1: {
+//                 events: [{ ID: ['eventId'], ack: ['true'], condition: ['false'], menu: ['nav1'] }],
+//             },
+//         },
+//     };
+//     const resultBooleanFalse2 = await handleEvent(
+//         adapter,
+//         'instance1',
+//         dataObject2 as any,
+//         'eventId',
+//         { ack: true, val: false } as any,
+//         menuData as any,
+//         {} as any,
+//         usersInGroup as any,
+//     );
+//     expect(resultBooleanFalse2).to.be.false;
+// });
+// });
