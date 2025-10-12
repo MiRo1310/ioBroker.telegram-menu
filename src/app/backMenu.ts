@@ -1,8 +1,8 @@
-import { errorLogger } from './logging';
-import type { Adapter, BackMenu, Keyboard, MenuData, Navigation } from '../types/types';
-import { textModifier } from '../lib/utilities';
-import { jsonString } from '../lib/string';
-import { backMenuLength } from '../config/config';
+import { backMenuLength } from '@b/config/config';
+import type { Adapter, BackMenu, Keyboard, MenuData, Navigation } from '@b/types/types';
+import { textModifier } from '@b/lib/utilities';
+import { errorLogger } from '@b/app/logging';
+import { jsonString } from '@b/lib/string';
 
 const backMenu: BackMenu = {};
 

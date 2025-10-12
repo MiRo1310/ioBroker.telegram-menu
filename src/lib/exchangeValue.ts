@@ -1,6 +1,6 @@
-import type { Adapter, ExchangeValueReturn, PrimitiveType } from '../types/types';
-import { config } from '../config/config';
-import { decomposeText, parseJSON, removeMultiSpaces, replaceAll } from './string';
+import { decomposeText, parseJSON, removeMultiSpaces, replaceAll } from '@b/lib/string';
+import type { Adapter, ExchangeValueReturn, PrimitiveType } from '@b/types/types';
+import { config } from '@b/config/config';
 
 export function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
     let insertValue = true;

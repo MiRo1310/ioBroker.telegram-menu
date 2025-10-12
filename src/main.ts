@@ -7,31 +7,31 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
-import { _subscribeForeignStates } from './app/subscribeStates';
-import { sendToTelegram } from './app/telegram';
-import { createState } from './app/createState';
-import { saveMessageIds } from './app/messageIds';
-import { adapterStartMenuSend } from './app/adapterStartMenuSend';
-import { checkEveryMenuForData, getTimeouts } from './app/processData';
-import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList';
-import { errorLogger } from './app/logging';
-import type { Adapter, MenuData, SetStateIds, TelegramParams } from './types/types';
-import { areAllCheckTelegramInstancesActive } from './app/connection';
-import { decomposeText, isString, jsonString } from './lib/string';
-import { isDefined, isFalsy, isTruthy } from './lib/utils';
+import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from '@b/app/action';
+import { _subscribeForeignStates } from '@b/app/subscribeStates';
+import { sendToTelegram } from '@b/app/telegram';
+import { createState } from '@b/app/createState';
+import { saveMessageIds } from '@b/app/messageIds';
+import { adapterStartMenuSend } from '@b/app/adapterStartMenuSend';
+import { checkEveryMenuForData, getTimeouts } from '@b/app/processData';
+import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from '@b/app/shoppingList';
+import { errorLogger } from '@b/app/logging';
+import type { Adapter, MenuData, SetStateIds, TelegramParams } from '@b/types/types';
+import { areAllCheckTelegramInstancesActive } from '@b/app/connection';
+import { decomposeText, isString, jsonString } from '@b/lib/string';
+import { isDefined, isFalsy, isTruthy } from '@b/lib/utils';
 import {
     getInstanceById,
     getListOfMenusIncludingUser,
     getNewStructure,
     getStartSides,
     splitNavigation,
-} from './lib/appUtils';
-import { getConfigVariables, getIds } from './app/configVariables';
-import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
+} from '@b/lib/appUtils';
+import { getConfigVariables, getIds } from '@b/app/configVariables';
+import { getStateIdsToListenTo } from '@b/app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
-import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
-import { getInstancesFromEventsById } from './app/events';
+import { exchangePlaceholderWithValue, exchangeValue } from '@b/lib/exchangeValue';
+import { getInstancesFromEventsById } from '@b/app/events';
 
 const timeoutKey = '0';
 export let adapter: Adapter;

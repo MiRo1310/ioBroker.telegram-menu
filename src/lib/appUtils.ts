@@ -1,4 +1,4 @@
-import { config } from '../config/config';
+import { config } from '@b/config/config';
 import type {
     Adapter,
     DataObject,
@@ -8,11 +8,11 @@ import type {
     ParseModeType,
     splittedNavigation,
     StartSides,
-} from '../types/types';
-import { decomposeText, removeQuotes } from './string';
-import { evaluate } from './math';
-import { isTruthy } from './utils';
-import { trimAllItems } from './object';
+} from '@b/types/types';
+import { decomposeText, removeQuotes } from '@b/lib/string';
+import { evaluate } from '@b/lib/math';
+import { isTruthy } from '@b/lib/utils';
+import { trimAllItems } from '@b/lib/object';
 import type { RowsNav, MenusWithUsers } from '@/types/app';
 
 export const checkOneLineValue = (text: string): string =>

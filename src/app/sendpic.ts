@@ -1,10 +1,10 @@
-import { sendToTelegram } from './telegram';
-import { validateDirectory } from '../lib/utils';
-import { errorLogger } from './logging';
-import type { Part, TelegramParams, Timeouts } from '../types/types';
-import { replaceAll } from '../lib/string';
-import { isStartside } from '../lib/appUtils';
-import { loadWithCurl } from './exec';
+import type { Part, TelegramParams, Timeouts } from '@b/types/types';
+import { isStartside } from '@b/lib/appUtils';
+import { replaceAll } from '@b/lib/string';
+import { validateDirectory } from '@b/lib/utils';
+import { loadWithCurl } from '@b/app/exec';
+import { sendToTelegram } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
 
 export function sendPic(
     instance: string,

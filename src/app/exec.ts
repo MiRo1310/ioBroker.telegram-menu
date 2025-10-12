@@ -1,6 +1,6 @@
-import { errorLogger } from './logging';
 import { exec } from 'child_process';
-import type { Adapter } from '../types/types';
+import type { Adapter } from '@b/types/types';
+import { errorLogger } from '@b/app/logging';
 
 export function loadWithCurl(adapter: Adapter, token: string, path: string, url: string, callback?: () => void): void {
     exec(

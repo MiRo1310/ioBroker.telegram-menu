@@ -1,6 +1,6 @@
-import { jsonString } from '../lib/string';
-import type { TelegramParams } from '../types/types';
-import { getIds } from './configVariables';
+import { getIds } from '@b/app/configVariables';
+import type { TelegramParams } from '@b/types/types';
+import { jsonString } from '@b/lib/string';
 
 export const areAllCheckTelegramInstancesActive = async (params: TelegramParams): Promise<boolean | undefined> => {
     const { adapter } = params;

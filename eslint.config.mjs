@@ -32,11 +32,23 @@ export default [
         // as this improves maintainability. jsdoc warnings will not block build process.
         rules: {
             'jsdoc/require-jsdoc': 'off',
-            'import/extensions': ['error', 'never', { ts: 'never', tsx: 'never', json: 'always', 'd.ts' : 'always' }],
+            'import/extensions': ['error', 'never', { ts: 'never', tsx: 'never', json: 'always', 'd.ts': 'always' }],
+            'import/no-absolute-path': 'error',
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: ['./*', '!@*', '!@b/*', '!@components/*'],
+                },
+            ],
         },
     },
     {
         settings: {
+            'import/resolver': {
+                typescript: {
+                    project: './tsconfig.json',
+                },
+            },
             react: {
                 version: '19.0',
             },

@@ -1,18 +1,18 @@
-import { sendLocationToTelegram, sendToTelegram } from './telegram';
-import { sendNav } from './sendNav';
-import { callSubMenu } from './subMenu';
-import { backMenuFunc, switchBack } from './backMenu';
-import { handleSetState, setstateIobroker } from './setstate';
-import { getState } from './getstate';
-import { sendPic } from './sendpic';
-import { getDynamicValue, removeUserFromDynamicValue } from './dynamicValue';
-import { adjustValueType } from './action';
-import { getChart } from './echarts';
-import { httpRequest } from './httpRequest';
-import { errorLogger } from './logging';
-import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '../types/types';
-import { jsonString } from '../lib/string';
-import { isSubmenuOrMenu } from './validateMenus';
+import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '@b/types/types';
+import { jsonString } from '@b/lib/string';
+import { getDynamicValue, removeUserFromDynamicValue } from '@b/app/dynamicValue';
+import { adjustValueType } from '@b/app/action';
+import { handleSetState, setstateIobroker } from '@b/app/setstate';
+import { sendLocationToTelegram, sendToTelegram } from '@b/app/telegram';
+import { backMenuFunc, switchBack } from '@b/app/backMenu';
+import { sendNav } from '@b/app/sendNav';
+import { callSubMenu } from '@b/app/subMenu';
+import { getState } from '@b/app/getstate';
+import { sendPic } from '@b/app/sendpic';
+import { getChart } from '@b/app/echarts';
+import { httpRequest } from '@b/app/httpRequest';
+import { isSubmenuOrMenu } from '@b/app/validateMenus';
+import { errorLogger } from '@b/app/logging';
 
 let timeouts: Timeouts[] = [];
 

@@ -1,8 +1,3 @@
-import { sendToTelegram } from './telegram';
-import { callSubMenu } from './subMenu';
-import { sendNav } from './sendNav';
-import { backMenuFunc } from './backMenu';
-import { errorLogger } from './logging';
 import type {
     Actions,
     Adapter,
@@ -15,13 +10,18 @@ import type {
     Switch,
     TelegramParams,
     UserObjectActions,
-} from '../types/types';
-import { decomposeText } from '../lib/string';
-import { isTruthy } from '../lib/utils';
-import { evaluate } from '../lib/math';
-import { arrayOfEntries, config } from '../config/config';
-import { getBindingValues } from '../lib/splitValues';
-import type { TriggerableActions, UserListWithChatID, MenusWithUsers } from '@/types/app';
+} from '@b/types/types';
+import { decomposeText } from '@b/lib/string';
+import { arrayOfEntries, config } from '@b/config/config';
+import { getBindingValues } from '@b/lib/splitValues';
+import { evaluate } from '@b/lib/math';
+import { sendToTelegram } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
+import { isTruthy } from '@b/lib/utils';
+import type { MenusWithUsers, TriggerableActions, UserListWithChatID } from '@/types/app';
+import { backMenuFunc } from '@b/app/backMenu';
+import { callSubMenu } from '@b/app/subMenu';
+import { sendNav } from '@b/app/sendNav';
 
 export const bindingFunc = async (
     adapter: Adapter,

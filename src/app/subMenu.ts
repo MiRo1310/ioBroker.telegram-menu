@@ -1,9 +1,3 @@
-import { switchBack } from './backMenu';
-import { handleSetState } from './setstate';
-import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { textModifier } from '../lib/utilities';
-import { deleteMessageIds } from './messageIds';
-import { createDynamicSwitchMenu } from './dynamicSwitchMenu';
 import type {
     Adapter,
     AllMenusWithData,
@@ -16,10 +10,13 @@ import type {
     SetMenuValue,
     SplittedData,
     TelegramParams,
-} from '../types/types';
-import { isNonEmptyString, jsonString } from '../lib/string';
-import { errorLogger } from './logging';
-import { getMenuValues, getSubmenuNumberValues } from '../lib/splitValues';
+} from '@b/types/types';
+import { handleSetState } from '@b/app/setstate';
+import { isNonEmptyString, jsonString } from '@b/lib/string';
+import { switchBack } from '@b/app/backMenu';
+import { sendToTelegram, sendToTelegramSubmenu } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
+import { textModifier } from '@b/lib/utilities';
 import {
     isCreateDynamicSwitch,
     isCreateSubmenuNumber,
@@ -32,7 +29,10 @@ import {
     isSetDynamicSwitchVal,
     isSetSubmenuNumber,
     isSetSubmenuPercent,
-} from './validateMenus';
+} from '@b/app/validateMenus';
+import { deleteMessageIds } from '@b/app/messageIds';
+import { getMenuValues, getSubmenuNumberValues } from '@b/lib/splitValues';
+import { createDynamicSwitchMenu } from '@b/app/dynamicSwitchMenu';
 
 let step = 0;
 let splittedData: SplittedData = [];

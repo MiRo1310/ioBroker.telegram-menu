@@ -1,13 +1,13 @@
-import { sendToTelegram } from './telegram';
-import { transformValueToTypeOfId } from '../lib/utilities';
-import { setDynamicValue } from './dynamicValue';
-import { errorLogger } from './logging';
-import type { Adapter, Part, TelegramParams } from '../types/types';
-import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '../lib/string';
-import { isDefined } from '../lib/utils';
-import { config } from '../config/config';
-import { addSetStateIds } from './setStateIdsToListenTo';
-import { exchangeValue } from '../lib/exchangeValue';
+import { config } from '@b/config/config';
+import type { Adapter, Part, TelegramParams } from '@b/types/types';
+import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '@b/lib/string';
+import { transformValueToTypeOfId } from '@b/lib/utilities';
+import { isDefined } from '@b/lib/utils';
+import { errorLogger } from '@b/app/logging';
+import { setDynamicValue } from '@b/app/dynamicValue';
+import { addSetStateIds } from '@b/app/setStateIdsToListenTo';
+import { exchangeValue } from '@b/lib/exchangeValue';
+import { sendToTelegram } from '@b/app/telegram';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
