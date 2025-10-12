@@ -140,136 +140,128 @@ class TelegramMenu extends utils.Adapter {
       let menus = [];
       this.on("stateChange", async (id, state) => {
         var _a2, _b2, _c;
-        const instances = [];
         const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
         const instance = await this.checkInfoConnection(id, telegramParams);
-        if (instance) {
-          instances.push(instance);
-        }
         const { isEvent, eventInstanceList } = (0, import_events.getInstancesFromEventsById)(
           dataObject.action,
           id,
           menusWithUsers
         );
-        const instanceList = isEvent ? eventInstanceList.map((e) => e.instance) : instances;
-        for (let i = 0; i <= instanceList.length; i++) {
-          const instance2 = instanceList[i];
-          const chatIdByEvent = isEvent ? eventInstanceList[i] : void 0;
-          const { userToSend: user, error } = await this.getChatIDAndUserToSend(telegramParams, instance2);
-          if (error && !chatIdByEvent) {
-            continue;
+        if (isEvent && state) {
+          for (let i = 0; i <= eventInstanceList.length; i++) {
+            const instance2 = eventInstanceList[i].instance;
+            await (0, import_action.checkEvent)(instance2, dataObject, id, state, menuData, telegramParams, menusWithUsers);
           }
-          const userToSend = chatIdByEvent ? chatIdByEvent : user;
-          if (this.isAddToShoppingList(id, userToSend.name)) {
-            await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(instance2, telegramParams, userToSend.name);
-            continue;
-          }
-          if (!state || !(0, import_utils.isDefined)(state.val)) {
-            continue;
-          }
-          if ((0, import_string.isString)(state.val) && ((_a2 = state.val) == null ? void 0 : _a2.includes("sList:"))) {
-            await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(instance2, state.val, telegramParams);
-            continue;
-          }
-          if (await (0, import_action.checkEvent)(instance2, dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
-            continue;
-          }
-          if (this.isMessageID(id, telegramBotSendMessageID(instance2), telegramRequestMessageID(instance2))) {
-            await (0, import_messageIds.saveMessageIds)(state, instance2);
-          } else if (this.isMenuToSend(state, id, telegramRequestID(instance2), userToSend.name)) {
-            const value = state.val.toString();
-            const calledValue = value.slice(value.indexOf("]") + 1, value.length);
-            menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend.name);
-            const dataFound = await (0, import_processData.checkEveryMenuForData)({
-              instance: instance2,
-              menuData,
-              navToGoTo: calledValue,
+        }
+        if (!instance) {
+          return;
+        }
+        const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams, instance);
+        if (error) {
+          return;
+        }
+        if (this.isAddToShoppingList(id, userToSend.name)) {
+          await (0, import_shoppingList.deleteMessageAndSendNewShoppingList)(instance, telegramParams, userToSend.name);
+          return;
+        }
+        if (!state || !(0, import_utils.isDefined)(state.val)) {
+          return;
+        }
+        if ((0, import_string.isString)(state.val) && ((_a2 = state.val) == null ? void 0 : _a2.includes("sList:"))) {
+          await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(instance, state.val, telegramParams);
+          return;
+        }
+        if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
+          await (0, import_messageIds.saveMessageIds)(state, instance);
+        } else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
+          const value = state.val.toString();
+          const calledValue = value.slice(value.indexOf("]") + 1, value.length);
+          menus = (0, import_appUtils.getListOfMenusIncludingUser)(menusWithUsers, userToSend.name);
+          const dataFound = await (0, import_processData.checkEveryMenuForData)({
+            instance,
+            menuData,
+            navToGoTo: calledValue,
+            userToSend: userToSend.name,
+            telegramParams,
+            menus,
+            isUserActiveCheckbox,
+            token,
+            directoryPicture,
+            timeoutKey
+          });
+          this.log.debug(`Groups with searched User: ${(0, import_string.jsonString)(menus)}`);
+          if (!dataFound && checkboxNoEntryFound) {
+            adapter.log.debug("No Entry found");
+            await (0, import_telegram.sendToTelegram)({
+              instance,
               userToSend: userToSend.name,
-              telegramParams,
-              menus,
-              isUserActiveCheckbox,
-              token,
-              directoryPicture,
-              timeoutKey
+              textToSend: textNoEntryFound,
+              telegramParams
             });
-            this.log.debug(`Groups with searched User: ${(0, import_string.jsonString)(menus)}`);
-            if (!dataFound && checkboxNoEntryFound) {
-              adapter.log.debug("No Entry found");
-              await (0, import_telegram.sendToTelegram)({
-                instance: instance2,
-                userToSend: userToSend.name,
-                textToSend: textNoEntryFound,
-                telegramParams
-              });
-            }
-            continue;
           }
-          if (state && (setStateIdsToListenTo == null ? void 0 : setStateIdsToListenTo.find((element) => element.id == id))) {
-            adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, import_string.jsonString)(state)} }`);
-            for (const el of setStateIdsToListenTo) {
-              const { id: elId, userToSend: userToSend2, confirm, returnText, parse_mode } = el;
-              const key = setStateIdsToListenTo.indexOf(el);
-              if (elId == id) {
-                adapter.log.debug(`Send Value: ${(0, import_string.jsonString)(el)}`);
-                adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
-                if ((0, import_utils.isTruthy)(confirm) && !(state == null ? void 0 : state.ack) && (returnText == null ? void 0 : returnText.includes("{confirmSet:"))) {
-                  const { substring } = (0, import_string.decomposeText)(returnText, "{confirmSet:", "}");
-                  const splitSubstring = substring.split(":");
-                  let text = "";
-                  if ((0, import_utils.isDefined)(state.val)) {
-                    text = ((_b2 = splitSubstring[2]) == null ? void 0 : _b2.includes("noValue")) ? splitSubstring[1] : (0, import_exchangeValue.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
-                  }
-                  adapter.log.debug(`Return-text: ${text}`);
-                  if (text === "") {
-                    adapter.log.error("The return text cannot be empty, please check.");
-                  }
-                  await (0, import_telegram.sendToTelegram)({
-                    instance: instance2,
-                    textToSend: text,
-                    parse_mode,
-                    userToSend: userToSend2,
-                    telegramParams
-                  });
-                  continue;
+          return;
+        }
+        if (state && (setStateIdsToListenTo == null ? void 0 : setStateIdsToListenTo.find((element) => element.id == id))) {
+          adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, import_string.jsonString)(state)} }`);
+          for (const el of setStateIdsToListenTo) {
+            const { id: elId, userToSend: userToSend2, confirm, returnText, parse_mode } = el;
+            const key = setStateIdsToListenTo.indexOf(el);
+            if (elId == id) {
+              adapter.log.debug(`Send Value: ${(0, import_string.jsonString)(el)}`);
+              adapter.log.debug(`State: ${(0, import_string.jsonString)(state)}`);
+              if ((0, import_utils.isTruthy)(confirm) && !(state == null ? void 0 : state.ack) && (returnText == null ? void 0 : returnText.includes("{confirmSet:"))) {
+                const { substring } = (0, import_string.decomposeText)(returnText, "{confirmSet:", "}");
+                const splitSubstring = substring.split(":");
+                let text = "";
+                if ((0, import_utils.isDefined)(state.val)) {
+                  text = ((_b2 = splitSubstring[2]) == null ? void 0 : _b2.includes("noValue")) ? splitSubstring[1] : (0, import_exchangeValue.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
                 }
-                adapter.log.debug(`Data: ${(0, import_string.jsonString)({ confirm, ack: state == null ? void 0 : state.ack, val: state == null ? void 0 : state.val })}`);
-                if (!(0, import_utils.isFalsy)(confirm) && (state == null ? void 0 : state.ack)) {
-                  let textToSend = returnText;
-                  if (textToSend == null ? void 0 : textToSend.includes("{confirmSet:")) {
-                    textToSend = (0, import_string.decomposeText)(
-                      textToSend,
-                      "{confirmSet:",
-                      "}"
-                    ).textExcludeSubstring;
-                  }
-                  if (textToSend == null ? void 0 : textToSend.includes("{setDynamicValue")) {
-                    const { textExcludeSubstring, substringExcludeSearch } = (0, import_string.decomposeText)(
-                      textToSend,
-                      "{setDynamicValue:",
-                      "}"
-                    );
-                    const splitSubstring = substringExcludeSearch.split(":");
-                    const confirmText = splitSubstring[2];
-                    textToSend = `${textExcludeSubstring} ${confirmText}`;
-                  }
-                  const {
-                    textToSend: changedText,
-                    error: error2,
-                    newValue
-                  } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend != null ? textToSend : "", (_c = state.val) == null ? void 0 : _c.toString());
-                  if (!error2) {
-                    textToSend = changedText;
-                  }
-                  adapter.log.debug(`Value to send: ${newValue}`);
-                  await (0, import_telegram.sendToTelegram)({
-                    instance: instance2,
-                    userToSend: userToSend2,
+                adapter.log.debug(`Return-text: ${text}`);
+                if (text === "") {
+                  adapter.log.error("The return text cannot be empty, please check.");
+                }
+                await (0, import_telegram.sendToTelegram)({
+                  instance,
+                  textToSend: text,
+                  parse_mode,
+                  userToSend: userToSend2,
+                  telegramParams
+                });
+                continue;
+              }
+              adapter.log.debug(`Data: ${(0, import_string.jsonString)({ confirm, ack: state == null ? void 0 : state.ack, val: state == null ? void 0 : state.val })}`);
+              if (!(0, import_utils.isFalsy)(confirm) && (state == null ? void 0 : state.ack)) {
+                let textToSend = returnText;
+                if (textToSend == null ? void 0 : textToSend.includes("{confirmSet:")) {
+                  textToSend = (0, import_string.decomposeText)(textToSend, "{confirmSet:", "}").textExcludeSubstring;
+                }
+                if (textToSend == null ? void 0 : textToSend.includes("{setDynamicValue")) {
+                  const { textExcludeSubstring, substringExcludeSearch } = (0, import_string.decomposeText)(
                     textToSend,
-                    parse_mode,
-                    telegramParams
-                  });
-                  setStateIdsToListenTo.splice(key, 1);
+                    "{setDynamicValue:",
+                    "}"
+                  );
+                  const splitSubstring = substringExcludeSearch.split(":");
+                  const confirmText = splitSubstring[2];
+                  textToSend = `${textExcludeSubstring} ${confirmText}`;
                 }
+                const {
+                  textToSend: changedText,
+                  error: error2,
+                  newValue
+                } = (0, import_exchangeValue.exchangeValue)(adapter, textToSend != null ? textToSend : "", (_c = state.val) == null ? void 0 : _c.toString());
+                if (!error2) {
+                  textToSend = changedText;
+                }
+                adapter.log.debug(`Value to send: ${newValue}`);
+                await (0, import_telegram.sendToTelegram)({
+                  instance,
+                  userToSend: userToSend2,
+                  textToSend,
+                  parse_mode,
+                  telegramParams
+                });
+                setStateIdsToListenTo.splice(key, 1);
               }
             }
           }
