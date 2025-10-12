@@ -20,9 +20,9 @@ var action_exports = {};
 __export(action_exports, {
   adjustValueType: () => adjustValueType,
   bindingFunc: () => bindingFunc,
-  checkEvent: () => checkEvent,
   generateActions: () => generateActions,
-  getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID
+  getUserToSendFromUserListWithChatID: () => getUserToSendFromUserListWithChatID,
+  handleEvent: () => handleEvent
 });
 module.exports = __toCommonJS(action_exports);
 var import_telegram = require("./telegram");
@@ -148,7 +148,16 @@ const adjustValueType = (value, valueType) => {
   }
   return value;
 };
-const checkEvent = async (instance, dataObject, id, state, menuData, telegramParams, usersInGroup) => {
+const toBoolean = (value) => {
+  if (value === "true") {
+    return true;
+  }
+  if (value === "false") {
+    return false;
+  }
+  return null;
+};
+const handleEvent = async (adapter2, instance, dataObject, id, state, menuData, telegramParams, usersInGroup) => {
   var _a;
   const menuArray = [];
   let ok = false;
@@ -162,7 +171,8 @@ const checkEvent = async (instance, dataObject, id, state, menuData, telegramPar
       (_c = dataObject.action[menu]) == null ? void 0 : _c.events.forEach((event) => {
         if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
           const condition = event.condition[0];
-          if ((state.val == true || state.val == "true") && (0, import_utils.isTruthy)(condition) || (state.val == false || state.val == "false") && (0, import_utils.isFalsy)(condition) || typeof state.val == "number" && state.val == parseInt(condition) || state.val == condition) {
+          const bool = toBoolean(condition);
+          if (bool ? state.val === bool : typeof state.val == "number" && (state.val == parseInt(condition) || state.val == parseFloat(condition)) || state.val == condition) {
             ok = true;
             menuArray.push(menu);
             calledNav = event.menu[0];
@@ -195,7 +205,7 @@ const checkEvent = async (instance, dataObject, id, state, menuData, telegramPar
           });
           return true;
         }
-        await (0, import_sendNav.sendNav)(instance, part, user.name, telegramParams);
+        await (0, import_sendNav.sendNav)(adapter2, instance, part, user.name, telegramParams);
       }
     }
   }
@@ -212,8 +222,8 @@ const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
 0 && (module.exports = {
   adjustValueType,
   bindingFunc,
-  checkEvent,
   generateActions,
-  getUserToSendFromUserListWithChatID
+  getUserToSendFromUserListWithChatID,
+  handleEvent
 });
 //# sourceMappingURL=action.js.map

@@ -7,7 +7,7 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { checkEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
+import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
 import { _subscribeForeignStates } from './app/subscribeStates';
 import { sendToTelegram } from './app/telegram';
 import { createState } from './app/createState';
@@ -31,6 +31,7 @@ import { getConfigVariables, getIds } from './app/configVariables';
 import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
+import { getInstancesFromEventsById } from './app/events';
 
 const timeoutKey = '0';
 export let adapter: Adapter;
@@ -134,6 +135,28 @@ export default class TelegramMenu extends utils.Adapter {
             this.on('stateChange', async (id, state) => {
                 const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
                 const instance = await this.checkInfoConnection(id, telegramParams);
+
+                const { isEvent, eventInstanceList } = getInstancesFromEventsById(
+                    dataObject.action,
+                    id,
+                    menusWithUsers,
+                );
+
+                if (isEvent && state) {
+                    for (const e of eventInstanceList) {
+                        await handleEvent(
+                            adapter,
+                            e.instance,
+                            dataObject,
+                            id,
+                            state,
+                            menuData,
+                            telegramParams,
+                            menusWithUsers,
+                        );
+                    }
+                }
+
                 if (!instance) {
                     return;
                 }
@@ -155,10 +178,6 @@ export default class TelegramMenu extends utils.Adapter {
 
                 if (isString(state.val) && state.val?.includes('sList:')) {
                     await shoppingListSubscribeStateAndDeleteItem(instance, state.val, telegramParams);
-                    return;
-                }
-
-                if (await checkEvent(instance, dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
                     return;
                 }
 
@@ -265,7 +284,7 @@ export default class TelegramMenu extends utils.Adapter {
                                 adapter.log.debug(`Value to send: ${newValue}`);
 
                                 await sendToTelegram({
-                                    instance: instance,
+                                    instance,
                                     userToSend,
                                     textToSend,
                                     parse_mode,

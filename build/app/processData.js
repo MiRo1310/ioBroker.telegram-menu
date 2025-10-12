@@ -108,7 +108,7 @@ async function processData({
         await (0, import_telegram.sendToTelegram)({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
         return true;
       }
-      await (0, import_sendNav.sendNav)(instance, part, userToSend, telegramParams);
+      await (0, import_sendNav.sendNav)(import_main.adapter, instance, part, userToSend, telegramParams);
       return true;
     }
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
@@ -145,7 +145,7 @@ async function processData({
           }
           return true;
         }
-        await (0, import_sendNav.sendNav)(instance, part, userToSend, telegramParams);
+        await (0, import_sendNav.sendNav)(import_main.adapter, instance, part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.switch) {

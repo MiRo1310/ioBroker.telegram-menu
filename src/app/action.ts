@@ -8,6 +8,7 @@ import { adapter } from '../main';
 
 import type {
     Actions,
+    Adapter,
     BindingObject,
     DataObject,
     GenerateActionsNewObject,
@@ -19,11 +20,11 @@ import type {
     UserObjectActions,
 } from '../types/types';
 import { decomposeText } from '../lib/string';
-import { isFalsy, isTruthy } from '../lib/utils';
+import { isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
-import type { TriggerableActions, UserListWithChatID, UsersInGroup } from '@/types/app';
+import type { TriggerableActions, UserListWithChatID, MenusWithUsers } from '@/types/app';
 
 export const bindingFunc = async (
     instance: string,
@@ -162,14 +163,25 @@ export const adjustValueType = (value: keyof NewObjectStructure, valueType: stri
     return value;
 };
 
-export const checkEvent = async (
+const toBoolean = (value: string): boolean | null => {
+    if (value === 'true') {
+        return true;
+    }
+    if (value === 'false') {
+        return false;
+    }
+    return null;
+};
+
+export const handleEvent = async (
+    adapter: Adapter,
     instance: string,
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
     menuData: MenuData,
     telegramParams: TelegramParams,
-    usersInGroup: UsersInGroup,
+    usersInGroup: MenusWithUsers,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
     let ok = false;
@@ -184,11 +196,13 @@ export const checkEvent = async (
             dataObject.action[menu]?.events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     const condition = event.condition[0];
+                    const bool = toBoolean(condition);
                     if (
-                        ((state.val == true || state.val == 'true') && isTruthy(condition)) ||
-                        ((state.val == false || state.val == 'false') && isFalsy(condition)) ||
-                        (typeof state.val == 'number' && state.val == parseInt(condition)) ||
-                        state.val == condition
+                        bool
+                            ? state.val === bool
+                            : (typeof state.val == 'number' &&
+                                  (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
+                              state.val == condition
                     ) {
                         ok = true;
                         menuArray.push(menu);
@@ -219,13 +233,13 @@ export const checkEvent = async (
                         jsonStringNav: part.nav[0][0],
                         userToSend: user.name,
                         telegramParams: telegramParams,
-                        part: part,
+                        part,
                         allMenusWithData: menuData,
-                        menus: menus,
+                        menus,
                     });
                     return true;
                 }
-                await sendNav(instance, part, user.name, telegramParams);
+                await sendNav(adapter, instance, part, user.name, telegramParams);
             }
         }
     }

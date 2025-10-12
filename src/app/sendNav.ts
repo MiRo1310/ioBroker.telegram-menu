@@ -1,10 +1,10 @@
 import { sendToTelegram } from './telegram';
 import { textModifier } from '../lib/utilities';
-import type { Part, TelegramParams } from '../types/types';
-import { adapter } from '../main';
+import type { Adapter, Part, TelegramParams } from '../types/types';
 import { errorLogger } from './logging';
 
 export async function sendNav(
+    adapter: Adapter,
     instance: string,
     part: Part,
     userToSend: string,

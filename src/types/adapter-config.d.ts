@@ -8,13 +8,13 @@ import {
     NativeData,
     UserActiveCheckbox,
     UserListWithChatID,
-    UsersInGroup,
+    MenusWithUsers,
 } from '@/types/app';
 
 export interface AdapterConfig extends _AdapterConfig {
     checkbox: Checkboxes;
     instanceList?: InstanceList[];
-    usersInGroup: UsersInGroup;
+    usersInGroup: MenusWithUsers;
     tokenGrafana: string;
     directory: string;
     userActiveCheckbox: UserActiveCheckbox;

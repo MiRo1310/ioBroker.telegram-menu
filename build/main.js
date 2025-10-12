@@ -50,6 +50,7 @@ var import_appUtils = require("./lib/appUtils");
 var import_configVariables = require("./app/configVariables");
 var import_setStateIdsToListenTo = require("./app/setStateIdsToListenTo");
 var import_exchangeValue = require("./lib/exchangeValue");
+var import_events = require("./app/events");
 const timeoutKey = "0";
 let adapter;
 class TelegramMenu extends utils.Adapter {
@@ -141,6 +142,25 @@ class TelegramMenu extends utils.Adapter {
         var _a2, _b2, _c;
         const setStateIdsToListenTo = (0, import_setStateIdsToListenTo.getStateIdsToListenTo)();
         const instance = await this.checkInfoConnection(id, telegramParams);
+        const { isEvent, eventInstanceList } = (0, import_events.getInstancesFromEventsById)(
+          dataObject.action,
+          id,
+          menusWithUsers
+        );
+        if (isEvent && state) {
+          for (const e of eventInstanceList) {
+            await (0, import_action.handleEvent)(
+              adapter,
+              e.instance,
+              dataObject,
+              id,
+              state,
+              menuData,
+              telegramParams,
+              menusWithUsers
+            );
+          }
+        }
         if (!instance) {
           return;
         }
@@ -157,9 +177,6 @@ class TelegramMenu extends utils.Adapter {
         }
         if ((0, import_string.isString)(state.val) && ((_a2 = state.val) == null ? void 0 : _a2.includes("sList:"))) {
           await (0, import_shoppingList.shoppingListSubscribeStateAndDeleteItem)(instance, state.val, telegramParams);
-          return;
-        }
-        if (await (0, import_action.checkEvent)(instance, dataObject, id, state, menuData, telegramParams, menusWithUsers)) {
           return;
         }
         if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {

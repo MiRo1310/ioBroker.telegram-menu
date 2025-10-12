@@ -35,6 +35,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: #407 Events are not handled
 
 ### 3.1.4 (2025-10-03)
 

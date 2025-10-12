@@ -23,13 +23,12 @@ __export(sendNav_exports, {
 module.exports = __toCommonJS(sendNav_exports);
 var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
-var import_main = require("../main");
 var import_logging = require("./logging");
-async function sendNav(instance, part, userToSend, telegramParams) {
+async function sendNav(adapter, instance, part, userToSend, telegramParams) {
   try {
     if (userToSend) {
       const { nav: keyboard, text, parse_mode } = part;
-      const textToSend = await (0, import_utilities.textModifier)(import_main.adapter, text != null ? text : "");
+      const textToSend = await (0, import_utilities.textModifier)(adapter, text != null ? text : "");
       await (0, import_telegram.sendToTelegram)({
         instance,
         userToSend,
@@ -40,7 +39,7 @@ async function sendNav(instance, part, userToSend, telegramParams) {
       });
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error sendNav:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error sendNav:", e, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
