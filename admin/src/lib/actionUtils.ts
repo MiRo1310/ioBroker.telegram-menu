@@ -6,7 +6,7 @@ import type {
     TabValueEntries,
     TriggerableActions,
     TriggerObj,
-    UsersInGroup,
+    MenusWithUsers,
     UserType,
 } from '@/types/app';
 import React from 'react';
@@ -254,7 +254,7 @@ export function getMenusToSearchIn({
     usersInGroup,
 }: {
     users?: UserType[];
-    usersInGroup: UsersInGroup;
+    usersInGroup: MenusWithUsers;
 }): string[] {
     const menusToSearchIn: string[] = [];
 
@@ -271,7 +271,7 @@ export function getMenusToSearchIn({
 
 export const updateTriggerForSelect = (
     data: NativeData,
-    usersInGroup: UsersInGroup,
+    usersInGroup: MenusWithUsers,
     activeMenu: string,
 ): { usedTrigger: string[]; unUsedTrigger: string[]; triggerObj: TriggerObj } | undefined => {
     const submenus = getSubmenuStrings();
@@ -359,7 +359,7 @@ export const getElementIcon = (element: string | boolean, entry?: TabValueEntrie
     return element.toString().replace(/&amp;/g, '&');
 };
 
-export const sortObjectByKey = (usersInGroup: UsersInGroup): UsersInGroup => {
+export const sortObjectByKey = (usersInGroup: MenusWithUsers): MenusWithUsers => {
     const sortedObject = {};
     Object.entries(usersInGroup)
         .sort()
@@ -374,7 +374,7 @@ export function updateActiveMenuAndTrigger(
     menu: string,
     setState: SetStateFunction,
     data: NativeData,
-    usersInGroup: UsersInGroup,
+    usersInGroup: MenusWithUsers,
 ): void {
     const result = updateTriggerForSelect(data, usersInGroup, menu);
     if (result) {

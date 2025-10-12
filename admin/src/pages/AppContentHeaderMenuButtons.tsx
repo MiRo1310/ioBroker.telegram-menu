@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Button from '@components/Button';
 import Input from '../components/btn-Input/input';
 import RenameModal from '@components/RenameModal';
-import type { NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, UsersInGroup } from '@/types/app';
+import type { NativeData, PropsBtnCard, StateBtnCard, UserActiveCheckbox, MenusWithUsers } from '@/types/app';
 import { replaceSpaceWithUnderscore } from '@/lib/string';
 import { deepCopy } from '@/lib/Utils';
 import type { EventButton, EventInput } from '@/types/event';
@@ -106,7 +106,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
         }, 500);
     };
 
-    updateNative(data: NativeData, usersInGroup: UsersInGroup, userActiveCheckbox: UserActiveCheckbox): void {
+    updateNative(data: NativeData, usersInGroup: MenusWithUsers, userActiveCheckbox: UserActiveCheckbox): void {
         this.props.callback.updateNative('data', data, () =>
             this.props.callback.updateNative('usersInGroup', usersInGroup, () =>
                 this.props.callback.updateNative('userActiveCheckbox', userActiveCheckbox),

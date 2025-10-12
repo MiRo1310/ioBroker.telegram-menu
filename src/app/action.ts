@@ -23,7 +23,7 @@ import { isFalsy, isTruthy } from '../lib/utils';
 import { evaluate } from '../lib/math';
 import { arrayOfEntries, config } from '../config/config';
 import { getBindingValues } from '../lib/splitValues';
-import type { TriggerableActions, UserListWithChatID, UsersInGroup } from '@/types/app';
+import type { TriggerableActions, UserListWithChatID, MenusWithUsers } from '@/types/app';
 
 export const bindingFunc = async (
     instance: string,
@@ -162,14 +162,14 @@ export const adjustValueType = (value: keyof NewObjectStructure, valueType: stri
     return value;
 };
 
-export const checkEvent = async (
+export const handleEvent = async (
     instance: string,
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
     menuData: MenuData,
     telegramParams: TelegramParams,
-    usersInGroup: UsersInGroup,
+    usersInGroup: MenusWithUsers,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
     let ok = false;

@@ -13,7 +13,7 @@ import { decomposeText, removeQuotes } from './string';
 import { evaluate } from './math';
 import { isTruthy } from './utils';
 import { trimAllItems } from './object';
-import type { RowsNav, UsersInGroup } from '@/types/app';
+import type { RowsNav, MenusWithUsers } from '@/types/app';
 
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
@@ -54,7 +54,7 @@ export function roundValue(val: string, textToSend: string): { roundedValue: str
     return { roundedValue: floatVal.toFixed(decimalPlacesNum), text: textExcludeSubstring, error: false };
 }
 
-export const getListOfMenusIncludingUser = (menusWithUsers: UsersInGroup, userToSend: string): string[] => {
+export const getListOfMenusIncludingUser = (menusWithUsers: MenusWithUsers, userToSend: string): string[] => {
     const menus: string[] = [];
     for (const key in menusWithUsers) {
         if (menusWithUsers[key]?.some(item => item.name === userToSend)) {
@@ -133,7 +133,7 @@ export function getNewStructure(val: splittedNavigation[]): NewObjectStructure {
     return obj;
 }
 
-export const getStartSides = (menusWithUsers: UsersInGroup, dataObject: DataObject): StartSides => {
+export const getStartSides = (menusWithUsers: MenusWithUsers, dataObject: DataObject): StartSides => {
     const startSides: StartSides = {};
     Object.keys(menusWithUsers).forEach(element => {
         startSides[element] = dataObject.nav[element][0].call;

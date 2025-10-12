@@ -16,7 +16,7 @@ import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
 import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '@b/types/types';
 import { exchangePlaceholderWithValue } from '@b/lib/exchangeValue';
-import { BooleanString, UsersInGroup } from '@/types/app'; // Adjust the path as needed
+import { BooleanString, MenusWithUsers } from '@/types/app'; // Adjust the path as needed
 
 // Adjust the path as needed
 
@@ -197,7 +197,7 @@ describe('getMenusWithUser', () => {
     });
 
     it('should handle menus with empty user arrays', () => {
-        const menusWithUsers: UsersInGroup = {
+        const menusWithUsers: MenusWithUsers = {
             menu1: [],
             menu2: [{ name: 'user3', chatId: '', instance: '' }],
         };
@@ -503,7 +503,7 @@ describe('getStartSides', () => {
         parse_mode: 'true',
     };
     it('should correctly map start sides for given menusWithUsers and dataObject', () => {
-        const menusWithUsers: UsersInGroup = {
+        const menusWithUsers: MenusWithUsers = {
             menu1: [
                 { name: 'user1', chatId: '', instance: '' },
                 { name: 'user2', chatId: '', instance: '' },

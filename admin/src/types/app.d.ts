@@ -124,11 +124,11 @@ export interface AppData {
     themeType?: string;
     adapterName?: string;
     unUsedTrigger?: string[];
-    usersInGroup?: UsersInGroup;
+    usersInGroup?: MenusWithUsers;
     userActiveCheckbox?: UserActiveCheckbox;
 }
 
-export type UsersInGroup = { [key: string]: UserType[] | undefined };
+export type MenusWithUsers = { [key: string]: UserType[] | undefined };
 export type UserType = { name: string; instance: string; chatId: string };
 
 export type socket = AdminConnection;
@@ -356,7 +356,7 @@ export interface PropsTelegramUserCard {
     data: {
         state: TelegramMenuApp.AdditionalState;
         activeMenu: string;
-        usersInGroup: UsersInGroup;
+        usersInGroup: MenusWithUsers;
         userActiveCheckbox: UserActiveCheckbox;
     };
     callback: CallbackFunctionsApp;
@@ -366,7 +366,7 @@ export interface PropsTelegramUserCard {
 }
 
 export interface StateTelegramUserCard {
-    usersInGroup: UsersInGroup;
+    usersInGroup: MenusWithUsers;
     name: string;
     activeMenu: string;
 }
@@ -512,7 +512,7 @@ export interface PropsRenameCard {
 
 export interface PropsTriggerOverview {
     data: NativeData;
-    usersInGroup: UsersInGroup;
+    usersInGroup: MenusWithUsers;
     userActiveCheckbox: UserActiveCheckbox;
 }
 
@@ -555,7 +555,7 @@ export interface PropsHeaderTelegramUsers {
     data: {
         state: TelegramMenuApp.AdditionalState;
         activeMenu: string;
-        usersInGroup: UsersInGroup;
+        usersInGroup: MenusWithUsers;
         userActiveCheckbox: UserActiveCheckbox;
         menuOpen: boolean;
     };
@@ -588,13 +588,13 @@ export interface StateBtnCard {
 }
 
 export interface PropsMenuPopupCard {
-    usersInGroup: UsersInGroup;
+    usersInGroup: MenusWithUsers;
     callback: CallbackFunctionsApp;
 }
 
 export interface Native {
     dropbox: Dropbox.Position;
-    usersInGroup: UsersInGroup;
+    usersInGroup: MenusWithUsers;
     instanceList?: InstanceList[];
     instance: string;
     data: NativeData;
@@ -681,7 +681,7 @@ export interface EventAction {
     ack: BooleanString[];
     ID: string[];
     menu: string[];
-    condition: BooleanString[];
+    condition: string[];
 }
 
 export interface Pic {

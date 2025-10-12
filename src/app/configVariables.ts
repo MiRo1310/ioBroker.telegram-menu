@@ -1,5 +1,5 @@
 import type { DataObject, TelegramParams } from '../types/types';
-import type { Checkboxes, UserActiveCheckbox, UsersInGroup } from '@/types/app';
+import type { Checkboxes, UserActiveCheckbox, MenusWithUsers } from '@/types/app';
 import type { AdapterConfig } from '../types/adapter-config';
 
 export const getIds = {
@@ -19,7 +19,7 @@ export const getConfigVariables = (
     token: string;
     directoryPicture: string;
     isUserActiveCheckbox: UserActiveCheckbox;
-    menusWithUsers: UsersInGroup;
+    menusWithUsers: MenusWithUsers;
     textNoEntryFound: string;
     dataObject: DataObject;
     checkboxes: Checkboxes;

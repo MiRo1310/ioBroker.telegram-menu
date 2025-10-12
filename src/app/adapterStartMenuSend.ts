@@ -4,7 +4,7 @@ import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '../types
 import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
-import type { UserActiveCheckbox, UserListWithChatID, UsersInGroup, UserType } from '@/types/app';
+import type { UserActiveCheckbox, UserListWithChatID, MenusWithUsers, UserType } from '@/types/app';
 
 function isUserActive(telegramParams: TelegramParams, userToSend: UserType): UserListWithChatID | undefined {
     return telegramParams.userListWithChatID.find(
@@ -16,7 +16,7 @@ export async function adapterStartMenuSend(
     listOfMenus: ListOfMenus,
     startSides: StartSides,
     userActiveCheckbox: UserActiveCheckbox,
-    menusWithUsers: UsersInGroup,
+    menusWithUsers: MenusWithUsers,
     menuData: MenuData,
     telegramParams: TelegramParams,
 ): Promise<void> {

@@ -7,7 +7,7 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { checkEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
+import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
 import { _subscribeForeignStates } from './app/subscribeStates';
 import { sendToTelegram } from './app/telegram';
 import { createState } from './app/createState';
@@ -141,10 +141,11 @@ export default class TelegramMenu extends utils.Adapter {
                     id,
                     menusWithUsers,
                 );
+
                 if (isEvent && state) {
                     for (let i = 0; i <= eventInstanceList.length; i++) {
                         const instance = eventInstanceList[i].instance;
-                        await checkEvent(instance, dataObject, id, state, menuData, telegramParams, menusWithUsers);
+                        await handleEvent(instance, dataObject, id, state, menuData, telegramParams, menusWithUsers);
                     }
                 }
 

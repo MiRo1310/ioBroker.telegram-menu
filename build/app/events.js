@@ -18,11 +18,12 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var events_exports = {};
 __export(events_exports, {
+  getInstances: () => getInstances,
   getInstancesFromEventsById: () => getInstancesFromEventsById
 });
 module.exports = __toCommonJS(events_exports);
-const getInstances = (menus, menusWithUsers) => {
-  return menus.flatMap((m) => {
+const getInstances = (menuToGo, menusWithUsers) => {
+  return menuToGo.flatMap((m) => {
     var _a;
     return (_a = menusWithUsers[m]) != null ? _a : [];
   });
@@ -32,10 +33,12 @@ const getInstancesFromEventsById = (action, id, menusWithUsers) => {
     var _a;
     return (_a = action[a]) == null ? void 0 : _a.events.filter((e) => e.ID.filter((eventId) => eventId === id));
   });
+  console.log(event);
   return { isEvent: !!(event && (event == null ? void 0 : event.length)), eventInstanceList: getInstances(event != null ? event : [], menusWithUsers) };
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  getInstances,
   getInstancesFromEventsById
 });
 //# sourceMappingURL=events.js.map
