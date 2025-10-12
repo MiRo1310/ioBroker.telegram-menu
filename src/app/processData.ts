@@ -101,7 +101,7 @@ async function processData({
                 return true;
             }
 
-            await sendNav(instance, part, userToSend, telegramParams);
+            await sendNav(adapter, instance, part, userToSend, telegramParams);
             return true;
         }
 
@@ -143,7 +143,7 @@ async function processData({
                     }
                     return true;
                 }
-                await sendNav(instance, part, userToSend, telegramParams);
+                await sendNav(adapter, instance, part, userToSend, telegramParams);
                 return true;
             }
 

@@ -72,6 +72,7 @@ describe('getInstancesFromEventsById', () => {
 describe('handleEvent', () => {
     it('should return false if dataObject.action is undefined', async () => {
         const result = await handleEvent(
+            {} as any,
             'instance1',
             {} as any,
             'eventId',
@@ -92,6 +93,7 @@ describe('handleEvent', () => {
             },
         };
         const result = await handleEvent(
+            {} as any,
             'instance1',
             dataObject as any,
             'eventId',

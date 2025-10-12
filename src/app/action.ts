@@ -8,6 +8,7 @@ import { adapter } from '../main';
 
 import type {
     Actions,
+    Adapter,
     BindingObject,
     DataObject,
     GenerateActionsNewObject,
@@ -163,6 +164,7 @@ export const adjustValueType = (value: keyof NewObjectStructure, valueType: stri
 };
 
 export const handleEvent = async (
+    adapter: Adapter,
     instance: string,
     dataObject: DataObject,
     id: string,
@@ -225,7 +227,7 @@ export const handleEvent = async (
                     });
                     return true;
                 }
-                await sendNav(instance, part, user.name, telegramParams);
+                await sendNav(adapter, instance, part, user.name, telegramParams);
             }
         }
     }
