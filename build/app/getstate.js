@@ -26,7 +26,6 @@ var import_action = require("./action");
 var import_jsonTable = require("./jsonTable");
 var import_utilities = require("../lib/utilities");
 var import_utils = require("../lib/utils");
-var import_main = require("../main");
 var import_time = require("../lib/time");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
@@ -36,16 +35,17 @@ var import_exchangeValue = require("../lib/exchangeValue");
 var import_idBySelector = require("./idBySelector");
 var import_parseMode = require("./parseMode");
 async function getState(instance, part, userToSend, telegramParams) {
+  const adapter = telegramParams.adapter;
   try {
     const parse_mode = (0, import_parseMode.isParseModeFirstElement)(part);
     const valueArrayForCorrectOrder = [];
     const promises = (part.getData || []).map(async ({ newline, text, id }, index) => {
       var _a;
-      import_main.adapter.log.debug(`Get Value ID: ${id}`);
+      adapter.log.debug(`Get Value ID: ${id}`);
       if (id.includes(import_config.config.functionSelektor)) {
         await (0, import_idBySelector.idBySelector)({
           instance,
-          adapter: import_main.adapter,
+          adapter,
           selector: id,
           text,
           userToSend,
@@ -55,12 +55,12 @@ async function getState(instance, part, userToSend, telegramParams) {
         return;
       }
       if (text.includes(import_config.config.binding.start)) {
-        await (0, import_action.bindingFunc)(instance, text, userToSend, telegramParams, parse_mode);
+        await (0, import_action.bindingFunc)(adapter, instance, text, userToSend, telegramParams, parse_mode);
         return;
       }
-      const state = await import_main.adapter.getForeignStateAsync(id);
+      const state = await adapter.getForeignStateAsync(id);
       if (!(0, import_utils.isDefined)(state)) {
-        import_main.adapter.log.error("The state is empty!");
+        adapter.log.error("The state is empty!");
         valueArrayForCorrectOrder[index] = "N/A";
         return Promise.resolve();
       }
@@ -68,7 +68,7 @@ async function getState(instance, part, userToSend, telegramParams) {
       let modifiedStateVal = stateValue;
       let modifiedTextToSend = text;
       if (text.includes(import_config.config.timestamp.ts) || text.includes(import_config.config.timestamp.lc)) {
-        modifiedTextToSend = await (0, import_utilities.setTimeValue)(import_main.adapter, text, id);
+        modifiedTextToSend = await (0, import_utilities.setTimeValue)(adapter, text, id);
         modifiedStateVal = "";
       }
       if (modifiedTextToSend.includes(import_config.config.time)) {
@@ -76,17 +76,17 @@ async function getState(instance, part, userToSend, telegramParams) {
         modifiedStateVal = "";
       }
       if (modifiedTextToSend.includes(import_config.config.math.start)) {
-        const { textToSend, calculated, error: error2 } = (0, import_appUtils.calcValue)(modifiedTextToSend, modifiedStateVal, import_main.adapter);
+        const { textToSend, calculated, error: error2 } = (0, import_appUtils.calcValue)(modifiedTextToSend, modifiedStateVal, adapter);
         if (!error2) {
           modifiedTextToSend = textToSend;
           modifiedStateVal = calculated;
-          import_main.adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
+          adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
         }
       }
       if (modifiedTextToSend.includes(import_config.config.round.start)) {
         const { error: error2, text: text2, roundedValue } = (0, import_appUtils.roundValue)(String(modifiedStateVal), modifiedTextToSend);
         if (!error2) {
-          import_main.adapter.log.debug(`Rounded from ${(0, import_string.jsonString)(modifiedStateVal)} to ${(0, import_string.jsonString)(roundedValue)}`);
+          adapter.log.debug(`Rounded from ${(0, import_string.jsonString)(modifiedStateVal)} to ${(0, import_string.jsonString)(roundedValue)}`);
           modifiedStateVal = roundedValue;
           modifiedTextToSend = text2;
         }
@@ -94,7 +94,7 @@ async function getState(instance, part, userToSend, telegramParams) {
       if (modifiedTextToSend.includes(import_config.config.json.start)) {
         const { substring } = (0, import_string.decomposeText)(modifiedTextToSend, import_config.config.json.start, import_config.config.json.end);
         if (substring.includes(import_config.config.json.textTable)) {
-          const result = (0, import_jsonTable.createTextTableFromJson)(stateValue, modifiedTextToSend);
+          const result = (0, import_jsonTable.createTextTableFromJson)(adapter, stateValue, modifiedTextToSend);
           if (result) {
             await (0, import_telegram.sendToTelegram)({
               instance,
@@ -105,9 +105,9 @@ async function getState(instance, part, userToSend, telegramParams) {
             });
             return;
           }
-          import_main.adapter.log.debug("Cannot create a Text-Table");
+          adapter.log.debug("Cannot create a Text-Table");
         } else {
-          const result = (0, import_jsonTable.createKeyboardFromJson)(stateValue, modifiedTextToSend, id, userToSend);
+          const result = (0, import_jsonTable.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend);
           if (stateValue && stateValue.length > 0) {
             if ((result == null ? void 0 : result.text) && (result == null ? void 0 : result.keyboard)) {
               (0, import_telegram.sendToTelegramSubmenu)(
@@ -128,14 +128,14 @@ async function getState(instance, part, userToSend, telegramParams) {
             telegramParams,
             parse_mode
           });
-          import_main.adapter.log.debug("The state is empty!");
+          adapter.log.debug("The state is empty!");
           return;
         }
       }
-      const { textToSend: _text, error } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, modifiedTextToSend, modifiedStateVal);
+      const { textToSend: _text, error } = (0, import_exchangeValue.exchangeValue)(adapter, modifiedTextToSend, modifiedStateVal);
       const isNewline = (0, import_string.getNewline)(newline);
       modifiedTextToSend = `${_text} ${isNewline}`;
-      import_main.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+      adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
       valueArrayForCorrectOrder[index] = modifiedTextToSend;
     });
     await Promise.all(promises);
@@ -149,7 +149,7 @@ async function getState(instance, part, userToSend, telegramParams) {
       });
     }
   } catch (error) {
-    (0, import_logging.errorLogger)("Error GetData:", error, import_main.adapter);
+    (0, import_logging.errorLogger)("Error GetData:", error, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

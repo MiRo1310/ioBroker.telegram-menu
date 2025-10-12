@@ -1,4 +1,4 @@
-import type { DataObject, TelegramParams } from '../types/types';
+import type { Adapter, DataObject, TelegramParams } from '../types/types';
 import type { Checkboxes, UserActiveCheckbox, MenusWithUsers } from '@/types/app';
 import type { AdapterConfig } from '../types/adapter-config';
 
@@ -12,6 +12,7 @@ export const getIds = {
 
 export const getConfigVariables = (
     config: ioBroker.AdapterConfig,
+    adapter: Adapter,
 ): {
     checkboxNoEntryFound: boolean;
     sendMenuAfterRestart: boolean;
@@ -34,6 +35,7 @@ export const getConfigVariables = (
         resize_keyboard: checkboxes.resKey,
         one_time_keyboard: checkboxes.oneTiKey,
         userListWithChatID: c.userListWithChatID,
+        adapter,
     };
     return {
         checkboxes,

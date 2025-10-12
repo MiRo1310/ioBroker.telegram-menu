@@ -30,13 +30,12 @@ var import_subMenu = require("./subMenu");
 var import_sendNav = require("./sendNav");
 var import_backMenu = require("./backMenu");
 var import_logging = require("./logging");
-var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
 var import_math = require("../lib/math");
 var import_config = require("../config/config");
 var import_splitValues = require("../lib/splitValues");
-const bindingFunc = async (instance, text, userToSend, telegramParams, parse_mode) => {
+const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, parse_mode) => {
   var _a, _b;
   let textToSend;
   try {
@@ -49,7 +48,7 @@ const bindingFunc = async (instance, text, userToSend, telegramParams, parse_mod
       if (!item.includes("?")) {
         const { key, id } = (0, import_splitValues.getBindingValues)(item);
         if (id) {
-          const result = await import_main.adapter.getForeignStateAsync(id);
+          const result = await adapter.getForeignStateAsync(id);
           if (result) {
             bindingObject.values[key] = (_b = (_a = result.val) == null ? void 0 : _a.toString()) != null ? _b : "";
           }
@@ -58,7 +57,7 @@ const bindingFunc = async (instance, text, userToSend, telegramParams, parse_mod
         Object.keys(bindingObject.values).forEach(function(key) {
           item = item.replace(key, bindingObject.values[key]);
         });
-        const { val } = (0, import_math.evaluate)(item, import_main.adapter);
+        const { val } = (0, import_math.evaluate)(item, adapter);
         textToSend = String(val);
       }
     }
@@ -70,12 +69,13 @@ const bindingFunc = async (instance, text, userToSend, telegramParams, parse_mod
       parse_mode
     });
   } catch (e) {
-    (0, import_logging.errorLogger)("Error Binding function: ", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error Binding function: ", e, adapter);
   }
 };
 function generateActions({
   action,
-  userObject
+  userObject,
+  adapter
 }) {
   try {
     const listOfSetStateIds = [];
@@ -132,13 +132,13 @@ function generateActions({
     });
     return { obj: userObject, ids: listOfSetStateIds };
   } catch (err) {
-    (0, import_logging.errorLogger)("Error generateActions:", err, import_main.adapter);
+    (0, import_logging.errorLogger)("Error generateActions:", err, adapter);
   }
 }
-const adjustValueType = (value, valueType) => {
+const adjustValueType = (adapter, value, valueType) => {
   if (valueType == "number") {
     if (!parseFloat(value)) {
-      import_main.adapter.log.error(`Error: Value is not a number: ${value}`);
+      adapter.log.error(`Error: Value is not a number: ${value}`);
       return false;
     }
     return parseFloat(value);
@@ -157,7 +157,7 @@ const toBoolean = (value) => {
   }
   return null;
 };
-const handleEvent = async (adapter2, instance, dataObject, id, state, menuData, telegramParams, usersInGroup) => {
+const handleEvent = async (adapter, instance, dataObject, id, state, menuData, telegramParams, usersInGroup) => {
   var _a;
   const menuArray = [];
   let ok = false;
@@ -195,6 +195,7 @@ const handleEvent = async (adapter2, instance, dataObject, id, state, menuData, 
         }
         if ((_a = part == null ? void 0 : part.nav) == null ? void 0 : _a[0][0].includes("menu:")) {
           await (0, import_subMenu.callSubMenu)({
+            adapter,
             instance,
             jsonStringNav: part.nav[0][0],
             userToSend: user.name,
@@ -205,7 +206,7 @@ const handleEvent = async (adapter2, instance, dataObject, id, state, menuData, 
           });
           return true;
         }
-        await (0, import_sendNav.sendNav)(adapter2, instance, part, user.name, telegramParams);
+        await (0, import_sendNav.sendNav)(adapter, instance, part, user.name, telegramParams);
       }
     }
   }

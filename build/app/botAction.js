@@ -21,14 +21,13 @@ __export(botAction_exports, {
   deleteMessageByBot: () => deleteMessageByBot
 });
 module.exports = __toCommonJS(botAction_exports);
-var import_main = require("../main");
 var import_logging = require("./logging");
-const deleteMessageByBot = (instance, user, messageId, chat_id) => {
+const deleteMessageByBot = (adapter, instance, user, messageId, chat_id) => {
   try {
     if (chat_id) {
-      import_main.adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
+      adapter.log.debug(`Delete Message for ${user} ${chat_id} , MessageId: ${messageId}`);
     }
-    import_main.adapter.sendTo(instance, {
+    adapter.sendTo(instance, {
       deleteMessage: {
         options: {
           chat_id,
@@ -37,7 +36,7 @@ const deleteMessageByBot = (instance, user, messageId, chat_id) => {
       }
     });
   } catch (e) {
-    (0, import_logging.errorLogger)("Error deleteMessage:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error deleteMessage:", e, adapter);
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

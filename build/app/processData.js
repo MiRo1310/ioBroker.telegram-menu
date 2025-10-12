@@ -22,7 +22,6 @@ __export(processData_exports, {
   getTimeouts: () => getTimeouts
 });
 module.exports = __toCommonJS(processData_exports);
-var import_main = require("../main");
 var import_telegram = require("./telegram");
 var import_sendNav = require("./sendNav");
 var import_subMenu = require("./subMenu");
@@ -50,11 +49,13 @@ async function checkEveryMenuForData({
   directoryPicture,
   timeoutKey
 }) {
+  const adapter = telegramParams.adapter;
   for (const menu of menus) {
     const groupData = menuData[menu];
-    import_main.adapter.log.debug(`Menu : ${menu}`);
-    import_main.adapter.log.debug(`Nav : ${(0, import_string.jsonString)(menuData[menu])}`);
+    adapter.log.debug(`Menu : ${menu}`);
+    adapter.log.debug(`Nav : ${(0, import_string.jsonString)(menuData[menu])}`);
     if (await processData({
+      adapter,
       instance,
       menuData,
       calledValue: navToGoTo,
@@ -69,7 +70,7 @@ async function checkEveryMenuForData({
       timeoutKey,
       groupData
     })) {
-      import_main.adapter.log.debug("Menu found");
+      adapter.log.debug("Menu found");
       return true;
     }
   }
@@ -88,27 +89,28 @@ async function processData({
   token,
   directoryPicture,
   timeoutKey,
-  groupData
+  groupData,
+  adapter
 }) {
   try {
     let part = {};
     const dynamicValue = (0, import_dynamicValue.getDynamicValue)(userToSend);
     if (dynamicValue) {
-      const valueToSet = (dynamicValue == null ? void 0 : dynamicValue.valueType) ? (0, import_action.adjustValueType)(calledValue, dynamicValue.valueType) : calledValue;
-      valueToSet && (dynamicValue == null ? void 0 : dynamicValue.id) ? await (0, import_setstate.setstateIobroker)({ id: dynamicValue.id, value: valueToSet, ack: dynamicValue == null ? void 0 : dynamicValue.ack }) : await (0, import_telegram.sendToTelegram)({
+      const valueToSet = (dynamicValue == null ? void 0 : dynamicValue.valueType) ? (0, import_action.adjustValueType)(adapter, calledValue, dynamicValue.valueType) : calledValue;
+      valueToSet && (dynamicValue == null ? void 0 : dynamicValue.id) ? await (0, import_setstate.setstateIobroker)({ adapter, id: dynamicValue.id, value: valueToSet, ack: dynamicValue == null ? void 0 : dynamicValue.ack }) : await (0, import_telegram.sendToTelegram)({
         instance,
         userToSend,
         textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValue == null ? void 0 : dynamicValue.valueType}`,
         telegramParams
       });
       (0, import_dynamicValue.removeUserFromDynamicValue)(userToSend);
-      const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus, true);
+      const result = await (0, import_backMenu.switchBack)(adapter, userToSend, allMenusWithData, menus, true);
       if (result && !dynamicValue.navToGoTo) {
         const { textToSend, keyboard, parse_mode } = result;
         await (0, import_telegram.sendToTelegram)({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
         return true;
       }
-      await (0, import_sendNav.sendNav)(import_main.adapter, instance, part, userToSend, telegramParams);
+      await (0, import_sendNav.sendNav)(adapter, instance, part, userToSend, telegramParams);
       return true;
     }
     const call = calledValue.includes("menu:") ? calledValue.split(":")[2] : calledValue;
@@ -116,11 +118,12 @@ async function processData({
     if (!calledValue.toString().includes("menu:") && isUserActiveCheckbox[groupWithUser]) {
       const nav = part == null ? void 0 : part.nav;
       if (nav) {
-        import_main.adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(nav)}`);
+        adapter.log.debug(`Menu to Send: ${(0, import_string.jsonString)(nav)}`);
         (0, import_backMenu.backMenuFunc)({ activePage: call, navigation: nav, userToSend });
         if ((0, import_string.jsonString)(nav).includes("menu:")) {
-          import_main.adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(nav)}`);
+          adapter.log.debug(`Submenu: ${(0, import_string.jsonString)(nav)}`);
           const result = await (0, import_subMenu.callSubMenu)({
+            adapter,
             instance,
             jsonStringNav: (0, import_string.jsonString)(nav),
             userToSend,
@@ -145,7 +148,7 @@ async function processData({
           }
           return true;
         }
-        await (0, import_sendNav.sendNav)(import_main.adapter, instance, part, userToSend, telegramParams);
+        await (0, import_sendNav.sendNav)(adapter, instance, part, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.switch) {
@@ -170,24 +173,25 @@ async function processData({
         return true;
       }
       if (part == null ? void 0 : part.location) {
-        import_main.adapter.log.debug("Send location");
+        adapter.log.debug("Send location");
         await (0, import_telegram.sendLocationToTelegram)(instance, userToSend, part.location, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.echarts) {
-        import_main.adapter.log.debug("Send echarts");
+        adapter.log.debug("Send echarts");
         (0, import_echarts.getChart)(instance, part.echarts, directoryPicture, userToSend, telegramParams);
         return true;
       }
       if (part == null ? void 0 : part.httpRequest) {
-        import_main.adapter.log.debug("Send http request");
-        const result = await (0, import_httpRequest.httpRequest)(instance, part, userToSend, telegramParams, directoryPicture);
+        adapter.log.debug("Send http request");
+        const result = await (0, import_httpRequest.httpRequest)(adapter, instance, part, userToSend, telegramParams, directoryPicture);
         return !!result;
       }
     }
     if ((0, import_validateMenus.isSubmenuOrMenu)(calledValue) && menuData[groupWithUser][call]) {
-      import_main.adapter.log.debug("Call Submenu");
+      adapter.log.debug("Call Submenu");
       await (0, import_subMenu.callSubMenu)({
+        adapter,
         instance,
         jsonStringNav: calledValue,
         userToSend,
@@ -200,7 +204,7 @@ async function processData({
     }
     return false;
   } catch (e) {
-    (0, import_logging.errorLogger)("Error processData:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error processData:", e, adapter);
   }
 }
 function getTimeouts() {

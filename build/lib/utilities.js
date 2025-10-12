@@ -75,7 +75,7 @@ const textModifier = async (adapter, text) => {
         text = "W\xE4hle eine Aktion";
       }
       if (convertedValue) {
-        await (0, import_setstate.setstateIobroker)({ id, value: convertedValue, ack });
+        await (0, import_setstate.setstateIobroker)({ adapter, id, value: convertedValue, ack });
       }
     }
     text === inputText ? adapter.log.debug(`Return text : ${text} `) : adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);

@@ -21,32 +21,32 @@ __export(connection_exports, {
   areAllCheckTelegramInstancesActive: () => areAllCheckTelegramInstancesActive
 });
 module.exports = __toCommonJS(connection_exports);
-var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_configVariables = require("./configVariables");
 const areAllCheckTelegramInstancesActive = async (params) => {
   var _a;
+  const { adapter } = params;
   const { telegramInfoConnectionID } = import_configVariables.getIds;
-  await import_main.adapter.setState("info.connection", false, true);
+  await adapter.setState("info.connection", false, true);
   for (const instance of params.telegramInstanceList) {
     if (!(instance == null ? void 0 : instance.active) || !(instance == null ? void 0 : instance.name)) {
       continue;
     }
     const id = telegramInfoConnectionID(instance.name);
-    const telegramInfoConnection = await import_main.adapter.getForeignStateAsync(id);
-    import_main.adapter.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
+    const telegramInfoConnection = await adapter.getForeignStateAsync(id);
+    adapter.log.debug(`Telegram Info Connection: ${(0, import_string.jsonString)(telegramInfoConnection)}`);
     if (!telegramInfoConnection) {
-      import_main.adapter.log.error(`The State ${id} was not found!`);
+      adapter.log.error(`The State ${id} was not found!`);
       return false;
     }
     const value = telegramInfoConnection == null ? void 0 : telegramInfoConnection.val;
-    await import_main.adapter.setState("info.connection", (_a = telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) != null ? _a : false, true);
+    await adapter.setState("info.connection", (_a = telegramInfoConnection == null ? void 0 : telegramInfoConnection.val) != null ? _a : false, true);
     if (!value) {
-      import_main.adapter.log.info("A Selected instance of telegram is not running. Please start!");
+      adapter.log.info("A Selected instance of telegram is not running. Please start!");
       return false;
     }
   }
-  await import_main.adapter.setState("info.connection", true, true);
+  await adapter.setState("info.connection", true, true);
   return true;
 };
 // Annotate the CommonJS export names for ESM import in node:

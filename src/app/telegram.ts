@@ -1,13 +1,12 @@
 import { errorLogger } from './logging';
 import { textModifier } from '../lib/utilities';
-import { adapter } from '../main';
-import type { Keyboard, Location, Telegram, TelegramParams } from '../types/types';
+import type { Adapter, Keyboard, Location, Telegram, TelegramParams } from '../types/types';
 import { getChatID } from '../lib/utils';
 import { cleanUpString, isEmptyString, jsonString } from '../lib/string';
 import { getParseMode } from '../lib/appUtils';
 import { isInstanceActive } from './instance';
 
-function validateTextToSend(textToSend: string | undefined): boolean {
+function validateTextToSend(adapter: Adapter, textToSend: string | undefined): boolean {
     if (!textToSend || isEmptyString(textToSend)) {
         adapter.log.error('There is a problem! Text to send is empty or undefined, please check your configuration.');
         return false;
@@ -28,8 +27,8 @@ async function sendToTelegram({
     telegramParams,
     parse_mode,
 }: Telegram): Promise<void> {
+    const { resize_keyboard, one_time_keyboard, userListWithChatID, adapter } = telegramParams;
     try {
-        const { resize_keyboard, one_time_keyboard, userListWithChatID } = telegramParams;
         const chatId = getChatID(userListWithChatID, userToSend);
 
         if (!instance || !isInstanceActive(telegramParams.telegramInstanceList, instance)) {
@@ -38,7 +37,7 @@ async function sendToTelegram({
         adapter.log.debug(
             `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , userListWithChatID: ${jsonString(userListWithChatID)} , parseMode: ${parse_mode} }`,
         );
-        validateTextToSend(textToSend);
+        validateTextToSend(adapter, textToSend);
 
         if (!keyboard) {
             adapter.sendTo(
@@ -49,7 +48,7 @@ async function sendToTelegram({
                     chatId,
                     parse_mode: getParseMode(parse_mode),
                 },
-                res => telegramLogger(res),
+                res => telegramLogger(adapter, res),
             );
             return;
         }
@@ -67,7 +66,7 @@ async function sendToTelegram({
                     one_time_keyboard,
                 },
             },
-            res => telegramLogger(res),
+            res => telegramLogger(adapter, res),
         );
     } catch (e) {
         errorLogger('Error sendToTelegram:', e, adapter);
@@ -82,8 +81,8 @@ function sendToTelegramSubmenu(
     telegramParams: TelegramParams,
     parse_mode?: boolean,
 ): void {
-    const { userListWithChatID } = telegramParams;
-    if (!validateTextToSend(textToSend)) {
+    const { userListWithChatID, adapter } = telegramParams;
+    if (!validateTextToSend(adapter, textToSend)) {
         return;
     }
 
@@ -96,7 +95,7 @@ function sendToTelegramSubmenu(
             text: cleanUpString(textToSend),
             reply_markup: keyboard,
         },
-        (res: any) => telegramLogger(res),
+        (res: any) => telegramLogger(adapter, res),
     );
 }
 
@@ -106,7 +105,7 @@ const sendLocationToTelegram = async (
     data: Location[],
     telegramParams: TelegramParams,
 ): Promise<void> => {
-    const { userListWithChatID } = telegramParams;
+    const { userListWithChatID, adapter } = telegramParams;
     try {
         const chatId = getChatID(userListWithChatID, user);
 
@@ -128,7 +127,7 @@ const sendLocationToTelegram = async (
                     longitude: longitude.val,
                     disable_notification: true,
                 },
-                (res: any) => telegramLogger(res),
+                (res: any) => telegramLogger(adapter, res),
             );
         }
     } catch (e: any) {
@@ -136,7 +135,7 @@ const sendLocationToTelegram = async (
     }
 };
 
-function telegramLogger(res: any): void {
+function telegramLogger(adapter: Adapter, res: any): void {
     adapter.log.debug(`Telegram response : "${jsonString(res)}"`);
 }
 

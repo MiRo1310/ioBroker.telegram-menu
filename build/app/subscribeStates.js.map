@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/app/subscribeStates.ts"],
-  "sourcesContent": ["import { adapter } from '../main';\nimport { removeDuplicates } from '../lib/object';\n\nexport async function _subscribeForeignStates(val: string | string[]): Promise<void> {\n    if (typeof val === 'string') {\n        adapter.log.debug(`Subscribe to ${val}`);\n        await adapter.subscribeForeignStatesAsync(val);\n        return;\n    }\n\n    const array = removeDuplicates(val);\n    for (const id of array) {\n        await adapter.subscribeForeignStatesAsync(id);\n    }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,kBAAwB;AACxB,oBAAiC;AAEjC,eAAsB,wBAAwB,KAAuC;AACjF,MAAI,OAAO,QAAQ,UAAU;AACzB,wBAAQ,IAAI,MAAM,gBAAgB,GAAG,EAAE;AACvC,UAAM,oBAAQ,4BAA4B,GAAG;AAC7C;AAAA,EACJ;AAEA,QAAM,YAAQ,gCAAiB,GAAG;AAClC,aAAW,MAAM,OAAO;AACpB,UAAM,oBAAQ,4BAA4B,EAAE;AAAA,EAChD;AACJ;",
+  "sourcesContent": ["import { removeDuplicates } from '../lib/object';\nimport type { Adapter } from '@b/types/types';\n\nexport async function _subscribeForeignStates(adapter: Adapter, val: string | string[]): Promise<void> {\n    if (typeof val === 'string') {\n        adapter.log.debug(`Subscribe to ${val}`);\n        await adapter.subscribeForeignStatesAsync(val);\n        return;\n    }\n\n    const array = removeDuplicates(val);\n    for (const id of array) {\n        await adapter.subscribeForeignStatesAsync(id);\n    }\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAiC;AAGjC,eAAsB,wBAAwB,SAAkB,KAAuC;AACnG,MAAI,OAAO,QAAQ,UAAU;AACzB,YAAQ,IAAI,MAAM,gBAAgB,GAAG,EAAE;AACvC,UAAM,QAAQ,4BAA4B,GAAG;AAC7C;AAAA,EACJ;AAEA,QAAM,YAAQ,gCAAiB,GAAG;AAClC,aAAW,MAAM,OAAO;AACpB,UAAM,QAAQ,4BAA4B,EAAE;AAAA,EAChD;AACJ;",
   "names": []
 }

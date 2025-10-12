@@ -1,9 +1,9 @@
-import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import type { TelegramParams } from '../types/types';
 import { getIds } from './configVariables';
 
 export const areAllCheckTelegramInstancesActive = async (params: TelegramParams): Promise<boolean | undefined> => {
+    const { adapter } = params;
     const { telegramInfoConnectionID } = getIds;
     await adapter.setState('info.connection', false, true);
     for (const instance of params.telegramInstanceList) {

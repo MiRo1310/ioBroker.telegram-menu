@@ -1,7 +1,6 @@
 import { sendToTelegram } from './telegram';
 import { validateDirectory } from '../lib/utils';
 import { errorLogger } from './logging';
-import { adapter } from '../main';
 import type { Part, TelegramParams, Timeouts } from '../types/types';
 import { replaceAll } from '../lib/string';
 import { isStartside } from '../lib/appUtils';
@@ -17,6 +16,7 @@ export function sendPic(
     timeouts: Timeouts[],
     timeoutKey: string,
 ): Timeouts[] {
+    const adapter = telegramParams.adapter;
     try {
         part.sendPic?.forEach((element, index) => {
             const { id, delay, fileName } = element;

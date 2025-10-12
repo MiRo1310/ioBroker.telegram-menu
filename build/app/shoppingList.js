@@ -27,7 +27,6 @@ var import_jsonTable = require("./jsonTable");
 var import_telegram = require("./telegram");
 var import_subscribeStates = require("./subscribeStates");
 var import_logging = require("./logging");
-var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_setstate = require("./setstate");
 var import_json = require("../lib/json");
@@ -35,6 +34,7 @@ var import_utils = require("../lib/utils");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, telegramParams) {
+  const adapter = telegramParams.adapter;
   try {
     let array, user, idList, instance, idItem, res;
     if ((0, import_utils.isDefined)(val)) {
@@ -43,15 +43,16 @@ async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, te
       idList = array[1];
       instance = array[2];
       idItem = array[3];
-      res = await import_main.adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+      res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
       if (res) {
         objData[user] = { idList };
-        import_main.adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
+        adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
         if (!isSubscribed) {
-          await (0, import_subscribeStates._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
+          await (0, import_subscribeStates._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
           isSubscribed = true;
         }
         await (0, import_setstate.setstateIobroker)({
+          adapter,
           id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
           value: true,
           ack: false
@@ -65,29 +66,30 @@ async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, te
         telegramParams,
         parse_mode: true
       });
-      import_main.adapter.log.debug("Cannot delete the Item");
+      adapter.log.debug("Cannot delete the Item");
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error shoppingList:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error shoppingList:", e, adapter);
   }
 }
 async function deleteMessageAndSendNewShoppingList(instance, telegramParams, userToSend) {
+  const adapter = telegramParams.adapter;
   try {
     const user = userToSend;
     const idList = objData[user].idList;
-    await (0, import_subscribeStates._subscribeForeignStates)(`alexa-shoppinglist.${idList}`);
+    await (0, import_subscribeStates._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
     await (0, import_messageIds.deleteMessageIds)(instance, user, telegramParams, "last");
-    const result = await import_main.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
+    const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
     if (result == null ? void 0 : result.val) {
-      import_main.adapter.log.debug(`Result from Shoppinglist : ${(0, import_string.jsonString)(result)}`);
+      adapter.log.debug(`Result from Shoppinglist : ${(0, import_string.jsonString)(result)}`);
       const newId = `alexa-shoppinglist.${idList}`;
-      const resultJson = (0, import_jsonTable.createKeyboardFromJson)((0, import_json.toJson)(result.val), null, newId, user);
+      const resultJson = (0, import_jsonTable.createKeyboardFromJson)(adapter, (0, import_json.toJson)(result.val), null, newId, user);
       if ((resultJson == null ? void 0 : resultJson.text) && (resultJson == null ? void 0 : resultJson.keyboard)) {
         (0, import_telegram.sendToTelegramSubmenu)(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
       }
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList", e, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

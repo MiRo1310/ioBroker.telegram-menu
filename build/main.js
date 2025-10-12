@@ -84,7 +84,7 @@ class TelegramMenu extends utils.Adapter {
       token,
       dataObject,
       checkboxes
-    } = (0, import_configVariables.getConfigVariables)(this.config);
+    } = (0, import_configVariables.getConfigVariables)(this.config, adapter);
     const {
       telegramBotSendMessageID,
       telegramRequestID,
@@ -104,13 +104,13 @@ class TelegramMenu extends utils.Adapter {
       for (const name in nav) {
         const splittedNavigation = (0, import_appUtils.splitNavigation)(nav[name]);
         const newStructure = (0, import_appUtils.getNewStructure)(splittedNavigation);
-        const generatedActions = (0, import_action.generateActions)({ action: action == null ? void 0 : action[name], userObject: newStructure });
+        const generatedActions = (0, import_action.generateActions)({ adapter, action: action == null ? void 0 : action[name], userObject: newStructure });
         menuData[name] = newStructure;
         if (generatedActions) {
           menuData[name] = generatedActions == null ? void 0 : generatedActions.obj;
           const subscribeForeignStateIds = generatedActions == null ? void 0 : generatedActions.ids;
           if (subscribeForeignStateIds == null ? void 0 : subscribeForeignStateIds.length) {
-            await (0, import_subscribeStates._subscribeForeignStates)(subscribeForeignStateIds);
+            await (0, import_subscribeStates._subscribeForeignStates)(adapter, subscribeForeignStateIds);
           }
         } else {
           adapter.log.debug("No Actions generated!");
@@ -118,7 +118,7 @@ class TelegramMenu extends utils.Adapter {
         const events = (_b = (_a = dataObject.action) == null ? void 0 : _a[name]) == null ? void 0 : _b.events;
         if (events) {
           for (const event of events) {
-            await (0, import_subscribeStates._subscribeForeignStates)(event.ID);
+            await (0, import_subscribeStates._subscribeForeignStates)(adapter, event.ID);
           }
         }
         adapter.log.debug(`Menu: ${name}`);
@@ -180,7 +180,7 @@ class TelegramMenu extends utils.Adapter {
           return;
         }
         if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
-          await (0, import_messageIds.saveMessageIds)(state, instance);
+          await (0, import_messageIds.saveMessageIds)(adapter, state, instance);
         } else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
           const value = state.val.toString();
           const calledValue = value.slice(value.indexOf("]") + 1, value.length);

@@ -24,32 +24,10 @@ __export(backMenu_exports, {
 module.exports = __toCommonJS(backMenu_exports);
 var import_logging = require("./logging");
 var import_utilities = require("../lib/utilities");
-var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_config = require("../config/config");
 const backMenu = {};
-function backMenuFunc({
-  activePage,
-  navigation,
-  userToSend
-}) {
-  var _a, _b, _c;
-  if (!navigation || !(0, import_string.jsonString)(navigation).split(`"`)[1].includes("menu:")) {
-    const list = (_a = backMenu[userToSend]) == null ? void 0 : _a.list;
-    const lastMenu = (_b = backMenu[userToSend]) == null ? void 0 : _b.last;
-    if ((list == null ? void 0 : list.length) === import_config.backMenuLength) {
-      list.shift();
-    }
-    if (!backMenu[userToSend] || !((_c = backMenu[userToSend]) == null ? void 0 : _c.last)) {
-      backMenu[userToSend] = { list: [], last: "" };
-    }
-    if (lastMenu && lastMenu !== "" && list) {
-      list.push(lastMenu);
-    }
-    backMenu[userToSend].last = activePage;
-  }
-}
-async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false) {
+async function switchBack(adapter, userToSend, allMenusWithData, menus, lastMenu = false) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
   try {
     const list = (_b = (_a = backMenu[userToSend]) == null ? void 0 : _a.list) != null ? _b : [];
@@ -70,7 +48,7 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           foundedMenu = menu;
           break;
         }
-        import_main.adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
+        adapter.log.debug(`Menu call not found in this Menu: ${menu}`);
       }
       if (keyboard && foundedMenu != "") {
         if (!lastMenu) {
@@ -83,7 +61,7 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
           const { text, parse_mode: parse_mode2 } = allMenusWithData[foundedMenu][lastListElement2];
           let textToSend2 = text;
           if (textToSend2) {
-            textToSend2 = await (0, import_utilities.textModifier)(import_main.adapter, textToSend2);
+            textToSend2 = await (0, import_utilities.textModifier)(adapter, textToSend2);
           }
           if ((_i = backMenu[userToSend]) == null ? void 0 : _i.last) {
             backMenu[userToSend].last = (_j = list2.pop()) != null ? _j : "";
@@ -99,7 +77,28 @@ async function switchBack(userToSend, allMenusWithData, menus, lastMenu = false)
       }
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error in switchBack:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error in switchBack:", e, adapter);
+  }
+}
+function backMenuFunc({
+  activePage,
+  navigation,
+  userToSend
+}) {
+  var _a, _b, _c;
+  if (!navigation || !(0, import_string.jsonString)(navigation).split(`"`)[1].includes("menu:")) {
+    const list = (_a = backMenu[userToSend]) == null ? void 0 : _a.list;
+    const lastMenu = (_b = backMenu[userToSend]) == null ? void 0 : _b.last;
+    if ((list == null ? void 0 : list.length) === import_config.backMenuLength) {
+      list.shift();
+    }
+    if (!backMenu[userToSend] || !((_c = backMenu[userToSend]) == null ? void 0 : _c.last)) {
+      backMenu[userToSend] = { list: [], last: "" };
+    }
+    if (lastMenu && lastMenu !== "" && list) {
+      list.push(lastMenu);
+    }
+    backMenu[userToSend].last = activePage;
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

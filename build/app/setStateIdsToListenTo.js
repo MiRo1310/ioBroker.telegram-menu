@@ -28,10 +28,10 @@ const setStateIdsToListenTo = [];
 function getStateIdsToListenTo() {
   return setStateIdsToListenTo;
 }
-async function addSetStateIds(setStateId) {
+async function addSetStateIds(adapter, setStateId) {
   if (!setStateIdsToListenTo.find((list) => list.id === setStateId.id)) {
     setStateIdsToListenTo.push(setStateId);
-    await (0, import_subscribeStates._subscribeForeignStates)((0, import_object.setStateIdsToIdArray)([setStateId]));
+    await (0, import_subscribeStates._subscribeForeignStates)(adapter, (0, import_object.setStateIdsToIdArray)([setStateId]));
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

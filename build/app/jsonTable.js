@@ -23,11 +23,10 @@ __export(jsonTable_exports, {
 });
 module.exports = __toCommonJS(jsonTable_exports);
 var import_logging = require("./logging");
-var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_json = require("../lib/json");
 const lastText = {};
-const createKeyboardFromJson = (val, text, id, user) => {
+const createKeyboardFromJson = (adapter, val, text, id, user) => {
   try {
     if (text) {
       lastText[user] = text;
@@ -42,12 +41,12 @@ const createKeyboardFromJson = (val, text, id, user) => {
     if (array.length > 3 && array[3] == "shoppinglist") {
       idShoppingList = true;
     }
-    const { validJson, error } = (0, import_json.makeValidJson)(val, import_main.adapter);
-    import_main.adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
+    const { validJson, error } = (0, import_json.makeValidJson)(val, adapter);
+    adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
     if (error) {
       return;
     }
-    const { json, isValidJson } = (0, import_string.parseJSON)(validJson, import_main.adapter);
+    const { json, isValidJson } = (0, import_string.parseJSON)(validJson, adapter);
     if (!isValidJson) {
       return;
     }
@@ -85,13 +84,13 @@ const createKeyboardFromJson = (val, text, id, user) => {
       }
       keyboard.inline_keyboard.push(rowArray);
     });
-    import_main.adapter.log.debug(`Keyboard : ${(0, import_string.jsonString)(keyboard)}`);
+    adapter.log.debug(`Keyboard : ${(0, import_string.jsonString)(keyboard)}`);
     return { text: headline, keyboard };
   } catch (err) {
-    (0, import_logging.errorLogger)("Error createKeyboardFromJson:", err, import_main.adapter);
+    (0, import_logging.errorLogger)("Error createKeyboardFromJson:", err, adapter);
   }
 };
-function createTextTableFromJson(val, textToSend) {
+function createTextTableFromJson(adapter, val, textToSend) {
   try {
     const substring = (0, import_string.decomposeText)(textToSend, "{json:", "}").substring;
     const array = substring.split(";");
@@ -110,7 +109,7 @@ function createTextTableFromJson(val, textToSend) {
         }
       });
     });
-    import_main.adapter.log.debug(`Length of rows : ${(0, import_string.jsonString)(lengthArray)}`);
+    adapter.log.debug(`Length of rows : ${(0, import_string.jsonString)(lengthArray)}`);
     const headline = array[2];
     let textTable = textToSend.replace(substring, "").trim();
     if (textTable != "") {
@@ -157,7 +156,7 @@ function createTextTableFromJson(val, textToSend) {
     textTable += "`";
     return textTable;
   } catch (e) {
-    (0, import_logging.errorLogger)("Error createTextTableFromJson:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error createTextTableFromJson:", e, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

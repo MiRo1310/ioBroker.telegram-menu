@@ -23,7 +23,6 @@ __export(adapterStartMenuSend_exports, {
 module.exports = __toCommonJS(adapterStartMenuSend_exports);
 var import_telegram = require("./telegram");
 var import_backMenu = require("./backMenu");
-var import_main = require("../main");
 var import_string = require("../lib/string");
 var import_appUtils = require("../lib/appUtils");
 function isUserActive(telegramParams, userToSend) {
@@ -32,10 +31,11 @@ function isUserActive(telegramParams, userToSend) {
   );
 }
 async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, telegramParams) {
+  const adapter = telegramParams.adapter;
   for (const menu of listOfMenus) {
     const startSide = startSides[menu];
     if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
-      import_main.adapter.log.debug(`Startside: ${startSide}`);
+      adapter.log.debug(`Startside: ${startSide}`);
       const group = menusWithUsers[menu];
       if (group) {
         for (const userToSend of group) {
@@ -45,7 +45,7 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
             continue;
           }
           (0, import_backMenu.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
-          import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
+          adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
           const params = { ...telegramParams };
           await (0, import_telegram.sendToTelegram)({
             instance: userToSend.instance,
@@ -59,10 +59,10 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
       }
     } else {
       if (!(0, import_appUtils.isStartside)(startSide)) {
-        import_main.adapter.log.debug(`Menu "${menu}" is a Submenu.`);
+        adapter.log.debug(`Menu "${menu}" is a Submenu.`);
         continue;
       }
-      import_main.adapter.log.debug(`Menu "${menu}" is inactive.`);
+      adapter.log.debug(`Menu "${menu}" is inactive.`);
     }
   }
 }

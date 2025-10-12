@@ -62,7 +62,7 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
                 text = 'Wähle eine Aktion';
             }
             if (convertedValue) {
-                await setstateIobroker({ id, value: convertedValue, ack });
+                await setstateIobroker({ adapter, id, value: convertedValue, ack });
             }
         }
 

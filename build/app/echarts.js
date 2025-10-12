@@ -21,19 +21,19 @@ __export(echarts_exports, {
   getChart: () => getChart
 });
 module.exports = __toCommonJS(echarts_exports);
-var import_main = require("../main");
 var import_logging = require("./logging");
 var import_telegram = require("./telegram");
 var import_utils = require("../lib/utils");
 var import_splitValues = require("../lib/splitValues");
 function getChart(instance, echarts, directoryPicture, user, telegramParams) {
+  const adapter = telegramParams.adapter;
   try {
     for (const echart of echarts) {
       const instanceOfEchart = (0, import_splitValues.getEchartsValues)(echart.preset);
-      if (!(0, import_utils.validateDirectory)(import_main.adapter, directoryPicture)) {
+      if (!(0, import_utils.validateDirectory)(adapter, directoryPicture)) {
         return;
       }
-      import_main.adapter.sendTo(
+      adapter.sendTo(
         instanceOfEchart,
         {
           preset: echart.preset,
@@ -50,7 +50,7 @@ function getChart(instance, echarts, directoryPicture, user, telegramParams) {
       );
     }
   } catch (e) {
-    (0, import_logging.errorLogger)("Error in Echart:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error in Echart:", e, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

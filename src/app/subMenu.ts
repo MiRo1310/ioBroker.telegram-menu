@@ -5,6 +5,7 @@ import { textModifier } from '../lib/utilities';
 import { deleteMessageIds } from './messageIds';
 import { createDynamicSwitchMenu } from './dynamicSwitchMenu';
 import type {
+    Adapter,
     AllMenusWithData,
     BackMenuType,
     CallSubMenu,
@@ -17,7 +18,6 @@ import type {
     TelegramParams,
 } from '../types/types';
 import { isNonEmptyString, jsonString } from '../lib/string';
-import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { getMenuValues, getSubmenuNumberValues } from '../lib/splitValues';
 import {
@@ -99,6 +99,7 @@ const createSubmenuNumber = ({
     cbData,
     menuToHandle,
     text,
+    adapter,
 }: CreateMenu): { text?: string; keyboard: Keyboard; menuToHandle: string } => {
     if (cbData.includes('(-)')) {
         cbData = cbData.replace('(-)', 'negativ');
@@ -192,7 +193,7 @@ const createSwitchMenu = ({
 };
 
 const back = async ({ instance, telegramParams, userToSend, allMenusWithData, menus }: BackMenuType): Promise<void> => {
-    const result = await switchBack(userToSend, allMenusWithData, menus);
+    const result = await switchBack(telegramParams.adapter, userToSend, allMenusWithData, menus);
     if (result) {
         const { keyboard, parse_mode, textToSend = '' } = result;
         await sendToTelegram({ instance, userToSend, textToSend, keyboard, parse_mode: parse_mode, telegramParams });
@@ -207,6 +208,7 @@ export async function callSubMenu({
     part,
     allMenusWithData,
     menus,
+    adapter,
 }: CallSubMenu): Promise<{ newNav: string | undefined } | undefined> {
     try {
         const obj = await subMenu({
@@ -217,6 +219,7 @@ export async function callSubMenu({
             part,
             allMenusWithData,
             menus,
+            adapter,
         });
         adapter.log.debug(`Submenu : ${jsonString(obj)}`);
 
@@ -237,6 +240,7 @@ export async function subMenu({
     allMenusWithData,
     menus,
     instance,
+    adapter,
 }: {
     instance: string;
     menuString: string;
@@ -245,6 +249,7 @@ export async function subMenu({
     part: Part;
     allMenusWithData: AllMenusWithData;
     menus: string[];
+    adapter: Adapter;
 }): Promise<{ text?: string; keyboard?: Keyboard; device?: string; navToGoBack?: string } | undefined> {
     try {
         adapter.log.debug(`Menu : ${menuString}`);
@@ -261,7 +266,7 @@ export async function subMenu({
 
         const { cbData, menuToHandle, val } = getMenuValues(menuString);
         if (isCreateSwitch(cbData) && menuToHandle) {
-            return createSwitchMenu({ cbData, text, menuToHandle: menuToHandle });
+            return createSwitchMenu({ adapter, cbData, text, menuToHandle: menuToHandle });
         }
 
         if (isFirstMenuValue(cbData)) {
@@ -279,7 +284,7 @@ export async function subMenu({
         }
 
         if (isCreateDynamicSwitch(cbData) && menuToHandle) {
-            return createDynamicSwitchMenu(menuString, menuToHandle, text);
+            return createDynamicSwitchMenu(adapter, menuString, menuToHandle, text);
         }
 
         if (isSetDynamicSwitchVal(cbData) && val) {
@@ -287,7 +292,7 @@ export async function subMenu({
         }
 
         if (isCreateSubmenuPercent(menuString, cbData) && menuToHandle) {
-            return createSubmenuPercent({ cbData, text, menuToHandle: menuToHandle });
+            return createSubmenuPercent({ adapter, cbData, text, menuToHandle: menuToHandle });
         }
 
         if (isSetSubmenuPercent(menuString, step)) {
@@ -296,7 +301,7 @@ export async function subMenu({
         }
 
         if (isCreateSubmenuNumber(menuString, cbData) && menuToHandle) {
-            return createSubmenuNumber({ cbData, text, menuToHandle: menuToHandle });
+            return createSubmenuNumber({ adapter, cbData, text, menuToHandle: menuToHandle });
         }
 
         if (isSetSubmenuNumber(menuString)) {

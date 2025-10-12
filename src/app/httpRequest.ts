@@ -3,11 +3,11 @@ import { sendToTelegram } from './telegram';
 import path from 'path';
 import fs from 'fs';
 import { errorLogger } from './logging';
-import type { Part, TelegramParams } from '../types/types';
+import type { Adapter, Part, TelegramParams } from '../types/types';
 import { validateDirectory } from '../lib/utils';
-import { adapter } from '../main';
 
 async function httpRequest(
+    adapter: Adapter,
     instance: string,
     parts: Part,
     userToSend: string,

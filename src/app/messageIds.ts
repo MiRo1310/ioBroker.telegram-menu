@@ -1,12 +1,11 @@
-import { adapter } from '../main';
 import { deleteMessageByBot } from './botAction';
 import { errorLogger } from './logging';
-import type { MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '../types/types';
+import type { Adapter, MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '../types/types';
 import { deepCopy, getChatID } from '../lib/utils';
 import { parseJSON } from '../lib/string';
 
 let isDeleting = false;
-async function saveMessageIds(state: ioBroker.State, instanceTelegram: string): Promise<void> {
+async function saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceTelegram: string): Promise<void> {
     try {
         let requestMessageId: Messages = {};
 
@@ -74,7 +73,7 @@ async function deleteMessageIds(
     telegramParams: TelegramParams,
     whatShouldDelete: WhatShouldDelete,
 ): Promise<void> {
-    const { userListWithChatID } = telegramParams;
+    const { userListWithChatID, adapter } = telegramParams;
     try {
         const requestMessageIdObj = await adapter.getStateAsync('communication.requestIds');
         const lastMessageId = await adapter.getForeignStateAsync(`${instance}.communicate.requestMessageId`);
@@ -103,10 +102,10 @@ async function deleteMessageIds(
             const id = element.id?.toString();
 
             if (whatShouldDelete === 'all' && id) {
-                deleteMessageByBot(instance, user, parseInt(id), chat_id);
+                deleteMessageByBot(adapter, instance, user, parseInt(id), chat_id);
             }
             if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
-                deleteMessageByBot(instance, user, parseInt(id), chat_id);
+                deleteMessageByBot(adapter, instance, user, parseInt(id), chat_id);
             }
             if (!copyMessageIds) {
                 return;

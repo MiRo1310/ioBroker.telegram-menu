@@ -1,40 +1,13 @@
 import { errorLogger } from './logging';
-import type { BackMenu, Keyboard, MenuData, Navigation } from '../types/types';
+import type { Adapter, BackMenu, Keyboard, MenuData, Navigation } from '../types/types';
 import { textModifier } from '../lib/utilities';
-import { adapter } from '../main';
 import { jsonString } from '../lib/string';
 import { backMenuLength } from '../config/config';
 
 const backMenu: BackMenu = {};
 
-export function backMenuFunc({
-    activePage,
-    navigation,
-    userToSend,
-}: {
-    activePage: string;
-    navigation?: Navigation;
-    userToSend: string;
-}): void {
-    if (!navigation || !jsonString(navigation).split(`"`)[1].includes('menu:')) {
-        const list = backMenu[userToSend]?.list;
-        const lastMenu = backMenu[userToSend]?.last;
-
-        if (list?.length === backMenuLength) {
-            list.shift();
-        }
-        if (!backMenu[userToSend] || !backMenu[userToSend]?.last) {
-            backMenu[userToSend] = { list: [], last: '' };
-        }
-
-        if (lastMenu && lastMenu !== '' && list) {
-            list.push(lastMenu);
-        }
-        backMenu[userToSend].last = activePage;
-    }
-}
-
 export async function switchBack(
+    adapter: Adapter,
     userToSend: string,
     allMenusWithData: MenuData,
     menus: string[],
@@ -97,5 +70,32 @@ export async function switchBack(
         }
     } catch (e: any) {
         errorLogger('Error in switchBack:', e, adapter);
+    }
+}
+
+export function backMenuFunc({
+    activePage,
+    navigation,
+    userToSend,
+}: {
+    activePage: string;
+    navigation?: Navigation;
+    userToSend: string;
+}): void {
+    if (!navigation || !jsonString(navigation).split(`"`)[1].includes('menu:')) {
+        const list = backMenu[userToSend]?.list;
+        const lastMenu = backMenu[userToSend]?.last;
+
+        if (list?.length === backMenuLength) {
+            list.shift();
+        }
+        if (!backMenu[userToSend] || !backMenu[userToSend]?.last) {
+            backMenu[userToSend] = { list: [], last: '' };
+        }
+
+        if (lastMenu && lastMenu !== '' && list) {
+            list.push(lastMenu);
+        }
+        backMenu[userToSend].last = activePage;
     }
 }

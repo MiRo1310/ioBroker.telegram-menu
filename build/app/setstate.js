@@ -25,7 +25,6 @@ module.exports = __toCommonJS(setstate_exports);
 var import_telegram = require("./telegram");
 var import_utilities = require("../lib/utilities");
 var import_dynamicValue = require("./dynamicValue");
-var import_main = require("../main");
 var import_logging = require("./logging");
 var import_string = require("../lib/string");
 var import_utils = require("../lib/utils");
@@ -35,14 +34,14 @@ var import_exchangeValue = require("../lib/exchangeValue");
 const modifiedValue = (valueFromSubmenu, value) => {
   return value.includes(import_config.config.modifiedValue) ? value.replace(import_config.config.modifiedValue, valueFromSubmenu) : valueFromSubmenu;
 };
-const isDynamicValueToSet = async (value) => {
+const isDynamicValueToSet = async (adapter, value) => {
   if (typeof value === "string" && value.includes(import_config.config.dynamicValue.start)) {
     const { substring, substringExcludeSearch: id } = (0, import_string.decomposeText)(
       value,
       import_config.config.dynamicValue.start,
       import_config.config.dynamicValue.end
     );
-    const newValue = await import_main.adapter.getForeignStateAsync(id);
+    const newValue = await adapter.getForeignStateAsync(id);
     return value.replace(substring, String(newValue == null ? void 0 : newValue.val));
   }
   return value;
@@ -50,27 +49,29 @@ const isDynamicValueToSet = async (value) => {
 const setstateIobroker = async ({
   id,
   value,
-  ack
+  ack,
+  adapter
 }) => {
   try {
-    const val = await (0, import_utilities.transformValueToTypeOfId)(import_main.adapter, id, value);
-    import_main.adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(val)}`);
+    const val = await (0, import_utilities.transformValueToTypeOfId)(adapter, id, value);
+    adapter.log.debug(`Value to Set: ${(0, import_string.jsonString)(val)}`);
     if ((0, import_utils.isDefined)(val)) {
-      await import_main.adapter.setForeignStateAsync(id, val, ack);
+      await adapter.setForeignStateAsync(id, val, ack);
     }
   } catch (error) {
-    (0, import_logging.errorLogger)("Error Setstate", error, import_main.adapter);
+    (0, import_logging.errorLogger)("Error Setstate", error, adapter);
   }
 };
-const setValue = async (id, value, valueFromSubmenu, ack) => {
+const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
   try {
-    const valueToSet = (0, import_utils.isDefined)(value) && (0, import_string.isNonEmptyString)(value) ? await isDynamicValueToSet(value) : modifiedValue(String(valueFromSubmenu), value);
-    await setstateIobroker({ id, value: valueToSet, ack });
+    const valueToSet = (0, import_utils.isDefined)(value) && (0, import_string.isNonEmptyString)(value) ? await isDynamicValueToSet(adapter, value) : modifiedValue(String(valueFromSubmenu), value);
+    await setstateIobroker({ adapter, id, value: valueToSet, ack });
   } catch (error) {
-    (0, import_logging.errorLogger)("Error setValue", error, import_main.adapter);
+    (0, import_logging.errorLogger)("Error setValue", error, adapter);
   }
 };
 const handleSetState = async (instance, part, userToSend, valueFromSubmenu, telegramParams) => {
+  const adapter = telegramParams.adapter;
   try {
     if (!part.switch) {
       return;
@@ -89,7 +90,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
           confirm
         );
         if (confirm) {
-          await (0, import_setStateIdsToListenTo.addSetStateIds)({
+          await (0, import_setStateIdsToListenTo.addSetStateIds)(adapter, {
             id: id != null ? id : ID,
             confirm,
             returnText: confirmText,
@@ -99,7 +100,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
         return;
       }
       if (!returnText.includes("{'id':'")) {
-        await (0, import_setStateIdsToListenTo.addSetStateIds)({
+        await (0, import_setStateIdsToListenTo.addSetStateIds)(adapter, {
           id: ID,
           confirm,
           returnText,
@@ -114,11 +115,11 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
           return;
         }
         if (json.id) {
-          const state = await import_main.adapter.getForeignStateAsync(json.id);
+          const state = await adapter.getForeignStateAsync(json.id);
           const val = state ? String(state == null ? void 0 : state.val) : "";
           returnText = returnText.replace(substring, `${json.text} ${val}`);
         }
-        await (0, import_setStateIdsToListenTo.addSetStateIds)({
+        await (0, import_setStateIdsToListenTo.addSetStateIds)(adapter, {
           id: json.id,
           confirm: true,
           returnText: json.text,
@@ -127,14 +128,14 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
       }
       let valueToTelegram = valueFromSubmenu != null ? valueFromSubmenu : value;
       if (toggle) {
-        const state = await import_main.adapter.getForeignStateAsync(ID);
+        const state = await adapter.getForeignStateAsync(ID);
         const val = state ? !state.val : false;
-        await setstateIobroker({ id: ID, value: val, ack });
+        await setstateIobroker({ adapter, id: ID, value: val, ack });
         valueToTelegram = val;
       } else {
-        await setValue(ID, value, valueFromSubmenu, ack);
+        await setValue(adapter, ID, value, valueFromSubmenu, ack);
       }
-      const { textToSend } = (0, import_exchangeValue.exchangeValue)(import_main.adapter, returnText, valueToTelegram);
+      const { textToSend } = (0, import_exchangeValue.exchangeValue)(adapter, returnText, valueToTelegram);
       await (0, import_telegram.sendToTelegram)({
         instance,
         userToSend,
@@ -144,7 +145,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
       });
     }
   } catch (error) {
-    (0, import_logging.errorLogger)("Error Switch", error, import_main.adapter);
+    (0, import_logging.errorLogger)("Error Switch", error, adapter);
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

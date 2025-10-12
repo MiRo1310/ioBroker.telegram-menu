@@ -1,9 +1,8 @@
 import { sendToTelegram } from './telegram';
 import { transformValueToTypeOfId } from '../lib/utilities';
 import { setDynamicValue } from './dynamicValue';
-import { adapter } from '../main';
 import { errorLogger } from './logging';
-import type { Part, TelegramParams } from '../types/types';
+import type { Adapter, Part, TelegramParams } from '../types/types';
 import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '../lib/string';
 import { isDefined } from '../lib/utils';
 import { config } from '../config/config';
@@ -16,7 +15,10 @@ const modifiedValue = (valueFromSubmenu: string, value: string): string => {
         : valueFromSubmenu;
 };
 
-const isDynamicValueToSet = async (value: string | number | boolean): Promise<string | number | boolean> => {
+const isDynamicValueToSet = async (
+    adapter: Adapter,
+    value: string | number | boolean,
+): Promise<string | number | boolean> => {
     if (typeof value === 'string' && value.includes(config.dynamicValue.start)) {
         const { substring, substringExcludeSearch: id } = decomposeText(
             value,
@@ -35,7 +37,9 @@ export const setstateIobroker = async ({
     id,
     value,
     ack,
+    adapter,
 }: {
+    adapter: Adapter;
     id: string;
     value: string | number | boolean;
     ack: boolean;
@@ -53,6 +57,7 @@ export const setstateIobroker = async ({
 };
 
 const setValue = async (
+    adapter: Adapter,
     id: string,
     value: string,
     valueFromSubmenu: null | string | number | boolean,
@@ -61,10 +66,10 @@ const setValue = async (
     try {
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
-                ? await isDynamicValueToSet(value)
+                ? await isDynamicValueToSet(adapter, value)
                 : modifiedValue(String(valueFromSubmenu), value);
 
-        await setstateIobroker({ id, value: valueToSet, ack });
+        await setstateIobroker({ adapter, id, value: valueToSet, ack });
     } catch (error: any) {
         errorLogger('Error setValue', error, adapter);
     }
@@ -77,6 +82,7 @@ export const handleSetState = async (
     valueFromSubmenu: null | string | number | boolean,
     telegramParams: TelegramParams,
 ): Promise<void> => {
+    const adapter = telegramParams.adapter;
     try {
         if (!part.switch) {
             return;
@@ -96,7 +102,7 @@ export const handleSetState = async (
                 );
 
                 if (confirm) {
-                    await addSetStateIds({
+                    await addSetStateIds(adapter, {
                         id: id ?? ID,
                         confirm,
                         returnText: confirmText,
@@ -107,7 +113,7 @@ export const handleSetState = async (
             }
 
             if (!returnText.includes("{'id':'")) {
-                await addSetStateIds({
+                await addSetStateIds(adapter, {
                     id: ID,
                     confirm,
                     returnText,
@@ -128,7 +134,7 @@ export const handleSetState = async (
                     returnText = returnText.replace(substring, `${json.text} ${val}`);
                 }
 
-                await addSetStateIds({
+                await addSetStateIds(adapter, {
                     id: json.id,
                     confirm: true,
                     returnText: json.text,
@@ -140,11 +146,11 @@ export const handleSetState = async (
             if (toggle) {
                 const state = await adapter.getForeignStateAsync(ID);
                 const val = state ? !state.val : false;
-                await setstateIobroker({ id: ID, value: val, ack });
+                await setstateIobroker({ adapter, id: ID, value: val, ack });
 
                 valueToTelegram = val;
             } else {
-                await setValue(ID, value, valueFromSubmenu, ack);
+                await setValue(adapter, ID, value, valueFromSubmenu, ack);
             }
 
             const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);

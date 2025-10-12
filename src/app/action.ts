@@ -3,9 +3,6 @@ import { callSubMenu } from './subMenu';
 import { sendNav } from './sendNav';
 import { backMenuFunc } from './backMenu';
 import { errorLogger } from './logging';
-
-import { adapter } from '../main';
-
 import type {
     Actions,
     Adapter,
@@ -27,6 +24,7 @@ import { getBindingValues } from '../lib/splitValues';
 import type { TriggerableActions, UserListWithChatID, MenusWithUsers } from '@/types/app';
 
 export const bindingFunc = async (
+    adapter: Adapter,
     instance: string,
     text: string,
     userToSend: string,
@@ -76,9 +74,11 @@ export const bindingFunc = async (
 export function generateActions({
     action,
     userObject,
+    adapter,
 }: {
     action?: Actions;
     userObject: NewObjectStructure;
+    adapter: Adapter;
 }): { obj: NewObjectStructure; ids: string[] } | undefined {
     try {
         const listOfSetStateIds: string[] = [];
@@ -149,7 +149,11 @@ export function generateActions({
     }
 }
 
-export const adjustValueType = (value: keyof NewObjectStructure, valueType: string): boolean | string | number => {
+export const adjustValueType = (
+    adapter: Adapter,
+    value: keyof NewObjectStructure,
+    valueType: string,
+): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
             adapter.log.error(`Error: Value is not a number: ${value}`);
@@ -229,6 +233,7 @@ export const handleEvent = async (
 
                 if (part?.nav?.[0][0].includes('menu:')) {
                     await callSubMenu({
+                        adapter,
                         instance,
                         jsonStringNav: part.nav[0][0],
                         userToSend: user.name,

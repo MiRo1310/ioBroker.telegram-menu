@@ -21,17 +21,16 @@ __export(subscribeStates_exports, {
   _subscribeForeignStates: () => _subscribeForeignStates
 });
 module.exports = __toCommonJS(subscribeStates_exports);
-var import_main = require("../main");
 var import_object = require("../lib/object");
-async function _subscribeForeignStates(val) {
+async function _subscribeForeignStates(adapter, val) {
   if (typeof val === "string") {
-    import_main.adapter.log.debug(`Subscribe to ${val}`);
-    await import_main.adapter.subscribeForeignStatesAsync(val);
+    adapter.log.debug(`Subscribe to ${val}`);
+    await adapter.subscribeForeignStatesAsync(val);
     return;
   }
   const array = (0, import_object.removeDuplicates)(val);
   for (const id of array) {
-    await import_main.adapter.subscribeForeignStatesAsync(id);
+    await adapter.subscribeForeignStatesAsync(id);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

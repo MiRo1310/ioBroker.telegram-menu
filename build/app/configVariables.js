@@ -29,7 +29,7 @@ const getIds = {
   telegramInfoConnectionID: (instance) => `${instance}.info.connection`,
   telegramRequestChatID: (instance) => `${instance}.communicate.requestChatId`
 };
-const getConfigVariables = (config) => {
+const getConfigVariables = (config, adapter) => {
   var _a, _b, _c;
   const c = config;
   const telegramInstances = (_a = c.instanceList) != null ? _a : [];
@@ -38,7 +38,8 @@ const getConfigVariables = (config) => {
     telegramInstanceList: telegramInstances,
     resize_keyboard: checkboxes.resKey,
     one_time_keyboard: checkboxes.oneTiKey,
-    userListWithChatID: c.userListWithChatID
+    userListWithChatID: c.userListWithChatID,
+    adapter
   };
   return {
     checkboxes,

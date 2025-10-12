@@ -1,4 +1,3 @@
-import { adapter } from '../main';
 import { errorLogger } from './logging';
 import { sendToTelegram } from './telegram';
 import type { ModifiedEchart, TelegramParams } from '../types/types';
@@ -12,6 +11,7 @@ export function getChart(
     user: string,
     telegramParams: TelegramParams,
 ): void {
+    const adapter = telegramParams.adapter;
     try {
         for (const echart of echarts) {
             const instanceOfEchart = getEchartsValues(echart.preset);

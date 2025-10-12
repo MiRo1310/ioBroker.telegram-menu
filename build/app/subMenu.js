@@ -29,7 +29,6 @@ var import_utilities = require("../lib/utilities");
 var import_messageIds = require("./messageIds");
 var import_dynamicSwitchMenu = require("./dynamicSwitchMenu");
 var import_string = require("../lib/string");
-var import_main = require("../main");
 var import_logging = require("./logging");
 var import_splitValues = require("../lib/splitValues");
 var import_validateMenus = require("./validateMenus");
@@ -91,7 +90,8 @@ const setMenuValue = async ({
 const createSubmenuNumber = ({
   cbData,
   menuToHandle,
-  text
+  text,
+  adapter
 }) => {
   if (cbData.includes("(-)")) {
     cbData = cbData.replace("(-)", "negativ");
@@ -151,7 +151,7 @@ const createSubmenuNumber = ({
   if (rowEntries != 0) {
     keyboard.inline_keyboard.push(menu);
   }
-  import_main.adapter.log.debug(`Keyboard : ${(0, import_string.jsonString)(keyboard)}`);
+  adapter.log.debug(`Keyboard : ${(0, import_string.jsonString)(keyboard)}`);
   return { text, keyboard, menuToHandle };
 };
 const createSwitchMenu = ({
@@ -177,7 +177,7 @@ const createSwitchMenu = ({
   return { text, keyboard, device: menuToHandle };
 };
 const back = async ({ instance, telegramParams, userToSend, allMenusWithData, menus }) => {
-  const result = await (0, import_backMenu.switchBack)(userToSend, allMenusWithData, menus);
+  const result = await (0, import_backMenu.switchBack)(telegramParams.adapter, userToSend, allMenusWithData, menus);
   if (result) {
     const { keyboard, parse_mode, textToSend = "" } = result;
     await (0, import_telegram.sendToTelegram)({ instance, userToSend, textToSend, keyboard, parse_mode, telegramParams });
@@ -190,7 +190,8 @@ async function callSubMenu({
   telegramParams,
   part,
   allMenusWithData,
-  menus
+  menus,
+  adapter
 }) {
   try {
     const obj = await subMenu({
@@ -200,15 +201,16 @@ async function callSubMenu({
       telegramParams,
       part,
       allMenusWithData,
-      menus
+      menus,
+      adapter
     });
-    import_main.adapter.log.debug(`Submenu : ${(0, import_string.jsonString)(obj)}`);
+    adapter.log.debug(`Submenu : ${(0, import_string.jsonString)(obj)}`);
     if ((obj == null ? void 0 : obj.text) && (obj == null ? void 0 : obj.keyboard)) {
       (0, import_telegram.sendToTelegramSubmenu)(instance, userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
     }
     return { newNav: obj == null ? void 0 : obj.navToGoBack };
   } catch (e) {
-    (0, import_logging.errorLogger)("Error callSubMenu:", e, import_main.adapter);
+    (0, import_logging.errorLogger)("Error callSubMenu:", e, adapter);
   }
 }
 async function subMenu({
@@ -218,12 +220,13 @@ async function subMenu({
   part,
   allMenusWithData,
   menus,
-  instance
+  instance,
+  adapter
 }) {
   var _a, _b, _c;
   try {
-    import_main.adapter.log.debug(`Menu : ${menuString}`);
-    const text = await (0, import_utilities.textModifier)(import_main.adapter, part.text);
+    adapter.log.debug(`Menu : ${menuString}`);
+    const text = await (0, import_utilities.textModifier)(adapter, part.text);
     if ((0, import_validateMenus.isDeleteMenu)(menuString)) {
       await (0, import_messageIds.deleteMessageIds)(instance, userToSend, telegramParams, "all");
       const menu = (_c = (_b = (_a = menuString.split(":")) == null ? void 0 : _a[2]) == null ? void 0 : _b.split('"')) == null ? void 0 : _c[0];
@@ -233,7 +236,7 @@ async function subMenu({
     }
     const { cbData, menuToHandle, val } = (0, import_splitValues.getMenuValues)(menuString);
     if ((0, import_validateMenus.isCreateSwitch)(cbData) && menuToHandle) {
-      return createSwitchMenu({ cbData, text, menuToHandle });
+      return createSwitchMenu({ adapter, cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isFirstMenuValue)(cbData)) {
       await setMenuValue({
@@ -248,20 +251,20 @@ async function subMenu({
       await setMenuValue({ instance, part, userToSend, telegramParams, menuNumber: 2 });
     }
     if ((0, import_validateMenus.isCreateDynamicSwitch)(cbData) && menuToHandle) {
-      return (0, import_dynamicSwitchMenu.createDynamicSwitchMenu)(menuString, menuToHandle, text);
+      return (0, import_dynamicSwitchMenu.createDynamicSwitchMenu)(adapter, menuString, menuToHandle, text);
     }
     if ((0, import_validateMenus.isSetDynamicSwitchVal)(cbData) && val) {
       await (0, import_setstate.handleSetState)(instance, part, userToSend, val, telegramParams);
     }
     if ((0, import_validateMenus.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
-      return createSubmenuPercent({ cbData, text, menuToHandle });
+      return createSubmenuPercent({ adapter, cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isSetSubmenuPercent)(menuString, step)) {
       const value = parseInt(menuString.split(":")[1].split(",")[1]);
       await (0, import_setstate.handleSetState)(instance, part, userToSend, value, telegramParams);
     }
     if ((0, import_validateMenus.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
-      return createSubmenuNumber({ cbData, text, menuToHandle });
+      return createSubmenuNumber({ adapter, cbData, text, menuToHandle });
     }
     if ((0, import_validateMenus.isSetSubmenuNumber)(menuString)) {
       const { value } = (0, import_splitValues.getSubmenuNumberValues)(menuString);
@@ -277,7 +280,7 @@ async function subMenu({
       });
     }
   } catch (error) {
-    (0, import_logging.errorLogger)("Error subMenu:", error, import_main.adapter);
+    (0, import_logging.errorLogger)("Error subMenu:", error, adapter);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:

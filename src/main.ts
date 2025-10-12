@@ -69,7 +69,7 @@ export default class TelegramMenu extends utils.Adapter {
             token,
             dataObject,
             checkboxes,
-        } = getConfigVariables(this.config);
+        } = getConfigVariables(this.config, adapter);
         const {
             telegramBotSendMessageID,
             telegramRequestID,
@@ -93,14 +93,14 @@ export default class TelegramMenu extends utils.Adapter {
             for (const name in nav) {
                 const splittedNavigation = splitNavigation(nav[name]);
                 const newStructure = getNewStructure(splittedNavigation);
-                const generatedActions = generateActions({ action: action?.[name], userObject: newStructure });
+                const generatedActions = generateActions({ adapter, action: action?.[name], userObject: newStructure });
 
                 menuData[name] = newStructure;
                 if (generatedActions) {
                     menuData[name] = generatedActions?.obj;
                     const subscribeForeignStateIds = generatedActions?.ids;
                     if (subscribeForeignStateIds?.length) {
-                        await _subscribeForeignStates(subscribeForeignStateIds);
+                        await _subscribeForeignStates(adapter, subscribeForeignStateIds);
                     }
                 } else {
                     adapter.log.debug('No Actions generated!');
@@ -110,7 +110,7 @@ export default class TelegramMenu extends utils.Adapter {
                 const events = dataObject.action?.[name]?.events;
                 if (events) {
                     for (const event of events) {
-                        await _subscribeForeignStates(event.ID);
+                        await _subscribeForeignStates(adapter, event.ID);
                     }
                 }
                 adapter.log.debug(`Menu: ${name}`);
@@ -182,7 +182,7 @@ export default class TelegramMenu extends utils.Adapter {
                 }
 
                 if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
-                    await saveMessageIds(state, instance);
+                    await saveMessageIds(adapter, state, instance);
                 } else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
                     const value = state.val.toString();
 

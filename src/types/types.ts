@@ -240,6 +240,7 @@ export interface ProcessDataType {
     userToSend: string;
     telegramParams: TelegramParams;
     instance: string;
+    adapter: Adapter;
 }
 
 export interface BackMenuType {
@@ -257,6 +258,7 @@ export interface TelegramParams {
     resize_keyboard: boolean;
     one_time_keyboard: boolean;
     userListWithChatID: UserListWithChatID[];
+    adapter: Adapter;
 }
 
 export interface SetMenuValue {
@@ -271,6 +273,7 @@ export interface CreateMenu {
     cbData: string;
     menuToHandle: string;
     text?: string;
+    adapter: Adapter;
 }
 
 export interface ExchangeValueReturn {
@@ -351,4 +354,5 @@ export interface CallSubMenu {
     allMenusWithData: AllMenusWithData;
     menus: string[];
     instance: string;
+    adapter: Adapter;
 }
