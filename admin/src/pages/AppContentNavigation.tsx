@@ -57,7 +57,7 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                             </button>
                         ))}
                     </div>
-                    Testing
+
                     <div className={'flex items-center '}>
                         <button
                             key={'description'}
