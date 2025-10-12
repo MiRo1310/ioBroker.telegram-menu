@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {extractTimeValues, getTimeWithPad, integrateTimeIntoText, toLocaleDate} from '../../src/lib/time';
-import {config} from '../../src/config/config';
+import { expect } from 'chai';
+import { extractTimeValues, getTimeWithPad, integrateTimeIntoText, toLocaleDate } from '@b/lib/time';
+import { config } from '@b/config/config';
 
 describe('Time', () => {
     const testDate = new Date(1744388803096);
@@ -8,8 +8,8 @@ describe('Time', () => {
 
     // FIXME : Test gets error Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves.
     it('Should return a correct formatted date', function () {
-        this.timeout(10000)
-             const result = toLocaleDate(testDate, {locale:'de-DE', tz:'Europe/Berlin'});
+        this.timeout(10000);
+        const result = toLocaleDate(testDate, { locale: 'de-DE', tz: 'Europe/Berlin' });
         expect(result).to.equal(expectedDate);
     });
 
@@ -80,7 +80,7 @@ describe('extractTimeValues', () => {
     });
 
     it('should return NaN for all values if the timestamp is invalid', () => {
-         const result = extractTimeValues(NaN);
+        const result = extractTimeValues(NaN);
         expect(result).to.deep.equal({
             milliseconds: NaN,
             seconds: NaN,

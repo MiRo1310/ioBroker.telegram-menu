@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } from '../../src/lib/utils';
+import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } from '@b/lib/utils';
 
 import { utils } from '@iobroker/testing';
 import { UserListWithChatID } from '@/types/app';

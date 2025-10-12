@@ -49,6 +49,7 @@
     "react-dom": "^19.0.0",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   },
   "main": "build/main.js",
@@ -70,9 +71,9 @@
     "prebuild:react": "rimraf admin/build",
     "build:react": "build-adapter react",
     "watch:react": "build-adapter react --watch",
-    "test:js": "mocha -r ts-node/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
-    "test:package": "mocha test/package --exit",       
-    "test:integration": "mocha -r ts-node/register test/integration.ts --exit",     
+    "test:js": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha -r ts-node/register test/integration.ts --exit",
     "test": "npm run test:js && npm run test:package",
     "test:cov": "nyc --reporter=html npm run test:js",
     "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
@@ -89,5 +90,5 @@
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
   },
-  "readmeFilename": "README.md"  
+  "readmeFilename": "README.md"
 }
