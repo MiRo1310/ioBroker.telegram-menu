@@ -5,7 +5,15 @@
 		"allowJs": false,
 		"checkJs": false,
 		"noEmit": false,
-		"declaration": false
+		"declaration": false,
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": ["admin/src/components/*"],
+			"@/*": ["admin/src/*"],
+            "@b/*": ["src/*"]
+		},
+		"outDir": "./build/",
+		"rootDir": "src"
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": []

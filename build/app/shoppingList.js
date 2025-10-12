@@ -1,100 +1,77 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var shoppingList_exports = {};
-__export(shoppingList_exports, {
-  deleteMessageAndSendNewShoppingList: () => deleteMessageAndSendNewShoppingList,
-  shoppingListSubscribeStateAndDeleteItem: () => shoppingListSubscribeStateAndDeleteItem
-});
-module.exports = __toCommonJS(shoppingList_exports);
-var import_utils = require("@b/lib/utils");
-var import_subscribeStates = require("@b/app/subscribeStates");
-var import_setstate = require("@b/app/setstate");
-var import_telegram = require("@b/app/telegram");
-var import_logging = require("@b/app/logging");
-var import_messageIds = require("@b/app/messageIds");
-var import_string = require("@b/lib/string");
-var import_jsonTable = require("@b/app/jsonTable");
-var import_json = require("@b/lib/json");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.shoppingListSubscribeStateAndDeleteItem = shoppingListSubscribeStateAndDeleteItem;
+exports.deleteMessageAndSendNewShoppingList = deleteMessageAndSendNewShoppingList;
+const utils_1 = require("../lib/utils");
+const subscribeStates_1 = require("../app/subscribeStates");
+const setstate_1 = require("../app/setstate");
+const telegram_1 = require("../app/telegram");
+const logging_1 = require("../app/logging");
+const messageIds_1 = require("../app/messageIds");
+const string_1 = require("../lib/string");
+const jsonTable_1 = require("../app/jsonTable");
+const json_1 = require("../lib/json");
 const objData = {};
 let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, telegramParams) {
-  const adapter = telegramParams.adapter;
-  try {
-    let array, user, idList, instance, idItem, res;
-    if ((0, import_utils.isDefined)(val)) {
-      array = val.split(":");
-      user = array[0].replace("[", "").replace("]sList", "");
-      idList = array[1];
-      instance = array[2];
-      idItem = array[3];
-      res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
-      if (res) {
-        objData[user] = { idList };
-        adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
-        if (!isSubscribed) {
-          await (0, import_subscribeStates._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
-          isSubscribed = true;
+    const adapter = telegramParams.adapter;
+    try {
+        let array, user, idList, instance, idItem, res;
+        if ((0, utils_1.isDefined)(val)) {
+            array = val.split(':');
+            user = array[0].replace('[', '').replace(']sList', '');
+            idList = array[1];
+            instance = array[2];
+            idItem = array[3];
+            res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+            if (res) {
+                objData[user] = { idList: idList };
+                adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
+                if (!isSubscribed) {
+                    await (0, subscribeStates_1._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
+                    isSubscribed = true;
+                }
+                await (0, setstate_1.setstateIobroker)({
+                    adapter,
+                    id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+                    value: true,
+                    ack: false,
+                });
+                return;
+            }
+            await (0, telegram_1.sendToTelegram)({
+                instance: telegramInstance,
+                userToSend: user,
+                textToSend: 'Cannot delete the Item',
+                telegramParams,
+                parse_mode: true,
+            });
+            adapter.log.debug('Cannot delete the Item');
         }
-        await (0, import_setstate.setstateIobroker)({
-          adapter,
-          id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
-          value: true,
-          ack: false
-        });
-        return;
-      }
-      await (0, import_telegram.sendToTelegram)({
-        instance: telegramInstance,
-        userToSend: user,
-        textToSend: "Cannot delete the Item",
-        telegramParams,
-        parse_mode: true
-      });
-      adapter.log.debug("Cannot delete the Item");
     }
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error shoppingList:", e, adapter);
-  }
+    catch (e) {
+        (0, logging_1.errorLogger)('Error shoppingList:', e, adapter);
+    }
 }
 async function deleteMessageAndSendNewShoppingList(instance, telegramParams, userToSend) {
-  const adapter = telegramParams.adapter;
-  try {
-    const user = userToSend;
-    const idList = objData[user].idList;
-    await (0, import_subscribeStates._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
-    await (0, import_messageIds.deleteMessageIds)(instance, user, telegramParams, "last");
-    const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
-    if (result == null ? void 0 : result.val) {
-      adapter.log.debug(`Result from Shoppinglist : ${(0, import_string.jsonString)(result)}`);
-      const newId = `alexa-shoppinglist.${idList}`;
-      const resultJson = (0, import_jsonTable.createKeyboardFromJson)(adapter, (0, import_json.toJson)(result.val), null, newId, user);
-      if ((resultJson == null ? void 0 : resultJson.text) && (resultJson == null ? void 0 : resultJson.keyboard)) {
-        (0, import_telegram.sendToTelegramSubmenu)(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
-      }
+    const adapter = telegramParams.adapter;
+    try {
+        const user = userToSend;
+        const idList = objData[user].idList;
+        await (0, subscribeStates_1._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
+        await (0, messageIds_1.deleteMessageIds)(instance, user, telegramParams, 'last');
+        const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
+        if (result?.val) {
+            adapter.log.debug(`Result from Shoppinglist : ${(0, string_1.jsonString)(result)}`);
+            const newId = `alexa-shoppinglist.${idList}`;
+            const resultJson = (0, jsonTable_1.createKeyboardFromJson)(adapter, (0, json_1.toJson)(result.val), null, newId, user);
+            if (resultJson?.text && resultJson?.keyboard) {
+                (0, telegram_1.sendToTelegramSubmenu)(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
+            }
+        }
     }
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error deleteMessageAndSendNewShoppingList", e, adapter);
-  }
+    catch (e) {
+        (0, logging_1.errorLogger)('Error deleteMessageAndSendNewShoppingList', e, adapter);
+    }
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  deleteMessageAndSendNewShoppingList,
-  shoppingListSubscribeStateAndDeleteItem
-});
 //# sourceMappingURL=shoppingList.js.map

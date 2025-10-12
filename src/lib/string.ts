@@ -1,7 +1,7 @@
 import type { BooleanString } from '@/types/app';
 import { errorLogger } from '@b/app/logging';
 import type { Adapter, DecomposeTextReturnType, StringReplacerObj } from '@b/types/types';
-import { isTruthy } from '@/lib/string';
+import { isTruthy } from '@b/lib/utils';
 
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 

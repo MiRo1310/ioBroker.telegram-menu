@@ -1,40 +1,16 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var subscribeStates_exports = {};
-__export(subscribeStates_exports, {
-  _subscribeForeignStates: () => _subscribeForeignStates
-});
-module.exports = __toCommonJS(subscribeStates_exports);
-var import_object = require("../lib/object");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports._subscribeForeignStates = _subscribeForeignStates;
+const object_1 = require("../lib/object");
 async function _subscribeForeignStates(adapter, val) {
-  if (typeof val === "string") {
-    adapter.log.debug(`Subscribe to ${val}`);
-    await adapter.subscribeForeignStatesAsync(val);
-    return;
-  }
-  const array = (0, import_object.removeDuplicates)(val);
-  for (const id of array) {
-    await adapter.subscribeForeignStatesAsync(id);
-  }
+    if (typeof val === 'string') {
+        adapter.log.debug(`Subscribe to ${val}`);
+        await adapter.subscribeForeignStatesAsync(val);
+        return;
+    }
+    const array = (0, object_1.removeDuplicates)(val);
+    for (const id of array) {
+        await adapter.subscribeForeignStatesAsync(id);
+    }
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  _subscribeForeignStates
-});
 //# sourceMappingURL=subscribeStates.js.map

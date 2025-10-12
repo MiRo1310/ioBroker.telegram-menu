@@ -1,7 +1,1 @@
-{
-  "version": 3,
-  "sources": ["../../src/app/setStateIdsToListenTo.ts"],
-  "sourcesContent": ["import type { Adapter, SetStateIds } from '@b/types/types';\nimport { _subscribeForeignStates } from '@b/app/subscribeStates';\nimport { setStateIdsToIdArray } from '@b/lib/object';\n\nconst setStateIdsToListenTo: SetStateIds[] = [];\n\nexport function getStateIdsToListenTo(): SetStateIds[] {\n    return setStateIdsToListenTo;\n}\n\nexport async function addSetStateIds(adapter: Adapter, setStateId: SetStateIds): Promise<void> {\n    if (!setStateIdsToListenTo.find(list => list.id === setStateId.id)) {\n        setStateIdsToListenTo.push(setStateId);\n\n        await _subscribeForeignStates(adapter, setStateIdsToIdArray([setStateId]));\n    }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,6BAAwC;AACxC,oBAAqC;AAErC,MAAM,wBAAuC,CAAC;AAEvC,SAAS,wBAAuC;AACnD,SAAO;AACX;AAEA,eAAsB,eAAe,SAAkB,YAAwC;AAC3F,MAAI,CAAC,sBAAsB,KAAK,UAAQ,KAAK,OAAO,WAAW,EAAE,GAAG;AAChE,0BAAsB,KAAK,UAAU;AAErC,cAAM,gDAAwB,aAAS,oCAAqB,CAAC,UAAU,CAAC,CAAC;AAAA,EAC7E;AACJ;",
-  "names": []
-}
+{"version":3,"file":"setStateIdsToListenTo.js","sourceRoot":"","sources":["../../src/app/setStateIdsToListenTo.ts"],"names":[],"mappings":";;AAMA,sDAEC;AAED,wCAMC;AAfD,4DAAiE;AACjE,0CAAqD;AAErD,MAAM,qBAAqB,GAAkB,EAAE,CAAC;AAEhD,SAAgB,qBAAqB;IACjC,OAAO,qBAAqB,CAAC;AACjC,CAAC;AAEM,KAAK,UAAU,cAAc,CAAC,OAAgB,EAAE,UAAuB;IAC1E,IAAI,CAAC,qBAAqB,CAAC,IAAI,CAAC,IAAI,CAAC,EAAE,CAAC,IAAI,CAAC,EAAE,KAAK,UAAU,CAAC,EAAE,CAAC,EAAE,CAAC;QACjE,qBAAqB,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;QAEvC,MAAM,IAAA,yCAAuB,EAAC,OAAO,EAAE,IAAA,6BAAoB,EAAC,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC;IAC/E,CAAC;AACL,CAAC"}

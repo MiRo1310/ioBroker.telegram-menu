@@ -1,49 +1,26 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var sendNav_exports = {};
-__export(sendNav_exports, {
-  sendNav: () => sendNav
-});
-module.exports = __toCommonJS(sendNav_exports);
-var import_utilities = require("@b/lib/utilities");
-var import_telegram = require("@b/app/telegram");
-var import_logging = require("@b/app/logging");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendNav = sendNav;
+const utilities_1 = require("../lib/utilities");
+const telegram_1 = require("../app/telegram");
+const logging_1 = require("../app/logging");
 async function sendNav(adapter, instance, part, userToSend, telegramParams) {
-  try {
-    if (userToSend) {
-      const { nav: keyboard, text, parse_mode } = part;
-      const textToSend = await (0, import_utilities.textModifier)(adapter, text != null ? text : "");
-      await (0, import_telegram.sendToTelegram)({
-        instance,
-        userToSend,
-        textToSend,
-        keyboard,
-        telegramParams,
-        parse_mode
-      });
+    try {
+        if (userToSend) {
+            const { nav: keyboard, text, parse_mode } = part;
+            const textToSend = await (0, utilities_1.textModifier)(adapter, text ?? '');
+            await (0, telegram_1.sendToTelegram)({
+                instance,
+                userToSend,
+                textToSend,
+                keyboard,
+                telegramParams,
+                parse_mode,
+            });
+        }
     }
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error sendNav:", e, adapter);
-  }
+    catch (e) {
+        (0, logging_1.errorLogger)('Error sendNav:', e, adapter);
+    }
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  sendNav
-});
 //# sourceMappingURL=sendNav.js.map

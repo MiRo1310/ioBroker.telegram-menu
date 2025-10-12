@@ -1,68 +1,51 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var dynamicSwitchMenu_exports = {};
-__export(dynamicSwitchMenu_exports, {
-  createDynamicSwitchMenu: () => createDynamicSwitchMenu
-});
-module.exports = __toCommonJS(dynamicSwitchMenu_exports);
-var import_utilities = require("@b/lib/utilities");
-var import_logging = require("@b/app/logging");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createDynamicSwitchMenu = createDynamicSwitchMenu;
+const utilities_1 = require("../lib/utilities");
+const logging_1 = require("../app/logging");
 async function createDynamicSwitchMenu(adapter, calledValue, device, text) {
-  try {
-    const changedCalledValue = await (0, import_utilities.textModifier)(adapter, calledValue);
-    const splittedArray = changedCalledValue == null ? void 0 : changedCalledValue.replace(/"/g, "").split(":");
-    if (!splittedArray) {
-      return;
-    }
-    device = splittedArray[2];
-    const arrayOfValues = splittedArray[1].replace("dynSwitch", "").replace(/\]/g, "").replace(/\[/g, "").split(",");
-    const lengthOfRow = parseInt(splittedArray[3]) || 6;
-    const array = [];
-    const keyboard = { inline_keyboard: array };
-    if (arrayOfValues) {
-      let keyboardItemsArray = [];
-      arrayOfValues.forEach((value, index) => {
-        if (value.includes("|")) {
-          const splittedValue = value.split("|");
-          keyboardItemsArray.push({
-            text: splittedValue[0],
-            callback_data: `menu:dynS:${device}:${splittedValue[1]}`
-          });
-        } else {
-          keyboardItemsArray.push({
-            text: value,
-            callback_data: `menu:dynS:${device}:${value}`
-          });
+    try {
+        const changedCalledValue = await (0, utilities_1.textModifier)(adapter, calledValue);
+        const splittedArray = changedCalledValue?.replace(/"/g, '').split(':');
+        if (!splittedArray) {
+            return;
         }
-        if ((index + 1) % lengthOfRow == 0 && index != 0 && arrayOfValues.length > 0 || index + 1 == arrayOfValues.length) {
-          keyboard.inline_keyboard.push(keyboardItemsArray);
-          keyboardItemsArray = [];
+        device = splittedArray[2];
+        const arrayOfValues = splittedArray[1]
+            .replace('dynSwitch', '')
+            .replace(/\]/g, '')
+            .replace(/\[/g, '')
+            .split(',');
+        const lengthOfRow = parseInt(splittedArray[3]) || 6;
+        const array = [];
+        const keyboard = { inline_keyboard: array };
+        if (arrayOfValues) {
+            let keyboardItemsArray = [];
+            arrayOfValues.forEach((value, index) => {
+                if (value.includes('|')) {
+                    const splittedValue = value.split('|');
+                    keyboardItemsArray.push({
+                        text: splittedValue[0],
+                        callback_data: `menu:dynS:${device}:${splittedValue[1]}`,
+                    });
+                }
+                else {
+                    keyboardItemsArray.push({
+                        text: value,
+                        callback_data: `menu:dynS:${device}:${value}`,
+                    });
+                }
+                if (((index + 1) % lengthOfRow == 0 && index != 0 && arrayOfValues.length > 0) ||
+                    index + 1 == arrayOfValues.length) {
+                    keyboard.inline_keyboard.push(keyboardItemsArray);
+                    keyboardItemsArray = [];
+                }
+            });
+            return { text, keyboard, device };
         }
-      });
-      return { text, keyboard, device };
     }
-  } catch (e) {
-    (0, import_logging.errorLogger)("Error parsing dynSwitch:", e, adapter);
-  }
+    catch (e) {
+        (0, logging_1.errorLogger)('Error parsing dynSwitch:', e, adapter);
+    }
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  createDynamicSwitchMenu
-});
 //# sourceMappingURL=dynamicSwitchMenu.js.map

@@ -1,7 +1,1 @@
-{
-  "version": 3,
-  "sources": ["../../src/app/subscribeStates.ts"],
-  "sourcesContent": ["import { removeDuplicates } from '../lib/object';\nimport type { Adapter } from '@b/types/types';\n\nexport async function _subscribeForeignStates(adapter: Adapter, val: string | string[]): Promise<void> {\n    if (typeof val === 'string') {\n        adapter.log.debug(`Subscribe to ${val}`);\n        await adapter.subscribeForeignStatesAsync(val);\n        return;\n    }\n\n    const array = removeDuplicates(val);\n    for (const id of array) {\n        await adapter.subscribeForeignStatesAsync(id);\n    }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAiC;AAGjC,eAAsB,wBAAwB,SAAkB,KAAuC;AACnG,MAAI,OAAO,QAAQ,UAAU;AACzB,YAAQ,IAAI,MAAM,gBAAgB,GAAG,EAAE;AACvC,UAAM,QAAQ,4BAA4B,GAAG;AAC7C;AAAA,EACJ;AAEA,QAAM,YAAQ,gCAAiB,GAAG;AAClC,aAAW,MAAM,OAAO;AACpB,UAAM,QAAQ,4BAA4B,EAAE;AAAA,EAChD;AACJ;",
-  "names": []
-}
+{"version":3,"file":"subscribeStates.js","sourceRoot":"","sources":["../../src/app/subscribeStates.ts"],"names":[],"mappings":";;AAGA,0DAWC;AAdD,0CAAiD;AAG1C,KAAK,UAAU,uBAAuB,CAAC,OAAgB,EAAE,GAAsB;IAClF,IAAI,OAAO,GAAG,KAAK,QAAQ,EAAE,CAAC;QAC1B,OAAO,CAAC,GAAG,CAAC,KAAK,CAAC,gBAAgB,GAAG,EAAE,CAAC,CAAC;QACzC,MAAM,OAAO,CAAC,2BAA2B,CAAC,GAAG,CAAC,CAAC;QAC/C,OAAO;IACX,CAAC;IAED,MAAM,KAAK,GAAG,IAAA,yBAAgB,EAAC,GAAG,CAAC,CAAC;IACpC,KAAK,MAAM,EAAE,IAAI,KAAK,EAAE,CAAC;QACrB,MAAM,OAAO,CAAC,2BAA2B,CAAC,EAAE,CAAC,CAAC;IAClD,CAAC;AACL,CAAC"}
