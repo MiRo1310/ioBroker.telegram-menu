@@ -7,8 +7,7 @@
 		"noEmit": false,
 		"declaration": false
 	},
-	"include": ["src/**/*.ts",
-		"test/test/*.ts"
+	"include": ["src/**/*.ts"	
 	],
 	"exclude": []
 }

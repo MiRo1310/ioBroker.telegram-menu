@@ -11,11 +11,11 @@ import {
     roundValue,
     splitNavigation,
     statusIdAndParams,
-} from '../../src/lib/appUtils'; // Adjust the path as needed
+} from '@b/lib/appUtils'; // Adjust the path as needed
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '../../src/types/types';
-import { exchangePlaceholderWithValue } from '../../src/lib/exchangeValue';
+import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '@b/types/types';
+import { exchangePlaceholderWithValue } from '@b/lib/exchangeValue';
 import { BooleanString, UsersInGroup } from '@/types/app'; // Adjust the path as needed
 
 // Adjust the path as needed
