@@ -35,7 +35,7 @@ async function sendToTelegram({
             return;
         }
         adapter.log.debug(
-            `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , userListWithChatID: ${jsonString(userListWithChatID)} , parseMode: ${parse_mode} }`,
+            `Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , parseMode: ${parse_mode} }`,
         );
         validateTextToSend(adapter, textToSend);
 

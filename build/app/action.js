@@ -162,9 +162,10 @@ const handleEvent = async (adapter, instance, dataObject, id, state, menuData, t
     }
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav];
-        const menuValue = usersInGroup[menu];
-        if (menuValue && part) {
-            for (const user of menuValue) {
+        const users = usersInGroup[menu];
+        if (users && part) {
+            adapter.log.debug(`Users ${JSON.stringify(users)}`);
+            for (const user of users) {
                 const menus = Object.keys(menuData);
                 if (part.nav) {
                     (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
@@ -182,6 +183,7 @@ const handleEvent = async (adapter, instance, dataObject, id, state, menuData, t
                     });
                     return true;
                 }
+                adapter.log.debug(`User ${JSON.stringify(user)}`);
                 await (0, sendNav_1.sendNav)(adapter, instance, part, user.name, telegramParams);
             }
         }
