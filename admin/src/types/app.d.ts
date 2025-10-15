@@ -1,7 +1,7 @@
 import type { HelperText } from '@/config/helper';
 import type { SaveDataObject } from '@/pages/AppContentTabActionContentRowEditorCopyModalSelectedValues';
 import type { EventButton, EventCheckbox, EventTextarea } from '@/types/event';
-import type { TelegramMenuApp } from '@/types/props-types.js';
+import type { TelegramMenuApp } from '@/types/props-types';
 import type { EventSelect } from '@components/btn-Input/select';
 import type { AdminConnection } from '@iobroker/adapter-react-v5';
 
