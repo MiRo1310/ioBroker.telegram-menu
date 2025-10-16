@@ -7,31 +7,31 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from './app/action';
-import { _subscribeForeignStates } from './app/subscribeStates';
-import { sendToTelegram } from './app/telegram';
-import { createState } from './app/createState';
-import { saveMessageIds } from './app/messageIds';
-import { adapterStartMenuSend } from './app/adapterStartMenuSend';
-import { checkEveryMenuForData, getTimeouts } from './app/processData';
-import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from './app/shoppingList';
-import { errorLogger } from './app/logging';
-import type { Adapter, MenuData, SetStateIds, TelegramParams } from './types/types';
-import { areAllCheckTelegramInstancesActive } from './app/connection';
-import { decomposeText, isString, jsonString } from './lib/string';
-import { isDefined, isFalsy, isTruthy } from './lib/utils';
+import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from '@b/app/action';
+import { _subscribeForeignStates } from '@b/app/subscribeStates';
+import { sendToTelegram } from '@b/app/telegram';
+import { createState } from '@b/app/createState';
+import { saveMessageIds } from '@b/app/messageIds';
+import { adapterStartMenuSend } from '@b/app/adapterStartMenuSend';
+import { checkEveryMenuForData, getTimeouts } from '@b/app/processData';
+import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from '@b/app/shoppingList';
+import { errorLogger } from '@b/app/logging';
+import type { Adapter, MenuData, SetStateIds, TelegramParams } from '@b/types/types';
+import { areAllCheckTelegramInstancesActive } from '@b/app/connection';
+import { decomposeText, isString, jsonString } from '@b/lib/string';
+import { isDefined, isFalsy, isTruthy } from '@b/lib/utils';
 import {
     getInstanceById,
     getListOfMenusIncludingUser,
     getNewStructure,
     getStartSides,
     splitNavigation,
-} from './lib/appUtils';
-import { getConfigVariables, getIds } from './app/configVariables';
-import { getStateIdsToListenTo } from './app/setStateIdsToListenTo';
+} from '@b/lib/appUtils';
+import { getConfigVariables, getIds } from '@b/app/configVariables';
+import { getStateIdsToListenTo } from '@b/app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
-import { exchangePlaceholderWithValue, exchangeValue } from './lib/exchangeValue';
-import { getInstancesFromEventsById } from './app/events';
+import { exchangePlaceholderWithValue, exchangeValue } from '@b/lib/exchangeValue';
+import { getInstancesFromEventsById } from '@b/app/events';
 
 const timeoutKey = '0';
 export let adapter: Adapter;
@@ -69,7 +69,7 @@ export default class TelegramMenu extends utils.Adapter {
             token,
             dataObject,
             checkboxes,
-        } = getConfigVariables(this.config);
+        } = getConfigVariables(this.config, adapter);
         const {
             telegramBotSendMessageID,
             telegramRequestID,
@@ -93,14 +93,14 @@ export default class TelegramMenu extends utils.Adapter {
             for (const name in nav) {
                 const splittedNavigation = splitNavigation(nav[name]);
                 const newStructure = getNewStructure(splittedNavigation);
-                const generatedActions = generateActions({ action: action?.[name], userObject: newStructure });
+                const generatedActions = generateActions({ adapter, action: action?.[name], userObject: newStructure });
 
                 menuData[name] = newStructure;
                 if (generatedActions) {
                     menuData[name] = generatedActions?.obj;
                     const subscribeForeignStateIds = generatedActions?.ids;
                     if (subscribeForeignStateIds?.length) {
-                        await _subscribeForeignStates(subscribeForeignStateIds);
+                        await _subscribeForeignStates(adapter, subscribeForeignStateIds);
                     }
                 } else {
                     adapter.log.debug('No Actions generated!');
@@ -110,7 +110,7 @@ export default class TelegramMenu extends utils.Adapter {
                 const events = dataObject.action?.[name]?.events;
                 if (events) {
                     for (const event of events) {
-                        await _subscribeForeignStates(event.ID);
+                        await _subscribeForeignStates(adapter, event.ID);
                     }
                 }
                 adapter.log.debug(`Menu: ${name}`);
@@ -136,24 +136,10 @@ export default class TelegramMenu extends utils.Adapter {
                 const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
                 const instance = await this.checkInfoConnection(id, telegramParams);
 
-                const { isEvent, eventInstanceList } = getInstancesFromEventsById(
-                    dataObject.action,
-                    id,
-                    menusWithUsers,
-                );
-
+                const { isEvent, eventUserList } = getInstancesFromEventsById(dataObject.action, id, menusWithUsers);
                 if (isEvent && state) {
-                    for (const e of eventInstanceList) {
-                        await handleEvent(
-                            adapter,
-                            e.instance,
-                            dataObject,
-                            id,
-                            state,
-                            menuData,
-                            telegramParams,
-                            menusWithUsers,
-                        );
+                    for (const user of eventUserList) {
+                        await handleEvent(adapter, user, dataObject, id, state, menuData, telegramParams);
                     }
                 }
 
@@ -182,7 +168,7 @@ export default class TelegramMenu extends utils.Adapter {
                 }
 
                 if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
-                    await saveMessageIds(state, instance);
+                    await saveMessageIds(adapter, state, instance);
                 } else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
                     const value = state.val.toString();
 

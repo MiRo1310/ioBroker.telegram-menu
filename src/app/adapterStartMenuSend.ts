@@ -1,10 +1,9 @@
-import { sendToTelegram } from './telegram';
-import { backMenuFunc } from './backMenu';
-import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '../types/types';
-import { adapter } from '../main';
-import { jsonString } from '../lib/string';
-import { isStartside } from '../lib/appUtils';
-import type { UserActiveCheckbox, UserListWithChatID, MenusWithUsers, UserType } from '@/types/app';
+import type { MenusWithUsers, UserActiveCheckbox, UserListWithChatID, UserType } from '@/types/app';
+import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '@b/types/types';
+import { isStartside } from '@b/lib/appUtils';
+import { backMenuFunc } from '@b/app/backMenu';
+import { jsonString } from '@b/lib/string';
+import { sendToTelegram } from '@b/app/telegram';
 
 function isUserActive(telegramParams: TelegramParams, userToSend: UserType): UserListWithChatID | undefined {
     return telegramParams.userListWithChatID.find(
@@ -20,6 +19,7 @@ export async function adapterStartMenuSend(
     menuData: MenuData,
     telegramParams: TelegramParams,
 ): Promise<void> {
+    const adapter = telegramParams.adapter;
     for (const menu of listOfMenus) {
         const startSide = startSides[menu];
 

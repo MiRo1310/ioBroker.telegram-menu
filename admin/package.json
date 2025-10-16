@@ -56,9 +56,7 @@
     "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "prettier": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"admin/src/**/*.ts\" \"admin/src/**/*.tsx\"",
     "checker": "node skript.mjs",
-    "dev": " dev-server run",
-    "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))",
-    "force": "git push --force-with-lease"
+    "dev": " dev-server run"   
   },
   "bugs": {
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"

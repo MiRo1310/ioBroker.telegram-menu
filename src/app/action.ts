@@ -1,11 +1,3 @@
-import { sendToTelegram } from './telegram';
-import { callSubMenu } from './subMenu';
-import { sendNav } from './sendNav';
-import { backMenuFunc } from './backMenu';
-import { errorLogger } from './logging';
-
-import { adapter } from '../main';
-
 import type {
     Actions,
     Adapter,
@@ -18,15 +10,21 @@ import type {
     Switch,
     TelegramParams,
     UserObjectActions,
-} from '../types/types';
-import { decomposeText } from '../lib/string';
-import { isTruthy } from '../lib/utils';
-import { evaluate } from '../lib/math';
-import { arrayOfEntries, config } from '../config/config';
-import { getBindingValues } from '../lib/splitValues';
-import type { TriggerableActions, UserListWithChatID, MenusWithUsers } from '@/types/app';
+} from '@b/types/types';
+import { decomposeText } from '@b/lib/string';
+import { arrayOfEntries, config } from '@b/config/config';
+import { getBindingValues } from '@b/lib/splitValues';
+import { evaluate } from '@b/lib/math';
+import { sendToTelegram } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
+import { isTruthy } from '@b/lib/utils';
+import type { TriggerableActions, UserListWithChatID, UserType } from '@/types/app';
+import { backMenuFunc } from '@b/app/backMenu';
+import { callSubMenu } from '@b/app/subMenu';
+import { sendNav } from '@b/app/sendNav';
 
 export const bindingFunc = async (
+    adapter: Adapter,
     instance: string,
     text: string,
     userToSend: string,
@@ -76,9 +74,11 @@ export const bindingFunc = async (
 export function generateActions({
     action,
     userObject,
+    adapter,
 }: {
     action?: Actions;
     userObject: NewObjectStructure;
+    adapter: Adapter;
 }): { obj: NewObjectStructure; ids: string[] } | undefined {
     try {
         const listOfSetStateIds: string[] = [];
@@ -149,7 +149,11 @@ export function generateActions({
     }
 }
 
-export const adjustValueType = (value: keyof NewObjectStructure, valueType: string): boolean | string | number => {
+export const adjustValueType = (
+    adapter: Adapter,
+    value: keyof NewObjectStructure,
+    valueType: string,
+): boolean | string | number => {
     if (valueType == 'number') {
         if (!parseFloat(value)) {
             adapter.log.error(`Error: Value is not a number: ${value}`);
@@ -175,25 +179,25 @@ const toBoolean = (value: string): boolean | null => {
 
 export const handleEvent = async (
     adapter: Adapter,
-    instance: string,
+    user: UserType,
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
     menuData: MenuData,
     telegramParams: TelegramParams,
-    usersInGroup: MenusWithUsers,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
     let ok = false;
     let calledNav = '';
 
-    if (!dataObject.action) {
+    const action = dataObject.action;
+    if (!action) {
         return false;
     }
 
-    Object.keys(dataObject.action).forEach(menu => {
-        if (dataObject.action?.[menu]?.events) {
-            dataObject.action[menu]?.events.forEach(event => {
+    Object.keys(action).forEach(menu => {
+        if (action?.[menu]?.events) {
+            action[menu]?.events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     const condition = event.condition[0];
                     const bool = toBoolean(condition);
@@ -218,30 +222,28 @@ export const handleEvent = async (
 
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav as keyof DataObject];
-        const menuValue = usersInGroup[menu];
-        if (menuValue && part) {
-            for (const user of menuValue) {
-                const menus = Object.keys(menuData);
 
-                if (part.nav) {
-                    backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
-                }
+        const menus = Object.keys(menuData);
 
-                if (part?.nav?.[0][0].includes('menu:')) {
-                    await callSubMenu({
-                        instance,
-                        jsonStringNav: part.nav[0][0],
-                        userToSend: user.name,
-                        telegramParams: telegramParams,
-                        part,
-                        allMenusWithData: menuData,
-                        menus,
-                    });
-                    return true;
-                }
-                await sendNav(adapter, instance, part, user.name, telegramParams);
-            }
+        if (part.nav) {
+            backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
         }
+
+        if (part?.nav?.[0][0].includes('menu:')) {
+            await callSubMenu({
+                adapter,
+                instance: user.instance,
+                jsonStringNav: part.nav[0][0],
+                userToSend: user.name,
+                telegramParams: telegramParams,
+                part,
+                allMenusWithData: menuData,
+                menus,
+            });
+            return true;
+        }
+
+        await sendNav(adapter, user.instance, part, user.name, telegramParams);
     }
     return true;
 };

@@ -1,63 +1,35 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var splitValues_exports = {};
-__export(splitValues_exports, {
-  getBindingValues: () => getBindingValues,
-  getEchartsValues: () => getEchartsValues,
-  getMenuValues: () => getMenuValues,
-  getProcessTimeValues: () => getProcessTimeValues,
-  getSubmenuNumberValues: () => getSubmenuNumberValues
-});
-module.exports = __toCommonJS(splitValues_exports);
-var import_string = require("./string");
-var import_appUtils = require("./appUtils");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getEchartsValues = exports.getSubmenuNumberValues = exports.getMenuValues = void 0;
+exports.getProcessTimeValues = getProcessTimeValues;
+exports.getBindingValues = getBindingValues;
+const appUtils_1 = require("../lib/appUtils");
+const string_1 = require("../lib/string");
 const getMenuValues = (str) => {
-  const splitText = str.split(":");
-  return { cbData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
+    const splitText = str.split(':');
+    return { cbData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
 };
+exports.getMenuValues = getMenuValues;
 function getProcessTimeValues(substringExcludeSearch) {
-  var _a, _b;
-  const array = substringExcludeSearch.split(",");
-  return {
-    typeofTimestamp: (0, import_appUtils.getTypeofTimestamp)(array[0]),
-    timeString: (_a = array[1]) != null ? _a : "",
-    idString: (0, import_string.replaceAllItems)((_b = array[2]) != null ? _b : "", ["id:", "}", "'"])
-  };
+    const array = substringExcludeSearch.split(','); //["lc","(DD MM YYYY hh:mm:ss:sss)","id:'ID'"]
+    return {
+        typeofTimestamp: (0, appUtils_1.getTypeofTimestamp)(array[0]),
+        timeString: array[1] ?? '',
+        idString: (0, string_1.replaceAllItems)(array[2] ?? '', ['id:', '}', "'"]),
+    };
 }
 function getBindingValues(item) {
-  const array = item.split(":");
-  return { key: array[0], id: array[1] };
+    const array = item.split(':');
+    return { key: array[0], id: array[1] };
 }
 const getSubmenuNumberValues = (str) => {
-  const splitText = str.split(":");
-  return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
+    const splitText = str.split(':'); // submenu:number2-8-1-°C:SetMenuNumber:3
+    return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
 };
+exports.getSubmenuNumberValues = getSubmenuNumberValues;
 const getEchartsValues = (preset) => {
-  const splitPreset = preset.split(".");
-  return `${splitPreset[0]}.${splitPreset[1]}`;
+    const splitPreset = preset.split('.');
+    return `${splitPreset[0]}.${splitPreset[1]}`;
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  getBindingValues,
-  getEchartsValues,
-  getMenuValues,
-  getProcessTimeValues,
-  getSubmenuNumberValues
-});
+exports.getEchartsValues = getEchartsValues;
 //# sourceMappingURL=splitValues.js.map

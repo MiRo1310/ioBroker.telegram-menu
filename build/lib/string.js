@@ -1,135 +1,102 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var string_exports = {};
-__export(string_exports, {
-  cleanUpString: () => cleanUpString,
-  decomposeText: () => decomposeText,
-  getNewline: () => getNewline,
-  isBooleanString: () => isBooleanString,
-  isEmptyString: () => isEmptyString,
-  isNonEmptyString: () => isNonEmptyString,
-  isString: () => isString,
-  jsonString: () => jsonString,
-  pad: () => pad,
-  parseJSON: () => parseJSON,
-  removeMultiSpaces: () => removeMultiSpaces,
-  removeQuotes: () => removeQuotes,
-  replaceAll: () => replaceAll,
-  replaceAllItems: () => replaceAllItems,
-  stringReplacer: () => stringReplacer
-});
-module.exports = __toCommonJS(string_exports);
-var import_utils = require("./utils");
-var import_logging = require("../app/logging");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.parseJSON = parseJSON;
+exports.decomposeText = decomposeText;
+exports.stringReplacer = stringReplacer;
+exports.getNewline = getNewline;
+exports.isBooleanString = isBooleanString;
+const logging_1 = require("../app/logging");
+const utils_1 = require("../lib/utils");
 const jsonString = (val) => JSON.stringify(val);
+exports.jsonString = jsonString;
 function parseJSON(val, adapter) {
-  try {
-    return { json: JSON.parse(val), isValidJson: true };
-  } catch (e) {
-    if (adapter) {
-      (0, import_logging.errorLogger)("Error parseJSON:", e, adapter);
+    try {
+        return { json: JSON.parse(val), isValidJson: true };
     }
-    return { json: val, isValidJson: false };
-  }
+    catch (e) {
+        if (adapter) {
+            (0, logging_1.errorLogger)('Error parseJSON:', e, adapter);
+        }
+        return { json: val, isValidJson: false };
+    }
 }
 const replaceAll = (text, searchValue, replaceValue) => {
-  const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.replace(new RegExp(escapedSearchValue, "g"), replaceValue);
+    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
+    return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
 };
+exports.replaceAll = replaceAll;
 const replaceAllItems = (text, searched) => {
-  searched.forEach((item) => {
-    if (typeof item === "string") {
-      text = replaceAll(text, item, "");
-    } else {
-      text = replaceAll(text, item.search, item.val);
-    }
-  });
-  return text;
+    searched.forEach(item => {
+        if (typeof item === 'string') {
+            text = (0, exports.replaceAll)(text, item, '');
+        }
+        else {
+            text = (0, exports.replaceAll)(text, item.search, item.val);
+        }
+    });
+    return text;
 };
-const removeQuotes = (text) => text.replace(/['"]/g, "");
-const removeMultiSpaces = (text) => text.replace(/ {2,}/g, " ");
+exports.replaceAllItems = replaceAllItems;
+const removeQuotes = (text) => text.replace(/['"]/g, '');
+exports.removeQuotes = removeQuotes;
+const removeMultiSpaces = (text) => text.replace(/ {2,}/g, ' ');
+exports.removeMultiSpaces = removeMultiSpaces;
 const cleanUpString = (text) => {
-  if (!text) {
-    return "";
-  }
-  return removeMultiSpaces(
-    text.replace(/^['"]|['"]$/g, "").replace(/\\n/g, "\n").replace(/ \\\n/g, "\n").replace(/\\(?!n)/g, "").replace(/\n /g, "\n")
-    // Entferne Leerzeichen vor Zeilenumbrüchen
-  );
+    if (!text) {
+        return '';
+    }
+    return (0, exports.removeMultiSpaces)(text
+        .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
+        .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
+        .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
+        .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+        .replace(/\n /g, '\n'));
 };
+exports.cleanUpString = cleanUpString;
 function decomposeText(text, firstSearch, secondSearch) {
-  const startindex = text.indexOf(firstSearch);
-  const endindex = text.indexOf(secondSearch, startindex);
-  const substring = text.substring(startindex, endindex + secondSearch.length);
-  const substringExcludedSearch = stringReplacer(substring, [firstSearch, secondSearch]);
-  const textWithoutSubstring = text.replace(substring, "").trim();
-  return {
-    startindex,
-    endindex,
-    substring,
-    textExcludeSubstring: textWithoutSubstring,
-    substringExcludeSearch: substringExcludedSearch
-  };
+    const startindex = text.indexOf(firstSearch);
+    const endindex = text.indexOf(secondSearch, startindex);
+    const substring = text.substring(startindex, endindex + secondSearch.length);
+    const substringExcludedSearch = stringReplacer(substring, [firstSearch, secondSearch]);
+    const textWithoutSubstring = text.replace(substring, '').trim();
+    return {
+        startindex,
+        endindex,
+        substring,
+        textExcludeSubstring: textWithoutSubstring,
+        substringExcludeSearch: substringExcludedSearch,
+    };
 }
-const isString = (value) => typeof value === "string";
+const isString = (value) => typeof value === 'string';
+exports.isString = isString;
 function stringReplacer(substring, valueToReplace) {
-  if (typeof valueToReplace[0] === "string") {
-    valueToReplace.forEach((item) => {
-      substring = substring.replace(item, "");
+    if (typeof valueToReplace[0] === 'string') {
+        valueToReplace.forEach(item => {
+            substring = substring.replace(item, '');
+        });
+        return substring;
+    }
+    valueToReplace.forEach(({ val, newValue }) => {
+        substring = substring.replace(val, newValue);
     });
     return substring;
-  }
-  valueToReplace.forEach(({ val, newValue }) => {
-    substring = substring.replace(val, newValue);
-  });
-  return substring;
 }
 const pad = (value, length = 2) => {
-  if (value < 0) {
-    return `-${(value * -1).toString().padStart(length - 1, "0")}`;
-  }
-  return value.toString().padStart(length, "0");
+    if (value < 0) {
+        return `-${(value * -1).toString().padStart(length - 1, '0')}`;
+    }
+    return value.toString().padStart(length, '0');
 };
+exports.pad = pad;
 function getNewline(newline) {
-  return (0, import_utils.isTruthy)(newline) ? "\n" : "";
+    return (0, utils_1.isTruthy)(newline) ? '\n' : '';
 }
 function isBooleanString(str) {
-  return str === "true" || str === "false";
+    return str === 'true' || str === 'false';
 }
-const isNonEmptyString = (str) => str.trim() !== "";
-const isEmptyString = (str) => str.trim() === "";
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  cleanUpString,
-  decomposeText,
-  getNewline,
-  isBooleanString,
-  isEmptyString,
-  isNonEmptyString,
-  isString,
-  jsonString,
-  pad,
-  parseJSON,
-  removeMultiSpaces,
-  removeQuotes,
-  replaceAll,
-  replaceAllItems,
-  stringReplacer
-});
+const isNonEmptyString = (str) => str.trim() !== '';
+exports.isNonEmptyString = isNonEmptyString;
+const isEmptyString = (str) => str.trim() === '';
+exports.isEmptyString = isEmptyString;
 //# sourceMappingURL=string.js.map

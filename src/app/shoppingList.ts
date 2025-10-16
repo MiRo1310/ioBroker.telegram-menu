@@ -1,14 +1,13 @@
-import { deleteMessageIds } from './messageIds';
-import { createKeyboardFromJson } from './jsonTable';
-import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { _subscribeForeignStates } from './subscribeStates';
-import { errorLogger } from './logging';
-import { adapter } from '../main';
-import type { TelegramParams } from '../types/types';
-import { jsonString } from '../lib/string';
-import { setstateIobroker } from './setstate';
-import { toJson } from '../lib/json';
-import { isDefined } from '../lib/utils';
+import type { TelegramParams } from '@b/types/types';
+import { isDefined } from '@b/lib/utils';
+import { _subscribeForeignStates } from '@b/app/subscribeStates';
+import { setstateIobroker } from '@b/app/setstate';
+import { sendToTelegram, sendToTelegramSubmenu } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
+import { deleteMessageIds } from '@b/app/messageIds';
+import { jsonString } from '@b/lib/string';
+import { createKeyboardFromJson } from '@b/app/jsonTable';
+import { toJson } from '@b/lib/json';
 
 interface ObjectData {
     [key: string]: {
@@ -24,6 +23,7 @@ export async function shoppingListSubscribeStateAndDeleteItem(
     val: string | null,
     telegramParams: TelegramParams,
 ): Promise<void> {
+    const adapter = telegramParams.adapter;
     try {
         let array, user, idList, instance, idItem, res;
         if (isDefined(val)) {
@@ -38,10 +38,11 @@ export async function shoppingListSubscribeStateAndDeleteItem(
                 objData[user] = { idList: idList };
                 adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
                 if (!isSubscribed) {
-                    await _subscribeForeignStates(`alexa-shoppinglist.${idList}`);
+                    await _subscribeForeignStates(adapter, `alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
                 }
                 await setstateIobroker({
+                    adapter,
                     id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
                     value: true,
                     ack: false,
@@ -67,17 +68,18 @@ export async function deleteMessageAndSendNewShoppingList(
     telegramParams: TelegramParams,
     userToSend: string,
 ): Promise<void> {
+    const adapter = telegramParams.adapter;
     try {
         const user = userToSend;
         const idList = objData[user].idList;
-        await _subscribeForeignStates(`alexa-shoppinglist.${idList}`);
+        await _subscribeForeignStates(adapter, `alexa-shoppinglist.${idList}`);
         await deleteMessageIds(instance, user, telegramParams, 'last');
 
         const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result?.val) {
             adapter.log.debug(`Result from Shoppinglist : ${jsonString(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
-            const resultJson = createKeyboardFromJson(toJson(result.val), null, newId, user);
+            const resultJson = createKeyboardFromJson(adapter, toJson(result.val), null, newId, user);
             if (resultJson?.text && resultJson?.keyboard) {
                 sendToTelegramSubmenu(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
             }

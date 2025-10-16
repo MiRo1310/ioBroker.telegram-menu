@@ -1,18 +1,17 @@
-import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { bindingFunc } from './action';
-import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
-import { setTimeValue } from '../lib/utilities';
-import { isDefined } from '../lib/utils';
-import { adapter } from '../main';
-import type { Part, TelegramParams } from '../types/types';
-import { integrateTimeIntoText } from '../lib/time';
-import { cleanUpString, decomposeText, getNewline, jsonString } from '../lib/string';
-import { calcValue, roundValue } from '../lib/appUtils';
-import { config } from '../config/config';
-import { errorLogger } from './logging';
-import { exchangeValue } from '../lib/exchangeValue';
-import { idBySelector } from './idBySelector';
-import { isParseModeFirstElement } from './parseMode';
+import { config } from '@b/config/config';
+import type { Part, TelegramParams } from '@b/types/types';
+import { isParseModeFirstElement } from '@b/app/parseMode';
+import { idBySelector } from '@b/app/idBySelector';
+import { bindingFunc } from '@b/app/action';
+import { isDefined } from '@b/lib/utils';
+import { cleanUpString, decomposeText, getNewline, jsonString } from '@b/lib/string';
+import { setTimeValue } from '@b/lib/utilities';
+import { integrateTimeIntoText } from '@b/lib/time';
+import { calcValue, roundValue } from '@b/lib/appUtils';
+import { createKeyboardFromJson, createTextTableFromJson } from '@b/app/jsonTable';
+import { sendToTelegram, sendToTelegramSubmenu } from '@b/app/telegram';
+import { exchangeValue } from '@b/lib/exchangeValue';
+import { errorLogger } from '@b/app/logging';
 
 export async function getState(
     instance: string,
@@ -20,6 +19,7 @@ export async function getState(
     userToSend: string,
     telegramParams: TelegramParams,
 ): Promise<void> {
+    const adapter = telegramParams.adapter;
     try {
         const parse_mode = isParseModeFirstElement(part);
         const valueArrayForCorrectOrder: string[] = [];
@@ -40,7 +40,7 @@ export async function getState(
             }
 
             if (text.includes(config.binding.start)) {
-                await bindingFunc(instance, text, userToSend, telegramParams, parse_mode);
+                await bindingFunc(adapter, instance, text, userToSend, telegramParams, parse_mode);
                 return;
             }
 
@@ -90,7 +90,7 @@ export async function getState(
                 const { substring } = decomposeText(modifiedTextToSend, config.json.start, config.json.end);
 
                 if (substring.includes(config.json.textTable)) {
-                    const result = createTextTableFromJson(stateValue, modifiedTextToSend);
+                    const result = createTextTableFromJson(adapter, stateValue, modifiedTextToSend);
                     if (result) {
                         await sendToTelegram({
                             instance,
@@ -103,7 +103,7 @@ export async function getState(
                     }
                     adapter.log.debug('Cannot create a Text-Table');
                 } else {
-                    const result = createKeyboardFromJson(stateValue, modifiedTextToSend, id, userToSend);
+                    const result = createKeyboardFromJson(adapter, stateValue, modifiedTextToSend, id, userToSend);
                     if (stateValue && stateValue.length > 0) {
                         if (result?.text && result?.keyboard) {
                             sendToTelegramSubmenu(

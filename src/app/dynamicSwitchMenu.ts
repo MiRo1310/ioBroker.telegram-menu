@@ -1,9 +1,9 @@
-import { errorLogger } from './logging';
-import type { Keyboard, KeyboardItems } from '../types/types';
-import { textModifier } from '../lib/utilities';
-import { adapter } from '../main';
+import type { Adapter, Keyboard, KeyboardItems } from '@b/types/types';
+import { textModifier } from '@b/lib/utilities';
+import { errorLogger } from '@b/app/logging';
 
 async function createDynamicSwitchMenu(
+    adapter: Adapter,
     calledValue: string,
     device: string,
     text: string,

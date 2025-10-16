@@ -1,73 +1,48 @@
 "use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var adapterStartMenuSend_exports = {};
-__export(adapterStartMenuSend_exports, {
-  adapterStartMenuSend: () => adapterStartMenuSend
-});
-module.exports = __toCommonJS(adapterStartMenuSend_exports);
-var import_telegram = require("./telegram");
-var import_backMenu = require("./backMenu");
-var import_main = require("../main");
-var import_string = require("../lib/string");
-var import_appUtils = require("../lib/appUtils");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.adapterStartMenuSend = adapterStartMenuSend;
+const appUtils_1 = require("../lib/appUtils");
+const backMenu_1 = require("../app/backMenu");
+const string_1 = require("../lib/string");
+const telegram_1 = require("../app/telegram");
 function isUserActive(telegramParams, userToSend) {
-  return telegramParams.userListWithChatID.find(
-    (user) => user.chatID === userToSend.chatId && user.instance === userToSend.instance
-  );
+    return telegramParams.userListWithChatID.find(user => user.chatID === userToSend.chatId && user.instance === userToSend.instance);
 }
 async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, telegramParams) {
-  for (const menu of listOfMenus) {
-    const startSide = startSides[menu];
-    if (userActiveCheckbox[menu] && (0, import_appUtils.isStartside)(startSide)) {
-      import_main.adapter.log.debug(`Startside: ${startSide}`);
-      const group = menusWithUsers[menu];
-      if (group) {
-        for (const userToSend of group) {
-          const { nav, text, parse_mode } = menuData[menu][startSide];
-          const user = isUserActive(telegramParams, userToSend);
-          if (!user) {
-            continue;
-          }
-          (0, import_backMenu.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
-          import_main.adapter.log.debug(`User list: ${(0, import_string.jsonString)(telegramParams.userListWithChatID)}`);
-          const params = { ...telegramParams };
-          await (0, import_telegram.sendToTelegram)({
-            instance: userToSend.instance,
-            userToSend: userToSend.name,
-            textToSend: text,
-            keyboard: nav,
-            telegramParams: params,
-            parse_mode
-          });
+    const adapter = telegramParams.adapter;
+    for (const menu of listOfMenus) {
+        const startSide = startSides[menu];
+        if (userActiveCheckbox[menu] && (0, appUtils_1.isStartside)(startSide)) {
+            adapter.log.debug(`Startside: ${startSide}`);
+            const group = menusWithUsers[menu];
+            if (group) {
+                for (const userToSend of group) {
+                    const { nav, text, parse_mode } = menuData[menu][startSide];
+                    const user = isUserActive(telegramParams, userToSend);
+                    if (!user) {
+                        continue;
+                    }
+                    (0, backMenu_1.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
+                    adapter.log.debug(`User list: ${(0, string_1.jsonString)(telegramParams.userListWithChatID)}`);
+                    const params = { ...telegramParams };
+                    await (0, telegram_1.sendToTelegram)({
+                        instance: userToSend.instance,
+                        userToSend: userToSend.name,
+                        textToSend: text,
+                        keyboard: nav,
+                        telegramParams: params,
+                        parse_mode,
+                    });
+                }
+            }
         }
-      }
-    } else {
-      if (!(0, import_appUtils.isStartside)(startSide)) {
-        import_main.adapter.log.debug(`Menu "${menu}" is a Submenu.`);
-        continue;
-      }
-      import_main.adapter.log.debug(`Menu "${menu}" is inactive.`);
+        else {
+            if (!(0, appUtils_1.isStartside)(startSide)) {
+                adapter.log.debug(`Menu "${menu}" is a Submenu.`);
+                continue;
+            }
+            adapter.log.debug(`Menu "${menu}" is inactive.`);
+        }
     }
-  }
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  adapterStartMenuSend
-});
 //# sourceMappingURL=adapterStartMenuSend.js.map

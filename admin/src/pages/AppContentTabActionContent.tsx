@@ -6,7 +6,7 @@ import TableCell from '@/components/TableCell';
 import React, { Component } from 'react';
 import HelperCard from '@/components/popupCards/HelperCard';
 import PopupContainer from '@/components/popupCards/PopupContainer';
-import helperText from '@/config/helper';
+import helperText from '@/config/help';
 import { addNewRow } from '@/lib/actionUtils';
 import AppContentTabActionContentRowEditor from '@/pages/AppContentTabActionContentRowEditor';
 import AppContentTabActionContentTable from '@/pages/AppContentTabActionContentTable';

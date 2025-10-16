@@ -3,7 +3,7 @@ import type { MenusWithUsers, UserType } from '@/types/app';
 
 interface EventParams {
     isEvent: boolean;
-    eventInstanceList: UserType[];
+    eventUserList: UserType[];
 }
 
 /**
@@ -36,5 +36,5 @@ export const getInstancesFromEventsById = (
 ): EventParams => {
     const event = action && Object.keys(action).filter(a => action[a]?.events?.some(e => e.ID?.includes(id)));
 
-    return { isEvent: !!(event && event?.length), eventInstanceList: getInstances(event ?? [], menusWithUsers) };
+    return { isEvent: !!(event && event?.length), eventUserList: getInstances(event ?? [], menusWithUsers) };
 };

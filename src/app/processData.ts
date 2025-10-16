@@ -1,19 +1,18 @@
-import { adapter } from '../main';
-import { sendLocationToTelegram, sendToTelegram } from './telegram';
-import { sendNav } from './sendNav';
-import { callSubMenu } from './subMenu';
-import { backMenuFunc, switchBack } from './backMenu';
-import { handleSetState, setstateIobroker } from './setstate';
-import { getState } from './getstate';
-import { sendPic } from './sendpic';
-import { getDynamicValue, removeUserFromDynamicValue } from './dynamicValue';
-import { adjustValueType } from './action';
-import { getChart } from './echarts';
-import { httpRequest } from './httpRequest';
-import { errorLogger } from './logging';
-import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '../types/types';
-import { jsonString } from '../lib/string';
-import { isSubmenuOrMenu } from './validateMenus';
+import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '@b/types/types';
+import { jsonString } from '@b/lib/string';
+import { getDynamicValue, removeUserFromDynamicValue } from '@b/app/dynamicValue';
+import { adjustValueType } from '@b/app/action';
+import { handleSetState, setstateIobroker } from '@b/app/setstate';
+import { sendLocationToTelegram, sendToTelegram } from '@b/app/telegram';
+import { backMenuFunc, switchBack } from '@b/app/backMenu';
+import { sendNav } from '@b/app/sendNav';
+import { callSubMenu } from '@b/app/subMenu';
+import { getState } from '@b/app/getstate';
+import { sendPic } from '@b/app/sendpic';
+import { getChart } from '@b/app/echarts';
+import { httpRequest } from '@b/app/httpRequest';
+import { isSubmenuOrMenu } from '@b/app/validateMenus';
+import { errorLogger } from '@b/app/logging';
 
 let timeouts: Timeouts[] = [];
 
@@ -29,6 +28,7 @@ export async function checkEveryMenuForData({
     directoryPicture,
     timeoutKey,
 }: CheckEveryMenuForDataType): Promise<boolean> {
+    const adapter = telegramParams.adapter;
     for (const menu of menus) {
         const groupData = menuData[menu];
 
@@ -37,6 +37,7 @@ export async function checkEveryMenuForData({
 
         if (
             await processData({
+                adapter,
                 instance,
                 menuData,
                 calledValue: navToGoTo,
@@ -73,6 +74,7 @@ async function processData({
     directoryPicture,
     timeoutKey,
     groupData,
+    adapter,
 }: ProcessDataType): Promise<boolean | undefined> {
     try {
         let part: Part | undefined = {} as Part;
@@ -80,11 +82,11 @@ async function processData({
         const dynamicValue = getDynamicValue(userToSend);
         if (dynamicValue) {
             const valueToSet = dynamicValue?.valueType
-                ? adjustValueType(calledValue, dynamicValue.valueType)
+                ? adjustValueType(adapter, calledValue, dynamicValue.valueType)
                 : calledValue;
 
             valueToSet && dynamicValue?.id
-                ? await setstateIobroker({ id: dynamicValue.id, value: valueToSet, ack: dynamicValue?.ack })
+                ? await setstateIobroker({ adapter, id: dynamicValue.id, value: valueToSet, ack: dynamicValue?.ack })
                 : await sendToTelegram({
                       instance,
                       userToSend,
@@ -93,7 +95,7 @@ async function processData({
                   });
 
             removeUserFromDynamicValue(userToSend);
-            const result = await switchBack(userToSend, allMenusWithData, menus, true);
+            const result = await switchBack(adapter, userToSend, allMenusWithData, menus, true);
 
             if (result && !dynamicValue.navToGoTo) {
                 const { textToSend, keyboard, parse_mode } = result;
@@ -119,6 +121,7 @@ async function processData({
                     adapter.log.debug(`Submenu: ${jsonString(nav)}`);
 
                     const result = await callSubMenu({
+                        adapter,
                         instance,
                         jsonStringNav: jsonString(nav),
                         userToSend,
@@ -185,13 +188,14 @@ async function processData({
 
             if (part?.httpRequest) {
                 adapter.log.debug('Send http request');
-                const result = await httpRequest(instance, part, userToSend, telegramParams, directoryPicture);
+                const result = await httpRequest(adapter, instance, part, userToSend, telegramParams, directoryPicture);
                 return !!result;
             }
         }
         if (isSubmenuOrMenu(calledValue) && menuData[groupWithUser][call]) {
             adapter.log.debug('Call Submenu');
             await callSubMenu({
+                adapter,
                 instance,
                 jsonStringNav: calledValue,
                 userToSend: userToSend,

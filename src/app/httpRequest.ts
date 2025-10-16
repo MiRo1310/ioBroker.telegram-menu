@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { sendToTelegram } from './telegram';
+
 import path from 'path';
 import fs from 'fs';
-import { errorLogger } from './logging';
-import type { Part, TelegramParams } from '../types/types';
-import { validateDirectory } from '../lib/utils';
-import { adapter } from '../main';
+import type { Adapter, Part, TelegramParams } from '@b/types/types';
+import { validateDirectory } from '@b/lib/utils';
+import { sendToTelegram } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
 
 async function httpRequest(
+    adapter: Adapter,
     instance: string,
     parts: Part,
     userToSend: string,
