@@ -6,7 +6,6 @@ import { Actions, MenuData } from '@b/types/types';
 import { handleEvent } from '@b/app/action';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
-import { use } from 'react';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -49,7 +48,7 @@ describe('getInstancesFromEventsById', () => {
 
         const result = getInstancesFromEventsById(actions, 'event1', menusWithUsers);
         expect(result.isEvent).to.be.true;
-        expect(result.eventInstanceList).to.deep.equal([userA, userB]);
+        expect(result.eventUserList).to.deep.equal([userA, userB]);
     });
 
     it('should return isEvent false and empty list if no event id matches', () => {
@@ -61,13 +60,13 @@ describe('getInstancesFromEventsById', () => {
 
         const result = getInstancesFromEventsById(actions, 'eventX', menusWithUsers);
         expect(result.isEvent).to.be.false;
-        expect(result.eventInstanceList).to.deep.equal([]);
+        expect(result.eventUserList).to.deep.equal([]);
     });
 
     it('should handle undefined actions gracefully', () => {
         const result = getInstancesFromEventsById(undefined, 'event1', menusWithUsers);
         expect(result.isEvent).to.be.false;
-        expect(result.eventInstanceList).to.deep.equal([]);
+        expect(result.eventUserList).to.deep.equal([]);
     });
 });
 
@@ -75,11 +74,10 @@ describe('handleEvent', () => {
     it('should return false if dataObject.action is undefined', async () => {
         const result = await handleEvent(
             {} as any,
-            'instance1',
+            userA,
             {} as any,
             'eventId',
             { ack: true, val: true } as any,
-            {} as any,
             {} as any,
             {} as any,
         );
@@ -96,11 +94,10 @@ describe('handleEvent', () => {
         };
         const result = await handleEvent(
             {} as any,
-            'instance1',
+            userA,
             dataObject as any,
             'eventId',
             { ack: true, val: true } as any,
-            {} as any,
             {} as any,
             {} as any,
         );
@@ -152,30 +149,25 @@ describe('handleEvent', () => {
                 },
             },
         };
-        const usersInGroup = {
-            Menu: [userA],
-        };
 
         const resultStringDifferent = await handleEvent(
             adapter,
-            'instance1',
+            userA,
             dataObject as any,
             'eventId',
             { ack: true, val: '23' } as any,
             menuData,
             {} as any,
-            usersInGroup as any,
         );
         expect(resultStringDifferent).to.be.false;
         const resultStringDifferent2 = await handleEvent(
             adapter,
-            'instance1',
+            userA,
             dataObject as any,
             'eventId',
             { ack: true, val: 'true' } as any,
             menuData as any,
             {} as any,
-            usersInGroup as any,
         );
         expect(resultStringDifferent2).to.be.false;
     });
@@ -195,30 +187,26 @@ describe('handleEvent', () => {
                 },
             },
         };
-        const usersInGroup = {
-            menu1: [{ name: 'user1' }],
-        };
+
         const resultBooleanTrueSame = await handleEvent(
             adapter,
-            'instance1',
+            userA,
             dataObject as any,
             'eventId',
             { ack: true, val: true } as any,
             menuData as any,
             {} as any,
-            usersInGroup as any,
         );
         expect(resultBooleanTrueSame).to.be.true;
 
         const resultBooleanFalse = await handleEvent(
             adapter,
-            'instance1',
+            userA,
             dataObject as any,
             'eventId',
             { ack: true, val: 1 } as any,
             menuData as any,
             {} as any,
-            usersInGroup as any,
         );
         expect(resultBooleanFalse).to.be.false;
         const dataObject2 = {
@@ -230,13 +218,12 @@ describe('handleEvent', () => {
         };
         const resultBooleanFalse2 = await handleEvent(
             adapter,
-            'instance1',
+            userA,
             dataObject2 as any,
             'eventId',
             { ack: true, val: false } as any,
             menuData as any,
             {} as any,
-            usersInGroup as any,
         );
         expect(resultBooleanFalse2).to.be.false;
     });
@@ -292,47 +279,38 @@ describe('Event params', () => {
         sendNavStub = sinon.stub(require('../../src/app/sendNav'), 'sendNav');
     });
     it('should send one user', async () => {
-        const usersInGroup = {
-            Menu: [userA],
-        };
-
         const resultStringSame = await handleEvent(
             adapter,
-            'instance1',
+            userA,
             dataObject as any,
             'eventId',
             { ack: false, val: '123' } as any,
             menuData,
             {} as any,
-            usersInGroup,
         );
 
         expect(resultStringSame).to.be.true;
         expect(sendNavStub.calledOnce).to.be.true;
-        expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
+        expect(sendNavStub.args[0][1]).to.deep.equal('instanceA');
         expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
         expect(sendNavStub.args[0][3]).to.deep.equal('User A');
     });
 
-    it('should send to all users in group', async () => {
+    it('should send userB', async () => {
         const resultStringSame2 = await handleEvent(
             adapter,
-            'instance1',
+            userB,
             dataObject as any,
             'eventId',
             { ack: false, val: '123' } as any,
             menuData,
             {} as any,
-            {
-                Menu: [userA, userB],
-            },
         );
 
         expect(resultStringSame2).to.be.true;
-        expect(sendNavStub.callCount).to.be.equal(2);
-        expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
+        expect(sendNavStub.callCount).to.be.equal(1);
+        expect(sendNavStub.args[0][1]).to.deep.equal('instanceB');
         expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
-        expect(sendNavStub.args[0][3]).to.deep.equal('User A');
-        expect(sendNavStub.args[1][3]).to.deep.equal('User B');
+        expect(sendNavStub.args[0][3]).to.deep.equal('User B');
     });
 });

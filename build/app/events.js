@@ -26,7 +26,7 @@ exports.getInstances = getInstances;
  */
 const getInstancesFromEventsById = (action, id, menusWithUsers) => {
     const event = action && Object.keys(action).filter(a => action[a]?.events?.some(e => e.ID?.includes(id)));
-    return { isEvent: !!(event && event?.length), eventInstanceList: (0, exports.getInstances)(event ?? [], menusWithUsers) };
+    return { isEvent: !!(event && event?.length), eventUserList: (0, exports.getInstances)(event ?? [], menusWithUsers) };
 };
 exports.getInstancesFromEventsById = getInstancesFromEventsById;
 //# sourceMappingURL=events.js.map

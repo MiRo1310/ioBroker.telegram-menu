@@ -18,7 +18,7 @@ import { evaluate } from '@b/lib/math';
 import { sendToTelegram } from '@b/app/telegram';
 import { errorLogger } from '@b/app/logging';
 import { isTruthy } from '@b/lib/utils';
-import type { MenusWithUsers, TriggerableActions, UserListWithChatID } from '@/types/app';
+import type { TriggerableActions, UserListWithChatID, UserType } from '@/types/app';
 import { backMenuFunc } from '@b/app/backMenu';
 import { callSubMenu } from '@b/app/subMenu';
 import { sendNav } from '@b/app/sendNav';
@@ -179,13 +179,12 @@ const toBoolean = (value: string): boolean | null => {
 
 export const handleEvent = async (
     adapter: Adapter,
-    instance: string,
+    user: UserType,
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
     menuData: MenuData,
     telegramParams: TelegramParams,
-    usersInGroup: MenusWithUsers,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
     let ok = false;
@@ -220,36 +219,31 @@ export const handleEvent = async (
     if (!ok || !menuArray.length) {
         return false;
     }
-    adapter.log.debug(`Menu Array: ${JSON.stringify(menuArray)}`);
+
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav as keyof DataObject];
-        const users = usersInGroup[menu];
-        if (users && part) {
-            adapter.log.debug(`Users ${JSON.stringify(users)}`);
-            for (const user of users) {
-                const menus = Object.keys(menuData);
 
-                if (part.nav) {
-                    backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
-                }
+        const menus = Object.keys(menuData);
 
-                if (part?.nav?.[0][0].includes('menu:')) {
-                    await callSubMenu({
-                        adapter,
-                        instance,
-                        jsonStringNav: part.nav[0][0],
-                        userToSend: user.name,
-                        telegramParams: telegramParams,
-                        part,
-                        allMenusWithData: menuData,
-                        menus,
-                    });
-                    return true;
-                }
-                adapter.log.debug(`User ${JSON.stringify(user)}`);
-                await sendNav(adapter, instance, part, user.name, telegramParams);
-            }
+        if (part.nav) {
+            backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
         }
+
+        if (part?.nav?.[0][0].includes('menu:')) {
+            await callSubMenu({
+                adapter,
+                instance: user.instance,
+                jsonStringNav: part.nav[0][0],
+                userToSend: user.name,
+                telegramParams: telegramParams,
+                part,
+                allMenusWithData: menuData,
+                menus,
+            });
+            return true;
+        }
+
+        await sendNav(adapter, user.instance, part, user.name, telegramParams);
     }
     return true;
 };
