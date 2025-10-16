@@ -122,9 +122,12 @@ class TelegramMenu extends utils.Adapter {
             this.on('stateChange', async (id, state) => {
                 const setStateIdsToListenTo = (0, setStateIdsToListenTo_1.getStateIdsToListenTo)();
                 const instance = await this.checkInfoConnection(id, telegramParams);
+                exports.adapter.log.debug(`Id update: ${id} - ${state?.val}`);
                 const { isEvent, eventInstanceList } = (0, events_1.getInstancesFromEventsById)(dataObject.action, id, menusWithUsers);
                 if (isEvent && state) {
+                    exports.adapter.log.debug(`Event List: ${JSON.stringify(eventInstanceList)}`);
                     for (const e of eventInstanceList) {
+                        exports.adapter.log.debug(`Id update: ${id} - ${state?.val}`);
                         await (0, action_1.handleEvent)(exports.adapter, e.instance, dataObject, id, state, menuData, telegramParams, menusWithUsers);
                     }
                 }
