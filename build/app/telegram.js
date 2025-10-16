@@ -26,7 +26,7 @@ async function sendToTelegram({ instance, userToSend, textToSend, keyboard, tele
         if (!instance || !(0, instance_1.isInstanceActive)(telegramParams.telegramInstanceList, instance)) {
             return;
         }
-        adapter.log.debug(`Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , userListWithChatID: ${(0, string_1.jsonString)(userListWithChatID)} , parseMode: ${parse_mode} }`);
+        adapter.log.debug(`Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , parseMode: ${parse_mode} }`);
         validateTextToSend(adapter, textToSend);
         if (!keyboard) {
             adapter.sendTo(instance, 'send', {

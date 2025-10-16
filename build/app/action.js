@@ -135,12 +135,13 @@ const handleEvent = async (adapter, instance, dataObject, id, state, menuData, t
     const menuArray = [];
     let ok = false;
     let calledNav = '';
-    if (!dataObject.action) {
+    const action = dataObject.action;
+    if (!action) {
         return false;
     }
-    Object.keys(dataObject.action).forEach(menu => {
-        if (dataObject.action?.[menu]?.events) {
-            dataObject.action[menu]?.events.forEach(event => {
+    Object.keys(action).forEach(menu => {
+        if (action?.[menu]?.events) {
+            action[menu]?.events.forEach(event => {
                 if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
                     const condition = event.condition[0];
                     const bool = toBoolean(condition);
@@ -160,6 +161,7 @@ const handleEvent = async (adapter, instance, dataObject, id, state, menuData, t
     if (!ok || !menuArray.length) {
         return false;
     }
+    adapter.log.debug(`Menu Array: ${JSON.stringify(menuArray)}`);
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav];
         const users = usersInGroup[menu];

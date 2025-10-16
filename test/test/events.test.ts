@@ -6,6 +6,7 @@ import { Actions, MenuData } from '@b/types/types';
 import { handleEvent } from '@b/app/action';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
+import { use } from 'react';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -107,6 +108,7 @@ describe('handleEvent', () => {
     });
 
     const { adapter } = utils.unit.createMocks({});
+
     it('check state string', async () => {
         const dataObject = {
             nav: {
@@ -153,25 +155,6 @@ describe('handleEvent', () => {
         const usersInGroup = {
             Menu: [userA],
         };
-
-        const sendNavStub = sinon.stub(require('../../src/app/sendNav'), 'sendNav');
-        const resultStringSame = await handleEvent(
-            adapter,
-            'instance1',
-            dataObject as any,
-            'eventId',
-            { ack: false, val: '123' } as any,
-            menuData,
-            {} as any,
-            usersInGroup,
-        );
-
-        expect(resultStringSame).to.be.true;
-        expect(sendNavStub.calledOnce).to.be.true;
-        expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
-        expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
-        expect(sendNavStub.args[0][3]).to.deep.equal('User A');
-        sendNavStub.restore();
 
         const resultStringDifferent = await handleEvent(
             adapter,
@@ -256,5 +239,100 @@ describe('handleEvent', () => {
             usersInGroup as any,
         );
         expect(resultBooleanFalse2).to.be.false;
+    });
+});
+
+describe('Event params', () => {
+    const { adapter } = utils.unit.createMocks({});
+    let sendNavStub: sinon.SinonStub;
+    const dataObject = {
+        nav: {
+            Menu: [
+                {
+                    call: 'Übersicht',
+                    value: 'Übersicht , Light , Grafana , Weather , Test',
+                    text: 'chooseAction',
+                    parse_mode: 'false',
+                },
+                {
+                    call: 'Test',
+                    value: 'Übersicht',
+                    text: 'chooseAction',
+                    parse_mode: 'false',
+                },
+            ],
+        },
+        action: {
+            Menu: {
+                get: [],
+                set: [],
+                pic: [],
+                echarts: [],
+                events: [
+                    {
+                        ID: ['eventId'],
+                        menu: ['Test'],
+                        condition: ['123'],
+                        ack: ['false'],
+                    },
+                ],
+                httpRequest: [],
+            },
+        },
+    };
+    const menuData: MenuData = {
+        Menu: {
+            Test: {
+                nav: [['Menu1']],
+            },
+        },
+    };
+    beforeEach(() => {
+        sinon.restore();
+        sendNavStub = sinon.stub(require('../../src/app/sendNav'), 'sendNav');
+    });
+    it('should send one user', async () => {
+        const usersInGroup = {
+            Menu: [userA],
+        };
+
+        const resultStringSame = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: false, val: '123' } as any,
+            menuData,
+            {} as any,
+            usersInGroup,
+        );
+
+        expect(resultStringSame).to.be.true;
+        expect(sendNavStub.calledOnce).to.be.true;
+        expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
+        expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
+        expect(sendNavStub.args[0][3]).to.deep.equal('User A');
+    });
+
+    it('should send to all users in group', async () => {
+        const resultStringSame2 = await handleEvent(
+            adapter,
+            'instance1',
+            dataObject as any,
+            'eventId',
+            { ack: false, val: '123' } as any,
+            menuData,
+            {} as any,
+            {
+                Menu: [userA, userB],
+            },
+        );
+
+        expect(resultStringSame2).to.be.true;
+        expect(sendNavStub.callCount).to.be.equal(2);
+        expect(sendNavStub.args[0][1]).to.deep.equal('instance1');
+        expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
+        expect(sendNavStub.args[0][3]).to.deep.equal('User A');
+        expect(sendNavStub.args[1][3]).to.deep.equal('User B');
     });
 });
