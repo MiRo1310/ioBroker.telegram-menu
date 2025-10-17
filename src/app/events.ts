@@ -1,5 +1,9 @@
-import type { Actions } from '../types/types';
+import type { Actions, Adapter, DataObject, MenuData, TelegramParams } from '../types/types';
 import type { MenusWithUsers, UserType } from '@/types/app';
+import { backMenuFunc } from '@b/app/backMenu';
+import { callSubMenu } from '@b/app/subMenu';
+import { sendNav } from '@b/app/sendNav';
+import { isDefined } from '@b/lib/utils';
 
 interface EventParams {
     isEvent: boolean;
@@ -37,4 +41,85 @@ export const getInstancesFromEventsById = (
     const event = action && Object.keys(action).filter(a => action[a]?.events?.some(e => e.ID?.includes(id)));
 
     return { isEvent: !!(event && event?.length), eventUserList: getInstances(event ?? [], menusWithUsers) };
+};
+
+const toBoolean = (value: string): boolean | null => {
+    if (value === 'true') {
+        return true;
+    }
+    if (value === 'false') {
+        return false;
+    }
+    return null;
+};
+
+export const handleEvent = async (
+    adapter: Adapter,
+    user: UserType,
+    dataObject: DataObject,
+    id: string,
+    state: ioBroker.State,
+    menuData: MenuData,
+    telegramParams: TelegramParams,
+): Promise<boolean> => {
+    const menuArray: string[] = [];
+    let ok = false;
+    let calledNav = '';
+
+    const action = dataObject.action;
+    if (!action) {
+        return false;
+    }
+
+    Object.keys(action).forEach(menu => {
+        if (action?.[menu]?.events) {
+            action[menu]?.events.forEach(event => {
+                if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
+                    const condition = event.condition[0];
+                    const bool = toBoolean(condition);
+                    if (
+                        isDefined(bool)
+                            ? state.val === bool
+                            : (typeof state.val == 'number' &&
+                                  (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
+                              state.val == condition
+                    ) {
+                        ok = true;
+                        menuArray.push(menu);
+                        calledNav = event.menu[0];
+                    }
+                }
+            });
+        }
+    });
+    if (!ok || !menuArray.length) {
+        return false;
+    }
+
+    for (const menu of menuArray) {
+        const part = menuData[menu][calledNav as keyof DataObject];
+
+        const menus = Object.keys(menuData);
+
+        if (part.nav) {
+            backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
+        }
+
+        if (part?.nav?.[0][0].includes('menu:')) {
+            await callSubMenu({
+                adapter,
+                instance: user.instance,
+                jsonStringNav: JSON.stringify(part.nav),
+                userToSend: user.name,
+                telegramParams,
+                part,
+                allMenusWithData: menuData,
+                menus,
+            });
+            return true;
+        }
+
+        await sendNav(adapter, user.instance, part, user.name, telegramParams);
+    }
+    return true;
 };

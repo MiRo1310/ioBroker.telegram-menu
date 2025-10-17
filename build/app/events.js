@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInstancesFromEventsById = exports.getInstances = void 0;
+exports.handleEvent = exports.getInstancesFromEventsById = exports.getInstances = void 0;
+const backMenu_1 = require("../app/backMenu");
+const subMenu_1 = require("../app/subMenu");
+const sendNav_1 = require("../app/sendNav");
 /**
  * Get all instances from the provided menus
  *
@@ -29,4 +32,67 @@ const getInstancesFromEventsById = (action, id, menusWithUsers) => {
     return { isEvent: !!(event && event?.length), eventUserList: (0, exports.getInstances)(event ?? [], menusWithUsers) };
 };
 exports.getInstancesFromEventsById = getInstancesFromEventsById;
+const toBoolean = (value) => {
+    if (value === 'true') {
+        return true;
+    }
+    if (value === 'false') {
+        return false;
+    }
+    return null;
+};
+const handleEvent = async (adapter, user, dataObject, id, state, menuData, telegramParams) => {
+    const menuArray = [];
+    let ok = false;
+    let calledNav = '';
+    const action = dataObject.action;
+    if (!action) {
+        return false;
+    }
+    Object.keys(action).forEach(menu => {
+        if (action?.[menu]?.events) {
+            action[menu]?.events.forEach(event => {
+                if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
+                    const condition = event.condition[0];
+                    const bool = toBoolean(condition);
+                    if (bool
+                        ? state.val === bool
+                        : (typeof state.val == 'number' &&
+                            (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
+                            state.val == condition) {
+                        ok = true;
+                        menuArray.push(menu);
+                        calledNav = event.menu[0];
+                    }
+                }
+            });
+        }
+    });
+    if (!ok || !menuArray.length) {
+        return false;
+    }
+    for (const menu of menuArray) {
+        const part = menuData[menu][calledNav];
+        const menus = Object.keys(menuData);
+        if (part.nav) {
+            (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
+        }
+        if (part?.nav?.[0][0].includes('menu:')) {
+            await (0, subMenu_1.callSubMenu)({
+                adapter,
+                instance: user.instance,
+                jsonStringNav: JSON.stringify(part.nav),
+                userToSend: user.name,
+                telegramParams: telegramParams,
+                part,
+                allMenusWithData: menuData,
+                menus,
+            });
+            return true;
+        }
+        await (0, sendNav_1.sendNav)(adapter, user.instance, part, user.name, telegramParams);
+    }
+    return true;
+};
+exports.handleEvent = handleEvent;
 //# sourceMappingURL=events.js.map

@@ -7,7 +7,7 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { handleEvent, generateActions, getUserToSendFromUserListWithChatID } from '@b/app/action';
+import { generateActions, getUserToSendFromUserListWithChatID } from '@b/app/action';
 import { _subscribeForeignStates } from '@b/app/subscribeStates';
 import { sendToTelegram } from '@b/app/telegram';
 import { createState } from '@b/app/createState';
@@ -31,7 +31,7 @@ import { getConfigVariables, getIds } from '@b/app/configVariables';
 import { getStateIdsToListenTo } from '@b/app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from '@b/lib/exchangeValue';
-import { getInstancesFromEventsById } from '@b/app/events';
+import { getInstancesFromEventsById, handleEvent } from '@b/app/events';
 
 const timeoutKey = '0';
 export let adapter: Adapter;
