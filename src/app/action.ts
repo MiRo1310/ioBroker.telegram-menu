@@ -2,9 +2,7 @@ import type {
     Actions,
     Adapter,
     BindingObject,
-    DataObject,
     GenerateActionsNewObject,
-    MenuData,
     NewObjectStructure,
     Part,
     Switch,
@@ -18,10 +16,7 @@ import { evaluate } from '@b/lib/math';
 import { sendToTelegram } from '@b/app/telegram';
 import { errorLogger } from '@b/app/logging';
 import { isTruthy } from '@b/lib/utils';
-import type { TriggerableActions, UserListWithChatID, UserType } from '@/types/app';
-import { backMenuFunc } from '@b/app/backMenu';
-import { callSubMenu } from '@b/app/subMenu';
-import { sendNav } from '@b/app/sendNav';
+import type { TriggerableActions, UserListWithChatID } from '@/types/app';
 
 export const bindingFunc = async (
     adapter: Adapter,
@@ -165,87 +160,6 @@ export const adjustValueType = (
         return isTruthy(value);
     }
     return value;
-};
-
-const toBoolean = (value: string): boolean | null => {
-    if (value === 'true') {
-        return true;
-    }
-    if (value === 'false') {
-        return false;
-    }
-    return null;
-};
-
-export const handleEvent = async (
-    adapter: Adapter,
-    user: UserType,
-    dataObject: DataObject,
-    id: string,
-    state: ioBroker.State,
-    menuData: MenuData,
-    telegramParams: TelegramParams,
-): Promise<boolean> => {
-    const menuArray: string[] = [];
-    let ok = false;
-    let calledNav = '';
-
-    const action = dataObject.action;
-    if (!action) {
-        return false;
-    }
-
-    Object.keys(action).forEach(menu => {
-        if (action?.[menu]?.events) {
-            action[menu]?.events.forEach(event => {
-                if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-                    const condition = event.condition[0];
-                    const bool = toBoolean(condition);
-                    if (
-                        bool
-                            ? state.val === bool
-                            : (typeof state.val == 'number' &&
-                                  (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
-                              state.val == condition
-                    ) {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                }
-            });
-        }
-    });
-    if (!ok || !menuArray.length) {
-        return false;
-    }
-
-    for (const menu of menuArray) {
-        const part = menuData[menu][calledNav as keyof DataObject];
-
-        const menus = Object.keys(menuData);
-
-        if (part.nav) {
-            backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
-        }
-
-        if (part?.nav?.[0][0].includes('menu:')) {
-            await callSubMenu({
-                adapter,
-                instance: user.instance,
-                jsonStringNav: part.nav[0][0],
-                userToSend: user.name,
-                telegramParams: telegramParams,
-                part,
-                allMenusWithData: menuData,
-                menus,
-            });
-            return true;
-        }
-
-        await sendNav(adapter, user.instance, part, user.name, telegramParams);
-    }
-    return true;
 };
 
 export const getUserToSendFromUserListWithChatID = (

@@ -125,7 +125,7 @@ class TelegramMenu extends utils.Adapter {
                 const { isEvent, eventUserList } = (0, events_1.getInstancesFromEventsById)(dataObject.action, id, menusWithUsers);
                 if (isEvent && state) {
                     for (const user of eventUserList) {
-                        await (0, action_1.handleEvent)(exports.adapter, user, dataObject, id, state, menuData, telegramParams);
+                        await (0, events_1.handleEvent)(exports.adapter, user, dataObject, id, state, menuData, telegramParams);
                     }
                 }
                 if (!instance) {

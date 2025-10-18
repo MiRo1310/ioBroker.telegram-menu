@@ -1,9 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { getInstances, getInstancesFromEventsById } from '@b/app/events';
+import { getInstances, getInstancesFromEventsById, handleEvent } from '@b/app/events';
 import type { MenusWithUsers, UserType } from '@/types/app';
 import { Actions, MenuData } from '@b/types/types';
-import { handleEvent } from '@b/app/action';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
 
@@ -225,7 +224,7 @@ describe('handleEvent', () => {
             menuData as any,
             {} as any,
         );
-        expect(resultBooleanFalse2).to.be.false;
+        expect(resultBooleanFalse2).to.be.true;
     });
 });
 

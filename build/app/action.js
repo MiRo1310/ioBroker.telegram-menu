@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserToSendFromUserListWithChatID = exports.handleEvent = exports.adjustValueType = exports.bindingFunc = void 0;
+exports.getUserToSendFromUserListWithChatID = exports.adjustValueType = exports.bindingFunc = void 0;
 exports.generateActions = generateActions;
 const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
@@ -9,9 +9,6 @@ const math_1 = require("../lib/math");
 const telegram_1 = require("../app/telegram");
 const logging_1 = require("../app/logging");
 const utils_1 = require("../lib/utils");
-const backMenu_1 = require("../app/backMenu");
-const subMenu_1 = require("../app/subMenu");
-const sendNav_1 = require("../app/sendNav");
 const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, parse_mode) => {
     let textToSend;
     try {
@@ -122,69 +119,6 @@ const adjustValueType = (adapter, value, valueType) => {
     return value;
 };
 exports.adjustValueType = adjustValueType;
-const toBoolean = (value) => {
-    if (value === 'true') {
-        return true;
-    }
-    if (value === 'false') {
-        return false;
-    }
-    return null;
-};
-const handleEvent = async (adapter, user, dataObject, id, state, menuData, telegramParams) => {
-    const menuArray = [];
-    let ok = false;
-    let calledNav = '';
-    const action = dataObject.action;
-    if (!action) {
-        return false;
-    }
-    Object.keys(action).forEach(menu => {
-        if (action?.[menu]?.events) {
-            action[menu]?.events.forEach(event => {
-                if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-                    const condition = event.condition[0];
-                    const bool = toBoolean(condition);
-                    if (bool
-                        ? state.val === bool
-                        : (typeof state.val == 'number' &&
-                            (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
-                            state.val == condition) {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                }
-            });
-        }
-    });
-    if (!ok || !menuArray.length) {
-        return false;
-    }
-    for (const menu of menuArray) {
-        const part = menuData[menu][calledNav];
-        const menus = Object.keys(menuData);
-        if (part.nav) {
-            (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
-        }
-        if (part?.nav?.[0][0].includes('menu:')) {
-            await (0, subMenu_1.callSubMenu)({
-                adapter,
-                instance: user.instance,
-                jsonStringNav: part.nav[0][0],
-                userToSend: user.name,
-                telegramParams: telegramParams,
-                part,
-                allMenusWithData: menuData,
-                menus,
-            });
-            return true;
-        }
-        await (0, sendNav_1.sendNav)(adapter, user.instance, part, user.name, telegramParams);
-    }
-    return true;
-};
-exports.handleEvent = handleEvent;
 const getUserToSendFromUserListWithChatID = (userListWithChatID, chatID) => {
     for (const element of userListWithChatID) {
         if (element.chatID == chatID) {
