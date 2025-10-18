@@ -20,6 +20,7 @@
     "close": "Dichtbij",
     "commonName": "Voert de naam van het gegevenspunt uit",
     "condition": "Voorwaarde",
+    "conditionFilter": "Filterconditie",
     "conditionMenu": "Voorwaarde om Menu te openen",
     "confirm": "Bevestigen",
     "confirmDelete": "Alle gegevens gaan verloren. Bevestigen?",

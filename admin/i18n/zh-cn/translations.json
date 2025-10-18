@@ -20,6 +20,7 @@
     "close": "关闭",
     "commonName": "输出数据点的名称",
     "condition": "健康）状况",
+    "conditionFilter": "过滤条件",
     "conditionMenu": "打开菜单的条件",
     "confirm": "确认",
     "confirmDelete": "所有数据都将丢失。确认？",

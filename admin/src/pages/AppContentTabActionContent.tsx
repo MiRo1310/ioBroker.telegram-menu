@@ -83,7 +83,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
         const row = this.state.newRow;
 
         tab.entries.forEach(entry => {
-            if (!entry.checkbox && entry.required) {
+            if (!(entry.typeInput === 'checkbox') && entry.required) {
                 if (!row[entry.name]) {
                     row[entry.name] = [''];
                 }

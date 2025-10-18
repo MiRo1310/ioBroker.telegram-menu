@@ -20,6 +20,7 @@
     "close": "Schließen",
     "commonName": "Gibt den Namen des Datenpunkts aus",
     "condition": "Zustand",
+    "conditionFilter": "Filterbedingung",
     "conditionMenu": "Bedingung zum Öffnen des Menüs",
     "confirm": "Bestätigen",
     "confirmDelete": "Alle Daten gehen verloren. Bestätigen?",

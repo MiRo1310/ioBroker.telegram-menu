@@ -20,6 +20,7 @@
     "close": "Fermer",
     "commonName": "Affiche le nom du point de données",
     "condition": "Condition",
+    "conditionFilter": "État du filtre",
     "conditionMenu": "Condition pour ouvrir le menu",
     "confirm": "Confirmer",
     "confirmDelete": "Toutes les données seront perdues. Confirmer?",

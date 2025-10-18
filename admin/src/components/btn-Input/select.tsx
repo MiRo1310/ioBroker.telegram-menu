@@ -7,7 +7,7 @@ class Select extends Component<SelectProps> {
         if (!event) {
             return;
         }
-        this.props.callback({ id: this.props.id, val: event.target.value });
+        this.props.callback({ id: this.props.id, val: event.target.value, index: this.props.index });
     };
 
     render(): React.ReactNode {

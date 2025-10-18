@@ -4,6 +4,7 @@ exports.handleEvent = exports.getInstancesFromEventsById = exports.getInstances 
 const backMenu_1 = require("../app/backMenu");
 const subMenu_1 = require("../app/subMenu");
 const sendNav_1 = require("../app/sendNav");
+const utils_1 = require("../lib/utils");
 /**
  * Get all instances from the provided menus
  *
@@ -41,34 +42,39 @@ const toBoolean = (value) => {
     }
     return null;
 };
+function checkCondition(bool, state, condition) {
+    return (0, utils_1.isDefined)(bool)
+        ? state.val === bool
+        : (typeof state.val == 'number' && (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
+            state.val == condition;
+}
+function checkIdAndAck(event, id, state) {
+    return event.ID[0] == id && event.ack[0] == state.ack.toString();
+}
 const handleEvent = async (adapter, user, dataObject, id, state, menuData, telegramParams) => {
     const menuArray = [];
-    let ok = false;
     let calledNav = '';
     const action = dataObject.action;
     if (!action) {
         return false;
     }
-    Object.keys(action).forEach(menu => {
-        if (action?.[menu]?.events) {
-            action[menu]?.events.forEach(event => {
-                if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-                    const condition = event.condition[0];
-                    const bool = toBoolean(condition);
-                    if (bool
-                        ? state.val === bool
-                        : (typeof state.val == 'number' &&
-                            (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
-                            state.val == condition) {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                }
-            });
+    for (const menu of Object.keys(action)) {
+        const events = action[menu]?.events;
+        if (!events) {
+            continue;
         }
-    });
-    if (!ok || !menuArray.length) {
+        events.forEach(event => {
+            if (checkIdAndAck(event, id, state)) {
+                const condition = event.condition[0];
+                const bool = toBoolean(condition);
+                if (checkCondition(bool, state, condition)) {
+                    menuArray.push(menu);
+                    calledNav = event.menu[0];
+                }
+            }
+        });
+    }
+    if (!menuArray.length) {
         return false;
     }
     for (const menu of menuArray) {
@@ -83,7 +89,7 @@ const handleEvent = async (adapter, user, dataObject, id, state, menuData, teleg
                 instance: user.instance,
                 jsonStringNav: JSON.stringify(part.nav),
                 userToSend: user.name,
-                telegramParams: telegramParams,
+                telegramParams,
                 part,
                 allMenusWithData: menuData,
                 menus,

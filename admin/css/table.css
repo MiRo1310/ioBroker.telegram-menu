@@ -42,6 +42,12 @@ tr td:has(button.buttonFalse) {
     width: 1rem;
 }
 
+.table__head_select select {
+    background-color: var(--table-head) !important;
+    margin: 0 !important;border: 0 !important;
+}
+
+
 tr[draggable="true"] {
     cursor: grab;
     padding-right: 10px !important;

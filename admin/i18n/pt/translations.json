@@ -20,6 +20,7 @@
     "close": "Fechar",
     "commonName": "Produz o nome do ponto de dados",
     "condition": "Doença",
+    "conditionFilter": "Condição do filtro",
     "conditionMenu": "Condição para abrir Menu",
     "confirm": "Confirmar",
     "confirmDelete": "Todos os dados serão perdidos. Confirmar?",

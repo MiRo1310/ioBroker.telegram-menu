@@ -20,6 +20,7 @@
     "close": "Закрити",
     "commonName": "Виводить назву точки даних",
     "condition": "Хвороба",
+    "conditionFilter": "Стан фільтра",
     "conditionMenu": "Умова відкриття меню",
     "confirm": "Підтвердити",
     "confirmDelete": "Усі дані буде втрачено. Підтвердити?",
