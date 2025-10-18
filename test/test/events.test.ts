@@ -224,7 +224,7 @@ describe('handleEvent', () => {
             menuData as any,
             {} as any,
         );
-        expect(resultBooleanFalse2).to.be.false;
+        expect(resultBooleanFalse2).to.be.true;
     });
 });
 

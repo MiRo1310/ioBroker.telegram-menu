@@ -1,5 +1,5 @@
 import type { Actions, Adapter, DataObject, MenuData, TelegramParams } from '../types/types';
-import type { MenusWithUsers, UserType } from '@/types/app';
+import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
 import { backMenuFunc } from '@b/app/backMenu';
 import { callSubMenu } from '@b/app/subMenu';
 import { sendNav } from '@b/app/sendNav';
@@ -53,6 +53,17 @@ const toBoolean = (value: string): boolean | null => {
     return null;
 };
 
+function checkCondition(bool: null | boolean, state: ioBroker.State, condition: string): boolean {
+    return isDefined(bool)
+        ? state.val === bool
+        : (typeof state.val == 'number' && (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
+              state.val == condition;
+}
+
+function checkIdAndAck(event: EventAction, id: string, state: ioBroker.State): boolean {
+    return event.ID[0] == id && event.ack[0] == state.ack.toString();
+}
+
 export const handleEvent = async (
     adapter: Adapter,
     user: UserType,
@@ -63,36 +74,30 @@ export const handleEvent = async (
     telegramParams: TelegramParams,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
-    let ok = false;
     let calledNav = '';
 
     const action = dataObject.action;
     if (!action) {
         return false;
     }
-
-    Object.keys(action).forEach(menu => {
-        if (action?.[menu]?.events) {
-            action[menu]?.events.forEach(event => {
-                if (event.ID[0] == id && event.ack[0] == state.ack.toString()) {
-                    const condition = event.condition[0];
-                    const bool = toBoolean(condition);
-                    if (
-                        isDefined(bool)
-                            ? state.val === bool
-                            : (typeof state.val == 'number' &&
-                                  (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
-                              state.val == condition
-                    ) {
-                        ok = true;
-                        menuArray.push(menu);
-                        calledNav = event.menu[0];
-                    }
-                }
-            });
+    for (const menu of Object.keys(action)) {
+        const events = action[menu]?.events;
+        if (!events) {
+            continue;
         }
-    });
-    if (!ok || !menuArray.length) {
+        events.forEach(event => {
+            if (checkIdAndAck(event, id, state)) {
+                const condition = event.condition[0];
+                const bool = toBoolean(condition);
+
+                if (checkCondition(bool, state, condition)) {
+                    menuArray.push(menu);
+                    calledNav = event.menu[0];
+                }
+            }
+        });
+    }
+    if (!menuArray.length) {
         return false;
     }
 
