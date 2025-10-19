@@ -20,6 +20,7 @@
     "close": "Close",
     "commonName": "Outputs the name of the data point",
     "condition": "Condition",
+    "conditionFilter": "Filter Condition",
     "conditionMenu": "Condition to open Menu",
     "confirm": "Confirm",
     "confirmDelete": "All data will be lost. Confirm?",

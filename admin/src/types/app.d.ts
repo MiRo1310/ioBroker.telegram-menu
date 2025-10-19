@@ -66,7 +66,7 @@ export type ObjectBrowserType = 'state' | 'instance' | 'channel' | 'device' | 'c
 export interface TabValueEntries {
     name: string;
     width?: string;
-    checkbox?: boolean;
+    typeInput?: 'input' | 'select' | 'checkbox';
     title?: string;
     editWidth?: string;
     headline: string;
@@ -78,6 +78,7 @@ export interface TabValueEntries {
     noIcon?: boolean;
     password?: boolean;
     type?: string;
+    options?: string[];
 }
 
 export interface PropsTableDndNav {
@@ -205,6 +206,7 @@ export interface SelectProps {
     id: string;
     name?: string;
     label?: string;
+    index?: number;
     placeholder?: string;
     options: string[];
     selected: string;
@@ -682,7 +684,10 @@ export interface EventAction {
     ID: string[];
     menu: string[];
     condition: string[];
+    conditionFilter?: ConditionFilters[];
 }
+
+export type ConditionFilters = '=' | '!=' | '>' | '<' | '>=' | '<=';
 
 export interface Pic {
     IDs: string[];

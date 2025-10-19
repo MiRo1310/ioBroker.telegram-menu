@@ -20,6 +20,7 @@
     "close": "Zamknąć",
     "commonName": "Wyświetla nazwę punktu danych",
     "condition": "Stan",
+    "conditionFilter": "Stan filtra",
     "conditionMenu": "Warunek otwarcia Menu",
     "confirm": "Potwierdzać",
     "confirmDelete": "Wszystkie dane zostaną utracone. Potwierdzać?",

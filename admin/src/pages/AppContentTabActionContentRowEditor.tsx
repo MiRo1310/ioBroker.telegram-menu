@@ -3,6 +3,7 @@ import BtnSmallSearch from '@/components/btn-Input/btn-small-search';
 import Input from '@/components/btn-Input/input';
 import { isChecked } from '@/lib/Utils';
 import { moveItem, saveRows, updateData, updateId } from '@/lib/actionUtils';
+import Select from '@components/btn-Input/select';
 import {
     handleDragEnd,
     handleDragEnter,
@@ -23,7 +24,7 @@ import TableRow from '@components/TableRow';
 import TableCell from '@/components/TableCell';
 import type { NativeData, PropsRowEditPopupCard, StateRowEditPopupCard } from '@/types/app';
 import React, { Component } from 'react';
-import type { EventButton, EventCheckbox } from '@/types/event';
+import type { EventButton, EventCheckbox, EventSelect } from '@/types/event';
 import AppContentTabActionContentRowEditorButtons from './AppContentTabActionContentRowEditorButtons';
 import AppContentTabActionContentRowEditorCopyModal from './AppContentTabActionContentRowEditorCopyModal';
 import type AppContentTabActionContentRowEditorCopyModalSelectedValues from './AppContentTabActionContentRowEditorCopyModalSelectedValues';
@@ -319,7 +320,9 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                               </TableCell>
                                           ) : null}
                                           {this.props.data.tab.entries.map((entry, i) =>
-                                              !entry.checkbox && entry.name != 'IDs' && entry.name != 'trigger' ? (
+                                              !['checkbox', 'select'].includes(entry.typeInput ?? '') &&
+                                              entry.name != 'IDs' &&
+                                              entry.name != 'trigger' ? (
                                                   <TableCell
                                                       align="left"
                                                       key={i}
@@ -366,7 +369,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                                           />
                                                       ) : null}
                                                   </TableCell>
-                                              ) : entry.checkbox && entry.name != 'parse_mode' ? (
+                                              ) : entry.typeInput === 'checkbox' && entry.name != 'parse_mode' ? (
                                                   <TableCell
                                                       align="left"
                                                       className="table__head_checkbox"
@@ -380,6 +383,23 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                                           }
                                                           isChecked={isChecked(row[entry.name])}
                                                           obj={true}
+                                                      />
+                                                  </TableCell>
+                                              ) : entry.typeInput === 'select' && entry.name != 'parse_mode' ? (
+                                                  <TableCell
+                                                      align="left"
+                                                      className="table__head_select"
+                                                      key={i}
+                                                  >
+                                                      <Select
+                                                          name={entry.name}
+                                                          id={entry.name}
+                                                          index={indexRow}
+                                                          selected={row[entry.name]}
+                                                          callback={({ id, index, val }: EventSelect) =>
+                                                              this.updateData({ id, index, val })
+                                                          }
+                                                          options={entry.options ?? []}
                                                       />
                                                   </TableCell>
                                               ) : null,

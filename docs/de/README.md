@@ -287,8 +287,11 @@ menu:back
 ### Events
 
 - integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt gesetzt (z.B. über Script oder
-  Adapter), wird ein vordefiniertes Menu geöffnet. Es wird auf die Bedingung und auf Ack geprüft, welches man für jedes
-  Event separat eingeben kann.
+  Adapter), wird ein vordefiniertes Menu geöffnet.
+- ... es wird auf die Bedingung geprüft,
+- ... ab Version > 1.7.3, kann man "=", "!=", "<", ">", "<=", ">=" als Bedingung auswählen, ist dieses nicht ausgewählt wird
+  standardmäßig auf Gleichheit geprüft.
+- ... es wird auf Ack geprüft, 
 
 ### Echarts
 

@@ -20,6 +20,7 @@
     "close": "Cerca",
     "commonName": "Muestra el nombre del punto de datos.",
     "condition": "Condición",
+    "conditionFilter": "Condición del filtro",
     "conditionMenu": "Condición para abrir Menú",
     "confirm": "Confirmar",
     "confirmDelete": "Todos los datos se perderán. ¿Confirmar?",

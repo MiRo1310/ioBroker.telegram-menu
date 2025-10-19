@@ -1,4 +1,6 @@
-import type { TabValueEntries, TabValues } from '@/types/app';
+import type { ConditionFilters, TabValueEntries, TabValues } from '@/types/app';
+
+const conditionFilters: ConditionFilters[] = ['=', '!=', '>', '<', '>=', '<='];
 
 export const tabValues: TabValues[] = [
     // Danach noch generateActions anpassen in action.js
@@ -16,7 +18,7 @@ export const tabValues: TabValues[] = [
                 val: 'false',
                 headline: 'Ack',
                 title: 'setWithAck',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -25,7 +27,7 @@ export const tabValues: TabValues[] = [
                 val: 'false',
                 headline: 'Con',
                 title: 'confirmMessage',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -34,7 +36,7 @@ export const tabValues: TabValues[] = [
                 val: 'false',
                 headline: 'Tog',
                 title: 'toggle',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -43,7 +45,7 @@ export const tabValues: TabValues[] = [
                 val: 'false',
                 headline: 'Par',
                 title: 'parseMode',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -63,7 +65,7 @@ export const tabValues: TabValues[] = [
                 val: 'true',
                 headline: 'New',
                 title: 'newlineCheckbox',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -72,7 +74,7 @@ export const tabValues: TabValues[] = [
                 val: 'false',
                 headline: 'Par',
                 title: 'Parse Mode HTML',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -105,7 +107,7 @@ export const tabValues: TabValues[] = [
                 val: 'false',
                 headline: 'Par',
                 title: 'Parse Mode HTML',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -119,13 +121,23 @@ export const tabValues: TabValues[] = [
         entries: [
             { name: 'ID', val: '', headline: 'ID', width: '40%', search: true, required: true },
             { name: 'menu', val: '', headline: 'executedMenu', width: '20%', elementGetRows: 'menu', required: true },
+            {
+                name: 'conditionFilter',
+                val: '',
+                headline: 'conditionFilter',
+                typeInput: 'select',
+                width: '20%',
+                noIcon: true,
+                required: true,
+                options: conditionFilters,
+            },
             { name: 'condition', val: '', headline: 'conditionMenu', width: '20%', noIcon: true, required: true },
             {
                 name: 'ack',
                 val: 'false',
                 headline: 'Ack',
                 title: 'setAck',
-                checkbox: true,
+                typeInput: 'checkbox',
                 width: '3%',
                 required: true,
             },
@@ -182,5 +194,12 @@ export const navEntries: TabValueEntries[] = [
     { name: 'call', val: '', headline: 'trigger', width: 'auto', editWidth: '98%' },
     { name: 'value', val: '', headline: 'navigation', width: 'auto', editWidth: '98%' },
     { name: 'text', val: 'chooseAction', headline: 'text', width: '35%', editWidth: '98%' },
-    { name: 'parse_mode', val: 'false', headline: 'Par', title: 'Parse Mode HTML', checkbox: true, width: '10%' },
+    {
+        name: 'parse_mode',
+        val: 'false',
+        headline: 'Par',
+        title: 'Parse Mode HTML',
+        typeInput: 'checkbox',
+        width: '10%',
+    },
 ];

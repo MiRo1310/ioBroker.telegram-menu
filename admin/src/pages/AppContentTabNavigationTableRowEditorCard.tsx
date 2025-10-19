@@ -21,7 +21,7 @@ class AppContentTabNavigationTableRowEditorCard extends Component<PropsRowNavCar
         return (
             <div className="edit__container">
                 {this.props.entries.map((entry, i) =>
-                    !(entry.name == 'value') && !(entry.name == 'text') && !entry.checkbox ? (
+                    !(entry.name == 'value') && !(entry.name == 'text') && !(entry.typeInput === 'checkbox') ? (
                         <Input
                             key={i}
                             value={this.props.newRow[entry.name]}

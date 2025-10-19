@@ -22,6 +22,12 @@ export interface EventCheckbox {
     index: number;
     params?: Record<string, unknown>;
 }
+
+export interface EventSelect {
+    id: string;
+    index: number;
+    val: string;
+}
 export interface EventSelect {
     id: string;
     val: string;

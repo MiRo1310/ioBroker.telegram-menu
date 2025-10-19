@@ -43,7 +43,15 @@ export const getInstancesFromEventsById = (
     return { isEvent: !!(event && event?.length), eventUserList: getInstances(event ?? [], menusWithUsers) };
 };
 
-const toBoolean = (value: string): boolean | null => {
+/**
+ * Convert string to boolean
+ *
+ * @param value String value to convert
+ * @returns boolean or null
+ *
+ * Testet in test/test/events.test.ts
+ */
+export const toBoolean = (value: string): boolean | null => {
     if (value === 'true') {
         return true;
     }
@@ -53,11 +61,55 @@ const toBoolean = (value: string): boolean | null => {
     return null;
 };
 
-function checkCondition(bool: null | boolean, state: ioBroker.State, condition: string): boolean {
-    return isDefined(bool)
-        ? state.val === bool
-        : (typeof state.val == 'number' && (state.val == parseInt(condition) || state.val == parseFloat(condition))) ||
-              state.val == condition;
+const isNumber = (val: ioBroker.StateValue): val is number => typeof val == 'number';
+
+/**
+ * Check condition of event
+ *
+ * @param adapter Adapter instance
+ * @param stateValue State value
+ * @param event Event action
+ *
+ * Testet in test/test/events.test.ts
+ */
+export function checkCondition(adapter: Adapter, stateValue: ioBroker.StateValue, event: EventAction): boolean {
+    const conditionVal = event.condition[0];
+    const bool = toBoolean(conditionVal);
+    let comparator = event.conditionFilter?.[0] ?? '=';
+
+    if (!isNumber(stateValue) && ['<', '>', '>=', '<='].includes(comparator)) {
+        adapter.log.error(
+            `Event conditions can not be checked, you cannot compare string, or boolean with the comparator ${comparator}. Condition will check with '=' !`,
+        );
+        comparator = '=';
+    }
+
+    if (!isDefined(stateValue)) {
+        adapter.log.error(`State value is undefined, event condition can not be checked!`);
+        return false;
+    }
+
+    const floatedVal = isNumber(stateValue) ? parseFloat(conditionVal) : 0;
+    switch (comparator) {
+        case '=':
+            return isDefined(bool)
+                ? stateValue === bool
+                : (isNumber(stateValue) && stateValue == floatedVal) || stateValue == conditionVal;
+        case '!=':
+            return isDefined(bool)
+                ? stateValue != bool
+                : (isNumber(stateValue) && stateValue != floatedVal) || stateValue != conditionVal;
+        case '<':
+            return isNumber(stateValue) && stateValue < floatedVal;
+        case '>':
+            return isNumber(stateValue) && stateValue > floatedVal;
+        case '<=':
+            return isNumber(stateValue) && stateValue <= floatedVal;
+        case '>=':
+            return isNumber(stateValue) && stateValue >= floatedVal;
+        default:
+            return false;
+    }
 }
 
 function checkIdAndAck(event: EventAction, id: string, state: ioBroker.State): boolean {
@@ -87,10 +139,7 @@ export const handleEvent = async (
         }
         events.forEach(event => {
             if (checkIdAndAck(event, id, state)) {
-                const condition = event.condition[0];
-                const bool = toBoolean(condition);
-
-                if (checkCondition(bool, state, condition)) {
+                if (checkCondition(adapter, state.val, event)) {
                     menuArray.push(menu);
                     calledNav = event.menu[0];
                 }
