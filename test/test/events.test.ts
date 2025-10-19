@@ -1,10 +1,11 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { getInstances, getInstancesFromEventsById, handleEvent } from '@b/app/events';
-import type { MenusWithUsers, UserType } from '@/types/app';
+import { checkCondition, getInstances, getInstancesFromEventsById, handleEvent, toBoolean } from '@b/app/events';
+import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
 import { Actions, MenuData } from '@b/types/types';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
+import { Adapter } from '@iobroker/adapter-core';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -311,5 +312,96 @@ describe('Event params', () => {
         expect(sendNavStub.args[0][1]).to.deep.equal('instanceB');
         expect(sendNavStub.args[0][2]).to.deep.equal(menuData['Menu']['Test']);
         expect(sendNavStub.args[0][3]).to.deep.equal('User B');
+    });
+});
+
+describe('to boolean', () => {
+    it('should be true if insert true', () => {
+        expect(toBoolean('true')).to.be.true;
+    });
+
+    it('should be false if insert false', () => {
+        expect(toBoolean('true')).to.be.true;
+    });
+
+    it('should be null if insert empty string', () => {
+        expect(toBoolean('')).to.be.null;
+    });
+
+    it('should be null if insert non boolean string', () => {
+        expect(toBoolean('abc')).to.be.null;
+    });
+
+    it('should be null if insert non boolean string', () => {
+        expect(toBoolean('1')).to.be.null;
+    });
+});
+
+describe('checkCondition', () => {
+    const { adapter } = utils.unit.createMocks({});
+    it('should be true with boolean true', () => {
+        expect(checkCondition(adapter, true, { conditionFilter: ['='], condition: ['true'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should be true with boolean false', () => {
+        expect(checkCondition(adapter, false, { conditionFilter: ['='], condition: ['false'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should be true with boolean false', () => {
+        expect(checkCondition(adapter, false, { conditionFilter: ['!='], condition: ['true'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should be true with same string', () => {
+        expect(checkCondition(adapter, '123', { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should be false with diffenrent string', () => {
+        expect(checkCondition(adapter, '1234', { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
+            .false;
+    });
+
+    it('should be false with same string and not equal', () => {
+        expect(checkCondition(adapter, '123', { conditionFilter: ['!='], condition: ['123'] } as EventAction)).to.be
+            .false;
+    });
+
+    it('should be true with same number', () => {
+        expect(checkCondition(adapter, 123, { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be.true;
+    });
+
+    it('should be true with float number and greater than', () => {
+        expect(checkCondition(adapter, 14.2, { conditionFilter: ['>'], condition: ['12.3'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should be false with float number and greater than', () => {
+        expect(checkCondition(adapter, 10.2, { conditionFilter: ['>'], condition: ['12.3'] } as EventAction)).to.be
+            .false;
+    });
+
+    it('should be false with int number and smaller than', () => {
+        expect(checkCondition(adapter, 14, { conditionFilter: ['<'], condition: ['12'] } as EventAction)).to.be.false;
+    });
+
+    it('should be true with float number', () => {
+        expect(checkCondition(adapter, 14, { conditionFilter: ['<='], condition: ['14'] } as EventAction)).to.be.true;
+    });
+
+    it('should be false with float number', () => {
+        expect(checkCondition(adapter, 15, { conditionFilter: ['<='], condition: ['14'] } as EventAction)).to.be.false;
+    });
+
+    it('should be true with string and wrong filter', () => {
+        expect(checkCondition(adapter, 'Test', { conditionFilter: ['<='], condition: ['Test'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should be false with string and wrong filter', () => {
+        expect(checkCondition(adapter, 'Test 123', { conditionFilter: ['<='], condition: ['Test'] } as EventAction)).to
+            .be.false;
     });
 });

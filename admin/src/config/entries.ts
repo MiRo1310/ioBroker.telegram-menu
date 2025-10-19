@@ -1,4 +1,6 @@
-import type { TabValueEntries, TabValues } from '@/types/app';
+import type { ConditionFilters, TabValueEntries, TabValues } from '@/types/app';
+
+const conditionFilters: ConditionFilters[] = ['=', '!=', '>', '<', '>=', '<='];
 
 export const tabValues: TabValues[] = [
     // Danach noch generateActions anpassen in action.js
@@ -127,7 +129,7 @@ export const tabValues: TabValues[] = [
                 width: '20%',
                 noIcon: true,
                 required: true,
-                options: ['=', '!=', '>', '<', '>=', '<='],
+                options: conditionFilters,
             },
             { name: 'condition', val: '', headline: 'conditionMenu', width: '20%', noIcon: true, required: true },
             {

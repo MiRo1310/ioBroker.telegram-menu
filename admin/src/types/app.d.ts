@@ -684,7 +684,10 @@ export interface EventAction {
     ID: string[];
     menu: string[];
     condition: string[];
+    conditionFilter?: ConditionFilters[];
 }
+
+export type ConditionFilters = '=' | '!=' | '>' | '<' | '>=' | '<=';
 
 export interface Pic {
     IDs: string[];
