@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.1.4",
+    "version": "3.2.0",
     "news": {
+      "3.2.0": {
+        "en": "FEAT: #421 Events with selectable comparison parameter\nFIX: #422 Event with submenu\nFIX: #407 Events are not handled",
+        "de": "FEAT: #421 Ereignisse mit wählbarem Vergleichsparameter\nFIX: #422 Veranstaltung mit Untermenü\nFIX: #407 Veranstaltungen werden nicht behandelt",
+        "ru": "#421 События с выбираемым параметром сравнения\nFIX: #422 Событие с подменю\nFix: #407 События не обрабатываются",
+        "pt": "FEAT: #421 Eventos com parâmetro de comparação selecionável\nFIX: # 422 Evento com submenu\nFIX: # 407 Os eventos não são tratados",
+        "nl": "FEAT: #421 Evenementen met selecteerbare vergelijkingsparameter\nFIX: #422 Evenement met submenu\nFIX: #407 Gebeurtenissen worden niet afgehandeld",
+        "fr": "EVÉNEMENTS #421 avec paramètre de comparaison sélectionnable\nFIXE: #422 Événement avec sous-menu\nNuméro 407 Les événements ne sont pas traités",
+        "it": "FEAT: #421 Eventi con parametro di confronto selezionabile\nFIX: #422 Evento con submenu\nFIX: #407 Eventi non gestiti",
+        "es": "FEAT: #421 Eventos con parámetro de comparación seleccionable\nFIX: #422 Evento con submenú\nFIX: #407 Los eventos no se manejan",
+        "pl": "FEAT: # 421 Wydarzenia z wybranym parametrem porównania\nFIX: # 422 Event z podmenu\nFIX: # 407 Zdarzenia nie są obsługiwane",
+        "uk": "FEAT: #421 Події з вибраним параметром порівняння\nFIX: #422 Захід з підменю\nFIX: #407 Події не обробляються",
+        "zh-cn": "FEAT: # 421 有可选比较参数的事件\nFIX: # 422 带有子菜单的事件\nFIX:第407号 未处理事件"
+      },
       "3.1.4": {
         "en": "CHORE: Update dependencies",
         "de": "CHORE: Aktualisieren von Abhängigkeiten",
