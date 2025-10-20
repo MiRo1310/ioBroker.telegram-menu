@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- FEAT: #421 Events with selectable comparison parameter
 - FIX: #422 Event with submenu
 - FIX: #407 Events are not handled
 
