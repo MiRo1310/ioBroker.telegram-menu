@@ -12,7 +12,7 @@ export const tabValues: TabValues[] = [
             { name: 'trigger', val: '', headline: 'trigger', elementGetRows: 'IDs', required: true },
             { name: 'IDs', val: '', headline: 'ID', width: '20%', required: true },
             { name: 'values', val: '', headline: 'value', width: '10%', required: true, btnCircleAdd: true },
-            { name: 'returnText', val: '', headline: 'returnText', width: '40%', required: true, btnCircleAdd: true },
+            { name: 'returnText', val: '', headline: 'returnText', width: '40%', required: false, btnCircleAdd: true },
             {
                 name: 'ack',
                 val: 'false',

@@ -54,10 +54,11 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
             return;
         }
         for (const { returnText: text, id: ID, parse_mode, confirm, ack, toggle, value } of part.switch) {
+            const shouldSendMessage = confirm === 'true';
             let returnText = text;
             if (returnText.includes(config_1.config.setDynamicValue)) {
                 const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(instance, returnText, ack, ID, userToSend, telegramParams, parse_mode, confirm);
-                if (confirm) {
+                if (shouldSendMessage) {
                     await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                         id: id ?? ID,
                         confirm,
@@ -105,14 +106,16 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
             else {
                 await setValue(adapter, ID, value, valueFromSubmenu, ack);
             }
-            const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
-            await (0, telegram_1.sendToTelegram)({
-                instance,
-                userToSend,
-                textToSend,
-                telegramParams,
-                parse_mode,
-            });
+            if (shouldSendMessage) {
+                const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
+                await (0, telegram_1.sendToTelegram)({
+                    instance,
+                    userToSend,
+                    textToSend,
+                    telegramParams,
+                    parse_mode,
+                });
+            }
         }
     }
     catch (error) {
