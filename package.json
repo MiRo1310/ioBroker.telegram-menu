@@ -39,7 +39,7 @@
     "@mui/icons-material": "^7.3.2",
     "@mui/lab": "^7.0.0-beta.17",
     "@mui/material": "^7.3.2",
-    "@tsconfig/node20": "^20.1.6",
+    "@tsconfig/node20": "^20.1.7",
     "@types/node": "^24.6.2",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
