@@ -42,7 +42,7 @@
     "@tsconfig/node20": "^20.1.7",
     "@types/node": "^24.6.2",
     "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/react-dom": "^19.2.3",
     "cpy-cli": "^6.0.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
