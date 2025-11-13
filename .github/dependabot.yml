@@ -1,6 +1,7 @@
 # Dependabot will run on day 25 of each month at 02:20 (Europe/Berlin timezone)
 version: 2
 updates:
+
   - package-ecosystem: "npm"
     schedule:
       interval: "cron"
@@ -10,7 +11,9 @@ updates:
     assignees:
       - "MiRo1310"
     versioning-strategy: "increase"
-    directories: "**/*"
+    directories:
+      - "**/*"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
