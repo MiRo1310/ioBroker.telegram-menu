@@ -95,7 +95,7 @@ export function generateActions({
                     id: IDs[index],
                     value: values[index],
                     toggle: toggle,
-                    confirm: confirm[index],
+                    confirm: confirm[index] === 'true',
                     returnText: returnText[index],
                     ack: ack?.length ? isTruthy(ack[index]) : false,
                     parse_mode: parse_mode?.length ? isTruthy(parse_mode?.[0]) : false,
