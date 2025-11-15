@@ -64,7 +64,7 @@ function generateActions({ action, userObject, adapter, }) {
                     id: IDs[index],
                     value: values[index],
                     toggle: toggle,
-                    confirm: confirm[index],
+                    confirm: confirm[index] === 'true',
                     returnText: returnText[index],
                     ack: ack?.length ? (0, utils_1.isTruthy)(ack[index]) : false,
                     parse_mode: parse_mode?.length ? (0, utils_1.isTruthy)(parse_mode?.[0]) : false,

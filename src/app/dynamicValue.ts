@@ -11,7 +11,7 @@ export const setDynamicValue = async (
     userToSend: string,
     telegramParams: TelegramParams,
     parse_mode: boolean,
-    confirm: string,
+    confirm: boolean,
 ): Promise<{ confirmText: string; id: string | undefined }> => {
     const { substringExcludeSearch } = decomposeText(returnText, '{setDynamicValue:', '}');
     let array = substringExcludeSearch.split(':');

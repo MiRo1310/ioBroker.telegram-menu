@@ -105,14 +105,16 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
             else {
                 await setValue(adapter, ID, value, valueFromSubmenu, ack);
             }
-            const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
-            await (0, telegram_1.sendToTelegram)({
-                instance,
-                userToSend,
-                textToSend,
-                telegramParams,
-                parse_mode,
-            });
+            if (confirm) {
+                const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
+                await (0, telegram_1.sendToTelegram)({
+                    instance,
+                    userToSend,
+                    textToSend,
+                    telegramParams,
+                    parse_mode,
+                });
+            }
         }
     }
     catch (error) {

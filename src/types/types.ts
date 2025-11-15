@@ -116,7 +116,7 @@ export interface SetDynamicValue {
     returnText: string;
     userToSend: string;
     parse_mode: boolean;
-    confirm: string;
+    confirm: boolean;
     telegramParams: TelegramParams;
     valueType: string;
     navToGoTo?: string;
@@ -139,7 +139,7 @@ export interface Switch {
     id: string;
     value: string;
     toggle: boolean;
-    confirm: BooleanString;
+    confirm: boolean;
     returnText: string;
     parse_mode: boolean;
     ack: boolean;

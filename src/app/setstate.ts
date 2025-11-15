@@ -153,15 +153,17 @@ export const handleSetState = async (
                 await setValue(adapter, ID, value, valueFromSubmenu, ack);
             }
 
-            const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
+            if (confirm) {
+                const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
 
-            await sendToTelegram({
-                instance,
-                userToSend,
-                textToSend,
-                telegramParams,
-                parse_mode,
-            });
+                await sendToTelegram({
+                    instance,
+                    userToSend,
+                    textToSend,
+                    telegramParams,
+                    parse_mode,
+                });
+            }
         }
     } catch (error: any) {
         errorLogger('Error Switch', error, adapter);
