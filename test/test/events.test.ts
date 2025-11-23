@@ -2,10 +2,9 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { checkCondition, getInstances, getInstancesFromEventsById, handleEvent, toBoolean } from '@b/app/events';
 import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
-import { Actions, MenuData } from '@b/types/types';
+import { Adapter, Actions, MenuData } from '@b/types/types';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
-import { Adapter } from '@iobroker/adapter-core';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -105,6 +104,7 @@ describe('handleEvent', () => {
     });
 
     const { adapter } = utils.unit.createMocks({});
+    const mockAdapter = adapter as unknown as Adapter;
 
     it('check state string', async () => {
         const dataObject = {
@@ -151,7 +151,7 @@ describe('handleEvent', () => {
         };
 
         const resultStringDifferent = await handleEvent(
-            adapter,
+            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -161,7 +161,7 @@ describe('handleEvent', () => {
         );
         expect(resultStringDifferent).to.be.false;
         const resultStringDifferent2 = await handleEvent(
-            adapter,
+            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -189,7 +189,7 @@ describe('handleEvent', () => {
         };
 
         const resultBooleanTrueSame = await handleEvent(
-            adapter,
+            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -200,7 +200,7 @@ describe('handleEvent', () => {
         expect(resultBooleanTrueSame).to.be.true;
 
         const resultBooleanFalse = await handleEvent(
-            adapter,
+            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -217,7 +217,7 @@ describe('handleEvent', () => {
             },
         };
         const resultBooleanFalse2 = await handleEvent(
-            adapter,
+            mockAdapter,
             userA,
             dataObject2 as any,
             'eventId',
@@ -231,6 +231,7 @@ describe('handleEvent', () => {
 
 describe('Event params', () => {
     const { adapter } = utils.unit.createMocks({});
+    const mockAdapter = adapter as unknown as Adapter;
     let sendNavStub: sinon.SinonStub;
     const dataObject = {
         nav: {
@@ -280,7 +281,7 @@ describe('Event params', () => {
     });
     it('should send one user', async () => {
         const resultStringSame = await handleEvent(
-            adapter,
+            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -298,7 +299,7 @@ describe('Event params', () => {
 
     it('should send userB', async () => {
         const resultStringSame2 = await handleEvent(
-            adapter,
+            mockAdapter,
             userB,
             dataObject as any,
             'eventId',
@@ -339,69 +340,74 @@ describe('to boolean', () => {
 
 describe('checkCondition', () => {
     const { adapter } = utils.unit.createMocks({});
+    const mockAdapter = adapter as unknown as Adapter;
     it('should be true with boolean true', () => {
-        expect(checkCondition(adapter, true, { conditionFilter: ['='], condition: ['true'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, true, { conditionFilter: ['='], condition: ['true'] } as EventAction)).to.be
             .true;
     });
 
     it('should be true with boolean false', () => {
-        expect(checkCondition(adapter, false, { conditionFilter: ['='], condition: ['false'] } as EventAction)).to.be
-            .true;
+        expect(checkCondition(mockAdapter, false, { conditionFilter: ['='], condition: ['false'] } as EventAction)).to
+            .be.true;
     });
 
     it('should be true with boolean false', () => {
-        expect(checkCondition(adapter, false, { conditionFilter: ['!='], condition: ['true'] } as EventAction)).to.be
-            .true;
+        expect(checkCondition(mockAdapter, false, { conditionFilter: ['!='], condition: ['true'] } as EventAction)).to
+            .be.true;
     });
 
     it('should be true with same string', () => {
-        expect(checkCondition(adapter, '123', { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, '123', { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
             .true;
     });
 
     it('should be false with diffenrent string', () => {
-        expect(checkCondition(adapter, '1234', { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, '1234', { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
             .false;
     });
 
     it('should be false with same string and not equal', () => {
-        expect(checkCondition(adapter, '123', { conditionFilter: ['!='], condition: ['123'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, '123', { conditionFilter: ['!='], condition: ['123'] } as EventAction)).to.be
             .false;
     });
 
     it('should be true with same number', () => {
-        expect(checkCondition(adapter, 123, { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be.true;
+        expect(checkCondition(mockAdapter, 123, { conditionFilter: ['='], condition: ['123'] } as EventAction)).to.be
+            .true;
     });
 
     it('should be true with float number and greater than', () => {
-        expect(checkCondition(adapter, 14.2, { conditionFilter: ['>'], condition: ['12.3'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, 14.2, { conditionFilter: ['>'], condition: ['12.3'] } as EventAction)).to.be
             .true;
     });
 
     it('should be false with float number and greater than', () => {
-        expect(checkCondition(adapter, 10.2, { conditionFilter: ['>'], condition: ['12.3'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, 10.2, { conditionFilter: ['>'], condition: ['12.3'] } as EventAction)).to.be
             .false;
     });
 
     it('should be false with int number and smaller than', () => {
-        expect(checkCondition(adapter, 14, { conditionFilter: ['<'], condition: ['12'] } as EventAction)).to.be.false;
+        expect(checkCondition(mockAdapter, 14, { conditionFilter: ['<'], condition: ['12'] } as EventAction)).to.be
+            .false;
     });
 
     it('should be true with float number', () => {
-        expect(checkCondition(adapter, 14, { conditionFilter: ['<='], condition: ['14'] } as EventAction)).to.be.true;
-    });
-
-    it('should be false with float number', () => {
-        expect(checkCondition(adapter, 15, { conditionFilter: ['<='], condition: ['14'] } as EventAction)).to.be.false;
-    });
-
-    it('should be true with string and wrong filter', () => {
-        expect(checkCondition(adapter, 'Test', { conditionFilter: ['<='], condition: ['Test'] } as EventAction)).to.be
+        expect(checkCondition(mockAdapter, 14, { conditionFilter: ['<='], condition: ['14'] } as EventAction)).to.be
             .true;
     });
 
+    it('should be false with float number', () => {
+        expect(checkCondition(mockAdapter, 15, { conditionFilter: ['<='], condition: ['14'] } as EventAction)).to.be
+            .false;
+    });
+
+    it('should be true with string and wrong filter', () => {
+        expect(checkCondition(mockAdapter, 'Test', { conditionFilter: ['<='], condition: ['Test'] } as EventAction)).to
+            .be.true;
+    });
+
     it('should be false with string and wrong filter', () => {
-        expect(checkCondition(adapter, 'Test 123', { conditionFilter: ['<='], condition: ['Test'] } as EventAction)).to
-            .be.false;
+        expect(checkCondition(mockAdapter, 'Test 123', { conditionFilter: ['<='], condition: ['Test'] } as EventAction))
+            .to.be.false;
     });
 });

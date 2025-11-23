@@ -1,5 +1,5 @@
 import { config } from '@b/config/config';
-import type { Adapter, Part, TelegramParams } from '@b/types/types';
+import type { Adapter, Part, Telegram, TelegramParams } from '@b/types/types';
 import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '@b/lib/string';
 import { transformValueToTypeOfId } from '@b/lib/utilities';
 import { isDefined } from '@b/lib/utils';
@@ -81,7 +81,7 @@ export const handleSetState = async (
     userToSend: string,
     valueFromSubmenu: null | string | number | boolean,
     telegramParams: TelegramParams,
-): Promise<void> => {
+): Promise<Telegram | undefined> => {
     const adapter = telegramParams.adapter;
     try {
         if (!part.switch) {
@@ -111,7 +111,7 @@ export const handleSetState = async (
                 }
                 return;
             }
-
+            let valueToTelegram = valueFromSubmenu ?? value;
             if (!returnText.includes("{'id':'")) {
                 await addSetStateIds(adapter, {
                     id: ID,
@@ -124,14 +124,15 @@ export const handleSetState = async (
                 returnText = returnText.replace(/'/g, '"');
                 const { substring } = decomposeText(returnText, '{"id":', '}');
                 const { json, isValidJson } = parseJSON<{ text: string; id: string }>(substring);
+
                 if (!isValidJson) {
                     return;
                 }
 
                 if (json.id) {
                     const state = await adapter.getForeignStateAsync(json.id);
-                    const val = state ? String(state?.val) : '';
-                    returnText = returnText.replace(substring, `${json.text} ${val}`);
+                    valueToTelegram = state ? String(state?.val) : '';
+                    returnText = returnText.replace(substring, json.text);
                 }
 
                 await addSetStateIds(adapter, {
@@ -142,7 +143,6 @@ export const handleSetState = async (
                 });
             }
 
-            let valueToTelegram = valueFromSubmenu ?? value;
             if (toggle) {
                 const state = await adapter.getForeignStateAsync(ID);
                 const val = state ? !state.val : false;
@@ -155,14 +155,15 @@ export const handleSetState = async (
 
             if (confirm) {
                 const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
-
-                await sendToTelegram({
+                const telegramData: Telegram = {
                     instance,
                     userToSend,
                     textToSend,
                     telegramParams,
                     parse_mode,
-                });
+                };
+                await sendToTelegram(telegramData);
+                return telegramData;
             }
         }
     } catch (error: any) {

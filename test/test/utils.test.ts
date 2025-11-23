@@ -3,8 +3,10 @@ import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } 
 
 import { utils } from '@iobroker/testing';
 import { UserListWithChatID } from '@/types/app';
+import type { Adapter } from '@b/types/types';
 
 const { adapter, database } = utils.unit.createMocks({});
+const mockAdapter = adapter as unknown as Adapter;
 
 describe('Utils', () => {
     const mockData: UserListWithChatID[] = [
@@ -51,20 +53,20 @@ describe('deepCopy', () => {
     });
     it('should create a deep copy of an object', () => {
         const original = { a: 1, b: { c: 2 } };
-        const copy = deepCopy(original, adapter);
+        const copy = deepCopy(original, mockAdapter);
 
         expect(copy).to.deep.equal(original);
         expect(copy).to.not.equal(original); // Ensure it's not the same reference
     });
 
     it('should return undefined for undefined or null input', () => {
-        expect(deepCopy(undefined, adapter)).to.be.undefined;
-        expect(deepCopy(null, adapter)).to.be.undefined;
+        expect(deepCopy(undefined, mockAdapter)).to.be.undefined;
+        expect(deepCopy(null, mockAdapter)).to.be.undefined;
     });
 
     it('should handle arrays correctly', () => {
         const original = [1, 2, { a: 3 }];
-        const copy = deepCopy(original, adapter);
+        const copy = deepCopy(original, mockAdapter);
 
         expect(copy).to.deep.equal(original);
         expect(copy).to.not.equal(original); // Ensure it's not the same reference
@@ -74,14 +76,14 @@ describe('deepCopy', () => {
         const circular: any = {};
         circular.self = circular;
 
-        const copy = deepCopy(circular, adapter);
+        const copy = deepCopy(circular, mockAdapter);
         expect(copy).to.be.undefined; // JSON.stringify throws an error for circular references
     });
 });
 
 describe('checkDirectoryIsOk', () => {
     it('should return false and log an error if the directory is undefined', () => {
-        const result = validateDirectory(adapter, undefined as unknown as string);
+        const result = validateDirectory(mockAdapter, undefined as unknown as string);
         expect(result).to.be.false;
         expect(adapter.log.error.called).to.be.true;
         expect(adapter.log.error.firstCall.args[0]).to.equal(
@@ -90,12 +92,12 @@ describe('checkDirectoryIsOk', () => {
     });
 
     it('should return false and log an error if the directory is an empty string', () => {
-        const result = validateDirectory(adapter, '');
+        const result = validateDirectory(mockAdapter, '');
         expect(result).to.be.false;
     });
 
     it('should return true if the directory is valid', () => {
-        const result = validateDirectory(adapter, '/valid/directory');
+        const result = validateDirectory(mockAdapter, '/valid/directory');
         expect(result).to.be.true;
     });
 });

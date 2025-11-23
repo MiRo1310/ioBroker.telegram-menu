@@ -8,10 +8,15 @@ export function getStateIdsToListenTo(): SetStateIds[] {
     return setStateIdsToListenTo;
 }
 
-export async function addSetStateIds(adapter: Adapter, setStateId: SetStateIds): Promise<void> {
-    if (!setStateIdsToListenTo.find(list => list.id === setStateId.id)) {
-        setStateIdsToListenTo.push(setStateId);
+function getFind(setStateId: SetStateIds): SetStateIds | undefined {
+    return setStateIdsToListenTo.find(list => list.id === setStateId.id);
+}
 
-        await _subscribeForeignStates(adapter, setStateIdsToIdArray([setStateId]));
+export async function addSetStateIds(adapter: Adapter, setStateId: SetStateIds): Promise<void> {
+    if (getFind(setStateId)) {
+        return;
     }
+    setStateIdsToListenTo.push(setStateId);
+
+    await _subscribeForeignStates(adapter, setStateIdsToIdArray([setStateId]));
 }

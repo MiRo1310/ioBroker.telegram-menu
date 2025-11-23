@@ -14,13 +14,11 @@ import {
 } from '@b/lib/appUtils'; // Adjust the path as needed
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import type { DataObject, NewObjectStructure, splittedNavigation, StartSides } from '@b/types/types';
+import type { Adapter, DataObject, NewObjectStructure, splittedNavigation, StartSides } from '@b/types/types';
 import { exchangePlaceholderWithValue } from '@b/lib/exchangeValue';
-import { BooleanString, MenusWithUsers } from '@/types/app'; // Adjust the path as needed
-
-// Adjust the path as needed
-
+import { BooleanString, MenusWithUsers } from '@/types/app';
 const { adapter } = utils.unit.createMocks({});
+const mockAdapter = adapter as unknown as Adapter;
 
 describe('checkOneLineValue', () => {
     it("should add a row splitter to the end of the text if it doesn't already contain one", () => {
@@ -38,7 +36,7 @@ describe('calcValue', () => {
     it('should calculate a valid mathematical expression', () => {
         const textToSend = 'Test {math:+5}';
         const val = '10';
-        const result = calcValue(textToSend, val, adapter);
+        const result = calcValue(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'Test',
             calculated: 15,
@@ -49,7 +47,7 @@ describe('calcValue', () => {
     it('should return the original text and value if the expression is invalid', () => {
         const textToSend = 'Test {math:+}';
         const val = '10';
-        const result = calcValue(textToSend, val, adapter);
+        const result = calcValue(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'Test',
             calculated: '10',
@@ -60,7 +58,7 @@ describe('calcValue', () => {
     it('should handle empty input gracefully', () => {
         const textToSend = '';
         const val = '';
-        const result = calcValue(textToSend, val, adapter);
+        const result = calcValue(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: '',
             calculated: '',
@@ -71,7 +69,7 @@ describe('calcValue', () => {
     it('should return the original text if no math expression is found', () => {
         const textToSend = 'No math here';
         const val = '10';
-        const result = calcValue(textToSend, val, adapter);
+        const result = calcValue(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'No math here',
             calculated: 10,
@@ -82,7 +80,7 @@ describe('calcValue', () => {
     it('should handle complex expressions correctly', () => {
         const textToSend = 'Test {math:*2} test';
         const val = '5';
-        const result = calcValue(textToSend, val, adapter);
+        const result = calcValue(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'Test  test',
             calculated: 10,

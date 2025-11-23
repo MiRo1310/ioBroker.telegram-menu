@@ -67,6 +67,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 }
                 return;
             }
+            let valueToTelegram = valueFromSubmenu ?? value;
             if (!returnText.includes("{'id':'")) {
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                     id: ID,
@@ -85,8 +86,8 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 }
                 if (json.id) {
                     const state = await adapter.getForeignStateAsync(json.id);
-                    const val = state ? String(state?.val) : '';
-                    returnText = returnText.replace(substring, `${json.text} ${val}`);
+                    valueToTelegram = state ? String(state?.val) : '';
+                    returnText = returnText.replace(substring, json.text);
                 }
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                     id: json.id,
@@ -95,7 +96,6 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                     userToSend: userToSend,
                 });
             }
-            let valueToTelegram = valueFromSubmenu ?? value;
             if (toggle) {
                 const state = await adapter.getForeignStateAsync(ID);
                 const val = state ? !state.val : false;
@@ -107,13 +107,15 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
             }
             if (confirm) {
                 const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
-                await (0, telegram_1.sendToTelegram)({
+                const telegramData = {
                     instance,
                     userToSend,
                     textToSend,
                     telegramParams,
                     parse_mode,
-                });
+                };
+                await (0, telegram_1.sendToTelegram)(telegramData);
+                return telegramData;
             }
         }
     }

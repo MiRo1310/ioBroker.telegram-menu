@@ -8,10 +8,14 @@ const setStateIdsToListenTo = [];
 function getStateIdsToListenTo() {
     return setStateIdsToListenTo;
 }
+function getFind(setStateId) {
+    return setStateIdsToListenTo.find(list => list.id === setStateId.id);
+}
 async function addSetStateIds(adapter, setStateId) {
-    if (!setStateIdsToListenTo.find(list => list.id === setStateId.id)) {
-        setStateIdsToListenTo.push(setStateId);
-        await (0, subscribeStates_1._subscribeForeignStates)(adapter, (0, object_1.setStateIdsToIdArray)([setStateId]));
+    if (getFind(setStateId)) {
+        return;
     }
+    setStateIdsToListenTo.push(setStateId);
+    await (0, subscribeStates_1._subscribeForeignStates)(adapter, (0, object_1.setStateIdsToIdArray)([setStateId]));
 }
 //# sourceMappingURL=setStateIdsToListenTo.js.map
