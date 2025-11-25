@@ -53,13 +53,14 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
         if (!part.switch) {
             return;
         }
-        for (const { returnText: text, id: ID, parse_mode, confirm, ack, toggle, value } of part.switch) {
+        for (const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } of part.switch) {
+            let idToGetValueFrom = switchId;
             let returnText = text;
             if (returnText.includes(config_1.config.setDynamicValue)) {
-                const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(instance, returnText, ack, ID, userToSend, telegramParams, parse_mode, confirm);
+                const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(instance, returnText, ack, idToGetValueFrom, userToSend, telegramParams, parse_mode, confirm);
                 if (confirm) {
                     await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
-                        id: id ?? ID,
+                        id: id ?? idToGetValueFrom,
                         confirm,
                         returnText: confirmText,
                         userToSend,
@@ -70,7 +71,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
             let valueToTelegram = valueFromSubmenu ?? value;
             if (!returnText.includes("{'id':'")) {
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
-                    id: ID,
+                    id: idToGetValueFrom,
                     confirm,
                     returnText,
                     userToSend,
@@ -85,8 +86,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                     return;
                 }
                 if (json.id) {
-                    const state = await adapter.getForeignStateAsync(json.id);
-                    valueToTelegram = state ? String(state?.val) : '';
+                    idToGetValueFrom = json.id;
                     returnText = returnText.replace(substring, json.text);
                 }
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
@@ -97,13 +97,13 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 });
             }
             if (toggle) {
-                const state = await adapter.getForeignStateAsync(ID);
+                const state = await adapter.getForeignStateAsync(idToGetValueFrom);
                 const val = state ? !state.val : false;
-                await (0, exports.setstateIobroker)({ adapter, id: ID, value: val, ack });
+                await (0, exports.setstateIobroker)({ adapter, id: switchId, value: val, ack });
                 valueToTelegram = val;
             }
             else {
-                await setValue(adapter, ID, value, valueFromSubmenu, ack);
+                await setValue(adapter, switchId, value, valueFromSubmenu, ack);
             }
             if (confirm) {
                 const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
