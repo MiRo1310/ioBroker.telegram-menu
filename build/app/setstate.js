@@ -47,6 +47,9 @@ const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
         (0, logging_1.errorLogger)('Error setValue', error, adapter);
     }
 };
+function useOtherId(returnText) {
+    return returnText.includes("{'id':'");
+}
 const handleSetState = async (instance, part, userToSend, valueFromSubmenu, telegramParams) => {
     const adapter = telegramParams.adapter;
     try {
@@ -56,6 +59,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
         for (const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } of part.switch) {
             let idToGetValueFrom = switchId;
             let returnText = text;
+            const useOtherIdFlag = useOtherId(returnText);
             if (returnText.includes(config_1.config.setDynamicValue)) {
                 const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(instance, returnText, ack, idToGetValueFrom, userToSend, telegramParams, parse_mode, confirm);
                 if (confirm) {
@@ -69,7 +73,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 return;
             }
             let valueToTelegram = valueFromSubmenu ?? value;
-            if (!returnText.includes("{'id':'")) {
+            if (!useOtherIdFlag) {
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                     id: idToGetValueFrom,
                     confirm,
@@ -97,13 +101,17 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 });
             }
             if (toggle) {
-                const state = await adapter.getForeignStateAsync(idToGetValueFrom);
+                const state = await adapter.getForeignStateAsync(switchId);
                 const val = state ? !state.val : false;
                 await (0, exports.setstateIobroker)({ adapter, id: switchId, value: val, ack });
                 valueToTelegram = val;
             }
             else {
                 await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+            }
+            if (useOtherIdFlag) {
+                const state = await adapter.getForeignStateAsync(idToGetValueFrom);
+                valueToTelegram = state ? state.val : valueToTelegram;
             }
             if (confirm) {
                 const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);

@@ -75,6 +75,10 @@ const setValue = async (
     }
 };
 
+function useOtherId(returnText: string): boolean {
+    return returnText.includes("{'id':'");
+}
+
 export const handleSetState = async (
     instance: string,
     part: Part,
@@ -90,6 +94,7 @@ export const handleSetState = async (
         for (const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } of part.switch) {
             let idToGetValueFrom = switchId;
             let returnText = text;
+            const useOtherIdFlag = useOtherId(returnText);
             if (returnText.includes(config.setDynamicValue)) {
                 const { confirmText, id } = await setDynamicValue(
                     instance,
@@ -112,8 +117,8 @@ export const handleSetState = async (
                 }
                 return;
             }
-            let valueToTelegram = valueFromSubmenu ?? value;
-            if (!returnText.includes("{'id':'")) {
+            let valueToTelegram: ioBroker.StateValue = valueFromSubmenu ?? value;
+            if (!useOtherIdFlag) {
                 await addSetStateIds(adapter, {
                     id: idToGetValueFrom,
                     confirm,
@@ -144,13 +149,18 @@ export const handleSetState = async (
             }
 
             if (toggle) {
-                const state = await adapter.getForeignStateAsync(idToGetValueFrom);
+                const state = await adapter.getForeignStateAsync(switchId);
                 const val = state ? !state.val : false;
                 await setstateIobroker({ adapter, id: switchId, value: val, ack });
 
                 valueToTelegram = val;
             } else {
                 await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+            }
+
+            if (useOtherIdFlag) {
+                const state = await adapter.getForeignStateAsync(idToGetValueFrom);
+                valueToTelegram = state ? state.val : valueToTelegram;
             }
 
             if (confirm) {
