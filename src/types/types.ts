@@ -178,7 +178,7 @@ export type SplittedData = string[];
 
 export interface SetStateIds {
     id: string;
-    confirm: BooleanString | boolean;
+    confirm: boolean;
     returnText?: string;
     userToSend: string;
     parse_mode?: boolean;
