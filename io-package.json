@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.2.0",
+    "version": "3.2.1",
     "news": {
+      "3.2.1": {
+        "en": "FIX: #459 Message is confirmed, although it should not\nFIX: #452 Value in return text\nFIX: #436 Message text is empty error\nCHORE: Update dependencies",
+        "de": "FIX: #459 Nachricht wird bestätigt, obwohl es nicht\nFIX: #452 Wert im Rückgabetext\nFIX: #436 Nachrichtentext ist leerer Fehler\nCHORE: Aktualisieren von Abhängigkeiten",
+        "ru": "Fix: #459 Сообщение подтверждается, хотя не должно\nFIX: #452 Ценность в обмен на текст\nFIX: #436 Текст сообщения - пустая ошибка\nИзображение: Update Dependencies",
+        "pt": "FIX: # 459 A mensagem é confirmada, embora não deva\nFIX: # 452 Valor no texto de retorno\nFIX: # 436 O texto da mensagem está em branco\nCHORE: Atualizar dependências",
+        "nl": "FIX: #459 Bericht wordt bevestigd, hoewel het niet\nFIX: #452 Waarde in retourtekst\nFIX: #436 Berichttekst is lege fout\nAfhankelijkheden bijwerken",
+        "fr": "Numéro 459 Le message est confirmé, mais il ne devrait pas\nNuméro 452 Valeur dans le texte de retour\nNuméro 436 Message texte est une erreur vide\nCHORE : Mise à jour des dépendances",
+        "it": "#459 Il messaggio è confermato, anche se non dovrebbe\n#452 Valore nel testo di ritorno\n#436 Il testo del messaggio è un errore vuoto\nCHORE: dipendenze di aggiornamento",
+        "es": "FIX: #459 El mensaje es confirmado, aunque no debe\nFIX: #452 Valor en el texto de retorno\nFIX: #436 Texto del mensaje es error vacío\nCHORE: Actualizar las dependencias",
+        "pl": "FIX: # 459 Wiadomość jest potwierdzona, chociaż nie powinna\nFIX: # 452 Wartość w tekście zwrotnym\nFIX: # 436 Tekst wiadomości to pusty błąd\nCHORE: Uaktualnij zależności",
+        "uk": "FIX: #459 Повідомлення підтверджено, хоча це не повинно\nFIX: #452 Значення в поверненні тексту\nFIX: #436 Текст повідомлення порожній\nCHORE: Оновити залежності",
+        "zh-cn": "FIX: #459 (英语). 信息得到确认,尽管它不应该\nFIX: #452 (英语). 返回文本中的值\nFIX: #436 (英语). 信件文本为空错误\nCHORE: 更新依赖性"
+      },
       "3.2.0": {
         "en": "FEAT: #421 Events with selectable comparison parameter\nFIX: #422 Event with submenu\nFIX: #407 Events are not handled",
         "de": "FEAT: #421 Ereignisse mit wählbarem Vergleichsparameter\nFIX: #422 Veranstaltung mit Untermenü\nFIX: #407 Veranstaltungen werden nicht behandelt",
@@ -80,19 +93,6 @@
         "pl": "FIX: # 381 Brak statusu odpowiedzi",
         "uk": "FIX: #381 Статус на сервери",
         "zh-cn": "FIX:#381 (英语). 没有回复状态"
-      },
-      "3.0.5": {
-        "en": "FIX: #377 Commands are not executed",
-        "de": "FIX: #377 Befehle werden nicht ausgeführt",
-        "ru": "Fix: #377 Команды не исполняются",
-        "pt": "FIX: # 377 Comandos não são executados",
-        "nl": "FIX: #377 Opdrachten worden niet uitgevoerd",
-        "fr": "N°377 Les commandes ne sont pas exécutées",
-        "it": "FIX: #377 I comandi non vengono eseguiti",
-        "es": "FIX: #377 Los comandos no son ejecutados",
-        "pl": "FIX: # 377 Polecenia nie są wykonywane",
-        "uk": "FIX: #377 Команди не виконані",
-        "zh-cn": "FIX: #377 (英语). 未执行命令"
       }
     },
     "titleLang": {
