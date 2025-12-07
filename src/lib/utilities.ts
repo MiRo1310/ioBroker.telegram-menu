@@ -56,7 +56,7 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
             text = textExcludeSubstring;
             const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
 
-            const ack = substring.split(',')[2].replace('}', '') == 'true';
+            const ack = substring.split(',')[2]?.replace('}', '') == 'true';
 
             if (isEmptyString(text)) {
                 text = 'Wähle eine Aktion';

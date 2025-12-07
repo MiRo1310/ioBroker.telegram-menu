@@ -173,17 +173,24 @@ const createSwitchMenu = ({
     menuToHandle,
     cbData,
     text,
-}: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
+}: CreateMenu): { text?: string; keyboard: Keyboard; device: string } | undefined => {
     splittedData = cbData.split('-');
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, item1, item2] = splittedData;
+    if (!item1 || !item2) {
+        return;
+    }
+
     const keyboard = {
         inline_keyboard: [
             [
                 {
-                    text: splittedData[1].split('.')[0],
+                    text: item1.split('.')[0],
                     callback_data: `menu:first:${menuToHandle}`,
                 },
                 {
-                    text: splittedData[2].split('.')[0],
+                    text: item2.split('.')[0],
                     callback_data: `menu:second:${menuToHandle}`,
                 },
             ],

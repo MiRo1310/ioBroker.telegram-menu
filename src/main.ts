@@ -287,7 +287,7 @@ export default class TelegramMenu extends utils.Adapter {
         }
 
         for (const instance of telegramParams.telegramInstanceList) {
-            const instanceName = instance.name;
+            const instanceName = instance?.name;
             if (!instance.active || !instanceName) {
                 continue;
             }

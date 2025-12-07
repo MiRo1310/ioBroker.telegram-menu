@@ -242,7 +242,7 @@ class TelegramMenu extends utils.Adapter {
             (0, logging_1.errorLogger)('Error onReady', e, exports.adapter);
         }
         for (const instance of telegramParams.telegramInstanceList) {
-            const instanceName = instance.name;
+            const instanceName = instance?.name;
             if (!instance.active || !instanceName) {
                 continue;
             }

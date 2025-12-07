@@ -94,13 +94,16 @@ function createTextTableFromJson(adapter: Adapter, val: string, textToSend: stri
         const substring = decomposeText(textToSend, '{json:', '}').substring;
         const array = substring.split(';');
         const itemArray: string[] = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
-        const valArray: ValArray[] = JSON.parse(val);
+        const valArray: ValArray[] | undefined = JSON.parse(val);
 
         const lengthArray: number[] = []; // Array für die Länge der Items
 
         itemArray.forEach(element => {
-            lengthArray.push(element.split(':')[1].length);
+            lengthArray.push(element.split(':')[1]?.length ?? 0);
         });
+        if (!Array.isArray(valArray)) {
+            return;
+        }
         valArray.forEach(element => {
             itemArray.forEach((item, index) => {
                 const length = element[item.split(':')[0]]?.toString().length;
