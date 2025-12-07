@@ -39,7 +39,9 @@ const createKeyboardFromJson = (
         }
 
         const keyboard: Keyboard = { inline_keyboard: [] };
-
+        if (!Array.isArray(json)) {
+            return;
+        }
         json.forEach((element, index) => {
             const firstRow: KeyboardItem[] = [];
             const rowArray: KeyboardItem[] = [];

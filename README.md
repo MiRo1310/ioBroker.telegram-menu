@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: Errors reported by sentry
+
 ### 3.2.1 (2025-11-27)
 
 - FIX: #459 Message is confirmed, although it should not
