@@ -32,6 +32,9 @@ const createKeyboardFromJson = (adapter, val, text, id, user) => {
             return;
         }
         const keyboard = { inline_keyboard: [] };
+        if (!Array.isArray(json)) {
+            return;
+        }
         json.forEach((element, index) => {
             const firstRow = [];
             const rowArray = [];
@@ -85,8 +88,11 @@ function createTextTableFromJson(adapter, val, textToSend) {
         const valArray = JSON.parse(val);
         const lengthArray = []; // Array für die Länge der Items
         itemArray.forEach(element => {
-            lengthArray.push(element.split(':')[1].length);
+            lengthArray.push(element.split(':')[1]?.length ?? 0);
         });
+        if (!Array.isArray(valArray)) {
+            return;
+        }
         valArray.forEach(element => {
             itemArray.forEach((item, index) => {
                 const length = element[item.split(':')[0]]?.toString().length;

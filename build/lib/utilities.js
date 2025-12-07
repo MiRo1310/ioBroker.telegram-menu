@@ -46,7 +46,7 @@ const textModifier = async (adapter, text) => {
             const importedValue = substring.split(',')[1];
             text = textExcludeSubstring;
             const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
-            const ack = substring.split(',')[2].replace('}', '') == 'true';
+            const ack = substring.split(',')[2]?.replace('}', '') == 'true';
             if ((0, string_1.isEmptyString)(text)) {
                 text = 'Wähle eine Aktion';
             }
