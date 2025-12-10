@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.2.1",
+    "version": "3.2.2",
     "news": {
+      "3.2.2": {
+        "en": "FIX: Errors reported by sentry",
+        "de": "FIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: Erros relatados pelo sentinela",
+        "nl": "FIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIX : Erreurs signalées par sentinelle",
+        "it": "FIX: Errori segnalati dalla sentinella",
+        "es": "FIX: Errores reportados por centinela",
+        "pl": "FIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX:哨兵报告的错误"
+      },
       "3.2.1": {
         "en": "FIX: #459 Message is confirmed, although it should not\nFIX: #452 Value in return text\nFIX: #436 Message text is empty error\nCHORE: Update dependencies",
         "de": "FIX: #459 Nachricht wird bestätigt, obwohl es nicht\nFIX: #452 Wert im Rückgabetext\nFIX: #436 Nachrichtentext ist leerer Fehler\nCHORE: Aktualisieren von Abhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "WYROB: Wysyłanie zdjęć bez opóźnienia\nNAPRAWIONO: #385 Token Grafana\nCHORE: #384 Ustaw zalecane wersje",
         "uk": "МОЖЛИВІСТЬ: Надсилати зображення без затримки\nВИПРАВЛЕННЯ: #385 Токен Grafana\nCHORE: #384 Встановлено рекомендовані версії",
         "zh-cn": "特性：发送图片无延迟\n修复：＃385 Grafana 令牌\n任务：#384 设置推荐版本"
-      },
-      "3.0.6": {
-        "en": "FIX: #381 No response status",
-        "de": "FIX: #381 Kein Antwortstatus",
-        "ru": "Fix: #381 Нет ответа",
-        "pt": "FIX: #381 Sem status de resposta",
-        "nl": "FIX: #381 Geen responsstatus",
-        "fr": "Numéro 381 Pas de réponse",
-        "it": "FIX: #381 Nessun stato di risposta",
-        "es": "FIX: #381 No hay estado de respuesta",
-        "pl": "FIX: # 381 Brak statusu odpowiedzi",
-        "uk": "FIX: #381 Статус на сервери",
-        "zh-cn": "FIX:#381 (英语). 没有回复状态"
       }
     },
     "titleLang": {
