@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "3.2.2",
+    "version": "3.2.3",
     "news": {
+      "3.2.3": {
+        "en": "FIX: Errors reported by sentry",
+        "de": "FIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: Erros relatados pelo sentinela",
+        "nl": "FIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIX : Erreurs signalées par sentinelle",
+        "it": "FIX: Errori segnalati dalla sentinella",
+        "es": "FIX: Errores reportados por centinela",
+        "pl": "FIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX:哨兵报告的错误"
+      },
       "3.2.2": {
         "en": "FIX: Errors reported by sentry",
         "de": "FIX: Fehler, die von sentry gemeldet werden",
@@ -80,19 +93,6 @@
         "pl": "NAPRAWIONO: #399 Błąd w interfejsie użytkownika",
         "uk": "ВИПРАВЛЕННЯ: #399 Помилка в інтерфейсі користувача",
         "zh-cn": "修复：#399 UI中的错误"
-      },
-      "3.1.0": {
-        "en": "FEAT: Send picture without delay \nFIX: #385 Grafana token\nCHORE: #384 Set recommended versions",
-        "de": "NEU: Bild ohne Verzögerung senden\nFIX: #385 Grafana-Token\nCHORE: #384 Empfohlene Versionen festlegen",
-        "ru": "ВОЗМОЖНОСТЬ: Отправка изображения без задержки\nИСПРАВЛЕНИЕ: #385 Маркер Grafana\nCHORE: #384 Установить рекомендуемые версии",
-        "pt": "FUNCIONALIDADE: Enviar imagem sem atraso\nCORREÇÃO: #385 Token do Grafana\nTAREFA: #384 Definir versões recomendadas",
-        "nl": "FUNC: Afbeelding verzenden zonder vertraging\nFIX: #385 Grafana-token\nCHORE: #384 Aanbevolen versies ingesteld",
-        "fr": "FONCTIONNALITÉ : Envoyer une photo sans délai\nRÉPARATION : #385 Jeton Grafana\nCHORE : #384 Définir les versions recommandées",
-        "it": "FUNZ: Invio immagine senza ritardo\nCORREZIONE: #385 Token di Grafana\nCHORE: #384 Impostare le versioni consigliate",
-        "es": "NUEVA FUNCIÓN: Enviar imagen sin demora\nERROR: #385 Token de Grafana\nTAREA: #384 Establecer versiones recomendadas",
-        "pl": "WYROB: Wysyłanie zdjęć bez opóźnienia\nNAPRAWIONO: #385 Token Grafana\nCHORE: #384 Ustaw zalecane wersje",
-        "uk": "МОЖЛИВІСТЬ: Надсилати зображення без затримки\nВИПРАВЛЕННЯ: #385 Токен Grafana\nCHORE: #384 Встановлено рекомендовані версії",
-        "zh-cn": "特性：发送图片无延迟\n修复：＃385 Grafana 令牌\n任务：#384 设置推荐版本"
       }
     },
     "titleLang": {
