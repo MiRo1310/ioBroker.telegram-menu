@@ -24,13 +24,13 @@ async function saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceT
 
         if (requestMessageIdObj?.val) {
             const result = parseJSON<Messages>(String(requestMessageIdObj?.val), adapter);
-            json = result.json;
+            json = result.json ?? {};
             isValidJson = result.isValidJson;
         }
         requestMessageId = isValidJson ? json : {};
 
         const userIDValue = requestUserIdObj.val.toString();
-        if (!requestMessageId?.[userIDValue]) {
+        if (requestMessageId && !requestMessageId[userIDValue]) {
             requestMessageId[userIDValue] = [];
         }
 

@@ -12,13 +12,13 @@ const jsonString = (val) => JSON.stringify(val);
 exports.jsonString = jsonString;
 function parseJSON(val, adapter) {
     try {
-        return { json: JSON.parse(val), isValidJson: true };
+        return val ? { json: JSON.parse(val), isValidJson: true } : { json: val ?? '', isValidJson: false };
     }
     catch (e) {
         if (adapter) {
             (0, logging_1.errorLogger)('Error parseJSON:', e, adapter);
         }
-        return { json: val, isValidJson: false };
+        return { json: val ?? '', isValidJson: false };
     }
 }
 const replaceAll = (text, searchValue, replaceValue) => {

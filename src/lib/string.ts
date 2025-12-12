@@ -6,16 +6,16 @@ import { isTruthy } from '@b/lib/utils';
 export const jsonString = (val?: string | number | boolean | object | null): string => JSON.stringify(val);
 
 export function parseJSON<T>(
-    val: string,
+    val: string | null,
     adapter?: Adapter,
 ): { json: string; isValidJson: false } | { json: T; isValidJson: true } {
     try {
-        return { json: JSON.parse(val) as T, isValidJson: true };
+        return val ? { json: JSON.parse(val) as T, isValidJson: true } : { json: val ?? '', isValidJson: false };
     } catch (e) {
         if (adapter) {
             errorLogger('Error parseJSON:', e, adapter);
         }
-        return { json: val, isValidJson: false };
+        return { json: val ?? '', isValidJson: false };
     }
 }
 
