@@ -50,18 +50,19 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
         }
         if (text.includes(config.set.start)) {
             const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
-            const id = substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
-            const importedValue = substring.split(',')[1];
+            const [idString, importedValue, ackString] = substring.split(',') as (string | undefined)[];
+            const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
 
             text = textExcludeSubstring;
-            const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
+            const convertedValue =
+                id && importedValue ? await transformValueToTypeOfId(adapter, id, importedValue) : undefined;
 
-            const ack = substring.split(',')[2]?.replace('}', '') == 'true';
+            const ack = ackString?.replace('}', '') == 'true' || false;
 
             if (isEmptyString(text)) {
                 text = 'Wähle eine Aktion';
             }
-            if (convertedValue) {
+            if (convertedValue && id) {
                 await setstateIobroker({ adapter, id, value: convertedValue, ack });
             }
         }
@@ -83,6 +84,7 @@ export async function transformValueToTypeOfId(
 ): Promise<ioBroker.StateValue | undefined> {
     try {
         const receivedType = typeof value;
+
         const obj = await adapter.getForeignObjectAsync(id);
 
         if (!obj || !isDefined(value) || isSameType(receivedType, obj)) {

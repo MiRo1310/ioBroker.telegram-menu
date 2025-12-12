@@ -42,15 +42,15 @@ const textModifier = async (adapter, text) => {
         }
         if (text.includes(config_1.config.set.start)) {
             const { substring, textExcludeSubstring } = (0, string_1.decomposeText)(text, config_1.config.set.start, config_1.config.set.end);
-            const id = substring.split(',')[0].replace("{set:'id':", '').replace(/'/g, '');
-            const importedValue = substring.split(',')[1];
+            const [idString, importedValue, ackString] = substring.split(',');
+            const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
             text = textExcludeSubstring;
-            const convertedValue = await transformValueToTypeOfId(adapter, id, importedValue);
-            const ack = substring.split(',')[2]?.replace('}', '') == 'true';
+            const convertedValue = id && importedValue ? await transformValueToTypeOfId(adapter, id, importedValue) : undefined;
+            const ack = ackString?.replace('}', '') == 'true' || false;
             if ((0, string_1.isEmptyString)(text)) {
                 text = 'Wähle eine Aktion';
             }
-            if (convertedValue) {
+            if (convertedValue && id) {
                 await (0, setstate_1.setstateIobroker)({ adapter, id, value: convertedValue, ack });
             }
         }
