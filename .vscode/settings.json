@@ -1,38 +1,47 @@
 {
-	"eslint.enable": true,
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"json.schemas": [
-		{
-			"fileMatch": ["io-package.json"],
-			"url": "https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/master/schemas/io-package.json"
-		},
-		{
-			"fileMatch": ["admin/jsonConfig.json", "admin/jsonCustom.json", "admin/jsonTab.json"],
-			"url": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json"
-		}
-	],
-	"cSpell.words": [
-		"alcalzone",
-		"alexa",
-		"azul",
-		"csstype",
-		"dropbox",
-		"echart",
-		"Echart",
-		"echarts",
-		"Eventlistener",
-		"grafana",
-		"iobroker",
-		"macarons",
-		"nbsp",
-		"novalue",
-		"Rolladen",
-		"roma",
-		"Rückgabetext",
-		"shoppinglist"
-	],
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	}
+    "eslint.enable": true,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "io-package.json"
+            ],
+            "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/master/schemas/io-package.json"
+        },
+        {
+            "fileMatch": [
+                "admin/jsonConfig.json",
+                "admin/jsonCustom.json",
+                "admin/jsonTab.json",
+                "admin/jsonConfig.json5",
+                "admin/jsonCustom.json5",
+                "admin/jsonTab.json5"
+            ],
+            "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json"
+        }
+    ],
+    "cSpell.words": [
+        "alcalzone",
+        "alexa",
+        "azul",
+        "csstype",
+        "dropbox",
+        "echart",
+        "Echart",
+        "echarts",
+        "Eventlistener",
+        "grafana",
+        "iobroker",
+        "macarons",
+        "nbsp",
+        "novalue",
+        "Rolladen",
+        "roma",
+        "Rückgabetext",
+        "shoppinglist"
+    ],
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }
