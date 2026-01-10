@@ -52,7 +52,7 @@ function generateActions({ action, userObject, adapter, }) {
     try {
         const listOfSetStateIds = [];
         action?.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, index) {
-            const triggerName = trigger[0];
+            const triggerName = trigger?.[0];
             if (index == 0) {
                 userObject[triggerName] = { switch: [] };
             }
