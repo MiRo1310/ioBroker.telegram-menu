@@ -81,7 +81,7 @@ export function generateActions({
             { trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs },
             index,
         ) {
-            const triggerName = trigger[0];
+            const triggerName: string | undefined = trigger?.[0];
             if (index == 0) {
                 userObject[triggerName] = { switch: [] };
             }
