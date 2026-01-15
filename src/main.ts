@@ -288,7 +288,7 @@ export default class TelegramMenu extends utils.Adapter {
 
         for (const instance of telegramParams.telegramInstanceList) {
             const instanceName = instance?.name;
-            if (!instance.active || !instanceName) {
+            if (!instance?.active || !instanceName) {
                 continue;
             }
             this.log.debug(`Subscribe to instance: ${instanceName}`);
