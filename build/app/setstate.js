@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleSetState = exports.setstateIobroker = void 0;
+exports.handleSetState = exports.setstateIobroker = exports._setDynamicValueIfIsIn = void 0;
 const config_1 = require("../config/config");
 const string_1 = require("../lib/string");
 const utilities_1 = require("../lib/utilities");
@@ -16,7 +16,7 @@ const modifiedValue = (valueFromSubmenu, value) => {
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
 };
-const isDynamicValueToSet = async (adapter, value) => {
+const _setDynamicValueIfIsIn = async (adapter, value) => {
     const startValue = '{id:';
     const endValue = '}';
     if (typeof value === 'string' && value.includes(startValue)) {
@@ -27,6 +27,7 @@ const isDynamicValueToSet = async (adapter, value) => {
     }
     return value;
 };
+exports._setDynamicValueIfIsIn = _setDynamicValueIfIsIn;
 const setstateIobroker = async ({ id, value, ack, adapter, }) => {
     try {
         const val = await (0, utilities_1.transformValueToTypeOfId)(adapter, id, value);
@@ -43,7 +44,7 @@ exports.setstateIobroker = setstateIobroker;
 const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
     try {
         const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
-            ? await isDynamicValueToSet(adapter, value)
+            ? await (0, exports._setDynamicValueIfIsIn)(adapter, value)
             : modifiedValue(String(valueFromSubmenu), value);
         await (0, exports.setstateIobroker)({ adapter, id, value: valueToSet, ack });
     }

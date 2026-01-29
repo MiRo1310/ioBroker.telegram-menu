@@ -27,7 +27,11 @@ export const _setDynamicValueIfIsIn = async (
         const { substring, substringExcludeSearch: id } = decomposeText(value, startValue, endValue);
 
         const newValue = await adapter.getForeignStateAsync(id);
-        const { error, calculated } = mathFunction(substring, String(newValue?.val), adapter);
+
+        if (!isDefined(newValue?.val)) {
+            return value;
+        }
+        const { error, calculated } = mathFunction(value, String(newValue?.val), adapter);
 
         return value.replace(substring, error ? String(newValue?.val) : calculated);
     }

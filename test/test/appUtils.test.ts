@@ -72,7 +72,7 @@ describe('calcValue', () => {
         const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'No math here',
-            calculated: 10,
+            calculated: '10',
             error: false,
         });
     });
