@@ -38,7 +38,7 @@ describe('calcValue', () => {
         const val = '10';
         const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
-            textToSend: 'Test',
+            textToSend: 'Test 15',
             calculated: 15,
             error: false,
         });
@@ -82,7 +82,7 @@ describe('calcValue', () => {
         const val = '5';
         const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
-            textToSend: 'Test  test',
+            textToSend: 'Test 10 test',
             calculated: 10,
             error: false,
         });

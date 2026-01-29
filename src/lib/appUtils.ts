@@ -9,7 +9,7 @@ import type {
     splittedNavigation,
     StartSides,
 } from '@b/types/types';
-import { decomposeText, removeQuotes } from '@b/lib/string';
+import { decomposeText, removeDuplicateSpaces, removeQuotes } from '@b/lib/string';
 import { evaluate } from '@b/lib/math';
 import { isTruthy } from '@b/lib/utils';
 import { trimAllItems } from '@b/lib/object';
@@ -35,12 +35,12 @@ export function mathFunction(
         return { textToSend, calculated: val, error: false };
     }
 
-    const { substringExcludeSearch, textExcludeSubstring } = decomposeText(textToSend, '{math:', '}');
+    const { substringExcludeSearch, textExcludeSubstring, substring } = decomposeText(textToSend, '{math:', '}');
     const { val: evalVal, error } = evaluate([val, substringExcludeSearch], adapter);
 
     return error
         ? { textToSend: textExcludeSubstring, calculated: val, error }
-        : { textToSend: textExcludeSubstring, calculated: evalVal, error };
+        : { textToSend: removeDuplicateSpaces(textToSend.replace(substring, evalVal)), calculated: evalVal, error };
 }
 
 export function roundValue(val: string, textToSend: string): { roundedValue: string; text: string; error: boolean } {

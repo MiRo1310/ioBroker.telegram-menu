@@ -29,9 +29,15 @@ describe('setDynamicValue', () => {
         expect(value).to.equal('122');
     });
 
-    it.only('should replace id with value', async () => {
+    it('should replace id with value', async () => {
         await mockAdapter.setForeignStateAsync('test', '122', true);
         const value = await _setDynamicValueIfIsIn(mockAdapter, '{id:test} {math:+1}');
         expect(value).to.equal('123');
+    });
+
+    it('should replace id with value', async () => {
+        await mockAdapter.setForeignStateAsync('test', '122', true);
+        const value = await _setDynamicValueIfIsIn(mockAdapter, 'xx {id:test} {math:+1} xx');
+        expect(value).to.equal('xx 123 xx');
     });
 });
