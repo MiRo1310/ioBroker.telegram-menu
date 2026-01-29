@@ -18,16 +18,24 @@ import type { RowsNav, MenusWithUsers } from '@/types/app';
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
 
-export function calcValue(
+/**
+ * Math Function
+ * Calculates mathematical expressions within the textToSend using the provided value.
+ *
+ * @param textToSend Text to send
+ * @param val Value to calculate
+ * @param adapter Adapter instance
+ */
+export function mathFunction(
     textToSend: string,
     val: string,
     adapter: Adapter,
 ): { textToSend: string; calculated: any; error: boolean } {
-    const { substringExcludeSearch, textExcludeSubstring } = decomposeText(
-        textToSend,
-        config.math.start,
-        config.math.end,
-    );
+    if (!textToSend.includes('{math:')) {
+        return { textToSend, calculated: val, error: false };
+    }
+
+    const { substringExcludeSearch, textExcludeSubstring } = decomposeText(textToSend, '{math:', '}');
     const { val: evalVal, error } = evaluate([val, substringExcludeSearch], adapter);
 
     return error

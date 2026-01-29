@@ -20,7 +20,7 @@ export function parseJSON<T>(
 }
 
 export const replaceAll = (text: string, searchValue: string, replaceValue: string): string => {
-    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
+    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
 };
 

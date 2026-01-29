@@ -10,16 +10,20 @@ const dynamicValue_1 = require("../app/dynamicValue");
 const setStateIdsToListenTo_1 = require("../app/setStateIdsToListenTo");
 const exchangeValue_1 = require("../lib/exchangeValue");
 const telegram_1 = require("../app/telegram");
+const appUtils_1 = require("../lib/appUtils");
 const modifiedValue = (valueFromSubmenu, value) => {
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
 };
 const isDynamicValueToSet = async (adapter, value) => {
-    if (typeof value === 'string' && value.includes(config_1.config.dynamicValue.start)) {
-        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, config_1.config.dynamicValue.start, config_1.config.dynamicValue.end);
+    const startValue = '{id:';
+    const endValue = '}';
+    if (typeof value === 'string' && value.includes(startValue)) {
+        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, startValue, endValue);
         const newValue = await adapter.getForeignStateAsync(id);
-        return value.replace(substring, String(newValue?.val));
+        const { error, calculated } = (0, appUtils_1.mathFunction)(substring, String(newValue?.val), adapter);
+        return value.replace(substring, error ? String(newValue?.val) : calculated);
     }
     return value;
 };

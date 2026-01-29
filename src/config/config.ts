@@ -49,10 +49,6 @@ export const config = {
     },
     functionSelektor: 'functions=',
     modifiedValue: '{value}',
-    dynamicValue: {
-        start: '{id:',
-        end: '}',
-    },
     setDynamicValue: '{setDynamicValue',
 };
 

@@ -48,10 +48,6 @@ exports.config = {
     },
     functionSelektor: 'functions=',
     modifiedValue: '{value}',
-    dynamicValue: {
-        start: '{id:',
-        end: '}',
-    },
     setDynamicValue: '{setDynamicValue',
 };
 exports.arrayOfEntries = [

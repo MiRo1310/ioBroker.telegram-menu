@@ -7,7 +7,7 @@ import { isDefined } from '@b/lib/utils';
 import { cleanUpString, decomposeText, getNewline, jsonString } from '@b/lib/string';
 import { setTimeValue } from '@b/lib/utilities';
 import { integrateTimeIntoText } from '@b/lib/time';
-import { calcValue, roundValue } from '@b/lib/appUtils';
+import { mathFunction, roundValue } from '@b/lib/appUtils';
 import { createKeyboardFromJson, createTextTableFromJson } from '@b/app/jsonTable';
 import { sendToTelegram, sendToTelegramSubmenu } from '@b/app/telegram';
 import { exchangeValue } from '@b/lib/exchangeValue';
@@ -67,14 +67,12 @@ export async function getState(
                 modifiedStateVal = '';
             }
 
-            if (modifiedTextToSend.includes(config.math.start)) {
-                const { textToSend, calculated, error } = calcValue(modifiedTextToSend, modifiedStateVal, adapter);
-                if (!error) {
-                    modifiedTextToSend = textToSend;
-                    modifiedStateVal = calculated;
+            const { textToSend, calculated, error: err } = mathFunction(modifiedTextToSend, modifiedStateVal, adapter);
+            if (!err) {
+                modifiedTextToSend = textToSend;
+                modifiedStateVal = calculated;
 
-                    adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
-                }
+                adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
             }
 
             if (modifiedTextToSend.includes(config.round.start)) {

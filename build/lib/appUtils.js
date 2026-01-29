@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getInstanceById = exports.getStartSides = exports.timeStringReplacer = exports.getTypeofTimestamp = exports.getParseMode = exports.getListOfMenusIncludingUser = exports.checkOneLineValue = void 0;
-exports.calcValue = calcValue;
+exports.mathFunction = mathFunction;
 exports.roundValue = roundValue;
 exports.statusIdAndParams = statusIdAndParams;
 exports.isStartside = isStartside;
@@ -15,8 +15,19 @@ const utils_1 = require("../lib/utils");
 const object_1 = require("../lib/object");
 const checkOneLineValue = (text) => !text.includes(config_1.config.rowSplitter) ? `${text} ${config_1.config.rowSplitter}` : text;
 exports.checkOneLineValue = checkOneLineValue;
-function calcValue(textToSend, val, adapter) {
-    const { substringExcludeSearch, textExcludeSubstring } = (0, string_1.decomposeText)(textToSend, config_1.config.math.start, config_1.config.math.end);
+/**
+ * Math Function
+ * Calculates mathematical expressions within the textToSend using the provided value.
+ *
+ * @param textToSend Text to send
+ * @param val Value to calculate
+ * @param adapter Adapter instance
+ */
+function mathFunction(textToSend, val, adapter) {
+    if (!textToSend.includes('{math:')) {
+        return { textToSend, calculated: val, error: false };
+    }
+    const { substringExcludeSearch, textExcludeSubstring } = (0, string_1.decomposeText)(textToSend, '{math:', '}');
     const { val: evalVal, error } = (0, math_1.evaluate)([val, substringExcludeSearch], adapter);
     return error
         ? { textToSend: textExcludeSubstring, calculated: val, error }

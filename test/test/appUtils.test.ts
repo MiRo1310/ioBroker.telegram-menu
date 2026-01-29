@@ -1,5 +1,5 @@
 import {
-    calcValue,
+    mathFunction,
     checkOneLineValue,
     getListOfMenusIncludingUser,
     getNewStructure,
@@ -36,7 +36,7 @@ describe('calcValue', () => {
     it('should calculate a valid mathematical expression', () => {
         const textToSend = 'Test {math:+5}';
         const val = '10';
-        const result = calcValue(textToSend, val, mockAdapter);
+        const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'Test',
             calculated: 15,
@@ -47,7 +47,7 @@ describe('calcValue', () => {
     it('should return the original text and value if the expression is invalid', () => {
         const textToSend = 'Test {math:+}';
         const val = '10';
-        const result = calcValue(textToSend, val, mockAdapter);
+        const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'Test',
             calculated: '10',
@@ -58,7 +58,7 @@ describe('calcValue', () => {
     it('should handle empty input gracefully', () => {
         const textToSend = '';
         const val = '';
-        const result = calcValue(textToSend, val, mockAdapter);
+        const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: '',
             calculated: '',
@@ -69,7 +69,7 @@ describe('calcValue', () => {
     it('should return the original text if no math expression is found', () => {
         const textToSend = 'No math here';
         const val = '10';
-        const result = calcValue(textToSend, val, mockAdapter);
+        const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'No math here',
             calculated: 10,
@@ -80,7 +80,7 @@ describe('calcValue', () => {
     it('should handle complex expressions correctly', () => {
         const textToSend = 'Test {math:*2} test';
         const val = '5';
-        const result = calcValue(textToSend, val, mockAdapter);
+        const result = mathFunction(textToSend, val, mockAdapter);
         expect(result).to.deep.equal({
             textToSend: 'Test  test',
             calculated: 10,

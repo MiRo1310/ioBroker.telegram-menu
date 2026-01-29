@@ -8,6 +8,7 @@ import { setDynamicValue } from '@b/app/dynamicValue';
 import { addSetStateIds } from '@b/app/setStateIdsToListenTo';
 import { exchangeValue } from '@b/lib/exchangeValue';
 import { sendToTelegram } from '@b/app/telegram';
+import { mathFunction } from '@b/lib/appUtils';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -15,20 +16,20 @@ const modifiedValue = (valueFromSubmenu: string, value: string): string => {
         : valueFromSubmenu;
 };
 
-const isDynamicValueToSet = async (
+export const _setDynamicValueIfIsIn = async (
     adapter: Adapter,
     value: string | number | boolean,
 ): Promise<string | number | boolean> => {
-    if (typeof value === 'string' && value.includes(config.dynamicValue.start)) {
-        const { substring, substringExcludeSearch: id } = decomposeText(
-            value,
-            config.dynamicValue.start,
-            config.dynamicValue.end,
-        );
+    const startValue = '{id:';
+    const endValue = '}';
+
+    if (typeof value === 'string' && value.includes(startValue)) {
+        const { substring, substringExcludeSearch: id } = decomposeText(value, startValue, endValue);
 
         const newValue = await adapter.getForeignStateAsync(id);
+        const { error, calculated } = mathFunction(substring, String(newValue?.val), adapter);
 
-        return value.replace(substring, String(newValue?.val));
+        return value.replace(substring, error ? String(newValue?.val) : calculated);
     }
     return value;
 };
@@ -66,7 +67,7 @@ const setValue = async (
     try {
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
-                ? await isDynamicValueToSet(adapter, value)
+                ? await _setDynamicValueIfIsIn(adapter, value)
                 : modifiedValue(String(valueFromSubmenu), value);
 
         await setstateIobroker({ adapter, id, value: valueToSet, ack });

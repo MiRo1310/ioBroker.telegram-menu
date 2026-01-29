@@ -54,13 +54,11 @@ async function getState(instance, part, userToSend, telegramParams) {
                 modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, stateValue);
                 modifiedStateVal = '';
             }
-            if (modifiedTextToSend.includes(config_1.config.math.start)) {
-                const { textToSend, calculated, error } = (0, appUtils_1.calcValue)(modifiedTextToSend, modifiedStateVal, adapter);
-                if (!error) {
-                    modifiedTextToSend = textToSend;
-                    modifiedStateVal = calculated;
-                    adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
-                }
+            const { textToSend, calculated, error: err } = (0, appUtils_1.mathFunction)(modifiedTextToSend, modifiedStateVal, adapter);
+            if (!err) {
+                modifiedTextToSend = textToSend;
+                modifiedStateVal = calculated;
+                adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
             }
             if (modifiedTextToSend.includes(config_1.config.round.start)) {
                 const { error, text, roundedValue } = (0, appUtils_1.roundValue)(String(modifiedStateVal), modifiedTextToSend);

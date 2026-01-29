@@ -22,7 +22,7 @@ function parseJSON(val, adapter) {
     }
 }
 const replaceAll = (text, searchValue, replaceValue) => {
-    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
+    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
 };
 exports.replaceAll = replaceAll;
