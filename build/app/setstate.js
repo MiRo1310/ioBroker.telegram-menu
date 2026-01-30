@@ -21,9 +21,16 @@ const _setDynamicValueIfIsIn = async (adapter, value) => {
     const endValue = '}';
     if (typeof value === 'string' && value.includes(startValue)) {
         const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, startValue, endValue);
-        const newValue = await adapter.getForeignStateAsync(id);
-        const { error, calculated } = (0, appUtils_1.mathFunction)(substring, String(newValue?.val), adapter);
-        return value.replace(substring, error ? String(newValue?.val) : calculated);
+        const state = await adapter.getForeignStateAsync(id);
+        if (!(0, utils_1.isDefined)(state?.val)) {
+            return value;
+        }
+        if (!value.includes('{math:')) {
+            return value.replace(substring, String(state?.val));
+        }
+        const newValue = value.replace(substring, '');
+        const { error, textToSend, calculated } = (0, appUtils_1.mathFunction)(newValue, String(state?.val), adapter);
+        return error ? String(state?.val) : (0, exchangeValue_1.exchangeValue)(adapter, textToSend, String(calculated), true).textToSend;
     }
     return value;
 };
@@ -43,9 +50,11 @@ const setstateIobroker = async ({ id, value, ack, adapter, }) => {
 exports.setstateIobroker = setstateIobroker;
 const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
     try {
+        adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(value)}`);
         const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
             ? await (0, exports._setDynamicValueIfIsIn)(adapter, value)
             : modifiedValue(String(valueFromSubmenu), value);
+        adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(valueToSet)}`);
         await (0, exports.setstateIobroker)({ adapter, id, value: valueToSet, ack });
     }
     catch (error) {

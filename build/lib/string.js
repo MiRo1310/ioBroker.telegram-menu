@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.removeDuplicateSpaces = exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -99,4 +99,8 @@ const isNonEmptyString = (str) => str.trim() !== '';
 exports.isNonEmptyString = isNonEmptyString;
 const isEmptyString = (str) => str.trim() === '';
 exports.isEmptyString = isEmptyString;
+const removeDuplicateSpaces = (text) => {
+    return text.replace(/\s+/g, ' ').trim();
+};
+exports.removeDuplicateSpaces = removeDuplicateSpaces;
 //# sourceMappingURL=string.js.map

@@ -28,6 +28,14 @@ const setTimeValue = async (adapter, textToSend, id) => {
     return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
 exports.setTimeValue = setTimeValue;
+const changeToNumber = (adapter, value) => {
+    const val = typeof value === 'string' ? parseFloat(value) : parseFloat((0, string_1.jsonString)(value));
+    if (isNaN(val)) {
+        adapter.log.warn(`Value "${value}" is not a valid number. Returning NaN.`);
+        return;
+    }
+    return val;
+};
 const textModifier = async (adapter, text) => {
     if (!text) {
         return '';
@@ -77,7 +85,7 @@ async function transformValueToTypeOfId(adapter, id, value) {
             case 'string':
                 return String(value);
             case 'number':
-                return typeof value === 'string' ? parseFloat(value) : parseFloat((0, string_1.jsonString)(value));
+                return changeToNumber(adapter, value);
             case 'boolean':
                 return (0, utils_1.isDefined)(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
             default:

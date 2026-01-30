@@ -30,8 +30,8 @@ function mathFunction(textToSend, val, adapter) {
     const { substringExcludeSearch, textExcludeSubstring } = (0, string_1.decomposeText)(textToSend, '{math:', '}');
     const { val: evalVal, error } = (0, math_1.evaluate)([val, substringExcludeSearch], adapter);
     return error
-        ? { textToSend: textExcludeSubstring, calculated: val, error }
-        : { textToSend: textExcludeSubstring, calculated: evalVal, error };
+        ? { textToSend: (0, string_1.removeDuplicateSpaces)(textExcludeSubstring), calculated: val, error }
+        : { textToSend: (0, string_1.removeDuplicateSpaces)(textExcludeSubstring), calculated: evalVal, error };
 }
 function roundValue(val, textToSend) {
     const floatVal = parseFloat(val);

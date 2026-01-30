@@ -36,9 +36,9 @@ export const _setDynamicValueIfIsIn = async (
         }
         const newValue = value.replace(substring, '');
 
-        const { error, textToSend } = mathFunction(newValue, String(state?.val), adapter);
+        const { error, textToSend, calculated } = mathFunction(newValue, String(state?.val), adapter);
 
-        return error ? String(state?.val) : textToSend;
+        return error ? String(state?.val) : exchangeValue(adapter, textToSend, String(calculated), true).textToSend;
     }
     return value;
 };
@@ -74,11 +74,12 @@ const setValue = async (
     ack: boolean,
 ): Promise<void> => {
     try {
+        adapter.log.debug(`Value to Set: ${jsonString(value)}`);
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
                 ? await _setDynamicValueIfIsIn(adapter, value)
                 : modifiedValue(String(valueFromSubmenu), value);
-
+        adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
         await setstateIobroker({ adapter, id, value: valueToSet, ack });
     } catch (error: any) {
         errorLogger('Error setValue', error, adapter);

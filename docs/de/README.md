@@ -187,25 +187,25 @@ menu:back
 
 - Möchte man einen State setzen, und dann die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext.
   ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
-  Die Änderung wird aber nur gesendet wenn der State auf ack:true gesetzt wurde
+  Die Änderung wird aber nur gesendet, wenn der State auf ack:true gesetzt wurde
 
 ```
 {setDynamicValue:RequestText:Type:ConfirmText:ID:}
 ```
 
 - **Einen Text- oder Zahl-Datenpunkt setzen:**&nbsp;Möchte man z.b einen Text in einen Datenpunkt schreiben, wartet die
-  Instanz nach Drücken des Buttons auf eine Eingabe. Anschliessend wird der ausgewählte Datenpunkt mit dem Text
+  Instanz nach Drücken des Buttons auf eine Eingabe. Anschließend wird der ausgewählte Datenpunkt mit dem Text
   beschrieben. Eingetragen werden muss dieses im Rückgabe Feld.
     - "RequestText" - Aufforderungstext zur Eingabe
     - "Type" - boolean, number, string
-    - "ConfirmText" - Bestätigungstext des Datenpunkt setzen, kann mit eigenen Text ersetzt werden.
+    - "ConfirmText" - Bestätigungstext des Datenpunktes setzen, kann mit eigenem Text ersetzt werden.
     - "ID" - Bestätigungswert einer anderen ID in den Rückgabetext (ist optional)
 
 ```
 {confirmSet:The value has been set:noValue}
 ```
 
-- hiermit kann das setzen eines Wertes bestätigt werden, dieses bedeutet aber nicht das ein Adapter diesen Wert
+- hiermit kann das Setzen eines Wertes bestätigt werden, dieses bedeutet aber nicht das ein Adapter diesen Wert
   verarbeitet hat
 
 ##### Parse Mode , change, newline
@@ -222,7 +222,59 @@ menu:back
 - Um dieses zu erreichen kann man Wert einen statischen Teil definieren und davor, dazwischen oder dahinter einen
   dynamischen Teil. Der dynamische Teil sieht so aus `{id:ID}`, wobei ID durch die gewünschte Id ersetzt werden muss,
   und der Rest bleibt so.
+ 
+#### Hier ein paar Beispiele
+Eingabe, der Wert die Id hat in diesem Fall den Wert true oder false:
+ ```
+{id:0_userdata.0.Fenster.Fenster_Status} 
+```
+Ausgabe:
 
+ ```
+true 
+```
+
+Eingabe, der Wert die Id hat in diesem Fall den Wert 5, wird dann mit 2 multipliziert:
+ ```
+{id:0_userdata.0.Count} {math:*2} 
+```
+Ausgabe:
+
+ ```
+10
+```
+
+Eingabe, der Wert die Id hat in diesem Fall den Wert 5, wird dann mit 2 multipliziert. Mit zusätzlichem Text:
+ ```
+Test {id:0_userdata.0.Count} {math:*2} Test 
+```
+Ausgabe das Value wird immer hinten angehängt, es sei denn man nutzt den Platzhalter &&:
+
+ ```
+Test Test 10
+```
+
+Eingabe, der Wert die Id hat in diesem Fall den Wert 5, wird dann mit 2 multipliziert. Mit zusätzlichem Text:
+ ```
+Test && {id:0_userdata.0.Count} {math:*2} Test  Oder Test && Test {id:0_userdata.0.Count} {math:*2}
+```
+
+Ausgabe der Platzhalter wird ersetzt durch das Value:
+
+ ```
+Test 10 Test
+```
+
+Eingabe, man kann das Ergebnis auch noch auswechseln, state der id hat immer noch den Wert 5:
+ ```
+Status &&  {id:0_userdata.0.Count} {math:*2} change{"10":"an", "20":"aus"}
+```
+
+Ausgabe der Platzhalter wird ersetzt durch das Value:
+
+ ```
+Status an
+```
 ### GetState
 
 - Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beeinflussen

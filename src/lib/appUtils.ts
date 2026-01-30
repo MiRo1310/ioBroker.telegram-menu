@@ -35,12 +35,12 @@ export function mathFunction(
         return { textToSend, calculated: val, error: false };
     }
 
-    const { substringExcludeSearch, textExcludeSubstring, substring } = decomposeText(textToSend, '{math:', '}');
+    const { substringExcludeSearch, textExcludeSubstring } = decomposeText(textToSend, '{math:', '}');
     const { val: evalVal, error } = evaluate([val, substringExcludeSearch], adapter);
 
     return error
-        ? { textToSend: textExcludeSubstring, calculated: val, error }
-        : { textToSend: removeDuplicateSpaces(textToSend.replace(substring, evalVal)), calculated: evalVal, error };
+        ? { textToSend: removeDuplicateSpaces(textExcludeSubstring), calculated: val, error }
+        : { textToSend: removeDuplicateSpaces(textExcludeSubstring), calculated: evalVal, error };
 }
 
 export function roundValue(val: string, textToSend: string): { roundedValue: string; text: string; error: boolean } {
