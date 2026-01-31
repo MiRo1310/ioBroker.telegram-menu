@@ -8,6 +8,7 @@ import { setDynamicValue } from '@b/app/dynamicValue';
 import { addSetStateIds } from '@b/app/setStateIdsToListenTo';
 import { exchangeValue } from '@b/lib/exchangeValue';
 import { sendToTelegram } from '@b/app/telegram';
+import { mathFunction } from '@b/lib/appUtils';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -15,20 +16,29 @@ const modifiedValue = (valueFromSubmenu: string, value: string): string => {
         : valueFromSubmenu;
 };
 
-const isDynamicValueToSet = async (
+export const _setDynamicValueIfIsIn = async (
     adapter: Adapter,
     value: string | number | boolean,
 ): Promise<string | number | boolean> => {
-    if (typeof value === 'string' && value.includes(config.dynamicValue.start)) {
-        const { substring, substringExcludeSearch: id } = decomposeText(
-            value,
-            config.dynamicValue.start,
-            config.dynamicValue.end,
-        );
+    const startValue = '{id:';
+    const endValue = '}';
 
-        const newValue = await adapter.getForeignStateAsync(id);
+    if (typeof value === 'string' && value.includes(startValue)) {
+        const { substring, substringExcludeSearch: id } = decomposeText(value, startValue, endValue);
 
-        return value.replace(substring, String(newValue?.val));
+        const state = await adapter.getForeignStateAsync(id);
+
+        if (!isDefined(state?.val)) {
+            return value;
+        }
+        if (!value.includes('{math:')) {
+            return value.replace(substring, String(state?.val));
+        }
+        const newValue = value.replace(substring, '');
+
+        const { error, textToSend, calculated } = mathFunction(newValue, String(state?.val), adapter);
+
+        return error ? String(state?.val) : exchangeValue(adapter, textToSend, String(calculated), true).textToSend;
     }
     return value;
 };
@@ -62,14 +72,16 @@ const setValue = async (
     value: string,
     valueFromSubmenu: null | string | number | boolean,
     ack: boolean,
-): Promise<void> => {
+): Promise<string | number | boolean | undefined> => {
     try {
+        adapter.log.debug(`Value to Set: ${jsonString(value)}`);
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
-                ? await isDynamicValueToSet(adapter, value)
+                ? await _setDynamicValueIfIsIn(adapter, value)
                 : modifiedValue(String(valueFromSubmenu), value);
-
+        adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
         await setstateIobroker({ adapter, id, value: valueToSet, ack });
+        return valueToSet;
     } catch (error: any) {
         errorLogger('Error setValue', error, adapter);
     }
@@ -155,7 +167,10 @@ export const handleSetState = async (
 
                 valueToTelegram = val;
             } else {
-                await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                if (isDefined(modifiedValue)) {
+                    valueToTelegram = modifiedValue;
+                }
             }
 
             if (useOtherIdFlag) {

@@ -9,7 +9,7 @@ import type {
     splittedNavigation,
     StartSides,
 } from '@b/types/types';
-import { decomposeText, removeQuotes } from '@b/lib/string';
+import { decomposeText, removeDuplicateSpaces, removeQuotes } from '@b/lib/string';
 import { evaluate } from '@b/lib/math';
 import { isTruthy } from '@b/lib/utils';
 import { trimAllItems } from '@b/lib/object';
@@ -18,21 +18,29 @@ import type { RowsNav, MenusWithUsers } from '@/types/app';
 export const checkOneLineValue = (text: string): string =>
     !text.includes(config.rowSplitter) ? `${text} ${config.rowSplitter}` : text;
 
-export function calcValue(
+/**
+ * Math Function
+ * Calculates mathematical expressions within the textToSend using the provided value.
+ *
+ * @param textToSend Text to send
+ * @param val Value to calculate
+ * @param adapter Adapter instance
+ */
+export function mathFunction(
     textToSend: string,
     val: string,
     adapter: Adapter,
 ): { textToSend: string; calculated: any; error: boolean } {
-    const { substringExcludeSearch, textExcludeSubstring } = decomposeText(
-        textToSend,
-        config.math.start,
-        config.math.end,
-    );
+    if (!textToSend.includes('{math:')) {
+        return { textToSend, calculated: val, error: false };
+    }
+
+    const { substringExcludeSearch, textExcludeSubstring } = decomposeText(textToSend, '{math:', '}');
     const { val: evalVal, error } = evaluate([val, substringExcludeSearch], adapter);
 
     return error
-        ? { textToSend: textExcludeSubstring, calculated: val, error }
-        : { textToSend: textExcludeSubstring, calculated: evalVal, error };
+        ? { textToSend: removeDuplicateSpaces(textExcludeSubstring), calculated: val, error }
+        : { textToSend: removeDuplicateSpaces(textExcludeSubstring), calculated: evalVal, error };
 }
 
 export function roundValue(val: string, textToSend: string): { roundedValue: string; text: string; error: boolean } {

@@ -1,7 +1,7 @@
 import {
     cleanUpString,
     decomposeText,
-    getNewline,
+    ifTruthyAddNewLine,
     isBooleanString,
     isEmptyString,
     isNonEmptyString,
@@ -9,6 +9,7 @@ import {
     jsonString,
     pad,
     parseJSON,
+    removeDuplicateSpaces,
     removeQuotes,
     replaceAll,
     replaceAllItems,
@@ -404,8 +405,8 @@ describe('timeStringReplacer', () => {
 
 describe('getNewline', () => {
     it('soll "\\n" zurückgeben, wenn die Eingabe truthy ist', () => {
-        expect(getNewline('true')).to.equal('\n');
-        expect(getNewline('false')).to.equal('');
+        expect(ifTruthyAddNewLine('true')).to.equal('\n');
+        expect(ifTruthyAddNewLine('false')).to.equal('');
     });
 });
 
@@ -452,5 +453,15 @@ describe('String Utility Functions', () => {
         it('should return false for a non-empty string', () => {
             expect(isEmptyString('hello')).to.be.false;
         });
+    });
+});
+
+describe('remove duplicated spaces', () => {
+    it('should return do nothing is not exist', () => {
+        expect(removeDuplicateSpaces('Test')).to.be.equal('Test');
+    });
+
+    it('should trim and remove duplicated spaces', () => {
+        expect(removeDuplicateSpaces(' Test  Test   ')).to.be.equal('Test Test');
     });
 });

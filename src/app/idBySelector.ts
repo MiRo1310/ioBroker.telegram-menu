@@ -2,7 +2,7 @@ import type { BooleanString } from '@/types/app';
 import type { Adapter, TelegramParams } from '@b/types/types';
 import { config } from '@b/config/config';
 import { exchangeValue } from '@b/lib/exchangeValue';
-import { getNewline } from '@b/lib/string';
+import { ifTruthyAddNewLine } from '@b/lib/string';
 import { sendToTelegram } from '@b/app/telegram';
 import { errorLogger } from '@b/app/logging';
 
@@ -54,7 +54,7 @@ export const idBySelector = async ({
             const { textToSend } = exchangeValue(adapter, newText, value?.val ?? '');
 
             text2Send += textToSend;
-            text2Send += getNewline(newline);
+            text2Send += ifTruthyAddNewLine(newline);
 
             adapter.log.debug(`Text to send:  ${JSON.stringify(text2Send)}`);
         });

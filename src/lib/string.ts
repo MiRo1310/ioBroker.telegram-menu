@@ -20,7 +20,7 @@ export function parseJSON<T>(
 }
 
 export const replaceAll = (text: string, searchValue: string, replaceValue: string): string => {
-    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape-Sonderzeichen
+    const escapedSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return text.replace(new RegExp(escapedSearchValue, 'g'), replaceValue);
 };
 
@@ -90,7 +90,7 @@ export const pad = (value: number, length: number = 2): string => {
     return value.toString().padStart(length, '0');
 };
 
-export function getNewline(newline: BooleanString): '' | '\n' {
+export function ifTruthyAddNewLine(newline: BooleanString): '' | '\n' {
     return isTruthy(newline) ? '\n' : '';
 }
 
@@ -100,3 +100,7 @@ export function isBooleanString(str: string): boolean {
 
 export const isNonEmptyString = (str: string): boolean => str.trim() !== '';
 export const isEmptyString = (str: string): boolean => str.trim() === '';
+
+export const removeDuplicateSpaces = (text: string): string => {
+    return text.replace(/\s+/g, ' ').trim();
+};

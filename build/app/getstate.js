@@ -54,13 +54,11 @@ async function getState(instance, part, userToSend, telegramParams) {
                 modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, stateValue);
                 modifiedStateVal = '';
             }
-            if (modifiedTextToSend.includes(config_1.config.math.start)) {
-                const { textToSend, calculated, error } = (0, appUtils_1.calcValue)(modifiedTextToSend, modifiedStateVal, adapter);
-                if (!error) {
-                    modifiedTextToSend = textToSend;
-                    modifiedStateVal = calculated;
-                    adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
-                }
+            const { textToSend, calculated, error: err } = (0, appUtils_1.mathFunction)(modifiedTextToSend, modifiedStateVal, adapter);
+            if (!err) {
+                modifiedTextToSend = textToSend;
+                modifiedStateVal = calculated;
+                adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
             }
             if (modifiedTextToSend.includes(config_1.config.round.start)) {
                 const { error, text, roundedValue } = (0, appUtils_1.roundValue)(String(modifiedStateVal), modifiedTextToSend);
@@ -106,7 +104,7 @@ async function getState(instance, part, userToSend, telegramParams) {
                 }
             }
             const { textToSend: _text, error } = (0, exchangeValue_1.exchangeValue)(adapter, modifiedTextToSend, modifiedStateVal);
-            const isNewline = (0, string_1.getNewline)(newline);
+            const isNewline = (0, string_1.ifTruthyAddNewLine)(newline);
             modifiedTextToSend = `${_text} ${isNewline}`;
             adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
             valueArrayForCorrectOrder[index] = modifiedTextToSend;

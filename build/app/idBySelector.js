@@ -33,7 +33,7 @@ const idBySelector = async ({ instance, adapter, selector, text, userToSend, new
             }
             const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, newText, value?.val ?? '');
             text2Send += textToSend;
-            text2Send += (0, string_1.getNewline)(newline);
+            text2Send += (0, string_1.ifTruthyAddNewLine)(newline);
             adapter.log.debug(`Text to send:  ${JSON.stringify(text2Send)}`);
         });
         Promise.all(promises)

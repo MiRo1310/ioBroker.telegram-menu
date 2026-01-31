@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleSetState = exports.setstateIobroker = void 0;
+exports.handleSetState = exports.setstateIobroker = exports._setDynamicValueIfIsIn = void 0;
 const config_1 = require("../config/config");
 const string_1 = require("../lib/string");
 const utilities_1 = require("../lib/utilities");
@@ -10,19 +10,31 @@ const dynamicValue_1 = require("../app/dynamicValue");
 const setStateIdsToListenTo_1 = require("../app/setStateIdsToListenTo");
 const exchangeValue_1 = require("../lib/exchangeValue");
 const telegram_1 = require("../app/telegram");
+const appUtils_1 = require("../lib/appUtils");
 const modifiedValue = (valueFromSubmenu, value) => {
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
 };
-const isDynamicValueToSet = async (adapter, value) => {
-    if (typeof value === 'string' && value.includes(config_1.config.dynamicValue.start)) {
-        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, config_1.config.dynamicValue.start, config_1.config.dynamicValue.end);
-        const newValue = await adapter.getForeignStateAsync(id);
-        return value.replace(substring, String(newValue?.val));
+const _setDynamicValueIfIsIn = async (adapter, value) => {
+    const startValue = '{id:';
+    const endValue = '}';
+    if (typeof value === 'string' && value.includes(startValue)) {
+        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, startValue, endValue);
+        const state = await adapter.getForeignStateAsync(id);
+        if (!(0, utils_1.isDefined)(state?.val)) {
+            return value;
+        }
+        if (!value.includes('{math:')) {
+            return value.replace(substring, String(state?.val));
+        }
+        const newValue = value.replace(substring, '');
+        const { error, textToSend, calculated } = (0, appUtils_1.mathFunction)(newValue, String(state?.val), adapter);
+        return error ? String(state?.val) : (0, exchangeValue_1.exchangeValue)(adapter, textToSend, String(calculated), true).textToSend;
     }
     return value;
 };
+exports._setDynamicValueIfIsIn = _setDynamicValueIfIsIn;
 const setstateIobroker = async ({ id, value, ack, adapter, }) => {
     try {
         const val = await (0, utilities_1.transformValueToTypeOfId)(adapter, id, value);
@@ -38,10 +50,13 @@ const setstateIobroker = async ({ id, value, ack, adapter, }) => {
 exports.setstateIobroker = setstateIobroker;
 const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
     try {
+        adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(value)}`);
         const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
-            ? await isDynamicValueToSet(adapter, value)
+            ? await (0, exports._setDynamicValueIfIsIn)(adapter, value)
             : modifiedValue(String(valueFromSubmenu), value);
+        adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(valueToSet)}`);
         await (0, exports.setstateIobroker)({ adapter, id, value: valueToSet, ack });
+        return valueToSet;
     }
     catch (error) {
         (0, logging_1.errorLogger)('Error setValue', error, adapter);
@@ -107,7 +122,10 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 valueToTelegram = val;
             }
             else {
-                await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                if ((0, utils_1.isDefined)(modifiedValue)) {
+                    valueToTelegram = modifiedValue;
+                }
             }
             if (useOtherIdFlag) {
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);
