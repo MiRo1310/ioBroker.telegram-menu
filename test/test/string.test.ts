@@ -1,7 +1,7 @@
 import {
     cleanUpString,
     decomposeText,
-    getNewline,
+    ifTruthyAddNewLine,
     isBooleanString,
     isEmptyString,
     isNonEmptyString,
@@ -405,8 +405,8 @@ describe('timeStringReplacer', () => {
 
 describe('getNewline', () => {
     it('soll "\\n" zurückgeben, wenn die Eingabe truthy ist', () => {
-        expect(getNewline('true')).to.equal('\n');
-        expect(getNewline('false')).to.equal('');
+        expect(ifTruthyAddNewLine('true')).to.equal('\n');
+        expect(ifTruthyAddNewLine('false')).to.equal('');
     });
 });
 

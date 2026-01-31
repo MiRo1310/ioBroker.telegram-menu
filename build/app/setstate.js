@@ -56,6 +56,7 @@ const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
             : modifiedValue(String(valueFromSubmenu), value);
         adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(valueToSet)}`);
         await (0, exports.setstateIobroker)({ adapter, id, value: valueToSet, ack });
+        return valueToSet;
     }
     catch (error) {
         (0, logging_1.errorLogger)('Error setValue', error, adapter);
@@ -121,7 +122,10 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 valueToTelegram = val;
             }
             else {
-                await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                if ((0, utils_1.isDefined)(modifiedValue)) {
+                    valueToTelegram = modifiedValue;
+                }
             }
             if (useOtherIdFlag) {
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);

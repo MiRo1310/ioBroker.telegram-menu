@@ -4,7 +4,7 @@ import { isParseModeFirstElement } from '@b/app/parseMode';
 import { idBySelector } from '@b/app/idBySelector';
 import { bindingFunc } from '@b/app/action';
 import { isDefined } from '@b/lib/utils';
-import { cleanUpString, decomposeText, getNewline, jsonString } from '@b/lib/string';
+import { cleanUpString, decomposeText, ifTruthyAddNewLine, jsonString } from '@b/lib/string';
 import { setTimeValue } from '@b/lib/utilities';
 import { integrateTimeIntoText } from '@b/lib/time';
 import { mathFunction, roundValue } from '@b/lib/appUtils';
@@ -129,7 +129,7 @@ export async function getState(
 
             const { textToSend: _text, error } = exchangeValue(adapter, modifiedTextToSend, modifiedStateVal);
 
-            const isNewline = getNewline(newline);
+            const isNewline = ifTruthyAddNewLine(newline);
             modifiedTextToSend = `${_text} ${isNewline}`;
 
             adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);

@@ -72,7 +72,7 @@ const setValue = async (
     value: string,
     valueFromSubmenu: null | string | number | boolean,
     ack: boolean,
-): Promise<void> => {
+): Promise<string | number | boolean | undefined> => {
     try {
         adapter.log.debug(`Value to Set: ${jsonString(value)}`);
         const valueToSet =
@@ -81,6 +81,7 @@ const setValue = async (
                 : modifiedValue(String(valueFromSubmenu), value);
         adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
         await setstateIobroker({ adapter, id, value: valueToSet, ack });
+        return valueToSet;
     } catch (error: any) {
         errorLogger('Error setValue', error, adapter);
     }
@@ -166,7 +167,10 @@ export const handleSetState = async (
 
                 valueToTelegram = val;
             } else {
-                await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
+                if (isDefined(modifiedValue)) {
+                    valueToTelegram = modifiedValue;
+                }
             }
 
             if (useOtherIdFlag) {

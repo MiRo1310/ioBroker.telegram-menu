@@ -4,7 +4,7 @@ exports.removeDuplicateSpaces = exports.isEmptyString = exports.isNonEmptyString
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
-exports.getNewline = getNewline;
+exports.ifTruthyAddNewLine = ifTruthyAddNewLine;
 exports.isBooleanString = isBooleanString;
 const logging_1 = require("../app/logging");
 const utils_1 = require("../lib/utils");
@@ -89,7 +89,7 @@ const pad = (value, length = 2) => {
     return value.toString().padStart(length, '0');
 };
 exports.pad = pad;
-function getNewline(newline) {
+function ifTruthyAddNewLine(newline) {
     return (0, utils_1.isTruthy)(newline) ? '\n' : '';
 }
 function isBooleanString(str) {

@@ -104,7 +104,7 @@ async function getState(instance, part, userToSend, telegramParams) {
                 }
             }
             const { textToSend: _text, error } = (0, exchangeValue_1.exchangeValue)(adapter, modifiedTextToSend, modifiedStateVal);
-            const isNewline = (0, string_1.getNewline)(newline);
+            const isNewline = (0, string_1.ifTruthyAddNewLine)(newline);
             modifiedTextToSend = `${_text} ${isNewline}`;
             adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
             valueArrayForCorrectOrder[index] = modifiedTextToSend;

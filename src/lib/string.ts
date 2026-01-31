@@ -90,7 +90,7 @@ export const pad = (value: number, length: number = 2): string => {
     return value.toString().padStart(length, '0');
 };
 
-export function getNewline(newline: BooleanString): '' | '\n' {
+export function ifTruthyAddNewLine(newline: BooleanString): '' | '\n' {
     return isTruthy(newline) ? '\n' : '';
 }
 

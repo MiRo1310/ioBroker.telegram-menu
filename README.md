@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- FEAT: #476 Add math to setstate
 - FIX: Errors reported by sentry
 
 ### 3.2.3 (2025-12-12)
