@@ -49,7 +49,6 @@ export const config = {
     },
     functionSelektor: 'functions=',
     modifiedValue: '{value}',
-    setDynamicValue: '{setDynamicValue',
 };
 
 export const arrayOfEntries: GenerateActionsArrayOfEntries[] = [

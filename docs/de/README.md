@@ -174,20 +174,39 @@ menu:back
   wenn man damit Adapter steuern möchte. Eine Bestätigung erfolgt immer erst dann wenn der angesprochene Adapter den
   Wert auf `ack:true` gesetzt hat. Möchte man aber `ack:true` manuell setzen, setzt man einfach den Haken bei Ack.<br>
 
+---
+
 ```
-{novalue}`
+{novalue}
 ```
 
 - Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, wird das in den Rückgabetext eingetragen<br>
   ![novalue](../pic/image5.png)<br>
+- 
+---
 
-```
-{"id":"id","text":"Wert wurde gesetzt:"}
-```
-
-- Möchte man einen State setzen, und dann die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext.
+- Setzt man einen State, möchte dann aber die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext.
   ID durch die gewünschte ID ersetzen, der Text kann auch angepasst werden
   Die Änderung wird aber nur gesendet, wenn der State auf ack:true gesetzt wurde
+
+## Hinweis — hier hat sich eine Änderung ergeben
+Die Änderung sollte in den meisten Fällen automatisch übernommen worden sein, bitte kontrolliert, ob es so funktioniert wie gewünscht.
+
+### Neu
+```
+ {"foreignId":"id","text":"Wert wurde gesetzt:"} 
+
+```
+
+<details>
+  <summary>Alte Version anzeigen (ausklappbar)</summary>
+
+### Alte (veraltet)
+```
+ {"id":"id","text":"Wert wurde gesetzt:"} 
+```
+</details>
+---
 
 ```
 {setDynamicValue:RequestText:Type:ConfirmText:ID:}
@@ -200,6 +219,7 @@ menu:back
     - "Type" - boolean, number, string
     - "ConfirmText" - Bestätigungstext des Datenpunktes setzen, kann mit eigenem Text ersetzt werden.
     - "ID" - Bestätigungswert einer anderen ID in den Rückgabetext (ist optional)
+---
 
 ```
 {confirmSet:The value has been set:noValue}
@@ -207,6 +227,8 @@ menu:back
 
 - hiermit kann das Setzen eines Wertes bestätigt werden, dieses bedeutet aber nicht das ein Adapter diesen Wert
   verarbeitet hat
+
+---
 
 ##### Parse Mode , change, newline
 
@@ -275,15 +297,16 @@ Ausgabe der Platzhalter wird ersetzt durch das Value:
  ```
 Status an
 ```
+---
 ### GetState
 
-- Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man das Value beeinflussen
+- Mit && als Platzhalter kann man den Wert im Text platzieren, ebenso wie bei setState kann man den Wert beeinflussen
   mit `change{"true":"an", "false":"aus"}`.
 - Wenn ich einen Wert aus einem Datenpunkt auslesen möchte, das Value aber umrechnen muss, kann ich in den Rückgabetext
   `{math:/10}` zum Beispiel wird hier durch 10 geteilt
   ![math](../pic/image9.png)<br>
-- Möchte man das Value runden geht folgendes `{round:2}`
-- Wenn man gleichzeitig mit einer Abfrage mehrere Werte abrufen möchte, kann man die Checkbox Newline aktivieren um für
+- Möchte man den Wert runden geht folgendes `{round:2}`
+- Wenn man gleichzeitig mit einer Abfrage mehrere Werte abrufen möchte, kann man die Checkbox Newline aktivieren, um für
   jede Abfrage den Rückgabetext in einer neuen Zeile angezeigt zu bekommen.
 - Möchte man einen Wert einen States mit Unix-Zeitstempel zu einer lokalen Zeit umwandeln und gesendet bekommen fügt man
   in den Rückgabetext `{time}` an der gewünschten Stelle ein
@@ -310,9 +333,9 @@ Status an
 {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
 ```
 
-- Dieses erstellt genau die selbe Liste , hierbei haben die Button die Funktion das Item aus der Liste vom Alexa2
-  Adapter zu entfernen. Der Key für die Daten aus der JSON ist in diesem Fall `name:`.Damit das ganze funktioniert, muss
-  der Datenpunkt von dem die Liste erstellt wurde, der Datenpunkt des `alexa-shoppinglist` Adapter sein.
+- Dieses erstellt genau dieselbe Liste , hierbei haben die Buttons die Funktion das Item aus der Liste vom Alexa2
+  Adapter zu entfernen. Der Key für die Daten aus der JSON ist in diesem Fall `name:`. Damit das ganze funktioniert, muss
+  der Datenpunkt, von dem die Liste erstellt wurde, der Datenpunkt des `alexa-shoppinglist` Adapter sein.
 
 ![InlineTable](../pic/inlinetable-grafik.png)
 ![TextTable](../pic/textable-grafik.png)
@@ -320,11 +343,11 @@ Status an
 ### Send Picture
 
 - In den Einstellungen kann man ein Token für Grafana einfügen
-- Es muss ein Verzeichnis erstellt werden in dem man alle Schreibrechte hat z.B. `/opt/iobroker/grafana/` , um dort die
+- Es muss ein Verzeichnis erstellt werden, in dem man alle Schreibrechte hat z.B. `/opt/iobroker/grafana/` , um dort die
   Bilder zwischen speichern zu können
-- In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm -> teilen -> (Zeitbereich
-  sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) -> Direktlink zum gerenderten Bild
-- Wenn man mehrere Diagramm schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig
+- In Aktion muss man die Rendering URL angeben, diese findet man in Grafana auf das Diagramm → teilen → (Zeitbereich
+  sperren herausnehmen, damit immer das aktuelle Diagramm geschickt wird) → Direktlink zum gerenderten Bild
+- Wenn man mehrere Diagramme schickt, muss der Filename unterschiedlich sein, da sonst die Bilder sich gegenseitig
   überschreiben
 - `Neuerung!!!` Ab jetzt hat man die Möglichkeit das Delay auf 0 zu setzen, so wird das Bild ohne Verzögerung verschickt. 
 - Mit Delay, wird es um den Wert verzögert verschickt. Zeit zwischen der Anfrage und dem Senden des Bildes in Sekunden.
@@ -341,7 +364,7 @@ Status an
 - integrierter Eventlistener: Wartet auf einen Datenpunkt - wird dieser Datenpunkt gesetzt (z.B. über Script oder
   Adapter), wird ein vordefiniertes Menu geöffnet.
 - ... es wird auf die Bedingung geprüft,
-- ... ab Version > 1.7.3, kann man "=", "!=", "<", ">", "<=", ">=" als Bedingung auswählen, ist dieses nicht ausgewählt wird
+- ... ab Version > 1.7.3, kann man "=", "!=", "<", ">", "<=", ">=" als Bedingung auswählen, ist dieses nicht ausgewählt, wird
   standardmäßig auf Gleichheit geprüft.
 - ... es wird auf Ack geprüft, 
 
