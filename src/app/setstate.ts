@@ -16,14 +16,11 @@ const modifiedValue = (valueFromSubmenu: string, value: string): string => {
         : valueFromSubmenu;
 };
 
-export const _setDynamicValueIfIsIn = async (
-    adapter: Adapter,
-    value: string | number | boolean,
-): Promise<string | number | boolean> => {
+export const _getDynamicValueIfIsIn = async (adapter: Adapter, value: string): Promise<string | number | boolean> => {
     const startValue = '{id:';
     const endValue = '}';
 
-    if (typeof value === 'string' && value.includes(startValue)) {
+    if (value.includes(startValue)) {
         const { substring, substringExcludeSearch: id } = decomposeText(value, startValue, endValue);
 
         const state = await adapter.getForeignStateAsync(id);
@@ -77,7 +74,7 @@ const setValue = async (
         adapter.log.debug(`Value to Set: ${jsonString(value)}`);
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
-                ? await _setDynamicValueIfIsIn(adapter, value)
+                ? await _getDynamicValueIfIsIn(adapter, value)
                 : modifiedValue(String(valueFromSubmenu), value);
         adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
         await setstateIobroker({ adapter, id, value: valueToSet, ack });
@@ -169,7 +166,6 @@ export const handleSetState = async (
 
                 valueToTelegram = newValue;
             } else {
-                //TODO
                 const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
                 if (isDefined(modifiedValue)) {
                     valueToTelegram = modifiedValue;
@@ -182,7 +178,13 @@ export const handleSetState = async (
             }
 
             if (confirm) {
-                const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
+                let { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
+
+                while (textToSend.includes('{id:')) {
+                    const nextValue = await _getDynamicValueIfIsIn(adapter, value);
+
+                    textToSend = exchangeValue(adapter, textToSend, nextValue).textToSend;
+                }
                 const telegramData: Telegram = {
                     instance,
                     userToSend,
