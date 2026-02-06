@@ -9,7 +9,7 @@ describe('Regex', () => {
     });
 
     it('should return correct value with regex', async () => {
-        const text = "{Test 'id':'adapter.0.example', 'text':'Text'}";
+        const text = "Test {'id':'adapter.0.example', 'text':'Text'}";
 
         expect(regexIdText.test(text)).to.be.true;
     });
