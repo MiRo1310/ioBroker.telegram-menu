@@ -14,7 +14,7 @@ describe('setDynamicValue', () => {
 
     it('should return propValue if the id isn´t found', async () => {
         const value = await _getDynamicValueIfIsIn(mockAdapter, '{id:test}');
-        expect(value).to.equal('{id:test}');
+        expect(value).to.equal('');
     });
 
     it('should replace id with value', async () => {

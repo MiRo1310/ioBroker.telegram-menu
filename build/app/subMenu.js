@@ -59,7 +59,7 @@ const setMenuValue = async ({ instance, telegramParams, userToSend, part, menuNu
     else if (val === 'true') {
         val = true;
     }
-    await (0, setstate_1.handleSetState)(instance, part, userToSend, val, telegramParams);
+    await (0, setstate_1.handleSetState)(telegramParams.adapter, instance, part, userToSend, val, telegramParams);
 };
 const createSubmenuNumber = ({ cbData, menuToHandle, text, adapter, }) => {
     if (cbData.includes('(-)')) {
@@ -203,21 +203,21 @@ async function subMenu({ menuString, userToSend, telegramParams, part, allMenusW
             return (0, dynamicSwitchMenu_1.createDynamicSwitchMenu)(adapter, menuString, menuToHandle, text);
         }
         if ((0, validateMenus_1.isSetDynamicSwitchVal)(cbData) && val) {
-            await (0, setstate_1.handleSetState)(instance, part, userToSend, val, telegramParams); //SetDynamicValue
+            await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, val, telegramParams); //SetDynamicValue
         }
         if ((0, validateMenus_1.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
             return createSubmenuPercent({ adapter, cbData, text, menuToHandle: menuToHandle });
         }
         if ((0, validateMenus_1.isSetSubmenuPercent)(menuString, step)) {
             const value = parseInt(menuString.split(':')[1].split(',')[1]);
-            await (0, setstate_1.handleSetState)(instance, part, userToSend, value, telegramParams);
+            await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, value, telegramParams);
         }
         if ((0, validateMenus_1.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
             return createSubmenuNumber({ adapter, cbData, text, menuToHandle: menuToHandle });
         }
         if ((0, validateMenus_1.isSetSubmenuNumber)(menuString)) {
             const { value } = (0, splitValues_1.getSubmenuNumberValues)(menuString);
-            await (0, setstate_1.handleSetState)(instance, part, userToSend, value, telegramParams);
+            await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, value, telegramParams);
         }
         if ((0, validateMenus_1.isMenuBack)(menuString)) {
             await back({

@@ -48,7 +48,6 @@ exports.config = {
     },
     functionSelektor: 'functions=',
     modifiedValue: '{value}',
-    setDynamicValue: '{setDynamicValue',
 };
 exports.arrayOfEntries = [
     {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeDuplicateSpaces = exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -40,18 +40,19 @@ const replaceAllItems = (text, searched) => {
 exports.replaceAllItems = replaceAllItems;
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
-const removeMultiSpaces = (text) => text.replace(/ {2,}/g, ' ');
-exports.removeMultiSpaces = removeMultiSpaces;
+const removeDuplicateSpaces = (text) => text.replace(/\s+/g, ' ').trim();
+exports.removeDuplicateSpaces = removeDuplicateSpaces;
 const cleanUpString = (text) => {
     if (!text) {
         return '';
     }
-    return (0, exports.removeMultiSpaces)(text
+    return text
         .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
         .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
         .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
         .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
-        .replace(/\n /g, '\n'));
+        .replace(/\n /g, '\n') // Entferne Leerzeichen vor Zeilenumbrüchen
+        .replace(/ {2,}/g, ' ');
 };
 exports.cleanUpString = cleanUpString;
 function decomposeText(text, firstSearch, secondSearch) {
@@ -99,8 +100,4 @@ const isNonEmptyString = (str) => str.trim() !== '';
 exports.isNonEmptyString = isNonEmptyString;
 const isEmptyString = (str) => str.trim() === '';
 exports.isEmptyString = isEmptyString;
-const removeDuplicateSpaces = (text) => {
-    return text.replace(/\s+/g, ' ').trim();
-};
-exports.removeDuplicateSpaces = removeDuplicateSpaces;
 //# sourceMappingURL=string.js.map

@@ -36,20 +36,20 @@ export const replaceAllItems = (text: string, searched: (string | { search: stri
 };
 
 export const removeQuotes = (text: string): string => text.replace(/['"]/g, '');
-export const removeMultiSpaces = (text: string): string => text.replace(/ {2,}/g, ' ');
+
+export const removeDuplicateSpaces = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 export const cleanUpString = (text?: string): string => {
     if (!text) {
         return '';
     }
-    return removeMultiSpaces(
-        text
-            .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
-            .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
-            .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
-            .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
-            .replace(/\n /g, '\n'), // Entferne Leerzeichen vor Zeilenumbrüchen
-    );
+    return text
+        .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
+        .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
+        .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
+        .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+        .replace(/\n /g, '\n') // Entferne Leerzeichen vor Zeilenumbrüchen
+        .replace(/ {2,}/g, ' ');
 };
 
 export function decomposeText(text: string, firstSearch: string, secondSearch: string): DecomposeTextReturnType {
@@ -100,7 +100,3 @@ export function isBooleanString(str: string): boolean {
 
 export const isNonEmptyString = (str: string): boolean => str.trim() !== '';
 export const isEmptyString = (str: string): boolean => str.trim() === '';
-
-export const removeDuplicateSpaces = (text: string): string => {
-    return text.replace(/\s+/g, ' ').trim();
-};

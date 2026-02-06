@@ -1,6 +1,13 @@
 import { config } from '@b/config/config';
 import type { Adapter, Part, Telegram, TelegramParams } from '@b/types/types';
-import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '@b/lib/string';
+import {
+    decomposeText,
+    isNonEmptyString,
+    jsonString,
+    parseJSON,
+    removeDuplicateSpaces,
+    removeQuotes,
+} from '@b/lib/string';
 import { transformValueToTypeOfId } from '@b/lib/utilities';
 import { isDefined } from '@b/lib/utils';
 import { errorLogger } from '@b/app/logging';
@@ -22,21 +29,25 @@ export const _getDynamicValueIfIsIn = async (adapter: Adapter, text: string): Pr
     if (text.includes(startValue)) {
         const { substring, substringExcludeSearch: id } = decomposeText(text, startValue, endValue);
 
-        const state = await adapter.getForeignStateAsync(id);
+        const state = await adapter.getForeignStateAsync(removeQuotes(id));
+
         if (!isDefined(state?.val)) {
             adapter.log.warn(`State with id ${id} not found or has no value`);
             return text.replace(substring, '');
         }
         if (!text.includes('{math:')) {
-            return text.replace(substring, String(state?.val));
+            const res = removeDuplicateSpaces(text.replace(substring, ''));
+            return exchangeValue(adapter, res, String(state.val), true).textToSend;
         }
+
         const newValue = text.replace(substring, '');
 
         const { error, textToSend, calculated } = mathFunction(newValue, String(state?.val), adapter);
 
         return error ? String(state?.val) : exchangeValue(adapter, textToSend, String(calculated), true).textToSend;
     }
-    return text;
+
+    return removeDuplicateSpaces(text);
 };
 
 export const setstateIobroker = async ({
@@ -179,13 +190,10 @@ export const handleSetState = async (
 
             if (confirm) {
                 let { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
-                console.log('Return Text: ', returnText);
 
                 let i = 0;
                 while (textToSend.includes('{id:') && i < 20) {
                     textToSend = String(await _getDynamicValueIfIsIn(adapter, textToSend));
-                    console.log('Next Value: ', textToSend);
-                    // textToSend = exchangeValue(adapter, textToSend, nextValue).textToSend;
                     i++;
                 }
                 const telegramData: Telegram = {

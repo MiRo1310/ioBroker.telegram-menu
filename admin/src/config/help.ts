@@ -121,7 +121,7 @@ const helperText: HelperText = {
         returnText: [
             { text: '{novalue}', info: 'noValue' },
             { text: '&&', info: 'placeholderValue' },
-            { text: "{'id':'ID','text':'Your Text'}", info: 'notifiedByChangeOfAnotherState' },
+            { text: '{"foreignId":"ID","text":"Your Text"}', info: 'notifiedByChangeOfAnotherState' },
             { text: '{confirmSet:The value has been set:noValue}', info: 'confirmSet' },
             { text: '{setDynamicValue:RequestText:Type:ConfirmText:ID:}', info: 'setDynamicValue' },
         ],

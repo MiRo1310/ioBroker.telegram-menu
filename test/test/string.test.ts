@@ -203,7 +203,7 @@ describe('getValueToExchange', () => {
     });
 
     it('should successfully exchange the value if the JSON is correct', () => {
-        const textToSend = 'Test && change{"true":"an","false":"aus"} test';
+        const textToSend = '   Test && change{"true":"an","false":"aus"} test';
         const val = 'true';
         const result = exchangeValue(mockAdapter, textToSend, val);
 
@@ -215,25 +215,25 @@ describe('getValueToExchange', () => {
     });
 
     it('should return the original value if the JSON is invalid', () => {
-        const textToSend = 'test change{"true":"an","false":aus}';
+        const textToSend = ' test    change{"true":"an","false":aus}';
         const val = 'true';
         const result = exchangeValue(mockAdapter, textToSend, val);
         expect(adapter.log.error.calledOnce).to.be.true;
         expect(result).to.deep.equal({
             newValue: val,
-            textToSend,
+            textToSend: 'test change{"true":"an","false":aus}',
             error: true,
         });
     });
 
     it("should return the original text if no 'change' is included", () => {
-        const textToSend = 'Kein Austausch erforderlich';
+        const textToSend = 'Kein   Austausch   erforderlich';
         const val = 'true';
         const result = exchangeValue(mockAdapter, textToSend, val);
 
         expect(result).to.deep.equal({
             newValue: val,
-            textToSend: textToSend + ' true',
+            textToSend: 'Kein Austausch erforderlich true',
             error: false,
         });
     });
@@ -463,5 +463,9 @@ describe('remove duplicated spaces', () => {
 
     it('should trim and remove duplicated spaces', () => {
         expect(removeDuplicateSpaces(' Test  Test   ')).to.be.equal('Test Test');
+    });
+
+    it('should trim and remove duplicated spaces', () => {
+        expect(removeDuplicateSpaces('  Test   ')).to.be.equal('Test');
     });
 });
