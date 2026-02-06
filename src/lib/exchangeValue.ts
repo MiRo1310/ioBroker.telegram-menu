@@ -1,4 +1,4 @@
-import { decomposeText, parseJSON, removeMultiSpaces, replaceAll } from '@b/lib/string';
+import { decomposeText, parseJSON, removeDuplicateSpaces, removeMultiSpaces, replaceAll } from '@b/lib/string';
 import type { Adapter, ExchangeValueReturn, PrimitiveType } from '@b/types/types';
 import { config } from '@b/config/config';
 
@@ -43,7 +43,9 @@ export const exchangeValue = (
     }
 
     return {
-        textToSend: exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''),
+        textToSend: removeDuplicateSpaces(
+            exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''),
+        ),
         newValue: val ?? '',
         error: false,
     };
