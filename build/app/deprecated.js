@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findDeprecatedAndLog = exports.regexIdText = void 0;
-exports.regexIdText = /\{\s*'id':'[^']*'[\s\S]*?'text':'[^']*'\s*\}/;
+exports.regexIdText = /\{\s*'id':'[^']*'[\s\S]*?'text':'[^']*'\s*}/;
 const findDeprecatedAndLog = (adapter, actions) => {
     const actionsAsString = JSON.stringify(actions);
     if (exports.regexIdText.test(actionsAsString)) {

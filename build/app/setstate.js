@@ -64,7 +64,7 @@ const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
         (0, logging_1.errorLogger)('Error setValue', error, adapter);
     }
 };
-const foreignIdStart = "{'foreignId':'";
+const foreignIdStart = '{"foreignId":"';
 function handleUpdateFromForeignId(returnText) {
     return returnText.includes(foreignIdStart);
 }

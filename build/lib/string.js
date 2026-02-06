@@ -40,6 +40,10 @@ const replaceAllItems = (text, searched) => {
 exports.replaceAllItems = replaceAllItems;
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
+/**
+ * @deprecated use mrRemoveDuplicatedSpaces instead if updated
+ * @param text
+ */
 const removeDuplicateSpaces = (text) => text.replace(/\s+/g, ' ').trim();
 exports.removeDuplicateSpaces = removeDuplicateSpaces;
 const cleanUpString = (text) => {

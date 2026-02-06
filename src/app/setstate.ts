@@ -94,7 +94,7 @@ const setValue = async (
     }
 };
 
-const foreignIdStart = "{'foreignId':'";
+const foreignIdStart = '{"foreignId":"';
 
 function handleUpdateFromForeignId(returnText: string): boolean {
     return returnText.includes(foreignIdStart);

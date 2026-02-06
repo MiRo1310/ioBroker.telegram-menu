@@ -182,7 +182,7 @@ menu:back
 
 - Wenn man den gesetzten Wert nicht mit geschickt bekommen möchte, wird das in den Rückgabetext eingetragen<br>
   ![novalue](../pic/image5.png)<br>
-- 
+
 ---
 
 - Setzt man einen State, möchte dann aber die Änderung eines anderen States erhalten, nutzt man dieses im Rückgabetext.

@@ -461,11 +461,11 @@ describe('remove duplicated spaces', () => {
         expect(removeDuplicateSpaces('Test')).to.be.equal('Test');
     });
 
-    it('should trim and remove duplicated spaces', () => {
+    it('should trim and remove duplicated spaces two words', () => {
         expect(removeDuplicateSpaces(' Test  Test   ')).to.be.equal('Test Test');
     });
 
-    it('should trim and remove duplicated spaces', () => {
+    it('should trim and remove duplicated spaces, with one word', () => {
         expect(removeDuplicateSpaces('  Test   ')).to.be.equal('Test');
     });
 });

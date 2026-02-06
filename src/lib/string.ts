@@ -37,6 +37,10 @@ export const replaceAllItems = (text: string, searched: (string | { search: stri
 
 export const removeQuotes = (text: string): string => text.replace(/['"]/g, '');
 
+/**
+ * @deprecated use mrRemoveDuplicatedSpaces instead if updated
+ * @param text Text
+ */
 export const removeDuplicateSpaces = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 export const cleanUpString = (text?: string): string => {
