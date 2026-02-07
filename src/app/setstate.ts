@@ -34,7 +34,7 @@ export const _getDynamicValueIfIsIn = async (adapter: Adapter, text: string): Pr
 
         if (!isDefined(state?.val)) {
             adapter.log.warn(`State with id ${id} not found or has no value`);
-            return text.replace(substring, '');
+            return removeDuplicateSpaces(text.replace(substring, ''));
         }
         if (!text.includes('{math:')) {
             const res = removeDuplicateSpaces(text.replace(substring, ''));

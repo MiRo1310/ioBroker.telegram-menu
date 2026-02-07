@@ -203,7 +203,7 @@ Die Änderung sollte in den meisten Fällen automatisch übernommen worden sein,
 
 ### Alte (veraltet)
 ```
- {"id":"id","text":"Wert wurde gesetzt:"} 
+ {'id':'ID','text':'Wert wurde gesetzt:'} 
 ```
 </details>
 ---
@@ -352,7 +352,7 @@ Status an
 - `Neuerung!!!` Ab jetzt hat man die Möglichkeit das Delay auf 0 zu setzen, so wird das Bild ohne Verzögerung verschickt. 
 - Mit Delay, wird es um den Wert verzögert verschickt. Zeit zwischen der Anfrage und dem Senden des Bildes in Sekunden.
 
-  <img src="../pic/grafana.png" width="400">
+  <img src="../pic/grafana.png" width="400"/>
 
 ### Send Location
 

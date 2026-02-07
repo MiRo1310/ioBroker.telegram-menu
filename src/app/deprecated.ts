@@ -3,6 +3,10 @@ import type { Adapter, GeneratedActions } from '@b/types/types';
 export const regexIdText = /\{\s*'id':'[^']*'[\s\S]*?'text':'[^']*'\s*}/;
 
 export const findDeprecatedAndLog = (adapter: Adapter, actions?: GeneratedActions): void => {
+    if (!actions) {
+        return;
+    }
+
     const actionsAsString = JSON.stringify(actions);
 
     if (regexIdText.test(actionsAsString)) {

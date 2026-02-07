@@ -69,7 +69,7 @@ describe('Setstate', () => {
     });
 
     it('should return correct value with id object with &&', async () => {
-        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
 
         const part = {
             switch: [
@@ -88,7 +88,7 @@ describe('Setstate', () => {
     });
 
     it('should return correct value with id object without && ', async () => {
-        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
 
         const part = {
             switch: [
@@ -107,7 +107,7 @@ describe('Setstate', () => {
     });
 
     it('should return correct value with id object without && but with change ', async () => {
-        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
 
         const part = {
             switch: [
@@ -127,7 +127,7 @@ describe('Setstate', () => {
     });
 
     it('should return correct value with id object without && but with novalue from setState ', async () => {
-        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
 
         const part = {
             switch: [
@@ -145,8 +145,8 @@ describe('Setstate', () => {
         expect(result?.textToSend).to.deep.equal('ReturnText: stateValue');
     });
 
-    it.only('should return correct value with id object without && and change and no value from setState ', async () => {
-        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+    it('should return correct value with id object without && and change and no value from setState ', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
 
         const part = {
             switch: [

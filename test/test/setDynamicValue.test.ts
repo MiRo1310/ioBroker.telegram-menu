@@ -12,7 +12,7 @@ describe('setDynamicValue', () => {
         expect(value).to.equal('');
     });
 
-    it('should return propValue if the id isn´t found', async () => {
+    it('should return empty string if the id isn´t found', async () => {
         const value = await _getDynamicValueIfIsIn(mockAdapter, '{id:test}');
         expect(value).to.equal('');
     });

@@ -24,7 +24,7 @@ const _getDynamicValueIfIsIn = async (adapter, text) => {
         const state = await adapter.getForeignStateAsync((0, string_1.removeQuotes)(id));
         if (!(0, utils_1.isDefined)(state?.val)) {
             adapter.log.warn(`State with id ${id} not found or has no value`);
-            return text.replace(substring, '');
+            return (0, string_1.removeDuplicateSpaces)(text.replace(substring, ''));
         }
         if (!text.includes('{math:')) {
             const res = (0, string_1.removeDuplicateSpaces)(text.replace(substring, ''));
