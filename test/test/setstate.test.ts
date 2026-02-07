@@ -23,7 +23,7 @@ describe('Setstate', () => {
                 {
                     id: 'test.0',
                     confirm: true,
-                    returnText: "{'foreignId':'test.0.test','text':'Der Wert wurde auf && °C gesetzt'}",
+                    returnText: '{"foreignId":"test.0.test","text":"Der Wert wurde auf && °C gesetzt"}',
                 },
             ],
         } as Part;
@@ -40,7 +40,7 @@ describe('Setstate', () => {
                     id: 'test.0',
                     confirm: true,
                     returnText:
-                        "{'foreignId':'test.0.test','text':'Warmwasser neuer Zustand ist:'} && change{'0':'EIN','1':'AUS','2':'AUTO'}",
+                        '{"foreignId":"test.0.test","text":"Warmwasser neuer Zustand ist:"} && change{"0":"EIN","1":"AUS","2":"AUTO"}',
                 },
             ],
         } as Part;
@@ -58,7 +58,7 @@ describe('Setstate', () => {
                     id: 'test.0',
                     confirm: true,
                     returnText:
-                        "{'foreignId':'test.0.test','text':'Warmwasser neuer Zustand ist:'} change{'0':'EIN','1':'AUS','2':'AUTO'}",
+                        '{"foreignId":"test.0.test","text":"Warmwasser neuer Zustand ist:"} change{"0":"EIN","1":"AUS","2":"AUTO"}',
                 },
             ],
         } as Part;
@@ -106,7 +106,7 @@ describe('Setstate', () => {
         expect(result?.textToSend).to.deep.equal('ReturnText: setValue stateValue');
     });
 
-    it('should return correct value with id object without && and change ', async () => {
+    it('should return correct value with id object without && but with change ', async () => {
         mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
 
         const part = {
@@ -124,5 +124,44 @@ describe('Setstate', () => {
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: EIN AUS');
+    });
+
+    it('should return correct value with id object without && but with novalue from setState ', async () => {
+        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText: "ReturnText:  {id:'test.0.test'}  {novalue} ",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: stateValue');
+    });
+
+    it.only('should return correct value with id object without && and change and no value from setState ', async () => {
+        mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText:
+                        "ReturnText:  {id:'test.0.test'}  {novalue} change{'s':'EIN','s':'AUS','2':'AUTO'} change{'set':'EIN','stateValue':'AUS','2':'AUTO'}",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: AUS');
     });
 });

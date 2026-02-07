@@ -7,6 +7,7 @@ import {
     parseJSON,
     removeDuplicateSpaces,
     removeQuotes,
+    singleQuotesToDoubleQuotes,
 } from '@b/lib/string';
 import { transformValueToTypeOfId } from '@b/lib/utilities';
 import { isDefined } from '@b/lib/utils';
@@ -149,7 +150,7 @@ export const handleSetState = async (
                     parse_mode,
                 });
             } else {
-                returnText = returnText.replace(/'/g, '"');
+                returnText = singleQuotesToDoubleQuotes(returnText);
                 const { substring } = decomposeText(returnText, foreignIdStart, '}');
                 const { json, isValidJson } = parseJSON<{ text: string; foreignId: string }>(substring);
 
@@ -189,7 +190,7 @@ export const handleSetState = async (
             }
 
             if (confirm) {
-                let { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
+                let { textToSend } = exchangeValue(adapter, singleQuotesToDoubleQuotes(returnText), valueToTelegram);
 
                 let i = 0;
                 while (textToSend.includes('{id:') && i < 20) {

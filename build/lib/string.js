@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.singleQuotesToDoubleQuotes = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -38,11 +38,24 @@ const replaceAllItems = (text, searched) => {
     return text;
 };
 exports.replaceAllItems = replaceAllItems;
+/**
+ * @deprecated
+ * use mrRemoveQuotes instead if updated
+ * @param text
+ */
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
 /**
- * @deprecated use mrRemoveDuplicatedSpaces instead if updated
+ * @deprecated
+ * use mrSingleQuotesToDoubleQuotes instead if updated
  * @param text
+ */
+const singleQuotesToDoubleQuotes = (text) => text.replace(/'/g, '"');
+exports.singleQuotesToDoubleQuotes = singleQuotesToDoubleQuotes;
+/**
+ * @deprecated
+ * use mrRemoveDuplicatedSpaces instead if updated
+ * @param text Text
  */
 const removeDuplicateSpaces = (text) => text.replace(/\s+/g, ' ').trim();
 exports.removeDuplicateSpaces = removeDuplicateSpaces;
@@ -59,6 +72,15 @@ const cleanUpString = (text) => {
         .replace(/ {2,}/g, ' ');
 };
 exports.cleanUpString = cleanUpString;
+/**
+ * Decomposes the text into parts based on two search strings.
+ *
+ * @deprecated
+ * use mrDecomposeText instead if updated
+ * @param text
+ * @param firstSearch
+ * @param secondSearch
+ */
 function decomposeText(text, firstSearch, secondSearch) {
     const startindex = text.indexOf(firstSearch);
     const endindex = text.indexOf(secondSearch, startindex);
@@ -73,6 +95,11 @@ function decomposeText(text, firstSearch, secondSearch) {
         substringExcludeSearch: substringExcludedSearch,
     };
 }
+/**
+ * @deprecated
+ * use mrIsString instead if updated
+ * @param value
+ */
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
 function stringReplacer(substring, valueToReplace) {
@@ -87,6 +114,12 @@ function stringReplacer(substring, valueToReplace) {
     });
     return substring;
 }
+/**
+ * @deprecated
+ * use mrPad instead if updated
+ * @param value
+ * @param length
+ */
 const pad = (value, length = 2) => {
     if (value < 0) {
         return `-${(value * -1).toString().padStart(length - 1, '0')}`;

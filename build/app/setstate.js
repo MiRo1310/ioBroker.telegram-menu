@@ -100,7 +100,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
                 });
             }
             else {
-                returnText = returnText.replace(/'/g, '"');
+                returnText = (0, string_1.singleQuotesToDoubleQuotes)(returnText);
                 const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
                 const { json, isValidJson } = (0, string_1.parseJSON)(substring);
                 if (!isValidJson) {
@@ -134,7 +134,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
             if (confirm) {
-                let { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
+                let { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, (0, string_1.singleQuotesToDoubleQuotes)(returnText), valueToTelegram);
                 let i = 0;
                 while (textToSend.includes('{id:') && i < 20) {
                     textToSend = String(await (0, exports._getDynamicValueIfIsIn)(adapter, textToSend));
