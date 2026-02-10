@@ -159,18 +159,37 @@ e.g. Home page), only entries that are younger than 48 hours can be deleted.
     if you want to use it to control adapters. A confirmation always only occurs when the addressed adapter
     Value up`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
 
+* * *
 
-    {novalue}`
+    {novalue}
 
 -   If you do not want to receive the set value, this will be entered in the return text<br>![novalue](../pic/image5.png)<br>
 
+* * *
 
-    {"id":"id","text":"Wert wurde gesetzt:"}
-
--   If you want to set a state and then receive the change to another state, you use this in the return text.
+-   If you set a state but then want to receive the change of another state, you use this in the return text.
     Replace ID with the desired ID, the text can also be customized
     However, the change is only sent if the state was set to ack:true
 
+## Note - there has been a change here
+
+In most cases the change should have been applied automatically, please check whether it works as desired.
+
+### Neu
+
+```
+ {"foreignId":"id","text":"Wert wurde gesetzt:"} 
+
+```
+
+<details>
+  <summary>Alte Version anzeigen (ausklappbar)</summary>
+
+### Old (obsolete)
+
+     {'id':'ID','text':'Wert wurde gesetzt:'} 
+
+## </details>
 
     {setDynamicValue:RequestText:Type:ConfirmText:ID:}
 
@@ -182,11 +201,14 @@ e.g. Home page), only entries that are younger than 48 hours can be deleted.
     -   "ConfirmText" - set confirmation text of the data point, can be replaced with your own text.
     -   "ID" - confirmation value of another ID in the return text (is optional)
 
+* * *
 
     {confirmSet:The value has been set:noValue}
 
 -   This can be used to confirm the setting of a value, but this does not mean that an adapter has this value
     processed
+
+* * *
 
 ##### Parse Mode , change, newline
 
@@ -225,7 +247,7 @@ Input, the value of the ID in this case has the value 5, is then multiplied by 2
 
     Test {id:0_userdata.0.Count} {math:*2} Test 
 
-Ausgabe das Value wird immer hinten angehängt, es sei denn man nutzt den Platzhalter &&:
+Output the value is always appended at the end, unless you use the placeholder &&:
 
     Test Test 10
 
@@ -245,13 +267,15 @@ Output of the placeholders is replaced by the value:
 
     Status an
 
+* * *
+
 ### GetState
 
 -   With && as a placeholder you can place the value in the text, just like with setState you can influence the value
     with`change{"true":"an", "false":"aus"}`.
 -   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}`for example, here we divide by 10![math](../pic/image9.png)<br>
 -   If you want to round the value, do the following`{round:2}`
--   If you want to retrieve several values at the same time with one query, you can activate the Newline checkbox
+-   If you want to retrieve multiple values at the same time with one query, you can activate the Newline checkbox to
     every query to get the return text displayed on a new line.
 -   If you want to convert a value from a state with a Unix timestamp to a local time and have it sent, add
     in the return text`{time}`at the desired location
@@ -273,9 +297,9 @@ Output of the placeholders is replaced by the value:
 
     {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
 
--   This creates exactly the same list, here the buttons have the function of selecting the item from the Alexa2 list
-    Remove adapter. In this case, the key for the data from the JSON is`name:`.For the whole thing to work, it has to
-    the data point from which the list was created, the data point of`alexa-shoppinglist`Adapt breast.
+-   This creates exactly the same list, here the buttons have the function of the item from the Alexa2 list
+    Remove adapter. In this case, the key for the data from the JSON is`name:`. In order for the whole thing to work, it has to
+    the data point from which the list was created, the data point of the`alexa-shoppinglist`Adapt breast.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
@@ -284,14 +308,14 @@ Output of the placeholders is replaced by the value:
 -   You can insert a token for Grafana in the settings
 -   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to get there
     To be able to temporarily save images
--   In action you have to specify the rendering URL, which can be found in Grafana on the diagram -> share -> (time range
-    Remove the lock so that the current diagram is always sent) -> Direct link to the rendered image
+-   In action you have to specify the rendering URL, which can be found in Grafana on the diagram → share → (time range
+    Remove the lock so that the current diagram is always sent) → Direct link to the rendered image
 -   If you send several diagrams, the file name must be different, otherwise the images will be mutually exclusive
     overwrite
 -   `Neuerung!!!`From now on you have the option to set the delay to 0, so the image will be sent without delay.
 -   With Delay, it will be sent delayed by the value. Time between request and sending the image in seconds.
 
-    <img src="../pic/grafana.png" width="400">
+    <img src="../pic/grafana.png" width="400"/>
 
 ### Send Location
 
@@ -303,7 +327,7 @@ Output of the placeholders is replaced by the value:
 -   Integrated event listener: Waits for a data point - this data point is set (e.g. via script or
     Adapter), a predefined menu is opened.
 -   ... it is checked for the condition,
--   ... from version > 1.7.3, you can select "=", "!=", "&lt;", ">", "&lt;=", ">=" as a condition, if this is not selected
+-   ... from version > 1.7.3, you can select "=", "!=", "&lt;", ">", "&lt;=", ">=" as a condition, if this is not selected, it will
     checked for equality by default.
 -   ... it is checked for Ack,
 
