@@ -57,6 +57,7 @@ const configVariables_1 = require("./app/configVariables");
 const setStateIdsToListenTo_1 = require("./app/setStateIdsToListenTo");
 const exchangeValue_1 = require("./lib/exchangeValue");
 const events_1 = require("./app/events");
+const deprecated_1 = require("./app/deprecated");
 const timeoutKey = '0';
 class TelegramMenu extends utils.Adapter {
     static instance;
@@ -91,6 +92,7 @@ class TelegramMenu extends utils.Adapter {
                 const splittedNavigation = (0, appUtils_1.splitNavigation)(nav[name]);
                 const newStructure = (0, appUtils_1.getNewStructure)(splittedNavigation);
                 const generatedActions = (0, action_1.generateActions)({ adapter: exports.adapter, action: action?.[name], userObject: newStructure });
+                (0, deprecated_1.findDeprecatedAndLog)(exports.adapter, generatedActions);
                 menuData[name] = newStructure;
                 if (generatedActions) {
                     menuData[name] = generatedActions?.obj;

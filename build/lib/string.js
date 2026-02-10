@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeDuplicateSpaces = exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeMultiSpaces = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.singleQuotesToDoubleQuotes = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -38,22 +38,49 @@ const replaceAllItems = (text, searched) => {
     return text;
 };
 exports.replaceAllItems = replaceAllItems;
+/**
+ * @deprecated
+ * use mrRemoveQuotes instead if updated
+ * @param text
+ */
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
-const removeMultiSpaces = (text) => text.replace(/ {2,}/g, ' ');
-exports.removeMultiSpaces = removeMultiSpaces;
+/**
+ * @deprecated
+ * use mrSingleQuotesToDoubleQuotes instead if updated
+ * @param text
+ */
+const singleQuotesToDoubleQuotes = (text) => text.replace(/'/g, '"');
+exports.singleQuotesToDoubleQuotes = singleQuotesToDoubleQuotes;
+/**
+ * @deprecated
+ * use mrRemoveDuplicatedSpaces instead if updated
+ * @param text Text
+ */
+const removeDuplicateSpaces = (text) => text.replace(/\s+/g, ' ').trim();
+exports.removeDuplicateSpaces = removeDuplicateSpaces;
 const cleanUpString = (text) => {
     if (!text) {
         return '';
     }
-    return (0, exports.removeMultiSpaces)(text
+    return text
         .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
         .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
         .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
         .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
-        .replace(/\n /g, '\n'));
+        .replace(/\n /g, '\n') // Entferne Leerzeichen vor Zeilenumbrüchen
+        .replace(/ {2,}/g, ' ');
 };
 exports.cleanUpString = cleanUpString;
+/**
+ * Decomposes the text into parts based on two search strings.
+ *
+ * @deprecated
+ * use mrDecomposeText instead if updated
+ * @param text
+ * @param firstSearch
+ * @param secondSearch
+ */
 function decomposeText(text, firstSearch, secondSearch) {
     const startindex = text.indexOf(firstSearch);
     const endindex = text.indexOf(secondSearch, startindex);
@@ -68,6 +95,11 @@ function decomposeText(text, firstSearch, secondSearch) {
         substringExcludeSearch: substringExcludedSearch,
     };
 }
+/**
+ * @deprecated
+ * use mrIsString instead if updated
+ * @param value
+ */
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
 function stringReplacer(substring, valueToReplace) {
@@ -82,6 +114,12 @@ function stringReplacer(substring, valueToReplace) {
     });
     return substring;
 }
+/**
+ * @deprecated
+ * use mrPad instead if updated
+ * @param value
+ * @param length
+ */
 const pad = (value, length = 2) => {
     if (value < 0) {
         return `-${(value * -1).toString().padStart(length - 1, '0')}`;
@@ -99,8 +137,4 @@ const isNonEmptyString = (str) => str.trim() !== '';
 exports.isNonEmptyString = isNonEmptyString;
 const isEmptyString = (str) => str.trim() === '';
 exports.isEmptyString = isEmptyString;
-const removeDuplicateSpaces = (text) => {
-    return text.replace(/\s+/g, ' ').trim();
-};
-exports.removeDuplicateSpaces = removeDuplicateSpaces;
 //# sourceMappingURL=string.js.map

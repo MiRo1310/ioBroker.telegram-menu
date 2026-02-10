@@ -32,6 +32,7 @@ import { getStateIdsToListenTo } from '@b/app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from '@b/lib/exchangeValue';
 import { getInstancesFromEventsById, handleEvent } from '@b/app/events';
+import { findDeprecatedAndLog } from '@b/app/deprecated';
 
 const timeoutKey = '0';
 export let adapter: Adapter;
@@ -95,6 +96,7 @@ export default class TelegramMenu extends utils.Adapter {
                 const newStructure = getNewStructure(splittedNavigation);
                 const generatedActions = generateActions({ adapter, action: action?.[name], userObject: newStructure });
 
+                findDeprecatedAndLog(adapter, generatedActions);
                 menuData[name] = newStructure;
                 if (generatedActions) {
                     menuData[name] = generatedActions?.obj;

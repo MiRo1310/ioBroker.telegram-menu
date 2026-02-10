@@ -355,3 +355,8 @@ export interface CallSubMenu {
     instance: string;
     adapter: Adapter;
 }
+
+export interface GeneratedActions {
+    obj: NewObjectStructure;
+    ids: string[];
+}

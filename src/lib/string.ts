@@ -35,23 +35,49 @@ export const replaceAllItems = (text: string, searched: (string | { search: stri
     return text;
 };
 
+/**
+ * @deprecated
+ * use mrRemoveQuotes instead if updated
+ * @param text
+ */
 export const removeQuotes = (text: string): string => text.replace(/['"]/g, '');
-export const removeMultiSpaces = (text: string): string => text.replace(/ {2,}/g, ' ');
+
+/**
+ * @deprecated
+ * use mrSingleQuotesToDoubleQuotes instead if updated
+ * @param text
+ */
+export const singleQuotesToDoubleQuotes = (text: string): string => text.replace(/'/g, '"');
+
+/**
+ * @deprecated
+ * use mrRemoveDuplicatedSpaces instead if updated
+ * @param text Text
+ */
+export const removeDuplicateSpaces = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 export const cleanUpString = (text?: string): string => {
     if (!text) {
         return '';
     }
-    return removeMultiSpaces(
-        text
-            .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
-            .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
-            .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
-            .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
-            .replace(/\n /g, '\n'), // Entferne Leerzeichen vor Zeilenumbrüchen
-    );
+    return text
+        .replace(/^['"]|['"]$/g, '') // Entferne Anführungszeichen am Anfang/Ende
+        .replace(/\\n/g, '\n') // Ersetze \n durch einen echten Zeilenumbruch
+        .replace(/ \\\n/g, '\n') // Ersetze \n mit Leerzeichen davor durch einen echten Zeilenumbruch
+        .replace(/\\(?!n)/g, '') // Entferne alle Backslashes, die nicht von einem 'n' gefolgt werden)
+        .replace(/\n /g, '\n') // Entferne Leerzeichen vor Zeilenumbrüchen
+        .replace(/ {2,}/g, ' ');
 };
 
+/**
+ * Decomposes the text into parts based on two search strings.
+ *
+ * @deprecated
+ * use mrDecomposeText instead if updated
+ * @param text
+ * @param firstSearch
+ * @param secondSearch
+ */
 export function decomposeText(text: string, firstSearch: string, secondSearch: string): DecomposeTextReturnType {
     const startindex = text.indexOf(firstSearch);
     const endindex = text.indexOf(secondSearch, startindex);
@@ -67,6 +93,11 @@ export function decomposeText(text: string, firstSearch: string, secondSearch: s
     };
 }
 
+/**
+ * @deprecated
+ * use mrIsString instead if updated
+ * @param value
+ */
 export const isString = (value: unknown): value is string => typeof value === 'string';
 
 export function stringReplacer(substring: string, valueToReplace: string[] | StringReplacerObj[]): string {
@@ -83,6 +114,12 @@ export function stringReplacer(substring: string, valueToReplace: string[] | Str
     return substring;
 }
 
+/**
+ * @deprecated
+ * use mrPad instead if updated
+ * @param value
+ * @param length
+ */
 export const pad = (value: number, length: number = 2): string => {
     if (value < 0) {
         return `-${(value * -1).toString().padStart(length - 1, '0')}`;
@@ -100,7 +137,3 @@ export function isBooleanString(str: string): boolean {
 
 export const isNonEmptyString = (str: string): boolean => str.trim() !== '';
 export const isEmptyString = (str: string): boolean => str.trim() === '';
-
-export const removeDuplicateSpaces = (text: string): string => {
-    return text.replace(/\s+/g, ' ').trim();
-};

@@ -1,11 +1,11 @@
-import { decomposeText, parseJSON, removeMultiSpaces, replaceAll } from '@b/lib/string';
+import { decomposeText, parseJSON, removeDuplicateSpaces, replaceAll } from '@b/lib/string';
 import type { Adapter, ExchangeValueReturn, PrimitiveType } from '@b/types/types';
 import { config } from '@b/config/config';
 
 export function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
     let insertValue = true;
     if (textToSend.includes('{novalue}')) {
-        textToSend = removeMultiSpaces(textToSend.replace('{novalue}', ''));
+        textToSend = removeDuplicateSpaces(textToSend.replace('{novalue}', ''));
         insertValue = false;
     }
     return { insertValue, textToSend };
@@ -32,18 +32,19 @@ export const exchangeValue = (
 
             return {
                 newValue,
-                textToSend: removeMultiSpaces(
+                textToSend: removeDuplicateSpaces(
                     exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : ''),
                 ),
                 error: false,
             };
         }
         adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
-        return { newValue: val ?? '', textToSend, error: true };
+        return { newValue: val ?? '', textToSend: removeDuplicateSpaces(textToSend), error: true };
     }
+    const text = removeDuplicateSpaces(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''));
 
     return {
-        textToSend: exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''),
+        textToSend: text,
         newValue: val ?? '',
         error: false,
     };

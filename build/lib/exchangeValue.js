@@ -9,7 +9,7 @@ const config_1 = require("../config/config");
 function isNoValueParameter(textToSend) {
     let insertValue = true;
     if (textToSend.includes('{novalue}')) {
-        textToSend = (0, string_1.removeMultiSpaces)(textToSend.replace('{novalue}', ''));
+        textToSend = (0, string_1.removeDuplicateSpaces)(textToSend.replace('{novalue}', ''));
         insertValue = false;
     }
     return { insertValue, textToSend };
@@ -26,15 +26,16 @@ const exchangeValue = (adapter, textToSend, val, shouldChange = true) => {
             const newValue = json[String(val)] ?? val;
             return {
                 newValue,
-                textToSend: (0, string_1.removeMultiSpaces)(exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : '')),
+                textToSend: (0, string_1.removeDuplicateSpaces)(exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : '')),
                 error: false,
             };
         }
         adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
-        return { newValue: val ?? '', textToSend, error: true };
+        return { newValue: val ?? '', textToSend: (0, string_1.removeDuplicateSpaces)(textToSend), error: true };
     }
+    const text = (0, string_1.removeDuplicateSpaces)(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''));
     return {
-        textToSend: exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''),
+        textToSend: text,
         newValue: val ?? '',
         error: false,
     };

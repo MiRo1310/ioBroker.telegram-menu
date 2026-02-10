@@ -1,6 +1,14 @@
 import { config } from '@b/config/config';
 import type { Adapter, Part, Telegram, TelegramParams } from '@b/types/types';
-import { decomposeText, isNonEmptyString, jsonString, parseJSON } from '@b/lib/string';
+import {
+    decomposeText,
+    isNonEmptyString,
+    jsonString,
+    parseJSON,
+    removeDuplicateSpaces,
+    removeQuotes,
+    singleQuotesToDoubleQuotes,
+} from '@b/lib/string';
 import { transformValueToTypeOfId } from '@b/lib/utilities';
 import { isDefined } from '@b/lib/utils';
 import { errorLogger } from '@b/app/logging';
@@ -16,31 +24,31 @@ const modifiedValue = (valueFromSubmenu: string, value: string): string => {
         : valueFromSubmenu;
 };
 
-export const _setDynamicValueIfIsIn = async (
-    adapter: Adapter,
-    value: string | number | boolean,
-): Promise<string | number | boolean> => {
+export const _getDynamicValueIfIsIn = async (adapter: Adapter, text: string): Promise<string | number | boolean> => {
     const startValue = '{id:';
     const endValue = '}';
+    if (text.includes(startValue)) {
+        const { substring, substringExcludeSearch: id } = decomposeText(text, startValue, endValue);
 
-    if (typeof value === 'string' && value.includes(startValue)) {
-        const { substring, substringExcludeSearch: id } = decomposeText(value, startValue, endValue);
-
-        const state = await adapter.getForeignStateAsync(id);
+        const state = await adapter.getForeignStateAsync(removeQuotes(id));
 
         if (!isDefined(state?.val)) {
-            return value;
+            adapter.log.warn(`State with id ${id} not found or has no value`);
+            return removeDuplicateSpaces(text.replace(substring, ''));
         }
-        if (!value.includes('{math:')) {
-            return value.replace(substring, String(state?.val));
+        if (!text.includes('{math:')) {
+            const res = removeDuplicateSpaces(text.replace(substring, ''));
+            return exchangeValue(adapter, res, String(state.val), true).textToSend;
         }
-        const newValue = value.replace(substring, '');
+
+        const newValue = text.replace(substring, '');
 
         const { error, textToSend, calculated } = mathFunction(newValue, String(state?.val), adapter);
 
         return error ? String(state?.val) : exchangeValue(adapter, textToSend, String(calculated), true).textToSend;
     }
-    return value;
+
+    return removeDuplicateSpaces(text);
 };
 
 export const setstateIobroker = async ({
@@ -77,7 +85,7 @@ const setValue = async (
         adapter.log.debug(`Value to Set: ${jsonString(value)}`);
         const valueToSet =
             isDefined(value) && isNonEmptyString(value)
-                ? await _setDynamicValueIfIsIn(adapter, value)
+                ? await _getDynamicValueIfIsIn(adapter, value)
                 : modifiedValue(String(valueFromSubmenu), value);
         adapter.log.debug(`Value to Set: ${jsonString(valueToSet)}`);
         await setstateIobroker({ adapter, id, value: valueToSet, ack });
@@ -87,18 +95,20 @@ const setValue = async (
     }
 };
 
-function useOtherId(returnText: string): boolean {
-    return returnText.includes("{'id':'");
+const foreignIdStart = '{"foreignId":"';
+
+function handleUpdateFromForeignId(returnText: string): boolean {
+    return returnText.includes(foreignIdStart);
 }
 
 export const handleSetState = async (
+    adapter: Adapter,
     instance: string,
     part: Part,
     userToSend: string,
     valueFromSubmenu: null | string | number | boolean,
     telegramParams: TelegramParams,
 ): Promise<Telegram | undefined> => {
-    const adapter = telegramParams.adapter;
     try {
         if (!part.switch) {
             return;
@@ -106,8 +116,9 @@ export const handleSetState = async (
         for (const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } of part.switch) {
             let idToGetValueFrom = switchId;
             let returnText = text;
-            const useOtherIdFlag = useOtherId(returnText);
-            if (returnText.includes(config.setDynamicValue)) {
+
+            const useForeignId = handleUpdateFromForeignId(returnText);
+            if (returnText.includes('{setDynamicValue')) {
                 const { confirmText, id } = await setDynamicValue(
                     instance,
                     returnText,
@@ -130,7 +141,7 @@ export const handleSetState = async (
                 return;
             }
             let valueToTelegram: ioBroker.StateValue = valueFromSubmenu ?? value;
-            if (!useOtherIdFlag) {
+            if (!useForeignId) {
                 await addSetStateIds(adapter, {
                     id: idToGetValueFrom,
                     confirm,
@@ -139,21 +150,21 @@ export const handleSetState = async (
                     parse_mode,
                 });
             } else {
-                returnText = returnText.replace(/'/g, '"');
-                const { substring } = decomposeText(returnText, '{"id":', '}');
-                const { json, isValidJson } = parseJSON<{ text: string; id: string }>(substring);
+                returnText = singleQuotesToDoubleQuotes(returnText);
+                const { substring } = decomposeText(returnText, foreignIdStart, '}');
+                const { json, isValidJson } = parseJSON<{ text: string; foreignId: string }>(substring);
 
                 if (!isValidJson) {
                     return;
                 }
 
-                if (json.id) {
-                    idToGetValueFrom = json.id;
+                if (json.foreignId) {
+                    idToGetValueFrom = json.foreignId;
                     returnText = returnText.replace(substring, json.text);
                 }
 
                 await addSetStateIds(adapter, {
-                    id: json.id,
+                    id: json.foreignId,
                     confirm: true,
                     returnText: json.text,
                     userToSend: userToSend,
@@ -162,10 +173,10 @@ export const handleSetState = async (
 
             if (toggle) {
                 const state = await adapter.getForeignStateAsync(switchId);
-                const val = state ? !state.val : false;
-                await setstateIobroker({ adapter, id: switchId, value: val, ack });
+                const newValue = state ? !state.val : false;
+                await setstateIobroker({ adapter, id: switchId, value: newValue, ack });
 
-                valueToTelegram = val;
+                valueToTelegram = newValue;
             } else {
                 const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
                 if (isDefined(modifiedValue)) {
@@ -173,13 +184,19 @@ export const handleSetState = async (
                 }
             }
 
-            if (useOtherIdFlag) {
+            if (useForeignId) {
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
 
             if (confirm) {
-                const { textToSend } = exchangeValue(adapter, returnText, valueToTelegram);
+                let { textToSend } = exchangeValue(adapter, singleQuotesToDoubleQuotes(returnText), valueToTelegram);
+
+                let i = 0;
+                while (textToSend.includes('{id:') && i < 20) {
+                    textToSend = String(await _getDynamicValueIfIsIn(adapter, textToSend));
+                    i++;
+                }
                 const telegramData: Telegram = {
                     instance,
                     userToSend,

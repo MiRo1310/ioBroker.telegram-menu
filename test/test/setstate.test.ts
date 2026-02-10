@@ -17,54 +17,151 @@ const telegramParams: TelegramParams = {
 };
 
 describe('Setstate', () => {
-    it('should return correct value with id object', async () => {
+    it('should return correct value with foreignId object', async () => {
         const part = {
             switch: [
                 {
                     id: 'test.0',
                     confirm: true,
-                    returnText: "{'id':'test.0.test','text':'Der Wert wurde auf && °C gesetzt'}",
+                    returnText: '{"foreignId":"test.0.test","text":"Der Wert wurde auf && °C gesetzt"}',
                 },
             ],
         } as Part;
-        const result = await handleSetState('telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('Der Wert wurde auf 0 °C gesetzt');
     });
 
-    it('should return correct value with id object and change', async () => {
+    it('should return correct value with foreignId object and change', async () => {
         const part = {
             switch: [
                 {
                     id: 'test.0',
                     confirm: true,
                     returnText:
-                        "{'id':'test.0.test','text':'Warmwasser neuer Zustand ist:'} && change{'0':'EIN','1':'AUS','2':'AUTO'}",
+                        '{"foreignId":"test.0.test","text":"Warmwasser neuer Zustand ist:"} && change{"0":"EIN","1":"AUS","2":"AUTO"}',
                 },
             ],
         } as Part;
 
-        const result = await handleSetState('telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('Warmwasser neuer Zustand ist: EIN');
     });
 
-    it('should return correct value with id object and change, without &&', async () => {
+    it('should return correct value with foreignId object and change, without &&', async () => {
         const part = {
             switch: [
                 {
                     id: 'test.0',
                     confirm: true,
                     returnText:
-                        "{'id':'test.0.test','text':'Warmwasser neuer Zustand ist:'} change{'0':'EIN','1':'AUS','2':'AUTO'}",
+                        '{"foreignId":"test.0.test","text":"Warmwasser neuer Zustand ist:"} change{"0":"EIN","1":"AUS","2":"AUTO"}',
                 },
             ],
         } as Part;
-        const result = await handleSetState('telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('Warmwasser neuer Zustand ist: EIN');
+    });
+
+    it('should return correct value with id object with &&', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText: "ReturnText: && {id:'test.0.test'}",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: setValue stateValue');
+    });
+
+    it('should return correct value with id object without && ', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText: "ReturnText:  {id:'test.0.test'}",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: setValue stateValue');
+    });
+
+    it('should return correct value with id object without && but with change ', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText:
+                        "ReturnText:  {id:'test.0.test'}   change{'setValue':'EIN','1':'AUS','2':'AUTO'} change{'set':'EIN','stateValue':'AUS','2':'AUTO'}",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: EIN AUS');
+    });
+
+    it('should return correct value with id object without && but with novalue from setState ', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText: "ReturnText:  {id:'test.0.test'}  {novalue} ",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: stateValue');
+    });
+
+    it('should return correct value with id object without && and change and no value from setState ', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.test', 'stateValue', true);
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText:
+                        "ReturnText:  {id:'test.0.test'}  {novalue} change{'s':'EIN','s':'AUS','2':'AUTO'} change{'set':'EIN','stateValue':'AUS','2':'AUTO'}",
+                    value: 'setValue',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+        expect(result?.instance).to.deep.equal('telegram.0');
+        expect(result?.textToSend).to.deep.equal('ReturnText: AUS');
     });
 });

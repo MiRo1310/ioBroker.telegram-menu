@@ -3,6 +3,7 @@ import type {
     Adapter,
     BindingObject,
     GenerateActionsNewObject,
+    GeneratedActions,
     NewObjectStructure,
     Part,
     Switch,
@@ -74,7 +75,7 @@ export function generateActions({
     action?: Actions;
     userObject: NewObjectStructure;
     adapter: Adapter;
-}): { obj: NewObjectStructure; ids: string[] } | undefined {
+}): GeneratedActions | undefined {
     try {
         const listOfSetStateIds: string[] = [];
         action?.set.forEach(function (

@@ -92,7 +92,7 @@ const setMenuValue = async ({
     } else if (val === 'true') {
         val = true;
     }
-    await handleSetState(instance, part, userToSend, val, telegramParams);
+    await handleSetState(telegramParams.adapter, instance, part, userToSend, val, telegramParams);
 };
 
 const createSubmenuNumber = ({
@@ -295,7 +295,7 @@ export async function subMenu({
         }
 
         if (isSetDynamicSwitchVal(cbData) && val) {
-            await handleSetState(instance, part, userToSend, val, telegramParams); //SetDynamicValue
+            await handleSetState(adapter, instance, part, userToSend, val, telegramParams); //SetDynamicValue
         }
 
         if (isCreateSubmenuPercent(menuString, cbData) && menuToHandle) {
@@ -304,7 +304,7 @@ export async function subMenu({
 
         if (isSetSubmenuPercent(menuString, step)) {
             const value = parseInt(menuString.split(':')[1].split(',')[1]);
-            await handleSetState(instance, part, userToSend, value, telegramParams);
+            await handleSetState(adapter, instance, part, userToSend, value, telegramParams);
         }
 
         if (isCreateSubmenuNumber(menuString, cbData) && menuToHandle) {
@@ -313,7 +313,7 @@ export async function subMenu({
 
         if (isSetSubmenuNumber(menuString)) {
             const { value } = getSubmenuNumberValues(menuString);
-            await handleSetState(instance, part, userToSend, value, telegramParams);
+            await handleSetState(adapter, instance, part, userToSend, value, telegramParams);
         }
 
         if (isMenuBack(menuString)) {

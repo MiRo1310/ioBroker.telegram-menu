@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleSetState = exports.setstateIobroker = exports._setDynamicValueIfIsIn = void 0;
+exports.handleSetState = exports.setstateIobroker = exports._getDynamicValueIfIsIn = void 0;
 const config_1 = require("../config/config");
 const string_1 = require("../lib/string");
 const utilities_1 = require("../lib/utilities");
@@ -16,25 +16,27 @@ const modifiedValue = (valueFromSubmenu, value) => {
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
 };
-const _setDynamicValueIfIsIn = async (adapter, value) => {
+const _getDynamicValueIfIsIn = async (adapter, text) => {
     const startValue = '{id:';
     const endValue = '}';
-    if (typeof value === 'string' && value.includes(startValue)) {
-        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(value, startValue, endValue);
-        const state = await adapter.getForeignStateAsync(id);
+    if (text.includes(startValue)) {
+        const { substring, substringExcludeSearch: id } = (0, string_1.decomposeText)(text, startValue, endValue);
+        const state = await adapter.getForeignStateAsync((0, string_1.removeQuotes)(id));
         if (!(0, utils_1.isDefined)(state?.val)) {
-            return value;
+            adapter.log.warn(`State with id ${id} not found or has no value`);
+            return (0, string_1.removeDuplicateSpaces)(text.replace(substring, ''));
         }
-        if (!value.includes('{math:')) {
-            return value.replace(substring, String(state?.val));
+        if (!text.includes('{math:')) {
+            const res = (0, string_1.removeDuplicateSpaces)(text.replace(substring, ''));
+            return (0, exchangeValue_1.exchangeValue)(adapter, res, String(state.val), true).textToSend;
         }
-        const newValue = value.replace(substring, '');
+        const newValue = text.replace(substring, '');
         const { error, textToSend, calculated } = (0, appUtils_1.mathFunction)(newValue, String(state?.val), adapter);
         return error ? String(state?.val) : (0, exchangeValue_1.exchangeValue)(adapter, textToSend, String(calculated), true).textToSend;
     }
-    return value;
+    return (0, string_1.removeDuplicateSpaces)(text);
 };
-exports._setDynamicValueIfIsIn = _setDynamicValueIfIsIn;
+exports._getDynamicValueIfIsIn = _getDynamicValueIfIsIn;
 const setstateIobroker = async ({ id, value, ack, adapter, }) => {
     try {
         const val = await (0, utilities_1.transformValueToTypeOfId)(adapter, id, value);
@@ -52,7 +54,7 @@ const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
     try {
         adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(value)}`);
         const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
-            ? await (0, exports._setDynamicValueIfIsIn)(adapter, value)
+            ? await (0, exports._getDynamicValueIfIsIn)(adapter, value)
             : modifiedValue(String(valueFromSubmenu), value);
         adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(valueToSet)}`);
         await (0, exports.setstateIobroker)({ adapter, id, value: valueToSet, ack });
@@ -62,11 +64,11 @@ const setValue = async (adapter, id, value, valueFromSubmenu, ack) => {
         (0, logging_1.errorLogger)('Error setValue', error, adapter);
     }
 };
-function useOtherId(returnText) {
-    return returnText.includes("{'id':'");
+const foreignIdStart = '{"foreignId":"';
+function handleUpdateFromForeignId(returnText) {
+    return returnText.includes(foreignIdStart);
 }
-const handleSetState = async (instance, part, userToSend, valueFromSubmenu, telegramParams) => {
-    const adapter = telegramParams.adapter;
+const handleSetState = async (adapter, instance, part, userToSend, valueFromSubmenu, telegramParams) => {
     try {
         if (!part.switch) {
             return;
@@ -74,8 +76,8 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
         for (const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } of part.switch) {
             let idToGetValueFrom = switchId;
             let returnText = text;
-            const useOtherIdFlag = useOtherId(returnText);
-            if (returnText.includes(config_1.config.setDynamicValue)) {
+            const useForeignId = handleUpdateFromForeignId(returnText);
+            if (returnText.includes('{setDynamicValue')) {
                 const { confirmText, id } = await (0, dynamicValue_1.setDynamicValue)(instance, returnText, ack, idToGetValueFrom, userToSend, telegramParams, parse_mode, confirm);
                 if (confirm) {
                     await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
@@ -88,7 +90,7 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 return;
             }
             let valueToTelegram = valueFromSubmenu ?? value;
-            if (!useOtherIdFlag) {
+            if (!useForeignId) {
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                     id: idToGetValueFrom,
                     confirm,
@@ -98,18 +100,18 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                 });
             }
             else {
-                returnText = returnText.replace(/'/g, '"');
-                const { substring } = (0, string_1.decomposeText)(returnText, '{"id":', '}');
+                returnText = (0, string_1.singleQuotesToDoubleQuotes)(returnText);
+                const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
                 const { json, isValidJson } = (0, string_1.parseJSON)(substring);
                 if (!isValidJson) {
                     return;
                 }
-                if (json.id) {
-                    idToGetValueFrom = json.id;
+                if (json.foreignId) {
+                    idToGetValueFrom = json.foreignId;
                     returnText = returnText.replace(substring, json.text);
                 }
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
-                    id: json.id,
+                    id: json.foreignId,
                     confirm: true,
                     returnText: json.text,
                     userToSend: userToSend,
@@ -117,9 +119,9 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
             }
             if (toggle) {
                 const state = await adapter.getForeignStateAsync(switchId);
-                const val = state ? !state.val : false;
-                await (0, exports.setstateIobroker)({ adapter, id: switchId, value: val, ack });
-                valueToTelegram = val;
+                const newValue = state ? !state.val : false;
+                await (0, exports.setstateIobroker)({ adapter, id: switchId, value: newValue, ack });
+                valueToTelegram = newValue;
             }
             else {
                 const modifiedValue = await setValue(adapter, switchId, value, valueFromSubmenu, ack);
@@ -127,12 +129,17 @@ const handleSetState = async (instance, part, userToSend, valueFromSubmenu, tele
                     valueToTelegram = modifiedValue;
                 }
             }
-            if (useOtherIdFlag) {
+            if (useForeignId) {
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
             if (confirm) {
-                const { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, returnText, valueToTelegram);
+                let { textToSend } = (0, exchangeValue_1.exchangeValue)(adapter, (0, string_1.singleQuotesToDoubleQuotes)(returnText), valueToTelegram);
+                let i = 0;
+                while (textToSend.includes('{id:') && i < 20) {
+                    textToSend = String(await (0, exports._getDynamicValueIfIsIn)(adapter, textToSend));
+                    i++;
+                }
                 const telegramData = {
                     instance,
                     userToSend,

@@ -110,7 +110,7 @@ async function processData({ instance, menuData, calledValue, userToSend, groupW
                 return true;
             }
             if (part?.switch) {
-                await (0, setstate_1.handleSetState)(instance, part, userToSend, null, telegramParams);
+                await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, null, telegramParams);
                 return true;
             }
             if (part?.getData) {
