@@ -35,9 +35,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.0 (2026-02-13)
 
-- FEAT: #478 Return text with more than 1 id
+- FEAT: #478 Return text with more than one id
 - FEAT: #476 Add math to setstate
 - FIX: Errors reported by sentry
 

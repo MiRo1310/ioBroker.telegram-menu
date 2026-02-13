@@ -1,100 +1,100 @@
 {
-    "name": "iobroker.telegram-menu",
-    "version": "3.2.3",
-    "description": "Easily create Telegram Menus",
-    "author": {
-        "name": "MiRo1310",
-        "email": "michael.roling@gmx.de"
-    },
-    "homepage": "https://github.com/MiRo1310/ioBroker.telegram-menu",
-    "license": "MIT",
-    "keywords": [
-        "ioBroker",
-        "telegram",
-        "menu"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/MiRo1310/ioBroker.telegram-menu.git"
-    },
-    "engines": {
-        "node": ">= 20"
-    },
-    "dependencies": {
-        "@iobroker/adapter-core": "^3.3.2",
-        "axios": "^1.13.2",
-        "nyc": "^17.1.0"
-    },
-    "devDependencies": {
-        "@alcalzone/release-script": "^5.0.0",
-        "@alcalzone/release-script-plugin-iobroker": "^4.0.0",
-        "@alcalzone/release-script-plugin-license": "^4.0.0",
-        "@alcalzone/release-script-plugin-manual-review": "^4.0.0",
-        "@emotion/react": "^11.11.4",
-        "@emotion/styled": "^11.11.0",
-        "@iobroker/adapter-dev": "^1.5.0",
-        "@iobroker/adapter-react-v5": "^8.0.16",
-        "@iobroker/eslint-config": "^2.2.0",
-        "@iobroker/testing": "^5.2.2",
-        "@mui/icons-material": "^7.3.6",
-        "@mui/lab": "^7.0.0-beta.17",
-        "@mui/material": "^7.3.6",
-        "@tsconfig/node20": "^20.1.8",
-        "@types/node": "^25.0.3",
-        "@types/react": "^19.2.7",
-        "@types/react-dom": "^19.2.3",
-        "cpy-cli": "^6.0.0",
-        "eslint-import-resolver-typescript": "^4.4.4",
-        "eslint-plugin-import": "^2.32.0",
-        "npm-run-all": "^4.1.5",
-        "react": "^19.2.0",
-        "react-dom": "^19.2.3",
-        "rimraf": "^6.1.2",
-        "ts-node": "^10.9.2",
-        "tsc-alias": "^1.8.16",
-        "tsconfig-paths": "^4.2.0",
-        "typescript": "^5.9.3"
-    },
-    "main": "build/main.js",
-    "files": [
-        "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
-        "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
-        "admin/build",
-        "build",
-        "www/",
-        "io-package.json",
-        "LICENSE",
-        "admin/**/style.css",
-        "admin/build/index.js.map"
-    ],
-    "scripts": {
-        "prebuild": "npm run lint:fix && rimraf admin/build",
-        "build": "npm run build:react && npm run tsc",
-        "watch": "build-adapter react --watch",
-        "tsc": "tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-        "prebuild:react": "rimraf admin/build",
-        "build:react": "build-adapter react",
-        "watch:react": "build-adapter react --watch",
-        "test:js": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
-        "test:watch": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json --watch",
-        "test:js:debug": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json --inspect-brk",
-        "test:package": "mocha test/package --exit",
-        "test:integration": "mocha -r ts-node/register test/integration.ts --exit",
-        "test": "npm run test:js && npm run test:package",
-        "test:cov": "nyc --reporter=html npm run test:js",
-        "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
-        "lint:fix": "eslint -c eslint.config.mjs . --fix && eslint -c admin/eslint.config.mjs admin/src/ --fix",
-        "lint:backend": "eslint -c eslint.config.mjs .",
-        "lint:frontend": "eslint -c admin/eslint.config.mjs admin/src/",
-        "translate": "translate-adapter",
-        "release": "release-script",
-        "checker": "node skript.mjs",
-        "dev": " dev-server run",
-        "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))",
-        "force": "git push --force-with-lease"
-    },
-    "bugs": {
-        "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
-    },
-    "readmeFilename": "README.md"
+  "name": "iobroker.telegram-menu",
+  "version": "4.0.0",
+  "description": "Easily create Telegram Menus",
+  "author": {
+    "name": "MiRo1310",
+    "email": "michael.roling@gmx.de"
+  },
+  "homepage": "https://github.com/MiRo1310/ioBroker.telegram-menu",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "telegram",
+    "menu"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MiRo1310/ioBroker.telegram-menu.git"
+  },
+  "engines": {
+    "node": ">= 20"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.3.2",
+    "axios": "^1.13.2",
+    "nyc": "^17.1.0"
+  },
+  "devDependencies": {
+    "@alcalzone/release-script": "^5.0.0",
+    "@alcalzone/release-script-plugin-iobroker": "^4.0.0",
+    "@alcalzone/release-script-plugin-license": "^4.0.0",
+    "@alcalzone/release-script-plugin-manual-review": "^4.0.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@iobroker/adapter-dev": "^1.5.0",
+    "@iobroker/adapter-react-v5": "^8.0.16",
+    "@iobroker/eslint-config": "^2.2.0",
+    "@iobroker/testing": "^5.2.2",
+    "@mui/icons-material": "^7.3.6",
+    "@mui/lab": "^7.0.0-beta.17",
+    "@mui/material": "^7.3.6",
+    "@tsconfig/node20": "^20.1.8",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "cpy-cli": "^6.0.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.3",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  },
+  "main": "build/main.js",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "admin/build",
+    "build",
+    "www/",
+    "io-package.json",
+    "LICENSE",
+    "admin/**/style.css",
+    "admin/build/index.js.map"
+  ],
+  "scripts": {
+    "prebuild": "npm run lint:fix && rimraf admin/build",
+    "build": "npm run build:react && npm run tsc",
+    "watch": "build-adapter react --watch",
+    "tsc": "tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "prebuild:react": "rimraf admin/build",
+    "build:react": "build-adapter react",
+    "watch:react": "build-adapter react --watch",
+    "test:js": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json",
+    "test:watch": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json --watch",
+    "test:js:debug": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.test.ts\" --config test/mocharc.custom.json --inspect-brk",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha -r ts-node/register test/integration.ts --exit",
+    "test": "npm run test:js && npm run test:package",
+    "test:cov": "nyc --reporter=html npm run test:js",
+    "lint": "eslint -c eslint.config.mjs . && eslint -c admin/eslint.config.mjs admin/src/",
+    "lint:fix": "eslint -c eslint.config.mjs . --fix && eslint -c admin/eslint.config.mjs admin/src/ --fix",
+    "lint:backend": "eslint -c eslint.config.mjs .",
+    "lint:frontend": "eslint -c admin/eslint.config.mjs admin/src/",
+    "translate": "translate-adapter",
+    "release": "release-script",
+    "checker": "node skript.mjs",
+    "dev": " dev-server run",
+    "reset": "git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD))",
+    "force": "git push --force-with-lease"
+  },
+  "bugs": {
+    "url": "https://github.com/MiRo1310/ioBroker.telegram-menu/issues"
+  },
+  "readmeFilename": "README.md"
 }

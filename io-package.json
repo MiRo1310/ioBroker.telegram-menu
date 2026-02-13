@@ -1,413 +1,454 @@
 {
-    "common": {
-        "name": "telegram-menu",
-        "version": "3.2.3",
-        "news": {
-            "3.2.3": {
-                "en": "FIX: Errors reported by sentry",
-                "de": "FIX: Fehler, die von sentry gemeldet werden",
-                "ru": "FIX: Ошибки, о которых сообщил часовой",
-                "pt": "FIX: Erros relatados pelo sentinela",
-                "nl": "FIX: Fouten gemeld door de wachtdienst",
-                "fr": "FIX : Erreurs signalées par sentinelle",
-                "it": "FIX: Errori segnalati dalla sentinella",
-                "es": "FIX: Errores reportados por centinela",
-                "pl": "FIX: Błędy zgłaszane przez wartownika",
-                "uk": "FIX: Помилки, які повідомляються відправником",
-                "zh-cn": "FIX:哨兵报告的错误"
-            },
-            "3.2.2": {
-                "en": "FIX: Errors reported by sentry",
-                "de": "FIX: Fehler, die von sentry gemeldet werden",
-                "ru": "FIX: Ошибки, о которых сообщил часовой",
-                "pt": "FIX: Erros relatados pelo sentinela",
-                "nl": "FIX: Fouten gemeld door de wachtdienst",
-                "fr": "FIX : Erreurs signalées par sentinelle",
-                "it": "FIX: Errori segnalati dalla sentinella",
-                "es": "FIX: Errores reportados por centinela",
-                "pl": "FIX: Błędy zgłaszane przez wartownika",
-                "uk": "FIX: Помилки, які повідомляються відправником",
-                "zh-cn": "FIX:哨兵报告的错误"
-            },
-            "3.2.1": {
-                "en": "FIX: #459 Message is confirmed, although it should not\nFIX: #452 Value in return text\nFIX: #436 Message text is empty error\nCHORE: Update dependencies",
-                "de": "FIX: #459 Nachricht wird bestätigt, obwohl es nicht\nFIX: #452 Wert im Rückgabetext\nFIX: #436 Nachrichtentext ist leerer Fehler\nCHORE: Aktualisieren von Abhängigkeiten",
-                "ru": "Fix: #459 Сообщение подтверждается, хотя не должно\nFIX: #452 Ценность в обмен на текст\nFIX: #436 Текст сообщения - пустая ошибка\nИзображение: Update Dependencies",
-                "pt": "FIX: # 459 A mensagem é confirmada, embora não deva\nFIX: # 452 Valor no texto de retorno\nFIX: # 436 O texto da mensagem está em branco\nCHORE: Atualizar dependências",
-                "nl": "FIX: #459 Bericht wordt bevestigd, hoewel het niet\nFIX: #452 Waarde in retourtekst\nFIX: #436 Berichttekst is lege fout\nAfhankelijkheden bijwerken",
-                "fr": "Numéro 459 Le message est confirmé, mais il ne devrait pas\nNuméro 452 Valeur dans le texte de retour\nNuméro 436 Message texte est une erreur vide\nCHORE : Mise à jour des dépendances",
-                "it": "#459 Il messaggio è confermato, anche se non dovrebbe\n#452 Valore nel testo di ritorno\n#436 Il testo del messaggio è un errore vuoto\nCHORE: dipendenze di aggiornamento",
-                "es": "FIX: #459 El mensaje es confirmado, aunque no debe\nFIX: #452 Valor en el texto de retorno\nFIX: #436 Texto del mensaje es error vacío\nCHORE: Actualizar las dependencias",
-                "pl": "FIX: # 459 Wiadomość jest potwierdzona, chociaż nie powinna\nFIX: # 452 Wartość w tekście zwrotnym\nFIX: # 436 Tekst wiadomości to pusty błąd\nCHORE: Uaktualnij zależności",
-                "uk": "FIX: #459 Повідомлення підтверджено, хоча це не повинно\nFIX: #452 Значення в поверненні тексту\nFIX: #436 Текст повідомлення порожній\nCHORE: Оновити залежності",
-                "zh-cn": "FIX: #459 (英语). 信息得到确认,尽管它不应该\nFIX: #452 (英语). 返回文本中的值\nFIX: #436 (英语). 信件文本为空错误\nCHORE: 更新依赖性"
-            },
-            "3.2.0": {
-                "en": "FEAT: #421 Events with selectable comparison parameter\nFIX: #422 Event with submenu\nFIX: #407 Events are not handled",
-                "de": "FEAT: #421 Ereignisse mit wählbarem Vergleichsparameter\nFIX: #422 Veranstaltung mit Untermenü\nFIX: #407 Veranstaltungen werden nicht behandelt",
-                "ru": "#421 События с выбираемым параметром сравнения\nFIX: #422 Событие с подменю\nFix: #407 События не обрабатываются",
-                "pt": "FEAT: #421 Eventos com parâmetro de comparação selecionável\nFIX: # 422 Evento com submenu\nFIX: # 407 Os eventos não são tratados",
-                "nl": "FEAT: #421 Evenementen met selecteerbare vergelijkingsparameter\nFIX: #422 Evenement met submenu\nFIX: #407 Gebeurtenissen worden niet afgehandeld",
-                "fr": "EVÉNEMENTS #421 avec paramètre de comparaison sélectionnable\nFIXE: #422 Événement avec sous-menu\nNuméro 407 Les événements ne sont pas traités",
-                "it": "FEAT: #421 Eventi con parametro di confronto selezionabile\nFIX: #422 Evento con submenu\nFIX: #407 Eventi non gestiti",
-                "es": "FEAT: #421 Eventos con parámetro de comparación seleccionable\nFIX: #422 Evento con submenú\nFIX: #407 Los eventos no se manejan",
-                "pl": "FEAT: # 421 Wydarzenia z wybranym parametrem porównania\nFIX: # 422 Event z podmenu\nFIX: # 407 Zdarzenia nie są obsługiwane",
-                "uk": "FEAT: #421 Події з вибраним параметром порівняння\nFIX: #422 Захід з підменю\nFIX: #407 Події не обробляються",
-                "zh-cn": "FEAT: # 421 有可选比较参数的事件\nFIX: # 422 带有子菜单的事件\nFIX:第407号 未处理事件"
-            },
-            "3.1.4": {
-                "en": "CHORE: Update dependencies",
-                "de": "CHORE: Aktualisieren von Abhängigkeiten",
-                "ru": "Изображение: Update Dependencies",
-                "pt": "CHORE: Atualizar dependências",
-                "nl": "Afhankelijkheden bijwerken",
-                "fr": "CHORE : Mise à jour des dépendances",
-                "it": "CHORE: dipendenze di aggiornamento",
-                "es": "CHORE: Actualizar las dependencias",
-                "pl": "CHORE: Uaktualnij zależności",
-                "uk": "CHORE: Оновити залежності",
-                "zh-cn": "CHORE: 更新依赖性"
-            },
-            "3.1.2": {
-                "en": "CHORE: #401 Update config",
-                "de": "CHORE: #401 Konfiguration aktualisieren",
-                "ru": "CHORE: #401 Обновить конфигурацию",
-                "pt": "TAREFA: #401 Atualizar configuração",
-                "nl": "CHORE: #401 Configuratie bijgewerkt",
-                "fr": "TÂCHE : #401 Mise à jour de la configuration",
-                "it": "IMPEGNO: #401 Aggiornamento configurazione",
-                "es": "TAREA: #401 Actualizar configuración",
-                "pl": "CHORE: #401 Aktualizacja konfiguracji",
-                "uk": "CHORE: #401 Оновлення конфігурації",
-                "zh-cn": "任务：#401 更新配置"
-            },
-            "3.1.1": {
-                "en": "FIX: #399 Error in UI",
-                "de": "BEHOBEN: #399 Fehler im Benutzerinterface",
-                "ru": "ИСПРАВЛЕНИЕ: #399 Ошибка в пользовательском интерфейсе",
-                "pt": "CORREÇÃO: #399 Erro na interface do usuário",
-                "nl": "OPLOSSING: #399 Fout in UI",
-                "fr": "CORRECTIF : #399 Erreur dans l'interface utilisateur",
-                "it": "CORREZIONE: #399 Errore nell'interfaccia utente",
-                "es": "CORRECCIÓN: Error en la interfaz de usuario",
-                "pl": "NAPRAWIONO: #399 Błąd w interfejsie użytkownika",
-                "uk": "ВИПРАВЛЕННЯ: #399 Помилка в інтерфейсі користувача",
-                "zh-cn": "修复：#399 UI中的错误"
-            }
+  "common": {
+    "name": "telegram-menu",
+    "version": "4.0.0",
+    "news": {
+      "4.0.0": {
+        "en": "FEAT: #478 Return text with more than 1 id\nFEAT: #476 Add math to setstate\nFIX: Errors reported by sentry",
+        "de": "FEAT: #478 Text mit mehr als 1 id\nFEAT: #476 Add math to setstate\nFIX: Fehler, die von sentry gemeldet werden",
+        "ru": "#478 Возврат текста с более чем 1 идентификатором\n#476 Добавить математику в состояние\nFIX: Ошибки, о которых сообщил часовой",
+        "pt": "FEAT: # 478 Devolver texto com mais de 1 id\nFEAT: # 476 Adicionar matemática ao setstate\nFIX: Erros relatados pelo sentinela",
+        "nl": "FEAT: #478 Tekst met meer dan 1 id teruggeven\nFEAT: #476 Wiskunde toevoegen aan setstate\nFIX: Fouten gemeld door de wachtdienst",
+        "fr": "FEU: #478 Retourner le texte avec plus de 1 id\nFAT: #476 Ajouter les maths à définir\nFIX : Erreurs signalées par sentinelle",
+        "it": "FEAT: #478 Testo di ritorno con più di 1 id\nFEAT: #476 Aggiungi matematica per impostarestate\nFIX: Errori segnalati dalla sentinella",
+        "es": "FEAT: #478 Volver texto con más de 1 id\nFEAT: #476 Add math to setstate\nFIX: Errores reportados por centinela",
+        "pl": "FEAT: # 478 Powrót tekstu z więcej niż 1 id\nFEAT: # 476 Dodaj matematykę do setstate\nFIX: Błędy zgłaszane przez wartownika",
+        "uk": "FEAT: #478 Повернути текст з більш ніж 1 id\nFEAT: #476 Додати математику для setstate\nFIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FEAT: # 478 带1 id 以上的返回文本\nFEAT: # 476 添加数学到设置状态\nFIX:哨兵报告的错误"
+      },
+      "3.2.3": {
+        "en": "FIX: Errors reported by sentry",
+        "de": "FIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: Erros relatados pelo sentinela",
+        "nl": "FIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIX : Erreurs signalées par sentinelle",
+        "it": "FIX: Errori segnalati dalla sentinella",
+        "es": "FIX: Errores reportados por centinela",
+        "pl": "FIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX:哨兵报告的错误"
+      },
+      "3.2.2": {
+        "en": "FIX: Errors reported by sentry",
+        "de": "FIX: Fehler, die von sentry gemeldet werden",
+        "ru": "FIX: Ошибки, о которых сообщил часовой",
+        "pt": "FIX: Erros relatados pelo sentinela",
+        "nl": "FIX: Fouten gemeld door de wachtdienst",
+        "fr": "FIX : Erreurs signalées par sentinelle",
+        "it": "FIX: Errori segnalati dalla sentinella",
+        "es": "FIX: Errores reportados por centinela",
+        "pl": "FIX: Błędy zgłaszane przez wartownika",
+        "uk": "FIX: Помилки, які повідомляються відправником",
+        "zh-cn": "FIX:哨兵报告的错误"
+      },
+      "3.2.1": {
+        "en": "FIX: #459 Message is confirmed, although it should not\nFIX: #452 Value in return text\nFIX: #436 Message text is empty error\nCHORE: Update dependencies",
+        "de": "FIX: #459 Nachricht wird bestätigt, obwohl es nicht\nFIX: #452 Wert im Rückgabetext\nFIX: #436 Nachrichtentext ist leerer Fehler\nCHORE: Aktualisieren von Abhängigkeiten",
+        "ru": "Fix: #459 Сообщение подтверждается, хотя не должно\nFIX: #452 Ценность в обмен на текст\nFIX: #436 Текст сообщения - пустая ошибка\nИзображение: Update Dependencies",
+        "pt": "FIX: # 459 A mensagem é confirmada, embora não deva\nFIX: # 452 Valor no texto de retorno\nFIX: # 436 O texto da mensagem está em branco\nCHORE: Atualizar dependências",
+        "nl": "FIX: #459 Bericht wordt bevestigd, hoewel het niet\nFIX: #452 Waarde in retourtekst\nFIX: #436 Berichttekst is lege fout\nAfhankelijkheden bijwerken",
+        "fr": "Numéro 459 Le message est confirmé, mais il ne devrait pas\nNuméro 452 Valeur dans le texte de retour\nNuméro 436 Message texte est une erreur vide\nCHORE : Mise à jour des dépendances",
+        "it": "#459 Il messaggio è confermato, anche se non dovrebbe\n#452 Valore nel testo di ritorno\n#436 Il testo del messaggio è un errore vuoto\nCHORE: dipendenze di aggiornamento",
+        "es": "FIX: #459 El mensaje es confirmado, aunque no debe\nFIX: #452 Valor en el texto de retorno\nFIX: #436 Texto del mensaje es error vacío\nCHORE: Actualizar las dependencias",
+        "pl": "FIX: # 459 Wiadomość jest potwierdzona, chociaż nie powinna\nFIX: # 452 Wartość w tekście zwrotnym\nFIX: # 436 Tekst wiadomości to pusty błąd\nCHORE: Uaktualnij zależności",
+        "uk": "FIX: #459 Повідомлення підтверджено, хоча це не повинно\nFIX: #452 Значення в поверненні тексту\nFIX: #436 Текст повідомлення порожній\nCHORE: Оновити залежності",
+        "zh-cn": "FIX: #459 (英语). 信息得到确认,尽管它不应该\nFIX: #452 (英语). 返回文本中的值\nFIX: #436 (英语). 信件文本为空错误\nCHORE: 更新依赖性"
+      },
+      "3.2.0": {
+        "en": "FEAT: #421 Events with selectable comparison parameter\nFIX: #422 Event with submenu\nFIX: #407 Events are not handled",
+        "de": "FEAT: #421 Ereignisse mit wählbarem Vergleichsparameter\nFIX: #422 Veranstaltung mit Untermenü\nFIX: #407 Veranstaltungen werden nicht behandelt",
+        "ru": "#421 События с выбираемым параметром сравнения\nFIX: #422 Событие с подменю\nFix: #407 События не обрабатываются",
+        "pt": "FEAT: #421 Eventos com parâmetro de comparação selecionável\nFIX: # 422 Evento com submenu\nFIX: # 407 Os eventos não são tratados",
+        "nl": "FEAT: #421 Evenementen met selecteerbare vergelijkingsparameter\nFIX: #422 Evenement met submenu\nFIX: #407 Gebeurtenissen worden niet afgehandeld",
+        "fr": "EVÉNEMENTS #421 avec paramètre de comparaison sélectionnable\nFIXE: #422 Événement avec sous-menu\nNuméro 407 Les événements ne sont pas traités",
+        "it": "FEAT: #421 Eventi con parametro di confronto selezionabile\nFIX: #422 Evento con submenu\nFIX: #407 Eventi non gestiti",
+        "es": "FEAT: #421 Eventos con parámetro de comparación seleccionable\nFIX: #422 Evento con submenú\nFIX: #407 Los eventos no se manejan",
+        "pl": "FEAT: # 421 Wydarzenia z wybranym parametrem porównania\nFIX: # 422 Event z podmenu\nFIX: # 407 Zdarzenia nie są obsługiwane",
+        "uk": "FEAT: #421 Події з вибраним параметром порівняння\nFIX: #422 Захід з підменю\nFIX: #407 Події не обробляються",
+        "zh-cn": "FEAT: # 421 有可选比较参数的事件\nFIX: # 422 带有子菜单的事件\nFIX:第407号 未处理事件"
+      },
+      "3.1.4": {
+        "en": "CHORE: Update dependencies",
+        "de": "CHORE: Aktualisieren von Abhängigkeiten",
+        "ru": "Изображение: Update Dependencies",
+        "pt": "CHORE: Atualizar dependências",
+        "nl": "Afhankelijkheden bijwerken",
+        "fr": "CHORE : Mise à jour des dépendances",
+        "it": "CHORE: dipendenze di aggiornamento",
+        "es": "CHORE: Actualizar las dependencias",
+        "pl": "CHORE: Uaktualnij zależności",
+        "uk": "CHORE: Оновити залежності",
+        "zh-cn": "CHORE: 更新依赖性"
+      },
+      "3.1.2": {
+        "en": "CHORE: #401 Update config",
+        "de": "CHORE: #401 Konfiguration aktualisieren",
+        "ru": "CHORE: #401 Обновить конфигурацию",
+        "pt": "TAREFA: #401 Atualizar configuração",
+        "nl": "CHORE: #401 Configuratie bijgewerkt",
+        "fr": "TÂCHE : #401 Mise à jour de la configuration",
+        "it": "IMPEGNO: #401 Aggiornamento configurazione",
+        "es": "TAREA: #401 Actualizar configuración",
+        "pl": "CHORE: #401 Aktualizacja konfiguracji",
+        "uk": "CHORE: #401 Оновлення конфігурації",
+        "zh-cn": "任务：#401 更新配置"
+      }
+    },
+    "titleLang": {
+      "en": "Telegram Menu",
+      "de": "Telegram-Menü",
+      "ru": "Меню телеграммы",
+      "pt": "Menu Telegram",
+      "nl": "Telegram-menu",
+      "fr": "Menu Télégramme",
+      "it": "Menù telegramma",
+      "es": "Menú de telegramas",
+      "pl": "menu telegramu",
+      "zh-cn": "电报菜单",
+      "uk": "Меню Telegram"
+    },
+    "desc": {
+      "en": "Easily create Telegram Menus",
+      "de": "Erstellen Sie ganz einfach Telegrammenüs",
+      "ru": "Легко создавать меню Telegram",
+      "pt": "Crie facilmente menus de telegrama",
+      "nl": "Maak eenvoudig Telegram-menu's",
+      "fr": "Créez facilement des menus de télégramme",
+      "it": "Crea facilmente menu di Telegram",
+      "es": "Crea fácilmente menús de Telegram",
+      "pl": "Z łatwością twórz menu telegramu",
+      "zh-cn": "轻松创建电报菜单",
+      "uk": "Легко створюйте меню Telegram"
+    },
+    "authors": [
+      "MiRo1310 <michael.roling@gmx.de>"
+    ],
+    "keywords": [
+      "telegram",
+      "menu"
+    ],
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "telegram-menu.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
+    "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "tier": 3,
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "plugins": {
+      "sentry": {
+        "dsn": "https://b2043fdf62d0f5cb4c8c7f2a840e1798@o4508003658498048.ingest.de.sentry.io/4509218932916304"
+      }
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.17",
+        "telegram": ">=1.15.0"
+      }
+    ],
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.2.4",
+            "newVersion>=3.2.4"
+          ]
         },
-        "titleLang": {
-            "en": "Telegram Menu",
-            "de": "Telegram-Menü",
-            "ru": "Меню телеграммы",
-            "pt": "Menu Telegram",
-            "nl": "Telegram-menu",
-            "fr": "Menu Télégramme",
-            "it": "Menù telegramma",
-            "es": "Menú de telegramas",
-            "pl": "menu telegramu",
-            "zh-cn": "电报菜单",
-            "uk": "Меню Telegram"
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
         },
-        "desc": {
-            "en": "Easily create Telegram Menus",
-            "de": "Erstellen Sie ganz einfach Telegrammenüs",
-            "ru": "Легко создавать меню Telegram",
-            "pt": "Crie facilmente menus de telegrama",
-            "nl": "Maak eenvoudig Telegram-menu's",
-            "fr": "Créez facilement des menus de télégramme",
-            "it": "Crea facilmente menu di Telegram",
-            "es": "Crea fácilmente menús de Telegram",
-            "pl": "Z łatwością twórz menu telegramu",
-            "zh-cn": "轻松创建电报菜单",
-            "uk": "Легко створюйте меню Telegram"
+        "text": {
+          "en": "Breaking Change. From version > 3.2.3, {'id':'ID','text':'text'} changed to {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Please update your config.",
+          "de": "Ändern. Aus der Version > 3.2.3, {'id':'ID','text':'text'} geändert in {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Bitte aktualisieren Sie Ihre config.",
+          "ru": "Разрушая перемены. Из версии > 3.2.3 {'id':'ID','text':'text'} изменен на {\"foreignId\": \"adapter.0.example\", \"text\": \"Text\"}. Пожалуйста, обновите конфигурацию.",
+          "pt": "A quebrar a mudança. A partir da versão > 3.2.3, {'id':'ID','text':'text'} mudou para {\"foreignId\":\"adapter.0.example\", \"text\":\"Text\"}. Por favor, atualize a sua configuração.",
+          "nl": "Verandering doorbreken. Van versie > 3.2.3, {'id':'ID','text':'text'} veranderd in {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Update uw configuratie.",
+          "fr": "Briser le changement. De la version > 3.2.3, {'id':'ID','text':'text'} est passée à {\"foreignId\":\"adaptateur.0.exemple\",\"text\":\"Text\"}. Veuillez mettre à jour votre config.",
+          "it": "Breaking Change. Dalla versione > 3.2.3, {'id':'ID','text':'text'} cambiato in {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Si prega di aggiornare la configurazione.",
+          "es": "Cambio de ruptura. A partir de la versión 3.2.3, {'id':'ID','text':'text'} cambiado a {'foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Por favor, actualice su configuración.",
+          "pl": "Łamanie zmian. Z wersji > 3.2.3, {'id': 'ID', 'text': 'text'} zmieniono na {\"foreignId\": \"adapter.0.example\", \"text\": \"Text\"}. Proszę zaktualizować konfigurację.",
+          "uk": "Зміна несправностей. З версії > 3.2.3, {'id','text':'text'} змінено до {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Будь ласка, перегляньте налаштування.",
+          "zh-cn": "打破变化. 从版本 > 3.2.3,{'id':`ID',`text':`text'}改为{ForeignId':`适应器.0.例',`text':`text'}。 请更新您的配置 ."
         },
-        "authors": ["MiRo1310 <michael.roling@gmx.de>"],
-        "keywords": ["telegram", "menu"],
-        "licenseInformation": {
-            "license": "MIT",
-            "type": "free"
-        },
-        "platform": "Javascript/Node.js",
-        "icon": "telegram-menu.png",
-        "enabled": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/MiRo1310/ioBroker.telegram-menu/main/admin/telegram-menu.png",
-        "readme": "https://github.com/MiRo1310/ioBroker.telegram-menu/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "messaging",
-        "tier": 3,
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "materialize"
-        },
-        "plugins": {
-            "sentry": {
-                "dsn": "https://b2043fdf62d0f5cb4c8c7f2a840e1798@o4508003658498048.ingest.de.sentry.io/4509218932916304"
-            }
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=6.0.11"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=7.6.17",
-                "telegram": ">=1.15.0"
-            }
-        ],
-        "messages": [
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": ["oldVersion<3.2.4", "newVersion>=3.2.4"]
-                },
-                "title": {
-                    "en": "Important notice!",
-                    "de": "Wichtiger Hinweis!",
-                    "ru": "Важное замечание!",
-                    "pt": "Notícia importante!",
-                    "nl": "Belangrijke mededeling!",
-                    "fr": "Avis important!",
-                    "it": "Avviso IMPORTANTE!",
-                    "es": "Noticia importante!",
-                    "pl": "Ważna uwaga!",
-                    "zh-cn": "重要通知!",
-                    "uk": "Важливе повідомлення!"
-                },
-                "text": {
-                    "en": "Breaking Change. From version > 3.2.3, {'id':'ID','text':'text'} changed to {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Please update your config.",
-                    "de": "Ändern. Aus der Version > 3.2.3, {'id':'ID','text':'text'} geändert in {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Bitte aktualisieren Sie Ihre config.",
-                    "ru": "Разрушая перемены. Из версии > 3.2.3 {'id':'ID','text':'text'} изменен на {\"foreignId\": \"adapter.0.example\", \"text\": \"Text\"}. Пожалуйста, обновите конфигурацию.",
-                    "pt": "A quebrar a mudança. A partir da versão > 3.2.3, {'id':'ID','text':'text'} mudou para {\"foreignId\":\"adapter.0.example\", \"text\":\"Text\"}. Por favor, atualize a sua configuração.",
-                    "nl": "Verandering doorbreken. Van versie > 3.2.3, {'id':'ID','text':'text'} veranderd in {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Update uw configuratie.",
-                    "fr": "Briser le changement. De la version > 3.2.3, {'id':'ID','text':'text'} est passée à {\"foreignId\":\"adaptateur.0.exemple\",\"text\":\"Text\"}. Veuillez mettre à jour votre config.",
-                    "it": "Breaking Change. Dalla versione > 3.2.3, {'id':'ID','text':'text'} cambiato in {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Si prega di aggiornare la configurazione.",
-                    "es": "Cambio de ruptura. A partir de la versión 3.2.3, {'id':'ID','text':'text'} cambiado a {'foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Por favor, actualice su configuración.",
-                    "pl": "Łamanie zmian. Z wersji > 3.2.3, {'id': 'ID', 'text': 'text'} zmieniono na {\"foreignId\": \"adapter.0.example\", \"text\": \"Text\"}. Proszę zaktualizować konfigurację.",
-                    "uk": "Зміна несправностей. З версії > 3.2.3, {'id','text':'text'} змінено до {\"foreignId\":\"adapter.0.example\",\"text\":\"Text\"}. Будь ласка, перегляньте налаштування.",
-                    "zh-cn": "打破变化. 从版本 > 3.2.3,{'id':`ID',`text':`text'}改为{ForeignId':`适应器.0.例',`text':`text'}。 请更新您的配置 ."
-                },
-                "level": "warn",
-                "buttons": ["agree", "cancel"]
-            },
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": ["oldVersion<3.0.0", "newVersion>=3.0.0"]
-                },
-                "title": {
-                    "en": "Important notice!",
-                    "de": "Wichtiger Hinweis!",
-                    "ru": "Важное замечание!",
-                    "pt": "Notícia importante!",
-                    "nl": "Belangrijke mededeling!",
-                    "fr": "Avis important!",
-                    "it": "Avviso IMPORTANTE!",
-                    "es": "Noticia importante!",
-                    "pl": "Ważna uwaga!",
-                    "zh-cn": "重要通知!",
-                    "uk": "Важливе повідомлення!"
-                },
-                "text": {
-                    "en": "Breaking Change. From version 3.0.0, you only need one Telegram menu instance to use menus for multiple Telegram instances. What you need to do after installation:\nYou need to check the users in each menu.\nCheck the desired Telegram instance in Settings.",
-                    "de": "Ändern. Aus der Version 3.0.0 benötigen Sie nur eine Telegram-Menü-Instanz, um Menüs für mehrere Telegram-Instanzen zu verwenden. Was Sie nach der Installation tun müssen:\nSie müssen die Benutzer in jedem Menü überprüfen.\nÜberprüfen Sie die gewünschte Telegram-Instanz in Einstellungen.",
-                    "ru": "Разрушая перемены. Начиная с версии 3.0.0, вам нужен только один экземпляр меню Telegram, чтобы использовать меню для нескольких экземпляров Telegram. Что нужно сделать после установки:\nВы должны проверить пользователей в каждом меню.\nПроверьте нужный экземпляр Telegram в настройках.",
-                    "pt": "A quebrar a mudança. A partir da versão 3.0.0, você só precisa de uma instância de menu de Telegram para usar menus para várias instâncias de Telegram. O que você precisa fazer após a instalação:\nVocê precisa verificar os usuários em cada menu.\nVerifique a instância Telegram desejada em Configurações.",
-                    "nl": "Verandering doorbreken. Vanaf versie 3.0.0 heb je maar één menu-instance nodig om menu's te gebruiken voor meerdere Telegram-instances. Wat u moet doen na de installatie:\nU moet de gebruikers controleren in elk menu.\nControleer de gewenste Telegram instantie in Instellingen.",
-                    "fr": "Briser le changement. À partir de la version 3.0.0, vous n'avez besoin que d'une instance de menu Telegram pour utiliser des menus pour plusieurs instances Telegram. Ce que vous devez faire après l'installation:\nVous devez vérifier les utilisateurs dans chaque menu.\nVérifiez l'instance de télégramme souhaitée dans Paramètres.",
-                    "it": "Breaking Change. Dalla versione 3.0.0, è necessario solo un'istanza di menu Telegram per utilizzare i menu per più istanze Telegram. Cosa devi fare dopo l'installazione:\nÈ necessario controllare gli utenti in ogni menu.\nControllare l'istanza Telegram desiderata in Impostazioni.",
-                    "es": "Cambio de ruptura. Desde la versión 3.0.0, solo necesitas una instancia de menú de Telegram para usar menús para múltiples instancias de Telegram. Lo que necesita hacer después de la instalación:\nNecesitas revisar a los usuarios en cada menú.\nRevise la instancia Telegram deseada en Ajustes.",
-                    "pl": "Łamanie zmian. Z wersji 3.0.0 potrzebujesz tylko jednej instancji menu Telegram, aby używać menu dla wielu instancji Telegram. Co należy zrobić po instalacji:\nMusisz sprawdzić użytkowników w każdym menu.\nZaznacz żądaną instancję Telegram w Ustawieniach.",
-                    "uk": "Зміна несправностей. З версії 3.0.0 вам потрібно лише один екземпляр меню Telegram, щоб використовувати меню для декількох екземплярів Telegram. Що потрібно робити після установки:\nВам необхідно перевірити користувачів в кожному меню.\nПеревірити бажаний екземпляр Телеграми в налаштуваннях.",
-                    "zh-cn": "打破变化. 从3.0.0版本开始,您只需要一个Telegram菜单实例就可以为多个Telegram实例使用菜单. 安装后需要做什么 :\n您需要检查每个菜单中的用户 .\n在设置中检查想要的Telegram实例 ."
-                },
-                "level": "warn",
-                "buttons": ["agree", "cancel"]
-            },
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": ["oldVersion<1.0.0", "newVersion>=1.0.0"]
-                },
-                "title": {
-                    "en": "Important notice!",
-                    "de": "Wichtiger Hinweis!",
-                    "ru": "Важное замечание!",
-                    "pt": "Notícia importante!",
-                    "nl": "Belangrijke mededeling!",
-                    "fr": "Avis important!",
-                    "it": "Avviso IMPORTANTE!",
-                    "es": "Noticia importante!",
-                    "pl": "Ważna uwaga!",
-                    "zh-cn": "重要通知!",
-                    "uk": "Важливе повідомлення!"
-                },
-                "text": {
-                    "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
-                    "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
-                    "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
-                    "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
-                    "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
-                    "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
-                    "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
-                    "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
-                    "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
-                    "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
-                    "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
-                },
-                "level": "warn",
-                "buttons": ["agree", "cancel"]
-            },
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": ["oldVersion<1.6.1", "newVersion>=1.6.1"]
-                },
-                "title": {
-                    "en": "Important notice!",
-                    "de": "Wichtiger Hinweis!",
-                    "ru": "Важное замечание!",
-                    "pt": "Notícia importante!",
-                    "nl": "Belangrijke mededeling!",
-                    "fr": "Avis important!",
-                    "it": "Avviso IMPORTANTE!",
-                    "es": "Noticia importante!",
-                    "pl": "Ważna uwaga!",
-                    "zh-cn": "重要通知!",
-                    "uk": "Важливе повідомлення!"
-                },
-                "text": {
-                    "en": "Breaking Change!!! #102 menu:dynSwitch with float numbers, if you allready use it, you have to adjust the function manually. More infos in the documentation",
-                    "de": "Wechseln!!! #102 Menü:dynSwitch mit Float-Nummern, wenn Sie allready verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen in der Dokumentation",
-                    "ru": "Разрушение изменения!!! #102 меню:dynSwitch с поплавковыми номерами, если вы все время используете его, вы должны настроить функцию вручную. Больше информации в документации",
-                    "pt": "Mudança de ruptura!!! #102 menu:dynSwitch com números de flutuador, se você já usá-lo, você tem que ajustar a função manualmente. Mais informações na documentação",
-                    "nl": "Breaking Change!! #102 menu:dynSwitch met floatnummers, als je het al gebruikt, moet je de functie handmatig aanpassen. Meer informatie in de documentatie",
-                    "fr": "Briser le changement!!! Menu #102:dynSwitch avec les numéros flottants, si vous l'utilisez déjà, vous devez ajuster la fonction manuellement. Plus d'infos dans la documentation",
-                    "it": "Breaking Change!!! #102 menu:dynSwitch con numeri di galleggiante, se si utilizza allready, è necessario regolare la funzione manualmente. Maggiori informazioni nella documentazione",
-                    "es": "Cambio de ruptura! #102 menu:dynSwitch con números de flotador, si lo usas todo listo, tienes que ajustar la función manualmente. Más información en la documentación",
-                    "pl": "Łamanie zmian!!! # 102 menu: dynSwitch z numerami float, jeśli wszystkie gotowe używać go, trzeba dostosować funkcję ręcznie. Więcej informacji w dokumentacji",
-                    "uk": "Змінити зміни! #102 меню:dynSwitch з float номерами, якщо ви використовуєте його, ви повинні налаштувати функцію вручну. Більше інформації в документації",
-                    "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
-                },
-                "level": "warn",
-                "buttons": ["agree", "cancel"]
-            },
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": ["oldVersion<1.6.3", "newVersion>=1.6.4"]
-                },
-                "title": {
-                    "en": "Important notice!",
-                    "de": "Wichtiger Hinweis!",
-                    "ru": "Важное замечание!",
-                    "pt": "Notícia importante!",
-                    "nl": "Belangrijke mededeling!",
-                    "fr": "Avis important!",
-                    "it": "Avviso IMPORTANTE!",
-                    "es": "Noticia importante!",
-                    "pl": "Ważna uwaga!",
-                    "zh-cn": "重要通知!",
-                    "uk": "Важливе повідомлення!"
-                },
-                "text": {
-                    "en": "Breaking change!!! At least NodeJs 18 is required",
-                    "de": "Wechseln!!! Mindestens NodeJs 18 ist erforderlich",
-                    "ru": "Разрыв изменения!!! По крайней мере NodeJs 18 требуется",
-                    "pt": "Mudança de ruptura!!! Pelo menos NodeJs 18 é necessário",
-                    "nl": "Breek verandering!!! Ten minste NodeJs 18 is vereist",
-                    "fr": "Briser le changement!!! Au moins NodeJs 18 est nécessaire",
-                    "it": "Cambiamento di rottura!!! Almeno NodeJs 18 è richiesto",
-                    "es": "Cambio de ruptura! Por lo menos NodeJs 18 es necesario",
-                    "pl": "Łamanie drobnych! Co najmniej NodeJs 18 jest wymagane",
-                    "uk": "Змінити зміни! При найменшому NodeJs 18 потрібно",
-                    "zh-cn": "突破变化! 至少需要节点Js 18"
-                },
-                "level": "warn",
-                "buttons": ["agree", "cancel"]
-            },
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": ["oldVersion<3.0.0", "newVersion>=3.0.0"]
-                },
-                "title": {
-                    "en": "Important notice!",
-                    "de": "Wichtiger Hinweis!",
-                    "ru": "Важное замечание!",
-                    "pt": "Notícia importante!",
-                    "nl": "Belangrijke mededeling!",
-                    "fr": "Avis important!",
-                    "it": "Avviso IMPORTANTE!",
-                    "es": "Noticia importante!",
-                    "pl": "Ważna uwaga!",
-                    "zh-cn": "重要通知!",
-                    "uk": "Важливе повідомлення!"
-                },
-                "text": {
-                    "en": "Breaking Chance. From now on, you can use a single Telegram menu instance to create menus for multiple Telegram instances. What you need to do after installation:\nYou need to recheck the users in each menu.\nCheck the desired Telegram instance under Settings.",
-                    "de": "Breaking Chance. Ab sofort können Sie mit einer einzigen Telegram-Menü-instanz, Menüs für mehrere Telegram-Instanzen erstellen. Was Sie nach der Installation tun müssen:\nSie müssen die Benutzer in jedem Menü erneut überprüfen.\nMarkieren Sie unter „Einstellungen“ die gewünschte Telegram-Instanz.",
-                    "ru": "Breaking Chance. С этого момента вы можете использовать один экземпляр меню Telegram для создания меню для нескольких экземпляров Telegram. Что вам нужно сделать после установки:\nВам необходимо перепроверить пользователей в каждом меню.\nПроверьте нужный экземпляр Telegram в разделе «Настройки».",
-                    "pt": "Quebrando a Chance. A partir de agora, você pode usar uma única instância de menu do Telegram para criar menus para várias instâncias do Telegram. O que você precisa fazer após a instalação:\nVocê precisa verificar novamente os usuários em cada menu.\nMarque a instância desejada do Telegram em Configurações.",
-                    "nl": "Breaking Chance. Vanaf nu kun je één Telegram-menu-exemplaar gebruiken om menu's voor meerdere Telegram-exemplaren te maken. Wat je na de installatie moet doen:\nU moet de gebruikers in elk menu opnieuw controleren.\nSelecteer het gewenste Telegram-exemplaar onder Instellingen.",
-                    "fr": "Breaking Chance. Vous pouvez désormais utiliser une seule instance de menu Telegram pour créer des menus pour plusieurs instances Telegram. Procédure à suivre après l'installation :\nVous devez revérifier les utilisateurs dans chaque menu.\nVérifiez l’instance Telegram souhaitée dans Paramètres.",
-                    "it": "Breaking Chance. D'ora in poi, puoi utilizzare una singola istanza del menu di Telegram per creare menu per più istanze di Telegram. Ecco cosa devi fare dopo l'installazione:\nÈ necessario ricontrollare gli utenti in ogni menu.\nSeleziona l'istanza di Telegram desiderata nelle Impostazioni.",
-                    "es": "Oportunidad decisiva. A partir de ahora, puedes usar una sola instancia de menú de Telegram para crear menús para varias instancias. Qué debes hacer después de la instalación:\nEs necesario volver a verificar los usuarios en cada menú.\nMarque la instancia de Telegram deseada en Configuración.",
-                    "pl": "Breaking Chance. Od teraz możesz używać pojedynczej instancji menu Telegram do tworzenia menu dla wielu instancji Telegram. Co musisz zrobić po instalacji:\nMusisz ponownie sprawdzić użytkowników w każdym menu.\nZaznacz żądaną instancję Telegramu w Ustawieniach.",
-                    "uk": "Вирішальний момент. Відтепер ви можете використовувати один екземпляр меню Telegram для створення меню для кількох екземплярів Telegram. Що потрібно зробити після встановлення:\nВам потрібно ще раз перевірити користувачів у кожному меню.\nПозначте потрібний екземпляр Telegram у налаштуваннях.",
-                    "zh-cn": "打破机会。从现在开始，您可以使用单个 Telegram 菜单实例为多个 Telegram 实例创建菜单。安装后您需要执行以下操作：\n您需要重新检查每个菜单中的用户。\n在“设置”下检查所需的 Telegram 实例。"
-                },
-                "level": "warn",
-                "buttons": ["agree", "cancel"]
-            }
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
         ]
-    },
-    "native": {
-        "nav": {},
-        "instance": "",
-        "data": {},
-        "checkbox": {
-            "sendMenuAfterRestart": true,
-            "checkboxNoValueFound": true,
-            "resKey": true,
-            "oneTiKey": false
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.0.0",
+            "newVersion>=3.0.0"
+          ]
         },
-        "usersForGlobal": "",
-        "users": [],
-        "startsides": [],
-        "tokenGrafana": "",
-        "directory": "/opt/iobroker/media",
-        "userActiveCheckbox": {},
-        "usersInGroup": {},
-        "textNoEntry": null,
-        "userListWithChatID": []
-    },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
         },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
+        "text": {
+          "en": "Breaking Change. From version 3.0.0, you only need one Telegram menu instance to use menus for multiple Telegram instances. What you need to do after installation:\nYou need to check the users in each menu.\nCheck the desired Telegram instance in Settings.",
+          "de": "Ändern. Aus der Version 3.0.0 benötigen Sie nur eine Telegram-Menü-Instanz, um Menüs für mehrere Telegram-Instanzen zu verwenden. Was Sie nach der Installation tun müssen:\nSie müssen die Benutzer in jedem Menü überprüfen.\nÜberprüfen Sie die gewünschte Telegram-Instanz in Einstellungen.",
+          "ru": "Разрушая перемены. Начиная с версии 3.0.0, вам нужен только один экземпляр меню Telegram, чтобы использовать меню для нескольких экземпляров Telegram. Что нужно сделать после установки:\nВы должны проверить пользователей в каждом меню.\nПроверьте нужный экземпляр Telegram в настройках.",
+          "pt": "A quebrar a mudança. A partir da versão 3.0.0, você só precisa de uma instância de menu de Telegram para usar menus para várias instâncias de Telegram. O que você precisa fazer após a instalação:\nVocê precisa verificar os usuários em cada menu.\nVerifique a instância Telegram desejada em Configurações.",
+          "nl": "Verandering doorbreken. Vanaf versie 3.0.0 heb je maar één menu-instance nodig om menu's te gebruiken voor meerdere Telegram-instances. Wat u moet doen na de installatie:\nU moet de gebruikers controleren in elk menu.\nControleer de gewenste Telegram instantie in Instellingen.",
+          "fr": "Briser le changement. À partir de la version 3.0.0, vous n'avez besoin que d'une instance de menu Telegram pour utiliser des menus pour plusieurs instances Telegram. Ce que vous devez faire après l'installation:\nVous devez vérifier les utilisateurs dans chaque menu.\nVérifiez l'instance de télégramme souhaitée dans Paramètres.",
+          "it": "Breaking Change. Dalla versione 3.0.0, è necessario solo un'istanza di menu Telegram per utilizzare i menu per più istanze Telegram. Cosa devi fare dopo l'installazione:\nÈ necessario controllare gli utenti in ogni menu.\nControllare l'istanza Telegram desiderata in Impostazioni.",
+          "es": "Cambio de ruptura. Desde la versión 3.0.0, solo necesitas una instancia de menú de Telegram para usar menús para múltiples instancias de Telegram. Lo que necesita hacer después de la instalación:\nNecesitas revisar a los usuarios en cada menú.\nRevise la instancia Telegram deseada en Ajustes.",
+          "pl": "Łamanie zmian. Z wersji 3.0.0 potrzebujesz tylko jednej instancji menu Telegram, aby używać menu dla wielu instancji Telegram. Co należy zrobić po instalacji:\nMusisz sprawdzić użytkowników w każdym menu.\nZaznacz żądaną instancję Telegram w Ustawieniach.",
+          "uk": "Зміна несправностей. З версії 3.0.0 вам потрібно лише один екземпляр меню Telegram, щоб використовувати меню для декількох екземплярів Telegram. Що потрібно робити після установки:\nВам необхідно перевірити користувачів в кожному меню.\nПеревірити бажаний екземпляр Телеграми в налаштуваннях.",
+          "zh-cn": "打破变化. 从3.0.0版本开始,您只需要一个Telegram菜单实例就可以为多个Telegram实例使用菜单. 安装后需要做什么 :\n您需要检查每个菜单中的用户 .\n在设置中检查想要的Telegram实例 ."
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<1.0.0",
+            "newVersion>=1.0.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "The new version 1.0.x removes ack:true and ack:false from the Confirm Text and generate a Checkbox for it. It is not possible to go to previous versions, without losing some data! Please data save, bevor apdapter updating.",
+          "de": "Die neue Version 1.0.x entfernt ack:true und ack:false aus dem Confirm Text und erzeugt dafür eine Checkbox. Es ist nicht möglich, zu früheren Versionen zu gehen, ohne einige Daten zu verlieren! Bitte Daten speichern, vor der Aktualisierung.",
+          "ru": "Новая версия 1.0.x удаляет ack:true и ack:false из Confirm Text и генерирует Checkbox для него. Невозможно перейти к предыдущим версиям, не теряя некоторых данных! Пожалуйста, сохраните данные, обновите bevor apdapter.",
+          "pt": "A nova versão 1.0.x remove ack:true e ack:false do Texto Confirmado e gerar uma caixa de seleção para ele. Não é possível ir para versões anteriores, sem perder alguns dados! Por favor, os dados salvam, bevor apdapter atualizando.",
+          "nl": "De nieuwe versie 1.0x verwijdert ack,false van de Confirm Text en genereert er een chequebox voor. Het is niet mogelijk om naar eerdere versies te gaan, zonder data te verliezen. Alsjeblieft data redding, bevor apdapter updating.",
+          "fr": "La nouvelle version 1.0.x supprime ack:true and ack:false from the Confirm Text et génère une case à cocher. Il n'est pas possible d'aller aux versions précédentes, sans perdre quelques données! S'il vous plaît sauvegarder les données, la mise à jour de l'apdapter de la bevore.",
+          "it": "La nuova versione 1.0.x rimuove ack:true e ack:false dal Testo Conferma e genera una casella di controllo per esso. Non è possibile andare alle versioni precedenti, senza perdere alcuni dati! Si prega di salvare i dati, fare apdapter aggiornamento.",
+          "es": "La nueva versión 1.0.x elimina ack:true and ack:false from the Confirm Text and generate a Checkbox for it. No es posible ir a versiones anteriores, sin perder algunos datos! Por favor, guardar datos, actualización de bevor apdapter.",
+          "pl": "Nowa wersja 1.0.x usunęła:true i ack:false from the Confirm Text i wygenerowała dla niego Checkbox. Nie jest możliwe sprowadzenie do poprzednich wersji, bez utraty niektórych danych. Pozwoliło się na skorzystanie danych z przeznaczenia.",
+          "uk": "Нова версія 1.0.x видаляє ack:true і ack:false від Підтвердити текст і генерувати прапорець для нього. Неможливо перейти до попередніх версій, не втрачаючи деяких даних! Будь ласка, збережіть дані, будь ласка, введіть оновлення.",
+          "zh-cn": "新版本1.0.x 删除了包装:侵入和包装:从确认文本中删除,为它制作了一个检查站箱。 如果不失去某些数据,就不可能到以前的版本。 请提供数据,说明如何更新。."
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<1.6.1",
+            "newVersion>=1.6.1"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Breaking Change!!! #102 menu:dynSwitch with float numbers, if you allready use it, you have to adjust the function manually. More infos in the documentation",
+          "de": "Wechseln!!! #102 Menü:dynSwitch mit Float-Nummern, wenn Sie allready verwenden, müssen Sie die Funktion manuell anpassen. Weitere Informationen in der Dokumentation",
+          "ru": "Разрушение изменения!!! #102 меню:dynSwitch с поплавковыми номерами, если вы все время используете его, вы должны настроить функцию вручную. Больше информации в документации",
+          "pt": "Mudança de ruptura!!! #102 menu:dynSwitch com números de flutuador, se você já usá-lo, você tem que ajustar a função manualmente. Mais informações na documentação",
+          "nl": "Breaking Change!! #102 menu:dynSwitch met floatnummers, als je het al gebruikt, moet je de functie handmatig aanpassen. Meer informatie in de documentatie",
+          "fr": "Briser le changement!!! Menu #102:dynSwitch avec les numéros flottants, si vous l'utilisez déjà, vous devez ajuster la fonction manuellement. Plus d'infos dans la documentation",
+          "it": "Breaking Change!!! #102 menu:dynSwitch con numeri di galleggiante, se si utilizza allready, è necessario regolare la funzione manualmente. Maggiori informazioni nella documentazione",
+          "es": "Cambio de ruptura! #102 menu:dynSwitch con números de flotador, si lo usas todo listo, tienes que ajustar la función manualmente. Más información en la documentación",
+          "pl": "Łamanie zmian!!! # 102 menu: dynSwitch z numerami float, jeśli wszystkie gotowe używać go, trzeba dostosować funkcję ręcznie. Więcej informacji w dokumentacji",
+          "uk": "Змінити зміни! #102 меню:dynSwitch з float номерами, якщо ви використовуєте його, ви повинні налаштувати функцію вручну. Більше інформації в документації",
+          "zh-cn": "突破变革! #102菜单:dynSwitch带有浮点数,如果已经全部使用,必须手动调整函数. 文档中的更多信息"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<1.6.3",
+            "newVersion>=1.6.4"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Breaking change!!! At least NodeJs 18 is required",
+          "de": "Wechseln!!! Mindestens NodeJs 18 ist erforderlich",
+          "ru": "Разрыв изменения!!! По крайней мере NodeJs 18 требуется",
+          "pt": "Mudança de ruptura!!! Pelo menos NodeJs 18 é necessário",
+          "nl": "Breek verandering!!! Ten minste NodeJs 18 is vereist",
+          "fr": "Briser le changement!!! Au moins NodeJs 18 est nécessaire",
+          "it": "Cambiamento di rottura!!! Almeno NodeJs 18 è richiesto",
+          "es": "Cambio de ruptura! Por lo menos NodeJs 18 es necesario",
+          "pl": "Łamanie drobnych! Co najmniej NodeJs 18 jest wymagane",
+          "uk": "Змінити зміни! При найменшому NodeJs 18 потрібно",
+          "zh-cn": "突破变化! 至少需要节点Js 18"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.0.0",
+            "newVersion>=3.0.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Breaking Chance. From now on, you can use a single Telegram menu instance to create menus for multiple Telegram instances. What you need to do after installation:\nYou need to recheck the users in each menu.\nCheck the desired Telegram instance under Settings.",
+          "de": "Breaking Chance. Ab sofort können Sie mit einer einzigen Telegram-Menü-instanz, Menüs für mehrere Telegram-Instanzen erstellen. Was Sie nach der Installation tun müssen:\nSie müssen die Benutzer in jedem Menü erneut überprüfen.\nMarkieren Sie unter „Einstellungen“ die gewünschte Telegram-Instanz.",
+          "ru": "Breaking Chance. С этого момента вы можете использовать один экземпляр меню Telegram для создания меню для нескольких экземпляров Telegram. Что вам нужно сделать после установки:\nВам необходимо перепроверить пользователей в каждом меню.\nПроверьте нужный экземпляр Telegram в разделе «Настройки».",
+          "pt": "Quebrando a Chance. A partir de agora, você pode usar uma única instância de menu do Telegram para criar menus para várias instâncias do Telegram. O que você precisa fazer após a instalação:\nVocê precisa verificar novamente os usuários em cada menu.\nMarque a instância desejada do Telegram em Configurações.",
+          "nl": "Breaking Chance. Vanaf nu kun je één Telegram-menu-exemplaar gebruiken om menu's voor meerdere Telegram-exemplaren te maken. Wat je na de installatie moet doen:\nU moet de gebruikers in elk menu opnieuw controleren.\nSelecteer het gewenste Telegram-exemplaar onder Instellingen.",
+          "fr": "Breaking Chance. Vous pouvez désormais utiliser une seule instance de menu Telegram pour créer des menus pour plusieurs instances Telegram. Procédure à suivre après l'installation :\nVous devez revérifier les utilisateurs dans chaque menu.\nVérifiez l’instance Telegram souhaitée dans Paramètres.",
+          "it": "Breaking Chance. D'ora in poi, puoi utilizzare una singola istanza del menu di Telegram per creare menu per più istanze di Telegram. Ecco cosa devi fare dopo l'installazione:\nÈ necessario ricontrollare gli utenti in ogni menu.\nSeleziona l'istanza di Telegram desiderata nelle Impostazioni.",
+          "es": "Oportunidad decisiva. A partir de ahora, puedes usar una sola instancia de menú de Telegram para crear menús para varias instancias. Qué debes hacer después de la instalación:\nEs necesario volver a verificar los usuarios en cada menú.\nMarque la instancia de Telegram deseada en Configuración.",
+          "pl": "Breaking Chance. Od teraz możesz używać pojedynczej instancji menu Telegram do tworzenia menu dla wielu instancji Telegram. Co musisz zrobić po instalacji:\nMusisz ponownie sprawdzić użytkowników w każdym menu.\nZaznacz żądaną instancję Telegramu w Ustawieniach.",
+          "uk": "Вирішальний момент. Відтепер ви можете використовувати один екземпляр меню Telegram для створення меню для кількох екземплярів Telegram. Що потрібно зробити після встановлення:\nВам потрібно ще раз перевірити користувачів у кожному меню.\nПозначте потрібний екземпляр Telegram у налаштуваннях.",
+          "zh-cn": "打破机会。从现在开始，您可以使用单个 Telegram 菜单实例为多个 Telegram 实例创建菜单。安装后您需要执行以下操作：\n您需要重新检查每个菜单中的用户。\n在“设置”下检查所需的 Telegram 实例。"
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
     ]
+  },
+  "native": {
+    "nav": {},
+    "instance": "",
+    "data": {},
+    "checkbox": {
+      "sendMenuAfterRestart": true,
+      "checkboxNoValueFound": true,
+      "resKey": true,
+      "oneTiKey": false
+    },
+    "usersForGlobal": "",
+    "users": [],
+    "startsides": [],
+    "tokenGrafana": "",
+    "directory": "/opt/iobroker/media",
+    "userActiveCheckbox": {},
+    "usersInGroup": {},
+    "textNoEntry": null,
+    "userListWithChatID": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
