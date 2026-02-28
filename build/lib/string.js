@@ -41,7 +41,7 @@ exports.replaceAllItems = replaceAllItems;
 /**
  * @deprecated
  * use mrRemoveQuotes instead if updated
- * @param text
+ * @param text Text
  */
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
