@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- Chore: #482 Update dependencies
+
 ### 4.0.0 (2026-02-13)
 
 - FEAT: #478 Return text with more than one id
