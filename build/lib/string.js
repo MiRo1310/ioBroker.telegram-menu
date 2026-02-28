@@ -41,14 +41,14 @@ exports.replaceAllItems = replaceAllItems;
 /**
  * @deprecated
  * use mrRemoveQuotes instead if updated
- * @param text
+ * @param text Text
  */
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
 /**
  * @deprecated
  * use mrSingleQuotesToDoubleQuotes instead if updated
- * @param text
+ * @param text Text
  */
 const singleQuotesToDoubleQuotes = (text) => text.replace(/'/g, '"');
 exports.singleQuotesToDoubleQuotes = singleQuotesToDoubleQuotes;
@@ -77,9 +77,10 @@ exports.cleanUpString = cleanUpString;
  *
  * @deprecated
  * use mrDecomposeText instead if updated
- * @param text
- * @param firstSearch
- * @param secondSearch
+ * @param text The text to decompose
+ * @param firstSearch The first search string
+ * @param secondSearch The second search string
+ * @returns An object containing the start index, end index, substring, text excluding the substring, and substring excluding the search strings
  */
 function decomposeText(text, firstSearch, secondSearch) {
     const startindex = text.indexOf(firstSearch);
@@ -98,7 +99,8 @@ function decomposeText(text, firstSearch, secondSearch) {
 /**
  * @deprecated
  * use mrIsString instead if updated
- * @param value
+ * @param value Unknown value
+ * @returns boolean indicating if the value is a string
  */
 const isString = (value) => typeof value === 'string';
 exports.isString = isString;
@@ -117,8 +119,9 @@ function stringReplacer(substring, valueToReplace) {
 /**
  * @deprecated
  * use mrPad instead if updated
- * @param value
- * @param length
+ * @param value Number to pad
+ * @param length Length to pad to, default is 2
+ * @returns Padded string
  */
 const pad = (value, length = 2) => {
     if (value < 0) {
