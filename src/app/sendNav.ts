@@ -6,12 +6,12 @@ import { errorLogger } from '@b/app/logging';
 export async function sendNav(
     adapter: Adapter,
     instance: string,
-    part: Part,
+    part: Part | undefined,
     userToSend: string,
     telegramParams: TelegramParams,
 ): Promise<void> {
     try {
-        if (userToSend) {
+        if (userToSend && part) {
             const { nav: keyboard, text, parse_mode } = part;
             const textToSend = await textModifier(adapter, text ?? '');
 

@@ -6,7 +6,7 @@ const telegram_1 = require("../app/telegram");
 const logging_1 = require("../app/logging");
 async function sendNav(adapter, instance, part, userToSend, telegramParams) {
     try {
-        if (userToSend) {
+        if (userToSend && part) {
             const { nav: keyboard, text, parse_mode } = part;
             const textToSend = await (0, utilities_1.textModifier)(adapter, text ?? '');
             await (0, telegram_1.sendToTelegram)({

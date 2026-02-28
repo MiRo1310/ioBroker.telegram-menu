@@ -38,6 +38,7 @@ You can create different groups with separate menus, and then assign users to th
 ### **WORK IN PROGRESS**
 
 - Chore: #482 Update dependencies
+- FIX: Errors reported by sentry
 
 ### 4.0.0 (2026-02-13)
 
