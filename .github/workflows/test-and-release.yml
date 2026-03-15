@@ -83,7 +83,7 @@ jobs:
         permissions:
             contents: write
             id-token: write
-        needs: [unit-tests, adapter-tests]
+        needs: [check-and-lint, unit-tests, adapter-tests]
 
         if: |
             contains(github.event.head_commit.message, '[skip ci]') == false &&
