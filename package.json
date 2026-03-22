@@ -40,7 +40,7 @@
         "@mui/lab": "^7.0.1-beta.22",
         "@mui/material": "^7.3.8",
         "@tsconfig/node20": "^20.1.9",
-        "@types/node": "^25.3.2",
+        "@types/node": "^25.5.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
         "cpy-cli": "^7.0.0",
