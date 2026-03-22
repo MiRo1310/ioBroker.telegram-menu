@@ -38,7 +38,7 @@
         "@iobroker/testing": "^5.2.2",
         "@mui/icons-material": "^7.3.8",
         "@mui/lab": "^7.0.1-beta.22",
-        "@mui/material": "^7.3.8",
+        "@mui/material": "^7.3.9",
         "@tsconfig/node20": "^20.1.9",
         "@types/node": "^25.5.0",
         "@types/react": "^19.2.14",
