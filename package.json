@@ -37,7 +37,7 @@
         "@iobroker/eslint-config": "^2.2.0",
         "@iobroker/testing": "^5.2.2",
         "@mui/icons-material": "^7.3.9",
-        "@mui/lab": "^7.0.1-beta.22",
+        "@mui/lab": "^7.0.1-beta.23",
         "@mui/material": "^7.3.8",
         "@tsconfig/node20": "^20.1.9",
         "@types/node": "^25.5.0",
