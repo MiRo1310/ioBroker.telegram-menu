@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { exec } from 'node:child_process';
 import type { Adapter } from '@b/types/types';
 import { errorLogger } from '@b/app/logging';
 
