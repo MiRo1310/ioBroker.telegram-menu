@@ -11,11 +11,7 @@ async function createDynamicSwitchMenu(adapter, calledValue, device, text) {
             return;
         }
         device = splittedArray[2];
-        const arrayOfValues = splittedArray[1]
-            .replace('dynSwitch', '')
-            .replace(/\]/g, '')
-            .replace(/\[/g, '')
-            .split(',');
+        const arrayOfValues = splittedArray[1].replace('dynSwitch', '').replace(/]/g, '').replace(/\[/g, '').split(',');
         const lengthOfRow = parseInt(splittedArray[3]) || 6;
         const array = [];
         const keyboard = { inline_keyboard: array };
