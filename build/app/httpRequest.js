@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.httpRequest = httpRequest;
 const axios_1 = __importDefault(require("axios"));
-const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
+const node_path_1 = __importDefault(require("node:path"));
+const node_fs_1 = __importDefault(require("node:fs"));
 const utils_1 = require("../lib/utils");
-const telegram_1 = require("../app/telegram");
-const logging_1 = require("../app/logging");
+const telegram_1 = require("./telegram");
+const logging_1 = require("./logging");
 async function httpRequest(adapter, instance, parts, userToSend, telegramParams, directoryPicture) {
     if (!parts.httpRequest) {
         return;
@@ -36,8 +36,8 @@ async function httpRequest(adapter, instance, parts, userToSend, telegramParams,
             if (!(0, utils_1.validateDirectory)(adapter, directoryPicture)) {
                 return;
             }
-            const imagePath = path_1.default.join(directoryPicture, filename);
-            fs_1.default.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
+            const imagePath = node_path_1.default.join(directoryPicture, filename);
+            node_fs_1.default.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
             adapter.log.debug(`Pic saved : ${imagePath}`);
             await (0, telegram_1.sendToTelegram)({
                 instance,

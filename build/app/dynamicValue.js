@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeUserFromDynamicValue = exports.getDynamicValue = exports.setDynamicValue = void 0;
 const string_1 = require("../lib/string");
-const telegram_1 = require("../app/telegram");
+const telegram_1 = require("./telegram");
 const dynamicValueObj = {};
 const setDynamicValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
     const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');

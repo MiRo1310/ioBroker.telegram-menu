@@ -1,7 +1,7 @@
-import type { Adapter, Keyboard, KeyboardItem, LastText, ValArray } from '@b/types/types';
-import { decomposeText, jsonString, parseJSON } from '@b/lib/string';
-import { makeValidJson } from '@b/lib/json';
-import { errorLogger } from '@b/app/logging';
+import type { Adapter, Keyboard, KeyboardItem, LastText, ValArray } from '../types/types';
+import { decomposeText, jsonString, parseJSON } from '../lib/string';
+import { makeValidJson } from '../lib/json';
+import { errorLogger } from './logging';
 
 const lastText: LastText = {};
 const createKeyboardFromJson = (

@@ -1,5 +1,5 @@
 import { describe } from 'mocha';
-import { parseJSON } from '@b/lib/string';
+import { parseJSON } from '../lib/string';
 import { expect } from 'chai';
 
 describe('Json', () => {

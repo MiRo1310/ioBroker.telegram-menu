@@ -2,18 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getState = getState;
 const config_1 = require("../config/config");
-const parseMode_1 = require("../app/parseMode");
-const idBySelector_1 = require("../app/idBySelector");
-const action_1 = require("../app/action");
+const parseMode_1 = require("./parseMode");
+const idBySelector_1 = require("./idBySelector");
+const action_1 = require("./action");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
 const utilities_1 = require("../lib/utilities");
 const time_1 = require("../lib/time");
 const appUtils_1 = require("../lib/appUtils");
-const jsonTable_1 = require("../app/jsonTable");
-const telegram_1 = require("../app/telegram");
+const jsonTable_1 = require("./jsonTable");
+const telegram_1 = require("./telegram");
 const exchangeValue_1 = require("../lib/exchangeValue");
-const logging_1 = require("../app/logging");
+const logging_1 = require("./logging");
 async function getState(instance, part, userToSend, telegramParams) {
     const adapter = telegramParams.adapter;
     try {

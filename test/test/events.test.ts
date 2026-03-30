@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { checkCondition, getInstances, getInstancesFromEventsById, handleEvent, toBoolean } from '@b/app/events';
+import { checkCondition, getInstances, getInstancesFromEventsById, handleEvent, toBoolean } from '../app/events';
 import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
-import { Adapter, Actions, MenuData } from '@b/types/types';
+import { Adapter, Actions, MenuData } from '../types/types';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
 

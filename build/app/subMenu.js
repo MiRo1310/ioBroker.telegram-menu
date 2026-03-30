@@ -2,16 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.callSubMenu = callSubMenu;
 exports.subMenu = subMenu;
-const setstate_1 = require("../app/setstate");
+const setstate_1 = require("./setstate");
 const string_1 = require("../lib/string");
-const backMenu_1 = require("../app/backMenu");
-const telegram_1 = require("../app/telegram");
-const logging_1 = require("../app/logging");
+const backMenu_1 = require("./backMenu");
+const telegram_1 = require("./telegram");
+const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
-const validateMenus_1 = require("../app/validateMenus");
-const messageIds_1 = require("../app/messageIds");
+const validateMenus_1 = require("./validateMenus");
+const messageIds_1 = require("./messageIds");
 const splitValues_1 = require("../lib/splitValues");
-const dynamicSwitchMenu_1 = require("../app/dynamicSwitchMenu");
+const dynamicSwitchMenu_1 = require("./dynamicSwitchMenu");
 let step = 0;
 let splittedData = [];
 const createSubmenuPercent = (obj) => {

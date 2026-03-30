@@ -1,13 +1,13 @@
-import type { TelegramParams } from '@b/types/types';
-import { isDefined } from '@b/lib/utils';
-import { _subscribeForeignStates } from '@b/app/subscribeStates';
-import { setstateIobroker } from '@b/app/setstate';
-import { sendToTelegram, sendToTelegramSubmenu } from '@b/app/telegram';
-import { errorLogger } from '@b/app/logging';
-import { deleteMessageIds } from '@b/app/messageIds';
-import { jsonString } from '@b/lib/string';
-import { createKeyboardFromJson } from '@b/app/jsonTable';
-import { toJson } from '@b/lib/json';
+import type { TelegramParams } from '../types/types';
+import { isDefined } from '../lib/utils';
+import { _subscribeForeignStates } from './subscribeStates';
+import { setstateIobroker } from './setstate';
+import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
+import { errorLogger } from './logging';
+import { deleteMessageIds } from './messageIds';
+import { jsonString } from '../lib/string';
+import { createKeyboardFromJson } from './jsonTable';
+import { toJson } from '../lib/json';
 
 interface ObjectData {
     [key: string]: {

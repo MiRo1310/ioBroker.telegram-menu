@@ -1,4 +1,4 @@
-import { regexIdText } from '@b/app/deprecated';
+import { regexIdText } from '../app/deprecated';
 import { expect } from 'chai';
 
 describe('Regex', () => {

@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendNav = sendNav;
 const utilities_1 = require("../lib/utilities");
-const telegram_1 = require("../app/telegram");
-const logging_1 = require("../app/logging");
+const telegram_1 = require("./telegram");
+const logging_1 = require("./logging");
 async function sendNav(adapter, instance, part, userToSend, telegramParams) {
     try {
         if (userToSend && part) {

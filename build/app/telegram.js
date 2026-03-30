@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendLocationToTelegram = void 0;
 exports.sendToTelegram = sendToTelegram;
 exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
-const logging_1 = require("../app/logging");
+const logging_1 = require("./logging");
 const utilities_1 = require("../lib/utilities");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
-const instance_1 = require("../app/instance");
+const instance_1 = require("./instance");
 function validateTextToSend(adapter, textToSend) {
     if (!textToSend || (0, string_1.isEmptyString)(textToSend)) {
         adapter.log.error('There is a problem! Text to send is empty or undefined, please check your configuration.');

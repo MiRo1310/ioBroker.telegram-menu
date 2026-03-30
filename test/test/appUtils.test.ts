@@ -11,11 +11,11 @@ import {
     roundValue,
     splitNavigation,
     statusIdAndParams,
-} from '@b/lib/appUtils'; // Adjust the path as needed
+} from '../lib/appUtils'; // Adjust the path as needed
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import type { Adapter, DataObject, NewObjectStructure, splittedNavigation, StartSides } from '@b/types/types';
-import { exchangePlaceholderWithValue } from '@b/lib/exchangeValue';
+import type { Adapter, DataObject, NewObjectStructure, splittedNavigation, StartSides } from '../types/types';
+import { exchangePlaceholderWithValue } from '../lib/exchangeValue';
 import { BooleanString, MenusWithUsers } from '@/types/app';
 const { adapter } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;

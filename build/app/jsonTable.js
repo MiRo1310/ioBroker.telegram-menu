@@ -4,7 +4,7 @@ exports.createKeyboardFromJson = void 0;
 exports.createTextTableFromJson = createTextTableFromJson;
 const string_1 = require("../lib/string");
 const json_1 = require("../lib/json");
-const logging_1 = require("../app/logging");
+const logging_1 = require("./logging");
 const lastText = {};
 const createKeyboardFromJson = (adapter, val, text, id, user) => {
     try {

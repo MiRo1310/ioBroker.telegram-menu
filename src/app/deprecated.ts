@@ -1,4 +1,4 @@
-import type { Adapter, GeneratedActions } from '@b/types/types';
+import type { Adapter, GeneratedActions } from '../types/types';
 
 export const regexIdText = /\{\s*'id':'[^']*'[\s\S]*?'text':'[^']*'\s*}/;
 

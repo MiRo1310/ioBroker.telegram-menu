@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createDynamicSwitchMenu = createDynamicSwitchMenu;
 const utilities_1 = require("../lib/utilities");
-const logging_1 = require("../app/logging");
+const logging_1 = require("./logging");
 async function createDynamicSwitchMenu(adapter, calledValue, device, text) {
     try {
         const changedCalledValue = await (0, utilities_1.textModifier)(adapter, calledValue);

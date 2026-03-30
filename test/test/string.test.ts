@@ -14,12 +14,12 @@ import {
     replaceAll,
     replaceAllItems,
     stringReplacer,
-} from '@b/lib/string';
+} from '../lib/string';
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
-import { timeStringReplacer } from '@b/lib/appUtils';
-import { exchangeValue } from '@b/lib/exchangeValue';
-import type { Adapter } from '@b/types/types';
+import { timeStringReplacer } from '../lib/appUtils';
+import { exchangeValue } from '../lib/exchangeValue';
+import type { Adapter } from '../types/types';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;

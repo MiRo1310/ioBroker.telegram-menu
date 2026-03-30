@@ -1,10 +1,10 @@
-import type { Part, TelegramParams, Timeouts } from '@b/types/types';
-import { isStartside } from '@b/lib/appUtils';
-import { replaceAll } from '@b/lib/string';
-import { validateDirectory } from '@b/lib/utils';
-import { loadWithCurl } from '@b/app/exec';
-import { sendToTelegram } from '@b/app/telegram';
-import { errorLogger } from '@b/app/logging';
+import type { Part, TelegramParams, Timeouts } from '../types/types';
+import { isStartside } from '../lib/appUtils';
+import { replaceAll } from '../lib/string';
+import { validateDirectory } from '../lib/utils';
+import { loadWithCurl } from './exec';
+import { sendToTelegram } from './telegram';
+import { errorLogger } from './logging';
 
 export function sendPic(
     instance: string,
@@ -58,8 +58,8 @@ export function sendPic(
                         textToSend: path,
                         telegramParams,
                     });
-                    let timeoutToClear: Timeouts | undefined = undefined;
-                    timeoutToClear = timeouts.find(item => item.key == timeoutKey);
+
+                    const timeoutToClear = timeouts.find(item => item.key == timeoutKey);
 
                     adapter.clearTimeout(timeoutToClear?.timeout);
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);

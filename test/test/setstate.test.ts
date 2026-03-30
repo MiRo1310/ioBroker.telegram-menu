@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
 import { utils } from '@iobroker/testing';
-import type { Adapter, Part, TelegramParams } from '@b/types/types';
-import { handleSetState } from '@b/app/setstate';
+import type { Adapter, Part, TelegramParams } from '../types/types';
+import { handleSetState } from '../app/setstate';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;

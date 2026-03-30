@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMessageByBot = void 0;
-const logging_1 = require("../app/logging");
+const logging_1 = require("./logging");
 const deleteMessageByBot = (adapter, instance, user, messageId, chat_id) => {
     try {
         if (chat_id) {

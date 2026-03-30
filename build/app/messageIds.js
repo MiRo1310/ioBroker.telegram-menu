@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMessageIds = deleteMessageIds;
 exports.saveMessageIds = saveMessageIds;
 const string_1 = require("../lib/string");
-const logging_1 = require("../app/logging");
+const logging_1 = require("./logging");
 const utils_1 = require("../lib/utils");
-const botAction_1 = require("../app/botAction");
+const botAction_1 = require("./botAction");
 let isDeleting = false;
 async function saveMessageIds(adapter, state, instanceTelegram) {
     try {

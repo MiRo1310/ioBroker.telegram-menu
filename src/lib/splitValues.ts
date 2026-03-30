@@ -1,5 +1,5 @@
-import { getTypeofTimestamp } from '@b/lib/appUtils';
-import { replaceAllItems } from '@b/lib/string';
+import { getTypeofTimestamp } from './appUtils';
+import { replaceAllItems } from './string';
 
 export const getMenuValues = (str: string): { cbData: string; menuToHandle?: string; val?: string } => {
     const splitText = str.split(':');

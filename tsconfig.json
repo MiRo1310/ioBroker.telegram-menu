@@ -7,8 +7,7 @@
 		"baseUrl": ".", // Dies muss gesetzt sein!
 		"paths": {
 			"@components/*": ["admin/src/components/*"],
-			"@/*": ["admin/src/*"],
-            "@b/*": ["src/*"]
+			"@/*": ["admin/src/*"],         
 		},
 		// do not compile anything, this file is just to configure type checking
 		// the compilation is configured in tsconfig.build.json
