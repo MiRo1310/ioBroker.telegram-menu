@@ -39,8 +39,7 @@ function sendPic(instance, part, userToSend, telegramParams, token, directoryPic
                     textToSend: path,
                     telegramParams,
                 });
-                let timeoutToClear = undefined;
-                timeoutToClear = timeouts.find(item => item.key == timeoutKey);
+                const timeoutToClear = timeouts.find(item => item.key == timeoutKey);
                 adapter.clearTimeout(timeoutToClear?.timeout);
                 timeouts = timeouts.filter(item => item.key !== timeoutKey);
                 adapter.log.debug(`Picture has been send with delay ${delay}, path : ${path}`);

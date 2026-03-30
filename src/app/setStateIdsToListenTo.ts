@@ -1,6 +1,6 @@
-import type { Adapter, SetStateIds } from '@b/types/types';
-import { _subscribeForeignStates } from '@b/app/subscribeStates';
-import { setStateIdsToIdArray } from '@b/lib/object';
+import type { Adapter, SetStateIds } from '@backend/types/types';
+import { _subscribeForeignStates } from '@backend/app/subscribeStates';
+import { setStateIdsToIdArray } from '@backend/lib/object';
 
 const setStateIdsToListenTo: SetStateIds[] = [];
 

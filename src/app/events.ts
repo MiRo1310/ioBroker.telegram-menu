@@ -1,9 +1,9 @@
 import type { Actions, Adapter, DataObject, MenuData, Part, TelegramParams } from '../types/types';
 import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
-import { backMenuFunc } from '@b/app/backMenu';
-import { callSubMenu } from '@b/app/subMenu';
-import { sendNav } from '@b/app/sendNav';
-import { isDefined } from '@b/lib/utils';
+import { backMenuFunc } from '@backend/app/backMenu';
+import { callSubMenu } from '@backend/app/subMenu';
+import { sendNav } from '@backend/app/sendNav';
+import { isDefined } from '@backend/lib/utils';
 
 interface EventParams {
     isEvent: boolean;

@@ -1,8 +1,8 @@
-import { validateDirectory } from '@b/lib/utils';
-import type { ModifiedEchart, TelegramParams } from '@b/types/types';
-import { getEchartsValues } from '@b/lib/splitValues';
-import { sendToTelegram } from '@b/app/telegram';
-import { errorLogger } from '@b/app/logging';
+import { validateDirectory } from '@backend/lib/utils';
+import type { ModifiedEchart, TelegramParams } from '@backend/types/types';
+import { getEchartsValues } from '@backend/lib/splitValues';
+import { sendToTelegram } from '@backend/app/telegram';
+import { errorLogger } from '@backend/app/logging';
 
 export function getChart(
     instance: string,

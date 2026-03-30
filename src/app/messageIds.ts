@@ -1,8 +1,8 @@
-import type { Adapter, MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '@b/types/types';
-import { parseJSON } from '@b/lib/string';
-import { errorLogger } from '@b/app/logging';
-import { deepCopy, getChatID } from '@b/lib/utils';
-import { deleteMessageByBot } from '@b/app/botAction';
+import type { Adapter, MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '@backend/types/types';
+import { parseJSON } from '@backend/lib/string';
+import { errorLogger } from '@backend/app/logging';
+import { deepCopy, getChatID } from '@backend/lib/utils';
+import { deleteMessageByBot } from '@backend/app/botAction';
 
 let isDeleting = false;
 async function saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceTelegram: string): Promise<void> {

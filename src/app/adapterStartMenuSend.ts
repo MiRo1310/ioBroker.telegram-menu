@@ -1,9 +1,9 @@
 import type { MenusWithUsers, UserActiveCheckbox, UserListWithChatID, UserType } from '@/types/app';
-import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '@b/types/types';
-import { isStartside } from '@b/lib/appUtils';
-import { backMenuFunc } from '@b/app/backMenu';
-import { jsonString } from '@b/lib/string';
-import { sendToTelegram } from '@b/app/telegram';
+import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '@backend/types/types';
+import { isStartside } from '@backend/lib/appUtils';
+import { backMenuFunc } from '@backend/app/backMenu';
+import { jsonString } from '@backend/lib/string';
+import { sendToTelegram } from '@backend/app/telegram';
 
 function isUserActive(telegramParams: TelegramParams, userToSend: UserType): UserListWithChatID | undefined {
     return telegramParams.userListWithChatID.find(

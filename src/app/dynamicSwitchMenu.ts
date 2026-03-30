@@ -1,6 +1,6 @@
-import type { Adapter, Keyboard, KeyboardItems } from '@b/types/types';
-import { textModifier } from '@b/lib/utilities';
-import { errorLogger } from '@b/app/logging';
+import type { Adapter, Keyboard, KeyboardItems } from '@backend/types/types';
+import { textModifier } from '@backend/lib/utilities';
+import { errorLogger } from '@backend/app/logging';
 
 async function createDynamicSwitchMenu(
     adapter: Adapter,
@@ -16,11 +16,7 @@ async function createDynamicSwitchMenu(
             return;
         }
         device = splittedArray[2];
-        const arrayOfValues = splittedArray[1]
-            .replace('dynSwitch', '')
-            .replace(/\]/g, '')
-            .replace(/\[/g, '')
-            .split(',');
+        const arrayOfValues = splittedArray[1].replace('dynSwitch', '').replace(/]/g, '').replace(/\[/g, '').split(',');
 
         const lengthOfRow = parseInt(splittedArray[3]) || 6;
 

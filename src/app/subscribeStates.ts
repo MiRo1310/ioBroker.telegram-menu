@@ -1,5 +1,5 @@
 import { removeDuplicates } from '../lib/object';
-import type { Adapter } from '@b/types/types';
+import type { Adapter } from '@backend/types/types';
 
 export async function _subscribeForeignStates(adapter: Adapter, val: string | string[]): Promise<void> {
     if (typeof val === 'string') {

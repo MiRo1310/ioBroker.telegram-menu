@@ -7,32 +7,35 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 
-import { generateActions, getUserToSendFromUserListWithChatID } from '@b/app/action';
-import { _subscribeForeignStates } from '@b/app/subscribeStates';
-import { sendToTelegram } from '@b/app/telegram';
-import { createState } from '@b/app/createState';
-import { saveMessageIds } from '@b/app/messageIds';
-import { adapterStartMenuSend } from '@b/app/adapterStartMenuSend';
-import { checkEveryMenuForData, getTimeouts } from '@b/app/processData';
-import { deleteMessageAndSendNewShoppingList, shoppingListSubscribeStateAndDeleteItem } from '@b/app/shoppingList';
-import { errorLogger } from '@b/app/logging';
-import type { Adapter, MenuData, SetStateIds, TelegramParams } from '@b/types/types';
-import { areAllCheckTelegramInstancesActive } from '@b/app/connection';
-import { decomposeText, isString, jsonString } from '@b/lib/string';
-import { isDefined, isFalsy, isTruthy } from '@b/lib/utils';
+import { generateActions, getUserToSendFromUserListWithChatID } from '@backend/app/action';
+import { _subscribeForeignStates } from '@backend/app/subscribeStates';
+import { sendToTelegram } from '@backend/app/telegram';
+import { createState } from '@backend/app/createState';
+import { saveMessageIds } from '@backend/app/messageIds';
+import { adapterStartMenuSend } from '@backend/app/adapterStartMenuSend';
+import { checkEveryMenuForData, getTimeouts } from '@backend/app/processData';
+import {
+    deleteMessageAndSendNewShoppingList,
+    shoppingListSubscribeStateAndDeleteItem,
+} from '@backend/app/shoppingList';
+import { errorLogger } from '@backend/app/logging';
+import type { Adapter, MenuData, SetStateIds, TelegramParams } from '@backend/types/types';
+import { areAllCheckTelegramInstancesActive } from '@backend/app/connection';
+import { decomposeText, isString, jsonString } from '@backend/lib/string';
+import { isDefined, isFalsy, isTruthy } from '@backend/lib/utils';
 import {
     getInstanceById,
     getListOfMenusIncludingUser,
     getNewStructure,
     getStartSides,
     splitNavigation,
-} from '@b/lib/appUtils';
-import { getConfigVariables, getIds } from '@b/app/configVariables';
-import { getStateIdsToListenTo } from '@b/app/setStateIdsToListenTo';
+} from '@backend/lib/appUtils';
+import { getConfigVariables, getIds } from '@backend/app/configVariables';
+import { getStateIdsToListenTo } from '@backend/app/setStateIdsToListenTo';
 import type { UserListWithChatID } from '@/types/app';
-import { exchangePlaceholderWithValue, exchangeValue } from '@b/lib/exchangeValue';
-import { getInstancesFromEventsById, handleEvent } from '@b/app/events';
-import { findDeprecatedAndLog } from '@b/app/deprecated';
+import { exchangePlaceholderWithValue, exchangeValue } from '@backend/lib/exchangeValue';
+import { getInstancesFromEventsById, handleEvent } from '@backend/app/events';
+import { findDeprecatedAndLog } from '@backend/app/deprecated';
 
 const timeoutKey = '0';
 export let adapter: Adapter;

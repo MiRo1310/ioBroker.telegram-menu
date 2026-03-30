@@ -1,7 +1,7 @@
-import type { Adapter, Part, TelegramParams } from '@b/types/types';
-import { textModifier } from '@b/lib/utilities';
-import { sendToTelegram } from '@b/app/telegram';
-import { errorLogger } from '@b/app/logging';
+import type { Adapter, Part, TelegramParams } from '@backend/types/types';
+import { textModifier } from '@backend/lib/utilities';
+import { sendToTelegram } from '@backend/app/telegram';
+import { errorLogger } from '@backend/app/logging';
 
 export async function sendNav(
     adapter: Adapter,
