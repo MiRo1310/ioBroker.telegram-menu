@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.areAllCheckTelegramInstancesActive = void 0;
-const configVariables_1 = require("./configVariables");
+const configVariables_1 = require("../app/configVariables");
 const string_1 = require("../lib/string");
 const areAllCheckTelegramInstancesActive = async (params) => {
     const { adapter } = params;

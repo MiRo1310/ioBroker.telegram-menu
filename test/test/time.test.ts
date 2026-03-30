@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { extractTimeValues, getTimeWithPad, integrateTimeIntoText, toLocaleDate } from '../lib/time';
-import { config } from '../config/config';
+import { extractTimeValues, getTimeWithPad, integrateTimeIntoText, toLocaleDate } from '@b/lib/time';
+import { config } from '@b/config/config';
 
 describe('Time', () => {
     const testDate = new Date(1744388803096);

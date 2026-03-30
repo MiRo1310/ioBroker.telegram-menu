@@ -4,9 +4,9 @@ exports.sendPic = sendPic;
 const appUtils_1 = require("../lib/appUtils");
 const string_1 = require("../lib/string");
 const utils_1 = require("../lib/utils");
-const exec_1 = require("./exec");
-const telegram_1 = require("./telegram");
-const logging_1 = require("./logging");
+const exec_1 = require("../app/exec");
+const telegram_1 = require("../app/telegram");
+const logging_1 = require("../app/logging");
 function sendPic(instance, part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey) {
     const adapter = telegramParams.adapter;
     try {

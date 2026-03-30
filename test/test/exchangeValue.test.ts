@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isNoValueParameter } from '../lib/exchangeValue';
+import { isNoValueParameter } from '@b/lib/exchangeValue';
 
 describe('isNoValueParameter', () => {
     it('soll insertValue true zurückgeben, wenn kein {novalue} enthalten ist', () => {

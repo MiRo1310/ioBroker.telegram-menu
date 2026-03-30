@@ -4,8 +4,8 @@ exports.idBySelector = void 0;
 const config_1 = require("../config/config");
 const exchangeValue_1 = require("../lib/exchangeValue");
 const string_1 = require("../lib/string");
-const telegram_1 = require("./telegram");
-const logging_1 = require("./logging");
+const telegram_1 = require("../app/telegram");
+const logging_1 = require("../app/logging");
 const idBySelector = async ({ instance, adapter, selector, text, userToSend, newline, telegramParams, }) => {
     let text2Send = '';
     try {

@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getChart = getChart;
 const utils_1 = require("../lib/utils");
 const splitValues_1 = require("../lib/splitValues");
-const telegram_1 = require("./telegram");
-const logging_1 = require("./logging");
+const telegram_1 = require("../app/telegram");
+const logging_1 = require("../app/logging");
 function getChart(instance, echarts, directoryPicture, user, telegramParams) {
     const adapter = telegramParams.adapter;
     try {

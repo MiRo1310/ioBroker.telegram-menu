@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adapterStartMenuSend = adapterStartMenuSend;
 const appUtils_1 = require("../lib/appUtils");
-const backMenu_1 = require("./backMenu");
+const backMenu_1 = require("../app/backMenu");
 const string_1 = require("../lib/string");
-const telegram_1 = require("./telegram");
+const telegram_1 = require("../app/telegram");
 function isUserActive(telegramParams, userToSend) {
     return telegramParams.userListWithChatID.find(user => user.chatID === userToSend.chatId && user.instance === userToSend.instance);
 }

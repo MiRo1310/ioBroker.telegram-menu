@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleSetState = exports.setstateIobroker = exports._getDynamicValueIfIsIn = void 0;
 const config_1 = require("../config/config");
-const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
-const exchangeValue_1 = require("../lib/exchangeValue");
-const appUtils_1 = require("../lib/appUtils");
 const utilities_1 = require("../lib/utilities");
-const logging_1 = require("./logging");
-const dynamicValue_1 = require("./dynamicValue");
-const setStateIdsToListenTo_1 = require("./setStateIdsToListenTo");
-const telegram_1 = require("./telegram");
+const utils_1 = require("../lib/utils");
+const logging_1 = require("../app/logging");
+const dynamicValue_1 = require("../app/dynamicValue");
+const setStateIdsToListenTo_1 = require("../app/setStateIdsToListenTo");
+const exchangeValue_1 = require("../lib/exchangeValue");
+const telegram_1 = require("../app/telegram");
+const appUtils_1 = require("../lib/appUtils");
 const modifiedValue = (valueFromSubmenu, value) => {
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)

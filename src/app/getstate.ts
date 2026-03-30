@@ -1,17 +1,17 @@
-import { config } from '../config/config';
-import type { Part, TelegramParams } from '../types/types';
-import { isParseModeFirstElement } from './parseMode';
-import { idBySelector } from './idBySelector';
-import { bindingFunc } from './action';
-import { isDefined } from '../lib/utils';
-import { cleanUpString, decomposeText, ifTruthyAddNewLine, jsonString } from '../lib/string';
-import { setTimeValue } from '../lib/utilities';
-import { integrateTimeIntoText } from '../lib/time';
-import { mathFunction, roundValue } from '../lib/appUtils';
-import { createKeyboardFromJson, createTextTableFromJson } from './jsonTable';
-import { sendToTelegram, sendToTelegramSubmenu } from './telegram';
-import { exchangeValue } from '../lib/exchangeValue';
-import { errorLogger } from './logging';
+import { config } from '@b/config/config';
+import type { Part, TelegramParams } from '@b/types/types';
+import { isParseModeFirstElement } from '@b/app/parseMode';
+import { idBySelector } from '@b/app/idBySelector';
+import { bindingFunc } from '@b/app/action';
+import { isDefined } from '@b/lib/utils';
+import { cleanUpString, decomposeText, ifTruthyAddNewLine, jsonString } from '@b/lib/string';
+import { setTimeValue } from '@b/lib/utilities';
+import { integrateTimeIntoText } from '@b/lib/time';
+import { mathFunction, roundValue } from '@b/lib/appUtils';
+import { createKeyboardFromJson, createTextTableFromJson } from '@b/app/jsonTable';
+import { sendToTelegram, sendToTelegramSubmenu } from '@b/app/telegram';
+import { exchangeValue } from '@b/lib/exchangeValue';
+import { errorLogger } from '@b/app/logging';
 
 export async function getState(
     instance: string,

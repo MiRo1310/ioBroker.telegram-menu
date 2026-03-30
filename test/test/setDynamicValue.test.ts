@@ -1,6 +1,6 @@
-import { _getDynamicValueIfIsIn } from '../app/setstate';
+import { _getDynamicValueIfIsIn } from '@b/app/setstate';
 import { utils } from '@iobroker/testing';
-import type { Adapter } from '../types/types';
+import type { Adapter } from '@b/types/types';
 import { expect } from 'chai';
 
 const { adapter } = utils.unit.createMocks({});

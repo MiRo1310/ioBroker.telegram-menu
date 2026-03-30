@@ -6,8 +6,8 @@ const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
 const splitValues_1 = require("../lib/splitValues");
 const math_1 = require("../lib/math");
-const telegram_1 = require("./telegram");
-const logging_1 = require("./logging");
+const telegram_1 = require("../app/telegram");
+const logging_1 = require("../app/logging");
 const utils_1 = require("../lib/utils");
 const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, parse_mode) => {
     let textToSend;

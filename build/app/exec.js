@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loadWithCurl = loadWithCurl;
-const node_child_process_1 = require("node:child_process");
-const logging_1 = require("./logging");
+const child_process_1 = require("child_process");
+const logging_1 = require("../app/logging");
 function loadWithCurl(adapter, token, path, url, callback) {
-    (0, node_child_process_1.exec)(`curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`, (error, stdout, stderr) => {
+    (0, child_process_1.exec)(`curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`, (error, stdout, stderr) => {
         if (stdout) {
             adapter.log.debug(`Stdout : "${stdout}"`);
         }

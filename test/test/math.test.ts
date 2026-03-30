@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { evaluate } from '../lib/math';
+import { evaluate } from '@b/lib/math';
 import { utils } from '@iobroker/testing';
-import type { Adapter } from '../types/types';
+import type { Adapter } from '@b/types/types';
 
 const { adapter } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;

@@ -1,10 +1,10 @@
-import { errorLogger } from './logging';
-import { textModifier } from '../lib/utilities';
-import type { Adapter, Keyboard, Location, Telegram, TelegramParams } from '../types/types';
-import { getChatID } from '../lib/utils';
-import { cleanUpString, isEmptyString, jsonString } from '../lib/string';
-import { getParseMode } from '../lib/appUtils';
-import { isInstanceActive } from './instance';
+import { errorLogger } from '@b/app/logging';
+import { textModifier } from '@b/lib/utilities';
+import type { Adapter, Keyboard, Location, Telegram, TelegramParams } from '@b/types/types';
+import { getChatID } from '@b/lib/utils';
+import { cleanUpString, isEmptyString, jsonString } from '@b/lib/string';
+import { getParseMode } from '@b/lib/appUtils';
+import { isInstanceActive } from '@b/app/instance';
 
 function validateTextToSend(adapter: Adapter, textToSend: string | undefined): boolean {
     if (!textToSend || isEmptyString(textToSend)) {

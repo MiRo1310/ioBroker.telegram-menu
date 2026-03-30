@@ -1,6 +1,6 @@
 import { config, defaultLocale, timezone } from '../config/config';
 import type { ExtractTimeValues, GetTimeWithPad } from '../types/types';
-import { pad } from './string';
+import { pad } from '@b/lib/string';
 
 /**
  * Convert timestamp to local date string

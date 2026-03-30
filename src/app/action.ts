@@ -9,14 +9,14 @@ import type {
     Switch,
     TelegramParams,
     UserObjectActions,
-} from '../types/types';
-import { decomposeText } from '../lib/string';
-import { arrayOfEntries, config } from '../config/config';
-import { getBindingValues } from '../lib/splitValues';
-import { evaluate } from '../lib/math';
-import { sendToTelegram } from './telegram';
-import { errorLogger } from './logging';
-import { isTruthy } from '../lib/utils';
+} from '@b/types/types';
+import { decomposeText } from '@b/lib/string';
+import { arrayOfEntries, config } from '@b/config/config';
+import { getBindingValues } from '@b/lib/splitValues';
+import { evaluate } from '@b/lib/math';
+import { sendToTelegram } from '@b/app/telegram';
+import { errorLogger } from '@b/app/logging';
+import { isTruthy } from '@b/lib/utils';
 import type { TriggerableActions, UserListWithChatID } from '@/types/app';
 
 export const bindingFunc = async (

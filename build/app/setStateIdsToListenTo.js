@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStateIdsToListenTo = getStateIdsToListenTo;
 exports.addSetStateIds = addSetStateIds;
-const subscribeStates_1 = require("./subscribeStates");
+const subscribeStates_1 = require("../app/subscribeStates");
 const object_1 = require("../lib/object");
 const setStateIdsToListenTo = [];
 function getStateIdsToListenTo() {
