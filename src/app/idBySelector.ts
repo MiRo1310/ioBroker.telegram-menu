@@ -1,10 +1,10 @@
 import type { BooleanString } from '@/types/app';
-import type { Adapter, TelegramParams } from '@b/types/types';
-import { config } from '@b/config/config';
-import { exchangeValue } from '@b/lib/exchangeValue';
-import { ifTruthyAddNewLine } from '@b/lib/string';
-import { sendToTelegram } from '@b/app/telegram';
-import { errorLogger } from '@b/app/logging';
+import type { Adapter, TelegramParams } from '@backend/types/types';
+import { config } from '@backend/config/config';
+import { exchangeValue } from '@backend/lib/exchangeValue';
+import { ifTruthyAddNewLine } from '@backend/lib/string';
+import { sendToTelegram } from '@backend/app/telegram';
+import { errorLogger } from '@backend/app/logging';
 
 export const idBySelector = async ({
     instance,

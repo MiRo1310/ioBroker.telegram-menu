@@ -1,5 +1,5 @@
-import { config } from '@b/config/config';
-import type { Adapter, Part, Telegram, TelegramParams } from '@b/types/types';
+import { config } from '@backend/config/config';
+import type { Adapter, Part, Telegram, TelegramParams } from '@backend/types/types';
 import {
     decomposeText,
     isNonEmptyString,
@@ -8,15 +8,15 @@ import {
     removeDuplicateSpaces,
     removeQuotes,
     singleQuotesToDoubleQuotes,
-} from '@b/lib/string';
-import { transformValueToTypeOfId } from '@b/lib/utilities';
-import { isDefined } from '@b/lib/utils';
-import { errorLogger } from '@b/app/logging';
-import { setDynamicValue } from '@b/app/dynamicValue';
-import { addSetStateIds } from '@b/app/setStateIdsToListenTo';
-import { exchangeValue } from '@b/lib/exchangeValue';
-import { sendToTelegram } from '@b/app/telegram';
-import { mathFunction } from '@b/lib/appUtils';
+} from '@backend/lib/string';
+import { transformValueToTypeOfId } from '@backend/lib/utilities';
+import { isDefined } from '@backend/lib/utils';
+import { errorLogger } from '@backend/app/logging';
+import { setDynamicValue } from '@backend/app/dynamicValue';
+import { addSetStateIds } from '@backend/app/setStateIdsToListenTo';
+import { exchangeValue } from '@backend/lib/exchangeValue';
+import { sendToTelegram } from '@backend/app/telegram';
+import { mathFunction } from '@backend/lib/appUtils';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)

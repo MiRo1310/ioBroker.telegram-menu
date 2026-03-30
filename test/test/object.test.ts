@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { removeDuplicates, setStateIdsToIdArray, trimAllItems } from '@b/lib/object';
-import { SetStateIds } from '@b/types/types';
+import { removeDuplicates, setStateIdsToIdArray, trimAllItems } from '@backend/lib/object';
+import { SetStateIds } from '@backend/types/types';
 
 describe('deleteDoubleEntriesInArray', () => {
     it('should remove duplicate entries from an array', () => {

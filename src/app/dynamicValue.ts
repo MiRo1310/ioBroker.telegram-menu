@@ -1,6 +1,6 @@
-import type { SetDynamicValue, SetDynamicValueObj, TelegramParams } from '@b/types/types';
-import { decomposeText } from '@b/lib/string';
-import { sendToTelegram } from '@b/app/telegram';
+import type { SetDynamicValue, SetDynamicValueObj, TelegramParams } from '@backend/types/types';
+import { decomposeText } from '@backend/lib/string';
+import { sendToTelegram } from '@backend/app/telegram';
 
 const dynamicValueObj: SetDynamicValueObj = {};
 export const setDynamicValue = async (

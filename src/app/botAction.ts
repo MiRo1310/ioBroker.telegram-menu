@@ -1,5 +1,5 @@
-import type { Adapter } from '@b/types/types';
-import { errorLogger } from '@b/app/logging';
+import type { Adapter } from '@backend/types/types';
+import { errorLogger } from '@backend/app/logging';
 
 const deleteMessageByBot = (
     adapter: Adapter,

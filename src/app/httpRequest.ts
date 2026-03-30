@@ -2,10 +2,10 @@ import axios from 'axios';
 
 import path from 'node:path';
 import fs from 'node:fs';
-import type { Adapter, Part, TelegramParams } from '@b/types/types';
-import { validateDirectory } from '@b/lib/utils';
-import { sendToTelegram } from '@b/app/telegram';
-import { errorLogger } from '@b/app/logging';
+import type { Adapter, Part, TelegramParams } from '@backend/types/types';
+import { validateDirectory } from '@backend/lib/utils';
+import { sendToTelegram } from '@backend/app/telegram';
+import { errorLogger } from '@backend/app/logging';
 
 async function httpRequest(
     adapter: Adapter,

@@ -1,13 +1,13 @@
-import { isDefined } from '@b/lib/utils';
+import { isDefined } from '@backend/lib/utils';
 import { checkStatus } from '../app/status';
 import type { Adapter } from '../types/types';
-import { getProcessTimeValues } from '@b/lib/splitValues';
-import { decomposeText, isEmptyString, jsonString, replaceAllItems } from '@b/lib/string';
-import { invalidId, config } from '@b/config/config';
-import { isSameType, timeStringReplacer } from '@b/lib/appUtils';
-import { extractTimeValues, getTimeWithPad } from '@b/lib/time';
-import { setstateIobroker } from '@b/app/setstate';
-import { errorLogger } from '@b/app/logging';
+import { getProcessTimeValues } from '@backend/lib/splitValues';
+import { decomposeText, isEmptyString, jsonString, replaceAllItems } from '@backend/lib/string';
+import { invalidId, config } from '@backend/config/config';
+import { isSameType, timeStringReplacer } from '@backend/lib/appUtils';
+import { extractTimeValues, getTimeWithPad } from '@backend/lib/time';
+import { setstateIobroker } from '@backend/app/setstate';
+import { errorLogger } from '@backend/app/logging';
 
 export const setTimeValue = async (adapter: any, textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(

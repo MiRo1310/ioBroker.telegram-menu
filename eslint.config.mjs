@@ -37,7 +37,7 @@ export default [
             'no-restricted-imports': [
                 'error',
                 {
-                    patterns: ['./*', '!@*', '!@b/*', '!@components/*'],
+                    patterns: ['./*', '!@*', '!@backend/*', '!@components/*'],
                 },
             ],
         },

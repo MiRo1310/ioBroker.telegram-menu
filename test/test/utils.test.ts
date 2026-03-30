@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } from '@b/lib/utils';
+import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } from '@backend/lib/utils';
 
 import { utils } from '@iobroker/testing';
 import { UserListWithChatID } from '@/types/app';
-import type { Adapter } from '@b/types/types';
+import type { Adapter } from '@backend/types/types';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
