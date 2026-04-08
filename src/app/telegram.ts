@@ -7,7 +7,7 @@ import { getParseMode } from '@backend/lib/appUtils';
 import { isInstanceActive } from '@backend/app/instance';
 
 function validateTextToSend(adapter: Adapter, textToSend: string | undefined): boolean {
-    if (!textToSend || isEmptyString(textToSend)) {
+    if (!textToSend || isEmptyString(textToSend ?? '')) {
         adapter.log.error('There is a problem! Text to send is empty or undefined, please check your configuration.');
         return false;
     }
