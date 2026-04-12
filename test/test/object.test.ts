@@ -63,9 +63,9 @@ describe('trimAllItems', () => {
 describe('setStateIdsToIdArray', () => {
     it('should extract ids from an array of SetStateIds objects', () => {
         const input: SetStateIds[] = [
-            { id: '1', confirm: true, parse_mode: true, returnText: '', userToSend: '' },
-            { id: '2', confirm: true, parse_mode: true, returnText: '', userToSend: '' },
-            { id: '3', confirm: true, parse_mode: true, returnText: '', userToSend: '' },
+            { id: '1', confirm: true, parse_mode: true, returnText: '', userToSend: '', instance: 'telegram.0' },
+            { id: '2', confirm: true, parse_mode: true, returnText: '', userToSend: '', instance: 'telegram.0' },
+            { id: '3', confirm: true, parse_mode: true, returnText: '', userToSend: '', instance: 'telegram.0' },
         ];
         const expectedOutput = ['1', '2', '3'];
         expect(setStateIdsToIdArray(input)).to.deep.equal(expectedOutput);

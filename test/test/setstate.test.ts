@@ -3,18 +3,12 @@ import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
 import type { Adapter, Part, TelegramParams } from '@backend/types/types';
 import { handleSetState } from '@backend/app/setstate';
+import { telegramParams } from '../fixtures/telegramParams';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
 
 database.publishState('test.0.test', { val: '0', ack: true });
-const telegramParams: TelegramParams = {
-    adapter: mockAdapter,
-    telegramInstanceList: [{ name: 'telegram.0', active: true }],
-    one_time_keyboard: true,
-    resize_keyboard: true,
-    userListWithChatID: [{ name: 'Michael', chatID: '999', instance: 'telegram.0' }],
-};
 
 describe('Setstate', () => {
     it('should return correct value with foreignId object', async () => {

@@ -36,22 +36,16 @@ export const replaceAllItems = (text: string, searched: (string | { search: stri
 };
 
 /**
- * @deprecated
- * use mrRemoveQuotes instead if updated
  * @param text Text
  */
 export const removeQuotes = (text: string): string => text.replace(/['"]/g, '');
 
 /**
- * @deprecated
- * use mrSingleQuotesToDoubleQuotes instead if updated
  * @param text Text
  */
 export const singleQuotesToDoubleQuotes = (text: string): string => text.replace(/'/g, '"');
 
 /**
- * @deprecated
- * use mrRemoveDuplicatedSpaces instead if updated
  * @param text Text
  */
 export const removeDuplicateSpaces = (text: string): string => text.replace(/\s+/g, ' ').trim();
@@ -72,8 +66,6 @@ export const cleanUpString = (text?: string): string => {
 /**
  * Decomposes the text into parts based on two search strings.
  *
- * @deprecated
- * use mrDecomposeText instead if updated
  * @param text The text to decompose
  * @param firstSearch The first search string
  * @param secondSearch The second search string
@@ -95,8 +87,6 @@ export function decomposeText(text: string, firstSearch: string, secondSearch: s
 }
 
 /**
- * @deprecated
- * use mrIsString instead if updated
  * @param value Unknown value
  * @returns boolean indicating if the value is a string
  */
@@ -117,8 +107,6 @@ export function stringReplacer(substring: string, valueToReplace: string[] | Str
 }
 
 /**
- * @deprecated
- * use mrPad instead if updated
  * @param value Number to pad
  * @param length Length to pad to, default is 2
  * @returns Padded string

@@ -75,8 +75,6 @@ exports.cleanUpString = cleanUpString;
 /**
  * Decomposes the text into parts based on two search strings.
  *
- * @deprecated
- * use mrDecomposeText instead if updated
  * @param text The text to decompose
  * @param firstSearch The first search string
  * @param secondSearch The second search string

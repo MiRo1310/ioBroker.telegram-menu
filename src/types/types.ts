@@ -106,10 +106,10 @@ export interface Location {
 }
 
 export interface SetDynamicValueObj {
-    [key: string]: SetDynamicValue;
+    [key: string]: IDynamicValue;
 }
 
-export interface SetDynamicValue {
+export interface IDynamicValue {
     id: string;
     ack: boolean;
     returnText: string;
@@ -118,6 +118,7 @@ export interface SetDynamicValue {
     confirm: boolean;
     telegramParams: TelegramParams;
     valueType: string;
+    //TODO Das sollte die Id sein
     navToGoTo?: string;
 }
 
@@ -182,6 +183,7 @@ export interface SetStateIds {
     returnText?: string;
     userToSend: string;
     parse_mode?: boolean;
+    instance: string;
 }
 
 export type GroupWithUser = string;

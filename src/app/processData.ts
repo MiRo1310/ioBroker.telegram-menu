@@ -1,8 +1,7 @@
 import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '@backend/types/types';
 import { jsonString } from '@backend/lib/string';
-import { getDynamicValue, removeUserFromDynamicValue } from '@backend/app/dynamicValue';
 import { adjustValueType } from '@backend/app/action';
-import { handleSetState, setstateIobroker } from '@backend/app/setstate';
+import { exchangeValueAndSendToTelegram, handleSetState, setstateIobroker } from '@backend/app/setstate';
 import { sendLocationToTelegram, sendToTelegram } from '@backend/app/telegram';
 import { backMenuFunc, switchBack } from '@backend/app/backMenu';
 import { sendNav } from '@backend/app/sendNav';
@@ -13,6 +12,7 @@ import { getChart } from '@backend/app/echarts';
 import { httpRequest } from '@backend/app/httpRequest';
 import { isSubmenuOrMenu } from '@backend/app/validateMenus';
 import { errorLogger } from '@backend/app/logging';
+import { dynamicValue } from '@backend/app/dynamicValue';
 
 let timeouts: Timeouts[] = [];
 
@@ -79,25 +79,36 @@ async function processData({
     try {
         let part: Part | undefined = {} as Part;
 
-        const dynamicValue = getDynamicValue(userToSend);
-        if (dynamicValue) {
-            const valueToSet = dynamicValue?.valueType
-                ? adjustValueType(adapter, calledValue, dynamicValue.valueType)
-                : calledValue;
+        const value = dynamicValue.getValue(userToSend);
+        if (value) {
+            const valueToSet = value?.valueType ? adjustValueType(adapter, calledValue, value.valueType) : calledValue;
 
-            valueToSet && dynamicValue?.id
-                ? await setstateIobroker({ adapter, id: dynamicValue.id, value: valueToSet, ack: dynamicValue?.ack })
-                : await sendToTelegram({
-                      instance,
-                      userToSend,
-                      textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValue?.valueType}`,
-                      telegramParams,
-                  });
+            if (valueToSet && value?.id) {
+                await setstateIobroker({ adapter, id: value.id, value: valueToSet, ack: value?.ack });
+                if (value.confirm) {
+                    await exchangeValueAndSendToTelegram(
+                        adapter,
+                        value.returnText,
+                        valueToSet,
+                        instance,
+                        userToSend,
+                        telegramParams,
+                        value.parse_mode,
+                    );
+                }
+            } else {
+                await sendToTelegram({
+                    instance,
+                    userToSend,
+                    textToSend: `You insert a wrong Type of value, please insert type : ${value?.valueType}`,
+                    telegramParams,
+                });
+            }
 
-            removeUserFromDynamicValue(userToSend);
+            dynamicValue.removeUser(userToSend);
             const result = await switchBack(adapter, userToSend, allMenusWithData, menus, true);
 
-            if (result && !dynamicValue.navToGoTo) {
+            if (result && !value.navToGoTo) {
                 const { textToSend, keyboard, parse_mode } = result;
                 await sendToTelegram({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
                 return true;
