@@ -199,7 +199,6 @@ function getLineLength(tableObj: TableObj, enlargeColumn: number): number {
 
 function createTextTableFromJson(adapter: Adapter, json: string, textToSend: string): string | undefined {
     try {
-        //TODO Object erst zusammen bauen
         const { substringExcludeSearch } = decomposeText(textToSend, '{json;[', `;${config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
         const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
         const header = array[1];
@@ -217,9 +216,10 @@ function createTextTableFromJson(adapter: Adapter, json: string, textToSend: str
         const lineLength = getLineLength(tableObj, enlargeColumn);
 
         // Breakline
-        textTable += '`';
         // Setze den Text in dreifache Backticks (```), um einen Codeblock zu erzeugen, oder in einfache Backticks (`), um Inline-Code zu erzeugen.
         //Beispiel für einen Codeblock (empfohlen für Tabellen):
+        textTable += '`';
+
         textTable += getTableBreakLine(lineLength);
 
         textTable = tableHead(textTable, tableObj, enlargeColumn);

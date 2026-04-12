@@ -43,15 +43,16 @@ async function getState(instance, part, userToSend, telegramParams) {
                 valueArrayForCorrectOrder[index] = 'N/A';
                 return Promise.resolve();
             }
-            const stateValue = (0, string_1.cleanUpString)(state.val?.toString());
-            let modifiedStateVal = stateValue;
+            const stateValue = state.val?.toString() ?? '';
+            const cleanedString = (0, string_1.cleanUpString)(stateValue);
+            let modifiedStateVal = cleanedString;
             let modifiedTextToSend = text;
             if (text.includes(config_1.config.timestamp.ts) || text.includes(config_1.config.timestamp.lc)) {
                 modifiedTextToSend = await (0, utilities_1.setTimeValue)(adapter, text, id);
                 modifiedStateVal = '';
             }
             if (modifiedTextToSend.includes(config_1.config.time)) {
-                modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, stateValue);
+                modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, cleanedString);
                 modifiedStateVal = '';
             }
             const { textToSend, calculated, error: err } = (0, appUtils_1.mathFunction)(modifiedTextToSend, modifiedStateVal, adapter);
@@ -71,7 +72,7 @@ async function getState(instance, part, userToSend, telegramParams) {
             if (modifiedTextToSend.includes(config_1.config.json.start)) {
                 const { substring } = (0, string_1.decomposeText)(modifiedTextToSend, config_1.config.json.start, config_1.config.json.end);
                 if (substring.includes(config_1.config.json.textTable)) {
-                    const result = (0, jsonTable_1.createTextTableFromJson)(adapter, stateValue, modifiedTextToSend);
+                    const result = (0, jsonTable_1.createTextTableFromJson)(adapter, cleanedString, modifiedTextToSend);
                     if (result) {
                         await (0, telegram_1.sendToTelegram)({
                             instance,

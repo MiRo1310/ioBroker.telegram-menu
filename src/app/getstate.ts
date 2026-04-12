@@ -52,9 +52,10 @@ export async function getState(
                 return Promise.resolve();
             }
 
-            const stateValue = cleanUpString(state.val?.toString());
+            const stateValue = state.val?.toString() ?? '';
+            const cleanedString = cleanUpString(stateValue);
 
-            let modifiedStateVal = stateValue;
+            let modifiedStateVal = cleanedString;
             let modifiedTextToSend = text;
 
             if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
@@ -63,7 +64,7 @@ export async function getState(
             }
 
             if (modifiedTextToSend.includes(config.time)) {
-                modifiedTextToSend = integrateTimeIntoText(modifiedTextToSend, stateValue);
+                modifiedTextToSend = integrateTimeIntoText(modifiedTextToSend, cleanedString);
                 modifiedStateVal = '';
             }
 
@@ -88,7 +89,7 @@ export async function getState(
                 const { substring } = decomposeText(modifiedTextToSend, config.json.start, config.json.end);
 
                 if (substring.includes(config.json.textTable)) {
-                    const result = createTextTableFromJson(adapter, stateValue, modifiedTextToSend);
+                    const result = createTextTableFromJson(adapter, cleanedString, modifiedTextToSend);
                     if (result) {
                         await sendToTelegram({
                             instance,
