@@ -288,18 +288,28 @@ Output of the placeholders is replaced by the value:
 
 ![functions](../pic/functions.png)<br>
 
--   **The table**<br>or display a JSON: under ID select a data point that contains a JSON. In the text field`{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}`input. **Value-1** is e.g
-    first key of the JSON that should be displayed. **NameTH-Col1** assigns the corresponding one
-    Column names (etc.), This can also be omitted, then the table has no header. **Header** must be filled out and is the heading for the table. Output in text format (parse mode disabled): '
-    {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. The number of columns is free
-    definable - e.g.`value-3-inJSON:NameTH-Col3`add.
+-   **The table**<br>**_Breaking Change!!!_**
+
+The type of input has changed, from now on it must be valid json so that the table can be displayed correctly
+
+`{"tableData":[{"key":"value-1-inJSON","label":"Name"},{"key":"value-2-inJSON","label":"NameTH-Col1"}],"tableLabel":"ShoppingList","type":"TextTable"}`
+
+display a JSON as a TextTable:
+
+1.  under ID select a data point that contains a JSON.
+2.  Enter the json in the text field as described above and adapt it,
+    In tableDate the key is the same as the one from the JSON.
+    Label is the name of the table column. This can also be omitted, then the key is used as the column name.
+3.  tableLabel is the heading of the table, this can also be an empty string, then no heading will be displayed.
+4.  type is the type of the table, must stay that way
 
 
-    {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
+    {"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}
 
--   This creates exactly the same list, here the buttons have the function of the item from the Alexa2 list
+-   This creates a list of buttons for the`alexa-shoppinglist`Adapter, here the buttons have the function of the item from the Alexa2 list
     Remove adapter. In this case, the key for the data from the JSON is`name:`. In order for the whole thing to work, it has to
     the data point from which the list was created, the data point of the`alexa-shoppinglist`Adapt breast.
+-   listName is the name of the list that was created in Alexa, e.g.`SHOP`or`TOBUY`, this must match the list from which the data is retrieved.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
@@ -315,7 +325,7 @@ Output of the placeholders is replaced by the value:
 -   `Neuerung!!!`From now on you have the option to set the delay to 0, so the image will be sent without delay.
 -   With Delay, it will be sent delayed by the value. Time between request and sending the image in seconds.
 
-    <img src="../pic/grafana.png" width="400"/>
+    <img src="../pic/grafana.png" width="400"></img>
 
 ### Send Location
 
