@@ -88,7 +88,7 @@ async function getState(instance, part, userToSend, telegramParams) {
                 }
             }
             if (modifiedTextToSend.includes('alexaShoppingList')) {
-                const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend);
+                const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend, instance);
                 if (stateValue && stateValue.length > 0) {
                     if (result?.text && result?.keyboard) {
                         (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, result.text, result.keyboard, telegramParams, parse_mode);

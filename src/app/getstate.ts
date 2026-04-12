@@ -106,7 +106,14 @@ export async function getState(
             }
 
             if (modifiedTextToSend.includes('alexaShoppingList')) {
-                const result = createKeyboardFromJson(adapter, stateValue, modifiedTextToSend, id, userToSend);
+                const result = createKeyboardFromJson(
+                    adapter,
+                    stateValue,
+                    modifiedTextToSend,
+                    id,
+                    userToSend,
+                    instance,
+                );
                 if (stateValue && stateValue.length > 0) {
                     if (result?.text && result?.keyboard) {
                         sendToTelegramSubmenu(

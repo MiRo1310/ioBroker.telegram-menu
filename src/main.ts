@@ -36,6 +36,7 @@ import type { UserListWithChatID } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from '@backend/lib/exchangeValue';
 import { getInstancesFromEventsById, handleEvent } from '@backend/app/events';
 import { findDeprecatedAndLog } from '@backend/app/deprecated';
+import { lastRequestJsonButtonHistory } from '@backend/app/jsonTable';
 
 const timeoutKey = '0';
 export let adapter: Adapter;
@@ -147,7 +148,33 @@ export default class TelegramMenu extends utils.Adapter {
                         await handleEvent(adapter, user, dataObject, id, state, menuData, telegramParams);
                     }
                 }
-                //TODO Instance ist null wenn shoppingList aktualiert wird, da es eine externe Subscription ist, hier muss noch eine Lösung gefunden werden
+
+                if (!state || !isDefined(state.val)) {
+                    return;
+                }
+
+                if (isString(state.val) && state.val?.includes('sList:')) {
+                    const requestId = await shoppingListSubscribeStateAndDeleteItem(state.val, telegramParams);
+                    if (requestId) {
+                        lastRequestJsonButtonHistory.addRequestId(requestId);
+                    }
+                    return;
+                }
+
+                if (this.isAddToShoppingList(id)) {
+                    const requestIds = lastRequestJsonButtonHistory.getRequestIds();
+                    for (const requestId of requestIds) {
+                        const result = lastRequestJsonButtonHistory.getLast(requestId);
+                        if (!result?.instance || !result?.user) {
+                            continue;
+                        }
+                        await deleteMessageAndSendNewShoppingList(result.instance, telegramParams, result.user);
+                        lastRequestJsonButtonHistory.resetId(requestId);
+                    }
+
+                    return;
+                }
+
                 if (!instance) {
                     return;
                 }
@@ -155,20 +182,6 @@ export default class TelegramMenu extends utils.Adapter {
                 const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams, instance);
 
                 if (error) {
-                    return;
-                }
-
-                if (this.isAddToShoppingList(id, userToSend.name)) {
-                    await deleteMessageAndSendNewShoppingList(instance, telegramParams, userToSend.name);
-                    return;
-                }
-
-                if (!state || !isDefined(state.val)) {
-                    return;
-                }
-
-                if (isString(state.val) && state.val?.includes('sList:')) {
-                    await shoppingListSubscribeStateAndDeleteItem(instance, state.val, telegramParams);
                     return;
                 }
 
@@ -309,8 +322,8 @@ export default class TelegramMenu extends utils.Adapter {
         return id == botSendMessageID || id == requestMessageID;
     }
 
-    private isAddToShoppingList(id: string, userToSend: string): boolean {
-        return !!(id.includes('alexa-shoppinglist') && !id.includes('add_position') && userToSend);
+    private isAddToShoppingList(id: string): boolean {
+        return id.includes('alexa-shoppinglist') && !id.includes('add_position');
     }
 
     private isMenuToSend(

@@ -1,6 +1,5 @@
-import type { Adapter, Keyboard, KeyboardItem, LastText, ValArray } from '@backend/types/types';
+import type { Adapter, Keyboard, KeyboardItem, ValArray } from '@backend/types/types';
 import { decomposeText, jsonString, parseJSON } from '@backend/lib/string';
-import { makeValidJson } from '@backend/lib/json';
 import { errorLogger } from '@backend/app/logging';
 import { config } from '@backend/config/config';
 
@@ -22,34 +21,74 @@ interface IJsonShoppingList {
     type: 'alexaShoppingList';
 }
 
-const lastText: LastText = {};
+export type IJsonTableText = Record<string, string>;
+export interface IJsonTableButtonHistory {
+    text: string | null;
+    instance: string | null;
+    user: string | null;
+    id: number | null;
+}
+export const jsonTableButtonHistory: IJsonTableText = {};
+
+class lastRequestJsonButtonHistoryClass {
+    private lastRequestJsonButtonHistory: IJsonTableButtonHistory[] = [];
+    private id: number = 0;
+    private requestIds: number[] = [];
+
+    public resetId(id: number): void {
+        this.requestIds.filter(id => id !== id);
+        this.lastRequestJsonButtonHistory.filter(i => i.id !== id);
+    }
+
+    public getRequestIds(): number[] {
+        return this.requestIds;
+    }
+
+    addRequestId(id: number): void {
+        this.requestIds.push(id);
+    }
+
+    public setData(text: string, instance: string, user: string): number {
+        const id = this.getNewId();
+        this.lastRequestJsonButtonHistory.push({ text, instance, user, id });
+        return id;
+    }
+
+    public getLast(id: number): IJsonTableButtonHistory | undefined {
+        return this.lastRequestJsonButtonHistory.find(i => i.id === id);
+    }
+
+    private getNewId(): number {
+        const id = this.id;
+        this.id++;
+        return id;
+    }
+}
+
+export const lastRequestJsonButtonHistory = new lastRequestJsonButtonHistoryClass();
+
 const createKeyboardFromJson = (
     adapter: Adapter,
     val: string,
     text: string | null,
     id: string,
     user: string,
+    instance: string,
 ): { text: string; keyboard: Keyboard } | undefined => {
     try {
         if (text) {
-            lastText[user] = text;
+            jsonTableButtonHistory[user] = text;
         } else {
-            text = lastText[user];
+            text = jsonTableButtonHistory[user];
         }
+        const requestId = lastRequestJsonButtonHistory.setData(text, instance, user);
         const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = parseJSON<IJsonShoppingList>(text);
         if (!validJsonUserInput) {
             adapter.log.warn(`No valid Json, ${text}`);
             return;
         }
 
-        const { validJson, error } = makeValidJson(val, adapter);
-
-        adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
-        if (error) {
-            return;
-        }
-
-        const { json, isValidJson } = parseJSON<ValArray[]>(validJson, adapter);
+        const { json, isValidJson } = parseJSON<ValArray[]>(val, adapter);
         if (!isValidJson) {
             return;
         }
@@ -80,7 +119,7 @@ const createKeyboardFromJson = (
                 if (name) {
                     rowArray.push({
                         text: name,
-                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}`,
+                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}:${requestId}`,
                     });
                 }
             });
@@ -193,6 +232,7 @@ function getLineLength(tableObj: TableObj, enlargeColumn: number): number {
 
 function createTextTableFromJson(adapter: Adapter, json: string, textToSend: string): string | undefined {
     try {
+        //TODO noch als JSOn umbauen, damit das direkt geparsed werden kann
         const { substringExcludeSearch } = decomposeText(textToSend, '{json;[', `;${config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
         const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
         const header = array[1];
@@ -215,13 +255,8 @@ function createTextTableFromJson(adapter: Adapter, json: string, textToSend: str
         textTable += '`';
 
         textTable += getTableBreakLine(lineLength);
-
         textTable = tableHead(textTable, tableObj, enlargeColumn);
-
-        // TableBody
         textTable = tableBody(textTable, tableObj, enlargeColumn);
-
-        // Breakline
         textTable += getTableBreakLine(lineLength);
         textTable += '`';
         return textTable;

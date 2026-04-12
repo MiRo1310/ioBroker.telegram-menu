@@ -1,31 +1,61 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createKeyboardFromJson = void 0;
+exports.createKeyboardFromJson = exports.lastRequestJsonButtonHistory = exports.jsonTableButtonHistory = void 0;
 exports.createTextTableFromJson = createTextTableFromJson;
 const string_1 = require("../lib/string");
-const json_1 = require("../lib/json");
 const logging_1 = require("../app/logging");
 const config_1 = require("../config/config");
-const lastText = {};
-const createKeyboardFromJson = (adapter, val, text, id, user) => {
+exports.jsonTableButtonHistory = {};
+class lastRequestJsonButtonHistoryClass {
+    lastRequestJsonButtonHistory = [];
+    id = 0;
+    requestIds = [];
+    resetId(id) {
+        this.requestIds.filter(id => id !== id);
+        this.lastRequestJsonButtonHistory.filter(i => i.id !== id);
+    }
+    getRequestIds() {
+        return this.requestIds;
+    }
+    addRequestId(id) {
+        this.requestIds.push(id);
+    }
+    setData(text, instance, user) {
+        const id = this.getNewId();
+        this.lastRequestJsonButtonHistory.push({ text, instance, user, id });
+        return id;
+    }
+    getLast(id) {
+        return this.lastRequestJsonButtonHistory.find(i => i.id === id);
+    }
+    getNewId() {
+        const id = this.id;
+        this.id++;
+        return id;
+    }
+}
+exports.lastRequestJsonButtonHistory = new lastRequestJsonButtonHistoryClass();
+const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
     try {
+        if (text) {
+            exports.jsonTableButtonHistory[user] = text;
+        }
+        else {
+            text = exports.jsonTableButtonHistory[user];
+        }
+        const requestId = exports.lastRequestJsonButtonHistory.setData(text, instance, user);
         const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = (0, string_1.parseJSON)(text);
         if (!validJsonUserInput) {
             adapter.log.warn(`No valid Json, ${text}`);
             return;
         }
-        if (text) {
-            lastText[user] = text;
-        }
-        else {
-            text = lastText[user];
-        }
-        const { validJson, error } = (0, json_1.makeValidJson)(val, adapter);
-        adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
-        if (error) {
-            return;
-        }
-        const { json, isValidJson } = (0, string_1.parseJSON)(validJson, adapter);
+        // const { validJson, error } = makeValidJson(val, adapter);
+        //
+        // adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
+        // if (error) {
+        //     return;
+        // }
+        const { json, isValidJson } = (0, string_1.parseJSON)(val, adapter);
         if (!isValidJson) {
             return;
         }
@@ -49,16 +79,10 @@ const createKeyboardFromJson = (adapter, val, text, id, user) => {
                 const valueDeleteId = valueDeleteLinkArray[5];
                 const instanceShoppingListID = `${id.split('.')[1]}.${id.split('.')[2]}`;
                 const name = element.name;
-                // const list: ICallbackRemoveListItem = {
-                //     sList: '',
-                //     instanceShoppingList: instanceShoppingListID,
-                //     instanceAlexa: instanceAlexa,
-                //     deleteId: valueDeleteId,
-                // };
                 if (name) {
                     rowArray.push({
                         text: name,
-                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}`,
+                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}:${requestId}`,
                     });
                 }
             });
@@ -141,6 +165,7 @@ function getLineLength(tableObj, enlargeColumn) {
 }
 function createTextTableFromJson(adapter, json, textToSend) {
     try {
+        //TODO noch als JSOn umbauen, damit das direkt geparsed werden kann
         const { substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, '{json;[', `;${config_1.config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
         const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
         const header = array[1];
@@ -158,9 +183,7 @@ function createTextTableFromJson(adapter, json, textToSend) {
         textTable += '`';
         textTable += getTableBreakLine(lineLength);
         textTable = tableHead(textTable, tableObj, enlargeColumn);
-        // TableBody
         textTable = tableBody(textTable, tableObj, enlargeColumn);
-        // Breakline
         textTable += getTableBreakLine(lineLength);
         textTable += '`';
         return textTable;

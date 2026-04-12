@@ -199,8 +199,6 @@ export interface KeyboardItems {
     callback_data: string;
 }
 
-export type LastText = Record<string, string>;
-
 export type ValArray = Record<string, string | undefined>;
 
 export interface KeyboardItem {

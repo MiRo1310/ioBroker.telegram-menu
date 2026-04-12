@@ -58,6 +58,7 @@ const setStateIdsToListenTo_1 = require("./app/setStateIdsToListenTo");
 const exchangeValue_1 = require("./lib/exchangeValue");
 const events_1 = require("./app/events");
 const deprecated_1 = require("./app/deprecated");
+const jsonTable_1 = require("./app/jsonTable");
 const timeoutKey = '0';
 class TelegramMenu extends utils.Adapter {
     static instance;
@@ -130,22 +131,33 @@ class TelegramMenu extends utils.Adapter {
                         await (0, events_1.handleEvent)(exports.adapter, user, dataObject, id, state, menuData, telegramParams);
                     }
                 }
+                if (!state || !(0, utils_1.isDefined)(state.val)) {
+                    return;
+                }
+                if ((0, string_1.isString)(state.val) && state.val?.includes('sList:')) {
+                    const requestId = await (0, shoppingList_1.shoppingListSubscribeStateAndDeleteItem)(state.val, telegramParams);
+                    if (requestId) {
+                        jsonTable_1.lastRequestJsonButtonHistory.addRequestId(requestId);
+                    }
+                    return;
+                }
+                if (this.isAddToShoppingList(id)) {
+                    const requestIds = jsonTable_1.lastRequestJsonButtonHistory.getRequestIds();
+                    for (const requestId of requestIds) {
+                        const result = jsonTable_1.lastRequestJsonButtonHistory.getLast(requestId);
+                        if (!result?.instance || !result?.user) {
+                            continue;
+                        }
+                        await (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(result.instance, telegramParams, result.user);
+                        jsonTable_1.lastRequestJsonButtonHistory.resetId(requestId);
+                    }
+                    return;
+                }
                 if (!instance) {
                     return;
                 }
                 const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams, instance);
                 if (error) {
-                    return;
-                }
-                if (this.isAddToShoppingList(id, userToSend.name)) {
-                    await (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(instance, telegramParams, userToSend.name);
-                    return;
-                }
-                if (!state || !(0, utils_1.isDefined)(state.val)) {
-                    return;
-                }
-                if ((0, string_1.isString)(state.val) && state.val?.includes('sList:')) {
-                    await (0, shoppingList_1.shoppingListSubscribeStateAndDeleteItem)(instance, state.val, telegramParams);
                     return;
                 }
                 if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
@@ -259,8 +271,8 @@ class TelegramMenu extends utils.Adapter {
     isMessageID(id, botSendMessageID, requestMessageID) {
         return id == botSendMessageID || id == requestMessageID;
     }
-    isAddToShoppingList(id, userToSend) {
-        return !!(id.includes('alexa-shoppinglist') && !id.includes('add_position') && userToSend);
+    isAddToShoppingList(id) {
+        return id.includes('alexa-shoppinglist') && !id.includes('add_position');
     }
     isMenuToSend(state, id, telegramID, userToSend) {
         return !!(typeof state?.val === 'string' && state.val != '' && id == telegramID && state?.ack && userToSend);
