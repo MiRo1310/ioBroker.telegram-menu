@@ -104,13 +104,11 @@ const helperText: HelperText = {
             { text: '{round:2}', info: 'valueRound' },
             { text: '{time.lc,(DD MM YYYY hh:mm:ss:sss)}', info: 'lcTimeStamp' },
             { text: '{time.ts,(DD MM YYYY hh:mm:ss:sss)}', info: 'tsTimeStamp' },
-
+            { text: '{json;[name:Name];Header;shoppinglist;}', info: 'jsonShoppingList' },
             {
                 text: '{var1:ID;var2:ID; var1 ==var2 ? "equal" : var1 < var2 ? "var1 is smaller" : "var1 is greater"}',
                 info: 'binding',
             },
-            { text: '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}', info: 'jsonTable' },
-            { text: '{json;[name:Name];Header;shoppinglist;}', info: 'jsonShoppingList' },
             {
                 text: '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}',
                 info: 'jsonTable',

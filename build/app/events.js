@@ -126,10 +126,10 @@ const handleEvent = async (adapter, user, dataObject, id, state, menuData, teleg
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav];
         const menus = Object.keys(menuData);
-        if (part?.nav) {
+        if (part && part?.nav) {
             (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
         }
-        if (part?.nav?.[0][0].includes('menu:')) {
+        if (part && part?.nav?.[0][0].includes('menu:')) {
             await (0, subMenu_1.callSubMenu)({
                 adapter,
                 instance: user.instance,

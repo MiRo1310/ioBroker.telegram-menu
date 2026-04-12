@@ -10,7 +10,7 @@ const string_1 = require("../lib/string");
 const appUtils_1 = require("../lib/appUtils");
 const instance_1 = require("../app/instance");
 function validateTextToSend(adapter, textToSend) {
-    if (!textToSend || (0, string_1.isEmptyString)(textToSend)) {
+    if (!textToSend || (0, string_1.isEmptyString)(textToSend ?? '')) {
         adapter.log.error('There is a problem! Text to send is empty or undefined, please check your configuration.');
         return false;
     }
