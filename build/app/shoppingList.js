@@ -16,14 +16,15 @@ let isSubscribed = false;
 async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, telegramParams) {
     const adapter = telegramParams.adapter;
     try {
-        let array, user, idList, instance, idItem, res;
         if ((0, utils_1.isDefined)(val)) {
-            array = val.split(':');
-            user = array[0].replace('[', '').replace(']sList', '');
-            idList = array[1];
-            instance = array[2];
-            idItem = array[3];
-            res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+            const array = val.split(':');
+            const user = array[0].replace('[', '').replace(']sList', '');
+            const idList = array[1];
+            const instance = array[2];
+            const idItem = array[3];
+            //TODO Liste dynamisch machen
+            const list = 'SHOP';
+            const res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.${list}.items.${idItem}`);
             if (res) {
                 objData[user] = { idList: idList };
                 adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
@@ -33,7 +34,7 @@ async function shoppingListSubscribeStateAndDeleteItem(telegramInstance, val, te
                 }
                 await (0, setstate_1.setstateIobroker)({
                     adapter,
-                    id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+                    id: `alexa2.${instance}.Lists.${list}.items.${idItem}.#delete`,
                     value: true,
                     ack: false,
                 });

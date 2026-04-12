@@ -15,6 +15,13 @@ interface IKeyText {
     cellText: string;
 }
 
+interface IJsonShoppingList {
+    tableData: { key: string; label: string }[];
+    tableLabel: string;
+    listName: string;
+    type: 'alexaShoppingList';
+}
+
 const lastText: LastText = {};
 const createKeyboardFromJson = (
     adapter: Adapter,
@@ -29,15 +36,12 @@ const createKeyboardFromJson = (
         } else {
             text = lastText[user];
         }
-        const { substring } = decomposeText(text, '{json:', '}');
-
-        const array = substring.split(';');
-        const headline = array[2];
-        const itemArray: string[] = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
-        let idShoppingList = false;
-        if (array.length > 3 && array[3] == 'shoppinglist') {
-            idShoppingList = true;
+        const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = parseJSON<IJsonShoppingList>(text);
+        if (!validJsonUserInput) {
+            adapter.log.warn(`No valid Json, ${text}`);
+            return;
         }
+
         const { validJson, error } = makeValidJson(val, adapter);
 
         adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
@@ -54,48 +58,38 @@ const createKeyboardFromJson = (
         if (!Array.isArray(json)) {
             return;
         }
-        json.forEach((element, index) => {
-            const firstRow: KeyboardItem[] = [];
+        json.forEach(element => {
             const rowArray: KeyboardItem[] = [];
-            itemArray.forEach(item => {
-                if (index == 0) {
-                    const btnText: string = item.split(':')[1];
-                    if (btnText.length > 0) {
-                        firstRow.push({ text: btnText, callback_data: '1' });
-                    }
-                }
-                const text = element[item.split(':')[0]];
-                if (!element.buttondelete || !text) {
+            parsedJsonUserInput.tableData.forEach(item => {
+                const listItemLabel = element[item.key];
+                if (!element.buttondelete || !listItemLabel) {
                     return;
                 }
 
-                if (idShoppingList) {
-                    const value = element.buttondelete;
-                    const valueDeleteLinkArray = decomposeText(value ?? '', "('", "')")
-                        .substring.replace("('", '')
-                        .replace(",true')", '')
-                        .split('.');
-                    const instanceAlexa = valueDeleteLinkArray[1];
-                    const valueDeleteId = valueDeleteLinkArray[5];
+                const value = element.buttondelete;
+                const valueDeleteLinkArray = decomposeText(value ?? '', "('", "')")
+                    .substring.replace("('", '')
+                    .replace(",true')", '')
+                    .split('.');
+                const instanceAlexa = valueDeleteLinkArray[1];
+                const valueDeleteId = valueDeleteLinkArray[5];
 
-                    const instanceShoppingListID = `${id.split('.')[1]}.${id.split('.')[2]}`;
+                const instanceShoppingListID = `${id.split('.')[1]}.${id.split('.')[2]}`;
+                const name = element.name;
+
+                if (name) {
                     rowArray.push({
-                        text,
-                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
+                        text: name,
+                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}`,
                     });
-                } else {
-                    rowArray.push({ text, callback_data: '1' });
                 }
             });
-            if (index == 0) {
-                keyboard.inline_keyboard.push(firstRow);
-            }
             keyboard.inline_keyboard.push(rowArray);
         });
 
         adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
 
-        return { text: headline, keyboard };
+        return { text: parsedJsonUserInput.tableLabel ?? 'List', keyboard };
     } catch (err: any) {
         errorLogger('Error createKeyboardFromJson:', err, adapter);
     }

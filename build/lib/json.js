@@ -11,7 +11,6 @@ const escapeJsonString = (input) => {
 exports.escapeJsonString = escapeJsonString;
 const makeValidJson = (input, adapter) => {
     try {
-        // Entferne unnötige Leerzeichen und überprüfe die Struktur
         const sanitizedInput = input.trim();
         // Versuche, den String direkt zu parsen
         const parsed = JSON.parse(sanitizedInput);

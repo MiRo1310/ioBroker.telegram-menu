@@ -25,25 +25,27 @@ export async function shoppingListSubscribeStateAndDeleteItem(
 ): Promise<void> {
     const adapter = telegramParams.adapter;
     try {
-        let array, user, idList, instance, idItem, res;
         if (isDefined(val)) {
-            array = val.split(':');
-            user = array[0].replace('[', '').replace(']sList', '');
-            idList = array[1];
-            instance = array[2];
-            idItem = array[3];
-            res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}`);
+            const array = val.split(':');
+            const user = array[0].replace('[', '').replace(']sList', '');
+            const idList = array[1];
+            const instance = array[2];
+            const idItem = array[3];
+            const list = array[4];
+
+            const res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.${list}.items.${idItem}`);
 
             if (res) {
                 objData[user] = { idList: idList };
                 adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
                 if (!isSubscribed) {
+                    //TODO check subscriber
                     await _subscribeForeignStates(adapter, `alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
                 }
                 await setstateIobroker({
                     adapter,
-                    id: `alexa2.${instance}.Lists.SHOPPING_LIST.items.${idItem}.#delete`,
+                    id: `alexa2.${instance}.Lists.${list}.items.${idItem}.#delete`,
                     value: true,
                     ack: false,
                 });

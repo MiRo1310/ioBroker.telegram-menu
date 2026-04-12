@@ -9,19 +9,16 @@ const config_1 = require("../config/config");
 const lastText = {};
 const createKeyboardFromJson = (adapter, val, text, id, user) => {
     try {
+        const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = (0, string_1.parseJSON)(text);
+        if (!validJsonUserInput) {
+            adapter.log.warn(`No valid Json, ${text}`);
+            return;
+        }
         if (text) {
             lastText[user] = text;
         }
         else {
             text = lastText[user];
-        }
-        const { substring } = (0, string_1.decomposeText)(text, '{json:', '}');
-        const array = substring.split(';');
-        const headline = array[2];
-        const itemArray = array[1].replace('[', '').replace(']', '').replace(/"/g, '').split(',');
-        let idShoppingList = false;
-        if (array.length > 3 && array[3] == 'shoppinglist') {
-            idShoppingList = true;
         }
         const { validJson, error } = (0, json_1.makeValidJson)(val, adapter);
         adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
@@ -36,45 +33,39 @@ const createKeyboardFromJson = (adapter, val, text, id, user) => {
         if (!Array.isArray(json)) {
             return;
         }
-        json.forEach((element, index) => {
-            const firstRow = [];
+        json.forEach(element => {
             const rowArray = [];
-            itemArray.forEach(item => {
-                if (index == 0) {
-                    const btnText = item.split(':')[1];
-                    if (btnText.length > 0) {
-                        firstRow.push({ text: btnText, callback_data: '1' });
-                    }
-                }
-                const text = element[item.split(':')[0]];
-                if (!element.buttondelete || !text) {
+            parsedJsonUserInput.tableData.forEach(item => {
+                const listItemLabel = element[item.key];
+                if (!element.buttondelete || !listItemLabel) {
                     return;
                 }
-                if (idShoppingList) {
-                    const value = element.buttondelete;
-                    const valueDeleteLinkArray = (0, string_1.decomposeText)(value ?? '', "('", "')")
-                        .substring.replace("('", '')
-                        .replace(",true')", '')
-                        .split('.');
-                    const instanceAlexa = valueDeleteLinkArray[1];
-                    const valueDeleteId = valueDeleteLinkArray[5];
-                    const instanceShoppingListID = `${id.split('.')[1]}.${id.split('.')[2]}`;
+                const value = element.buttondelete;
+                const valueDeleteLinkArray = (0, string_1.decomposeText)(value ?? '', "('", "')")
+                    .substring.replace("('", '')
+                    .replace(",true')", '')
+                    .split('.');
+                const instanceAlexa = valueDeleteLinkArray[1];
+                const valueDeleteId = valueDeleteLinkArray[5];
+                const instanceShoppingListID = `${id.split('.')[1]}.${id.split('.')[2]}`;
+                const name = element.name;
+                // const list: ICallbackRemoveListItem = {
+                //     sList: '',
+                //     instanceShoppingList: instanceShoppingListID,
+                //     instanceAlexa: instanceAlexa,
+                //     deleteId: valueDeleteId,
+                // };
+                if (name) {
                     rowArray.push({
-                        text,
-                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:`,
+                        text: name,
+                        callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}`,
                     });
                 }
-                else {
-                    rowArray.push({ text, callback_data: '1' });
-                }
             });
-            if (index == 0) {
-                keyboard.inline_keyboard.push(firstRow);
-            }
             keyboard.inline_keyboard.push(rowArray);
         });
         adapter.log.debug(`Keyboard : ${(0, string_1.jsonString)(keyboard)}`);
-        return { text: headline, keyboard };
+        return { text: parsedJsonUserInput.tableLabel ?? 'List', keyboard };
     }
     catch (err) {
         (0, logging_1.errorLogger)('Error createKeyboardFromJson:', err, adapter);

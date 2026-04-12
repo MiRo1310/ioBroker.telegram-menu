@@ -102,31 +102,33 @@ export async function getState(
                         return;
                     }
                     adapter.log.debug('Cannot create a Text-Table');
-                } else {
-                    const result = createKeyboardFromJson(adapter, stateValue, modifiedTextToSend, id, userToSend);
-                    if (stateValue && stateValue.length > 0) {
-                        if (result?.text && result?.keyboard) {
-                            sendToTelegramSubmenu(
-                                instance,
-                                userToSend,
-                                result.text,
-                                result.keyboard,
-                                telegramParams,
-                                parse_mode,
-                            );
-                        }
-                        return;
+                }
+            }
+
+            if (modifiedTextToSend.includes('alexaShoppingList')) {
+                const result = createKeyboardFromJson(adapter, stateValue, modifiedTextToSend, id, userToSend);
+                if (stateValue && stateValue.length > 0) {
+                    if (result?.text && result?.keyboard) {
+                        sendToTelegramSubmenu(
+                            instance,
+                            userToSend,
+                            result.text,
+                            result.keyboard,
+                            telegramParams,
+                            parse_mode,
+                        );
                     }
-                    await sendToTelegram({
-                        instance,
-                        userToSend,
-                        textToSend: 'The state is empty!',
-                        telegramParams,
-                        parse_mode,
-                    });
-                    adapter.log.debug('The state is empty!');
                     return;
                 }
+                await sendToTelegram({
+                    instance,
+                    userToSend,
+                    textToSend: 'The state is empty!',
+                    telegramParams,
+                    parse_mode,
+                });
+                adapter.log.debug('The state is empty!');
+                return;
             }
 
             const { textToSend: _text, error } = exchangeValue(adapter, modifiedTextToSend, modifiedStateVal);

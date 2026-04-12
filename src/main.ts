@@ -147,7 +147,7 @@ export default class TelegramMenu extends utils.Adapter {
                         await handleEvent(adapter, user, dataObject, id, state, menuData, telegramParams);
                     }
                 }
-
+                //TODO Instance ist null wenn shoppingList aktualiert wird, da es eine externe Subscription ist, hier muss noch eine Lösung gefunden werden
                 if (!instance) {
                     return;
                 }

@@ -86,24 +86,24 @@ async function getState(instance, part, userToSend, telegramParams) {
                     }
                     adapter.log.debug('Cannot create a Text-Table');
                 }
-                else {
-                    const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend);
-                    if (stateValue && stateValue.length > 0) {
-                        if (result?.text && result?.keyboard) {
-                            (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, result.text, result.keyboard, telegramParams, parse_mode);
-                        }
-                        return;
+            }
+            if (modifiedTextToSend.includes('alexaShoppingList')) {
+                const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend);
+                if (stateValue && stateValue.length > 0) {
+                    if (result?.text && result?.keyboard) {
+                        (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, result.text, result.keyboard, telegramParams, parse_mode);
                     }
-                    await (0, telegram_1.sendToTelegram)({
-                        instance,
-                        userToSend,
-                        textToSend: 'The state is empty!',
-                        telegramParams,
-                        parse_mode,
-                    });
-                    adapter.log.debug('The state is empty!');
                     return;
                 }
+                await (0, telegram_1.sendToTelegram)({
+                    instance,
+                    userToSend,
+                    textToSend: 'The state is empty!',
+                    telegramParams,
+                    parse_mode,
+                });
+                adapter.log.debug('The state is empty!');
+                return;
             }
             const { textToSend: _text, error } = (0, exchangeValue_1.exchangeValue)(adapter, modifiedTextToSend, modifiedStateVal);
             const isNewline = (0, string_1.ifTruthyAddNewLine)(newline);
