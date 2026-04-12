@@ -43,15 +43,16 @@ async function getState(instance, part, userToSend, telegramParams) {
                 valueArrayForCorrectOrder[index] = 'N/A';
                 return Promise.resolve();
             }
-            const stateValue = (0, string_1.cleanUpString)(state.val?.toString());
-            let modifiedStateVal = stateValue;
+            const stateValue = state.val?.toString() ?? '';
+            const cleanedString = (0, string_1.cleanUpString)(stateValue);
+            let modifiedStateVal = cleanedString;
             let modifiedTextToSend = text;
             if (text.includes(config_1.config.timestamp.ts) || text.includes(config_1.config.timestamp.lc)) {
                 modifiedTextToSend = await (0, utilities_1.setTimeValue)(adapter, text, id);
                 modifiedStateVal = '';
             }
             if (modifiedTextToSend.includes(config_1.config.time)) {
-                modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, stateValue);
+                modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, cleanedString);
                 modifiedStateVal = '';
             }
             const { textToSend, calculated, error: err } = (0, appUtils_1.mathFunction)(modifiedTextToSend, modifiedStateVal, adapter);
@@ -68,40 +69,38 @@ async function getState(instance, part, userToSend, telegramParams) {
                     modifiedTextToSend = text;
                 }
             }
-            if (modifiedTextToSend.includes(config_1.config.json.start)) {
-                const { substring } = (0, string_1.decomposeText)(modifiedTextToSend, config_1.config.json.start, config_1.config.json.end);
-                if (substring.includes(config_1.config.json.textTable)) {
-                    const result = (0, jsonTable_1.createTextTableFromJson)(adapter, stateValue, modifiedTextToSend);
-                    if (result) {
-                        await (0, telegram_1.sendToTelegram)({
-                            instance,
-                            userToSend,
-                            textToSend: result,
-                            telegramParams,
-                            parse_mode,
-                        });
-                        return;
-                    }
-                    adapter.log.debug('Cannot create a Text-Table');
-                }
-                else {
-                    const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend);
-                    if (stateValue && stateValue.length > 0) {
-                        if (result?.text && result?.keyboard) {
-                            (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, result.text, result.keyboard, telegramParams, parse_mode);
-                        }
-                        return;
-                    }
+            if (modifiedTextToSend.includes(config_1.config.json.textTable)) {
+                const result = (0, jsonTable_1.createTextTableFromJson)(adapter, cleanedString, modifiedTextToSend);
+                if (result) {
                     await (0, telegram_1.sendToTelegram)({
                         instance,
                         userToSend,
-                        textToSend: 'The state is empty!',
+                        textToSend: result,
                         telegramParams,
-                        parse_mode,
+                        parse_mode: false,
+                        shouldCleanUpString: false,
                     });
-                    adapter.log.debug('The state is empty!');
                     return;
                 }
+                adapter.log.debug('Cannot create a Text-Table');
+            }
+            if (modifiedTextToSend.includes('alexaShoppingList')) {
+                const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend, instance);
+                if (stateValue && stateValue.length > 0) {
+                    if (result?.text && result?.keyboard) {
+                        (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, result.text, result.keyboard, telegramParams, parse_mode);
+                    }
+                    return;
+                }
+                await (0, telegram_1.sendToTelegram)({
+                    instance,
+                    userToSend,
+                    textToSend: 'The state is empty!',
+                    telegramParams,
+                    parse_mode,
+                });
+                adapter.log.debug('The state is empty!');
+                return;
             }
             const { textToSend: _text, error } = (0, exchangeValue_1.exchangeValue)(adapter, modifiedTextToSend, modifiedStateVal);
             const isNewline = (0, string_1.ifTruthyAddNewLine)(newline);

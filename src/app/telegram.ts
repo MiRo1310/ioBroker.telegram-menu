@@ -26,6 +26,7 @@ async function sendToTelegram({
     keyboard,
     telegramParams,
     parse_mode,
+    shouldCleanUpString = true,
 }: Telegram): Promise<void> {
     const { resize_keyboard, one_time_keyboard, userListWithChatID, adapter } = telegramParams;
     try {
@@ -44,7 +45,7 @@ async function sendToTelegram({
                 instance,
                 'send',
                 {
-                    text: cleanUpString(textToSend),
+                    text: shouldCleanUpString ? cleanUpString(textToSend) : textToSend,
                     chatId,
                     parse_mode: getParseMode(parse_mode),
                 },
@@ -59,7 +60,7 @@ async function sendToTelegram({
             {
                 chatId,
                 parse_mode: getParseMode(parse_mode),
-                text: await textModifier(adapter, cleanUpString(textToSend)),
+                text: await textModifier(adapter, shouldCleanUpString ? cleanUpString(textToSend) : textToSend),
                 reply_markup: {
                     keyboard,
                     resize_keyboard,

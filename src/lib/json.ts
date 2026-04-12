@@ -10,7 +10,6 @@ export const escapeJsonString = (input: string): string => {
 
 export const makeValidJson = (input: string, adapter: Adapter): { validJson: string; error: boolean } => {
     try {
-        // Entferne unnötige Leerzeichen und überprüfe die Struktur
         const sanitizedInput = input.trim();
 
         // Versuche, den String direkt zu parsen

@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- FIX: #510 Error in json table textTable and button table, input changed please check the documentation
 - Chore: #482 Update dependencies
 - FIX: Errors reported by sentry
 
