@@ -69,23 +69,20 @@ async function getState(instance, part, userToSend, telegramParams) {
                     modifiedTextToSend = text;
                 }
             }
-            if (modifiedTextToSend.includes(config_1.config.json.start)) {
-                const { substring } = (0, string_1.decomposeText)(modifiedTextToSend, config_1.config.json.start, config_1.config.json.end);
-                if (substring.includes(config_1.config.json.textTable)) {
-                    const result = (0, jsonTable_1.createTextTableFromJson)(adapter, cleanedString, modifiedTextToSend);
-                    if (result) {
-                        await (0, telegram_1.sendToTelegram)({
-                            instance,
-                            userToSend,
-                            textToSend: result,
-                            telegramParams,
-                            parse_mode: false,
-                            shouldCleanUpString: false,
-                        });
-                        return;
-                    }
-                    adapter.log.debug('Cannot create a Text-Table');
+            if (modifiedTextToSend.includes(config_1.config.json.textTable)) {
+                const result = (0, jsonTable_1.createTextTableFromJson)(adapter, cleanedString, modifiedTextToSend);
+                if (result) {
+                    await (0, telegram_1.sendToTelegram)({
+                        instance,
+                        userToSend,
+                        textToSend: result,
+                        telegramParams,
+                        parse_mode: false,
+                        shouldCleanUpString: false,
+                    });
+                    return;
                 }
+                adapter.log.debug('Cannot create a Text-Table');
             }
             if (modifiedTextToSend.includes('alexaShoppingList')) {
                 const result = (0, jsonTable_1.createKeyboardFromJson)(adapter, stateValue, modifiedTextToSend, id, userToSend, instance);

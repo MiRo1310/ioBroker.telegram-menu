@@ -109,12 +109,11 @@ const helperText: HelperText = {
                 info: 'binding',
             },
             {
-                text: '{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}',
+                text: '{"tableData":[{"key":"value-1-inJSON","label":"Name"},{"key":"value-2-inJSON","label":"NameTH-Col1"}],"tableLabel":"ShoppingList","type":"TextTable"}',
                 info: 'jsonTable',
             },
             {
                 text: '{"tableData":[{"key":"name","label":"Name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}',
-                //TODO change translation
                 info: 'jsonShoppingList',
             },
         ],

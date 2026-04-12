@@ -4,7 +4,7 @@ import { isParseModeFirstElement } from '@backend/app/parseMode';
 import { idBySelector } from '@backend/app/idBySelector';
 import { bindingFunc } from '@backend/app/action';
 import { isDefined } from '@backend/lib/utils';
-import { cleanUpString, decomposeText, ifTruthyAddNewLine, jsonString } from '@backend/lib/string';
+import { cleanUpString, ifTruthyAddNewLine, jsonString } from '@backend/lib/string';
 import { setTimeValue } from '@backend/lib/utilities';
 import { integrateTimeIntoText } from '@backend/lib/time';
 import { mathFunction, roundValue } from '@backend/lib/appUtils';
@@ -85,24 +85,20 @@ export async function getState(
                 }
             }
 
-            if (modifiedTextToSend.includes(config.json.start)) {
-                const { substring } = decomposeText(modifiedTextToSend, config.json.start, config.json.end);
-
-                if (substring.includes(config.json.textTable)) {
-                    const result = createTextTableFromJson(adapter, cleanedString, modifiedTextToSend);
-                    if (result) {
-                        await sendToTelegram({
-                            instance,
-                            userToSend,
-                            textToSend: result,
-                            telegramParams,
-                            parse_mode: false,
-                            shouldCleanUpString: false,
-                        });
-                        return;
-                    }
-                    adapter.log.debug('Cannot create a Text-Table');
+            if (modifiedTextToSend.includes(config.json.textTable)) {
+                const result = createTextTableFromJson(adapter, cleanedString, modifiedTextToSend);
+                if (result) {
+                    await sendToTelegram({
+                        instance,
+                        userToSend,
+                        textToSend: result,
+                        telegramParams,
+                        parse_mode: false,
+                        shouldCleanUpString: false,
+                    });
+                    return;
                 }
+                adapter.log.debug('Cannot create a Text-Table');
             }
 
             if (modifiedTextToSend.includes('alexaShoppingList')) {

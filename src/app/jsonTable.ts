@@ -1,24 +1,24 @@
 import type { Adapter, Keyboard, KeyboardItem, ValArray } from '@backend/types/types';
 import { decomposeText, jsonString, parseJSON } from '@backend/lib/string';
 import { errorLogger } from '@backend/app/logging';
-import { config } from '@backend/config/config';
 
 interface TableObj {
     length: { key: string; length: number }[];
-    header: string;
     data: { value: string | number; key: string }[][]; // jede row darin jede celle
 }
 
-interface IKeyText {
-    key: string;
-    cellText: string;
+interface IJsonShoppingList {
+    tableData: ITableData[];
+    tableLabel: string;
+    type: 'alexaShoppingList';
+}
+interface ITableButtonList {
+    listName: string;
 }
 
-interface IJsonShoppingList {
-    tableData: { key: string; label: string }[];
-    tableLabel: string;
-    listName: string;
-    type: 'alexaShoppingList';
+interface ITableData {
+    key: string;
+    label?: string;
 }
 
 export type IJsonTableText = Record<string, string>;
@@ -82,7 +82,9 @@ const createKeyboardFromJson = (
             text = jsonTableButtonHistory[user];
         }
         const requestId = lastRequestJsonButtonHistory.setData(text, instance, user);
-        const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = parseJSON<IJsonShoppingList>(text);
+        const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = parseJSON<
+            IJsonShoppingList & ITableButtonList
+        >(text);
         if (!validJsonUserInput) {
             adapter.log.warn(`No valid Json, ${text}`);
             return;
@@ -185,29 +187,19 @@ function tableBody(
     return textTable;
 }
 
-const getTableData = (parsedJson: ValArray[], array: string[]): TableObj => {
-    const header = array[1];
-    const itemArray: string[] = array[0].replace(']', '').replace(/"/g, '').split(','); //  [Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext]
-    const keyText: IKeyText[] = [];
-
-    itemArray.forEach(item => {
-        const splitted = item.split(':');
-        keyText.push({ key: splitted[0], cellText: splitted[1] });
-    });
-
+const getTableData = (parsedJson: ValArray[], array: ITableData[]): TableObj => {
     const tableObj: TableObj = {
         length: [],
-        header,
         data: [[]],
     };
 
-    keyText.forEach(item => {
-        tableObj.length.push({ key: item.key, length: item.cellText.length });
-        tableObj.data[0].push({ value: item.cellText, key: item.key });
+    array.forEach(item => {
+        tableObj.length.push({ key: item.key, length: item.label ? item.label.length : item.key.length });
+        tableObj.data[0].push({ value: item.label ?? item.key, key: item.key });
     });
 
     parsedJson.forEach((row, index) => {
-        keyText.forEach(item => {
+        array.forEach(item => {
             const value = row[item.key] ?? '';
 
             const lengthElement = tableObj.length.find(l => l.key === item.key)!;
@@ -232,18 +224,20 @@ function getLineLength(tableObj: TableObj, enlargeColumn: number): number {
 
 function createTextTableFromJson(adapter: Adapter, json: string, textToSend: string): string | undefined {
     try {
-        //TODO noch als JSOn umbauen, damit das direkt geparsed werden kann
-        const { substringExcludeSearch } = decomposeText(textToSend, '{json;[', `;${config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
-        const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
-        const header = array[1];
+        const { json: parsedJsonUserInput, isValidJson } = parseJSON<IJsonShoppingList>(textToSend);
+        if (!isValidJson) {
+            return;
+        }
 
         const parsedJson: ValArray[] | undefined = JSON.parse(json);
         if (!Array.isArray(parsedJson)) {
             return;
         }
-        const tableObj = getTableData(parsedJson, array);
-
-        let textTable = getTableHeader(header);
+        const tableObj = getTableData(parsedJson, parsedJsonUserInput.tableData);
+        let textTable = '';
+        if (parsedJsonUserInput.tableLabel !== '') {
+            textTable = getTableHeader(parsedJsonUserInput.tableLabel);
+        }
 
         const enlargeColumn = 1;
 

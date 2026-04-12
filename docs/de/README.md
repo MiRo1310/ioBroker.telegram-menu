@@ -321,21 +321,28 @@ Status an
 ![functions](../pic/functions.png)<br>
 
 - **Tabellen**<br>
-  bzw ein JSON anzeigen anzeigen lassen: unter ID einen Datenpunkt auswählen, welches ein JSON enthält. Dazu im TextFeld
-  `{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;}` eingeben.&nbsp;**Value-1**&nbsp; ist z.B. der
-  erste Key des JSON's, welcher angezeigt werden soll.&nbsp; **NameTH-Col1**&nbsp; vergibt den dazugehörigen
-  Spaltennamen (usw.), Dieser kann auch weg gelassen werden, dann hat die Tabelle keinen Header.&nbsp; **Header**&nbsp;
-  muss ausgefüllt sein und ist die Überschrift für die Tabelle. Ausgabe im Textformat (Parse-Mode deaktiviert): '
-  {json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;TextTable;}'. Die Spaltenzahl ist frei
-  definierbar - dazu z.B. `value-3-inJSON:NameTH-Col3` hinzufügen.
+  **_Breaking Change!!!_**
+
+Die Art der Eingabe hat sich geändert, es muss ab jetzt valides json sein, damit die Tabelle korrekt angezeigt werden kann
+
+  `{"tableData":[{"key":"value-1-inJSON","label":"Name"},{"key":"value-2-inJSON","label":"NameTH-Col1"}],"tableLabel":"ShoppingList","type":"TextTable"}`
+
+ ein JSON anzeigen lassen als TextTable: 
+1. unter ID einen Datenpunkt auswählen, welches ein JSON enthält. 
+2. Im TextFeld das json wie oben beschrieben eingeben und anpassen,
+   In tableDate ist der Key gleich dem aus dem JSON.
+   Label ist der Name der Tabellenspalte. Dieser kann auch weg gelassen werden, dann wird der Key als Spaltenname genutzt.
+3. tableLabel ist die Überschrift der Tabelle, diese kann auch ein leerer String sein, dann wird keine Überschrift angezeigt.
+4. type ist die Art der Tabelle, muss so bleiben
 
 ```
-{json;[value-1-inJSON:NameTH-Col1,value-2-inJSON:NameTH-Col1];Header;shoppinglist;}
+{"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}
 ```
 
-- Dieses erstellt genau dieselbe Liste , hierbei haben die Buttons die Funktion das Item aus der Liste vom Alexa2
+- Dieses erstellt ein Liste mit Buttons für den `alexa-shoppinglist` Adapter, hierbei haben die Buttons die Funktion das Item aus der Liste vom Alexa2
   Adapter zu entfernen. Der Key für die Daten aus der JSON ist in diesem Fall `name:`. Damit das ganze funktioniert, muss
   der Datenpunkt, von dem die Liste erstellt wurde, der Datenpunkt des `alexa-shoppinglist` Adapter sein.
+- listName ist der Name der Liste, die in Alexa angelegt wurde, z.B. `SHOP` oder `TOBUY`, dieser muss mit der Liste übereinstimmen, von der die Daten abgerufen werden.
 
 ![InlineTable](../pic/inlinetable-grafik.png)
 ![TextTable](../pic/textable-grafik.png)
@@ -352,7 +359,7 @@ Status an
 - `Neuerung!!!` Ab jetzt hat man die Möglichkeit das Delay auf 0 zu setzen, so wird das Bild ohne Verzögerung verschickt. 
 - Mit Delay, wird es um den Wert verzögert verschickt. Zeit zwischen der Anfrage und dem Senden des Bildes in Sekunden.
 
-  <img src="../pic/grafana.png" width="400"/>
+  <img src="../pic/grafana.png" width="400"></img>
 
 ### Send Location
 

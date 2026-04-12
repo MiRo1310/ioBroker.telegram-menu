@@ -4,7 +4,6 @@ exports.createKeyboardFromJson = exports.lastRequestJsonButtonHistory = exports.
 exports.createTextTableFromJson = createTextTableFromJson;
 const string_1 = require("../lib/string");
 const logging_1 = require("../app/logging");
-const config_1 = require("../config/config");
 exports.jsonTableButtonHistory = {};
 class lastRequestJsonButtonHistoryClass {
     lastRequestJsonButtonHistory = [];
@@ -49,12 +48,6 @@ const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
             adapter.log.warn(`No valid Json, ${text}`);
             return;
         }
-        // const { validJson, error } = makeValidJson(val, adapter);
-        //
-        // adapter.log.debug(`Val ${validJson} with type ${typeof val}`);
-        // if (error) {
-        //     return;
-        // }
         const { json, isValidJson } = (0, string_1.parseJSON)(val, adapter);
         if (!isValidJson) {
             return;
@@ -128,24 +121,16 @@ function tableBody(textTable, tableObj, enlargeColumn) {
     return textTable;
 }
 const getTableData = (parsedJson, array) => {
-    const header = array[1];
-    const itemArray = array[0].replace(']', '').replace(/"/g, '').split(','); //  [Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext]
-    const keyText = [];
-    itemArray.forEach(item => {
-        const splitted = item.split(':');
-        keyText.push({ key: splitted[0], cellText: splitted[1] });
-    });
     const tableObj = {
         length: [],
-        header,
         data: [[]],
     };
-    keyText.forEach(item => {
-        tableObj.length.push({ key: item.key, length: item.cellText.length });
-        tableObj.data[0].push({ value: item.cellText, key: item.key });
+    array.forEach(item => {
+        tableObj.length.push({ key: item.key, length: item.label ? item.label.length : item.key.length });
+        tableObj.data[0].push({ value: item.label ?? item.key, key: item.key });
     });
     parsedJson.forEach((row, index) => {
-        keyText.forEach(item => {
+        array.forEach(item => {
             const value = row[item.key] ?? '';
             const lengthElement = tableObj.length.find(l => l.key === item.key);
             if (lengthElement.length < value.length) {
@@ -165,16 +150,19 @@ function getLineLength(tableObj, enlargeColumn) {
 }
 function createTextTableFromJson(adapter, json, textToSend) {
     try {
-        //TODO noch als JSOn umbauen, damit das direkt geparsed werden kann
-        const { substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, '{json;[', `;${config_1.config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
-        const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
-        const header = array[1];
+        const { json: parsedJsonUserInput, isValidJson } = (0, string_1.parseJSON)(textToSend);
+        if (!isValidJson) {
+            return;
+        }
         const parsedJson = JSON.parse(json);
         if (!Array.isArray(parsedJson)) {
             return;
         }
-        const tableObj = getTableData(parsedJson, array);
-        let textTable = getTableHeader(header);
+        const tableObj = getTableData(parsedJson, parsedJsonUserInput.tableData);
+        let textTable = '';
+        if (parsedJsonUserInput.tableLabel !== '') {
+            textTable = getTableHeader(parsedJsonUserInput.tableLabel);
+        }
         const enlargeColumn = 1;
         const lineLength = getLineLength(tableObj, enlargeColumn);
         // Breakline
