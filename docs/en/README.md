@@ -303,8 +303,7 @@ display a JSON as a TextTable:
 3.  tableLabel is the heading of the table, this can also be an empty string, then no heading will be displayed.
 4.  type is the type of the table, must stay that way
 
-
-    {"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}
+`{"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}`
 
 -   This creates a list of buttons for the`alexa-shoppinglist`Adapter, here the buttons have the function of the item from the Alexa2 list
     Remove adapter. In this case, the key for the data from the JSON is`name:`. In order for the whole thing to work, it has to
