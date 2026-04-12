@@ -335,9 +335,9 @@ Die Art der Eingabe hat sich geändert, es muss ab jetzt valides json sein, dami
 3. tableLabel ist die Überschrift der Tabelle, diese kann auch ein leerer String sein, dann wird keine Überschrift angezeigt.
 4. type ist die Art der Tabelle, muss so bleiben
 
-```
+`
 {"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}
-```
+`
 
 - Dieses erstellt ein Liste mit Buttons für den `alexa-shoppinglist` Adapter, hierbei haben die Buttons die Funktion das Item aus der Liste vom Alexa2
   Adapter zu entfernen. Der Key für die Daten aus der JSON ist in diesem Fall `name:`. Damit das ganze funktioniert, muss
