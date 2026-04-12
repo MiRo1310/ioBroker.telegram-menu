@@ -315,6 +315,7 @@ export interface Telegram {
     userToSend: string;
     telegramParams: TelegramParams;
     instance: string;
+    shouldCleanUpString?: boolean;
 }
 
 export interface ExtractTimeValues {

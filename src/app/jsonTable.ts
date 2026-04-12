@@ -4,6 +4,17 @@ import { makeValidJson } from '@backend/lib/json';
 import { errorLogger } from '@backend/app/logging';
 import { config } from '@backend/config/config';
 
+interface TableObj {
+    length: { key: string; length: number }[];
+    header: string;
+    data: { value: string | number; key: string }[][]; // jede row darin jede celle
+}
+
+interface IKeyText {
+    key: string;
+    cellText: string;
+}
+
 const lastText: LastText = {};
 const createKeyboardFromJson = (
     adapter: Adapter,
@@ -90,70 +101,55 @@ const createKeyboardFromJson = (
     }
 };
 
-const getTableBreakLine = (lineLength: number): string => `${'-'.repeat(lineLength)} \n`;
-const getTableHeader = (headline: string): string => ` ${headline} \n`;
+const getTableBreakLine = (lineLength: number): string => `${'-'.repeat(lineLength + 2)} \n`;
+const getTableHeader = (headline: string): string => ` ${headline} \n\n`;
 const isLastElementOFArray = (array: any[], index: number): boolean => array.length - 1 === index;
 
-function tableHead(
-    elementIndex: number,
-    index: number,
-    textTable: string,
-    itemArray: string[],
-    lengthArray: number[],
+function getCellValue(
+    header: {
+        value: string | number;
+        key: string;
+    },
+    tableObj: TableObj,
     enlargeColumn: number,
-    lineLength: number,
 ): string {
-    if (elementIndex == 0 && index == 0) {
-        textTable += '|';
-        itemArray.forEach((item2, i) => {
-            if (item2.split(':')[1].length > 0) {
-                textTable += ` ${item2
-                    .split(':')[1]
-                    .toString()
-                    .padEnd(lengthArray[i] + enlargeColumn, ' ')}|`;
+    const length = tableObj.length.find(l => l.key === header.key)?.length ?? 0;
+    return ` ${header.value.toString().padEnd(length + enlargeColumn, ' ')}|`;
+}
 
-                if (isLastElementOFArray(itemArray, i)) {
-                    textTable += '\n';
+const getRowValue = (index: number, tableObj: TableObj, enlargeColumn: number): string => {
+    let rowValue = '|';
 
-                    textTable += getTableBreakLine(lineLength);
-                }
-            } else {
-                textTable = textTable.slice(0, -1);
-            }
-        });
-    }
+    tableObj.data[index].forEach((header, i) => {
+        rowValue += getCellValue(header, tableObj, enlargeColumn);
+        if (isLastElementOFArray(tableObj.data[0], i)) {
+            rowValue += '\n';
+        }
+    });
+    return rowValue;
+};
+
+function tableHead(textTable: string, tableObj: TableObj, enlargeColumn: number): string {
+    textTable += getRowValue(0, tableObj, enlargeColumn);
+
+    textTable += getTableBreakLine(getLineLength(tableObj, enlargeColumn));
+
     return textTable;
 }
 
 function tableBody(
-    index: number,
     textTable: string,
-    element: ValArray,
-    item: string,
-    lengthArray: number[],
+
+    tableObj: TableObj,
     enlargeColumn: number,
-    itemArray: string[],
 ): string {
-    if (index == 0) {
-        textTable += '|';
-    }
-    const text = element[item.split(':')[0]] ?? '';
-
-    textTable += ` ${text.toString().padEnd(lengthArray[index] + enlargeColumn, ' ')}|`;
-    if (index == itemArray.length - 1) {
-        textTable += '\n';
-    }
+    tableObj.data.forEach((row, i) => {
+        if (i === 0) {
+            return;
+        }
+        textTable += getRowValue(i, tableObj, enlargeColumn);
+    });
     return textTable;
-}
-interface TableObj {
-    length: { key: string; length: number }[];
-    header: string;
-    data: (string | number)[][]; // jede row darin jede celle
-}
-
-interface IKeyText {
-    key: string;
-    cellText: string;
 }
 
 const getTableData = (parsedJson: ValArray[], array: string[]): TableObj => {
@@ -174,7 +170,7 @@ const getTableData = (parsedJson: ValArray[], array: string[]): TableObj => {
 
     keyText.forEach(item => {
         tableObj.length.push({ key: item.key, length: item.cellText.length });
-        tableObj.data[0].push(item.cellText);
+        tableObj.data[0].push({ value: item.cellText, key: item.key });
     });
 
     parsedJson.forEach((row, index) => {
@@ -188,82 +184,52 @@ const getTableData = (parsedJson: ValArray[], array: string[]): TableObj => {
             if (!tableObj.data[index + 1]) {
                 tableObj.data[index + 1] = [];
             }
-            tableObj.data[index + 1].push(row[item.key] ?? '');
+            tableObj.data[index + 1].push({ value: row[item.key] ?? '', key: item.key });
         });
     });
     return tableObj;
 };
 
+function getLineLength(tableObj: TableObj, enlargeColumn: number): number {
+    const reduce = tableObj.data[0].length == 1 ? 2 : 0;
+    return (
+        tableObj.length.reduce((a, b): number => a + b.length, 0) + 5 - reduce + enlargeColumn * tableObj.length.length
+    );
+}
+
 function createTextTableFromJson(adapter: Adapter, json: string, textToSend: string): string | undefined {
     try {
         //TODO Object erst zusammen bauen
-        const { substring, substringExcludeSearch } = decomposeText(
-            textToSend,
-            '{json;[',
-            `;${config.json.textTable}}`,
-        ); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
+        const { substringExcludeSearch } = decomposeText(textToSend, '{json;[', `;${config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
         const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
         const header = array[1];
-        const itemArray: string[] = array[0].replace(']', '').replace(/"/g, '').split(',');
 
         const parsedJson: ValArray[] | undefined = JSON.parse(json);
-        if (!parsedJson) {
-            return;
-        }
-        const valueObj = getTableData(parsedJson, array);
-        console.log(valueObj);
-        const lengthArray: number[] = []; // Array für die Länge der Items
-
-        itemArray.forEach(element => {
-            lengthArray.push(element.split(':')[1]?.length ?? 0);
-        });
         if (!Array.isArray(parsedJson)) {
             return;
         }
-        parsedJson.forEach(element => {
-            itemArray.forEach((item, index) => {
-                const length = element[item.split(':')[0]]?.toString().length;
-                if (length && lengthArray[index] < length) {
-                    lengthArray[index] = length;
-                }
-            });
-        });
-        adapter.log.debug(`Length of rows : ${jsonString(lengthArray)}`);
+        const tableObj = getTableData(parsedJson, array);
 
-        let textTable = textToSend.replace(substring, '').trim();
-
-        if (textTable != '') {
-            textTable += '\n\n';
-        }
-
-        textTable += getTableHeader(header);
+        let textTable = getTableHeader(header);
 
         const enlargeColumn = 1;
-        const reduce = lengthArray.length == 1 ? 2 : 0;
-        const lineLength = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
+
+        const lineLength = getLineLength(tableObj, enlargeColumn);
+
+        // Breakline
+        textTable += '`';
+        // Setze den Text in dreifache Backticks (```), um einen Codeblock zu erzeugen, oder in einfache Backticks (`), um Inline-Code zu erzeugen.
+        //Beispiel für einen Codeblock (empfohlen für Tabellen):
+        textTable += getTableBreakLine(lineLength);
+
+        textTable = tableHead(textTable, tableObj, enlargeColumn);
+
+        // TableBody
+        textTable = tableBody(textTable, tableObj, enlargeColumn);
 
         // Breakline
         textTable += getTableBreakLine(lineLength);
-
-        parsedJson.forEach((element, elementIndex) => {
-            itemArray.forEach((item, index) => {
-                // TableHead
-                textTable = tableHead(
-                    elementIndex,
-                    index,
-                    textTable,
-                    itemArray,
-                    lengthArray,
-                    enlargeColumn,
-                    lineLength,
-                );
-                // TableBody
-                textTable = tableBody(index, textTable, element, item, lengthArray, enlargeColumn, itemArray);
-            });
-        });
-        // Breakline
-        textTable += '-'.repeat(lineLength);
-        // textTable += '`';
+        textTable += '`';
         return textTable;
     } catch (e: any) {
         errorLogger('Error createTextTableFromJson:', e, adapter);

@@ -95,7 +95,8 @@ export async function getState(
                             userToSend,
                             textToSend: result,
                             telegramParams,
-                            parse_mode,
+                            parse_mode: false,
+                            shouldCleanUpString: false,
                         });
                         return;
                     }

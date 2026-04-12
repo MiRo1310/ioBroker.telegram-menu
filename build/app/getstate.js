@@ -78,7 +78,8 @@ async function getState(instance, part, userToSend, telegramParams) {
                             userToSend,
                             textToSend: result,
                             telegramParams,
-                            parse_mode,
+                            parse_mode: false,
+                            shouldCleanUpString: false,
                         });
                         return;
                     }

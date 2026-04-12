@@ -19,7 +19,7 @@ function validateTextToSend(adapter, textToSend) {
     }
     return true;
 }
-async function sendToTelegram({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode, }) {
+async function sendToTelegram({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode, shouldCleanUpString = true, }) {
     const { resize_keyboard, one_time_keyboard, userListWithChatID, adapter } = telegramParams;
     try {
         const chatId = (0, utils_1.getChatID)(userListWithChatID, userToSend);
@@ -30,7 +30,7 @@ async function sendToTelegram({ instance, userToSend, textToSend, keyboard, tele
         validateTextToSend(adapter, textToSend);
         if (!keyboard) {
             adapter.sendTo(instance, 'send', {
-                text: (0, string_1.cleanUpString)(textToSend),
+                text: shouldCleanUpString ? (0, string_1.cleanUpString)(textToSend) : textToSend,
                 chatId,
                 parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
             }, res => telegramLogger(adapter, res));
@@ -39,7 +39,7 @@ async function sendToTelegram({ instance, userToSend, textToSend, keyboard, tele
         adapter.sendTo(instance, 'send', {
             chatId,
             parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
-            text: await (0, utilities_1.textModifier)(adapter, (0, string_1.cleanUpString)(textToSend)),
+            text: await (0, utilities_1.textModifier)(adapter, shouldCleanUpString ? (0, string_1.cleanUpString)(textToSend) : textToSend),
             reply_markup: {
                 keyboard,
                 resize_keyboard,

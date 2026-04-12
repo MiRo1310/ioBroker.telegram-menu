@@ -81,39 +81,35 @@ const createKeyboardFromJson = (adapter, val, text, id, user) => {
     }
 };
 exports.createKeyboardFromJson = createKeyboardFromJson;
-const getTableBreakLine = (lineLength) => `${'-'.repeat(lineLength)} \n`;
-const getTableHeader = (headline) => ` ${headline} \n`;
+const getTableBreakLine = (lineLength) => `${'-'.repeat(lineLength + 2)} \n`;
+const getTableHeader = (headline) => ` ${headline} \n\n`;
 const isLastElementOFArray = (array, index) => array.length - 1 === index;
-function tableHead(elementIndex, index, textTable, itemArray, lengthArray, enlargeColumn, lineLength) {
-    if (elementIndex == 0 && index == 0) {
-        textTable += '|';
-        itemArray.forEach((item2, i) => {
-            if (item2.split(':')[1].length > 0) {
-                textTable += ` ${item2
-                    .split(':')[1]
-                    .toString()
-                    .padEnd(lengthArray[i] + enlargeColumn, ' ')}|`;
-                if (isLastElementOFArray(itemArray, i)) {
-                    textTable += '\n';
-                    textTable += getTableBreakLine(lineLength);
-                }
-            }
-            else {
-                textTable = textTable.slice(0, -1);
-            }
-        });
-    }
+function getCellValue(header, tableObj, enlargeColumn) {
+    const length = tableObj.length.find(l => l.key === header.key)?.length ?? 0;
+    return ` ${header.value.toString().padEnd(length + enlargeColumn, ' ')}|`;
+}
+const getRowValue = (index, tableObj, enlargeColumn) => {
+    let rowValue = '|';
+    tableObj.data[index].forEach((header, i) => {
+        rowValue += getCellValue(header, tableObj, enlargeColumn);
+        if (isLastElementOFArray(tableObj.data[0], i)) {
+            rowValue += '\n';
+        }
+    });
+    return rowValue;
+};
+function tableHead(textTable, tableObj, enlargeColumn) {
+    textTable += getRowValue(0, tableObj, enlargeColumn);
+    textTable += getTableBreakLine(getLineLength(tableObj, enlargeColumn));
     return textTable;
 }
-function tableBody(index, textTable, element, item, lengthArray, enlargeColumn, itemArray) {
-    if (index == 0) {
-        textTable += '|';
-    }
-    const text = element[item.split(':')[0]] ?? '';
-    textTable += ` ${text.toString().padEnd(lengthArray[index] + enlargeColumn, ' ')}|`;
-    if (index == itemArray.length - 1) {
-        textTable += '\n';
-    }
+function tableBody(textTable, tableObj, enlargeColumn) {
+    tableObj.data.forEach((row, i) => {
+        if (i === 0) {
+            return;
+        }
+        textTable += getRowValue(i, tableObj, enlargeColumn);
+    });
     return textTable;
 }
 const getTableData = (parsedJson, array) => {
@@ -131,7 +127,7 @@ const getTableData = (parsedJson, array) => {
     };
     keyText.forEach(item => {
         tableObj.length.push({ key: item.key, length: item.cellText.length });
-        tableObj.data[0].push(item.cellText);
+        tableObj.data[0].push({ value: item.cellText, key: item.key });
     });
     parsedJson.forEach((row, index) => {
         keyText.forEach(item => {
@@ -143,61 +139,40 @@ const getTableData = (parsedJson, array) => {
             if (!tableObj.data[index + 1]) {
                 tableObj.data[index + 1] = [];
             }
-            tableObj.data[index + 1].push(row[item.key] ?? '');
+            tableObj.data[index + 1].push({ value: row[item.key] ?? '', key: item.key });
         });
     });
     return tableObj;
 };
+function getLineLength(tableObj, enlargeColumn) {
+    const reduce = tableObj.data[0].length == 1 ? 2 : 0;
+    return (tableObj.length.reduce((a, b) => a + b.length, 0) + 5 - reduce + enlargeColumn * tableObj.length.length);
+}
 function createTextTableFromJson(adapter, json, textToSend) {
     try {
         //TODO Object erst zusammen bauen
-        const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, '{json;[', `;${config_1.config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
+        const { substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, '{json;[', `;${config_1.config.json.textTable}}`); // {json;[Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;TextTable}
         const array = substringExcludeSearch.split(';'); // Pollen:Pollen,Riskindex:Riskindex,Riskindextext:Riskindextext];Pollenflug;
         const header = array[1];
-        const itemArray = array[0].replace(']', '').replace(/"/g, '').split(',');
         const parsedJson = JSON.parse(json);
-        if (!parsedJson) {
-            return;
-        }
-        const valueObj = getTableData(parsedJson, array);
-        console.log(valueObj);
-        const lengthArray = []; // Array für die Länge der Items
-        itemArray.forEach(element => {
-            lengthArray.push(element.split(':')[1]?.length ?? 0);
-        });
         if (!Array.isArray(parsedJson)) {
             return;
         }
-        parsedJson.forEach(element => {
-            itemArray.forEach((item, index) => {
-                const length = element[item.split(':')[0]]?.toString().length;
-                if (length && lengthArray[index] < length) {
-                    lengthArray[index] = length;
-                }
-            });
-        });
-        adapter.log.debug(`Length of rows : ${(0, string_1.jsonString)(lengthArray)}`);
-        let textTable = textToSend.replace(substring, '').trim();
-        if (textTable != '') {
-            textTable += '\n\n';
-        }
-        textTable += getTableHeader(header);
+        const tableObj = getTableData(parsedJson, array);
+        let textTable = getTableHeader(header);
         const enlargeColumn = 1;
-        const reduce = lengthArray.length == 1 ? 2 : 0;
-        const lineLength = lengthArray.reduce((a, b) => a + b, 0) + 5 - reduce + enlargeColumn * lengthArray.length;
+        const lineLength = getLineLength(tableObj, enlargeColumn);
+        // Breakline
+        textTable += '`';
+        // Setze den Text in dreifache Backticks (```), um einen Codeblock zu erzeugen, oder in einfache Backticks (`), um Inline-Code zu erzeugen.
+        //Beispiel für einen Codeblock (empfohlen für Tabellen):
+        textTable += getTableBreakLine(lineLength);
+        textTable = tableHead(textTable, tableObj, enlargeColumn);
+        // TableBody
+        textTable = tableBody(textTable, tableObj, enlargeColumn);
         // Breakline
         textTable += getTableBreakLine(lineLength);
-        parsedJson.forEach((element, elementIndex) => {
-            itemArray.forEach((item, index) => {
-                // TableHead
-                textTable = tableHead(elementIndex, index, textTable, itemArray, lengthArray, enlargeColumn, lineLength);
-                // TableBody
-                textTable = tableBody(index, textTable, element, item, lengthArray, enlargeColumn, itemArray);
-            });
-        });
-        // Breakline
-        textTable += '-'.repeat(lineLength);
-        // textTable += '`';
+        textTable += '`';
         return textTable;
     }
     catch (e) {
