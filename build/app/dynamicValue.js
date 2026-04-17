@@ -1,54 +1,52 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeUserFromDynamicValue = exports.getDynamicValue = exports.setDynamicValue = void 0;
+exports.dynamicValue = void 0;
 const string_1 = require("../lib/string");
 const telegram_1 = require("../app/telegram");
-const dynamicValueObj = {};
-const setDynamicValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
-    const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
-    let array = substringExcludeSearch.split(':');
-    array = isBraceDeleteEntry(array);
-    const text = array[0];
-    if (text) {
-        await (0, telegram_1.sendToTelegram)({
-            instance,
-            userToSend,
-            textToSend: text,
-            telegramParams,
-            parse_mode,
-        });
-    }
-    dynamicValueObj[userToSend] = {
-        id,
-        ack,
-        returnText: text,
-        userToSend,
-        parse_mode,
-        confirm,
-        telegramParams,
-        valueType: array[1],
-        navToGoTo: array[3],
+class DynamicValueHandler {
+    dynamicValueObj = {};
+    getValue = (userToSend) => this.dynamicValueObj[userToSend] ?? null;
+    removeUser = (userToSend) => {
+        if (this.dynamicValueObj[userToSend]) {
+            delete this.dynamicValueObj[userToSend];
+            return true;
+        }
+        return false;
     };
-    if (array[2] && array[2] != '') {
-        return { confirmText: array[2], id: array[3] !== '' ? array[3] : undefined };
+    setValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
+        const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
+        let array = substringExcludeSearch.split(':');
+        array = this.isBraceDeleteEntry(array);
+        const question = array[0];
+        const confirmText = array[2];
+        if (question) {
+            await (0, telegram_1.sendToTelegram)({
+                instance,
+                userToSend,
+                textToSend: question,
+                telegramParams,
+                parse_mode,
+            });
+        }
+        this.dynamicValueObj[userToSend] = {
+            idToSet: id,
+            ack,
+            returnText: confirmText,
+            userToSend,
+            parse_mode,
+            confirm,
+            telegramParams,
+            valueType: array[1],
+            watchForId: array[3],
+        };
+        if (confirmText && confirmText != '') {
+            return { confirmText, id: array[3] !== '' ? array[3] : undefined };
+        }
+        return { confirmText: '', id: undefined };
+    };
+    isBraceDeleteEntry(array) {
+        return array[4] === '}' ? array.slice(0, 4) : array;
     }
-    return { confirmText: '', id: undefined };
-};
-exports.setDynamicValue = setDynamicValue;
-const getDynamicValue = (userToSend) => dynamicValueObj[userToSend] ?? null;
-exports.getDynamicValue = getDynamicValue;
-const removeUserFromDynamicValue = (userToSend) => {
-    if (dynamicValueObj[userToSend]) {
-        delete dynamicValueObj[userToSend];
-        return true;
-    }
-    return false;
-};
-exports.removeUserFromDynamicValue = removeUserFromDynamicValue;
-function isBraceDeleteEntry(array) {
-    if (array[4] === '}') {
-        return array.slice(0, 4);
-    }
-    return array;
 }
+exports.dynamicValue = new DynamicValueHandler();
 //# sourceMappingURL=dynamicValue.js.map

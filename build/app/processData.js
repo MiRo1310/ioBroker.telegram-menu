@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkEveryMenuForData = checkEveryMenuForData;
 exports.getTimeouts = getTimeouts;
 const string_1 = require("../lib/string");
-const dynamicValue_1 = require("../app/dynamicValue");
 const action_1 = require("../app/action");
 const setstate_1 = require("../app/setstate");
 const telegram_1 = require("../app/telegram");
@@ -16,6 +15,7 @@ const echarts_1 = require("../app/echarts");
 const httpRequest_1 = require("../app/httpRequest");
 const validateMenus_1 = require("../app/validateMenus");
 const logging_1 = require("../app/logging");
+const dynamicValue_1 = require("../app/dynamicValue");
 let timeouts = [];
 async function checkEveryMenuForData({ instance, menuData, navToGoTo, userToSend, telegramParams, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, }) {
     const adapter = telegramParams.adapter;
@@ -45,25 +45,39 @@ async function checkEveryMenuForData({ instance, menuData, navToGoTo, userToSend
     }
     return false;
 }
+function onlyConfirmIfWatchIdIsNotSet(dynamicValueObject) {
+    return !dynamicValueObject.watchForId;
+}
 async function processData({ instance, menuData, calledValue, userToSend, groupWithUser, telegramParams, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, adapter, }) {
     try {
         let part = {};
-        const dynamicValue = (0, dynamicValue_1.getDynamicValue)(userToSend);
-        if (dynamicValue) {
-            const valueToSet = dynamicValue?.valueType
-                ? (0, action_1.adjustValueType)(adapter, calledValue, dynamicValue.valueType)
+        const dynamicValueObject = dynamicValue_1.dynamicValue.getValue(userToSend);
+        if (dynamicValueObject) {
+            const valueToSet = dynamicValueObject?.valueType
+                ? (0, action_1.adjustValueType)(adapter, calledValue, dynamicValueObject.valueType)
                 : calledValue;
-            valueToSet && dynamicValue?.id
-                ? await (0, setstate_1.setstateIobroker)({ adapter, id: dynamicValue.id, value: valueToSet, ack: dynamicValue?.ack })
-                : await (0, telegram_1.sendToTelegram)({
+            if (valueToSet && dynamicValueObject?.idToSet) {
+                await (0, setstate_1.setstateIobroker)({
+                    adapter,
+                    id: dynamicValueObject.idToSet,
+                    value: valueToSet,
+                    ack: dynamicValueObject?.ack,
+                });
+                if (dynamicValueObject.confirm && onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
+                    await (0, setstate_1.exchangeValueAndSendToTelegram)(adapter, dynamicValueObject.returnText, valueToSet, instance, userToSend, telegramParams, dynamicValueObject.parse_mode);
+                }
+            }
+            else {
+                await (0, telegram_1.sendToTelegram)({
                     instance,
                     userToSend,
-                    textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValue?.valueType}`,
+                    textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValueObject?.valueType}`,
                     telegramParams,
                 });
-            (0, dynamicValue_1.removeUserFromDynamicValue)(userToSend);
+            }
+            dynamicValue_1.dynamicValue.removeUser(userToSend);
             const result = await (0, backMenu_1.switchBack)(adapter, userToSend, allMenusWithData, menus, true);
-            if (result && !dynamicValue.navToGoTo) {
+            if (result && !dynamicValueObject.watchForId) {
                 const { textToSend, keyboard, parse_mode } = result;
                 await (0, telegram_1.sendToTelegram)({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
                 return true;

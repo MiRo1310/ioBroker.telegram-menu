@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: SetDynamicValue does not send return text
+
 ### 4.1.0 (2026-04-12)
 
 - FIX: #510 Error in json table textTable and button table, input changed please check the documentation

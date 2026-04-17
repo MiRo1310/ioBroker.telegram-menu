@@ -156,7 +156,8 @@ export function isSameType(
     return receivedType === obj.common.type;
 }
 
-export const getInstanceById = (id: string): { instanceName: string; instanceNumber: string; instance: string } => {
+export const getInstanceById = (id: string): { instanceName?: string; instanceNumber?: string; instance?: string } => {
     const obj = id.split('.');
-    return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join('.') };
+    const instance = obj[0] && obj[1] ? obj.slice(0, 2).join('.') : undefined;
+    return { instanceName: obj[0], instanceNumber: obj[1], instance };
 };

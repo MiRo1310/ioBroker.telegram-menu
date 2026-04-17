@@ -218,7 +218,7 @@ Die Änderung sollte in den meisten Fällen automatisch übernommen worden sein,
     - "RequestText" - Aufforderungstext zur Eingabe
     - "Type" - boolean, number, string
     - "ConfirmText" - Bestätigungstext des Datenpunktes setzen, kann mit eigenem Text ersetzt werden.
-    - "ID" - Bestätigungswert einer anderen ID in den Rückgabetext (ist optional)
+    - "ID" - Bestätigungswert einer anderen ID in den Rückgabetext (ist optional) nur Werte mir ack:true werden gesendet, Platzhalter für den Wert ist &&
 ---
 
 ```

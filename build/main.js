@@ -153,43 +153,42 @@ class TelegramMenu extends utils.Adapter {
                     }
                     return;
                 }
-                if (!instance) {
-                    return;
-                }
-                const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams, instance);
-                if (error) {
-                    return;
-                }
-                if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
-                    await (0, messageIds_1.saveMessageIds)(exports.adapter, state, instance);
-                }
-                else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
-                    const value = state.val.toString();
-                    const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                    menus = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend.name);
-                    const dataFound = await (0, processData_1.checkEveryMenuForData)({
-                        instance,
-                        menuData,
-                        navToGoTo: calledValue,
-                        userToSend: userToSend.name,
-                        telegramParams,
-                        menus,
-                        isUserActiveCheckbox,
-                        token,
-                        directoryPicture,
-                        timeoutKey,
-                    });
-                    this.log.debug(`Groups with searched User: ${(0, string_1.jsonString)(menus)}`);
-                    if (!dataFound && checkboxNoEntryFound) {
-                        exports.adapter.log.debug('No Entry found');
-                        await (0, telegram_1.sendToTelegram)({
-                            instance: instance,
-                            userToSend: userToSend.name,
-                            textToSend: textNoEntryFound,
-                            telegramParams,
-                        });
+                if (instance) {
+                    const { userToSend, error } = await this.getChatIDAndUserToSend(telegramParams, instance);
+                    if (error) {
+                        return;
                     }
-                    return;
+                    if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
+                        await (0, messageIds_1.saveMessageIds)(exports.adapter, state, instance);
+                    }
+                    else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
+                        const value = state.val.toString();
+                        const calledValue = value.slice(value.indexOf(']') + 1, value.length);
+                        menus = (0, appUtils_1.getListOfMenusIncludingUser)(menusWithUsers, userToSend.name);
+                        const dataFound = await (0, processData_1.checkEveryMenuForData)({
+                            instance,
+                            menuData,
+                            navToGoTo: calledValue,
+                            userToSend: userToSend.name,
+                            telegramParams,
+                            menus,
+                            isUserActiveCheckbox,
+                            token,
+                            directoryPicture,
+                            timeoutKey,
+                        });
+                        this.log.debug(`Groups with searched User: ${(0, string_1.jsonString)(menus)}`);
+                        if (!dataFound && checkboxNoEntryFound) {
+                            exports.adapter.log.debug('No Entry found');
+                            await (0, telegram_1.sendToTelegram)({
+                                instance: instance,
+                                userToSend: userToSend.name,
+                                textToSend: textNoEntryFound,
+                                telegramParams,
+                            });
+                        }
+                        return;
+                    }
                 }
                 if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
                     exports.adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, string_1.jsonString)(state)} }`);
@@ -213,7 +212,7 @@ class TelegramMenu extends utils.Adapter {
                                     exports.adapter.log.error('The return text cannot be empty, please check.');
                                 }
                                 await (0, telegram_1.sendToTelegram)({
-                                    instance: instance,
+                                    instance: el.instance,
                                     textToSend: text,
                                     parse_mode: parse_mode,
                                     userToSend,
@@ -239,7 +238,7 @@ class TelegramMenu extends utils.Adapter {
                                 }
                                 exports.adapter.log.debug(`Value to send: ${newValue}`);
                                 await (0, telegram_1.sendToTelegram)({
-                                    instance,
+                                    instance: el.instance,
                                     userToSend,
                                     textToSend,
                                     parse_mode,
@@ -282,6 +281,9 @@ class TelegramMenu extends utils.Adapter {
             const { telegramInfoConnectionID } = configVariables_1.getIds;
             const { instance } = (0, appUtils_1.getInstanceById)(id);
             const instanceObj = telegramParams.telegramInstanceList.find(item => item.name === instance);
+            if (!instance) {
+                return null;
+            }
             const iterationId = telegramInfoConnectionID(instance);
             if (instanceObj?.active) {
                 const active = await this.isTelegramInstanceActive(iterationId);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.textModifier = exports.setTimeValue = void 0;
+exports.textModifier = exports.getTimeValue = void 0;
 exports.transformValueToTypeOfId = transformValueToTypeOfId;
 const utils_1 = require("../lib/utils");
 const status_1 = require("../app/status");
@@ -11,7 +11,7 @@ const appUtils_1 = require("../lib/appUtils");
 const time_1 = require("../lib/time");
 const setstate_1 = require("../app/setstate");
 const logging_1 = require("../app/logging");
-const setTimeValue = async (adapter, textToSend, id) => {
+const getTimeValue = async (adapter, textToSend, id) => {
     const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = (0, splitValues_1.getProcessTimeValues)(substringExcludeSearch);
     if (!id && (!idString || idString.length < 5)) {
@@ -27,7 +27,7 @@ const setTimeValue = async (adapter, textToSend, id) => {
     const formattedTime = (0, appUtils_1.timeStringReplacer)(timeWithPad, formattedTimeParams);
     return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
 };
-exports.setTimeValue = setTimeValue;
+exports.getTimeValue = getTimeValue;
 const changeToNumber = (adapter, value) => {
     const val = typeof value === 'string' ? parseFloat(value) : parseFloat((0, string_1.jsonString)(value));
     if (isNaN(val)) {
@@ -46,7 +46,7 @@ const textModifier = async (adapter, text) => {
             text = await (0, status_1.checkStatus)(adapter, text);
         }
         if (text.includes(config_1.config.timestamp.lc) || text.includes(config_1.config.timestamp.ts)) {
-            text = await (0, exports.setTimeValue)(adapter, text);
+            text = await (0, exports.getTimeValue)(adapter, text);
         }
         if (text.includes(config_1.config.set.start)) {
             const { substring, textExcludeSubstring } = (0, string_1.decomposeText)(text, config_1.config.set.start, config_1.config.set.end);

@@ -48,7 +48,7 @@ async function getState(instance, part, userToSend, telegramParams) {
             let modifiedStateVal = cleanedString;
             let modifiedTextToSend = text;
             if (text.includes(config_1.config.timestamp.ts) || text.includes(config_1.config.timestamp.lc)) {
-                modifiedTextToSend = await (0, utilities_1.setTimeValue)(adapter, text, id);
+                modifiedTextToSend = await (0, utilities_1.getTimeValue)(adapter, text, id);
                 modifiedStateVal = '';
             }
             if (modifiedTextToSend.includes(config_1.config.time)) {

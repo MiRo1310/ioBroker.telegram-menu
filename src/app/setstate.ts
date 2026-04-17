@@ -12,11 +12,12 @@ import {
 import { transformValueToTypeOfId } from '@backend/lib/utilities';
 import { isDefined } from '@backend/lib/utils';
 import { errorLogger } from '@backend/app/logging';
-import { setDynamicValue } from '@backend/app/dynamicValue';
 import { addSetStateIds } from '@backend/app/setStateIdsToListenTo';
 import { exchangeValue } from '@backend/lib/exchangeValue';
 import { sendToTelegram } from '@backend/app/telegram';
 import { mathFunction } from '@backend/lib/appUtils';
+import type TelegramMenu from '@backend/main';
+import { dynamicValue } from '@backend/app/dynamicValue';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -101,6 +102,33 @@ function handleUpdateFromForeignId(returnText: string): boolean {
     return returnText.includes(foreignIdStart);
 }
 
+export async function exchangeValueAndSendToTelegram(
+    adapter: TelegramMenu,
+    returnText: string,
+    valueToTelegram: string | number | null | boolean,
+    instance: string,
+    userToSend: string,
+    telegramParams: TelegramParams,
+    parse_mode: boolean,
+): Promise<Telegram> {
+    let { textToSend } = exchangeValue(adapter, singleQuotesToDoubleQuotes(returnText), valueToTelegram);
+
+    let i = 0;
+    while (textToSend.includes('{id:') && i < 20) {
+        textToSend = String(await _getDynamicValueIfIsIn(adapter, textToSend));
+        i++;
+    }
+    const telegramData: Telegram = {
+        instance,
+        userToSend,
+        textToSend,
+        telegramParams,
+        parse_mode,
+    };
+    await sendToTelegram(telegramData);
+    return telegramData;
+}
+
 export const handleSetState = async (
     adapter: Adapter,
     instance: string,
@@ -119,7 +147,7 @@ export const handleSetState = async (
 
             const useForeignId = handleUpdateFromForeignId(returnText);
             if (returnText.includes('{setDynamicValue')) {
-                const { confirmText, id } = await setDynamicValue(
+                const { confirmText, id } = await dynamicValue.setValue(
                     instance,
                     returnText,
                     ack,
@@ -136,6 +164,7 @@ export const handleSetState = async (
                         confirm,
                         returnText: confirmText,
                         userToSend,
+                        instance,
                     });
                 }
                 return;
@@ -148,6 +177,7 @@ export const handleSetState = async (
                     returnText,
                     userToSend,
                     parse_mode,
+                    instance,
                 });
             } else {
                 returnText = singleQuotesToDoubleQuotes(returnText);
@@ -168,6 +198,7 @@ export const handleSetState = async (
                     confirm: true,
                     returnText: json.text,
                     userToSend: userToSend,
+                    instance,
                 });
             }
 
@@ -190,22 +221,15 @@ export const handleSetState = async (
             }
 
             if (confirm) {
-                let { textToSend } = exchangeValue(adapter, singleQuotesToDoubleQuotes(returnText), valueToTelegram);
-
-                let i = 0;
-                while (textToSend.includes('{id:') && i < 20) {
-                    textToSend = String(await _getDynamicValueIfIsIn(adapter, textToSend));
-                    i++;
-                }
-                const telegramData: Telegram = {
+                return await exchangeValueAndSendToTelegram(
+                    adapter,
+                    returnText,
+                    valueToTelegram,
                     instance,
                     userToSend,
-                    textToSend,
                     telegramParams,
                     parse_mode,
-                };
-                await sendToTelegram(telegramData);
-                return telegramData;
+                );
             }
         }
     } catch (error: any) {

@@ -1,8 +1,7 @@
-import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '@backend/types/types';
+import type { CheckEveryMenuForDataType, IDynamicValue, Part, ProcessDataType, Timeouts } from '@backend/types/types';
 import { jsonString } from '@backend/lib/string';
-import { getDynamicValue, removeUserFromDynamicValue } from '@backend/app/dynamicValue';
 import { adjustValueType } from '@backend/app/action';
-import { handleSetState, setstateIobroker } from '@backend/app/setstate';
+import { exchangeValueAndSendToTelegram, handleSetState, setstateIobroker } from '@backend/app/setstate';
 import { sendLocationToTelegram, sendToTelegram } from '@backend/app/telegram';
 import { backMenuFunc, switchBack } from '@backend/app/backMenu';
 import { sendNav } from '@backend/app/sendNav';
@@ -13,6 +12,7 @@ import { getChart } from '@backend/app/echarts';
 import { httpRequest } from '@backend/app/httpRequest';
 import { isSubmenuOrMenu } from '@backend/app/validateMenus';
 import { errorLogger } from '@backend/app/logging';
+import { dynamicValue } from '@backend/app/dynamicValue';
 
 let timeouts: Timeouts[] = [];
 
@@ -60,6 +60,10 @@ export async function checkEveryMenuForData({
     return false;
 }
 
+function onlyConfirmIfWatchIdIsNotSet(dynamicValueObject: IDynamicValue): boolean {
+    return !dynamicValueObject.watchForId;
+}
+
 async function processData({
     instance,
     menuData,
@@ -79,25 +83,44 @@ async function processData({
     try {
         let part: Part | undefined = {} as Part;
 
-        const dynamicValue = getDynamicValue(userToSend);
-        if (dynamicValue) {
-            const valueToSet = dynamicValue?.valueType
-                ? adjustValueType(adapter, calledValue, dynamicValue.valueType)
+        const dynamicValueObject = dynamicValue.getValue(userToSend);
+
+        if (dynamicValueObject) {
+            const valueToSet = dynamicValueObject?.valueType
+                ? adjustValueType(adapter, calledValue, dynamicValueObject.valueType)
                 : calledValue;
 
-            valueToSet && dynamicValue?.id
-                ? await setstateIobroker({ adapter, id: dynamicValue.id, value: valueToSet, ack: dynamicValue?.ack })
-                : await sendToTelegram({
-                      instance,
-                      userToSend,
-                      textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValue?.valueType}`,
-                      telegramParams,
-                  });
+            if (valueToSet && dynamicValueObject?.idToSet) {
+                await setstateIobroker({
+                    adapter,
+                    id: dynamicValueObject.idToSet,
+                    value: valueToSet,
+                    ack: dynamicValueObject?.ack,
+                });
+                if (dynamicValueObject.confirm && onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
+                    await exchangeValueAndSendToTelegram(
+                        adapter,
+                        dynamicValueObject.returnText,
+                        valueToSet,
+                        instance,
+                        userToSend,
+                        telegramParams,
+                        dynamicValueObject.parse_mode,
+                    );
+                }
+            } else {
+                await sendToTelegram({
+                    instance,
+                    userToSend,
+                    textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValueObject?.valueType}`,
+                    telegramParams,
+                });
+            }
 
-            removeUserFromDynamicValue(userToSend);
+            dynamicValue.removeUser(userToSend);
             const result = await switchBack(adapter, userToSend, allMenusWithData, menus, true);
 
-            if (result && !dynamicValue.navToGoTo) {
+            if (result && !dynamicValueObject.watchForId) {
                 const { textToSend, keyboard, parse_mode } = result;
                 await sendToTelegram({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
                 return true;
