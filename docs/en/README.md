@@ -199,7 +199,7 @@ In most cases the change should have been applied automatically, please check wh
     -   "RequestText" - request text for input
     -   "Type" - boolean, number, string
     -   "ConfirmText" - set confirmation text of the data point, can be replaced with your own text.
-    -   "ID" - confirmation value of another ID in the return text (is optional)
+    -   "ID" - confirmation value of another ID in the return text (is optional) only values ​​with ack:true are sent, placeholder for the value is &&
 
 * * *
 
