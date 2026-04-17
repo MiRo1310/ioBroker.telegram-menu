@@ -1,5 +1,5 @@
 import { backMenuLength } from '@backend/config/config';
-import type { Adapter, BackMenu, Keyboard, MenuData, Navigation } from '@backend/types/types';
+import type { Adapter, BackMenu, MenuData, Navigation } from '@backend/types/types';
 import { textModifier } from '@backend/lib/utilities';
 import { errorLogger } from '@backend/app/logging';
 import { jsonString } from '@backend/lib/string';
@@ -12,12 +12,12 @@ export async function switchBack(
     allMenusWithData: MenuData,
     menus: string[],
     lastMenu = false,
-): Promise<{ textToSend: string | undefined; keyboard: Keyboard; parse_mode: boolean | undefined } | undefined> {
+): Promise<{ textToSend: string | undefined; keyboard: string[][]; parse_mode: boolean | undefined } | undefined> {
     try {
         const list = backMenu[userToSend]?.list ?? [];
         const lastListElement = list[list.length - 1];
         const lastElement = backMenu[userToSend]?.last;
-        let keyboard: Keyboard;
+        let keyboard: string[][] = [];
         let foundedMenu = '';
 
         if (list.length) {

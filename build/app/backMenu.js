@@ -12,7 +12,7 @@ async function switchBack(adapter, userToSend, allMenusWithData, menus, lastMenu
         const list = backMenu[userToSend]?.list ?? [];
         const lastListElement = list[list.length - 1];
         const lastElement = backMenu[userToSend]?.last;
-        let keyboard;
+        let keyboard = [];
         let foundedMenu = '';
         if (list.length) {
             for (const menu of menus) {

@@ -1,0 +1,107 @@
+{
+    "text": "ShoppingList",
+    "keyboard": {
+        "inline_keyboard": [
+            [
+                {
+                    "text": "Schwarzen gürtel",
+                    "callback_data": "sList:0.list_activ:0:127dcf07-ed02-4280-9508-a6717b487a35:SHOP:1"
+                },
+                {
+                    "text": "11.4.2026, 08:35:08",
+                    "callback_data": "sList:0.list_activ:0:127dcf07-ed02-4280-9508-a6717b487a35:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Waldmeistersirup",
+                    "callback_data": "sList:0.list_activ:0:16186e82-c243-46f4-9a2c-c32725a8c2da:SHOP:1"
+                },
+                {
+                    "text": "15.4.2026, 18:53:20",
+                    "callback_data": "sList:0.list_activ:0:16186e82-c243-46f4-9a2c-c32725a8c2da:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Mineralwasser",
+                    "callback_data": "sList:0.list_activ:0:e62bcd70-7c0d-43d7-8394-c48ed10d5d53:SHOP:1"
+                },
+                {
+                    "text": "15.4.2026, 18:53:30",
+                    "callback_data": "sList:0.list_activ:0:e62bcd70-7c0d-43d7-8394-c48ed10d5d53:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Mayonnaise",
+                    "callback_data": "sList:0.list_activ:0:20f60b54-b9f9-4846-a7bc-ce096350b321:SHOP:1"
+                },
+                {
+                    "text": "16.4.2026, 12:52:30",
+                    "callback_data": "sList:0.list_activ:0:20f60b54-b9f9-4846-a7bc-ce096350b321:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Kirschsirup",
+                    "callback_data": "sList:0.list_activ:0:97a16992-43c3-4eb0-aeac-c90eaa904512:SHOP:1"
+                },
+                {
+                    "text": "17.4.2026, 07:00:01",
+                    "callback_data": "sList:0.list_activ:0:97a16992-43c3-4eb0-aeac-c90eaa904512:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Toilettenpapier",
+                    "callback_data": "sList:0.list_activ:0:96472696-e4b8-42e0-be16-fd7589c6ea1b:SHOP:1"
+                },
+                {
+                    "text": "17.4.2026, 07:46:28",
+                    "callback_data": "sList:0.list_activ:0:96472696-e4b8-42e0-be16-fd7589c6ea1b:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Taschentuchbox",
+                    "callback_data": "sList:0.list_activ:0:3be81de9-5855-485f-a316-71cee9c9970e:SHOP:1"
+                },
+                {
+                    "text": "17.4.2026, 08:06:23",
+                    "callback_data": "sList:0.list_activ:0:3be81de9-5855-485f-a316-71cee9c9970e:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Taschentücher",
+                    "callback_data": "sList:0.list_activ:0:f991193e-c87c-4041-a0ea-e535ddf0b7ba:SHOP:1"
+                },
+                {
+                    "text": "17.4.2026, 08:06:30",
+                    "callback_data": "sList:0.list_activ:0:f991193e-c87c-4041-a0ea-e535ddf0b7ba:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "W. c. ente",
+                    "callback_data": "sList:0.list_activ:0:951a8eac-230b-432e-98ae-7b521f3e0f80:SHOP:1"
+                },
+                {
+                    "text": "17.4.2026, 08:22:30",
+                    "callback_data": "sList:0.list_activ:0:951a8eac-230b-432e-98ae-7b521f3e0f80:SHOP:1"
+                }
+            ],
+            [
+                {
+                    "text": "Käse",
+                    "callback_data": "sList:0.list_activ:0:79d45862-aaec-44ee-94a7-72629eafffa2:SHOP:1"
+                },
+                {
+                    "text": "17.4.2026, 13:54:36",
+                    "callback_data": "sList:0.list_activ:0:79d45862-aaec-44ee-94a7-72629eafffa2:SHOP:1"
+                }
+            ]
+        ]
+    }
+}

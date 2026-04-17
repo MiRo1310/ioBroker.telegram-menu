@@ -187,13 +187,10 @@ export interface SetStateIds {
 
 export type GroupWithUser = string;
 
-export interface Message {
-    time: number;
-}
-
 export type WhatShouldDelete = 'all' | 'last';
 
-export type Keyboard = { inline_keyboard: KeyboardItems[][] } | string[][] | undefined;
+export type Keyboard = { inline_keyboard: KeyboardItems[][] } | undefined;
+// export type Keyboard = { inline_keyboard: KeyboardItems[][] } | string[][];
 
 export interface KeyboardItems {
     text: string;
@@ -309,7 +306,7 @@ export interface EvaluateReturnType {
 
 export interface Telegram {
     textToSend?: string;
-    keyboard?: Keyboard;
+    keyboard?: Keyboard | string[][];
     parse_mode?: boolean;
     userToSend: string;
     telegramParams: TelegramParams;

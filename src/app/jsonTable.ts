@@ -67,6 +67,20 @@ class lastRequestJsonButtonHistoryClass {
 
 export const lastRequestJsonButtonHistory = new lastRequestJsonButtonHistoryClass();
 
+const addHeader = (json: IJsonShoppingList & ITableButtonList): NonNullable<Keyboard> => {
+    const keyboard: Keyboard = { inline_keyboard: [] };
+    json.tableData.forEach(table => {
+        if (!table.label) {
+            return;
+        }
+        if (!keyboard.inline_keyboard.length) {
+            keyboard.inline_keyboard.push([]);
+        }
+        keyboard.inline_keyboard[0].push({ text: table.label, callback_data: 'button' });
+    });
+    return keyboard;
+};
+
 const createKeyboardFromJson = (
     adapter: Adapter,
     val: string,
@@ -95,15 +109,17 @@ const createKeyboardFromJson = (
             return;
         }
 
-        const keyboard: Keyboard = { inline_keyboard: [] };
         if (!Array.isArray(json)) {
             return;
         }
+
+        const keyboard = addHeader(parsedJsonUserInput);
+
         json.forEach(element => {
             const rowArray: KeyboardItem[] = [];
             parsedJsonUserInput.tableData.forEach(item => {
-                const listItemLabel = element[item.key];
-                if (!element.buttondelete || !listItemLabel) {
+                const elementProperty = element[item.key];
+                if (!element.buttondelete || !elementProperty) {
                     return;
                 }
 
@@ -120,7 +136,7 @@ const createKeyboardFromJson = (
 
                 if (name) {
                     rowArray.push({
-                        text: name,
+                        text: elementProperty,
                         callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}:${requestId}`,
                     });
                 }

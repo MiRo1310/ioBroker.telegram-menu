@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.singleQuotesToDoubleQuotes = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.toSingeQuotesString = exports.singleLineString = exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.singleQuotesToDoubleQuotes = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -128,4 +128,8 @@ const isNonEmptyString = (str) => str.trim() !== '';
 exports.isNonEmptyString = isNonEmptyString;
 const isEmptyString = (str) => str.trim() === '';
 exports.isEmptyString = isEmptyString;
+const singleLineString = (jsonString) => jsonString.replace(/\s+/g, ' ').trim();
+exports.singleLineString = singleLineString;
+const toSingeQuotesString = (str) => str.replace(/\s+/g, ' ').trim().replace(/"/g, "'");
+exports.toSingeQuotesString = toSingeQuotesString;
 //# sourceMappingURL=string.js.map

@@ -14,6 +14,8 @@ import {
     replaceAll,
     replaceAllItems,
     stringReplacer,
+    singleLineString,
+    toSingeQuotesString,
 } from '@backend/lib/string';
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
@@ -467,5 +469,34 @@ describe('remove duplicated spaces', () => {
 
     it('should trim and remove duplicated spaces, with one word', () => {
         expect(removeDuplicateSpaces('  Test   ')).to.be.equal('Test');
+    });
+});
+
+describe('singleLineString', () => {
+    it('should remove all \\n and \\r from the string', () => {
+        const input = '{\n  "foo": "bar",\r\n  "baz": 42\n}';
+        const expected = '{ "foo": "bar", "baz": 42 }';
+        expect(singleLineString(input)).to.equal(expected);
+    });
+
+    it('should return the same string if there are no line breaks', () => {
+        const input = '{"foo":"bar"}';
+        expect(singleLineString(input)).to.equal(input);
+    });
+
+    it('should handle empty string', () => {
+        expect(singleLineString('')).to.equal('');
+    });
+
+    it('should handle tabs and mixed whitespace', () => {
+        const input = 'foo\t\tbar   baz\nqux';
+        const expected = 'foo bar baz qux';
+        expect(singleLineString(input)).to.equal(expected);
+    });
+});
+
+describe('toSingleQuotes', () => {
+    it('should return single quotes', () => {
+        expect(toSingeQuotesString('"Test"')).to.equal("'Test'");
     });
 });
