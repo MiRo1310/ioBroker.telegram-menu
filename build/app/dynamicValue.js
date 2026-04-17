@@ -13,7 +13,7 @@ class DynamicValueHandler {
         }
         return false;
     };
-    setDynamicValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
+    setValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
         const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
         let array = substringExcludeSearch.split(':');
         array = this.isBraceDeleteEntry(array);
@@ -29,7 +29,7 @@ class DynamicValueHandler {
             });
         }
         this.dynamicValueObj[userToSend] = {
-            id,
+            idToSet: id,
             ack,
             returnText: confirmText,
             userToSend,
@@ -37,7 +37,7 @@ class DynamicValueHandler {
             confirm,
             telegramParams,
             valueType: array[1],
-            navToGoTo: array[3],
+            watchForId: array[3],
         };
         if (confirmText && confirmText != '') {
             return { confirmText, id: array[3] !== '' ? array[3] : undefined };
@@ -45,10 +45,7 @@ class DynamicValueHandler {
         return { confirmText: '', id: undefined };
     };
     isBraceDeleteEntry(array) {
-        if (array[4] === '}') {
-            return array.slice(0, 4);
-        }
-        return array;
+        return array[4] === '}' ? array.slice(0, 4) : array;
     }
 }
 exports.dynamicValue = new DynamicValueHandler();

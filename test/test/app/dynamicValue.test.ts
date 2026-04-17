@@ -33,7 +33,7 @@ describe('DynamicValueHandler', function () {
 
         const value = dynamicValue.getValue('testUser');
         expect(value).to.be.an('object');
-        expect(value).to.have.property('id', 'id1');
+        expect(value).to.have.property('idToSet', 'id1');
 
         const removed = dynamicValue.removeUser('testUser');
         expect(removed).to.be.true;

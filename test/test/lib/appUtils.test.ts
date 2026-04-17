@@ -11,6 +11,7 @@ import {
     roundValue,
     splitNavigation,
     statusIdAndParams,
+    getInstanceById,
 } from '@backend/lib/appUtils'; // Adjust the path as needed
 import { expect } from 'chai';
 import { utils } from '@iobroker/testing';
@@ -606,5 +607,21 @@ describe('isSameType', () => {
         const obj = { common: { type: 'number' } } as ioBroker.Object;
         const result = isSameType('string', obj);
         expect(result).to.be.false;
+    });
+});
+
+describe('Instance', () => {
+    it('should value with correct id', () => {
+        const { instance, instanceNumber, instanceName } = getInstanceById('telegram.0.test.1');
+        expect(instanceName).to.equal('telegram');
+        expect(instanceNumber).to.equal('0');
+        expect(instance).to.equal('telegram.0');
+    });
+
+    it('should value with invalid id', () => {
+        const { instance, instanceNumber, instanceName } = getInstanceById('telegram0test1');
+        expect(instanceName).to.be.eq('telegram0test1');
+        expect(instanceNumber).to.be.undefined;
+        expect(instance).to.be.undefined;
     });
 });

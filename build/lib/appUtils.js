@@ -127,7 +127,8 @@ function isSameType(receivedType, obj) {
 }
 const getInstanceById = (id) => {
     const obj = id.split('.');
-    return { instanceName: obj[0], instanceNumber: obj[1], instance: obj.slice(0, 2).join('.') };
+    const instance = obj[0] && obj[1] ? obj.slice(0, 2).join('.') : undefined;
+    return { instanceName: obj[0], instanceNumber: obj[1], instance };
 };
 exports.getInstanceById = getInstanceById;
 //# sourceMappingURL=appUtils.js.map

@@ -39,22 +39,16 @@ const replaceAllItems = (text, searched) => {
 };
 exports.replaceAllItems = replaceAllItems;
 /**
- * @deprecated
- * use mrRemoveQuotes instead if updated
  * @param text Text
  */
 const removeQuotes = (text) => text.replace(/['"]/g, '');
 exports.removeQuotes = removeQuotes;
 /**
- * @deprecated
- * use mrSingleQuotesToDoubleQuotes instead if updated
  * @param text Text
  */
 const singleQuotesToDoubleQuotes = (text) => text.replace(/'/g, '"');
 exports.singleQuotesToDoubleQuotes = singleQuotesToDoubleQuotes;
 /**
- * @deprecated
- * use mrRemoveDuplicatedSpaces instead if updated
  * @param text Text
  */
 const removeDuplicateSpaces = (text) => text.replace(/\s+/g, ' ').trim();
@@ -95,8 +89,6 @@ function decomposeText(text, firstSearch, secondSearch) {
     };
 }
 /**
- * @deprecated
- * use mrIsString instead if updated
  * @param value Unknown value
  * @returns boolean indicating if the value is a string
  */
@@ -115,8 +107,6 @@ function stringReplacer(substring, valueToReplace) {
     return substring;
 }
 /**
- * @deprecated
- * use mrPad instead if updated
  * @param value Number to pad
  * @param length Length to pad to, default is 2
  * @returns Padded string

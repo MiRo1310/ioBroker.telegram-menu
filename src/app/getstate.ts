@@ -5,7 +5,7 @@ import { idBySelector } from '@backend/app/idBySelector';
 import { bindingFunc } from '@backend/app/action';
 import { isDefined } from '@backend/lib/utils';
 import { cleanUpString, ifTruthyAddNewLine, jsonString } from '@backend/lib/string';
-import { setTimeValue } from '@backend/lib/utilities';
+import { getTimeValue } from '@backend/lib/utilities';
 import { integrateTimeIntoText } from '@backend/lib/time';
 import { mathFunction, roundValue } from '@backend/lib/appUtils';
 import { createKeyboardFromJson, createTextTableFromJson } from '@backend/app/jsonTable';
@@ -59,7 +59,7 @@ export async function getState(
             let modifiedTextToSend = text;
 
             if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
-                modifiedTextToSend = await setTimeValue(adapter, text, id);
+                modifiedTextToSend = await getTimeValue(adapter, text, id);
                 modifiedStateVal = '';
             }
 

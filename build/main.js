@@ -281,6 +281,9 @@ class TelegramMenu extends utils.Adapter {
             const { telegramInfoConnectionID } = configVariables_1.getIds;
             const { instance } = (0, appUtils_1.getInstanceById)(id);
             const instanceObj = telegramParams.telegramInstanceList.find(item => item.name === instance);
+            if (!instance) {
+                return null;
+            }
             const iterationId = telegramInfoConnectionID(instance);
             if (instanceObj?.active) {
                 const active = await this.isTelegramInstanceActive(iterationId);

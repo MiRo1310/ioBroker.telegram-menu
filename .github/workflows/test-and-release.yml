@@ -75,8 +75,8 @@ jobs:
         - name: Install dependencies
           run: npm ci
 
-        - name: Run Unit tests
-          run: npm run test:js
+        - name: Run Unit tests with coverage
+          run: npm run test:cov:ci
           timeout-minutes: 5            
    
     deploy:

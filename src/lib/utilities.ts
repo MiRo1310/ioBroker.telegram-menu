@@ -8,8 +8,9 @@ import { isSameType, timeStringReplacer } from '@backend/lib/appUtils';
 import { extractTimeValues, getTimeWithPad } from '@backend/lib/time';
 import { setstateIobroker } from '@backend/app/setstate';
 import { errorLogger } from '@backend/app/logging';
+import type TelegramMenu from '@backend/main';
 
-export const setTimeValue = async (adapter: any, textToSend: string, id?: string): Promise<string> => {
+export const getTimeValue = async (adapter: TelegramMenu, textToSend: string, id?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
         textToSend,
         config.timestamp.start,
@@ -55,7 +56,7 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
         }
 
         if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
-            text = await setTimeValue(adapter, text);
+            text = await getTimeValue(adapter, text);
         }
         if (text.includes(config.set.start)) {
             const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);

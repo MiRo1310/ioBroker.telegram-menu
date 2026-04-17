@@ -110,7 +110,7 @@ export interface SetDynamicValueObj {
 }
 
 export interface IDynamicValue {
-    id: string;
+    idToSet: string;
     ack: boolean;
     returnText: string;
     userToSend: string;
@@ -118,8 +118,7 @@ export interface IDynamicValue {
     confirm: boolean;
     telegramParams: TelegramParams;
     valueType: string;
-    //TODO Das sollte die Id sein
-    navToGoTo?: string;
+    watchForId?: string;
 }
 
 export type Newline = BooleanString;

@@ -40,7 +40,7 @@ class DynamicValueHandler {
             });
         }
         this.dynamicValueObj[userToSend] = {
-            id,
+            idToSet: id,
             ack,
             returnText: confirmText,
             userToSend,
@@ -48,8 +48,7 @@ class DynamicValueHandler {
             confirm,
             telegramParams,
             valueType: array[1],
-            //TODO NAVToGo?
-            navToGoTo: array[3],
+            watchForId: array[3],
         };
 
         if (confirmText && confirmText != '') {

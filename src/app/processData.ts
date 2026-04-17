@@ -1,4 +1,4 @@
-import type { CheckEveryMenuForDataType, Part, ProcessDataType, Timeouts } from '@backend/types/types';
+import type { CheckEveryMenuForDataType, IDynamicValue, Part, ProcessDataType, Timeouts } from '@backend/types/types';
 import { jsonString } from '@backend/lib/string';
 import { adjustValueType } from '@backend/app/action';
 import { exchangeValueAndSendToTelegram, handleSetState, setstateIobroker } from '@backend/app/setstate';
@@ -60,6 +60,10 @@ export async function checkEveryMenuForData({
     return false;
 }
 
+function onlyConfirmIfWatchIdIsNotSet(dynamicValueObject: IDynamicValue): boolean {
+    return !dynamicValueObject.watchForId;
+}
+
 async function processData({
     instance,
     menuData,
@@ -79,28 +83,36 @@ async function processData({
     try {
         let part: Part | undefined = {} as Part;
 
-        const value = dynamicValue.getValue(userToSend);
-        if (value) {
-            const valueToSet = value?.valueType ? adjustValueType(adapter, calledValue, value.valueType) : calledValue;
+        const dynamicValueObject = dynamicValue.getValue(userToSend);
 
-            if (valueToSet && value?.id) {
-                await setstateIobroker({ adapter, id: value.id, value: valueToSet, ack: value?.ack });
-                if (value.confirm) {
+        if (dynamicValueObject) {
+            const valueToSet = dynamicValueObject?.valueType
+                ? adjustValueType(adapter, calledValue, dynamicValueObject.valueType)
+                : calledValue;
+
+            if (valueToSet && dynamicValueObject?.idToSet) {
+                await setstateIobroker({
+                    adapter,
+                    id: dynamicValueObject.idToSet,
+                    value: valueToSet,
+                    ack: dynamicValueObject?.ack,
+                });
+                if (dynamicValueObject.confirm && onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
                     await exchangeValueAndSendToTelegram(
                         adapter,
-                        value.returnText,
+                        dynamicValueObject.returnText,
                         valueToSet,
                         instance,
                         userToSend,
                         telegramParams,
-                        value.parse_mode,
+                        dynamicValueObject.parse_mode,
                     );
                 }
             } else {
                 await sendToTelegram({
                     instance,
                     userToSend,
-                    textToSend: `You insert a wrong Type of value, please insert type : ${value?.valueType}`,
+                    textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValueObject?.valueType}`,
                     telegramParams,
                 });
             }
@@ -108,7 +120,7 @@ async function processData({
             dynamicValue.removeUser(userToSend);
             const result = await switchBack(adapter, userToSend, allMenusWithData, menus, true);
 
-            if (result && !value.navToGoTo) {
+            if (result && !dynamicValueObject.watchForId) {
                 const { textToSend, keyboard, parse_mode } = result;
                 await sendToTelegram({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
                 return true;

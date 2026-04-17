@@ -96,7 +96,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
             let returnText = text;
             const useForeignId = handleUpdateFromForeignId(returnText);
             if (returnText.includes('{setDynamicValue')) {
-                const { confirmText, id } = await dynamicValue_1.dynamicValue.setDynamicValue(instance, returnText, ack, idToGetValueFrom, userToSend, telegramParams, parse_mode, confirm);
+                const { confirmText, id } = await dynamicValue_1.dynamicValue.setValue(instance, returnText, ack, idToGetValueFrom, userToSend, telegramParams, parse_mode, confirm);
                 if (confirm) {
                     await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                         id: id ?? idToGetValueFrom,
