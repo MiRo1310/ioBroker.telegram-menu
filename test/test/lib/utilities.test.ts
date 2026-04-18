@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as utilities from '../../../src/lib/utilities';
 import { invalidId } from '@backend/config/config';
-import { changeToNumber } from '../../../src/lib/utilities';
+import { changeToNumber } from '@backend/lib/utilities';
 
 describe('utilities', () => {
     let adapterMock: any;
@@ -11,6 +11,7 @@ describe('utilities', () => {
         adapterMock = {
             getForeignStateAsync: sinon.stub(),
             getForeignObjectAsync: sinon.stub(),
+            setForeignStateAsync: sinon.stub(),
             log: {
                 debug: sinon.stub(),
                 warn: sinon.stub(),
@@ -126,7 +127,55 @@ describe('utilities', () => {
             const result = await utilities.textModifier(adapterMock, text);
             expect(result).to.equal('Test 123 change{"123":"an","456":"aus"}');
         });
-        //TODO
+
+        it('should handle text with status and deactivated change', async () => {
+            adapterMock.getForeignStateAsync.withArgs('telegram.0.test').resolves({ val: 123 });
+            const text = 'Test {status:"telegram.0.test":false} change{"123":"an","456":"aus"}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test 123 change{"123":"an","456":"aus"}');
+        });
+
+        it('should handle text with status and change and time.ts', async () => {
+            adapterMock.getForeignStateAsync.withArgs('test.0.test').resolves({ lc: 1776489102372, ts: 1776316302000 });
+            adapterMock.getForeignStateAsync.withArgs('telegram.0.test').resolves({ val: 123 });
+            const text =
+                'Test {status:"telegram.0.test":true} change{"123":"an","456":"aus"} {time.ts,(DD MM),id:"test.0.test"}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test an 16 04');
+        });
+
+        it('should handle text with status ,change ,time.ts and set', async () => {
+            adapterMock.getForeignStateAsync.withArgs('test.0.test').resolves({ lc: 1776489102372, ts: 1776316302000 });
+            adapterMock.getForeignStateAsync.withArgs('telegram.0.test').resolves({ val: 123 });
+
+            const text =
+                'Test {status:"telegram.0.test":true} change{"123":"an","456":"aus"} {time.ts,(DD MM),id:"test.0.test"} {set:\'id\':\'idToSet\',abc,true}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test an 16 04');
+            expect(adapterMock.setForeignStateAsync.calledOnceWith('idToSet', 'abc', true)).to.be.true;
+        });
+
+        it('should handle text with status ,change ,time.ts and set with ack false', async () => {
+            adapterMock.getForeignStateAsync.withArgs('test.0.test').resolves({ lc: 1776489102372, ts: 1776316302000 });
+            adapterMock.getForeignStateAsync.withArgs('telegram.0.test').resolves({ val: 123 });
+
+            const text =
+                'Test {status:"telegram.0.test":true} change{"123":"an","456":"aus"} {time.ts,(DD MM),id:"test.0.test"} {set:\'id\':\'idToSet\',abc,false}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test an 16 04');
+            expect(adapterMock.setForeignStateAsync.calledOnceWith('idToSet', 'abc', false)).to.be.true;
+        });
+
+        it('should handle text with status ,change ,time.ts and set with non ack', async () => {
+            adapterMock.getForeignStateAsync.withArgs('test.0.test').resolves({ lc: 1776489102372, ts: 1776316302000 });
+            adapterMock.getForeignStateAsync.withArgs('telegram.0.test').resolves({ val: 123 });
+
+            const text =
+                'Test {status:"telegram.0.test":true} change{"123":"an","456":"aus"} {time.ts,(DD MM),id:"test.0.test"} {set:\'id\':\'idToSet\',abc}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test an 16 04');
+            expect(adapterMock.setForeignStateAsync.calledOnceWith('idToSet', 'abc', false)).to.be.true;
+        });
     });
 
     describe('transformValueToTypeOfId', () => {
@@ -152,6 +201,24 @@ describe('utilities', () => {
             adapterMock.getForeignObjectAsync.resolves({ common: { type: 'boolean' } });
             const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', true);
             expect(result).to.equal(true);
+        });
+
+        it('should convert value booleanString to boolean', async () => {
+            adapterMock.getForeignObjectAsync.resolves({ common: { type: 'boolean' } });
+            const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', 'true');
+            expect(result).to.equal(true);
+        });
+
+        it('should convert value booleanString to boolean', async () => {
+            adapterMock.getForeignObjectAsync.resolves({ common: { type: 'boolean' } });
+            const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', 'false');
+            expect(result).to.equal(false);
+        });
+
+        it('should return input type if obj.common.type == string | boolean | number', async () => {
+            adapterMock.getForeignObjectAsync.resolves({ common: { type: 'object' } });
+            const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', 123);
+            expect(result).to.equal(123);
         });
     });
 

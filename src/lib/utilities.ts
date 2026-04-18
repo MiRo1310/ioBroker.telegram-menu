@@ -2,7 +2,7 @@ import { isDefined } from '@backend/lib/utils';
 import { checkStatus } from '../app/status';
 import type { Adapter } from '../types/types';
 import { getProcessTimeValues } from '@backend/lib/splitValues';
-import { decomposeText, isEmptyString, replaceAllItems } from '@backend/lib/string';
+import { decomposeText, replaceAllItems } from '@backend/lib/string';
 import { invalidId, config } from '@backend/config/config';
 import { isSameType, timeStringReplacer } from '@backend/lib/appUtils';
 import { extractTimeValues, getTimeWithPad } from '@backend/lib/time';
@@ -17,11 +17,11 @@ export const getTimeValue = async (adapter: TelegramMenu, textToSend: string, op
         config.timestamp.end,
     ); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = getProcessTimeValues(substringExcludeSearch);
-
     if (!optionalId && (!idString || idString.length < 5)) {
         return invalidId;
     }
-    const value = await adapter.getForeignStateAsync(optionalId ?? idString);
+    const id = (optionalId ?? idString).replace(/'/g, '').replace(/"/g, '');
+    const value = await adapter.getForeignStateAsync(id);
 
     if (!value) {
         return invalidId;
@@ -52,7 +52,6 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
         const inputText = text;
 
         while (text.includes(config.status.start)) {
-            console.log('check Status');
             text = await checkStatus(adapter, text);
         }
 
@@ -61,7 +60,10 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
         }
         if (text.includes(config.set.start)) {
             const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
-            const [idString, importedValue, ackString] = substring.split(',') as (string | undefined)[];
+
+            const [idString, importedValue, ackString] = (substring.split(',') as (string | undefined)[]).map(i =>
+                i?.replace(/}/g, ''),
+            );
             const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
 
             text = textExcludeSubstring;
@@ -70,9 +72,6 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
 
             const ack = ackString?.replace('}', '') == 'true' || false;
 
-            if (isEmptyString(text)) {
-                text = 'Wähle eine Aktion';
-            }
             if (convertedValue && id) {
                 await setstateIobroker({ adapter, id, value: convertedValue, ack });
             }

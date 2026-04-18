@@ -15,7 +15,10 @@ export function getChart(
     try {
         for (const echart of echarts) {
             const instanceOfEchart = getEchartsValues(echart.preset);
-
+            if (!instanceOfEchart) {
+                adapter.log.warn('Echart Instance not found');
+                return;
+            }
             if (!validateDirectory(adapter, directoryPicture)) {
                 return;
             }

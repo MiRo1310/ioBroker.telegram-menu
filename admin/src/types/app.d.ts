@@ -691,7 +691,7 @@ export type ConditionFilters = '=' | '!=' | '>' | '<' | '>=' | '<=';
 
 export interface Pic {
     IDs: string[];
-    filename: string[];
+    fileName: string[];
     trigger: string[];
     picSendDelay: string[];
 }
