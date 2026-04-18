@@ -102,11 +102,13 @@ describe('backMenu', () => {
             const user = 'userErr';
             backMenuFunc({ activePage: 'page1', userToSend: user });
             backMenuFunc({ activePage: 'page2', userToSend: user });
+            // make debug throw and use a menu that does NOT contain the page so the debug call is executed
             adapterMock.log.debug = sinon.stub().throws(new Error('debug error'));
             adapterMock.log.error = sinon.stub();
             adapterMock.supportsFeature = sinon.stub().returns(false);
-            const result = await switchBack(adapterMock, user, menuData, ['menu1']);
+            const result = await switchBack(adapterMock, user, menuData, ['nonExistentMenu']);
             expect(result).to.be.undefined;
+            expect(adapterMock.log.error.called).to.be.true;
         });
     });
 });
