@@ -158,4 +158,43 @@ describe('Setstate', () => {
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: AUS');
     });
+
+    it('should toggle state value (true -> false)', async () => {
+        await mockAdapter.setForeignStateAsync('test.0.toggle', true, true);
+        const part = {
+            switch: [
+                {
+                    id: 'test.0.toggle',
+                    toggle: true,
+                    confirm: true,
+                    returnText: 'Toggled: &&',
+                    value: '',
+                    ack: false,
+                    parse_mode: false,
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        expect(result?.textToSend).to.include('false');
+    });
+
+    it('should return undefined if part has no switch', async () => {
+        const part = {} as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        expect(result).to.be.undefined;
+    });
+
+    it('should handle invalid foreignId JSON gracefully', async () => {
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    confirm: true,
+                    returnText: '{"foreignId":"INVALID JSON broken',
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        expect(result).to.be.undefined;
+    });
 });

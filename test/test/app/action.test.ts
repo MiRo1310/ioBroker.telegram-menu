@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { adjustValueType, generateActions, getUserToSendFromUserListWithChatID } from '../../../src/app/action';
+import { adjustValueType, bindingFunc, generateActions, getUserToSendFromUserListWithChatID } from '../../../src/app/action';
 import type { Actions, NewObjectStructure } from '@backend/types/types';
 import type { UserListWithChatID } from '@/types/app';
 
@@ -16,6 +16,26 @@ describe('action', () => {
             },
             getForeignStateAsync: sinon.stub(),
         };
+    });
+
+    // ─── adjustValueType ────────────────────────────────────────────────────────
+
+    describe('bindingFunc', () => {
+        it('should call sendTo after evaluating binding expression', async () => {
+            adapterMock.getForeignStateAsync.withArgs('state.0.temp').resolves({ val: 21 });
+            adapterMock.sendTo = sinon.stub();
+
+            const text = '{binding:temp=state.0.temp?temp>20}';
+            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', {} as any);
+            expect(adapterMock.sendTo.called).to.be.true;
+        });
+
+        it('should not throw if getForeignStateAsync returns null', async () => {
+            adapterMock.getForeignStateAsync.resolves(null);
+            adapterMock.sendTo = sinon.stub();
+            const text = '{binding:temp=state.0.temp?temp>20}';
+            await expect(bindingFunc(adapterMock, 'telegram.0', text, 'Michael', {} as any)).to.not.be.rejected;
+        });
     });
 
     // ─── adjustValueType ────────────────────────────────────────────────────────
