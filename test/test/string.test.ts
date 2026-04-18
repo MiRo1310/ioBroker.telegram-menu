@@ -43,6 +43,16 @@ describe('parseJSON', () => {
         const result = parseJSON('test');
         expect(result).to.deep.equal({ isValidJson: false, json: 'test' });
     });
+
+    it('parseJSON with incorrect json and adapter logs error', () => {
+        const result = parseJSON('test', mockAdapter);
+        expect(result).to.deep.equal({ isValidJson: false, json: 'test' });
+    });
+
+    it('parseJSON with null returns empty string', () => {
+        const result = parseJSON(null);
+        expect(result).to.deep.equal({ isValidJson: false, json: '' });
+    });
 });
 
 describe('replaceAll', () => {

@@ -220,6 +220,27 @@ describe('utilities', () => {
             const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', 123);
             expect(result).to.equal(123);
         });
+
+        it('should return undefined if getForeignObjectAsync throws', async () => {
+            adapterMock.getForeignObjectAsync.rejects(new Error('DB error'));
+            adapterMock.log.error = sinon.stub();
+            adapterMock.supportsFeature = sinon.stub().returns(false);
+            const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', 'value');
+            expect(result).to.be.undefined;
+        });
+    });
+
+    describe('textModifier - error handling', () => {
+        it('should return empty string if an error is thrown internally', async () => {
+            adapterMock.getForeignStateAsync.rejects(new Error('unexpected'));
+            adapterMock.log.error = sinon.stub();
+            adapterMock.supportsFeature = sinon.stub().returns(false);
+            const result = await utilities.textModifier(
+                adapterMock,
+                '{status:"broken.id":true} change{"1":"a"}',
+            );
+            expect(result).to.equal('');
+        });
     });
 
     describe('transformValue', () => {
