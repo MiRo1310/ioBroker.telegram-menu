@@ -264,4 +264,26 @@ describe('utilities', () => {
             expect(changeToNumber(adapterMock, 'Invalid')).to.be.undefined;
         });
     });
+
+    describe('transformValue', () => {
+        it('string to number with number', () => {
+            expect(changeToNumber(adapterMock, 24.66)).to.be.equal(24.66);
+        });
+
+        it('string to number with text number', () => {
+            expect(changeToNumber(adapterMock, '42')).to.be.equal(42);
+        });
+
+        it('string to number with text decimal', () => {
+            expect(changeToNumber(adapterMock, '42.55')).to.be.equal(42.55);
+        });
+
+        it('string to number with string number contains , ', () => {
+            expect(changeToNumber(adapterMock, '42,55')).to.be.equal(42);
+        });
+
+        it('string to number with non string number', () => {
+            expect(changeToNumber(adapterMock, 'Invalid')).to.be.undefined;
+        });
+    });
 });
