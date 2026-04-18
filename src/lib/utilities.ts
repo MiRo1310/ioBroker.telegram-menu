@@ -2,7 +2,7 @@ import { isDefined } from '@backend/lib/utils';
 import { checkStatus } from '../app/status';
 import type { Adapter } from '../types/types';
 import { getProcessTimeValues } from '@backend/lib/splitValues';
-import { decomposeText, replaceAllItems } from '@backend/lib/string';
+import { decomposeText, isEmptyString, replaceAllItems } from '@backend/lib/string';
 import { invalidId, config } from '@backend/config/config';
 import { isSameType, timeStringReplacer } from '@backend/lib/appUtils';
 import { extractTimeValues, getTimeWithPad } from '@backend/lib/time';
@@ -52,6 +52,7 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
         const inputText = text;
 
         while (text.includes(config.status.start)) {
+            console.log('check Status');
             text = await checkStatus(adapter, text);
         }
 
