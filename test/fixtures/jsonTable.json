@@ -1,0 +1,42 @@
+[
+    {
+        "Pollen": "Ambrosia",
+        "Riskindex": 0,
+        "Riskindextext": "keine Belastung"
+    },
+    {
+        "Pollen": "Esche",
+        "Riskindex": 3,
+        "Riskindextext": "geringe bis mittlere Belastung"
+    },
+    {
+        "Pollen": "Graeser",
+        "Riskindex": 0,
+        "Riskindextext": "keine Belastung"
+    },
+    {
+        "Pollen": "Beifuss",
+        "Riskindex": 0,
+        "Riskindextext": "keine Belastung"
+    },
+    {
+        "Pollen": "Birke",
+        "Riskindex": 6,
+        "Riskindextext": "hohe Belastung"
+    },
+    {
+        "Pollen": "Hasel",
+        "Riskindex": 0,
+        "Riskindextext": "keine Belastung"
+    },
+    {
+        "Pollen": "Erle",
+        "Riskindex": 1,
+        "Riskindextext": "keine bis geringe Belastung"
+    },
+    {
+        "Pollen": "Roggen",
+        "Riskindex": 0,
+        "Riskindextext": "keine Belastung"
+    }
+]

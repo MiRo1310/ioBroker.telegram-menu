@@ -1,0 +1,112 @@
+[
+    {
+        "name": "Schwarzen gürtel",
+        "time": "11.4.2026, 08:35:08",
+        "ts": 1775889308388,
+        "id": "127dcf07-ed02-4280-9508-a6717b487a35",
+        "pos": 1,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.127dcf07-ed02-4280-9508-a6717b487a35.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.127dcf07-ed02-4280-9508-a6717b487a35.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.127dcf07-ed02-4280-9508-a6717b487a35.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.127dcf07-ed02-4280-9508-a6717b487a35.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Waldmeistersirup",
+        "time": "15.4.2026, 18:53:20",
+        "ts": 1776272000948,
+        "id": "16186e82-c243-46f4-9a2c-c32725a8c2da",
+        "pos": 2,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.16186e82-c243-46f4-9a2c-c32725a8c2da.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.16186e82-c243-46f4-9a2c-c32725a8c2da.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.16186e82-c243-46f4-9a2c-c32725a8c2da.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.16186e82-c243-46f4-9a2c-c32725a8c2da.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Mineralwasser",
+        "time": "15.4.2026, 18:53:30",
+        "ts": 1776272010258,
+        "id": "e62bcd70-7c0d-43d7-8394-c48ed10d5d53",
+        "pos": 3,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.e62bcd70-7c0d-43d7-8394-c48ed10d5d53.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.e62bcd70-7c0d-43d7-8394-c48ed10d5d53.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.e62bcd70-7c0d-43d7-8394-c48ed10d5d53.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.e62bcd70-7c0d-43d7-8394-c48ed10d5d53.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Mayonnaise",
+        "time": "16.4.2026, 12:52:30",
+        "ts": 1776336750889,
+        "id": "20f60b54-b9f9-4846-a7bc-ce096350b321",
+        "pos": 4,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.20f60b54-b9f9-4846-a7bc-ce096350b321.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.20f60b54-b9f9-4846-a7bc-ce096350b321.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.20f60b54-b9f9-4846-a7bc-ce096350b321.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.20f60b54-b9f9-4846-a7bc-ce096350b321.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Kirschsirup",
+        "time": "17.4.2026, 07:00:01",
+        "ts": 1776402001863,
+        "id": "97a16992-43c3-4eb0-aeac-c90eaa904512",
+        "pos": 5,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.97a16992-43c3-4eb0-aeac-c90eaa904512.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.97a16992-43c3-4eb0-aeac-c90eaa904512.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.97a16992-43c3-4eb0-aeac-c90eaa904512.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.97a16992-43c3-4eb0-aeac-c90eaa904512.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Toilettenpapier",
+        "time": "17.4.2026, 07:46:28",
+        "ts": 1776404788290,
+        "id": "96472696-e4b8-42e0-be16-fd7589c6ea1b",
+        "pos": 6,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.96472696-e4b8-42e0-be16-fd7589c6ea1b.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.96472696-e4b8-42e0-be16-fd7589c6ea1b.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.96472696-e4b8-42e0-be16-fd7589c6ea1b.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.96472696-e4b8-42e0-be16-fd7589c6ea1b.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Taschentuchbox",
+        "time": "17.4.2026, 08:06:23",
+        "ts": 1776405983648,
+        "id": "3be81de9-5855-485f-a316-71cee9c9970e",
+        "pos": 7,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.3be81de9-5855-485f-a316-71cee9c9970e.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.3be81de9-5855-485f-a316-71cee9c9970e.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.3be81de9-5855-485f-a316-71cee9c9970e.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.3be81de9-5855-485f-a316-71cee9c9970e.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Taschentücher",
+        "time": "17.4.2026, 08:06:30",
+        "ts": 1776405990522,
+        "id": "f991193e-c87c-4041-a0ea-e535ddf0b7ba",
+        "pos": 8,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.f991193e-c87c-4041-a0ea-e535ddf0b7ba.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.f991193e-c87c-4041-a0ea-e535ddf0b7ba.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.f991193e-c87c-4041-a0ea-e535ddf0b7ba.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.f991193e-c87c-4041-a0ea-e535ddf0b7ba.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "W. c. ente",
+        "time": "17.4.2026, 08:22:30",
+        "ts": 1776406950808,
+        "id": "951a8eac-230b-432e-98ae-7b521f3e0f80",
+        "pos": 9,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.951a8eac-230b-432e-98ae-7b521f3e0f80.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.951a8eac-230b-432e-98ae-7b521f3e0f80.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.951a8eac-230b-432e-98ae-7b521f3e0f80.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.951a8eac-230b-432e-98ae-7b521f3e0f80.#delete,true')\">❌</button> <font color=\"green\">"
+    },
+    {
+        "name": "Käse",
+        "time": "17.4.2026, 13:54:36",
+        "ts": 1776426876654,
+        "id": "79d45862-aaec-44ee-94a7-72629eafffa2",
+        "pos": 10,
+        "buttonmove": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.79d45862-aaec-44ee-94a7-72629eafffa2.completed,true')\">↪</button> <font color=\"green\">",
+        "buttonDeleteId": "alexa2.0.Lists.SHOP.items.79d45862-aaec-44ee-94a7-72629eafffa2.#delete",
+        "buttonCompletedId": "alexa2.0.Lists.SHOP.items.79d45862-aaec-44ee-94a7-72629eafffa2.completed",
+        "buttondelete": "<button style=\"border:none; cursor:pointer; background-color:transparent; color:white; font-size:1em; text-align:center\" value=\"toggle\" onclick=\"setOnDblClickCustomShop('alexa2.0.Lists.SHOP.items.79d45862-aaec-44ee-94a7-72629eafffa2.#delete,true')\">❌</button> <font color=\"green\">"
+    }
+]

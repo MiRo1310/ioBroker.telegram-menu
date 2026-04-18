@@ -76,21 +76,18 @@ export const getParseMode = (val = false): ParseModeType => (val ? 'HTML' : 'Mar
 
 export const getTypeofTimestamp = (val: string): 'lc' | 'ts' => (val.includes('lc') ? 'lc' : 'ts');
 
-export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, string?: string): string | undefined => {
-    if (string) {
-        string = string
-            .replace('sss', ms)
-            .replace('ss', s)
-            .replace('mm', m)
-            .replace('hh', h)
-            .replace('DD', d)
-            .replace('MM', mo)
-            .replace('YYYY', y)
-            .replace('YY', y.slice(-2))
-            .replace('(', '')
-            .replace(')', '');
-    }
-    return string;
+export const timeStringReplacer = ({ d, h, m, ms, y, s, mo }: GetTimeWithPad, string: string): string => {
+    return string
+        .replace('sss', ms)
+        .replace('ss', s)
+        .replace('mm', m)
+        .replace('hh', h)
+        .replace('DD', d)
+        .replace('MM', mo)
+        .replace('YYYY', y)
+        .replace('YY', y.slice(-2))
+        .replace('(', '')
+        .replace(')', '');
 };
 
 export function statusIdAndParams(substringExcludeSearch: string): {

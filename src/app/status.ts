@@ -14,7 +14,6 @@ export const checkStatus = async (adapter: Adapter, text: string): Promise<strin
     ); //substring {status:'ID':true} new | old {status:'id':'ID':true}
 
     const { id, shouldChangeByStatusParameter } = statusIdAndParams(substringExcludeSearch);
-
     const stateValue = await adapter.getForeignStateAsync(id);
 
     if (!isDefined(stateValue?.val)) {

@@ -34,6 +34,19 @@ class lastRequestJsonButtonHistoryClass {
     }
 }
 exports.lastRequestJsonButtonHistory = new lastRequestJsonButtonHistoryClass();
+const addHeader = (json) => {
+    const keyboard = { inline_keyboard: [] };
+    json.tableData.forEach(table => {
+        if (!table.label) {
+            return;
+        }
+        if (!keyboard.inline_keyboard.length) {
+            keyboard.inline_keyboard.push([]);
+        }
+        keyboard.inline_keyboard[0].push({ text: table.label, callback_data: 'button' });
+    });
+    return keyboard;
+};
 const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
     try {
         if (text) {
@@ -52,15 +65,15 @@ const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
         if (!isValidJson) {
             return;
         }
-        const keyboard = { inline_keyboard: [] };
         if (!Array.isArray(json)) {
             return;
         }
+        const keyboard = addHeader(parsedJsonUserInput);
         json.forEach(element => {
             const rowArray = [];
             parsedJsonUserInput.tableData.forEach(item => {
-                const listItemLabel = element[item.key];
-                if (!element.buttondelete || !listItemLabel) {
+                const elementProperty = element[item.key];
+                if (!element.buttondelete || !elementProperty) {
                     return;
                 }
                 const value = element.buttondelete;
@@ -74,7 +87,7 @@ const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
                 const name = element.name;
                 if (name) {
                     rowArray.push({
-                        text: name,
+                        text: elementProperty,
                         callback_data: `sList:${instanceShoppingListID}:${instanceAlexa}:${valueDeleteId}:${parsedJsonUserInput.listName}:${requestId}`,
                     });
                 }

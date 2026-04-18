@@ -1,7 +1,7 @@
 import { getTypeofTimestamp } from '@backend/lib/appUtils';
 import { replaceAllItems } from '@backend/lib/string';
 
-export const getMenuValues = (str: string): { cbData: string; menuToHandle?: string; val?: string } => {
+export const getMenuValues = (str: string): { cbData?: string; menuToHandle?: string; val?: string } => {
     const splitText = str.split(':');
     return { cbData: splitText[1], menuToHandle: splitText[2], val: splitText[3] };
 };
@@ -25,12 +25,15 @@ export function getBindingValues(item: string): { key: string; id?: string } {
     return { key: array[0], id: array[1] };
 }
 
-export const getSubmenuNumberValues = (str: string): { callbackData: string; device: string; value: number } => {
+export const getSubmenuNumberValues = (str: string): { callbackData?: string; device?: string; value?: number } => {
     const splitText = str.split(':'); // submenu:number2-8-1-°C:SetMenuNumber:3
     return { callbackData: splitText[1], device: splitText[2], value: parseFloat(splitText[3]) };
 };
 
-export const getEchartsValues = (preset: string): string => {
+export const getEchartsValues = (preset: string): string | undefined => {
     const splitPreset = preset.split('.');
+    if (splitPreset.length < 2) {
+        return;
+    }
     return `${splitPreset[0]}.${splitPreset[1]}`;
 };

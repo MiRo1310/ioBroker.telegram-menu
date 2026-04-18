@@ -128,3 +128,7 @@ export function isBooleanString(str: string): boolean {
 
 export const isNonEmptyString = (str: string): boolean => str.trim() !== '';
 export const isEmptyString = (str: string): boolean => str.trim() === '';
+
+export const singleLineString = (jsonString: string): string => jsonString.replace(/\s+/g, ' ').trim();
+
+export const toSingeQuotesString = (str: string): string => str.replace(/\s+/g, ' ').trim().replace(/"/g, "'");

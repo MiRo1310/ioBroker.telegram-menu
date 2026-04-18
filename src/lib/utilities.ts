@@ -2,7 +2,7 @@ import { isDefined } from '@backend/lib/utils';
 import { checkStatus } from '../app/status';
 import type { Adapter } from '../types/types';
 import { getProcessTimeValues } from '@backend/lib/splitValues';
-import { decomposeText, isEmptyString, jsonString, replaceAllItems } from '@backend/lib/string';
+import { decomposeText, replaceAllItems } from '@backend/lib/string';
 import { invalidId, config } from '@backend/config/config';
 import { isSameType, timeStringReplacer } from '@backend/lib/appUtils';
 import { extractTimeValues, getTimeWithPad } from '@backend/lib/time';
@@ -10,21 +10,21 @@ import { setstateIobroker } from '@backend/app/setstate';
 import { errorLogger } from '@backend/app/logging';
 import type TelegramMenu from '@backend/main';
 
-export const getTimeValue = async (adapter: TelegramMenu, textToSend: string, id?: string): Promise<string> => {
+export const getTimeValue = async (adapter: TelegramMenu, textToSend: string, optionalId?: string): Promise<string> => {
     const { substring, substringExcludeSearch } = decomposeText(
         textToSend,
         config.timestamp.start,
         config.timestamp.end,
     ); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = getProcessTimeValues(substringExcludeSearch);
-
-    if (!id && (!idString || idString.length < 5)) {
-        return textToSend.replace(substring, invalidId);
+    if (!optionalId && (!idString || idString.length < 5)) {
+        return invalidId;
     }
-    const value = await adapter.getForeignStateAsync(id ?? idString);
+    const id = (optionalId ?? idString).replace(/'/g, '').replace(/"/g, '');
+    const value = await adapter.getForeignStateAsync(id);
 
     if (!value) {
-        return textToSend.replace(substring, invalidId);
+        return invalidId;
     }
     const formattedTimeParams = replaceAllItems(timeString, [',(', '(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
     const unixTs = value[typeofTimestamp];
@@ -32,11 +32,11 @@ export const getTimeValue = async (adapter: TelegramMenu, textToSend: string, id
     const timeWithPad = getTimeWithPad(extractTimeValues(unixTs));
     const formattedTime = timeStringReplacer(timeWithPad, formattedTimeParams);
 
-    return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
+    return textToSend.replace(substring, formattedTime).trim();
 };
 
-const changeToNumber = (adapter: Adapter, value: string | number): number | undefined => {
-    const val = typeof value === 'string' ? parseFloat(value) : parseFloat(jsonString(value));
+export const changeToNumber = (adapter: Adapter, value: string | number): number | undefined => {
+    const val = typeof value === 'string' ? parseFloat(value) : value;
     if (isNaN(val)) {
         adapter.log.warn(`Value "${value}" is not a valid number. Returning NaN.`);
         return;
@@ -60,7 +60,10 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
         }
         if (text.includes(config.set.start)) {
             const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
-            const [idString, importedValue, ackString] = substring.split(',') as (string | undefined)[];
+
+            const [idString, importedValue, ackString] = (substring.split(',') as (string | undefined)[]).map(i =>
+                i?.replace(/}/g, ''),
+            );
             const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
 
             text = textExcludeSubstring;
@@ -69,9 +72,6 @@ export const textModifier = async (adapter: Adapter, text?: string): Promise<str
 
             const ack = ackString?.replace('}', '') == 'true' || false;
 
-            if (isEmptyString(text)) {
-                text = 'Wähle eine Aktion';
-            }
             if (convertedValue && id) {
                 await setstateIobroker({ adapter, id, value: convertedValue, ack });
             }
