@@ -60,20 +60,17 @@ exports.getParseMode = getParseMode;
 const getTypeofTimestamp = (val) => (val.includes('lc') ? 'lc' : 'ts');
 exports.getTypeofTimestamp = getTypeofTimestamp;
 const timeStringReplacer = ({ d, h, m, ms, y, s, mo }, string) => {
-    if (string) {
-        string = string
-            .replace('sss', ms)
-            .replace('ss', s)
-            .replace('mm', m)
-            .replace('hh', h)
-            .replace('DD', d)
-            .replace('MM', mo)
-            .replace('YYYY', y)
-            .replace('YY', y.slice(-2))
-            .replace('(', '')
-            .replace(')', '');
-    }
-    return string;
+    return string
+        .replace('sss', ms)
+        .replace('ss', s)
+        .replace('mm', m)
+        .replace('hh', h)
+        .replace('DD', d)
+        .replace('MM', mo)
+        .replace('YYYY', y)
+        .replace('YY', y.slice(-2))
+        .replace('(', '')
+        .replace(')', '');
 };
 exports.timeStringReplacer = timeStringReplacer;
 function statusIdAndParams(substringExcludeSearch) {

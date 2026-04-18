@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.textModifier = exports.getTimeValue = void 0;
+exports.textModifier = exports.changeToNumber = exports.getTimeValue = void 0;
 exports.transformValueToTypeOfId = transformValueToTypeOfId;
 const utils_1 = require("../lib/utils");
 const status_1 = require("../app/status");
@@ -11,31 +11,32 @@ const appUtils_1 = require("../lib/appUtils");
 const time_1 = require("../lib/time");
 const setstate_1 = require("../app/setstate");
 const logging_1 = require("../app/logging");
-const getTimeValue = async (adapter, textToSend, id) => {
+const getTimeValue = async (adapter, textToSend, optionalId) => {
     const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = (0, splitValues_1.getProcessTimeValues)(substringExcludeSearch);
-    if (!id && (!idString || idString.length < 5)) {
-        return textToSend.replace(substring, config_1.invalidId);
+    if (!optionalId && (!idString || idString.length < 5)) {
+        return config_1.invalidId;
     }
-    const value = await adapter.getForeignStateAsync(id ?? idString);
+    const value = await adapter.getForeignStateAsync(optionalId ?? idString);
     if (!value) {
-        return textToSend.replace(substring, config_1.invalidId);
+        return config_1.invalidId;
     }
     const formattedTimeParams = (0, string_1.replaceAllItems)(timeString, [',(', '(', ')', '}']); //"(DD MM YYYY hh:mm:ss:sss)"
     const unixTs = value[typeofTimestamp];
     const timeWithPad = (0, time_1.getTimeWithPad)((0, time_1.extractTimeValues)(unixTs));
     const formattedTime = (0, appUtils_1.timeStringReplacer)(timeWithPad, formattedTimeParams);
-    return formattedTime ? textToSend.replace(substring, formattedTime) : textToSend;
+    return textToSend.replace(substring, formattedTime).trim();
 };
 exports.getTimeValue = getTimeValue;
 const changeToNumber = (adapter, value) => {
-    const val = typeof value === 'string' ? parseFloat(value) : parseFloat((0, string_1.jsonString)(value));
+    const val = typeof value === 'string' ? parseFloat(value) : value;
     if (isNaN(val)) {
         adapter.log.warn(`Value "${value}" is not a valid number. Returning NaN.`);
         return;
     }
     return val;
 };
+exports.changeToNumber = changeToNumber;
 const textModifier = async (adapter, text) => {
     if (!text) {
         return '';
@@ -43,6 +44,7 @@ const textModifier = async (adapter, text) => {
     try {
         const inputText = text;
         while (text.includes(config_1.config.status.start)) {
+            console.log('check Status');
             text = await (0, status_1.checkStatus)(adapter, text);
         }
         if (text.includes(config_1.config.timestamp.lc) || text.includes(config_1.config.timestamp.ts)) {
@@ -85,7 +87,7 @@ async function transformValueToTypeOfId(adapter, id, value) {
             case 'string':
                 return String(value);
             case 'number':
-                return changeToNumber(adapter, value);
+                return (0, exports.changeToNumber)(adapter, value);
             case 'boolean':
                 return (0, utils_1.isDefined)(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
             default:

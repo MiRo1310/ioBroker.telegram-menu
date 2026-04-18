@@ -385,8 +385,8 @@ describe('timeStringReplacer', () => {
             s: '45',
             mo: '07',
         };
-        const result = timeStringReplacer(input, undefined);
-        expect(result).to.be.undefined;
+        const result = timeStringReplacer(input, '');
+        expect(result).to.be.equal('');
     });
 
     it('should handle parentheses in the string by removing them', () => {

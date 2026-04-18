@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as utilities from '../../../src/lib/utilities';
 import { invalidId } from '@backend/config/config';
+import { changeToNumber } from '../../../src/lib/utilities';
 
 describe('utilities', () => {
     let adapterMock: any;
@@ -19,14 +20,85 @@ describe('utilities', () => {
 
     describe('setTimeValue', () => {
         it('should return invalidId if id is missing', async () => {
-            const result = await utilities.getTimeValue(adapterMock, "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:''}}");
-            expect(result).to.include(invalidId);
+            const result = await utilities.getTimeValue(adapterMock, "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:''}");
+            expect(result).to.be.equal(invalidId);
         });
 
         it('should return invalidId if value is missing', async () => {
             adapterMock.getForeignStateAsync.resolves(undefined);
-            const result = await utilities.getTimeValue(adapterMock, "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'12345'}}");
-            expect(result).to.include(invalidId);
+            const result = await utilities.getTimeValue(adapterMock, "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'12345'}");
+            expect(result).to.be.equal(invalidId);
+        });
+
+        it('should return formated time lc', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(
+                adapterMock,
+                "{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'validId'}",
+            );
+            expect(result).to.be.equal('18 04 2026 07:11:42:372');
+        });
+        it('should return formated time ts', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(
+                adapterMock,
+                "{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'validId'}",
+            );
+            expect(result).to.be.equal('16 04 2026 07:11:42:000');
+        });
+
+        it('should return formated time ts, without ms', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,(DD MM YYYY hh:mm:ss:),id:'validId'}");
+            expect(result).to.be.equal('16 04 2026 07:11:42:');
+        });
+
+        it('should return formated time ts, without day,hour,ms ', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,( MM YYYY mm:ss),id:'validId'}");
+            expect(result).to.be.equal('04 2026 11:42');
+        });
+
+        it('should return formated time ts, without day,hour,ms and custom text ', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,( MM YYYY mm:ss:test),id:'validId'}");
+            expect(result).to.be.equal('04 2026 11:42:test');
+        });
+
+        it('should return formated time ts, without day,hour,ms ', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,( MM YYYY mm:ss:),id:'validId'}");
+            expect(result).to.be.equal('04 2026 11:42:');
+        });
+
+        it('should return formated time ts without s,ms', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,(DD MM YYYY hh:mm),id:'validId'}");
+            expect(result).to.be.equal('16 04 2026 07:11');
+        });
+
+        it('should return formated time ts without m,s,ms', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,(DD MM YYYY hh),id:'validId'}");
+            expect(result).to.be.equal('16 04 2026 07');
+        });
+
+        it('should return formated time ts without time', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,(DD MM YYYY),id:'validId'}");
+            expect(result).to.be.equal('16 04 2026');
+        });
+
+        it('should return formated time ts without year,time', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,(DD MM),id:'validId'}");
+            expect(result).to.be.equal('16 04');
+        });
+
+        it('should return formated time ts without month,year,time', async () => {
+            adapterMock.getForeignStateAsync.resolves({ lc: 1776489102372, ts: 1776316302000 });
+            const result = await utilities.getTimeValue(adapterMock, "{time.ts,(DD),id:'validId'}");
+            expect(result).to.be.equal('16');
         });
     });
 
@@ -40,6 +112,21 @@ describe('utilities', () => {
             const result = await utilities.textModifier(adapterMock, 'plain text');
             expect(result).to.equal('plain text');
         });
+
+        it('should handle text with status and change', async () => {
+            adapterMock.getForeignStateAsync.resolves({ val: 123 });
+            const text = 'Test {status:"ID":true} change{"123":"an","456":"aus"}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test an');
+        });
+
+        it('should handle text with status and deactivated change', async () => {
+            adapterMock.getForeignStateAsync.resolves({ val: 123 });
+            const text = 'Test {status:"telegram.0.test":false} change{"123":"an","456":"aus"}';
+            const result = await utilities.textModifier(adapterMock, text);
+            expect(result).to.equal('Test 123 change{"123":"an","456":"aus"}');
+        });
+        //TODO
     });
 
     describe('transformValueToTypeOfId', () => {
@@ -65,6 +152,28 @@ describe('utilities', () => {
             adapterMock.getForeignObjectAsync.resolves({ common: { type: 'boolean' } });
             const result = await utilities.transformValueToTypeOfId(adapterMock, 'id', true);
             expect(result).to.equal(true);
+        });
+    });
+
+    describe('transformValue', () => {
+        it('string to number with number', () => {
+            expect(changeToNumber(adapterMock, 24.66)).to.be.equal(24.66);
+        });
+
+        it('string to number with text number', () => {
+            expect(changeToNumber(adapterMock, '42')).to.be.equal(42);
+        });
+
+        it('string to number with text decimal', () => {
+            expect(changeToNumber(adapterMock, '42.55')).to.be.equal(42.55);
+        });
+
+        it('string to number with string number contains , ', () => {
+            expect(changeToNumber(adapterMock, '42,55')).to.be.equal(42);
+        });
+
+        it('string to number with non string number', () => {
+            expect(changeToNumber(adapterMock, 'Invalid')).to.be.undefined;
         });
     });
 });
