@@ -10,6 +10,10 @@ function getChart(instance, echarts, directoryPicture, user, telegramParams) {
     try {
         for (const echart of echarts) {
             const instanceOfEchart = (0, splitValues_1.getEchartsValues)(echart.preset);
+            if (!instanceOfEchart) {
+                adapter.log.warn('Echart Instance not found');
+                return;
+            }
             if (!(0, utils_1.validateDirectory)(adapter, directoryPicture)) {
                 return;
             }

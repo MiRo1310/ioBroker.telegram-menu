@@ -12,7 +12,7 @@ const telegram_1 = require("../app/telegram");
 const logging_1 = require("../app/logging");
 async function httpRequest(adapter, instance, parts, userToSend, telegramParams, directoryPicture) {
     if (!parts.httpRequest) {
-        return;
+        return false;
     }
     for (const { url, password, user: username, filename } of parts.httpRequest) {
         adapter.log.debug(`URL : ${url}`);
@@ -34,7 +34,7 @@ async function httpRequest(adapter, instance, parts, userToSend, telegramParams,
                     responseType: 'arraybuffer',
                 });
             if (!(0, utils_1.validateDirectory)(adapter, directoryPicture)) {
-                return;
+                return false;
             }
             const imagePath = node_path_1.default.join(directoryPicture, filename);
             node_fs_1.default.writeFileSync(imagePath, Buffer.from(response.data), 'binary');

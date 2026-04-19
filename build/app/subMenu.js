@@ -184,6 +184,10 @@ async function subMenu({ menuString, userToSend, telegramParams, part, allMenusW
             }
         }
         const { cbData, menuToHandle, val } = (0, splitValues_1.getMenuValues)(menuString);
+        if (!cbData) {
+            adapter.log.debug('No callback data found');
+            return;
+        }
         if ((0, validateMenus_1.isCreateSwitch)(cbData) && menuToHandle) {
             return createSwitchMenu({ adapter, cbData, text, menuToHandle: menuToHandle });
         }
@@ -217,7 +221,9 @@ async function subMenu({ menuString, userToSend, telegramParams, part, allMenusW
         }
         if ((0, validateMenus_1.isSetSubmenuNumber)(menuString)) {
             const { value } = (0, splitValues_1.getSubmenuNumberValues)(menuString);
-            await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, value, telegramParams);
+            if (value) {
+                await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, value, telegramParams);
+            }
         }
         if ((0, validateMenus_1.isMenuBack)(menuString)) {
             await back({

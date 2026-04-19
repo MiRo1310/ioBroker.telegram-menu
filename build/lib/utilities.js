@@ -17,7 +17,8 @@ const getTimeValue = async (adapter, textToSend, optionalId) => {
     if (!optionalId && (!idString || idString.length < 5)) {
         return config_1.invalidId;
     }
-    const value = await adapter.getForeignStateAsync(optionalId ?? idString);
+    const id = (optionalId ?? idString).replace(/'/g, '').replace(/"/g, '');
+    const value = await adapter.getForeignStateAsync(id);
     if (!value) {
         return config_1.invalidId;
     }
@@ -44,7 +45,6 @@ const textModifier = async (adapter, text) => {
     try {
         const inputText = text;
         while (text.includes(config_1.config.status.start)) {
-            console.log('check Status');
             text = await (0, status_1.checkStatus)(adapter, text);
         }
         if (text.includes(config_1.config.timestamp.lc) || text.includes(config_1.config.timestamp.ts)) {
@@ -52,14 +52,11 @@ const textModifier = async (adapter, text) => {
         }
         if (text.includes(config_1.config.set.start)) {
             const { substring, textExcludeSubstring } = (0, string_1.decomposeText)(text, config_1.config.set.start, config_1.config.set.end);
-            const [idString, importedValue, ackString] = substring.split(',');
+            const [idString, importedValue, ackString] = substring.split(',').map(i => i?.replace(/}/g, ''));
             const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
             text = textExcludeSubstring;
             const convertedValue = id && importedValue ? await transformValueToTypeOfId(adapter, id, importedValue) : undefined;
             const ack = ackString?.replace('}', '') == 'true' || false;
-            if ((0, string_1.isEmptyString)(text)) {
-                text = 'Wähle eine Aktion';
-            }
             if (convertedValue && id) {
                 await (0, setstate_1.setstateIobroker)({ adapter, id, value: convertedValue, ack });
             }

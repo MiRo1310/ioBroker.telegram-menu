@@ -43,6 +43,7 @@ const setstateIobroker = async ({ id, value, ack, adapter, }) => {
         const val = await (0, utilities_1.transformValueToTypeOfId)(adapter, id, value);
         adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(val)}`);
         if ((0, utils_1.isDefined)(val)) {
+            console.log('Value ', val);
             await adapter.setForeignStateAsync(id, val, ack);
         }
     }
