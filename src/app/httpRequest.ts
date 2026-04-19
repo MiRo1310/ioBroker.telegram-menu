@@ -14,9 +14,9 @@ async function httpRequest(
     userToSend: string,
     telegramParams: TelegramParams,
     directoryPicture: string,
-): Promise<boolean | undefined> {
+): Promise<boolean> {
     if (!parts.httpRequest) {
-        return;
+        return false;
     }
     for (const { url, password, user: username, filename } of parts.httpRequest) {
         adapter.log.debug(`URL : ${url}`);
@@ -43,7 +43,7 @@ async function httpRequest(
             );
 
             if (!validateDirectory(adapter, directoryPicture)) {
-                return;
+                return false;
             }
             const imagePath = path.join(directoryPicture, filename);
 
