@@ -1,146 +1,147 @@
 ![Logo](../../admin/telegram-menu.png)
 
-## ioBroker telegram-menu adapter
+## ioBroker telegram-menu Adapter
 
 Easily create Telegram menus
-The adapter is used to communicate with the Iobroker via Telegram menu, to switch data points or values
-query data points. To do this, you can create different groups in which you can create menus. You can do this
-then assign users.
 
-Let´s get started!
+The adapter is used to communicate with the ioBroker via Telegram, to switch data points or to take values from
+query data points. For this purpose, different groups can be created in which menus can be created. These can be done
+then assign to users.
+
+Let's get started!
 
 ### Generally
 
--   All submenus and special settings presented below can be found directly in the adapter. This one
-    Settings are sorted and placed exactly where they can be used.
-    You can use this button to call up the “HelperText”.![Button HelperText](../pic/btnHelperTexte.png)
--   Important: In order for the menu to be used, at least one menu must be activated under "Bernuter from Telegram" in the adapter. To do this, simply check the checkbox on the right.
+-   Special settings can be found directly in the adapter and
+    placed where they can be used.
+    You can access the help texts using this button:![Button HelperText](../pic/btnHelperTexte.png)
+-   **Important:**In order for the menu to be used, at least one menu must be activated under “Telegram users” in the adapter. 
+    To do this, simply check the checkbox on the right.
 
 ### Navigation
 
 ![Navigation](../pic/nav.png)<br>Here you can see the navigation.
 
--   Line 1 (green) is the start navigation, this is sent when the adapter is started or restarted. Man
-    but you can call this up again using a button.
--   The text on the right "Choose an action" is freely selectable, but cannot be empty.
--   Buttons in a row are marked with a`,`separated
+-   Line 1 (green) is the start navigation. This is sent when the adapter starts or restarts. Man
+    but you can access it again at any time using a button.
+-   The text on the right side (e.g. “Choose an action”) is freely selectable, but cannot be empty.
+-   Buttons in a row are marked with a`,`separated.
 -   A new line can be reached with the separator`&&`.
 
-![Buttons in Telegram](../pic/image-1.png)<br>Here, the menu sent in Telegram. For example, if I now press heating, “Heating” is sent to the adapter as text
-sent, this looks for the appropriate call text, it must be written exactly as shown in the picture above. **Very important, each name of the call text may only appear once, i.e. it must be unique**
+![Buttons in Telegram](../pic/image-1.png)<br>Here you can see the sent menu in Telegram. If you e.g. For example, if you press "Heating", "Heating" will be sent to the adapter as text
+sent. This searches for the appropriate call text, which must be written exactly as in the image above. **Very important: Each name of the call text may only appear once, i.e. h. it must be unique.**
 
--   Various predefined submenus can be used, e.g. on-off, percent or numbers for e.g
-    Roller shutter control, a new trigger is automatically created in the actions, but more on that below.
+-   Various predefined submenus can be used, e.g. B. On-Off, percent or numbers (e.g. for the
+    Roller shutter control). For this purpose, a new trigger is automatically created in the actions - more on this below.
 
 -   It is possible to switch from one menu to another menu. This makes sense when two people share the same menu
-    share, but if User1 gets an additional menu that User2 should not have access to. In both
+    share, but User1 receives an additional menu that User2 should not have access to. In both
     The corresponding button is visible to groups, but with functionality that is only relevant for User1. With that
-    For this to work, the respective user must be specified in both groups.
+    For this to work, the respective user must be registered in both groups.
 
--   In order for the second menu, i.e. a submenu, to work, the trigger text on the home page must be deactivated. Through
-    If you deactivate it, the line will be displayed in orange and a message will appear indicating that it is a submenu
-    acts. You deactivate the line by leaving the Trigger cell empty. In the older versions you had to`-`enter, but it still works with it. Now User1 can access Menu2 from Menu1 by clicking on the
-    presses the corresponding button. **Important!! Even if there are two menus, each call text can only be used once
+-   In order for the second menu (i.e. a submenu) to work, the homepage trigger text must be deactivated. Through
+    deactivating it, the line turns orange and a message appears indicating that it is a submenu
+    acts. You deactivate the row by leaving the "Trigger" cell empty. In older versions you had to`-`Enter – but this still works. Now User1 can access Menu 2 from Menu 1 by clicking on the
+    presses the corresponding button. **Important: Even with two menus, each call text can only be used once
     occur!**
 
--   If there are two menus that do not have the same user, each menu can of course have an entry, for example light, but not
+-   If there are two menus that do not have the same user, each menu can of course have an entry such as: B. have “light” – but not
     when jumping from one to the other.
 
 #### When opening a navigation...
 
 ##### <span id="status"></span>...a status will be sent
 
--   To display the status of an ID when calling up a navigation or a submenu, you can enter the following entry in the
-     Return text can be used.`{status:'ID':true}`.
-     ID - must be replaced with the ID to be queried.`Es muss direkt an die Stelle gepackt werden wo der Status angezeigt werden soll`
--   **_Breaking Change!!!_**the parameters`true`behind it says whether the value can be changed by`change{"true":"an","false":"aus"}`. This is important if you have more than one
+-   To display the status of an ID when calling up a navigation or a submenu, the following entry can be made in the
+    Return text can be used:`{status:'ID':true}`.
+    "ID" must be replaced by the ID to be queried.
+    The expression must be placed directly where the status is to be displayed.
+-   **_Breaking Change!!!_**The parameter`true`indicates whether the value is passed through`change{"true":"an","false":"aus"}`may be changed. This is important if you have more than one
     want to query status in one call.<br>
 
 ##### ... the value of the status can be changed
 
--   If the value is to be changed, e.g. from true to on and false to off, can`change{"true":"an","false":"aus"}`used
-    become
+-   If the value should be changed, e.g. B. from`true`to “on” and`false`too “off”.`change{"true":"an","false":"aus"}`used
+    become.
 
 ##### ...a value can be set
 
--   sets a data point when opening a navigation. The following can be used -`{set:'id':'ID',val,ack}`- ID is
-    the ID of the data point into which a value is to be written. val - the value to be set, ack - the value should be
-    be set confirmed or unconfirmed?
+-   Sets a data point when opening a navigation. The following can be used:`{set:'id':'ID',val,ack}`– “ID” is
+    the ID of the data point into which a value is to be written. "val" is the value to be set, "ack" indicates whether the value
+    should be set as confirmed or unconfirmed.
 
 ##### ...a timestamp will be sent
 
--   sends a timestamp when opening a navigation
--   for final processing`{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`
--   otherwise`{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`- ID is the ID of the data point to be queried, in the brackets
-    It can be changed individually, individual placeholders can be removed, but may not be changed
-    except YYYY can also be used as YY.
+-   Sends a timestamp when opening a navigation.
+-   For final editing:`{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`
+-   Otherwise:`{time.ts,(DD MM YYYY hh:mm:ss:sss),id:'ID'}`– “ID” is the ID of the data point to be queried. In the brackets
+    The format can be customized: Individual placeholders may be removed, but not renamed
+    become. Exception:`YYYY`can also be used as`YY`be used.
 
 ##### ...add a line break to the text
 
--   Enter \\n at the desired location
+-   At the desired location`\n`register.
 
 ##### ...the status value is a Unix timestamp
 
--   to convert this to a local time -`{time}`
+-   To convert this to local time:`{time}`
 
 ##### ...use parse mode
 
--   is used to make text bold`<b></b>`, italics`<i></i>`also code`<code></code>`or link`<a href=“URL“>Link</a>`represents
-    To ask, it is possible that there are more
--   to use the checkbox Enable Parse Mode and insert text between the tags
+-   Used to text**fett**`<b></b>`,_italics_`<i></i>`, as Code`<code></code>`or as a link`<a href="URL">Link</a>`to represent. It is possible that additional tags will be supported.
+-   To use this, activate the “Parse Mode” checkbox and insert the text between the tags.
 
-#### Icons in den Menu-Buttons
+#### Icons in den Menü-Buttons
 
 ![Icon1](../pic/heizung-icon1.png)
 
--   If you want to have special icons in the menu buttons, copy an emoji (
-    e.g.<https://www.getemojis.net/html/#Emoji-Liste>) and uses it like a character or simply via`Windows + .`. The code of the emoji is not copied, but the emoji directly!
+-   If you want to have special icons in the menu buttons, copy an emoji
+    (e.g. from<https://www.getemojis.net/html/#Emoji-Liste>) and use it like a character, or you can simply use`Windows + .`. The code of the emoji is not copied, but the emoji directly!
 
 ![Icon2](../pic/heizung-icon2.png)
 
 #### Clear history
 
-To delete all messages (similar to "Delete history" in the client), add a menu item`menu:deleteAll:Navigation`- **Navigation** is the menu name that should then be called up (
-e.g. Home page), only entries that are younger than 48 hours can be deleted.
+To delete all messages (similar to “Delete history” in the client), add a menu item`menu:deleteAll:Navigation`a. **Navigation**  ist der Menü-Name, der anschließend aufgerufen werden soll (
+z. B. Startseite). Es können nur Einträge gelöscht werden, die jünger als 48 Stunden sind.
 
-### Sub-menus
+### Submenüs
 
 ![Submenus](../pic/image10.png)
 
--   The menus are entered into the navigation in order to call them up
--   The TRIGGER must always be a unique name, so it can only appear once and then refers to it
-    Trigger in action where the ID is specified.
+-   The menus are entered into the navigation in order to call them up.
+-   The TRIGGER must always be a unique name, meaning it can only appear once, and refers to the
+    Trigger in the action where the ID is specified.
 
 
      menu:switch-on.true-off.false:TRIGGER:
 
--   Any value can be replaced, on and off are the buttons, true and false automatically become booleans
-    converted, but can also be replaced with text
+-   Any value can be replaced. "on" and "off" are the button labels. "true" and "false" automatically become Booleans
+    converted, but can also be replaced with text.
 
 
     menu:percent10:TRIGGER:
 
--   The 10 is variable and indicates the steps; this can easily be replaced by another number.
+-   Die`10`is variable and specifies the step size. It can simply be replaced with another number.
 
 
     menu:number1-20-2-unit:TRIGGER:
 
--   The 1.20 indicates the range, this can also be reversed to 20.1, the 2 the steps, for a negative value simply`(-)`write in front of the number and Unit the unit, everything can be replaced variably. e.g.`menu:number16-36-4-°C:temperaturXY:`
+-   `1`and`20`indicate the range (can also be the other way around:`20-1`),`2`the step size. For a negative value, easy`(-)`write in front of the number. "unit" is the unit. Everything can be replaced variably, e.g. b.`menu:number16-36-4-°C:temperaturXY:`
 
 
     menu:dynSwitch[Name1|value1, Name2|value2, value3]:TRIGGER:LengthOfRow:
 
--   This can be used to create a dynamic menu, in an array \[], always the name to be displayed and the value,
-    Name|Value, or alternatively just the value, then the button is designated with the value, -LengthOfRow- with this you can
-    Specify how many buttons should be next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change to`[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values
-    can be used, e.g. (2.5).
-    A value of a data point can now also be used as a name.`{status:'ID':true}`<a href="#status">for more
-    See information here</a>
+-   This can be used to create a dynamic menu. In an array`[]`always contains the name to be displayed and the value
+    (`Name|Wert`). Alternatively, just the value - then the button is labeled with the value.`LengthOfRow`specifies how many buttons should be next to each other.**_Breaking Change!!!_** Please change manually:`[Name1:Value1, Name2:Value2]`change to`[Name1|Value1, Name2|Value2]`. Decimal numbers can now also be used as values
+    be used, e.g. b.`2.5`.
+    A value of a data point can now also be used as a name:`{status:'ID':true}`–<a href="#status">for more
+    See information here</a>.
 
 
     menu:back
 
--   Goes back to the previous page, you can go back a maximum of 20 pages
+-   Switches back to the previously accessed page. A maximum of 20 pages can be returned.
 
     <br>
     <img src="../pic/menu_percent10_r2.png" width="800"/>
@@ -150,30 +151,30 @@ e.g. Home page), only entries that are younger than 48 hours can be deleted.
 
 ![SetState](../pic/setState.png)
 
--   The Switch checkbox on the right only switches booleans, it switches between true and false when calling the trigger.
-    The trigger has exactly the same name as the button that is supposed to trigger the action.
--   Under Value you can enter other values so that they can be set; a separate SetState must be used for each value
-    be created
--   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. Placeholder
-    for the value is &&. Basically all states will be included`ack:false`set, this is fundamentally required
-    if you want to use it to control adapters. A confirmation always only occurs when the addressed adapter
-    Value up`ack:true`has set. But you would like to`ack:true`If you set it manually, you simply check the box next to Ack.<br>
+-   The “Switch” checkbox on the right only switches Booleans. It alternates between`true`and`false`when calling the shutter button.
+    The trigger has the exact name of the button that should trigger the action.
+-   Under “Value” you can enter other values ​​that should be set. Each value must have a separate SetState entry
+    be created.
+-   It is possible to have the setting of the value confirmed, **as soon as`ack:true`was set**. The placeholder
+    for the value is`&&`. Basically all states are included`ack:false`set – this is required
+    if you want to use it to control other adapters. A confirmation only occurs when the addressed adapter
+    Value up`ack:true`has set. Would you like?`ack:true`If you set it manually, simply tick “Ack”.<br>
 
 * * *
 
     {novalue}
 
--   If you do not want to receive the set value, this will be entered in the return text<br>![novalue](../pic/image5.png)<br>
+-   If you do not want to have the set value sent, this will be entered in the return text.<br>![novalue](../pic/image5.png)<br>
 
 * * *
 
--   If you set a state but then want to receive the change of another state, you use this in the return text.
-    Replace ID with the desired ID, the text can also be customized
-    However, the change is only sent if the state was set to ack:true
+-   If you set a state and want to receive the change of another state, use the following in the return text.
+    Replace “ID” with the desired ID. The text can also be customized.
+    The change will only be sent if the State is set to`ack:true`was set.
 
 ## Note - there has been a change here
 
-In most cases the change should have been applied automatically, please check whether it works as desired.
+In most cases the change should have been applied automatically. Please check whether it works as desired.
 
 ### Neu
 
@@ -193,41 +194,40 @@ In most cases the change should have been applied automatically, please check wh
 
     {setDynamicValue:RequestText:Type:ConfirmText:ID:}
 
--   **To set a text or number data point:** For example, if you want to write text to a data point, it waits
-    Instance after pressing the button on an input. The selected data point is then displayed with the text
-    described. This must be entered in the return field.
-    -   "RequestText" - request text for input
-    -   "Type" - boolean, number, string
-    -   "ConfirmText" - set confirmation text of the data point, can be replaced with your own text.
-    -   "ID" - confirmation value of another ID in the return text (is optional) only values ​​with ack:true are sent, placeholder for the value is &&
+-   **To set a text or number data point:** For example, if you want For example, if you write text to a data point, it waits
+    Instance after pressing the button on an input. The selected data point is then displayed with the entered text
+    described. This is entered in the return field.
+    -   **RequestText**– Prompt text for input
+    -   **Type**–`boolean`,`number`or`string`
+    -   **ConfirmText**– Confirmation text after setting the data point, can be replaced with your own text.
+    -   **ID**– Optional: ID of another data point whose confirmation value is displayed in the return text. Only values ​​are included`ack:true`sent. is a placeholder for the value`&&`.
 
 * * *
 
     {confirmSet:The value has been set:noValue}
 
--   This can be used to confirm the setting of a value, but this does not mean that an adapter has this value
-    processed
+-   This can be used to confirm the setting of a value. However, this does not mean that an adapter has this value
+    actually processed.
 
 * * *
 
-##### Parse Mode , change, newline
+##### Parse Mode, change, newline
 
--   please look in the navigation
+-   See section[Navigation](#navigation).
 
 #### Influence a value from a submenu
 
--   To achieve this simply create the submenu as usual. Then with SetState the static part as the value
-    insert and as a placeholder from the submenu`{value}`set.
+-   To achieve this, simply create the submenu as usual. Then with SetState the static part as the value
+    insert and as a placeholder for the value from the submenu`{value}`set.
 
 #### Set a static value with a dynamic value of an ID
 
--   To achieve this you can define a static part and one in front of it, in between or behind it
-    dynamic part. The dynamic part looks like this`{id:ID}`, where ID must be replaced by the desired ID,
-    and the rest stays that way.
+-   You can define a static part in the value and one in front of it, in between or behind it
+    Insert dynamic part. The dynamic part looks like this:`{id:ID}`, where "ID" must be replaced by the desired ID.
 
 #### Here are a few examples
 
-Input, the value of the ID in this case has the value true or false:
+Input – the data point has the value in this case`true`or`false`:
 
     {id:0_userdata.0.Fenster.Fenster_Status} 
 
@@ -235,7 +235,7 @@ Output:
 
     true 
 
-Input, the value of the ID in this case has the value 5, is then multiplied by 2:
+Input – the data point has the value`5`, this is multiplied by 2:
 
     {id:0_userdata.0.Count} {math:*2} 
 
@@ -243,27 +243,27 @@ Output:
 
     10
 
-Input, the value of the ID in this case has the value 5, is then multiplied by 2. With additional text:
+Input – the data point has the value`5`, is multiplied by 2, with additional text:
 
     Test {id:0_userdata.0.Count} {math:*2} Test 
 
-Output the value is always appended at the end, unless you use the placeholder &&:
+Output – the result is always appended at the end unless you use the wildcard`&&`:
 
     Test Test 10
 
-Input, the value of the ID in this case has the value 5, is then multiplied by 2. With additional text:
+Input – with placeholder`&&`:
 
     Test && {id:0_userdata.0.Count} {math:*2} Test  Oder Test && Test {id:0_userdata.0.Count} {math:*2}
 
-Output of the placeholders is replaced by the value:
+Output – the placeholder is replaced by the result:
 
     Test 10 Test
 
-Input, you can also change the result, state the id still has the value 5:
+Input – you can also exchange the result. The data point still has the value`5`:
 
     Status &&  {id:0_userdata.0.Count} {math:*2} change{"10":"an", "20":"aus"}
 
-Output of the placeholders is replaced by the value:
+Output – the placeholder is replaced with the exchanged value:
 
     Status an
 
@@ -271,105 +271,99 @@ Output of the placeholders is replaced by the value:
 
 ### GetState
 
--   With && as a placeholder you can place the value in the text, just like with setState you can influence the value
+-   With`&&`You can place the value in the text as a placeholder. Just like with SetState, you can influence the value
     with`change{"true":"an", "false":"aus"}`.
--   If I want to read a value from a data point, but have to convert the value, I can put it in the return text`{math:/10}`for example, here we divide by 10![math](../pic/image9.png)<br>
--   If you want to round the value, do the following`{round:2}`
--   If you want to retrieve multiple values at the same time with one query, you can activate the Newline checkbox to
+-   If you need to read a value from a data point and convert it, you can do so in the return text`{math:/10}`insert – here e.g. E.g. divided by 10.![math](../pic/image9.png)<br>
+-   If you want to round the value, you can do so`{round:2}`.
+-   If you want to retrieve several values at the same time, you can activate the "Newline" checkbox to...
     every query to get the return text displayed on a new line.
--   If you want to convert a value from a state with a Unix timestamp to a local time and have it sent, add
-    in the return text`{time}`at the desired location
+-   If you want to convert a Unix timestamp to a local time, add
+    in the return text`{time}`at the desired location.
 
 #### Values ​​from created functions
 
--   To get all the values of the adjustable functions, you simply have to use functions=Light instead of the ID, e.g.
-    write.
--   If you want to have the name of the data point in the output text, simply enter it at the desired position in the text`{common.name}`a
+-   To retrieve all values ​​of a configured function, simply write instead of the ID`functions=Licht`(Example).
+-   If you want to display the name of the data point in the output text, enter it at the desired position in the text`{common.name}`a.
 
 ![functions](../pic/functions.png)<br>
 
 -   **The table**<br>**_Breaking Change!!!_**
 
-The type of input has changed, from now on it must be valid json so that the table can be displayed correctly
+The type of input has changed. From now on it must be valid JSON so that the table can be displayed correctly.
 
 `{"tableData":[{"key":"value-1-inJSON","label":"Name"},{"key":"value-2-inJSON","label":"NameTH-Col1"}],"tableLabel":"ShoppingList","type":"TextTable"}`
 
-display a JSON as a TextTable:
+Display a JSON as a TextTable:
 
-1.  under ID select a data point that contains a JSON.
-2.  Enter the json in the text field as described above and adapt it,
-    In tableDate the key is the same as the one from the JSON.
-    Label is the name of the table column. This can also be omitted, then the key is used as the column name.
-3.  tableLabel is the heading of the table, this can also be an empty string, then no heading will be displayed.
-4.  type is the type of the table, must stay that way
+1.  Under “ID” select a data point that contains a JSON.
+2.  Enter and adapt the JSON in the text field as described above.
+    In`tableData`is the`key`equal to the key from the JSON.`label`is the name of the table column. If it is omitted, the`key`used as a column name.
+3.  `tableLabel`is the heading of the table. It can also be an empty string - then no heading will be displayed.
+4.  `type`is the type of table and must remain unchanged.
 
 `{"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}`
 
--   This creates a list of buttons for the`alexa-shoppinglist`Adapter, here the buttons have the function of the item from the Alexa2 list
-    Remove adapter. In this case, the key for the data from the JSON is`name:`. In order for the whole thing to work, it has to
-    the data point from which the list was created, the data point of the`alexa-shoppinglist`Adapt breast.
--   listName is the name of the list that was created in Alexa, e.g.`SHOP`or`TOBUY`, this must match the list from which the data is retrieved.
+-   This creates a list of buttons for the`alexa-shoppinglist`-Adapter. The buttons remove the respective item from the list of the Alexa2 adapter. The`key`for the data from the JSON is in this case`name`. For the whole thing to work, it has to
+    the data point used from`alexa-shoppinglist`-Adapter the stem.
+-   `listName`is the name of the list created in Alexa, e.g. b.`SHOP`or`TOBUY`. This must match the list from which the data is retrieved.
 
 ![InlineTable](../pic/inlinetable-grafik.png)![TextTable](../pic/textable-grafik.png)
 
 ### Send Picture
 
--   You can insert a token for Grafana in the settings
--   A directory must be created in which you have all write permissions, e.g.`/opt/iobroker/grafana/`to get there
-    To be able to temporarily save images
--   In action you have to specify the rendering URL, which can be found in Grafana on the diagram → share → (time range
-    Remove the lock so that the current diagram is always sent) → Direct link to the rendered image
+-   You can insert a token for Grafana in the settings.
+-   A directory with full write permissions must be created, e.g. b.`/opt/iobroker/grafana/`to get there
+    To be able to cache images.
+-   The rendering URL must be specified in the action. This can be found in Grafana under: Diagram → Share → (Time range
+    deactivate lock so that the current diagram is always sent) → Direct link to the rendered image.
 -   If you send several diagrams, the file name must be different, otherwise the images will be mutually exclusive
-    overwrite
--   `Neuerung!!!`From now on you have the option to set the delay to 0, so the image will be sent without delay.
--   With Delay, it will be sent delayed by the value. Time between request and sending the image in seconds.
+    overwrite.
+-   **Innovation:**From now on you can turn the delay on`0`to send the image without delay.
+-   If the delay is > 0, the image will be sent delayed by the specified value (in seconds).
 
     <img src="../pic/grafana.png" width="400"></img>
 
 ### Send Location
 
--   select trigger first
--   then one data point must be specified for latitude and one for longitude
+-   First select the trigger.
+-   Then a data point for the latitude (`latitude`) and one for longitude (`longitude`) can be specified.
 
 ### Events
 
--   Integrated event listener: Waits for a data point - this data point is set (e.g. via script or
-    Adapter), a predefined menu is opened.
--   ... it is checked for the condition,
--   ... from version > 1.7.3, you can select "=", "!=", "&lt;", ">", "&lt;=", ">=" as a condition, if this is not selected, it will
+-   Integrated event listener: Waits for a data point - if this is set (e.g. via a script or a
+    Adapter), a predefined menu opens.
+-   The specified condition is checked.
+-   From version > 1.7.3 you can`=`,`!=`,`<`,`>`,`<=`,`>=`select as condition. If nothing is selected,
     checked for equality by default.
--   ... it is checked for Ack,
+-   It will be on`ack`checked.
 
 ### Echarts
 
 -   This makes it possible to have diagrams sent directly from the Echarts adapter.
--   Preset can be taken directly from the object structure.
--   Background , as the name suggests, the background can be set here
--   Theme, different themes can be set from the Echarts adapter, e.g.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`
--   Filename, individual filename. **It is important that a directory is specified in the settings
-    full write permission**
+-   **Preset**can be taken directly from the object structure.
+-   **Background**– the background can be set here.
+-   **Theme**– different themes can be set from the Echarts adapter, e.g. b.`auto, default, dark, dark-bold, dark-blue, gray, vintage, macarons, infographic, shine, roma, azul, blue, royal, tech-blue, red, red-velvet, green`.
+-   **filename**– individual file name. **Important: A directory must be included in the settings
+    full write permission must be specified.**
 
 ### HTTP Request
 
--   This makes it possible to send an Http request, with or without authentication. First of all, the Url
-    must be specified, user and password are optional, if they are not needed simply leave them blank. As a file name
+-   This makes it possible to send an HTTP request – with or without authentication. The first thing you need to do is the URL
+    be specified. User and password are optional; If not needed, just leave it blank. As a file name
     the preconfigured name can remain.
 
 ### Settings
 
--   Telegram instance, here you can choose between the instances if you have several installed
--   The text of the input field "Text will be sent if no entry was found!" will be sent as the description
-    already says if no entry was found, this can be deactivated using the checkbox next to it.
--   Resize Keyboard - Prompts customers to resize the keyboard vertically for an optimal fit
-    (e.g. making the keyboard smaller if there are only two rows of keys). The default value is
-    “false”. In this case, the custom keyboard will always have the same height as the default keyboard
-    app.<https://core.telegram.org/bots/api#replykeyboardmarkup>
--   One Time Keyboard - Prompts clients to hide the keyboard once it is in use. The keyboard will
-    will still be available, but clients will automatically display the usual letter keyboard in the chat - the user
-    can press a special button in the input field to display the custom keyboard again. The
-    Default value is “false”.<https://core.telegram.org/bots/api#replykeyboardmarkup>
--   Token Grafana - Optional, token to retrieve graph from Grafana
--   Directory - to temporarily store diagrams, is needed for Grafana and also for Echarts, it must be full
-    You have write permission for this directory
--   Send menu after a restart - or after saving can be deactivated here, if necessary the menu has to be sent
-    can be accessed for the first time by typing in the input field in the Telegram app
+-   **Telegram instance**– Here you can choose between the instances if you have several installed.
+-   **Text for no entry**– The entered text is sent if no suitable menu entry was found. This can be deactivated using the checkbox next to it.
+-   **Resize Keyboard**– Prompts clients to adjust the size of the keyboard vertically for optimal fit
+    (e.g. making the keyboard smaller if there are only two rows of keys). Default value:`false`– the custom keyboard will then always have the same height as the standard keyboard
+    app.[Telegram API](https://core.telegram.org/bots/api#replykeyboardmarkup)
+-   **One Time Keyboard**- Prompts clients to hide the keyboard once it is in use. The keyboard remains
+    still available, but clients automatically display the normal letter keyboard in chat. The user
+    can show the user-defined keyboard again using a special button in the input field. Default value:`false`.[Telegram API](https://core.telegram.org/bots/api#replykeyboardmarkup)
+-   **Grafana Token**– Optional: Token to fetch charts from Grafana.
+-   **directory**– For caching charts (needed for Grafana and Echarts). It must be full
+    Write permissions exist for this directory.
+-   **Send menu after restart**– Can be deactivated. If the option is deactivated, the menu must
+    the first time can be accessed manually via the input field in the Telegram app.
