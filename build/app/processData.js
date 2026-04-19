@@ -147,8 +147,7 @@ async function processData({ instance, menuData, calledValue, userToSend, groupW
             }
             if (part?.httpRequest) {
                 adapter.log.debug('Send http request');
-                const result = await (0, httpRequest_1.httpRequest)(adapter, instance, part, userToSend, telegramParams, directoryPicture);
-                return !!result;
+                return await (0, httpRequest_1.httpRequest)(adapter, instance, part, userToSend, telegramParams, directoryPicture);
             }
         }
         if ((0, validateMenus_1.isSubmenuOrMenu)(calledValue) && menuData[groupWithUser][call]) {

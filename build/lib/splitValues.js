@@ -29,6 +29,9 @@ const getSubmenuNumberValues = (str) => {
 exports.getSubmenuNumberValues = getSubmenuNumberValues;
 const getEchartsValues = (preset) => {
     const splitPreset = preset.split('.');
+    if (splitPreset.length < 2) {
+        return;
+    }
     return `${splitPreset[0]}.${splitPreset[1]}`;
 };
 exports.getEchartsValues = getEchartsValues;
