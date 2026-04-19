@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "4.1.0",
+    "version": "4.1.1",
     "news": {
+      "4.1.1": {
+        "en": "FIX: SetDynamicValue does not send return text",
+        "de": "FIX: SetDynamic Wert nicht senden Rückgabetext",
+        "ru": "Исполнитель: SetDynamic Ценность не отправляет текст обратно",
+        "pt": "FIX: SetDynamic O valor não envia texto de retorno",
+        "nl": "FIX: SetDynamic Waarde stuurt geen retourtekst",
+        "fr": "FIX: SetDynamic La valeur n'envoie pas de texte de retour",
+        "it": "FIX: SetDynamic Il valore non invia il testo di ritorno",
+        "es": "FIX: SetDynamic El valor no envía texto de devolución",
+        "pl": "FIX: SetDynamic Wartość nie wysyła tekstu zwrotnego",
+        "uk": "FIX: SetDynamic Значення не надсилає повідомлення",
+        "zh-cn": "FIX: 设置动态 值不发送返回文本"
+      },
       "4.1.0": {
         "en": "FIX: #510 Error in json table textTable and button table, input changed please check the documentation\nChore: #482 Update dependencies\nFIX: Errors reported by sentry",
         "de": "FIX: #510 Fehler in json table textTable und button table, Eingabe geändert bitte überprüfen Sie die Dokumentation\nChor: #482 Abhängigkeiten aktualisieren\nFIX: Fehler, die von sentry gemeldet werden",
@@ -80,19 +93,6 @@
         "pl": "FEAT: # 421 Wydarzenia z wybranym parametrem porównania\nFIX: # 422 Event z podmenu\nFIX: # 407 Zdarzenia nie są obsługiwane",
         "uk": "FEAT: #421 Події з вибраним параметром порівняння\nFIX: #422 Захід з підменю\nFIX: #407 Події не обробляються",
         "zh-cn": "FEAT: # 421 有可选比较参数的事件\nFIX: # 422 带有子菜单的事件\nFIX:第407号 未处理事件"
-      },
-      "3.1.4": {
-        "en": "CHORE: Update dependencies",
-        "de": "CHORE: Aktualisieren von Abhängigkeiten",
-        "ru": "Изображение: Update Dependencies",
-        "pt": "CHORE: Atualizar dependências",
-        "nl": "Afhankelijkheden bijwerken",
-        "fr": "CHORE : Mise à jour des dépendances",
-        "it": "CHORE: dipendenze di aggiornamento",
-        "es": "CHORE: Actualizar las dependencias",
-        "pl": "CHORE: Uaktualnij zależności",
-        "uk": "CHORE: Оновити залежності",
-        "zh-cn": "CHORE: 更新依赖性"
       }
     },
     "titleLang": {

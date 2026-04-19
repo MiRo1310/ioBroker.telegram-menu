@@ -35,8 +35,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.1 (2026-04-19)
 
+- FEAT: Add Unit tests
 - FIX: SetDynamicValue does not send return text
 
 ### 4.1.0 (2026-04-12)
