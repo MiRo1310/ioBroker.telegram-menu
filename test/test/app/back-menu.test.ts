@@ -72,8 +72,8 @@ describe('backMenu', () => {
             const result = await switchBack(adapterMock, user, menuData, ['menu1']);
             expect(result?.textToSend).to.equal('Page 1 Text');
         });
-
-        it('should return correct keyboard when going back to last menu (lastMenu=true)', async () => {
+        
+        it('should return correct keyboard and text when going back to last menu', async () => {
             const user = 'userF';
             backMenuFunc({ activePage: 'page1', userToSend: user });
             backMenuFunc({ activePage: 'page2', userToSend: user });
