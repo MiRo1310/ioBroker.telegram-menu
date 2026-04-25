@@ -337,8 +337,9 @@ export default class TelegramMenu extends utils.Adapter {
         try {
             const { telegramInfoConnectionID } = getIds;
             const { instance } = getInstanceById(id);
-            const instanceObj = telegramParams.telegramInstanceList.find(item => item.name === instance);
+            const instanceObj = telegramParams.telegramInstanceList?.find(item => item?.name === instance);
             if (!instance) {
+                this.log.warn('No Telegram instance found.');
                 return null;
             }
             const iterationId = telegramInfoConnectionID(instance);

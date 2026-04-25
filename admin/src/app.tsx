@@ -160,6 +160,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
         insertNewItemsInData(this.state.native.data, this.updateNativeValue.bind(this));
         this.updateNativeValue('usersInGroup', sortObjectByKey(this.state.native.usersInGroup));
         await getIobrokerData.getAllTelegramInstances(this.socket, (data: string[]) => {
+            console.log('Set instances:', data);
             this.setState({ instances: data });
         });
 
@@ -171,6 +172,7 @@ class App extends GenericApp<TelegramMenuApp.AdditionalProps, TelegramMenuApp.Ad
             });
             this.updateNativeValue('instanceList', instanceList);
         }
+        console.log('Telegram instance list', this.state.native.instanceList);
 
         await this.getUsersFromTelegram();
 
