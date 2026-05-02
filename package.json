@@ -18,7 +18,7 @@
     "url": "https://github.com/MiRo1310/ioBroker.telegram-menu.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 22"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2",
