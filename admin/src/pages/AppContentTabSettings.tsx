@@ -30,7 +30,10 @@ class Settings extends Component<PropsSettings> {
             active: isChecked,
         };
 
-        this.props.callback.updateNative('instanceList', instances);
+        this.props.callback.updateNative(
+            'instanceList',
+            instances.filter(i => isDefined(i)),
+        );
     };
 
     componentDidMount(): void {
