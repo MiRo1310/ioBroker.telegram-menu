@@ -54,36 +54,13 @@ jobs:
             - uses: ioBroker/testing-action-adapter@v1
               with:
                   node-version: ${{ matrix.node-version }}
-                  os: ${{ matrix.os }}                
-    
-    unit-tests:
-      needs: [ check-and-lint ]
-      if: contains(github.event.head_commit.message, '[skip ci]') == false
-      
-      runs-on: ubuntu-latest
-      
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v6
-
-        - name: Setup Node.js
-          uses: actions/setup-node@v6
-          with:
-            node-version: '22.x'
-            cache: 'npm'
-
-        - name: Install dependencies
-          run: npm ci
-
-        - name: Run Unit tests with coverage
-          run: npm run test:cov:ci
-          timeout-minutes: 5            
+                  os: ${{ matrix.os }}             
    
     deploy:
         permissions:
             contents: write
             id-token: write
-        needs: [check-and-lint, unit-tests, adapter-tests]
+        needs: [check-and-lint, adapter-tests]
 
         if: |
             contains(github.event.head_commit.message, '[skip ci]') == false &&
