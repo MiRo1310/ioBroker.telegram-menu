@@ -1,31 +1,31 @@
 {
-	"extends": "../tsconfig.json",
-	"compilerOptions": {
-		"noEmit": false,
-		"outDir": "./build",
-		"sourceMap": true,
-		"sourceRoot": "./src",
-		"noImplicitAny": false,
-		"lib": ["es2018", "DOM"],
-		"jsx": "react",
-		"removeComments": true
-	},
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,
+        "outDir": "./build",
+        "sourceMap": true,
+        "sourceRoot": "./src",
+        "noImplicitAny": false,
+        "lib": ["es2018", "DOM"],
+        "jsx": "react",
+        "removeComments": true
+    },
 
-	"include": [
-		"./**/*.ts",
-		"./**/*.tsx",
-      "../src/types/adapter-config.d.ts",
-      "./src/admin.d.ts",
-		"./**/*.ts",
-		// Include the adapter-config definition if it exists.
-		// It should be at either on of these paths:
-		"../test/test/adapter-config.d.ts", // JS
-      "../src/types/adapter-config.d.ts", // TS
-		"src/lib/Utils.ts",
-		"src/lib/socket.ts",
-		"src/config/helper.ts",
-		"src/lib/button.ts",
-		"src/lib/actionUtils.ts"
-	],
-	"exclude": ["./**/*.test.ts", "./**/*.test.tsx"]
+    "include": [
+        "./**/*.ts",
+        "./**/*.tsx",
+        "../src/types/adapter-config.d.ts",
+        "./src/admin.d.ts",
+        "./**/*.ts",
+        // Include the adapter-config definition if it exists.
+        // It should be at either on of these paths:
+        "../test/test/adapter-config.d.ts", // JS
+        "../src/types/adapter-config.d.ts", // TS
+        "src/lib/Utils.ts",
+        "src/lib/socket.ts",
+        "src/config/helper.ts",
+        "src/lib/button.ts",
+        "src/lib/actionUtils.ts"
+    ],
+    "exclude": ["./**/*.test.ts", "./**/*.test.tsx"]
 }
