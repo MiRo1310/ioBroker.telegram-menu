@@ -895,7 +895,7 @@ cropperjs/dist/cropper.js:
 
 @mui/private-theming/esm/index.js:
   (**
-   * @mui/private-theming v7.3.10
+   * @mui/private-theming v7.3.11
    *
    * @license MIT
    * This source code is licensed under the MIT license found in the
@@ -904,7 +904,7 @@ cropperjs/dist/cropper.js:
 
 @mui/system/esm/index.js:
   (**
-   * @mui/system v7.3.10
+   * @mui/system v7.3.11
    *
    * @license MIT
    * This source code is licensed under the MIT license found in the
@@ -931,7 +931,7 @@ cropperjs/dist/cropper.js:
 
 @mui/material/esm/index.js:
   (**
-   * @mui/material v7.3.10
+   * @mui/material v7.3.11
    *
    * @license MIT
    * This source code is licensed under the MIT license found in the
@@ -940,7 +940,7 @@ cropperjs/dist/cropper.js:
 
 @mui/lab/esm/index.js:
   (**
-   * @mui/lab v7.0.1-beta.24
+   * @mui/lab v7.0.1-beta.25
    *
    * @license MIT
    * This source code is licensed under the MIT license found in the
