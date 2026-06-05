@@ -155,6 +155,37 @@ pages/
 - `menuUtils.ts` — `menuNameExists`, `isInvalidNewMenuName`
 - `dropboxUtils.ts` — `countItemsInArray`, `isNavigationRow`
 
+### CSS Architecture (`admin/css/`)
+
+16 CSS files, alle importiert über `admin/css/style.css`. Wichtigste Dateien:
+
+| Datei | Inhalt |
+|---|---|
+| `colors.css` | Alle CSS-Variablen (Farben, zukünftig Spacing/Typography) |
+| `style.css` | Haupt-Import + globale Klassen (Dialog, Dropbox, Telegram-User, Navigation-Row etc.) |
+| `button.css` | Button-Varianten (`.button`, `.button__ok`, `.button__icon-table` etc.) |
+| `table.css` | Tabellen-Styling (Sticky Header, Row-Farben, Hover) |
+| `app-content.css` | Layout-Container (`.app__box`, `.navigation__container`, `.action__container`) |
+| `tab-action.css` | Die Sub-Tab-Buttons in der Action-Ansicht |
+
+**CSS-Variablen**: Alle Farben sind in `colors.css` als `--varname` definiert, mit Dark-Mode-Override via `.dark { }`. Spacing/Typography-Variablen sollen noch ergänzt werden (geplant: `--space-1..8`, `--text-xs..xl`, `--radius-sm/md/lg`).
+
+**BEM-Konvention** (wird schrittweise eingeführt):
+- Element: `block__element-name` (Bindestrich, NICHT Unterstrich bei mehrteiligen Namen)
+- Modifier: `block--modifier` oder `block__element--modifier`
+- Utilities (`.flex`, `.items-center` etc.) folgen nicht BEM
+- State-Klassen: `.is-active`, `.is-disabled`
+
+**Button-Komponente (`admin/src/components/Button.tsx`)**: Hat 13 Inline-Style-Props (`b_color`, `color`, `padding`, `width`, `height`, `fontSize`, `border`, `borderRadius`, `margin`, `maxWidth`, `verticalAlign`, `small`, `round`). CSS-Klassen via `className`-Prop können Inline-Styles nur mit `!important` überschreiben. `disableButtonStyleByComponent={true}` deaktiviert alle Inline-Styles, dann greift nur noch die CSS-Klasse.
+
+**Tabellen-Scroll-Kette**: Damit Tabellen bei kleinem Viewport scrollen, muss die Flex-Kette stimmen:
+```
+.app__box (flex column, height: calc(100vh - 112px))
+  → MuiTabPanel-root (flex: 1, overflow: hidden)
+    → .navigation__container / .action__container (flex: 1, overflow-y: auto)
+```
+Ohne `flex: 1; min-height: 0` auf dem TabPanel schiebt der Inhalt über den Viewport hinaus.
+
 ### Testing
 
 Tests live in `test/test/` mirroring `src/` structure. Fixtures (JSON/TS) are in `test/fixtures/`. The test runner is Mocha with `ts-node` and `tsconfig-paths` for alias resolution. Config: `test/mocharc.custom.json`.
