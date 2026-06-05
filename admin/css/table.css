@@ -2,8 +2,7 @@
 
 #root table {
     border-collapse: collapse !important;
-    width: calc(100%) !important;
-    overflow-y: auto;
+    width: 100% !important;
     flex: 1;
 }
 
@@ -13,29 +12,40 @@ table input {
 
 tbody tr {
     position: relative;
+    border-bottom: 1px solid var(--table-row-divider);
+    transition: background-color 0.1s ease;
 }
 
 .table__ghost_id {
     position: absolute;
-    top: -40px;
-
+    top: -2.5rem;
 }
 
-#root thead tr  {
+#root thead tr {
     background-color: var(--table-head);
-    height: 2rem;
+    height: 2.5rem;
     top: 0;
+    box-shadow: 0 0.125rem 0.25rem var(--table-head-shadow);
+}
+
+#root thead tr th,
+#root thead tr td {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: white;
 }
 
 tr td:has(button.buttonTrue),
 tr td:has(button.buttonFalse) {
     padding: 0 !important;
     margin: 0 !important;
-    width: 20px !important;
+    width: 1.25rem !important;
 }
 
 #root table .table__head_checkbox {
-    width: 25px;
+    width: 1.5rem;
 }
 
 .table__head_button {
@@ -44,14 +54,14 @@ tr td:has(button.buttonFalse) {
 
 .table__head_select select {
     background-color: var(--table-head) !important;
-    margin: 0 !important;border: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
 }
-
 
 tr[draggable="true"] {
     cursor: grab;
-    padding-right: 10px !important;
-    margin-right: 10px;
+    padding-right: 0.625rem !important;
+    margin-right: 0.625rem;
 }
 
 tr[draggable="true"]:hover {
@@ -63,7 +73,7 @@ tr[draggable="true"] span i {
 }
 
 tr td {
-    padding: 0 5px !important;
+    padding: 0.25rem 0.3125rem !important;
     font-size: 1rem !important;
 }
 
@@ -81,5 +91,5 @@ tr:not(.SubTable):nth-child(odd) {
 }
 
 .row__navigate_to-active {
-    border: 3px solid var(--destructive);
+    border: 0.1875rem solid var(--destructive);
 }

@@ -89,6 +89,8 @@
     --table-hover: var(--blue-hover);
     --table-row-even: var(--light);
     --table-row-odd: white;
+    --table-row-divider: rgba(0, 0, 0, 0.07);
+    --table-head-shadow: rgba(0, 0, 0, 0.18);
 
     --checkbox-bg: var(--blue-light);
 
