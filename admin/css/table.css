@@ -12,7 +12,6 @@ table input {
 
 tbody tr {
     position: relative;
-    border-bottom: 1px solid var(--table-row-divider);
     transition: background-color 0.1s ease;
 }
 
@@ -22,19 +21,19 @@ tbody tr {
 }
 
 #root thead tr {
-    background-color: var(--table-head);
     height: 2.5rem;
     top: 0;
-    box-shadow: 0 0.125rem 0.25rem var(--table-head-shadow);
 }
 
 #root thead tr th,
 #root thead tr td {
+    background-color: var(--table-head) !important;
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
-    color: white;
+    color: white !important;
+    border: none !important;
 }
 
 tr td:has(button.buttonTrue),
@@ -75,6 +74,7 @@ tr[draggable="true"] span i {
 tr td {
     padding: 0.25rem 0.3125rem !important;
     font-size: 1rem !important;
+    border: none !important;
 }
 
 tr td td,
@@ -82,11 +82,11 @@ tr td td,
     background-color: transparent !important;
 }
 
-tr:not(.SubTable):nth-child(even) {
+tr:not(.SubTable):nth-child(odd) {
     background-color: var(--table-row-even);
 }
 
-tr:not(.SubTable):nth-child(odd) {
+tr:not(.SubTable):nth-child(even) {
     background-color: var(--table-row-odd);
 }
 

@@ -113,12 +113,12 @@ div.MuiTabPanel-root {
     flex-shrink: 1;
     flex-basis: auto;
     width: 100% !important;
-    padding: 2px 5px 0 0;
+    padding: var(--space-1) var(--space-1) 0 0;
 }
 
 /* NavigationMenu */
 .navigation__container {
-    height: calc(100% - 0.5rem) !important;
+    height: calc(100% - var(--space-2)) !important;
 }
 
 .navigation__container .startside__active {
@@ -134,12 +134,13 @@ div.MuiTabPanel-root {
 }
 
 .navigation__container .textSubmenuInfo {
-    font-size: 1rem;
+    font-size: var(--text-base);
     font-weight: 900;
 }
 
 .navigation__container,
-.action__container {
+.action__container,
+.table__container--description {
     padding: 0 !important;
     flex-grow: 1;
     flex-shrink: 1;
@@ -153,7 +154,7 @@ div.MuiTabPanel-root {
 
 .tab__action,
 .tab__action > div.MuiTabPanel-root {
-    height: calc(100% - 0.5rem) !important;
+    height: calc(100% - var(--space-2)) !important;
     padding-left: 0 !important;
 }
 
