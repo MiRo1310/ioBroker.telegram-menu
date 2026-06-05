@@ -113,20 +113,26 @@ React 18 + MUI v7 class components. Entry: `admin/src/index.tsx` → `App` (Gene
 ```
 App (GenericApp)
 └── AppContent
-    ├── AppContentNavigation  (tab bar: Navigation / Action / Users / Trigger / etc.)
+    ├── AppContentNavigation  (tab bar: Navigation / Action / Users / Trigger / Settings)
     ├── AppContentHeader      (menu selector + telegram user assignment)
     └── AppContentTab
         ├── AppContentTabNavigation  (DnD table for nav rows)
-        └── AppContentTabAction      (DnD table for get/set/pic/echarts/httpRequest/events)
+        ├── AppContentTabAction      (DnD table for get/set/pic/echarts/httpRequest/events)
+        └── AppContentTabSettings    (checkboxes, Telegram instances, Grafana token, directory)
 ```
 
 **State management**: All state lives in the top-level `App` component (GenericApp pattern). Callbacks are passed down as `callback` props; `callback.setStateApp` updates App state, `callback.updateNative` persists config changes to ioBroker.
 
 **Types**: `admin/src/types/app.d.ts` — all frontend types. `admin/src/types/props-types.d.ts` — component prop interfaces.
 
+**Utilities** (`admin/src/lib/`):
+- `settings.ts` — `shouldDefaultSendMenuAfterRestart(value)`: pure helper für `AppContentTabSettings.componentDidMount`, entscheidet ob der Checkbox-Default gesetzt werden soll
+
 ### Testing
 
 Tests live in `test/test/` mirroring `src/` structure. Fixtures (JSON/TS) are in `test/fixtures/`. The test runner is Mocha with `ts-node` and `tsconfig-paths` for alias resolution. Config: `test/mocharc.custom.json`.
+
+**Kein React/DOM Test-Setup vorhanden.** Frontend-Logik, die getestet werden soll, muss als reine TypeScript-Funktion (ohne React-Imports) in `admin/src/lib/` extrahiert werden. Diese Funktionen sind dann über den `@/lib/...`-Alias in Mocha-Tests importierbar.
 
 Coverage uses `nyc` configured in `package.json` to instrument `src/**/*.ts` only.
 
@@ -172,3 +178,17 @@ if (!useForeignId && !confirm) {
 ### Tests — `setStateIdsToListenTo` ist zustandsbehaftet über Tests hinweg
 
 Das modul-globale Array aus `setStateIdsToListenTo.ts` wird zwischen Tests nicht zurückgesetzt. Tests, die dieses Array prüfen, müssen eindeutige State-IDs verwenden, um Kollisionen mit anderen Tests zu vermeiden. Beim Prüfen auf Abwesenheit einer ID immer `listAfter.some(el => el.id === testId)` verwenden, nicht auf die Array-Länge allein verlassen.
+
+### `AppContentTabSettings.componentDidMount` — Defaultwert nur bei `undefined`, nicht bei `false`
+
+`admin/src/pages/AppContentTabSettings.tsx`: Checkboxen, die beim ersten Laden auf einen Defaultwert gesetzt werden sollen, müssen mit `!isDefined(value)` geprüft werden — **nicht** mit `!value`. `!value` würde ein bewusst gesetztes `false` ebenfalls überschreiben, weil `!false === true`. Dies führte dazu, dass die Checkbox "Menü nach Neustart senden" nie auf `false` gespeichert werden konnte — jedes Öffnen der Settings-Seite hat sie zurückgesetzt.
+
+```ts
+// Falsch — überschreibt gespeichertes false beim nächsten Öffnen der Settings:
+if (!value) { ... }
+
+// Richtig — initialisiert nur wenn noch kein Wert vorhanden (undefined/null):
+if (!isDefined(value)) { ... }
+```
+
+Die Bedingung ist als testbare reine Funktion in `admin/src/lib/settings.ts` → `shouldDefaultSendMenuAfterRestart()` extrahiert und in `test/test/AppContentTabSettings.test.ts` getestet.
