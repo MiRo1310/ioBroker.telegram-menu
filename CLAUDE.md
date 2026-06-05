@@ -112,21 +112,48 @@ React 18 + MUI v7 class components. Entry: `admin/src/index.tsx` → `App` (Gene
 **Component hierarchy**:
 ```
 App (GenericApp)
-└── AppContent
-    ├── AppContentNavigation  (tab bar: Navigation / Action / Users / Trigger / Settings)
-    ├── AppContentHeader      (menu selector + telegram user assignment)
-    └── AppContentTab
-        ├── AppContentTabNavigation  (DnD table for nav rows)
-        ├── AppContentTabAction      (DnD table for get/set/pic/echarts/httpRequest/events)
-        └── AppContentTabSettings    (checkboxes, Telegram instances, Grafana token, directory)
+└── AppContent  (admin/src/pages/AppContent.tsx)
+    ├── shared/AppContentNavigation  (tab bar: Navigation / Action / Users / Trigger / etc.)
+    ├── header/AppContentHeader      (menu selector + telegram user assignment)
+    └── AppContentTab  (admin/src/pages/AppContentTab.tsx)
+        ├── navigation/AppContentTabNavigation  (DnD table for nav rows)
+        ├── action/AppContentTabAction          (DnD table for get/set/pic/echarts/httpRequest/events)
+        ├── settings/AppContentTabSettings      (instance list + config checkboxes/inputs)
+        └── settings/AppContentTabDescription   (description/documentation tab)
 ```
+
+**Pages directory structure** (`admin/src/pages/`):
+```
+pages/
+├── AppContent.tsx          ← top-level layout wrapper
+├── AppContentTab.tsx       ← tab panel switcher
+├── action/                 ← all action tab components
+├── navigation/             ← all navigation tab components
+├── settings/               ← settings + description tab
+├── header/                 ← header bar, menu buttons, telegram users
+├── overview/               ← trigger overview, double-trigger info
+└── shared/                 ← dropbox, icon bar, navigation sidebar
+```
+
+**Frontend lib** (`admin/src/lib/`) — pure TypeScript, no React, directly testable:
+- `settings.ts` — `shouldDefaultSendMenuAfterRestart`, `getCheckboxDisplayValue`, `getUpdatedCheckboxes`, `getUpdatedInstanceList`
+- `menuUtils.ts` — `menuNameExists`, `isInvalidNewMenuName`
+- `dropboxUtils.ts` — `countItemsInArray`, `isNavigationRow`
+- `actionUtils.ts` — row/trigger management (large)
+- `dragNDrop.ts`, `movePosition.ts`, `Utils.ts`, `string.ts`, `object.ts`, `color.ts`
+
+**Frontend test pattern**: Frontend lib functions cannot use React/DOM. Extract to `admin/src/lib/*.ts` (no React imports), then import in tests via relative path `'../../../admin/src/lib/...'`. The `@/` alias does NOT work in test files — use relative paths instead.
 
 **State management**: All state lives in the top-level `App` component (GenericApp pattern). Callbacks are passed down as `callback` props; `callback.setStateApp` updates App state, `callback.updateNative` persists config changes to ioBroker.
 
 **Types**: `admin/src/types/app.d.ts` — all frontend types. `admin/src/types/props-types.d.ts` — component prop interfaces.
 
-**Utilities** (`admin/src/lib/`):
-- `settings.ts` — `shouldDefaultSendMenuAfterRestart(value)`: pure helper für `AppContentTabSettings.componentDidMount`, entscheidet ob der Checkbox-Default gesetzt werden soll
+**Frontend TypeScript check**: Use `npx tsc -p admin/tsconfig.json --noEmit` (the root `tsc` only checks `src/` and `test/`, not the frontend).
+
+**Frontend lib** (`admin/src/lib/`):
+- `settings.ts` — pure helpers for `AppContentTabSettings`: `shouldDefaultSendMenuAfterRestart`, `getCheckboxDisplayValue`, `getUpdatedCheckboxes`, `getUpdatedInstanceList`
+- `menuUtils.ts` — `menuNameExists`, `isInvalidNewMenuName`
+- `dropboxUtils.ts` — `countItemsInArray`, `isNavigationRow`
 
 ### Testing
 

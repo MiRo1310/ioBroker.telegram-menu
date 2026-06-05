@@ -1,12 +1,12 @@
-import { sortObjectByKey, updateActiveMenuAndTrigger } from '@/lib/actionUtils';
+﻿import { sortObjectByKey, updateActiveMenuAndTrigger } from '@/lib/actionUtils';
 import { updatePositionDropBox } from '@/lib/movePosition';
 import { insertNewItemsInData } from '@/lib/newValuesForNewVersion';
 import getIobrokerData from '@/lib/socket';
 import AppContent from '@/pages/AppContent';
-import AppDoubleTriggerInfo from '@/pages/AppDoubleTriggerInfo';
-import AppDropBox from '@/pages/AppDropBox';
-import AppHeaderIconBar from '@/pages/AppHeaderIconBar';
-import AppTriggerOverview from '@/pages/AppTriggerOverview';
+import AppDoubleTriggerInfo from '@/pages/overview/AppDoubleTriggerInfo';
+import AppDropBox from '@/pages/shared/AppDropBox';
+import AppHeaderIconBar from '@/pages/shared/AppHeaderIconBar';
+import AppTriggerOverview from '@/pages/overview/AppTriggerOverview';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { AdminConnection, GenericApp } from '@iobroker/adapter-react-v5';
 import { Grid } from '@mui/material';
