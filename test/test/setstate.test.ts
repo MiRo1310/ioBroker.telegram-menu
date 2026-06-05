@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 
 import { utils } from '@iobroker/testing';
-import type { Adapter, Part, TelegramParams } from '@backend/types/types';
+import type { Adapter, Part } from '@backend/types/types';
 import { handleSetState } from '@backend/app/setstate';
+import { getStateIdsToListenTo } from '@backend/app/setStateIdsToListenTo';
 import { telegramParams } from '../fixtures/telegramParams';
 
 const { adapter, database } = utils.unit.createMocks({});
@@ -182,6 +183,60 @@ describe('Setstate', () => {
         const part = {} as Part;
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
         expect(result).to.be.undefined;
+    });
+
+    describe('Double-send bug: confirm=true darf keine State-ID als Listener registrieren', () => {
+        it('should NOT add the state ID to the listener list when confirm=true (prevents double send)', async () => {
+            const testId = 'test.0.no-double-send-confirm-true';
+            await mockAdapter.setForeignStateAsync(testId, '0', true);
+
+            const part = {
+                switch: [
+                    {
+                        id: testId,
+                        confirm: true,
+                        returnText: 'State gesetzt: &&',
+                        value: '42',
+                        toggle: false,
+                        ack: false,
+                        parse_mode: false,
+                    },
+                ],
+            } as Part;
+
+            const countBefore = getStateIdsToListenTo().length;
+            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+            const listAfter = getStateIdsToListenTo();
+            expect(listAfter.some(el => el.id === testId)).to.be.false;
+            expect(listAfter.length).to.equal(countBefore);
+        });
+
+        it('should ADD the state ID to the listener list when confirm=false', async () => {
+            const testId = 'test.0.no-double-send-confirm-false';
+            await mockAdapter.setForeignStateAsync(testId, '0', true);
+
+            const part = {
+                switch: [
+                    {
+                        id: testId,
+                        confirm: false,
+                        returnText: '',
+                        value: '42',
+                        toggle: false,
+                        ack: false,
+                        parse_mode: false,
+                    },
+                ],
+            } as Part;
+
+            const countBefore = getStateIdsToListenTo().length;
+            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+            const listAfter = getStateIdsToListenTo();
+            expect(listAfter.some(el => el.id === testId)).to.be.true;
+            expect(listAfter.length).to.equal(countBefore + 1);
+        });
     });
 
     it('should handle invalid foreignId JSON gracefully', async () => {

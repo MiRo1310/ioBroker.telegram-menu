@@ -43,7 +43,6 @@ const setstateIobroker = async ({ id, value, ack, adapter, }) => {
         const val = await (0, utilities_1.transformValueToTypeOfId)(adapter, id, value);
         adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(val)}`);
         if ((0, utils_1.isDefined)(val)) {
-            console.log('Value ', val);
             await adapter.setForeignStateAsync(id, val, ack);
         }
     }
@@ -110,7 +109,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
                 return;
             }
             let valueToTelegram = valueFromSubmenu ?? value;
-            if (!useForeignId) {
+            if (!useForeignId && !confirm) {
                 await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
                     id: idToGetValueFrom,
                     confirm,
@@ -120,7 +119,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
                     instance,
                 });
             }
-            else {
+            else if (useForeignId) {
                 returnText = (0, string_1.singleQuotesToDoubleQuotes)(returnText);
                 const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
                 const { json, isValidJson } = (0, string_1.parseJSON)(substring);

@@ -37,6 +37,7 @@ You can create different groups with separate menus, and then assign users to th
 -->
 ### **WORK IN PROGRESS**
 
+- FIX: #555 Prevent double sending of state IDs when confirm=true
 - CHORE: Update dependencies
   
 ### 4.2.0 (2026-05-09)

@@ -68,7 +68,6 @@ export const setstateIobroker = async ({
 
         adapter.log.debug(`Value to Set: ${jsonString(val)}`);
         if (isDefined(val)) {
-            console.log('Value ', val);
             await adapter.setForeignStateAsync(id, val, ack);
         }
     } catch (error: any) {
@@ -171,7 +170,7 @@ export const handleSetState = async (
                 return;
             }
             let valueToTelegram: ioBroker.StateValue = valueFromSubmenu ?? value;
-            if (!useForeignId) {
+            if (!useForeignId && !confirm) {
                 await addSetStateIds(adapter, {
                     id: idToGetValueFrom,
                     confirm,
@@ -180,7 +179,7 @@ export const handleSetState = async (
                     parse_mode,
                     instance,
                 });
-            } else {
+            } else if (useForeignId) {
                 returnText = singleQuotesToDoubleQuotes(returnText);
                 const { substring } = decomposeText(returnText, foreignIdStart, '}');
                 const { json, isValidJson } = parseJSON<{ text: string; foreignId: string }>(substring);
