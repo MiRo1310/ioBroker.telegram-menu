@@ -5,7 +5,8 @@ import { I18n } from '@iobroker/adapter-react-v5';
 import type { PropsSettings } from '@/types/app';
 import type { EventCheckbox, EventInput } from '@/types/event';
 import { Grid } from '@mui/material';
-import { isDefined } from '../../../src/lib/utils';
+import { isDefined } from '@backend/lib/utils';
+import { shouldDefaultSendMenuAfterRestart } from '@/lib/settings';
 
 class Settings extends Component<PropsSettings> {
     constructor(props: PropsSettings) {
@@ -37,7 +38,7 @@ class Settings extends Component<PropsSettings> {
     };
 
     componentDidMount(): void {
-        if (!this.props.data.state.native.checkbox.sendMenuAfterRestart) {
+        if (shouldDefaultSendMenuAfterRestart(this.props.data.state.native.checkbox.sendMenuAfterRestart)) {
             const checkboxes = { ...this.props.data.state.native.checkbox };
             checkboxes.sendMenuAfterRestart = true;
             this.props.callback.updateNative('checkbox', checkboxes);
