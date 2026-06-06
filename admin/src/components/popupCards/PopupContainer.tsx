@@ -15,7 +15,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 
     componentDidMount(): void {
         if (this.props.drag) {
-            const element = document.querySelector('.dialog__card_wrapper') as HTMLElement;
+            const element = document.querySelector('.dialog__card-wrapper') as HTMLElement;
             element.draggable = true;
         }
     }
@@ -38,7 +38,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
 
         return (
             <div
-                className={`dialog__card_wrapper ${this.props.class || ''}`}
+                className={`dialog__card-wrapper ${this.props.class || ''}`}
                 ref={this.props.reference ? this.props.reference : null}
                 onDragStart={
                     this.props.onDragStart ? event => this.props.onDragStart!(event, this.props.setState) : undefined
@@ -67,7 +67,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                         {this.state.inUse ? <p className="inUse">{I18n.t('Call is already in use!')}</p> : null}
                         {this.props.children}
                     </div>
-                    <div className="dialog__card_footer">
+                    <div className="dialog__card-footer">
                         {!this.props.onlyCloseBtn ? (
                             <Button
                                 className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button__disabled'}`}

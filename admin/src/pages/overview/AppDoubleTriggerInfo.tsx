@@ -10,7 +10,7 @@ class DoubleTriggerInfo extends Component<PropsMainDoubleTriggerInfo> {
 
     render(): React.ReactNode {
         return (
-            <div className="error__container-double_trigger">
+            <div className="error__container--double-trigger">
                 <p className="error__header">{I18n.t('doubleTrigger')}</p>
                 {this.props.state.doubleTrigger.map((element, index) => (
                     <p

@@ -90,7 +90,7 @@ label p {
 }
 
 /* error */
-.error__container-double_trigger {
+.error__container--double-trigger {
     color: var(--destructive);
     position: absolute;
     top: 5px;
@@ -102,7 +102,7 @@ label p {
     background-color: var(--background-primary);
 }
 
-.error__container-double_trigger .error__header {
+.error__container--double-trigger .error__header {
     margin: 2px 5px;
 }
 
@@ -186,12 +186,12 @@ div.MuiTabPanel-root {
     margin-bottom: 0.5rem;
 }
 
-.dialog__card_footer {
+.dialog__card-footer {
     width: 100%;
     text-align: right;
 }
 
-.dialog__card_wrapper {
+.dialog__card-wrapper {
     background-color: var(--dialog-bg);
     width: 100vw;
     height: 100vh;
@@ -202,7 +202,7 @@ div.MuiTabPanel-root {
 }
 
 
-.dialog__card_footer button {
+.dialog__card-footer button {
     padding: 0 30px !important;
     margin: 0 8px 10px 8px !important;
     border: none !important;
