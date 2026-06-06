@@ -145,11 +145,12 @@ div.MuiTabPanel-root {
 .navigation__container,
 .action__container,
 .table__container--description {
-    padding: 0 var(--space-2) !important;
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: auto;
+    min-width: 0;
     overflow-y: auto;
+    overflow-x: auto;
 }
 
 .action__container {

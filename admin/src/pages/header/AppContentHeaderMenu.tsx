@@ -7,18 +7,6 @@ import AppContentHeaderMenuButtons from './AppContentHeaderMenuButtons';
 import AppContentHeaderMenuList from './AppContentHeaderMenuList';
 
 class HeaderMenu extends Component<PropsHeaderMenu> {
-    eventOnMouse = (event: React.MouseEvent<HTMLDivElement>): void => {
-        if (!event) {
-            return;
-        }
-        if (event.type === 'mouseenter') {
-            this.props.callback.setStateApp({ showPopupMenuList: true });
-        }
-        if (event.type === 'mouseleave') {
-            this.props.callback.setStateApp({ showPopupMenuList: false });
-        }
-    };
-
     handleClick = (): void => {
         this.props.callback.setStateApp({ showPopupMenuList: !this.props.data.state.showPopupMenuList });
     };
@@ -35,11 +23,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
         return (
             <div className="header__button-row">
                 <div style={{ width: 'auto', display: 'flex', flexWrap: 'nowrap' }}>
-                    <div
-                        onMouseEnter={this.eventOnMouse}
-                        onMouseLeave={this.eventOnMouse}
-                        className="inline-block relative"
-                    >
+                    <div className="inline-block relative">
                         <ButtonExpand
                             isOpen={this.showList()}
                             callback={this.handleClick}
@@ -48,7 +32,9 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                         />
                         {this.showList() && this.isActiveMenu() ? (
                             <>
-                                <Overlay onClick={() => this.props.callback.setStateApp({ showPopupMenuList: false })} />
+                                <Overlay
+                                    onClick={() => this.props.callback.setStateApp({ showPopupMenuList: false })}
+                                />
                                 <AppContentHeaderMenuList
                                     usersInGroup={this.props.data.state.native.usersInGroup}
                                     callback={this.props.callback}
