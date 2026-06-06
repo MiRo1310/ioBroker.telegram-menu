@@ -30,7 +30,7 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
         return entry.name != 'trigger' && entry.name != 'parse_mode';
     }
     static isHeaderForDataCheckbox(name: string): string {
-        return ['Con', 'Swi', 'Ack'].includes(name) ? 'table__head_checkbox' : '';
+        return ['Con', 'Swi', 'Ack'].includes(name) ? 'table__head-checkbox' : '';
     }
 
     render(): React.ReactNode {
@@ -39,7 +39,7 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
                 <TableRow>
                     <TableCell
                         align="left"
-                        className="table__head_checkbox"
+                        className="table__head-checkbox"
                     >
                         <Checkbox
                             id="checkbox"
@@ -67,13 +67,13 @@ class AppContentTabActionContentRowEditorTableHead extends Component<PropsAction
                     {this.props.tab.popupCard.buttons.add ? (
                         <TableCell
                             align="left"
-                            className="table__head_button"
+                            className="table__head-button"
                         />
                     ) : null}
                     {this.props.tab.popupCard.buttons.remove ? (
                         <TableCell
                             align="left"
-                            className="table__head_button"
+                            className="table__head-button"
                         />
                     ) : null}
                 </TableRow>

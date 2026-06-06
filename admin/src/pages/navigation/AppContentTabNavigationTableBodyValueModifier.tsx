@@ -108,7 +108,7 @@ class AppContentTabNavigationTableBodyValueModifier extends Component<Props, Sta
                     />
                 ) : null}
                 {this.isValue() ? (
-                    <div className={'table__row_container'}>
+                    <div className={'table__row-container'}>
                         {this.getValue().map((row, i) =>
                             row !== '' ? (
                                 <p

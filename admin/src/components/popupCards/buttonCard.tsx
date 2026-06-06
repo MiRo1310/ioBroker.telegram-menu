@@ -13,7 +13,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
             {props.showButtons.add ? (
                 <TableCell
                     align="center"
-                    className="table__cell_icon"
+                    className="table__cell-icon"
                 >
                     <BtnSmallAdd
                         callback={props.openAddRowCard}
@@ -25,7 +25,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
             {props.showButtons.edit ? (
                 <TableCell
                     align="center"
-                    className="table__cell_icon"
+                    className="table__cell-icon"
                 >
                     <BtnSmallEdit
                         callback={props.editRow}
@@ -36,7 +36,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
             {props.showButtons.moveUp ? (
                 <TableCell
                     align="center"
-                    className="table__cell_icon"
+                    className="table__cell-icon"
                 >
                     <BtnSmallUp
                         callback={props.moveUp}
@@ -48,7 +48,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
             {props.showButtons.moveDown ? (
                 <TableCell
                     align="center"
-                    className="table__cell_icon"
+                    className="table__cell-icon"
                 >
                     <BtnSmallDown
                         callback={props.moveDown}
@@ -60,7 +60,7 @@ export const ButtonCard = (props: PropsButtonCard): React.JSX.Element => {
             {props.showButtons.remove ? (
                 <TableCell
                     align="center"
-                    className="table__cell_icon"
+                    className="table__cell-icon"
                 >
                     {!props.notShowDelete ? (
                         <BtnSmallRemove

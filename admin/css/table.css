@@ -43,15 +43,15 @@ tr td:has(button.buttonFalse) {
     width: 1.25rem !important;
 }
 
-#root table .table__head_checkbox {
+#root table .table__head-checkbox {
     width: 1.5rem;
 }
 
-.table__head_button {
+.table__head-button {
     width: 1rem;
 }
 
-.table__head_select select {
+.table__head-select select {
     background-color: var(--table-head) !important;
     margin: 0 !important;
     border: 0 !important;

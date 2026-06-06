@@ -180,7 +180,7 @@ class AppContentTabActionContentTable extends Component<PropsTableDndAction, Sta
                         {row?.trigger?.[0] ? (
                             <TableCell align="left">
                                 <span
-                                    className="table__ghost_id"
+                                    className="table__ghost-id"
                                     id={row?.trigger?.[0]}
                                 />
                                 <span

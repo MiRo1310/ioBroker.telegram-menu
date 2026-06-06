@@ -303,7 +303,7 @@ div.MuiTabPanel-root {
     width: 100% !important;
 }
 
-.table__cell_icon {
+.table__cell-icon {
     padding: 1px !important;
     width: 30px !important;
 }
@@ -510,7 +510,7 @@ p.inUse {
     height: calc(30px - 1rem);
 }
 
-.table__row_container:has(.row__button) {
+.table__row-container:has(.row__button) {
     border: 1px solid var(--border-row-container);
     border-radius: var(--radius-sm);
     background: var(--row-container);

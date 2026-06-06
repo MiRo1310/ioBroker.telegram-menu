@@ -249,7 +249,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
                                             <TableCell
                                                 key={i}
                                                 align="center"
-                                                className="table__cell_icon"
+                                                className="table__cell-icon"
                                             />
                                         ))}
                                 </TableRow>

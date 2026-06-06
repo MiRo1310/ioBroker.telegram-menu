@@ -155,7 +155,7 @@ class TableDndNav extends Component<PropsTableDndNav, StateTableDndNav> {
                                 style={{ width: entry.width ? entry.width : undefined }}
                             >
                                 <span
-                                    className="table__ghost_id"
+                                    className="table__ghost-id"
                                     id={row.call}
                                 />
                                 <span

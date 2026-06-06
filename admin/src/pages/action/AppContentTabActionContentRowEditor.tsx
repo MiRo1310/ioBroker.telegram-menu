@@ -372,7 +372,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                               ) : entry.typeInput === 'checkbox' && entry.name != 'parse_mode' ? (
                                                   <TableCell
                                                       align="left"
-                                                      className="table__head_checkbox"
+                                                      className="table__head-checkbox"
                                                       key={i}
                                                   >
                                                       <Checkbox
@@ -388,7 +388,7 @@ class AppContentTabActionContentRowEditor extends Component<PropsRowEditPopupCar
                                               ) : entry.typeInput === 'select' && entry.name != 'parse_mode' ? (
                                                   <TableCell
                                                       align="left"
-                                                      className="table__head_select"
+                                                      className="table__head-select"
                                                       key={i}
                                                   >
                                                       <Select

@@ -88,19 +88,19 @@ class DescriptionTab extends Component<{ data: DataMainContent; callback: Callba
                                 <TableCell>{I18n.t('description')}</TableCell>
                                 <TableCell
                                     align="center"
-                                    className="table__cell_icon"
+                                    className="table__cell-icon"
                                 />
                                 <TableCell
                                     align="center"
-                                    className="table__cell_icon"
+                                    className="table__cell-icon"
                                 />
                                 <TableCell
                                     align="center"
-                                    className="table__cell_icon"
+                                    className="table__cell-icon"
                                 />
                                 <TableCell
                                     align="center"
-                                    className="table__cell_icon"
+                                    className="table__cell-icon"
                                 />
                             </TableRow>
                         </TableHead>
