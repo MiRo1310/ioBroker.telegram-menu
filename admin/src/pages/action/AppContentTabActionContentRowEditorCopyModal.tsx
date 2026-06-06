@@ -37,12 +37,8 @@ class AppContentTabActionContentRowEditorCopyModal extends Component<PropsRowEdi
         super(props);
         this.state = {
             selectedMenu: '',
-            action: '',
+            action: this.props.data.tab.value,
         };
-    }
-
-    componentDidMount(): void {
-        this.setState({ action: this.props.data.tab.value });
     }
 
     getAllMenusWithoutActiveMenu(): string[] {

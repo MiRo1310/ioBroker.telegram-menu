@@ -73,7 +73,7 @@ tr[draggable="true"] span i {
 }
 
 tr td {
-    padding: var(--space-1) var(--space-2) !important;
+    padding: 2px var(--space-2) !important;
     font-size: var(--text-sm) !important;
     border: none !important;
 }

@@ -23,7 +23,7 @@
 }
 
 .input__container label input {
-    margin-top: 0.5rem !important;
+    margin-top: 0 !important;
 }
 
 .input__container label {

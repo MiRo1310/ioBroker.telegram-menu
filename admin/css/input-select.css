@@ -1,10 +1,10 @@
 input {
     margin: 0 !important;
-    padding: 0.5rem !important;
-    border: none !important;
+    padding: var(--space-1) var(--space-2) !important;
+    border: 1px solid var(--input-border) !important;
+    border-radius: var(--radius-sm) !important;
     width: calc(100% - 50px) !important;
     font-size: 16px !important;
-    border-bottom: 1px solid var(--input-border) !important;
     color: var(--input-text);
     background: var(--input-bg);
 }

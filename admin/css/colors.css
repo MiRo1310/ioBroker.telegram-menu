@@ -153,9 +153,11 @@
     --input-border: var(--gray-darkest);
     --input-placeholder-color: var(--gray-dark);
 
-    --table-head: var(--gray-dark);
+    --table-head: #2a2a2a;
     --table-row-even: var(--gray-darker);
     --table-row-odd: var(--gray-dark);
+    --table-row-divider: rgba(255, 255, 255, 0.06);
+    --table-head-shadow: rgba(0, 0, 0, 0.4);
 
     --primary-color: var(--gray-darkest);
     --row-button: var(--gray-darker);
