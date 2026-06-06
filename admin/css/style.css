@@ -511,39 +511,41 @@ p.inUse {
 }
 
 .table__row_container:has(.row__button) {
-    margin: 0.5rem 0 0.5rem 0;
     border: 1px solid var(--border-row-container);
+    border-radius: var(--radius-sm);
     background: var(--row-container);
+    padding: 0 var(--space-1);
 }
 
 .nav__row {
     margin: 0;
-    padding: 1px 1px !important;
-    font-size: 0.7rem;
+    padding: var(--space-1) 0 !important;
+    font-size: var(--text-xs);
     display: flex;
-    justify-content: stretch;
+    gap: var(--space-1);
 }
 
 .row__button {
-    margin: 1px 0.1rem 1px 0.1rem !important;
-    padding: 0.1rem 0.5rem;
-    font-size: 0.7rem !important;
-    border: 2px solid var(--border-row-buttons) !important;
-    border-radius: 5px;
+    padding: 0.1rem var(--space-2);
+    font-size: var(--text-xs) !important;
+    border: 1px solid var(--border-row-buttons) !important;
+    border-radius: var(--radius-sm);
     display: inline-block !important;
     flex: 1;
     text-align: center;
     background: var(--row-button) !important;
-    color: var(--row-button-text)
+    color: var(--row-button-text);
+    box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.12);
+    transition: opacity 0.1s ease;
 }
 
 .row__button:hover {
-    opacity: 0.8;
+    opacity: 0.75;
 }
 
 .row__submenu {
     background: var(--menu-function-row) !important;
-    color: var(--dark)
+    color: var(--dark);
 }
 
 .disabled {

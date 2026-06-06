@@ -15,7 +15,7 @@ tbody tr {
     transition: background-color 0.1s ease;
 }
 
-.table__ghost_id {
+.table__ghost-id {
     position: absolute;
     top: -2.5rem;
 }
@@ -28,9 +28,9 @@ tbody tr {
 #root thead tr th,
 #root thead tr td {
     background-color: var(--table-head) !important;
-    font-size: 0.8125rem;
+    font-size: var(--text-xs);
     font-weight: 600;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: white !important;
     border: none !important;
@@ -65,6 +65,7 @@ tr[draggable="true"] {
 
 tr[draggable="true"]:hover {
     background-color: var(--table-hover) !important;
+    transition: background-color 0.1s ease;
 }
 
 tr[draggable="true"] span i {
@@ -72,8 +73,8 @@ tr[draggable="true"] span i {
 }
 
 tr td {
-    padding: 0.25rem 0.3125rem !important;
-    font-size: 1rem !important;
+    padding: var(--space-1) var(--space-2) !important;
+    font-size: var(--text-sm) !important;
     border: none !important;
 }
 
