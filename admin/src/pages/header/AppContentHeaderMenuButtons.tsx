@@ -169,7 +169,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
     };
 
     openCopyDialog = (): void => {
-        this.setState({ renamedMenuName: this.state.oldMenuName + '_copy', isOK: true });
+        this.setState({ renamedMenuName: `${this.state.oldMenuName}_copy`, isOK: true });
         this.setState({ copyDialog: true });
     };
 

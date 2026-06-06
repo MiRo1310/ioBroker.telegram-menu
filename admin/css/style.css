@@ -46,20 +46,6 @@ label p {
 }
 
 /* HeaderMenu */
-.menu__list-popup {
-    display: inline-block;
-    width: 160px;
-    position: absolute;
-    z-index: 1500;
-    top: calc(30px + 0.5rem);
-    left: 0.5rem;
-    border: 2px solid #333;
-    border-radius: 4px;
-    max-height: 74vh;
-    overflow: auto;
-    background-color: var(--background-primary);
-}
-
 .header__button-row {
     font-size: 0.8rem;
     height: auto !important;
@@ -67,6 +53,23 @@ label p {
     flex-wrap: wrap;   
     justify-content: space-between;
     align-items: start;
+}
+
+.menu__list-popup {
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 160px;
+    position: absolute;
+    z-index: 1500;
+    top: calc(30px + 0.5rem);
+    left: 0.5rem;
+    border: 2px solid var(--border-primary);
+    border-radius: 4px;
+    max-height: 74vh;
+    overflow: auto;
+    background-color: var(--background-primary);    
 }
 
 /* Header Telegram User */
@@ -345,13 +348,11 @@ p.inUse {
     left: 5px;
 }
 
-
-
 .telegram__users-container {
     display: flex;
     flex-direction: column;
     margin-right: var(--space-2);
-    margin-left: var(--space-1);
+    margin-left: var(--space-2);
     gap: var(--space-2);
 }
 

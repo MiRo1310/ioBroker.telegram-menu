@@ -163,10 +163,6 @@ button.icon i.material-icons {
 
 }
 
-.button__menu:last-child {
-    margin-bottom: 0.5rem !important;
-}
-
 .button__menu .button--children {
     height: 100%;
     margin-top: 0 !important;
