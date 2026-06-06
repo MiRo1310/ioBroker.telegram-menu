@@ -50,7 +50,7 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                         {this.getTabs().map(tab => (
                             <button
                                 key={tab.label}
-                                className={`button button__primary ${this.isActive(tab.value) ? 'button__active' : ''}`}
+                                className={`button button__primary ${this.isActive(tab.value) ? 'button--active' : ''}`}
                                 onClick={() => this.handleChange(tab.value)}
                             >
                                 {I18n.t(tab.label)}
@@ -61,14 +61,14 @@ class AppContentNavigation extends Component<PropsMainTabList> {
                     <div className={'flex items-center '}>
                         <button
                             key={'description'}
-                            className={`button button__primary ${this.isActive('description') ? 'button__active' : ''}`}
+                            className={`button button__primary ${this.isActive('description') ? 'button--active' : ''}`}
                             onClick={() => this.handleChange('description')}
                         >
                             {I18n.t('descriptions')}
                         </button>
                         <button
                             key={'settings'}
-                            className={`icon button__primary ${this.isActive('settings') ? 'button__active' : ''}`}
+                            className={`icon button__primary ${this.isActive('settings') ? 'button--active' : ''}`}
                             onClick={() => this.handleChange('settings')}
                         >
                             <i className="material-icons">settings</i>

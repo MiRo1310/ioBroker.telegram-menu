@@ -70,7 +70,7 @@ class AppContentTabNavigationTableRowEditorCardTriggerSelection extends Componen
                 <Button
                     id={'button'}
                     callback={this.addSelectedMenuToInputAsButton}
-                    className={`button__ok button ${this.state.selected === '' ? 'button__disabled' : ''}`}
+                    className={`button__ok button ${this.state.selected === '' ? 'button--disabled' : ''}`}
                     disabled={this.state.selected === ''}
                 >
                     {I18n.t('add')}

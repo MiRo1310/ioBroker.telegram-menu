@@ -32,7 +32,7 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
 
     render(): React.ReactNode {
         return (
-            <div className="header__button_row">
+            <div className="header__button-row">
                 <div style={{ width: 'auto', display: 'flex', flexWrap: 'nowrap' }}>
                     <div
                         onMouseEnter={this.eventOnMouse}

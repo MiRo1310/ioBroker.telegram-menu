@@ -332,7 +332,7 @@ export const updateTriggerForSelect = (
 const buttonCheck = (): React.ReactElement => {
     return React.createElement(
         'button',
-        { className: 'buttonTrue' },
+        { className: 'button--true' },
         React.createElement('span', null, React.createElement('i', { className: 'material-icons' }, 'done')),
     );
 };
@@ -340,7 +340,7 @@ const buttonCheck = (): React.ReactElement => {
 const buttonClose = (): React.ReactElement => {
     return React.createElement(
         'button',
-        { className: 'buttonFalse' },
+        { className: 'button--false' },
         React.createElement('span', null, React.createElement('i', { className: 'material-icons' }, 'close')),
     );
 };

@@ -194,8 +194,8 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
                     callback={this.updateHandler}
                 />
                 {this.state.trigger ? (
-                    <div className="trigger__overview_wrapper">
-                        <div className="menu__card_container">
+                    <div className="trigger__overview-wrapper">
+                        <div className="menu__card-container">
                             <p>{I18n.t('unusedTrigger')}</p>
                             <ul>
                                 {this.state.trigger.unUsedTrigger.map((trigger, index) => {
@@ -219,36 +219,36 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
                             return (
                                 <div
                                     key={indexUsedTrigger}
-                                    className="menu__card_container"
+                                    className="menu__card-container"
                                 >
                                     <div
                                         className={
                                             this.state.trigger?.usedTrigger.nav[menu][0] == '-'
                                                 ? 'menu-disabled'
-                                                : 'trigger__overview_menu-startside'
+                                                : 'trigger__overview-menu--startside'
                                         }
                                     >
                                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                            <p className="noMargin inlineBlock strong">
+                                            <p className="m-0 inline-block strong">
                                                 {this.state.trigger?.usedTrigger.nav[menu][0] == '-'
                                                     ? 'submenu'
                                                     : 'startSide'}
                                             </p>
                                             {this.props.userActiveCheckbox[menu] ? (
-                                                <span className="textRight active"> {I18n.t('Active')}</span>
+                                                <span className="text-right active"> {I18n.t('Active')}</span>
                                             ) : (
-                                                <span className="textRight inactive"> {I18n.t('Inactive')}</span>
+                                                <span className="text-right inactive"> {I18n.t('Inactive')}</span>
                                             )}
                                         </div>
-                                        <p className="noMargin">
+                                        <p className="m-0">
                                             {I18n.t('setMenu')}: {menu}
                                         </p>
                                     </div>
                                     <div
-                                        className="trigger__overview_user-list"
+                                        className="trigger__overview-user-list"
                                         style={{ border: `4px solid ${colors[this.getIndexOfMenu(menu)]}` }}
                                     >
-                                        <p className="trigger__overview_user">{I18n.t('userList')}</p>
+                                        <p className="trigger__overview-user">{I18n.t('userList')}</p>
                                         {this.props.usersInGroup[menu]?.map((user, indexUser) => {
                                             return <p key={indexUser}>{user.name}</p>;
                                         })}
@@ -256,12 +256,12 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
 
                                     <ul
                                         key={indexUsedTrigger}
-                                        className="menu__action_list"
+                                        className="menu__action-list"
                                         style={{ paddingLeft: this.state.ulPadding[menu] }}
                                     >
                                         <li>
                                             <p className="strong">{I18n.t('navigationButtons')}</p>
-                                            <ul className="list__created-trigger">
+                                            <ul className="trigger__list">
                                                 {this.state.trigger?.everyTrigger[menu].map((trigger, indexTrigger) => {
                                                     return (
                                                         <div
@@ -292,7 +292,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
                                         </li>
                                         <li className="strong">{I18n.t('usedTrigger')}</li>
                                         <li>
-                                            <p className="trigger__overview_menu-description">nav</p>
+                                            <p className="trigger__overview-menu-description">nav</p>
                                             <ul>
                                                 {this.state.trigger?.usedTrigger.nav[menu].map(
                                                     (trigger, indexTrigger) => {
@@ -318,7 +318,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
                                                                         indexTrigger == 0 && trigger == '-'
                                                                             ? 'menu-disabled'
                                                                             : indexTrigger == 0
-                                                                              ? 'trigger__overview_menu-startside'
+                                                                              ? 'trigger__overview-menu--startside'
                                                                               : ''
                                                                     }
                                                                     title={`${I18n.t(
@@ -339,7 +339,7 @@ class TriggerOverview extends Component<PropsTriggerOverview, StateTriggerOvervi
                                                   (action, index2) => {
                                                       return (
                                                           <li key={index2}>
-                                                              <p className="trigger__overview_menu-description">
+                                                              <p className="trigger__overview-menu-description">
                                                                   {action}
                                                               </p>
                                                               <ul>

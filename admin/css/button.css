@@ -65,7 +65,7 @@
     color: var(--button-text-hover) !important;
 }
 
-.button__active {
+.button--active {
     border: 2px solid var(--button-border-active) !important;
     background-color: var(--button-bg-active) !important;
     color: var(--button-color-active) !important;
@@ -96,7 +96,7 @@ button.icon i.material-icons {
     opacity: 0.8 !important;
 }
 
-.button__disabled {
+.button--disabled {
     pointer-events: none;
     opacity: 0.4 !important;
 }
@@ -122,7 +122,7 @@ button.icon i.material-icons {
     border: 2px solid var(--button-border-hover) !important;
 }
 
-.button__icon-table {
+.button--icon-table {
     width: 30px !important;
     height: 30px !important;
     border-radius: 6px !important;
@@ -131,7 +131,7 @@ button.icon i.material-icons {
 }
 
 
-.button__icon .button--children, .button__icon-table .button--children {
+.button__icon .button--children, .button--icon-table .button--children {
     margin-top: 0 !important;
 }
 

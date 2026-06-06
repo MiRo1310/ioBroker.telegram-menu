@@ -17,9 +17,9 @@ class BtnSmallUp extends Component<ButtonSmallProps> {
                 className={
                     this.props.disabled
                         ? this.props.disabled
-                        : `` + ` ${this.props.class} button__icon-table`
+                        : `` + ` ${this.props.class} button--icon-table`
                           ? this.props.class
-                          : 'button__icon-table'
+                          : 'button--icon-table'
                 }
             >
                 <i className="material-icons">search</i>

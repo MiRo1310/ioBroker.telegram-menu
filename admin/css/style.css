@@ -45,7 +45,7 @@ label p {
 }
 
 /* HeaderMenu */
-.menu__list_popup {
+.menu__list-popup {
     display: inline-block;
     width: 160px;
     position: absolute;
@@ -60,7 +60,7 @@ label p {
 }
 
 
-.header__button_row {
+.header__button-row {
     font-size: 0.8rem;
     height: auto !important;
     display: flex;
@@ -228,7 +228,7 @@ div.MuiTabPanel-root {
     height: 100% !important;
 }
 
-.dropbox__dialog_rename-wrapper {
+.dropbox__dialog-rename-wrapper {
     position: fixed;
     top: -200px;
     right: 0;
@@ -237,7 +237,7 @@ div.MuiTabPanel-root {
     bottom: 500px;
 }
 
-.dropbox__drag_in_field {
+.dropbox__drag-in-field {
     background-color: var(--background-primary);
     color: var(--text-primary);
     width: 90%;
@@ -249,11 +249,11 @@ div.MuiTabPanel-root {
     padding: 10px;
 }
 
-.dropbox__dialog_rename-card {
+.dropbox__dialog-rename-card {
     bottom: -250px !important;
 }
 
-.dropbox__drag_in_field p {
+.dropbox__drag-in-field p {
     text-align: center;
     font-weight: 500;
     font-size: 1.5rem;
@@ -263,7 +263,7 @@ div.MuiTabPanel-root {
     margin-bottom: 10px;
 }
 
-.dropbox__drag_in_field p.DropBox-Content {
+.dropbox__drag-in-field p.DropBox-Content {
     font-size: 0.7rem;
     margin-top: 0;
     text-decoration: none;
@@ -312,8 +312,8 @@ div.MuiTabPanel-root {
 /* label */
 
 /*Wird generiert in actionUtils */
-button.buttonTrue,
-button.buttonFalse {
+button.button--true,
+button.button--false {
     border-radius: 5px;
     border: none;
     width: 20px;
@@ -323,16 +323,16 @@ button.buttonFalse {
     color: var(--button-color-boolean);
 }
 
-button.buttonTrue {
+button.button--true {
     background-color: var(--button-bg-true) !important;
 }
 
-button.buttonFalse {
+button.button--false {
     background-color: var(--button-bg-false) !important;
 }
 
-button.buttonTrue i,
-button.buttonFalse i {
+button.button--true i,
+button.button--false i {
     margin-top: 1px;
     font-size: 1.2rem;
     text-align: center;
@@ -411,7 +411,7 @@ p.inUse {
 
 
 /* Trigger Overview */
-.trigger__overview_wrapper {
+.trigger__overview-wrapper {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
@@ -419,13 +419,13 @@ p.inUse {
     overflow: auto;
 }
 
-.trigger__overview_wrapper li {
+.trigger__overview-wrapper li {
     cursor: help;
     padding-left: 4px;
 }
 
 /* Für die .Menu-list-card Elemente */
-.menu__card_container {
+.menu__card-container {
     display: inline-block;
     vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
     margin: 3px 3px;
@@ -435,36 +435,36 @@ p.inUse {
     width: max-content;
 }
 
-.menu__action_list li,
-.menu__card_container li {
+.menu__action-list li,
+.menu__card-container li {
     list-style-type: none;
     font-size: 0.7rem;
     line-height: 0.75rem;
 }
 
 /* Für die <p> und <ul> Elemente innerhalb der .Menu-list-card */
-.menu__card_container > p,
-.menu__card_container > ul {
+.menu__card-container > p,
+.menu__card-container > ul {
     display: block;
 }
 
-.menu__card_container ul {
+.menu__card-container ul {
     padding-left: 20px;
 }
 
-.trigger__overview_user-list {
+.trigger__overview-user-list {
     background-color: var(--background-primary);
 }
 
 
-.trigger__overview_user-list p {
+.trigger__overview-user-list p {
     margin-top: 4px;
     margin-bottom: 0;
     padding: 0 5px;
     color: var(--dark);
 }
 
-.trigger__overview_user ~ p {
+.trigger__overview-user ~ p {
     font-size: 0.75rem;
     padding-bottom: 2px;
     font-weight: 500;
@@ -472,21 +472,21 @@ p.inUse {
     margin-top: 0;
 }
 
-.list__created-trigger li {
+.trigger__list li {
     padding-left: 5px;
 }
 
-.trigger__overview_menu-startside {
+.trigger__overview-menu--startside {
     background-color: var(--success);
     color: var(--dark);
 }
 
-.trigger__overview_wrapper ul li ul li {
+.trigger__overview-wrapper ul li ul li {
     font-size: 0.75rem;
     line-height: 0.75rem;
 }
 
-.trigger__overview_menu-description {
+.trigger__overview-menu-description {
     margin: 2px 0 4px 0;
     text-decoration: underline;
     font-size: 0.8rem;
@@ -499,14 +499,14 @@ p.inUse {
     margin-right: 2rem;
 }
 
-.header__menu_buttons {
+.header__menu-buttons {
     margin: 0.5rem 0.5rem 0 0.5rem;
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
 }
 
-.header__menu_buttons input {
+.header__menu-buttons input {
     height: calc(30px - 1rem);
 }
 
@@ -559,22 +559,22 @@ p.inUse {
     text-decoration: underline;
 }
 
-.squareText {
+.square-text {
     font-size: 0.7rem;
     cursor: default;
 }
 
-.noMargin {
+.m-0 {
     margin: 0;
     padding-left: 5px;
 }
 
-.textRight {
+.text-right {
     padding: 0 5px 0 5px;
     margin: 3px 3px 0 0;
 }
 
-.inlineBlock {
+.inline-block {
     display: inline-block;
     flex-grow: 1;
 }
@@ -603,7 +603,7 @@ span[title],
     cursor: help;
 }
 
-.options-card{
+.options__card{
    display: flex;
     flex-direction: column;
     height: 100%;

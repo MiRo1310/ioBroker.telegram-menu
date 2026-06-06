@@ -63,7 +63,7 @@ class Square extends Component<PropsSquare, StateSquare> {
         return (
             <div>
                 <div
-                    className="squareText"
+                    className="square-text"
                     style={{
                         width: `${this.state.width}px`,
                         height: '10px',

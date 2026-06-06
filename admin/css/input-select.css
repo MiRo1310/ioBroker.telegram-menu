@@ -13,7 +13,7 @@ input::placeholder {
     color: var(--input-placeholder-color); /* Replace with your desired color */
 }
 
-body .header__menu_buttons input {
+body .header__menu-buttons input {
     font-size: 1.0rem !important;
     width: 300px !important;
 }

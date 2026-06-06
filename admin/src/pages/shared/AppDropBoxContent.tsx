@@ -272,7 +272,7 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                         {I18n.t('Copy')}
                     </label>
                     <div
-                        className="dropbox__drag_in_field"
+                        className="dropbox__drag-in-field"
                         draggable
                         onDrop={() => this.handleOnDrop()}
                         onDragOver={(event: React.DragEvent<HTMLDivElement>) => DropBox.handleDragOver(event)}
@@ -284,12 +284,12 @@ class DropBox extends Component<PropsDropBox, StateDropBox> {
                     </div>
                 </div>
                 {this.state.openRenamePopup ? (
-                    <div className="dropbox__dialog_rename-wrapper">
+                    <div className="dropbox__dialog-rename-wrapper">
                         <PopupContainer
                             title={I18n.t('Rename trigger')}
                             value={this.state.trigger}
                             callback={this.renameMenu}
-                            class="dropbox__dialog_rename-card"
+                            class="dropbox__dialog-rename-card"
                             isOK={this.state.isOK}
                         >
                             <RenameCard

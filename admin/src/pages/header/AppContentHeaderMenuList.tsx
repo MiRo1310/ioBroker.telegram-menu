@@ -23,7 +23,7 @@ class MenuPopupCard extends Component<PropsMenuPopupCard> {
 
     render(): React.ReactNode {
         return (
-            <div className="menu__list_popup">
+            <div className="menu__list-popup">
                 {this.menuList.map((menu, index) => {
                     return (
                         <Button

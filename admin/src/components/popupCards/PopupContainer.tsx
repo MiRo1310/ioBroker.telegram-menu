@@ -70,7 +70,7 @@ class PopupContainer extends Component<PropsPopupContainer, StatePopupContainer>
                     <div className="dialog__card-footer">
                         {!this.props.onlyCloseBtn ? (
                             <Button
-                                className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button__disabled'}`}
+                                className={`button button__ok ${this.props.isOK ? 'button--hover' : 'button--disabled'}`}
                                 callbackValue={true}
                                 callback={this.props.callback}
                                 name={this.props.labelBtnOK ? this.props.labelBtnOK : 'ok'}

@@ -182,7 +182,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
 
     render(): React.ReactNode {
         return (
-            <div className="header__menu_buttons">
+            <div className="header__menu-buttons">
                 <Input
                     placeholder={I18n.t('addMenu')}
                     value={this.state.newMenuName}
@@ -193,7 +193,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                     callbackValue={this.state.newMenuName}
                     callback={this.buttonAddNewMenuHandler}
                     disabled={!this.state.newMenuName || this.state.newMenuName === ''}
-                    className={`${!this.state.newMenuName || this.state.newMenuName === '' ? 'button__disabled' : 'button--hover'} header__button_actions button button__add button__icon_text`}
+                    className={`${!this.state.newMenuName || this.state.newMenuName === '' ? 'button--disabled' : 'button--hover'} header__button_actions button button__add button__icon_text`}
                 >
                     <i className="material-icons">group_add</i>
                     {I18n.t('add')}

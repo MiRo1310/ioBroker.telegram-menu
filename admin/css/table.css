@@ -36,8 +36,8 @@ tbody tr {
     border: none !important;
 }
 
-tr td:has(button.buttonTrue),
-tr td:has(button.buttonFalse) {
+tr td:has(button.button--true),
+tr td:has(button.button--false) {
     padding: 0 !important;
     margin: 0 !important;
     width: 1.25rem !important;
