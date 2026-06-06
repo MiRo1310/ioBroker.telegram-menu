@@ -37,7 +37,7 @@ label p {
 /* Tab-Navigation */
 .app__navigation_row {
     background-color: var(--iobroker-color);
-    padding: var(--space-1) var(--space-2) var(--space-1) 0;
+    padding: 0 var(--space-2) var(--space-1) 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -353,11 +353,6 @@ p.inUse {
     margin-right: var(--space-2);
     margin-left: var(--space-1);
     gap: var(--space-2);
-}
-
-.telegram__users--active {
-    padding-top: var(--space-2);
-    border-top: 1px solid var(--border-secondary);
 }
 
 .telegram__user-cards {

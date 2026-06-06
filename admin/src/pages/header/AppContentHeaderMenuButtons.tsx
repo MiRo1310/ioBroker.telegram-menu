@@ -17,6 +17,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
             renamedMenuName: '',
             confirmDialog: false,
             renameDialog: false,
+            copyDialog: false,
             menuNameExists: false,
             isOK: false,
         };
@@ -167,6 +168,23 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
         this.setState({ renameDialog: true });
     };
 
+    openCopyDialog = (): void => {
+        this.setState({ renamedMenuName: this.state.oldMenuName + '_copy', isOK: true });
+        this.setState({ copyDialog: true });
+    };
+
+    copyMenuConfirm = ({ value }: EventButton): void => {
+        if (!value) {
+            this.setState({ copyDialog: false });
+            return;
+        }
+        if (BtnCard.validateNewMenuName(this.state.renamedMenuName, '')) {
+            return;
+        }
+        this.addNewMenu(this.state.renamedMenuName, true);
+        this.setState({ copyDialog: false });
+    };
+
     buttonAddNewMenuHandler = ({ value }: EventButton): void => {
         this.addNewMenu(value as string, false);
     };
@@ -217,9 +235,7 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                 </Button>
 
                 <Button
-                    id="showDropBox"
-                    callbackValue={true}
-                    callback={this.appSetStateHandler}
+                    callback={this.openCopyDialog}
                     className="button button--hover button__copy header__button_actions"
                 >
                     <i className="material-icons translate ">content_copy</i>
@@ -257,6 +273,16 @@ class BtnCard extends Component<PropsBtnCard, StateBtnCard> {
                         rename={this.renameMenu}
                         isOK={this.state.isOK}
                         title={I18n.t('renameMenu')}
+                        value={this.state.renamedMenuName}
+                        setState={this.setState.bind(this)}
+                        id="renamedMenuName"
+                    />
+                ) : null}
+                {this.state.copyDialog ? (
+                    <RenameModal
+                        rename={this.copyMenuConfirm}
+                        isOK={this.state.isOK}
+                        title={I18n.t('copy')}
                         value={this.state.renamedMenuName}
                         setState={this.setState.bind(this)}
                         id="renamedMenuName"

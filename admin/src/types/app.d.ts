@@ -585,6 +585,7 @@ export interface StateBtnCard {
     renamedMenuName: string;
     confirmDialog: boolean;
     renameDialog: boolean;
+    copyDialog: boolean;
     menuNameExists: boolean;
     isOK: boolean;
 }
