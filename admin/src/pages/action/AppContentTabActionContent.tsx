@@ -214,7 +214,7 @@ class ActionCard extends Component<PropsActionCard, StateActionCard> {
             <>
                 {this.state.rowsLength == 0 ? (
                     <Button
-                        b_color="#96d15a"
+                        className="button--startside"
                         title="addAction"
                         width="50%"
                         margin="0 18px"

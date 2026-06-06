@@ -114,6 +114,12 @@ button.icon i.material-icons {
     border: 2px solid var(--button-border-primary) !important;
 }
 
+.button--startside {
+    background-color: var(--startside) !important;
+    color: var(--dark) !important;
+    border: 2px solid var(--button-border-hover) !important;
+}
+
 .button__icon-table {
     width: 30px !important;
     height: 30px !important;
