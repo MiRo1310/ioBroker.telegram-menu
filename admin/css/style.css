@@ -60,14 +60,11 @@ label p {
     background-color: var(--background-primary);
 }
 
-
 .header__button-row {
     font-size: 0.8rem;
     height: auto !important;
     display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid var(--border-secondary);
+    flex-wrap: wrap;   
     justify-content: space-between;
     align-items: start;
 }
@@ -227,8 +224,10 @@ div.MuiTabPanel-root {
 .dropbox__container > div.dialog {
     transform: none !important;
     top: 0 !important;
-    left: auto !important;
+    left: 0 !important;
+    right: 0 !important;
     height: 100% !important;
+    width: 100% !important;
 }
 
 .dropbox__dialog-rename-wrapper {
@@ -510,8 +509,14 @@ p.inUse {
     flex-wrap: wrap;
 }
 
+.header__menu-buttons label {
+    height: 30px !important;
+}
+
 .header__menu-buttons input {
-    height: calc(30px - 1rem);
+    height: 30px;
+    padding-top: 0!important; 
+    padding-bottom: 0!important; 
 }
 
 .table__row-container:has(.row__button) {

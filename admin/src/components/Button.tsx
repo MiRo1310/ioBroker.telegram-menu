@@ -34,6 +34,7 @@ class Button extends Component<ButtonProps> {
 
         return (
             <button
+                type="button"
                 style={this.props.disableButtonStyleByComponent ? undefined : buttonStyle}
                 onClick={this.eventOnclickButton}
                 title={I18n.t(this.props.title || '')}
