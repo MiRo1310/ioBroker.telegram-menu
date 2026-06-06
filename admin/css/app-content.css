@@ -7,3 +7,7 @@
     display: flex;
     flex-direction: column;
 }
+
+.app__box .MuiBox-root {
+    margin-bottom : 0.25rem
+}

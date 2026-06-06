@@ -37,11 +37,12 @@ label p {
 /* Tab-Navigation */
 .app__navigation_row {
     background-color: var(--iobroker-color);
-    padding: var(--space-1) var(--space-2);
+    padding: var(--space-1) var(--space-2) var(--space-1) 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-1);
+    margin-bottom: 0.25rem
 }
 
 /* HeaderMenu */
@@ -65,6 +66,7 @@ label p {
     height: auto !important;
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 0.25rem;
     border-bottom: 1px solid var(--border-secondary);
     justify-content: space-between;
     align-items: start;
@@ -502,7 +504,7 @@ p.inUse {
 }
 
 .header__menu-buttons {
-    margin: 0.5rem 0.5rem 0 0.5rem;
+    margin: 0 0 0 0.5rem;
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
