@@ -73,10 +73,10 @@ class DescriptionTab extends Component<{ data: DataMainContent; callback: Callba
     render(): React.ReactNode {
         return (
             <>
-                <p className={'tab__description_text'}>{I18n.t('descriptionInfo')}</p>
+                <p className="tab__description-text">{I18n.t('descriptionInfo')}</p>
                 <TableContainer
                     component={Paper}
-                    className="table__container_description"
+                    className="table__container--description"
                 >
                     <Table
                         stickyHeader

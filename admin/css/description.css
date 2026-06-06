@@ -1,13 +1,13 @@
-.table__container_description td p {
+.table__container--description td p {
     display: none;
 }
 
-.table__container_description td label {
+.table__container--description td label {
     width: 100% !important;
     display: inline-block;
 }
 
-.table__container_description td input {
+.table__container--description td input {
     height: 30px;
     color: var(--iobroker-blue) !important;
     width: calc(100% - 0.5rem) !important;
@@ -24,6 +24,9 @@
     padding: 10px;
 }
 
-.tab__description_text {
-    color: var(--text-primary)
+.tab__description-text {
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    padding: var(--space-2) var(--space-4);
+    margin: 0;
 }
