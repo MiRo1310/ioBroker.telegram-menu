@@ -22,8 +22,14 @@
     height: auto !important;
 }
 
+.input__label{
+    font-weight: bold;
+    font-size: 0.25rem;
+}
+
 .input__container label input {
     margin-top: 0 !important;
+    flex: 1;
 }
 
 .input__container label {
@@ -40,10 +46,6 @@
 .edit__container table {
     overflow: auto;
     max-height: 100%;
-}
-
-.edit__container label p {
-    margin-left: 8px !important;
 }
 
 .edit__container .input__icon {
