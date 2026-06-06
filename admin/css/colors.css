@@ -29,6 +29,7 @@
     --scrollbar-static: var(--gray-lightest);
     --scrollbar-hover: var(--gray-dark);
     --dialog-bg: var(--transparent-dark);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
 
 
     --text-primary: black;

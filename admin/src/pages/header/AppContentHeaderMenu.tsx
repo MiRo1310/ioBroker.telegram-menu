@@ -1,4 +1,5 @@
 import ButtonExpand from '@components/btn-Input/btn-expand';
+import Overlay from '@components/Overlay';
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { PropsHeaderMenu } from '@/types/app';
 import React, { Component } from 'react';
@@ -46,10 +47,13 @@ class HeaderMenu extends Component<PropsHeaderMenu> {
                             class="btn__menu_expand button button__primary"
                         />
                         {this.showList() && this.isActiveMenu() ? (
-                            <AppContentHeaderMenuList
-                                usersInGroup={this.props.data.state.native.usersInGroup}
-                                callback={this.props.callback}
-                            />
+                            <>
+                                <Overlay onClick={() => this.props.callback.setStateApp({ showPopupMenuList: false })} />
+                                <AppContentHeaderMenuList
+                                    usersInGroup={this.props.data.state.native.usersInGroup}
+                                    callback={this.props.callback}
+                                />
+                            </>
                         ) : null}
                     </div>
                     {this.props.children}

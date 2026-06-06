@@ -65,7 +65,7 @@ label p {
     z-index: 1500;
     top: calc(30px + 0.5rem);
     left: 0.5rem;
-    border: 2px solid var(--border-primary);
+    border: 2px solid var(--iobroker-blue);
     border-radius: 4px;
     max-height: 74vh;
     overflow: auto;
@@ -215,6 +215,12 @@ div.MuiTabPanel-root {
 }
 
 
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--overlay-bg);
+    cursor: default;
+}
 
 .dropbox__container {
     background-color: transparent !important;
