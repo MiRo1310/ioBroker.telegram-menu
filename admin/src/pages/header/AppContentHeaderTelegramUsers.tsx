@@ -81,7 +81,7 @@ class HeaderTelegramUsers extends Component<PropsHeaderTelegramUsers, StateHeade
                                     })}
                                 </div>
                                 {this.props.data.state.activeMenu != undefined ? (
-                                    <div className="telegramm__users-active-group">
+                                    <div className="telegram__users--active">
                                         <Checkbox
                                             label={`${this.props.data.state.activeMenu} ${I18n.t('active')}`}
                                             id="checkboxActiveMenu"
