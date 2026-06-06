@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "4.2.0",
+    "version": "4.2.1",
     "news": {
+      "4.2.1": {
+        "en": "FIX: #556 Disable send menu after adapter restart\nFIX: #555 Prevent double sending of state IDs when confirm=true\nCHORE: Update dependencies",
+        "de": "FIX: #556 Sendemenü nach dem Adapter-Neustart deaktivieren\nFIX: #555 Verhindern doppeltes Senden von Zustands-IDs, wenn bestätigen=true\nCHORE: Aktualisieren von Abhängigkeiten",
+        "ru": "FIX: #556 Отключить меню после перезапуска адаптера\nFIX: #555 Предотвращение двойной отправки государственных идентификаторов при подтверждении\nИзображение: Update Dependencies",
+        "pt": "FIX: #556 Desactivar o menu de envio após reiniciar o adaptador\nFIX: #555 Evite o envio duplo de IDs de estado quando confirmar=verdadeiro\nCHORE: Atualizar dependências",
+        "nl": "FIX: #556 Verzendmenu uitschakelen na herstart adapter\nFIX: #555 Dubbele verzending van status-ID's voorkomen bij bevestiging=true\nAfhankelijkheden bijwerken",
+        "fr": "FIX: #556 Désactiver le menu d'envoi après le redémarrage de l'adaptateur\nFIXE: #555 Empêcher l'envoi double des identifiants d'état lors de la confirmation=true\nCHORE: Mise à jour des dépendances",
+        "it": "FIX: #556 Disattiva il menu di invio dopo il riavvio dell'adattatore\nFIX: #555 Prevenire l'invio doppio di ID di stato quando confermare=true\nCHORE: dipendenze di aggiornamento",
+        "es": "FIX: #556 Desactivar enviar el menú después de reiniciar el adaptador\nFIX: #555 Prevenga el envío doble de IDs estatales cuando confirm=true\nCHORE: Actualizar las dependencias",
+        "pl": "FIX: # 556 Wyłącz menu wysyłania po ponownym uruchomieniu adaptera\nFIX: # 555 Zapobieganie podwójnemu wysyłaniu identyfikatorów stanu przy potwierdzeniu = true\nCHORE: Uaktualnij zależności",
+        "uk": "FIX: #556 Видалити меню після перезавантаження адаптера\nFIX: #555 Запобігти подвійному надсиланню державних ідентифікаторів при підтвердженні=true\nCHORE: Оновити залежності",
+        "zh-cn": "FIX: # 556 在适配器重新启动后禁用发送菜单\nFIX: #555 当确认=真实时防止双重发送状态ID\nCHORE: 更新依赖性"
+      },
       "4.2.0": {
         "en": "Adapter requires node.js >= 22 now",
         "de": "Adapter benötigt node.js >= 22 jetzt",
@@ -80,19 +93,6 @@
         "pl": "FIX: Błędy zgłaszane przez wartownika",
         "uk": "FIX: Помилки, які повідомляються відправником",
         "zh-cn": "FIX:哨兵报告的错误"
-      },
-      "3.2.1": {
-        "en": "FIX: #459 Message is confirmed, although it should not\nFIX: #452 Value in return text\nFIX: #436 Message text is empty error\nCHORE: Update dependencies",
-        "de": "FIX: #459 Nachricht wird bestätigt, obwohl es nicht\nFIX: #452 Wert im Rückgabetext\nFIX: #436 Nachrichtentext ist leerer Fehler\nCHORE: Aktualisieren von Abhängigkeiten",
-        "ru": "Fix: #459 Сообщение подтверждается, хотя не должно\nFIX: #452 Ценность в обмен на текст\nFIX: #436 Текст сообщения - пустая ошибка\nИзображение: Update Dependencies",
-        "pt": "FIX: # 459 A mensagem é confirmada, embora não deva\nFIX: # 452 Valor no texto de retorno\nFIX: # 436 O texto da mensagem está em branco\nCHORE: Atualizar dependências",
-        "nl": "FIX: #459 Bericht wordt bevestigd, hoewel het niet\nFIX: #452 Waarde in retourtekst\nFIX: #436 Berichttekst is lege fout\nAfhankelijkheden bijwerken",
-        "fr": "Numéro 459 Le message est confirmé, mais il ne devrait pas\nNuméro 452 Valeur dans le texte de retour\nNuméro 436 Message texte est une erreur vide\nCHORE : Mise à jour des dépendances",
-        "it": "#459 Il messaggio è confermato, anche se non dovrebbe\n#452 Valore nel testo di ritorno\n#436 Il testo del messaggio è un errore vuoto\nCHORE: dipendenze di aggiornamento",
-        "es": "FIX: #459 El mensaje es confirmado, aunque no debe\nFIX: #452 Valor en el texto de retorno\nFIX: #436 Texto del mensaje es error vacío\nCHORE: Actualizar las dependencias",
-        "pl": "FIX: # 459 Wiadomość jest potwierdzona, chociaż nie powinna\nFIX: # 452 Wartość w tekście zwrotnym\nFIX: # 436 Tekst wiadomości to pusty błąd\nCHORE: Uaktualnij zależności",
-        "uk": "FIX: #459 Повідомлення підтверджено, хоча це не повинно\nFIX: #452 Значення в поверненні тексту\nFIX: #436 Текст повідомлення порожній\nCHORE: Оновити залежності",
-        "zh-cn": "FIX: #459 (英语). 信息得到确认,尽管它不应该\nFIX: #452 (英语). 返回文本中的值\nFIX: #436 (英语). 信件文本为空错误\nCHORE: 更新依赖性"
       }
     },
     "titleLang": {

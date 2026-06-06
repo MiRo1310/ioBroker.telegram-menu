@@ -35,12 +35,12 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.2.1 (2026-06-06)
 
 - FIX: #556 Disable send menu after adapter restart
 - FIX: #555 Prevent double sending of state IDs when confirm=true
 - CHORE: Update dependencies
-  
+
 ### 4.2.0 (2026-05-09)
 
 - FIX: Errors reported by sentry
@@ -63,11 +63,7 @@ You can create different groups with separate menus, and then assign users to th
 - FEAT: #476 Add math to setstate
 - FIX: Errors reported by sentry
 
-### 3.2.3 (2025-12-12)
-
-- FIX: Errors reported by sentry
-
-  [Older changelogs can be found there](CHANGELOG_OLD.md)
+[Older changelogs can be found there](CHANGELOG_OLD.md)
 
 ## License
 

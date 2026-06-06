@@ -1,4 +1,8 @@
 # Older changes
+## 3.2.3 (2025-12-12)
+
+- FIX: Errors reported by sentry
+
 ## 3.2.2 (2025-12-10)
 
 - FIX: Errors reported by sentry
