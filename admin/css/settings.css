@@ -1,0 +1,24 @@
+.settings__tab {
+    color: var(--text-primary);
+    padding: var(--space-2) var(--space-4);
+    max-width: 900px;
+}
+
+.settings__section-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: var(--space-4) 0 var(--space-2) 0;
+}
+
+.settings__telegram-header {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.settings__telegram-checkbox {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
+}

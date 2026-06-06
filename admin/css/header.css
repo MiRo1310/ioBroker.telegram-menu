@@ -14,9 +14,9 @@ img[alt="logo"] {
 }
 
 .header__icons button {
-    margin-left: 5px;
+    margin-left: var(--space-2);
 }
 
 .header__icons img {
-    margin: 5px;
+    margin: var(--space-2);
 }
