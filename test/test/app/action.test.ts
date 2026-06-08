@@ -58,6 +58,58 @@ describe('action', () => {
             const text = '{binding:temp=state.0.temp?temp>20}';
             await expect(bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false)).to.not.be.rejected;
         });
+
+        it('should populate bindingObject.values and replace key in expression (key:id;?expr format)', async () => {
+            adapterMock.getForeignStateAsync.withArgs('state.0.temp').resolves({ val: 25 });
+            adapterMock.sendTo = sinon.stub();
+
+            const telegramParams = {
+                adapter: adapterMock,
+                telegramInstanceList: [{ name: 'telegram.0', active: true }],
+                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
+                resize_keyboard: false,
+                one_time_keyboard: false,
+            } as any;
+
+            // Format: binding:{key:stateId;?expression} — key is populated from state, then substituted in expression
+            const text = 'binding:{temp:state.0.temp;?temp+0}';
+            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
+            expect(adapterMock.sendTo.calledOnce).to.be.true;
+        });
+
+        it('should use empty string when result.val is null (covers ?? branch)', async () => {
+            adapterMock.getForeignStateAsync.withArgs('state.0.temp').resolves({ val: null });
+            adapterMock.sendTo = sinon.stub();
+
+            const telegramParams = {
+                adapter: adapterMock,
+                telegramInstanceList: [{ name: 'telegram.0', active: true }],
+                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
+                resize_keyboard: false,
+                one_time_keyboard: false,
+            } as any;
+
+            const text = 'binding:{temp:state.0.temp;?temp+0}';
+            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
+            expect(adapterMock.sendTo.calledOnce).to.be.true;
+        });
+
+        it('should call errorLogger when getForeignStateAsync throws', async () => {
+            adapterMock.getForeignStateAsync.rejects(new Error('network error'));
+            adapterMock.sendTo = sinon.stub();
+
+            const telegramParams = {
+                adapter: adapterMock,
+                telegramInstanceList: [{ name: 'telegram.0', active: true }],
+                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
+                resize_keyboard: false,
+                one_time_keyboard: false,
+            } as any;
+
+            const text = 'binding:{temp:state.0.temp;?temp+0}';
+            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
+            expect(adapterMock.log.error.called).to.be.true;
+        });
     });
 
     // ─── adjustValueType ────────────────────────────────────────────────────────
@@ -336,6 +388,109 @@ describe('action', () => {
             const result = generateActions({ action, userObject, adapter: adapterMock });
             expect(result).to.not.be.undefined;
             expect(Object.keys(userObject)).to.have.lengthOf(0);
+        });
+
+        it('should use false for ack and parse_mode when their arrays are empty', () => {
+            const userObject: NewObjectStructure = {};
+            const action: Actions = {
+                set: [
+                    {
+                        trigger: ['btn1'],
+                        IDs: ['state.0.light'],
+                        values: ['true'],
+                        switch_checkbox: ['true'],
+                        confirm: ['false'],
+                        returnText: ['Done'],
+                        ack: [],
+                        parse_mode: [],
+                    },
+                ],
+                get: [],
+                pic: [],
+                httpRequest: [],
+                echarts: [],
+                events: [],
+            };
+
+            const result = generateActions({ action, userObject, adapter: adapterMock });
+            expect(result).to.not.be.undefined;
+            const sw = userObject['btn1']?.switch?.[0];
+            expect(sw?.ack).to.be.false;
+            expect(sw?.parse_mode).to.be.false;
+        });
+
+        it('should leave delay undefined when picSendDelay is missing (covers !element[elName] branch)', () => {
+            const userObject: NewObjectStructure = {};
+            const action: Actions = {
+                set: [],
+                get: [],
+                pic: [
+                    {
+                        trigger: ['btnPic'],
+                        IDs: ['cam.0.snapshot'],
+                        fileName: ['photo.jpg'],
+                        // picSendDelay intentionally omitted → val=false → not a string → delay not set
+                    } as any,
+                ],
+                httpRequest: [],
+                echarts: [],
+                events: [],
+            };
+
+            generateActions({ action, userObject, adapter: adapterMock });
+            const sendPic = userObject['btnPic']?.sendPic as any[];
+            expect(sendPic).to.be.an('array').with.lengthOf(1);
+            expect(sendPic[0].delay).to.be.undefined;
+        });
+
+        it('should use "false" string when pic field array exists but is empty at index (covers ?? branch)', () => {
+            const userObject: NewObjectStructure = {};
+            const action: Actions = {
+                set: [],
+                get: [],
+                pic: [
+                    {
+                        trigger: ['btnPic'],
+                        IDs: ['cam.0.snapshot'],
+                        fileName: ['photo.jpg'],
+                        picSendDelay: [] as any,
+                    },
+                ],
+                httpRequest: [],
+                echarts: [],
+                events: [],
+            };
+
+            generateActions({ action, userObject, adapter: adapterMock });
+            const sendPic = userObject['btnPic']?.sendPic as any[];
+            expect(sendPic).to.be.an('array').with.lengthOf(1);
+            expect(sendPic[0].delay).to.equal('false');
+        });
+
+        it('should handle errors in catch block when userObject is null', () => {
+            const action: Actions = {
+                set: [
+                    {
+                        trigger: ['btn'],
+                        IDs: ['id1'],
+                        switch_checkbox: ['false'],
+                        returnText: ['ok'],
+                        parse_mode: ['false'],
+                        values: ['v'],
+                        confirm: ['false'],
+                        ack: ['false'],
+                    },
+                ],
+                get: [],
+                pic: [],
+                echarts: [],
+                events: [],
+                httpRequest: [],
+            } as any;
+
+            const result = generateActions({ action, userObject: null as any, adapter: adapterMock });
+            expect(result).to.be.undefined;
+            expect(adapterMock.log.error.called).to.be.true;
         });
     });
 });

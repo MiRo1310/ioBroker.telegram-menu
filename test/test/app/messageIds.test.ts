@@ -56,6 +56,12 @@ describe('messageIds', () => {
             expect(savedJson['12345'].length).to.be.greaterThan(1);
         });
 
+        it('should handle errors gracefully', async () => {
+            adapterMock.getStateAsync.rejects(new Error('DB error'));
+            await saveMessageIds(adapterMock, { val: 1 } as any, 'telegram.0');
+            expect(adapterMock.log.error.called).to.be.true;
+        });
+
         it('should not add duplicate message ids', async () => {
             const existing = JSON.stringify({ '12345': [{ id: 99, time: Date.now() }] });
             adapterMock.getStateAsync.resolves({ val: existing });
@@ -106,6 +112,43 @@ describe('messageIds', () => {
             };
             await deleteMessageIds('telegram.0', 'User1', params, 'last');
             expect(adapterMock.sendTo.callCount).to.equal(1);
+        });
+
+        it('should return early when user not in userListWithChatID (chat_id undefined)', async () => {
+            const msgs = JSON.stringify({ '999': [{ id: '1', time: Date.now() }] });
+            adapterMock.getStateAsync.resolves({ val: msgs });
+            adapterMock.getForeignStateAsync.resolves(null);
+            const params: any = {
+                adapter: adapterMock,
+                userListWithChatID: [{ name: 'OtherUser', chatID: '999' }],
+            };
+            await deleteMessageIds('telegram.0', 'User1', params, 'all');
+            expect(adapterMock.setState.called).to.be.false;
+        });
+
+        it('should push lastMessageId to json when it has a value', async () => {
+            const msgs = JSON.stringify({ '123': [{ id: '1', time: Date.now() }] });
+            adapterMock.getStateAsync.resolves({ val: msgs });
+            adapterMock.getForeignStateAsync
+                .withArgs('telegram.0.communicate.requestMessageId')
+                .resolves({ val: '99' });
+            const params: any = {
+                adapter: adapterMock,
+                userListWithChatID: [{ name: 'User1', chatID: '123' }],
+            };
+            await deleteMessageIds('telegram.0', 'User1', params, 'last');
+            // last element (the pushed '99') gets deleted
+            expect(adapterMock.sendTo.calledOnce).to.be.true;
+        });
+
+        it('should handle errors gracefully', async () => {
+            adapterMock.getStateAsync.rejects(new Error('DB fail'));
+            const params: any = {
+                adapter: adapterMock,
+                userListWithChatID: [{ name: 'User1', chatID: '123' }],
+            };
+            await deleteMessageIds('telegram.0', 'User1', params, 'all');
+            expect(adapterMock.log.error.called).to.be.true;
         });
     });
 });

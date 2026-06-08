@@ -149,7 +149,7 @@ export default class TelegramMenu extends utils.Adapter {
                     }
                 }
 
-                if (!state || !isDefined(state.val)) {
+                if (!isDefined(state?.val)) {
                     return;
                 }
 

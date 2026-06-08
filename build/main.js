@@ -131,7 +131,7 @@ class TelegramMenu extends utils.Adapter {
                         await (0, events_1.handleEvent)(exports.adapter, user, dataObject, id, state, menuData, telegramParams);
                     }
                 }
-                if (!state || !(0, utils_1.isDefined)(state.val)) {
+                if (!(0, utils_1.isDefined)(state?.val)) {
                     return;
                 }
                 if ((0, string_1.isString)(state.val) && state.val?.includes('sList:')) {

@@ -158,9 +158,9 @@ export const handleSetState = async (
                     confirm,
                 );
 
-                if (confirm) {
+                if (confirm && id) {
                     await addSetStateIds(adapter, {
-                        id: id ?? idToGetValueFrom,
+                        id,
                         confirm,
                         returnText: confirmText,
                         userToSend,

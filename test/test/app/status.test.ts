@@ -41,4 +41,19 @@ describe('checkStatus', () => {
         const result = await checkStatus(adapterMock, 'Test {status:"some.id":true} suffix');
         expect(result).to.not.include('{status:');
     });
+
+    it('should integrate time into text when text includes {time}', async () => {
+        adapterMock.getForeignStateAsync.resolves({ val: Date.now() });
+        const result = await checkStatus(adapterMock, '{time} {status:"time.id":false}');
+        expect(result).to.be.a('string');
+        expect(result).to.not.include('{status:');
+    });
+
+    it('should return modifiedText when exchangeValue returns error=true (malformed change map)', async () => {
+        adapterMock.getForeignStateAsync.resolves({ val: 'on' });
+        // change{INVALID} makes exchangeValue return error=true → returns modifiedText (with &&)
+        const result = await checkStatus(adapterMock, '{status:"some.id":true} change{INVALID}');
+        expect(result).to.be.a('string');
+        expect(adapterMock.log.error.called).to.be.true;
+    });
 });

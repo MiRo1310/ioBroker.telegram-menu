@@ -410,4 +410,98 @@ describe('checkCondition', () => {
         expect(checkCondition(mockAdapter, 'Test 123', { conditionFilter: ['<='], condition: ['Test'] } as EventAction))
             .to.be.false;
     });
+
+    it('should return true with >= comparator when number is greater or equal', () => {
+        expect(checkCondition(mockAdapter, 14, { conditionFilter: ['>='], condition: ['14'] } as EventAction)).to.be
+            .true;
+    });
+
+    it('should return false with >= comparator when number is less', () => {
+        expect(checkCondition(mockAdapter, 13, { conditionFilter: ['>='], condition: ['14'] } as EventAction)).to.be
+            .false;
+    });
+
+    it('should return false for unknown comparator', () => {
+        expect(
+            checkCondition(mockAdapter, 5, {
+                conditionFilter: ['INVALID' as any],
+                condition: ['5'],
+            } as EventAction),
+        ).to.be.false;
+    });
+
+    it('should return false and log error when stateValue is undefined', () => {
+        const adapterWithLog: any = { log: { error: sinon.stub() } };
+        const result = checkCondition(
+            adapterWithLog,
+            undefined as unknown as ioBroker.StateValue,
+            {
+                conditionFilter: ['='],
+                condition: ['5'],
+            } as EventAction,
+        );
+        expect(result).to.be.false;
+        expect(adapterWithLog.log.error.calledOnce).to.be.true;
+    });
+});
+
+describe('handleEvent — menu without events and submenu branch', () => {
+    const { adapter } = utils.unit.createMocks({});
+    const mockAdapter = adapter as unknown as Adapter;
+
+    it('should skip menu entries that have no events array', async () => {
+        const dataObject = {
+            action: {
+                menuNoEvents: { get: [], set: [], pic: [] },
+                menuWithEvents: {
+                    events: [{ ID: ['ev1'], ack: ['true'], condition: ['true'], menu: ['nav1'] }],
+                },
+            },
+        };
+        const menuData: MenuData = { menuWithEvents: { nav1: { nav: [['NavPage']] } } };
+
+        const result = await handleEvent(
+            mockAdapter,
+            userA,
+            dataObject as any,
+            'ev1',
+            { ack: true, val: true } as any,
+            menuData,
+            {} as any,
+        );
+        expect(result).to.be.true;
+    });
+
+    it('should call callSubMenu when matched nav starts with menu:', async () => {
+        const callSubMenuStub = sinon.stub(require('../../src/app/subMenu'), 'callSubMenu').resolves();
+
+        const dataObject = {
+            action: {
+                menu1: {
+                    events: [{ ID: ['ev2'], ack: ['false'], condition: ['true'], menu: ['submenuNav'] }],
+                },
+            },
+        };
+        const menuData: MenuData = {
+            menu1: {
+                submenuNav: {
+                    nav: [['menu:SomeSubMenu']],
+                },
+            },
+        };
+
+        const result = await handleEvent(
+            mockAdapter,
+            userA,
+            dataObject as any,
+            'ev2',
+            { ack: false, val: true } as any,
+            menuData,
+            {} as any,
+        );
+
+        expect(result).to.be.true;
+        expect(callSubMenuStub.calledOnce).to.be.true;
+        callSubMenuStub.restore();
+    });
 });

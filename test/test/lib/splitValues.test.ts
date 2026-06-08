@@ -1,6 +1,12 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { getBindingValues, getEchartsValues, getMenuValues, getSubmenuNumberValues } from '@backend/lib/splitValues';
+import {
+    getBindingValues,
+    getEchartsValues,
+    getMenuValues,
+    getProcessTimeValues,
+    getSubmenuNumberValues,
+} from '@backend/lib/splitValues';
 
 describe('getMenuValues', () => {
     it('should split the string and return the correct values', () => {
@@ -51,6 +57,29 @@ describe('getBindingValues', () => {
             key: 'binding',
             id: undefined,
         });
+    });
+});
+
+describe('getProcessTimeValues', () => {
+    it('should parse typeofTimestamp, timeString and idString from full input', () => {
+        const result = getProcessTimeValues("lc,(DD MM YYYY),id:'some.state.id'");
+        expect(result.typeofTimestamp).to.equal('lc');
+        expect(result.timeString).to.equal('(DD MM YYYY)');
+        expect(result.idString).to.equal('some.state.id');
+    });
+
+    it('should use empty string for timeString and idString when array has fewer than 3 elements', () => {
+        const result = getProcessTimeValues('ts');
+        expect(result.typeofTimestamp).to.equal('ts');
+        expect(result.timeString).to.equal('');
+        expect(result.idString).to.equal('');
+    });
+
+    it('should use empty string for idString when only 2 elements', () => {
+        const result = getProcessTimeValues('lc,(DD MM YYYY)');
+        expect(result.typeofTimestamp).to.equal('lc');
+        expect(result.timeString).to.equal('(DD MM YYYY)');
+        expect(result.idString).to.equal('');
     });
 });
 
