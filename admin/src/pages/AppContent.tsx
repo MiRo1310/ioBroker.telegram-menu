@@ -1,6 +1,6 @@
-import AppContentHeader from '@/pages/AppContentHeader';
+﻿import AppContentHeader from '@/pages/header/AppContentHeader';
 import AppContentTab from '@/pages/AppContentTab';
-import AppContentNavigation from '@/pages/AppContentNavigation';
+import AppContentNavigation from '@/pages/shared/AppContentNavigation';
 import { TabContext } from '@mui/lab';
 import { Box, Grid } from '@mui/material';
 import type { PropsMainContent } from '@/types/app';

@@ -28,7 +28,7 @@ class Input extends Component<InputProps> {
                     }
                 />
                 <span className="input__icon">{this.props.children}</span>
-                {this.props.label ? <p>{this.props.label}</p> : null}
+                {this.props.label ? <p className="input__label">{this.props.label}</p> : null}
             </label>
         );
     }

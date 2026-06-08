@@ -12,6 +12,7 @@
 @import "./description.css";
 @import "./colors.css";
 @import "./scrollbar.css";
+@import "./settings.css";
 
 body {
     height: 100vh;
@@ -28,44 +29,48 @@ h1 {
     height: 100% !important;
 }
 
-label p {
+.input__label {
     font-size: 0.8rem;
+    font-weight: bold;
     color: var(--text-primary);
 }
 
 /* Tab-Navigation */
 .app__navigation_row {
     background-color: var(--iobroker-color);
-    padding-bottom: 5px;
-}
-
-.app__navigation_row button:last-child {
-    margin-right: 5px;
+    padding: 0 var(--space-2) var(--space-1) 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-bottom: 0.25rem
 }
 
 /* HeaderMenu */
-.menu__list_popup {
-    display: inline-block;
+.header__button-row {
+    font-size: 0.8rem;
+    height: auto !important;
+    display: flex;
+    flex-wrap: wrap;   
+    justify-content: space-between;
+    align-items: start;
+}
+
+.menu__list-popup {
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
     width: 160px;
     position: absolute;
     z-index: 1500;
     top: calc(30px + 0.5rem);
     left: 0.5rem;
-    border: 2px solid #333;
+    border: 2px solid var(--iobroker-blue);
     border-radius: 4px;
     max-height: 74vh;
     overflow: auto;
-    background-color: var(--background-primary);
-}
-
-
-.header__button_row {
-    font-size: 0.8rem;
-    height: auto !important;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: start;
+    background-color: var(--background-primary);    
 }
 
 /* Header Telegram User */
@@ -89,7 +94,7 @@ label p {
 }
 
 /* error */
-.error__container-double_trigger {
+.error__container--double-trigger {
     color: var(--destructive);
     position: absolute;
     top: 5px;
@@ -101,7 +106,7 @@ label p {
     background-color: var(--background-primary);
 }
 
-.error__container-double_trigger .error__header {
+.error__container--double-trigger .error__header {
     margin: 2px 5px;
 }
 
@@ -113,12 +118,12 @@ div.MuiTabPanel-root {
     flex-shrink: 1;
     flex-basis: auto;
     width: 100% !important;
-    padding: 2px 5px 0 0;
+    padding: var(--space-1) var(--space-1) 0 0;
 }
 
 /* NavigationMenu */
 .navigation__container {
-    height: calc(100% - 0.5rem) !important;
+    height: calc(100% - var(--space-2)) !important;
 }
 
 .navigation__container .startside__active {
@@ -134,17 +139,19 @@ div.MuiTabPanel-root {
 }
 
 .navigation__container .textSubmenuInfo {
-    font-size: 1rem;
+    font-size: var(--text-base);
     font-weight: 900;
 }
 
 .navigation__container,
-.action__container {
-    padding: 0 !important;
+.action__container,
+.table__container--description {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: auto;
+    min-width: 0;
     overflow-y: auto;
+    overflow-x: auto;
 }
 
 .action__container {
@@ -153,7 +160,7 @@ div.MuiTabPanel-root {
 
 .tab__action,
 .tab__action > div.MuiTabPanel-root {
-    height: calc(100% - 0.5rem) !important;
+    height: calc(100% - var(--space-2)) !important;
     padding-left: 0 !important;
 }
 
@@ -180,16 +187,16 @@ div.MuiTabPanel-root {
 .dialog__content {
     padding: 0 0.5rem 0 0.5rem;
     height: calc(100% - 145px);
-    flex: 1 1 0%;
+    flex: 1 1 0;
     margin-bottom: 0.5rem;
 }
 
-.dialog__card_footer {
+.dialog__card-footer {
     width: 100%;
     text-align: right;
 }
 
-.dialog__card_wrapper {
+.dialog__card-wrapper {
     background-color: var(--dialog-bg);
     width: 100vw;
     height: 100vh;
@@ -200,7 +207,7 @@ div.MuiTabPanel-root {
 }
 
 
-.dialog__card_footer button {
+.dialog__card-footer button {
     padding: 0 30px !important;
     margin: 0 8px 10px 8px !important;
     border: none !important;
@@ -210,6 +217,12 @@ div.MuiTabPanel-root {
 }
 
 
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--overlay-bg);
+    cursor: default;
+}
 
 .dropbox__container {
     background-color: transparent !important;
@@ -222,11 +235,13 @@ div.MuiTabPanel-root {
 .dropbox__container > div.dialog {
     transform: none !important;
     top: 0 !important;
-    left: auto !important;
+    left: 0 !important;
+    right: 0 !important;
     height: 100% !important;
+    width: 100% !important;
 }
 
-.dropbox__dialog_rename-wrapper {
+.dropbox__dialog-rename-wrapper {
     position: fixed;
     top: -200px;
     right: 0;
@@ -235,7 +250,7 @@ div.MuiTabPanel-root {
     bottom: 500px;
 }
 
-.dropbox__drag_in_field {
+.dropbox__drag-in-field {
     background-color: var(--background-primary);
     color: var(--text-primary);
     width: 90%;
@@ -247,11 +262,11 @@ div.MuiTabPanel-root {
     padding: 10px;
 }
 
-.dropbox__dialog_rename-card {
+.dropbox__dialog-rename-card {
     bottom: -250px !important;
 }
 
-.dropbox__drag_in_field p {
+.dropbox__drag-in-field p {
     text-align: center;
     font-weight: 500;
     font-size: 1.5rem;
@@ -261,7 +276,7 @@ div.MuiTabPanel-root {
     margin-bottom: 10px;
 }
 
-.dropbox__drag_in_field p.DropBox-Content {
+.dropbox__drag-in-field p.DropBox-Content {
     font-size: 0.7rem;
     margin-top: 0;
     text-decoration: none;
@@ -301,7 +316,7 @@ div.MuiTabPanel-root {
     width: 100% !important;
 }
 
-.table__cell_icon {
+.table__cell-icon {
     padding: 1px !important;
     width: 30px !important;
 }
@@ -310,28 +325,27 @@ div.MuiTabPanel-root {
 /* label */
 
 /*Wird generiert in actionUtils */
-button.buttonTrue,
-button.buttonFalse {
+button.button--true,
+button.button--false {
     border-radius: 5px;
     border: none;
     width: 20px;
     height: 20px;
     padding: 0;
-    margin-top: 4px;
+    margin: 0;
     color: var(--button-color-boolean);
 }
 
-button.buttonTrue {
+button.button--true {
     background-color: var(--button-bg-true) !important;
 }
 
-button.buttonFalse {
+button.button--false {
     background-color: var(--button-bg-false) !important;
 }
 
-button.buttonTrue i,
-button.buttonFalse i {
-    margin-top: 1px;
+button.button--true i,
+button.button--false i {
     font-size: 1.2rem;
     text-align: center;
 }
@@ -342,77 +356,69 @@ p.inUse {
     left: 5px;
 }
 
-
-.settings__tab {
-    color: var(--text-primary);
-}
-
-.settings__telegram-header{
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.settings__telegram-checkbox{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
 .telegram__users-container {
     display: flex;
-    margin-right: 0.5rem;
-    margin-left: 0.25rem
-}
-.telegramm__users-active-group{
-    margin-top:0.5rem;
-    padding-top: 0.5rem;
+    flex-direction: column;
+    margin-right: var(--space-2);
+    margin-left: var(--space-2);
+    gap: var(--space-2);
 }
 
 .telegram__user-cards {
     width: 100%;
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--space-1);
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: var(--space-2);
 }
 
-.telegram__user-cards p {
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-.telegramm__user-content {
-    padding: 0.25rem 0.5rem;
+.telegram__user-content {
+    padding: var(--space-2) var(--space-3);
     border: 1px solid var(--border-primary);
-    width: auto;
-    display: inline-block;
-    margin-right: 0.5rem !important;
-    margin-top: 0.5rem !important;
-    color: var(--text-primary)
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 140px;
+    max-width: 200px;
+    color: var(--text-primary);
+    background-color: var(--background-primary);
+    box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.15s ease;
 }
 
-.telegram__users_description {
-    font-size: 0.70rem !important;
+.telegram__user-content:hover {
+    box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.15);
+}
+
+.telegram__users-description {
+    font-size: var(--text-xs) !important;
     margin-left: 0;
-    margin-bottom: 4px;
+    margin-bottom: var(--space-1);
     margin-top: 0;
 }
 
 .telegram__user-name {
-    display: inline !important;
-}
-.telegram__user-checkbox{
-    margin-top: 0.5rem !important;
+    font-weight: 600;
+    font-size: var(--text-sm) !important;
+    margin: 0 !important;
 }
 
-.telegram__user-chat-id, .telegram__user-instance {
-    font-size: 0.7rem;
+.telegram__user-checkbox {
+    margin-top: var(--space-2) !important;
+    padding-top: var(--space-1);
+    border-top: 1px solid var(--border-secondary);
+}
+
+.telegram__user-chat-id,
+.telegram__user-instance {
+    font-size: var(--text-xs);
+    color: var(--gray);
+    margin: 1px 0 !important;
 }
 
 
 /* Trigger Overview */
-.trigger__overview_wrapper {
+.trigger__overview-wrapper {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
@@ -420,13 +426,13 @@ p.inUse {
     overflow: auto;
 }
 
-.trigger__overview_wrapper li {
+.trigger__overview-wrapper li {
     cursor: help;
     padding-left: 4px;
 }
 
 /* Für die .Menu-list-card Elemente */
-.menu__card_container {
+.menu__card-container {
     display: inline-block;
     vertical-align: top; /* Um sicherzustellen, dass die Karten oben ausgerichtet sind */
     margin: 3px 3px;
@@ -436,36 +442,36 @@ p.inUse {
     width: max-content;
 }
 
-.menu__action_list li,
-.menu__card_container li {
+.menu__action-list li,
+.menu__card-container li {
     list-style-type: none;
     font-size: 0.7rem;
     line-height: 0.75rem;
 }
 
 /* Für die <p> und <ul> Elemente innerhalb der .Menu-list-card */
-.menu__card_container > p,
-.menu__card_container > ul {
+.menu__card-container > p,
+.menu__card-container > ul {
     display: block;
 }
 
-.menu__card_container ul {
+.menu__card-container ul {
     padding-left: 20px;
 }
 
-.trigger__overview_user-list {
+.trigger__overview-user-list {
     background-color: var(--background-primary);
 }
 
 
-.trigger__overview_user-list p {
+.trigger__overview-user-list p {
     margin-top: 4px;
     margin-bottom: 0;
     padding: 0 5px;
     color: var(--dark);
 }
 
-.trigger__overview_user ~ p {
+.trigger__overview-user ~ p {
     font-size: 0.75rem;
     padding-bottom: 2px;
     font-weight: 500;
@@ -473,21 +479,21 @@ p.inUse {
     margin-top: 0;
 }
 
-.list__created-trigger li {
+.trigger__list li {
     padding-left: 5px;
 }
 
-.trigger__overview_menu-startside {
+.trigger__overview-menu--startside {
     background-color: var(--success);
     color: var(--dark);
 }
 
-.trigger__overview_wrapper ul li ul li {
+.trigger__overview-wrapper ul li ul li {
     font-size: 0.75rem;
     line-height: 0.75rem;
 }
 
-.trigger__overview_menu-description {
+.trigger__overview-menu-description {
     margin: 2px 0 4px 0;
     text-decoration: underline;
     font-size: 0.8rem;
@@ -500,51 +506,59 @@ p.inUse {
     margin-right: 2rem;
 }
 
-.header__menu_buttons {
-    margin: 0.5rem 0.5rem 0 0.5rem;
+.header__menu-buttons {
+    margin: 0 0 0 0.5rem;
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
 }
 
-.header__menu_buttons input {
-    height: calc(30px - 1rem);
+.header__menu-buttons label {
+    height: 30px !important;
 }
 
-.table__row_container:has(.row__button) {
-    margin: 0.5rem 0 0.5rem 0;
+.header__menu-buttons input {
+    height: 30px;
+    padding-top: 0!important; 
+    padding-bottom: 0!important; 
+}
+
+.table__row-container:has(.row__button) {
     border: 1px solid var(--border-row-container);
+    border-radius: var(--radius-sm);
     background: var(--row-container);
+    padding: 0 var(--space-1);
 }
 
 .nav__row {
     margin: 0;
-    padding: 1px 1px !important;
-    font-size: 0.7rem;
+    padding: var(--space-1) 0 !important;
+    font-size: var(--text-xs);
     display: flex;
-    justify-content: stretch;
+    gap: var(--space-1);
 }
 
 .row__button {
-    margin: 1px 0.1rem 1px 0.1rem !important;
-    padding: 0.1rem 0.5rem;
-    font-size: 0.7rem !important;
-    border: 2px solid var(--border-row-buttons) !important;
-    border-radius: 5px;
+    padding: 0.1rem var(--space-2);
+    font-size: var(--text-xs) !important;
+    border: 1px solid var(--border-row-buttons) !important;
+    border-radius: var(--radius-sm);
     display: inline-block !important;
     flex: 1;
     text-align: center;
     background: var(--row-button) !important;
-    color: var(--row-button-text)
+    color: var(--row-button-text);
+    box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.12);
+    transition: opacity 0.1s ease;
 }
 
 .row__button:hover {
-    opacity: 0.8;
+    opacity: 0.75;
 }
 
 .row__submenu {
     background: var(--menu-function-row) !important;
-    color: var(--dark)
+    color: var(--dark);
 }
 
 .disabled {
@@ -558,22 +572,22 @@ p.inUse {
     text-decoration: underline;
 }
 
-.squareText {
+.square-text {
     font-size: 0.7rem;
     cursor: default;
 }
 
-.noMargin {
+.m-0 {
     margin: 0;
     padding-left: 5px;
 }
 
-.textRight {
+.text-right {
     padding: 0 5px 0 5px;
     margin: 3px 3px 0 0;
 }
 
-.inlineBlock {
+.inline-block {
     display: inline-block;
     flex-grow: 1;
 }
@@ -602,7 +616,7 @@ span[title],
     cursor: help;
 }
 
-.options-card{
+.options__card{
    display: flex;
     flex-direction: column;
     height: 100%;
@@ -623,6 +637,3 @@ span[title],
     color: var(--text-primary);
 }
 
-.settings__tab{
-    padding-left: 0.5rem;
-}

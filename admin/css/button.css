@@ -43,12 +43,14 @@
 }
 
 .button {
-    border-radius: 6px !important;
+    border-radius: var(--radius-md) !important;
     min-width: 100px !important;
     padding: 0 10px !important;
     height: 30px !important;
+    font-size: var(--text-sm);
     cursor: pointer;
-    margin: 0.5rem 0 0 0.5rem;
+    margin: 0 0 0 var(--space-2);
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .button__primary {
@@ -63,7 +65,7 @@
     color: var(--button-text-hover) !important;
 }
 
-.button__active {
+.button--active {
     border: 2px solid var(--button-border-active) !important;
     background-color: var(--button-bg-active) !important;
     color: var(--button-color-active) !important;
@@ -78,7 +80,7 @@ button.icon {
     height: 30px;
     width: 30px;
     position: relative;
-    margin: 0.5rem 0 0 0.5rem;
+    margin: 0 0 0 var(--space-2);
 }
 
 button.icon i.material-icons {
@@ -94,7 +96,7 @@ button.icon i.material-icons {
     opacity: 0.8 !important;
 }
 
-.button__disabled {
+.button--disabled {
     pointer-events: none;
     opacity: 0.4 !important;
 }
@@ -114,17 +116,22 @@ button.icon i.material-icons {
     border: 2px solid var(--button-border-primary) !important;
 }
 
-.button__icon-table {
+.button--startside {
+    background-color: var(--startside) !important;
+    color: var(--dark) !important;
+    border: 2px solid var(--button-border-hover) !important;
+}
+
+.button--icon-table {
     width: 30px !important;
     height: 30px !important;
-    border-radius: 6px !important;
+    border-radius: var(--radius-md) !important;
     cursor: pointer;
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.5rem !important;
+    margin: 0.125rem !important;
 }
 
 
-.button__icon .button--children, .button__icon-table .button--children {
+.button__icon .button--children, .button--icon-table .button--children {
     margin-top: 0 !important;
 }
 
@@ -147,19 +154,13 @@ button.icon i.material-icons {
 .button__menu {
     display: flex;
     align-items: center;
-    margin-top: 0.5rem !important;
-    margin-left: 0.5rem !important;
-    margin-right: 0.5rem !important;
+    margin: 0 var(--space-2) !important;
     width: calc(100% - 1rem) !important;
 }
 
 .button__menu .button--children {
     margin-top: 0 !important;
 
-}
-
-.button__menu:last-child {
-    margin-bottom: 0.5rem !important;
 }
 
 .button__menu .button--children {

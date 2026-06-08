@@ -29,6 +29,7 @@
     --scrollbar-static: var(--gray-lightest);
     --scrollbar-hover: var(--gray-dark);
     --dialog-bg: var(--transparent-dark);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
 
 
     --text-primary: black;
@@ -89,12 +90,36 @@
     --table-hover: var(--blue-hover);
     --table-row-even: var(--light);
     --table-row-odd: white;
+    --table-row-divider: rgba(0, 0, 0, 0.07);
+    --table-head-shadow: rgba(0, 0, 0, 0.18);
 
     --checkbox-bg: var(--blue-light);
 
     --background-primary: var(--gray-lightest);
 
     --hover-dark: var(--gray-dark);
+
+    /* Spacing scale */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+
+    /* Border radius scale */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-full: 50%;
+
+    /* Typography scale */
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.125rem;
+    --text-xl:   1.25rem;
+    --text-2xl:  1.5rem;
 
 }
 
@@ -129,9 +154,11 @@
     --input-border: var(--gray-darkest);
     --input-placeholder-color: var(--gray-dark);
 
-    --table-head: var(--gray-dark);
+    --table-head: #2a2a2a;
     --table-row-even: var(--gray-darker);
     --table-row-odd: var(--gray-dark);
+    --table-row-divider: rgba(255, 255, 255, 0.06);
+    --table-head-shadow: rgba(0, 0, 0, 0.4);
 
     --primary-color: var(--gray-darkest);
     --row-button: var(--gray-darker);

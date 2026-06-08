@@ -54,13 +54,13 @@ class HelperCard extends Component<PropsHelperCard, StateHelperCard> {
     render(): React.ReactNode {
         return (
             <>
-                <div className="options-card">
+                <div className="options__card">
                     <div className="options__table">
                         <TableContainer component={Paper}>
                             <Table
                                 stickyHeader
                                 aria-label="sticky table"
-                                className="options-card__table"
+                                className="options__card__table"
                             >
                                 <TableHead>
                                     <TableRow>

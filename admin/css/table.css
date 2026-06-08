@@ -2,8 +2,7 @@
 
 #root table {
     border-collapse: collapse !important;
-    width: calc(100%) !important;
-    overflow-y: auto;
+    width: 100% !important;
     flex: 1;
 }
 
@@ -13,49 +12,60 @@ table input {
 
 tbody tr {
     position: relative;
+    transition: background-color 0.1s ease;
 }
 
-.table__ghost_id {
+.table__ghost-id {
     position: absolute;
-    top: -40px;
-
+    top: -2.5rem;
 }
 
-#root thead tr  {
-    background-color: var(--table-head);
-    height: 2rem;
+#root thead tr {
+    height: 2.5rem;
     top: 0;
 }
 
-tr td:has(button.buttonTrue),
-tr td:has(button.buttonFalse) {
+#root thead tr th,
+#root thead tr td {
+    background-color: var(--table-head) !important;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: white !important;
+    border: none !important;
+}
+
+tr td:has(button.button--true),
+tr td:has(button.button--false) {
     padding: 0 !important;
     margin: 0 !important;
-    width: 20px !important;
+    width: 1.25rem !important;
 }
 
-#root table .table__head_checkbox {
-    width: 25px;
+#root table .table__head-checkbox {
+    width: 1.5rem;
 }
 
-.table__head_button {
+.table__head-button {
     width: 1rem;
 }
 
-.table__head_select select {
+.table__head-select select {
     background-color: var(--table-head) !important;
-    margin: 0 !important;border: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
 }
-
 
 tr[draggable="true"] {
     cursor: grab;
-    padding-right: 10px !important;
-    margin-right: 10px;
+    padding-right: 0.625rem !important;
+    margin-right: 0.625rem;
 }
 
 tr[draggable="true"]:hover {
     background-color: var(--table-hover) !important;
+    transition: background-color 0.1s ease;
 }
 
 tr[draggable="true"] span i {
@@ -63,8 +73,9 @@ tr[draggable="true"] span i {
 }
 
 tr td {
-    padding: 0 5px !important;
-    font-size: 1rem !important;
+    padding: 2px var(--space-2) !important;
+    font-size: var(--text-sm) !important;
+    border: none !important;
 }
 
 tr td td,
@@ -72,14 +83,14 @@ tr td td,
     background-color: transparent !important;
 }
 
-tr:not(.SubTable):nth-child(even) {
+tr:not(.SubTable):nth-child(odd) {
     background-color: var(--table-row-even);
 }
 
-tr:not(.SubTable):nth-child(odd) {
+tr:not(.SubTable):nth-child(even) {
     background-color: var(--table-row-odd);
 }
 
 .row__navigate_to-active {
-    border: 3px solid var(--destructive);
+    border: 0.1875rem solid var(--destructive);
 }
