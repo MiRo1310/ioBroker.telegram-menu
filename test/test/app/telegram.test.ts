@@ -124,6 +124,43 @@ describe('telegram', () => {
             });
             expect(adapterMock.log.error.called).to.be.true;
         });
+
+        it('should send with keyboard and shouldCleanUpString=false (skips cleanUpString)', async () => {
+            await sendToTelegram({
+                instance: 'telegram.0',
+                userToSend: 'Alice',
+                textToSend: '<b>Raw</b>',
+                keyboard: [['btn']],
+                telegramParams,
+                shouldCleanUpString: false,
+            });
+            expect(adapterMock.sendTo.calledOnce).to.be.true;
+        });
+
+        it('should send without keyboard and shouldCleanUpString=false', async () => {
+            await sendToTelegram({
+                instance: 'telegram.0',
+                userToSend: 'Alice',
+                textToSend: '<b>Raw</b>',
+                telegramParams,
+                shouldCleanUpString: false,
+            });
+            expect(adapterMock.sendTo.calledOnce).to.be.true;
+        });
+
+        it('should invoke the sendTo callback (telegramLogger) when sending with keyboard', async () => {
+            adapterMock.sendTo.callsFake((_inst: string, _cmd: string, _payload: any, callback: any) => {
+                if (typeof callback === 'function') callback({ ok: true });
+            });
+            await sendToTelegram({
+                instance: 'telegram.0',
+                userToSend: 'Alice',
+                textToSend: 'Hello',
+                keyboard: [['btn']],
+                telegramParams,
+            });
+            expect(adapterMock.log.debug.called).to.be.true;
+        });
     });
 
     // ─── sendToTelegramSubmenu ───────────────────────────────────────────────
@@ -150,6 +187,15 @@ describe('telegram', () => {
             sendToTelegramSubmenu('telegram.0', 'Alice', '<b>Bold</b>', keyboard, telegramParams, true);
             const payload = adapterMock.sendTo.firstCall.args[2];
             expect(payload.parse_mode).to.equal('HTML');
+        });
+
+        it('should invoke the sendTo callback (telegramLogger)', () => {
+            adapterMock.sendTo.callsFake((_inst: string, _cmd: string, _payload: any, callback: any) => {
+                if (typeof callback === 'function') callback({ ok: true });
+            });
+            const keyboard = { inline_keyboard: [[{ text: 'X', callback_data: 'x' }]] };
+            sendToTelegramSubmenu('telegram.0', 'Alice', 'Text', keyboard, telegramParams);
+            expect(adapterMock.log.debug.called).to.be.true;
         });
     });
 
@@ -235,6 +281,20 @@ describe('telegram', () => {
                 telegramParams,
             );
             expect(adapterMock.log.error.called).to.be.true;
+        });
+
+        it('should invoke the sendTo callback (telegramLogger) when sending location', async () => {
+            adapterMock.getForeignStateAsync.resolves({ val: 52.5 });
+            adapterMock.sendTo.callsFake((_inst: string, _payload: any, callback: any) => {
+                if (typeof callback === 'function') callback({ ok: true });
+            });
+            await sendLocationToTelegram(
+                'telegram.0',
+                'Alice',
+                [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
+                telegramParams,
+            );
+            expect(adapterMock.log.debug.called).to.be.true;
         });
     });
 });

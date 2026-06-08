@@ -250,3 +250,112 @@ if (!isDefined(value)) { ... }
 ```
 
 Die Bedingung ist als testbare reine Funktion in `admin/src/lib/settings.ts` → `shouldDefaultSendMenuAfterRestart()` extrahiert und in `test/test/AppContentTabSettings.test.ts` getestet.
+
+### React Named Slots (Vue-Äquivalent)
+
+React kennt keine Named Slots wie Vue 3 (`<template #slotName>`). Das Äquivalent ist **JSX als benannter Prop**:
+
+```tsx
+interface Props {
+    slotTop?: React.ReactNode;
+    slotBottom?: React.ReactNode;
+}
+
+class MyComponent extends Component<Props> {
+    render() {
+        return (
+            <div>
+                <div>{this.props.slotTop}</div>
+                {/* anderer Content */}
+                <div>{this.props.slotBottom}</div>
+            </div>
+        );
+    }
+}
+
+// Verwendung:
+<MyComponent
+    slotTop={<BtnCircleAdd callback={...} />}
+    slotBottom={<TriggerSelection ... />}
+/>
+```
+
+Wenn Inhalt an genau zwei verschiedenen Stellen einer Komponente platziert werden soll, benannte Props (`slotTop`, `slotBottom`, `header`, `footer` etc.) verwenden — nicht `children` aufteilen.
+
+### Overlay-Komponente (`admin/src/components/Overlay.tsx`)
+
+Wiederverwendbare Overlay-Komponente für modale Abgrenzung. Z-Index default 1499 (unter `menu__list-popup` z-index 1500). CSS-Klasse `.overlay` in `style.css`, Farbe via `--overlay-bg` in `colors.css`.
+
+```tsx
+<Overlay onClick={() => this.props.callback.setStateApp({ showPopupMenuList: false })} />
+```
+
+Zusammen mit dem Popup in einen Fragment wrappen und per Bedingung rendern.
+
+### Menu-Popup — nur Klick, kein Hover
+
+`AppContentHeaderMenu.tsx`: Das Menu-Popup (`menu__list-popup`) öffnet und schließt ausschließlich per Klick (`handleClick`). `onMouseEnter`/`onMouseLeave` wurden entfernt. Schließen über das Overlay (`onClick`) oder erneuten Klick auf den Toggle-Button.
+
+### Tests — ESM-Fallback-Falle bei TypeScript-Fehlern in Testdateien
+
+Wenn eine Testdatei TypeScript-Kompilierungsfehler enthält (z.B. `TS18048: 'result.keyboard' is possibly 'undefined'`), schlägt ts-node beim Kompilieren fehl und Mocha fällt auf seinen ESM-Loader zurück. Der ESM-Loader kann weder `@backend/`-Aliases noch relative Pfade ohne `.ts`-Extension auflösen — die Fehlermeldung lautet dann irreführend `Cannot find package '@backend/app'` oder `Cannot find module '...\src\app\jsonTable'`.
+
+**Diagnose-Befehl** (zeigt den echten TS-Fehler):
+```bash
+node -e "require('ts-node/register'); require('tsconfig-paths/register'); require('./test/test/app/meintest.test.ts')"
+```
+Wenn die Ausgabe `⨯ Unable to compile TypeScript: ...` enthält → TS-Fehler fixen, bevor man Pfad-Varianten ausprobiert.
+
+**Regel für `require()` in Testfunktionen**: `require('@backend/app/X')` innerhalb von Testfunktionskörpern kann den ESM-Resolver auslösen. Relative Pfade sind sicherer:
+```ts
+// Kann scheitern:
+sinon.stub(require('@backend/app/subMenu'), 'callSubMenu').resolves();
+// Besser:
+sinon.stub(require('../../src/app/subMenu'), 'callSubMenu').resolves();
+```
+Statische `import`-Statements am Dateianfang funktionieren mit `@backend/` einwandfrei.
+
+### Tests — modul-globale Singletons verunreinigen Tests
+
+Mehrere Singletons persistieren zwischen Tests und können zu Fehlern führen:
+
+**`shoppingList.ts` — `isSubscribed: boolean`**: Wird nach dem ersten `shoppingListSubscribeStateAndDeleteItem`-Aufruf auf `true` gesetzt und nie zurückgesetzt. Der Test für "sollte beim ersten Aufruf subscriben" muss der allererste Test sein, der `getForeignObjectAsync` auf Erfolg setzt. Spätere Tests sehen `isSubscribed = true`.
+
+**`jsonTable.ts` — `lastRequestJsonButtonHistory` ID-Counter**: Inkrementiert bei jedem `setData()`-Aufruf. Die Fixture-Tests in `json-table.test.ts` erwarten `requestId=0` in `callback_data`. In neuen Test-Suiten, die `createKeyboardFromJson` aufrufen, `setData` stubben:
+```ts
+beforeEach(() => { sinon.stub(lastRequestJsonButtonHistory, 'setData').returns(0); });
+afterEach(() => { sinon.restore(); });
+```
+
+### Tests — `Keyboard`-Typ erfordert doppeltes Optional-Chaining
+
+`src/types/types.ts`: `export type Keyboard = { inline_keyboard: KeyboardItems[][] } | undefined;`
+
+Beim Zugriff in Tests immer doppeltes Optional-Chaining verwenden, sonst TS18048:
+```ts
+// Falsch — TS18048:
+expect(result?.keyboard.inline_keyboard[0]).to.have.lengthOf(1);
+// Richtig:
+expect(result?.keyboard?.inline_keyboard?.[0]).to.have.lengthOf(1);
+```
+
+### Tests — `telegramLogger`-Callback in `sendToTelegram`
+
+`sendToTelegram` übergibt `telegramLogger` als letztes Argument an `adapter.sendTo`. Der Sinon-Stub ruft Callbacks standardmäßig nicht auf. Um diese Funktion in Tests zu erreichen:
+```ts
+adapterMock.sendTo.callsFake((_inst: string, _cmd: string, _payload: any, callback: any) => {
+    if (typeof callback === 'function') callback({ ok: true });
+});
+```
+`sendLocationToTelegram` hat eine andere Signatur (nur 3 Argumente):
+```ts
+adapterMock.sendTo.callsFake((_inst: string, _payload: any, callback: any) => {
+    if (typeof callback === 'function') callback({ ok: true });
+});
+```
+
+### Tests — strukturell unerreichbare Branches (akzeptiert)
+
+- `action.ts` Zeile 127: `elIndex ? elIndex : index` — `elIndex` ist in `config.ts` immer `0` oder `undefined` (beides falsy), der truthy-Zweig ist nie erreichbar
+- `telegram.ts` Zeile 10: `isEmptyString(textToSend ?? '')` — `??`-Fallback ist durch vorherige `!textToSend`-Prüfung nie erreichbar
+- `jsonTable.ts`: `resetId()`, `getRequestIds()`, `addRequestId()` — Klassenmethoden, die im Produktivcode nie direkt aufgerufen werden

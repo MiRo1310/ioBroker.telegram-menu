@@ -114,5 +114,35 @@ describe('sendPic', () => {
         const result = sendPic('telegram.0', part, 'Alice', telegramParams, 'tok', '/pics/', existingTimeouts, 'key');
         expect(result).to.deep.equal(existingTimeouts);
     });
+
+    it('should invoke the delay<=0 callback and call sendToTelegram', async () => {
+        const part: Part = { sendPic: [{ id: 'http://cam/snap', delay: 0, fileName: 'pic.jpg' }] };
+        sendPic('telegram.0', part, 'Alice', telegramParams, 'tok', '/pics/', [], 'key');
+
+        // Get the callback (5th argument) and invoke it
+        const callback = loadWithCurlStub.firstCall.args[4];
+        expect(typeof callback).to.equal('function');
+        await callback();
+
+        expect(sendToTelegramStub.calledOnce).to.be.true;
+        expect(sendToTelegramStub.firstCall.args[0]).to.deep.include({ textToSend: '/pics/pic.jpg' });
+    });
+
+    it('should invoke the setTimeout callback, send pic, and clean up timeout', async () => {
+        const fakeTimeout = { id: 'fake' } as any;
+        adapterMock.setTimeout.callsFake((_fn: any) => fakeTimeout);
+
+        const part: Part = { sendPic: [{ id: 'http://cam/snap', delay: 200, fileName: 'delayed.jpg' }] };
+        const result = sendPic('telegram.0', part, 'Alice', telegramParams, 'tok', '/pics/', [], 'key');
+        expect(result).to.have.lengthOf(1);
+
+        // Invoke the setTimeout callback directly
+        const timeoutFn = adapterMock.setTimeout.firstCall.args[0];
+        await timeoutFn();
+
+        expect(sendToTelegramStub.calledOnce).to.be.true;
+        expect(adapterMock.clearTimeout.calledOnce).to.be.true;
+        expect(adapterMock.log.debug.called).to.be.true;
+    });
 });
 

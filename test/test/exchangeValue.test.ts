@@ -1,6 +1,7 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
-import { isNoValueParameter } from '@backend/lib/exchangeValue';
+import { exchangeValue, isNoValueParameter } from '@backend/lib/exchangeValue';
 
 describe('isNoValueParameter', () => {
     it('soll insertValue true zurückgeben, wenn kein {novalue} enthalten ist', () => {
@@ -13,5 +14,38 @@ describe('isNoValueParameter', () => {
         const result = isNoValueParameter('Text mit {novalue} drin');
         expect(result.insertValue).to.be.false;
         expect(result.textToSend).to.equal('Text mit drin');
+    });
+});
+
+describe('exchangeValue', () => {
+    let adapterMock: any;
+
+    beforeEach(() => {
+        adapterMock = { log: { error: sinon.stub() } };
+    });
+
+    it('should replace && placeholder with value via change map', () => {
+        const result = exchangeValue(adapterMock, '&& change{"true":"AN","false":"AUS"}', true);
+        expect(result.error).to.be.false;
+        expect(result.textToSend).to.include('AN');
+    });
+
+    it('should return error=true when change map JSON is malformed', () => {
+        const result = exchangeValue(adapterMock, '&& change{INVALID}', 'val');
+        expect(result.error).to.be.true;
+        expect(adapterMock.log.error.calledOnce).to.be.true;
+    });
+
+    it('should replace placeholder with value when no change map', () => {
+        const result = exchangeValue(adapterMock, 'Wert: &&', '42');
+        expect(result.error).to.be.false;
+        expect(result.textToSend).to.equal('Wert: 42');
+    });
+
+    it('should not apply change map when shouldChange is false (keeps change text, replaces &&)', () => {
+        const result = exchangeValue(adapterMock, '&& change{"true":"AN"}', true, false);
+        expect(result.error).to.be.false;
+        // change map is not applied; && is still replaced with the raw value
+        expect(result.textToSend).to.equal('true change{"true":"AN"}');
     });
 });

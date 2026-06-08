@@ -239,6 +239,64 @@ describe('Setstate', () => {
         });
     });
 
+    describe('SetDynamicValue + confirm=true + ack=true — kein Doppel-Send', () => {
+        it('should NOT register listener for idToSet when setDynamicValue, confirm=true and no watchForId (prevents double send with ack=true)', async () => {
+            // Bug: handleSetState registers the listener for idToSet with confirm=true.
+            // When processData later sets the state with ack=true, BOTH the immediate confirm
+            // (exchangeValueAndSendToTelegram in processData) AND the stateChange listener fire.
+            // Fix: only register listener when watchForId is set (id !== undefined).
+            const testId = 'test.0.setdynamic-double-send-ack';
+            await mockAdapter.setForeignStateAsync(testId, '0', true);
+
+            const part = {
+                switch: [
+                    {
+                        id: testId,
+                        confirm: true,
+                        returnText: '{setDynamicValue:Frage:string:Antwort}',
+                        value: '',
+                        ack: true,
+                        toggle: false,
+                        parse_mode: false,
+                    },
+                ],
+            } as Part;
+
+            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+            const listAfter = getStateIdsToListenTo();
+            expect(listAfter.some(el => el.id === testId && el.confirm === true)).to.be.false;
+        });
+
+        it('SHOULD still register listener for watchForId when setDynamicValue has watchForId set', async () => {
+            // When watchForId is set, the listener is the intended send mechanism
+            // (processData skips the immediate confirm via onlyConfirmIfWatchIdIsNotSet).
+            const testId = 'test.0.setdynamic-watchforid-trigger';
+            const watchId = 'test.0.setdynamic-watchforid-watch';
+            await mockAdapter.setForeignStateAsync(testId, '0', true);
+            await mockAdapter.setForeignStateAsync(watchId, '0', true);
+
+            const part = {
+                switch: [
+                    {
+                        id: testId,
+                        confirm: true,
+                        returnText: `{setDynamicValue:Frage:string:Antwort:${watchId}}`,
+                        value: '',
+                        ack: true,
+                        toggle: false,
+                        parse_mode: false,
+                    },
+                ],
+            } as Part;
+
+            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+            const listAfter = getStateIdsToListenTo();
+            expect(listAfter.some(el => el.id === watchId && el.confirm === true)).to.be.true;
+        });
+    });
+
     it('should handle invalid foreignId JSON gracefully', async () => {
         const part = {
             switch: [
