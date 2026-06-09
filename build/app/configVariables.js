@@ -9,7 +9,7 @@ exports.getIds = {
     telegramRequestChatID: (instance) => `${instance}.communicate.requestChatId`,
 };
 const getConfigVariables = (config, adapter) => {
-    const c = config;
+    const c = adapter.config;
     const telegramInstances = c.instanceList ?? [];
     const checkboxes = c.checkbox;
     const telegramParams = {

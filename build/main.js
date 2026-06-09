@@ -80,50 +80,14 @@ class TelegramMenu extends utils.Adapter {
         await this.setState('info.connection', false, true);
         await (0, createState_1.createState)(this);
         this.configVariables = (0, configVariables_1.getConfigVariables)(this.configVariables, this);
-        const { telegramBotSendMessageID, telegramRequestID, telegramRequestMessageID, telegramRequestChatID, telegramInfoConnectionID, } = configVariables_1.getIds;
+        const { telegramBotSendMessageID, telegramRequestID, telegramRequestMessageID } = configVariables_1.getIds;
         const startSides = (0, appUtils_1.getStartSides)(this.configVariables.menusWithUsers, this.configVariables.dataObject);
         try {
             if (!(await this.checkTelegramConnections())) {
                 return;
             }
-            const { nav, action } = this.configVariables.dataObject;
-            this.log.info('Telegram was found');
-            for (const name in nav) {
-                const splittedNavigation = (0, appUtils_1.splitNavigation)(nav[name]);
-                const newStructure = (0, appUtils_1.getNewStructure)(splittedNavigation);
-                const generatedActions = (0, action_1.generateActions)({
-                    adapter: this,
-                    action: action?.[name],
-                    userObject: newStructure,
-                });
-                (0, deprecated_1.findDeprecatedAndLog)(this, generatedActions);
-                this.menuData[name] = newStructure;
-                if (generatedActions) {
-                    this.menuData[name] = generatedActions?.obj;
-                    const subscribeForeignStateIds = generatedActions?.ids;
-                    if (subscribeForeignStateIds?.length) {
-                        await (0, subscribeStates_1._subscribeForeignStates)(this, subscribeForeignStateIds);
-                    }
-                }
-                else {
-                    this.log.debug('No Actions generated!');
-                }
-                // Subscribe Events
-                const events = this.configVariables.dataObject.action?.[name]?.events;
-                if (events) {
-                    for (const event of events) {
-                        await (0, subscribeStates_1._subscribeForeignStates)(this, event.ID);
-                    }
-                }
-                this.log.debug(`Menu: ${name}`);
-                this.log.debug(`Array Buttons: ${(0, string_1.jsonString)(splittedNavigation)}`);
-                this.log.debug(`Gen. Actions: ${(0, string_1.jsonString)(this.menuData[name])}`);
-            }
-            this.log.debug(`Checkbox: ${(0, string_1.jsonString)(this.configVariables.checkboxes)}`);
-            this.log.debug(`MenuList: ${(0, string_1.jsonString)(this.configVariables.listOfMenus)}`);
-            if (this.configVariables.sendMenuAfterRestart) {
-                await (0, adapterStartMenuSend_1.adapterStartMenuSend)(this.configVariables.listOfMenus, startSides, this.configVariables.isUserActiveCheckbox, this.configVariables.menusWithUsers, this.menuData, this.configVariables.telegramParams);
-            }
+            await this.buildMenuData();
+            await this.sendStartupMenus(startSides);
             let menus = [];
             this.on('stateChange', async (id, state) => {
                 const setStateIdsToListenTo = (0, setStateIdsToListenTo_1.getStateIdsToListenTo)();
@@ -257,6 +221,51 @@ class TelegramMenu extends utils.Adapter {
         catch (e) {
             (0, logging_1.errorLogger)('Error onReady', e, this);
         }
+        await this.subscribeToStates();
+    }
+    async buildMenuData() {
+        const { nav, action } = this.configVariables.dataObject;
+        for (const name in nav) {
+            const splittedNavigation = (0, appUtils_1.splitNavigation)(nav[name]);
+            const newStructure = (0, appUtils_1.getNewStructure)(splittedNavigation);
+            const generatedActions = (0, action_1.generateActions)({
+                adapter: this,
+                action: action?.[name],
+                userObject: newStructure,
+            });
+            (0, deprecated_1.findDeprecatedAndLog)(this, generatedActions);
+            this.menuData[name] = newStructure;
+            if (generatedActions) {
+                this.menuData[name] = generatedActions?.obj;
+                const subscribeForeignStateIds = generatedActions?.ids;
+                if (subscribeForeignStateIds?.length) {
+                    await (0, subscribeStates_1._subscribeForeignStates)(this, subscribeForeignStateIds);
+                }
+            }
+            else {
+                this.log.debug('No Actions generated!');
+            }
+            // Subscribe Events
+            const events = this.configVariables.dataObject.action?.[name]?.events;
+            if (events) {
+                for (const event of events) {
+                    await (0, subscribeStates_1._subscribeForeignStates)(this, event.ID);
+                }
+            }
+            this.log.debug(`Menu: ${name}`);
+            this.log.debug(`Array Buttons: ${(0, string_1.jsonString)(splittedNavigation)}`);
+            this.log.debug(`Gen. Actions: ${(0, string_1.jsonString)(this.menuData[name])}`);
+        }
+        this.log.debug(`Checkbox: ${(0, string_1.jsonString)(this.configVariables.checkboxes)}`);
+        this.log.debug(`MenuList: ${(0, string_1.jsonString)(this.configVariables.listOfMenus)}`);
+    }
+    async sendStartupMenus(startSides) {
+        if (this.configVariables.sendMenuAfterRestart) {
+            await (0, adapterStartMenuSend_1.adapterStartMenuSend)(this.configVariables.listOfMenus, startSides, this.configVariables.isUserActiveCheckbox, this.configVariables.menusWithUsers, this.menuData, this.configVariables.telegramParams);
+        }
+    }
+    async subscribeToStates() {
+        const { telegramBotSendMessageID, telegramRequestID, telegramRequestMessageID, telegramRequestChatID, telegramInfoConnectionID, } = configVariables_1.getIds;
         for (const instance of this.configVariables.telegramParams.telegramInstanceList) {
             const instanceName = instance?.name;
             if (!instance?.active || !instanceName) {
@@ -272,6 +281,7 @@ class TelegramMenu extends utils.Adapter {
     }
     async checkTelegramConnections() {
         if (await (0, connection_1.areAllCheckTelegramInstancesActive)(this.configVariables.telegramParams)) {
+            this.log.info('Telegram was found');
             return true;
         }
         this.log.error('Not all Telegram instances are active. Please check your configuration.');

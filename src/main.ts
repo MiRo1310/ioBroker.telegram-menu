@@ -19,7 +19,7 @@ import {
     shoppingListSubscribeStateAndDeleteItem,
 } from '@backend/app/shoppingList';
 import { errorLogger } from '@backend/app/logging';
-import type { MenuData, SetStateIds, TelegramParams } from '@backend/types/types';
+import type { MenuData, SetStateIds, StartSides, TelegramParams } from '@backend/types/types';
 import { areAllCheckTelegramInstancesActive } from '@backend/app/connection';
 import { decomposeText, isString, jsonString } from '@backend/lib/string';
 import { isDefined, isFalsy, isTruthy } from '@backend/lib/utils';
@@ -63,13 +63,7 @@ export default class TelegramMenu extends utils.Adapter {
         await createState(this);
 
         this.configVariables = getConfigVariables(this.configVariables, this);
-        const {
-            telegramBotSendMessageID,
-            telegramRequestID,
-            telegramRequestMessageID,
-            telegramRequestChatID,
-            telegramInfoConnectionID,
-        } = getIds;
+        const { telegramBotSendMessageID, telegramRequestID, telegramRequestMessageID } = getIds;
 
         const startSides = getStartSides(this.configVariables.menusWithUsers, this.configVariables.dataObject);
         try {
@@ -77,56 +71,10 @@ export default class TelegramMenu extends utils.Adapter {
                 return;
             }
 
-            const { nav, action } = this.configVariables.dataObject;
+            await this.buildMenuData();
 
-            this.log.info('Telegram was found');
+            await this.sendStartupMenus(startSides);
 
-            for (const name in nav) {
-                const splittedNavigation = splitNavigation(nav[name]);
-                const newStructure = getNewStructure(splittedNavigation);
-                const generatedActions = generateActions({
-                    adapter: this,
-                    action: action?.[name],
-                    userObject: newStructure,
-                });
-
-                findDeprecatedAndLog(this, generatedActions);
-                this.menuData[name] = newStructure;
-                if (generatedActions) {
-                    this.menuData[name] = generatedActions?.obj;
-                    const subscribeForeignStateIds = generatedActions?.ids;
-                    if (subscribeForeignStateIds?.length) {
-                        await _subscribeForeignStates(this, subscribeForeignStateIds);
-                    }
-                } else {
-                    this.log.debug('No Actions generated!');
-                }
-
-                // Subscribe Events
-                const events = this.configVariables.dataObject.action?.[name]?.events;
-                if (events) {
-                    for (const event of events) {
-                        await _subscribeForeignStates(this, event.ID);
-                    }
-                }
-                this.log.debug(`Menu: ${name}`);
-                this.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
-                this.log.debug(`Gen. Actions: ${jsonString(this.menuData[name])}`);
-            }
-
-            this.log.debug(`Checkbox: ${jsonString(this.configVariables.checkboxes)}`);
-            this.log.debug(`MenuList: ${jsonString(this.configVariables.listOfMenus)}`);
-
-            if (this.configVariables.sendMenuAfterRestart) {
-                await adapterStartMenuSend(
-                    this.configVariables.listOfMenus,
-                    startSides,
-                    this.configVariables.isUserActiveCheckbox,
-                    this.configVariables.menusWithUsers,
-                    this.menuData,
-                    this.configVariables.telegramParams,
-                );
-            }
             let menus: string[] = [];
             this.on('stateChange', async (id, state) => {
                 const setStateIdsToListenTo: SetStateIds[] = getStateIdsToListenTo();
@@ -313,7 +261,70 @@ export default class TelegramMenu extends utils.Adapter {
         } catch (e: any) {
             errorLogger('Error onReady', e, this);
         }
+        await this.subscribeToStates();
+    }
 
+    private async buildMenuData(): Promise<void> {
+        const { nav, action } = this.configVariables.dataObject;
+
+        for (const name in nav) {
+            const splittedNavigation = splitNavigation(nav[name]);
+            const newStructure = getNewStructure(splittedNavigation);
+            const generatedActions = generateActions({
+                adapter: this,
+                action: action?.[name],
+                userObject: newStructure,
+            });
+
+            findDeprecatedAndLog(this, generatedActions);
+            this.menuData[name] = newStructure;
+            if (generatedActions) {
+                this.menuData[name] = generatedActions?.obj;
+                const subscribeForeignStateIds = generatedActions?.ids;
+                if (subscribeForeignStateIds?.length) {
+                    await _subscribeForeignStates(this, subscribeForeignStateIds);
+                }
+            } else {
+                this.log.debug('No Actions generated!');
+            }
+
+            // Subscribe Events
+            const events = this.configVariables.dataObject.action?.[name]?.events;
+            if (events) {
+                for (const event of events) {
+                    await _subscribeForeignStates(this, event.ID);
+                }
+            }
+            this.log.debug(`Menu: ${name}`);
+            this.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
+            this.log.debug(`Gen. Actions: ${jsonString(this.menuData[name])}`);
+        }
+
+        this.log.debug(`Checkbox: ${jsonString(this.configVariables.checkboxes)}`);
+        this.log.debug(`MenuList: ${jsonString(this.configVariables.listOfMenus)}`);
+    }
+
+    private async sendStartupMenus(startSides: StartSides): Promise<void> {
+        if (this.configVariables.sendMenuAfterRestart) {
+            await adapterStartMenuSend(
+                this.configVariables.listOfMenus,
+                startSides,
+                this.configVariables.isUserActiveCheckbox,
+                this.configVariables.menusWithUsers,
+                this.menuData,
+                this.configVariables.telegramParams,
+            );
+        }
+    }
+
+    private async subscribeToStates(): Promise<void> {
+        const {
+            telegramBotSendMessageID,
+            telegramRequestID,
+            telegramRequestMessageID,
+            telegramRequestChatID,
+            telegramInfoConnectionID,
+        } = getIds;
         for (const instance of this.configVariables.telegramParams.telegramInstanceList) {
             const instanceName = instance?.name;
             if (!instance?.active || !instanceName) {
@@ -330,6 +341,7 @@ export default class TelegramMenu extends utils.Adapter {
 
     private async checkTelegramConnections(): Promise<boolean> {
         if (await areAllCheckTelegramInstancesActive(this.configVariables.telegramParams)) {
+            this.log.info('Telegram was found');
             return true;
         }
         this.log.error('Not all Telegram instances are active. Please check your configuration.');
