@@ -12,12 +12,12 @@ import {
 import { transformValueToTypeOfId } from '@backend/lib/utilities';
 import { isDefined } from '@backend/lib/utils';
 import { errorLogger } from '@backend/app/logging';
-import { addSetStateIds } from '@backend/app/setStateIdsToListenTo';
 import { exchangeValue } from '@backend/lib/exchangeValue';
 import { sendToTelegram } from '@backend/app/telegram';
 import { mathFunction } from '@backend/lib/appUtils';
 import type TelegramMenu from '@backend/main';
 import { dynamicValue } from '@backend/app/dynamicValue';
+import { stateIdRegistry } from '@backend/app/stateIdRegistry';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     return value.includes(config.modifiedValue)
@@ -159,7 +159,7 @@ export const handleSetState = async (
                 );
 
                 if (confirm && id) {
-                    await addSetStateIds(adapter, {
+                    await stateIdRegistry.addIds(adapter, {
                         id,
                         confirm,
                         returnText: confirmText,
@@ -171,7 +171,7 @@ export const handleSetState = async (
             }
             let valueToTelegram: ioBroker.StateValue = valueFromSubmenu ?? value;
             if (!useForeignId && !confirm) {
-                await addSetStateIds(adapter, {
+                await stateIdRegistry.addIds(adapter, {
                     id: idToGetValueFrom,
                     confirm,
                     returnText,
@@ -193,7 +193,7 @@ export const handleSetState = async (
                     returnText = returnText.replace(substring, json.text);
                 }
 
-                await addSetStateIds(adapter, {
+                await stateIdRegistry.addIds(adapter, {
                     id: json.foreignId,
                     confirm: true,
                     returnText: json.text,

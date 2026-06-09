@@ -7,11 +7,11 @@ const string_1 = require("../lib/string");
 const utilities_1 = require("../lib/utilities");
 const utils_1 = require("../lib/utils");
 const logging_1 = require("../app/logging");
-const setStateIdsToListenTo_1 = require("../app/setStateIdsToListenTo");
 const exchangeValue_1 = require("../lib/exchangeValue");
 const telegram_1 = require("../app/telegram");
 const appUtils_1 = require("../lib/appUtils");
 const dynamicValue_1 = require("../app/dynamicValue");
+const stateIdRegistry_1 = require("../app/stateIdRegistry");
 const modifiedValue = (valueFromSubmenu, value) => {
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
@@ -98,7 +98,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
             if (returnText.includes('{setDynamicValue')) {
                 const { confirmText, id } = await dynamicValue_1.dynamicValue.setValue(instance, returnText, ack, idToGetValueFrom, userToSend, telegramParams, parse_mode, confirm);
                 if (confirm && id) {
-                    await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
+                    await stateIdRegistry_1.stateIdRegistry.addIds(adapter, {
                         id,
                         confirm,
                         returnText: confirmText,
@@ -110,7 +110,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
             }
             let valueToTelegram = valueFromSubmenu ?? value;
             if (!useForeignId && !confirm) {
-                await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
+                await stateIdRegistry_1.stateIdRegistry.addIds(adapter, {
                     id: idToGetValueFrom,
                     confirm,
                     returnText,
@@ -130,7 +130,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
                     idToGetValueFrom = json.foreignId;
                     returnText = returnText.replace(substring, json.text);
                 }
-                await (0, setStateIdsToListenTo_1.addSetStateIds)(adapter, {
+                await stateIdRegistry_1.stateIdRegistry.addIds(adapter, {
                     id: json.foreignId,
                     confirm: true,
                     returnText: json.text,

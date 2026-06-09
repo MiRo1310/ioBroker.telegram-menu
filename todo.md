@@ -1,52 +1,46 @@
 # Refactoring: main.ts — Mehr Struktur & Klassen
 
-## Schritt 1 — `onReady()` in private Init-Methoden zerlegen
+## Schritt 1 — `onReady()` in private Init-Methoden zerlegen ✅
 
-Neue Klassen-Felder in `TelegramMenu`:
-- [x] `private config!: ReturnType<typeof getConfigVariables>` als Klassen-Property statt lokale Variable
-- [x] `private menuData: MenuData = {}` als Klassen-Property statt lokale Variable
-
-Neue private Methoden (Zeilen aus `onReady()` extrahieren):
-- [x] `private async checkTelegramConnections(): Promise<boolean>` — Zeilen 331–337 (bereits extrahiert)
-- [x] `private async buildMenuData(): Promise<void>` — Zeilen 65–115 (Config laden, MenuData aufbauen, generateActions inkl. Event-Subscriptions)
-- [x] `private async sendStartupMenus(): Promise<void>` — Zeilen 120–129 (sendMenuAfterRestart)
-- [x] `private subscribeToStates(): void` — Zeilen 317–328 (Telegram-States subscriben)
-- [ ] `onReady()` nur noch als Orchestrator (~30 Zeilen): ruft die 5 Methoden der Reihe nach auf
-
-**Verifikation:** `npm run tsc && npm run test:js`
+- [x] `private configVariables!: ReturnType<typeof getConfigVariables>` — Zeile 45
+- [x] `private menuData: MenuData = {}` — Zeile 44
+- [x] `private menus: string[] = []` — Zeile 47
+- [x] `private timeoutKey = '0'` — Zeile 46
+- [x] `private async checkTelegramConnections(): Promise<boolean>`
+- [x] `private async buildMenuData(): Promise<void>`
+- [x] `private async sendStartupMenus(startSides): Promise<void>`
+- [x] `private async subscribeToStates(): Promise<void>`
+- [x] `onReady()` als sauberer Orchestrator — Zeilen 62–109
 
 ---
 
-## Schritt 2 — `stateChange`-Listener aus `onReady()` extrahieren
+## Schritt 2 — `stateChange`-Handler extrahieren ✅
 
-- [ ] Neue Methode `private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void>` anlegen
-- [ ] In `subscribeToStates()` (aus Schritt 1) statt anonymem Callback `this.onStateChange.bind(this)` verwenden
-- [ ] `onStateChange` als klaren Dispatcher aufbauen (frühes Return statt tief genestetes if/else):
-  - [ ] `private async handleEventChange(...)` — Event-Pfad (Zeilen 140–152)
-  - [ ] `private async handleShoppingListChange(...)` — `sList:`-Pfad (Zeilen 158–167)
-  - [ ] `private async handleAddToShoppingList(...)` — `isAddToShoppingList`-Pfad (Zeilen 169–185)
-  - [ ] `private async handleMenuStateChange(...)` — instance-Pfad (Zeilen 187–230)
-  - [ ] `private async handleSetStateListeners(...)` — `setStateIdsToListenTo`-Pfad (Zeilen 232–311)
-
-**Verifikation:** `npm run tsc && npm run test:js`
+- [x] `private async handleEventChange(...)` — Zeilen 111–131
+- [x] `private async handleShoppingListChange(state): Promise<boolean>` — Zeilen 133–145
+- [x] `private async handleAddToShoppingList(id): Promise<boolean>` — Zeilen 147–165
+- [x] `private async handleMenuStateChange(...)` — ab Zeile 167
+- [x] `private async handleSetStateListener(...)` — ab Zeile ~210
+- [x] Dispatcher mit korrekten frühen Returns (`if (await ...) return`) — Zeilen 94–100
 
 ---
 
-## Schritt 3 — `setStateIdsToListenTo.ts` → `StateIdRegistry`-Klasse
+## Schritt 3 — `StateIdRegistry`-Klasse ⚠️ fast fertig
 
-Datei: `src/app/setStateIdsToListenTo.ts`
+Datei: `src/app/stateIdRegistry.ts`
 
-- [ ] Klasse `StateIdRegistry` anlegen mit `private ids: SetStateIds[] = []`
-- [ ] Methode `getAll(): SetStateIds[]`
-- [ ] Methode `find(setStateId: SetStateIds): SetStateIds | undefined`
-- [ ] Methode `async add(adapter: Adapter, setStateId: SetStateIds): Promise<void>`
-- [ ] Singleton-Export: `export const stateIdRegistry = new StateIdRegistry()`
-- [ ] Kompatibilitäts-Exports beibehalten (keine Änderungen in aufrufenden Dateien nötig):
-  - [ ] `export const getStateIdsToListenTo = () => stateIdRegistry.getAll()`
-  - [ ] `export const getFind = (id) => stateIdRegistry.find(id)`
-  - [ ] `export const addSetStateIds = (adapter, id) => stateIdRegistry.add(adapter, id)`
+- [x] Klasse `StateIdRegistry` mit `private stateIdRegistry: SetStateIds[] = []`
+- [x] `getIds(): SetStateIds[]`
+- [x] `private getFind(setStateId): SetStateIds | undefined`
+- [x] `async addSetStateIds(adapter, setStateId): Promise<void>` — inkl. Duplikat-Check
+- [x] Singleton-Export: `export const stateIdRegistry = new StateIdRegistry()`
+- [x] `src/app/setstate.ts` nutzt `stateIdRegistry.addSetStateIds()` direkt
+- [x] `src/main.ts` nutzt `stateIdRegistry.getIds()` direkt
+- [ ] **Tests brechen** — `test/test/setstate.test.ts` importiert `getStateIdsToListenTo` aus `stateIdRegistry.ts`, diese Funktion existiert nicht
+  - Option A: Kompatibilitäts-Export ergänzen: `export const getStateIdsToListenTo = () => stateIdRegistry.getIds()`
+  - Option B: Tests auf `stateIdRegistry.getIds()` umstellen
 
-**Verifikation:** `npm run tsc && npm run test:js`
+**Verifikation:** `npm run tsc && npm run test:ts`
 
 ---
 
@@ -63,13 +57,13 @@ Datei: `src/app/processData.ts`
   - [ ] `export const checkEveryMenuForData = (p) => menuProcessor.checkEveryMenuForData(p)`
   - [ ] `export const getTimeouts = () => menuProcessor.getTimeouts()`
 
-**Verifikation:** `npm run tsc && npm run test:js`
+**Verifikation:** `npm run tsc && npm run test:ts`
 
 ---
 
 ## Abschluss-Check
 
-- [ ] `npm run test:js` → alle 599 Tests grün
+- [ ] `npm run test:ts` → alle Tests grün
 - [ ] `npm run tsc` → keine TypeScript-Fehler
 - [ ] `npm run lint:backend` → keine Lint-Fehler
 - [ ] `npm run build` → vollständiger Build erfolgreich

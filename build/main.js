@@ -54,16 +54,17 @@ const string_1 = require("./lib/string");
 const utils_1 = require("./lib/utils");
 const appUtils_1 = require("./lib/appUtils");
 const configVariables_1 = require("./app/configVariables");
-const setStateIdsToListenTo_1 = require("./app/setStateIdsToListenTo");
 const exchangeValue_1 = require("./lib/exchangeValue");
 const events_1 = require("./app/events");
 const deprecated_1 = require("./app/deprecated");
 const jsonTable_1 = require("./app/jsonTable");
+const stateIdRegistry_1 = require("./app/stateIdRegistry");
 class TelegramMenu extends utils.Adapter {
     static instance;
     menuData = {};
     configVariables;
     timeoutKey = '0';
+    menus = [];
     /**
      * @param [options] - Adapter options
      */
@@ -77,151 +78,173 @@ class TelegramMenu extends utils.Adapter {
         TelegramMenu.instance = this;
     }
     async onReady() {
-        await this.setState('info.connection', false, true);
-        await (0, createState_1.createState)(this);
-        this.configVariables = (0, configVariables_1.getConfigVariables)(this.configVariables, this);
-        const { telegramBotSendMessageID, telegramRequestID, telegramRequestMessageID } = configVariables_1.getIds;
-        const startSides = (0, appUtils_1.getStartSides)(this.configVariables.menusWithUsers, this.configVariables.dataObject);
         try {
+            await this.setState('info.connection', false, true);
+            await (0, createState_1.createState)(this);
+            this.configVariables = (0, configVariables_1.getConfigVariables)(this.configVariables, this);
+            const startSides = (0, appUtils_1.getStartSides)(this.configVariables.menusWithUsers, this.configVariables.dataObject);
             if (!(await this.checkTelegramConnections())) {
                 return;
             }
             await this.buildMenuData();
             await this.sendStartupMenus(startSides);
-            let menus = [];
             this.on('stateChange', async (id, state) => {
-                const setStateIdsToListenTo = (0, setStateIdsToListenTo_1.getStateIdsToListenTo)();
+                const setStateIdsToListenTo = stateIdRegistry_1.stateIdRegistry.getIds();
                 const instance = await this.checkInfoConnection(id, this.configVariables.telegramParams);
                 const { isEvent, eventUserList } = (0, events_1.getInstancesFromEventsById)(this.configVariables.dataObject.action, id, this.configVariables.menusWithUsers);
-                if (isEvent && state) {
-                    for (const user of eventUserList) {
-                        await (0, events_1.handleEvent)(this, user, this.configVariables.dataObject, id, state, this.menuData, this.configVariables.telegramParams);
-                    }
-                }
+                await this.handleEventChange(isEvent, state, eventUserList, id);
                 if (!(0, utils_1.isDefined)(state?.val)) {
                     return;
                 }
-                if ((0, string_1.isString)(state.val) && state.val?.includes('sList:')) {
-                    const requestId = await (0, shoppingList_1.shoppingListSubscribeStateAndDeleteItem)(state.val, this.configVariables.telegramParams);
-                    if (requestId) {
-                        jsonTable_1.lastRequestJsonButtonHistory.addRequestId(requestId);
-                    }
+                if (await this.handleShoppingListChange(state)) {
                     return;
                 }
-                if (this.isAddToShoppingList(id)) {
-                    const requestIds = jsonTable_1.lastRequestJsonButtonHistory.getRequestIds();
-                    for (const requestId of requestIds) {
-                        const result = jsonTable_1.lastRequestJsonButtonHistory.getLast(requestId);
-                        if (!result?.instance || !result?.user) {
-                            continue;
-                        }
-                        await (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(result.instance, this.configVariables.telegramParams, result.user);
-                        jsonTable_1.lastRequestJsonButtonHistory.resetId(requestId);
-                    }
+                if (await this.handleAddToShoppingList(id)) {
                     return;
                 }
-                if (instance) {
-                    const { userToSend, error } = await this.getChatIDAndUserToSend(this.configVariables.telegramParams, instance);
-                    if (error) {
-                        return;
-                    }
-                    if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
-                        await (0, messageIds_1.saveMessageIds)(this, state, instance);
-                    }
-                    else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name)) {
-                        const value = state.val.toString();
-                        const calledValue = value.slice(value.indexOf(']') + 1, value.length);
-                        menus = (0, appUtils_1.getListOfMenusIncludingUser)(this.configVariables.menusWithUsers, userToSend.name);
-                        const dataFound = await (0, processData_1.checkEveryMenuForData)({
-                            instance,
-                            menuData: this.menuData,
-                            navToGoTo: calledValue,
-                            userToSend: userToSend.name,
-                            telegramParams: this.configVariables.telegramParams,
-                            menus,
-                            isUserActiveCheckbox: this.configVariables.isUserActiveCheckbox,
-                            token: this.configVariables.token,
-                            directoryPicture: this.configVariables.directoryPicture,
-                            timeoutKey: this.timeoutKey,
-                        });
-                        this.log.debug(`Groups with searched User: ${(0, string_1.jsonString)(menus)}`);
-                        if (!dataFound && this.configVariables.checkboxNoEntryFound) {
-                            this.log.debug('No Entry found');
-                            await (0, telegram_1.sendToTelegram)({
-                                instance: instance,
-                                userToSend: userToSend.name,
-                                textToSend: this.configVariables.textNoEntryFound,
-                                telegramParams: this.configVariables.telegramParams,
-                            });
-                        }
-                        return;
-                    }
-                }
-                if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
-                    this.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, string_1.jsonString)(state)} }`);
-                    for (const el of setStateIdsToListenTo) {
-                        const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
-                        const key = setStateIdsToListenTo.indexOf(el);
-                        if (elId == id) {
-                            this.log.debug(`Send Value: ${(0, string_1.jsonString)(el)}`);
-                            this.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
-                            if ((0, utils_1.isTruthy)(confirm) && !state?.ack && returnText?.includes('{confirmSet:')) {
-                                const { substring } = (0, string_1.decomposeText)(returnText, '{confirmSet:', '}');
-                                const splitSubstring = substring.split(':');
-                                let text = '';
-                                if ((0, utils_1.isDefined)(state.val)) {
-                                    text = splitSubstring[2]?.includes('noValue')
-                                        ? splitSubstring[1]
-                                        : (0, exchangeValue_1.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
-                                }
-                                this.log.debug(`Return-text: ${text}`);
-                                if (text === '') {
-                                    this.log.error('The return text cannot be empty, please check.');
-                                }
-                                await (0, telegram_1.sendToTelegram)({
-                                    instance: el.instance,
-                                    textToSend: text,
-                                    parse_mode: parse_mode,
-                                    userToSend,
-                                    telegramParams: this.configVariables.telegramParams,
-                                });
-                                continue;
-                            }
-                            this.log.debug(`Data: ${(0, string_1.jsonString)({ confirm, ack: state?.ack, val: state?.val })}`);
-                            if (!(0, utils_1.isFalsy)(confirm) && state?.ack) {
-                                let textToSend = returnText;
-                                if (textToSend?.includes('{confirmSet:')) {
-                                    textToSend = (0, string_1.decomposeText)(textToSend, '{confirmSet:', '}').textExcludeSubstring;
-                                }
-                                if (textToSend?.includes('{setDynamicValue')) {
-                                    const { textExcludeSubstring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, '{setDynamicValue:', '}');
-                                    const splitSubstring = substringExcludeSearch.split(':');
-                                    const confirmText = splitSubstring[2];
-                                    textToSend = `${textExcludeSubstring} ${confirmText}`;
-                                }
-                                const { textToSend: changedText, error, newValue, } = (0, exchangeValue_1.exchangeValue)(this, textToSend ?? '', state.val?.toString());
-                                if (!error) {
-                                    textToSend = changedText;
-                                }
-                                this.log.debug(`Value to send: ${newValue}`);
-                                await (0, telegram_1.sendToTelegram)({
-                                    instance: el.instance,
-                                    userToSend,
-                                    textToSend,
-                                    parse_mode,
-                                    telegramParams: this.configVariables.telegramParams,
-                                });
-                                setStateIdsToListenTo.splice(key, 1);
-                            }
-                        }
-                    }
-                }
+                await this.handleMenuStateChange(instance, id, state);
+                await this.handleSetStateListener(state, setStateIdsToListenTo, id);
             });
         }
         catch (e) {
             (0, logging_1.errorLogger)('Error onReady', e, this);
         }
         await this.subscribeToStates();
+    }
+    async handleEventChange(isEvent, state, eventUserList, id) {
+        if (!isEvent || !state) {
+            return;
+        }
+        for (const user of eventUserList) {
+            await (0, events_1.handleEvent)(this, user, this.configVariables.dataObject, id, state, this.menuData, this.configVariables.telegramParams);
+        }
+    }
+    async handleShoppingListChange(state) {
+        if ((0, string_1.isString)(state.val) && state.val?.includes('sList:')) {
+            const requestId = await (0, shoppingList_1.shoppingListSubscribeStateAndDeleteItem)(state.val, this.configVariables.telegramParams);
+            if (requestId) {
+                jsonTable_1.lastRequestJsonButtonHistory.addRequestId(requestId);
+            }
+            return true;
+        }
+        return false;
+    }
+    async handleAddToShoppingList(id) {
+        if (!this.isAddToShoppingList(id)) {
+            return false;
+        }
+        const requestIds = jsonTable_1.lastRequestJsonButtonHistory.getRequestIds();
+        for (const requestId of requestIds) {
+            const result = jsonTable_1.lastRequestJsonButtonHistory.getLast(requestId);
+            if (!result?.instance || !result?.user) {
+                continue;
+            }
+            await (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(result.instance, this.configVariables.telegramParams, result.user);
+            jsonTable_1.lastRequestJsonButtonHistory.resetId(requestId);
+        }
+        return true;
+    }
+    async handleMenuStateChange(instance, id, state) {
+        if (!instance) {
+            return;
+        }
+        const { telegramBotSendMessageID, telegramRequestID, telegramRequestMessageID } = configVariables_1.getIds;
+        const { userToSend, error } = await this.getChatIDAndUserToSend(this.configVariables.telegramParams, instance);
+        if (error) {
+            return;
+        }
+        if (this.isMessageID(id, telegramBotSendMessageID(instance), telegramRequestMessageID(instance))) {
+            await (0, messageIds_1.saveMessageIds)(this, state, instance);
+        }
+        else if (this.isMenuToSend(state, id, telegramRequestID(instance), userToSend.name) && state.val) {
+            const value = state.val.toString();
+            const calledValue = value.slice(value.indexOf(']') + 1, value.length);
+            this.menus = (0, appUtils_1.getListOfMenusIncludingUser)(this.configVariables.menusWithUsers, userToSend.name);
+            const dataFound = await (0, processData_1.checkEveryMenuForData)({
+                instance,
+                menuData: this.menuData,
+                navToGoTo: calledValue,
+                userToSend: userToSend.name,
+                telegramParams: this.configVariables.telegramParams,
+                menus: this.menus,
+                isUserActiveCheckbox: this.configVariables.isUserActiveCheckbox,
+                token: this.configVariables.token,
+                directoryPicture: this.configVariables.directoryPicture,
+                timeoutKey: this.timeoutKey,
+            });
+            this.log.debug(`Groups with searched User: ${(0, string_1.jsonString)(this.menus)}`);
+            if (!dataFound && this.configVariables.checkboxNoEntryFound) {
+                this.log.debug('No Entry found');
+                await (0, telegram_1.sendToTelegram)({
+                    instance: instance,
+                    userToSend: userToSend.name,
+                    textToSend: this.configVariables.textNoEntryFound,
+                    telegramParams: this.configVariables.telegramParams,
+                });
+            }
+            return;
+        }
+    }
+    async handleSetStateListener(state, setStateIdsToListenTo, id) {
+        if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
+            this.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, string_1.jsonString)(state)} }`);
+            for (const el of setStateIdsToListenTo) {
+                const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
+                const key = setStateIdsToListenTo.indexOf(el);
+                if (elId == id) {
+                    this.log.debug(`Send Value: ${(0, string_1.jsonString)(el)}`);
+                    this.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
+                    if ((0, utils_1.isTruthy)(confirm) && !state?.ack && returnText?.includes('{confirmSet:')) {
+                        const { substring } = (0, string_1.decomposeText)(returnText, '{confirmSet:', '}');
+                        const splitSubstring = substring.split(':');
+                        let text = '';
+                        if ((0, utils_1.isDefined)(state.val)) {
+                            text = splitSubstring[2]?.includes('noValue')
+                                ? splitSubstring[1]
+                                : (0, exchangeValue_1.exchangePlaceholderWithValue)(splitSubstring[1], state.val.toString());
+                        }
+                        this.log.debug(`Return-text: ${text}`);
+                        if (text === '') {
+                            this.log.error('The return text cannot be empty, please check.');
+                        }
+                        await (0, telegram_1.sendToTelegram)({
+                            instance: el.instance,
+                            textToSend: text,
+                            parse_mode: parse_mode,
+                            userToSend,
+                            telegramParams: this.configVariables.telegramParams,
+                        });
+                        continue;
+                    }
+                    this.log.debug(`Data: ${(0, string_1.jsonString)({ confirm, ack: state?.ack, val: state?.val })}`);
+                    if (!(0, utils_1.isFalsy)(confirm) && state?.ack) {
+                        let textToSend = returnText;
+                        if (textToSend?.includes('{confirmSet:')) {
+                            textToSend = (0, string_1.decomposeText)(textToSend, '{confirmSet:', '}').textExcludeSubstring;
+                        }
+                        if (textToSend?.includes('{setDynamicValue')) {
+                            const { textExcludeSubstring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, '{setDynamicValue:', '}');
+                            const splitSubstring = substringExcludeSearch.split(':');
+                            const confirmText = splitSubstring[2];
+                            textToSend = `${textExcludeSubstring} ${confirmText}`;
+                        }
+                        const { textToSend: changedText, error, newValue, } = (0, exchangeValue_1.exchangeValue)(this, textToSend ?? '', state.val?.toString());
+                        if (!error) {
+                            textToSend = changedText;
+                        }
+                        this.log.debug(`Value to send: ${newValue}`);
+                        await (0, telegram_1.sendToTelegram)({
+                            instance: el.instance,
+                            userToSend,
+                            textToSend,
+                            parse_mode,
+                            telegramParams: this.configVariables.telegramParams,
+                        });
+                        setStateIdsToListenTo.splice(key, 1);
+                    }
+                }
+            }
+        }
     }
     async buildMenuData() {
         const { nav, action } = this.configVariables.dataObject;
@@ -297,27 +320,21 @@ class TelegramMenu extends utils.Adapter {
         return !!(typeof state?.val === 'string' && state.val != '' && id == telegramID && state?.ack && userToSend);
     }
     async checkInfoConnection(id, telegramParams) {
-        try {
-            const { telegramInfoConnectionID } = configVariables_1.getIds;
-            const { instance } = (0, appUtils_1.getInstanceById)(id);
-            const instanceObj = telegramParams.telegramInstanceList?.find(item => item?.name === instance);
-            if (!instance) {
-                this.log.warn('No Telegram instance found.');
-                return null;
-            }
-            const iterationId = telegramInfoConnectionID(instance);
-            if (instanceObj?.active) {
-                const active = await this.isTelegramInstanceActive(iterationId);
-                if (active) {
-                    return instance;
-                }
-            }
+        const { telegramInfoConnectionID } = configVariables_1.getIds;
+        const { instance } = (0, appUtils_1.getInstanceById)(id);
+        const instanceObj = telegramParams.telegramInstanceList?.find(item => item?.name === instance);
+        if (!instance) {
+            this.log.warn('No Telegram instance found.');
             return null;
         }
-        catch (e) {
-            (0, logging_1.errorLogger)('Error checkInfoConnection', e, this);
-            return null;
+        const iterationId = telegramInfoConnectionID(instance);
+        if (instanceObj?.active) {
+            const active = await this.isTelegramInstanceActive(iterationId);
+            if (active) {
+                return instance;
+            }
         }
+        return null;
     }
     async isTelegramInstanceActive(id) {
         if (!(await this.getForeignStateAsync(id))) {

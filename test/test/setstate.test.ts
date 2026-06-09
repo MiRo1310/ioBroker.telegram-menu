@@ -4,8 +4,8 @@ import sinon from 'sinon';
 import { utils } from '@iobroker/testing';
 import type { Adapter, Part } from '@backend/types/types';
 import { handleSetState } from '@backend/app/setstate';
-import { getStateIdsToListenTo } from '@backend/app/setStateIdsToListenTo';
 import { telegramParams } from '../fixtures/telegramParams';
+import { stateIdRegistry } from '@backend/app/stateIdRegistry';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
@@ -208,10 +208,10 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            const countBefore = getStateIdsToListenTo().length;
+            const countBefore = stateIdRegistry.getIds().length;
             await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-            const listAfter = getStateIdsToListenTo();
+            const listAfter = stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === testId)).to.be.false;
             expect(listAfter.length).to.equal(countBefore);
         });
@@ -234,10 +234,10 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            const countBefore = getStateIdsToListenTo().length;
+            const countBefore = stateIdRegistry.getIds().length;
             await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-            const listAfter = getStateIdsToListenTo();
+            const listAfter = stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === testId)).to.be.true;
             expect(listAfter.length).to.equal(countBefore + 1);
         });
@@ -268,7 +268,7 @@ describe('Setstate', () => {
 
             await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-            const listAfter = getStateIdsToListenTo();
+            const listAfter = stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === testId && el.confirm === true)).to.be.false;
         });
 
@@ -296,7 +296,7 @@ describe('Setstate', () => {
 
             await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-            const listAfter = getStateIdsToListenTo();
+            const listAfter = stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === watchId && el.confirm === true)).to.be.true;
         });
     });

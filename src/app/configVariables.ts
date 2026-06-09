@@ -26,7 +26,7 @@ export const getConfigVariables = (
     checkboxes: Checkboxes;
     telegramParams: TelegramParams;
 } => {
-    const c = adapter.config as AdapterConfig;
+    const c = config as AdapterConfig;
 
     const telegramInstances = c.instanceList ?? [];
     const checkboxes = c.checkbox;
