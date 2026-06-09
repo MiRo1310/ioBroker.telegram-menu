@@ -111,6 +111,27 @@ describe('jsonTable', () => {
             expect(result?.keyboard?.inline_keyboard?.[0]).to.have.lengthOf(1);
             expect(result?.keyboard?.inline_keyboard?.[0]?.[0]?.text).to.equal('Name');
         });
+
+        it('should catch error when adapter.log.debug throws (line 151)', () => {
+            adapterMock.log.debug = sinon.stub().throws(new Error('debug error'));
+            const val = JSON.stringify([{ name: 'Milk', buttondelete: "x.('0.0.item1.data.1',true')" }]);
+            const tableConfig = JSON.stringify({
+                tableData: [{ key: 'name', label: 'Item' }],
+                tableLabel: 'Shopping',
+                type: 'alexaShoppingList',
+                listName: 'list1',
+            });
+            const result = createKeyboardFromJson(
+                adapterMock,
+                val,
+                tableConfig,
+                'alexa-shoppinglist.0.list',
+                'userCatch',
+                'telegram.0',
+            );
+            expect(result).to.be.undefined;
+            expect(adapterMock.log.error.called).to.be.true;
+        });
     });
 
     // ─── createTextTableFromJson ───────────────────────────────────────────────
@@ -175,6 +196,20 @@ describe('jsonTable', () => {
             // Passing a value that causes JSON.parse to throw inside the function
             const result = createTextTableFromJson(adapterMock, 'null', tableConfig);
             // null parses fine but is not an array
+            expect(result).to.be.undefined;
+        });
+
+        it('should catch error when json param is invalid JSON and log it (line 274)', () => {
+            // JSON.parse throws for invalid JSON → catch block (line 274) executed
+            const result = createTextTableFromJson(adapterMock, 'NOT_VALID_JSON', tableConfig);
+            expect(result).to.be.undefined;
+            expect(adapterMock.log.error.called).to.be.true;
+        });
+    });
+
+    describe('lastRequestJsonButtonHistory', () => {
+        it('should return undefined from getLast when id does not exist (line 58)', () => {
+            const result = lastRequestJsonButtonHistory.getLast(99999);
             expect(result).to.be.undefined;
         });
     });

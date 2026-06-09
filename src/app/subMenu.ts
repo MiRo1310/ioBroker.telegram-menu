@@ -13,7 +13,6 @@ import type {
 } from '@backend/types/types';
 import { handleSetState } from '@backend/app/setstate';
 import { isNonEmptyString, jsonString } from '@backend/lib/string';
-import { switchBack } from '@backend/app/backMenu';
 import { sendToTelegram, sendToTelegramSubmenu } from '@backend/app/telegram';
 import { errorLogger } from '@backend/app/logging';
 import { textModifier } from '@backend/lib/utilities';
@@ -33,6 +32,7 @@ import {
 import { deleteMessageIds } from '@backend/app/messageIds';
 import { getMenuValues, getSubmenuNumberValues } from '@backend/lib/splitValues';
 import { createDynamicSwitchMenu } from '@backend/app/dynamicSwitchMenu';
+import { backMenuRegistry } from '@backend/app/backMenu';
 
 let step = 0;
 let splittedData: SplittedData = [];
@@ -200,7 +200,7 @@ const createSwitchMenu = ({
 };
 
 const back = async ({ instance, telegramParams, userToSend, allMenusWithData, menus }: BackMenuType): Promise<void> => {
-    const result = await switchBack(telegramParams.adapter, userToSend, allMenusWithData, menus);
+    const result = await backMenuRegistry.switchBack(telegramParams.adapter, userToSend, allMenusWithData, menus);
     if (result) {
         const { keyboard, parse_mode, textToSend = '' } = result;
         await sendToTelegram({ instance, userToSend, textToSend, keyboard, parse_mode: parse_mode, telegramParams });

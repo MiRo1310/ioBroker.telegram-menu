@@ -62,6 +62,41 @@ describe('messageIds', () => {
             expect(adapterMock.log.error.called).to.be.true;
         });
 
+        it('should use null for requestMessageIdObj when isDeleting=true (line 14 null branch)', async () => {
+            // Run deleteMessageIds first with valid data → sets isDeleting=true
+            const msgs = JSON.stringify({ '123': [{ id: '1', time: Date.now() }] });
+            adapterMock.getStateAsync.resolves({ val: msgs });
+            adapterMock.getForeignStateAsync.resolves(null);
+            await deleteMessageIds('telegram.0', 'User1', {
+                adapter: adapterMock,
+                userListWithChatID: [{ name: 'User1', chatID: '123' }],
+            } as any, 'all');
+
+            // Now isDeleting=true — saveMessageIds skips getStateAsync (null branch at line 14)
+            adapterMock.getForeignStateAsync
+                .withArgs('telegram.0.communicate.requestChatId')
+                .resolves({ val: '123' });
+            adapterMock.getForeignStateAsync
+                .withArgs('telegram.0.communicate.request')
+                .resolves({ val: 'hello' });
+            const countBefore = adapterMock.setState.callCount;
+            await saveMessageIds(adapterMock, { val: 200 } as any, 'telegram.0');
+            expect(adapterMock.setState.callCount).to.be.greaterThan(countBefore);
+        });
+
+        it('should use empty object when stored requestIds JSON is invalid (line 33 ?? false branch)', async () => {
+            // requestMessageIdObj.val is truthy but unparseable → result.json is undefined → ?? {} branch
+            adapterMock.getStateAsync.resolves({ val: 'NOT_VALID_JSON' });
+            adapterMock.getForeignStateAsync
+                .withArgs('telegram.0.communicate.requestChatId')
+                .resolves({ val: '12345' });
+            adapterMock.getForeignStateAsync
+                .withArgs('telegram.0.communicate.request')
+                .resolves({ val: 'hello' });
+            await saveMessageIds(adapterMock, { val: 1 } as any, 'telegram.0');
+            expect(adapterMock.setState.calledOnce).to.be.true;
+        });
+
         it('should not add duplicate message ids', async () => {
             const existing = JSON.stringify({ '12345': [{ id: 99, time: Date.now() }] });
             adapterMock.getStateAsync.resolves({ val: existing });

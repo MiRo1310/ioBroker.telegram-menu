@@ -65,7 +65,7 @@ export default class TelegramMenu extends utils.Adapter {
             await this.setState('info.connection', false, true);
             await createState(this);
 
-            this.configVariables = getConfigVariables(this.configVariables, this);
+            this.configVariables = getConfigVariables(this.config, this);
 
             const startSides = getStartSides(this.configVariables.menusWithUsers, this.configVariables.dataObject);
 

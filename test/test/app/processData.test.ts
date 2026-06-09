@@ -43,7 +43,7 @@ describe('processData', () => {
         getChartStub = sinon.stub(require('../../../src/app/echarts'), 'getChart');
         httpRequestStub = sinon.stub(require('../../../src/app/httpRequest'), 'httpRequest').resolves(true);
         callSubMenuStub = sinon.stub(require('../../../src/app/subMenu'), 'callSubMenu').resolves({});
-        switchBackStub = sinon.stub(require('../../../src/app/backMenu'), 'switchBack').resolves(undefined);
+        switchBackStub = sinon.stub(require('../../../src/app/backMenu').backMenuRegistry, 'switchBack').resolves(undefined);
     });
 
     afterEach(() => {
@@ -312,11 +312,14 @@ describe('processData', () => {
     // ─── error handling ─────────────────────────────────────────────────────
 
     describe('error handling', () => {
-        it('should catch errors and return false from checkEveryMenuForData', async () => {
+        it('should propagate errors thrown by dependencies', async () => {
             sendNavStub.rejects(new Error('boom'));
-            const result = await callCheck('page1');
-            expect(result).to.be.false;
-            expect(adapterMock.log.error.called).to.be.true;
+            try {
+                await callCheck('page1');
+                expect.fail('expected error to be thrown');
+            } catch (e: any) {
+                expect(e.message).to.equal('boom');
+            }
         });
     });
 });

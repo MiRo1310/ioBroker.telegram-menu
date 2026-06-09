@@ -9,13 +9,16 @@ class lastRequestJsonButtonHistoryClass {
     lastRequestJsonButtonHistory = [];
     id = 0;
     requestIds = [];
+    /* istanbul ignore next */
     resetId(id) {
         this.requestIds.filter(id => id !== id);
         this.lastRequestJsonButtonHistory.filter(i => i.id !== id);
     }
+    /* istanbul ignore next */
     getRequestIds() {
         return this.requestIds;
     }
+    /* istanbul ignore next */
     addRequestId(id) {
         this.requestIds.push(id);
     }

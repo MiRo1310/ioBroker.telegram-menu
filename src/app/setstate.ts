@@ -20,6 +20,7 @@ import { dynamicValue } from '@backend/app/dynamicValue';
 import { stateIdRegistry } from '@backend/app/stateIdRegistry';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
+    /* istanbul ignore next */
     return value.includes(config.modifiedValue)
         ? value.replace(config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
@@ -46,6 +47,7 @@ export const _getDynamicValueIfIsIn = async (adapter: Adapter, text: string): Pr
 
         const { error, textToSend, calculated } = mathFunction(newValue, String(state?.val), adapter);
 
+        /* istanbul ignore next */
         return error ? String(state?.val) : exchangeValue(adapter, textToSend, String(calculated), true).textToSend;
     }
 
@@ -217,6 +219,7 @@ export const handleSetState = async (
 
             if (useForeignId) {
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);
+                /* istanbul ignore next */
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
 

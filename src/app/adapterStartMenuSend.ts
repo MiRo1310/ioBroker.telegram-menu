@@ -1,9 +1,9 @@
 import type { MenusWithUsers, UserActiveCheckbox, UserListWithChatID, UserType } from '@/types/app';
 import type { ListOfMenus, MenuData, StartSides, TelegramParams } from '@backend/types/types';
 import { isStartside } from '@backend/lib/appUtils';
-import { backMenuFunc } from '@backend/app/backMenu';
 import { jsonString } from '@backend/lib/string';
 import { sendToTelegram } from '@backend/app/telegram';
+import { backMenuRegistry } from '@backend/app/backMenu';
 
 function isUserActive(telegramParams: TelegramParams, userToSend: UserType): UserListWithChatID | undefined {
     return telegramParams.userListWithChatID.find(
@@ -34,7 +34,11 @@ export async function adapterStartMenuSend(
                     if (!user) {
                         continue;
                     }
-                    backMenuFunc({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
+                    backMenuRegistry.backMenuFunc({
+                        activePage: startSide,
+                        navigation: nav,
+                        userToSend: userToSend.name,
+                    });
 
                     adapter.log.debug(`User list: ${jsonString(telegramParams.userListWithChatID)}`);
                     const params = { ...telegramParams };

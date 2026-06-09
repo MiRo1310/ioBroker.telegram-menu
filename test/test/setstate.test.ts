@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { utils } from '@iobroker/testing';
 import type { Adapter, Part } from '@backend/types/types';
-import { handleSetState } from '@backend/app/setstate';
+import { handleSetState, setstateIobroker } from '@backend/app/setstate';
 import { telegramParams } from '../fixtures/telegramParams';
 import { stateIdRegistry } from '@backend/app/stateIdRegistry';
 
@@ -374,5 +374,97 @@ describe('Setstate', () => {
         } as Part;
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
         expect(result).to.be.undefined;
+    });
+
+    it('should use false when toggle state is null (line 207 false branch)', async () => {
+        // 'test.0.not-published' is not in the database → getForeignStateAsync returns null
+        // This covers the `state ? !state.val : false` false branch (state=null → newValue=false)
+        const part = {
+            switch: [
+                {
+                    id: 'test.0.not-published',
+                    toggle: true,
+                    confirm: true,
+                    returnText: 'Toggled: &&',
+                    value: '',
+                    ack: false,
+                    parse_mode: false,
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        // newValue=false (null toggle) → text should show 'false'
+        expect(result?.textToSend).to.include('false');
+    });
+
+    it('should keep valueToTelegram unchanged when useForeignId state is null (line 220 false branch)', async () => {
+        const localAdapter = {
+            log: { debug: sinon.stub(), error: sinon.stub(), warn: sinon.stub() },
+            getForeignStateAsync: sinon.stub().resolves(null),
+            setForeignStateAsync: sinon.stub().resolves(),
+            getForeignObjectAsync: sinon.stub().resolves({ common: { type: 'string' } }),
+            supportsFeature: sinon.stub().returns(false),
+            subscribeForeignStates: sinon.stub().resolves(),
+        };
+        const part = {
+            switch: [
+                {
+                    id: 'some.state',
+                    toggle: false,
+                    confirm: false,
+                    ack: false,
+                    returnText: '{"foreignId":"some.foreign.id","text":"value: &&"}',
+                    value: 'newVal',
+                    parse_mode: false,
+                },
+            ],
+        } as Part;
+        const result = await handleSetState(
+            localAdapter as any,
+            'telegram.0',
+            part,
+            'user',
+            null,
+            { adapter: localAdapter } as any,
+        );
+        // useForeignId=true, getForeignStateAsync returns null → false branch at line 220
+        expect(result).to.be.undefined;
+    });
+
+    it('should catch error in setstateIobroker when setForeignStateAsync throws (line 74)', async () => {
+        const errorAdapter = {
+            log: { debug: sinon.stub(), error: sinon.stub() },
+            getForeignObjectAsync: sinon.stub().resolves({ common: { type: 'string' } }),
+            setForeignStateAsync: sinon.stub().rejects(new Error('set failed')),
+            supportsFeature: sinon.stub().returns(false),
+        };
+        await setstateIobroker({ adapter: errorAdapter as any, id: 'test.state', value: 'val', ack: false });
+        expect(errorAdapter.log.error.called).to.be.true;
+    });
+
+    it('should catch error in handleSetState when getForeignStateAsync throws (line 236)', async () => {
+        const errorAdapter = {
+            log: { debug: sinon.stub(), error: sinon.stub() },
+            getForeignStateAsync: sinon.stub().rejects(new Error('get failed')),
+            setForeignStateAsync: sinon.stub().resolves(),
+            getForeignObjectAsync: sinon.stub().resolves({ common: { type: 'string' } }),
+            supportsFeature: sinon.stub().returns(false),
+            subscribeForeignStates: sinon.stub().resolves(),
+        };
+        const part = {
+            switch: [
+                {
+                    id: 'toggle.state',
+                    toggle: true,
+                    confirm: false,
+                    ack: false,
+                    returnText: '',
+                    value: '',
+                    parse_mode: false,
+                },
+            ],
+        } as Part;
+        await handleSetState(errorAdapter as any, 'telegram.0', part, 'user', null, { adapter: errorAdapter } as any);
+        expect(errorAdapter.log.error.called).to.be.true;
     });
 });

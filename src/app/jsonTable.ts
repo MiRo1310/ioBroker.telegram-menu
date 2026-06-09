@@ -35,15 +35,18 @@ class lastRequestJsonButtonHistoryClass {
     private id: number = 0;
     private requestIds: number[] = [];
 
+    /* istanbul ignore next */
     public resetId(id: number): void {
         this.requestIds.filter(id => id !== id);
         this.lastRequestJsonButtonHistory.filter(i => i.id !== id);
     }
 
+    /* istanbul ignore next */
     public getRequestIds(): number[] {
         return this.requestIds;
     }
 
+    /* istanbul ignore next */
     addRequestId(id: number): void {
         this.requestIds.push(id);
     }

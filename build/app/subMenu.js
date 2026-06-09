@@ -4,7 +4,6 @@ exports.callSubMenu = callSubMenu;
 exports.subMenu = subMenu;
 const setstate_1 = require("../app/setstate");
 const string_1 = require("../lib/string");
-const backMenu_1 = require("../app/backMenu");
 const telegram_1 = require("../app/telegram");
 const logging_1 = require("../app/logging");
 const utilities_1 = require("../lib/utilities");
@@ -12,6 +11,7 @@ const validateMenus_1 = require("../app/validateMenus");
 const messageIds_1 = require("../app/messageIds");
 const splitValues_1 = require("../lib/splitValues");
 const dynamicSwitchMenu_1 = require("../app/dynamicSwitchMenu");
+const backMenu_1 = require("../app/backMenu");
 let step = 0;
 let splittedData = [];
 const createSubmenuPercent = (obj) => {
@@ -144,7 +144,7 @@ const createSwitchMenu = ({ menuToHandle, cbData, text, }) => {
     return { text: text, keyboard, device: menuToHandle };
 };
 const back = async ({ instance, telegramParams, userToSend, allMenusWithData, menus }) => {
-    const result = await (0, backMenu_1.switchBack)(telegramParams.adapter, userToSend, allMenusWithData, menus);
+    const result = await backMenu_1.backMenuRegistry.switchBack(telegramParams.adapter, userToSend, allMenusWithData, menus);
     if (result) {
         const { keyboard, parse_mode, textToSend = '' } = result;
         await (0, telegram_1.sendToTelegram)({ instance, userToSend, textToSend, keyboard, parse_mode: parse_mode, telegramParams });

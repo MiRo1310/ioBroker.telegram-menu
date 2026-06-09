@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleEvent = exports.toBoolean = exports.getInstancesFromEventsById = exports.getInstances = void 0;
 exports.checkCondition = checkCondition;
-const backMenu_1 = require("../app/backMenu");
 const subMenu_1 = require("../app/subMenu");
 const sendNav_1 = require("../app/sendNav");
 const utils_1 = require("../lib/utils");
+const backMenu_1 = require("../app/backMenu");
 /**
  * Get all instances from the provided menus
  *
@@ -127,7 +127,7 @@ const handleEvent = async (adapter, user, dataObject, id, state, menuData, teleg
         const part = menuData[menu][calledNav];
         const menus = Object.keys(menuData);
         if (part && part?.nav) {
-            (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
+            backMenu_1.backMenuRegistry.backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
         }
         if (part && part?.nav?.[0][0].includes('menu:')) {
             await (0, subMenu_1.callSubMenu)({

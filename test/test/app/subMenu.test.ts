@@ -23,7 +23,7 @@ describe('subMenu', () => {
         sendToTelegramStub = sinon.stub(require('@backend/app/telegram'), 'sendToTelegram').resolves();
         sendToTelegramSubmenuStub = sinon.stub(require('@backend/app/telegram'), 'sendToTelegramSubmenu').resolves();
         handleSetStateStub = sinon.stub(require('@backend/app/setstate'), 'handleSetState').resolves();
-        switchBackStub = sinon.stub(require('@backend/app/backMenu'), 'switchBack').resolves(undefined);
+        switchBackStub = sinon.stub(require('@backend/app/backMenu').backMenuRegistry, 'switchBack').resolves(undefined);
         deleteMessageIdsStub = sinon.stub(require('@backend/app/messageIds'), 'deleteMessageIds').resolves();
     });
 
@@ -138,6 +138,61 @@ describe('subMenu', () => {
             handleSetStateStub.rejects(new Error('boom'));
             await subMenu(baseArgs('menu:first:device1'));
             expect(adapterMock.log.error.called).to.be.true;
+        });
+
+        it('should add 0% button when step does not divide evenly into 100', async () => {
+            // step=30: loop hits i=10, i-step=-20<0 → extra 0% button added
+            const result = await subMenu(baseArgs('menu:percent30:device1'));
+            expect(result).to.not.be.undefined;
+            const allButtons = result?.keyboard?.inline_keyboard?.flat() ?? [];
+            const zeroButton = allButtons.find(b => b.text === '0%');
+            expect(zeroButton).to.not.be.undefined;
+        });
+
+        it('should create number submenu with descending order (first > second)', async () => {
+            // firstValueInText=10 > secondValueInText=1 → else branch (lines 129-130)
+            const result = await subMenu(baseArgs('menu:number10-1-1-°C:device1'));
+            expect(result).to.not.be.undefined;
+            expect(result?.keyboard?.inline_keyboard).to.be.an('array');
+            expect(result?.keyboard?.inline_keyboard!.length).to.be.greaterThan(0);
+        });
+
+        it('should use 6 entries per row when step < 1', async () => {
+            // step=0.5 < 1 → maxEntriesPerRow=6 instead of 8 (line 139)
+            const result = await subMenu(baseArgs('menu:number1-10-0.5-°C:device1'));
+            expect(result).to.not.be.undefined;
+            expect(result?.keyboard?.inline_keyboard).to.be.an('array');
+            // 19 entries with maxEntriesPerRow=6: 3 full rows + 1 partial = 4 rows
+            expect(result?.keyboard?.inline_keyboard!.length).to.equal(4);
+        });
+
+        it('should call createDynamicSwitchMenu for dynSwitch cbData (line 300)', async () => {
+            const result = await subMenu(baseArgs('menu:dynSwitch:device1'));
+            expect(result).to.not.be.undefined;
+            expect(result?.keyboard).to.not.be.undefined;
+        });
+
+        it('should call handleSetState for dynS value (line 304)', async () => {
+            // cbData='dynS.x' contains 'dynS' but not 'dynSwitch' → isSetDynamicSwitchVal
+            await subMenu(baseArgs('menu:dynS.x:device1:42'));
+            expect(handleSetStateStub.calledOnce).to.be.true;
+        });
+
+        it('should return early in setMenuValue when splittedData item is missing (line 82)', async () => {
+            // Set splittedData to only 2 entries (index 0 and 1, no index 2)
+            await subMenu(baseArgs('menu:switch-On.true:device1'));
+            handleSetStateStub.resetHistory();
+            // menu:second uses menuNumber:2, splittedData[2] is undefined → early return
+            await subMenu(baseArgs('menu:second:device1'));
+            expect(handleSetStateStub.called).to.be.false;
+        });
+
+        it('should return early in setMenuValue when val part is undefined (line 87)', async () => {
+            // 'On' has no dot → split('.')[1] is undefined → val===undefined → early return
+            await subMenu(baseArgs('menu:switch-On-Off.false:device1'));
+            handleSetStateStub.resetHistory();
+            await subMenu(baseArgs('menu:first:device1'));
+            expect(handleSetStateStub.called).to.be.false;
         });
     });
 

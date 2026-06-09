@@ -1,9 +1,9 @@
 import type { Actions, Adapter, DataObject, MenuData, Part, TelegramParams } from '../types/types';
 import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
-import { backMenuFunc } from '@backend/app/backMenu';
 import { callSubMenu } from '@backend/app/subMenu';
 import { sendNav } from '@backend/app/sendNav';
 import { isDefined } from '@backend/lib/utils';
+import { backMenuRegistry } from '@backend/app/backMenu';
 
 interface EventParams {
     isEvent: boolean;
@@ -156,7 +156,7 @@ export const handleEvent = async (
         const menus = Object.keys(menuData);
 
         if (part && part?.nav) {
-            backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
+            backMenuRegistry.backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
         }
 
         if (part && part?.nav?.[0][0].includes('menu:')) {

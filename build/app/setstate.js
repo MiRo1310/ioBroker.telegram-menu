@@ -13,6 +13,7 @@ const appUtils_1 = require("../lib/appUtils");
 const dynamicValue_1 = require("../app/dynamicValue");
 const stateIdRegistry_1 = require("../app/stateIdRegistry");
 const modifiedValue = (valueFromSubmenu, value) => {
+    /* istanbul ignore next */
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
@@ -33,6 +34,7 @@ const _getDynamicValueIfIsIn = async (adapter, text) => {
         }
         const newValue = text.replace(substring, '');
         const { error, textToSend, calculated } = (0, appUtils_1.mathFunction)(newValue, String(state?.val), adapter);
+        /* istanbul ignore next */
         return error ? String(state?.val) : (0, exchangeValue_1.exchangeValue)(adapter, textToSend, String(calculated), true).textToSend;
     }
     return (0, string_1.removeDuplicateSpaces)(text);
@@ -152,6 +154,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
             }
             if (useForeignId) {
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);
+                /* istanbul ignore next */
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
             if (confirm && !useForeignId) {

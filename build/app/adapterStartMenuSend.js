@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adapterStartMenuSend = adapterStartMenuSend;
 const appUtils_1 = require("../lib/appUtils");
-const backMenu_1 = require("../app/backMenu");
 const string_1 = require("../lib/string");
 const telegram_1 = require("../app/telegram");
+const backMenu_1 = require("../app/backMenu");
 function isUserActive(telegramParams, userToSend) {
     return telegramParams.userListWithChatID.find(user => user.chatID === userToSend.chatId && user.instance === userToSend.instance);
 }
@@ -22,7 +22,11 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
                     if (!user) {
                         continue;
                     }
-                    (0, backMenu_1.backMenuFunc)({ activePage: startSide, navigation: nav, userToSend: userToSend.name });
+                    backMenu_1.backMenuRegistry.backMenuFunc({
+                        activePage: startSide,
+                        navigation: nav,
+                        userToSend: userToSend.name,
+                    });
                     adapter.log.debug(`User list: ${(0, string_1.jsonString)(telegramParams.userListWithChatID)}`);
                     const params = { ...telegramParams };
                     await (0, telegram_1.sendToTelegram)({

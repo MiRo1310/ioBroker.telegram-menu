@@ -82,7 +82,7 @@ class TelegramMenu extends utils.Adapter {
         try {
             await this.setState('info.connection', false, true);
             await (0, createState_1.createState)(this);
-            this.configVariables = (0, configVariables_1.getConfigVariables)(this.configVariables, this);
+            this.configVariables = (0, configVariables_1.getConfigVariables)(this.config, this);
             const startSides = (0, appUtils_1.getStartSides)(this.configVariables.menusWithUsers, this.configVariables.dataObject);
             if (!(await this.checkTelegramConnections())) {
                 return;

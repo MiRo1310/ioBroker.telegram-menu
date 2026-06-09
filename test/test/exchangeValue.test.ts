@@ -48,4 +48,24 @@ describe('exchangeValue', () => {
         // change map is not applied; && is still replaced with the raw value
         expect(result.textToSend).to.equal('true change{"true":"AN"}');
     });
+
+    it('should use empty string for newValue when val is null in error case (line 42 ?? branch)', () => {
+        const result = exchangeValue(adapterMock, '&& change{INVALID}', null);
+        expect(result.error).to.be.true;
+        expect(result.newValue).to.equal('');
+    });
+
+    it('should not insert value when {novalue} present without change map (line 44 insertValue=false branch)', () => {
+        const result = exchangeValue(adapterMock, 'Text {novalue}', '42');
+        expect(result.error).to.be.false;
+        // {novalue} removed, && placeholder absent → value not appended
+        expect(result.textToSend).to.equal('Text');
+        expect(result.newValue).to.equal('42');
+    });
+
+    it('should use empty string for newValue when val is undefined (line 48 ?? branch)', () => {
+        const result = exchangeValue(adapterMock, 'Wert: &&', undefined);
+        expect(result.error).to.be.false;
+        expect(result.newValue).to.equal('');
+    });
 });
