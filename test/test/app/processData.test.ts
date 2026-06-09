@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { checkEveryMenuForData, getTimeouts } from '@backend/app/processData';
+import { MenuProcessor } from '@backend/app/processData';
 import { dynamicValue } from '@backend/app/dynamicValue';
 import type { MenuData, TelegramParams } from '@backend/types/types';
+import type { UserActiveCheckbox } from '@/types/app';
 
 describe('processData', () => {
     let adapterMock: any;
@@ -30,19 +31,19 @@ describe('processData', () => {
         };
         telegramParams = { adapter: adapterMock } as any;
 
-        sendToTelegramStub = sinon.stub(require('@backend/app/telegram'), 'sendToTelegram').resolves();
-        sinon.stub(require('@backend/app/telegram'), 'sendLocationToTelegram').resolves();
-        sendLocationStub = require('@backend/app/telegram').sendLocationToTelegram;
-        sendNavStub = sinon.stub(require('@backend/app/sendNav'), 'sendNav').resolves();
-        handleSetStateStub = sinon.stub(require('@backend/app/setstate'), 'handleSetState').resolves();
-        setstateIobrokerStub = sinon.stub(require('@backend/app/setstate'), 'setstateIobroker').resolves();
-        exchangeValueStub = sinon.stub(require('@backend/app/setstate'), 'exchangeValueAndSendToTelegram').resolves();
-        getStateStub = sinon.stub(require('@backend/app/getstate'), 'getState').resolves();
-        sendPicStub = sinon.stub(require('@backend/app/sendpic'), 'sendPic').returns([]);
-        getChartStub = sinon.stub(require('@backend/app/echarts'), 'getChart');
-        httpRequestStub = sinon.stub(require('@backend/app/httpRequest'), 'httpRequest').resolves(true);
-        callSubMenuStub = sinon.stub(require('@backend/app/subMenu'), 'callSubMenu').resolves({});
-        switchBackStub = sinon.stub(require('@backend/app/backMenu'), 'switchBack').resolves(undefined);
+        sendToTelegramStub = sinon.stub(require('../../../src/app/telegram'), 'sendToTelegram').resolves();
+        sinon.stub(require('../../../src/app/telegram'), 'sendLocationToTelegram').resolves();
+        sendLocationStub = require('../../../src/app/telegram').sendLocationToTelegram;
+        sendNavStub = sinon.stub(require('../../../src/app/sendNav'), 'sendNav').resolves();
+        handleSetStateStub = sinon.stub(require('../../../src/app/setstate'), 'handleSetState').resolves();
+        setstateIobrokerStub = sinon.stub(require('../../../src/app/setstate'), 'setstateIobroker').resolves();
+        exchangeValueStub = sinon.stub(require('../../../src/app/setstate'), 'exchangeValueAndSendToTelegram').resolves();
+        getStateStub = sinon.stub(require('../../../src/app/getstate'), 'getState').resolves();
+        sendPicStub = sinon.stub(require('../../../src/app/sendpic'), 'sendPic').returns([]);
+        getChartStub = sinon.stub(require('../../../src/app/echarts'), 'getChart');
+        httpRequestStub = sinon.stub(require('../../../src/app/httpRequest'), 'httpRequest').resolves(true);
+        callSubMenuStub = sinon.stub(require('../../../src/app/subMenu'), 'callSubMenu').resolves({});
+        switchBackStub = sinon.stub(require('../../../src/app/backMenu'), 'switchBack').resolves(undefined);
     });
 
     afterEach(() => {
@@ -58,20 +59,35 @@ describe('processData', () => {
         } as any;
     }
 
-    function callCheck(navToGoTo: string, menuData?: MenuData, extra?: any) {
-        return checkEveryMenuForData({
-            instance: 'telegram.0',
-            menuData: menuData ?? makeMenuData(),
+    function makeProcessor(
+        navToGoTo: string,
+        menuData?: MenuData,
+        extra?: Partial<{
+            menus: string[];
+            isUserActiveCheckbox: UserActiveCheckbox;
+            token: string;
+            directoryPicture: string;
+            timeoutKey: string;
+            userToSend: string;
+            instance: string;
+        }>,
+    ): MenuProcessor {
+        return new MenuProcessor(
+            menuData ?? makeMenuData(),
             navToGoTo,
-            userToSend: 'Alice',
+            extra?.menus ?? ['menu1'],
+            extra?.isUserActiveCheckbox ?? { menu1: true },
+            extra?.token ?? 'tok',
+            extra?.directoryPicture ?? '/pics/',
+            extra?.timeoutKey ?? 'key',
+            extra?.userToSend ?? 'Alice',
             telegramParams,
-            menus: ['menu1'],
-            isUserActiveCheckbox: { menu1: true },
-            token: 'tok',
-            directoryPicture: '/pics/',
-            timeoutKey: 'key',
-            ...extra,
-        });
+            extra?.instance ?? 'telegram.0',
+        );
+    }
+
+    function callCheck(navToGoTo: string, menuData?: MenuData, extra?: any): Promise<boolean> {
+        return makeProcessor(navToGoTo, menuData, extra).checkEveryMenuForData();
     }
 
     // ─── checkEveryMenuForData ──────────────────────────────────────────────
@@ -196,7 +212,6 @@ describe('processData', () => {
         });
 
         it('should set state and send confirmation when dynamicValue is set', async () => {
-            // Pre-set a dynamic value for the user
             sendToTelegramStub.resolves();
             await dynamicValue.setValue(
                 'telegram.0',
@@ -229,7 +244,6 @@ describe('processData', () => {
 
             const result = await callCheck('notANumber');
             expect(result).to.be.true;
-            // adjustValueType returns false for non-numeric → sendToTelegram with wrong type msg
             expect(sendToTelegramStub.called).to.be.true;
         });
     });
@@ -255,7 +269,6 @@ describe('processData', () => {
                     page1: { text: 'Hello', nav: [['menu:menu1:page1']], parse_mode: false },
                 },
             };
-            // First call returns newNav, second call returns nothing
             callSubMenuStub.onFirstCall().resolves({ newNav: 'page1' });
             callSubMenuStub.onSecondCall().resolves({});
             const result = await callCheck('page1', md);
@@ -278,8 +291,21 @@ describe('processData', () => {
 
     describe('getTimeouts', () => {
         it('should return the timeouts array', () => {
-            const result = getTimeouts();
+            const processor = makeProcessor('page1');
+            const result = processor.getTimeouts();
             expect(result).to.be.an('array');
+        });
+
+        it('should accumulate timeouts from sendPic', async () => {
+            sendPicStub.returns([{ timeout: 123, id: 'abc' }]);
+            const md: any = {
+                menu1: {
+                    btnPic: { sendPic: [{ id: 'http://cam/snap', delay: 0, fileName: 'pic.jpg' }] },
+                },
+            };
+            const processor = makeProcessor('btnPic', md);
+            await processor.checkEveryMenuForData();
+            expect(processor.getTimeouts()).to.deep.equal([{ timeout: 123, id: 'abc' }]);
         });
     });
 
@@ -289,7 +315,6 @@ describe('processData', () => {
         it('should catch errors and return false from checkEveryMenuForData', async () => {
             sendNavStub.rejects(new Error('boom'));
             const result = await callCheck('page1');
-            // processData catches the error → returns undefined → checkEveryMenuForData sees falsy → returns false
             expect(result).to.be.false;
             expect(adapterMock.log.error.called).to.be.true;
         });

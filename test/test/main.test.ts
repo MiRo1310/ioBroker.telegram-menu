@@ -170,27 +170,26 @@ describe('main (TelegramMenu)', () => {
 
     describe('onUnload', () => {
         it('should call callback', () => {
-            // Stub getTimeouts to return empty array
-            sinon.stub(require('@backend/app/processData'), 'getTimeouts').returns([]);
+            instance['menuProcessor'] = undefined;
             const callback = sinon.stub();
             instance['onUnload'](callback);
             expect(callback.calledOnce).to.be.true;
-            sinon.restore();
         });
 
         it('should clear all timeouts', () => {
             const timeout1 = {} as any;
             const timeout2 = {} as any;
-            sinon.stub(require('@backend/app/processData'), 'getTimeouts').returns([
-                { key: 'k1', timeout: timeout1 },
-                { key: 'k2', timeout: timeout2 },
-            ]);
+            instance['menuProcessor'] = {
+                getTimeouts: () => [
+                    { key: 'k1', timeout: timeout1 },
+                    { key: 'k2', timeout: timeout2 },
+                ],
+            } as any;
             const callback = sinon.stub();
             instance['onUnload'](callback);
             expect(instance.clearTimeout.calledWith(timeout1)).to.be.true;
             expect(instance.clearTimeout.calledWith(timeout2)).to.be.true;
             expect(callback.calledOnce).to.be.true;
-            sinon.restore();
         });
     });
 

@@ -26,7 +26,7 @@ describe('Setstate', () => {
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
         expect(result).to.be.undefined;
-        const list = getStateIdsToListenTo();
+        const list = stateIdRegistry.getIds();
         expect(list.some(el => el.id === 'test.0.test' && el.returnText === 'Der Wert wurde auf && °C gesetzt')).to.be.true;
     });
 
@@ -45,7 +45,7 @@ describe('Setstate', () => {
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
         expect(result).to.be.undefined;
-        const list = getStateIdsToListenTo();
+        const list = stateIdRegistry.getIds();
         expect(list.some(el => el.id === 'test.0.test')).to.be.true;
     });
 
@@ -63,7 +63,7 @@ describe('Setstate', () => {
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
         expect(result).to.be.undefined;
-        const list = getStateIdsToListenTo();
+        const list = stateIdRegistry.getIds();
         expect(list.some(el => el.id === 'test.0.test')).to.be.true;
     });
 
@@ -357,7 +357,7 @@ describe('Setstate', () => {
 
             await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-            const listAfter = getStateIdsToListenTo();
+            const listAfter = stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === 'test.0.double-send-foreign-listener' && el.confirm === true)).to.be.true;
         });
     });

@@ -13,7 +13,6 @@ import { sendToTelegram } from '@backend/app/telegram';
 import { createState } from '@backend/app/createState';
 import { saveMessageIds } from '@backend/app/messageIds';
 import { adapterStartMenuSend } from '@backend/app/adapterStartMenuSend';
-import { checkEveryMenuForData, getTimeouts } from '@backend/app/processData';
 import {
     deleteMessageAndSendNewShoppingList,
     shoppingListSubscribeStateAndDeleteItem,
@@ -37,6 +36,7 @@ import { getInstancesFromEventsById, handleEvent } from '@backend/app/events';
 import { findDeprecatedAndLog } from '@backend/app/deprecated';
 import { lastRequestJsonButtonHistory } from '@backend/app/jsonTable';
 import { stateIdRegistry } from '@backend/app/stateIdRegistry';
+import { MenuProcessor } from '@backend/app/processData';
 
 export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;
@@ -45,6 +45,7 @@ export default class TelegramMenu extends utils.Adapter {
     private configVariables!: ReturnType<typeof getConfigVariables>;
     private timeoutKey = '0';
     private menus: string[] = [];
+    private menuProcessor: MenuProcessor | undefined = undefined;
 
     /**
      * @param [options] - Adapter options
@@ -182,19 +183,19 @@ export default class TelegramMenu extends utils.Adapter {
 
             const calledValue = value.slice(value.indexOf(']') + 1, value.length);
             this.menus = getListOfMenusIncludingUser(this.configVariables.menusWithUsers, userToSend.name);
-
-            const dataFound = await checkEveryMenuForData({
+            this.menuProcessor = new MenuProcessor(
+                this.menuData,
+                calledValue,
+                this.menus,
+                this.configVariables.isUserActiveCheckbox,
+                this.configVariables.token,
+                this.configVariables.directoryPicture,
+                this.timeoutKey,
+                userToSend.name,
+                this.configVariables.telegramParams,
                 instance,
-                menuData: this.menuData,
-                navToGoTo: calledValue,
-                userToSend: userToSend.name,
-                telegramParams: this.configVariables.telegramParams,
-                menus: this.menus,
-                isUserActiveCheckbox: this.configVariables.isUserActiveCheckbox,
-                token: this.configVariables.token,
-                directoryPicture: this.configVariables.directoryPicture,
-                timeoutKey: this.timeoutKey,
-            });
+            );
+            const dataFound = await this.menuProcessor.checkEveryMenuForData();
 
             this.log.debug(`Groups with searched User: ${jsonString(this.menus)}`);
 
@@ -457,10 +458,10 @@ export default class TelegramMenu extends utils.Adapter {
      * @param callback - Is called when adapter has closed all connections and released all resources
      */
     private onUnload(callback: () => void): void {
-        const timeouts = getTimeouts();
+        const timeouts = this.menuProcessor?.getTimeouts();
         try {
             // Here you must clear all timeouts or intervals that may still be active
-            timeouts.forEach(({ timeout }) => {
+            timeouts?.forEach(({ timeout }) => {
                 this.clearTimeout(timeout);
             });
 
