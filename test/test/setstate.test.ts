@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { utils } from '@iobroker/testing';
 import type { Adapter, Part } from '@backend/types/types';
@@ -12,7 +13,7 @@ const mockAdapter = adapter as unknown as Adapter;
 database.publishState('test.0.test', { val: '0', ack: true });
 
 describe('Setstate', () => {
-    it('should return correct value with foreignId object', async () => {
+    it('should NOT send immediately for foreignId — registers listener instead', async () => {
         const part = {
             switch: [
                 {
@@ -24,11 +25,12 @@ describe('Setstate', () => {
         } as Part;
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-        expect(result?.instance).to.deep.equal('telegram.0');
-        expect(result?.textToSend).to.deep.equal('Der Wert wurde auf 0 °C gesetzt');
+        expect(result).to.be.undefined;
+        const list = getStateIdsToListenTo();
+        expect(list.some(el => el.id === 'test.0.test' && el.returnText === 'Der Wert wurde auf && °C gesetzt')).to.be.true;
     });
 
-    it('should return correct value with foreignId object and change', async () => {
+    it('should NOT send immediately for foreignId with change', async () => {
         const part = {
             switch: [
                 {
@@ -42,11 +44,12 @@ describe('Setstate', () => {
 
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-        expect(result?.instance).to.deep.equal('telegram.0');
-        expect(result?.textToSend).to.deep.equal('Warmwasser neuer Zustand ist: EIN');
+        expect(result).to.be.undefined;
+        const list = getStateIdsToListenTo();
+        expect(list.some(el => el.id === 'test.0.test')).to.be.true;
     });
 
-    it('should return correct value with foreignId object and change, without &&', async () => {
+    it('should NOT send immediately for foreignId with change, without &&', async () => {
         const part = {
             switch: [
                 {
@@ -59,8 +62,9 @@ describe('Setstate', () => {
         } as Part;
         const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
 
-        expect(result?.instance).to.deep.equal('telegram.0');
-        expect(result?.textToSend).to.deep.equal('Warmwasser neuer Zustand ist: EIN');
+        expect(result).to.be.undefined;
+        const list = getStateIdsToListenTo();
+        expect(list.some(el => el.id === 'test.0.test')).to.be.true;
     });
 
     it('should return correct value with id object with &&', async () => {
@@ -294,6 +298,67 @@ describe('Setstate', () => {
 
             const listAfter = getStateIdsToListenTo();
             expect(listAfter.some(el => el.id === watchId && el.confirm === true)).to.be.true;
+        });
+    });
+
+    describe('Double-send bug: useForeignId=true + confirm=true sendet zweimal', () => {
+        afterEach(() => sinon.restore());
+
+        it('should NOT call sendToTelegram immediately when useForeignId=true (only listener should send)', async () => {
+            // Bug: für foreignId-Pfad werden BEIDE Pfade ausgeführt:
+            // 1. addSetStateIds registriert Listener mit confirm=true
+            // 2. exchangeValueAndSendToTelegram sendet sofort (weil confirm=true)
+            // → Wenn die foreignId-State mit ack=true kommt, sendet der Listener nochmals → Doppel-Send
+            // Fix: if (confirm && !useForeignId) statt if (confirm) in Zeile 223
+            const telegramSpy = sinon.spy(require('../../src/app/telegram'), 'sendToTelegram');
+
+            database.publishState('test.0.double-send-foreign', { val: '5', ack: true });
+
+            const part = {
+                switch: [
+                    {
+                        id: 'test.0',
+                        confirm: true,
+                        returnText: '{"foreignId":"test.0.double-send-foreign","text":"Wert ist: &&"}',
+                        value: '10',
+                        ack: false,
+                        parse_mode: false,
+                        toggle: false,
+                    },
+                ],
+            } as Part;
+
+            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+            // Nach dem Fix: 0 sofortige Sends — der Listener sendet später wenn foreignId ack=true bekommt
+            // Aktuell (Bug): 1 sofortiger Send über exchangeValueAndSendToTelegram
+            expect(telegramSpy.callCount).to.equal(0);
+        });
+
+        it('should register listener for foreignId so it sends when state is acknowledged', async () => {
+            sinon.stub(require('../../src/app/telegram'), 'sendToTelegram').resolves();
+
+            database.publishState('test.0.double-send-foreign-listener', { val: '5', ack: true });
+
+            const part = {
+                switch: [
+                    {
+                        id: 'test.0',
+                        confirm: true,
+                        returnText:
+                            '{"foreignId":"test.0.double-send-foreign-listener","text":"Wert ist: &&"}',
+                        value: '10',
+                        ack: false,
+                        parse_mode: false,
+                        toggle: false,
+                    },
+                ],
+            } as Part;
+
+            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+
+            const listAfter = getStateIdsToListenTo();
+            expect(listAfter.some(el => el.id === 'test.0.double-send-foreign-listener' && el.confirm === true)).to.be.true;
         });
     });
 
