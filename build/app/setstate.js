@@ -154,7 +154,7 @@ const handleSetState = async (adapter, instance, part, userToSend, valueFromSubm
                 const state = await adapter.getForeignStateAsync(idToGetValueFrom);
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
-            if (confirm) {
+            if (confirm && !useForeignId) {
                 return await exchangeValueAndSendToTelegram(adapter, returnText, valueToTelegram, instance, userToSend, telegramParams, parse_mode);
             }
         }

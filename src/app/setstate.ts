@@ -220,7 +220,7 @@ export const handleSetState = async (
                 valueToTelegram = state ? state.val : valueToTelegram;
             }
 
-            if (confirm) {
+            if (confirm && !useForeignId) {
                 return await exchangeValueAndSendToTelegram(
                     adapter,
                     returnText,
