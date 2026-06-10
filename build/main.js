@@ -76,9 +76,9 @@ class TelegramMenu extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('unload', this.onUnload.bind(this));
         TelegramMenu.instance = this;
-        this.appContext = new appContext_1.AppContext(this);
     }
     async onReady() {
+        this.appContext = new appContext_1.AppContext(this);
         try {
             await this.setState('info.connection', false, true);
             await (0, createState_1.createState)(this);

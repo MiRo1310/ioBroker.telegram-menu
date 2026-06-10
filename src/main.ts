@@ -42,7 +42,7 @@ export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;
 
     private menuData: MenuData = {};
-    private appContext: AppContext;
+    private appContext!: AppContext;
     private timeoutKey = '0';
     private menus: string[] = [];
     private menuProcessor: MenuProcessor | undefined = undefined;
@@ -58,10 +58,10 @@ export default class TelegramMenu extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('unload', this.onUnload.bind(this));
         TelegramMenu.instance = this;
-        this.appContext = new AppContext(this);
     }
 
     private async onReady(): Promise<void> {
+        this.appContext = new AppContext(this);
         try {
             await this.setState('info.connection', false, true);
             await createState(this);
