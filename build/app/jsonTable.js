@@ -50,7 +50,7 @@ const addHeader = (json) => {
     });
     return keyboard;
 };
-const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
+const createKeyboardFromJson = (appContext, val, text, id, user, instance) => {
     try {
         if (text) {
             exports.jsonTableButtonHistory[user] = text;
@@ -61,10 +61,10 @@ const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
         const requestId = exports.lastRequestJsonButtonHistory.setData(text, instance, user);
         const { json: parsedJsonUserInput, isValidJson: validJsonUserInput } = (0, string_1.parseJSON)(text);
         if (!validJsonUserInput) {
-            adapter.log.warn(`No valid Json, ${text}`);
+            appContext.adapter.log.warn(`No valid Json, ${text}`);
             return;
         }
-        const { json, isValidJson } = (0, string_1.parseJSON)(val, adapter);
+        const { json, isValidJson } = (0, string_1.parseJSON)(val, appContext.adapter);
         if (!isValidJson) {
             return;
         }
@@ -97,11 +97,11 @@ const createKeyboardFromJson = (adapter, val, text, id, user, instance) => {
             });
             keyboard.inline_keyboard.push(rowArray);
         });
-        adapter.log.debug(`Keyboard : ${(0, string_1.jsonString)(keyboard)}`);
+        appContext.adapter.log.debug(`Keyboard : ${(0, string_1.jsonString)(keyboard)}`);
         return { text: parsedJsonUserInput.tableLabel ?? 'List', keyboard };
     }
     catch (err) {
-        (0, logging_1.errorLogger)('Error createKeyboardFromJson:', err, adapter);
+        (0, logging_1.errorLogger)('Error createKeyboardFromJson:', err, appContext.adapter);
     }
 };
 exports.createKeyboardFromJson = createKeyboardFromJson;

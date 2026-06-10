@@ -133,33 +133,24 @@ describe('main (TelegramMenu)', () => {
     describe('getChatIDAndUserToSend', () => {
         it('should return error when chatID state is null', async () => {
             instance.getForeignStateAsync.resolves(null);
-            const telegramParams = {
-                adapter: instance,
-                userListWithChatID: [{ name: 'Alice', chatID: '123' }],
-            } as any;
-            const result = await instance['getChatIDAndUserToSend'](telegramParams, 'telegram.0');
+            const storeArg = { userListWithChatID: [{ name: 'Alice', chatID: '123' }] };
+            const result = await instance['getChatIDAndUserToSend'](storeArg, 'telegram.0');
             expect(result.error).to.be.true;
             expect(result.errorMessage).to.include('ChatId');
         });
 
         it('should return error when user is not found in list', async () => {
             instance.getForeignStateAsync.resolves({ val: '999' });
-            const telegramParams = {
-                adapter: instance,
-                userListWithChatID: [{ name: 'Alice', chatID: '123' }],
-            } as any;
-            const result = await instance['getChatIDAndUserToSend'](telegramParams, 'telegram.0');
+            const storeArg = { userListWithChatID: [{ name: 'Alice', chatID: '123' }] };
+            const result = await instance['getChatIDAndUserToSend'](storeArg, 'telegram.0');
             expect(result.error).to.be.true;
             expect(result.errorMessage).to.include('User');
         });
 
         it('should return user when chatID matches', async () => {
             instance.getForeignStateAsync.resolves({ val: '123' });
-            const telegramParams = {
-                adapter: instance,
-                userListWithChatID: [{ name: 'Alice', chatID: '123' }],
-            } as any;
-            const result = await instance['getChatIDAndUserToSend'](telegramParams, 'telegram.0');
+            const storeArg = { userListWithChatID: [{ name: 'Alice', chatID: '123' }] };
+            const result = await instance['getChatIDAndUserToSend'](storeArg, 'telegram.0');
             expect(result.error).to.be.false;
             expect(result.userToSend.name).to.equal('Alice');
             expect(result.chatID).to.equal('123');

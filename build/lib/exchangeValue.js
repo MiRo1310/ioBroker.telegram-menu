@@ -14,7 +14,7 @@ function isNoValueParameter(textToSend) {
     }
     return { insertValue, textToSend };
 }
-const exchangeValue = (adapter, textToSend, val, shouldChange = true) => {
+const exchangeValue = (appContext, textToSend, val, shouldChange = true) => {
     const result = isNoValueParameter(textToSend);
     textToSend = result.textToSend;
     if (textToSend.includes(config_1.config.change.start) && shouldChange) {
@@ -30,7 +30,7 @@ const exchangeValue = (adapter, textToSend, val, shouldChange = true) => {
                 error: false,
             };
         }
-        adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
+        appContext.adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
         return { newValue: val ?? '', textToSend: (0, string_1.removeDuplicateSpaces)(textToSend), error: true };
     }
     const text = (0, string_1.removeDuplicateSpaces)(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''));

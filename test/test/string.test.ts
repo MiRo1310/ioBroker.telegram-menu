@@ -22,9 +22,11 @@ import { utils } from '@iobroker/testing';
 import { timeStringReplacer } from '@backend/lib/appUtils';
 import { exchangeValue } from '@backend/lib/exchangeValue';
 import type { Adapter } from '@backend/types/types';
+import { createAppContextMock } from '../fixtures/appContextMock';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
+const appContextMock = createAppContextMock(mockAdapter);
 
 describe('jsonString', () => {
     it('jsonString', () => {
@@ -217,7 +219,7 @@ describe('getValueToExchange', () => {
     it('should successfully exchange the value if the JSON is correct', () => {
         const textToSend = '   Test && change{"true":"an","false":"aus"} test';
         const val = 'true';
-        const result = exchangeValue(mockAdapter, textToSend, val);
+        const result = exchangeValue(appContextMock, textToSend, val);
 
         expect(result).to.deep.equal({
             newValue: 'an',
@@ -229,7 +231,7 @@ describe('getValueToExchange', () => {
     it('should return the original value if the JSON is invalid', () => {
         const textToSend = ' test    change{"true":"an","false":aus}';
         const val = 'true';
-        const result = exchangeValue(mockAdapter, textToSend, val);
+        const result = exchangeValue(appContextMock, textToSend, val);
         expect(adapter.log.error.calledOnce).to.be.true;
         expect(result).to.deep.equal({
             newValue: val,
@@ -241,7 +243,7 @@ describe('getValueToExchange', () => {
     it("should return the original text if no 'change' is included", () => {
         const textToSend = 'Kein   Austausch   erforderlich';
         const val = 'true';
-        const result = exchangeValue(mockAdapter, textToSend, val);
+        const result = exchangeValue(appContextMock, textToSend, val);
 
         expect(result).to.deep.equal({
             newValue: val,

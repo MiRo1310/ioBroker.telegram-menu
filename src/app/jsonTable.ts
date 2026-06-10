@@ -1,6 +1,7 @@
 import type { Adapter, Keyboard, KeyboardItem, ValArray } from '@backend/types/types';
 import { decomposeText, jsonString, parseJSON } from '@backend/lib/string';
 import { errorLogger } from '@backend/app/logging';
+import type { AppContext } from '@backend/app/appContext';
 
 interface TableObj {
     length: { key: string; length: number }[];
@@ -85,7 +86,7 @@ const addHeader = (json: IJsonShoppingList & ITableButtonList): NonNullable<Keyb
 };
 
 const createKeyboardFromJson = (
-    adapter: Adapter,
+    appContext: AppContext,
     val: string,
     text: string | null,
     id: string,
@@ -103,11 +104,11 @@ const createKeyboardFromJson = (
             IJsonShoppingList & ITableButtonList
         >(text);
         if (!validJsonUserInput) {
-            adapter.log.warn(`No valid Json, ${text}`);
+            appContext.adapter.log.warn(`No valid Json, ${text}`);
             return;
         }
 
-        const { json, isValidJson } = parseJSON<ValArray[]>(val, adapter);
+        const { json, isValidJson } = parseJSON<ValArray[]>(val, appContext.adapter);
         if (!isValidJson) {
             return;
         }
@@ -147,11 +148,11 @@ const createKeyboardFromJson = (
             keyboard.inline_keyboard.push(rowArray);
         });
 
-        adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
+        appContext.adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
 
         return { text: parsedJsonUserInput.tableLabel ?? 'List', keyboard };
     } catch (err: any) {
-        errorLogger('Error createKeyboardFromJson:', err, adapter);
+        errorLogger('Error createKeyboardFromJson:', err, appContext.adapter);
     }
 };
 

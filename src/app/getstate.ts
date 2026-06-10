@@ -1,5 +1,5 @@
 import { config } from '@backend/config/config';
-import type { Part, TelegramParams } from '@backend/types/types';
+import type { Part } from '@backend/types/types';
 import { isParseModeFirstElement } from '@backend/app/parseMode';
 import { idBySelector } from '@backend/app/idBySelector';
 import { bindingFunc } from '@backend/app/action';
@@ -12,42 +12,41 @@ import { createKeyboardFromJson, createTextTableFromJson } from '@backend/app/js
 import { sendToTelegram, sendToTelegramSubmenu } from '@backend/app/telegram';
 import { exchangeValue } from '@backend/lib/exchangeValue';
 import { errorLogger } from '@backend/app/logging';
+import type { AppContext } from '@backend/app/appContext';
 
 export async function getState(
     instance: string,
     part: Part,
     userToSend: string,
-    telegramParams: TelegramParams,
+    appContext: AppContext,
 ): Promise<void> {
-    const adapter = telegramParams.adapter;
     try {
         const parse_mode = isParseModeFirstElement(part);
         const valueArrayForCorrectOrder: string[] = [];
         const promises = (part.getData || []).map(async ({ newline, text, id }, index): Promise<void> => {
-            adapter.log.debug(`Get Value ID: ${id}`);
+            appContext.adapter.log.debug(`Get Value ID: ${id}`);
 
             if (id.includes(config.functionSelektor)) {
                 await idBySelector({
                     instance,
-                    adapter,
                     selector: id,
                     text,
                     userToSend,
                     newline,
-                    telegramParams,
+                    appContext,
                 });
                 return;
             }
 
             if (text.includes(config.binding.start)) {
-                await bindingFunc(adapter, instance, text, userToSend, telegramParams, parse_mode);
+                await bindingFunc(appContext, instance, text, userToSend, parse_mode);
                 return;
             }
 
-            const state = await adapter.getForeignStateAsync(id);
+            const state = await appContext.adapter.getForeignStateAsync(id);
 
             if (!isDefined(state)) {
-                adapter.log.error('The state is empty!');
+                appContext.adapter.log.error('The state is empty!');
                 valueArrayForCorrectOrder[index] = 'N/A';
                 return Promise.resolve();
             }
@@ -59,7 +58,7 @@ export async function getState(
             let modifiedTextToSend = text;
 
             if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
-                modifiedTextToSend = await getTimeValue(adapter, text, id);
+                modifiedTextToSend = await getTimeValue(appContext, text, id);
                 modifiedStateVal = '';
             }
 
@@ -68,42 +67,48 @@ export async function getState(
                 modifiedStateVal = '';
             }
 
-            const { textToSend, calculated, error: err } = mathFunction(modifiedTextToSend, modifiedStateVal, adapter);
+            const {
+                textToSend,
+                calculated,
+                error: err,
+            } = mathFunction(modifiedTextToSend, modifiedStateVal, appContext.adapter);
             if (!err) {
                 modifiedTextToSend = textToSend;
                 modifiedStateVal = calculated;
 
-                adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
+                appContext.adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
             }
 
             if (modifiedTextToSend.includes(config.round.start)) {
                 const { error, text, roundedValue } = roundValue(String(modifiedStateVal), modifiedTextToSend);
                 if (!error) {
-                    adapter.log.debug(`Rounded from ${jsonString(modifiedStateVal)} to ${jsonString(roundedValue)}`);
+                    appContext.adapter.log.debug(
+                        `Rounded from ${jsonString(modifiedStateVal)} to ${jsonString(roundedValue)}`,
+                    );
                     modifiedStateVal = roundedValue;
                     modifiedTextToSend = text;
                 }
             }
 
             if (modifiedTextToSend.includes(config.json.textTable)) {
-                const result = createTextTableFromJson(adapter, cleanedString, modifiedTextToSend);
+                const result = createTextTableFromJson(appContext.adapter, cleanedString, modifiedTextToSend);
                 if (result) {
                     await sendToTelegram({
                         instance,
                         userToSend,
                         textToSend: result,
-                        telegramParams,
+                        appContext,
                         parse_mode: false,
                         shouldCleanUpString: false,
                     });
                     return;
                 }
-                adapter.log.debug('Cannot create a Text-Table');
+                appContext.adapter.log.debug('Cannot create a Text-Table');
             }
 
             if (modifiedTextToSend.includes('alexaShoppingList')) {
                 const result = createKeyboardFromJson(
-                    adapter,
+                    appContext,
                     stateValue,
                     modifiedTextToSend,
                     id,
@@ -117,7 +122,7 @@ export async function getState(
                             userToSend,
                             result.text,
                             result.keyboard,
-                            telegramParams,
+                            appContext,
                             parse_mode,
                         );
                     }
@@ -127,19 +132,19 @@ export async function getState(
                     instance,
                     userToSend,
                     textToSend: 'The state is empty!',
-                    telegramParams,
+                    appContext,
                     parse_mode,
                 });
-                adapter.log.debug('The state is empty!');
+                appContext.adapter.log.debug('The state is empty!');
                 return;
             }
 
-            const { textToSend: _text, error } = exchangeValue(adapter, modifiedTextToSend, modifiedStateVal);
+            const { textToSend: _text, error } = exchangeValue(appContext, modifiedTextToSend, modifiedStateVal);
 
             const isNewline = ifTruthyAddNewLine(newline);
             modifiedTextToSend = `${_text} ${isNewline}`;
 
-            adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+            appContext.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
 
             valueArrayForCorrectOrder[index] = modifiedTextToSend;
         });
@@ -150,11 +155,11 @@ export async function getState(
                 instance,
                 userToSend,
                 textToSend: valueArrayForCorrectOrder.join(''),
-                telegramParams,
+                appContext,
                 parse_mode,
             });
         }
     } catch (error: any) {
-        errorLogger('Error GetData:', error, adapter);
+        errorLogger('Error GetData:', error, appContext.adapter);
     }
 }

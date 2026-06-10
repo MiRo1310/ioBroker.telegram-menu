@@ -1,4 +1,4 @@
-import type { IDynamicValue, MenuData, NewObjectStructure, Part, TelegramParams, Timeouts } from '@backend/types/types';
+import type { IDynamicValue, MenuData, NewObjectStructure, Part, Timeouts } from '@backend/types/types';
 import { jsonString } from '@backend/lib/string';
 import { adjustValueType } from '@backend/app/action';
 import { exchangeValueAndSendToTelegram, handleSetState, setstateIobroker } from '@backend/app/setstate';
@@ -11,27 +11,23 @@ import { getChart } from '@backend/app/echarts';
 import { httpRequest } from '@backend/app/httpRequest';
 import { isSubmenuOrMenu } from '@backend/app/validateMenus';
 import { dynamicValue } from '@backend/app/dynamicValue';
-import type { UserActiveCheckbox } from '@/types/app';
 import type TelegramMenu from '@backend/main';
-import { backMenuRegistry } from '@backend/app/backMenu';
+import type { AppContext } from '@backend/app/appContext';
 
 export class MenuProcessor {
     private timeouts: Timeouts[] = [];
     private readonly adapter: TelegramMenu;
 
     constructor(
+        private appContext: AppContext,
         private menuData: MenuData,
         private navToGoTo: string,
         private menus: string[],
-        private isUserActiveCheckbox: UserActiveCheckbox,
-        private token: string,
-        private directoryPicture: string,
         private timeoutKey: string,
         private userToSend: string,
-        private telegramParams: TelegramParams,
         private instance: string,
     ) {
-        this.adapter = this.telegramParams.adapter;
+        this.adapter = this.appContext.adapter;
     }
 
     public async checkEveryMenuForData(): Promise<boolean> {
@@ -65,19 +61,18 @@ export class MenuProcessor {
 
             if (valueToSet && dynamicValueObject.idToSet) {
                 await setstateIobroker({
-                    adapter: this.adapter,
+                    appContext: this.appContext,
                     id: dynamicValueObject.idToSet,
                     value: valueToSet,
                     ack: dynamicValueObject.ack,
                 });
                 if (dynamicValueObject.confirm && this.onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
                     await exchangeValueAndSendToTelegram(
-                        this.adapter,
+                        this.appContext,
                         dynamicValueObject.returnText,
                         valueToSet,
                         this.instance,
                         this.userToSend,
-                        this.telegramParams,
                         dynamicValueObject.parse_mode,
                     );
                 }
@@ -86,12 +81,12 @@ export class MenuProcessor {
                     instance: this.instance,
                     userToSend: this.userToSend,
                     textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValueObject.valueType}`,
-                    telegramParams: this.telegramParams,
+                    appContext: this.appContext,
                 });
             }
 
             dynamicValue.removeUser(this.userToSend);
-            const result = await backMenuRegistry.switchBack(
+            const result = await this.appContext.backMenuRegistry.switchBack(
                 this.adapter,
                 this.userToSend,
                 this.menuData,
@@ -106,33 +101,36 @@ export class MenuProcessor {
                     userToSend: this.userToSend,
                     textToSend,
                     keyboard,
-                    telegramParams: this.telegramParams,
+                    appContext: this.appContext,
                     parse_mode,
                 });
                 return true;
             }
 
-            await sendNav(this.adapter, this.instance, part, this.userToSend, this.telegramParams);
+            await sendNav(this.appContext, this.instance, part, this.userToSend);
             return true;
         }
 
         const call = this.navToGoTo.includes('menu:') ? this.navToGoTo.split(':')[2] : this.navToGoTo;
         part = groupData?.[call];
 
-        if (!this.navToGoTo.includes('menu:') && this.isUserActiveCheckbox[groupWithUser]) {
+        if (!this.navToGoTo.includes('menu:') && this.appContext.isUserActiveCheckbox[groupWithUser]) {
             const nav = part?.nav;
             if (nav) {
                 this.adapter.log.debug(`Menu to Send: ${jsonString(nav)}`);
-                backMenuRegistry.backMenuFunc({ activePage: call, navigation: nav, userToSend: this.userToSend });
+                this.appContext.backMenuRegistry.backMenuFunc({
+                    activePage: call,
+                    navigation: nav,
+                    userToSend: this.userToSend,
+                });
 
                 if (jsonString(nav).includes('menu:')) {
                     this.adapter.log.debug(`Submenu: ${jsonString(nav)}`);
                     const result = await callSubMenu({
-                        adapter: this.adapter,
+                        appContext: this.appContext,
                         instance: this.instance,
                         jsonStringNav: jsonString(nav),
                         userToSend: this.userToSend,
-                        telegramParams: this.telegramParams,
                         part,
                         allMenusWithData: this.menuData,
                         menus: this.menus,
@@ -144,28 +142,26 @@ export class MenuProcessor {
                     return true;
                 }
 
-                await sendNav(this.adapter, this.instance, part, this.userToSend, this.telegramParams);
+                await sendNav(this.appContext, this.instance, part, this.userToSend);
                 return true;
             }
 
             if (part?.switch) {
-                await handleSetState(this.adapter, this.instance, part, this.userToSend, null, this.telegramParams);
+                await handleSetState(this.appContext, this.instance, part, this.userToSend, null);
                 return true;
             }
 
             if (part?.getData) {
-                await getState(this.instance, part, this.userToSend, this.telegramParams);
+                await getState(this.instance, part, this.userToSend, this.appContext);
                 return true;
             }
 
             if (part?.sendPic) {
                 this.timeouts = sendPic(
+                    this.appContext,
                     this.instance,
                     part,
                     this.userToSend,
-                    this.telegramParams,
-                    this.token,
-                    this.directoryPicture,
                     this.timeouts,
                     this.timeoutKey,
                 );
@@ -174,37 +170,29 @@ export class MenuProcessor {
 
             if (part?.location) {
                 this.adapter.log.debug('Send location');
-                await sendLocationToTelegram(this.instance, this.userToSend, part.location, this.telegramParams);
+                await sendLocationToTelegram(this.instance, this.userToSend, part.location, this.appContext);
                 return true;
             }
 
             if (part?.echarts) {
                 this.adapter.log.debug('Send echarts');
-                getChart(this.instance, part.echarts, this.directoryPicture, this.userToSend, this.telegramParams);
+                getChart(this.instance, part.echarts, this.userToSend, this.appContext);
                 return true;
             }
 
             if (part?.httpRequest) {
                 this.adapter.log.debug('Send http request');
-                return await httpRequest(
-                    this.adapter,
-                    this.instance,
-                    part,
-                    this.userToSend,
-                    this.telegramParams,
-                    this.directoryPicture,
-                );
+                return await httpRequest(this.appContext, this.instance, part, this.userToSend);
             }
         }
 
         if (isSubmenuOrMenu(this.navToGoTo) && this.menuData[groupWithUser]?.[call]) {
             this.adapter.log.debug('Call Submenu');
             await callSubMenu({
-                adapter: this.adapter,
+                appContext: this.appContext,
                 instance: this.instance,
                 jsonStringNav: this.navToGoTo,
                 userToSend: this.userToSend,
-                telegramParams: this.telegramParams,
                 part,
                 allMenusWithData: this.menuData,
                 menus: this.menus,

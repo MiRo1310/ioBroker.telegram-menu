@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { dynamicValue } from '@backend/app/dynamicValue';
-import { telegramParams } from '../../fixtures/telegramParams';
+import { store } from '../../fixtures/telegramParams';
 
 describe('DynamicValueHandler', function () {
     let sendToTelegramStub: { restore: () => void; calledOnce: any };
@@ -23,7 +23,7 @@ describe('DynamicValueHandler', function () {
             true,
             'id1',
             'testUser',
-            telegramParams,
+            store,
             true,
             true,
         );
@@ -40,7 +40,28 @@ describe('DynamicValueHandler', function () {
         expect(dynamicValue.getValue('testUser')).to.be.null;
     });
 
-    it('should return null for unknown user', function () {
-        expect(dynamicValue.getValue('unknown')).to.be.null;
+    it('should return null when getting value for unknown user', function () {
+        const value = dynamicValue.getValue('unknownUser');
+        expect(value).to.be.null;
+    });
+
+    it('should return false when removing unknown user', function () {
+        const result = dynamicValue.removeUser('unknownUser');
+        expect(result).to.be.false;
+    });
+
+    it('should set a dynamic value with confirm=false', async function () {
+        const result = await dynamicValue.setValue(
+            'instance1',
+            '{setDynamicValue:question2:number:confirm2}',
+            false,
+            'id2',
+            'testUser2',
+            store,
+            false,
+            false,
+        );
+        expect(result).to.have.property('confirmText', 'confirm2');
+        dynamicValue.removeUser('testUser2');
     });
 });

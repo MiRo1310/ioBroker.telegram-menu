@@ -4,8 +4,8 @@ import sinon from 'sinon';
 import { utils } from '@iobroker/testing';
 import type { Adapter, Part } from '@backend/types/types';
 import { handleSetState, setstateIobroker } from '@backend/app/setstate';
-import { telegramParams } from '../fixtures/telegramParams';
-import { stateIdRegistry } from '@backend/app/stateIdRegistry';
+import { createAppContextMock } from '../fixtures/appContextMock';
+import type { AppContext } from '@backend/app/appContext';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
@@ -13,6 +13,12 @@ const mockAdapter = adapter as unknown as Adapter;
 database.publishState('test.0.test', { val: '0', ack: true });
 
 describe('Setstate', () => {
+    let appContext: AppContext;
+
+    beforeEach(() => {
+        appContext = createAppContextMock(mockAdapter);
+    });
+
     it('should NOT send immediately for foreignId — registers listener instead', async () => {
         const part = {
             switch: [
@@ -23,11 +29,12 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result).to.be.undefined;
-        const list = stateIdRegistry.getIds();
-        expect(list.some(el => el.id === 'test.0.test' && el.returnText === 'Der Wert wurde auf && °C gesetzt')).to.be.true;
+        const list = appContext.stateIdRegistry.getIds();
+        expect(list.some(el => el.id === 'test.0.test' && el.returnText === 'Der Wert wurde auf && °C gesetzt')).to.be
+            .true;
     });
 
     it('should NOT send immediately for foreignId with change', async () => {
@@ -42,10 +49,10 @@ describe('Setstate', () => {
             ],
         } as Part;
 
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result).to.be.undefined;
-        const list = stateIdRegistry.getIds();
+        const list = appContext.stateIdRegistry.getIds();
         expect(list.some(el => el.id === 'test.0.test')).to.be.true;
     });
 
@@ -60,10 +67,10 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result).to.be.undefined;
-        const list = stateIdRegistry.getIds();
+        const list = appContext.stateIdRegistry.getIds();
         expect(list.some(el => el.id === 'test.0.test')).to.be.true;
     });
 
@@ -80,7 +87,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: setValue stateValue');
@@ -99,7 +106,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: setValue stateValue');
@@ -119,7 +126,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: EIN AUS');
@@ -138,7 +145,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: stateValue');
@@ -158,7 +165,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
         expect(result?.instance).to.deep.equal('telegram.0');
         expect(result?.textToSend).to.deep.equal('ReturnText: AUS');
@@ -179,13 +186,13 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
         expect(result?.textToSend).to.include('false');
     });
 
     it('should return undefined if part has no switch', async () => {
         const part = {} as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
         expect(result).to.be.undefined;
     });
 
@@ -208,10 +215,10 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            const countBefore = stateIdRegistry.getIds().length;
-            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+            const countBefore = appContext.stateIdRegistry.getIds().length;
+            await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
-            const listAfter = stateIdRegistry.getIds();
+            const listAfter = appContext.stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === testId)).to.be.false;
             expect(listAfter.length).to.equal(countBefore);
         });
@@ -234,10 +241,10 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            const countBefore = stateIdRegistry.getIds().length;
-            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+            const countBefore = appContext.stateIdRegistry.getIds().length;
+            await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
-            const listAfter = stateIdRegistry.getIds();
+            const listAfter = appContext.stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === testId)).to.be.true;
             expect(listAfter.length).to.equal(countBefore + 1);
         });
@@ -245,10 +252,6 @@ describe('Setstate', () => {
 
     describe('SetDynamicValue + confirm=true + ack=true — kein Doppel-Send', () => {
         it('should NOT register listener for idToSet when setDynamicValue, confirm=true and no watchForId (prevents double send with ack=true)', async () => {
-            // Bug: handleSetState registers the listener for idToSet with confirm=true.
-            // When processData later sets the state with ack=true, BOTH the immediate confirm
-            // (exchangeValueAndSendToTelegram in processData) AND the stateChange listener fire.
-            // Fix: only register listener when watchForId is set (id !== undefined).
             const testId = 'test.0.setdynamic-double-send-ack';
             await mockAdapter.setForeignStateAsync(testId, '0', true);
 
@@ -266,15 +269,13 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+            await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
-            const listAfter = stateIdRegistry.getIds();
+            const listAfter = appContext.stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === testId && el.confirm === true)).to.be.false;
         });
 
         it('SHOULD still register listener for watchForId when setDynamicValue has watchForId set', async () => {
-            // When watchForId is set, the listener is the intended send mechanism
-            // (processData skips the immediate confirm via onlyConfirmIfWatchIdIsNotSet).
             const testId = 'test.0.setdynamic-watchforid-trigger';
             const watchId = 'test.0.setdynamic-watchforid-watch';
             await mockAdapter.setForeignStateAsync(testId, '0', true);
@@ -294,9 +295,9 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+            await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
-            const listAfter = stateIdRegistry.getIds();
+            const listAfter = appContext.stateIdRegistry.getIds();
             expect(listAfter.some(el => el.id === watchId && el.confirm === true)).to.be.true;
         });
     });
@@ -305,11 +306,6 @@ describe('Setstate', () => {
         afterEach(() => sinon.restore());
 
         it('should NOT call sendToTelegram immediately when useForeignId=true (only listener should send)', async () => {
-            // Bug: für foreignId-Pfad werden BEIDE Pfade ausgeführt:
-            // 1. addSetStateIds registriert Listener mit confirm=true
-            // 2. exchangeValueAndSendToTelegram sendet sofort (weil confirm=true)
-            // → Wenn die foreignId-State mit ack=true kommt, sendet der Listener nochmals → Doppel-Send
-            // Fix: if (confirm && !useForeignId) statt if (confirm) in Zeile 223
             const telegramSpy = sinon.spy(require('../../src/app/telegram'), 'sendToTelegram');
 
             database.publishState('test.0.double-send-foreign', { val: '5', ack: true });
@@ -328,10 +324,8 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+            await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
-            // Nach dem Fix: 0 sofortige Sends — der Listener sendet später wenn foreignId ack=true bekommt
-            // Aktuell (Bug): 1 sofortiger Send über exchangeValueAndSendToTelegram
             expect(telegramSpy.callCount).to.equal(0);
         });
 
@@ -345,8 +339,7 @@ describe('Setstate', () => {
                     {
                         id: 'test.0',
                         confirm: true,
-                        returnText:
-                            '{"foreignId":"test.0.double-send-foreign-listener","text":"Wert ist: &&"}',
+                        returnText: '{"foreignId":"test.0.double-send-foreign-listener","text":"Wert ist: &&"}',
                         value: '10',
                         ack: false,
                         parse_mode: false,
@@ -355,10 +348,11 @@ describe('Setstate', () => {
                 ],
             } as Part;
 
-            await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+            await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
-            const listAfter = stateIdRegistry.getIds();
-            expect(listAfter.some(el => el.id === 'test.0.double-send-foreign-listener' && el.confirm === true)).to.be.true;
+            const listAfter = appContext.stateIdRegistry.getIds();
+            expect(listAfter.some(el => el.id === 'test.0.double-send-foreign-listener' && el.confirm === true)).to.be
+                .true;
         });
     });
 
@@ -372,13 +366,11 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
         expect(result).to.be.undefined;
     });
 
     it('should use false when toggle state is null (line 207 false branch)', async () => {
-        // 'test.0.not-published' is not in the database → getForeignStateAsync returns null
-        // This covers the `state ? !state.val : false` false branch (state=null → newValue=false)
         const part = {
             switch: [
                 {
@@ -392,8 +384,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        const result = await handleSetState(mockAdapter, 'telegram.0', part, 'Michael', null, telegramParams);
-        // newValue=false (null toggle) → text should show 'false'
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
         expect(result?.textToSend).to.include('false');
     });
 
@@ -420,26 +411,35 @@ describe('Setstate', () => {
             ],
         } as Part;
         const result = await handleSetState(
-            localAdapter as any,
+            createAppContextMock(localAdapter as any),
             'telegram.0',
             part,
             'user',
             null,
-            { adapter: localAdapter } as any,
         );
-        // useForeignId=true, getForeignStateAsync returns null → false branch at line 220
         expect(result).to.be.undefined;
     });
 
-    it('should catch error in setstateIobroker when setForeignStateAsync throws (line 74)', async () => {
+    it('should propagate error from setstateIobroker when setForeignStateAsync throws', async () => {
         const errorAdapter = {
             log: { debug: sinon.stub(), error: sinon.stub() },
             getForeignObjectAsync: sinon.stub().resolves({ common: { type: 'string' } }),
             setForeignStateAsync: sinon.stub().rejects(new Error('set failed')),
             supportsFeature: sinon.stub().returns(false),
         };
-        await setstateIobroker({ adapter: errorAdapter as any, id: 'test.state', value: 'val', ack: false });
-        expect(errorAdapter.log.error.called).to.be.true;
+        let thrown = false;
+        try {
+            await setstateIobroker({
+                appContext: createAppContextMock(errorAdapter as any),
+                id: 'test.state',
+                value: 'val',
+                ack: false,
+            });
+        } catch (e: any) {
+            thrown = true;
+            expect(e.message).to.equal('set failed');
+        }
+        expect(thrown).to.be.true;
     });
 
     it('should catch error in handleSetState when getForeignStateAsync throws (line 236)', async () => {
@@ -464,7 +464,7 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        await handleSetState(errorAdapter as any, 'telegram.0', part, 'user', null, { adapter: errorAdapter } as any);
+        await handleSetState(createAppContextMock(errorAdapter as any), 'telegram.0', part, 'user', null);
         expect(errorAdapter.log.error.called).to.be.true;
     });
 });

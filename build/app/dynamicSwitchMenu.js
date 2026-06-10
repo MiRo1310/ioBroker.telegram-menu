@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createDynamicSwitchMenu = createDynamicSwitchMenu;
 const utilities_1 = require("../lib/utilities");
 const logging_1 = require("../app/logging");
-async function createDynamicSwitchMenu(adapter, calledValue, device, text) {
+async function createDynamicSwitchMenu(appContext, calledValue, device, text) {
     try {
-        const changedCalledValue = await (0, utilities_1.textModifier)(adapter, calledValue);
+        const changedCalledValue = await (0, utilities_1.textModifier)(appContext, calledValue);
         const splittedArray = changedCalledValue?.replace(/"/g, '').split(':');
         if (!splittedArray) {
             return;
@@ -41,7 +41,7 @@ async function createDynamicSwitchMenu(adapter, calledValue, device, text) {
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error parsing dynSwitch:', e, adapter);
+        (0, logging_1.errorLogger)('Error parsing dynSwitch:', e, appContext.adapter);
     }
 }
 //# sourceMappingURL=dynamicSwitchMenu.js.map

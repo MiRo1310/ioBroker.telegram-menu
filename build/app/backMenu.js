@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backMenuRegistry = void 0;
+exports.BackMenuRegistry = void 0;
 const config_1 = require("../config/config");
 const utilities_1 = require("../lib/utilities");
 const logging_1 = require("../app/logging");
 const string_1 = require("../lib/string");
 class BackMenuRegistry {
+    appContext;
     backMenu = {};
+    constructor(appContext) {
+        this.appContext = appContext;
+    }
     async switchBack(adapter, userToSend, allMenusWithData, menus, lastMenu = false) {
         try {
             const list = this.backMenu[userToSend]?.list ?? [];
@@ -44,7 +48,7 @@ class BackMenuRegistry {
                         const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                         let textToSend = text;
                         if (textToSend) {
-                            textToSend = await (0, utilities_1.textModifier)(adapter, textToSend);
+                            textToSend = await (0, utilities_1.textModifier)(this.appContext, textToSend);
                         }
                         if (this.backMenu[userToSend]?.last) {
                             /* istanbul ignore next */
@@ -83,5 +87,5 @@ class BackMenuRegistry {
         }
     }
 }
-exports.backMenuRegistry = new BackMenuRegistry();
+exports.BackMenuRegistry = BackMenuRegistry;
 //# sourceMappingURL=backMenu.js.map

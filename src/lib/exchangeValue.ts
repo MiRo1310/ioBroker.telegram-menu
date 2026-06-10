@@ -1,6 +1,7 @@
 import { decomposeText, parseJSON, removeDuplicateSpaces, replaceAll } from '@backend/lib/string';
-import type { Adapter, ExchangeValueReturn, PrimitiveType } from '@backend/types/types';
+import type { ExchangeValueReturn, PrimitiveType } from '@backend/types/types';
 import { config } from '@backend/config/config';
+import type { AppContext } from '@backend/app/appContext';
 
 export function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
     let insertValue = true;
@@ -12,7 +13,7 @@ export function isNoValueParameter(textToSend: string): { insertValue: boolean; 
 }
 
 export const exchangeValue = (
-    adapter: Adapter,
+    appContext: AppContext,
     textToSend: string,
     val: PrimitiveType | null | undefined,
     shouldChange = true,
@@ -38,7 +39,7 @@ export const exchangeValue = (
                 error: false,
             };
         }
-        adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
+        appContext.adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
         return { newValue: val ?? '', textToSend: removeDuplicateSpaces(textToSend), error: true };
     }
     const text = removeDuplicateSpaces(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''));

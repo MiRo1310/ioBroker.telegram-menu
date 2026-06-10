@@ -1,15 +1,16 @@
-import type { Adapter, Keyboard, KeyboardItems } from '@backend/types/types';
+import type { Keyboard, KeyboardItems } from '@backend/types/types';
 import { textModifier } from '@backend/lib/utilities';
 import { errorLogger } from '@backend/app/logging';
+import type { AppContext } from '@backend/app/appContext';
 
 async function createDynamicSwitchMenu(
-    adapter: Adapter,
+    appContext: AppContext,
     calledValue: string,
     device: string,
     text: string,
 ): Promise<{ text?: string; keyboard: Keyboard; device: string } | undefined> {
     try {
-        const changedCalledValue = await textModifier(adapter, calledValue);
+        const changedCalledValue = await textModifier(appContext, calledValue);
         const splittedArray: string[] | undefined = changedCalledValue?.replace(/"/g, '').split(':');
 
         if (!splittedArray) {
@@ -48,7 +49,7 @@ async function createDynamicSwitchMenu(
             return { text, keyboard, device };
         }
     } catch (e: any) {
-        errorLogger('Error parsing dynSwitch:', e, adapter);
+        errorLogger('Error parsing dynSwitch:', e, appContext.adapter);
     }
 }
 export { createDynamicSwitchMenu };

@@ -4,37 +4,34 @@ exports.adapterStartMenuSend = adapterStartMenuSend;
 const appUtils_1 = require("../lib/appUtils");
 const string_1 = require("../lib/string");
 const telegram_1 = require("../app/telegram");
-const backMenu_1 = require("../app/backMenu");
-function isUserActive(telegramParams, userToSend) {
-    return telegramParams.userListWithChatID.find(user => user.chatID === userToSend.chatId && user.instance === userToSend.instance);
+function isUserActive(appContext, userToSend) {
+    return appContext.userListWithChatID.find(user => user.chatID === userToSend.chatId && user.instance === userToSend.instance);
 }
-async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox, menusWithUsers, menuData, telegramParams) {
-    const adapter = telegramParams.adapter;
-    for (const menu of listOfMenus) {
+async function adapterStartMenuSend(startSides, menuData, appContext) {
+    for (const menu of appContext.listOfMenus) {
         const startSide = startSides[menu];
-        if (userActiveCheckbox[menu] && (0, appUtils_1.isStartside)(startSide)) {
-            adapter.log.debug(`Startside: ${startSide}`);
-            const group = menusWithUsers[menu];
+        if (appContext.isUserActiveCheckbox[menu] && (0, appUtils_1.isStartside)(startSide)) {
+            appContext.adapter.log.debug(`Startside: ${startSide}`);
+            const group = appContext.menusWithUsers[menu];
             if (group) {
                 for (const userToSend of group) {
                     const { nav, text, parse_mode } = menuData[menu][startSide];
-                    const user = isUserActive(telegramParams, userToSend);
+                    const user = isUserActive(appContext, userToSend);
                     if (!user) {
                         continue;
                     }
-                    backMenu_1.backMenuRegistry.backMenuFunc({
+                    appContext.backMenuRegistry.backMenuFunc({
                         activePage: startSide,
                         navigation: nav,
                         userToSend: userToSend.name,
                     });
-                    adapter.log.debug(`User list: ${(0, string_1.jsonString)(telegramParams.userListWithChatID)}`);
-                    const params = { ...telegramParams };
+                    appContext.adapter.log.debug(`User list: ${(0, string_1.jsonString)(appContext.userListWithChatID)}`);
                     await (0, telegram_1.sendToTelegram)({
                         instance: userToSend.instance,
                         userToSend: userToSend.name,
                         textToSend: text,
                         keyboard: nav,
-                        telegramParams: params,
+                        appContext,
                         parse_mode,
                     });
                 }
@@ -42,10 +39,10 @@ async function adapterStartMenuSend(listOfMenus, startSides, userActiveCheckbox,
         }
         else {
             if (!(0, appUtils_1.isStartside)(startSide)) {
-                adapter.log.debug(`Menu "${menu}" is a Submenu.`);
+                appContext.adapter.log.debug(`Menu "${menu}" is a Submenu.`);
                 continue;
             }
-            adapter.log.debug(`Menu "${menu}" is inactive.`);
+            appContext.adapter.log.debug(`Menu "${menu}" is inactive.`);
         }
     }
 }

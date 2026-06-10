@@ -1,31 +1,28 @@
-import { getIds } from '@backend/app/configVariables';
-import type { TelegramParams } from '@backend/types/types';
+import { AppContext } from '@backend/app/appContext';
 import { jsonString } from '@backend/lib/string';
 
-export const areAllCheckTelegramInstancesActive = async (params: TelegramParams): Promise<boolean | undefined> => {
-    const { adapter } = params;
-    const { telegramInfoConnectionID } = getIds;
-    await adapter.setState('info.connection', false, true);
-    for (const instance of params.telegramInstanceList) {
+export const areAllCheckTelegramInstancesActive = async (appContext: AppContext): Promise<boolean | undefined> => {
+    await appContext.adapter.setState('info.connection', false, true);
+    for (const instance of appContext.telegramInstanceList) {
         if (!instance?.active || !instance?.name) {
             continue;
         }
-        const id = telegramInfoConnectionID(instance.name);
-        const telegramInfoConnection = await adapter.getForeignStateAsync(id);
-        adapter.log.debug(`Telegram Info Connection: ${jsonString(telegramInfoConnection)}`);
+        const id = AppContext.telegramInfoConnectionID(instance.name);
+        const telegramInfoConnection = await appContext.adapter.getForeignStateAsync(id);
+        appContext.adapter.log.debug(`Telegram Info Connection: ${jsonString(telegramInfoConnection)}`);
 
         if (!telegramInfoConnection) {
-            adapter.log.error(`The State ${id} was not found!`);
+            appContext.adapter.log.error(`The State ${id} was not found!`);
             return false;
         }
         const value = telegramInfoConnection?.val;
 
-        await adapter.setState('info.connection', telegramInfoConnection?.val ?? false, true);
+        await appContext.adapter.setState('info.connection', telegramInfoConnection?.val ?? false, true);
         if (!value) {
-            adapter.log.info('A Selected instance of telegram is not running. Please start!');
+            appContext.adapter.log.info('A Selected instance of telegram is not running. Please start!');
             return false;
         }
     }
-    await adapter.setState('info.connection', true, true);
+    await appContext.adapter.setState('info.connection', true, true);
     return true;
 };

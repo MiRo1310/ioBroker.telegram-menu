@@ -13,7 +13,7 @@ class DynamicValueHandler {
         }
         return false;
     };
-    setValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
+    setValue = async (instance, returnText, ack, id, userToSend, appContext, parse_mode, confirm) => {
         const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
         let array = substringExcludeSearch.split(':');
         array = this.isBraceDeleteEntry(array);
@@ -24,7 +24,7 @@ class DynamicValueHandler {
                 instance,
                 userToSend,
                 textToSend: question,
-                telegramParams,
+                appContext,
                 parse_mode,
             });
         }
@@ -35,7 +35,7 @@ class DynamicValueHandler {
             userToSend,
             parse_mode,
             confirm,
-            telegramParams,
+            appContext,
             valueType: array[1],
             watchForId: array[3],
         };

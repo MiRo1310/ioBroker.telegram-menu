@@ -1,6 +1,7 @@
-import type { IDynamicValue, SetDynamicValueObj, TelegramParams } from '@backend/types/types';
+import type { IDynamicValue, SetDynamicValueObj } from '@backend/types/types';
 import { decomposeText } from '@backend/lib/string';
 import { sendToTelegram } from '@backend/app/telegram';
+import type { AppContext } from '@backend/app/appContext';
 
 class DynamicValueHandler {
     private dynamicValueObj: SetDynamicValueObj = {};
@@ -21,7 +22,7 @@ class DynamicValueHandler {
         ack: boolean,
         id: string,
         userToSend: string,
-        telegramParams: TelegramParams,
+        appContext: AppContext,
         parse_mode: boolean,
         confirm: boolean,
     ): Promise<{ confirmText: string; id: string | undefined }> => {
@@ -35,7 +36,7 @@ class DynamicValueHandler {
                 instance,
                 userToSend,
                 textToSend: question,
-                telegramParams,
+                appContext,
                 parse_mode,
             });
         }
@@ -46,7 +47,7 @@ class DynamicValueHandler {
             userToSend,
             parse_mode,
             confirm,
-            telegramParams,
+            appContext,
             valueType: array[1],
             watchForId: array[3],
         };

@@ -1,22 +1,20 @@
-import type { Part, TelegramParams, Timeouts } from '@backend/types/types';
+import type { Part, Timeouts } from '@backend/types/types';
 import { isStartside } from '@backend/lib/appUtils';
 import { replaceAll } from '@backend/lib/string';
 import { validateDirectory } from '@backend/lib/utils';
 import { loadWithCurl } from '@backend/app/exec';
 import { sendToTelegram } from '@backend/app/telegram';
 import { errorLogger } from '@backend/app/logging';
+import type { AppContext } from '@backend/app/appContext';
 
 export function sendPic(
+    appContext: AppContext,
     instance: string,
     part: Part,
     userToSend: string,
-    telegramParams: TelegramParams,
-    token: string,
-    directoryPicture: string,
     timeouts: Timeouts[],
     timeoutKey: string,
 ): Timeouts[] {
-    const adapter = telegramParams.adapter;
     try {
         part.sendPic?.forEach((element, index) => {
             const { id, delay, fileName } = element;
@@ -25,16 +23,15 @@ export function sendPic(
                 return;
             }
             const url = replaceAll(id, '&amp;', '&');
-            path = `${directoryPicture}${fileName}`;
+            path = `${appContext.directoryPicture}${fileName}`;
 
-            if (!validateDirectory(adapter, directoryPicture)) {
+            if (!validateDirectory(appContext)) {
                 return;
             }
 
             if (delay <= 0) {
                 loadWithCurl(
-                    adapter,
-                    token,
+                    appContext,
                     path,
                     url,
                     async () =>
@@ -42,29 +39,29 @@ export function sendPic(
                             instance,
                             userToSend,
                             textToSend: path,
-                            telegramParams,
+                            appContext,
                         }),
                 );
                 return;
             }
-            loadWithCurl(adapter, token, path, url);
+            loadWithCurl(appContext, path, url);
             timeoutKey += index;
 
-            const timeout = adapter.setTimeout(
+            const timeout = appContext.adapter.setTimeout(
                 async () => {
                     await sendToTelegram({
                         instance,
                         userToSend,
                         textToSend: path,
-                        telegramParams,
+                        appContext,
                     });
 
                     const timeoutToClear = timeouts.find(item => item.key == timeoutKey);
 
-                    adapter.clearTimeout(timeoutToClear?.timeout);
+                    appContext.adapter.clearTimeout(timeoutToClear?.timeout);
                     timeouts = timeouts.filter(item => item.key !== timeoutKey);
 
-                    adapter.log.debug(`Picture has been send with delay ${delay}, path : ${path}`);
+                    appContext.adapter.log.debug(`Picture has been send with delay ${delay}, path : ${path}`);
                 },
                 parseInt(String(element.delay)),
             );
@@ -75,7 +72,7 @@ export function sendPic(
         });
         return timeouts;
     } catch (e: any) {
-        errorLogger('Error send pic:', e, adapter);
+        errorLogger('Error send pic:', e, appContext.adapter);
     }
     return timeouts;
 }

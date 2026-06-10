@@ -1,8 +1,9 @@
-import type { Adapter, MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '@backend/types/types';
+import type { Adapter, MessageInfos, Messages, WhatShouldDelete } from '@backend/types/types';
 import { parseJSON } from '@backend/lib/string';
 import { errorLogger } from '@backend/app/logging';
 import { deepCopy, getChatID } from '@backend/lib/utils';
 import { deleteMessageByBot } from '@backend/app/botAction';
+import type { AppContext } from '@backend/app/appContext';
 
 class MessageIdManager {
     private isDeleting = false;
@@ -59,13 +60,14 @@ class MessageIdManager {
     public async deleteMessageIds(
         instance: string,
         user: string,
-        telegramParams: TelegramParams,
+        appContext: AppContext,
         whatShouldDelete: WhatShouldDelete,
     ): Promise<void> {
-        const { userListWithChatID, adapter } = telegramParams;
         try {
-            const requestMessageIdObj = await adapter.getStateAsync('communication.requestIds');
-            const lastMessageId = await adapter.getForeignStateAsync(`${instance}.communicate.requestMessageId`);
+            const requestMessageIdObj = await appContext.adapter.getStateAsync('communication.requestIds');
+            const lastMessageId = await appContext.adapter.getForeignStateAsync(
+                `${instance}.communicate.requestMessageId`,
+            );
 
             if (
                 !requestMessageIdObj ||
@@ -75,7 +77,7 @@ class MessageIdManager {
                 return;
             }
 
-            const chat_id = getChatID(userListWithChatID, user);
+            const chat_id = getChatID(appContext.userListWithChatID, user);
             const { json, isValidJson } = parseJSON<Messages>(requestMessageIdObj.val);
 
             if (!isValidJson || !chat_id) {
@@ -86,15 +88,15 @@ class MessageIdManager {
             }
 
             this.isDeleting = true;
-            const copyMessageIds = deepCopy(json, adapter);
+            const copyMessageIds = deepCopy(json, appContext.adapter);
             json[chat_id].forEach((element, index) => {
                 const id = element.id?.toString();
 
                 if (whatShouldDelete === 'all' && id) {
-                    deleteMessageByBot(adapter, instance, user, parseInt(id), chat_id);
+                    deleteMessageByBot(appContext.adapter, instance, user, parseInt(id), chat_id);
                 }
                 if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
-                    deleteMessageByBot(adapter, instance, user, parseInt(id), chat_id);
+                    deleteMessageByBot(appContext.adapter, instance, user, parseInt(id), chat_id);
                 }
                 /* istanbul ignore next */
                 if (!copyMessageIds) {
@@ -103,9 +105,9 @@ class MessageIdManager {
                 copyMessageIds[chat_id] = this.removeMessageFromList({ element, chat_id, copyMessageIds });
             });
 
-            await adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
+            await appContext.adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
         } catch (e: any) {
-            errorLogger('Error deleteMessageIds:', e, adapter);
+            errorLogger('Error deleteMessageIds:', e, appContext.adapter);
         }
     }
 

@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { callSubMenu, subMenu } from '@backend/app/subMenu';
-import type { TelegramParams } from '@backend/types/types';
+import { createAppContextMock } from '../../fixtures/appContextMock';
+import type { AppContext } from '@backend/app/appContext';
 
 describe('subMenu', () => {
     let adapterMock: any;
-    let telegramParams: TelegramParams;
+    let appContext: AppContext;
     let sendToTelegramStub: sinon.SinonStub;
     let sendToTelegramSubmenuStub: sinon.SinonStub;
     let handleSetStateStub: sinon.SinonStub;
@@ -18,12 +19,12 @@ describe('subMenu', () => {
             getForeignStateAsync: sinon.stub(),
             supportsFeature: sinon.stub().returns(false),
         };
-        telegramParams = { adapter: adapterMock } as any;
+        appContext = createAppContextMock(adapterMock);
 
         sendToTelegramStub = sinon.stub(require('@backend/app/telegram'), 'sendToTelegram').resolves();
         sendToTelegramSubmenuStub = sinon.stub(require('@backend/app/telegram'), 'sendToTelegramSubmenu').resolves();
         handleSetStateStub = sinon.stub(require('@backend/app/setstate'), 'handleSetState').resolves();
-        switchBackStub = sinon.stub(require('@backend/app/backMenu').backMenuRegistry, 'switchBack').resolves(undefined);
+        switchBackStub = sinon.stub(appContext.backMenuRegistry, 'switchBack').resolves(undefined);
         deleteMessageIdsStub = sinon.stub(require('@backend/app/messageIds'), 'deleteMessageIds').resolves();
     });
 
@@ -36,11 +37,10 @@ describe('subMenu', () => {
         instance: 'telegram.0',
         menuString,
         userToSend: 'Alice',
-        telegramParams,
+        appContext,
         part: basePart,
         allMenusWithData: {},
         menus: ['menu1'],
-        adapter: adapterMock,
     });
 
     // ─── subMenu ────────────────────────────────────────────────────────────
@@ -204,11 +204,10 @@ describe('subMenu', () => {
                 instance: 'telegram.0',
                 jsonStringNav: 'menu:switch-On.true-Off.false:device1',
                 userToSend: 'Alice',
-                telegramParams,
+                appContext,
                 part: basePart,
                 allMenusWithData: {},
                 menus: ['menu1'],
-                adapter: adapterMock,
             });
             expect(sendToTelegramSubmenuStub.calledOnce).to.be.true;
             expect(result?.newNav).to.be.undefined;
@@ -219,11 +218,10 @@ describe('subMenu', () => {
                 instance: 'telegram.0',
                 jsonStringNav: 'menu:deleteAll:Overview',
                 userToSend: 'Alice',
-                telegramParams,
+                appContext,
                 part: basePart,
                 allMenusWithData: {},
                 menus: ['menu1'],
-                adapter: adapterMock,
             });
             expect(result?.newNav).to.equal('Overview');
         });
@@ -234,14 +232,12 @@ describe('subMenu', () => {
                 instance: 'telegram.0',
                 jsonStringNav: 'menu:switch-On.true-Off.false:device1',
                 userToSend: 'Alice',
-                telegramParams,
+                appContext,
                 part: basePart,
                 allMenusWithData: {},
                 menus: ['menu1'],
-                adapter: adapterMock,
             });
             expect(result).to.be.undefined;
         });
     });
 });
-

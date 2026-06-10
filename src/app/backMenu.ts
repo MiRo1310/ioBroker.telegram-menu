@@ -3,9 +3,12 @@ import type { Adapter, BackMenu, MenuData, Navigation } from '@backend/types/typ
 import { textModifier } from '@backend/lib/utilities';
 import { errorLogger } from '@backend/app/logging';
 import { jsonString } from '@backend/lib/string';
+import type { AppContext } from '@backend/app/appContext';
 
-class BackMenuRegistry {
+export class BackMenuRegistry {
     private backMenu: BackMenu = {};
+
+    constructor(private appContext: AppContext) {}
 
     public async switchBack(
         adapter: Adapter,
@@ -53,7 +56,7 @@ class BackMenuRegistry {
                         const { text, parse_mode } = allMenusWithData[foundedMenu][lastListElement];
                         let textToSend = text;
                         if (textToSend) {
-                            textToSend = await textModifier(adapter, textToSend);
+                            textToSend = await textModifier(this.appContext, textToSend);
                         }
 
                         if (this.backMenu[userToSend]?.last) {
@@ -106,4 +109,3 @@ class BackMenuRegistry {
         }
     }
 }
-export const backMenuRegistry = new BackMenuRegistry();

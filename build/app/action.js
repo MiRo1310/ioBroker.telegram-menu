@@ -9,7 +9,7 @@ const math_1 = require("../lib/math");
 const telegram_1 = require("../app/telegram");
 const logging_1 = require("../app/logging");
 const utils_1 = require("../lib/utils");
-const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, parse_mode) => {
+const bindingFunc = async (appContext, instance, text, userToSend, parse_mode) => {
     let textToSend;
     try {
         const { substringExcludeSearch } = (0, string_1.decomposeText)(text, config_1.config.binding.start, config_1.config.binding.end);
@@ -21,7 +21,7 @@ const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, 
             if (!item.includes('?')) {
                 const { key, id } = (0, splitValues_1.getBindingValues)(item);
                 if (id) {
-                    const result = await adapter.getForeignStateAsync(id);
+                    const result = await appContext.adapter.getForeignStateAsync(id);
                     if (result) {
                         bindingObject.values[key] = result.val?.toString() ?? '';
                     }
@@ -31,7 +31,7 @@ const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, 
                 Object.keys(bindingObject.values).forEach(function (key) {
                     item = item.replace(key, bindingObject.values[key]);
                 });
-                const { val } = (0, math_1.evaluate)(item, adapter);
+                const { val } = (0, math_1.evaluate)(item, appContext.adapter);
                 textToSend = String(val);
             }
         }
@@ -39,17 +39,20 @@ const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, 
             instance,
             userToSend,
             textToSend,
-            telegramParams,
+            appContext: appContext,
             parse_mode,
         });
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error Binding function: ', e, adapter);
+        (0, logging_1.errorLogger)('Error Binding function: ', e, appContext.adapter);
     }
 };
 exports.bindingFunc = bindingFunc;
 function generateActions({ action, userObject, adapter, }) {
     try {
+        if (!action) {
+            return undefined;
+        }
         const listOfSetStateIds = [];
         action?.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, index) {
             const triggerName = trigger?.[0];
@@ -102,6 +105,9 @@ function generateActions({ action, userObject, adapter, }) {
                 });
             });
         });
+        if (Object.keys(userObject).length === 0 && listOfSetStateIds.length === 0) {
+            return undefined;
+        }
         return { obj: userObject, ids: listOfSetStateIds };
     }
     catch (err) {

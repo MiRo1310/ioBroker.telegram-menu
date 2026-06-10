@@ -7,7 +7,6 @@ import type {
     NewObjectStructure,
     Part,
     Switch,
-    TelegramParams,
     UserObjectActions,
 } from '@backend/types/types';
 import { decomposeText } from '@backend/lib/string';
@@ -18,13 +17,13 @@ import { sendToTelegram } from '@backend/app/telegram';
 import { errorLogger } from '@backend/app/logging';
 import { isTruthy } from '@backend/lib/utils';
 import type { TriggerableActions, UserListWithChatID } from '@/types/app';
+import type { AppContext } from '@backend/app/appContext';
 
 export const bindingFunc = async (
-    adapter: Adapter,
+    appContext: AppContext,
     instance: string,
     text: string,
     userToSend: string,
-    telegramParams: TelegramParams,
     parse_mode?: boolean,
 ): Promise<void> => {
     let textToSend;
@@ -40,7 +39,7 @@ export const bindingFunc = async (
             if (!item.includes('?')) {
                 const { key, id } = getBindingValues(item);
                 if (id) {
-                    const result = await adapter.getForeignStateAsync(id);
+                    const result = await appContext.adapter.getForeignStateAsync(id);
 
                     if (result) {
                         bindingObject.values[key] = result.val?.toString() ?? '';
@@ -51,7 +50,7 @@ export const bindingFunc = async (
                     item = item.replace(key, bindingObject.values[key]);
                 });
 
-                const { val } = evaluate(item, adapter);
+                const { val } = evaluate(item, appContext.adapter);
                 textToSend = String(val);
             }
         }
@@ -59,11 +58,11 @@ export const bindingFunc = async (
             instance,
             userToSend,
             textToSend,
-            telegramParams,
+            appContext: appContext,
             parse_mode,
         });
     } catch (e: any) {
-        errorLogger('Error Binding function: ', e, adapter);
+        errorLogger('Error Binding function: ', e, appContext.adapter);
     }
 };
 
@@ -77,6 +76,9 @@ export function generateActions({
     adapter: Adapter;
 }): GeneratedActions | undefined {
     try {
+        if (!action) {
+            return undefined;
+        }
         const listOfSetStateIds: string[] = [];
         action?.set.forEach(function (
             { trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs },
@@ -142,6 +144,9 @@ export function generateActions({
             });
         });
 
+        if (Object.keys(userObject).length === 0 && listOfSetStateIds.length === 0) {
+            return undefined;
+        }
         return { obj: userObject, ids: listOfSetStateIds };
     } catch (err: any) {
         errorLogger('Error generateActions:', err, adapter);

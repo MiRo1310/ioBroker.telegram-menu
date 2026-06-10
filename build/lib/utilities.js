@@ -11,14 +11,14 @@ const appUtils_1 = require("../lib/appUtils");
 const time_1 = require("../lib/time");
 const setstate_1 = require("../app/setstate");
 const logging_1 = require("../app/logging");
-const getTimeValue = async (adapter, textToSend, optionalId) => {
+const getTimeValue = async (appContext, textToSend, optionalId) => {
     const { substring, substringExcludeSearch } = (0, string_1.decomposeText)(textToSend, config_1.config.timestamp.start, config_1.config.timestamp.end); //{time.lc,(DD MM YYYY hh:mm:ss:sss),id:'ID'}
     const { typeofTimestamp, timeString, idString } = (0, splitValues_1.getProcessTimeValues)(substringExcludeSearch);
     if (!optionalId && (!idString || idString.length < 5)) {
         return config_1.invalidId;
     }
     const id = (optionalId ?? idString).replace(/'/g, '').replace(/"/g, '');
-    const value = await adapter.getForeignStateAsync(id);
+    const value = await appContext.adapter.getForeignStateAsync(id);
     if (!value) {
         return config_1.invalidId;
     }
@@ -38,53 +38,53 @@ const changeToNumber = (adapter, value) => {
     return val;
 };
 exports.changeToNumber = changeToNumber;
-const textModifier = async (adapter, text) => {
+const textModifier = async (appContext, text) => {
     if (!text) {
         return '';
     }
     try {
         const inputText = text;
         while (text.includes(config_1.config.status.start)) {
-            text = await (0, status_1.checkStatus)(adapter, text);
+            text = await (0, status_1.checkStatus)(appContext, text);
         }
         if (text.includes(config_1.config.timestamp.lc) || text.includes(config_1.config.timestamp.ts)) {
-            text = await (0, exports.getTimeValue)(adapter, text);
+            text = await (0, exports.getTimeValue)(appContext, text);
         }
         if (text.includes(config_1.config.set.start)) {
             const { substring, textExcludeSubstring } = (0, string_1.decomposeText)(text, config_1.config.set.start, config_1.config.set.end);
             const [idString, importedValue, ackString] = substring.split(',').map(i => i?.replace(/}/g, ''));
             const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
             text = textExcludeSubstring;
-            const convertedValue = id && importedValue ? await transformValueToTypeOfId(adapter, id, importedValue) : undefined;
+            const convertedValue = id && importedValue ? await transformValueToTypeOfId(appContext, id, importedValue) : undefined;
             const ack = ackString?.replace('}', '') == 'true' || false;
             if (convertedValue && id) {
-                await (0, setstate_1.setstateIobroker)({ adapter, id, value: convertedValue, ack });
+                await (0, setstate_1.setstateIobroker)({ appContext, id, value: convertedValue, ack });
             }
         }
         text === inputText
-            ? adapter.log.debug(`Return text : ${text} `)
-            : adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
+            ? appContext.adapter.log.debug(`Return text : ${text} `)
+            : appContext.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
         return text;
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error returnTextModifier:', e, adapter);
+        (0, logging_1.errorLogger)('Error returnTextModifier:', e, appContext.adapter);
         return '';
     }
 };
 exports.textModifier = textModifier;
-async function transformValueToTypeOfId(adapter, id, value) {
+async function transformValueToTypeOfId(appContext, id, value) {
     try {
         const receivedType = typeof value;
-        const obj = await adapter.getForeignObjectAsync(id);
+        const obj = await appContext.adapter.getForeignObjectAsync(id);
         if (!obj || !(0, utils_1.isDefined)(value) || (0, appUtils_1.isSameType)(receivedType, obj)) {
             return value;
         }
-        adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
+        appContext.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
         switch (obj.common.type) {
             case 'string':
                 return String(value);
             case 'number':
-                return (0, exports.changeToNumber)(adapter, value);
+                return (0, exports.changeToNumber)(appContext.adapter, value);
             case 'boolean':
                 return (0, utils_1.isDefined)(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
             default:
@@ -92,7 +92,7 @@ async function transformValueToTypeOfId(adapter, id, value) {
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error checkTypeOfId:', e, adapter);
+        (0, logging_1.errorLogger)('Error checkTypeOfId:', e, appContext.adapter);
     }
 }
 //# sourceMappingURL=utilities.js.map

@@ -4,10 +4,12 @@ import { expect } from 'chai';
 import { createKeyboardFromJson, createTextTableFromJson } from '@backend/app/jsonTable';
 import { utils } from '@iobroker/testing';
 import type { Adapter } from '@backend/types/types';
+import { createAppContextMock } from '../fixtures/appContextMock';
 import { jsonTextTableResponse } from '../fixtures/jsonTextTableResponse';
 
 const { adapter } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
+const store = createAppContextMock(mockAdapter);
 
 describe('JsonTables', () => {
     it('should generate correct text table', () => {
@@ -24,7 +26,7 @@ describe('JsonTables', () => {
             '{"tableData":[{"key":"name"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}';
         const id = 'alexa-shoppinglist.0.list_activ';
         const shoppingList = fs.readFileSync('test/fixtures/alexa-shopping-list.json', 'utf8');
-        const result = createKeyboardFromJson(mockAdapter, shoppingList, testFromUser, id, 'Michael', 'telegram.0');
+        const result = createKeyboardFromJson(store, shoppingList, testFromUser, id, 'Michael', 'telegram.0');
         expect(result).to.deep.equal(JSON.parse(fs.readFileSync('test/fixtures/telegram-shopping-list.json', 'utf8')));
     });
 
@@ -33,7 +35,7 @@ describe('JsonTables', () => {
             '{"tableData":[{"key":"name"},{"key":"time"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}';
         const id = 'alexa-shoppinglist.0.list_activ';
         const shoppingList = fs.readFileSync('test/fixtures/alexa-shopping-list.json', 'utf8');
-        const result = createKeyboardFromJson(mockAdapter, shoppingList, testFromUser, id, 'Michael', 'telegram.0');
+        const result = createKeyboardFromJson(store, shoppingList, testFromUser, id, 'Michael', 'telegram.0');
         expect(result).to.deep.equal(
             JSON.parse(fs.readFileSync('test/fixtures/telegram-shopping-list-more-cols.json', 'utf8')),
         );
@@ -44,7 +46,7 @@ describe('JsonTables', () => {
             '{"tableData":[{"key":"name","label":"Name"},{"key":"time","label":"Zeit"}],"tableLabel":"ShoppingList","listName":"SHOP","type":"alexaShoppingList"}';
         const id = 'alexa-shoppinglist.0.list_activ';
         const shoppingList = fs.readFileSync('test/fixtures/alexa-shopping-list.json', 'utf8');
-        const result = createKeyboardFromJson(mockAdapter, shoppingList, testFromUser, id, 'Michael', 'telegram.0');
+        const result = createKeyboardFromJson(store, shoppingList, testFromUser, id, 'Michael', 'telegram.0');
         expect(result).to.deep.equal(
             JSON.parse(fs.readFileSync('test/fixtures/telegram-shopping-list-more-cols-and-label.json', 'utf8')),
         );

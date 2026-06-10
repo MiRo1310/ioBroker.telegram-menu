@@ -12,8 +12,7 @@ const string_1 = require("../lib/string");
 const jsonTable_1 = require("../app/jsonTable");
 const objData = {};
 let isSubscribed = false;
-async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
-    const adapter = telegramParams.adapter;
+async function shoppingListSubscribeStateAndDeleteItem(appContext, val) {
     try {
         if ((0, utils_1.isDefined)(val)) {
             const array = val.split(':');
@@ -23,17 +22,17 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
             const idItem = array[3];
             const list = array[4];
             const requestId = parseInt(array[5]);
-            const res = await adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.${list}.items.${idItem}`);
+            const res = await appContext.adapter.getForeignObjectAsync(`alexa2.${instance}.Lists.${list}.items.${idItem}`);
             if (res) {
                 objData[user] = { idList: idList };
-                adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
+                appContext.adapter.log.debug(`Alexa-shoppinglist : ${idList}`);
                 if (!isSubscribed) {
                     //TODO check subscriber
-                    await (0, subscribeStates_1._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
+                    await (0, subscribeStates_1._subscribeForeignStates)(appContext, `alexa-shoppinglist.${idList}`);
                     isSubscribed = true;
                 }
                 await (0, setstate_1.setstateIobroker)({
-                    adapter,
+                    appContext,
                     id: `alexa2.${instance}.Lists.${list}.items.${idItem}.#delete`,
                     value: true,
                     ack: false,
@@ -46,36 +45,35 @@ async function shoppingListSubscribeStateAndDeleteItem(val, telegramParams) {
                     instance: telegramInstance,
                     userToSend: user,
                     textToSend: 'Cannot delete the Item',
-                    telegramParams,
+                    appContext,
                     parse_mode: true,
                 });
             }
-            adapter.log.debug('Cannot delete the Item');
+            appContext.adapter.log.debug('Cannot delete the Item');
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error shoppingList:', e, adapter);
+        (0, logging_1.errorLogger)('Error shoppingList:', e, appContext.adapter);
     }
 }
-async function deleteMessageAndSendNewShoppingList(instance, telegramParams, userToSend) {
-    const adapter = telegramParams.adapter;
+async function deleteMessageAndSendNewShoppingList(instance, appContext, userToSend) {
     try {
         const user = userToSend;
         const idList = objData[user].idList;
-        await (0, subscribeStates_1._subscribeForeignStates)(adapter, `alexa-shoppinglist.${idList}`);
-        await (0, messageIds_1.deleteMessageIds)(instance, user, telegramParams, 'last');
-        const result = await adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
+        await (0, subscribeStates_1._subscribeForeignStates)(appContext, `alexa-shoppinglist.${idList}`);
+        await (0, messageIds_1.deleteMessageIds)(instance, user, appContext, 'last');
+        const result = await appContext.adapter.getForeignStateAsync(`alexa-shoppinglist.${idList}`);
         if (result?.val) {
-            adapter.log.debug(`Result from Shoppinglist : ${(0, string_1.jsonString)(result)}`);
+            appContext.adapter.log.debug(`Result from Shoppinglist : ${(0, string_1.jsonString)(result)}`);
             const newId = `alexa-shoppinglist.${idList}`;
-            const resultJson = (0, jsonTable_1.createKeyboardFromJson)(adapter, result.val, null, newId, user, instance);
+            const resultJson = (0, jsonTable_1.createKeyboardFromJson)(appContext, result.val, null, newId, user, instance);
             if (resultJson?.text && resultJson?.keyboard) {
-                (0, telegram_1.sendToTelegramSubmenu)(instance, user, resultJson.text, resultJson.keyboard, telegramParams, true);
+                (0, telegram_1.sendToTelegramSubmenu)(instance, user, resultJson.text, resultJson.keyboard, appContext, true);
             }
         }
     }
     catch (e) {
-        (0, logging_1.errorLogger)('Error deleteMessageAndSendNewShoppingList', e, adapter);
+        (0, logging_1.errorLogger)('Error deleteMessageAndSendNewShoppingList', e, appContext.adapter);
     }
 }
 //# sourceMappingURL=shoppingList.js.map

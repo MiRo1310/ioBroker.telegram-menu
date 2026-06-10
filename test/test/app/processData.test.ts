@@ -2,22 +2,22 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { MenuProcessor } from '@backend/app/processData';
 import { dynamicValue } from '@backend/app/dynamicValue';
-import type { MenuData, TelegramParams } from '@backend/types/types';
+import type { MenuData } from '@backend/types/types';
 import type { UserActiveCheckbox } from '@/types/app';
+import { createAppContextMock } from '../../fixtures/appContextMock';
+import type { AppContext } from '@backend/app/appContext';
 
 describe('processData', () => {
     let adapterMock: any;
-    let telegramParams: TelegramParams;
+    let store: AppContext;
     let sendToTelegramStub: sinon.SinonStub;
     let sendNavStub: sinon.SinonStub;
     let handleSetStateStub: sinon.SinonStub;
     let getStateStub: sinon.SinonStub;
     let sendPicStub: sinon.SinonStub;
-    let sendLocationStub: sinon.SinonStub;
     let getChartStub: sinon.SinonStub;
     let httpRequestStub: sinon.SinonStub;
     let callSubMenuStub: sinon.SinonStub;
-    let switchBackStub: sinon.SinonStub;
     let setstateIobrokerStub: sinon.SinonStub;
     let exchangeValueStub: sinon.SinonStub;
 
@@ -29,28 +29,28 @@ describe('processData', () => {
             setTimeout: sinon.stub(),
             clearTimeout: sinon.stub(),
         };
-        telegramParams = { adapter: adapterMock } as any;
+        store = createAppContextMock(adapterMock, { isUserActiveCheckbox: { menu1: true } });
+        sinon.stub(store.backMenuRegistry, 'switchBack').resolves(undefined);
 
         sendToTelegramStub = sinon.stub(require('../../../src/app/telegram'), 'sendToTelegram').resolves();
         sinon.stub(require('../../../src/app/telegram'), 'sendLocationToTelegram').resolves();
-        sendLocationStub = require('../../../src/app/telegram').sendLocationToTelegram;
         sendNavStub = sinon.stub(require('../../../src/app/sendNav'), 'sendNav').resolves();
         handleSetStateStub = sinon.stub(require('../../../src/app/setstate'), 'handleSetState').resolves();
         setstateIobrokerStub = sinon.stub(require('../../../src/app/setstate'), 'setstateIobroker').resolves();
-        exchangeValueStub = sinon.stub(require('../../../src/app/setstate'), 'exchangeValueAndSendToTelegram').resolves();
+        exchangeValueStub = sinon
+            .stub(require('../../../src/app/setstate'), 'exchangeValueAndSendToTelegram')
+            .resolves();
         getStateStub = sinon.stub(require('../../../src/app/getstate'), 'getState').resolves();
         sendPicStub = sinon.stub(require('../../../src/app/sendpic'), 'sendPic').returns([]);
         getChartStub = sinon.stub(require('../../../src/app/echarts'), 'getChart');
         httpRequestStub = sinon.stub(require('../../../src/app/httpRequest'), 'httpRequest').resolves(true);
         callSubMenuStub = sinon.stub(require('../../../src/app/subMenu'), 'callSubMenu').resolves({});
-        switchBackStub = sinon.stub(require('../../../src/app/backMenu').backMenuRegistry, 'switchBack').resolves(undefined);
     });
 
     afterEach(() => {
         sinon.restore();
     });
 
-    // Helper to build menuData
     function makeMenuData(overrides: Record<string, any> = {}): MenuData {
         return {
             menu1: {
@@ -65,23 +65,23 @@ describe('processData', () => {
         extra?: Partial<{
             menus: string[];
             isUserActiveCheckbox: UserActiveCheckbox;
-            token: string;
-            directoryPicture: string;
             timeoutKey: string;
             userToSend: string;
             instance: string;
         }>,
     ): MenuProcessor {
+        const processorStore =
+            extra?.isUserActiveCheckbox !== undefined
+                ? createAppContextMock(adapterMock, { isUserActiveCheckbox: extra.isUserActiveCheckbox })
+                : store;
+
         return new MenuProcessor(
+            processorStore,
             menuData ?? makeMenuData(),
             navToGoTo,
             extra?.menus ?? ['menu1'],
-            extra?.isUserActiveCheckbox ?? { menu1: true },
-            extra?.token ?? 'tok',
-            extra?.directoryPicture ?? '/pics/',
             extra?.timeoutKey ?? 'key',
             extra?.userToSend ?? 'Alice',
-            telegramParams,
             extra?.instance ?? 'telegram.0',
         );
     }
@@ -219,7 +219,7 @@ describe('processData', () => {
                 false,
                 'state.0.input',
                 'Alice',
-                telegramParams,
+                store,
                 false,
                 true,
             );
@@ -237,7 +237,7 @@ describe('processData', () => {
                 false,
                 'state.0.num',
                 'Alice',
-                telegramParams,
+                store,
                 false,
                 true,
             );
