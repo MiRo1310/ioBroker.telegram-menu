@@ -206,21 +206,26 @@ Datei: `src/app/messageIds.ts`
 
 ---
 
-## Schritt 15 — `KeyboardBuilder`-Klasse für subMenu percent/number
+## Schritt 15 — `KeyboardBuilder`-Klasse für subMenu percent/number ✅
 
 **Problem:** `createSubmenuPercent()` und `createSubmenuNumber()` bauen beide `inline_keyboard`-Arrays mit identischem Zeilen-Split-Muster (rowEntries-Counter, push bei maxEntriesPerRow).
 
-- [ ] Klasse `KeyboardBuilder` mit `addButton(text, callbackData)` und `buildRows(maxPerRow): Keyboard`
-- [ ] `createSubmenuPercent` und `createSubmenuNumber` nutzen `KeyboardBuilder`
-- [ ] Duplizierter Zeilen-Split-Loop entfernt
+- [x] `export class KeyboardBuilder` mit `addButton(text, callbackData): this` und `build(maxPerRow): Keyboard`
+- [x] `createSubmenuPercent` und `createSubmenuNumber` nutzen `KeyboardBuilder`
+- [x] Duplizierter rowEntries/menu/keyboard-Loop vollständig entfernt
+
+**Verifikation:** 629 Tests grün ✅
 
 ---
 
-## Schritt 16 — `StateValueTransformer` für getstate.ts
+## Schritt 16 — `StateValueTransformer` für getstate.ts ✅
 
 **Problem:** `getState()` hat 5+ gleichförmige "text includes X → transform" Schritte (timestamp, time, math, round, json, alexaShoppingList).
 
-- [ ] Klasse `StateValueTransformer` mit Methoden `applyTimestamp()`, `applyTime()`, `applyMath()`, `applyRound()`
-- [ ] Oder: Composable-Pipeline-Ansatz mit Array von Transform-Funktionen
-- [ ] Jeder Schritt hat klaren Input/Output-Kontrakt und ist einzeln testbar
-- [ ] `getState()` wird zur Orchestrierung ohne eingebettete Transform-Logik
+- [x] `export class StateValueTransformer` in `src/app/stateValueTransformer.ts` — hält `text`, `stateVal` und `originalStaleVal` (für `applyTime`) als Instance-State
+- [x] `async applyTimestamp(id)`, `applyTime()`, `applyMath()`, `applyRound()` — jede Methode prüft ihren Pattern-Check selbst
+- [x] Terminale Pfade (`json.textTable`, `alexaShoppingList`) bleiben in `getState()` — sie senden direkt und passen nicht in die pure Transform-Pipeline
+- [x] `getState()` instantiiert `new StateValueTransformer(text, cleanedString, appContext)` und ruft die vier apply-Methoden sequenziell auf
+- [x] `test/test/app/stateValueTransformer.test.ts` (16 Tests) — jede Methode einzeln getestet inkl. no-op-Fälle und Fehlerverhalten; Chaining-Test für math→round
+
+**Verifikation:** 645 Tests grün ✅

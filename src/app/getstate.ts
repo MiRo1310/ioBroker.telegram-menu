@@ -4,13 +4,11 @@ import { isParseModeFirstElement } from '@backend/app/parseMode';
 import { idBySelector } from '@backend/app/idBySelector';
 import { bindingFunc } from '@backend/app/action';
 import { isDefined } from '@backend/lib/utils';
-import { cleanUpString, ifTruthyAddNewLine, jsonString } from '@backend/lib/string';
-import { getTimeValue } from '@backend/lib/utilities';
-import { integrateTimeIntoText } from '@backend/lib/time';
-import { mathFunction, roundValue } from '@backend/lib/appUtils';
+import { cleanUpString, ifTruthyAddNewLine } from '@backend/lib/string';
 import { createKeyboardFromJson, createTextTableFromJson } from '@backend/app/jsonTable';
 import { sendToTelegram, sendToTelegramSubmenu } from '@backend/app/telegram';
 import { exchangeValue } from '@backend/lib/exchangeValue';
+import { StateValueTransformer } from '@backend/app/stateValueTransformer';
 import type { AppContext } from '@backend/app/appContext';
 
 export async function getState(
@@ -52,41 +50,14 @@ export async function getState(
         const stateValue = state.val?.toString() ?? '';
         const cleanedString = cleanUpString(stateValue);
 
-        let modifiedStateVal = cleanedString;
-        let modifiedTextToSend = text;
+        const transformer = new StateValueTransformer(text, cleanedString, appContext);
+        await transformer.applyTimestamp(id);
+        transformer.applyTime();
+        transformer.applyMath();
+        transformer.applyRound();
 
-        if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
-            modifiedTextToSend = await getTimeValue(appContext, text, id);
-            modifiedStateVal = '';
-        }
-
-        if (modifiedTextToSend.includes(config.time)) {
-            modifiedTextToSend = integrateTimeIntoText(modifiedTextToSend, cleanedString);
-            modifiedStateVal = '';
-        }
-
-        const {
-            textToSend,
-            calculated,
-            error: err,
-        } = mathFunction(modifiedTextToSend, modifiedStateVal, appContext.adapter);
-        if (!err) {
-            modifiedTextToSend = textToSend;
-            modifiedStateVal = calculated;
-
-            appContext.adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
-        }
-
-        if (modifiedTextToSend.includes(config.round.start)) {
-            const { error, text, roundedValue } = roundValue(String(modifiedStateVal), modifiedTextToSend);
-            if (!error) {
-                appContext.adapter.log.debug(
-                    `Rounded from ${jsonString(modifiedStateVal)} to ${jsonString(roundedValue)}`,
-                );
-                modifiedStateVal = roundedValue;
-                modifiedTextToSend = text;
-            }
-        }
+        let modifiedTextToSend = transformer.text;
+        const modifiedStateVal = transformer.stateVal;
 
         if (modifiedTextToSend.includes(config.json.textTable)) {
             const result = createTextTableFromJson(appContext.adapter, cleanedString, modifiedTextToSend);

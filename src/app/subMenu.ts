@@ -57,38 +57,35 @@ export class SubmenuHandler {
 
 export const submenuHandler = new SubmenuHandler();
 
+export class KeyboardBuilder {
+    private buttons: KeyboardItems[] = [];
+
+    addButton(text: string, callbackData: string): this {
+        this.buttons.push({ text, callback_data: callbackData });
+        return this;
+    }
+
+    build(maxPerRow: number): Keyboard {
+        const rows: KeyboardItems[][] = [];
+        for (let i = 0; i < this.buttons.length; i += maxPerRow) {
+            rows.push(this.buttons.slice(i, i + maxPerRow));
+        }
+        return { inline_keyboard: rows };
+    }
+}
+
 const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
     const { cbData, menuToHandle } = obj;
 
     submenuHandler.step = parseFloat(cbData.replace('percent', ''));
-    let rowEntries = 0;
-    let menu: KeyboardItems[] = [];
-    const keyboard: Keyboard = {
-        inline_keyboard: [],
-    };
+    const builder = new KeyboardBuilder();
     for (let i = 100; i >= 0; i -= submenuHandler.step) {
-        menu.push({
-            text: `${i}%`,
-            callback_data: `submenu:percent${submenuHandler.step},${i}:${menuToHandle}`,
-        });
+        builder.addButton(`${i}%`, `submenu:percent${submenuHandler.step},${i}:${menuToHandle}`);
         if (i != 0 && i - submenuHandler.step < 0) {
-            menu.push({
-                text: `0%`,
-                callback_data: `submenu:percent${submenuHandler.step},${0}:${menuToHandle}`,
-            });
-        }
-        rowEntries++;
-        if (rowEntries == 8) {
-            keyboard.inline_keyboard.push(menu);
-            menu = [];
-            rowEntries = 0;
+            builder.addButton(`0%`, `submenu:percent${submenuHandler.step},${0}:${menuToHandle}`);
         }
     }
-
-    if (rowEntries != 0) {
-        keyboard.inline_keyboard.push(menu);
-    }
-    return { text: obj.text, keyboard: keyboard, device: menuToHandle };
+    return { text: obj.text, keyboard: builder.build(8), device: menuToHandle };
 };
 
 const setMenuValue = async ({ appContext, instance, userToSend, part, menuNumber }: SetMenuValue): Promise<void> => {
@@ -119,11 +116,6 @@ const createSubmenuNumber = ({
         cbData = cbData.replace('(-)', 'negativ');
     }
     const splittedData = cbData.replace('number', '').split('-');
-    let rowEntries = 0;
-    let menu: { text: string; callback_data: string }[] = [];
-    const keyboard: Keyboard = {
-        inline_keyboard: [],
-    };
     let unit = '';
     if (splittedData[3] != '') {
         unit = splittedData[3];
@@ -145,13 +137,11 @@ const createSubmenuNumber = ({
     }
     let index = -1;
 
-    let maxEntriesPerRow = 8;
     const step = parseFloat(
         splittedData[2].includes('negativ') ? splittedData[2].replace('negativ', '-') : splittedData[2],
     );
-    if (step < 1) {
-        maxEntriesPerRow = 6;
-    }
+    const maxEntriesPerRow = step < 1 ? 6 : 8;
+    const builder = new KeyboardBuilder();
 
     for (let i = start; i >= end; i -= step) {
         // Zahlen umdrehen
@@ -163,21 +153,10 @@ const createSubmenuNumber = ({
         } else {
             index = i;
         }
-        menu.push({
-            text: `${index}${unit}`,
-            callback_data: `submenu:${cbData}:${menuToHandle}:${index}`,
-        });
-        rowEntries++;
-        if (rowEntries == maxEntriesPerRow) {
-            keyboard.inline_keyboard.push(menu);
-            menu = [];
-            rowEntries = 0;
-        }
+        builder.addButton(`${index}${unit}`, `submenu:${cbData}:${menuToHandle}:${index}`);
     }
 
-    if (rowEntries != 0) {
-        keyboard.inline_keyboard.push(menu);
-    }
+    const keyboard = builder.build(maxEntriesPerRow);
     appContext.adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
 
     return { text, keyboard, menuToHandle };
