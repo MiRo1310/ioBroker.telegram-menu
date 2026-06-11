@@ -214,6 +214,11 @@ export const handleSetState = async (
         }
 
         if (confirm && !useForeignId) {
+            if (appContext.stateIdRegistry.getIds().some(e => e.id === idToGetValueFrom)) {
+                appContext.adapter.log.error(
+                    `Double-send detected: ID "${idToGetValueFrom}" is registered in stateIdRegistry AND confirm-path fires — check confirm/useForeignId logic.`,
+                );
+            }
             return await exchangeValueAndSendToTelegram(
                 appContext,
                 returnText,

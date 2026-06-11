@@ -14,6 +14,7 @@ class StateIdRegistry {
     }
     async addIds(adapter, setStateId) {
         if (this.findId(setStateId)) {
+            adapter.log.warn(`StateIdRegistry: ID "${setStateId.id}" is already registered, skipping duplicate registration.`);
             return;
         }
         this.stateIdRegistry.push(setStateId);
