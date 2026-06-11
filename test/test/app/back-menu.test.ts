@@ -102,16 +102,14 @@ describe('backMenu', () => {
             expect(result?.parse_mode).to.equal(false);
         });
 
-        it('should catch errors and call errorLogger', async () => {
+        it('should propagate errors when log.debug throws', async () => {
             const user = 'userErr';
             registry.backMenuFunc({ activePage: 'page1', userToSend: user });
             registry.backMenuFunc({ activePage: 'page2', userToSend: user });
             adapterMock.log.debug = sinon.stub().throws(new Error('debug error'));
-            adapterMock.log.error = sinon.stub();
-            adapterMock.supportsFeature = sinon.stub().returns(false);
-            const result = await registry.switchBack(adapterMock, user, menuData, ['nonExistentMenu']);
-            expect(result).to.be.undefined;
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(
+                registry.switchBack(adapterMock, user, menuData, ['nonExistentMenu']),
+            ).to.be.rejectedWith('debug error');
         });
     });
 });

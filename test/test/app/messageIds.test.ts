@@ -56,10 +56,9 @@ describe('messageIds', () => {
             expect(savedJson['12345'].length).to.be.greaterThan(1);
         });
 
-        it('should handle errors gracefully', async () => {
+        it('should propagate errors', async () => {
             adapterMock.getStateAsync.rejects(new Error('DB error'));
-            await saveMessageIds(adapterMock, { val: 1 } as any, 'telegram.0');
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(saveMessageIds(adapterMock, { val: 1 } as any, 'telegram.0')).to.be.rejectedWith('DB error');
         });
 
         it('should use null for requestMessageIdObj when isDeleting=true (line 14 null branch)', async () => {
@@ -176,14 +175,13 @@ describe('messageIds', () => {
             expect(adapterMock.sendTo.calledOnce).to.be.true;
         });
 
-        it('should handle errors gracefully', async () => {
+        it('should propagate errors', async () => {
             adapterMock.getStateAsync.rejects(new Error('DB fail'));
             const params: any = {
                 adapter: adapterMock,
                 userListWithChatID: [{ name: 'User1', chatID: '123' }],
             };
-            await deleteMessageIds('telegram.0', 'User1', params, 'all');
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(deleteMessageIds('telegram.0', 'User1', params, 'all')).to.be.rejectedWith('DB fail');
         });
     });
 });

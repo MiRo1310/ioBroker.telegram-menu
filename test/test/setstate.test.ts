@@ -396,6 +396,7 @@ describe('Setstate', () => {
             getForeignObjectAsync: sinon.stub().resolves({ common: { type: 'string' } }),
             supportsFeature: sinon.stub().returns(false),
             subscribeForeignStates: sinon.stub().resolves(),
+            subscribeForeignStatesAsync: sinon.stub().resolves(),
         };
         const part = {
             switch: [
@@ -442,7 +443,7 @@ describe('Setstate', () => {
         expect(thrown).to.be.true;
     });
 
-    it('should catch error in handleSetState when getForeignStateAsync throws (line 236)', async () => {
+    it('should propagate error when getForeignStateAsync throws during toggle', async () => {
         const errorAdapter = {
             log: { debug: sinon.stub(), error: sinon.stub() },
             getForeignStateAsync: sinon.stub().rejects(new Error('get failed')),
@@ -450,6 +451,7 @@ describe('Setstate', () => {
             getForeignObjectAsync: sinon.stub().resolves({ common: { type: 'string' } }),
             supportsFeature: sinon.stub().returns(false),
             subscribeForeignStates: sinon.stub().resolves(),
+            subscribeForeignStatesAsync: sinon.stub().resolves(),
         };
         const part = {
             switch: [
@@ -464,7 +466,8 @@ describe('Setstate', () => {
                 },
             ],
         } as Part;
-        await handleSetState(createAppContextMock(errorAdapter as any), 'telegram.0', part, 'user', null);
-        expect(errorAdapter.log.error.called).to.be.true;
+        await expect(
+            handleSetState(createAppContextMock(errorAdapter as any), 'telegram.0', part, 'user', null),
+        ).to.be.rejectedWith('get failed');
     });
 });

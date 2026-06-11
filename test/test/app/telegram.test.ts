@@ -117,15 +117,16 @@ describe('telegram', () => {
             expect(payload.parse_mode).to.equal('HTML');
         });
 
-        it('should catch errors', async () => {
+        it('should propagate errors when sendTo throws', async () => {
             adapterMock.sendTo.throws(new Error('send error'));
-            await sendToTelegram({
-                instance: 'telegram.0',
-                userToSend: 'Alice',
-                textToSend: 'Hello',
-                appContext,
-            });
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(
+                sendToTelegram({
+                    instance: 'telegram.0',
+                    userToSend: 'Alice',
+                    textToSend: 'Hello',
+                    appContext,
+                }),
+            ).to.be.rejectedWith('send error');
         });
 
         it('should send with keyboard and shouldCleanUpString=false (skips cleanUpString)', async () => {
@@ -269,16 +270,17 @@ describe('telegram', () => {
             expect(adapterMock.sendTo.calledTwice).to.be.true;
         });
 
-        it('should catch errors', async () => {
+        it('should propagate errors when getForeignStateAsync throws', async () => {
             adapterMock.getForeignStateAsync.rejects(new Error('state error'));
 
-            await sendLocationToTelegram(
-                'telegram.0',
-                'Alice',
-                [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
-                appContext,
-            );
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(
+                sendLocationToTelegram(
+                    'telegram.0',
+                    'Alice',
+                    [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
+                    appContext,
+                ),
+            ).to.be.rejectedWith('state error');
         });
 
         it('should invoke the sendTo callback (telegramLogger) when sending location', async () => {

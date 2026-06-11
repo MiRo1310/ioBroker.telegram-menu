@@ -218,22 +218,18 @@ describe('utilities', () => {
             expect(result).to.equal(123);
         });
 
-        it('should return undefined if getForeignObjectAsync throws', async () => {
+        it('should propagate error when getForeignObjectAsync throws', async () => {
             adapterMock.getForeignObjectAsync.rejects(new Error('DB error'));
-            adapterMock.log.error = sinon.stub();
-            adapterMock.supportsFeature = sinon.stub().returns(false);
-            const result = await utilities.transformValueToTypeOfId(storeMock, 'id', 'value');
-            expect(result).to.be.undefined;
+            await expect(utilities.transformValueToTypeOfId(storeMock, 'id', 'value')).to.be.rejectedWith('DB error');
         });
     });
 
     describe('textModifier - error handling', () => {
-        it('should return empty string if an error is thrown internally', async () => {
+        it('should propagate error when an error is thrown internally', async () => {
             adapterMock.getForeignStateAsync.rejects(new Error('unexpected'));
-            adapterMock.log.error = sinon.stub();
-            adapterMock.supportsFeature = sinon.stub().returns(false);
-            const result = await utilities.textModifier(storeMock, '{status:"broken.id":true} change{"1":"a"}');
-            expect(result).to.equal('');
+            await expect(
+                utilities.textModifier(storeMock, '{status:"broken.id":true} change{"1":"a"}'),
+            ).to.be.rejectedWith('unexpected');
         });
     });
 

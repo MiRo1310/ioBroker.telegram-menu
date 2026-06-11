@@ -5,7 +5,6 @@ exports.subMenu = subMenu;
 const setstate_1 = require("../app/setstate");
 const string_1 = require("../lib/string");
 const telegram_1 = require("../app/telegram");
-const logging_1 = require("../app/logging");
 const utilities_1 = require("../lib/utilities");
 const validateMenus_1 = require("../app/validateMenus");
 const messageIds_1 = require("../app/messageIds");
@@ -150,91 +149,81 @@ const back = async ({ instance, appContext, userToSend, allMenusWithData, menus 
     }
 };
 async function callSubMenu({ instance, jsonStringNav, userToSend, appContext, part, allMenusWithData, menus, }) {
-    try {
-        const obj = await subMenu({
-            instance,
-            menuString: jsonStringNav,
-            userToSend,
-            appContext,
-            part,
-            allMenusWithData,
-            menus,
-        });
-        appContext.adapter.log.debug(`Submenu : ${(0, string_1.jsonString)(obj)}`);
-        if (obj?.text && obj?.keyboard) {
-            (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
-        }
-        return { newNav: obj?.navToGoBack };
+    const obj = await subMenu({
+        instance,
+        menuString: jsonStringNav,
+        userToSend,
+        appContext,
+        part,
+        allMenusWithData,
+        menus,
+    });
+    appContext.adapter.log.debug(`Submenu : ${(0, string_1.jsonString)(obj)}`);
+    if (obj?.text && obj?.keyboard) {
+        (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
     }
-    catch (e) {
-        (0, logging_1.errorLogger)('Error callSubMenu:', e, appContext.adapter);
-    }
+    return { newNav: obj?.navToGoBack };
 }
 async function subMenu({ menuString, userToSend, appContext, part, allMenusWithData, menus, instance, }) {
-    try {
-        appContext.adapter.log.debug(`Menu : ${menuString}`);
-        const text = await (0, utilities_1.textModifier)(appContext, part.text);
-        if ((0, validateMenus_1.isDeleteMenu)(menuString)) {
-            await (0, messageIds_1.deleteMessageIds)(instance, userToSend, appContext, 'all');
-            const menu = menuString.split(':')?.[2]?.split('"')?.[0]; //[["menu:deleteAll:Übersicht"],[""]]
-            if (menu && (0, string_1.isNonEmptyString)(menu)) {
-                return { navToGoBack: menu };
-            }
-        }
-        const { cbData, menuToHandle, val } = (0, splitValues_1.getMenuValues)(menuString);
-        if (!cbData) {
-            appContext.adapter.log.debug('No callback data found');
-            return;
-        }
-        if ((0, validateMenus_1.isCreateSwitch)(cbData) && menuToHandle) {
-            return createSwitchMenu({ appContext, cbData, text, menuToHandle: menuToHandle });
-        }
-        if ((0, validateMenus_1.isFirstMenuValue)(cbData)) {
-            await setMenuValue({
-                instance,
-                part,
-                userToSend,
-                appContext,
-                menuNumber: 1,
-            });
-        }
-        if ((0, validateMenus_1.isSecondMenuValue)(cbData)) {
-            await setMenuValue({ instance, part, userToSend, appContext, menuNumber: 2 });
-        }
-        if ((0, validateMenus_1.isCreateDynamicSwitch)(cbData) && menuToHandle) {
-            return (0, dynamicSwitchMenu_1.createDynamicSwitchMenu)(appContext, menuString, menuToHandle, text);
-        }
-        if ((0, validateMenus_1.isSetDynamicSwitchVal)(cbData) && val) {
-            await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, val); //SetDynamicValue
-        }
-        if ((0, validateMenus_1.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
-            return createSubmenuPercent({ appContext, cbData, text, menuToHandle: menuToHandle });
-        }
-        if ((0, validateMenus_1.isSetSubmenuPercent)(menuString, step)) {
-            const value = parseInt(menuString.split(':')[1].split(',')[1]);
-            await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, value);
-        }
-        if ((0, validateMenus_1.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
-            return createSubmenuNumber({ appContext, cbData, text, menuToHandle: menuToHandle });
-        }
-        if ((0, validateMenus_1.isSetSubmenuNumber)(menuString)) {
-            const { value } = (0, splitValues_1.getSubmenuNumberValues)(menuString);
-            if (value) {
-                await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, value);
-            }
-        }
-        if ((0, validateMenus_1.isMenuBack)(menuString)) {
-            await back({
-                instance,
-                userToSend,
-                allMenusWithData,
-                menus,
-                appContext,
-            });
+    appContext.adapter.log.debug(`Menu : ${menuString}`);
+    const text = await (0, utilities_1.textModifier)(appContext, part.text);
+    if ((0, validateMenus_1.isDeleteMenu)(menuString)) {
+        await (0, messageIds_1.deleteMessageIds)(instance, userToSend, appContext, 'all');
+        const menu = menuString.split(':')?.[2]?.split('"')?.[0]; //[["menu:deleteAll:Übersicht"],[""]]
+        if (menu && (0, string_1.isNonEmptyString)(menu)) {
+            return { navToGoBack: menu };
         }
     }
-    catch (error) {
-        (0, logging_1.errorLogger)('Error subMenu:', error, appContext.adapter);
+    const { cbData, menuToHandle, val } = (0, splitValues_1.getMenuValues)(menuString);
+    if (!cbData) {
+        appContext.adapter.log.debug('No callback data found');
+        return;
+    }
+    if ((0, validateMenus_1.isCreateSwitch)(cbData) && menuToHandle) {
+        return createSwitchMenu({ appContext, cbData, text, menuToHandle: menuToHandle });
+    }
+    if ((0, validateMenus_1.isFirstMenuValue)(cbData)) {
+        await setMenuValue({
+            instance,
+            part,
+            userToSend,
+            appContext,
+            menuNumber: 1,
+        });
+    }
+    if ((0, validateMenus_1.isSecondMenuValue)(cbData)) {
+        await setMenuValue({ instance, part, userToSend, appContext, menuNumber: 2 });
+    }
+    if ((0, validateMenus_1.isCreateDynamicSwitch)(cbData) && menuToHandle) {
+        return (0, dynamicSwitchMenu_1.createDynamicSwitchMenu)(appContext, menuString, menuToHandle, text);
+    }
+    if ((0, validateMenus_1.isSetDynamicSwitchVal)(cbData) && val) {
+        await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, val); //SetDynamicValue
+    }
+    if ((0, validateMenus_1.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
+        return createSubmenuPercent({ appContext, cbData, text, menuToHandle: menuToHandle });
+    }
+    if ((0, validateMenus_1.isSetSubmenuPercent)(menuString, step)) {
+        const value = parseInt(menuString.split(':')[1].split(',')[1]);
+        await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, value);
+    }
+    if ((0, validateMenus_1.isCreateSubmenuNumber)(menuString, cbData) && menuToHandle) {
+        return createSubmenuNumber({ appContext, cbData, text, menuToHandle: menuToHandle });
+    }
+    if ((0, validateMenus_1.isSetSubmenuNumber)(menuString)) {
+        const { value } = (0, splitValues_1.getSubmenuNumberValues)(menuString);
+        if (value) {
+            await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, value);
+        }
+    }
+    if ((0, validateMenus_1.isMenuBack)(menuString)) {
+        await back({
+            instance,
+            userToSend,
+            allMenusWithData,
+            menus,
+            appContext,
+        });
     }
 }
 //# sourceMappingURL=subMenu.js.map

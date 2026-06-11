@@ -66,12 +66,11 @@ describe('action', () => {
             expect(adapterMock.sendTo.calledOnce).to.be.true;
         });
 
-        it('should call errorLogger when getForeignStateAsync throws', async () => {
+        it('should propagate error when getForeignStateAsync throws', async () => {
             adapterMock.getForeignStateAsync.rejects(new Error('network error'));
 
             const text = 'binding:{temp:state.0.temp;?temp+0}';
-            await bindingFunc(store, 'telegram.0', text, 'Michael', false);
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(bindingFunc(store, 'telegram.0', text, 'Michael', false)).to.be.rejectedWith('network error');
         });
     });
 
@@ -115,7 +114,7 @@ describe('action', () => {
     describe('generateActions', () => {
         it('should return undefined when action is undefined', () => {
             const userObject: NewObjectStructure = {};
-            const result = generateActions({ adapter: adapterMock, action: undefined, userObject });
+            const result = generateActions({ action: undefined, userObject });
             expect(result).to.be.undefined;
         });
 
@@ -129,7 +128,7 @@ describe('action', () => {
                 events: [],
             };
             const userObject: NewObjectStructure = {};
-            const result = generateActions({ adapter: adapterMock, action, userObject });
+            const result = generateActions({ action, userObject });
             expect(result).to.be.undefined;
         });
 
@@ -154,7 +153,7 @@ describe('action', () => {
                 events: [],
             };
             const userObject: NewObjectStructure = { btn1: { text: 'Button 1' } };
-            const result = generateActions({ adapter: adapterMock, action, userObject });
+            const result = generateActions({ action, userObject });
             expect(result).to.not.be.undefined;
             expect(result?.obj?.btn1?.switch).to.not.be.undefined;
         });

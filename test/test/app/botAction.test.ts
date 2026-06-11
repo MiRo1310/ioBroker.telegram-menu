@@ -40,9 +40,9 @@ describe('botAction', () => {
         expect(adapterMock.sendTo.calledOnce).to.be.true;
     });
 
-    it('should not throw if sendTo throws', () => {
+    it('should throw if sendTo throws', () => {
         adapterMock.sendTo.throws(new Error('send failed'));
-        expect(() => deleteMessageByBot(adapterMock, 'telegram.0', 'Michael', 42, 12345)).to.not.throw();
+        expect(() => deleteMessageByBot(adapterMock, 'telegram.0', 'Michael', 42, 12345)).to.throw('send failed');
     });
 });
 

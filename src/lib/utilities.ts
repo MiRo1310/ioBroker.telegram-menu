@@ -7,7 +7,6 @@ import { invalidId, config } from '@backend/config/config';
 import { isSameType, timeStringReplacer } from '@backend/lib/appUtils';
 import { extractTimeValues, getTimeWithPad } from '@backend/lib/time';
 import { setstateIobroker } from '@backend/app/setstate';
-import { errorLogger } from '@backend/app/logging';
 import type { AppContext } from '@backend/app/appContext';
 
 export const getTimeValue = async (
@@ -52,43 +51,38 @@ export const textModifier = async (appContext: AppContext, text?: string): Promi
     if (!text) {
         return '';
     }
-    try {
-        const inputText = text;
+    const inputText = text;
 
-        while (text.includes(config.status.start)) {
-            text = await checkStatus(appContext, text);
-        }
-
-        if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
-            text = await getTimeValue(appContext, text);
-        }
-        if (text.includes(config.set.start)) {
-            const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
-
-            const [idString, importedValue, ackString] = (substring.split(',') as (string | undefined)[]).map(i =>
-                i?.replace(/}/g, ''),
-            );
-            const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
-
-            text = textExcludeSubstring;
-            const convertedValue =
-                id && importedValue ? await transformValueToTypeOfId(appContext, id, importedValue) : undefined;
-
-            const ack = ackString?.replace('}', '') == 'true' || false;
-
-            if (convertedValue && id) {
-                await setstateIobroker({ appContext, id, value: convertedValue, ack });
-            }
-        }
-
-        text === inputText
-            ? appContext.adapter.log.debug(`Return text : ${text} `)
-            : appContext.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
-        return text;
-    } catch (e: any) {
-        errorLogger('Error returnTextModifier:', e, appContext.adapter);
-        return '';
+    while (text.includes(config.status.start)) {
+        text = await checkStatus(appContext, text);
     }
+
+    if (text.includes(config.timestamp.lc) || text.includes(config.timestamp.ts)) {
+        text = await getTimeValue(appContext, text);
+    }
+    if (text.includes(config.set.start)) {
+        const { substring, textExcludeSubstring } = decomposeText(text, config.set.start, config.set.end);
+
+        const [idString, importedValue, ackString] = (substring.split(',') as (string | undefined)[]).map(i =>
+            i?.replace(/}/g, ''),
+        );
+        const id = idString?.replace("{set:'id':", '').replace(/'/g, '');
+
+        text = textExcludeSubstring;
+        const convertedValue =
+            id && importedValue ? await transformValueToTypeOfId(appContext, id, importedValue) : undefined;
+
+        const ack = ackString?.replace('}', '') == 'true' || false;
+
+        if (convertedValue && id) {
+            await setstateIobroker({ appContext, id, value: convertedValue, ack });
+        }
+    }
+
+    text === inputText
+        ? appContext.adapter.log.debug(`Return text : ${text} `)
+        : appContext.adapter.log.debug(`Return text was modified from "${inputText}" to "${text}" `);
+    return text;
 };
 
 export async function transformValueToTypeOfId(
@@ -96,28 +90,24 @@ export async function transformValueToTypeOfId(
     id: string,
     value: ioBroker.StateValue,
 ): Promise<ioBroker.StateValue | undefined> {
-    try {
-        const receivedType = typeof value;
+    const receivedType = typeof value;
 
-        const obj = await appContext.adapter.getForeignObjectAsync(id);
+    const obj = await appContext.adapter.getForeignObjectAsync(id);
 
-        if (!obj || !isDefined(value) || isSameType(receivedType, obj)) {
+    if (!obj || !isDefined(value) || isSameType(receivedType, obj)) {
+        return value;
+    }
+
+    appContext.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
+
+    switch (obj.common.type) {
+        case 'string':
+            return String(value);
+        case 'number':
+            return changeToNumber(appContext.adapter, value as string | number);
+        case 'boolean':
+            return isDefined(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
+        default:
             return value;
-        }
-
-        appContext.adapter.log.debug(`Change Value type from "${receivedType}" to "${obj.common.type}"`);
-
-        switch (obj.common.type) {
-            case 'string':
-                return String(value);
-            case 'number':
-                return changeToNumber(appContext.adapter, value as string | number);
-            case 'boolean':
-                return isDefined(value) && !['false', false, 0, '0', 'null', 'undefined'].includes(value);
-            default:
-                return value;
-        }
-    } catch (e: any) {
-        errorLogger('Error checkTypeOfId:', e, appContext.adapter);
     }
 }

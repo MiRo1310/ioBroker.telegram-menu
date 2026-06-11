@@ -134,10 +134,9 @@ describe('subMenu', () => {
             expect(result?.navToGoBack).to.equal('Overview');
         });
 
-        it('should catch errors', async () => {
+        it('should propagate errors', async () => {
             handleSetStateStub.rejects(new Error('boom'));
-            await subMenu(baseArgs('menu:first:device1'));
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(subMenu(baseArgs('menu:first:device1'))).to.be.rejectedWith('boom');
         });
 
         it('should add 0% button when step does not divide evenly into 100', async () => {
@@ -226,18 +225,19 @@ describe('subMenu', () => {
             expect(result?.newNav).to.equal('Overview');
         });
 
-        it('should catch errors and return undefined', async () => {
+        it('should propagate errors', async () => {
             adapterMock.log.debug.throws(new Error('crash'));
-            const result = await callSubMenu({
-                instance: 'telegram.0',
-                jsonStringNav: 'menu:switch-On.true-Off.false:device1',
-                userToSend: 'Alice',
-                appContext,
-                part: basePart,
-                allMenusWithData: {},
-                menus: ['menu1'],
-            });
-            expect(result).to.be.undefined;
+            await expect(
+                callSubMenu({
+                    instance: 'telegram.0',
+                    jsonStringNav: 'menu:switch-On.true-Off.false:device1',
+                    userToSend: 'Alice',
+                    appContext,
+                    part: basePart,
+                    allMenusWithData: {},
+                    menus: ['menu1'],
+                }),
+            ).to.be.rejectedWith('crash');
         });
     });
 });

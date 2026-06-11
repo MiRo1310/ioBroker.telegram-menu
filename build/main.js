@@ -241,7 +241,6 @@ class TelegramMenu extends utils.Adapter {
             const splittedNavigation = (0, appUtils_1.splitNavigation)(nav[name]);
             const newStructure = (0, appUtils_1.getNewStructure)(splittedNavigation);
             const generatedActions = (0, action_1.generateActions)({
-                adapter: this,
                 action: action?.[name],
                 userObject: newStructure,
             });

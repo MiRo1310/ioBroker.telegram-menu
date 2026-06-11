@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendLocationToTelegram = void 0;
 exports.sendToTelegram = sendToTelegram;
 exports.sendToTelegramSubmenu = sendToTelegramSubmenu;
-const logging_1 = require("../app/logging");
 const utilities_1 = require("../lib/utilities");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
@@ -20,35 +19,30 @@ function validateTextToSend(adapter, textToSend) {
     return true;
 }
 async function sendToTelegram({ instance, userToSend, textToSend, keyboard, appContext, parse_mode, shouldCleanUpString = true, }) {
-    try {
-        const chatId = (0, utils_1.getChatID)(appContext.userListWithChatID, userToSend);
-        if (!instance || !(0, instance_1.isInstanceActive)(appContext.telegramInstanceList, instance)) {
-            return;
-        }
-        appContext.adapter.log.debug(`Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , parseMode: ${parse_mode} }`);
-        validateTextToSend(appContext.adapter, textToSend);
-        if (!keyboard) {
-            appContext.adapter.sendTo(instance, 'send', {
-                text: shouldCleanUpString ? (0, string_1.cleanUpString)(textToSend) : textToSend,
-                chatId,
-                parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
-            }, res => telegramLogger(appContext.adapter, res));
-            return;
-        }
+    const chatId = (0, utils_1.getChatID)(appContext.userListWithChatID, userToSend);
+    if (!instance || !(0, instance_1.isInstanceActive)(appContext.telegramInstanceList, instance)) {
+        return;
+    }
+    appContext.adapter.log.debug(`Send to: { user: ${userToSend} , chatId :${chatId} , text: ${textToSend} , instance: ${instance} , parseMode: ${parse_mode} }`);
+    validateTextToSend(appContext.adapter, textToSend);
+    if (!keyboard) {
         appContext.adapter.sendTo(instance, 'send', {
+            text: shouldCleanUpString ? (0, string_1.cleanUpString)(textToSend) : textToSend,
             chatId,
             parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
-            text: await (0, utilities_1.textModifier)(appContext, shouldCleanUpString ? (0, string_1.cleanUpString)(textToSend) : textToSend),
-            reply_markup: {
-                keyboard,
-                resize_keyboard: appContext.resize_keyboard,
-                one_time_keyboard: appContext.one_time_keyboard,
-            },
         }, res => telegramLogger(appContext.adapter, res));
+        return;
     }
-    catch (e) {
-        (0, logging_1.errorLogger)('Error sendToTelegram:', e, appContext.adapter);
-    }
+    appContext.adapter.sendTo(instance, 'send', {
+        chatId,
+        parse_mode: (0, appUtils_1.getParseMode)(parse_mode),
+        text: await (0, utilities_1.textModifier)(appContext, shouldCleanUpString ? (0, string_1.cleanUpString)(textToSend) : textToSend),
+        reply_markup: {
+            keyboard,
+            resize_keyboard: appContext.resize_keyboard,
+            one_time_keyboard: appContext.one_time_keyboard,
+        },
+    }, res => telegramLogger(appContext.adapter, res));
 }
 function sendToTelegramSubmenu(telegramInstance, user, textToSend, keyboard, appContext, parse_mode) {
     if (!validateTextToSend(appContext.adapter, textToSend)) {
@@ -62,27 +56,22 @@ function sendToTelegramSubmenu(telegramInstance, user, textToSend, keyboard, app
     }, (res) => telegramLogger(appContext.adapter, res));
 }
 const sendLocationToTelegram = async (telegramInstance, user, data, appContext) => {
-    try {
-        const chatId = (0, utils_1.getChatID)(appContext.userListWithChatID, user);
-        for (const { longitude: longitudeID, latitude: latitudeID } of data) {
-            if (!(latitudeID || longitudeID)) {
-                continue;
-            }
-            const latitude = await appContext.adapter.getForeignStateAsync(latitudeID);
-            const longitude = await appContext.adapter.getForeignStateAsync(longitudeID);
-            if (!latitude || !longitude) {
-                continue;
-            }
-            appContext.adapter.sendTo(telegramInstance, {
-                chatId: chatId,
-                latitude: latitude.val,
-                longitude: longitude.val,
-                disable_notification: true,
-            }, (res) => telegramLogger(appContext.adapter, res));
+    const chatId = (0, utils_1.getChatID)(appContext.userListWithChatID, user);
+    for (const { longitude: longitudeID, latitude: latitudeID } of data) {
+        if (!(latitudeID || longitudeID)) {
+            continue;
         }
-    }
-    catch (e) {
-        (0, logging_1.errorLogger)('Error send location to telegram:', e, appContext.adapter);
+        const latitude = await appContext.adapter.getForeignStateAsync(latitudeID);
+        const longitude = await appContext.adapter.getForeignStateAsync(longitudeID);
+        if (!latitude || !longitude) {
+            continue;
+        }
+        appContext.adapter.sendTo(telegramInstance, {
+            chatId: chatId,
+            latitude: latitude.val,
+            longitude: longitude.val,
+            disable_notification: true,
+        }, (res) => telegramLogger(appContext.adapter, res));
     }
 };
 exports.sendLocationToTelegram = sendLocationToTelegram;
