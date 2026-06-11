@@ -37,9 +37,7 @@ describe('processData', () => {
         sendNavStub = sinon.stub(require('../../../src/app/sendNav'), 'sendNav').resolves();
         handleSetStateStub = sinon.stub(require('../../../src/app/setstate'), 'handleSetState').resolves();
         setstateIobrokerStub = sinon.stub(require('../../../src/app/setstate'), 'setstateIobroker').resolves();
-        exchangeValueStub = sinon
-            .stub(require('../../../src/app/setstate'), 'exchangeValueAndSendToTelegram')
-            .resolves();
+        exchangeValueStub = sinon.stub(require('../../../src/app/setstate'), 'buildReturnText').resolves();
         getStateStub = sinon.stub(require('../../../src/app/getstate'), 'getState').resolves();
         sendPicStub = sinon.stub(require('../../../src/app/sendpic'), 'sendPic').returns([]);
         getChartStub = sinon.stub(require('../../../src/app/echarts'), 'getChart');

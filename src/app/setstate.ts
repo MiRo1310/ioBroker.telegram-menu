@@ -12,10 +12,10 @@ import {
 import { transformValueToTypeOfId } from '@backend/lib/utilities';
 import { isDefined } from '@backend/lib/utils';
 import { exchangeValue } from '@backend/lib/exchangeValue';
-import { sendToTelegram } from '@backend/app/telegram';
 import { mathFunction } from '@backend/lib/appUtils';
 import { dynamicValue } from '@backend/app/dynamicValue';
 import type { AppContext } from '@backend/app/appContext';
+import { sendToTelegram } from '@backend/app/telegram';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
     /* istanbul ignore next */
@@ -97,30 +97,42 @@ function handleUpdateFromForeignId(returnText: string): boolean {
     return returnText.includes(foreignIdStart);
 }
 
-export async function exchangeValueAndSendToTelegram(
+export function parseForeignId(returnText: string): { foreignId: string; text: string; resolvedText: string } | null {
+    const { substring } = decomposeText(returnText, foreignIdStart, '}');
+    const { json, isValidJson } = parseJSON<{ text: string; foreignId: string }>(substring);
+    if (!isValidJson || !json.foreignId) {
+        return null;
+    }
+    return {
+        foreignId: json.foreignId,
+        text: json.text,
+        resolvedText: returnText.replace(substring, json.text),
+    };
+}
+
+export async function buildReturnText(
     appContext: AppContext,
     returnText: string,
     valueToTelegram: string | number | null | boolean,
-    instance: string,
-    userToSend: string,
-    parse_mode: boolean,
-): Promise<Telegram> {
-    let { textToSend } = exchangeValue(appContext, singleQuotesToDoubleQuotes(returnText), valueToTelegram);
+): Promise<string> {
+    const { textToSend } = exchangeValue(appContext, singleQuotesToDoubleQuotes(returnText), valueToTelegram);
 
+    return await resolveIdReferences(appContext, textToSend);
+}
+
+export async function resolveIdReferences(appContext: AppContext, text: string, maxIterations = 20): Promise<string> {
+    let result = text;
     let i = 0;
-    while (textToSend.includes('{id:') && i < 20) {
-        textToSend = String(await _getDynamicValueIfIsIn(appContext, textToSend));
+    while (result.includes('{id:') && i < maxIterations) {
+        result = String(await _getDynamicValueIfIsIn(appContext, result));
         i++;
     }
-    const telegramData: Telegram = {
-        instance,
-        userToSend,
-        textToSend,
-        appContext,
-        parse_mode,
-    };
-    await sendToTelegram(telegramData);
-    return telegramData;
+    if (i === maxIterations && result.includes('{id:')) {
+        appContext.adapter.log.warn(
+            `resolveIdReferences: iteration limit (${maxIterations}) reached — unresolved {id:} in: "${text}"`,
+        );
+    }
+    return result;
 }
 
 export const handleSetState = async (
@@ -171,16 +183,18 @@ export const handleSetState = async (
                 return;
             }
 
-            if (json.foreignId) {
-                idToGetValueFrom = json.foreignId;
-                returnText = returnText.replace(substring, json.text);
+            if (!json.foreignId) {
+                return;
             }
+
+            idToGetValueFrom = json.foreignId;
+            returnText = returnText.replace(substring, json.text);
 
             await appContext.stateIdRegistry.addIds(appContext.adapter, {
                 id: json.foreignId,
                 confirm: true,
                 returnText: json.text,
-                userToSend: userToSend,
+                userToSend,
                 instance,
             });
         }
@@ -210,14 +224,10 @@ export const handleSetState = async (
                     `Double-send detected: ID "${idToGetValueFrom}" is registered in stateIdRegistry AND confirm-path fires — check confirm/useForeignId logic.`,
                 );
             }
-            return await exchangeValueAndSendToTelegram(
-                appContext,
-                returnText,
-                valueToTelegram,
-                instance,
-                userToSend,
-                parse_mode,
-            );
+            const textToSend = await buildReturnText(appContext, returnText, valueToTelegram);
+            const telegramData: Telegram = { instance, userToSend, textToSend, appContext, parse_mode };
+            await sendToTelegram(telegramData);
+            return telegramData;
         }
     }
 };

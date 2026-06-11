@@ -3,7 +3,13 @@ import sinon from 'sinon';
 
 import { utils } from '@iobroker/testing';
 import type { Adapter, Part } from '@backend/types/types';
-import { handleSetState, setstateIobroker } from '@backend/app/setstate';
+import {
+    buildReturnText,
+    handleSetState,
+    parseForeignId,
+    resolveIdReferences,
+    setstateIobroker,
+} from '@backend/app/setstate';
 import { createAppContextMock } from '../fixtures/appContextMock';
 import type { AppContext } from '@backend/app/appContext';
 
@@ -469,5 +475,127 @@ describe('Setstate', () => {
         await expect(
             handleSetState(createAppContextMock(errorAdapter as any), 'telegram.0', part, 'user', null),
         ).to.be.rejectedWith('get failed');
+    });
+});
+
+describe('parseForeignId', () => {
+    const validInput = '{"foreignId":"test.0.id","text":"Wert: &&"}';
+
+    it('should parse a valid foreignId JSON and return foreignId, text, resolvedText', () => {
+        const result = parseForeignId(validInput);
+        expect(result).to.not.be.null;
+        expect(result!.foreignId).to.equal('test.0.id');
+        expect(result!.text).to.equal('Wert: &&');
+        expect(result!.resolvedText).to.equal('Wert: &&');
+    });
+
+    it('should embed the JSON text into the surrounding returnText for resolvedText', () => {
+        const input = 'Prefix {"foreignId":"test.0.id","text":"Ersetzt"} Suffix';
+        const result = parseForeignId(input);
+        expect(result!.resolvedText).to.equal('Prefix Ersetzt Suffix');
+    });
+
+    it('should return null for invalid JSON', () => {
+        const result = parseForeignId('{"foreignId":"broken json');
+        expect(result).to.be.null;
+    });
+
+    it('should return null when foreignId field is missing', () => {
+        const result = parseForeignId('{"text":"Nur Text"}');
+        expect(result).to.be.null;
+    });
+
+    it('should return null when foreignId is an empty string', () => {
+        const result = parseForeignId('{"foreignId":"","text":"Kein Id"}');
+        expect(result).to.be.null;
+    });
+
+    it('should return null when input does not contain the foreignId marker at all', () => {
+        const result = parseForeignId('Normaler Text ohne JSON');
+        expect(result).to.be.null;
+    });
+});
+
+describe('buildReturnText', () => {
+    let appContext: AppContext;
+
+    beforeEach(() => {
+        appContext = createAppContextMock(mockAdapter);
+    });
+
+    it('should substitute && placeholder with the given value', async () => {
+        const result = await buildReturnText(appContext, 'Wert: &&', '42');
+        expect(result).to.equal('Wert: 42');
+    });
+
+    it('should replace single quotes with double quotes before exchangeValue', async () => {
+        // singleQuotesToDoubleQuotes converts {status:'id'} → {status:"id"}
+        // Here we just verify the pipeline does not break on single-quoted text
+        const result = await buildReturnText(appContext, "Text: && °C", 21);
+        expect(result).to.equal('Text: 21 °C');
+    });
+
+    it('should return raw text unchanged when value is null and no placeholder', async () => {
+        const result = await buildReturnText(appContext, 'Kein Platzhalter', null);
+        expect(result).to.equal('Kein Platzhalter');
+    });
+
+    it('should resolve {id:} references in the resulting text', async () => {
+        database.publishState('build.return.text.id', { val: 'dynamisch', ack: true });
+        const result = await buildReturnText(appContext, "Wert: && {id:'build.return.text.id'}", '');
+        expect(result).to.include('dynamisch');
+        expect(result).to.not.include('{id:');
+    });
+
+    it('should handle boolean value', async () => {
+        const result = await buildReturnText(appContext, 'Status: &&', true);
+        expect(result).to.equal('Status: true');
+    });
+});
+
+describe('resolveIdReferences', () => {
+    let appContext: AppContext;
+    // mockAdapter.log.warn is already a stub from utils.unit.createMocks — use it directly
+    const warnStub = () => mockAdapter.log.warn as sinon.SinonStub;
+
+    beforeEach(() => {
+        appContext = createAppContextMock(mockAdapter);
+        warnStub().resetHistory();
+    });
+
+    it('should return text unchanged when no {id:} present', async () => {
+        const result = await resolveIdReferences(appContext, 'Temperature: 21°C');
+        expect(result).to.equal('Temperature: 21°C');
+    });
+
+    it('should resolve a single {id:} reference and include the state value', async () => {
+        // _getDynamicValueIfIsIn appends the state value to the remaining text
+        database.publishState('resolve.test.single', { val: 'resolved', ack: true });
+        const result = await resolveIdReferences(appContext, "Wert: && {id:'resolve.test.single'}");
+        expect(result).to.include('resolved');
+        expect(result).to.not.include('{id:');
+    });
+
+    it('should resolve chained {id:} references (result of first contains another {id:})', async () => {
+        database.publishState('resolve.test.chain.a', { val: "{id:'resolve.test.chain.b'}", ack: true });
+        database.publishState('resolve.test.chain.b', { val: '42', ack: true });
+        const result = await resolveIdReferences(appContext, "{id:'resolve.test.chain.a'}");
+        expect(result).to.include('42');
+        expect(result).to.not.include('{id:');
+    });
+
+    it('should stop and log warn when iteration limit is reached with unresolved {id:}', async () => {
+        // State always returns another {id:} → never resolves → hits limit
+        database.publishState('resolve.test.loop', { val: "{id:'resolve.test.loop'}", ack: true });
+        await resolveIdReferences(appContext, "{id:'resolve.test.loop'}", 3);
+        expect(warnStub().calledOnce).to.be.true;
+        expect(warnStub().firstCall.args[0]).to.include('iteration limit (3) reached');
+    });
+
+    it('should NOT warn when last iteration resolves the final {id:}', async () => {
+        // Resolves cleanly in exactly 1 iteration → no warn
+        database.publishState('resolve.test.clean', { val: 'done', ack: true });
+        await resolveIdReferences(appContext, "{id:'resolve.test.clean'}", 1);
+        expect(warnStub().called).to.be.false;
     });
 });

@@ -1,7 +1,7 @@
 import type { IDynamicValue, MenuData, NewObjectStructure, Part, Timeouts } from '@backend/types/types';
 import { jsonString } from '@backend/lib/string';
 import { adjustValueType } from '@backend/app/action';
-import { exchangeValueAndSendToTelegram, handleSetState, setstateIobroker } from '@backend/app/setstate';
+import { buildReturnText, handleSetState, setstateIobroker } from '@backend/app/setstate';
 import { sendLocationToTelegram, sendToTelegram } from '@backend/app/telegram';
 import { sendNav } from '@backend/app/sendNav';
 import { callSubMenu } from '@backend/app/subMenu';
@@ -174,14 +174,14 @@ export class MenuProcessor {
                 ack: dynamicValueObject.ack,
             });
             if (dynamicValueObject.confirm && this.onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
-                await exchangeValueAndSendToTelegram(
-                    this.appContext,
-                    dynamicValueObject.returnText,
-                    valueToSet,
-                    this.instance,
-                    this.userToSend,
-                    dynamicValueObject.parse_mode,
-                );
+                const text = await buildReturnText(this.appContext, dynamicValueObject.returnText, valueToSet);
+
+                await sendToTelegram({
+                    instance: this.instance,
+                    userToSend: this.userToSend,
+                    textToSend: text,
+                    appContext: this.appContext,
+                });
             }
         } else {
             await sendToTelegram({
