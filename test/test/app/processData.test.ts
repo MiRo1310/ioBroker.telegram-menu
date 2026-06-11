@@ -211,16 +211,16 @@ describe('processData', () => {
 
         it('should set state and send confirmation when dynamicValue is set', async () => {
             sendToTelegramStub.resolves();
-            await dynamicValue.setValue(
-                'telegram.0',
-                '{setDynamicValue:Question?:string:Confirmed:}',
-                false,
-                'state.0.input',
-                'Alice',
-                store,
-                false,
-                true,
-            );
+            await dynamicValue.setValue({
+                instance: 'telegram.0',
+                returnText: '{setDynamicValue:Question?:string:Confirmed:}',
+                ack: false,
+                id: 'state.0.input',
+                userToSend: 'Alice',
+                appContext: store,
+                parse_mode: false,
+                confirm: true,
+            });
 
             const result = await callCheck('myAnswer');
             expect(result).to.be.true;
@@ -229,16 +229,16 @@ describe('processData', () => {
 
         it('should send wrong type message when adjustValueType returns false', async () => {
             sendToTelegramStub.resolves();
-            await dynamicValue.setValue(
-                'telegram.0',
-                '{setDynamicValue:Enter number:number:Done:}',
-                false,
-                'state.0.num',
-                'Alice',
-                store,
-                false,
-                true,
-            );
+            await dynamicValue.setValue({
+                instance: 'telegram.0',
+                returnText: '{setDynamicValue:Enter number:number:Done:}',
+                ack: false,
+                id: 'state.0.num',
+                userToSend: 'Alice',
+                appContext: store,
+                parse_mode: false,
+                confirm: true,
+            });
 
             const result = await callCheck('notANumber');
             expect(result).to.be.true;

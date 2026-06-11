@@ -1,9 +1,8 @@
 import type { AppContext } from '@backend/app/appContext';
 import type { SetStateIds } from '@backend/types/types';
 import { decomposeText, jsonString } from '@backend/lib/string';
-import { isDefined } from '@backend/lib/utils';
+import { isDefined, isFalsy, isTruthy } from '@backend/lib/utils';
 import { exchangePlaceholderWithValue, exchangeValue } from '@backend/lib/exchangeValue';
-import { isFalsy, isTruthy } from '@/lib/string';
 import { sendToTelegram } from '@backend/app/telegram';
 
 export class SetStateListenerHandler {

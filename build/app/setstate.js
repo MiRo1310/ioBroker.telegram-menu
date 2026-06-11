@@ -1,22 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleSetState = exports.setstateIobroker = exports._getDynamicValueIfIsIn = void 0;
-exports.exchangeValueAndSendToTelegram = exchangeValueAndSendToTelegram;
+exports.handleSetState = exports.setstateIobroker = void 0;
+exports.resolveIdExpression = resolveIdExpression;
+exports.parseForeignId = parseForeignId;
+exports.buildReturnText = buildReturnText;
+exports.resolveIdReferences = resolveIdReferences;
 const config_1 = require("../config/config");
 const string_1 = require("../lib/string");
 const utilities_1 = require("../lib/utilities");
 const utils_1 = require("../lib/utils");
 const exchangeValue_1 = require("../lib/exchangeValue");
-const telegram_1 = require("../app/telegram");
 const appUtils_1 = require("../lib/appUtils");
 const dynamicValue_1 = require("../app/dynamicValue");
+const telegram_1 = require("../app/telegram");
 const modifiedValue = (valueFromSubmenu, value) => {
     /* istanbul ignore next */
     return value.includes(config_1.config.modifiedValue)
         ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
         : valueFromSubmenu;
 };
-const _getDynamicValueIfIsIn = async (appContext, text) => {
+async function resolveIdExpression(appContext, text) {
     const startValue = '{id:';
     const endValue = '}';
     if (text.includes(startValue)) {
@@ -36,8 +39,7 @@ const _getDynamicValueIfIsIn = async (appContext, text) => {
         return error ? String(state?.val) : (0, exchangeValue_1.exchangeValue)(appContext, textToSend, String(calculated), true).textToSend;
     }
     return (0, string_1.removeDuplicateSpaces)(text);
-};
-exports._getDynamicValueIfIsIn = _getDynamicValueIfIsIn;
+}
 const setstateIobroker = async ({ id, value, ack, appContext, }) => {
     const val = await (0, utilities_1.transformValueToTypeOfId)(appContext, id, value);
     appContext.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(val)}`);
@@ -49,7 +51,7 @@ exports.setstateIobroker = setstateIobroker;
 const setValue = async (appContext, id, value, valueFromSubmenu, ack) => {
     appContext.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(value)}`);
     const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
-        ? await (0, exports._getDynamicValueIfIsIn)(appContext, value)
+        ? await resolveIdExpression(appContext, value)
         : modifiedValue(String(valueFromSubmenu), value ?? '');
     appContext.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(valueToSet)}`);
     await (0, exports.setstateIobroker)({ appContext, id, value: valueToSet, ack });
@@ -59,87 +61,114 @@ const foreignIdStart = '{"foreignId":"';
 function handleUpdateFromForeignId(returnText) {
     return returnText.includes(foreignIdStart);
 }
-async function exchangeValueAndSendToTelegram(appContext, returnText, valueToTelegram, instance, userToSend, parse_mode) {
-    let { textToSend } = (0, exchangeValue_1.exchangeValue)(appContext, (0, string_1.singleQuotesToDoubleQuotes)(returnText), valueToTelegram);
+function parseForeignId(returnText) {
+    const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
+    const { json, isValidJson } = (0, string_1.parseJSON)(substring);
+    if (!isValidJson || !json.foreignId) {
+        return null;
+    }
+    return {
+        foreignId: json.foreignId,
+        text: json.text,
+        resolvedText: returnText.replace(substring, json.text),
+    };
+}
+async function buildReturnText(appContext, returnText, valueToTelegram) {
+    const { textToSend } = (0, exchangeValue_1.exchangeValue)(appContext, (0, string_1.singleQuotesToDoubleQuotes)(returnText), valueToTelegram);
+    return await resolveIdReferences(appContext, textToSend);
+}
+async function resolveIdReferences(appContext, text, maxIterations = 20) {
+    let result = text;
     let i = 0;
-    while (textToSend.includes('{id:') && i < 20) {
-        textToSend = String(await (0, exports._getDynamicValueIfIsIn)(appContext, textToSend));
+    while (result.includes('{id:') && i < maxIterations) {
+        result = await resolveIdExpression(appContext, result);
         i++;
     }
-    const telegramData = {
-        instance,
-        userToSend,
-        textToSend,
-        appContext,
-        parse_mode,
-    };
-    await (0, telegram_1.sendToTelegram)(telegramData);
-    return telegramData;
+    if (i === maxIterations && result.includes('{id:')) {
+        appContext.adapter.log.warn(`resolveIdReferences: iteration limit (${maxIterations}) reached — unresolved {id:} in: "${text}"`);
+    }
+    return result;
+}
+async function handleSwitchItem(appContext, instance, switchDef, userToSend, valueFromSubmenu) {
+    const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } = switchDef;
+    let idToGetValueFrom = switchId;
+    let returnText = text;
+    const useForeignId = handleUpdateFromForeignId(returnText);
+    if (returnText.includes('{setDynamicValue')) {
+        const { confirmText, id } = await dynamicValue_1.dynamicValue.setValue({
+            instance,
+            returnText,
+            ack,
+            id: idToGetValueFrom,
+            userToSend,
+            appContext,
+            parse_mode,
+            confirm,
+        });
+        if (confirm && id) {
+            await appContext.stateIdRegistry.addIds(appContext.adapter, {
+                id,
+                confirm,
+                returnText: confirmText,
+                userToSend,
+                instance,
+            });
+        }
+        return;
+    }
+    let valueToTelegram = valueFromSubmenu ?? value;
+    if (useForeignId) {
+        returnText = (0, string_1.singleQuotesToDoubleQuotes)(returnText);
+        const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
+        const { json, isValidJson } = (0, string_1.parseJSON)(substring);
+        if (!isValidJson || !json.foreignId) {
+            return;
+        }
+        idToGetValueFrom = json.foreignId;
+        returnText = returnText.replace(substring, json.text);
+        await appContext.stateIdRegistry.addIds(appContext.adapter, {
+            id: json.foreignId,
+            confirm: true,
+            returnText: json.text,
+            userToSend,
+            instance,
+        });
+    }
+    if (toggle) {
+        const state = await appContext.adapter.getForeignStateAsync(switchId);
+        const newValue = state ? !state.val : false;
+        await (0, exports.setstateIobroker)({ appContext, id: switchId, value: newValue, ack });
+        valueToTelegram = newValue;
+    }
+    else {
+        const modifiedVal = await setValue(appContext, switchId, value, valueFromSubmenu, ack);
+        if ((0, utils_1.isDefined)(modifiedVal)) {
+            valueToTelegram = modifiedVal;
+        }
+    }
+    if (useForeignId) {
+        const state = await appContext.adapter.getForeignStateAsync(idToGetValueFrom);
+        /* istanbul ignore next */
+        valueToTelegram = state ? state.val : valueToTelegram;
+    }
+    if (confirm && !useForeignId) {
+        if (appContext.stateIdRegistry.getIds().some(e => e.id === idToGetValueFrom)) {
+            appContext.adapter.log.error(`Double-send detected: ID "${idToGetValueFrom}" is registered in stateIdRegistry AND confirm-path fires — check confirm/useForeignId logic.`);
+        }
+        const textToSend = await buildReturnText(appContext, returnText, valueToTelegram);
+        const telegramData = { instance, userToSend, textToSend, appContext, parse_mode };
+        await (0, telegram_1.sendToTelegram)(telegramData);
+        return telegramData;
+    }
 }
 const handleSetState = async (appContext, instance, part, userToSend, valueFromSubmenu) => {
     if (!part.switch) {
         return;
     }
-    for (const { returnText: text, id: switchId, parse_mode, confirm, ack, toggle, value } of part.switch) {
-        let idToGetValueFrom = switchId;
-        let returnText = text;
-        const useForeignId = handleUpdateFromForeignId(returnText);
-        if (returnText.includes('{setDynamicValue')) {
-            const { confirmText, id } = await dynamicValue_1.dynamicValue.setValue(instance, returnText, ack, idToGetValueFrom, userToSend, appContext, parse_mode, confirm);
-            if (confirm && id) {
-                await appContext.stateIdRegistry.addIds(appContext.adapter, {
-                    id,
-                    confirm,
-                    returnText: confirmText,
-                    userToSend,
-                    instance,
-                });
-            }
-            return;
-        }
-        let valueToTelegram = valueFromSubmenu ?? value;
-        if (useForeignId) {
-            returnText = (0, string_1.singleQuotesToDoubleQuotes)(returnText);
-            const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
-            const { json, isValidJson } = (0, string_1.parseJSON)(substring);
-            if (!isValidJson) {
-                return;
-            }
-            if (json.foreignId) {
-                idToGetValueFrom = json.foreignId;
-                returnText = returnText.replace(substring, json.text);
-            }
-            await appContext.stateIdRegistry.addIds(appContext.adapter, {
-                id: json.foreignId,
-                confirm: true,
-                returnText: json.text,
-                userToSend: userToSend,
-                instance,
-            });
-        }
-        if (toggle) {
-            const state = await appContext.adapter.getForeignStateAsync(switchId);
-            const newValue = state ? !state.val : false;
-            await (0, exports.setstateIobroker)({ appContext, id: switchId, value: newValue, ack });
-            valueToTelegram = newValue;
-        }
-        else {
-            const modifiedValue = await setValue(appContext, switchId, value, valueFromSubmenu, ack);
-            if ((0, utils_1.isDefined)(modifiedValue)) {
-                valueToTelegram = modifiedValue;
-            }
-        }
-        if (useForeignId) {
-            const state = await appContext.adapter.getForeignStateAsync(idToGetValueFrom);
-            /* istanbul ignore next */
-            valueToTelegram = state ? state.val : valueToTelegram;
-        }
-        if (confirm && !useForeignId) {
-            if (appContext.stateIdRegistry.getIds().some(e => e.id === idToGetValueFrom)) {
-                appContext.adapter.log.error(`Double-send detected: ID "${idToGetValueFrom}" is registered in stateIdRegistry AND confirm-path fires — check confirm/useForeignId logic.`);
-            }
-            return await exchangeValueAndSendToTelegram(appContext, returnText, valueToTelegram, instance, userToSend, parse_mode);
-        }
+    for (const switchDef of part.switch) {
+        const result = await handleSwitchItem(appContext, instance, switchDef, userToSend, valueFromSubmenu);
+        if (result)
+            return result;
     }
 };
 exports.handleSetState = handleSetState;

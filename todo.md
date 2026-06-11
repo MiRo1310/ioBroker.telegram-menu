@@ -95,10 +95,10 @@ for (const switchDef of part.switch) {
 }
 ```
 
-- [ ] `SwitchDefinition`-Typ aus `part.switch[number]` ableiten (oder eigener Type-Alias)
-- [ ] `handleSwitchItem` als private/interne Funktion — enthält die 4 Zweige
-- [ ] `handleSetState` wird zum schlanken Dispatcher
-- [ ] Tests für `handleSwitchItem` mit je einem Test pro Zweig
+- [x] `SwitchDefinition`-Typ aus `part.switch[number]` ableiten (oder eigener Type-Alias) — nutzt bestehenden `Switch`-Typ aus `types.ts`
+- [x] `handleSwitchItem` als private/interne Funktion — enthält die 4 Zweige
+- [x] `handleSetState` wird zum schlanken Dispatcher
+- [x] Tests für `handleSwitchItem` mit je einem Test pro Zweig
 
 ---
 
@@ -114,10 +114,10 @@ export const _getDynamicValueIfIsIn = async (appContext, text): Promise<string |
 export async function resolveIdExpression(appContext: AppContext, text: string): Promise<string>
 ```
 
-- [ ] Umbenennen zu `resolveIdExpression`
-- [ ] Rückgabetyp zu `Promise<string>` vereinfachen (interne `String()`-Casts entfernen)
-- [ ] Alle Aufrufer anpassen: `setValue`, `resolveIdReferences` (aus Schritt 1)
-- [ ] Export-Name in Tests aktualisieren
+- [x] Umbenennen zu `resolveIdExpression`
+- [x] Rückgabetyp zu `Promise<string>` vereinfachen (interne `String()`-Casts entfernen)
+- [x] Alle Aufrufer anpassen: `setValue`, `resolveIdReferences` (aus Schritt 1)
+- [x] Export-Name in Tests aktualisieren
 
 ---
 
@@ -139,14 +139,14 @@ public async setValue(params: {
 }): Promise<{ confirmText: string; id: string | undefined }>
 ```
 
-- [ ] `setValue` auf Parameter-Objekt umstellen
-- [ ] Aufrufer in `handleSetState` / `handleSwitchItem` anpassen
-- [ ] Tests aktualisieren
+- [x] `setValue` auf Parameter-Objekt umstellen
+- [x] Aufrufer in `handleSetState` / `handleSwitchItem` anpassen
+- [x] Tests aktualisieren
 
 ---
 
 ## Abschluss-Check (Schritt 1–6)
 
-- [ ] `npm run tsc` → keine TypeScript-Fehler
-- [ ] `npm run test:ts` → alle Tests grün
+- [x] `npm run tsc` → keine TypeScript-Fehler
+- [x] `npm run test:ts` → alle Tests grün
 - [ ] `npm run lint:backend` → keine Lint-Fehler

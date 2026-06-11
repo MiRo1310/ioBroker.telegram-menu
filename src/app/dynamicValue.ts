@@ -16,16 +16,25 @@ class DynamicValueHandler {
         return false;
     };
 
-    public setValue = async (
-        instance: string,
-        returnText: string,
-        ack: boolean,
-        id: string,
-        userToSend: string,
-        appContext: AppContext,
-        parse_mode: boolean,
-        confirm: boolean,
-    ): Promise<{ confirmText: string; id: string | undefined }> => {
+    public setValue = async ({
+        instance,
+        returnText,
+        ack,
+        id,
+        userToSend,
+        appContext,
+        parse_mode,
+        confirm,
+    }: {
+        instance: string;
+        returnText: string;
+        ack: boolean;
+        id: string;
+        userToSend: string;
+        appContext: AppContext;
+        parse_mode: boolean;
+        confirm: boolean;
+    }): Promise<{ confirmText: string; id: string | undefined }> => {
         const { substringExcludeSearch } = decomposeText(returnText, '{setDynamicValue:', '}');
         let array = substringExcludeSearch.split(':');
         array = this.isBraceDeleteEntry(array);

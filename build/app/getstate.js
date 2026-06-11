@@ -7,12 +7,10 @@ const idBySelector_1 = require("../app/idBySelector");
 const action_1 = require("../app/action");
 const utils_1 = require("../lib/utils");
 const string_1 = require("../lib/string");
-const utilities_1 = require("../lib/utilities");
-const time_1 = require("../lib/time");
-const appUtils_1 = require("../lib/appUtils");
 const jsonTable_1 = require("../app/jsonTable");
 const telegram_1 = require("../app/telegram");
 const exchangeValue_1 = require("../lib/exchangeValue");
+const stateValueTransformer_1 = require("../app/stateValueTransformer");
 async function getState(instance, part, userToSend, appContext) {
     const parse_mode = (0, parseMode_1.isParseModeFirstElement)(part);
     const valueArrayForCorrectOrder = [];
@@ -41,30 +39,13 @@ async function getState(instance, part, userToSend, appContext) {
         }
         const stateValue = state.val?.toString() ?? '';
         const cleanedString = (0, string_1.cleanUpString)(stateValue);
-        let modifiedStateVal = cleanedString;
-        let modifiedTextToSend = text;
-        if (text.includes(config_1.config.timestamp.ts) || text.includes(config_1.config.timestamp.lc)) {
-            modifiedTextToSend = await (0, utilities_1.getTimeValue)(appContext, text, id);
-            modifiedStateVal = '';
-        }
-        if (modifiedTextToSend.includes(config_1.config.time)) {
-            modifiedTextToSend = (0, time_1.integrateTimeIntoText)(modifiedTextToSend, cleanedString);
-            modifiedStateVal = '';
-        }
-        const { textToSend, calculated, error: err, } = (0, appUtils_1.mathFunction)(modifiedTextToSend, modifiedStateVal, appContext.adapter);
-        if (!err) {
-            modifiedTextToSend = textToSend;
-            modifiedStateVal = calculated;
-            appContext.adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
-        }
-        if (modifiedTextToSend.includes(config_1.config.round.start)) {
-            const { error, text, roundedValue } = (0, appUtils_1.roundValue)(String(modifiedStateVal), modifiedTextToSend);
-            if (!error) {
-                appContext.adapter.log.debug(`Rounded from ${(0, string_1.jsonString)(modifiedStateVal)} to ${(0, string_1.jsonString)(roundedValue)}`);
-                modifiedStateVal = roundedValue;
-                modifiedTextToSend = text;
-            }
-        }
+        const transformer = new stateValueTransformer_1.StateValueTransformer(text, cleanedString, appContext);
+        await transformer.applyTimestamp(id);
+        transformer.applyTime();
+        transformer.applyMath();
+        transformer.applyRound();
+        let modifiedTextToSend = transformer.text;
+        const modifiedStateVal = transformer.stateVal;
         if (modifiedTextToSend.includes(config_1.config.json.textTable)) {
             const result = (0, jsonTable_1.createTextTableFromJson)(appContext.adapter, cleanedString, modifiedTextToSend);
             if (result) {

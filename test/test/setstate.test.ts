@@ -478,6 +478,110 @@ describe('Setstate', () => {
     });
 });
 
+describe('handleSwitchItem (via handleSetState) — one test per branch', () => {
+    let appContext: AppContext;
+    let sendToTelegramStub: sinon.SinonStub;
+
+    beforeEach(() => {
+        appContext = createAppContextMock(mockAdapter);
+        sendToTelegramStub = sinon.stub(require('../../src/app/telegram'), 'sendToTelegram').resolves();
+    });
+
+    afterEach(() => sinon.restore());
+
+    it('dynamicValue branch — calls dynamicValue.setValue, returns undefined, no sendToTelegram', async () => {
+        sinon
+            .stub(require('../../src/app/dynamicValue').dynamicValue, 'setValue')
+            .resolves({ confirmText: '', id: undefined });
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    returnText: '{setDynamicValue:Enter value}',
+                    value: '',
+                    toggle: false,
+                    confirm: false,
+                    parse_mode: false,
+                    ack: false,
+                },
+            ],
+        } as Part;
+
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
+        expect(result).to.be.undefined;
+        expect(sendToTelegramStub.called).to.be.false;
+    });
+
+    it('foreignId branch — registers stateIdRegistry listener, returns undefined', async () => {
+        database.publishState('switch.item.foreignid', { val: '42', ack: true });
+
+        const part = {
+            switch: [
+                {
+                    id: 'test.0',
+                    returnText: '{"foreignId":"switch.item.foreignid","text":"Wert: &&"}',
+                    value: '',
+                    toggle: false,
+                    confirm: false,
+                    parse_mode: false,
+                    ack: false,
+                },
+            ],
+        } as Part;
+
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
+        expect(result).to.be.undefined;
+        expect(sendToTelegramStub.called).to.be.false;
+        const ids = appContext.stateIdRegistry.getIds();
+        expect(ids.some(e => e.id === 'switch.item.foreignid')).to.be.true;
+    });
+
+    it('toggle branch — toggles state, returns undefined (no confirm)', async () => {
+        database.publishState('switch.item.toggle', { val: true, ack: true });
+
+        const part = {
+            switch: [
+                {
+                    id: 'switch.item.toggle',
+                    returnText: 'Toggled',
+                    value: '',
+                    toggle: true,
+                    confirm: false,
+                    parse_mode: false,
+                    ack: false,
+                },
+            ],
+        } as Part;
+
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
+        expect(result).to.be.undefined;
+        expect(sendToTelegramStub.called).to.be.false;
+    });
+
+    it('confirm + setValue branch — sets state, sends Telegram, returns Telegram object', async () => {
+        const part = {
+            switch: [
+                {
+                    id: 'switch.item.confirm',
+                    returnText: 'Gesetzt auf &&',
+                    value: 'on',
+                    toggle: false,
+                    confirm: true,
+                    parse_mode: false,
+                    ack: false,
+                },
+            ],
+        } as Part;
+
+        const result = await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
+        expect(result).to.not.be.undefined;
+        expect(result?.instance).to.equal('telegram.0');
+        expect(result?.textToSend).to.include('on');
+        expect(sendToTelegramStub.calledOnce).to.be.true;
+    });
+});
+
 describe('parseForeignId', () => {
     const validInput = '{"foreignId":"test.0.id","text":"Wert: &&"}';
 
@@ -569,7 +673,7 @@ describe('resolveIdReferences', () => {
     });
 
     it('should resolve a single {id:} reference and include the state value', async () => {
-        // _getDynamicValueIfIsIn appends the state value to the remaining text
+        // resolveIdExpression appends the state value to the remaining text
         database.publishState('resolve.test.single', { val: 'resolved', ack: true });
         const result = await resolveIdReferences(appContext, "Wert: && {id:'resolve.test.single'}");
         expect(result).to.include('resolved');

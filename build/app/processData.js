@@ -148,7 +148,13 @@ class MenuProcessor {
                 ack: dynamicValueObject.ack,
             });
             if (dynamicValueObject.confirm && this.onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
-                await (0, setstate_1.exchangeValueAndSendToTelegram)(this.appContext, dynamicValueObject.returnText, valueToSet, this.instance, this.userToSend, dynamicValueObject.parse_mode);
+                const text = await (0, setstate_1.buildReturnText)(this.appContext, dynamicValueObject.returnText, valueToSet);
+                await (0, telegram_1.sendToTelegram)({
+                    instance: this.instance,
+                    userToSend: this.userToSend,
+                    textToSend: text,
+                    appContext: this.appContext,
+                });
             }
         }
         else {

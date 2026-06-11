@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.KeyboardBuilder = exports.submenuHandler = exports.SubmenuHandler = void 0;
 exports.callSubMenu = callSubMenu;
 exports.subMenu = subMenu;
 const setstate_1 = require("../app/setstate");
@@ -10,44 +11,60 @@ const validateMenus_1 = require("../app/validateMenus");
 const messageIds_1 = require("../app/messageIds");
 const splitValues_1 = require("../lib/splitValues");
 const dynamicSwitchMenu_1 = require("../app/dynamicSwitchMenu");
-let step = 0;
-let splittedData = [];
+class SubmenuHandler {
+    _step = 0;
+    _splittedData = [];
+    get step() {
+        return this._step;
+    }
+    set step(val) {
+        this._step = val;
+    }
+    get splittedData() {
+        return this._splittedData;
+    }
+    set splittedData(val) {
+        this._splittedData = val;
+    }
+    reset() {
+        this._step = 0;
+        this._splittedData = [];
+    }
+}
+exports.SubmenuHandler = SubmenuHandler;
+exports.submenuHandler = new SubmenuHandler();
+class KeyboardBuilder {
+    buttons = [];
+    addButton(text, callbackData) {
+        this.buttons.push({ text, callback_data: callbackData });
+        return this;
+    }
+    build(maxPerRow) {
+        const rows = [];
+        for (let i = 0; i < this.buttons.length; i += maxPerRow) {
+            rows.push(this.buttons.slice(i, i + maxPerRow));
+        }
+        return { inline_keyboard: rows };
+    }
+}
+exports.KeyboardBuilder = KeyboardBuilder;
 const createSubmenuPercent = (obj) => {
     const { cbData, menuToHandle } = obj;
-    step = parseFloat(cbData.replace('percent', ''));
-    let rowEntries = 0;
-    let menu = [];
-    const keyboard = {
-        inline_keyboard: [],
-    };
-    for (let i = 100; i >= 0; i -= step) {
-        menu.push({
-            text: `${i}%`,
-            callback_data: `submenu:percent${step},${i}:${menuToHandle}`,
-        });
-        if (i != 0 && i - step < 0) {
-            menu.push({
-                text: `0%`,
-                callback_data: `submenu:percent${step},${0}:${menuToHandle}`,
-            });
-        }
-        rowEntries++;
-        if (rowEntries == 8) {
-            keyboard.inline_keyboard.push(menu);
-            menu = [];
-            rowEntries = 0;
+    exports.submenuHandler.step = parseFloat(cbData.replace('percent', ''));
+    const builder = new KeyboardBuilder();
+    for (let i = 100; i >= 0; i -= exports.submenuHandler.step) {
+        builder.addButton(`${i}%`, `submenu:percent${exports.submenuHandler.step},${i}:${menuToHandle}`);
+        if (i != 0 && i - exports.submenuHandler.step < 0) {
+            builder.addButton(`0%`, `submenu:percent${exports.submenuHandler.step},${0}:${menuToHandle}`);
         }
     }
-    if (rowEntries != 0) {
-        keyboard.inline_keyboard.push(menu);
-    }
-    return { text: obj.text, keyboard: keyboard, device: menuToHandle };
+    return { text: obj.text, keyboard: builder.build(8), device: menuToHandle };
 };
 const setMenuValue = async ({ appContext, instance, userToSend, part, menuNumber }) => {
-    if (!splittedData[menuNumber]) {
+    if (!exports.submenuHandler.splittedData[menuNumber]) {
         return;
     }
-    let val = splittedData[menuNumber].split('.')?.[1];
+    let val = exports.submenuHandler.splittedData[menuNumber].split('.')?.[1];
     if (val === undefined) {
         return;
     }
@@ -64,11 +81,6 @@ const createSubmenuNumber = ({ cbData, menuToHandle, text, appContext, }) => {
         cbData = cbData.replace('(-)', 'negativ');
     }
     const splittedData = cbData.replace('number', '').split('-');
-    let rowEntries = 0;
-    let menu = [];
-    const keyboard = {
-        inline_keyboard: [],
-    };
     let unit = '';
     if (splittedData[3] != '') {
         unit = splittedData[3];
@@ -85,11 +97,9 @@ const createSubmenuNumber = ({ cbData, menuToHandle, text, appContext, }) => {
         end = secondValueInText;
     }
     let index = -1;
-    let maxEntriesPerRow = 8;
     const step = parseFloat(splittedData[2].includes('negativ') ? splittedData[2].replace('negativ', '-') : splittedData[2]);
-    if (step < 1) {
-        maxEntriesPerRow = 6;
-    }
+    const maxEntriesPerRow = step < 1 ? 6 : 8;
+    const builder = new KeyboardBuilder();
     for (let i = start; i >= end; i -= step) {
         // Zahlen umdrehen
         if (parseFloat(splittedData[0]) < parseFloat(splittedData[1])) {
@@ -101,27 +111,16 @@ const createSubmenuNumber = ({ cbData, menuToHandle, text, appContext, }) => {
         else {
             index = i;
         }
-        menu.push({
-            text: `${index}${unit}`,
-            callback_data: `submenu:${cbData}:${menuToHandle}:${index}`,
-        });
-        rowEntries++;
-        if (rowEntries == maxEntriesPerRow) {
-            keyboard.inline_keyboard.push(menu);
-            menu = [];
-            rowEntries = 0;
-        }
+        builder.addButton(`${index}${unit}`, `submenu:${cbData}:${menuToHandle}:${index}`);
     }
-    if (rowEntries != 0) {
-        keyboard.inline_keyboard.push(menu);
-    }
+    const keyboard = builder.build(maxEntriesPerRow);
     appContext.adapter.log.debug(`Keyboard : ${(0, string_1.jsonString)(keyboard)}`);
     return { text, keyboard, menuToHandle };
 };
 const createSwitchMenu = ({ menuToHandle, cbData, text, }) => {
-    splittedData = cbData.split('-');
+    exports.submenuHandler.splittedData = cbData.split('-');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, item1, item2] = splittedData;
+    const [_, item1, item2] = exports.submenuHandler.splittedData;
     if (!item1 || !item2) {
         return;
     }
@@ -203,7 +202,7 @@ async function subMenu({ menuString, userToSend, appContext, part, allMenusWithD
     if ((0, validateMenus_1.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
         return createSubmenuPercent({ appContext, cbData, text, menuToHandle: menuToHandle });
     }
-    if ((0, validateMenus_1.isSetSubmenuPercent)(menuString, step)) {
+    if ((0, validateMenus_1.isSetSubmenuPercent)(menuString, exports.submenuHandler.step)) {
         const value = parseInt(menuString.split(':')[1].split(',')[1]);
         await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, value);
     }

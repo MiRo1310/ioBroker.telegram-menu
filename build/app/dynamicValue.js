@@ -13,7 +13,7 @@ class DynamicValueHandler {
         }
         return false;
     };
-    setValue = async (instance, returnText, ack, id, userToSend, appContext, parse_mode, confirm) => {
+    setValue = async ({ instance, returnText, ack, id, userToSend, appContext, parse_mode, confirm, }) => {
         const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
         let array = substringExcludeSearch.split(':');
         array = this.isBraceDeleteEntry(array);
