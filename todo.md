@@ -111,3 +111,110 @@ Datei: `src/app/messageIds.ts`
 - [x] `messageIds.test.ts`: 2 neue Tests (isDeleting=true Zweig, ungültiges JSON)
 
 **Verifikation:** 654 Tests grün, Branch ≥ 87% ✅, TypeScript fehlerfrei ✅
+
+---
+
+## Schritt 8 — Unnötige try-catch entfernen ✅
+
+**Ziel:** Vollständiger Stack-Trace bei Fehlern statt stillem Schlucken.
+
+- [x] try-catch entfernt in: `telegram.ts`, `setstate.ts`, `shoppingList.ts`, `getstate.ts`, `subMenu.ts`, `sendNav.ts`, `sendpic.ts`, `echarts.ts`, `action.ts`, `backMenu.ts`, `dynamicSwitchMenu.ts`, `botAction.ts`, `messageIds.ts`, `idBySelector.ts`, `lib/utilities.ts`
+- [x] `errorLogger`-Import in allen betroffenen Dateien entfernt
+- [x] `idBySelector.ts`: fire-and-forget `.then().catch()` → `await Promise.all` + `await sendToTelegram`
+- [x] Behalten: `main.ts:onReady` (Top-Level-Handler), `main.ts:onUnload` (callback muss immer feuern), `lib/math.ts:evaluate` (eval-Fehler erwartet), `lib/string.ts:parseJSON` (JSON.parse-Fehler erwartet), `lib/utils.ts:deepCopy`, `httpRequest.ts` (Netzwerkfehler pro URL)
+- [x] Nebenbei gefixte Bugs: `parseMode.ts` (`?.[0]?.parse_mode` statt `?.[0].parse_mode`), `setstate.ts:setValue` (`value ?? ''` verhindert undefined.includes-Crash)
+- [x] Tests: 12 "should catch errors"-Tests → "should propagate errors" mit `rejectedWith`
+
+**Verifikation:** 614 Tests grün, TypeScript fehlerfrei ✅
+
+---
+
+## Schritt 9 — Double-Send-Guard + StateIdRegistry-Warnung ✅
+
+- [x] `setstate.ts`: Guard vor `exchangeValueAndSendToTelegram` — `log.error` wenn ID bereits im Registry steht
+- [x] `stateIdRegistry.ts`: Stilles `return` bei Duplikat → `log.warn` mit ID-Name
+
+**Verifikation:** 614 Tests grün ✅
+
+---
+
+## Schritt 10 — StateIdRegistry Memory-Leak beheben ✅
+
+**Problem:** Einträge mit `confirm=false` wurden in `stateIdRegistry` eingetragen, aber nie entfernt — `!isFalsy(false)` ist `false`, der Listener-Pfad in main.ts greift nie.
+
+- [x] Entscheidung: Option A — Einträge mit falsy `confirm` gar nicht erst eintragen (sie haben keinen Zweck)
+- [x] `setstate.ts`: `if (!useForeignId && !confirm)` Block mit `addIds`-Aufruf entfernt; `else if (useForeignId)` → `if (useForeignId)`
+- [x] `shoppingListManager.ts`: fehlende bound exports `shoppingListSubscribeStateAndDeleteItem` / `deleteMessageAndSendNewShoppingList` hinzugefügt (Build-Fehler behoben)
+- [x] Test in `setstate.test.ts` aktualisiert: "should ADD... when confirm=false" → "should NOT add... when confirm=false"
+
+**Verifikation:** 614 Tests grün, TypeScript fehlerfrei ✅
+
+---
+
+## Schritt 11 — `ShoppingListManager`-Klasse in shoppingList.ts ✅
+
+**Problem:** `objData: ObjectData` und `isSubscribed: boolean` waren modul-global.
+
+- [x] Klasse `ShoppingListManager` mit `private objData` und `private isSubscribed`
+- [x] `subscribeStateAndDeleteItem` und `deleteMessageAndSendNewShoppingList` als Klassenmethoden
+- [x] Singleton-Export: `export const shoppingListManager = new ShoppingListManager()`
+- [x] Bound-Exports für Abwärtskompatibilität: `shoppingListSubscribeStateAndDeleteItem` / `deleteMessageAndSendNewShoppingList`
+- [x] `test/test/app/shoppingListManager.test.ts` — Tests nutzen Singleton direkt
+
+**Verifikation:** 614 Tests grün ✅
+
+---
+
+## Schritt 12 — Modul-globalen Zustand in subMenu.ts kapseln
+
+**Problem:** `let step = 0` und `let splittedData: SplittedData = []` sind modul-global. `step` wird in `createSubmenuPercent` gesetzt und in `isSetSubmenuPercent` gelesen — temporale Kopplung. `splittedData` wird in `createSwitchMenu` gesetzt und in `setMenuValue` gelesen.
+
+- [ ] Option A: `SubmenuHandler`-Klasse mit `step` und `splittedData` als Instance-State
+- [ ] Option B: Rückgabewerte explizit durch Funktionsparameter durchreichen (kein globaler Zustand)
+- [ ] Modul-globale Variablen eliminieren
+- [ ] Tests auf korrekte Isolation prüfen
+
+---
+
+## Schritt 13 — `processData()` in MenuProcessor aufteilen
+
+**Problem:** `processData()` ist 152 Zeilen mit klar trennbaren Phasen.
+
+- [ ] `private handleDynamicValue(): Promise<boolean>` — Dynamic-Value-Pfad
+- [ ] `private dispatchNavAction(part, call): Promise<boolean>` — nav/submenu-Dispatch
+- [ ] `private dispatchPartAction(part): Promise<boolean>` — setState/getData/sendPic/location/echarts/httpRequest
+- [ ] `processData()` wird zum schlanken Orchestrator der drei Methoden
+- [ ] Tests für neue Methoden ergänzen
+
+---
+
+## Schritt 14 — `SetStateListenerHandler`-Klasse aus main.ts extrahieren
+
+**Problem:** `handleSetStateListener()` in main.ts ist 85 Zeilen mit verschachtelter Confirm-Logik, schwer isoliert testbar.
+
+- [ ] Klasse `SetStateListenerHandler` mit `appContext` im Constructor
+- [ ] `handlePreConfirm()` — `isTruthy(confirm) && !ack && {confirmSet:` Pfad
+- [ ] `handlePostConfirm()` — `!isFalsy(confirm) && ack` Pfad
+- [ ] main.ts `handleSetStateListener` wird zur dünnen Delegation
+- [ ] Tests für beide Pfade unabhängig von main.ts
+
+---
+
+## Schritt 15 — `KeyboardBuilder`-Klasse für subMenu percent/number
+
+**Problem:** `createSubmenuPercent()` und `createSubmenuNumber()` bauen beide `inline_keyboard`-Arrays mit identischem Zeilen-Split-Muster (rowEntries-Counter, push bei maxEntriesPerRow).
+
+- [ ] Klasse `KeyboardBuilder` mit `addButton(text, callbackData)` und `buildRows(maxPerRow): Keyboard`
+- [ ] `createSubmenuPercent` und `createSubmenuNumber` nutzen `KeyboardBuilder`
+- [ ] Duplizierter Zeilen-Split-Loop entfernt
+
+---
+
+## Schritt 16 — `StateValueTransformer` für getstate.ts
+
+**Problem:** `getState()` hat 5+ gleichförmige "text includes X → transform" Schritte (timestamp, time, math, round, json, alexaShoppingList).
+
+- [ ] Klasse `StateValueTransformer` mit Methoden `applyTimestamp()`, `applyTime()`, `applyMath()`, `applyRound()`
+- [ ] Oder: Composable-Pipeline-Ansatz mit Array von Transform-Funktionen
+- [ ] Jeder Schritt hat klaren Input/Output-Kontrakt und ist einzeln testbar
+- [ ] `getState()` wird zur Orchestrierung ohne eingebettete Transform-Logik

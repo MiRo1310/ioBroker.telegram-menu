@@ -46,7 +46,6 @@ const telegram_1 = require("./app/telegram");
 const createState_1 = require("./app/createState");
 const messageIds_1 = require("./app/messageIds");
 const adapterStartMenuSend_1 = require("./app/adapterStartMenuSend");
-const shoppingList_1 = require("./app/shoppingList");
 const logging_1 = require("./app/logging");
 const connection_1 = require("./app/connection");
 const string_1 = require("./lib/string");
@@ -58,6 +57,7 @@ const deprecated_1 = require("./app/deprecated");
 const jsonTable_1 = require("./app/jsonTable");
 const processData_1 = require("./app/processData");
 const appContext_1 = require("./app/appContext");
+const shoppingListManager_1 = require("./app/shoppingListManager");
 class TelegramMenu extends utils.Adapter {
     static instance;
     menuData = {};
@@ -121,7 +121,7 @@ class TelegramMenu extends utils.Adapter {
     }
     async handleShoppingListChange(state) {
         if ((0, string_1.isString)(state.val) && state.val?.includes('sList:')) {
-            const requestId = await (0, shoppingList_1.shoppingListSubscribeStateAndDeleteItem)(this.appContext, state.val);
+            const requestId = await shoppingListManager_1.shoppingListManager.subscribeStateAndDeleteItem(this.appContext, state.val);
             if (requestId) {
                 jsonTable_1.lastRequestJsonButtonHistory.addRequestId(requestId);
             }
@@ -139,7 +139,7 @@ class TelegramMenu extends utils.Adapter {
             if (!result?.instance || !result?.user) {
                 continue;
             }
-            await (0, shoppingList_1.deleteMessageAndSendNewShoppingList)(result.instance, this.appContext, result.user);
+            await shoppingListManager_1.shoppingListManager.deleteMessageAndSendNewShoppingList(result.instance, this.appContext, result.user);
             jsonTable_1.lastRequestJsonButtonHistory.resetId(requestId);
         }
         return true;

@@ -13,10 +13,6 @@ import { sendToTelegram } from '@backend/app/telegram';
 import { createState } from '@backend/app/createState';
 import { saveMessageIds } from '@backend/app/messageIds';
 import { adapterStartMenuSend } from '@backend/app/adapterStartMenuSend';
-import {
-    deleteMessageAndSendNewShoppingList,
-    shoppingListSubscribeStateAndDeleteItem,
-} from '@backend/app/shoppingList';
 import { errorLogger } from '@backend/app/logging';
 import type { MenuData, SetStateIds, StartSides } from '@backend/types/types';
 import { areAllCheckTelegramInstancesActive } from '@backend/app/connection';
@@ -29,7 +25,6 @@ import {
     getStartSides,
     splitNavigation,
 } from '@backend/lib/appUtils';
-
 import type { UserListWithChatID, UserType } from '@/types/app';
 import { exchangePlaceholderWithValue, exchangeValue } from '@backend/lib/exchangeValue';
 import { getInstancesFromEventsById, handleEvent } from '@backend/app/events';
@@ -37,6 +32,7 @@ import { findDeprecatedAndLog } from '@backend/app/deprecated';
 import { lastRequestJsonButtonHistory } from '@backend/app/jsonTable';
 import { MenuProcessor } from '@backend/app/processData';
 import { AppContext } from '@backend/app/appContext';
+import { shoppingListManager } from '@backend/app/shoppingListManager';
 
 export default class TelegramMenu extends utils.Adapter {
     private static instance: TelegramMenu;
@@ -124,7 +120,7 @@ export default class TelegramMenu extends utils.Adapter {
 
     private async handleShoppingListChange(state: ioBroker.State): Promise<boolean> {
         if (isString(state.val) && state.val?.includes('sList:')) {
-            const requestId = await shoppingListSubscribeStateAndDeleteItem(this.appContext, state.val);
+            const requestId = await shoppingListManager.subscribeStateAndDeleteItem(this.appContext, state.val);
             if (requestId) {
                 lastRequestJsonButtonHistory.addRequestId(requestId);
             }
@@ -143,7 +139,11 @@ export default class TelegramMenu extends utils.Adapter {
             if (!result?.instance || !result?.user) {
                 continue;
             }
-            await deleteMessageAndSendNewShoppingList(result.instance, this.appContext, result.user);
+            await shoppingListManager.deleteMessageAndSendNewShoppingList(
+                result.instance,
+                this.appContext,
+                result.user,
+            );
             lastRequestJsonButtonHistory.resetId(requestId);
         }
         return true;

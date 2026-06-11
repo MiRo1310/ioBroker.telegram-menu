@@ -1,6 +1,5 @@
 import type { Adapter, SetStateIds } from '@backend/types/types';
 import { _subscribeForeignStates } from '@backend/app/subscribeStates';
-import { setStateIdsToIdArray } from '@backend/lib/object';
 import type { AppContext } from '@backend/app/appContext';
 
 export class StateIdRegistry {
@@ -14,17 +13,21 @@ export class StateIdRegistry {
 
     public async addIds(adapter: Adapter, setStateId: SetStateIds): Promise<void> {
         if (this.findId(setStateId)) {
-            adapter.log.warn(
+            adapter.log.debug(
                 `StateIdRegistry: ID "${setStateId.id}" is already registered, skipping duplicate registration.`,
             );
             return;
         }
         this.stateIdRegistry.push(setStateId);
 
-        await _subscribeForeignStates(this.appContext, setStateIdsToIdArray([setStateId]));
+        await _subscribeForeignStates(this.appContext, StateIdRegistry.setStateIdsToIdArray([setStateId]));
     }
 
     private findId(setStateId: SetStateIds): SetStateIds | undefined {
         return this.stateIdRegistry.find(list => list.id === setStateId.id);
+    }
+
+    public static setStateIdsToIdArray(setStateIds: SetStateIds[]): string[] {
+        return setStateIds.map(obj => obj.id);
     }
 }

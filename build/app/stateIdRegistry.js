@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StateIdRegistry = void 0;
 const subscribeStates_1 = require("../app/subscribeStates");
-const object_1 = require("../lib/object");
 class StateIdRegistry {
     appContext;
     stateIdRegistry = [];
@@ -14,14 +13,17 @@ class StateIdRegistry {
     }
     async addIds(adapter, setStateId) {
         if (this.findId(setStateId)) {
-            adapter.log.warn(`StateIdRegistry: ID "${setStateId.id}" is already registered, skipping duplicate registration.`);
+            adapter.log.debug(`StateIdRegistry: ID "${setStateId.id}" is already registered, skipping duplicate registration.`);
             return;
         }
         this.stateIdRegistry.push(setStateId);
-        await (0, subscribeStates_1._subscribeForeignStates)(this.appContext, (0, object_1.setStateIdsToIdArray)([setStateId]));
+        await (0, subscribeStates_1._subscribeForeignStates)(this.appContext, StateIdRegistry.setStateIdsToIdArray([setStateId]));
     }
     findId(setStateId) {
         return this.stateIdRegistry.find(list => list.id === setStateId.id);
+    }
+    static setStateIdsToIdArray(setStateIds) {
+        return setStateIds.map(obj => obj.id);
     }
 }
 exports.StateIdRegistry = StateIdRegistry;

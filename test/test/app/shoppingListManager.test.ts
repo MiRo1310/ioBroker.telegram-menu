@@ -1,11 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-    shoppingListSubscribeStateAndDeleteItem,
-    deleteMessageAndSendNewShoppingList,
-} from '@backend/app/shoppingList';
 import { createAppContextMock } from '../../fixtures/appContextMock';
 import type { AppContext } from '@backend/app/appContext';
+import { shoppingListManager } from '@backend/app/shoppingListManager';
 
 const buildVal = (
     user = 'Michael',
@@ -51,7 +48,7 @@ describe('shoppingList', () => {
         it('should delete item, return requestId, and subscribe on first successful call', async () => {
             adapterMock.getForeignObjectAsync.resolves({ _id: 'alexa2.0.Lists.groceries.items.item1' });
 
-            const result = await shoppingListSubscribeStateAndDeleteItem(store, buildVal());
+            const result = await shoppingListManager.subscribeStateAndDeleteItem(store, buildVal());
 
             const setstateIobrokerMod = require('@backend/app/setstate');
             expect(setstateIobrokerMod.setstateIobroker.calledOnce).to.be.true;
@@ -64,17 +61,17 @@ describe('shoppingList', () => {
         it('should return undefined and not subscribe when object is not found', async () => {
             adapterMock.getForeignObjectAsync.resolves(null);
 
-            const result = await shoppingListSubscribeStateAndDeleteItem(store, buildVal());
+            const result = await shoppingListManager.subscribeStateAndDeleteItem(store, buildVal());
             expect(result).to.be.undefined;
         });
 
         it('should return undefined when val is null', async () => {
-            const result = await shoppingListSubscribeStateAndDeleteItem(store, null);
+            const result = await shoppingListManager.subscribeStateAndDeleteItem(store, null);
             expect(result).to.be.undefined;
         });
 
         it('should return undefined when val does not start with user in brackets', async () => {
-            const result = await shoppingListSubscribeStateAndDeleteItem(store, 'badformat');
+            const result = await shoppingListManager.subscribeStateAndDeleteItem(store, 'badformat');
             expect(result).to.be.undefined;
         });
     });
@@ -88,7 +85,7 @@ describe('shoppingList', () => {
                 keyboard: { inline_keyboard: [] },
             });
 
-            await deleteMessageAndSendNewShoppingList('telegram.0', store, 'Michael');
+            await shoppingListManager.deleteMessageAndSendNewShoppingList('telegram.0', store, 'Michael');
 
             const deleteIds = require('@backend/app/messageIds');
             expect(deleteIds.deleteMessageIds.calledOnce).to.be.true;
@@ -97,7 +94,7 @@ describe('shoppingList', () => {
         it('should do nothing when getForeignStateAsync returns null', async () => {
             adapterMock.getForeignStateAsync.resolves(null);
 
-            await deleteMessageAndSendNewShoppingList('telegram.0', store, 'Michael');
+            await shoppingListManager.deleteMessageAndSendNewShoppingList('telegram.0', store, 'Michael');
 
             const telegramMod = require('@backend/app/telegram');
             expect(telegramMod.sendToTelegramSubmenu.called).to.be.false;

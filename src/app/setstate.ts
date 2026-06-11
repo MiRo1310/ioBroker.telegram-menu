@@ -162,16 +162,7 @@ export const handleSetState = async (
             return;
         }
         let valueToTelegram: ioBroker.StateValue = valueFromSubmenu ?? value;
-        if (!useForeignId && !confirm) {
-            await appContext.stateIdRegistry.addIds(appContext.adapter, {
-                id: idToGetValueFrom,
-                confirm,
-                returnText,
-                userToSend,
-                parse_mode,
-                instance,
-            });
-        } else if (useForeignId) {
+        if (useForeignId) {
             returnText = singleQuotesToDoubleQuotes(returnText);
             const { substring } = decomposeText(returnText, foreignIdStart, '}');
             const { json, isValidJson } = parseJSON<{ text: string; foreignId: string }>(substring);

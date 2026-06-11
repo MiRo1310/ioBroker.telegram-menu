@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import { removeDuplicates, setStateIdsToIdArray, trimAllItems } from '@backend/lib/object';
+import { removeDuplicates, trimAllItems } from '@backend/lib/object';
 import { SetStateIds } from '@backend/types/types';
+import { StateIdRegistry } from '@backend/app/stateIdRegistry';
 
 describe('deleteDoubleEntriesInArray', () => {
     it('should remove duplicate entries from an array', () => {
@@ -68,12 +69,12 @@ describe('setStateIdsToIdArray', () => {
             { id: '3', confirm: true, parse_mode: true, returnText: '', userToSend: '', instance: 'telegram.0' },
         ];
         const expectedOutput = ['1', '2', '3'];
-        expect(setStateIdsToIdArray(input)).to.deep.equal(expectedOutput);
+        expect(StateIdRegistry.setStateIdsToIdArray(input)).to.deep.equal(expectedOutput);
     });
 
     it('should return an empty array if the input is empty', () => {
         const input: SetStateIds[] = [];
         const expectedOutput: string[] = [];
-        expect(setStateIdsToIdArray(input)).to.deep.equal(expectedOutput);
+        expect(StateIdRegistry.setStateIdsToIdArray(input)).to.deep.equal(expectedOutput);
     });
 });

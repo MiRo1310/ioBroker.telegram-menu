@@ -98,17 +98,7 @@ const handleSetState = async (appContext, instance, part, userToSend, valueFromS
             return;
         }
         let valueToTelegram = valueFromSubmenu ?? value;
-        if (!useForeignId && !confirm) {
-            await appContext.stateIdRegistry.addIds(appContext.adapter, {
-                id: idToGetValueFrom,
-                confirm,
-                returnText,
-                userToSend,
-                parse_mode,
-                instance,
-            });
-        }
-        else if (useForeignId) {
+        if (useForeignId) {
             returnText = (0, string_1.singleQuotesToDoubleQuotes)(returnText);
             const { substring } = (0, string_1.decomposeText)(returnText, foreignIdStart, '}');
             const { json, isValidJson } = (0, string_1.parseJSON)(substring);

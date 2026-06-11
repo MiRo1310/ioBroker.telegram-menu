@@ -223,7 +223,7 @@ describe('Setstate', () => {
             expect(listAfter.length).to.equal(countBefore);
         });
 
-        it('should ADD the state ID to the listener list when confirm=false', async () => {
+        it('should NOT add the state ID to the listener list when confirm=false (no feedback needed)', async () => {
             const testId = 'test.0.no-double-send-confirm-false';
             await mockAdapter.setForeignStateAsync(testId, '0', true);
 
@@ -245,8 +245,8 @@ describe('Setstate', () => {
             await handleSetState(appContext, 'telegram.0', part, 'Michael', null);
 
             const listAfter = appContext.stateIdRegistry.getIds();
-            expect(listAfter.some(el => el.id === testId)).to.be.true;
-            expect(listAfter.length).to.equal(countBefore + 1);
+            expect(listAfter.some(el => el.id === testId)).to.be.false;
+            expect(listAfter.length).to.equal(countBefore);
         });
     });
 
