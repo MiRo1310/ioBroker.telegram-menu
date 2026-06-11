@@ -31,27 +31,50 @@ import { getMenuValues, getSubmenuNumberValues } from '@backend/lib/splitValues'
 import { createDynamicSwitchMenu } from '@backend/app/dynamicSwitchMenu';
 import type { AppContext } from '@backend/app/appContext';
 
-let step = 0;
-let splittedData: SplittedData = [];
+export class SubmenuHandler {
+    private _step = 0;
+    private _splittedData: SplittedData = [];
+
+    get step(): number {
+        return this._step;
+    }
+    set step(val: number) {
+        this._step = val;
+    }
+
+    get splittedData(): SplittedData {
+        return this._splittedData;
+    }
+    set splittedData(val: SplittedData) {
+        this._splittedData = val;
+    }
+
+    reset(): void {
+        this._step = 0;
+        this._splittedData = [];
+    }
+}
+
+export const submenuHandler = new SubmenuHandler();
 
 const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
     const { cbData, menuToHandle } = obj;
 
-    step = parseFloat(cbData.replace('percent', ''));
+    submenuHandler.step = parseFloat(cbData.replace('percent', ''));
     let rowEntries = 0;
     let menu: KeyboardItems[] = [];
     const keyboard: Keyboard = {
         inline_keyboard: [],
     };
-    for (let i = 100; i >= 0; i -= step) {
+    for (let i = 100; i >= 0; i -= submenuHandler.step) {
         menu.push({
             text: `${i}%`,
-            callback_data: `submenu:percent${step},${i}:${menuToHandle}`,
+            callback_data: `submenu:percent${submenuHandler.step},${i}:${menuToHandle}`,
         });
-        if (i != 0 && i - step < 0) {
+        if (i != 0 && i - submenuHandler.step < 0) {
             menu.push({
                 text: `0%`,
-                callback_data: `submenu:percent${step},${0}:${menuToHandle}`,
+                callback_data: `submenu:percent${submenuHandler.step},${0}:${menuToHandle}`,
             });
         }
         rowEntries++;
@@ -69,10 +92,10 @@ const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keybo
 };
 
 const setMenuValue = async ({ appContext, instance, userToSend, part, menuNumber }: SetMenuValue): Promise<void> => {
-    if (!splittedData[menuNumber]) {
+    if (!submenuHandler.splittedData[menuNumber]) {
         return;
     }
-    let val: string | boolean | undefined = splittedData[menuNumber].split('.')?.[1];
+    let val: string | boolean | undefined = submenuHandler.splittedData[menuNumber].split('.')?.[1];
 
     if (val === undefined) {
         return;
@@ -165,10 +188,10 @@ const createSwitchMenu = ({
     cbData,
     text,
 }: CreateMenu): { text?: string; keyboard: Keyboard; device: string } | undefined => {
-    splittedData = cbData.split('-');
+    submenuHandler.splittedData = cbData.split('-');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, item1, item2] = splittedData;
+    const [_, item1, item2] = submenuHandler.splittedData;
     if (!item1 || !item2) {
         return;
     }
@@ -295,7 +318,7 @@ export async function subMenu({
         return createSubmenuPercent({ appContext, cbData, text, menuToHandle: menuToHandle });
     }
 
-    if (isSetSubmenuPercent(menuString, step)) {
+    if (isSetSubmenuPercent(menuString, submenuHandler.step)) {
         const value = parseInt(menuString.split(':')[1].split(',')[1]);
         await handleSetState(appContext, instance, part, userToSend, value);
     }

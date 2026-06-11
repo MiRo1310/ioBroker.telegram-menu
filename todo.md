@@ -165,38 +165,44 @@ Datei: `src/app/messageIds.ts`
 
 ---
 
-## Schritt 12 — Modul-globalen Zustand in subMenu.ts kapseln
+## Schritt 12 — Modul-globalen Zustand in subMenu.ts kapseln ✅
 
 **Problem:** `let step = 0` und `let splittedData: SplittedData = []` sind modul-global. `step` wird in `createSubmenuPercent` gesetzt und in `isSetSubmenuPercent` gelesen — temporale Kopplung. `splittedData` wird in `createSwitchMenu` gesetzt und in `setMenuValue` gelesen.
 
-- [ ] Option A: `SubmenuHandler`-Klasse mit `step` und `splittedData` als Instance-State
-- [ ] Option B: Rückgabewerte explizit durch Funktionsparameter durchreichen (kein globaler Zustand)
-- [ ] Modul-globale Variablen eliminieren
-- [ ] Tests auf korrekte Isolation prüfen
+- [x] Option A gewählt: `SubmenuHandler`-Klasse mit `step` und `splittedData` als Instance-State (Option B scheidet aus — State muss über separate Telegram-Requests hinweg persistieren)
+- [x] `export const submenuHandler = new SubmenuHandler()` — Singleton mit `reset()`-Methode
+- [x] Modul-globale Variablen `step` und `splittedData` eliminiert
+- [x] Tests: `submenuHandler.reset()` in `beforeEach`, "should propagate errors" explizit eingerichtet statt auf globalem State eines Vorgängertests
+
+**Verifikation:** 614 Tests grün ✅
 
 ---
 
-## Schritt 13 — `processData()` in MenuProcessor aufteilen
+## Schritt 13 — `processData()` in MenuProcessor aufteilen ✅
 
 **Problem:** `processData()` ist 152 Zeilen mit klar trennbaren Phasen.
 
-- [ ] `private handleDynamicValue(): Promise<boolean>` — Dynamic-Value-Pfad
-- [ ] `private dispatchNavAction(part, call): Promise<boolean>` — nav/submenu-Dispatch
-- [ ] `private dispatchPartAction(part): Promise<boolean>` — setState/getData/sendPic/location/echarts/httpRequest
-- [ ] `processData()` wird zum schlanken Orchestrator der drei Methoden
-- [ ] Tests für neue Methoden ergänzen
+- [x] `private handleDynamicValue(): Promise<boolean>` — Dynamic-Value-Pfad
+- [x] `private dispatchNavAction(part, call): Promise<boolean>` — nav/submenu-Dispatch
+- [x] `private dispatchPartAction(part): Promise<boolean>` — setState/getData/sendPic/location/echarts/httpRequest
+- [x] `processData()` wird zum schlanken Orchestrator der drei Methoden
+- [x] Tests für neue Methoden ergänzen
+
+**Verifikation:** 18 Tests grün ✅
 
 ---
 
-## Schritt 14 — `SetStateListenerHandler`-Klasse aus main.ts extrahieren
+## Schritt 14 — `SetStateListenerHandler`-Klasse aus main.ts extrahieren ✅
 
 **Problem:** `handleSetStateListener()` in main.ts ist 85 Zeilen mit verschachtelter Confirm-Logik, schwer isoliert testbar.
 
-- [ ] Klasse `SetStateListenerHandler` mit `appContext` im Constructor
-- [ ] `handlePreConfirm()` — `isTruthy(confirm) && !ack && {confirmSet:` Pfad
-- [ ] `handlePostConfirm()` — `!isFalsy(confirm) && ack` Pfad
-- [ ] main.ts `handleSetStateListener` wird zur dünnen Delegation
-- [ ] Tests für beide Pfade unabhängig von main.ts
+- [x] Klasse `SetStateListenerHandler` mit `appContext` im Constructor
+- [x] `handlePreConfirm()` — `isTruthy(confirm) && !ack && {confirmSet:` Pfad
+- [x] `handlePostConfirm()` — `!isFalsy(confirm) && ack` Pfad
+- [x] main.ts `handleSetStateListener` wird zur dünnen Delegation
+- [x] Tests für beide Pfade unabhängig von main.ts — `test/test/app/setStateListenerHandler.test.ts` (15 Tests)
+
+**Verifikation:** 629 Tests grün ✅
 
 ---
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { callSubMenu, subMenu } from '@backend/app/subMenu';
+import { callSubMenu, subMenu, submenuHandler } from '@backend/app/subMenu';
 import { createAppContextMock } from '../../fixtures/appContextMock';
 import type { AppContext } from '@backend/app/appContext';
 
@@ -14,6 +14,7 @@ describe('subMenu', () => {
     let deleteMessageIdsStub: sinon.SinonStub;
 
     beforeEach(() => {
+        submenuHandler.reset();
         adapterMock = {
             log: { debug: sinon.stub(), warn: sinon.stub(), error: sinon.stub() },
             getForeignStateAsync: sinon.stub(),
@@ -135,6 +136,7 @@ describe('subMenu', () => {
         });
 
         it('should propagate errors', async () => {
+            await subMenu(baseArgs('menu:switch-On.true-Off.false:device1'));
             handleSetStateStub.rejects(new Error('boom'));
             await expect(subMenu(baseArgs('menu:first:device1'))).to.be.rejectedWith('boom');
         });
