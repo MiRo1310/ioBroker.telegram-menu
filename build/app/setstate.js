@@ -40,7 +40,7 @@ async function resolveIdExpression(appContext, text) {
     }
     return (0, string_1.removeDuplicateSpaces)(text);
 }
-const setstateIobroker = async ({ id, value, ack, appContext, }) => {
+const setstateIobroker = async (appContext, id, value, ack) => {
     const val = await (0, utilities_1.transformValueToTypeOfId)(appContext, id, value);
     appContext.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(val)}`);
     if ((0, utils_1.isDefined)(val)) {
@@ -54,7 +54,7 @@ const setValue = async (appContext, id, value, valueFromSubmenu, ack) => {
         ? await resolveIdExpression(appContext, value)
         : modifiedValue(String(valueFromSubmenu), value ?? '');
     appContext.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(valueToSet)}`);
-    await (0, exports.setstateIobroker)({ appContext, id, value: valueToSet, ack });
+    await (0, exports.setstateIobroker)(appContext, id, valueToSet, ack);
     return valueToSet;
 };
 const foreignIdStart = '{"foreignId":"';
@@ -137,7 +137,7 @@ async function handleSwitchItem(appContext, instance, switchDef, userToSend, val
     if (toggle) {
         const state = await appContext.adapter.getForeignStateAsync(switchId);
         const newValue = state ? !state.val : false;
-        await (0, exports.setstateIobroker)({ appContext, id: switchId, value: newValue, ack });
+        await (0, exports.setstateIobroker)(appContext, switchId, newValue, ack);
         valueToTelegram = newValue;
     }
     else {
@@ -167,8 +167,9 @@ const handleSetState = async (appContext, instance, part, userToSend, valueFromS
     }
     for (const switchDef of part.switch) {
         const result = await handleSwitchItem(appContext, instance, switchDef, userToSend, valueFromSubmenu);
-        if (result)
+        if (result) {
             return result;
+        }
     }
 };
 exports.handleSetState = handleSetState;

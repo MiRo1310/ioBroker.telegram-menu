@@ -141,12 +141,7 @@ class MenuProcessor {
             ? (0, action_1.adjustValueType)(this.adapter, this.navToGoTo, dynamicValueObject.valueType)
             : this.navToGoTo;
         if (valueToSet && dynamicValueObject.idToSet) {
-            await (0, setstate_1.setstateIobroker)({
-                appContext: this.appContext,
-                id: dynamicValueObject.idToSet,
-                value: valueToSet,
-                ack: dynamicValueObject.ack,
-            });
+            await (0, setstate_1.setstateIobroker)(this.appContext, dynamicValueObject.idToSet, valueToSet, dynamicValueObject.ack);
             if (dynamicValueObject.confirm && this.onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
                 const text = await (0, setstate_1.buildReturnText)(this.appContext, dynamicValueObject.returnText, valueToSet);
                 await (0, telegram_1.sendToTelegram)({

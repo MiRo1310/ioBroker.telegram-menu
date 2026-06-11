@@ -75,7 +75,7 @@ export const textModifier = async (appContext: AppContext, text?: string): Promi
         const ack = ackString?.replace('}', '') == 'true' || false;
 
         if (convertedValue && id) {
-            await setstateIobroker({ appContext, id, value: convertedValue, ack });
+            await setstateIobroker(appContext, id, convertedValue, ack);
         }
     }
 

@@ -167,12 +167,7 @@ export class MenuProcessor {
             : this.navToGoTo;
 
         if (valueToSet && dynamicValueObject.idToSet) {
-            await setstateIobroker({
-                appContext: this.appContext,
-                id: dynamicValueObject.idToSet,
-                value: valueToSet,
-                ack: dynamicValueObject.ack,
-            });
+            await setstateIobroker(this.appContext, dynamicValueObject.idToSet, valueToSet, dynamicValueObject.ack);
             if (dynamicValueObject.confirm && this.onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
                 const text = await buildReturnText(this.appContext, dynamicValueObject.returnText, valueToSet);
 

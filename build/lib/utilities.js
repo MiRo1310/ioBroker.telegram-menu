@@ -56,7 +56,7 @@ const textModifier = async (appContext, text) => {
         const convertedValue = id && importedValue ? await transformValueToTypeOfId(appContext, id, importedValue) : undefined;
         const ack = ackString?.replace('}', '') == 'true' || false;
         if (convertedValue && id) {
-            await (0, setstate_1.setstateIobroker)({ appContext, id, value: convertedValue, ack });
+            await (0, setstate_1.setstateIobroker)(appContext, id, convertedValue, ack);
         }
     }
     text === inputText

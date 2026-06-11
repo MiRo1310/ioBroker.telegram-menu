@@ -149,4 +149,4 @@ public async setValue(params: {
 
 - [x] `npm run tsc` → keine TypeScript-Fehler
 - [x] `npm run test:ts` → alle Tests grün
-- [ ] `npm run lint:backend` → keine Lint-Fehler
+- [x] `npm run lint:backend` → keine Lint-Fehler

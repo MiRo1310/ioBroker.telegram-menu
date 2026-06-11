@@ -29,12 +29,7 @@ class ShoppingListManager {
                     await (0, subscribeStates_1._subscribeForeignStates)(appContext, `alexa-shoppinglist.${idList}`);
                     this.isSubscribed = true;
                 }
-                await (0, setstate_1.setstateIobroker)({
-                    appContext,
-                    id: `alexa2.${instance}.Lists.${list}.items.${idItem}.#delete`,
-                    value: true,
-                    ack: false,
-                });
+                await (0, setstate_1.setstateIobroker)(appContext, `alexa2.${instance}.Lists.${list}.items.${idItem}.#delete`, true, false);
                 return requestId;
             }
             const telegramInstance = jsonTable_1.lastRequestJsonButtonHistory.getLast(requestId)?.instance;

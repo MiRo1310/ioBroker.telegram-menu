@@ -436,12 +436,7 @@ describe('Setstate', () => {
         };
         let thrown = false;
         try {
-            await setstateIobroker({
-                appContext: createAppContextMock(errorAdapter as any),
-                id: 'test.state',
-                value: 'val',
-                ack: false,
-            });
+            await setstateIobroker(createAppContextMock(errorAdapter as any), 'test.state', 'val', false);
         } catch (e: any) {
             thrown = true;
             expect(e.message).to.equal('set failed');
@@ -635,7 +630,7 @@ describe('buildReturnText', () => {
     it('should replace single quotes with double quotes before exchangeValue', async () => {
         // singleQuotesToDoubleQuotes converts {status:'id'} → {status:"id"}
         // Here we just verify the pipeline does not break on single-quoted text
-        const result = await buildReturnText(appContext, "Text: && °C", 21);
+        const result = await buildReturnText(appContext, 'Text: && °C', 21);
         expect(result).to.equal('Text: 21 °C');
     });
 
