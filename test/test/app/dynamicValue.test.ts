@@ -17,16 +17,16 @@ describe('DynamicValueHandler', function () {
     });
 
     it('should set, get and remove dynamic value for a user', async function () {
-        const result = await dynamicValue.setValue({
-            instance: 'instance1',
-            returnText: '{setDynamicValue:question:type:confirmText:nav}',
-            ack: true,
-            id: 'id1',
-            userToSend: 'testUser',
-            appContext: store,
-            parse_mode: true,
-            confirm: true,
-        });
+        const result = await dynamicValue.setValue(
+            store,
+            'instance1',
+            '{setDynamicValue:question:type:confirmText:nav}',
+            true,
+            'id1',
+            'testUser',
+            true,
+            true,
+        );
         expect(result).to.have.property('confirmText', 'confirmText');
         expect(result).to.have.property('id', 'nav');
         expect(sendToTelegramStub.calledOnce).to.be.true;
@@ -51,31 +51,31 @@ describe('DynamicValueHandler', function () {
     });
 
     it('should set a dynamic value with confirm=false', async function () {
-        const result = await dynamicValue.setValue({
-            instance: 'instance1',
-            returnText: '{setDynamicValue:question2:number:confirm2}',
-            ack: false,
-            id: 'id2',
-            userToSend: 'testUser2',
-            appContext: store,
-            parse_mode: false,
-            confirm: false,
-        });
+        const result = await dynamicValue.setValue(
+            store,
+            'instance1',
+            '{setDynamicValue:question2:number:confirm2}',
+            false,
+            'id2',
+            'testUser2',
+            false,
+            false,
+        );
         expect(result).to.have.property('confirmText', 'confirm2');
         dynamicValue.removeUser('testUser2');
     });
 
     it('should return empty confirmText and undefined id when confirmText is empty', async function () {
-        const result = await dynamicValue.setValue({
-            instance: 'instance1',
-            returnText: '{setDynamicValue:question3:string:}',
-            ack: false,
-            id: 'id3',
-            userToSend: 'testUser3',
-            appContext: store,
-            parse_mode: false,
-            confirm: false,
-        });
+        const result = await dynamicValue.setValue(
+            store,
+            'instance1',
+            '{setDynamicValue:question3:string:}',
+            false,
+            'id3',
+            'testUser3',
+            false,
+            false,
+        );
         expect(result).to.have.property('confirmText', '');
         expect(result).to.have.property('id', undefined);
         dynamicValue.removeUser('testUser3');

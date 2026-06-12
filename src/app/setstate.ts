@@ -141,16 +141,16 @@ async function handleSwitchItem(
 
     const useForeignId = handleUpdateFromForeignId(returnText);
     if (returnText.includes('{setDynamicValue')) {
-        const { confirmText, id } = await dynamicValue.setValue({
+        const { confirmText, id } = await dynamicValue.setValue(
+            appContext,
             instance,
             returnText,
             ack,
-            id: idToGetValueFrom,
+            idToGetValueFrom,
             userToSend,
-            appContext,
             parse_mode,
             confirm,
-        });
+        );
 
         if (confirm && id) {
             await appContext.stateIdRegistry.addIds(appContext.adapter, {
