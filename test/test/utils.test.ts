@@ -4,6 +4,7 @@ import { deepCopy, getChatID, isDefined, isFalsy, isTruthy, validateDirectory } 
 import { utils } from '@iobroker/testing';
 import { UserListWithChatID } from '@/types/app';
 import type { Adapter } from '@backend/types/types';
+import { createAppContextMock } from '../fixtures/appContextMock';
 
 const { adapter, database } = utils.unit.createMocks({});
 const mockAdapter = adapter as unknown as Adapter;
@@ -83,7 +84,9 @@ describe('deepCopy', () => {
 
 describe('checkDirectoryIsOk', () => {
     it('should return false and log an error if the directory is undefined', () => {
-        const result = validateDirectory(mockAdapter, undefined as unknown as string);
+        const result = validateDirectory(
+            createAppContextMock(mockAdapter, { directoryPicture: undefined as unknown as string }),
+        );
         expect(result).to.be.false;
         expect(adapter.log.error.called).to.be.true;
         expect(adapter.log.error.firstCall.args[0]).to.equal(
@@ -92,12 +95,12 @@ describe('checkDirectoryIsOk', () => {
     });
 
     it('should return false and log an error if the directory is an empty string', () => {
-        const result = validateDirectory(mockAdapter, '');
+        const result = validateDirectory(createAppContextMock(mockAdapter, { directoryPicture: '' }));
         expect(result).to.be.false;
     });
 
     it('should return true if the directory is valid', () => {
-        const result = validateDirectory(mockAdapter, '/valid/directory');
+        const result = validateDirectory(createAppContextMock(mockAdapter, { directoryPicture: '/valid/directory' }));
         expect(result).to.be.true;
     });
 });

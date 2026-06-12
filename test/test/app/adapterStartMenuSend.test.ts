@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { adapterStartMenuSend } from '@backend/app/adapterStartMenuSend';
+import { createAppContextMock } from '../../fixtures/appContextMock';
 
 describe('adapterStartMenuSend', () => {
     let sendToTelegramStub: any;
@@ -19,34 +20,23 @@ describe('adapterStartMenuSend', () => {
     });
 
     it('should call sendToTelegram for active users on startside', async () => {
-        const listOfMenus = ['menu1'];
         const startSides: any = { menu1: 'page1' };
-        const userActiveCheckbox: any = { menu1: true };
-        const menusWithUsers: any = {
-            menu1: [{ name: 'Alice', instance: 'telegram.0', chatId: '123' }],
-        };
         const menuData: any = {
             menu1: {
                 page1: { nav: [['btn1', 'btn2']], text: 'Hello Alice', parse_mode: false },
             },
         };
-
-        const telegramParams: any = {
-            adapter: adapterMock,
+        const store = createAppContextMock(adapterMock, {
+            listOfMenus: ['menu1'],
+            isUserActiveCheckbox: { menu1: true },
+            menusWithUsers: {
+                menu1: [{ name: 'Alice', instance: 'telegram.0', chatId: '123' }],
+            },
             telegramInstanceList: [{ name: 'telegram.0', active: true }],
             userListWithChatID: [{ name: 'Alice', chatID: '123', instance: 'telegram.0' }],
-            resize_keyboard: false,
-            one_time_keyboard: false,
-        };
+        });
 
-        await adapterStartMenuSend(
-            listOfMenus,
-            startSides,
-            userActiveCheckbox,
-            menusWithUsers,
-            menuData,
-            telegramParams,
-        );
+        await adapterStartMenuSend(startSides, menuData, store);
 
         expect(sendToTelegramStub.calledOnce).to.be.true;
         const callArg = sendToTelegramStub.firstCall.args[0];
@@ -57,67 +47,45 @@ describe('adapterStartMenuSend', () => {
     });
 
     it('should not call sendToTelegram when user is not active', async () => {
-        const listOfMenus = ['menu1'];
         const startSides: any = { menu1: 'page1' };
-        const userActiveCheckbox: any = { menu1: true };
-        const menusWithUsers: any = {
-            menu1: [{ name: 'Bob', instance: 'telegram.0', chatId: '999' }],
-        };
         const menuData: any = {
             menu1: {
                 page1: { nav: [['btn1']], text: 'Hello Bob', parse_mode: false },
             },
         };
-
-        const telegramParams: any = {
-            adapter: adapterMock,
+        const store = createAppContextMock(adapterMock, {
+            listOfMenus: ['menu1'],
+            isUserActiveCheckbox: { menu1: true },
+            menusWithUsers: {
+                menu1: [{ name: 'Bob', instance: 'telegram.0', chatId: '999' }],
+            },
             telegramInstanceList: [{ name: 'telegram.0', active: true }],
-            userListWithChatID: [{ name: 'Alice', chatID: '123', instance: 'telegram.0' }], // different user list so Bob is inactive
-            resize_keyboard: false,
-            one_time_keyboard: false,
-        };
+            userListWithChatID: [{ name: 'Alice', chatID: '123', instance: 'telegram.0' }],
+        });
 
-        await adapterStartMenuSend(
-            listOfMenus,
-            startSides,
-            userActiveCheckbox,
-            menusWithUsers,
-            menuData,
-            telegramParams,
-        );
+        await adapterStartMenuSend(startSides, menuData, store);
 
         expect(sendToTelegramStub.notCalled).to.be.true;
     });
 
     it('should not call sendToTelegram when menu is inactive or not a startside', async () => {
-        const listOfMenus = ['menu1'];
-        const startSides: any = { menu1: '-' }; // not a startside
-        const userActiveCheckbox: any = { menu1: true };
-        const menusWithUsers: any = {
-            menu1: [{ name: 'Alice', instance: 'telegram.0', chatId: '123' }],
-        };
+        const startSides: any = { menu1: '-' };
         const menuData: any = {
             menu1: {
                 page1: { nav: [['btn1']], text: 'Hello Alice', parse_mode: false },
             },
         };
-
-        const telegramParams: any = {
-            adapter: adapterMock,
+        const store = createAppContextMock(adapterMock, {
+            listOfMenus: ['menu1'],
+            isUserActiveCheckbox: { menu1: true },
+            menusWithUsers: {
+                menu1: [{ name: 'Alice', instance: 'telegram.0', chatId: '123' }],
+            },
             telegramInstanceList: [{ name: 'telegram.0', active: true }],
             userListWithChatID: [{ name: 'Alice', chatID: '123', instance: 'telegram.0' }],
-            resize_keyboard: false,
-            one_time_keyboard: false,
-        };
+        });
 
-        await adapterStartMenuSend(
-            listOfMenus,
-            startSides,
-            userActiveCheckbox,
-            menusWithUsers,
-            menuData,
-            telegramParams,
-        );
+        await adapterStartMenuSend(startSides, menuData, store);
 
         expect(sendToTelegramStub.notCalled).to.be.true;
     });

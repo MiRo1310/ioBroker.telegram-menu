@@ -1,17 +1,25 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createKeyboardFromJson, createTextTableFromJson, lastRequestJsonButtonHistory } from '../../../src/app/jsonTable';
+import {
+    createKeyboardFromJson,
+    createTextTableFromJson,
+    lastRequestJsonButtonHistory,
+} from '../../../src/app/jsonTable';
+import { createAppContextMock } from '../../fixtures/appContextMock';
 
 describe('jsonTable', () => {
     let adapterMock: any;
+    let storeMock: any;
 
     beforeEach(() => {
         adapterMock = {
             log: { debug: sinon.stub(), warn: sinon.stub(), error: sinon.stub() },
+            supportsFeature: sinon.stub().returns(false),
         };
         // Prevent incrementing the module-global ID counter so the existing
         // json-table.test.ts fixture tests (which run after) still see id=0
         sinon.stub(lastRequestJsonButtonHistory, 'setData').returns(0);
+        storeMock = createAppContextMock(adapterMock);
     });
 
     afterEach(() => {
@@ -31,7 +39,7 @@ describe('jsonTable', () => {
         it('should return keyboard and text for valid shopping list JSON', () => {
             const val = JSON.stringify([{ name: 'Milk', buttondelete: "x.('0.0.item1.data.1',true')" }]);
             const result = createKeyboardFromJson(
-                adapterMock,
+                storeMock,
                 val,
                 tableConfig,
                 'alexa-shoppinglist.0.list',
@@ -46,10 +54,10 @@ describe('jsonTable', () => {
         it('should use cached text when text param is null', () => {
             const val = JSON.stringify([{ name: 'Milk', buttondelete: "x.('0.0.item1.data.1',true')" }]);
             // First call populates the cache for user2
-            createKeyboardFromJson(adapterMock, val, tableConfig, 'alexa-shoppinglist.0.list', 'user2', 'telegram.0');
+            createKeyboardFromJson(storeMock, val, tableConfig, 'alexa-shoppinglist.0.list', 'user2', 'telegram.0');
             // Second call with null text should use cached value
             const result = createKeyboardFromJson(
-                adapterMock,
+                storeMock,
                 val,
                 null,
                 'alexa-shoppinglist.0.list',
@@ -61,25 +69,25 @@ describe('jsonTable', () => {
         });
 
         it('should return undefined and log warn when text JSON is invalid', () => {
-            const result = createKeyboardFromJson(adapterMock, '[]', 'INVALID_JSON', 'id', 'user', 'inst');
+            const result = createKeyboardFromJson(storeMock, '[]', 'INVALID_JSON', 'id', 'user', 'inst');
             expect(result).to.be.undefined;
             expect(adapterMock.log.warn.calledOnce).to.be.true;
         });
 
         it('should return undefined when val JSON is invalid', () => {
-            const result = createKeyboardFromJson(adapterMock, 'NOT_JSON', tableConfig, 'id', 'user', 'inst');
+            const result = createKeyboardFromJson(storeMock, 'NOT_JSON', tableConfig, 'id', 'user', 'inst');
             expect(result).to.be.undefined;
         });
 
         it('should return undefined when val is not an array', () => {
-            const result = createKeyboardFromJson(adapterMock, '{"key":"value"}', tableConfig, 'id', 'user', 'inst');
+            const result = createKeyboardFromJson(storeMock, '{"key":"value"}', tableConfig, 'id', 'user', 'inst');
             expect(result).to.be.undefined;
         });
 
         it('should skip rows that have no buttondelete', () => {
             const val = JSON.stringify([{ name: 'Milk' }]);
             const result = createKeyboardFromJson(
-                adapterMock,
+                storeMock,
                 val,
                 tableConfig,
                 'alexa-shoppinglist.0.list',
@@ -100,7 +108,7 @@ describe('jsonTable', () => {
             });
             const val = JSON.stringify([]);
             const result = createKeyboardFromJson(
-                adapterMock,
+                storeMock,
                 val,
                 configWithLabel,
                 'alexa-shoppinglist.0.list',
@@ -110,6 +118,27 @@ describe('jsonTable', () => {
             expect(result).to.not.be.undefined;
             expect(result?.keyboard?.inline_keyboard?.[0]).to.have.lengthOf(1);
             expect(result?.keyboard?.inline_keyboard?.[0]?.[0]?.text).to.equal('Name');
+        });
+
+        it('should catch error when adapter.log.debug throws (line 151)', () => {
+            adapterMock.log.debug = sinon.stub().throws(new Error('debug error'));
+            const val = JSON.stringify([{ name: 'Milk', buttondelete: "x.('0.0.item1.data.1',true')" }]);
+            const tableConfig = JSON.stringify({
+                tableData: [{ key: 'name', label: 'Item' }],
+                tableLabel: 'Shopping',
+                type: 'alexaShoppingList',
+                listName: 'list1',
+            });
+            const result = createKeyboardFromJson(
+                storeMock,
+                val,
+                tableConfig,
+                'alexa-shoppinglist.0.list',
+                'userCatch',
+                'telegram.0',
+            );
+            expect(result).to.be.undefined;
+            expect(adapterMock.log.error.called).to.be.true;
         });
     });
 
@@ -175,6 +204,20 @@ describe('jsonTable', () => {
             // Passing a value that causes JSON.parse to throw inside the function
             const result = createTextTableFromJson(adapterMock, 'null', tableConfig);
             // null parses fine but is not an array
+            expect(result).to.be.undefined;
+        });
+
+        it('should catch error when json param is invalid JSON and log it (line 274)', () => {
+            // JSON.parse throws for invalid JSON → catch block (line 274) executed
+            const result = createTextTableFromJson(adapterMock, 'NOT_VALID_JSON', tableConfig);
+            expect(result).to.be.undefined;
+            expect(adapterMock.log.error.called).to.be.true;
+        });
+    });
+
+    describe('lastRequestJsonButtonHistory', () => {
+        it('should return undefined from getLast when id does not exist (line 58)', () => {
+            const result = lastRequestJsonButtonHistory.getLast(99999);
             expect(result).to.be.undefined;
         });
     });

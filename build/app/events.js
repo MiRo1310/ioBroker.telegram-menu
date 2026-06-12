@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleEvent = exports.toBoolean = exports.getInstancesFromEventsById = exports.getInstances = void 0;
 exports.checkCondition = checkCondition;
-const backMenu_1 = require("../app/backMenu");
 const subMenu_1 = require("../app/subMenu");
 const sendNav_1 = require("../app/sendNav");
 const utils_1 = require("../lib/utils");
@@ -99,7 +98,7 @@ function checkCondition(adapter, stateValue, event) {
 function checkIdAndAck(event, id, state) {
     return event.ID[0] == id && event.ack[0] == state.ack.toString();
 }
-const handleEvent = async (adapter, user, dataObject, id, state, menuData, telegramParams) => {
+const handleEvent = async (user, dataObject, id, state, menuData, appContext) => {
     const menuArray = [];
     let calledNav = '';
     const action = dataObject.action;
@@ -113,7 +112,7 @@ const handleEvent = async (adapter, user, dataObject, id, state, menuData, teleg
         }
         events.forEach(event => {
             if (checkIdAndAck(event, id, state)) {
-                if (checkCondition(adapter, state.val, event)) {
+                if (checkCondition(appContext.adapter, state.val, event)) {
                     menuArray.push(menu);
                     calledNav = event.menu[0];
                 }
@@ -127,22 +126,25 @@ const handleEvent = async (adapter, user, dataObject, id, state, menuData, teleg
         const part = menuData[menu][calledNav];
         const menus = Object.keys(menuData);
         if (part && part?.nav) {
-            (0, backMenu_1.backMenuFunc)({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
+            appContext.backMenuRegistry.backMenuFunc({
+                activePage: calledNav,
+                navigation: part.nav,
+                userToSend: user.name,
+            });
         }
         if (part && part?.nav?.[0][0].includes('menu:')) {
             await (0, subMenu_1.callSubMenu)({
-                adapter,
                 instance: user.instance,
                 jsonStringNav: JSON.stringify(part.nav),
                 userToSend: user.name,
-                telegramParams,
+                appContext,
                 part,
                 allMenusWithData: menuData,
                 menus,
             });
             return true;
         }
-        await (0, sendNav_1.sendNav)(adapter, user.instance, part, user.name, telegramParams);
+        await (0, sendNav_1.sendNav)(appContext, user.instance, part, user.name);
     }
     return true;
 };

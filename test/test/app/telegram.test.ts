@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { sendToTelegram, sendToTelegramSubmenu, sendLocationToTelegram } from '@backend/app/telegram';
-import type { TelegramParams } from '@backend/types/types';
+import { createAppContextMock } from '../../fixtures/appContextMock';
+import type { AppContext } from '@backend/app/appContext';
 
 describe('telegram', () => {
     let adapterMock: any;
-    let telegramParams: TelegramParams;
+    let appContext: AppContext;
 
     beforeEach(() => {
         adapterMock = {
@@ -14,13 +15,12 @@ describe('telegram', () => {
             getForeignStateAsync: sinon.stub(),
             supportsFeature: sinon.stub().returns(false),
         };
-        telegramParams = {
-            adapter: adapterMock,
-            resize_keyboard: true,
-            one_time_keyboard: false,
+        appContext = createAppContextMock(adapterMock, {
             userListWithChatID: [{ name: 'Alice', chatID: '123', instance: 'telegram.0' }],
             telegramInstanceList: [{ name: 'telegram.0', active: true }],
-        } as any;
+            resize_keyboard: true,
+            one_time_keyboard: false,
+        });
     });
 
     afterEach(() => {
@@ -35,7 +35,7 @@ describe('telegram', () => {
                 instance: 'telegram.0',
                 userToSend: 'Alice',
                 textToSend: 'Hello',
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.sendTo.calledOnce).to.be.true;
             const args = adapterMock.sendTo.firstCall.args;
@@ -51,7 +51,7 @@ describe('telegram', () => {
                 userToSend: 'Alice',
                 textToSend: 'Pick one',
                 keyboard: [['btn1', 'btn2']],
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.sendTo.calledOnce).to.be.true;
             const payload = adapterMock.sendTo.firstCall.args[2];
@@ -65,18 +65,21 @@ describe('telegram', () => {
                 instance: '',
                 userToSend: 'Alice',
                 textToSend: 'Hello',
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.sendTo.called).to.be.false;
         });
 
         it('should return early when instance is not active', async () => {
-            telegramParams.telegramInstanceList = [{ name: 'telegram.0', active: false }] as any;
+            appContext = createAppContextMock(adapterMock, {
+                userListWithChatID: [{ name: 'Alice', chatID: '123', instance: 'telegram.0' }],
+                telegramInstanceList: [{ name: 'telegram.0', active: false }],
+            });
             await sendToTelegram({
                 instance: 'telegram.0',
                 userToSend: 'Alice',
                 textToSend: 'Hello',
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.sendTo.called).to.be.false;
         });
@@ -86,7 +89,7 @@ describe('telegram', () => {
                 instance: 'telegram.0',
                 userToSend: 'Alice',
                 textToSend: '',
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.log.error.called).to.be.true;
         });
@@ -96,7 +99,7 @@ describe('telegram', () => {
                 instance: 'telegram.0',
                 userToSend: 'Alice',
                 textToSend: 'change{something}',
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.log.warn.called).to.be.true;
         });
@@ -106,7 +109,7 @@ describe('telegram', () => {
                 instance: 'telegram.0',
                 userToSend: 'Alice',
                 textToSend: '<b>Bold</b>',
-                telegramParams,
+                appContext,
                 parse_mode: true,
             });
             expect(adapterMock.sendTo.calledOnce).to.be.true;
@@ -114,15 +117,16 @@ describe('telegram', () => {
             expect(payload.parse_mode).to.equal('HTML');
         });
 
-        it('should catch errors', async () => {
+        it('should propagate errors when sendTo throws', async () => {
             adapterMock.sendTo.throws(new Error('send error'));
-            await sendToTelegram({
-                instance: 'telegram.0',
-                userToSend: 'Alice',
-                textToSend: 'Hello',
-                telegramParams,
-            });
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(
+                sendToTelegram({
+                    instance: 'telegram.0',
+                    userToSend: 'Alice',
+                    textToSend: 'Hello',
+                    appContext,
+                }),
+            ).to.be.rejectedWith('send error');
         });
 
         it('should send with keyboard and shouldCleanUpString=false (skips cleanUpString)', async () => {
@@ -131,7 +135,7 @@ describe('telegram', () => {
                 userToSend: 'Alice',
                 textToSend: '<b>Raw</b>',
                 keyboard: [['btn']],
-                telegramParams,
+                appContext,
                 shouldCleanUpString: false,
             });
             expect(adapterMock.sendTo.calledOnce).to.be.true;
@@ -142,7 +146,7 @@ describe('telegram', () => {
                 instance: 'telegram.0',
                 userToSend: 'Alice',
                 textToSend: '<b>Raw</b>',
-                telegramParams,
+                appContext,
                 shouldCleanUpString: false,
             });
             expect(adapterMock.sendTo.calledOnce).to.be.true;
@@ -157,7 +161,7 @@ describe('telegram', () => {
                 userToSend: 'Alice',
                 textToSend: 'Hello',
                 keyboard: [['btn']],
-                telegramParams,
+                appContext,
             });
             expect(adapterMock.log.debug.called).to.be.true;
         });
@@ -168,7 +172,7 @@ describe('telegram', () => {
     describe('sendToTelegramSubmenu', () => {
         it('should send inline keyboard', () => {
             const keyboard = { inline_keyboard: [[{ text: 'Opt1', callback_data: 'cb1' }]] };
-            sendToTelegramSubmenu('telegram.0', 'Alice', 'Choose', keyboard, telegramParams);
+            sendToTelegramSubmenu('telegram.0', 'Alice', 'Choose', keyboard, appContext);
             expect(adapterMock.sendTo.calledOnce).to.be.true;
             const payload = adapterMock.sendTo.firstCall.args[2];
             expect(payload.reply_markup).to.equal(keyboard);
@@ -177,14 +181,14 @@ describe('telegram', () => {
 
         it('should not send when text is empty', () => {
             const keyboard = { inline_keyboard: [[{ text: 'Opt1', callback_data: 'cb1' }]] };
-            sendToTelegramSubmenu('telegram.0', 'Alice', '', keyboard, telegramParams);
+            sendToTelegramSubmenu('telegram.0', 'Alice', '', keyboard, appContext);
             expect(adapterMock.sendTo.called).to.be.false;
             expect(adapterMock.log.error.called).to.be.true;
         });
 
         it('should use parse_mode when provided', () => {
             const keyboard = { inline_keyboard: [[{ text: 'X', callback_data: 'x' }]] };
-            sendToTelegramSubmenu('telegram.0', 'Alice', '<b>Bold</b>', keyboard, telegramParams, true);
+            sendToTelegramSubmenu('telegram.0', 'Alice', '<b>Bold</b>', keyboard, appContext, true);
             const payload = adapterMock.sendTo.firstCall.args[2];
             expect(payload.parse_mode).to.equal('HTML');
         });
@@ -194,7 +198,7 @@ describe('telegram', () => {
                 if (typeof callback === 'function') callback({ ok: true });
             });
             const keyboard = { inline_keyboard: [[{ text: 'X', callback_data: 'x' }]] };
-            sendToTelegramSubmenu('telegram.0', 'Alice', 'Text', keyboard, telegramParams);
+            sendToTelegramSubmenu('telegram.0', 'Alice', 'Text', keyboard, appContext);
             expect(adapterMock.log.debug.called).to.be.true;
         });
     });
@@ -210,7 +214,7 @@ describe('telegram', () => {
                 'telegram.0',
                 'Alice',
                 [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
-                telegramParams,
+                appContext,
             );
 
             expect(adapterMock.sendTo.calledOnce).to.be.true;
@@ -221,12 +225,7 @@ describe('telegram', () => {
         });
 
         it('should skip entry when both lat and lng are empty', async () => {
-            await sendLocationToTelegram(
-                'telegram.0',
-                'Alice',
-                [{ latitude: '', longitude: '' }],
-                telegramParams,
-            );
+            await sendLocationToTelegram('telegram.0', 'Alice', [{ latitude: '', longitude: '' }], appContext);
             expect(adapterMock.sendTo.called).to.be.false;
         });
 
@@ -238,7 +237,7 @@ describe('telegram', () => {
                 'telegram.0',
                 'Alice',
                 [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
-                telegramParams,
+                appContext,
             );
             expect(adapterMock.sendTo.called).to.be.false;
         });
@@ -251,7 +250,7 @@ describe('telegram', () => {
                 'telegram.0',
                 'Alice',
                 [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
-                telegramParams,
+                appContext,
             );
             expect(adapterMock.sendTo.called).to.be.false;
         });
@@ -266,21 +265,22 @@ describe('telegram', () => {
                     { latitude: 'state.0.lat1', longitude: 'state.0.lng1' },
                     { latitude: 'state.0.lat2', longitude: 'state.0.lng2' },
                 ],
-                telegramParams,
+                appContext,
             );
             expect(adapterMock.sendTo.calledTwice).to.be.true;
         });
 
-        it('should catch errors', async () => {
+        it('should propagate errors when getForeignStateAsync throws', async () => {
             adapterMock.getForeignStateAsync.rejects(new Error('state error'));
 
-            await sendLocationToTelegram(
-                'telegram.0',
-                'Alice',
-                [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
-                telegramParams,
-            );
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(
+                sendLocationToTelegram(
+                    'telegram.0',
+                    'Alice',
+                    [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
+                    appContext,
+                ),
+            ).to.be.rejectedWith('state error');
         });
 
         it('should invoke the sendTo callback (telegramLogger) when sending location', async () => {
@@ -292,10 +292,9 @@ describe('telegram', () => {
                 'telegram.0',
                 'Alice',
                 [{ latitude: 'state.0.lat', longitude: 'state.0.lng' }],
-                telegramParams,
+                appContext,
             );
             expect(adapterMock.log.debug.called).to.be.true;
         });
     });
 });
-

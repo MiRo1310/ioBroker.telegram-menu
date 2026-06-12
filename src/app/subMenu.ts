@@ -1,5 +1,4 @@
 import type {
-    Adapter,
     AllMenusWithData,
     BackMenuType,
     CallSubMenu,
@@ -9,13 +8,10 @@ import type {
     Part,
     SetMenuValue,
     SplittedData,
-    TelegramParams,
 } from '@backend/types/types';
 import { handleSetState } from '@backend/app/setstate';
 import { isNonEmptyString, jsonString } from '@backend/lib/string';
-import { switchBack } from '@backend/app/backMenu';
 import { sendToTelegram, sendToTelegramSubmenu } from '@backend/app/telegram';
-import { errorLogger } from '@backend/app/logging';
 import { textModifier } from '@backend/lib/utilities';
 import {
     isCreateDynamicSwitch,
@@ -33,55 +29,70 @@ import {
 import { deleteMessageIds } from '@backend/app/messageIds';
 import { getMenuValues, getSubmenuNumberValues } from '@backend/lib/splitValues';
 import { createDynamicSwitchMenu } from '@backend/app/dynamicSwitchMenu';
+import type { AppContext } from '@backend/app/appContext';
 
-let step = 0;
-let splittedData: SplittedData = [];
+export class SubmenuHandler {
+    private _step = 0;
+    private _splittedData: SplittedData = [];
+
+    get step(): number {
+        return this._step;
+    }
+    set step(val: number) {
+        this._step = val;
+    }
+
+    get splittedData(): SplittedData {
+        return this._splittedData;
+    }
+    set splittedData(val: SplittedData) {
+        this._splittedData = val;
+    }
+
+    reset(): void {
+        this._step = 0;
+        this._splittedData = [];
+    }
+}
+
+export const submenuHandler = new SubmenuHandler();
+
+export class KeyboardBuilder {
+    private buttons: KeyboardItems[] = [];
+
+    addButton(text: string, callbackData: string): this {
+        this.buttons.push({ text, callback_data: callbackData });
+        return this;
+    }
+
+    build(maxPerRow: number): Keyboard {
+        const rows: KeyboardItems[][] = [];
+        for (let i = 0; i < this.buttons.length; i += maxPerRow) {
+            rows.push(this.buttons.slice(i, i + maxPerRow));
+        }
+        return { inline_keyboard: rows };
+    }
+}
 
 const createSubmenuPercent = (obj: CreateMenu): { text?: string; keyboard: Keyboard; device: string } => {
     const { cbData, menuToHandle } = obj;
 
-    step = parseFloat(cbData.replace('percent', ''));
-    let rowEntries = 0;
-    let menu: KeyboardItems[] = [];
-    const keyboard: Keyboard = {
-        inline_keyboard: [],
-    };
-    for (let i = 100; i >= 0; i -= step) {
-        menu.push({
-            text: `${i}%`,
-            callback_data: `submenu:percent${step},${i}:${menuToHandle}`,
-        });
-        if (i != 0 && i - step < 0) {
-            menu.push({
-                text: `0%`,
-                callback_data: `submenu:percent${step},${0}:${menuToHandle}`,
-            });
-        }
-        rowEntries++;
-        if (rowEntries == 8) {
-            keyboard.inline_keyboard.push(menu);
-            menu = [];
-            rowEntries = 0;
+    submenuHandler.step = parseFloat(cbData.replace('percent', ''));
+    const builder = new KeyboardBuilder();
+    for (let i = 100; i >= 0; i -= submenuHandler.step) {
+        builder.addButton(`${i}%`, `submenu:percent${submenuHandler.step},${i}:${menuToHandle}`);
+        if (i != 0 && i - submenuHandler.step < 0) {
+            builder.addButton(`0%`, `submenu:percent${submenuHandler.step},${0}:${menuToHandle}`);
         }
     }
-
-    if (rowEntries != 0) {
-        keyboard.inline_keyboard.push(menu);
-    }
-    return { text: obj.text, keyboard: keyboard, device: menuToHandle };
+    return { text: obj.text, keyboard: builder.build(8), device: menuToHandle };
 };
 
-const setMenuValue = async ({
-    instance,
-    telegramParams,
-    userToSend,
-    part,
-    menuNumber,
-}: SetMenuValue): Promise<void> => {
-    if (!splittedData[menuNumber]) {
+const setMenuValue = async ({ appContext, instance, userToSend, part, menuNumber }: SetMenuValue): Promise<void> => {
+    if (!submenuHandler.splittedData[menuNumber]) {
         return;
     }
-    let val: string | boolean | undefined = splittedData[menuNumber].split('.')?.[1];
+    let val: string | boolean | undefined = submenuHandler.splittedData[menuNumber].split('.')?.[1];
 
     if (val === undefined) {
         return;
@@ -92,24 +103,19 @@ const setMenuValue = async ({
     } else if (val === 'true') {
         val = true;
     }
-    await handleSetState(telegramParams.adapter, instance, part, userToSend, val, telegramParams);
+    await handleSetState(appContext, instance, part, userToSend, val);
 };
 
 const createSubmenuNumber = ({
     cbData,
     menuToHandle,
     text,
-    adapter,
+    appContext,
 }: CreateMenu): { text?: string; keyboard: Keyboard; menuToHandle: string } => {
     if (cbData.includes('(-)')) {
         cbData = cbData.replace('(-)', 'negativ');
     }
     const splittedData = cbData.replace('number', '').split('-');
-    let rowEntries = 0;
-    let menu: { text: string; callback_data: string }[] = [];
-    const keyboard: Keyboard = {
-        inline_keyboard: [],
-    };
     let unit = '';
     if (splittedData[3] != '') {
         unit = splittedData[3];
@@ -131,13 +137,15 @@ const createSubmenuNumber = ({
     }
     let index = -1;
 
-    let maxEntriesPerRow = 8;
+    // istanbul ignore next — negativer Step ist strukturell unerreichbar/unbrauchbar: cbData.replace('(-)', 'negativ')
+    // ersetzt nur das erste Vorkommen (greift also nur für den ersten Wert), und ein negativer Step würde die
+    // Schleife unten (i -= step bei start >= end) endlos laufen lassen.
     const step = parseFloat(
+        /* istanbul ignore next */
         splittedData[2].includes('negativ') ? splittedData[2].replace('negativ', '-') : splittedData[2],
     );
-    if (step < 1) {
-        maxEntriesPerRow = 6;
-    }
+    const maxEntriesPerRow = step < 1 ? 6 : 8;
+    const builder = new KeyboardBuilder();
 
     for (let i = start; i >= end; i -= step) {
         // Zahlen umdrehen
@@ -149,22 +157,11 @@ const createSubmenuNumber = ({
         } else {
             index = i;
         }
-        menu.push({
-            text: `${index}${unit}`,
-            callback_data: `submenu:${cbData}:${menuToHandle}:${index}`,
-        });
-        rowEntries++;
-        if (rowEntries == maxEntriesPerRow) {
-            keyboard.inline_keyboard.push(menu);
-            menu = [];
-            rowEntries = 0;
-        }
+        builder.addButton(`${index}${unit}`, `submenu:${cbData}:${menuToHandle}:${index}`);
     }
 
-    if (rowEntries != 0) {
-        keyboard.inline_keyboard.push(menu);
-    }
-    adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
+    const keyboard = builder.build(maxEntriesPerRow);
+    appContext.adapter.log.debug(`Keyboard : ${jsonString(keyboard)}`);
 
     return { text, keyboard, menuToHandle };
 };
@@ -174,10 +171,10 @@ const createSwitchMenu = ({
     cbData,
     text,
 }: CreateMenu): { text?: string; keyboard: Keyboard; device: string } | undefined => {
-    splittedData = cbData.split('-');
+    submenuHandler.splittedData = cbData.split('-');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, item1, item2] = splittedData;
+    const [_, item1, item2] = submenuHandler.splittedData;
     if (!item1 || !item2) {
         return;
     }
@@ -199,11 +196,16 @@ const createSwitchMenu = ({
     return { text: text, keyboard, device: menuToHandle };
 };
 
-const back = async ({ instance, telegramParams, userToSend, allMenusWithData, menus }: BackMenuType): Promise<void> => {
-    const result = await switchBack(telegramParams.adapter, userToSend, allMenusWithData, menus);
+const back = async ({ instance, appContext, userToSend, allMenusWithData, menus }: BackMenuType): Promise<void> => {
+    const result = await appContext.backMenuRegistry.switchBack(
+        appContext.adapter,
+        userToSend,
+        allMenusWithData,
+        menus,
+    );
     if (result) {
         const { keyboard, parse_mode, textToSend = '' } = result;
-        await sendToTelegram({ instance, userToSend, textToSend, keyboard, parse_mode: parse_mode, telegramParams });
+        await sendToTelegram({ instance, userToSend, textToSend, keyboard, parse_mode: parse_mode, appContext });
     }
 };
 
@@ -211,129 +213,117 @@ export async function callSubMenu({
     instance,
     jsonStringNav,
     userToSend,
-    telegramParams,
+    appContext,
     part,
     allMenusWithData,
     menus,
-    adapter,
 }: CallSubMenu): Promise<{ newNav: string | undefined } | undefined> {
-    try {
-        const obj = await subMenu({
-            instance,
-            menuString: jsonStringNav,
-            userToSend,
-            telegramParams,
-            part,
-            allMenusWithData,
-            menus,
-            adapter,
-        });
-        adapter.log.debug(`Submenu : ${jsonString(obj)}`);
+    const obj = await subMenu({
+        instance,
+        menuString: jsonStringNav,
+        userToSend,
+        appContext,
+        part,
+        allMenusWithData,
+        menus,
+    });
+    appContext.adapter.log.debug(`Submenu : ${jsonString(obj)}`);
 
-        if (obj?.text && obj?.keyboard) {
-            sendToTelegramSubmenu(instance, userToSend, obj.text, obj.keyboard, telegramParams, part.parse_mode);
-        }
-        return { newNav: obj?.navToGoBack };
-    } catch (e: any) {
-        errorLogger('Error callSubMenu:', e, adapter);
+    if (obj?.text && obj?.keyboard) {
+        sendToTelegramSubmenu(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
     }
+    return { newNav: obj?.navToGoBack };
 }
 
 export async function subMenu({
     menuString,
     userToSend,
-    telegramParams,
+    appContext,
     part,
     allMenusWithData,
     menus,
     instance,
-    adapter,
 }: {
     instance: string;
     menuString: string;
     userToSend: string;
-    telegramParams: TelegramParams;
+    appContext: AppContext;
     part: Part;
     allMenusWithData: AllMenusWithData;
     menus: string[];
-    adapter: Adapter;
 }): Promise<{ text?: string; keyboard?: Keyboard; device?: string; navToGoBack?: string } | undefined> {
-    try {
-        adapter.log.debug(`Menu : ${menuString}`);
+    appContext.adapter.log.debug(`Menu : ${menuString}`);
 
-        const text = await textModifier(adapter, part.text);
+    const text = await textModifier(appContext, part.text);
 
-        if (isDeleteMenu(menuString)) {
-            await deleteMessageIds(instance, userToSend, telegramParams, 'all');
-            const menu: string | undefined = menuString.split(':')?.[2]?.split('"')?.[0]; //[["menu:deleteAll:Übersicht"],[""]]
-            if (menu && isNonEmptyString(menu)) {
-                return { navToGoBack: menu };
-            }
+    if (isDeleteMenu(menuString)) {
+        await deleteMessageIds(instance, userToSend, appContext, 'all');
+        const menu: string | undefined = menuString.split(':')?.[2]?.split('"')?.[0]; //[["menu:deleteAll:Übersicht"],[""]]
+        if (menu && isNonEmptyString(menu)) {
+            return { navToGoBack: menu };
         }
+    }
 
-        const { cbData, menuToHandle, val } = getMenuValues(menuString);
+    const { cbData, menuToHandle, val } = getMenuValues(menuString);
 
-        if (!cbData) {
-            adapter.log.debug('No callback data found');
-            return;
+    if (!cbData) {
+        appContext.adapter.log.debug('No callback data found');
+        return;
+    }
+
+    if (isCreateSwitch(cbData) && menuToHandle) {
+        return createSwitchMenu({ appContext, cbData, text, menuToHandle: menuToHandle });
+    }
+
+    if (isFirstMenuValue(cbData)) {
+        await setMenuValue({
+            instance,
+            part,
+            userToSend,
+            appContext,
+            menuNumber: 1,
+        });
+    }
+
+    if (isSecondMenuValue(cbData)) {
+        await setMenuValue({ instance, part, userToSend, appContext, menuNumber: 2 });
+    }
+
+    if (isCreateDynamicSwitch(cbData) && menuToHandle) {
+        return createDynamicSwitchMenu(appContext, menuString, menuToHandle, text);
+    }
+
+    if (isSetDynamicSwitchVal(cbData) && val) {
+        await handleSetState(appContext, instance, part, userToSend, val); //SetDynamicValue
+    }
+
+    if (isCreateSubmenuPercent(menuString, cbData) && menuToHandle) {
+        return createSubmenuPercent({ appContext, cbData, text, menuToHandle: menuToHandle });
+    }
+
+    if (isSetSubmenuPercent(menuString, submenuHandler.step)) {
+        const value = parseInt(menuString.split(':')[1].split(',')[1]);
+        await handleSetState(appContext, instance, part, userToSend, value);
+    }
+
+    if (isCreateSubmenuNumber(menuString, cbData) && menuToHandle) {
+        return createSubmenuNumber({ appContext, cbData, text, menuToHandle: menuToHandle });
+    }
+
+    if (isSetSubmenuNumber(menuString)) {
+        const { value } = getSubmenuNumberValues(menuString);
+        if (value) {
+            await handleSetState(appContext, instance, part, userToSend, value);
         }
+    }
 
-        if (isCreateSwitch(cbData) && menuToHandle) {
-            return createSwitchMenu({ adapter, cbData, text, menuToHandle: menuToHandle });
-        }
-
-        if (isFirstMenuValue(cbData)) {
-            await setMenuValue({
-                instance,
-                part,
-                userToSend,
-                telegramParams,
-                menuNumber: 1,
-            });
-        }
-
-        if (isSecondMenuValue(cbData)) {
-            await setMenuValue({ instance, part, userToSend, telegramParams, menuNumber: 2 });
-        }
-
-        if (isCreateDynamicSwitch(cbData) && menuToHandle) {
-            return createDynamicSwitchMenu(adapter, menuString, menuToHandle, text);
-        }
-
-        if (isSetDynamicSwitchVal(cbData) && val) {
-            await handleSetState(adapter, instance, part, userToSend, val, telegramParams); //SetDynamicValue
-        }
-
-        if (isCreateSubmenuPercent(menuString, cbData) && menuToHandle) {
-            return createSubmenuPercent({ adapter, cbData, text, menuToHandle: menuToHandle });
-        }
-
-        if (isSetSubmenuPercent(menuString, step)) {
-            const value = parseInt(menuString.split(':')[1].split(',')[1]);
-            await handleSetState(adapter, instance, part, userToSend, value, telegramParams);
-        }
-
-        if (isCreateSubmenuNumber(menuString, cbData) && menuToHandle) {
-            return createSubmenuNumber({ adapter, cbData, text, menuToHandle: menuToHandle });
-        }
-
-        if (isSetSubmenuNumber(menuString)) {
-            const { value } = getSubmenuNumberValues(menuString);
-            if (value) {
-                await handleSetState(adapter, instance, part, userToSend, value, telegramParams);
-            }
-        }
-
-        if (isMenuBack(menuString)) {
-            await back({
-                instance,
-                userToSend,
-                allMenusWithData,
-                menus,
-                telegramParams,
-            });
-        }
-    } catch (error: any) {
-        errorLogger('Error subMenu:', error, adapter);
+    if (isMenuBack(menuString)) {
+        await back({
+            instance,
+            userToSend,
+            allMenusWithData,
+            menus,
+            appContext,
+        });
     }
 }

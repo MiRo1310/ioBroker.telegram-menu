@@ -1,17 +1,18 @@
-import type { Adapter, MessageInfos, Messages, TelegramParams, WhatShouldDelete } from '@backend/types/types';
+import type { Adapter, MessageInfos, Messages, WhatShouldDelete } from '@backend/types/types';
 import { parseJSON } from '@backend/lib/string';
-import { errorLogger } from '@backend/app/logging';
 import { deepCopy, getChatID } from '@backend/lib/utils';
 import { deleteMessageByBot } from '@backend/app/botAction';
+import type { AppContext } from '@backend/app/appContext';
 
-let isDeleting = false;
-async function saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceTelegram: string): Promise<void> {
-    try {
+class MessageIdManager {
+    private isDeleting = false;
+
+    public async saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceTelegram: string): Promise<void> {
         let requestMessageId: Messages = {};
 
-        const requestMessageIdObj = !isDeleting ? await adapter.getStateAsync('communication.requestIds') : null;
+        const requestMessageIdObj = !this.isDeleting ? await adapter.getStateAsync('communication.requestIds') : null;
 
-        isDeleting = false;
+        this.isDeleting = false;
         const requestUserIdObj = await adapter.getForeignStateAsync(`${instanceTelegram}.communicate.requestChatId`);
 
         const request = await adapter.getForeignStateAsync(`${instanceTelegram}.communicate.request`);
@@ -24,6 +25,7 @@ async function saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceT
 
         if (requestMessageIdObj?.val) {
             const result = parseJSON<Messages>(String(requestMessageIdObj?.val), adapter);
+            /* istanbul ignore next */
             json = result.json ?? {};
             isValidJson = result.isValidJson;
         }
@@ -42,41 +44,18 @@ async function saveMessageIds(adapter: Adapter, state: ioBroker.State, instanceT
             });
         }
 
-        requestMessageId = removeOldMessageIds(requestMessageId, userIDValue);
+        requestMessageId = this.removeOldMessageIds(requestMessageId, userIDValue);
         await adapter.setState('communication.requestIds', JSON.stringify(requestMessageId), true);
-    } catch (e: any) {
-        errorLogger('Error saveMessageIds:', e, adapter);
     }
-}
-function removeOldMessageIds(messages: Messages, chatID: string): Messages {
-    messages[chatID] = messages[chatID].filter(message => {
-        return message.time && message.time > Date.now() - 1000 * 60 * 60 * 24 * 2;
-    });
-    return messages;
-}
 
-const removeMessageFromList = ({
-    element,
-    chat_id,
-    copyMessageIds,
-}: {
-    element: MessageInfos;
-    chat_id: string;
-    copyMessageIds: Messages;
-}): MessageInfos[] => {
-    return copyMessageIds[chat_id].filter(message => message.id !== element.id);
-};
-
-async function deleteMessageIds(
-    instance: string,
-    user: string,
-    telegramParams: TelegramParams,
-    whatShouldDelete: WhatShouldDelete,
-): Promise<void> {
-    const { userListWithChatID, adapter } = telegramParams;
-    try {
-        const requestMessageIdObj = await adapter.getStateAsync('communication.requestIds');
-        const lastMessageId = await adapter.getForeignStateAsync(`${instance}.communicate.requestMessageId`);
+    public async deleteMessageIds(
+        instance: string,
+        user: string,
+        appContext: AppContext,
+        whatShouldDelete: WhatShouldDelete,
+    ): Promise<void> {
+        const requestMessageIdObj = await appContext.adapter.getStateAsync('communication.requestIds');
+        const lastMessageId = await appContext.adapter.getForeignStateAsync(`${instance}.communicate.requestMessageId`);
 
         if (
             !requestMessageIdObj ||
@@ -86,7 +65,7 @@ async function deleteMessageIds(
             return;
         }
 
-        const chat_id = getChatID(userListWithChatID, user);
+        const chat_id = getChatID(appContext.userListWithChatID, user);
         const { json, isValidJson } = parseJSON<Messages>(requestMessageIdObj.val);
 
         if (!isValidJson || !chat_id) {
@@ -96,27 +75,47 @@ async function deleteMessageIds(
             json[chat_id].push({ id: lastMessageId.val.toString() });
         }
 
-        isDeleting = true;
-        const copyMessageIds = deepCopy(json, adapter);
+        this.isDeleting = true;
+        const copyMessageIds = deepCopy(json, appContext.adapter);
         json[chat_id].forEach((element, index) => {
             const id = element.id?.toString();
 
             if (whatShouldDelete === 'all' && id) {
-                deleteMessageByBot(adapter, instance, user, parseInt(id), chat_id);
+                deleteMessageByBot(appContext.adapter, instance, user, parseInt(id), chat_id);
             }
             if (whatShouldDelete === 'last' && index === json[chat_id].length - 1 && id) {
-                deleteMessageByBot(adapter, instance, user, parseInt(id), chat_id);
+                deleteMessageByBot(appContext.adapter, instance, user, parseInt(id), chat_id);
             }
+            /* istanbul ignore next */
             if (!copyMessageIds) {
                 return;
             }
-            copyMessageIds[chat_id] = removeMessageFromList({ element, chat_id, copyMessageIds });
+            copyMessageIds[chat_id] = this.removeMessageFromList({ element, chat_id, copyMessageIds });
         });
 
-        await adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
-    } catch (e: any) {
-        errorLogger('Error deleteMessageIds:', e, adapter);
+        await appContext.adapter.setState('communication.requestIds', JSON.stringify(copyMessageIds), true);
     }
+
+    private removeOldMessageIds(messages: Messages, chatID: string): Messages {
+        messages[chatID] = messages[chatID].filter(message => {
+            return message.time && message.time > Date.now() - 1000 * 60 * 60 * 24 * 2;
+        });
+        return messages;
+    }
+
+    private removeMessageFromList = ({
+        element,
+        chat_id,
+        copyMessageIds,
+    }: {
+        element: MessageInfos;
+        chat_id: string;
+        copyMessageIds: Messages;
+    }): MessageInfos[] => {
+        return copyMessageIds[chat_id].filter(message => message.id !== element.id);
+    };
 }
 
-export { deleteMessageIds, saveMessageIds };
+export const messageIdManager = new MessageIdManager();
+export const saveMessageIds = messageIdManager.saveMessageIds.bind(messageIdManager);
+export const deleteMessageIds = messageIdManager.deleteMessageIds.bind(messageIdManager);

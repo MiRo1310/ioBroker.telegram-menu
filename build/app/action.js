@@ -7,106 +7,101 @@ const config_1 = require("../config/config");
 const splitValues_1 = require("../lib/splitValues");
 const math_1 = require("../lib/math");
 const telegram_1 = require("../app/telegram");
-const logging_1 = require("../app/logging");
 const utils_1 = require("../lib/utils");
-const bindingFunc = async (adapter, instance, text, userToSend, telegramParams, parse_mode) => {
+const bindingFunc = async (appContext, instance, text, userToSend, parse_mode) => {
     let textToSend;
-    try {
-        const { substringExcludeSearch } = (0, string_1.decomposeText)(text, config_1.config.binding.start, config_1.config.binding.end);
-        const arrayOfItems = substringExcludeSearch.split(config_1.config.binding.splitChar);
-        const bindingObject = {
-            values: {},
-        };
-        for (let item of arrayOfItems) {
-            if (!item.includes('?')) {
-                const { key, id } = (0, splitValues_1.getBindingValues)(item);
-                if (id) {
-                    const result = await adapter.getForeignStateAsync(id);
-                    if (result) {
-                        bindingObject.values[key] = result.val?.toString() ?? '';
-                    }
+    const { substringExcludeSearch } = (0, string_1.decomposeText)(text, config_1.config.binding.start, config_1.config.binding.end);
+    const arrayOfItems = substringExcludeSearch.split(config_1.config.binding.splitChar);
+    const bindingObject = {
+        values: {},
+    };
+    for (let item of arrayOfItems) {
+        if (!item.includes('?')) {
+            const { key, id } = (0, splitValues_1.getBindingValues)(item);
+            if (id) {
+                const result = await appContext.adapter.getForeignStateAsync(id);
+                if (result) {
+                    bindingObject.values[key] = result.val?.toString() ?? '';
                 }
-            }
-            else {
-                Object.keys(bindingObject.values).forEach(function (key) {
-                    item = item.replace(key, bindingObject.values[key]);
-                });
-                const { val } = (0, math_1.evaluate)(item, adapter);
-                textToSend = String(val);
             }
         }
-        await (0, telegram_1.sendToTelegram)({
-            instance,
-            userToSend,
-            textToSend,
-            telegramParams,
-            parse_mode,
-        });
+        else {
+            Object.keys(bindingObject.values).forEach(function (key) {
+                item = item.replace(key, bindingObject.values[key]);
+            });
+            const { val } = (0, math_1.evaluate)(item, appContext.adapter);
+            textToSend = String(val);
+        }
     }
-    catch (e) {
-        (0, logging_1.errorLogger)('Error Binding function: ', e, adapter);
-    }
+    await (0, telegram_1.sendToTelegram)({
+        instance,
+        userToSend,
+        textToSend,
+        appContext: appContext,
+        parse_mode,
+    });
 };
 exports.bindingFunc = bindingFunc;
-function generateActions({ action, userObject, adapter, }) {
-    try {
-        const listOfSetStateIds = [];
-        action?.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, index) {
-            const triggerName = trigger?.[0];
-            if (index == 0) {
-                userObject[triggerName] = { switch: [] };
-            }
+function generateActions({ action, userObject, }) {
+    if (!action) {
+        return undefined;
+    }
+    const listOfSetStateIds = [];
+    action?.set.forEach(function ({ trigger, switch_checkbox, returnText, parse_mode, values, confirm, ack, IDs }, index) {
+        const triggerName = trigger?.[0];
+        if (index == 0) {
             userObject[triggerName] = { switch: [] };
-            IDs.forEach(function (id, index) {
-                listOfSetStateIds.push(id);
-                const toggle = (0, utils_1.isTruthy)(switch_checkbox[index]);
-                const newObj = {
-                    id: IDs[index],
-                    value: values[index],
-                    toggle: toggle,
-                    confirm: confirm[index] === 'true',
-                    returnText: returnText[index],
-                    ack: ack?.length ? (0, utils_1.isTruthy)(ack[index]) : false,
-                    parse_mode: parse_mode?.length ? (0, utils_1.isTruthy)(parse_mode?.[0]) : false,
-                };
-                if (Array.isArray(userObject?.[triggerName]?.switch)) {
-                    userObject[triggerName].switch?.push(newObj);
-                }
-            });
+        }
+        userObject[triggerName] = { switch: [] };
+        IDs.forEach(function (id, index) {
+            listOfSetStateIds.push(id);
+            const toggle = (0, utils_1.isTruthy)(switch_checkbox[index]);
+            const newObj = {
+                id: IDs[index],
+                value: values[index],
+                toggle: toggle,
+                confirm: confirm[index] === 'true',
+                returnText: returnText[index],
+                ack: ack?.length ? (0, utils_1.isTruthy)(ack[index]) : false,
+                parse_mode: parse_mode?.length ? (0, utils_1.isTruthy)(parse_mode?.[0]) : false,
+            };
+            if (Array.isArray(userObject?.[triggerName]?.switch)) {
+                userObject[triggerName].switch?.push(newObj);
+            }
         });
-        config_1.arrayOfEntries.forEach(item => {
-            const actions = action?.[item.objName];
-            actions?.forEach(function (element, index) {
-                const trigger = element?.trigger?.[0];
-                if (!trigger) {
-                    return;
-                }
+    });
+    config_1.arrayOfEntries.forEach(item => {
+        const actions = action?.[item.objName];
+        actions?.forEach(function (element, index) {
+            const trigger = element?.trigger?.[0];
+            if (!trigger) {
+                return;
+            }
+            userObject[trigger] = { [item.name]: [] };
+            if (index == 0) {
                 userObject[trigger] = { [item.name]: [] };
-                if (index == 0) {
-                    userObject[trigger] = { [item.name]: [] };
-                }
-                element[item.loop].forEach(function (id, index) {
-                    const newObj = {};
-                    item.elements.forEach(({ name, value, index: elIndex }) => {
-                        const elName = (value ? value : name);
-                        const newIndex = elIndex ? elIndex : index;
-                        const val = !element[elName] ? false : (element[elName][newIndex] ?? 'false');
-                        if (name === 'parse_mode') {
-                            newObj.parse_mode = (0, utils_1.isTruthy)(val);
-                        }
-                        if (typeof val === 'string') {
-                            newObj[name] = String(val).replace(/&amp;/g, '&');
-                        }
-                    });
-                    (userObject?.[trigger]?.[item.name]).push(newObj);
+            }
+            element[item.loop].forEach(function (id, index) {
+                const newObj = {};
+                item.elements.forEach(({ name, value, index: elIndex }) => {
+                    const elName = (value ? value : name);
+                    const newIndex = elIndex ? elIndex : index;
+                    const val = !element[elName] ? false : (element[elName][newIndex] ?? 'false');
+                    if (name === 'parse_mode') {
+                        newObj.parse_mode = (0, utils_1.isTruthy)(val);
+                    }
+                    if (typeof val === 'string') {
+                        newObj[name] = String(val).replace(/&amp;/g, '&');
+                    }
                 });
+                (userObject?.[trigger]?.[item.name]).push(newObj);
             });
         });
-        return { obj: userObject, ids: listOfSetStateIds };
+    });
+    if (Object.keys(userObject).length === 0 && listOfSetStateIds.length === 0) {
+        return undefined;
     }
-    catch (err) {
-        (0, logging_1.errorLogger)('Error generateActions:', err, adapter);
-    }
+    return { obj: userObject, ids: listOfSetStateIds };
 }
 const adjustValueType = (adapter, value, valueType) => {
     if (valueType == 'number') {

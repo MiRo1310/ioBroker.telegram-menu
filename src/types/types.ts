@@ -1,16 +1,6 @@
 import type TelegramMenu from '../main';
-import type {
-    BooleanString,
-    Echart,
-    EventAction,
-    GetAction,
-    HttpRequest,
-    Pic,
-    RowsNav,
-    SetAction,
-    UserActiveCheckbox,
-    UserListWithChatID,
-} from '@/types/app';
+import type { BooleanString, Echart, EventAction, GetAction, HttpRequest, Pic, RowsNav, SetAction } from '@/types/app';
+import type { AppContext } from '@backend/app/appContext';
 
 export type ListOfMenus = string[];
 
@@ -116,7 +106,7 @@ export interface IDynamicValue {
     userToSend: string;
     parse_mode: boolean;
     confirm: boolean;
-    telegramParams: TelegramParams;
+    appContext: AppContext;
     valueType: string;
     watchForId?: string;
 }
@@ -208,58 +198,20 @@ export type BackMenu = Record<string, BackMenuList | undefined>;
 
 type BackMenuList = { list: string[]; last: string };
 
-export interface CheckEveryMenuForDataType {
-    menuData: MenuData; // checked !!!!
-    navToGoTo: string;
-    menus: string[];
-    isUserActiveCheckbox: UserActiveCheckbox;
-    token: string;
-    directoryPicture: string;
-    timeoutKey: string;
-    userToSend: string;
-    telegramParams: TelegramParams;
-    instance: string;
-}
-
-export interface ProcessDataType {
-    menuData: MenuData;
-    calledValue: string;
-    groupWithUser: GroupWithUser;
-    allMenusWithData: MenuData;
-    menus: string[];
-    isUserActiveCheckbox: UserActiveCheckbox;
-    token: string;
-    directoryPicture: string;
-    timeoutKey: string;
-    groupData: NewObjectStructure;
-    userToSend: string;
-    telegramParams: TelegramParams;
-    instance: string;
-    adapter: Adapter;
-}
-
 export interface BackMenuType {
     allMenusWithData: MenuData;
     menus: string[];
     userToSend: string;
-    telegramParams: TelegramParams;
+    appContext: AppContext;
     instance: string;
 }
 
 export type AllMenusWithData = Record<string, NewObjectStructure>;
 
-export interface TelegramParams {
-    telegramInstanceList: InstanceList[];
-    resize_keyboard: boolean;
-    one_time_keyboard: boolean;
-    userListWithChatID: UserListWithChatID[];
-    adapter: Adapter;
-}
-
 export interface SetMenuValue {
     part: Part;
     userToSend: string;
-    telegramParams: TelegramParams;
+    appContext: AppContext;
     menuNumber: 1 | 2;
     instance: string;
 }
@@ -268,7 +220,7 @@ export interface CreateMenu {
     cbData: string;
     menuToHandle: string;
     text?: string;
-    adapter: Adapter;
+    appContext: AppContext;
 }
 
 export interface ExchangeValueReturn {
@@ -309,7 +261,7 @@ export interface Telegram {
     keyboard?: Keyboard | string[][];
     parse_mode?: boolean;
     userToSend: string;
-    telegramParams: TelegramParams;
+    appContext: AppContext;
     instance: string;
     shouldCleanUpString?: boolean;
 }
@@ -345,12 +297,11 @@ export interface MessageInfos {
 export interface CallSubMenu {
     jsonStringNav: string;
     userToSend: string;
-    telegramParams: TelegramParams;
+    appContext: AppContext;
     part: Part;
     allMenusWithData: AllMenusWithData;
     menus: string[];
     instance: string;
-    adapter: Adapter;
 }
 
 export interface GeneratedActions {

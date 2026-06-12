@@ -1,9 +1,9 @@
-import type { Actions, Adapter, DataObject, MenuData, Part, TelegramParams } from '../types/types';
+import type { Actions, Adapter, DataObject, MenuData, Part } from '../types/types';
 import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
-import { backMenuFunc } from '@backend/app/backMenu';
 import { callSubMenu } from '@backend/app/subMenu';
 import { sendNav } from '@backend/app/sendNav';
 import { isDefined } from '@backend/lib/utils';
+import type { AppContext } from '@backend/app/appContext';
 
 interface EventParams {
     isEvent: boolean;
@@ -117,13 +117,12 @@ function checkIdAndAck(event: EventAction, id: string, state: ioBroker.State): b
 }
 
 export const handleEvent = async (
-    adapter: Adapter,
     user: UserType,
     dataObject: DataObject,
     id: string,
     state: ioBroker.State,
     menuData: MenuData,
-    telegramParams: TelegramParams,
+    appContext: AppContext,
 ): Promise<boolean> => {
     const menuArray: string[] = [];
     let calledNav = '';
@@ -139,7 +138,7 @@ export const handleEvent = async (
         }
         events.forEach(event => {
             if (checkIdAndAck(event, id, state)) {
-                if (checkCondition(adapter, state.val, event)) {
+                if (checkCondition(appContext.adapter, state.val, event)) {
                     menuArray.push(menu);
                     calledNav = event.menu[0];
                 }
@@ -156,16 +155,19 @@ export const handleEvent = async (
         const menus = Object.keys(menuData);
 
         if (part && part?.nav) {
-            backMenuFunc({ activePage: calledNav, navigation: part.nav, userToSend: user.name });
+            appContext.backMenuRegistry.backMenuFunc({
+                activePage: calledNav,
+                navigation: part.nav,
+                userToSend: user.name,
+            });
         }
 
         if (part && part?.nav?.[0][0].includes('menu:')) {
             await callSubMenu({
-                adapter,
                 instance: user.instance,
                 jsonStringNav: JSON.stringify(part.nav),
                 userToSend: user.name,
-                telegramParams,
+                appContext,
                 part,
                 allMenusWithData: menuData,
                 menus,
@@ -173,7 +175,7 @@ export const handleEvent = async (
             return true;
         }
 
-        await sendNav(adapter, user.instance, part, user.name, telegramParams);
+        await sendNav(appContext, user.instance, part, user.name);
     }
     return true;
 };

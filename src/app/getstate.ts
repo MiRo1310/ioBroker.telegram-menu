@@ -1,160 +1,117 @@
 import { config } from '@backend/config/config';
-import type { Part, TelegramParams } from '@backend/types/types';
+import type { Part } from '@backend/types/types';
 import { isParseModeFirstElement } from '@backend/app/parseMode';
 import { idBySelector } from '@backend/app/idBySelector';
 import { bindingFunc } from '@backend/app/action';
 import { isDefined } from '@backend/lib/utils';
-import { cleanUpString, ifTruthyAddNewLine, jsonString } from '@backend/lib/string';
-import { getTimeValue } from '@backend/lib/utilities';
-import { integrateTimeIntoText } from '@backend/lib/time';
-import { mathFunction, roundValue } from '@backend/lib/appUtils';
+import { cleanUpString, ifTruthyAddNewLine } from '@backend/lib/string';
 import { createKeyboardFromJson, createTextTableFromJson } from '@backend/app/jsonTable';
 import { sendToTelegram, sendToTelegramSubmenu } from '@backend/app/telegram';
 import { exchangeValue } from '@backend/lib/exchangeValue';
-import { errorLogger } from '@backend/app/logging';
+import { StateValueTransformer } from '@backend/app/stateValueTransformer';
+import type { AppContext } from '@backend/app/appContext';
 
 export async function getState(
     instance: string,
     part: Part,
     userToSend: string,
-    telegramParams: TelegramParams,
+    appContext: AppContext,
 ): Promise<void> {
-    const adapter = telegramParams.adapter;
-    try {
-        const parse_mode = isParseModeFirstElement(part);
-        const valueArrayForCorrectOrder: string[] = [];
-        const promises = (part.getData || []).map(async ({ newline, text, id }, index): Promise<void> => {
-            adapter.log.debug(`Get Value ID: ${id}`);
+    const parse_mode = isParseModeFirstElement(part);
+    const valueArrayForCorrectOrder: string[] = [];
+    const promises = (part.getData || []).map(async ({ newline, text, id }, index): Promise<void> => {
+        appContext.adapter.log.debug(`Get Value ID: ${id}`);
 
-            if (id.includes(config.functionSelektor)) {
-                await idBySelector({
-                    instance,
-                    adapter,
-                    selector: id,
-                    text,
-                    userToSend,
-                    newline,
-                    telegramParams,
-                });
-                return;
-            }
+        if (id.includes(config.functionSelektor)) {
+            await idBySelector({
+                instance,
+                selector: id,
+                text,
+                userToSend,
+                newline,
+                appContext,
+            });
+            return;
+        }
 
-            if (text.includes(config.binding.start)) {
-                await bindingFunc(adapter, instance, text, userToSend, telegramParams, parse_mode);
-                return;
-            }
+        if (text.includes(config.binding.start)) {
+            await bindingFunc(appContext, instance, text, userToSend, parse_mode);
+            return;
+        }
 
-            const state = await adapter.getForeignStateAsync(id);
+        const state = await appContext.adapter.getForeignStateAsync(id);
 
-            if (!isDefined(state)) {
-                adapter.log.error('The state is empty!');
-                valueArrayForCorrectOrder[index] = 'N/A';
-                return Promise.resolve();
-            }
+        if (!isDefined(state)) {
+            appContext.adapter.log.error('The state is empty!');
+            valueArrayForCorrectOrder[index] = 'N/A';
+            return Promise.resolve();
+        }
 
-            const stateValue = state.val?.toString() ?? '';
-            const cleanedString = cleanUpString(stateValue);
+        const stateValue = state.val?.toString() ?? '';
+        const cleanedString = cleanUpString(stateValue);
 
-            let modifiedStateVal = cleanedString;
-            let modifiedTextToSend = text;
+        const transformer = new StateValueTransformer(text, cleanedString, appContext);
+        await transformer.applyTimestamp(id);
+        transformer.applyTime();
+        transformer.applyMath();
+        transformer.applyRound();
 
-            if (text.includes(config.timestamp.ts) || text.includes(config.timestamp.lc)) {
-                modifiedTextToSend = await getTimeValue(adapter, text, id);
-                modifiedStateVal = '';
-            }
+        let modifiedTextToSend = transformer.text;
+        const modifiedStateVal = transformer.stateVal;
 
-            if (modifiedTextToSend.includes(config.time)) {
-                modifiedTextToSend = integrateTimeIntoText(modifiedTextToSend, cleanedString);
-                modifiedStateVal = '';
-            }
-
-            const { textToSend, calculated, error: err } = mathFunction(modifiedTextToSend, modifiedStateVal, adapter);
-            if (!err) {
-                modifiedTextToSend = textToSend;
-                modifiedStateVal = calculated;
-
-                adapter.log.debug(`textToSend : ${modifiedTextToSend} val : ${modifiedStateVal}`);
-            }
-
-            if (modifiedTextToSend.includes(config.round.start)) {
-                const { error, text, roundedValue } = roundValue(String(modifiedStateVal), modifiedTextToSend);
-                if (!error) {
-                    adapter.log.debug(`Rounded from ${jsonString(modifiedStateVal)} to ${jsonString(roundedValue)}`);
-                    modifiedStateVal = roundedValue;
-                    modifiedTextToSend = text;
-                }
-            }
-
-            if (modifiedTextToSend.includes(config.json.textTable)) {
-                const result = createTextTableFromJson(adapter, cleanedString, modifiedTextToSend);
-                if (result) {
-                    await sendToTelegram({
-                        instance,
-                        userToSend,
-                        textToSend: result,
-                        telegramParams,
-                        parse_mode: false,
-                        shouldCleanUpString: false,
-                    });
-                    return;
-                }
-                adapter.log.debug('Cannot create a Text-Table');
-            }
-
-            if (modifiedTextToSend.includes('alexaShoppingList')) {
-                const result = createKeyboardFromJson(
-                    adapter,
-                    stateValue,
-                    modifiedTextToSend,
-                    id,
-                    userToSend,
-                    instance,
-                );
-                if (stateValue && stateValue.length > 0) {
-                    if (result?.text && result?.keyboard) {
-                        sendToTelegramSubmenu(
-                            instance,
-                            userToSend,
-                            result.text,
-                            result.keyboard,
-                            telegramParams,
-                            parse_mode,
-                        );
-                    }
-                    return;
-                }
+        if (modifiedTextToSend.includes(config.json.textTable)) {
+            const result = createTextTableFromJson(appContext.adapter, cleanedString, modifiedTextToSend);
+            if (result) {
                 await sendToTelegram({
                     instance,
                     userToSend,
-                    textToSend: 'The state is empty!',
-                    telegramParams,
-                    parse_mode,
+                    textToSend: result,
+                    appContext,
+                    parse_mode: false,
+                    shouldCleanUpString: false,
                 });
-                adapter.log.debug('The state is empty!');
                 return;
             }
+            appContext.adapter.log.debug('Cannot create a Text-Table');
+        }
 
-            const { textToSend: _text, error } = exchangeValue(adapter, modifiedTextToSend, modifiedStateVal);
-
-            const isNewline = ifTruthyAddNewLine(newline);
-            modifiedTextToSend = `${_text} ${isNewline}`;
-
-            adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
-
-            valueArrayForCorrectOrder[index] = modifiedTextToSend;
-        });
-        await Promise.all(promises);
-
-        if (valueArrayForCorrectOrder.length) {
+        if (modifiedTextToSend.includes('alexaShoppingList')) {
+            const result = createKeyboardFromJson(appContext, stateValue, modifiedTextToSend, id, userToSend, instance);
+            if (stateValue && stateValue.length > 0) {
+                if (result?.text && result?.keyboard) {
+                    sendToTelegramSubmenu(instance, userToSend, result.text, result.keyboard, appContext, parse_mode);
+                }
+                return;
+            }
             await sendToTelegram({
                 instance,
                 userToSend,
-                textToSend: valueArrayForCorrectOrder.join(''),
-                telegramParams,
+                textToSend: 'The state is empty!',
+                appContext,
                 parse_mode,
             });
+            appContext.adapter.log.debug('The state is empty!');
+            return;
         }
-    } catch (error: any) {
-        errorLogger('Error GetData:', error, adapter);
+
+        const { textToSend: _text, error } = exchangeValue(appContext, modifiedTextToSend, modifiedStateVal);
+
+        const isNewline = ifTruthyAddNewLine(newline);
+        modifiedTextToSend = `${_text} ${isNewline}`;
+
+        appContext.adapter.log.debug(!error ? `Value Changed to: ${modifiedTextToSend}` : `No Change`);
+
+        valueArrayForCorrectOrder[index] = modifiedTextToSend;
+    });
+    await Promise.all(promises);
+
+    if (valueArrayForCorrectOrder.length) {
+        await sendToTelegram({
+            instance,
+            userToSend,
+            textToSend: valueArrayForCorrectOrder.join(''),
+            appContext,
+            parse_mode,
+        });
     }
 }

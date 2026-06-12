@@ -133,33 +133,24 @@ describe('main (TelegramMenu)', () => {
     describe('getChatIDAndUserToSend', () => {
         it('should return error when chatID state is null', async () => {
             instance.getForeignStateAsync.resolves(null);
-            const telegramParams = {
-                adapter: instance,
-                userListWithChatID: [{ name: 'Alice', chatID: '123' }],
-            } as any;
-            const result = await instance['getChatIDAndUserToSend'](telegramParams, 'telegram.0');
+            const storeArg = { userListWithChatID: [{ name: 'Alice', chatID: '123' }] };
+            const result = await instance['getChatIDAndUserToSend'](storeArg, 'telegram.0');
             expect(result.error).to.be.true;
             expect(result.errorMessage).to.include('ChatId');
         });
 
         it('should return error when user is not found in list', async () => {
             instance.getForeignStateAsync.resolves({ val: '999' });
-            const telegramParams = {
-                adapter: instance,
-                userListWithChatID: [{ name: 'Alice', chatID: '123' }],
-            } as any;
-            const result = await instance['getChatIDAndUserToSend'](telegramParams, 'telegram.0');
+            const storeArg = { userListWithChatID: [{ name: 'Alice', chatID: '123' }] };
+            const result = await instance['getChatIDAndUserToSend'](storeArg, 'telegram.0');
             expect(result.error).to.be.true;
             expect(result.errorMessage).to.include('User');
         });
 
         it('should return user when chatID matches', async () => {
             instance.getForeignStateAsync.resolves({ val: '123' });
-            const telegramParams = {
-                adapter: instance,
-                userListWithChatID: [{ name: 'Alice', chatID: '123' }],
-            } as any;
-            const result = await instance['getChatIDAndUserToSend'](telegramParams, 'telegram.0');
+            const storeArg = { userListWithChatID: [{ name: 'Alice', chatID: '123' }] };
+            const result = await instance['getChatIDAndUserToSend'](storeArg, 'telegram.0');
             expect(result.error).to.be.false;
             expect(result.userToSend.name).to.equal('Alice');
             expect(result.chatID).to.equal('123');
@@ -170,27 +161,26 @@ describe('main (TelegramMenu)', () => {
 
     describe('onUnload', () => {
         it('should call callback', () => {
-            // Stub getTimeouts to return empty array
-            sinon.stub(require('@backend/app/processData'), 'getTimeouts').returns([]);
+            instance['menuProcessor'] = undefined;
             const callback = sinon.stub();
             instance['onUnload'](callback);
             expect(callback.calledOnce).to.be.true;
-            sinon.restore();
         });
 
         it('should clear all timeouts', () => {
             const timeout1 = {} as any;
             const timeout2 = {} as any;
-            sinon.stub(require('@backend/app/processData'), 'getTimeouts').returns([
-                { key: 'k1', timeout: timeout1 },
-                { key: 'k2', timeout: timeout2 },
-            ]);
+            instance['menuProcessor'] = {
+                getTimeouts: () => [
+                    { key: 'k1', timeout: timeout1 },
+                    { key: 'k2', timeout: timeout2 },
+                ],
+            } as any;
             const callback = sinon.stub();
             instance['onUnload'](callback);
             expect(instance.clearTimeout.calledWith(timeout1)).to.be.true;
             expect(instance.clearTimeout.calledWith(timeout2)).to.be.true;
             expect(callback.calledOnce).to.be.true;
-            sinon.restore();
         });
     });
 

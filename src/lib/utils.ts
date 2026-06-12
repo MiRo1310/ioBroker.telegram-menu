@@ -1,6 +1,7 @@
 import type { Adapter } from '../types/types';
 import { errorLogger } from '../app/logging';
 import type { UserListWithChatID } from '@/types/app';
+import type { AppContext } from '@backend/app/appContext';
 
 export const getChatID = (userListWithChatID: UserListWithChatID[], user: string): string | undefined => {
     for (const element of userListWithChatID) {
@@ -21,9 +22,9 @@ export const deepCopy = <T>(obj: T, adapter: Adapter): T | undefined => {
     }
 };
 
-export function validateDirectory(adapter: Adapter, directory: string): boolean {
-    if (!isDefined(directory) || directory === '') {
-        adapter.log.error(
+export function validateDirectory(appContext: AppContext): boolean {
+    if (!isDefined(appContext.directoryPicture) || appContext.directoryPicture === '') {
+        appContext.adapter.log.error(
             'No directory to save the picture. Please add a directory in the settings with full read and write permissions.',
         );
         return false;

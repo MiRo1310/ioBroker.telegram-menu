@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkEveryMenuForData = checkEveryMenuForData;
-exports.getTimeouts = getTimeouts;
+exports.MenuProcessor = void 0;
 const string_1 = require("../lib/string");
 const action_1 = require("../app/action");
 const setstate_1 = require("../app/setstate");
 const telegram_1 = require("../app/telegram");
-const backMenu_1 = require("../app/backMenu");
 const sendNav_1 = require("../app/sendNav");
 const subMenu_1 = require("../app/subMenu");
 const getstate_1 = require("../app/getstate");
@@ -14,163 +12,174 @@ const sendpic_1 = require("../app/sendpic");
 const echarts_1 = require("../app/echarts");
 const httpRequest_1 = require("../app/httpRequest");
 const validateMenus_1 = require("../app/validateMenus");
-const logging_1 = require("../app/logging");
 const dynamicValue_1 = require("../app/dynamicValue");
-let timeouts = [];
-async function checkEveryMenuForData({ instance, menuData, navToGoTo, userToSend, telegramParams, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, }) {
-    const adapter = telegramParams.adapter;
-    for (const menu of menus) {
-        const groupData = menuData[menu];
-        adapter.log.debug(`Menu : ${menu}`);
-        adapter.log.debug(`Nav : ${(0, string_1.jsonString)(menuData[menu])}`);
-        if (await processData({
-            adapter,
-            instance,
-            menuData,
-            calledValue: navToGoTo,
-            userToSend,
-            groupWithUser: menu,
-            telegramParams,
-            allMenusWithData: menuData,
-            menus,
-            isUserActiveCheckbox,
-            token,
-            directoryPicture,
-            timeoutKey,
-            groupData,
-        })) {
-            adapter.log.debug('Menu found');
-            return true;
-        }
+class MenuProcessor {
+    appContext;
+    menuData;
+    navToGoTo;
+    menus;
+    timeoutKey;
+    userToSend;
+    instance;
+    timeouts = [];
+    adapter;
+    constructor(appContext, menuData, navToGoTo, menus, timeoutKey, userToSend, instance) {
+        this.appContext = appContext;
+        this.menuData = menuData;
+        this.navToGoTo = navToGoTo;
+        this.menus = menus;
+        this.timeoutKey = timeoutKey;
+        this.userToSend = userToSend;
+        this.instance = instance;
+        this.adapter = this.appContext.adapter;
     }
-    return false;
-}
-function onlyConfirmIfWatchIdIsNotSet(dynamicValueObject) {
-    return !dynamicValueObject.watchForId;
-}
-async function processData({ instance, menuData, calledValue, userToSend, groupWithUser, telegramParams, allMenusWithData, menus, isUserActiveCheckbox, token, directoryPicture, timeoutKey, groupData, adapter, }) {
-    try {
-        let part = {};
-        const dynamicValueObject = dynamicValue_1.dynamicValue.getValue(userToSend);
-        if (dynamicValueObject) {
-            const valueToSet = dynamicValueObject?.valueType
-                ? (0, action_1.adjustValueType)(adapter, calledValue, dynamicValueObject.valueType)
-                : calledValue;
-            if (valueToSet && dynamicValueObject?.idToSet) {
-                await (0, setstate_1.setstateIobroker)({
-                    adapter,
-                    id: dynamicValueObject.idToSet,
-                    value: valueToSet,
-                    ack: dynamicValueObject?.ack,
-                });
-                if (dynamicValueObject.confirm && onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
-                    await (0, setstate_1.exchangeValueAndSendToTelegram)(adapter, dynamicValueObject.returnText, valueToSet, instance, userToSend, telegramParams, dynamicValueObject.parse_mode);
-                }
-            }
-            else {
-                await (0, telegram_1.sendToTelegram)({
-                    instance,
-                    userToSend,
-                    textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValueObject?.valueType}`,
-                    telegramParams,
-                });
-            }
-            dynamicValue_1.dynamicValue.removeUser(userToSend);
-            const result = await (0, backMenu_1.switchBack)(adapter, userToSend, allMenusWithData, menus, true);
-            if (result && !dynamicValueObject.watchForId) {
-                const { textToSend, keyboard, parse_mode } = result;
-                await (0, telegram_1.sendToTelegram)({ instance, userToSend, textToSend, keyboard, telegramParams, parse_mode });
+    async checkEveryMenuForData() {
+        for (const menu of this.menus) {
+            const groupData = this.menuData[menu];
+            this.adapter.log.debug(`Menu : ${menu}`);
+            this.adapter.log.debug(`Nav : ${(0, string_1.jsonString)(this.menuData[menu])}`);
+            if (await this.processData(menu, groupData)) {
+                this.adapter.log.debug('Menu found');
                 return true;
             }
-            await (0, sendNav_1.sendNav)(adapter, instance, part, userToSend, telegramParams);
-            return true;
         }
-        const call = calledValue.includes('menu:') ? calledValue.split(':')[2] : calledValue;
-        part = groupData[call];
-        if (!calledValue.toString().includes('menu:') && isUserActiveCheckbox[groupWithUser]) {
+        return false;
+    }
+    getTimeouts() {
+        return this.timeouts;
+    }
+    async processData(groupWithUser, groupData) {
+        let part = undefined;
+        const dynamicValueObject = dynamicValue_1.dynamicValue.getValue(this.userToSend);
+        if (dynamicValueObject) {
+            return await this.handleDynamicValue(dynamicValueObject, part);
+        }
+        const call = this.navToGoTo.includes('menu:') ? this.navToGoTo.split(':')[2] : this.navToGoTo;
+        part = groupData?.[call];
+        if (!this.navToGoTo.includes('menu:') && this.appContext.isUserActiveCheckbox[groupWithUser]) {
             const nav = part?.nav;
             if (nav) {
-                adapter.log.debug(`Menu to Send: ${(0, string_1.jsonString)(nav)}`);
-                (0, backMenu_1.backMenuFunc)({ activePage: call, navigation: nav, userToSend });
-                if ((0, string_1.jsonString)(nav).includes('menu:')) {
-                    adapter.log.debug(`Submenu: ${(0, string_1.jsonString)(nav)}`);
-                    const result = await (0, subMenu_1.callSubMenu)({
-                        adapter,
-                        instance,
-                        jsonStringNav: (0, string_1.jsonString)(nav),
-                        userToSend,
-                        telegramParams,
-                        part,
-                        allMenusWithData,
-                        menus,
-                    });
-                    if (result?.newNav) {
-                        await checkEveryMenuForData({
-                            instance,
-                            menuData,
-                            navToGoTo: result.newNav,
-                            userToSend,
-                            telegramParams,
-                            menus,
-                            isUserActiveCheckbox,
-                            token,
-                            directoryPicture,
-                            timeoutKey,
-                        });
-                    }
-                    return true;
-                }
-                await (0, sendNav_1.sendNav)(adapter, instance, part, userToSend, telegramParams);
-                return true;
+                return await this.dispatchNavAction(nav, call, part);
             }
-            if (part?.switch) {
-                await (0, setstate_1.handleSetState)(adapter, instance, part, userToSend, null, telegramParams);
+            if (await this.dispatchPartAction(part)) {
                 return true;
-            }
-            if (part?.getData) {
-                await (0, getstate_1.getState)(instance, part, userToSend, telegramParams);
-                return true;
-            }
-            if (part?.sendPic) {
-                timeouts = (0, sendpic_1.sendPic)(instance, part, userToSend, telegramParams, token, directoryPicture, timeouts, timeoutKey);
-                return true;
-            }
-            if (part?.location) {
-                adapter.log.debug('Send location');
-                await (0, telegram_1.sendLocationToTelegram)(instance, userToSend, part.location, telegramParams);
-                return true;
-            }
-            if (part?.echarts) {
-                adapter.log.debug('Send echarts');
-                (0, echarts_1.getChart)(instance, part.echarts, directoryPicture, userToSend, telegramParams);
-                return true;
-            }
-            if (part?.httpRequest) {
-                adapter.log.debug('Send http request');
-                return await (0, httpRequest_1.httpRequest)(adapter, instance, part, userToSend, telegramParams, directoryPicture);
             }
         }
-        if ((0, validateMenus_1.isSubmenuOrMenu)(calledValue) && menuData[groupWithUser][call]) {
-            adapter.log.debug('Call Submenu');
+        if ((0, validateMenus_1.isSubmenuOrMenu)(this.navToGoTo) && this.menuData[groupWithUser]?.[call]) {
+            this.adapter.log.debug('Call Submenu');
             await (0, subMenu_1.callSubMenu)({
-                adapter,
-                instance,
-                jsonStringNav: calledValue,
-                userToSend: userToSend,
-                telegramParams: telegramParams,
-                part: part,
-                allMenusWithData: allMenusWithData,
-                menus: menus,
+                appContext: this.appContext,
+                instance: this.instance,
+                jsonStringNav: this.navToGoTo,
+                userToSend: this.userToSend,
+                part,
+                allMenusWithData: this.menuData,
+                menus: this.menus,
             });
             return true;
         }
         return false;
     }
-    catch (e) {
-        (0, logging_1.errorLogger)('Error processData:', e, adapter);
+    async dispatchPartAction(part) {
+        if (part?.switch) {
+            await (0, setstate_1.handleSetState)(this.appContext, this.instance, part, this.userToSend, null);
+            return true;
+        }
+        if (part?.getData) {
+            await (0, getstate_1.getState)(this.instance, part, this.userToSend, this.appContext);
+            return true;
+        }
+        if (part?.sendPic) {
+            this.timeouts = (0, sendpic_1.sendPic)(this.appContext, this.instance, part, this.userToSend, this.timeouts, this.timeoutKey);
+            return true;
+        }
+        if (part?.location) {
+            this.adapter.log.debug('Send location');
+            await (0, telegram_1.sendLocationToTelegram)(this.instance, this.userToSend, part.location, this.appContext);
+            return true;
+        }
+        if (part?.echarts) {
+            this.adapter.log.debug('Send echarts');
+            (0, echarts_1.getChart)(this.instance, part.echarts, this.userToSend, this.appContext);
+            return true;
+        }
+        if (part?.httpRequest) {
+            this.adapter.log.debug('Send http request');
+            return await (0, httpRequest_1.httpRequest)(this.appContext, this.instance, part, this.userToSend);
+        }
+        return false;
+    }
+    async dispatchNavAction(nav, call, part) {
+        this.adapter.log.debug(`Menu to Send: ${(0, string_1.jsonString)(nav)}`);
+        this.appContext.backMenuRegistry.backMenuFunc({
+            activePage: call,
+            navigation: nav,
+            userToSend: this.userToSend,
+        });
+        if ((0, string_1.jsonString)(nav).includes('menu:')) {
+            this.adapter.log.debug(`Submenu: ${(0, string_1.jsonString)(nav)}`);
+            const result = await (0, subMenu_1.callSubMenu)({
+                appContext: this.appContext,
+                instance: this.instance,
+                jsonStringNav: (0, string_1.jsonString)(nav),
+                userToSend: this.userToSend,
+                part,
+                allMenusWithData: this.menuData,
+                menus: this.menus,
+            });
+            if (result?.newNav) {
+                this.navToGoTo = result.newNav;
+                await this.checkEveryMenuForData();
+            }
+            return true;
+        }
+        await (0, sendNav_1.sendNav)(this.appContext, this.instance, part, this.userToSend);
+        return true;
+    }
+    async handleDynamicValue(dynamicValueObject, part) {
+        const valueToSet = dynamicValueObject.valueType
+            ? (0, action_1.adjustValueType)(this.adapter, this.navToGoTo, dynamicValueObject.valueType)
+            : this.navToGoTo;
+        if (valueToSet && dynamicValueObject.idToSet) {
+            await (0, setstate_1.setstateIobroker)(this.appContext, dynamicValueObject.idToSet, valueToSet, dynamicValueObject.ack);
+            if (dynamicValueObject.confirm && this.onlyConfirmIfWatchIdIsNotSet(dynamicValueObject)) {
+                const text = await (0, setstate_1.buildReturnText)(this.appContext, dynamicValueObject.returnText, valueToSet);
+                await (0, telegram_1.sendToTelegram)({
+                    instance: this.instance,
+                    userToSend: this.userToSend,
+                    textToSend: text,
+                    appContext: this.appContext,
+                });
+            }
+        }
+        else {
+            await (0, telegram_1.sendToTelegram)({
+                instance: this.instance,
+                userToSend: this.userToSend,
+                textToSend: `You insert a wrong Type of value, please insert type : ${dynamicValueObject.valueType}`,
+                appContext: this.appContext,
+            });
+        }
+        dynamicValue_1.dynamicValue.removeUser(this.userToSend);
+        const result = await this.appContext.backMenuRegistry.switchBack(this.adapter, this.userToSend, this.menuData, this.menus, true);
+        if (result && !dynamicValueObject.watchForId) {
+            const { textToSend, keyboard, parse_mode } = result;
+            await (0, telegram_1.sendToTelegram)({
+                instance: this.instance,
+                userToSend: this.userToSend,
+                textToSend,
+                keyboard,
+                appContext: this.appContext,
+                parse_mode,
+            });
+            return true;
+        }
+        await (0, sendNav_1.sendNav)(this.appContext, this.instance, part, this.userToSend);
+        return true;
+    }
+    onlyConfirmIfWatchIdIsNotSet(dynamicValueObject) {
+        return !dynamicValueObject.watchForId;
     }
 }
-function getTimeouts() {
-    return timeouts;
-}
+exports.MenuProcessor = MenuProcessor;
 //# sourceMappingURL=processData.js.map

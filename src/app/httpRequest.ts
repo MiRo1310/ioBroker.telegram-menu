@@ -2,24 +2,26 @@ import axios from 'axios';
 
 import path from 'node:path';
 import fs from 'node:fs';
-import type { Adapter, Part, TelegramParams } from '@backend/types/types';
+import type { Part } from '@backend/types/types';
 import { validateDirectory } from '@backend/lib/utils';
 import { sendToTelegram } from '@backend/app/telegram';
 import { errorLogger } from '@backend/app/logging';
+import type { AppContext } from '@backend/app/appContext';
 
 async function httpRequest(
-    adapter: Adapter,
+    appContext: AppContext,
     instance: string,
     parts: Part,
     userToSend: string,
-    telegramParams: TelegramParams,
-    directoryPicture: string,
 ): Promise<boolean> {
-    if (!parts.httpRequest) {
+    if (!parts.httpRequest?.length) {
         return false;
     }
     for (const { url, password, user: username, filename } of parts.httpRequest) {
-        adapter.log.debug(`URL : ${url}`);
+        if (!url) {
+            return false;
+        }
+        appContext.adapter.log.debug(`URL : ${url}`);
 
         try {
             //prettier-ignore
@@ -42,22 +44,22 @@ async function httpRequest(
                       },
             );
 
-            if (!validateDirectory(adapter, directoryPicture)) {
+            if (!validateDirectory(appContext)) {
                 return false;
             }
-            const imagePath = path.join(directoryPicture, filename);
+            const imagePath = path.join(appContext.directoryPicture, filename);
 
             fs.writeFileSync(imagePath, Buffer.from(response.data), 'binary');
-            adapter.log.debug(`Pic saved : ${imagePath}`);
+            appContext.adapter.log.debug(`Pic saved : ${imagePath}`);
 
             await sendToTelegram({
                 instance,
                 userToSend,
                 textToSend: imagePath,
-                telegramParams,
+                appContext,
             });
         } catch (e: any) {
-            errorLogger('Error http request:', e, adapter);
+            errorLogger('Error http request:', e, appContext.adapter);
         }
     }
     return true;

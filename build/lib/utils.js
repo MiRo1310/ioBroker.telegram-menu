@@ -23,9 +23,9 @@ const deepCopy = (obj, adapter) => {
     }
 };
 exports.deepCopy = deepCopy;
-function validateDirectory(adapter, directory) {
-    if (!(0, exports.isDefined)(directory) || directory === '') {
-        adapter.log.error('No directory to save the picture. Please add a directory in the settings with full read and write permissions.');
+function validateDirectory(appContext) {
+    if (!(0, exports.isDefined)(appContext.directoryPicture) || appContext.directoryPicture === '') {
+        appContext.adapter.log.error('No directory to save the picture. Please add a directory in the settings with full read and write permissions.');
         return false;
     }
     return true;

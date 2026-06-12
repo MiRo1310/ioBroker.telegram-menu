@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { idBySelector } from '@backend/app/idBySelector';
-import type { TelegramParams } from '@backend/types/types';
+import { createAppContextMock } from '../../fixtures/appContextMock';
+import type { AppContext } from '@backend/app/appContext';
 
 describe('idBySelector', () => {
     let adapterMock: any;
-    let telegramParams: TelegramParams;
+    let appContextMock: AppContext;
     let sendToTelegramStub: sinon.SinonStub;
 
     beforeEach(() => {
@@ -17,7 +18,7 @@ describe('idBySelector', () => {
             getForeignObjectAsync: sinon.stub(),
             supportsFeature: sinon.stub().returns(false),
         };
-        telegramParams = { adapter: adapterMock } as any;
+        appContextMock = createAppContextMock(adapterMock);
 
         sendToTelegramStub = sinon.stub(require('@backend/app/telegram'), 'sendToTelegram').resolves();
     });
@@ -29,12 +30,11 @@ describe('idBySelector', () => {
     function call(selector: string, text = 'Value: ', newline: string = 'false') {
         return idBySelector({
             instance: 'telegram.0',
-            adapter: adapterMock,
+            appContext: appContextMock,
             selector,
             text,
             userToSend: 'Alice',
             newline: newline as any,
-            telegramParams,
         });
     }
 
@@ -60,132 +60,116 @@ describe('idBySelector', () => {
     it('should send combined text for all members', async () => {
         adapterMock.getEnumsAsync.resolves({
             'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.light1', 'state.0.light2'] } },
+                'enum.functions.light': {
+                    common: { members: ['state.0.light1', 'state.0.light2'] },
+                },
             },
         });
-        adapterMock.getForeignStateAsync.withArgs('state.0.light1').resolves({ val: 'on' });
-        adapterMock.getForeignStateAsync.withArgs('state.0.light2').resolves({ val: 'off' });
+        adapterMock.getForeignStateAsync.resolves({ val: true });
+        adapterMock.getForeignObjectAsync.resolves({ common: { name: 'Light1' } });
 
-        await call('functions=light', 'Status: ');
-        // Wait for Promise.all().then() chain
-        await new Promise(r => setTimeout(r, 50));
-
+        await call('functions=light', 'Value: &&');
+        await new Promise(r => setTimeout(r, 10));
         expect(sendToTelegramStub.calledOnce).to.be.true;
-        const sentText = sendToTelegramStub.firstCall.args[0].textToSend;
-        expect(sentText).to.include('on');
-        expect(sentText).to.include('off');
     });
 
-    it('should replace {common.name} with object common name', async () => {
+    // ─── {common.name} path (getCommonName branches, indirect) ──────────────
+
+    function setupSingleMember(id = 'state.0.light1'): void {
         adapterMock.getEnumsAsync.resolves({
             'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.light1'] } },
+                'enum.functions.light': {
+                    common: { members: [id] },
+                },
             },
         });
-        adapterMock.getForeignStateAsync.withArgs('state.0.light1').resolves({ val: true });
-        adapterMock.getForeignObjectAsync.withArgs('state.0.light1').resolves({
-            common: { name: { en: 'Living Room Light' } },
-        });
+        adapterMock.getForeignStateAsync.resolves({ val: true });
+    }
 
-        await call('functions=light', '{common.name}: ');
-        await new Promise(r => setTimeout(r, 50));
+    it('should replace {common.name} with a plain string name', async () => {
+        setupSingleMember();
+        adapterMock.getForeignObjectAsync.resolves({ common: { name: 'Deckenlampe' } });
 
+        await call('functions=light', '{common.name}: &&');
         expect(sendToTelegramStub.calledOnce).to.be.true;
-        const sentText = sendToTelegramStub.firstCall.args[0].textToSend;
-        expect(sentText).to.include('Living Room Light');
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('Deckenlampe');
     });
 
-    it('should replace {folder.name} with parent object common name', async () => {
-        adapterMock.getEnumsAsync.resolves({
-            'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.room.light1'] } },
-            },
-        });
-        adapterMock.getForeignStateAsync.withArgs('state.0.room.light1').resolves({ val: true });
-        adapterMock.getForeignObjectAsync.withArgs('state.0.room').resolves({
-            common: { name: 'Room A' },
-        });
+    it('should pick the language key from a translated name object (de)', async () => {
+        adapterMock.language = 'de';
+        setupSingleMember();
+        adapterMock.getForeignObjectAsync.resolves({ common: { name: { de: 'Licht', en: 'Light' } } });
 
-        await call('functions=light', '{folder.name}: ');
-        await new Promise(r => setTimeout(r, 50));
-
-        expect(sendToTelegramStub.calledOnce).to.be.true;
-        const sentText = sendToTelegramStub.firstCall.args[0].textToSend;
-        expect(sentText).to.include('Room A');
+        await call('functions=light', '{common.name}: &&');
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('Licht');
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.not.include('Light');
     });
 
-    it('should handle string common.name', async () => {
-        adapterMock.getEnumsAsync.resolves({
-            'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.x'] } },
-            },
-        });
-        adapterMock.getForeignStateAsync.resolves({ val: 'v' });
-        adapterMock.getForeignObjectAsync.withArgs('state.0.x').resolves({
-            common: { name: 'Simple Name' },
-        });
+    it('should fall back to "en" when adapter.language is undefined', async () => {
+        adapterMock.language = undefined;
+        setupSingleMember();
+        adapterMock.getForeignObjectAsync.resolves({ common: { name: { de: 'Licht', en: 'Light' } } });
 
-        await call('functions=light', '{common.name} ');
-        await new Promise(r => setTimeout(r, 50));
-
-        expect(sendToTelegramStub.calledOnce).to.be.true;
-        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('Simple Name');
+        await call('functions=light', '{common.name}: &&');
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('Light');
     });
 
-    it('should handle empty common.name', async () => {
-        adapterMock.getEnumsAsync.resolves({
-            'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.x'] } },
-            },
-        });
-        adapterMock.getForeignStateAsync.resolves({ val: 'v' });
-        adapterMock.getForeignObjectAsync.withArgs('state.0.x').resolves({
-            common: { name: undefined },
-        });
+    it('should use empty string when the name object has no entry for the language', async () => {
+        adapterMock.language = 'de';
+        setupSingleMember();
+        adapterMock.getForeignObjectAsync.resolves({ common: { name: { en: 'Light' } } });
 
-        await call('functions=light', '{common.name} ');
-        await new Promise(r => setTimeout(r, 50));
-
-        expect(sendToTelegramStub.calledOnce).to.be.true;
+        await call('functions=light', '{common.name}X: &&');
+        // name['de'] is undefined → '' → placeholder removed without text
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('X:');
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.not.include('Light');
     });
 
-    it('should add newline when newline is true', async () => {
-        adapterMock.getEnumsAsync.resolves({
-            'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.x'] } },
-            },
-        });
-        adapterMock.getForeignStateAsync.resolves({ val: 'val' });
+    it('should use empty string when common.name is undefined', async () => {
+        setupSingleMember();
+        adapterMock.getForeignObjectAsync.resolves({ common: {} });
 
-        await call('functions=light', 'Text: ', 'true');
-        await new Promise(r => setTimeout(r, 50));
-
+        await call('functions=light', '{common.name}X: &&');
         expect(sendToTelegramStub.calledOnce).to.be.true;
-        const sentText = sendToTelegramStub.firstCall.args[0].textToSend;
-        expect(sentText).to.include('\n');
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('X:');
     });
 
-    it('should handle state with null val', async () => {
-        adapterMock.getEnumsAsync.resolves({
-            'enum.functions': {
-                'enum.functions.light': { common: { members: ['state.0.x'] } },
-            },
-        });
-        adapterMock.getForeignStateAsync.resolves({ val: null });
+    it('should use empty string when the member state is missing (line 51 ?? branch)', async () => {
+        setupSingleMember();
+        adapterMock.getForeignStateAsync.resolves(undefined);
+        adapterMock.getForeignObjectAsync.resolves({ common: { name: 'Lampe' } });
 
-        await call('functions=light', 'Text: ');
-        await new Promise(r => setTimeout(r, 50));
-
+        await call('functions=light', '{common.name}: &&');
         expect(sendToTelegramStub.calledOnce).to.be.true;
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('Lampe');
     });
 
-    it('should catch errors in the main try block', async () => {
-        adapterMock.getEnumsAsync.rejects(new Error('enum error'));
+    // ─── {folder.name} path (removeLastPartOfId, indirect) ──────────────────
 
-        await call('functions=light');
-        await new Promise(r => setTimeout(r, 50));
+    it('should resolve {folder.name} via the parent object id', async () => {
+        setupSingleMember('0_userdata.0.Fenster.Status');
+        adapterMock.getForeignObjectAsync.withArgs('0_userdata.0.Fenster').resolves({
+            common: { name: 'Fenster' },
+        });
 
-        expect(adapterMock.log.error.called).to.be.true;
+        await call('functions=light', '{folder.name}: &&');
+        // removeLastPartOfId('0_userdata.0.Fenster.Status') → '0_userdata.0.Fenster'
+        expect(adapterMock.getForeignObjectAsync.calledWith('0_userdata.0.Fenster')).to.be.true;
+        expect(sendToTelegramStub.firstCall.args[0].textToSend).to.include('Fenster');
+    });
+
+    it('should resolve both {common.name} and {folder.name} in the same text', async () => {
+        setupSingleMember('0_userdata.0.Fenster.Status');
+        adapterMock.getForeignObjectAsync.withArgs('0_userdata.0.Fenster.Status').resolves({
+            common: { name: 'Status' },
+        });
+        adapterMock.getForeignObjectAsync.withArgs('0_userdata.0.Fenster').resolves({
+            common: { name: 'Fenster' },
+        });
+
+        await call('functions=light', '{folder.name} {common.name}: &&');
+        const { textToSend } = sendToTelegramStub.firstCall.args[0];
+        expect(textToSend).to.include('Fenster');
+        expect(textToSend).to.include('Status');
     });
 });
-

@@ -1,25 +1,25 @@
 import { exec } from 'node:child_process';
-import type { Adapter } from '@backend/types/types';
 import { errorLogger } from '@backend/app/logging';
+import type { AppContext } from '@backend/app/appContext';
 
-export function loadWithCurl(adapter: Adapter, token: string, path: string, url: string, callback?: () => void): void {
+export function loadWithCurl(appContext: AppContext, path: string, url: string, callback?: () => void): void {
     exec(
-        `curl -H "Authorization: Bearer ${token.trim()}" "${url}" > ${path}`,
+        `curl -H "Authorization: Bearer ${appContext.token.trim()}" "${url}" > ${path}`,
         (error: any, stdout: any, stderr: any) => {
             if (stdout) {
-                adapter.log.debug(`Stdout : "${stdout}"`);
+                appContext.adapter.log.debug(`Stdout : "${stdout}"`);
             }
             if (stderr) {
-                adapter.log.debug(`Stderr : "${stderr}"`);
+                appContext.adapter.log.debug(`Stderr : "${stderr}"`);
             }
             if (error) {
-                errorLogger('Error in exec:', error, adapter);
+                errorLogger('Error in exec:', error, appContext.adapter);
                 return;
             }
             if (!callback) {
                 return;
             }
-            adapter.log.debug('Curl command executed successfully');
+            appContext.adapter.log.debug('Curl command executed successfully');
             callback();
         },
     );

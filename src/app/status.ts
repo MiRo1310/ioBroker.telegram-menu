@@ -4,9 +4,9 @@ import { statusIdAndParams } from '../lib/appUtils';
 import { isDefined } from '../lib/utils';
 import { integrateTimeIntoText } from '../lib/time';
 import { exchangeValue } from '../lib/exchangeValue';
-import type { Adapter } from '../types/types';
+import type { AppContext } from '@backend/app/appContext';
 
-export const checkStatus = async (adapter: Adapter, text: string): Promise<string> => {
+export const checkStatus = async (appContext: AppContext, text: string): Promise<string> => {
     const { substring, substringExcludeSearch, textExcludeSubstring } = decomposeText(
         text,
         config.status.start,
@@ -14,10 +14,10 @@ export const checkStatus = async (adapter: Adapter, text: string): Promise<strin
     ); //substring {status:'ID':true} new | old {status:'id':'ID':true}
 
     const { id, shouldChangeByStatusParameter } = statusIdAndParams(substringExcludeSearch);
-    const stateValue = await adapter.getForeignStateAsync(id);
+    const stateValue = await appContext.adapter.getForeignStateAsync(id);
 
     if (!isDefined(stateValue?.val)) {
-        adapter.log.debug(`State not found for id : "${id}"`);
+        appContext.adapter.log.debug(`State not found for id : "${id}"`);
         return text.replace(substring, '');
     }
 
@@ -28,6 +28,11 @@ export const checkStatus = async (adapter: Adapter, text: string): Promise<strin
     }
 
     const modifiedText = text.replace(substring, '&&');
-    const { textToSend, error } = exchangeValue(adapter, modifiedText, stateValue.val, shouldChangeByStatusParameter);
+    const { textToSend, error } = exchangeValue(
+        appContext,
+        modifiedText,
+        stateValue.val,
+        shouldChangeByStatusParameter,
+    );
     return !error ? textToSend : modifiedText;
 };

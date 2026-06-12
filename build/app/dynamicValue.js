@@ -13,18 +13,15 @@ class DynamicValueHandler {
         }
         return false;
     };
-    setValue = async (instance, returnText, ack, id, userToSend, telegramParams, parse_mode, confirm) => {
+    setValue = async (appContext, instance, returnText, ack, id, userToSend, parse_mode, confirm) => {
         const { substringExcludeSearch } = (0, string_1.decomposeText)(returnText, '{setDynamicValue:', '}');
-        let array = substringExcludeSearch.split(':');
-        array = this.isBraceDeleteEntry(array);
-        const question = array[0];
-        const confirmText = array[2];
+        const [question, valueType, confirmText, watchForId] = substringExcludeSearch.split(':');
         if (question) {
             await (0, telegram_1.sendToTelegram)({
                 instance,
                 userToSend,
                 textToSend: question,
-                telegramParams,
+                appContext,
                 parse_mode,
             });
         }
@@ -35,18 +32,15 @@ class DynamicValueHandler {
             userToSend,
             parse_mode,
             confirm,
-            telegramParams,
-            valueType: array[1],
-            watchForId: array[3],
+            appContext,
+            valueType,
+            watchForId,
         };
         if (confirmText && confirmText != '') {
-            return { confirmText, id: array[3] !== '' ? array[3] : undefined };
+            return { confirmText, id: watchForId !== '' ? watchForId : undefined };
         }
         return { confirmText: '', id: undefined };
     };
-    isBraceDeleteEntry(array) {
-        return array[4] === '}' ? array.slice(0, 4) : array;
-    }
 }
 exports.dynamicValue = new DynamicValueHandler();
 //# sourceMappingURL=dynamicValue.js.map

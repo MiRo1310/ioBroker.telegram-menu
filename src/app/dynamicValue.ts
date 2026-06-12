@@ -1,6 +1,7 @@
-import type { IDynamicValue, SetDynamicValueObj, TelegramParams } from '@backend/types/types';
+import type { IDynamicValue, SetDynamicValueObj } from '@backend/types/types';
 import { decomposeText } from '@backend/lib/string';
 import { sendToTelegram } from '@backend/app/telegram';
+import type { AppContext } from '@backend/app/appContext';
 
 class DynamicValueHandler {
     private dynamicValueObj: SetDynamicValueObj = {};
@@ -16,26 +17,24 @@ class DynamicValueHandler {
     };
 
     public setValue = async (
+        appContext: AppContext,
         instance: string,
         returnText: string,
         ack: boolean,
         id: string,
         userToSend: string,
-        telegramParams: TelegramParams,
         parse_mode: boolean,
         confirm: boolean,
     ): Promise<{ confirmText: string; id: string | undefined }> => {
         const { substringExcludeSearch } = decomposeText(returnText, '{setDynamicValue:', '}');
-        let array = substringExcludeSearch.split(':');
-        array = this.isBraceDeleteEntry(array);
-        const question = array[0];
-        const confirmText = array[2];
+        const [question, valueType, confirmText, watchForId] = substringExcludeSearch.split(':');
+
         if (question) {
             await sendToTelegram({
                 instance,
                 userToSend,
                 textToSend: question,
-                telegramParams,
+                appContext,
                 parse_mode,
             });
         }
@@ -46,20 +45,16 @@ class DynamicValueHandler {
             userToSend,
             parse_mode,
             confirm,
-            telegramParams,
-            valueType: array[1],
-            watchForId: array[3],
+            appContext,
+            valueType,
+            watchForId,
         };
 
         if (confirmText && confirmText != '') {
-            return { confirmText, id: array[3] !== '' ? array[3] : undefined };
+            return { confirmText, id: watchForId !== '' ? watchForId : undefined };
         }
         return { confirmText: '', id: undefined };
     };
-
-    private isBraceDeleteEntry(array: string[]): string[] {
-        return array[4] === '}' ? array.slice(0, 4) : array;
-    }
 }
 
 export const dynamicValue = new DynamicValueHandler();

@@ -1,15 +1,15 @@
 import { removeDuplicates } from '../lib/object';
-import type { Adapter } from '@backend/types/types';
+import type { AppContext } from '@backend/app/appContext';
 
-export async function _subscribeForeignStates(adapter: Adapter, val: string | string[]): Promise<void> {
+export async function _subscribeForeignStates(appContext: AppContext, val: string | string[]): Promise<void> {
     if (typeof val === 'string') {
-        adapter.log.debug(`Subscribe to ${val}`);
-        await adapter.subscribeForeignStatesAsync(val);
+        appContext.adapter.log.debug(`Subscribe to ${val}`);
+        await appContext.adapter.subscribeForeignStatesAsync(val);
         return;
     }
 
     const array = removeDuplicates(val);
     for (const id of array) {
-        await adapter.subscribeForeignStatesAsync(id);
+        await appContext.adapter.subscribeForeignStatesAsync(id);
     }
 }

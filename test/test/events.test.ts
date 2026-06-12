@@ -5,6 +5,7 @@ import type { EventAction, MenusWithUsers, UserType } from '@/types/app';
 import { Adapter, Actions, MenuData } from '@backend/types/types';
 import { utils } from '@iobroker/testing';
 import sinon from 'sinon';
+import { createAppContextMock } from '../fixtures/appContextMock';
 
 const userA: UserType = { instance: 'instanceA', name: 'User A', chatId: '1' };
 const userB: UserType = { instance: 'instanceB', name: 'User B', chatId: '2' };
@@ -70,9 +71,11 @@ describe('getInstancesFromEventsById', () => {
 });
 
 describe('handleEvent', () => {
+    const { adapter } = utils.unit.createMocks({});
+    const mockAdapter = adapter as unknown as Adapter;
+    const appContextMock = createAppContextMock(mockAdapter);
     it('should return false if dataObject.action is undefined', async () => {
         const result = await handleEvent(
-            {} as any,
             userA,
             {} as any,
             'eventId',
@@ -92,7 +95,6 @@ describe('handleEvent', () => {
             },
         };
         const result = await handleEvent(
-            {} as any,
             userA,
             dataObject as any,
             'eventId',
@@ -102,9 +104,6 @@ describe('handleEvent', () => {
         );
         expect(result).to.be.false;
     });
-
-    const { adapter } = utils.unit.createMocks({});
-    const mockAdapter = adapter as unknown as Adapter;
 
     it('check state string', async () => {
         const dataObject = {
@@ -151,7 +150,6 @@ describe('handleEvent', () => {
         };
 
         const resultStringDifferent = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -161,7 +159,6 @@ describe('handleEvent', () => {
         );
         expect(resultStringDifferent).to.be.false;
         const resultStringDifferent2 = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -189,18 +186,16 @@ describe('handleEvent', () => {
         };
 
         const resultBooleanTrueSame = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
             { ack: true, val: true } as any,
             menuData as any,
-            {} as any,
+            appContextMock,
         );
         expect(resultBooleanTrueSame).to.be.true;
 
         const resultBooleanFalse = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
@@ -217,13 +212,12 @@ describe('handleEvent', () => {
             },
         };
         const resultBooleanFalse2 = await handleEvent(
-            mockAdapter,
             userA,
             dataObject2 as any,
             'eventId',
             { ack: true, val: false } as any,
             menuData as any,
-            {} as any,
+            appContextMock,
         );
         expect(resultBooleanFalse2).to.be.true;
     });
@@ -232,6 +226,8 @@ describe('handleEvent', () => {
 describe('Event params', () => {
     const { adapter } = utils.unit.createMocks({});
     const mockAdapter = adapter as unknown as Adapter;
+
+    const appContextMock = createAppContextMock(mockAdapter);
     let sendNavStub: sinon.SinonStub;
     const dataObject = {
         nav: {
@@ -281,13 +277,12 @@ describe('Event params', () => {
     });
     it('should send one user', async () => {
         const resultStringSame = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'eventId',
             { ack: false, val: '123' } as any,
             menuData,
-            {} as any,
+            appContextMock,
         );
 
         expect(resultStringSame).to.be.true;
@@ -299,13 +294,12 @@ describe('Event params', () => {
 
     it('should send userB', async () => {
         const resultStringSame2 = await handleEvent(
-            mockAdapter,
             userB,
             dataObject as any,
             'eventId',
             { ack: false, val: '123' } as any,
             menuData,
-            {} as any,
+            appContextMock,
         );
 
         expect(resultStringSame2).to.be.true;
@@ -341,6 +335,7 @@ describe('to boolean', () => {
 describe('checkCondition', () => {
     const { adapter } = utils.unit.createMocks({});
     const mockAdapter = adapter as unknown as Adapter;
+
     it('should be true with boolean true', () => {
         expect(checkCondition(mockAdapter, true, { conditionFilter: ['='], condition: ['true'] } as EventAction)).to.be
             .true;
@@ -448,7 +443,7 @@ describe('checkCondition', () => {
 describe('handleEvent — menu without events and submenu branch', () => {
     const { adapter } = utils.unit.createMocks({});
     const mockAdapter = adapter as unknown as Adapter;
-
+    const appContextMock = createAppContextMock(mockAdapter);
     it('should skip menu entries that have no events array', async () => {
         const dataObject = {
             action: {
@@ -461,13 +456,12 @@ describe('handleEvent — menu without events and submenu branch', () => {
         const menuData: MenuData = { menuWithEvents: { nav1: { nav: [['NavPage']] } } };
 
         const result = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'ev1',
             { ack: true, val: true } as any,
             menuData,
-            {} as any,
+            appContextMock,
         );
         expect(result).to.be.true;
     });
@@ -491,13 +485,12 @@ describe('handleEvent — menu without events and submenu branch', () => {
         };
 
         const result = await handleEvent(
-            mockAdapter,
             userA,
             dataObject as any,
             'ev2',
             { ack: false, val: true } as any,
             menuData,
-            {} as any,
+            appContextMock,
         );
 
         expect(result).to.be.true;

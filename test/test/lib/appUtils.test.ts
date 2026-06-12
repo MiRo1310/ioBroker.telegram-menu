@@ -301,6 +301,15 @@ describe('statusIdAndParams', () => {
             shouldChangeByStatusParameter: false,
         });
     });
+
+    it('should handle input without separator — only the id (line 99 ?? branch)', () => {
+        // Echter Test statt istanbul-ignore: {status:'ID'} ohne Parameter ist gueltiger User-Input
+        const result = statusIdAndParams("'test.0.test'");
+        expect(result).to.deep.equal({
+            id: 'test.0.test',
+            shouldChangeByStatusParameter: false,
+        });
+    });
 });
 
 describe('splitNavigation', () => {

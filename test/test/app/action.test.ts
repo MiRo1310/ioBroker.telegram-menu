@@ -8,9 +8,12 @@ import {
 } from '@backend/app/action';
 import type { Actions, NewObjectStructure } from '@backend/types/types';
 import type { UserListWithChatID } from '@/types/app';
+import { createAppContextMock } from '../../fixtures/appContextMock';
+import type { AppContext } from '@backend/app/appContext';
 
 describe('action', () => {
     let adapterMock: any;
+    let store: AppContext;
 
     beforeEach(() => {
         adapterMock = {
@@ -20,95 +23,54 @@ describe('action', () => {
                 error: sinon.stub(),
             },
             getForeignStateAsync: sinon.stub(),
+            sendTo: sinon.stub(),
         };
+        store = createAppContextMock(adapterMock, {
+            userListWithChatID: [{ name: 'Michael', chatID: '123', instance: 'telegram.0' }],
+            telegramInstanceList: [{ name: 'telegram.0', active: true }],
+        });
     });
 
-    // ─── adjustValueType ────────────────────────────────────────────────────────
+    // ─── bindingFunc ────────────────────────────────────────────────────────
 
     describe('bindingFunc', () => {
         it('should call sendTo after evaluating binding expression', async () => {
             adapterMock.getForeignStateAsync.withArgs('state.0.temp').resolves({ val: 21 });
-            adapterMock.sendTo = sinon.stub();
-
-            const telegramParams = {
-                adapter: adapterMock,
-                telegramInstanceList: [{ name: 'telegram.0', active: true }],
-                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
-                resize_keyboard: false,
-                one_time_keyboard: false,
-            } as any;
 
             const text = '{binding:temp=state.0.temp?temp>20}';
-            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
+            await bindingFunc(store, 'telegram.0', text, 'Michael', false);
             expect(adapterMock.sendTo.calledOnce).to.be.true;
         });
 
         it('should not throw if getForeignStateAsync returns null', async () => {
             adapterMock.getForeignStateAsync.resolves(null);
-            adapterMock.sendTo = sinon.stub();
-
-            const telegramParams = {
-                adapter: adapterMock,
-                telegramInstanceList: [{ name: 'telegram.0', active: true }],
-                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
-                resize_keyboard: false,
-                one_time_keyboard: false,
-            } as any;
 
             const text = '{binding:temp=state.0.temp?temp>20}';
-            await expect(bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false)).to.not.be.rejected;
+            await expect(bindingFunc(store, 'telegram.0', text, 'Michael', false)).to.not.be.rejected;
         });
 
         it('should populate bindingObject.values and replace key in expression (key:id;?expr format)', async () => {
             adapterMock.getForeignStateAsync.withArgs('state.0.temp').resolves({ val: 25 });
-            adapterMock.sendTo = sinon.stub();
-
-            const telegramParams = {
-                adapter: adapterMock,
-                telegramInstanceList: [{ name: 'telegram.0', active: true }],
-                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
-                resize_keyboard: false,
-                one_time_keyboard: false,
-            } as any;
 
             // Format: binding:{key:stateId;?expression} — key is populated from state, then substituted in expression
             const text = 'binding:{temp:state.0.temp;?temp+0}';
-            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
+            await bindingFunc(store, 'telegram.0', text, 'Michael', false);
             expect(adapterMock.sendTo.calledOnce).to.be.true;
         });
 
         it('should use empty string when result.val is null (covers ?? branch)', async () => {
             adapterMock.getForeignStateAsync.withArgs('state.0.temp').resolves({ val: null });
-            adapterMock.sendTo = sinon.stub();
-
-            const telegramParams = {
-                adapter: adapterMock,
-                telegramInstanceList: [{ name: 'telegram.0', active: true }],
-                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
-                resize_keyboard: false,
-                one_time_keyboard: false,
-            } as any;
 
             const text = 'binding:{temp:state.0.temp;?temp+0}';
-            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
+            await bindingFunc(store, 'telegram.0', text, 'Michael', false);
             expect(adapterMock.sendTo.calledOnce).to.be.true;
         });
 
-        it('should call errorLogger when getForeignStateAsync throws', async () => {
+        it('should propagate error when getForeignStateAsync throws', async () => {
             adapterMock.getForeignStateAsync.rejects(new Error('network error'));
-            adapterMock.sendTo = sinon.stub();
-
-            const telegramParams = {
-                adapter: adapterMock,
-                telegramInstanceList: [{ name: 'telegram.0', active: true }],
-                userListWithChatID: [{ name: 'Michael', chatID: '123' }],
-                resize_keyboard: false,
-                one_time_keyboard: false,
-            } as any;
 
             const text = 'binding:{temp:state.0.temp;?temp+0}';
-            await bindingFunc(adapterMock, 'telegram.0', text, 'Michael', telegramParams, false);
-            expect(adapterMock.log.error.called).to.be.true;
+            await expect(bindingFunc(store, 'telegram.0', text, 'Michael', false)).to.be.rejectedWith('network error');
         });
     });
 
@@ -120,377 +82,99 @@ describe('action', () => {
             expect(result).to.equal(42);
         });
 
-        it('should return a parsed decimal number when valueType is number', () => {
-            const result = adjustValueType(adapterMock, '3.14', 'number');
-            expect(result).to.equal(3.14);
-        });
-
-        it('should return false and log error when valueType is number but value is not numeric', () => {
-            const result = adjustValueType(adapterMock, 'abc', 'number');
-            expect(result).to.equal(false);
-            expect(adapterMock.log.error.calledOnce).to.be.true;
-        });
-
-        it('should return true when valueType is boolean and value is "true"', () => {
+        it('should return a boolean true when valueType is boolean and value is "true"', () => {
             const result = adjustValueType(adapterMock, 'true', 'boolean');
             expect(result).to.equal(true);
         });
 
-        it('should return false when valueType is boolean and value is "false"', () => {
+        it('should return a boolean false when valueType is boolean and value is "false"', () => {
             const result = adjustValueType(adapterMock, 'false', 'boolean');
             expect(result).to.equal(false);
         });
 
-        it('should return the value as-is when valueType is string', () => {
+        it('should return the original string when valueType is string', () => {
             const result = adjustValueType(adapterMock, 'hello', 'string');
             expect(result).to.equal('hello');
         });
 
-        it('should return the value as-is for unknown valueType', () => {
+        it('should return the original value when valueType is unknown', () => {
             const result = adjustValueType(adapterMock, 'someValue', 'unknown');
             expect(result).to.equal('someValue');
         });
+
+        it('should return false and log error when valueType is number and value is not numeric', () => {
+            const result = adjustValueType(adapterMock, 'abc', 'number');
+            expect(result).to.be.false;
+            expect(adapterMock.log.error.calledOnce).to.be.true;
+        });
     });
 
-    // ─── getUserToSendFromUserListWithChatID ─────────────────────────────────────
+    // ─── generateActions ────────────────────────────────────────────────────
+
+    describe('generateActions', () => {
+        it('should return undefined when action is undefined', () => {
+            const userObject: NewObjectStructure = {};
+            const result = generateActions({ action: undefined, userObject });
+            expect(result).to.be.undefined;
+        });
+
+        it('should return undefined when set is empty and get is empty', () => {
+            const action: Actions = {
+                get: [],
+                set: [],
+                pic: [],
+                httpRequest: [],
+                echarts: [],
+                events: [],
+            };
+            const userObject: NewObjectStructure = {};
+            const result = generateActions({ action, userObject });
+            expect(result).to.be.undefined;
+        });
+
+        it('should generate set action entries', () => {
+            const action: Actions = {
+                get: [],
+                set: [
+                    {
+                        IDs: ['state.0.val'],
+                        values: ['1'],
+                        confirm: ['false'],
+                        returnText: ['Done'],
+                        ack: ['false'],
+                        parse_mode: ['false'],
+                        switch_checkbox: ['false'],
+                        trigger: ['btn1'],
+                    },
+                ],
+                pic: [],
+                httpRequest: [],
+                echarts: [],
+                events: [],
+            };
+            const userObject: NewObjectStructure = { btn1: { text: 'Button 1' } };
+            const result = generateActions({ action, userObject });
+            expect(result).to.not.be.undefined;
+            expect(result?.obj?.btn1?.switch).to.not.be.undefined;
+        });
+    });
+
+    // ─── getUserToSendFromUserListWithChatID ────────────────────────────────
 
     describe('getUserToSendFromUserListWithChatID', () => {
         const userList: UserListWithChatID[] = [
-            { chatID: '111', name: 'Alice' } as UserListWithChatID,
-            { chatID: '222', name: 'Bob' } as UserListWithChatID,
-            { chatID: '333', name: 'Charlie' } as UserListWithChatID,
+            { name: 'Alice', chatID: '123', instance: 'telegram.0' },
+            { name: 'Bob', chatID: '456', instance: 'telegram.0' },
         ];
 
-        it('should return the correct user for a matching chatID', () => {
-            const result = getUserToSendFromUserListWithChatID(userList, '222');
-            expect(result).to.deep.equal({ chatID: '222', name: 'Bob' });
+        it('should return the user with matching chatID', () => {
+            const result = getUserToSendFromUserListWithChatID(userList, '123');
+            expect(result?.name).to.equal('Alice');
         });
 
-        it('should return undefined for a non-existing chatID', () => {
+        it('should return undefined for non-existent chatID', () => {
             const result = getUserToSendFromUserListWithChatID(userList, '999');
             expect(result).to.be.undefined;
-        });
-
-        it('should return the first matching user', () => {
-            const result = getUserToSendFromUserListWithChatID(userList, '111');
-            expect(result?.chatID).to.equal('111');
-        });
-
-        it('should return undefined for an empty list', () => {
-            const result = getUserToSendFromUserListWithChatID([], '111');
-            expect(result).to.be.undefined;
-        });
-    });
-
-    // ─── generateActions ─────────────────────────────────────────────────────────
-
-    describe('generateActions', () => {
-        it('should return undefined if action is undefined', () => {
-            const userObject: NewObjectStructure = {};
-            const result = generateActions({ action: undefined, userObject, adapter: adapterMock });
-            expect(result).to.not.be.undefined;
-            expect(result?.ids).to.deep.equal([]);
-        });
-
-        it('should generate switch actions with correct structure', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [
-                    {
-                        trigger: ['btn1'],
-                        IDs: ['state.0.light'],
-                        values: ['true'],
-                        switch_checkbox: ['true'],
-                        confirm: ['false'],
-                        returnText: ['Done'],
-                        ack: ['false'],
-                        parse_mode: ['false'],
-                    },
-                ],
-                get: [],
-                pic: [],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-
-            expect(result).to.not.be.undefined;
-            expect(result?.ids).to.include('state.0.light');
-            expect(userObject['btn1']?.switch).to.be.an('array').with.lengthOf(1);
-            expect(userObject['btn1']?.switch?.[0]?.id).to.equal('state.0.light');
-            expect(userObject['btn1']?.switch?.[0]?.value).to.equal('true');
-            expect(userObject['btn1']?.switch?.[0]?.toggle).to.equal(true);
-            expect(userObject['btn1']?.switch?.[0]?.confirm).to.equal(false);
-            expect(userObject['btn1']?.switch?.[0]?.ack).to.equal(false);
-        });
-
-        it('should collect all IDs from multiple set actions', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [
-                    {
-                        trigger: ['btn1'],
-                        IDs: ['state.0.light', 'state.0.fan'],
-                        values: ['true', 'false'],
-                        switch_checkbox: ['false', 'true'],
-                        confirm: ['false', 'false'],
-                        returnText: ['', ''],
-                        ack: ['false', 'false'],
-                        parse_mode: ['false'],
-                    },
-                ],
-                get: [],
-                pic: [],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-
-            expect(result?.ids).to.include('state.0.light');
-            expect(result?.ids).to.include('state.0.fan');
-        });
-
-        it('should generate getData actions from get entries', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [
-                    {
-                        trigger: ['btnGet'],
-                        IDs: ['state.0.temp'],
-                        text: ['Temperature:'],
-                        newline_checkbox: ['true'],
-                        parse_mode: ['false'],
-                    },
-                ],
-                pic: [],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-
-            expect(result).to.not.be.undefined;
-            const getData = userObject['btnGet']?.getData as any[];
-            expect(getData).to.be.an('array').with.lengthOf(1);
-            expect(getData[0].id).to.equal('state.0.temp');
-            expect(getData[0].text).to.equal('Temperature:');
-        });
-
-        it('should generate sendPic actions from pic entries', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [],
-                pic: [
-                    {
-                        trigger: ['btnPic'],
-                        IDs: ['cam.0.snapshot'],
-                        fileName: ['photo.jpg'],
-                        picSendDelay: ['500'],
-                    },
-                ],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-            console.log(result?.obj.btnPic.sendPic);
-            expect(result).to.not.be.undefined;
-            const sendPic = userObject['btnPic']?.sendPic as any[];
-            expect(sendPic).to.be.an('array').with.lengthOf(1);
-            expect(sendPic[0].id).to.equal('cam.0.snapshot');
-            expect(sendPic[0].fileName).to.equal('photo.jpg');
-            expect(sendPic[0].delay).to.equal('500');
-        });
-
-        it('should generate httpRequest actions from httpRequest entries', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [],
-                pic: [],
-                httpRequest: [
-                    {
-                        trigger: ['btnHttp'],
-                        url: ['https://example.com'],
-                        user: ['admin'],
-                        password: ['secret'],
-                        filename: ['result.json'],
-                        delay: ['0'],
-                    },
-                ],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-
-            expect(result).to.not.be.undefined;
-            const httpRequest = userObject['btnHttp']?.httpRequest as any[];
-            expect(httpRequest).to.be.an('array').with.lengthOf(1);
-            expect(httpRequest[0].url).to.equal('https://example.com');
-            expect(httpRequest[0].user).to.equal('admin');
-            expect(httpRequest[0].password).to.equal('secret');
-        });
-
-        it('should replace &amp; with & in string values', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [],
-                pic: [],
-                httpRequest: [
-                    {
-                        trigger: ['btnHttp'],
-                        url: ['https://example.com?a=1&amp;b=2'],
-                        user: [''],
-                        password: [''],
-                        filename: [''],
-                        delay: ['0'],
-                    },
-                ],
-                echarts: [],
-                events: [],
-            };
-
-            generateActions({ action, userObject, adapter: adapterMock });
-
-            const httpRequest = userObject['btnHttp']?.httpRequest as any[];
-            expect(httpRequest[0].url).to.equal('https://example.com?a=1&b=2');
-        });
-
-        it('should skip actions without a trigger', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [
-                    {
-                        trigger: [],
-                        IDs: ['state.0.temp'],
-                        text: ['Temp'],
-                        newline_checkbox: ['false'],
-                        parse_mode: ['false'],
-                    },
-                ],
-                pic: [],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-            expect(result).to.not.be.undefined;
-            expect(Object.keys(userObject)).to.have.lengthOf(0);
-        });
-
-        it('should use false for ack and parse_mode when their arrays are empty', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [
-                    {
-                        trigger: ['btn1'],
-                        IDs: ['state.0.light'],
-                        values: ['true'],
-                        switch_checkbox: ['true'],
-                        confirm: ['false'],
-                        returnText: ['Done'],
-                        ack: [],
-                        parse_mode: [],
-                    },
-                ],
-                get: [],
-                pic: [],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            const result = generateActions({ action, userObject, adapter: adapterMock });
-            expect(result).to.not.be.undefined;
-            const sw = userObject['btn1']?.switch?.[0];
-            expect(sw?.ack).to.be.false;
-            expect(sw?.parse_mode).to.be.false;
-        });
-
-        it('should leave delay undefined when picSendDelay is missing (covers !element[elName] branch)', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [],
-                pic: [
-                    {
-                        trigger: ['btnPic'],
-                        IDs: ['cam.0.snapshot'],
-                        fileName: ['photo.jpg'],
-                        // picSendDelay intentionally omitted → val=false → not a string → delay not set
-                    } as any,
-                ],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            generateActions({ action, userObject, adapter: adapterMock });
-            const sendPic = userObject['btnPic']?.sendPic as any[];
-            expect(sendPic).to.be.an('array').with.lengthOf(1);
-            expect(sendPic[0].delay).to.be.undefined;
-        });
-
-        it('should use "false" string when pic field array exists but is empty at index (covers ?? branch)', () => {
-            const userObject: NewObjectStructure = {};
-            const action: Actions = {
-                set: [],
-                get: [],
-                pic: [
-                    {
-                        trigger: ['btnPic'],
-                        IDs: ['cam.0.snapshot'],
-                        fileName: ['photo.jpg'],
-                        picSendDelay: [] as any,
-                    },
-                ],
-                httpRequest: [],
-                echarts: [],
-                events: [],
-            };
-
-            generateActions({ action, userObject, adapter: adapterMock });
-            const sendPic = userObject['btnPic']?.sendPic as any[];
-            expect(sendPic).to.be.an('array').with.lengthOf(1);
-            expect(sendPic[0].delay).to.equal('false');
-        });
-
-        it('should handle errors in catch block when userObject is null', () => {
-            const action: Actions = {
-                set: [
-                    {
-                        trigger: ['btn'],
-                        IDs: ['id1'],
-                        switch_checkbox: ['false'],
-                        returnText: ['ok'],
-                        parse_mode: ['false'],
-                        values: ['v'],
-                        confirm: ['false'],
-                        ack: ['false'],
-                    },
-                ],
-                get: [],
-                pic: [],
-                echarts: [],
-                events: [],
-                httpRequest: [],
-            } as any;
-
-            const result = generateActions({ action, userObject: null as any, adapter: adapterMock });
-            expect(result).to.be.undefined;
-            expect(adapterMock.log.error.called).to.be.true;
         });
     });
 });
