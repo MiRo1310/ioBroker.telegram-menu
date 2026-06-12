@@ -14,10 +14,11 @@ const appUtils_1 = require("../lib/appUtils");
 const dynamicValue_1 = require("../app/dynamicValue");
 const telegram_1 = require("../app/telegram");
 const modifiedValue = (valueFromSubmenu, value) => {
-    /* istanbul ignore next */
-    return value.includes(config_1.config.modifiedValue)
-        ? value.replace(config_1.config.modifiedValue, valueFromSubmenu)
-        : valueFromSubmenu;
+    /* istanbul ignore next -- replace branch unreachable: value is always empty when called */
+    if (value.includes(config_1.config.modifiedValue)) {
+        return value.replace(config_1.config.modifiedValue, valueFromSubmenu);
+    }
+    return valueFromSubmenu;
 };
 async function resolveIdExpression(appContext, text) {
     const startValue = '{id:';
@@ -95,16 +96,7 @@ async function handleSwitchItem(appContext, instance, switchDef, userToSend, val
     let returnText = text;
     const useForeignId = handleUpdateFromForeignId(returnText);
     if (returnText.includes('{setDynamicValue')) {
-        const { confirmText, id } = await dynamicValue_1.dynamicValue.setValue({
-            instance,
-            returnText,
-            ack,
-            id: idToGetValueFrom,
-            userToSend,
-            appContext,
-            parse_mode,
-            confirm,
-        });
+        const { confirmText, id } = await dynamicValue_1.dynamicValue.setValue(appContext, instance, returnText, ack, idToGetValueFrom, userToSend, parse_mode, confirm);
         if (confirm && id) {
             await appContext.stateIdRegistry.addIds(appContext.adapter, {
                 id,

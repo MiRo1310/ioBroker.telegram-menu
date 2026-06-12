@@ -188,6 +188,37 @@ describe('subMenu', () => {
             expect(handleSetStateStub.called).to.be.false;
         });
 
+        it('should create ascending number menu (first < second, e.g. 1-20-2)', async () => {
+            // firstValueInText=1 < secondValueInText=20 → start/end swapped (lines 131-133),
+            // index logic re-reverses → buttons appear in ascending order
+            const result = await subMenu(baseArgs('menu:number1-20-2-°C:device1'));
+            expect(result).to.not.be.undefined;
+            const buttons = result?.keyboard?.inline_keyboard?.flat() ?? [];
+            expect(buttons.length).to.be.greaterThan(1);
+            expect(buttons[0].text).to.equal('1°C');
+            const values = buttons.map(b => parseFloat(b.text));
+            const sorted = [...values].sort((a, b) => a - b);
+            expect(values).to.deep.equal(sorted);
+        });
+
+        it('should parse a negative second value via (-) (line 128)', async () => {
+            // splittedData[1] contains 'negativ' → replaced with '-' → -5
+            const result = await subMenu(baseArgs('menu:number5-(-)5-1-°C:device1'));
+            expect(result).to.not.be.undefined;
+            const buttons = result?.keyboard?.inline_keyboard?.flat() ?? [];
+            // descending from 5 to -5 with step 1 → 11 buttons
+            expect(buttons).to.have.lengthOf(11);
+            expect(buttons[0].text).to.equal('5°C');
+            expect(buttons[buttons.length - 1].text).to.equal('-5°C');
+        });
+
+        it('should send empty text when switchBack result has no textToSend (line 203)', async () => {
+            switchBackStub.resolves({ keyboard: { inline_keyboard: [] }, parse_mode: false });
+            await subMenu(baseArgs('menu:back'));
+            expect(sendToTelegramStub.calledOnce).to.be.true;
+            expect(sendToTelegramStub.firstCall.args[0].textToSend).to.equal('');
+        });
+
         it('should return early in setMenuValue when val part is undefined (line 87)', async () => {
             // 'On' has no dot → split('.')[1] is undefined → val===undefined → early return
             await subMenu(baseArgs('menu:switch-On-Off.false:device1'));

@@ -108,6 +108,23 @@ describe('Store', () => {
             expect(store.listOfMenus).to.have.members(['menuA', 'menuB', 'menuC']);
         });
 
+        it('should default instanceList and listOfMenus when config values are missing (lines 27/34)', () => {
+            // Echter Test statt istanbul-ignore: Erststart ohne gespeicherte Config liefert undefined-Werte
+            const adapter = makeAdapterWithConfig({
+                instanceList: undefined,
+                checkbox: { resKey: false, oneTiKey: false, checkboxNoValueFound: false, sendMenuAfterRestart: false },
+                userListWithChatID: [],
+                usersInGroup: undefined,
+                userActiveCheckbox: {},
+                data: {},
+                tokenGrafana: '',
+            });
+
+            const store = new AppContext(adapter);
+            expect(store.telegramInstanceList).to.deep.equal([]);
+            expect(store.listOfMenus).to.deep.equal([]);
+        });
+
         it('should create backMenuRegistry and stateIdRegistry instances', () => {
             const adapter = makeAdapterWithConfig({
                 instanceList: [],

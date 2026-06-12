@@ -224,6 +224,15 @@ describe('utilities', () => {
         });
     });
 
+    describe('textModifier - {set:...} without value', () => {
+        it('should not set a state when the {set:...} expression has no value (line 73 branch)', async () => {
+            // Echter Test statt istanbul-ignore: unvollstaendige {set:...}-Eingaben sind realer User-Input
+            const result = await utilities.textModifier(storeMock, "Test {set:'id':'idToSet'}");
+            expect(result).to.equal('Test');
+            expect(adapterMock.setForeignStateAsync.called).to.be.false;
+        });
+    });
+
     describe('textModifier - error handling', () => {
         it('should propagate error when an error is thrown internally', async () => {
             adapterMock.getForeignStateAsync.rejects(new Error('unexpected'));

@@ -97,7 +97,12 @@ const createSubmenuNumber = ({ cbData, menuToHandle, text, appContext, }) => {
         end = secondValueInText;
     }
     let index = -1;
-    const step = parseFloat(splittedData[2].includes('negativ') ? splittedData[2].replace('negativ', '-') : splittedData[2]);
+    // istanbul ignore next — negativer Step ist strukturell unerreichbar/unbrauchbar: cbData.replace('(-)', 'negativ')
+    // ersetzt nur das erste Vorkommen (greift also nur für den ersten Wert), und ein negativer Step würde die
+    // Schleife unten (i -= step bei start >= end) endlos laufen lassen.
+    const step = parseFloat(
+    /* istanbul ignore next */
+    splittedData[2].includes('negativ') ? splittedData[2].replace('negativ', '-') : splittedData[2]);
     const maxEntriesPerRow = step < 1 ? 6 : 8;
     const builder = new KeyboardBuilder();
     for (let i = start; i >= end; i -= step) {

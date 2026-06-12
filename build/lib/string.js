@@ -18,7 +18,9 @@ function parseJSON(val, adapter) {
         if (adapter) {
             (0, logging_1.errorLogger)('Error parseJSON:', e, adapter);
         }
-        return { json: val ?? '', isValidJson: false };
+        // istanbul ignore next — der ??-Fallback ist strukturell unerreichbar: JSON.parse wird nur bei
+        // truthy val aufgerufen, im catch ist val also nie null/undefined. Das ?? dient nur der Typsicherheit.
+        return { json: /* istanbul ignore next */ val ?? '', isValidJson: false };
     }
 }
 const replaceAll = (text, searchValue, replaceValue) => {

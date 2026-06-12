@@ -244,6 +244,79 @@ describe('processData', () => {
             expect(result).to.be.true;
             expect(sendToTelegramStub.called).to.be.true;
         });
+
+        it('should use navToGoTo directly when no valueType is configured (line 165 branch)', async () => {
+            // returnText ohne valueType-Segment → valueType undefined → valueToSet = navToGoTo
+            await dynamicValue.setValue(
+                store,
+                'telegram.0',
+                '{setDynamicValue:Question?}',
+                false,
+                'state.0.input',
+                'Alice',
+                false,
+                false,
+            );
+
+            const result = await callCheck('rawAnswer');
+            expect(result).to.be.true;
+            expect(setstateIobrokerStub.calledOnce).to.be.true;
+            expect(setstateIobrokerStub.firstCall.args[2]).to.equal('rawAnswer');
+        });
+
+        it('should send switchBack result via sendToTelegram when watchForId is not set (lines 200-209)', async () => {
+            (store.backMenuRegistry.switchBack as sinon.SinonStub).resolves({
+                textToSend: 'BackText',
+                keyboard: { inline_keyboard: [] },
+                parse_mode: false,
+            });
+            // returnText without watchForId (4th segment empty) → watchForId = ''
+            await dynamicValue.setValue(
+                store,
+                'telegram.0',
+                '{setDynamicValue:Question?:string:Confirmed:}',
+                false,
+                'state.0.input',
+                'Alice',
+                false,
+                true,
+            );
+            sendToTelegramStub.resetHistory();
+
+            const result = await callCheck('myAnswer');
+            expect(result).to.be.true;
+            // switchBack result is sent directly, sendNav is NOT called
+            expect(sendNavStub.called).to.be.false;
+            const sentTexts = sendToTelegramStub.getCalls().map(c => c.args[0].textToSend);
+            expect(sentTexts).to.include('BackText');
+        });
+
+        it('should call sendNav instead of sendToTelegram when watchForId is set', async () => {
+            (store.backMenuRegistry.switchBack as sinon.SinonStub).resolves({
+                textToSend: 'BackText',
+                keyboard: { inline_keyboard: [] },
+                parse_mode: false,
+            });
+            // 4th segment set → watchForId = 'state.0.watchId'
+            await dynamicValue.setValue(
+                store,
+                'telegram.0',
+                '{setDynamicValue:Question?:string:Confirmed:state.0.watchId}',
+                false,
+                'state.0.input',
+                'Alice',
+                false,
+                true,
+            );
+            sendToTelegramStub.resetHistory();
+
+            const result = await callCheck('myAnswer');
+            expect(result).to.be.true;
+            // result is truthy but watchForId is set → sendNav path (line 212)
+            expect(sendNavStub.calledOnce).to.be.true;
+            const sentTexts = sendToTelegramStub.getCalls().map(c => c.args[0].textToSend);
+            expect(sentTexts).to.not.include('BackText');
+        });
     });
 
     // ─── submenu handling ───────────────────────────────────────────────────

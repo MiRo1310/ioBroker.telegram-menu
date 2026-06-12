@@ -17,6 +17,18 @@ describe('dynamicSwitchMenu', () => {
         store = createAppContextMock(adapterMock);
     });
 
+    afterEach(() => {
+        sinon.restore();
+    });
+
+    it('should return undefined when textModifier yields no value (line 15 guard)', async () => {
+        // Echter Test statt istanbul-ignore: der Guard ist über einen Stub direkt erreichbar
+        // und dokumentiert das Verhalten, falls textModifier kuenftig undefined liefern kann.
+        sinon.stub(require('../../../src/lib/utilities'), 'textModifier').resolves(undefined);
+        const result = await createDynamicSwitchMenu(store, 'menu:dynSwitch[1,2]:device1:6', 'device1', 'Pick');
+        expect(result).to.be.undefined;
+    });
+
     it('should create keyboard with correct values', async () => {
         const calledValue = 'menu:dynSwitch[10,20,30]:device1:6';
         const result = await createDynamicSwitchMenu(store, calledValue, 'device1', 'Choose');

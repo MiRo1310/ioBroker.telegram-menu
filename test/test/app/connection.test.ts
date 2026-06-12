@@ -42,6 +42,18 @@ describe('connection', () => {
         expect(result).to.equal(false);
     });
 
+    it('should fall back to false in setState when telegram val is null (line 20 ?? branch)', async () => {
+        // Echter Test statt istanbul-ignore: der ??-Fallback ist regulär erreichbar (State existiert, val=null)
+        adapterMock.getForeignStateAsync.resolves({ val: null });
+        const store = createAppContextMock(adapterMock, {
+            telegramInstanceList: [{ name: 'telegram.0', active: true }],
+        });
+        const result = await areAllCheckTelegramInstancesActive(store);
+        expect(result).to.equal(false);
+        expect(adapterMock.setState.calledWith('info.connection', false, true)).to.be.true;
+        expect(adapterMock.log.info.calledOnce).to.be.true;
+    });
+
     it('should skip inactive instances', async () => {
         adapterMock.getForeignStateAsync.resolves({ val: true });
         const store = createAppContextMock(adapterMock, {

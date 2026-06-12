@@ -175,6 +175,16 @@ describe('SetStateListenerHandler', () => {
             expect(textToSend).to.include('ConfirmMsg');
         });
 
+        it('should handle missing returnText and null state value (line 118 ??/?. branches)', async () => {
+            // Echter Test statt istanbul-ignore: returnText ist optional, state.val kann null sein
+            const list: SetStateIds[] = [makeEl({ confirm: true, returnText: undefined })];
+            await handler.handleSetStateListener(makeState(null, true), list, 'test.0.state');
+            expect(sendToTelegramStub.calledOnce).to.be.true;
+            // exchangeValue('' , undefined) → kein change → leerer Text, kein Fehler
+            expect(sendToTelegramStub.firstCall.args[0].textToSend).to.equal('');
+            expect(list).to.have.lengthOf(0);
+        });
+
         it('should only process matching id and leave others untouched', async () => {
             const list: SetStateIds[] = [
                 makeEl({ id: 'other.id', returnText: 'Other' }),

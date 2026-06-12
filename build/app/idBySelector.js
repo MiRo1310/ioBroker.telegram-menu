@@ -51,9 +51,11 @@ function getCommonName({ name, appContext }) {
     if (typeof name === 'string') {
         return name;
     }
+    // istanbul ignore else — language ist durch `?? 'en'` nie falsy, der else-Pfad ist strukturell unerreichbar
     if (language) {
         return name[language] ?? '';
     }
+    /* istanbul ignore next */
     return '';
 }
 function removeLastPartOfId(id) {

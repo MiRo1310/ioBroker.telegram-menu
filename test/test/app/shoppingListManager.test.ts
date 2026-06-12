@@ -58,6 +58,22 @@ describe('shoppingList', () => {
             expect(subscribeStates._subscribeForeignStates.calledOnce).to.be.true;
         });
 
+        it('should send "Cannot delete the Item" when object is missing and instance is known (line 51)', async () => {
+            // Echter Test statt istanbul-ignore: getLast liefert die Telegram-Instanz des Requests
+            adapterMock.getForeignObjectAsync.resolves(null);
+            const { lastRequestJsonButtonHistory } = require('../../../src/app/jsonTable');
+            sinon.stub(lastRequestJsonButtonHistory, 'getLast').returns({ instance: 'telegram.0', user: 'Michael' });
+
+            const result = await shoppingListManager.subscribeStateAndDeleteItem(store, buildVal());
+
+            expect(result).to.be.undefined;
+            const telegramMod = require('../../../src/app/telegram');
+            expect(telegramMod.sendToTelegram.calledOnce).to.be.true;
+            const args = telegramMod.sendToTelegram.firstCall.args[0];
+            expect(args.textToSend).to.equal('Cannot delete the Item');
+            expect(args.instance).to.equal('telegram.0');
+        });
+
         it('should return undefined and not subscribe when object is not found', async () => {
             adapterMock.getForeignObjectAsync.resolves(null);
 
