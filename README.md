@@ -35,7 +35,7 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.2.2 (2026-06-12)
 
 - FIX: #560 Fix error when using setState with confirm=true sends double return text
 
@@ -59,12 +59,6 @@ You can create different groups with separate menus, and then assign users to th
 
 - FIX: #510 Error in json table textTable and button table, input changed please check the documentation
 - Chore: #482 Update dependencies
-- FIX: Errors reported by sentry
-
-### 4.0.0 (2026-02-13)
-
-- FEAT: #478 Return text with more than one id
-- FEAT: #476 Add math to setstate
 - FIX: Errors reported by sentry
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)

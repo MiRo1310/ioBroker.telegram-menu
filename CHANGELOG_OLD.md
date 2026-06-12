@@ -1,4 +1,10 @@
 # Older changes
+## 4.0.0 (2026-02-13)
+
+- FEAT: #478 Return text with more than one id
+- FEAT: #476 Add math to setstate
+- FIX: Errors reported by sentry
+
 ## 3.2.3 (2025-12-12)
 
 - FIX: Errors reported by sentry

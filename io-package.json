@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "telegram-menu",
-    "version": "4.2.1",
+    "version": "4.2.2",
     "news": {
+      "4.2.2": {
+        "en": "FIX: #560 Fix error when using setState with confirm=true sends double return text",
+        "de": "BEHOBEN: #560 Fehler behoben, der bei Verwendung von setState mit confirm=true zu einem doppelten Rückgabetext führte",
+        "ru": "ИСПРАВЛЕНИЕ: #560 Исправлена ошибка, из-за которой при использовании setState с confirm=true отправляется двойной текст возврата каретки.",
+        "pt": "CORREÇÃO: #560 Corrigido erro que causava o envio de texto de retorno duplicado ao usar setState com confirm=true",
+        "nl": "FIX: #560 Fout verholpen waarbij bij gebruik van setState met confirm=true een dubbele retourtekst werd verzonden",
+        "fr": "CORRECTION : #560 Correction d’une erreur lors de l’utilisation de setState avec confirm=true qui envoyait un double retour à la ligne.",
+        "it": "CORREZIONE: #560 Correzione dell'errore che si verifica quando si utilizza setState con confirm=true e invia un doppio testo di ritorno",
+        "es": "CORRECCIÓN: #560 Se corrige el error que se produce al usar setState con confirm=true, ya que envía un doble texto de retorno.",
+        "pl": "NAPRAWIONO: #560 Naprawiono błąd podczas używania setState z confirm=true, co powoduje wysłanie podwójnego tekstu zwrotnego",
+        "uk": "ВИПРАВЛЕННЯ: #560 Виправлено помилку, коли використання setState з confirm=true надсилає подвійний текст повернення",
+        "zh-cn": "修复：#560 修复了使用 setState 并设置 confirm=true 时发送重复返回文本的错误"
+      },
       "4.2.1": {
         "en": "FIX: #556 Disable send menu after adapter restart\nFIX: #555 Prevent double sending of state IDs when confirm=true\nCHORE: Update dependencies",
         "de": "FIX: #556 Sendemenü nach dem Adapter-Neustart deaktivieren\nFIX: #555 Verhindern doppeltes Senden von Zustands-IDs, wenn bestätigen=true\nCHORE: Aktualisieren von Abhängigkeiten",
@@ -69,19 +82,6 @@
         "zh-cn": "FEAT: # 478 带1 id 以上的返回文本\nFEAT: # 476 添加数学到设置状态\nFIX:哨兵报告的错误"
       },
       "3.2.3": {
-        "en": "FIX: Errors reported by sentry",
-        "de": "FIX: Fehler, die von sentry gemeldet werden",
-        "ru": "FIX: Ошибки, о которых сообщил часовой",
-        "pt": "FIX: Erros relatados pelo sentinela",
-        "nl": "FIX: Fouten gemeld door de wachtdienst",
-        "fr": "FIX : Erreurs signalées par sentinelle",
-        "it": "FIX: Errori segnalati dalla sentinella",
-        "es": "FIX: Errores reportados por centinela",
-        "pl": "FIX: Błędy zgłaszane przez wartownika",
-        "uk": "FIX: Помилки, які повідомляються відправником",
-        "zh-cn": "FIX:哨兵报告的错误"
-      },
-      "3.2.2": {
         "en": "FIX: Errors reported by sentry",
         "de": "FIX: Fehler, die von sentry gemeldet werden",
         "ru": "FIX: Ошибки, о которых сообщил часовой",
