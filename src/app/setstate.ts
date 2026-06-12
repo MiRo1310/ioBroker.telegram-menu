@@ -18,10 +18,11 @@ import type { AppContext } from '@backend/app/appContext';
 import { sendToTelegram } from '@backend/app/telegram';
 
 const modifiedValue = (valueFromSubmenu: string, value: string): string => {
-    /* istanbul ignore next */
-    return value.includes(config.modifiedValue)
-        ? value.replace(config.modifiedValue, valueFromSubmenu)
-        : valueFromSubmenu;
+    /* istanbul ignore next -- replace branch unreachable: value is always empty when called */
+    if (value.includes(config.modifiedValue)) {
+        return value.replace(config.modifiedValue, valueFromSubmenu);
+    }
+    return valueFromSubmenu;
 };
 
 export async function resolveIdExpression(appContext: AppContext, text: string): Promise<string> {

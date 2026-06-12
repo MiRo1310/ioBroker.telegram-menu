@@ -64,4 +64,20 @@ describe('DynamicValueHandler', function () {
         expect(result).to.have.property('confirmText', 'confirm2');
         dynamicValue.removeUser('testUser2');
     });
+
+    it('should return empty confirmText and undefined id when confirmText is empty', async function () {
+        const result = await dynamicValue.setValue({
+            instance: 'instance1',
+            returnText: '{setDynamicValue:question3:string:}',
+            ack: false,
+            id: 'id3',
+            userToSend: 'testUser3',
+            appContext: store,
+            parse_mode: false,
+            confirm: false,
+        });
+        expect(result).to.have.property('confirmText', '');
+        expect(result).to.have.property('id', undefined);
+        dynamicValue.removeUser('testUser3');
+    });
 });

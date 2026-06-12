@@ -36,10 +36,8 @@ class DynamicValueHandler {
         confirm: boolean;
     }): Promise<{ confirmText: string; id: string | undefined }> => {
         const { substringExcludeSearch } = decomposeText(returnText, '{setDynamicValue:', '}');
-        let array = substringExcludeSearch.split(':');
-        array = this.isBraceDeleteEntry(array);
-        const question = array[0];
-        const confirmText = array[2];
+        const [question, valueType, confirmText, watchForId] = substringExcludeSearch.split(':');
+
         if (question) {
             await sendToTelegram({
                 instance,
@@ -57,19 +55,15 @@ class DynamicValueHandler {
             parse_mode,
             confirm,
             appContext,
-            valueType: array[1],
-            watchForId: array[3],
+            valueType,
+            watchForId,
         };
 
         if (confirmText && confirmText != '') {
-            return { confirmText, id: array[3] !== '' ? array[3] : undefined };
+            return { confirmText, id: watchForId !== '' ? watchForId : undefined };
         }
         return { confirmText: '', id: undefined };
     };
-
-    private isBraceDeleteEntry(array: string[]): string[] {
-        return array[4] === '}' ? array.slice(0, 4) : array;
-    }
 }
 
 export const dynamicValue = new DynamicValueHandler();
