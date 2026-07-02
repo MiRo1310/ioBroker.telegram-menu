@@ -34,7 +34,6 @@ jobs:
               with:
                   node-version: '24.x'
                   lint: true
-                  lint-command: "npm run lint"
 
     adapter-tests:
         needs: [check-and-lint]
