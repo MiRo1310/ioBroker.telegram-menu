@@ -122,6 +122,7 @@ const handleEvent = async (user, dataObject, id, state, menuData, appContext) =>
     if (!menuArray.length) {
         return false;
     }
+    appContext.adapter.log.debug(`Event triggered: id=${id}, nav=${calledNav}, menus=${menuArray.join(', ')}`);
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav];
         const menus = Object.keys(menuData);

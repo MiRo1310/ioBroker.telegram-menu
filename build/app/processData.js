@@ -36,10 +36,8 @@ class MenuProcessor {
     async checkEveryMenuForData() {
         for (const menu of this.menus) {
             const groupData = this.menuData[menu];
-            this.adapter.log.debug(`Menu : ${menu}`);
-            this.adapter.log.debug(`Nav : ${(0, string_1.jsonString)(this.menuData[menu])}`);
             if (await this.processData(menu, groupData)) {
-                this.adapter.log.debug('Menu found');
+                this.adapter.log.debug(`Menu found: ${menu}`);
                 return true;
             }
         }

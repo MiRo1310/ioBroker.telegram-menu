@@ -204,9 +204,7 @@ class TelegramMenu extends utils.Adapter {
                     await (0, subscribeStates_1._subscribeForeignStates)(this.appContext, event.ID);
                 }
             }
-            this.log.debug(`Menu: ${name}`);
-            this.log.debug(`Array Buttons: ${(0, string_1.jsonString)(splittedNavigation)}`);
-            this.log.debug(`Gen. Actions: ${(0, string_1.jsonString)(this.menuData[name])}`);
+            this.log.debug(`Menu "${name}" built: ${splittedNavigation.length} buttons, actions: ${(0, string_1.jsonString)(this.menuData[name])}`);
         }
         this.log.debug(`MenuList: ${(0, string_1.jsonString)(this.appContext.listOfMenus)}`);
     }
@@ -302,7 +300,7 @@ class TelegramMenu extends utils.Adapter {
             callback();
         }
         catch (e) {
-            (0, logging_1.errorLogger)(e, 'Error onUnload', this);
+            (0, logging_1.errorLogger)('Error onUnload', e, this);
             callback();
         }
     }

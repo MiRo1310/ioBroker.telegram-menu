@@ -50,7 +50,6 @@ const setstateIobroker = async (appContext, id, value, ack) => {
 };
 exports.setstateIobroker = setstateIobroker;
 const setValue = async (appContext, id, value, valueFromSubmenu, ack) => {
-    appContext.adapter.log.debug(`Value to Set: ${(0, string_1.jsonString)(value)}`);
     const valueToSet = (0, utils_1.isDefined)(value) && (0, string_1.isNonEmptyString)(value)
         ? await resolveIdExpression(appContext, value)
         : modifiedValue(String(valueFromSubmenu), value ?? '');

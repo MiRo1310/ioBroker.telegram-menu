@@ -149,6 +149,8 @@ export const handleEvent = async (
         return false;
     }
 
+    appContext.adapter.log.debug(`Event triggered: id=${id}, nav=${calledNav}, menus=${menuArray.join(', ')}`);
+
     for (const menu of menuArray) {
         const part = menuData[menu][calledNav as keyof DataObject] as Part | undefined;
 

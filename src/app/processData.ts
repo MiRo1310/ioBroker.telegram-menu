@@ -34,11 +34,8 @@ export class MenuProcessor {
         for (const menu of this.menus) {
             const groupData = this.menuData[menu];
 
-            this.adapter.log.debug(`Menu : ${menu}`);
-            this.adapter.log.debug(`Nav : ${jsonString(this.menuData[menu])}`);
-
             if (await this.processData(menu, groupData)) {
-                this.adapter.log.debug('Menu found');
+                this.adapter.log.debug(`Menu found: ${menu}`);
                 return true;
             }
         }

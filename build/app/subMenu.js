@@ -163,7 +163,9 @@ async function callSubMenu({ instance, jsonStringNav, userToSend, appContext, pa
         allMenusWithData,
         menus,
     });
-    appContext.adapter.log.debug(`Submenu : ${(0, string_1.jsonString)(obj)}`);
+    if (obj) {
+        appContext.adapter.log.debug(`Submenu : ${(0, string_1.jsonString)(obj)}`);
+    }
     if (obj?.text && obj?.keyboard) {
         (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
     }

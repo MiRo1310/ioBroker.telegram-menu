@@ -230,9 +230,9 @@ export default class TelegramMenu extends utils.Adapter {
                     await _subscribeForeignStates(this.appContext, event.ID);
                 }
             }
-            this.log.debug(`Menu: ${name}`);
-            this.log.debug(`Array Buttons: ${jsonString(splittedNavigation)}`);
-            this.log.debug(`Gen. Actions: ${jsonString(this.menuData[name])}`);
+            this.log.debug(
+                `Menu "${name}" built: ${splittedNavigation.length} buttons, actions: ${jsonString(this.menuData[name])}`,
+            );
         }
 
         this.log.debug(`MenuList: ${jsonString(this.appContext.listOfMenus)}`);
@@ -353,7 +353,7 @@ export default class TelegramMenu extends utils.Adapter {
 
             callback();
         } catch (e: any) {
-            errorLogger(e, 'Error onUnload', this);
+            errorLogger('Error onUnload', e, this);
             callback();
         }
     }
