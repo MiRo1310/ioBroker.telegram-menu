@@ -115,6 +115,14 @@ describe('subMenu', () => {
             expect(handleSetStateStub.calledOnce).to.be.true;
         });
 
+        it('should call handleSetState when submenu number value is 0 (regression #575)', async () => {
+            // parseFloat('0') === 0, which is falsy — the old `if (value)` check skipped this.
+            // isDefined(value) correctly treats 0 as a valid value to set.
+            await subMenu(baseArgs('submenu:number1-10-1-°C:device1:0'));
+            expect(handleSetStateStub.calledOnce).to.be.true;
+            expect(handleSetStateStub.firstCall.args[4]).to.equal(0);
+        });
+
         it('should call switchBack for menu:back', async () => {
             switchBackStub.resolves({ keyboard: [['btn1']], textToSend: 'Back', parse_mode: false });
             await subMenu(baseArgs('menu:back'));
@@ -177,6 +185,19 @@ describe('subMenu', () => {
             // cbData='dynS.x' contains 'dynS' but not 'dynSwitch' → isSetDynamicSwitchVal
             await subMenu(baseArgs('menu:dynS.x:device1:42'));
             expect(handleSetStateStub.calledOnce).to.be.true;
+        });
+
+        it('should call handleSetState when dynS value is "0" (regression #575)', async () => {
+            // isDefined(val) instead of a truthy check on val — guards against 0/'' being dropped
+            await subMenu(baseArgs('menu:dynS.x:device1:0'));
+            expect(handleSetStateStub.calledOnce).to.be.true;
+            expect(handleSetStateStub.firstCall.args[4]).to.equal('0');
+        });
+
+        it('should not call handleSetState for dynS when no value is provided', async () => {
+            // val is undefined (no 4th segment) — isDefined(undefined) is false, same as before
+            await subMenu(baseArgs('menu:dynS.x:device1'));
+            expect(handleSetStateStub.called).to.be.false;
         });
 
         it('should return early in setMenuValue when splittedData item is missing (line 82)', async () => {
@@ -243,6 +264,21 @@ describe('subMenu', () => {
             });
             expect(sendToTelegramSubmenuStub.calledOnce).to.be.true;
             expect(result?.newNav).to.be.undefined;
+        });
+
+        it('should not log "Submenu :" when subMenu returns undefined (regression #575)', async () => {
+            // cbData is empty → subMenu() returns undefined early → obj is falsy.
+            // The debug log must be skipped (previously logged "Submenu : undefined").
+            await callSubMenu({
+                instance: 'telegram.0',
+                jsonStringNav: '',
+                userToSend: 'Alice',
+                appContext,
+                part: basePart,
+                allMenusWithData: {},
+                menus: ['menu1'],
+            });
+            expect(adapterMock.log.debug.calledWithMatch(sinon.match(/^Submenu :/))).to.be.false;
         });
 
         it('should return newNav from deleteAll menu', async () => {
