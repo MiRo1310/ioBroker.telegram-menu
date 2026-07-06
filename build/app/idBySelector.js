@@ -32,7 +32,6 @@ const idBySelector = async ({ instance, selector, text, userToSend, newline, app
         const { textToSend } = (0, exchangeValue_1.exchangeValue)(appContext, newText, value?.val ?? '');
         text2Send += textToSend;
         text2Send += (0, string_1.ifTruthyAddNewLine)(newline);
-        appContext.adapter.log.debug(`Text to send:  ${JSON.stringify(text2Send)}`);
     });
     await Promise.all(promises);
     await (0, telegram_1.sendToTelegram)({

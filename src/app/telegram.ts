@@ -126,6 +126,10 @@ const sendLocationToTelegram = async (
 };
 
 function telegramLogger(adapter: Adapter, res: any): void {
+    if (res?.error) {
+        adapter.log.warn(`Telegram request failed: ${jsonString(res)}`);
+        return;
+    }
     adapter.log.debug(`Telegram response : "${jsonString(res)}"`);
 }
 

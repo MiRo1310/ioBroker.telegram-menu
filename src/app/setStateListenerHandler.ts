@@ -23,15 +23,11 @@ export class SetStateListenerHandler {
                 const key: number = setStateIdsToListenTo.indexOf(el);
 
                 if (elId == id) {
-                    this.appContext.adapter.log.debug(`Send Value: ${jsonString(el)}`);
-                    this.appContext.adapter.log.debug(`State: ${jsonString(state)}`);
+                    this.appContext.adapter.log.debug(`Matched listener entry: ${jsonString(el)}`);
 
                     if (await this.handlePreConfirm(confirm, state, returnText, el, userToSend, parse_mode)) {
                         continue;
                     }
-                    this.appContext.adapter.log.debug(
-                        `Data: ${jsonString({ confirm, ack: state?.ack, val: state?.val })}`,
-                    );
                     await this.handlePostConfirm(
                         confirm,
                         state,
@@ -111,17 +107,17 @@ export class SetStateListenerHandler {
                 textToSend = `${textExcludeSubstring} ${confirmText}`;
             }
 
-            const {
-                textToSend: changedText,
-                error,
-                newValue,
-            } = exchangeValue(this.appContext, textToSend ?? '', state.val?.toString());
+            const { textToSend: changedText, error } = exchangeValue(
+                this.appContext,
+                textToSend ?? '',
+                state.val?.toString(),
+            );
 
             if (!error) {
                 textToSend = changedText;
             }
 
-            this.appContext.adapter.log.debug(`Value to send: ${newValue}`);
+            this.appContext.adapter.log.debug(`Value to send: ${textToSend}`);
 
             await sendToTelegram({
                 instance: el.instance,

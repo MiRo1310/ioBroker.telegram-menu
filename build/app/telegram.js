@@ -76,6 +76,10 @@ const sendLocationToTelegram = async (telegramInstance, user, data, appContext) 
 };
 exports.sendLocationToTelegram = sendLocationToTelegram;
 function telegramLogger(adapter, res) {
+    if (res?.error) {
+        adapter.log.warn(`Telegram request failed: ${(0, string_1.jsonString)(res)}`);
+        return;
+    }
     adapter.log.debug(`Telegram response : "${(0, string_1.jsonString)(res)}"`);
 }
 //# sourceMappingURL=telegram.js.map

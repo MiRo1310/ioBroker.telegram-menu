@@ -35,6 +35,10 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- FIX: #575 Submenu cannot set 0 as value 
+
 ### 4.2.2 (2026-06-12)
 
 - FIX: #560 Fix error when using setState with confirm=true sends double return text

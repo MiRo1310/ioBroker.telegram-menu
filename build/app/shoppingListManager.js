@@ -42,7 +42,7 @@ class ShoppingListManager {
                     parse_mode: true,
                 });
             }
-            appContext.adapter.log.debug('Cannot delete the Item');
+            appContext.adapter.log.warn(`Cannot delete the Item: ${idItem} was not found in list ${list}`);
         }
     }
     async deleteMessageAndSendNewShoppingList(instance, appContext, userToSend) {

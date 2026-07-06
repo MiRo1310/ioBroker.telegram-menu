@@ -17,12 +17,10 @@ class SetStateListenerHandler {
                 const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
                 const key = setStateIdsToListenTo.indexOf(el);
                 if (elId == id) {
-                    this.appContext.adapter.log.debug(`Send Value: ${(0, string_1.jsonString)(el)}`);
-                    this.appContext.adapter.log.debug(`State: ${(0, string_1.jsonString)(state)}`);
+                    this.appContext.adapter.log.debug(`Matched listener entry: ${(0, string_1.jsonString)(el)}`);
                     if (await this.handlePreConfirm(confirm, state, returnText, el, userToSend, parse_mode)) {
                         continue;
                     }
-                    this.appContext.adapter.log.debug(`Data: ${(0, string_1.jsonString)({ confirm, ack: state?.ack, val: state?.val })}`);
                     await this.handlePostConfirm(confirm, state, returnText, el, userToSend, parse_mode, setStateIdsToListenTo, key);
                 }
             }
@@ -65,11 +63,11 @@ class SetStateListenerHandler {
                 const confirmText = splitSubstring[2];
                 textToSend = `${textExcludeSubstring} ${confirmText}`;
             }
-            const { textToSend: changedText, error, newValue, } = (0, exchangeValue_1.exchangeValue)(this.appContext, textToSend ?? '', state.val?.toString());
+            const { textToSend: changedText, error } = (0, exchangeValue_1.exchangeValue)(this.appContext, textToSend ?? '', state.val?.toString());
             if (!error) {
                 textToSend = changedText;
             }
-            this.appContext.adapter.log.debug(`Value to send: ${newValue}`);
+            this.appContext.adapter.log.debug(`Value to send: ${textToSend}`);
             await (0, telegram_1.sendToTelegram)({
                 instance: el.instance,
                 userToSend,
