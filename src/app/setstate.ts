@@ -74,7 +74,6 @@ const setValue = async (
     valueFromSubmenu: null | string | number | boolean,
     ack: boolean,
 ): Promise<string | number | boolean | undefined> => {
-    appContext.adapter.log.debug(`Value to Set: ${jsonString(value)}`);
     const valueToSet =
         isDefined(value) && isNonEmptyString(value)
             ? await resolveIdExpression(appContext, value)

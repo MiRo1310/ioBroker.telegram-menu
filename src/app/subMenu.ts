@@ -30,6 +30,7 @@ import { deleteMessageIds } from '@backend/app/messageIds';
 import { getMenuValues, getSubmenuNumberValues } from '@backend/lib/splitValues';
 import { createDynamicSwitchMenu } from '@backend/app/dynamicSwitchMenu';
 import type { AppContext } from '@backend/app/appContext';
+import { isDefined } from '@backend/lib/utils';
 
 export class SubmenuHandler {
     private _step = 0;
@@ -227,7 +228,9 @@ export async function callSubMenu({
         allMenusWithData,
         menus,
     });
-    appContext.adapter.log.debug(`Submenu : ${jsonString(obj)}`);
+    if (obj) {
+        appContext.adapter.log.debug(`Submenu : ${jsonString(obj)}`);
+    }
 
     if (obj?.text && obj?.keyboard) {
         sendToTelegramSubmenu(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
@@ -293,7 +296,7 @@ export async function subMenu({
         return createDynamicSwitchMenu(appContext, menuString, menuToHandle, text);
     }
 
-    if (isSetDynamicSwitchVal(cbData) && val) {
+    if (isSetDynamicSwitchVal(cbData) && isDefined(val)) {
         await handleSetState(appContext, instance, part, userToSend, val); //SetDynamicValue
     }
 
@@ -312,7 +315,7 @@ export async function subMenu({
 
     if (isSetSubmenuNumber(menuString)) {
         const { value } = getSubmenuNumberValues(menuString);
-        if (value) {
+        if (isDefined(value)) {
             await handleSetState(appContext, instance, part, userToSend, value);
         }
     }

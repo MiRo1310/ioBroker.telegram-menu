@@ -11,6 +11,7 @@ const validateMenus_1 = require("../app/validateMenus");
 const messageIds_1 = require("../app/messageIds");
 const splitValues_1 = require("../lib/splitValues");
 const dynamicSwitchMenu_1 = require("../app/dynamicSwitchMenu");
+const utils_1 = require("../lib/utils");
 class SubmenuHandler {
     _step = 0;
     _splittedData = [];
@@ -201,7 +202,7 @@ async function subMenu({ menuString, userToSend, appContext, part, allMenusWithD
     if ((0, validateMenus_1.isCreateDynamicSwitch)(cbData) && menuToHandle) {
         return (0, dynamicSwitchMenu_1.createDynamicSwitchMenu)(appContext, menuString, menuToHandle, text);
     }
-    if ((0, validateMenus_1.isSetDynamicSwitchVal)(cbData) && val) {
+    if ((0, validateMenus_1.isSetDynamicSwitchVal)(cbData) && (0, utils_1.isDefined)(val)) {
         await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, val); //SetDynamicValue
     }
     if ((0, validateMenus_1.isCreateSubmenuPercent)(menuString, cbData) && menuToHandle) {
@@ -216,7 +217,7 @@ async function subMenu({ menuString, userToSend, appContext, part, allMenusWithD
     }
     if ((0, validateMenus_1.isSetSubmenuNumber)(menuString)) {
         const { value } = (0, splitValues_1.getSubmenuNumberValues)(menuString);
-        if (value) {
+        if ((0, utils_1.isDefined)(value)) {
             await (0, setstate_1.handleSetState)(appContext, instance, part, userToSend, value);
         }
     }
