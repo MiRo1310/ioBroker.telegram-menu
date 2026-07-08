@@ -35,9 +35,9 @@ You can create different groups with separate menus, and then assign users to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.2.3 (2026-07-08)
 
-- FIX: #575 Submenu cannot set 0 as value 
+- FIX: #575 Submenu cannot set 0 as value
 
 ### 4.2.2 (2026-06-12)
 
@@ -58,12 +58,6 @@ You can create different groups with separate menus, and then assign users to th
 
 - FEAT: Add Unit tests
 - FIX: SetDynamicValue does not send return text
-
-### 4.1.0 (2026-04-12)
-
-- FIX: #510 Error in json table textTable and button table, input changed please check the documentation
-- Chore: #482 Update dependencies
-- FIX: Errors reported by sentry
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

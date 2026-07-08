@@ -1,4 +1,10 @@
 # Older changes
+## 4.1.0 (2026-04-12)
+
+- FIX: #510 Error in json table textTable and button table, input changed please check the documentation
+- Chore: #482 Update dependencies
+- FIX: Errors reported by sentry
+
 ## 4.0.0 (2026-02-13)
 
 - FEAT: #478 Return text with more than one id
