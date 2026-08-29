@@ -46,5 +46,10 @@
         "inlineSourceMap": false
     },
     "include": ["src/**/*.ts", "./.eslintrc.js", "test/**/*.ts"],
-    "exclude": ["build/**", "node_modules/**", "widgets/**"]
+    "exclude": ["build/**", "node_modules/**", "widgets/**"],
+    "ts-node": {
+        // Eagerly load all files matched by "include" (not just the require()'d entry file),
+        // so ambient .d.ts globals (e.g. test/mocha-globals.d.ts) are always part of the Program.
+        "files": true
+    }
 }
