@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { shouldDefaultSendMenuAfterRestart } from '@/lib/settings';
+import { shouldDefaultSendMenuAfterRestart } from '../../../admin/src/lib/settings';
 
 // Regression-Test für den Bug in AppContentTabSettings.tsx componentDidMount:
 // !value überschrieb ein bewusst gesetztes false wieder mit true,
