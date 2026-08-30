@@ -154,7 +154,7 @@ const back = async ({ instance, appContext, userToSend, allMenusWithData, menus 
     }
 };
 async function callSubMenu({ instance, jsonStringNav, userToSend, appContext, part, allMenusWithData, menus, }) {
-    const obj = await subMenu({
+    const result = await subMenu({
         instance,
         menuString: jsonStringNav,
         userToSend,
@@ -163,13 +163,13 @@ async function callSubMenu({ instance, jsonStringNav, userToSend, appContext, pa
         allMenusWithData,
         menus,
     });
-    if (obj) {
-        appContext.adapter.log.debug(`Submenu : ${(0, string_1.jsonString)(obj)}`);
+    if (result) {
+        appContext.adapter.log.debug(`Submenu : ${(0, string_1.jsonString)(result)}`);
     }
-    if (obj?.text && obj?.keyboard) {
-        (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
+    if (result?.text && result?.keyboard) {
+        (0, telegram_1.sendToTelegramSubmenu)(instance, userToSend, result.text, result.keyboard, appContext, part.parse_mode);
     }
-    return { newNav: obj?.navToGoBack };
+    return { newNav: result?.navToGoBack };
 }
 async function subMenu({ menuString, userToSend, appContext, part, allMenusWithData, menus, instance, }) {
     appContext.adapter.log.debug(`Menu : ${menuString}`);

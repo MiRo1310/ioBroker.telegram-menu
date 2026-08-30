@@ -28,10 +28,10 @@ async function resolveIdExpression(appContext, text) {
         const state = await appContext.adapter.getForeignStateAsync((0, string_1.removeQuotes)(id));
         if (!(0, utils_1.isDefined)(state?.val)) {
             appContext.adapter.log.warn(`State with id ${id} not found or has no value`);
-            return (0, string_1.removeDuplicateSpaces)(text.replace(substring, ''));
+            return (0, string_1.normalizeWhitespace)(text.replace(substring, ''));
         }
         if (!text.includes('{math:')) {
-            const res = (0, string_1.removeDuplicateSpaces)(text.replace(substring, ''));
+            const res = (0, string_1.normalizeWhitespace)(text.replace(substring, ''));
             return (0, exchangeValue_1.exchangeValue)(appContext, res, String(state.val), true).textToSend;
         }
         const newValue = text.replace(substring, '');
@@ -39,7 +39,7 @@ async function resolveIdExpression(appContext, text) {
         /* istanbul ignore next */
         return error ? String(state?.val) : (0, exchangeValue_1.exchangeValue)(appContext, textToSend, String(calculated), true).textToSend;
     }
-    return (0, string_1.removeDuplicateSpaces)(text);
+    return (0, string_1.normalizeWhitespace)(text);
 }
 const setstateIobroker = async (appContext, id, value, ack) => {
     const val = await (0, utilities_1.transformValueToTypeOfId)(appContext, id, value);

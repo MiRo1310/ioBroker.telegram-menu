@@ -13,33 +13,30 @@ export class SetStateListenerHandler {
         setStateIdsToListenTo: SetStateIds[],
         id: string,
     ): Promise<void> {
-        if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
+        const index = setStateIdsToListenTo.findIndex(el => el.id == id);
+        const setStateId = index >= 0 ? setStateIdsToListenTo[index] : undefined;
+        if (state && setStateId) {
             this.appContext.adapter.log.debug(
                 `Subscribed state changed: { id : ${id} , state : ${jsonString(state)} }`,
             );
 
-            for (const el of setStateIdsToListenTo) {
-                const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
-                const key: number = setStateIdsToListenTo.indexOf(el);
+            const { userToSend, confirm, returnText, parse_mode } = setStateId;
 
-                if (elId == id) {
-                    this.appContext.adapter.log.debug(`Matched listener entry: ${jsonString(el)}`);
+            this.appContext.adapter.log.debug(`Matched listener entry: ${jsonString(setStateId)}`);
 
-                    if (await this.handlePreConfirm(confirm, state, returnText, el, userToSend, parse_mode)) {
-                        continue;
-                    }
-                    await this.handlePostConfirm(
-                        confirm,
-                        state,
-                        returnText,
-                        el,
-                        userToSend,
-                        parse_mode,
-                        setStateIdsToListenTo,
-                        key,
-                    );
-                }
+            if (await this.handlePreConfirm(confirm, state, returnText, setStateId, userToSend, parse_mode)) {
+                return;
             }
+            await this.handlePostConfirm(
+                confirm,
+                state,
+                returnText,
+                setStateId,
+                userToSend,
+                parse_mode,
+                setStateIdsToListenTo,
+                index,
+            );
         }
     }
 

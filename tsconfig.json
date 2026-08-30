@@ -10,6 +10,9 @@
             "@/*": ["admin/src/*"],
             "@backend/*": ["src/*"]
         },
+        // @tsconfig/node22 schränkt "types" auf ["node"] ein, wodurch die
+        // Test-Ambient-Types (mocha, chai, chai-as-promised, sinon, sinon-chai) fehlen
+        "types": ["node", "mocha", "chai", "chai-as-promised", "sinon", "sinon-chai"],
         // do not compile anything, this file is just to configure type checking
         // the compilation is configured in tsconfig.build.json
         "noEmit": true,

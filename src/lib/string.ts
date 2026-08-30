@@ -50,7 +50,7 @@ export const singleQuotesToDoubleQuotes = (text: string): string => text.replace
 /**
  * @param text Text
  */
-export const removeDuplicateSpaces = (text: string): string => text.replace(/\s+/g, ' ').trim();
+export const normalizeWhitespace = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 export const cleanUpString = (text?: string): string => {
     if (!text) {

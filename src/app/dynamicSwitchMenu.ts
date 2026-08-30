@@ -2,7 +2,7 @@ import type { Keyboard, KeyboardItems } from '@backend/types/types';
 import { textModifier } from '@backend/lib/utilities';
 import type { AppContext } from '@backend/app/appContext';
 
-async function createDynamicSwitchMenu(
+export async function createDynamicSwitchMenu(
     appContext: AppContext,
     calledValue: string,
     device: string,
@@ -47,4 +47,3 @@ async function createDynamicSwitchMenu(
         return { text, keyboard, device };
     }
 }
-export { createDynamicSwitchMenu };

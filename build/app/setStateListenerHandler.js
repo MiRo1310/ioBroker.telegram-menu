@@ -11,19 +11,16 @@ class SetStateListenerHandler {
         this.appContext = appContext;
     }
     async handleSetStateListener(state, setStateIdsToListenTo, id) {
-        if (state && setStateIdsToListenTo?.find(element => element.id == id)) {
+        const index = setStateIdsToListenTo.findIndex(el => el.id == id);
+        const setStateId = index >= 0 ? setStateIdsToListenTo[index] : undefined;
+        if (state && setStateId) {
             this.appContext.adapter.log.debug(`Subscribed state changed: { id : ${id} , state : ${(0, string_1.jsonString)(state)} }`);
-            for (const el of setStateIdsToListenTo) {
-                const { id: elId, userToSend, confirm, returnText, parse_mode } = el;
-                const key = setStateIdsToListenTo.indexOf(el);
-                if (elId == id) {
-                    this.appContext.adapter.log.debug(`Matched listener entry: ${(0, string_1.jsonString)(el)}`);
-                    if (await this.handlePreConfirm(confirm, state, returnText, el, userToSend, parse_mode)) {
-                        continue;
-                    }
-                    await this.handlePostConfirm(confirm, state, returnText, el, userToSend, parse_mode, setStateIdsToListenTo, key);
-                }
+            const { userToSend, confirm, returnText, parse_mode } = setStateId;
+            this.appContext.adapter.log.debug(`Matched listener entry: ${(0, string_1.jsonString)(setStateId)}`);
+            if (await this.handlePreConfirm(confirm, state, returnText, setStateId, userToSend, parse_mode)) {
+                return;
             }
+            await this.handlePostConfirm(confirm, state, returnText, setStateId, userToSend, parse_mode, setStateIdsToListenTo, index);
         }
     }
     async handlePreConfirm(confirm, state, returnText, el, userToSend, parse_mode) {

@@ -1,15 +1,13 @@
-import { decomposeText, parseJSON, removeDuplicateSpaces, replaceAll } from '@backend/lib/string';
+import { decomposeText, parseJSON, normalizeWhitespace, replaceAll } from '@backend/lib/string';
 import type { ExchangeValueReturn, PrimitiveType } from '@backend/types/types';
 import { config } from '@backend/config/config';
 import type { AppContext } from '@backend/app/appContext';
 
-export function isNoValueParameter(textToSend: string): { insertValue: boolean; textToSend: string } {
-    let insertValue = true;
-    if (textToSend.includes('{novalue}')) {
-        textToSend = removeDuplicateSpaces(textToSend.replace('{novalue}', ''));
-        insertValue = false;
-    }
-    return { insertValue, textToSend };
+export function extractNoValueMarker(textToSend: string): { insertValue: boolean; textToSend: string } {
+    return {
+        insertValue: !textToSend.includes('{novalue}'),
+        textToSend: normalizeWhitespace(textToSend.replace('{novalue}', '')),
+    };
 }
 
 export const exchangeValue = (
@@ -18,7 +16,7 @@ export const exchangeValue = (
     val: PrimitiveType | null | undefined,
     shouldChange = true,
 ): ExchangeValueReturn => {
-    const result = isNoValueParameter(textToSend);
+    const result = extractNoValueMarker(textToSend);
 
     textToSend = result.textToSend;
     if (textToSend.includes(config.change.start) && shouldChange) {
@@ -33,19 +31,20 @@ export const exchangeValue = (
 
             return {
                 newValue,
-                textToSend: removeDuplicateSpaces(
+                textToSend: normalizeWhitespace(
                     exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : ''),
                 ),
                 error: false,
             };
         }
         appContext.adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
-        return { newValue: val ?? '', textToSend: removeDuplicateSpaces(textToSend), error: true };
+        return { newValue: val ?? '', textToSend: normalizeWhitespace(textToSend), error: true };
     }
-    const text = removeDuplicateSpaces(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''));
 
     return {
-        textToSend: text,
+        textToSend: normalizeWhitespace(
+            exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''),
+        ),
         newValue: val ?? '',
         error: false,
     };
