@@ -1,21 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.exchangeValue = void 0;
-exports.isNoValueParameter = isNoValueParameter;
+exports.extractNoValueMarker = extractNoValueMarker;
 exports.exchangePlaceholderWithValue = exchangePlaceholderWithValue;
 exports.getPlaceholderValue = getPlaceholderValue;
 const string_1 = require("../lib/string");
 const config_1 = require("../config/config");
-function isNoValueParameter(textToSend) {
-    let insertValue = true;
-    if (textToSend.includes('{novalue}')) {
-        textToSend = (0, string_1.removeDuplicateSpaces)(textToSend.replace('{novalue}', ''));
-        insertValue = false;
-    }
-    return { insertValue, textToSend };
+function extractNoValueMarker(textToSend) {
+    return {
+        insertValue: !textToSend.includes('{novalue}'),
+        textToSend: (0, string_1.normalizeWhitespace)(textToSend.replace('{novalue}', '')),
+    };
 }
 const exchangeValue = (appContext, textToSend, val, shouldChange = true) => {
-    const result = isNoValueParameter(textToSend);
+    const result = extractNoValueMarker(textToSend);
     textToSend = result.textToSend;
     if (textToSend.includes(config_1.config.change.start) && shouldChange) {
         const { start, end, command } = config_1.config.change;
@@ -26,16 +24,15 @@ const exchangeValue = (appContext, textToSend, val, shouldChange = true) => {
             const newValue = json[String(val)] ?? val;
             return {
                 newValue,
-                textToSend: (0, string_1.removeDuplicateSpaces)(exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : '')),
+                textToSend: (0, string_1.normalizeWhitespace)(exchangePlaceholderWithValue(textExcludeSubstring, result.insertValue ? newValue : '')),
                 error: false,
             };
         }
         appContext.adapter.log.error(`There is a error in your input: ${stringExcludedChange}`);
-        return { newValue: val ?? '', textToSend: (0, string_1.removeDuplicateSpaces)(textToSend), error: true };
+        return { newValue: val ?? '', textToSend: (0, string_1.normalizeWhitespace)(textToSend), error: true };
     }
-    const text = (0, string_1.removeDuplicateSpaces)(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : ''));
     return {
-        textToSend: text,
+        textToSend: (0, string_1.normalizeWhitespace)(exchangePlaceholderWithValue(textToSend, result.insertValue ? (val ?? '') : '')),
         newValue: val ?? '',
         error: false,
     };

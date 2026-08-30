@@ -219,7 +219,7 @@ export async function callSubMenu({
     allMenusWithData,
     menus,
 }: CallSubMenu): Promise<{ newNav: string | undefined } | undefined> {
-    const obj = await subMenu({
+    const result = await subMenu({
         instance,
         menuString: jsonStringNav,
         userToSend,
@@ -228,14 +228,14 @@ export async function callSubMenu({
         allMenusWithData,
         menus,
     });
-    if (obj) {
-        appContext.adapter.log.debug(`Submenu : ${jsonString(obj)}`);
+    if (result) {
+        appContext.adapter.log.debug(`Submenu : ${jsonString(result)}`);
     }
 
-    if (obj?.text && obj?.keyboard) {
-        sendToTelegramSubmenu(instance, userToSend, obj.text, obj.keyboard, appContext, part.parse_mode);
+    if (result?.text && result?.keyboard) {
+        sendToTelegramSubmenu(instance, userToSend, result.text, result.keyboard, appContext, part.parse_mode);
     }
-    return { newNav: obj?.navToGoBack };
+    return { newNav: result?.navToGoBack };
 }
 
 export async function subMenu({

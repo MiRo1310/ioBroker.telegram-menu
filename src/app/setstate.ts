@@ -5,7 +5,7 @@ import {
     isNonEmptyString,
     jsonString,
     parseJSON,
-    removeDuplicateSpaces,
+    normalizeWhitespace,
     removeQuotes,
     singleQuotesToDoubleQuotes,
 } from '@backend/lib/string';
@@ -35,10 +35,10 @@ export async function resolveIdExpression(appContext: AppContext, text: string):
 
         if (!isDefined(state?.val)) {
             appContext.adapter.log.warn(`State with id ${id} not found or has no value`);
-            return removeDuplicateSpaces(text.replace(substring, ''));
+            return normalizeWhitespace(text.replace(substring, ''));
         }
         if (!text.includes('{math:')) {
-            const res = removeDuplicateSpaces(text.replace(substring, ''));
+            const res = normalizeWhitespace(text.replace(substring, ''));
             return exchangeValue(appContext, res, String(state.val), true).textToSend;
         }
 
@@ -50,7 +50,7 @@ export async function resolveIdExpression(appContext: AppContext, text: string):
         return error ? String(state?.val) : exchangeValue(appContext, textToSend, String(calculated), true).textToSend;
     }
 
-    return removeDuplicateSpaces(text);
+    return normalizeWhitespace(text);
 }
 
 export const setstateIobroker = async (

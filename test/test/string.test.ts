@@ -9,7 +9,7 @@ import {
     jsonString,
     pad,
     parseJSON,
-    removeDuplicateSpaces,
+    normalizeWhitespace,
     removeQuotes,
     replaceAll,
     replaceAllItems,
@@ -472,15 +472,15 @@ describe('String Utility Functions', () => {
 
 describe('remove duplicated spaces', () => {
     it('should return do nothing is not exist', () => {
-        expect(removeDuplicateSpaces('Test')).to.be.equal('Test');
+        expect(normalizeWhitespace('Test')).to.be.equal('Test');
     });
 
     it('should trim and remove duplicated spaces two words', () => {
-        expect(removeDuplicateSpaces(' Test  Test   ')).to.be.equal('Test Test');
+        expect(normalizeWhitespace(' Test  Test   ')).to.be.equal('Test Test');
     });
 
     it('should trim and remove duplicated spaces, with one word', () => {
-        expect(removeDuplicateSpaces('  Test   ')).to.be.equal('Test');
+        expect(normalizeWhitespace('  Test   ')).to.be.equal('Test');
     });
 });
 

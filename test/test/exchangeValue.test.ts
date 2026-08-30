@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { exchangeValue, isNoValueParameter } from '@backend/lib/exchangeValue';
+import { exchangeValue, extractNoValueMarker } from '@backend/lib/exchangeValue';
 import { createAppContextMock } from '../fixtures/appContextMock';
 
-describe('isNoValueParameter', () => {
+describe('extractNoValueMarker', () => {
     it('soll insertValue true zurückgeben, wenn kein {novalue} enthalten ist', () => {
-        const result = isNoValueParameter('Testtext');
+        const result = extractNoValueMarker('Testtext');
         expect(result.insertValue).to.be.true;
         expect(result.textToSend).to.equal('Testtext');
     });
 
     it('soll insertValue false zurückgeben und {novalue} entfernen', () => {
-        const result = isNoValueParameter('Text mit {novalue} drin');
+        const result = extractNoValueMarker('Text mit {novalue} drin');
         expect(result.insertValue).to.be.false;
         expect(result.textToSend).to.equal('Text mit drin');
     });

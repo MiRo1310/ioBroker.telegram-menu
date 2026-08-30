@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toSingeQuotesString = exports.singleLineString = exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.removeDuplicateSpaces = exports.singleQuotesToDoubleQuotes = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
+exports.toSingeQuotesString = exports.singleLineString = exports.isEmptyString = exports.isNonEmptyString = exports.pad = exports.isString = exports.cleanUpString = exports.normalizeWhitespace = exports.singleQuotesToDoubleQuotes = exports.removeQuotes = exports.replaceAllItems = exports.replaceAll = exports.jsonString = void 0;
 exports.parseJSON = parseJSON;
 exports.decomposeText = decomposeText;
 exports.stringReplacer = stringReplacer;
@@ -53,8 +53,8 @@ exports.singleQuotesToDoubleQuotes = singleQuotesToDoubleQuotes;
 /**
  * @param text Text
  */
-const removeDuplicateSpaces = (text) => text.replace(/\s+/g, ' ').trim();
-exports.removeDuplicateSpaces = removeDuplicateSpaces;
+const normalizeWhitespace = (text) => text.replace(/\s+/g, ' ').trim();
+exports.normalizeWhitespace = normalizeWhitespace;
 const cleanUpString = (text) => {
     if (!text) {
         return '';
